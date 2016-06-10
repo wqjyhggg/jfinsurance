@@ -1,0 +1,438 @@
+<?php
+
+if (!defined('BASEPATH'))
+    exit('No direct script access allowed');
+
+class User_model extends CI_Model {
+	public $logstr;
+	public $sqlstr;
+	
+    /**
+     *  Check matched username and passwrd in user table
+     *  
+     *  @param	string	$username
+     *  @param	string	$password
+     *  @return null / array on find.     
+     */
+	public function login($username, $password) {
+		$sql = "SELECT * FROM user WHERE username=" . $this->db->escape($username) . " AND status='1'";
+		$rc = $this->db->query($sql)->row_array();
+		if ($rc && password_verify($password, $rc['password'])) {
+			$this->logstr = $username . " login";
+			$this->sqlstr = $this->db->last_query();
+			return $rc;
+		}
+		return NULL;
+	}
+	
+	/**
+	 * Get user list
+	 * 
+	 * @param	none
+	 * @return	string			result message
+	 */
+	public function installadmin() {
+		$sql = "SELECT * FROM user limit 1";
+		$rt = $this->db->query($sql);
+		if ($rt->row()) {
+			return "Installed";
+		}
+		$pw = password_hash('jfpassword', PASSWORD_DEFAULT);
+		$sql = "INSERT INTO user SET user_group_id='1', username='admin', password=" . $this->db->escape($pw) . ", status='1', note='default user'";
+		$this->db->query($sql);
+		if ($this->db->affected_rows()) {
+			return "Install OK";
+		}
+		return "Install Failed";
+	}
+	
+	/**
+	 * Get user list
+	 * 
+	 * @param	integer	$user_group_id
+	 * @param	array	$para			search conditions
+	 * @return	array					user table search result
+	 */
+	public function get_user_list($user_group_id, $para=array()) {
+		if (isset($para['user_group_id']) && ((int)$para['user_group_id'] > $user_group_id)) {
+			$sql = "SELECT * FROM user WHERE user_group_id = '" . (int)$para['user_group_id'] . "'";
+		} else {
+			$sql = "SELECT * FROM user WHERE user_group_id >= '" . (int)$user_group_id . "'";
+		}
+		if (isset($para['username'])) {
+			$sql .= " AND username LIKE " . $this->db-escape($para['username'] . "%");
+		}
+		if (isset($para['firstname'])) {
+			$sql .= " AND firstname LIKE " . $this->db-escape($para['firstname'] . "%");
+		}
+		if (isset($para['lastname'])) {
+			$sql .= " AND lastname LIKE " . $this->db-escape($para['lastname'] . "%");
+		}
+		if (isset($para['email'])) {
+			$sql .= " AND email LIKE " . $this->db-escape($para['email'] . "%");
+		}
+		if (isset($para['business'])) {
+			$sql .= " AND business LIKE " . $this->db-escape($para['business'] . "%");
+		}
+		return $this->db->query($sql)->result_array();
+	}
+
+	/**
+	 * Get user By ID
+	 *
+	 * @param	integer	$user_id
+	 * @return	array					user table search result
+	 */
+	public function get_user_by_id($user_id) {
+		$sql = "SELECT * FROM user WHERE user_id = '" . (int)$user_id . "'";
+		return $this->db->query($sql)->row_array();
+	}
+	
+	/**
+	 * Get brokerage user list
+	 * 
+	 * @return	array					user table search result
+	 */
+	public function get_broker_id_list() {
+		$sql = "SELECT user_id,business FROM user WHERE user_group_id = '4'";
+		$rt = $this->db->query($sql)->result_array();
+		$rtArr = array();
+		foreach ($rt as $rc) {
+			$rtArr[$rc['user_id']] = $rc['business'];
+		}
+		return $rtArr;
+	}
+	
+	/**
+	 * Get user product list
+	 * 
+	 * @param	integer	$user_id
+	 * @return	array					user table search result
+	 */
+	public function get_user_product_list($user_id) {
+		$sql = "SELECT * FROM user_product WHERE user_id = '" . (int)$user_id . "'";
+		return $this->db->query($sql)->result_array();
+	}
+
+	/**
+	 * Create / update user information
+	 * 
+	 * @param	integer	$user_id
+	 * @para	array	$post			post input
+	 * @return	integer user_id
+	 */
+	public function update($user_id, $post) {
+		$this_user = array();
+		$this->log = '';
+		$this->sql = '';
+		if ($user_id) {
+			$sql = "SELECT * FROM user WHERE user_id = '" . (int)$user_id . "'";
+			$this_user = $this->db->query($sql)->row_array();
+			if (empty($this_user)) {
+				log_message('error', "Can't find user: ($user_id)");
+				return;
+			}
+		}
+		$para = array();
+		if (!empty($post['user_group_id'])) {
+			if ($this_user) {
+				if ($this_user['user_group_id'] != (int)$post['user_group_id']) {
+					$this->log = "UserGroup[".$this_user['user_group_id']."]=>[".(int)$post['user_group_id']."],";
+					$para['user_group_id'] = (int)$post['user_group_id'];
+				}
+			} else {
+				$para['user_group_id'] = (int)$post['user_group_id'];
+			}
+		}
+		if (!empty($post['parent_user_id'])) {
+			if ($this_user) {
+				if ($this_user['parent_user_id'] != (int)$post['parent_user_id']) {
+					$this->log = "UserParentGroup[".$this_user['parent_user_id']."]=>[".(int)$post['parent_user_id']."],";
+					$para['parent_user_id'] = (int)$post['parent_user_id'];
+				}
+			} else {
+				$para['parent_user_id'] = (int)$post['parent_user_id'];
+			}
+		}
+		if (!empty($post['username'])) {
+			if ($this_user) {
+				if ($this_user['username'] != $post['username']) {
+					$this->log = "username[".$this_user['username']."]=>[".$post['username']."],";
+					$para['username'] = trim($post['username']);
+				}
+			} else {
+				$para['username'] = trim($post['username']);
+			}
+		}
+		if (!empty($post['password'])) {
+			$password = trim($post['password']);
+			$pw = password_hash($password, PASSWORD_DEFAULT);
+			if ($this_user) {
+				if ($this_user['password'] != $post['password']) {
+					$this->log = "password => * ,";
+					$para['password'] = $pw;
+				}
+			} else {
+				$para['password'] = $pw;
+			}
+		}
+		if (!empty($post['region'])) {
+			if ($this_user) {
+				if ($this_user['region'] != $post['region']) {
+					$this->log = "region[".$this_user['region']."]=>[".$post['region']."],";
+					$para['region'] = trim($post['region']);
+				}
+			} else {
+				$para['region'] = trim($post['region']);
+			}
+		}
+		if (!empty($post['business'])) {
+			if ($this_user) {
+				if ($this_user['business'] != $post['business']) {
+					$this->log = "business[".$this_user['business']."]=>[".$post['business']."],";
+					$para['business'] = trim($post['business']);
+				}
+			} else {
+				$para['business'] = trim($post['business']);
+			}
+		}
+		if (!empty($post['gender'])) {
+			if ($this_user) {
+				if ($this_user['gender'] != $post['gender']) {
+					$this->log = "gender[".$this_user['gender']."]=>[".$post['gender']."],";
+					$para['gender'] = trim($post['gender']);
+				}
+			} else {
+				$para['gender'] = trim($post['gender']);
+			}
+		}
+		if (!empty($post['firstname'])) {
+			if ($this_user) {
+				if ($this_user['firstname'] != $post['firstname']) {
+					$this->log = "firstname[".$this_user['firstname']."]=>[".$post['firstname']."],";
+					$para['firstname'] = trim($post['firstname']);
+				}
+			} else {
+				$para['firstname'] = trim($post['firstname']);
+			}
+		}
+		if (!empty($post['lastname'])) {
+			if ($this_user) {
+				if ($this_user['lastname'] != $post['lastname']) {
+					$this->log = "lastname[".$this_user['lastname']."]=>[".$post['lastname']."],";
+					$para['lastname'] = trim($post['lastname']);
+				}
+			} else {
+				$para['lastname'] = trim($post['lastname']);
+			}
+		}
+		if (!empty($post['email'])) {
+			if ($this_user) {
+				if ($this_user['email'] != $post['email']) {
+					$this->log = "email[".$this_user['email']."]=>[".$post['email']."],";
+					$para['email'] = strtolower(trim($post['email']));
+				}
+			} else {
+				$para['email'] = strtolower(trim($post['email']));
+			}
+		}
+		if (!empty($post['address'])) {
+			if ($this_user) {
+				if ($this_user['address'] != $post['address']) {
+					$this->log = "address[".$this_user['address']."]=>[".$post['address']."],";
+					$para['address'] = trim($post['address']);
+				}
+			} else {
+				$para['address'] = trim($post['address']);
+			}
+		}
+		if (!empty($post['city'])) {
+			if ($this_user) {
+				if ($this_user['city'] != $post['city']) {
+					$this->log = "city[".$this_user['city']."]=>[".$post['city']."],";
+					$para['city'] = trim($post['city']);
+				}
+			} else {
+				$para['city'] = trim($post['city']);
+			}
+		}
+		if (!empty($post['province_id'])) {
+			if ($this_user) {
+				if ($this_user['province_id'] != $post['province_id']) {
+					$this->log = "province_id[".$this_user['province_id']."]=>[".$post['province_id']."],";
+					$para['province_id'] = (int)$post['province_id'];
+				}
+			} else {
+				$para['province_id'] = (int)$post['province_id'];
+			}
+		}
+		if (!empty($post['postcode'])) {
+			if ($this_user) {
+				if ($this_user['postcode'] != $post['postcode']) {
+					$this->log = "postcode[".$this_user['postcode']."]=>[".$post['postcode']."],";
+					$para['postcode'] = trim(strtoupper($post['postcode']));
+				}
+			} else {
+				$para['postcode'] = trim(strtoupper($post['postcode']));
+			}
+		}
+		if (!empty($post['website'])) {
+			if ($this_user) {
+				if ($this_user['website'] != $post['website']) {
+					$this->log = "website[".$this_user['website']."]=>[".$post['website']."],";
+					$para['website'] = trim($post['website']);
+				}
+			} else {
+				$para['website'] = trim($post['website']);
+			}
+		}
+		if (!empty($post['licence_number'])) {
+			if ($this_user) {
+				if ($this_user['licence_number'] != $post['licence_number']) {
+					$this->log = "licence_number[".$this_user['licence_number']."]=>[".$post['licence_number']."],";
+					$para['licence_number'] = trim($post['licence_number']);
+				}
+			} else {
+				$para['licence_number'] = trim($post['licence_number']);
+			}
+		}
+		if (!empty($post['licence_expire'])) {
+			if ($this_user) {
+				if ($this_user['licence_expire'] != $post['licence_expire']) {
+					$this->log = "licence_expire[".$this_user['licence_expire']."]=>[".$post['licence_expire']."],";
+					$para['licence_expire'] = trim($post['licence_expire']);
+				}
+			} else {
+				$para['licence_expire'] = trim($post['licence_expire']);
+			}
+		}
+		if (!empty($post['business_phone'])) {
+			if ($this_user) {
+				if ($this_user['business_phone'] != $post['business_phone']) {
+					$this->log = "business_phone[".$this_user['business_phone']."]=>[".$post['business_phone']."],";
+					$para['business_phone'] = trim($post['business_phone']);
+				}
+			} else {
+				$para['business_phone'] = trim($post['business_phone']);
+			}
+		}
+		if (!empty($post['mobile_phone'])) {
+			if ($this_user) {
+				if ($this_user['mobile_phone'] != $post['mobile_phone']) {
+					$this->log = "mobile_phone[".$this_user['mobile_phone']."]=>[".$post['mobile_phone']."],";
+					$para['mobile_phone'] = trim($post['mobile_phone']);
+				}
+			} else {
+				$para['mobile_phone'] = trim($post['mobile_phone']);
+			}
+		}
+		if (!empty($post['fax_number'])) {
+			if ($this_user) {
+				if ($this_user['fax_number'] != $post['fax_number']) {
+					$this->log = "fax_number[".$this_user['fax_number']."]=>[".$post['fax_number']."],";
+					$para['fax_number'] = trim($post['fax_number']);
+				}
+			} else {
+				$para['fax_number'] = trim($post['fax_number']);
+			}
+		}
+		if (!empty($post['toll_free'])) {
+			if ($this_user) {
+				if ($this_user['toll_free'] != $post['toll_free']) {
+					$this->log = "toll_free[".$this_user['toll_free']."]=>[".$post['toll_free']."],";
+					$para['toll_free'] = trim($post['toll_free']);
+				}
+			} else {
+				$para['toll_free'] = trim($post['toll_free']);
+			}
+		}
+		if (!empty($post['mobile_phone'])) {
+			if ($this_user) {
+				if ($this_user['mobile_phone'] != $post['mobile_phone']) {
+					$this->log = "mobile_phone[".$this_user['mobile_phone']."]=>[".$post['mobile_phone']."],";
+					$para['mobile_phone'] = trim($post['mobile_phone']);
+				}
+			} else {
+				$para['mobile_phone'] = trim($post['mobile_phone']);
+			}
+		}
+		$pay_type = " " . join(" ", $post['paytype_list']);
+		if ($this_user) {
+			if ($this_user['pay_type'] != $pay_type) {
+				$this->log = "pay_type[".$this_user['pay_type']."]=>[".$pay_type."],";
+				$para['pay_type'] = $pay_type;
+			}
+		} else {
+			$para['pay_type'] = $pay_type;
+			$para['ip'] = $this->input->ip_address();
+		}
+		$status = empty($post['status']) ? 0 : 1;
+		if ($this_user) {
+			if ($this_user['status'] != $status) {
+				$this->log = "status[".$this_user['status']."]=>[".$status."],";
+				$para['status'] = $status;
+			}
+		} else {
+			$para['status'] = $status;
+		}
+		if (!empty($post['note'])) {
+			if ($this_user) {
+				if ($this_user['note'] != $post['note']) {
+					$this->log = "note[".$this_user['note']."]=>[".$post['note']."],";
+					$para['note'] = trim($post['note']);
+				}
+			} else {
+				$para['note'] = trim($post['note']);
+			}
+		}
+		if ($user_id) {
+			if (!empty($para)) {
+				$this->db->where('user_id', $user_id);
+				$this->db->update('user', $para);
+				$this->logstr = "Update user: ".$this->logstr;
+				$this->sqlstr = $this->db->last_query();
+			}
+		} else {
+			$this->db->insert('user', $para);
+			$user_id = $this->db->insert_id();
+			$this->logstr = "Add user(" . $user_id . "): " . $this->logstr;
+			$this->sqlstr = $this->db->last_query();
+		}
+		
+		// user_product
+		$this->db->where('user_id', $user_id);
+		$rt = $this->db->get('user_product');
+		$user_products = $rt->result_array();
+		$now_array = array();
+		$now_prods = '';
+		$new_array = array();
+		$new_prods = '';
+		$prchg = '';
+		foreach ($user_products as $p) {
+			$now_prods .= ' ' . $p['product_short'];
+			$now_array[$p['product_short']] = $p;
+		}
+		foreach ($post['product_list'] as $p) {
+			$new_prods .= ' ' . $p;
+			if (array_key_exists($p, $now_array)) {
+				if ((float)$now_array[$p]['commission'] != (float)$post['product_commission_'.$p]) {
+					$prchg .= $p . "[" . $now_array[$p]['commission'] . "]=>[" . $post['product_commission_'.$p] . "]";
+				}
+			} else {
+				$prchg .= $p . "[add:" . $post['product_commission_'.$p] . "]";
+			}
+			$new_array[] = array('user_id' => $user_id, 'product_short' => $p, 'commission' => $post['product_commission_'.$p]);
+		}
+		if (($now_prods != $new_prods) || $prchg) {
+			$this->logstr .= "; user products: " . $now_prods . " => " . $new_prods . "; " . $prchg;
+			$this->db->delete('user_product', array('user_id' => $user_id));
+			$this->sqlstr .= "; " . $this->db->last_query();
+			foreach ($new_array as $up) {
+				$this->db->insert('user_product', $up);
+				$this->sqlstr .= "; " . $this->db->last_query();
+			}
+		}
+		
+		return $user_id;
+	}
+}

@@ -1,0 +1,9 @@
+{
+	"require": {
+		"mpdf/mpdf": "6.1.*",
+		"ext-zip": "*",
+		"ext-xmlreader": "*",
+		"ext-simplexml": "*",
+		"box/spout": "2.4.*"
+	}
+}
