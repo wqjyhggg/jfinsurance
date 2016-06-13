@@ -256,14 +256,24 @@ class User_model extends CI_Model {
 				$para['city'] = trim($post['city']);
 			}
 		}
-		if (!empty($post['province_id'])) {
+		if (!empty($post['province2'])) {
 			if ($this_user) {
-				if ($this_user['province_id'] != $post['province_id']) {
-					$this->log = "province_id[".$this_user['province_id']."]=>[".$post['province_id']."],";
-					$para['province_id'] = (int)$post['province_id'];
+				if ($this_user['province2'] != $post['province2']) {
+					$this->log = "province[".$this_user['province2']."]=>[".$post['province2']."],";
+					$para['province2'] = trim($post['province2']);
 				}
 			} else {
-				$para['province_id'] = (int)$post['province_id'];
+				$para['province2'] = trim($post['province2']);
+			}
+		}
+		if (!empty($post['country2'])) {
+			if ($this_user) {
+				if ($this_user['country2'] != $post['country2']) {
+					$this->log = "country[".$this_user['country2']."]=>[".$post['country2']."],";
+					$para['country2'] = trim($post['country2']);
+				}
+			} else {
+				$para['country2'] = trim($post['country2']);
 			}
 		}
 		if (!empty($post['postcode'])) {

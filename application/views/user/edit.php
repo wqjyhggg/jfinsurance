@@ -1,3 +1,4 @@
+<script src="<?php echo base_url();?>js/jquery-3.0.0.min.js"></script>
 <p>Edit Form</p>
 <?php if (!empty($error_message)) { echo $error_message . "<br>"; } ?>
 <form action='<?php $action_url; ?>' method='POST'>
@@ -29,11 +30,8 @@ Lastname: <input type='text' name='lastname' value='<?php echo $lastname; ?>'><b
 Email: <input type='text' name='email' value='<?php echo $email; ?>'><br>
 Address: <input type='text' name='address' value='<?php echo $address; ?>'><br>
 City: <input type='text' name='city' value='<?php echo $city; ?>'><br>
-Province: <select name='province_id'>
-<?php foreach ($province_list as $province) { ?>
-<option value='<?php echo $province['province_id']; ?>' <?php echo ($province['province_id'] == $province_id) ? 'selected' : ''; ?>><?php echo $province['name']; ?></option>
-<?php } ?>
-</select><br>
+Province: <div id='province2_div'></div><br>
+Country: <div id='country2_div'></div><br>
 Post Code: <input type='text' name='postcode' value='<?php echo $postcode; ?>'><br>
 Website: <input type='text' name='website' value='<?php echo $website; ?>'><br>
 Licence#: <input type='text' name='licence_number' value='<?php echo $licence_number; ?>'><br>
@@ -59,4 +57,22 @@ Toll Free: <input type='text' name='toll_free' value='<?php echo $toll_free; ?>'
 <b>Notes:</b><br>
 <textarea name='note'><?php echo $note; ?></textarea><br>
 <input type='submit' value='<?php echo ($user_id) ? "Update" : "Add"; ?>'><br>
-</form> 
+</form>
+<script>
+$( document ).ready(function() {
+	$.ajax({
+		url: '<?php echo $province_url; ?>',
+		type: 'GET',
+		success: function(data, textStatus, jqXHR) {
+        	$('#province2_div').html(data);
+    	},
+	});
+	$.ajax({
+		url: '<?php echo $country_url; ?>',
+		type: 'GET',
+		success: function(data, textStatus, jqXHR) {
+        	$('#country2_div').html(data);
+    	},
+	});
+});
+</script>
