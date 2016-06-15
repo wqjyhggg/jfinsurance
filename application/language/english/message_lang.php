@@ -170,6 +170,8 @@ $lang['text_deposit_to_ads'] = 'Deposit to Ads';
 $lang['text_ensure_link'] = "Please be ensure that the link you provided is not disabled by Chinese Mainland, or it will result that some phones are not able to view your advertise";
 $lang['text_ensure_zone'] = "Please enter the zone where you would like to put for your advertisement, the effected click will works based on the zone you selected";
 
+$lang['text_option_success'] = "Your opertation is successed";
+
 $lang['error_unknown'] = 'Unknown Error';
 $lang['error_username_input'] = 'Username Input Error';
 $lang['error_password_input'] = "Password Input Error, must between 6 to 16 charactors";
@@ -187,5 +189,6 @@ $lang['error_province'] = 'Please select a province';
 $lang['error_postcode'] = 'Postcode is required';
 $lang['error_licence_number'] = 'Licence number is required';
 $lang['error_licence_expire'] = 'Licence expire date is required';
-
-
+$lang['error_no_file'] = "The file don't exist";
+$lang['error_file_upload'] = "The file %s upload error";
+$lang['error_file_type'] = "The file %s uploading doesn't support";
