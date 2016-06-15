@@ -1,0 +1,978 @@
+-- phpMyAdmin SQL Dump
+-- version 4.4.13.1deb1
+-- http://www.phpmyadmin.net
+--
+-- Host: localhost
+-- Generation Time: Jun 15, 2016 at 01:40 PM
+-- Server version: 5.6.30-0ubuntu0.15.10.1-log
+-- PHP Version: 5.6.11-1ubuntu3.4
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `jfweb`
+--
+CREATE DATABASE IF NOT EXISTS `jfweb` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+USE `jfweb`;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `activity`
+--
+
+DROP TABLE IF EXISTS `activity`;
+CREATE TABLE IF NOT EXISTS `activity` (
+  `activity_id` int(11) NOT NULL,
+  `atype` varchar(16) NOT NULL,
+  `tm` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `user_id` int(11) NOT NULL,
+  `plan_id` int(11) NOT NULL,
+  `customer_id` int(11) NOT NULL,
+  `payment_id` int(11) NOT NULL,
+  `message` text NOT NULL COMMENT 'human readable message',
+  `systemlog` text NOT NULL COMMENT 'system active usually is sql'
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `activity`
+--
+
+INSERT INTO `activity` (`activity_id`, `atype`, `tm`, `user_id`, `plan_id`, `customer_id`, `payment_id`, `message`, `systemlog`) VALUES(1, 'user', '2016-06-10 20:32:04', 1, 0, 0, 0, 'Add user(2): ; user products:  =>  ; ', 'INSERT INTO `user` (`user_group_id`, `parent_user_id`, `username`, `password`, `region`, `business`, `firstname`, `lastname`, `email`, `address`, `city`, `province_id`, `postcode`, `website`, `licence_number`, `licence_expire`, `business_phone`, `mobile_phone`, `fax_number`, `toll_free`, `pay_type`, `ip`, `status`, `note`) VALUES (4, 0, ''brokerage'', ''$2y$10$rvmzDTQCRKHmEKwEHm.GquXaQHyJbvuOJE8Vmhm.qrSpNBR/nS.7i'', ''Region'', ''Brokerage'', ''Firstname'', ''Lastname'', ''brokerage@mailinator.com'', ''Address'', ''City'', 9, ''A1A2B2'', ''http://www.website.com'', ''Licence1234567'', ''2016-12-23'', ''1234567890'', ''1234567890'', ''1234567890'', ''1234567890'', '' Credit Cart Cash'', ''127.0.0.1'', 1, ''test1''); DELETE FROM `user_product`\nWHERE `user_id` = 2');
+INSERT INTO `activity` (`activity_id`, `atype`, `tm`, `user_id`, `plan_id`, `customer_id`, `payment_id`, `message`, `systemlog`) VALUES(2, 'user', '2016-06-10 20:38:40', 1, 0, 0, 0, 'Update user: ; user products:  =>  ; ', 'UPDATE `user` SET `gender` = ''M'', `note` = ''test2''\nWHERE `user_id` = ''2''; DELETE FROM `user_product`\nWHERE `user_id` = ''2''');
+INSERT INTO `activity` (`activity_id`, `atype`, `tm`, `user_id`, `plan_id`, `customer_id`, `payment_id`, `message`, `systemlog`) VALUES(3, 'user', '2016-06-10 21:25:21', 1, 0, 0, 0, '; user products:  =>  AVISP JES JFC JFR; AVISP[add:5.00]JES[add:5.00]JFC[add:5.00]JFR[add:5.00]', '; DELETE FROM `user_product`\nWHERE `user_id` = ''2''; INSERT INTO `user_product` (`user_id`, `product_short`, `commission`) VALUES (''2'', ''AVISP'', ''5.00''); INSERT INTO `user_product` (`user_id`, `product_short`, `commission`) VALUES (''2'', ''JES'', ''5.00''); INSERT INTO `user_product` (`user_id`, `product_short`, `commission`) VALUES (''2'', ''JFC'', ''5.00''); INSERT INTO `user_product` (`user_id`, `product_short`, `commission`) VALUES (''2'', ''JFR'', ''5.00'')');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `claim`
+--
+
+DROP TABLE IF EXISTS `claim`;
+CREATE TABLE IF NOT EXISTS `claim` (
+  `claim_id` int(11) NOT NULL,
+  `plan_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `policy_number` varchar(64) NOT NULL,
+  `cliaim_number` varchar(64) NOT NULL,
+  `lastname` varchar(128) NOT NULL,
+  `firstname` varchar(128) NOT NULL,
+  `claim_date` date NOT NULL,
+  `claimed` decimal(10,2) NOT NULL,
+  `paid` decimal(10,2) NOT NULL,
+  `pay_to` varchar(255) NOT NULL,
+  `cheque_number` varchar(64) NOT NULL,
+  `coverage_code_id` varchar(8) NOT NULL,
+  `service_date` date NOT NULL,
+  `diagnosis` text NOT NULL,
+  `memo` text NOT NULL,
+  `decline_reason` text NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `country`
+--
+
+DROP TABLE IF EXISTS `country`;
+CREATE TABLE IF NOT EXISTS `country` (
+  `country_id` int(11) NOT NULL,
+  `num_code` varchar(3) NOT NULL,
+  `name` varchar(128) NOT NULL,
+  `iso_code_2` varchar(2) NOT NULL,
+  `iso_code_3` varchar(3) NOT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT '1'
+) ENGINE=MyISAM AUTO_INCREMENT=258 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `country`
+--
+
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(1, '004', 'Afghanistan', 'AF', 'AFG', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(2, '008', 'Albania', 'AL', 'ALB', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(3, '012', 'Algeria', 'DZ', 'DZA', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(4, '016', 'American Samoa', 'AS', 'ASM', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(5, '020', 'Andorra', 'AD', 'AND', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(6, '024', 'Angola', 'AO', 'AGO', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(7, '660', 'Anguilla', 'AI', 'AIA', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(8, '010', 'Antarctica', 'AQ', 'ATA', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(9, '028', 'Antigua and Barbuda', 'AG', 'ATG', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(10, '032', 'Argentina', 'AR', 'ARG', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(11, '051', 'Armenia', 'AM', 'ARM', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(12, '533', 'Aruba', 'AW', 'ABW', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(13, '036', 'Australia', 'AU', 'AUS', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(14, '040', 'Austria', 'AT', 'AUT', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(15, '031', 'Azerbaijan', 'AZ', 'AZE', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(16, '044', 'Bahamas', 'BS', 'BHS', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(17, '048', 'Bahrain', 'BH', 'BHR', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(18, '050', 'Bangladesh', 'BD', 'BGD', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(19, '052', 'Barbados', 'BB', 'BRB', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(20, '112', 'Belarus', 'BY', 'BLR', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(21, '056', 'Belgium', 'BE', 'BEL', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(22, '084', 'Belize', 'BZ', 'BLZ', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(23, '204', 'Benin', 'BJ', 'BEN', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(24, '060', 'Bermuda', 'BM', 'BMU', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(25, '064', 'Bhutan', 'BT', 'BTN', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(26, '068', 'Bolivia', 'BO', 'BOL', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(27, '070', 'Bosnia and Herzegovina', 'BA', 'BIH', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(28, '072', 'Botswana', 'BW', 'BWA', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(29, '074', 'Bouvet Island', 'BV', 'BVT', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(30, '076', 'Brazil', 'BR', 'BRA', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(31, '086', 'British Indian Ocean Territory', 'IO', 'IOT', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(32, '096', 'Brunei Darussalam', 'BN', 'BRN', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(33, '100', 'Bulgaria', 'BG', 'BGR', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(34, '854', 'Burkina Faso', 'BF', 'BFA', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(35, '108', 'Burundi', 'BI', 'BDI', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(36, '116', 'Cambodia', 'KH', 'KHM', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(37, '120', 'Cameroon', 'CM', 'CMR', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(38, '124', 'Canada', 'CA', 'CAN', 1);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(39, '132', 'Cape Verde', 'CV', 'CPV', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(40, '136', 'Cayman Islands', 'KY', 'CYM', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(41, '140', 'Central African Republic', 'CF', 'CAF', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(42, '148', 'Chad', 'TD', 'TCD', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(43, '152', 'Chile', 'CL', 'CHL', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(44, '156', 'China', 'CN', 'CHN', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(45, '162', 'Christmas Island', 'CX', 'CXR', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(46, '166', 'Cocos (Keeling) Islands', 'CC', 'CCK', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(47, '170', 'Colombia', 'CO', 'COL', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(48, '174', 'Comoros', 'KM', 'COM', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(49, '178', 'Congo', 'CG', 'COG', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(50, '184', 'Cook Islands', 'CK', 'COK', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(51, '188', 'Costa Rica', 'CR', 'CRI', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(52, '384', 'Cote D''Ivoire', 'CI', 'CIV', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(53, '191', 'Croatia', 'HR', 'HRV', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(54, '192', 'Cuba', 'CU', 'CUB', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(55, '196', 'Cyprus', 'CY', 'CYP', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(56, '203', 'Czech Republic', 'CZ', 'CZE', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(57, '208', 'Denmark', 'DK', 'DNK', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(58, '262', 'Djibouti', 'DJ', 'DJI', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(59, '212', 'Dominica', 'DM', 'DMA', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(60, '214', 'Dominican Republic', 'DO', 'DOM', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(61, '626', 'East Timor', 'TL', 'TLS', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(62, '218', 'Ecuador', 'EC', 'ECU', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(63, '818', 'Egypt', 'EG', 'EGY', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(64, '222', 'El Salvador', 'SV', 'SLV', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(65, '226', 'Equatorial Guinea', 'GQ', 'GNQ', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(66, '232', 'Eritrea', 'ER', 'ERI', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(67, '233', 'Estonia', 'EE', 'EST', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(68, '231', 'Ethiopia', 'ET', 'ETH', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(69, '238', 'Falkland Islands (Malvinas)', 'FK', 'FLK', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(70, '234', 'Faroe Islands', 'FO', 'FRO', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(71, '242', 'Fiji', 'FJ', 'FJI', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(72, '246', 'Finland', 'FI', 'FIN', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(74, '250', 'France, Metropolitan', 'FR', 'FRA', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(75, '254', 'French Guiana', 'GF', 'GUF', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(76, '258', 'French Polynesia', 'PF', 'PYF', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(77, '260', 'French Southern Territories', 'TF', 'ATF', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(78, '266', 'Gabon', 'GA', 'GAB', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(79, '270', 'Gambia', 'GM', 'GMB', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(80, '268', 'Georgia', 'GE', 'GEO', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(81, '276', 'Germany', 'DE', 'DEU', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(82, '288', 'Ghana', 'GH', 'GHA', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(83, '292', 'Gibraltar', 'GI', 'GIB', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(84, '300', 'Greece', 'GR', 'GRC', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(85, '304', 'Greenland', 'GL', 'GRL', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(86, '308', 'Grenada', 'GD', 'GRD', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(87, '312', 'Guadeloupe', 'GP', 'GLP', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(88, '316', 'Guam', 'GU', 'GUM', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(89, '320', 'Guatemala', 'GT', 'GTM', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(90, '324', 'Guinea', 'GN', 'GIN', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(91, '624', 'Guinea-Bissau', 'GW', 'GNB', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(92, '328', 'Guyana', 'GY', 'GUY', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(93, '332', 'Haiti', 'HT', 'HTI', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(94, '334', 'Heard and Mc Donald Islands', 'HM', 'HMD', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(95, '340', 'Honduras', 'HN', 'HND', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(96, '344', 'Hong Kong', 'HK', 'HKG', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(97, '348', 'Hungary', 'HU', 'HUN', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(98, '352', 'Iceland', 'IS', 'ISL', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(99, '356', 'India', 'IN', 'IND', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(100, '360', 'Indonesia', 'ID', 'IDN', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(101, '364', 'Iran (Islamic Republic of)', 'IR', 'IRN', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(102, '368', 'Iraq', 'IQ', 'IRQ', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(103, '372', 'Ireland', 'IE', 'IRL', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(104, '376', 'Israel', 'IL', 'ISR', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(105, '380', 'Italy', 'IT', 'ITA', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(106, '388', 'Jamaica', 'JM', 'JAM', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(107, '392', 'Japan', 'JP', 'JPN', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(108, '400', 'Jordan', 'JO', 'JOR', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(109, '398', 'Kazakhstan', 'KZ', 'KAZ', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(110, '404', 'Kenya', 'KE', 'KEN', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(111, '296', 'Kiribati', 'KI', 'KIR', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(112, '408', 'North Korea', 'KP', 'PRK', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(113, '410', 'South Korea', 'KR', 'KOR', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(114, '414', 'Kuwait', 'KW', 'KWT', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(115, '417', 'Kyrgyzstan', 'KG', 'KGZ', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(116, '418', 'Lao People''s Democratic Republic', 'LA', 'LAO', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(117, '428', 'Latvia', 'LV', 'LVA', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(118, '422', 'Lebanon', 'LB', 'LBN', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(119, '426', 'Lesotho', 'LS', 'LSO', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(120, '430', 'Liberia', 'LR', 'LBR', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(121, '434', 'Libyan Arab Jamahiriya', 'LY', 'LBY', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(122, '438', 'Liechtenstein', 'LI', 'LIE', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(123, '440', 'Lithuania', 'LT', 'LTU', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(124, '442', 'Luxembourg', 'LU', 'LUX', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(125, '446', 'Macau', 'MO', 'MAC', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(126, '807', 'FYROM', 'MK', 'MKD', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(127, '450', 'Madagascar', 'MG', 'MDG', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(128, '454', 'Malawi', 'MW', 'MWI', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(129, '458', 'Malaysia', 'MY', 'MYS', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(130, '462', 'Maldives', 'MV', 'MDV', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(131, '466', 'Mali', 'ML', 'MLI', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(132, '470', 'Malta', 'MT', 'MLT', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(133, '584', 'Marshall Islands', 'MH', 'MHL', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(134, '474', 'Martinique', 'MQ', 'MTQ', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(135, '478', 'Mauritania', 'MR', 'MRT', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(136, '480', 'Mauritius', 'MU', 'MUS', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(137, '175', 'Mayotte', 'YT', 'MYT', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(138, '484', 'Mexico', 'MX', 'MEX', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(139, '583', 'Micronesia, Federated States of', 'FM', 'FSM', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(140, '498', 'Moldova, Republic of', 'MD', 'MDA', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(141, '492', 'Monaco', 'MC', 'MCO', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(142, '496', 'Mongolia', 'MN', 'MNG', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(143, '500', 'Montserrat', 'MS', 'MSR', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(144, '504', 'Morocco', 'MA', 'MAR', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(145, '508', 'Mozambique', 'MZ', 'MOZ', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(146, '104', 'Myanmar', 'MM', 'MMR', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(147, '516', 'Namibia', 'NA', 'NAM', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(148, '520', 'Nauru', 'NR', 'NRU', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(149, '524', 'Nepal', 'NP', 'NPL', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(150, '528', 'Netherlands', 'NL', 'NLD', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(151, '530', 'Netherlands Antilles', 'AN', 'ANT', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(152, '540', 'New Caledonia', 'NC', 'NCL', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(153, '554', 'New Zealand', 'NZ', 'NZL', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(154, '558', 'Nicaragua', 'NI', 'NIC', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(155, '562', 'Niger', 'NE', 'NER', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(156, '566', 'Nigeria', 'NG', 'NGA', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(157, '570', 'Niue', 'NU', 'NIU', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(158, '574', 'Norfolk Island', 'NF', 'NFK', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(159, '580', 'Northern Mariana Islands', 'MP', 'MNP', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(160, '578', 'Norway', 'NO', 'NOR', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(161, '512', 'Oman', 'OM', 'OMN', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(162, '586', 'Pakistan', 'PK', 'PAK', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(163, '585', 'Palau', 'PW', 'PLW', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(164, '591', 'Panama', 'PA', 'PAN', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(165, '598', 'Papua New Guinea', 'PG', 'PNG', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(166, '600', 'Paraguay', 'PY', 'PRY', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(167, '604', 'Peru', 'PE', 'PER', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(168, '608', 'Philippines', 'PH', 'PHL', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(169, '612', 'Pitcairn', 'PN', 'PCN', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(170, '616', 'Poland', 'PL', 'POL', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(171, '620', 'Portugal', 'PT', 'PRT', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(172, '630', 'Puerto Rico', 'PR', 'PRI', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(173, '634', 'Qatar', 'QA', 'QAT', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(174, '638', 'Reunion', 'RE', 'REU', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(175, '642', 'Romania', 'RO', 'ROM', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(176, '643', 'Russian Federation', 'RU', 'RUS', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(177, '646', 'Rwanda', 'RW', 'RWA', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(178, '659', 'Saint Kitts and Nevis', 'KN', 'KNA', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(179, '662', 'Saint Lucia', 'LC', 'LCA', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(180, '670', 'Saint Vincent and the Grenadines', 'VC', 'VCT', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(181, '882', 'Samoa', 'WS', 'WSM', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(182, '674', 'San Marino', 'SM', 'SMR', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(183, '678', 'Sao Tome and Principe', 'ST', 'STP', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(184, '682', 'Saudi Arabia', 'SA', 'SAU', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(185, '686', 'Senegal', 'SN', 'SEN', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(186, '690', 'Seychelles', 'SC', 'SYC', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(187, '694', 'Sierra Leone', 'SL', 'SLE', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(188, '702', 'Singapore', 'SG', 'SGP', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(189, '703', 'Slovak Republic', 'SK', 'SVK', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(190, '705', 'Slovenia', 'SI', 'SVN', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(191, '090', 'Solomon Islands', 'SB', 'SLB', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(192, '706', 'Somalia', 'SO', 'SOM', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(193, '710', 'South Africa', 'ZA', 'ZAF', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(194, '239', 'South Georgia &amp; South Sandwich Islands', 'GS', 'SGS', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(195, '724', 'Spain', 'ES', 'ESP', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(196, '144', 'Sri Lanka', 'LK', 'LKA', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(197, '654', 'St. Helena', 'SH', 'SHN', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(198, '666', 'St. Pierre and Miquelon', 'PM', 'SPM', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(199, '736', 'Sudan', 'SD', 'SDN', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(200, '740', 'Suriname', 'SR', 'SUR', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(201, '744', 'Svalbard and Jan Mayen Islands', 'SJ', 'SJM', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(202, '748', 'Swaziland', 'SZ', 'SWZ', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(203, '752', 'Sweden', 'SE', 'SWE', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(204, '756', 'Switzerland', 'CH', 'CHE', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(205, '760', 'Syrian Arab Republic', 'SY', 'SYR', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(206, '158', 'Taiwan', 'TW', 'TWN', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(207, '762', 'Tajikistan', 'TJ', 'TJK', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(208, '834', 'Tanzania, United Republic of', 'TZ', 'TZA', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(209, '764', 'Thailand', 'TH', 'THA', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(210, '768', 'Togo', 'TG', 'TGO', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(211, '772', 'Tokelau', 'TK', 'TKL', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(212, '776', 'Tonga', 'TO', 'TON', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(213, '780', 'Trinidad and Tobago', 'TT', 'TTO', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(214, '788', 'Tunisia', 'TN', 'TUN', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(215, '792', 'Turkey', 'TR', 'TUR', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(216, '795', 'Turkmenistan', 'TM', 'TKM', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(217, '796', 'Turks and Caicos Islands', 'TC', 'TCA', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(218, '798', 'Tuvalu', 'TV', 'TUV', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(219, '800', 'Uganda', 'UG', 'UGA', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(220, '804', 'Ukraine', 'UA', 'UKR', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(221, '784', 'United Arab Emirates', 'AE', 'ARE', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(222, '826', 'United Kingdom', 'GB', 'GBR', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(223, '840', 'United States', 'US', 'USA', 1);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(224, '581', 'United States Minor Outlying Islands', 'UM', 'UMI', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(225, '858', 'Uruguay', 'UY', 'URY', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(226, '860', 'Uzbekistan', 'UZ', 'UZB', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(227, '548', 'Vanuatu', 'VU', 'VUT', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(228, '336', 'Vatican City State (Holy See)', 'VA', 'VAT', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(229, '862', 'Venezuela', 'VE', 'VEN', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(230, '704', 'Viet Nam', 'VN', 'VNM', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(231, '092', 'Virgin Islands (British)', 'VG', 'VGB', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(232, '850', 'Virgin Islands (U.S.)', 'VI', 'VIR', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(233, '876', 'Wallis and Futuna Islands', 'WF', 'WLF', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(234, '732', 'Western Sahara', 'EH', 'ESH', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(235, '887', 'Yemen', 'YE', 'YEM', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(237, '180', 'Democratic Republic of Congo', 'CD', 'COD', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(238, '894', 'Zambia', 'ZM', 'ZMB', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(239, '716', 'Zimbabwe', 'ZW', 'ZWE', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(242, '499', 'Montenegro', 'ME', 'MNE', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(243, '688', 'Serbia', 'RS', 'SRB', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(244, '248', 'Aaland Islands', 'AX', 'ALA', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(245, '', 'Bonaire, Sint Eustatius and Saba', 'BQ', 'BES', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(246, '', 'Curacao', 'CW', 'CUW', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(247, '275', 'Palestinian Territory, Occupied', 'PS', 'PSE', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(248, '728', 'South Sudan', 'SS', 'SSD', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(249, '652', 'St. Barthelemy', 'BL', 'BLM', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(250, '663', 'St. Martin (French part)', 'MF', 'MAF', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(251, '', 'Canary Islands', 'IC', 'ICA', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(252, '', 'Ascension Island (British)', 'AC', 'ASC', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(253, '', 'Kosovo, Republic of', 'XK', 'UNK', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(254, '833', 'Isle of Man', 'IM', 'IMN', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(255, '', 'Tristan da Cunha', 'TA', 'SHN', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(256, '831', 'Guernsey', 'GG', 'GGY', 0);
+INSERT INTO `country` (`country_id`, `num_code`, `name`, `iso_code_2`, `iso_code_3`, `status`) VALUES(257, '832', 'Jersey', 'JE', 'JEY', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `coverage_code`
+--
+
+DROP TABLE IF EXISTS `coverage_code`;
+CREATE TABLE IF NOT EXISTS `coverage_code` (
+  `coverage_code_id` varchar(8) NOT NULL,
+  `name` varchar(128) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `coverage_code`
+--
+
+INSERT INTO `coverage_code` (`coverage_code_id`, `name`) VALUES('V01A', 'V01A - Out-PatientTreatment');
+INSERT INTO `coverage_code` (`coverage_code_id`, `name`) VALUES('V01B', 'V01B - MedicalAppliances');
+INSERT INTO `coverage_code` (`coverage_code_id`, `name`) VALUES('V02AE', 'V02A - EmergencyVisit');
+INSERT INTO `coverage_code` (`coverage_code_id`, `name`) VALUES('V02AO', 'V02A - Others');
+INSERT INTO `coverage_code` (`coverage_code_id`, `name`) VALUES('V02AS', 'V02A - SpecialistVisit');
+INSERT INTO `coverage_code` (`coverage_code_id`, `name`) VALUES('V02B', 'V02B - DiagnoisticServices');
+INSERT INTO `coverage_code` (`coverage_code_id`, `name`) VALUES('V02BB', 'V02B - BloodTest');
+INSERT INTO `coverage_code` (`coverage_code_id`, `name`) VALUES('V02BC', 'V02B - CTScans');
+INSERT INTO `coverage_code` (`coverage_code_id`, `name`) VALUES('V02BM', 'V02B - MRI');
+INSERT INTO `coverage_code` (`coverage_code_id`, `name`) VALUES('V02BO', 'V02B - Others');
+INSERT INTO `coverage_code` (`coverage_code_id`, `name`) VALUES('V02BT', 'V02B - Ultrasound');
+INSERT INTO `coverage_code` (`coverage_code_id`, `name`) VALUES('V02BU', 'V02B - UrineTest');
+INSERT INTO `coverage_code` (`coverage_code_id`, `name`) VALUES('V02BX', 'V02B - X-Ray');
+INSERT INTO `coverage_code` (`coverage_code_id`, `name`) VALUES('V02C', 'V02A - ParamedicalServices');
+INSERT INTO `coverage_code` (`coverage_code_id`, `name`) VALUES('V02D', 'V02D - Acupuncture');
+INSERT INTO `coverage_code` (`coverage_code_id`, `name`) VALUES('V02E', 'V02E - Osteopath');
+INSERT INTO `coverage_code` (`coverage_code_id`, `name`) VALUES('V02F', 'V02F - Physiotherapy');
+INSERT INTO `coverage_code` (`coverage_code_id`, `name`) VALUES('V02G', 'V02G - Chiropractor');
+INSERT INTO `coverage_code` (`coverage_code_id`, `name`) VALUES('V02H', 'V02H - Chiropodist');
+INSERT INTO `coverage_code` (`coverage_code_id`, `name`) VALUES('V02J', 'V02J - Podiatrist');
+INSERT INTO `coverage_code` (`coverage_code_id`, `name`) VALUES('V04A', 'V04A - Ambulance');
+INSERT INTO `coverage_code` (`coverage_code_id`, `name`) VALUES('V06', 'V06 - AccidentalDental');
+INSERT INTO `coverage_code` (`coverage_code_id`, `name`) VALUES('V06B', 'V06B - ReliefofDentalPain');
+INSERT INTO `coverage_code` (`coverage_code_id`, `name`) VALUES('V07', 'V07 - PrescriptionDrugs');
+INSERT INTO `coverage_code` (`coverage_code_id`, `name`) VALUES('V08A', 'V08A - ReturnofRemains');
+INSERT INTO `coverage_code` (`coverage_code_id`, `name`) VALUES('V08B', 'V08B - Cremation/Burial');
+INSERT INTO `coverage_code` (`coverage_code_id`, `name`) VALUES('V12', 'V12 - AirFlightAccident');
+INSERT INTO `coverage_code` (`coverage_code_id`, `name`) VALUES('V13', 'V13 - PrivateDutyNursing');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `customer`
+--
+
+DROP TABLE IF EXISTS `customer`;
+CREATE TABLE IF NOT EXISTS `customer` (
+  `customer_id` int(11) NOT NULL,
+  `plan_id` int(11) NOT NULL COMMENT 'basic function group base on user level',
+  `parent_customer_id` int(11) NOT NULL COMMENT 'user parent user ID for agent brokerage',
+  `gender` varchar(8) NOT NULL COMMENT 'M F',
+  `firstname` varchar(32) NOT NULL,
+  `lastname` varchar(32) NOT NULL,
+  `brithday` date NOT NULL,
+  `date_added` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `payment`
+--
+
+DROP TABLE IF EXISTS `payment`;
+CREATE TABLE IF NOT EXISTS `payment` (
+  `payment_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `plan_id` int(11) NOT NULL,
+  `amount` decimal(10,2) NOT NULL,
+  `ispaid` tinyint(4) NOT NULL,
+  `pay_type` varchar(32) NOT NULL,
+  `added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `last_update` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `note` text NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `plan`
+--
+
+DROP TABLE IF EXISTS `plan`;
+CREATE TABLE IF NOT EXISTS `plan` (
+  `plan_id` int(11) NOT NULL COMMENT 'basic function group base on user level',
+  `customer_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `status` tinyint(4) NOT NULL,
+  `qoute` varchar(32) NOT NULL,
+  `policy` varchar(32) NOT NULL,
+  `product_id` int(11) NOT NULL COMMENT 'product unique short name',
+  `batch_number` int(11) NOT NULL COMMENT 'usually is the first plan_id',
+  `apply_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `isfamilyplan` tinyint(1) NOT NULL,
+  `arrival_date` date NOT NULL,
+  `effective_date` date NOT NULL,
+  `expiry_date` date NOT NULL,
+  `beneficiary` varchar(255) NOT NULL,
+  `sum_insured` int(11) NOT NULL,
+  `deductiable_amount` int(11) NOT NULL,
+  `premium` decimal(10,2) NOT NULL,
+  `commission_amount` decimal(10,2) NOT NULL,
+  `street_number` varchar(16) NOT NULL,
+  `street_name` varchar(255) NOT NULL,
+  `suite_number` varchar(16) NOT NULL,
+  `city` varchar(64) NOT NULL,
+  `procince_id` int(11) NOT NULL COMMENT 'ID from province table',
+  `postcode` varchar(16) NOT NULL,
+  `phone1` varchar(16) NOT NULL,
+  `phone2` varchar(16) NOT NULL,
+  `institution` varchar(128) NOT NULL,
+  `institution_addr` varchar(255) NOT NULL,
+  `student_id` varchar(64) NOT NULL,
+  `institution_phone` varchar(16) NOT NULL,
+  `institution_fax` varchar(16) NOT NULL,
+  `contact_email` varchar(255) NOT NULL,
+  `contact_phone` varchar(16) NOT NULL,
+  `toll_free` varchar(16) NOT NULL,
+  `residence` varchar(255) NOT NULL,
+  `note` text NOT NULL,
+  `ip` varchar(40) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `product`
+--
+
+DROP TABLE IF EXISTS `product`;
+CREATE TABLE IF NOT EXISTS `product` (
+  `product_short` varchar(16) NOT NULL COMMENT 'short name',
+  `calculate` tinyint(4) NOT NULL COMMENT '1 means has program to calculate premium',
+  `commission` decimal(10,2) NOT NULL COMMENT '50 means 50%',
+  `full_name` varchar(255) NOT NULL,
+  `qoute_pre` varchar(8) NOT NULL,
+  `plan_pre` varchar(8) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `product`
+--
+
+INSERT INTO `product` (`product_short`, `calculate`, `commission`, `full_name`, `qoute_pre`, `plan_pre`) VALUES('JES', 1, 5.00, 'JF Elite Plus Student to Canada', 'QTJES', 'JES');
+INSERT INTO `product` (`product_short`, `calculate`, `commission`, `full_name`, `qoute_pre`, `plan_pre`) VALUES('JUS', 1, 5.00, 'JF USA Student to USA', 'QTJUS', 'JUS');
+INSERT INTO `product` (`product_short`, `calculate`, `commission`, `full_name`, `qoute_pre`, `plan_pre`) VALUES('JFC', 1, 5.00, 'JF Care Student to Canada', 'QTJFC', 'JFC');
+INSERT INTO `product` (`product_short`, `calculate`, `commission`, `full_name`, `qoute_pre`, `plan_pre`) VALUES('NUS', 1, 5.00, 'JF Nihao USA Student to Canada', 'QTNUS', 'NUS');
+INSERT INTO `product` (`product_short`, `calculate`, `commission`, `full_name`, `qoute_pre`, `plan_pre`) VALUES('JFR', 1, 5.00, 'JF Royal Visitor', 'QTJFR', 'JFR');
+INSERT INTO `product` (`product_short`, `calculate`, `commission`, `full_name`, `qoute_pre`, `plan_pre`) VALUES('OPL', 1, 5.00, 'Optimum Plus Visitor', 'QTOPL', 'OPL');
+INSERT INTO `product` (`product_short`, `calculate`, `commission`, `full_name`, `qoute_pre`, `plan_pre`) VALUES('TICVTC', 0, 5.00, 'TIC Visitor to Canada', 'QTTICVTC', 'TICVTC');
+INSERT INTO `product` (`product_short`, `calculate`, `commission`, `full_name`, `qoute_pre`, `plan_pre`) VALUES('TICSTC', 0, 5.00, 'TIC Student to Canada', 'QTTICSTC', 'TICSTC');
+INSERT INTO `product` (`product_short`, `calculate`, `commission`, `full_name`, `qoute_pre`, `plan_pre`) VALUES('TICTO', 0, 5.00, 'TIC Travel out', 'QTTICTO', 'TICTO');
+INSERT INTO `product` (`product_short`, `calculate`, `commission`, `full_name`, `qoute_pre`, `plan_pre`) VALUES('RSAVTC', 0, 5.00, 'RSA Visitor to Canada', 'QTRSAVTC', 'RSAVTC');
+INSERT INTO `product` (`product_short`, `calculate`, `commission`, `full_name`, `qoute_pre`, `plan_pre`) VALUES('RSASSS', 0, 5.00, 'RSA Study Safe Student to Canada', 'QTRSASSS', 'RSASSS');
+INSERT INTO `product` (`product_short`, `calculate`, `commission`, `full_name`, `qoute_pre`, `plan_pre`) VALUES('RSAGTO', 0, 5.00, 'RSA Globaltrek Travel Out', 'QTRSAGTO', 'RSAGTO');
+INSERT INTO `product` (`product_short`, `calculate`, `commission`, `full_name`, `qoute_pre`, `plan_pre`) VALUES('AVISP', 0, 5.00, 'AVI Secure Passport', 'QTAVISP', 'AVISP');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `province`
+--
+
+DROP TABLE IF EXISTS `province`;
+CREATE TABLE IF NOT EXISTS `province` (
+  `province_id` int(11) NOT NULL,
+  `country2` char(2) NOT NULL,
+  `province2` char(2) NOT NULL,
+  `name` varchar(16) NOT NULL,
+  `orderby` int(11) NOT NULL
+) ENGINE=MyISAM AUTO_INCREMENT=70 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `province`
+--
+
+INSERT INTO `province` (`province_id`, `country2`, `province2`, `name`, `orderby`) VALUES(1, 'CA', 'AB', 'Alberta', 1);
+INSERT INTO `province` (`province_id`, `country2`, `province2`, `name`, `orderby`) VALUES(2, 'CA', 'BC', 'British Columbia', 2);
+INSERT INTO `province` (`province_id`, `country2`, `province2`, `name`, `orderby`) VALUES(3, 'CA', 'MB', 'Manitoba', 3);
+INSERT INTO `province` (`province_id`, `country2`, `province2`, `name`, `orderby`) VALUES(4, 'CA', 'NB', 'New Brunswick', 4);
+INSERT INTO `province` (`province_id`, `country2`, `province2`, `name`, `orderby`) VALUES(5, 'CA', 'NL', 'Newfoundland and', 5);
+INSERT INTO `province` (`province_id`, `country2`, `province2`, `name`, `orderby`) VALUES(6, 'CA', 'NS', 'Nova Scotia', 6);
+INSERT INTO `province` (`province_id`, `country2`, `province2`, `name`, `orderby`) VALUES(7, 'CA', 'NT', 'Northwest Territ', 7);
+INSERT INTO `province` (`province_id`, `country2`, `province2`, `name`, `orderby`) VALUES(8, 'CA', 'NU', 'Nunavut', 8);
+INSERT INTO `province` (`province_id`, `country2`, `province2`, `name`, `orderby`) VALUES(9, 'CA', 'ON', 'Ontario', 9);
+INSERT INTO `province` (`province_id`, `country2`, `province2`, `name`, `orderby`) VALUES(10, 'CA', 'PE', 'Prince Edward Is', 10);
+INSERT INTO `province` (`province_id`, `country2`, `province2`, `name`, `orderby`) VALUES(11, 'CA', 'QC', 'Quebec', 11);
+INSERT INTO `province` (`province_id`, `country2`, `province2`, `name`, `orderby`) VALUES(12, 'CA', 'SK', 'Saskatchewan', 12);
+INSERT INTO `province` (`province_id`, `country2`, `province2`, `name`, `orderby`) VALUES(13, 'CA', 'YT', 'Yukon', 13);
+INSERT INTO `province` (`province_id`, `country2`, `province2`, `name`, `orderby`) VALUES(14, 'US', 'AK', 'Alaska', 100);
+INSERT INTO `province` (`province_id`, `country2`, `province2`, `name`, `orderby`) VALUES(15, 'US', 'AL', 'Alabama', 101);
+INSERT INTO `province` (`province_id`, `country2`, `province2`, `name`, `orderby`) VALUES(16, 'US', 'AR', 'Arkansas', 102);
+INSERT INTO `province` (`province_id`, `country2`, `province2`, `name`, `orderby`) VALUES(17, 'US', 'AS', 'American Samoa', 103);
+INSERT INTO `province` (`province_id`, `country2`, `province2`, `name`, `orderby`) VALUES(18, 'US', 'AZ', 'Arizona', 104);
+INSERT INTO `province` (`province_id`, `country2`, `province2`, `name`, `orderby`) VALUES(19, 'US', 'CA', 'California', 105);
+INSERT INTO `province` (`province_id`, `country2`, `province2`, `name`, `orderby`) VALUES(20, 'US', 'CO', 'Colorado', 106);
+INSERT INTO `province` (`province_id`, `country2`, `province2`, `name`, `orderby`) VALUES(21, 'US', 'CT', 'Connecticut', 107);
+INSERT INTO `province` (`province_id`, `country2`, `province2`, `name`, `orderby`) VALUES(22, 'US', 'DC', 'District of Colu', 108);
+INSERT INTO `province` (`province_id`, `country2`, `province2`, `name`, `orderby`) VALUES(23, 'US', 'DE', 'Delaware', 109);
+INSERT INTO `province` (`province_id`, `country2`, `province2`, `name`, `orderby`) VALUES(24, 'US', 'FL', 'Florida', 110);
+INSERT INTO `province` (`province_id`, `country2`, `province2`, `name`, `orderby`) VALUES(25, 'US', 'GA', 'Georgia', 111);
+INSERT INTO `province` (`province_id`, `country2`, `province2`, `name`, `orderby`) VALUES(26, 'US', 'GU', 'Guam', 112);
+INSERT INTO `province` (`province_id`, `country2`, `province2`, `name`, `orderby`) VALUES(27, 'US', 'HI', 'Hawaii', 113);
+INSERT INTO `province` (`province_id`, `country2`, `province2`, `name`, `orderby`) VALUES(28, 'US', 'IA', 'Iowa', 114);
+INSERT INTO `province` (`province_id`, `country2`, `province2`, `name`, `orderby`) VALUES(29, 'US', 'ID', 'Idaho', 115);
+INSERT INTO `province` (`province_id`, `country2`, `province2`, `name`, `orderby`) VALUES(30, 'US', 'IL', 'Illinois', 116);
+INSERT INTO `province` (`province_id`, `country2`, `province2`, `name`, `orderby`) VALUES(31, 'US', 'IN', 'Indiana', 117);
+INSERT INTO `province` (`province_id`, `country2`, `province2`, `name`, `orderby`) VALUES(32, 'US', 'KS', 'Kansas', 118);
+INSERT INTO `province` (`province_id`, `country2`, `province2`, `name`, `orderby`) VALUES(33, 'US', 'KY', 'Kentucky', 119);
+INSERT INTO `province` (`province_id`, `country2`, `province2`, `name`, `orderby`) VALUES(34, 'US', 'LA', 'Louisiana', 120);
+INSERT INTO `province` (`province_id`, `country2`, `province2`, `name`, `orderby`) VALUES(35, 'US', 'MA', 'Massachusetts', 121);
+INSERT INTO `province` (`province_id`, `country2`, `province2`, `name`, `orderby`) VALUES(36, 'US', 'MD', 'Maryland', 122);
+INSERT INTO `province` (`province_id`, `country2`, `province2`, `name`, `orderby`) VALUES(37, 'US', 'ME', 'Maine', 123);
+INSERT INTO `province` (`province_id`, `country2`, `province2`, `name`, `orderby`) VALUES(38, 'US', 'MI', 'Michigan', 124);
+INSERT INTO `province` (`province_id`, `country2`, `province2`, `name`, `orderby`) VALUES(39, 'US', 'MN', 'Minnesota', 125);
+INSERT INTO `province` (`province_id`, `country2`, `province2`, `name`, `orderby`) VALUES(40, 'US', 'MO', 'Missouri', 126);
+INSERT INTO `province` (`province_id`, `country2`, `province2`, `name`, `orderby`) VALUES(41, 'US', 'MP', 'Northern Mariana', 127);
+INSERT INTO `province` (`province_id`, `country2`, `province2`, `name`, `orderby`) VALUES(42, 'US', 'MS', 'Mississippi', 128);
+INSERT INTO `province` (`province_id`, `country2`, `province2`, `name`, `orderby`) VALUES(43, 'US', 'MT', 'Montana', 129);
+INSERT INTO `province` (`province_id`, `country2`, `province2`, `name`, `orderby`) VALUES(44, 'US', 'NC', 'North Carolina', 130);
+INSERT INTO `province` (`province_id`, `country2`, `province2`, `name`, `orderby`) VALUES(45, 'US', 'ND', 'North Dakota', 131);
+INSERT INTO `province` (`province_id`, `country2`, `province2`, `name`, `orderby`) VALUES(46, 'US', 'NE', 'Nebraska', 132);
+INSERT INTO `province` (`province_id`, `country2`, `province2`, `name`, `orderby`) VALUES(47, 'US', 'NH', 'New Hampshire', 133);
+INSERT INTO `province` (`province_id`, `country2`, `province2`, `name`, `orderby`) VALUES(48, 'US', 'NJ', 'New Jersey', 134);
+INSERT INTO `province` (`province_id`, `country2`, `province2`, `name`, `orderby`) VALUES(49, 'US', 'NM', 'New Mexico', 135);
+INSERT INTO `province` (`province_id`, `country2`, `province2`, `name`, `orderby`) VALUES(50, 'US', 'NV', 'Nevada', 136);
+INSERT INTO `province` (`province_id`, `country2`, `province2`, `name`, `orderby`) VALUES(51, 'US', 'NY', 'New York', 137);
+INSERT INTO `province` (`province_id`, `country2`, `province2`, `name`, `orderby`) VALUES(52, 'US', 'OH', 'Ohio', 138);
+INSERT INTO `province` (`province_id`, `country2`, `province2`, `name`, `orderby`) VALUES(53, 'US', 'OK', 'Oklahoma', 139);
+INSERT INTO `province` (`province_id`, `country2`, `province2`, `name`, `orderby`) VALUES(54, 'US', 'OR', 'Oregon', 140);
+INSERT INTO `province` (`province_id`, `country2`, `province2`, `name`, `orderby`) VALUES(55, 'US', 'PA', 'Pennsylvania', 141);
+INSERT INTO `province` (`province_id`, `country2`, `province2`, `name`, `orderby`) VALUES(56, 'US', 'PR', 'Puerto Rico', 142);
+INSERT INTO `province` (`province_id`, `country2`, `province2`, `name`, `orderby`) VALUES(57, 'US', 'RI', 'Rhode Island', 143);
+INSERT INTO `province` (`province_id`, `country2`, `province2`, `name`, `orderby`) VALUES(58, 'US', 'SC', 'South Carolina', 144);
+INSERT INTO `province` (`province_id`, `country2`, `province2`, `name`, `orderby`) VALUES(59, 'US', 'SD', 'South Dakota', 145);
+INSERT INTO `province` (`province_id`, `country2`, `province2`, `name`, `orderby`) VALUES(60, 'US', 'TN', 'Tennessee', 146);
+INSERT INTO `province` (`province_id`, `country2`, `province2`, `name`, `orderby`) VALUES(61, 'US', 'TX', 'Texas', 147);
+INSERT INTO `province` (`province_id`, `country2`, `province2`, `name`, `orderby`) VALUES(62, 'US', 'UT', 'Utah', 148);
+INSERT INTO `province` (`province_id`, `country2`, `province2`, `name`, `orderby`) VALUES(63, 'US', 'VA', 'Virginia', 149);
+INSERT INTO `province` (`province_id`, `country2`, `province2`, `name`, `orderby`) VALUES(64, 'US', 'VI', 'United States Vi', 150);
+INSERT INTO `province` (`province_id`, `country2`, `province2`, `name`, `orderby`) VALUES(65, 'US', 'VT', 'Vermont', 151);
+INSERT INTO `province` (`province_id`, `country2`, `province2`, `name`, `orderby`) VALUES(66, 'US', 'WA', 'Washington', 152);
+INSERT INTO `province` (`province_id`, `country2`, `province2`, `name`, `orderby`) VALUES(67, 'US', 'WI', 'Wisconsin', 153);
+INSERT INTO `province` (`province_id`, `country2`, `province2`, `name`, `orderby`) VALUES(68, 'US', 'WV', 'West Virginia', 154);
+INSERT INTO `province` (`province_id`, `country2`, `province2`, `name`, `orderby`) VALUES(69, 'US', 'WY', 'Wyoming', 155);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `province_orig`
+--
+
+DROP TABLE IF EXISTS `province_orig`;
+CREATE TABLE IF NOT EXISTS `province_orig` (
+  `province_id` int(11) NOT NULL,
+  `name` varchar(16) NOT NULL,
+  `orderby` int(11) NOT NULL
+) ENGINE=MyISAM AUTO_INCREMENT=163 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `province_orig`
+--
+
+INSERT INTO `province_orig` (`province_id`, `name`, `orderby`) VALUES(1, 'AB - Canada', 1);
+INSERT INTO `province_orig` (`province_id`, `name`, `orderby`) VALUES(2, 'BC - Canada', 2);
+INSERT INTO `province_orig` (`province_id`, `name`, `orderby`) VALUES(3, 'MB - Canada', 3);
+INSERT INTO `province_orig` (`province_id`, `name`, `orderby`) VALUES(4, 'NB - Canada', 4);
+INSERT INTO `province_orig` (`province_id`, `name`, `orderby`) VALUES(5, 'NL - Canada', 5);
+INSERT INTO `province_orig` (`province_id`, `name`, `orderby`) VALUES(6, 'NS - Canada', 6);
+INSERT INTO `province_orig` (`province_id`, `name`, `orderby`) VALUES(7, 'NT - Canada', 7);
+INSERT INTO `province_orig` (`province_id`, `name`, `orderby`) VALUES(8, 'NU - Canada', 8);
+INSERT INTO `province_orig` (`province_id`, `name`, `orderby`) VALUES(9, 'ON - Canada', 9);
+INSERT INTO `province_orig` (`province_id`, `name`, `orderby`) VALUES(10, 'PE - Canada', 10);
+INSERT INTO `province_orig` (`province_id`, `name`, `orderby`) VALUES(11, 'QC - Canada', 11);
+INSERT INTO `province_orig` (`province_id`, `name`, `orderby`) VALUES(12, 'SK - Canada', 12);
+INSERT INTO `province_orig` (`province_id`, `name`, `orderby`) VALUES(13, 'YT - Canada', 13);
+INSERT INTO `province_orig` (`province_id`, `name`, `orderby`) VALUES(100, 'AL - USA', 101);
+INSERT INTO `province_orig` (`province_id`, `name`, `orderby`) VALUES(101, 'AK - USA', 100);
+INSERT INTO `province_orig` (`province_id`, `name`, `orderby`) VALUES(102, 'AZ - USA', 103);
+INSERT INTO `province_orig` (`province_id`, `name`, `orderby`) VALUES(103, 'AR - USA', 102);
+INSERT INTO `province_orig` (`province_id`, `name`, `orderby`) VALUES(104, 'CA - USA', 104);
+INSERT INTO `province_orig` (`province_id`, `name`, `orderby`) VALUES(105, 'CO - USA', 105);
+INSERT INTO `province_orig` (`province_id`, `name`, `orderby`) VALUES(106, 'CT - USA', 106);
+INSERT INTO `province_orig` (`province_id`, `name`, `orderby`) VALUES(107, 'DE - USA', 108);
+INSERT INTO `province_orig` (`province_id`, `name`, `orderby`) VALUES(108, 'DC - USA', 107);
+INSERT INTO `province_orig` (`province_id`, `name`, `orderby`) VALUES(109, 'FL - USA', 110);
+INSERT INTO `province_orig` (`province_id`, `name`, `orderby`) VALUES(120, 'GA - USA', 112);
+INSERT INTO `province_orig` (`province_id`, `name`, `orderby`) VALUES(121, 'HI - USA', 113);
+INSERT INTO `province_orig` (`province_id`, `name`, `orderby`) VALUES(122, 'ID - USA', 115);
+INSERT INTO `province_orig` (`province_id`, `name`, `orderby`) VALUES(123, 'IL - USA', 116);
+INSERT INTO `province_orig` (`province_id`, `name`, `orderby`) VALUES(124, 'IN - USA', 117);
+INSERT INTO `province_orig` (`province_id`, `name`, `orderby`) VALUES(125, 'IA - USA', 114);
+INSERT INTO `province_orig` (`province_id`, `name`, `orderby`) VALUES(126, 'KS - USA', 118);
+INSERT INTO `province_orig` (`province_id`, `name`, `orderby`) VALUES(127, 'KY - USA', 119);
+INSERT INTO `province_orig` (`province_id`, `name`, `orderby`) VALUES(128, 'LA - USA', 120);
+INSERT INTO `province_orig` (`province_id`, `name`, `orderby`) VALUES(129, 'ME - USA', 123);
+INSERT INTO `province_orig` (`province_id`, `name`, `orderby`) VALUES(130, 'MD - USA', 122);
+INSERT INTO `province_orig` (`province_id`, `name`, `orderby`) VALUES(131, 'MA - USA', 121);
+INSERT INTO `province_orig` (`province_id`, `name`, `orderby`) VALUES(132, 'MI - USA', 124);
+INSERT INTO `province_orig` (`province_id`, `name`, `orderby`) VALUES(133, 'MN - USA', 125);
+INSERT INTO `province_orig` (`province_id`, `name`, `orderby`) VALUES(134, 'MS - USA', 127);
+INSERT INTO `province_orig` (`province_id`, `name`, `orderby`) VALUES(135, 'MO - USA', 126);
+INSERT INTO `province_orig` (`province_id`, `name`, `orderby`) VALUES(136, 'MT - USA', 128);
+INSERT INTO `province_orig` (`province_id`, `name`, `orderby`) VALUES(137, 'NE - USA', 131);
+INSERT INTO `province_orig` (`province_id`, `name`, `orderby`) VALUES(138, 'NV - USA', 135);
+INSERT INTO `province_orig` (`province_id`, `name`, `orderby`) VALUES(139, 'NH - USA', 132);
+INSERT INTO `province_orig` (`province_id`, `name`, `orderby`) VALUES(140, 'NJ - USA', 133);
+INSERT INTO `province_orig` (`province_id`, `name`, `orderby`) VALUES(141, 'NM - USA', 134);
+INSERT INTO `province_orig` (`province_id`, `name`, `orderby`) VALUES(142, 'NY - USA', 136);
+INSERT INTO `province_orig` (`province_id`, `name`, `orderby`) VALUES(143, 'NC - USA', 129);
+INSERT INTO `province_orig` (`province_id`, `name`, `orderby`) VALUES(144, 'ND - USA', 130);
+INSERT INTO `province_orig` (`province_id`, `name`, `orderby`) VALUES(145, 'OH - USA', 137);
+INSERT INTO `province_orig` (`province_id`, `name`, `orderby`) VALUES(146, 'OK - USA', 138);
+INSERT INTO `province_orig` (`province_id`, `name`, `orderby`) VALUES(147, 'OR - USA', 139);
+INSERT INTO `province_orig` (`province_id`, `name`, `orderby`) VALUES(148, 'FA - USA', 109);
+INSERT INTO `province_orig` (`province_id`, `name`, `orderby`) VALUES(149, 'FR - USA', 111);
+INSERT INTO `province_orig` (`province_id`, `name`, `orderby`) VALUES(150, 'RI - USA', 141);
+INSERT INTO `province_orig` (`province_id`, `name`, `orderby`) VALUES(151, 'SC - USA', 142);
+INSERT INTO `province_orig` (`province_id`, `name`, `orderby`) VALUES(152, 'SD - USA', 142);
+INSERT INTO `province_orig` (`province_id`, `name`, `orderby`) VALUES(153, 'TN - USA', 143);
+INSERT INTO `province_orig` (`province_id`, `name`, `orderby`) VALUES(154, 'TX - USA', 144);
+INSERT INTO `province_orig` (`province_id`, `name`, `orderby`) VALUES(155, 'UT - USA', 145);
+INSERT INTO `province_orig` (`province_id`, `name`, `orderby`) VALUES(156, 'VT - USA', 147);
+INSERT INTO `province_orig` (`province_id`, `name`, `orderby`) VALUES(157, 'VA - USA', 146);
+INSERT INTO `province_orig` (`province_id`, `name`, `orderby`) VALUES(158, 'WA - USA', 148);
+INSERT INTO `province_orig` (`province_id`, `name`, `orderby`) VALUES(159, 'WV - USA', 150);
+INSERT INTO `province_orig` (`province_id`, `name`, `orderby`) VALUES(160, 'WI - USA', 149);
+INSERT INTO `province_orig` (`province_id`, `name`, `orderby`) VALUES(161, 'WY - USA', 151);
+INSERT INTO `province_orig` (`province_id`, `name`, `orderby`) VALUES(162, 'PA - USA', 140);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `status`
+--
+
+DROP TABLE IF EXISTS `status`;
+CREATE TABLE IF NOT EXISTS `status` (
+  `status_id` int(11) NOT NULL,
+  `name` varchar(16) NOT NULL
+) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `status`
+--
+
+INSERT INTO `status` (`status_id`, `name`) VALUES(1, 'Quote');
+INSERT INTO `status` (`status_id`, `name`) VALUES(2, 'Sold');
+INSERT INTO `status` (`status_id`, `name`) VALUES(3, 'Paid');
+INSERT INTO `status` (`status_id`, `name`) VALUES(4, 'Claimed');
+INSERT INTO `status` (`status_id`, `name`) VALUES(5, 'Cancel');
+INSERT INTO `status` (`status_id`, `name`) VALUES(6, 'Refund');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `status_to`
+--
+
+DROP TABLE IF EXISTS `status_to`;
+CREATE TABLE IF NOT EXISTS `status_to` (
+  `status_from_id` int(11) NOT NULL,
+  `status_id` int(11) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user`
+--
+
+DROP TABLE IF EXISTS `user`;
+CREATE TABLE IF NOT EXISTS `user` (
+  `user_id` int(11) NOT NULL,
+  `user_group_id` int(11) NOT NULL COMMENT 'basic function group base on user level',
+  `parent_user_id` int(11) NOT NULL COMMENT 'user parent user ID for agent brokerage',
+  `username` varchar(20) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `region` varchar(64) NOT NULL COMMENT 'Region for agent belong to',
+  `business` varchar(255) NOT NULL,
+  `gender` varchar(8) NOT NULL COMMENT 'Mr Miss Mrs',
+  `firstname` varchar(32) NOT NULL,
+  `lastname` varchar(32) NOT NULL,
+  `email` varchar(96) NOT NULL,
+  `address` varchar(255) NOT NULL,
+  `city` varchar(64) NOT NULL,
+  `province2` char(2) NOT NULL COMMENT 'ID from province table',
+  `country2` char(2) NOT NULL,
+  `postcode` varchar(16) NOT NULL,
+  `website` varchar(255) NOT NULL,
+  `licence_number` varchar(64) NOT NULL,
+  `licence_expire` date NOT NULL,
+  `business_phone` varchar(16) NOT NULL,
+  `mobile_phone` varchar(16) NOT NULL,
+  `fax_number` varchar(16) NOT NULL,
+  `toll_free` varchar(16) NOT NULL,
+  `pay_type` varchar(255) NOT NULL COMMENT 'payment method list split by space',
+  `ip` varchar(40) NOT NULL,
+  `status` tinyint(1) NOT NULL,
+  `date_added` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `note` text NOT NULL
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `user`
+--
+
+INSERT INTO `user` (`user_id`, `user_group_id`, `parent_user_id`, `username`, `password`, `region`, `business`, `gender`, `firstname`, `lastname`, `email`, `address`, `city`, `province2`, `country2`, `postcode`, `website`, `licence_number`, `licence_expire`, `business_phone`, `mobile_phone`, `fax_number`, `toll_free`, `pay_type`, `ip`, `status`, `date_added`, `note`) VALUES(1, 1, 0, 'admin', '$2y$10$pzju1YL9Lwevzgo8Pi4G0O.tXk5m3jRJxhWz9f2mgNFi/E/QtT7tG', '', '', '', '', '', '', '', '', '0', '', '', '', '', '0000-00-00', '', '', '', '', '', '', 1, '0000-00-00 00:00:00', 'default user');
+INSERT INTO `user` (`user_id`, `user_group_id`, `parent_user_id`, `username`, `password`, `region`, `business`, `gender`, `firstname`, `lastname`, `email`, `address`, `city`, `province2`, `country2`, `postcode`, `website`, `licence_number`, `licence_expire`, `business_phone`, `mobile_phone`, `fax_number`, `toll_free`, `pay_type`, `ip`, `status`, `date_added`, `note`) VALUES(2, 4, 0, 'brokerage', '$2y$10$rvmzDTQCRKHmEKwEHm.GquXaQHyJbvuOJE8Vmhm.qrSpNBR/nS.7i', 'Region', 'Brokerage', 'M', 'Firstname', 'Lastname', 'brokerage@mailinator.com', 'Address', 'City', '9', '', 'A1A2B2', 'http://www.website.com', 'Licence1234567', '2016-12-23', '1234567890', '1234567890', '1234567890', '1234567890', ' Credit Cart Cash', '127.0.0.1', 1, '2016-06-10 16:32:04', 'test2');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_group`
+--
+
+DROP TABLE IF EXISTS `user_group`;
+CREATE TABLE IF NOT EXISTS `user_group` (
+  `user_group_id` int(11) NOT NULL,
+  `name` varchar(16) NOT NULL
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `user_group`
+--
+
+INSERT INTO `user_group` (`user_group_id`, `name`) VALUES(1, 'admin');
+INSERT INTO `user_group` (`user_group_id`, `name`) VALUES(2, 'staff');
+INSERT INTO `user_group` (`user_group_id`, `name`) VALUES(3, 'school');
+INSERT INTO `user_group` (`user_group_id`, `name`) VALUES(4, 'brokerage');
+INSERT INTO `user_group` (`user_group_id`, `name`) VALUES(5, 'agent');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_product`
+--
+
+DROP TABLE IF EXISTS `user_product`;
+CREATE TABLE IF NOT EXISTS `user_product` (
+  `user_id` int(11) NOT NULL,
+  `product_short` varchar(16) NOT NULL COMMENT 'short name',
+  `commission` decimal(10,2) NOT NULL COMMENT '50 means 50%'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `user_product`
+--
+
+INSERT INTO `user_product` (`user_id`, `product_short`, `commission`) VALUES(2, 'AVISP', 5.00);
+INSERT INTO `user_product` (`user_id`, `product_short`, `commission`) VALUES(2, 'JES', 5.00);
+INSERT INTO `user_product` (`user_id`, `product_short`, `commission`) VALUES(2, 'JFC', 5.00);
+INSERT INTO `user_product` (`user_id`, `product_short`, `commission`) VALUES(2, 'JFR', 5.00);
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `activity`
+--
+ALTER TABLE `activity`
+  ADD PRIMARY KEY (`activity_id`),
+  ADD KEY `plan_id` (`plan_id`),
+  ADD KEY `atype` (`activity_id`);
+
+--
+-- Indexes for table `claim`
+--
+ALTER TABLE `claim`
+  ADD PRIMARY KEY (`claim_id`);
+
+--
+-- Indexes for table `country`
+--
+ALTER TABLE `country`
+  ADD PRIMARY KEY (`country_id`);
+
+--
+-- Indexes for table `coverage_code`
+--
+ALTER TABLE `coverage_code`
+  ADD PRIMARY KEY (`coverage_code_id`);
+
+--
+-- Indexes for table `customer`
+--
+ALTER TABLE `customer`
+  ADD PRIMARY KEY (`customer_id`),
+  ADD KEY `policy_id` (`plan_id`),
+  ADD KEY `parent_customer_id` (`parent_customer_id`);
+
+--
+-- Indexes for table `payment`
+--
+ALTER TABLE `payment`
+  ADD PRIMARY KEY (`payment_id`),
+  ADD UNIQUE KEY `plan_id` (`plan_id`);
+
+--
+-- Indexes for table `plan`
+--
+ALTER TABLE `plan`
+  ADD PRIMARY KEY (`plan_id`) USING BTREE,
+  ADD UNIQUE KEY `batch_number` (`batch_number`),
+  ADD KEY `customer_id` (`customer_id`) USING BTREE,
+  ADD KEY `product_id` (`product_id`) USING BTREE,
+  ADD KEY `status` (`status`) USING BTREE,
+  ADD KEY `user_id` (`user_id`) USING BTREE;
+
+--
+-- Indexes for table `product`
+--
+ALTER TABLE `product`
+  ADD PRIMARY KEY (`product_short`);
+
+--
+-- Indexes for table `province`
+--
+ALTER TABLE `province`
+  ADD PRIMARY KEY (`province_id`),
+  ADD UNIQUE KEY `country2` (`country2`,`province2`) USING BTREE;
+
+--
+-- Indexes for table `province_orig`
+--
+ALTER TABLE `province_orig`
+  ADD PRIMARY KEY (`province_id`);
+
+--
+-- Indexes for table `status`
+--
+ALTER TABLE `status`
+  ADD PRIMARY KEY (`status_id`);
+
+--
+-- Indexes for table `user`
+--
+ALTER TABLE `user`
+  ADD PRIMARY KEY (`user_id`),
+  ADD UNIQUE KEY `username` (`username`) USING BTREE,
+  ADD KEY `parent` (`parent_user_id`),
+  ADD KEY `user_group_id` (`user_group_id`);
+
+--
+-- Indexes for table `user_group`
+--
+ALTER TABLE `user_group`
+  ADD PRIMARY KEY (`user_group_id`);
+
+--
+-- Indexes for table `user_product`
+--
+ALTER TABLE `user_product`
+  ADD PRIMARY KEY (`user_id`,`product_short`),
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `product_short` (`product_short`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `activity`
+--
+ALTER TABLE `activity`
+  MODIFY `activity_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT for table `claim`
+--
+ALTER TABLE `claim`
+  MODIFY `claim_id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `country`
+--
+ALTER TABLE `country`
+  MODIFY `country_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=258;
+--
+-- AUTO_INCREMENT for table `customer`
+--
+ALTER TABLE `customer`
+  MODIFY `customer_id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `payment`
+--
+ALTER TABLE `payment`
+  MODIFY `payment_id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `plan`
+--
+ALTER TABLE `plan`
+  MODIFY `plan_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'basic function group base on user level';
+--
+-- AUTO_INCREMENT for table `province`
+--
+ALTER TABLE `province`
+  MODIFY `province_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=70;
+--
+-- AUTO_INCREMENT for table `province_orig`
+--
+ALTER TABLE `province_orig`
+  MODIFY `province_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=163;
+--
+-- AUTO_INCREMENT for table `status`
+--
+ALTER TABLE `status`
+  MODIFY `status_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
+--
+-- AUTO_INCREMENT for table `user`
+--
+ALTER TABLE `user`
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT for table `user_group`
+--
+ALTER TABLE `user_group`
+  MODIFY `user_group_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
