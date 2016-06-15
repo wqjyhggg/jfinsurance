@@ -10,7 +10,7 @@ class Welcome extends MY_Controller {
 	{
 		$data['title_txt'] = 'Welcome';
 		$data['top_menu'] = '';
-		$data['menu'] = $this->menu_model->load_meun();
+		//$data['menu'] = $this->menu_model->load_meun();
 		$this->load->common('home', $data);
 	}
 }
