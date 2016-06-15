@@ -1,4 +1,3 @@
-<script src="<?php echo base_url();?>js/jquery-3.0.0.min.js"></script>
 <p>Edit Form</p>
 <?php if (!empty($error_message)) { echo $error_message . "<br>"; } ?>
 <form action='<?php $action_url; ?>' method='POST'>
