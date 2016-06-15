@@ -78,7 +78,7 @@ class Menu_model extends CI_Model {
      *  
      *  @return null / array on find.     
      */
-	public function load_top_meun() {
+	public function load_top_menu() {
 		$meunArr = array(
 			0 =>array(
 					"<a href='" . base_url() . "' class='leftmeun'>" . $this->lang->line ( 'text_home' ) . "</a>",

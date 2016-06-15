@@ -26,6 +26,8 @@ class MY_Controller extends CI_Controller {
 		$currentUrl = $_SERVER['QUERY_STRING'] ? current_url() . '?' . $_SERVER['QUERY_STRING'] : current_url();
     	$this->session->set_userdata('curr_url', $currentUrl);
         $this->lang->load('message', $language);
+
+        $this->load->model('menu_model');
         
 		$post = $this->input->post();
         $get = $this->input->get();
