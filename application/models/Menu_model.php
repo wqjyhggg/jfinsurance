@@ -62,15 +62,15 @@ class Menu_model extends CI_Model {
     			$onbehalf = 1;
     		}
     	}
-		$menu = $meunArr[$group];
-		if (($group == 1) || ($group == 2) ||($group == 4)) {
+    	$menu = $meunArr[$group];
+    	if (($group == 1) || ($group == 2) ||($group == 4)) {
 			if ($onbehalf) {
-				$menu = array_push($menu, $this->unbehalf);
+				array_push($menu, $unbehalf);
 			} else {
-				$menu = array_push($menu, $this->behalf);
+				array_push($menu, $behalf);
 			}
 		}
-    	return $menu;
+		return $menu;
 	}
 
     /**
@@ -139,9 +139,9 @@ class Menu_model extends CI_Model {
 		$menu = $meunArr[$group];
 		if (($group == 1) || ($group == 2) ||($group == 4)) {
 			if ($onbehalf) {
-				$menu = array_push($menu, $this->unbehalf);
+				array_push($menu, $unbehalf);
 			} else {
-				$menu = array_push($menu, $this->behalf);
+				array_push($menu, $behalf);
 			}
 		}
     	return $menu;
