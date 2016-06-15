@@ -72,6 +72,6 @@ class Menu_model extends CI_Model {
 				$menu = array_push($menu, $this->behalf);
 			}
 		}
-    	return FALSE;
+    	return $menu;
 	}
 }
