@@ -14,6 +14,7 @@ class MY_Controller extends CI_Controller {
 		$this->load->model('log_model');
 		$this->load->model('user_model');
 		$this->load->model('func_model');
+		$this->load->model('menu_model');
 		
 		// Set language 
 		$language = $this->session->userdata('language');

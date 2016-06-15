@@ -26,7 +26,8 @@ class Pdf extends MY_Controller {
 			}
 		}
 		$data['upload_url'] = base_url('pdf/upload');
-		$this->load->view ( 'pdf/pdflist', $data );
+		//$this->load->view ( 'pdf/pdflist', $data );
+		$this->load->common ( 'pdf/pdflist', $data );
 	}
 
 	public function upload()

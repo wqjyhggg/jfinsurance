@@ -14,6 +14,7 @@ class User extends MY_Controller {
 
 	public function logout() {
 		$this->session->unset_userdata ( 'user' );
+		$this->session->unset_userdata ( 'beuser' );
 		redirect ( base_url ( "user" ) );
 	}
 	
@@ -35,7 +36,6 @@ class User extends MY_Controller {
 		$pw = $this->input->post ( 'password' );
 		if (empty ( $pw ) || (strlen ( $pw ) < self::PASSWORD_MIN) || (strlen ( $pw ) > self::PASSWORD_MAX)) {
 			$this->data ['password_error'] = $this->lang->line ( 'error_password_input' );
-			;
 			$rt = FALSE;
 		}
 		
@@ -161,7 +161,8 @@ class User extends MY_Controller {
 				'name' => $this->security->get_csrf_token_name (),
 				'value' => $this->security->get_csrf_hash () 
 		);
-		$this->load->view ( 'user/dtlist', $data );
+		$this->load->common ( 'user/dtlist', $data );
+		//$this->load->view ( 'user/dtlist', $data );
 	}
 	
 	/**
@@ -319,6 +320,7 @@ class User extends MY_Controller {
 			$r = $this->user_model->login ( $this->input->post ( 'username' ), $this->input->post ( 'password' ) );
 			if ($r) {
 				$this->session->set_userdata ( 'user', $r );
+				$this->session->set_userdata ( 'beuser', $r );
 				redirect ( site_url () );
 			} else {
 				$date ['error_message'] = $this->lang->line ( 'error_no_user_found' );
