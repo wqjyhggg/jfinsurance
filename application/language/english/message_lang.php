@@ -8,12 +8,17 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+$lang['text_agent'] = "Agent";
+$lang['text_behalf'] = "Behalf";
+$lang['text_claim'] = "Claim";
 $lang['text_home'] = "Home";
 $lang['text_list_download_file'] = "List Download files";
 $lang['text_login'] = "Login";
 $lang['text_option_success'] = "Your opertation is successed";
 $lang['text_policy'] = "Policy";
 $lang['text_report'] = "Report";
+$lang['text_search'] = "Search";
+$lang['text_unbehalf'] = "Unbehalf";
 $lang['text_upload_policy'] = "Upload policy";
 
 $lang['error_address'] = 'Address is required';
