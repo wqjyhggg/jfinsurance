@@ -2,9 +2,46 @@
 /** Custom CSS **/
 /**************/
 
+/* General Customize */
+body{position: relative;}
+.form-control-label {
+    padding: .375rem .75rem;
+    margin-bottom: 0;
+}
+footer{
+	background-color: #080808;
+    padding: 10px;
+    color: #fff;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+}
+footer p{margin: 0;}
+.alert{
+	padding:10px;
+	margin-bottom: 10px;
+	text-align: left;
+	font-size:12px;
+}
+/* General Customize End */
+
 /* Header */
 .hlogo>img{
 	margin: 20px auto;
 	max-width: 300px;
 }
 /* Header End*/
+
+/* Login Page */
+.login-form{
+	display: block;
+    position: relative;
+    max-width: 400px;
+    margin: 12% auto 25%;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 15px;
+}
+/* Login Page End */
