@@ -82,7 +82,14 @@ class Menu_model extends CI_Model {
 		$meunArr = array(
 			0 =>array(
 					"<a href='" . base_url() . "' class='leftmeun'>" . $this->lang->line ( 'text_home' ) . "</a>",
-					"<a href='" . base_url('user/login') . "' class='leftmeun'>" . $this->lang->line ( 'text_login' ) . "</a>",
+					"<a href='" . base_url('about_us') . "' class='leftmeun'>" . $this->lang->line ( 'text_about' ) . "</a>",
+					"<a href='" . base_url('our_products') . "' class='leftmeun'>" . $this->lang->line ( 'text_our_products' ) . "</a>",
+					"<a href='" . base_url('our_partners') . "' class='leftmeun'>" . $this->lang->line ( 'text_our_partners' ) . "</a>",
+					"<a href='" . base_url('downloads') . "' class='leftmeun'>" . $this->lang->line ( 'text_downloads' ) . "</a>",
+					"<a href='" . base_url('career') . "' class='leftmeun'>" . $this->lang->line ( 'text_career' ) . "</a>",
+					"<a href='" . base_url('contact') . "' class='leftmeun'>" . $this->lang->line ( 'text_contact' ) . "</a>",
+					"<a href='" . base_url() . "' class='leftmeun'>" . $this->lang->line ( 'text_languages' ) . "</a>",
+					"<a href='" . base_url('user/login') . "' class='leftmeun'>" . $this->lang->line ( 'text_agent_login' ) . "</a>",
 				),
 			1 => array(
 					"<a href='" . base_url() . "' class='leftmeun'>" . $this->lang->line ( 'text_home' ) . "</a>",

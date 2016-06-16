@@ -1,0 +1,10 @@
+/**************/
+/** Custom CSS **/
+/**************/
+
+/* Header */
+.hlogo>img{
+	margin: 20px auto;
+	max-width: 300px;
+}
+/* Header End*/

@@ -162,7 +162,6 @@ class User extends MY_Controller {
 				'value' => $this->security->get_csrf_hash () 
 		);
 		$this->load->common ( 'user/dtlist', $data );
-		//$this->load->view ( 'user/dtlist', $data );
 	}
 	
 	/**
@@ -289,13 +288,15 @@ class User extends MY_Controller {
 				$this->data['product_list'][$k] = $p;
 			}
 		}
+		if (empty($this->data['province2'])) $this->data['province2'] = 'ON';
+		if (empty($this->data['country2'])) $this->data['country2'] = 'CA';
 		$this->data['province_url'] = base_url ( "geo/province/" . $this->data['country2'] . "/" . $this->data['province2'] );
 		$this->data['country_url'] = base_url ( "geo/country/" . $this->data['country2'] );
 		$this->data ['csrf'] = array (
 				'name' => $this->security->get_csrf_token_name (),
 				'value' => $this->security->get_csrf_hash () 
 		);
-		$this->load->view ( 'user/edit', $this->data );
+		$this->load->common ( 'user/edit', $this->data );
 	}
 	
 	/**
@@ -338,6 +339,7 @@ class User extends MY_Controller {
 				'name' => $this->security->get_csrf_token_name (),
 				'value' => $this->security->get_csrf_hash () 
 		);
-		$this->load->view ( 'user/login', $this->data );
+		$this->data['top_menu'] = $this->menu_model->load_top_menu();
+		$this->load->common ( 'user/login', $this->data );
 	}
 }
