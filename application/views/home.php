@@ -106,7 +106,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           <div class="">
             <div class="page-title">
               <div class="title_left">
-                <h3>Form Elements</h3>
+                <h3>Home</h3>
               </div>
 
               <div class="title_right">
@@ -208,14 +208,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <!-- End content with left menu --> 
 
 <!-- Content without left menu -->
-		<div class="container">
-			<div class="row">
-				<div class="col-sm-12">
-					<div class="main" style="min-height:800px;">
-
+		<div class="container" style="padding:0;">	
+			<div class="main" style="min-height:800px;">
+				<img class="img-responsive" src="<?php echo base_url();?>image/homepic.jpg" alt="JF Insurance">
+				<div class="row" style="margin-right:0;margin-left:0;">
+					<div class="col-sm-8 col-sm-offset-2">
+						<div style="background-color:#f6f6f6; padding:15px;margin:20px auto;">
+							<h2>Why Buy Insurance?</h2>
+							<p>
+								We don’t like to think about it, but sudden, unexpected accidents or illnesses do happen, and trying to find and pay for adequate medical attention can be difficult when you are abroad
+							</p>
+							<p>
+								Health care costs around the world can be very expensive. Hospital can charge thousands of dollars per day. Your health plan may or may not cover a minute portion of these cost. Without adequate insurance coverage you could be responsible from dollar one, which could create a massive impact on your personal finances. Why take the risk?
+							</p>
+						</div>
 					</div>
 				</div>
-			</div>
+			</div>	
 		</div>
 <!-- End Content without left menu -->
 <?php } ?>
