@@ -8,7 +8,7 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-$lang['text_about'] = "About US";
+$lang['text_about'] = "About Us";
 $lang['text_agent'] = "Agent";
 $lang['text_behalf'] = "Behalf";
 $lang['text_claim'] = "Claim";
@@ -17,6 +17,7 @@ $lang['text_contact'] = "Contact";
 $lang['text_downloads'] = "Downloads";
 $lang['text_home'] = "Home";
 $lang['text_languages'] = "Languages";
+$lang['text_logout'] = "Logout";
 $lang['text_our_partners'] = "Our Partners";
 $lang['text_our_products'] = "Our Products";
 

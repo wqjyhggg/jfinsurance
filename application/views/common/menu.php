@@ -1,7 +1,49 @@
-<?php if (isset($menu) && is_array($menu)) { ?>
-<ul>
-<?php foreach ($menu as $m) { ?>
-<li> <?php echo $m; ?> </li>
-<?php } ?>
-</ul>
+<div class="nav-m22d"><!-- Start body content -->
+<div class="container body" style="padding:0;"><!-- div.container.body-->
+<div class="main_container"><!-- div.main_container -->
+
+<?php if (isset($menu) && is_array($menu) && (sizeof($menu)>0)) { ?>
+<div id="leftMenu">
+        <div class="col-md-3 left_col">
+          <div class="left_col scroll-view">
+            <div class="navbar nav_title" style="border: 0;">
+              <a class="site_title"><i class="fa fa-user"></i> <span>Admin</span></a>
+              <p style="padding-left:15px;">Welcome <span>AuroraTD</span></p>
+            </div>
+
+            <div class="clearfix"></div>
+
+            <!-- menu profile quick info -->
+            <!--div class="profile">
+              <div class="profile_pic">
+                <img src="images/img.jpg" alt="..." class="img-circle profile_img">
+              </div>
+              <div class="profile_info">
+                <span>Welcome,</span>
+                <h2>John Doe</h2>
+              </div>
+            </div-->
+            <!-- /menu profile quick info -->
+
+            <br />
+
+
+            <!-- sidebar menu -->
+            <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+              <div class="menu_section">
+                <!--h3>General</h3-->
+                <ul class="nav side-menu">
+                	<?php foreach ($menu as $m) { ?>
+                		<li> <?php echo $m; ?> </li>
+					<?php } ?>
+                  
+                </ul>
+              </div>
+              
+            </div>
+            <!-- /sidebar menu -->
+
+          </div>
+        </div>
+</div>
 <?php } ?>

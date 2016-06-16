@@ -322,7 +322,7 @@ class User extends MY_Controller {
 			if ($r) {
 				$this->session->set_userdata ( 'user', $r );
 				$this->session->set_userdata ( 'beuser', $r );
-				redirect ( site_url () );
+				redirect ( base_url ('our_products') );
 			} else {
 				$date ['error_message'] = $this->lang->line ( 'error_no_user_found' );
 			}

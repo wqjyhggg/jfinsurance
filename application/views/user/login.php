@@ -1,10 +1,51 @@
-<p>Login</p>
-<?php if (!empty($error_message)) { echo $error_message . "<br>"; } ?>
-<form action='<?php $action_url; ?>' method='POST'>
-<input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'><br>
-<input type='text' name='username' value='<?php echo $username; ?>'><br>
-<?php if (!empty($username_error)) { echo $username_error . "<br>"; } ?>
-<input type='password' name='password' value=''><br>
-<?php if (!empty($password_error)) { echo $password_error . "<br>"; } ?>
-<input type='submit'><br>
-</form> 
+
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+?>
+
+<div class="container">
+	<div class="row">
+		<div class="col-sm-12">
+			<div class="main">
+				<div class="login-form">
+					<h3>Login</h3>
+					<?php if (!empty($error_message)) { echo $error_message . "<br>"; } ?>
+					
+					<form action='<?php $action_url; ?>' method='POST'>
+						<div class="form-group row">
+							<input type='hidden'  name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
+							<label for="username" class="col-sm-3 form-control-label">Username</label>
+							<div class="col-sm-9">
+								<input type='text' class="form-control" id="username" name='username' value='<?php echo $username; ?>' placeholder="Username">
+								<?php if (!empty($username_error)) { ?>
+								<div class="alert alert-warning"> 
+									<?php echo $username_error . "<br>";?>
+								</div>
+								<?php } ?>
+
+							</div>
+						</div>
+						<div class="form-group row">
+							<label for="password" class="col-sm-3 form-control-label">Password</label>
+							<div class="col-sm-9">
+								<input type='password' class="form-control" id="password" name='password' value='' placeholder="Password">
+								<?php if (!empty($password_error)) {?>
+								<div class="alert alert-warning">
+								<?php echo $password_error . "<br>"; ?>
+								</div>
+								<?php } ?>
+							</div>
+						</div>
+						<div class="form-group row">
+						    <div class="col-sm-12 pull-right">
+						      <input class="btn btn-default btn-lg" type='submit'>
+						    </div>
+						 </div>
+					
+					</form> 
+				</div>
+				
+			</div>
+		</div>
+	</div>
+</div>

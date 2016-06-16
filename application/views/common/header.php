@@ -7,18 +7,23 @@
 <title><?php echo isset($title_txt) ? $title_txt : "JF Group"; ?></title>
 
 <link rel="stylesheet" href="<?php echo base_url();?>main.css">
-<link rel="stylesheet" href="<?php echo base_url();?>bootstrap/dist/css/bootstrap.css">
-<link rel="stylesheet" href="<?php echo base_url();?>bootstrap/dist/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
-<script src="<?php echo base_url();?>bootstrap/dist/js/bootstrap.min.js"></script>
-<script src="<?php echo base_url();?>js/jquery-3.0.0.min.js"></script>
+<link rel="stylesheet" href="<?php echo base_url();?>stylesheet/bootstrap/dist/css/bootstrap.css">
+<link rel="stylesheet" href="<?php echo base_url();?>stylesheet/bootstrap/dist/css/bootstrap.min.css">
 
+<link rel="stylesheet" href="<?php echo base_url();?>stylesheet/font-awesome/css/font-awesome.min.css" >
 
+<link rel="stylesheet" href="<?php echo base_url();?>stylesheet/iCheck/skins/flat/green.css" >
+<link rel="stylesheet" href="<?php echo base_url();?>stylesheet/google-code-prettify/bin/prettify.min.css" >
+<link rel="stylesheet" href="<?php echo base_url();?>stylesheet/select2/dist/css/select2.min.css" >
+<link rel="stylesheet" href="<?php echo base_url();?>stylesheet/switchery/dist/switchery.min.css" >
+<link rel="stylesheet" href="<?php echo base_url();?>stylesheet/starrr/dist/starrr.css" >
+<!-- Build theme style -->
+<link rel="stylesheet" href="<?php echo base_url();?>/build/css/custom.min.css">
 </head>
-<body>
+<body class="nav-md">
 
 <header>
-	<div class="container">
+	<div class="container" style="padding:0;">
 		<div class="hlogo">
 			<img class="img-responsive" src="<?php echo base_url();?>image/logo.jpg" alt="JF Insurance">
 		</div>
