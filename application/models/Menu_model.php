@@ -23,7 +23,7 @@ class Menu_model extends CI_Model {
 							"<a href='" . base_url('reports/jf') . "' class='leftmeun'>" . $this->lang->line ( 'text_report_to_jf' ) . "</a>",
 							"<a href='" . base_url('reports/insurer') . "' class='leftmeun'>" . $this->lang->line ( 'text_report_to_insurer' ) . "</a>",
 							"<a href='" . base_url('reports/receivable') . "' class='leftmeun'>" . $this->lang->line ( 'text_receivable_report' ) . "</a>",
-							"<a href='" . base_url('reports/claim') . "' class='leftmeun'>" . $this->lang->line ( 'text_claim_report' ) . "</a>",
+							"<a href='" . base_url('reports/claimreport') . "' class='leftmeun'>" . $this->lang->line ( 'text_claim_report' ) . "</a>",
 							"<a href='" . base_url('reports/renewal') . "' class='leftmeun'>" . $this->lang->line ( 'text_renewal_report' ) . "</a>",
 							"<a href='" . base_url('reports/commission') . "' class='leftmeun'>" . $this->lang->line ( 'text_commission_report' ) . "</a>",
 						),

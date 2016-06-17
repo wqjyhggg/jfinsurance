@@ -161,6 +161,9 @@ class User extends MY_Controller {
 				'name' => $this->security->get_csrf_token_name (),
 				'value' => $this->security->get_csrf_hash () 
 		);
+
+		$data['top_menu'] = $this->menu_model->load_top_menu();
+		$data['menu'] = $this->menu_model->load_meun();
 		$this->load->common ( 'user/dtlist', $data );
 	}
 	
@@ -296,6 +299,9 @@ class User extends MY_Controller {
 				'name' => $this->security->get_csrf_token_name (),
 				'value' => $this->security->get_csrf_hash () 
 		);
+
+		$this->data['top_menu'] = $this->menu_model->load_top_menu();
+		$this->data['menu'] = $this->menu_model->load_meun();
 		$this->load->common ( 'user/edit', $this->data );
 	}
 	
