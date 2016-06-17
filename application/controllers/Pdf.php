@@ -25,8 +25,15 @@ class Pdf extends MY_Controller {
 				$data['filelist'][] = $file;
 			}
 		}
+		$data['title_txt'] = 'Download Files';
 		$data['upload_url'] = base_url('pdf/upload');
+		$data ['csrf'] = array (
+				'name' => $this->security->get_csrf_token_name (),
+				'value' => $this->security->get_csrf_hash () 
+		);
 		//$this->load->view ( 'pdf/pdflist', $data );
+		$data['top_menu'] = $this->menu_model->load_top_menu();
+		$data['menu'] = $this->menu_model->load_meun();
 		$this->load->common ( 'pdf/pdflist', $data );
 	}
 
@@ -58,7 +65,9 @@ class Pdf extends MY_Controller {
 				'name' => $this->security->get_csrf_token_name (),
 				'value' => $this->security->get_csrf_hash () 
 		);
-		$this->load->view ( 'pdf/upload', $data );
+		$data['top_menu'] = $this->menu_model->load_top_menu();
+		$data['menu'] = $this->menu_model->load_meun();
+		$this->load->common ( 'pdf/upload', $data );
 	}
 
 	public function import()

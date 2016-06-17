@@ -21,14 +21,24 @@ $lang['text_logout'] = "Logout";
 $lang['text_our_partners'] = "Our Partners";
 $lang['text_our_products'] = "Our Products";
 
-$lang['text_list_download_file'] = "List Download files";
+$lang['text_list_download_file'] = "Manage Download Files";
 $lang['text_agent_login'] = "Agent Login";
 $lang['text_option_success'] = "Your opertation is successed";
 $lang['text_policy'] = "Policy";
 $lang['text_report'] = "Report";
 $lang['text_search'] = "Search";
 $lang['text_unbehalf'] = "Unbehalf";
-$lang['text_upload_policy'] = "Upload policy";
+$lang['text_upload_policy'] = "Upload Policy";
+
+/* Left menu - submenu */
+$lang['text_report_to_agent'] = "Sales report to agent";
+$lang['text_report_to_jf'] = "Sales report to JF";
+$lang['text_report_to_insurer'] = "Sales report to insurer";
+$lang['text_receivable_report'] = "Receivable Report";
+$lang['text_claim_report'] = "Claim Report";
+$lang['text_renewal_report'] = "Renewal Report";
+$lang['text_commission_report'] = "Commission Report";
+/* Left menu - submenu End */
 
 $lang['error_address'] = 'Address is required';
 $lang['error_city'] = 'City is required';

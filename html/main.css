@@ -24,6 +24,14 @@ footer p{margin: 0;}
 	text-align: left;
 	font-size:12px;
 }
+.text-element{
+    background-color: #f6f6f6;
+    padding: 15px;
+    margin: 20px auto;
+}
+.text-element>p{
+    margin-bottom: 0;
+}
 /* General Customize End */
 
 /* Header */

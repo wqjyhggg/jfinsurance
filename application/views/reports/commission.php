@@ -2,7 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 
-<!-- Upload policy page content -->
+<!-- Report/ Comission report page content -->
 
 	    <!-- Content top navigation -->
         <div class="top_nav">
@@ -43,7 +43,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           <div class="">
             <div class="page-title">
               <div class="title_left">
-                <h3>Upload Policy</h3>
+                <h3>Comission Report</h3>
               </div>
 
               <div class="title_right">
@@ -62,49 +62,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Upload Form<small></small></h2>
+                    <h2>Report List<small></small></h2>
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
                     <br />
-                    <?php if (!empty($errormsg)) { ?>
-          					<?php echo $errormsg;?>
-          					<?php } ?>
-          					<form action="<?php $action_url; ?>" method="post" enctype="multipart/form-data" class="form-horizontal form-label-left">
-          					<input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
-          					<div class="form-group">
-                        <label class="col-sm-12">School</label>
-                        <div class="col-sm-12">
-                          <select class="form-control">
-                            <option>Choose option</option>
-                            <option>Option one</option>
-                            <option>Option two</option>
-                            <option>Option three</option>
-                            <option>Option four</option>
-                          </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-12">Insurance Product</label>
-                        <div class="col-sm-12">
-                          <select class="form-control">
-                            <option>Choose option</option>
-                            <option>Option one</option>
-                            <option>Option two</option>
-                            <option>Option three</option>
-                            <option>Option four</option>
-                          </select>
-                        </div>
-                    </div>
-                    <hr />
-
-                    <div class="form-group">
-                      <div class="col-sm-12">
-                        <input style="display:inline-block;vertical-align:middle;" type="file" name="userfile" size="20" />	
-          					    <input style="display:inline-block;vertical-align:middle;" type="submit" value="upload" />
-                      </div>
-                    </div>
-          					</form>
+                    
                   </div>
                 </div>
               </div>

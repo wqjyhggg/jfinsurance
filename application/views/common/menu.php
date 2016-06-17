@@ -34,8 +34,27 @@
                 <!--h3>General</h3-->
                 <ul class="nav side-menu">
                 	<?php foreach ($menu as $m) { ?>
+                    <!-- if is array, it's submenu -->
+                    <?php if (is_array($m)) { ?>
+                    <?php $parent = array_shift($m); ?>
+                    <li><?php echo $parent; ?>
+                        <ul class="nav child_menu">
+                          <?php foreach ($m as $msub) { ?>
+                          <li> <?php echo $msub; ?> </li>    
+                          <?php } ?>
+                        </ul>
+                    </li>
+
+                      
+
+                    <?php }else{ ?>
+
+                    <!-- else not array, it's parent menu -->
                 		<li> <?php echo $m; ?> </li>
-					<?php } ?>
+
+                    <?php } ?>
+
+					       <?php } ?>
                   
                 </ul>
               </div>
