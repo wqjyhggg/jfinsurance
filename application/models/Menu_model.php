@@ -13,7 +13,6 @@ class Menu_model extends CI_Model {
 		$meunArr = array(
 			0 =>array(),
 			1 => array(
-					"<a href='" . base_url('our_products') . "' class='leftmeun'>" . $this->lang->line ( 'text_our_products' ) . "</a>",
 					"<a href='" . base_url('plan') . "' class='leftmeun'>" . $this->lang->line ( 'text_policy' ) . "</a>",
 					"<a href='" . base_url('pdf/upload') . "' class='leftmeun'>" . $this->lang->line ( 'text_upload_policy' ) . "</a>",
 					
@@ -28,8 +27,9 @@ class Menu_model extends CI_Model {
 							"<a href='" . base_url('reports/commission') . "' class='leftmeun'>" . $this->lang->line ( 'text_commission_report' ) . "</a>",
 						),
 					
-					"<a href='" . base_url('search') . "' class='leftmeun'>" . $this->lang->line ( 'text_search' ) . "</a>",
+					//"<a href='" . base_url('search') . "' class='leftmeun'>" . $this->lang->line ( 'text_search' ) . "</a>",
 					"<a href='" . base_url('claim') . "' class='leftmeun'>" . $this->lang->line ( 'text_claim' ) . "</a>",
+					"<a href='" . base_url('our_products') . "' class='leftmeun'>" . $this->lang->line ( 'text_our_products' ) . "</a>",
 					"<a href='" . base_url('user') . "' class='leftmeun'>" . $this->lang->line ( 'text_agent' ) . "</a>",
 					"<a href='" . base_url('pdf/pdflist') . "' class='leftmeun'>" . $this->lang->line ( 'text_list_download_file' ) . "</a>",
 

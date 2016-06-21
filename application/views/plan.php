@@ -2,7 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 
-<!-- Report/ Sales report to JF page content -->
+<!-- Plan page content -->
 
 	    <!-- Content top navigation -->
         <div class="top_nav">
@@ -43,7 +43,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           <div class="">
             <div class="page-title">
               <div class="title_left">
-                <h3>Sales Report to JF</h3>
+                <h3>View/Edit Policy</h3>
               </div>
 
               <div class="title_right">
@@ -58,38 +58,90 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               </div>
             </div>
             <div class="clearfix"></div>
-            <!-- Filter Section -->
+           <!-- Filter Section -->
             <div class="row">
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Report Filter<small></small></h2>
+                    <h2>Policy Filter<small></small></h2>
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
                     <br />
 
                     <form method="post" class="form-horizontal">
+                      <!-- personal information search -->
                       <div class="row">
-                      <!-- Agent input box -->
-                        <div class="form-group col-sm-4">
-                          <label class="col-sm-12">Agent:</label>
+                        <!-- Last Name input box -->
+                        <div class="form-group col-sm-3">
+                          <label class="col-sm-12">Last Name:</label>
                           <div class="input-group col-sm-12">
+                              <input type="text" name="lname" class="form-control"/>
+                          </div>
+                        </div>
+                        <!-- Last Name input box end -->
+                        <!-- First Name input box -->
+                        <div class="form-group col-sm-3">
+                          <label class="col-sm-12">First Name:</label>
+                          <div class="input-group col-sm-12">
+                              <input type="text" name="fname" class="form-control"/>
+                          </div>
+                        </div>
+                        <!-- First Name input box end -->
+                        <!-- Birthdate select box -->
+                        <div class="form-group col-sm-3">
+                          <label for="application_date_from" class="col-sm-12">Birthdate:</label>
+                            <div class="input-group date form_date col-sm-12" data-date="" data-date-format="dd MM yyyy" data-link-field="application_date_from" data-link-format="yyyy-mm-dd">
+                                <input class="form-control" size="16" type="text" value="" readonly>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                            </div>
+                            <input type="hidden" id="application_date_from" value="" />
+                        </div>
+                        <!-- Birthdate select box end -->
+
+                        <!-- Outstand Premium select box -->
+                        <div class="form-group col-sm-3">
+                          <label class="col-sm-12">Outstand Premium:</label>
                               <select class="form-control">
                                 <option>Choose option</option>
-                                <option>Option one</option>
-                                <option>Option two</option>
-                                <option>Option three</option>
-                                <option>Option four</option>
+                                <option>Paied</option>
+                                <option>Unpaied</option>
+                                <option>Modified</option>
                               </select>
+                        </div>
+                        <!-- Product select box end -->
+                      </div>
+                      <!-- policy information search -->
+                      <div class="row">
+                        <!-- Policy Number input box -->
+                        <div class="form-group col-sm-3">
+                          <label class="col-sm-12">Policy Number:</label>
+                          <div class="input-group col-sm-12">
+                              <input type="text" name="policy_number" class="form-control"/>
+                          </div>
+                        </div>
+                        <!-- Policy Number input box end -->
+                        <!-- Agent input box -->
+                        <div class="form-group col-sm-3">
+                          <label class="col-sm-12">Agent/School Name:</label>
+                          <div class="input-group col-sm-12">
+                              <input type="text" name="agent_name" class="form-control"/>
                           </div>
                         </div>
                         <!-- Agent input box end -->
+                        <!-- Batch No. input box -->
+                        <div class="form-group col-sm-3">
+                          <label class="col-sm-12">Batch No.:</label>
+                          <div class="input-group col-sm-12">
+                              <input type="text" name="batch_number" class="form-control"/>
+                          </div>
+                        </div>
+                        <!-- Batch No. input box end -->
 
-                        <!-- Product input box -->
-                        <div class="form-group col-sm-4">
-                          <label class="col-sm-12">Product:</label>
-                            <div input-group class="col-sm-12">
+                        <!-- Product select box -->
+                        <div class="form-group col-sm-3">
+                          <label class="col-sm-12">Our Product:</label>
                               <select class="form-control">
                                 <option>Choose option</option>
                                 <option>Option one</option>
@@ -97,11 +149,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <option>Option three</option>
                                 <option>Option four</option>
                               </select>
-                          </div>
                         </div>
-                        <!-- Product input box end -->
+                        <!-- Product select box end -->
                       </div>
-
+                      <!-- related date search -->
                       <div class="row">
                         <!-- Application Date -->
                         <div class="form-group col-sm-3">
@@ -193,6 +244,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         </div>
                         <!-- Payment Update Date End -->
                       </div>
+                      <!-- submit button -->
                       <div class="row">
                         <!-- submit button -->
                           <div class="col-sm-12">
@@ -206,7 +258,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </div>
               </div>
             </div><!-- End Filter Section -->
-
             <!-- List Section -->
             <div class="row">
               <div class="col-md-12 col-sm-12 col-xs-12">
@@ -239,11 +290,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <th>Number of Days</th>
                             <th>Sum Insured</th>
                             <th>Net Premium</th>
+                           
                             <th>Gross Premium</th>
+                           
                             <th>Rate Per Day</th>
-                            <th>Commission Rate</th>
-                            <th>Commission Amount</th>
-                            
                           </tr>
                         </thead>
                         <tbody>
@@ -251,7 +301,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                               <td colspan="22">JF Optimum Plus</td>
                             </tr>
                             <tr>
-                              <td>OPL248778</td>
+                              <td><a href="">OPL248778</a></td>
                               <td>TestGiven</td>
                               <td>TestLast</td>
                               <td>M</td>
@@ -269,13 +319,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                               <td>365</td>
                               <td>10,000</td>
                               <td>733.21</td>
-                              <td>46</td>
                               <td>1,357.80</td>
-                              <td>624.59</td>
                               <td>3.72</td>
                             </tr>
                             <tr>
-                              <td>OPL248777</td>
+                              <td><a href="">OPL248777</a></td>
                               <td>TestGiven</td>
                               <td>TestLast</td>
                               <td>M</td>
@@ -293,16 +341,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                               <td>365</td>
                               <td>10,000</td>
                               <td>733.21</td>
-                              <td>46</td>
                               <td>1,357.80</td>
-                              <td>624.59</td>
                               <td>3.72</td>
                             </tr>
                             <tr>
                               <td colspan="22">JF Royal Visitor to Canada</td>
                             </tr>
                             <tr>
-                              <td>JFR248775</td>
+                              <td><a href="">JFR248775</a></td>
                               <td>TestGiven</td>
                               <td>TestLast</td>
                               <td>M</td>
@@ -320,11 +366,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                               <td>365</td>
                               <td>10,000</td>
                               <td>733.21</td>
-                              <td>3.72</td>
                               <td>1,357.80</td>
-                              <td>46</td>
-                              <td>624.59</td>
-                              
+                              <td>3.72</td>
                             </tr>
                         </tbody>
                       </table>

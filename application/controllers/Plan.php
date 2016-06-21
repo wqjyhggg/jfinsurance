@@ -64,6 +64,7 @@ class Plan extends MY_Controller {
 		$data['title_txt'] = 'Policy';
 		$data['top_menu'] = $this->menu_model->load_top_menu();
 		$data['menu'] = $this->menu_model->load_meun();
+
 		$data['csrf'] = array (
 				'name' => $this->security->get_csrf_token_name (),
 				'value' => $this->security->get_csrf_hash ()
@@ -458,5 +459,6 @@ class Plan extends MY_Controller {
 	}
 
 	function edit($plan_id) {
+		$this->load->common('plan', $data);
 	}
 }

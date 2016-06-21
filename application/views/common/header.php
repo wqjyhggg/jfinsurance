@@ -7,11 +7,13 @@
 <title><?php echo isset($title_txt) ? $title_txt : "JF Group"; ?></title>
 
 <link rel="stylesheet" href="<?php echo base_url();?>main.css">
+<!-- bootstrap style -->
 <link rel="stylesheet" href="<?php echo base_url();?>stylesheet/bootstrap/dist/css/bootstrap.css">
 <link rel="stylesheet" href="<?php echo base_url();?>stylesheet/bootstrap/dist/css/bootstrap.min.css">
-
+<link rel="stylesheet" href="<?php echo base_url();?>stylesheet/datetimepicker/css/bootstrap-datetimepicker.min.css">
+<!-- font-awesome style -->
 <link rel="stylesheet" href="<?php echo base_url();?>stylesheet/font-awesome/css/font-awesome.min.css" >
-
+<!-- customize template style -->
 <link rel="stylesheet" href="<?php echo base_url();?>stylesheet/iCheck/skins/flat/green.css" >
 <link rel="stylesheet" href="<?php echo base_url();?>stylesheet/google-code-prettify/bin/prettify.min.css" >
 <link rel="stylesheet" href="<?php echo base_url();?>stylesheet/select2/dist/css/select2.min.css" >
@@ -19,6 +21,8 @@
 <link rel="stylesheet" href="<?php echo base_url();?>stylesheet/starrr/dist/starrr.css" >
 <!-- Build theme style -->
 <link rel="stylesheet" href="<?php echo base_url();?>/build/css/custom.min.css">
+
+
 </head>
 <body class="nav-md">
 
