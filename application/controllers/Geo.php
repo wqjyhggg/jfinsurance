@@ -6,12 +6,17 @@ class Geo extends MY_Controller {
 	 * Get country select with defualt setting
 	 * 
 	 */
-	public function country($c='CA')
+	public function country($c=NULL)
 	{
 		$this->load->model('geo_model');
 		$countries = $this->geo_model->get_country();
-		$clist = array();
-		if (empty($c)) $c = 'CA';	// double safe for country code
+		$neednull = $this->input->get_post('neednull');
+		if ($neednull) {
+			$clist = array('' => array("name" => ' -- select country --', "selected" => ""));
+		} else {
+			if (empty($c)) $c = 'CA';	// double safe for country code
+			$clist = array();
+		}
 		foreach($countries as $ct) {
 			$k = $ct['iso_code_2'];
 			if ($k == $c) {
@@ -29,12 +34,17 @@ class Geo extends MY_Controller {
 	 * Get country select with defualt setting
 	 * 
 	 */
-	public function province($c='CA',$p='ON')
+	public function province($c=NULL,$p=NULL)
 	{
 		$this->load->model('geo_model');
 		if (empty($c)) $c = 'CA';	// double safe for country code
 		$provinces = $this->geo_model->get_province($c);
-		$plist = array();
+		$neednull = $this->input->get_post('neednull');
+		if ($neednull) {
+			$plist = array('' => array("name" => ' -- select province --', "selected" => ""));
+		} else {
+			$plist = array();
+		}
 		foreach($provinces as $pv) {
 			$k = $pv['province2'];
 			if ($k == $p) {

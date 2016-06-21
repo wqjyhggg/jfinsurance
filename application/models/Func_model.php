@@ -21,4 +21,11 @@ class Func_model extends CI_Model {
     	}
     	return FALSE;
 	}
+	
+	public function verify_login() {
+		if ($this->session->userdata ( 'beuser' )) {
+			return $this->session->userdata ( 'beuser' );
+		}
+		redirect ( base_url ('user/login') );
+	}
 }
