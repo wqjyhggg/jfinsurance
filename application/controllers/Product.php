@@ -14,7 +14,7 @@ class Product extends MY_Controller {
 	
 	function insured($product_short='', $sum_insured='') {
 		$this->load->model('product_model');
-		$plans = $this->product_model->plan_insured($product_short);
+		$plans = $this->product_model->product_insured($product_short);
 		$plist = array();
 		foreach($plans as $amount) {
 			if ($amount != 'unlimit') {
@@ -34,7 +34,7 @@ class Product extends MY_Controller {
 	
 	function deductiable($product_short='', $deductiable_amount='') {
 		$this->load->model('product_model');
-		$plans = $this->product_model->plan_deductiable($product_short);
+		$plans = $this->product_model->product_deductiable($product_short);
 		$plist = array();
 		foreach($plans as $amount) {
 			if ($amount != 'unlimit') {
@@ -50,5 +50,29 @@ class Product extends MY_Controller {
 		}
 		$data = array('plist' => $plist);
 		$this->load->view('product/deductiable', $data);
+	}
+	
+	function premium() {
+		$beuser = $this->func_model->verify_login(); 
+		$this->load->model('product_model');
+		$para = array(
+			'product_short' => $this->input->post('product_short'),
+			'apply_date' => $this->input->post('apply_date'),
+			'effective_date' => $this->input->post('effective_date'),
+			'expiry_date' => $this->input->post('expiry_date'),
+			'isfamilyplan' => $this->input->post('isfamilyplan'),
+			'sum_insured' => $this->input->post('sum_insured'),
+			'deductiable_amount' => $this->input->post('deductiable_amount'),
+			'stable_condition' => $this->input->post('stable_condition'),
+			'brithday' => $this->input->post('brithday'));
+
+		$premium = $this->product_model->get_premium($para);
+		if (empty($premium)) {
+			$data = array('status' => 'Error', 'message' => "Can't caculate premium");
+		} else {
+			$data = array('status' => 'OK', 'premium' => $premium);
+		}
+		header('Content-Type: application/json');
+		echo json_encode($data);
 	}
 }

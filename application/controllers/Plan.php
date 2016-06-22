@@ -22,8 +22,8 @@ class Plan extends MY_Controller {
 		$data['brithday'] = $this->input->get_post('brithday');
 		$data['brithday2'] = $this->input->get_post('brithday2');
 		$data['policy'] = $this->input->get_post('policy');
-		$data['apply_time'] = $this->input->get_post('apply_time');
-		$data['apply_time2'] = $this->input->get_post('apply_time2');
+		$data['apply_date'] = $this->input->get_post('apply_date');
+		$data['apply_date2'] = $this->input->get_post('apply_date2');
 		$data['arrival_date'] = $this->input->get_post('arrival_date');
 		$data['arrival_date2'] = $this->input->get_post('arrival_date2');
 		$data['effective_date'] = $this->input->get_post('effective_date');
@@ -153,7 +153,7 @@ class Plan extends MY_Controller {
 				}
 			}
 			if ($plan_id) {
-				redirect("plan/term");
+				redirect("plan/term/" . $plan_id);
 			}
 		} else if (isset($plan['plan_id'])) {
 			$customer = array();
@@ -188,6 +188,13 @@ class Plan extends MY_Controller {
 			$data['status_id'] = $plan['status_id'];
 		} else {
 			$data['status_id'] = 0;
+		}
+		if ($this->input->post('apply_date')) {
+			$data['apply_date'] = $this->input->post('apply_date'); 
+		} else if (isset($plan['apply_date'])) {
+			$data['apply_date'] = $plan['apply_date'];
+		} else {
+			$data['apply_date'] = date("Y-m-d");
 		}
 		if ($this->input->post('arrival_date')) {
 			$data['arrival_date'] = $this->input->post('arrival_date'); 
@@ -230,6 +237,13 @@ class Plan extends MY_Controller {
 			$data['sum_insured'] = $plan['sum_insured'];
 		} else {
 			$data['sum_insured'] = '';
+		}
+		if ($this->input->post('premium')) {
+			$data['premium'] = $this->input->post('premium'); 
+		} else if (isset($plan['premium'])) {
+			$data['premium'] = $plan['premium'];
+		} else {
+			$data['premium'] = 0;
 		}
 		if ($this->input->post('deductiable_amount')) {
 			$data['deductiable_amount'] = $this->input->post('deductiable_amount'); 
@@ -407,9 +421,11 @@ class Plan extends MY_Controller {
 			$data['submit'] = 'Update';
 		}
 		$data['sum_insured_url'] = base_url ( "product/insured/" . $data['product_short'] );
+		if (!empty($data['sum_insured'])) $data['sum_insured_url'] .= "/" . $data['sum_insured']; 
 		$data['deductiable_amount_url'] = base_url ( "product/deductiable/" . $data['product_short'] );
+		if (!empty($data['deductiable_amount'])) $data['deductiable_amount_url'] .= "/" . $data['deductiable_amount'];
 		$data['province_url'] = base_url ( "geo/province/" . $data['country2'] . "/" . $data['province2'] );
-		$data['country_url'] = base_url ( "geo/country/" . $this->data['country2'] );
+		$data['country_url'] = base_url ( "geo/country/" . $data['country2'] );
 		if (!empty($data['country2'])) {
 			$data['province_url'] .= "/" . $data['country2'];
 			$data['country_url'] .= "/" . $data['country2'];
@@ -418,6 +434,7 @@ class Plan extends MY_Controller {
 			}
 		}
 
+		$data['user_group_id'] = $beuser['user_group_id'];
 		$data['status_list'] = $this->status_model->status_list();
 		if ((int)$data['plan_id'] > 0) {
 			$data['copy_url'] = base_url ( "plan/copy/" . (int)$data['plan_id'] );
@@ -430,6 +447,7 @@ class Plan extends MY_Controller {
 			$data['copy_url'] = '';
 			$data['pay_url'] = '';
 		}
+		$data['premium_url'] = base_url ( "product/premium" );
 		$data['action_url'] = base_url ( "plan/form" );
 		$data['title_txt'] = 'Policy';
 		$data['top_menu'] = $this->menu_model->load_top_menu();
@@ -439,7 +457,8 @@ class Plan extends MY_Controller {
 				'value' => $this->security->get_csrf_hash ()
 		);
 
-		$this->load->common('plan/form', $data);
+		//$this->load->common('plan/form', $data);
+		$this->load->view('plan/form', $data);
 	}
 	
 	function add() {
@@ -452,7 +471,79 @@ class Plan extends MY_Controller {
 		return ($this->form($plan));
 	}
 
-	function term($plan_id) {
+	function term($plan_id=0) {
+		$beuser = $this->func_model->verify_login(); 
+		if (empty($plan_id)) {
+			$plan_id = $this->input->post['plan_id'];
+		}
+		if (empty($plan_id)) {
+			redirect(base_url('production'));
+		}
+		$data['message'] = '';
+		if ($this->input->post('submit')) {
+			$agree = $this->post->post('agree');
+			if ($agree) {
+				$this->load->model('plan_model');
+				$this->load->model('product_model');
+				
+				$para = array('agree' => 1);
+				$this->plan_model->update($plan_id, $para);
+				
+				$premium = $this->product_model->get_premium($plan_id);
+				$commission_amount = $this->plan_model->get_commission($plan_id);
+				$this->plan_model->update_premium_commission($plan_id, $premium, $commission_amount);
+				
+				redirect('plan/detail/'.$plan_id);
+			} else {
+				$data['message'] = 'You need agree term and conditions to continue';
+			}
+		}
+		$data['plan_id'] = $plan_id;
+		$data['action_url'] = base_url('plan/term');
+		$data['title_txt'] = 'Policy';
+		$data['top_menu'] = $this->menu_model->load_top_menu();
+		$data['menu'] = $this->menu_model->load_meun();
+		$data['csrf'] = array (
+				'name' => $this->security->get_csrf_token_name (),
+				'value' => $this->security->get_csrf_hash ()
+		);
+		
+		$this->load->view('plan/term', $data);
+	}
+
+	function detail($plan_id=0, $sekey='') {
+		if (empty($plan_id)) {
+			redirect(base_url('production'));
+		}
+		
+		$this->load->model('user_model');
+		$this->load->model('plan_model');
+		$plan = $this->plan_model->get_plan_by_id($plan_id);
+		if (empty($sekey)) {
+			$beuser = $this->func_model->verify_login();
+		} else {
+			$beuser = $this->func_model->get_user_by_id($plan['user_id']);
+			$key = $this->plan_model->get_plan_key($plan['user_id']);
+			if ($key != $sekey) {
+				redirect('user/login');
+			}
+		}
+		
+		$data['plan'] = $plan;
+		$data['customer'] = $this->customer_model->get_customer_by_id($plan['customer_id']);
+		$data['customers'] = $this->customer_model->get_customer_by_parent_id($plan['customer_id']);
+
+		$data['action_url'] = base_url('plan/term');
+
+		$data['title_txt'] = 'Policy';
+		$data['top_menu'] = $this->menu_model->load_top_menu();
+		$data['menu'] = $this->menu_model->load_meun();
+		$data['csrf'] = array (
+				'name' => $this->security->get_csrf_token_name (),
+				'value' => $this->security->get_csrf_hash ()
+		);
+		
+		$this->load->view('plan/detail', $data);
 	}
 
 	function copy($plan_id) {

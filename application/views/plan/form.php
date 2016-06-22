@@ -1,10 +1,11 @@
+<script src="<?php echo base_url(); ?>js/jquery-3.0.0.min.js" type="text/javascript"></script>
 <?php if (!empty($error_message)) { echo $error_message . "<br>"; } ?>
 <form action='<?php echo $action_url; ?>' method='POST'>
 <input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'><br>
 <input type='hidden' name='plan_id' value='<?php echo $plan_id; ?>'>
 <input type='hidden' name='product_short' value='<?php echo $product_short; ?>'>
-Apply Date: <?php echo empty($apply_time) ? "N/A" : $apply_time; ?> 
-<?php if (empty(plan_id) || empty(status_id)) { ?>
+Apply Date: <?php echo empty($apply_time) ? "N/A" : $apply_time; ?><br>
+<?php if (empty($plan_id) || empty(status_id)) { ?>
 	<?php /* it should be new plan */ ?>
 	<input type='hidden' name='status_id' value='0'>
 <?php } else { ?>
@@ -26,34 +27,41 @@ Apply Date: <?php echo empty($apply_time) ? "N/A" : $apply_time; ?>
 		</select><br>
 		<?php } ?>
 <?php } ?>
+Apply Date: <input type='date' name='apply_date' value='<?php echo $apply_date; ?>'><br>
 Arrival Date: <input type='date' name='arrival_date' value='<?php echo $arrival_date; ?>'><?php if (!empty($error_arrival_date)) { echo $error_arrival_date; } ?><br>
-Effective Date: <input type='date' name='effective_date' value='<?php echo $effective_date; ?>'<?php if (!empty($error_effective_date)) { echo $error_effective_date; } ?>><br>
-Expiry Date: <input type='date' name='expiry_date' value='<?php echo $expiry_date; ?>'><?php if (!empty($error_expiry_date)) { echo $error_expiry_date; } ?><br>
+Effective Date: <input type='date' name='effective_date' name='effective_date' class='setpremium' value='<?php echo $effective_date; ?>'<?php if (!empty($error_effective_date)) { echo $error_effective_date; } ?>><br>
+Expiry Date: <input type='date' name='expiry_date' name='expiry_date' class='setpremium' value='<?php echo $expiry_date; ?>'><?php if (!empty($error_expiry_date)) { echo $error_expiry_date; } ?><br>
 =========================================================================<br />
 Beneficiary: <input type='text' name='beneficiary' value='<?php echo $beneficiary; ?>'><?php if (!empty($error_beneficiary)) { echo $error_beneficiary; } ?><br>
-Medical History Options: ??? <div id='medical_history_div'></div><br>
-Is Family Plan: <input type='checkbox' name='isfamilyplan' id='isfamilyplan' <?php echo empty($isfamilyplan) ? "" : "checked"; ?>><br>
+<!-- Medical History Options: <input type='checkbox' name='isfamilyplan' id='isfamilyplan' <?php echo empty($isfamilyplan) ? "" : "checked"; ?>><br> -->
+Is Family Plan: <input type='checkbox' class='setpremium' name='isfamilyplan' id='isfamilyplan' <?php echo empty($isfamilyplan) ? "" : "checked"; ?>><br>
 Sum Insured (CAD): <div id='sum_insured_div'></div>
 Deductible amount (CAD):  <div id='deductiable_amount_div'></div>
+<?php if (empty($disable_stable_condition)) { ?>
+With stable pre-existion condition coverage <input type='radio' class='setpremium' name='stable_condition' value='1' <?php echo (empty($stable_condition) || ($stable_condition != 2 )) ? "checked" : ""; ?>><br>
+Without stable pre-existion condition coverage <input type='radio' class='setpremium' name='stable_condition' value='2' <?php echo (!empty($stable_condition) && ($stable_condition == 2 )) ? "checked" : ""; ?>><br>
+<?php } ?>
 =========================================================================<br />
-<input type='text' name='customer_id' value='<?php echo empty($customer_id) ? $customer_id : 0; ?>'>
-Last Name: <input type='text' name='firstname' value='<?php echo empty($firstname) ? $firstname : ''; ?>'><?php if (!empty($error_firstname)) { echo $error_firstname; } ?><br>
-First Name: <input type='text' name='lastname' value='<?php echo empty($lastname) ? $lastname : ''; ?>'><?php if (!empty($error_lastname)) { echo $error_lastname; } ?><br>
-Birth Date: <input type='date' name='brithday' value='<?php echo empty($brithday) ? $brithday : ''; ?>'><?php if (!empty($error_brithday)) { echo $error_brithday; } ?><br>
+<input type='hidden' name='customer_id' value='<?php echo !empty($customer_id) ? $customer_id : 0; ?>'>Custmer Name:<br>
+Last Name: <input type='text' name='firstname' value='<?php echo !empty($firstname) ? $firstname : ''; ?>'><?php if (!empty($error_firstname)) { echo $error_firstname; } ?><br>
+First Name: <input type='text' name='lastname' value='<?php echo !empty($lastname) ? $lastname : ''; ?>'><?php if (!empty($error_lastname)) { echo $error_lastname; } ?><br>
+Birth Date: <input type='date' class='setpremium' name='brithday' value='<?php echo !empty($brithday) ? $brithday : ''; ?>'><?php if (!empty($error_brithday)) { echo $error_brithday; } ?><br>
 Gender: <select name='gender'>
 <option value='M' <?php echo (empty($gender) || ($gender != 'F')) ? "selected" : ""; ?>>Male</option>
 <option value='F' <?php echo (!empty($gender) && ($gender == 'F')) ? "selected" : ""; ?>>Female</option>
 </select><br>
+=========================================================================<br />
 <div id='family_member' style='display:none'>
 <?php for ($i = 1; $i < 9; $i++) { ?>
-<input type='text' name='customer_id_<?php echo $i; ?>' value='<?php echo empty(${'customer_id_'.$i}) ? ${'customer_id_'.$i} : 0; ?>'>
-Last Name: <input type='text' name='firstname_<?php echo $i; ?>' value='<?php echo empty(${'firstname_'.$i}) ? ${'firstname_'.$i} : ''; ?>'><br>
-First Name: <input type='text' name='lastname_<?php echo $i; ?>' value='<?php echo empty(${'lastname_'.$i}) ? ${'lastname_'.$i} : ''; ?>'><br>
-Birth Date: <input type='date' name='brithday_<?php echo $i; ?>' value='<?php echo empty(${'brithday_'.$i}) ? ${'brithday_'.$i} : ''; ?>'><br>
+<input type='hidden' name='customer_id_<?php echo $i; ?>' value='<?php echo !empty(${'customer_id_'.$i}) ? ${'customer_id_'.$i} : 0; ?>'>Family member <?php echo $i; ?> :<br>
+Last Name: <input type='text' name='firstname_<?php echo $i; ?>' value='<?php echo !empty(${'firstname_'.$i}) ? ${'firstname_'.$i} : ''; ?>'><br>
+First Name: <input type='text' name='lastname_<?php echo $i; ?>' value='<?php echo !empty(${'lastname_'.$i}) ? ${'lastname_'.$i} : ''; ?>'><br>
+Birth Date: <input type='date' class='setpremium' name='brithday_<?php echo $i; ?>' value='<?php echo !empty(${'brithday_'.$i}) ? ${'brithday_'.$i} : ''; ?>'><br>
 Gender: <select name='gender_<?php echo $i; ?>'>
 <option value='M' <?php echo (empty(${'gender_'.$i}) || (${'gender_'.$i} != 'F')) ? "selected" : ""; ?>>Male</option>
 <option value='F' <?php echo (!empty(${'gender_'.$i}) && (${'gender_'.$i} == 'F')) ? "selected" : ""; ?>>Female</option>
 </select><br>
+=========================================================================<br />
 <?php } ?>
 </div>
 Street No: <input type='text' name='street_number' value='<?php echo $street_number; ?>'><?php if (!empty($error_street_number)) { echo $error_street_number; } ?><br>
@@ -70,6 +78,11 @@ Email: <input type='text' name='contact_email' value='<?php echo $contact_email;
 Contact Phone: <input type='text' name='contact_phone' value='<?php echo $contact_phone; ?>'><br>
 Residence: <input type='text' name='residence' value='<?php echo $residence; ?>'><br>
 =========================================================================<br />
+<?php if ($user_group_id <= 3) { ?>
+Premium: <input type='input' name='premium' id='premium' value='<?php echo $premium; ?>'><br>
+<?php } else { ?>
+Premium: <input type='hidden' name='premium' id='premium' value='<?php echo $premium; ?>'><br>
+<?php } ?>
 Notes: <input type='text' name='note' value='<?php echo $note; ?>'><br>
 =========================================================================<br />
 <input type='submit' name='submit' value='<?php echo $submit; ?>'><br>
@@ -109,7 +122,7 @@ $( document ).ready(function() {
         if ($(this).get(0).checked) {
     		$('#family_member').show();
         } else {
-        	$('#family_member').hidden();
+        	$('#family_member').hide();
         	$("input[name^='firstname_']").each(function() {
             	$(this).val('');
         	});
@@ -118,6 +131,77 @@ $( document ).ready(function() {
         	});
         }
     });
+
+	$('.setpremium').change(get_premium); 
 });
+
+function get_premium() {
+	var product_short = $('input[name="product_short"]').val();
+	var apply_date = $('input[name="apply_date"]').val();
+	var effective_date = $('input[name="effective_date"]').val();
+	var expiry_date = $('input[name="expiry_date"]').val();
+	var isfamilyplan = $('input[name="isfamilyplan"]').is(':checked');	// checkbox
+	var sum_insured = $('select[name="sum_insured"]').val();	// select
+	var deductiable_amount = $('select[name="deductiable_amount"]').val();	// select
+	var stable_condition = $('input[name="stable_condition"]:checked').val();	// radio
+	var brithday = $('input[name="brithday"]').val();	// 
+	if (new Date(brithday) < new Date($('input[name="brithday_1"]').val())) {
+		brithday = $('input[name="brithday_1"]').val();
+	} 
+	if (new Date(brithday) < new Date($('input[name="brithday_2"]').val())) {
+		brithday = $('input[name="brithday_2"]').val();
+	} 
+	if (new Date(brithday) < new Date($('input[name="brithday_3"]').val())) {
+		brithday = $('input[name="brithday_3"]').val();
+	} 
+	if (new Date(brithday) < new Date($('input[name="brithday_4"]').val())) {
+		brithday = $('input[name="brithday_4"]').val();
+	} 
+	if (new Date(brithday) < new Date($('input[name="brithday_5"]').val())) {
+		brithday = $('input[name="brithday_5"]').val();
+	} 
+	if (new Date(brithday) < new Date($('input[name="brithday_6"]').val())) {
+		brithday = $('input[name="brithday_6"]').val();
+	} 
+	if (new Date(brithday) < new Date($('input[name="brithday_7"]').val())) {
+		brithday = $('input[name="brithday_7"]').val();
+	} 
+	if (new Date(brithday) < new Date($('input[name="brithday_8"]').val())) {
+		brithday = $('input[name="brithday_8"]').val();
+	}
+	console.log('product_short: ' + product_short);
+	console.log('apply_date: ' + apply_date);
+	console.log('effective_date: ' + effective_date);
+	console.log('expiry_date: ' + expiry_date);
+	console.log('isfamilyplan: ' + isfamilyplan);
+	console.log('sum_insured: ' + sum_insured);
+	console.log('deductiable_amount: ' + deductiable_amount);
+	console.log('stable_condition: ' + stable_condition);
+	console.log('brithday: ' + brithday);
+	if (effective_date && expiry_date && sum_insured && brithday) {
+		console.log('Call: ');
+		$.ajax({
+			url: '<?php echo $premium_url; ?>',
+			type: 'post',
+			data: {
+				product_short: product_short,
+				apply_date: apply_date,
+				effective_date: effective_date,
+				expiry_date: expiry_date,
+				isfamilyplan: isfamilyplan,
+				sum_insured: sum_insured,
+				deductiable_amount: deductiable_amount,
+				stable_condition: stable_condition,
+				brithday: brithday},
+			success: function(data, textStatus, jqXHR) {
+				if (data['status'] == 'OK') {
+	        		$('#premium').val(data['premium']);
+				} else {
+					alert('Unavailable');
+				}
+	    	},
+		});
+	}
+} 
 </script>
 

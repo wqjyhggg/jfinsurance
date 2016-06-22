@@ -7,8 +7,8 @@ First Name: <input type='text' name='lastname' value='<?php echo $lastname; ?>'>
 Birth Date From: <input type='date' name='brithday' value='<?php echo $brithday; ?>'><br>
 Birth Date To: <input type='date' name='brithday2' value='<?php echo $brithday2; ?>'><br>
 Policy Number: <input type='text' name='policy' value='<?php echo $policy; ?>'><br>
-Apply Date From: <input type='date' name='apply_time' value='<?php echo $apply_time; ?>'><br>
-Apply Date To: <input type='date' name='apply_time2' value='<?php echo $apply_time2; ?>'><br>
+Apply Date From: <input type='date' name='apply_date' value='<?php echo $apply_date; ?>'><br>
+Apply Date To: <input type='date' name='apply_date2' value='<?php echo $apply_date2; ?>'><br>
 Arrival Date From: <input type='date' name='arrival_date' value='<?php echo $arrival_date; ?>'><br>
 Arrival Date To: <input type='date' name='arrival_date2' value='<?php echo $arrival_date2; ?>'><br>
 Effective Date From: <input type='date' name='effective_date' value='<?php echo $effective_date; ?>'><br>

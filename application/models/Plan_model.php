@@ -19,6 +19,18 @@ class Plan_model extends CI_Model {
 	}
 	
 	/**
+	 * Get Plan Key
+	 * 
+	 * @param	integer	$plan_id		Parameters
+	 * @return	string					policy number
+	 */
+	public function get_plan_key($plan_id) {
+		$user = $this->get_plan_by_id($plan_id);
+		$key = md5('jfuk0621' . $user['user_id'] . $user['customer_id']);
+		return $key;
+	}
+	
+	/**
 	 * Get Plan current policy number
 	 * 
 	 * @param	integer	$plan_id		Parameters
@@ -54,7 +66,7 @@ class Plan_model extends CI_Model {
 			return 0;
 		}
 		$isfamilyplan = empty($para['isfamilyplan']) ? 0 : 1;
-		$para = array(
+		$cpara = array(
 				'plan_id' => 0,
 				'gender' => $para['gender'],
 				'firstname' => $para['firstname'],
@@ -62,7 +74,7 @@ class Plan_model extends CI_Model {
 				'brithday' => $para['brithday'],
 				'parent_customer_id' => 0
 		);
-		$customer_id = $this->customer_model->add($para);
+		$customer_id = $this->customer_model->add($cpara);
 		$this->sqlstr = $this->customer_model->sqlstr . "; ";
 		$this->logstr = $this->customer_model->logstr . "; ";
 		
@@ -74,12 +86,15 @@ class Plan_model extends CI_Model {
 		$sql .= " product_short=" . $this->db->escape($para['product_short']) . ", ";
 		if (isset($para['batch_number'])) $sql .= " batch_number=" . $this->db->escape($para['batch_number']) . ", ";
 		$sql .= " isfamilyplan='" . (int)$isfamilyplan . "', ";
+		if (isset($para['apply_date'])) $sql .= " apply_date=" . $this->db->escape($para['apply_date']) . ", ";
 		if (isset($para['arrival_date'])) $sql .= " arrival_date=" . $this->db->escape($para['arrival_date']) . ", ";
 		if (isset($para['effective_date'])) $sql .= " effective_date=" . $this->db->escape($para['effective_date']) . ", ";
 		if (isset($para['expiry_date'])) $sql .= " expiry_date=" . $this->db->escape($para['expiry_date']) . ", ";
 		if (isset($para['beneficiary'])) $sql .= " beneficiary=" . $this->db->escape($para['beneficiary']) . ", ";
+		if (isset($para['stable_condition'])) $sql .= " stable_condition='" . (int)$para['stable_condition'] . "', ";
 		if (isset($para['sum_insured'])) $sql .= " sum_insured='" . (int)$para['sum_insured'] . "', ";
 		if (isset($para['deductiable_amount'])) $sql .= " deductiable_amount='" . (int)$para['deductiable_amount'] . "', ";
+		if (isset($para['premium']))  $sql .= " premium='" . (float) $para['deductiable_amount'] . "', ";
 		if (isset($para['street_number'])) $sql .= " street_number=" . $this->db->escape(trim($para['street_number'])) . ", ";
 		if (isset($para['street_name'])) $sql .= " street_name=" . $this->db->escape(trim($para['street_name'])) . ", ";
 		if (isset($para['suite_number'])) $sql .= " suite_number=" . $this->db->escape(trim($para['suite_number'])) . ", ";
@@ -105,40 +120,40 @@ class Plan_model extends CI_Model {
 		$this->sqlstr .= $this->db->last_query() . "; ";
 		$this->logstr .= "Add Plan (" . (int)$plan_id . "): " . $para['product_short'];
 		
-		$para = array('plan_id' => $plan_id);
-		$customer_id = $this->customer_model->update($customer_id, $para);
+		$cpara = array('plan_id' => $plan_id);
+		$this->customer_model->update($customer_id, $cpara);
 		$this->sqlstr = $this->customer_model->sqlstr . "; ";
 		$this->logstr = $this->customer_model->logstr . "; ";
 		
 		$policy = $this->get_policy_number($plan_id);
-		$sql  = "UPDATE plan SET policy='" . $this->db->escape($policy) . "'  WHERE plan_id='" . (int)$plan_id . "'";
+		$sql  = "UPDATE plan SET policy=" . $this->db->escape($policy) . " WHERE plan_id='" . (int)$plan_id . "'";
 		$this->db->query($sql);
 		
 		if ($isfamilyplan) {
 			$i = 1;
 			for ( ; $i < 9; $i++) {
-				if (isset($para['gender_' . $i])) {
+				if (!empty($para['gender_' . $i])) {
 					$gender = $para['gender_' . $i];
 				} else {
 					break;
 				}
-				if (isset($para['firstname_' . $i])) {
+				if (!empty($para['firstname_' . $i])) {
 					$firstname = $para['firstname_' . $i];
 				} else {
 					break;
 				}
-				if (isset($para['lastname_' . $i])) {
+				if (!empty($para['lastname_' . $i])) {
 					$lastname = $para['lastname_' . $i];
 				} else {
 					break;
 				}
-				if (isset($para['brithday_' . $i])) {
+				if (!empty($para['brithday_' . $i])) {
 					$brithday = $para['brithday_' . $i];
 				} else {
 					break;
 				}
 				
-				$para = array(
+				$cpara = array(
 						'plan_id' => $plan_id,
 						'gender' => $gender,
 						'firstname' => $firstname,
@@ -146,7 +161,7 @@ class Plan_model extends CI_Model {
 						'brithday' => $brithday,
 						'parent_customer_id' => $customer_id
 				);
-				$customer_id_this = $this->customer_model->add($para);
+				$customer_id_this = $this->customer_model->add($cpara);
 				$this->sqlstr = $this->customer_model->sqlstr . "; ";
 				$this->logstr = $this->customer_model->logstr . "; ";
 			}
@@ -178,8 +193,26 @@ class Plan_model extends CI_Model {
 		
 		$isfamilyplan = empty($para['isfamilyplan']) ? 0 : 1;
 		$sql  = "UPDATE plan SET";
-		$status_id = empty($para['status_id']) ? 1 : (int)$para['status_id'];
-		$sql .= " status_id='" . (int)$status_id . "', ";
+		if (isset($para['user_id']) && ((int)$para['user_id'] != (int)$plan['user_id'])) {
+			$this->logstr .= " user_id " . $para['user_id'] . "(" . $plan['user_id'] . ")";
+			$sql .= " user_id='" . (int)$para['user_id'] . ", ";
+		}
+		if (isset($para['status_id']) && ((int)$para['status_id'] != (int)$plan['status_id'])) {
+			$this->logstr .= " status_id " . $para['status_id'] . "(" . $plan['status_id'] . ")";
+			$sql .= " status_id='" . (int)$para['status_id'] . "', ";
+		}
+		if (isset($para['policy']) && ($para['policy'] != $plan['policy'])) {
+			$this->logstr .= " policy " . $para['policy'] . "(" . $plan['policy'] . ")";
+			$sql .= " policy=" . $this->db->escape($para['policy']) . ", ";
+		}
+		if (isset($para['agree']) && ((int)$para['agree'] != (int)$plan['agree'])) {
+			$this->logstr .= " agree " . $para['agree'] . "(" . $plan['agree'] . ")";
+			$sql .= " agree='" . (int)$para['agree'] . "', ";
+		}
+		if (isset($para['product_short']) && ($para['product_short'] != $plan['product_short'])) {
+			$this->logstr .= " product_short " . $para['product_short'] . "(" . $plan['product_short'] . ")";
+			$sql .= " product_short=" . $this->db->escape($para['product_short']) . ", ";
+		}
 		if (isset($para['batch_number']) && ($para['batch_number'] != $plan['batch_number'])) {
 			$this->logstr .= " batch_number " . $para['batch_number'] . "(" . $plan['batch_number'] . ")";
 			$sql .= " batch_number=" . $this->db->escape($para['batch_number']) . ", ";
@@ -187,6 +220,10 @@ class Plan_model extends CI_Model {
 		if ($isfamilyplan != $plan['isfamilyplan']) {
 			$this->logstr .= " isfamilyplan " . $isfamilyplan . "(" . $plan['isfamilyplan'] . ")";
 			$sql .= " isfamilyplan='" . (int)$isfamilyplan . "', ";
+		}
+		if (isset($para['apply_date']) && ($para['apply_date'] != $plan['apply_date'])) {
+			$this->logstr .= " apply_date " . $para['apply_date'] . "(" . $plan['apply_date'] . ")";
+			$sql .= " apply_date=" . $this->db->escape($para['apply_date']) . ", ";
 		}
 		if (isset($para['arrival_date']) && ($para['arrival_date'] != $plan['arrival_date'])) {
 			$this->logstr .= " arrival_date " . $para['arrival_date'] . "(" . $plan['arrival_date'] . ")";
@@ -204,6 +241,10 @@ class Plan_model extends CI_Model {
 			$this->logstr .= " beneficiary " . $para['beneficiary'] . "(" . $plan['beneficiary'] . ")";
 			$sql .= " beneficiary=" . $this->db->escape($para['beneficiary']) . ", ";
 		}
+		if (isset($para['stable_condition']) && ((int)$para['stable_condition'] != (int)$plan['stable_condition'])) {
+			$this->logstr .= " stable_condition " . $para['stable_condition'] . "(" . $plan['stable_condition'] . ")";
+			$sql .= " stable_condition='" . (int)$para['stable_condition'] . "', ";
+		}
 		if (isset($para['sum_insured']) && ($para['sum_insured'] != $plan['sum_insured'])) {
 			$this->logstr .= " sum_insured " . $para['sum_insured'] . "(" . $plan['sum_insured'] . ")";
 			$sql .= " sum_insured=" . $this->db->escape($para['sum_insured']) . ", ";
@@ -211,6 +252,18 @@ class Plan_model extends CI_Model {
 		if (isset($para['deductiable_amount']) && ($para['deductiable_amount'] != $plan['deductiable_amount'])) {
 			$this->logstr .= " deductiable_amount " . $para['deductiable_amount'] . "(" . $plan['deductiable_amount'] . ")";
 			$sql .= " deductiable_amount=" . $this->db->escape($para['deductiable_amount']) . ", ";
+		}
+		$premiumchged = 0;
+		if (isset($para['premium']) && ((float)$para['premium'] != (float)$plan['premium'])) {
+			$premiumchged = 1;
+			$this->logstr .= " premium " . $para['premium'] . "(" . $plan['premium'] . ")";
+			$sql .= " premium='" . (float) $para['deductiable_amount'] . "', ";
+		}
+		$commissionchged = 0;
+		if (isset($para['commission_amount']) && ((float)$para['commission_amount'] != (float)$plan['commission_amount'])) {
+			$commissionchged = 1;
+			$this->logstr .= " commission_amount " . $para['commission_amount'] . "(" . $plan['commission_amount'] . ")";
+			$sql .= " commission_amount='" . (float) $para['commission_amount'] . "', ";
 		}
 		if (isset($para['street_number']) && ($para['street_number'] != $plan['street_number'])) {
 			$this->logstr .= " street_number " . $para['street_number'] . "(" . $plan['street_number'] . ")";
@@ -289,13 +342,13 @@ class Plan_model extends CI_Model {
 		$this->db->query($sql);
 		$this->sqlstr = $this->db->last_query() . "; ";
 
-		$para = array(
+		$cpara = array(
 				'gender' => $para['gender'],
 				'firstname' => $para['firstname'],
 				'lastname' => $para['lastname'],
 				'brithday' => $para['brithday']
 		);
-		$customer_id = $this->customer_model->update($plan['customer_id'], $para);
+		$customer_id = $this->customer_model->update($plan['customer_id'], $cpara);
 		if ($customer_id) {
 			$this->sqlstr = $this->customer_model->sqlstr . "; ";
 			$this->logstr = $this->customer_model->logstr . "; ";
@@ -304,7 +357,7 @@ class Plan_model extends CI_Model {
 		if ($isfamilyplan) {
 			$i = 1;
 			for ( ; $i < 9; $i++) {
-				if (isset($para['customer_id_' . $i])) {
+				if (!empty($para['customer_id_' . $i])) {
 					$customer_id_this = $para['customer_id_' . $i];
 				} else {
 					break;
@@ -318,20 +371,23 @@ class Plan_model extends CI_Model {
 					continue;
 				}
 				
-				$para = array(
+				$cpara = array(
 						'gender' => $para['gender_' . $i],
 						'firstname' => $para['firstname_' . $i],
 						'lastname' => $para['lastname_' . $i],
 						'brithday' => $para['brithday_' . $i]
 				);
-				$customer_id_this = $this->customer_model->update($customer_id_this, $para);
+				$customer_id_this = $this->customer_model->update($customer_id_this, $cpara);
 				if ($customer_id_this) {
 					$this->sqlstr = $this->customer_model->sqlstr . "; ";
 					$this->logstr = $this->customer_model->logstr . "; ";
 				}
 			}
 			for ( ; $i < 9; $i++) {
-				$para = array(
+				if (empty($para['firstname_' . $i]) && empty($para['lastname_' . $i])) {
+					break;
+				}
+				$cpara = array(
 						'plan_id' => $plan['plan_id'],
 						'parent_customer_id' => $plan['customer_id'],
 						'gender' => $para['gender_' . $i],
@@ -339,7 +395,7 @@ class Plan_model extends CI_Model {
 						'lastname' => $para['lastname_' . $i],
 						'brithday' => $para['brithday_' . $i]
 				);
-				$customer_id_this = $this->customer_model->add($para);
+				$customer_id_this = $this->customer_model->add($cpara);
 				if ($customer_id_this) {
 					$this->sqlstr = $this->customer_model->sqlstr . "; ";
 					$this->logstr = $this->customer_model->logstr . "; ";
@@ -451,12 +507,12 @@ class Plan_model extends CI_Model {
 		if (!empty($para['country2'])) {
 			$where[] = "p.country2=" . $this->db->escape($para['country2']);
 		}
-		if (!empty($para['apply_time'])) {
-			if (!empty($para['apply_time2'])) {
-				$where[] = "p.apply_time >= " . $this->db->escape($para['apply_time']);
-				$where[] = "p.apply_time <= " . $this->db->escape($para['apply_time2']);
+		if (!empty($para['apply_date'])) {
+			if (!empty($para['apply_date2'])) {
+				$carr[] = "p.apply_date >= " . $this->db->escape($para['apply_date']);
+				$carr[] = "p.apply_date <= " . $this->db->escape($para['apply_date2']);
 			} else {
-				$where[] = "p.apply_time = " . $this->db->escape($para['apply_time']);
+				$carr[] = "p.apply_date = " . $this->db->escape($para['apply_date']);
 			}
 		}
 		if (!empty($para['arrival_date'])) {

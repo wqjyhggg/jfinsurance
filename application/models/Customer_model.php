@@ -100,22 +100,22 @@ class Customer_model extends CI_Model {
 		} else {
 			$this->logstr = "";
 			if (isset($para['plan_id']) && ($para['plan_id'] != $customer['plan_id'])) {
-				$logstr .= " plan_id " . $para['plan_id'] . "(" . $customer['plan_id'] . ")";
+				$this->logstr .= " plan_id " . $para['plan_id'] . "(" . $customer['plan_id'] . ")";
 			}
 			if (isset($para['parent_customer_id']) && ($para['parent_customer_id'] != $customer['parent_customer_id'])) {
-				$logstr .= " parent_customer_id " . $para['parent_customer_id'] . "(" . $customer['parent_customer_id'] . ")";
+				$this->logstr .= " parent_customer_id " . $para['parent_customer_id'] . "(" . $customer['parent_customer_id'] . ")";
 			}
 			if (isset($para['gender']) && ($para['gender'] != $customer['gender'])) {
-				$logstr .= " gender " . $para['gender'] . "(" . $customer['gender'] . ")";
+				$this->logstr .= " gender " . $para['gender'] . "(" . $customer['gender'] . ")";
 			}
 			if (isset($para['firstname']) && ($para['firstname'] != $customer['firstname'])) {
-				$logstr .= " firstname " . $para['firstname'] . "(" . $customer['firstname'] . ")";
+				$this->logstr .= " firstname " . $para['firstname'] . "(" . $customer['firstname'] . ")";
 			}
 			if (isset($para['lastname']) && ($para['lastname'] != $customer['lastname'])) {
-				$logstr .= " lastname " . $para['lastname'] . "(" . $customer['lastname'] . ")";
+				$this->logstr .= " lastname " . $para['lastname'] . "(" . $customer['lastname'] . ")";
 			}
 			if (isset($para['brithday']) && ($para['brithday'] != $customer['brithday'])) {
-				$logstr .= " brithday " . $para['brithday'] . "(" . $customer['brithday'] . ")";
+				$this->logstr .= " brithday " . $para['brithday'] . "(" . $customer['brithday'] . ")";
 			}
 			if ($this->logstr != "") {
 				$id = $this->db->insert_id();
