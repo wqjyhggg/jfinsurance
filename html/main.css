@@ -53,3 +53,101 @@ footer p{margin: 0;}
     padding: 15px;
 }
 /* Login Page End */
+
+/* Home page not logined */
+@media(min-width: 768px){
+    .contact-left{
+        text-align: right;
+        border-right: 1px solid #ccc;
+    }
+    .contact-left,.contact-right{
+        padding:0 30px !important;
+    }
+}
+@media(max-width: 767px){
+    .contact-right,.contact-left{text-align: center;}
+}
+.h-topdiv,.lh-topdiv{
+    position: relative;
+}
+
+.h-top, .lh-top{
+    color:#fff;
+    top:0;
+    right:0;
+    background:rgba(0,0,0,0.2);
+    height:100%;
+    
+}
+
+@media(min-width: 1500px){
+    .lh-top{      
+        position:absolute;
+        width:40%;
+        padding:5% 8%;
+    } 
+}
+@media(max-width: 1499px) and (min-width: 1200px){
+    .lh-top{      
+        position:absolute;
+        width:55%;
+        padding:3% 5%;
+    } 
+}
+@media(max-width: 1199px) and (min-width: 1060px){
+    .lh-top{      
+        position:absolute;
+        width:65%;
+        padding:3% 5%;
+    } 
+}
+@media(max-width: 1059px) and (min-width: 768px){
+    .lh-top{      
+        position:absolute;
+        width:100%;
+        padding:3% 5%;
+    } 
+}
+@media(max-width: 767px){
+    .lh-top{      
+        width:100%;
+        padding:3% 5%;
+    } 
+}
+
+@media(min-width: 1170px){
+    .h-top{
+        position:absolute;
+        width:40%;
+        padding:5% 8%;
+    }
+}
+@media(max-width: 1169px) and (min-width: 922px){
+    .h-top{
+        position:absolute;
+        width: 45%;
+        padding:3% 5%;
+    }
+}
+@media(max-width: 921px) and (min-width: 768px){
+    .h-top{
+        position:absolute;
+        width: 65%;
+        padding:3% 5%;
+    }
+}
+@media(max-width: 767px) and (min-width: 615px){
+    .h-top{
+        position:absolute;
+        width: 100%;
+        padding:3% 5%;
+    }
+}
+@media(max-width: 614px){
+    .h-top{
+        width: 100%;
+        padding:3% 5%;
+    }
+}
+
+/* Home page not logined End*/
