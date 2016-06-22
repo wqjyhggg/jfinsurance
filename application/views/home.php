@@ -200,20 +200,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                           <hr style="border-bottom:2px solid; width:50px; margin:0 auto 20px;" />
 
                         </div>
-                      
 
                             <div class="col-sm-12" style="padding-right:0;padding-left:0;">
                               <div style="padding:15px;margin:20px auto;">
                                 <div class="row">
                                   <div class="col-sm-4" style="padding:15px 5%;">
+                                    <img class="img-responsive img-title" src="<?php echo base_url();?>image/t1.jpg" alt="Emergency Hospital Insurance" />
                                     <h2>Emergency Hospital Insurance</h2>
                                     <hr style="border-bottom:2px solid #ddd; width:50px; margin:0 0 15px;"/>
+                                    
                                     <p>The founder Mr. Johnson Fu has more than 30 plus years of experience in the Insurance and Financial Industry. 
                                       Mr. Fu is also very active among many communities and charity events. 
                                       It is through his involvement in community service that the JF corporate philosophy "To Serve" has come to fruition. 
                                       This philosophy emphasizes the attitude of all staff members at JF.</p>
                                   </div>
                                   <div class="col-sm-4" style="padding:15px 5%;">
+                                    <img class="img-responsive img-title" src="<?php echo base_url();?>image/t2.jpg" alt="Emergency Hospital Insurance" />
                                     <h2>Travel Insurance</h2>
                                     <hr style="border-bottom:2px solid #ddd; width:50px; margin:0 0 15px;"/>
                                     <p>The founder Mr. Johnson Fu has more than 30 plus years of experience in the Insurance and Financial Industry. 
@@ -222,6 +224,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                       This philosophy emphasizes the attitude of all staff members at JF.</p>
                                   </div>
                                   <div class="col-sm-4" style="padding:15px 5%;">
+                                    <img class="img-responsive img-title" src="<?php echo base_url();?>image/t3.jpg" alt="Emergency Hospital Insurance" />
                                     <h2>Medical Insurance</h2>
                                     <hr style="border-bottom:2px solid #ddd; width:50px; margin:0 0 15px;"/>
                                     <p>The founder Mr. Johnson Fu has more than 30 plus years of experience in the Insurance and Financial Industry. 
@@ -363,6 +366,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <div style="padding:15px;margin:20px auto;">
                   <div class="row">
                     <div class="col-sm-4" style="padding:15px 5%;">
+                      <img class="img-responsive img-title" src="<?php echo base_url();?>image/t1.jpg" alt="Emergency Hospital Insurance" />
                       <h2>Emergency Hospital Insurance</h2>
                       <hr style="border-bottom:2px solid #ddd; width:50px; margin:0 0 15px;"/>
                       <p>The founder Mr. Johnson Fu has more than 30 plus years of experience in the Insurance and Financial Industry. 
@@ -371,6 +375,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         This philosophy emphasizes the attitude of all staff members at JF.</p>
                     </div>
                     <div class="col-sm-4" style="padding:15px 5%;">
+                      <img class="img-responsive img-title" src="<?php echo base_url();?>image/t2.jpg" alt="Emergency Hospital Insurance" />
                       <h2>Travel Insurance</h2>
                       <hr style="border-bottom:2px solid #ddd; width:50px; margin:0 0 15px;"/>
                       <p>The founder Mr. Johnson Fu has more than 30 plus years of experience in the Insurance and Financial Industry. 
@@ -379,6 +384,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         This philosophy emphasizes the attitude of all staff members at JF.</p>
                     </div>
                     <div class="col-sm-4" style="padding:15px 5%;">
+                      <img class="img-responsive img-title" src="<?php echo base_url();?>image/t3.jpg" alt="Emergency Hospital Insurance" />
                       <h2>Medical Insurance</h2>
                       <hr style="border-bottom:2px solid #ddd; width:50px; margin:0 0 15px;"/>
                       <p>The founder Mr. Johnson Fu has more than 30 plus years of experience in the Insurance and Financial Industry. 

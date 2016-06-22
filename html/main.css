@@ -150,4 +150,10 @@ footer p{margin: 0;}
     }
 }
 
+.img-title{
+    border: 1px solid #ddd;
+    padding: 5px;
+    border-radius: 4px;
+}
+
 /* Home page not logined End*/
