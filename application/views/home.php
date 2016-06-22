@@ -133,20 +133,153 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                   </div-->
                   <div class="x_content">
                     <br />
-                    <img class="img-responsive" src="<?php echo base_url();?>image/homepic.jpg" alt="JF Insurance">
-                    <div class="row" style="margin-right:0;margin-left:0;">
-                      <div class="col-sm-12">
-                        <div class="text-element">
-                          <h2>Why Buy Insurance?</h2>
-                          <p>
-                            We don’t like to think about it, but sudden, unexpected accidents or illnesses do happen, and trying to find and pay for adequate medical attention can be difficult when you are abroad
-                          </p>
-                          <p>
-                            Health care costs around the world can be very expensive. Hospital can charge thousands of dollars per day. Your health plan may or may not cover a minute portion of these cost. Without adequate insurance coverage you could be responsible from dollar one, which could create a massive impact on your personal finances. Why take the risk?
-                          </p>
+                    <div class="main" style="min-height:800px;">
+        
+                      <div class="lh-topdiv">
+                        <img class="img-responsive" src="<?php echo base_url();?>image/homepic.jpg" alt="JF Insurance">
+                        <div class="lh-top">
+                              <h1>WHY BUY INSURANCE</h1>
+                              <p>
+                                We don't like to think about it, but sudden, unexpected accidents or illnesses do happen,
+                                and trying to find an pay for adequate medical attention can be difficult when you are abroad.
+
+                              </p>
+                              <p>
+                                Health car costs around the world can be bery expensive. Hospital can charge thousands of dollars
+                                per day. Your health plan may or may not cover a minute protion of these cost. Without adequate
+                                insurance coverage you could be responsible from dollar one, which could create a massive impact on
+                                your personal finances. Why take the risk?
+                              </p>
+                            </div>
+                      </div>
+                      <div class="row" style="margin:40px 0;">
+                        <div class="col-sm-12 text-center">
+                          <h3>ABOUT US</h3>
+                          <h4>we take care of you</h4>
+                          <hr style="border-bottom:2px solid; width:50px; margin:0 auto 20px;" />
+                          <p>JF Insurance Agency Group Inc. is an insurance broker incorporated in 1992. JF is a private Canadain firm that provides travel, emergency hospital and medical insurance.</p>
                         </div>
                       </div>
+                      <div class="row" style="margin-right:0;margin-left:0;">
+                        <div class="col-sm-12" style="padding-right:0;padding-left:0;">
+                          <div style="background-color:#f6f6f6; padding:15px;margin:20px auto;">
+                            <div class="row">
+                              <div class="col-sm-4" style="padding:15px 5%;">
+                                <h2>Founder</h2>
+                                <hr style="border-bottom:2px solid #ddd; width:50px; margin:0 0 15px;"/>
+                                <p>The founder Mr. Johnson Fu has more than 30 plus years of experience in the Insurance and Financial Industry. 
+                                  Mr. Fu is also very active among many communities and charity events. 
+                                  It is through his involvement in community service that the JF corporate philosophy "To Serve" has come to fruition. 
+                                  This philosophy emphasizes the attitude of all staff members at JF.</p>
+                              </div>
+                              <div class="col-sm-4" style="padding:15px 5%;">
+                                <h2>Mission</h2>
+                                <hr style="border-bottom:2px solid #ddd; width:50px; margin:0 0 15px;"/>
+                                <p>The founder Mr. Johnson Fu has more than 30 plus years of experience in the Insurance and Financial Industry. 
+                                  Mr. Fu is also very active among many communities and charity events. 
+                                  It is through his involvement in community service that the JF corporate philosophy "To Serve" has come to fruition. 
+                                  This philosophy emphasizes the attitude of all staff members at JF.</p>
+                              </div>
+                              <div class="col-sm-4" style="padding:15px 5%;">
+                                <h2>Location</h2>
+                                <hr style="border-bottom:2px solid #ddd; width:50px; margin:0 0 15px;"/>
+                                <p>The founder Mr. Johnson Fu has more than 30 plus years of experience in the Insurance and Financial Industry. 
+                                  Mr. Fu is also very active among many communities and charity events. 
+                                  It is through his involvement in community service that the JF corporate philosophy "To Serve" has come to fruition. 
+                                  This philosophy emphasizes the attitude of all staff members at JF.</p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="row" style="margin:40px 0;">
+                        <div class="col-sm-12 col-md-12 text-center">
+                          <h3>WE OFFER</h3>
+                          <h4>we take care of you</h4>
+                          <hr style="border-bottom:2px solid; width:50px; margin:0 auto 20px;" />
+
+                        </div>
+
+                            <div class="col-sm-12" style="padding-right:0;padding-left:0;">
+                              <div style="padding:15px;margin:20px auto;">
+                                <div class="row">
+                                  <div class="col-sm-4" style="padding:15px 5%;">
+                                    <img class="img-responsive img-title" src="<?php echo base_url();?>image/t1.jpg" alt="Emergency Hospital Insurance" />
+                                    <h2>Emergency Hospital Insurance</h2>
+                                    <hr style="border-bottom:2px solid #ddd; width:50px; margin:0 0 15px;"/>
+                                    
+                                    <p>The founder Mr. Johnson Fu has more than 30 plus years of experience in the Insurance and Financial Industry. 
+                                      Mr. Fu is also very active among many communities and charity events. 
+                                      It is through his involvement in community service that the JF corporate philosophy "To Serve" has come to fruition. 
+                                      This philosophy emphasizes the attitude of all staff members at JF.</p>
+                                  </div>
+                                  <div class="col-sm-4" style="padding:15px 5%;">
+                                    <img class="img-responsive img-title" src="<?php echo base_url();?>image/t2.jpg" alt="Emergency Hospital Insurance" />
+                                    <h2>Travel Insurance</h2>
+                                    <hr style="border-bottom:2px solid #ddd; width:50px; margin:0 0 15px;"/>
+                                    <p>The founder Mr. Johnson Fu has more than 30 plus years of experience in the Insurance and Financial Industry. 
+                                      Mr. Fu is also very active among many communities and charity events. 
+                                      It is through his involvement in community service that the JF corporate philosophy "To Serve" has come to fruition. 
+                                      This philosophy emphasizes the attitude of all staff members at JF.</p>
+                                  </div>
+                                  <div class="col-sm-4" style="padding:15px 5%;">
+                                    <img class="img-responsive img-title" src="<?php echo base_url();?>image/t3.jpg" alt="Emergency Hospital Insurance" />
+                                    <h2>Medical Insurance</h2>
+                                    <hr style="border-bottom:2px solid #ddd; width:50px; margin:0 0 15px;"/>
+                                    <p>The founder Mr. Johnson Fu has more than 30 plus years of experience in the Insurance and Financial Industry. 
+                                      Mr. Fu is also very active among many communities and charity events. 
+                                      It is through his involvement in community service that the JF corporate philosophy "To Serve" has come to fruition. 
+                                      This philosophy emphasizes the attitude of all staff members at JF.</p>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                         
+                      </div>
+                      <div class="row" style="margin-right:0;margin-left:0;">
+                        <div class="col-sm-12" style="padding-right:0;padding-left:0;">
+                          <div style="background-color:#f6f6f6; padding:15px;margin:20px auto;">
+                            <div class="row" style="margin:40px 0 20px;">
+                              <div class="col-sm-12 text-center">
+                                <h3>CONTACT US</h3>
+                                <hr style="border-bottom:2px solid; width:50px; margin:0 auto 20px;" />
+                              </div>
+                            </div>
+                            <div class="row h-contact">
+                              <div class="col-sm-6 contact-left">
+                                <h3>Toronto Office</h3><br />
+                                <h5>15 Wertheim Court, Suite 501</h5>
+                                <h5>Richmond Hill, ON</h5>
+                                <h5>L4B 3H7 CANADA</h5><br />
+                                <h5>Phone: 905-707-1512</h5>
+                                <h5>Fax: 905-707-1513</h5>
+                                <h5>Toll Free: 1-877-832-5541</h5>
+                                <h5>Toll Free Fax: 1-888-988-3268</h5><br />
+                                <h5>E-mail: info@jfgroup.ca</h5>
+
+                              </div>
+                              <div class="col-sm-6 contact-right">
+                                <h3>Vancouver Office</h3><br />
+                                <h5>128-6061 No. 3 Road</h5>
+                                <h5>Richmond, BC</h5>
+                                <h5>V6Y 2B2 CANADA</h5><br />
+                                <h5>Phone: 604-232-0896</h5>
+                                <h5>Fax: 604-232-0897</h5>
+                                <h5>Toll Free: 1-877-232-0896</h5>
+                                <h5> &nbsp;</h5>
+                                <br />
+                                
+                                <h5>E-mail: vancouver@jfuinsurance.com</h5>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      
                     </div>
+                    
                   </div>
                 </div>
               </div>
@@ -159,22 +292,152 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <!-- End content with left menu --> 
 
 <!-- Content without left menu -->
-		<div class="container" style="padding:0;">	
+		<div class="container" style="padding:0 0 40px 0;">	
 			<div class="main" style="min-height:800px;">
-				<img class="img-responsive" src="<?php echo base_url();?>image/homepic.jpg" alt="JF Insurance">
+        
+        <div class="h-topdiv">
+				  <img class="img-responsive" src="<?php echo base_url();?>image/homepic.jpg" alt="JF Insurance">
+          <div class="h-top">
+                <h1>WHY BUY INSURANCE</h1>
+                <p>
+                  We don't like to think about it, but sudden, unexpected accidents or illnesses do happen,
+                  and trying to find an pay for adequate medical attention can be difficult when you are abroad.
+
+                </p>
+                <p>
+                  Health car costs around the world can be bery expensive. Hospital can charge thousands of dollars
+                  per day. Your health plan may or may not cover a minute protion of these cost. Without adequate
+                  insurance coverage you could be responsible from dollar one, which could create a massive impact on
+                  your personal finances. Why take the risk?
+                </p>
+              </div>
+        </div>
+        <div class="row" style="margin:40px 0;">
+          <div class="col-sm-12 text-center">
+            <h3>ABOUT US</h3>
+            <h4>we take care of you</h4>
+            <hr style="border-bottom:2px solid; width:50px; margin:0 auto 20px;" />
+            <p>JF Insurance Agency Group Inc. is an insurance broker incorporated in 1992. JF is a private Canadain firm that provides travel, emergency hospital and medical insurance.</p>
+          </div>
+        </div>
 				<div class="row" style="margin-right:0;margin-left:0;">
-					<div class="col-sm-8 col-sm-offset-2">
+					<div class="col-sm-12" style="padding-right:0;padding-left:0;">
 						<div style="background-color:#f6f6f6; padding:15px;margin:20px auto;">
-							<h2>Why Buy Insurance?</h2>
-							<p>
-								We don’t like to think about it, but sudden, unexpected accidents or illnesses do happen, and trying to find and pay for adequate medical attention can be difficult when you are abroad
-							</p>
-							<p>
-								Health care costs around the world can be very expensive. Hospital can charge thousands of dollars per day. Your health plan may or may not cover a minute portion of these cost. Without adequate insurance coverage you could be responsible from dollar one, which could create a massive impact on your personal finances. Why take the risk?
-							</p>
+							<div class="row">
+                <div class="col-sm-4" style="padding:15px 5%;">
+                  <h2>Founder</h2>
+                  <hr style="border-bottom:2px solid #ddd; width:50px; margin:0 0 15px;"/>
+                  <p>The founder Mr. Johnson Fu has more than 30 plus years of experience in the Insurance and Financial Industry. 
+                    Mr. Fu is also very active among many communities and charity events. 
+                    It is through his involvement in community service that the JF corporate philosophy "To Serve" has come to fruition. 
+                    This philosophy emphasizes the attitude of all staff members at JF.</p>
+                </div>
+                <div class="col-sm-4" style="padding:15px 5%;">
+                  <h2>Mission</h2>
+                  <hr style="border-bottom:2px solid #ddd; width:50px; margin:0 0 15px;"/>
+                  <p>The founder Mr. Johnson Fu has more than 30 plus years of experience in the Insurance and Financial Industry. 
+                    Mr. Fu is also very active among many communities and charity events. 
+                    It is through his involvement in community service that the JF corporate philosophy "To Serve" has come to fruition. 
+                    This philosophy emphasizes the attitude of all staff members at JF.</p>
+                </div>
+                <div class="col-sm-4" style="padding:15px 5%;">
+                  <h2>Location</h2>
+                  <hr style="border-bottom:2px solid #ddd; width:50px; margin:0 0 15px;"/>
+                  <p>The founder Mr. Johnson Fu has more than 30 plus years of experience in the Insurance and Financial Industry. 
+                    Mr. Fu is also very active among many communities and charity events. 
+                    It is through his involvement in community service that the JF corporate philosophy "To Serve" has come to fruition. 
+                    This philosophy emphasizes the attitude of all staff members at JF.</p>
+                </div>
+              </div>
 						</div>
 					</div>
 				</div>
+
+        <div class="row" style="margin:40px 0;">
+          <div class="col-sm-12 col-md-12 text-center">
+            <h3>WE OFFER</h3>
+            <h4>we take care of you</h4>
+            <hr style="border-bottom:2px solid; width:50px; margin:0 auto 20px;" />
+
+          </div>
+        
+
+              <div class="col-sm-12" style="padding-right:0;padding-left:0;">
+                <div style="padding:15px;margin:20px auto;">
+                  <div class="row">
+                    <div class="col-sm-4" style="padding:15px 5%;">
+                      <img class="img-responsive img-title" src="<?php echo base_url();?>image/t1.jpg" alt="Emergency Hospital Insurance" />
+                      <h2>Emergency Hospital Insurance</h2>
+                      <hr style="border-bottom:2px solid #ddd; width:50px; margin:0 0 15px;"/>
+                      <p>The founder Mr. Johnson Fu has more than 30 plus years of experience in the Insurance and Financial Industry. 
+                        Mr. Fu is also very active among many communities and charity events. 
+                        It is through his involvement in community service that the JF corporate philosophy "To Serve" has come to fruition. 
+                        This philosophy emphasizes the attitude of all staff members at JF.</p>
+                    </div>
+                    <div class="col-sm-4" style="padding:15px 5%;">
+                      <img class="img-responsive img-title" src="<?php echo base_url();?>image/t2.jpg" alt="Emergency Hospital Insurance" />
+                      <h2>Travel Insurance</h2>
+                      <hr style="border-bottom:2px solid #ddd; width:50px; margin:0 0 15px;"/>
+                      <p>The founder Mr. Johnson Fu has more than 30 plus years of experience in the Insurance and Financial Industry. 
+                        Mr. Fu is also very active among many communities and charity events. 
+                        It is through his involvement in community service that the JF corporate philosophy "To Serve" has come to fruition. 
+                        This philosophy emphasizes the attitude of all staff members at JF.</p>
+                    </div>
+                    <div class="col-sm-4" style="padding:15px 5%;">
+                      <img class="img-responsive img-title" src="<?php echo base_url();?>image/t3.jpg" alt="Emergency Hospital Insurance" />
+                      <h2>Medical Insurance</h2>
+                      <hr style="border-bottom:2px solid #ddd; width:50px; margin:0 0 15px;"/>
+                      <p>The founder Mr. Johnson Fu has more than 30 plus years of experience in the Insurance and Financial Industry. 
+                        Mr. Fu is also very active among many communities and charity events. 
+                        It is through his involvement in community service that the JF corporate philosophy "To Serve" has come to fruition. 
+                        This philosophy emphasizes the attitude of all staff members at JF.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+           
+        </div>
+        <div class="row" style="margin-right:0;margin-left:0;">
+          <div class="col-sm-12" style="padding-right:0;padding-left:0;">
+            <div style="background-color:#f6f6f6; padding:15px;margin:20px auto;">
+              <div class="row" style="margin:40px 0 20px;">
+                <div class="col-sm-12 text-center">
+                  <h3>CONTACT US</h3>
+                  <hr style="border-bottom:2px solid; width:50px; margin:0 auto 20px;" />
+                </div>
+              </div>
+              <div class="row h-contact">
+                <div class="col-sm-6 contact-left">
+                  <h3>Toronto Office</h3><br />
+                  <h5>15 Wertheim Court, Suite 501</h5>
+                  <h5>Richmond Hill, ON</h5>
+                  <h5>L4B 3H7 CANADA</h5><br />
+                  <h5>Phone: 905-707-1512</h5>
+                  <h5>Fax: 905-707-1513</h5>
+                  <h5>Toll Free: 1-877-832-5541</h5>
+                  <h5>Toll Free Fax: 1-888-988-3268</h5><br />
+                  <h5>E-mail: info@jfgroup.ca</h5>
+
+                </div>
+                <div class="col-sm-6 contact-right">
+                  <h3>Vancouver Office</h3><br />
+                  <h5>128-6061 No. 3 Road</h5>
+                  <h5>Richmond, BC</h5>
+                  <h5>V6Y 2B2 CANADA</h5><br />
+                  <h5>Phone: 604-232-0896</h5>
+                  <h5>Fax: 604-232-0897</h5>
+                  <h5>Toll Free: 1-877-232-0896</h5>
+                  <h5> &nbsp;</h5>
+                  <br />
+                  
+                  <h5>E-mail: vancouver@jfuinsurance.com</h5>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        
 			</div>	
 		</div>
 <!-- End Content without left menu -->

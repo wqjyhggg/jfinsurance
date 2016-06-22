@@ -69,7 +69,7 @@
 }
 .nav-md .container.body .col-md-3.left_col,
 #leftMenu .col-md-3.left_col{width:230px;padding:0;position:absolute;display:-ms-flexbox;display:flex;z-index:9999}
-#leftMenu .col-md-3.left_col{height: 78.3%;}
+#leftMenu .col-md-3.left_col{height: 88.7%;}
 .nav-md .container.body .col-md-3.left_col.menu_fixed{height:100%;position:fixed}
 body .container.body .right_col{background:#F7F7F7}
 .nav-md .container.body .right_col{padding:10px 20px 0;margin-left:230px}
@@ -160,6 +160,21 @@ table.no-margin .progress{margin-bottom:0}
 	padding-right:10px;
 	padding-left:10px
 }
+
+@media(max-width: 767px){
+	.col-xs-12, .col-sm-12, .col-md-12, .col-lg-12,
+	.col-sm-10, .col-md-10, .col-lg-10,
+	.col-sm-9, .col-md-9, .col-lg-9,
+	.col-sm-8, .col-md-8, .col-lg-8,
+	.col-sm-6, .col-md-6, .col-lg-6,
+	.col-sm-4, .col-md-4, .col-lg-4,
+	.col-sm-3, .col-md-3, .col-lg-3,
+	.col-sm-2, .col-md-2, .col-lg-2,
+	.col-sm-1, .col-md-1, .col-lg-1{
+		width: 100% !important;
+	}
+}
+
 .row{margin-right:-10px;margin-left:-10px}
 .grid_slider .col-md-6{padding:0 40px}
 h1,.h1,h2,.h2,h3,.h3{margin-top:10px;margin-bottom:10px}
