@@ -71,7 +71,7 @@ class Plan_model extends CI_Model {
 				'gender' => $para['gender'],
 				'firstname' => $para['firstname'],
 				'lastname' => $para['lastname'],
-				'brithday' => $para['brithday'],
+				'birthday' => $para['birthday'],
 				'parent_customer_id' => 0
 		);
 		$customer_id = $this->customer_model->add($cpara);
@@ -114,7 +114,7 @@ class Plan_model extends CI_Model {
 		if (isset($para['residence'])) $sql .= " residence=" . $this->db->escape(trim($para['residence'])) . ", ";
 		if (isset($para['note'])) $sql .= " note=" . $this->db->escape(trim($para['note'])) . ", ";
 		$sql .= " ip=" . $this->db->escape($_SERVER['REMOTE_ADDR']) . ", ";
-		$sql .= " premium='0', commission_amount='0' ";
+		$sql .= " commission_amount='0' ";
 		$this->db->query($sql);
 		$plan_id = $this->db->insert_id();
 		$this->sqlstr .= $this->db->last_query() . "; ";
@@ -147,8 +147,8 @@ class Plan_model extends CI_Model {
 				} else {
 					break;
 				}
-				if (!empty($para['brithday_' . $i])) {
-					$brithday = $para['brithday_' . $i];
+				if (!empty($para['birthday_' . $i])) {
+					$birthday = $para['birthday_' . $i];
 				} else {
 					break;
 				}
@@ -158,7 +158,7 @@ class Plan_model extends CI_Model {
 						'gender' => $gender,
 						'firstname' => $firstname,
 						'lastname' => $lastname,
-						'brithday' => $brithday,
+						'birthday' => $birthday,
 						'parent_customer_id' => $customer_id
 				);
 				$customer_id_this = $this->customer_model->add($cpara);
@@ -346,7 +346,7 @@ class Plan_model extends CI_Model {
 				'gender' => $para['gender'],
 				'firstname' => $para['firstname'],
 				'lastname' => $para['lastname'],
-				'brithday' => $para['brithday']
+				'birthday' => $para['birthday']
 		);
 		$customer_id = $this->customer_model->update($plan['customer_id'], $cpara);
 		if ($customer_id) {
@@ -375,7 +375,7 @@ class Plan_model extends CI_Model {
 						'gender' => $para['gender_' . $i],
 						'firstname' => $para['firstname_' . $i],
 						'lastname' => $para['lastname_' . $i],
-						'brithday' => $para['brithday_' . $i]
+						'birthday' => $para['birthday_' . $i]
 				);
 				$customer_id_this = $this->customer_model->update($customer_id_this, $cpara);
 				if ($customer_id_this) {
@@ -393,7 +393,7 @@ class Plan_model extends CI_Model {
 						'gender' => $para['gender_' . $i],
 						'firstname' => $para['firstname_' . $i],
 						'lastname' => $para['lastname_' . $i],
-						'brithday' => $para['brithday_' . $i]
+						'birthday' => $para['birthday_' . $i]
 				);
 				$customer_id_this = $this->customer_model->add($cpara);
 				if ($customer_id_this) {
@@ -407,6 +407,40 @@ class Plan_model extends CI_Model {
 				$this->sqlstr = $this->customer_model->sqlstr . "; ";
 				$this->logstr = $this->customer_model->logstr . "; ";
 			}
+		}
+		
+		if ($premiumchged != 0) {
+			if ($plan['status_id'] > 2) {
+				// Paied policy
+				$new_premium = (float)$para['premium'] - (float)$plan['premium'];
+				$this->load->model('trans_model');
+				$para = array();
+				$para['user_id'] = $beuser['user_id'];
+				$para['plan_id'] = $plan['plan_id'];
+				$para['amount'] = $new_premium;
+				$para['ispaid'] = 0;
+				$para['pay_type'] = $this->trans_model->pay_type('premium');
+				$para['added'] = date('Y-m-d');
+				$para['note'] = 'Plan change';
+				$this->trans_model->add($para);
+				$this->sqlstr = $this->trans_model->sqlstr . "; ";
+				$this->logstr = $this->trans_model->logstr . "; ";
+			}
+		}
+		if ($commissionchged != 0) {
+			$commission_amount = (float)$para['commission_amount'] - (float)$plan['commission_amount'];
+			$this->load->model('trans_model');
+			$para = array();
+			$para['user_id'] = $beuser['user_id'];
+			$para['plan_id'] = $plan['plan_id'];
+			$para['amount'] = $commission_amount;
+			$para['ispaid'] = 0;
+			$para['pay_type'] = $this->trans_model->pay_type('commission');
+			$para['added'] = date('Y-m-d');
+			$para['note'] = 'Plan change';
+			$this->trans_model->add($para);
+			$this->sqlstr = $this->trans_model->sqlstr . "; ";
+			$this->logstr = $this->trans_model->logstr . "; ";
 		}
 		
 		return $plan_id;
@@ -433,12 +467,12 @@ class Plan_model extends CI_Model {
 		if (!empty($para['lastname'])) {
 			$carr[] = "lastname LIKE " . $this->db->escape($para['lastname'] . "%");
 		} 
-		if (!empty($para['brithday'])) {
-			if (!empty($para['brithday2'])) {
-				$carr[] = "brithday >= " . $this->db->escape($para['brithday']);
-				$carr[] = "brithday <= " . $this->db->escape($para['brithday2']);
+		if (!empty($para['birthday'])) {
+			if (!empty($para['birthday2'])) {
+				$carr[] = "birthday >= " . $this->db->escape($para['birthday']);
+				$carr[] = "birthday <= " . $this->db->escape($para['birthday2']);
 			} else {
-				$carr[] = "brithday = " . $this->db->escape($para['brithday']);
+				$carr[] = "birthday = " . $this->db->escape($para['birthday']);
 			}
 		}
 		if (!empty($carr)) {

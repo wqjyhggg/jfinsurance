@@ -19,8 +19,8 @@ class Plan extends MY_Controller {
 		$data['beuser'] = $beuser;
 		$data['firstname'] = $this->input->get_post('firstname');
 		$data['lastname'] = $this->input->get_post('lastname');
-		$data['brithday'] = $this->input->get_post('brithday');
-		$data['brithday2'] = $this->input->get_post('brithday2');
+		$data['birthday'] = $this->input->get_post('birthday');
+		$data['birthday2'] = $this->input->get_post('birthday2');
 		$data['policy'] = $this->input->get_post('policy');
 		$data['apply_date'] = $this->input->get_post('apply_date');
 		$data['apply_date2'] = $this->input->get_post('apply_date2');
@@ -81,20 +81,25 @@ class Plan extends MY_Controller {
 			redirect(base_url('plan'));
 		}
 		
-		$nowtm = time();
+		$nowtm = strtotime(date('Y-m-d'));
 		$arrival_date = $this->input->post('arrival_date');
 		$arrivaltm = strtotime($arrival_date);
 		if (empty($arrival_date) || ($arrivaltm < $nowtm)) {
+			if (empty($arrival_date)) {
+				$this->error['error_arrival_date'] = 'Arrival Date['.$arrival_date.']';
+			} else if ($arrivaltm <= $nowtm) {
+				$this->error['error_arrival_date'] = 'Arrival Date['.$arrivaltm.']['.$nowtm.']';
+			} else
 			$this->error['error_arrival_date'] = 'Confirm Arrival Date';
 		}
 		$effective_date = $this->input->post('effective_date');
 		$effectivetm = strtotime($effective_date);
-		if (empty($effective_date) || ($effectivetm < $nowtm)) {
+		if (empty($effective_date) || ($effectivetm <= $nowtm)) {
 			$this->error['error_effective_date'] = 'Confirm Effective Date';
 		}
 		$expiry_date = $this->input->post('expiry_date');
 		$expirytm = strtotime($expiry_date);
-		if (empty($expiry_date) || ($expirytm < $nowtm) || ($expirytm < $effectivetm)) {
+		if (empty($expiry_date) || ($expirytm <= $nowtm) || ($expirytm < $effectivetm)) {
 			$this->error['error_expiry_date'] = 'Confirm Expiry Date';
 		}
 		if (empty($this->input->post('beneficiary'))) {
@@ -106,8 +111,8 @@ class Plan extends MY_Controller {
 		if (empty($this->input->post('lastname'))) {
 			$this->error['error_lastname'] = 'Lastname is Required';
 		}
-		if (empty($this->input->post('brithday'))) {
-			$this->error['error_brithday'] = 'Brithday is Required';
+		if (empty($this->input->post('birthday'))) {
+			$this->error['error_birthday'] = 'Birthday is Required';
 		}
 		if (empty($this->input->post('street_number'))) {
 			$this->error['error_street_number'] = 'Street number is Required';
@@ -144,12 +149,12 @@ class Plan extends MY_Controller {
 			if (empty($plan_id)) {
 				$plan_id = $this->plan_model->add($this->input->post());
 				if ($plan_id) {
-					$this->log_model->activity('user', array('message' => $this->plan_model->logstr, 'systemlog' => $this->plan_model->sqlstr));
+					$this->log_model->activity('plan', array('message' => $this->plan_model->logstr, 'systemlog' => $this->plan_model->sqlstr));
 				}
 			} else {
 				$plan_id = $this->plan_model->update($plan_id, $this->input->post());
 				if ($plan_id) {
-					$this->log_model->activity('user', array('message' => $this->plan_model->logstr, 'systemlog' => $this->plan_model->sqlstr));
+					$this->log_model->activity('plan', array('message' => $this->plan_model->logstr, 'systemlog' => $this->plan_model->sqlstr));
 				}
 			}
 			if ($plan_id) {
@@ -273,12 +278,12 @@ class Plan extends MY_Controller {
 		} else {
 			$data['lastname'] = '';
 		}
-		if ($this->input->post('brithday')) {
-			$data['brithday'] = $this->input->post('brithday');
-		} else if (isset($customer['brithday'])) {
-			$data['brithday'] = $customer['brithday'];
+		if ($this->input->post('birthday')) {
+			$data['birthday'] = $this->input->post('birthday');
+		} else if (isset($customer['birthday'])) {
+			$data['birthday'] = $customer['birthday'];
 		} else {
-			$data['brithday'] = '';
+			$data['birthday'] = '';
 		}
 		if ($this->input->post('gender')) {
 			$data['gender'] = $this->input->post('gender');
@@ -309,12 +314,12 @@ class Plan extends MY_Controller {
 			} else {
 				$data['lastname_'.$i] = '';
 			}
-			if ($this->input->post('brithday_'.$i)) {
-				$data['brithday_'.$i] = $this->input->post('brithday_'.$i);
-			} else if (isset($customers[$i - 1]) && isset($customers[$i - 1]['brithday'])) {
-				$data['brithday_'.$i] = $customers[$i - 1]['brithday'];
+			if ($this->input->post('birthday_'.$i)) {
+				$data['birthday_'.$i] = $this->input->post('birthday_'.$i);
+			} else if (isset($customers[$i - 1]) && isset($customers[$i - 1]['birthday'])) {
+				$data['birthday_'.$i] = $customers[$i - 1]['birthday'];
 			} else {
-				$data['brithday_'.$i] = '';
+				$data['birthday_'.$i] = '';
 			}
 			if ($this->input->post('gender_'.$i)) {
 				$data['gender_'.$i] = $this->input->post('gender_'.$i);
@@ -475,7 +480,7 @@ class Plan extends MY_Controller {
 		
 		$beuser = $this->func_model->verify_login(); 
 		if (empty($plan_id)) {
-			$plan_id = $this->input->post['plan_id'];
+			$plan_id = $this->input->post('plan_id');
 		}
 		if (empty($plan_id)) {
 			redirect(base_url('production'));
@@ -483,17 +488,14 @@ class Plan extends MY_Controller {
 
 		$data['message'] = '';
 		if ($this->input->post('submit')) {
-			$agree = $this->post->post('agree');
+			$agree = $this->input->post('agree');
 			if ($agree) {
 				$this->load->model('plan_model');
 				$this->load->model('product_model');
 				
 				$para = array('agree' => 1);
 				$this->plan_model->update($plan_id, $para);
-				
-				$premium = $this->product_model->get_premium($plan_id);
-				$commission_amount = $this->plan_model->get_commission($plan_id);
-				$this->plan_model->update_premium_commission($plan_id, $premium, $commission_amount);
+				$this->log_model->activity('plan', array('message' => $this->plan_model->logstr, 'systemlog' => $this->plan_model->sqlstr));
 				
 				redirect('plan/detail/'.$plan_id);
 			} else {
@@ -519,8 +521,9 @@ class Plan extends MY_Controller {
 			redirect(base_url('production'));
 		}
 		
-		$this->load->model('user_model');
+		$this->load->model('customer_model');
 		$this->load->model('plan_model');
+		$this->load->model('product_model');
 		$plan = $this->plan_model->get_plan_by_id($plan_id);
 		if (empty($sekey)) {
 			$beuser = $this->func_model->verify_login();
@@ -533,6 +536,22 @@ class Plan extends MY_Controller {
 		}
 		
 		$data['plan'] = $plan;
+		$para = array();
+		$para['product_short'] = $plan['product_short'];
+		$para['apply_date'] = date('Y-m-d');
+		$para['effective_date'] = $plan['effective_date'];
+		$para['expiry_date'] = $plan['expiry_date'];
+		$para['isfamilyplan'] = $plan['isfamilyplan'];
+		$para['sum_insured'] = $plan['sum_insured'];
+		$para['deductiable_amount'] = $plan['deductiable_amount'];
+		$para['stable_condition'] = $plan['stable_condition'];
+		$para['birthday'] = $this->customer_model->get_max_birthday($plan['customer_id']);
+		$premium = $this->product_model->get_premium($para);
+		if ((float)$premium != (float)$plan['premium']) {
+			$para = array('premium' => $premium);
+			$this->plan_model->update($plan['plan_id'], $para);
+			$this->log_model->activity('plan', array('message' => $this->plan_model->logstr, 'systemlog' => $this->plan_model->sqlstr));
+		}
 		$data['customer'] = $this->customer_model->get_customer_by_id($plan['customer_id']);
 		$data['customers'] = $this->customer_model->get_customer_by_parent_id($plan['customer_id']);
 

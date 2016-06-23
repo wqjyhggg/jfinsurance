@@ -45,7 +45,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'><br>
 <input type='hidden' name='plan_id' value='<?php echo $plan_id; ?>'>
 <input type='hidden' name='product_short' value='<?php echo $product_short; ?>'>
-Apply Date: <?php echo empty($apply_time) ? "N/A" : $apply_time; ?><br>
 <?php if (empty($plan_id) || empty(status_id)) { ?>
 	<?php /* it should be new plan */ ?>
 	<input type='hidden' name='status_id' value='0'>
@@ -86,7 +85,7 @@ Without stable pre-existion condition coverage <input type='radio' class='setpre
 <input type='hidden' name='customer_id' value='<?php echo !empty($customer_id) ? $customer_id : 0; ?>'>Custmer Name:<br>
 Last Name: <input type='text' name='firstname' value='<?php echo !empty($firstname) ? $firstname : ''; ?>'><?php if (!empty($error_firstname)) { echo $error_firstname; } ?><br>
 First Name: <input type='text' name='lastname' value='<?php echo !empty($lastname) ? $lastname : ''; ?>'><?php if (!empty($error_lastname)) { echo $error_lastname; } ?><br>
-Birth Date: <input type='date' class='setpremium' name='brithday' value='<?php echo !empty($brithday) ? $brithday : ''; ?>'><?php if (!empty($error_brithday)) { echo $error_brithday; } ?><br>
+Birth Date: <input type='date' class='setpremium' name='birthday' value='<?php echo !empty($birthday) ? $birthday : ''; ?>'><?php if (!empty($error_birthday)) { echo $error_birthday; } ?><br>
 Gender: <select name='gender'>
 <option value='M' <?php echo (empty($gender) || ($gender != 'F')) ? "selected" : ""; ?>>Male</option>
 <option value='F' <?php echo (!empty($gender) && ($gender == 'F')) ? "selected" : ""; ?>>Female</option>
@@ -97,7 +96,7 @@ Gender: <select name='gender'>
 <input type='hidden' name='customer_id_<?php echo $i; ?>' value='<?php echo !empty(${'customer_id_'.$i}) ? ${'customer_id_'.$i} : 0; ?>'>Family member <?php echo $i; ?> :<br>
 Last Name: <input type='text' name='firstname_<?php echo $i; ?>' value='<?php echo !empty(${'firstname_'.$i}) ? ${'firstname_'.$i} : ''; ?>'><br>
 First Name: <input type='text' name='lastname_<?php echo $i; ?>' value='<?php echo !empty(${'lastname_'.$i}) ? ${'lastname_'.$i} : ''; ?>'><br>
-Birth Date: <input type='date' class='setpremium' name='brithday_<?php echo $i; ?>' value='<?php echo !empty(${'brithday_'.$i}) ? ${'brithday_'.$i} : ''; ?>'><br>
+Birth Date: <input type='date' class='setpremium' name='birthday_<?php echo $i; ?>' value='<?php echo !empty(${'birthday_'.$i}) ? ${'birthday_'.$i} : ''; ?>'><br>
 Gender: <select name='gender_<?php echo $i; ?>'>
 <option value='M' <?php echo (empty(${'gender_'.$i}) || (${'gender_'.$i} != 'F')) ? "selected" : ""; ?>>Male</option>
 <option value='F' <?php echo (!empty(${'gender_'.$i}) && (${'gender_'.$i} == 'F')) ? "selected" : ""; ?>>Female</option>
@@ -181,34 +180,37 @@ function get_premium() {
 	var apply_date = $('input[name="apply_date"]').val();
 	var effective_date = $('input[name="effective_date"]').val();
 	var expiry_date = $('input[name="expiry_date"]').val();
-	var isfamilyplan = $('input[name="isfamilyplan"]').is(':checked');	// checkbox
+	var isfamilyplan = '';
+	if ($('input[name="isfamilyplan"]').is(':checked')) {
+		isfamilyplan = 1;	// checkbox
+	}
 	var sum_insured = $('select[name="sum_insured"]').val();	// select
 	var deductiable_amount = $('select[name="deductiable_amount"]').val();	// select
 	var stable_condition = $('input[name="stable_condition"]:checked').val();	// radio
-	var brithday = $('input[name="brithday"]').val();	// 
-	if (new Date(brithday) < new Date($('input[name="brithday_1"]').val())) {
-		brithday = $('input[name="brithday_1"]').val();
+	var birthday = $('input[name="birthday"]').val();	// 
+	if (new Date(birthday) < new Date($('input[name="birthday_1"]').val())) {
+		birthday = $('input[name="birthday_1"]').val();
 	} 
-	if (new Date(brithday) < new Date($('input[name="brithday_2"]').val())) {
-		brithday = $('input[name="brithday_2"]').val();
+	if (new Date(birthday) < new Date($('input[name="birthday_2"]').val())) {
+		birthday = $('input[name="birthday_2"]').val();
 	} 
-	if (new Date(brithday) < new Date($('input[name="brithday_3"]').val())) {
-		brithday = $('input[name="brithday_3"]').val();
+	if (new Date(birthday) < new Date($('input[name="birthday_3"]').val())) {
+		birthday = $('input[name="birthday_3"]').val();
 	} 
-	if (new Date(brithday) < new Date($('input[name="brithday_4"]').val())) {
-		brithday = $('input[name="brithday_4"]').val();
+	if (new Date(birthday) < new Date($('input[name="birthday_4"]').val())) {
+		birthday = $('input[name="birthday_4"]').val();
 	} 
-	if (new Date(brithday) < new Date($('input[name="brithday_5"]').val())) {
-		brithday = $('input[name="brithday_5"]').val();
+	if (new Date(birthday) < new Date($('input[name="birthday_5"]').val())) {
+		birthday = $('input[name="birthday_5"]').val();
 	} 
-	if (new Date(brithday) < new Date($('input[name="brithday_6"]').val())) {
-		brithday = $('input[name="brithday_6"]').val();
+	if (new Date(birthday) < new Date($('input[name="birthday_6"]').val())) {
+		birthday = $('input[name="birthday_6"]').val();
 	} 
-	if (new Date(brithday) < new Date($('input[name="brithday_7"]').val())) {
-		brithday = $('input[name="brithday_7"]').val();
+	if (new Date(birthday) < new Date($('input[name="birthday_7"]').val())) {
+		birthday = $('input[name="birthday_7"]').val();
 	} 
-	if (new Date(brithday) < new Date($('input[name="brithday_8"]').val())) {
-		brithday = $('input[name="brithday_8"]').val();
+	if (new Date(birthday) < new Date($('input[name="birthday_8"]').val())) {
+		birthday = $('input[name="birthday_8"]').val();
 	}
 	console.log('product_short: ' + product_short);
 	console.log('apply_date: ' + apply_date);
@@ -218,12 +220,12 @@ function get_premium() {
 	console.log('sum_insured: ' + sum_insured);
 	console.log('deductiable_amount: ' + deductiable_amount);
 	console.log('stable_condition: ' + stable_condition);
-	console.log('brithday: ' + brithday);
-	if (effective_date && expiry_date && sum_insured && brithday) {
+	console.log('birthday: ' + birthday);
+	if (effective_date && expiry_date && sum_insured && birthday) {
 		console.log('Call: ');
 		$.ajax({
 			url: '<?php echo $premium_url; ?>',
-			type: 'post',
+			type: 'get',
 			data: {
 				product_short: product_short,
 				apply_date: apply_date,
@@ -233,7 +235,7 @@ function get_premium() {
 				sum_insured: sum_insured,
 				deductiable_amount: deductiable_amount,
 				stable_condition: stable_condition,
-				brithday: brithday},
+				birthday: birthday},
 			success: function(data, textStatus, jqXHR) {
 				if (data['status'] == 'OK') {
 	        		$('#premium').val(data['premium']);
