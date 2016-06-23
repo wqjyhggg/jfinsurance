@@ -10,11 +10,12 @@
 </div><!-- End of div.main_container -->
 </div><!-- End of div.container.body-->
 </div><!-- End Body Content -->
- <!-- jQuery -->
-<script src="<?php echo base_url();?>stylesheet/jquery/dist/jquery.min.js"></script>
+
  <!-- Bootstrap -->
 <script src="<?php echo base_url();?>stylesheet/bootstrap/dist/js/bootstrap.min.js"></script>
+
 <script src="<?php echo base_url();?>stylesheet/datetimepicker/js/bootstrap-datetimepicker.js"></script>
+
  <!-- FastClick -->
 <script src="<?php echo base_url();?>stylesheet/fastclick/lib/fastclick.js"></script>
 <!-- NProgress -->
@@ -48,6 +49,7 @@
 <script src="<?php echo base_url();?>build/js/custom.min.js"></script>
 
 <!-- Datetime picker on jf page -->
+
 <script type="text/javascript">
     $('.form_date').datetimepicker({
         //language:  'fr',
@@ -60,7 +62,6 @@
         forceParse: 0
     });
 </script>
-
 
 
 </body>

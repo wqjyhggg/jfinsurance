@@ -10,7 +10,9 @@
 <!-- bootstrap style -->
 <link rel="stylesheet" href="<?php echo base_url();?>stylesheet/bootstrap/dist/css/bootstrap.css">
 <link rel="stylesheet" href="<?php echo base_url();?>stylesheet/bootstrap/dist/css/bootstrap.min.css">
+
 <link rel="stylesheet" href="<?php echo base_url();?>stylesheet/datetimepicker/css/bootstrap-datetimepicker.min.css">
+
 <!-- font-awesome style -->
 <link rel="stylesheet" href="<?php echo base_url();?>stylesheet/font-awesome/css/font-awesome.min.css" >
 <!-- customize template style -->
@@ -21,7 +23,8 @@
 <link rel="stylesheet" href="<?php echo base_url();?>stylesheet/starrr/dist/starrr.css" >
 <!-- Build theme style -->
 <link rel="stylesheet" href="<?php echo base_url();?>/build/css/custom.min.css">
-
+ <!-- jQuery -->
+<script src="<?php echo base_url();?>stylesheet/jquery/dist/jquery.min.js"></script>
 
 </head>
 <body class="nav-md">

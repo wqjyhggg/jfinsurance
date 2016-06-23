@@ -10,29 +10,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <nav class="" role="navigation">
               <div class="nav toggle">
                 <a id="menu_toggle"><i class="fa fa-bars"></i></a>
-              </div>
-
-              <ul class="nav navbar-nav navbar-right">
-                <!-- User section -->
-                <li class="">
-                  <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                    <img src="images/img.jpg" alt="">John Doe
-                    <span class=" fa fa-angle-down"></span>
-                  </a>
-                  <ul class="dropdown-menu dropdown-usermenu pull-right">
-                    <li><a href="javascript:;"> Profile</a></li>
-                    <li>
-                      <a href="javascript:;">
-                        <span class="badge bg-red pull-right">50%</span>
-                        <span>Settings</span>
-                      </a>
-                    </li>
-                    <li><a href="javascript:;">Help</a></li>
-                    <li><a href="login.html"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
-                  </ul>
-                </li>
-                <!-- User section End -->
-              </ul>
+              </div>   
             </nav>
           </div>
         </div>
@@ -44,17 +22,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <div class="page-title">
               <div class="title_left">
                 <h3>View/Edit Policy</h3>
-              </div>
-
-              <div class="title_right">
-                <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
-                  <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Search for...">
-                    <span class="input-group-btn">
-                      <button class="btn btn-default" type="button">Go!</button>
-                    </span>
-                  </div>
-                </div>
               </div>
             </div>
             <div class="clearfix"></div>
@@ -69,71 +36,281 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                   <div class="x_content">
                     <br />
 
+		                    <?php if (!empty($error_message)) { echo $error_message . "<br>"; } ?>
+							<form action='<?php echo $search_url; ?>' method='POST'  class="form-horizontal">
+		    				  <input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
+		                      <!-- personal information search -->
+		                      <div class="row">
+		                        <!-- Last Name input box -->
+		                        <div class="form-group col-sm-3">
+		                          <label class="col-sm-12">Last Name:</label>
+		                          <div class="input-group col-sm-12">
+		                              <input type="text" name="lastname" value="<?php echo $lastname; ?>" class="form-control"/>
+		                          </div>
+		                        </div>
+		                        <!-- Last Name input box end -->
+		                        <!-- First Name input box -->
+		                        <div class="form-group col-sm-3">
+		                          <label class="col-sm-12">First Name:</label>
+		                          <div class="input-group col-sm-12">
+		                              <input type="text" name="firstname" value="<?php echo $firstname; ?>" class="form-control"/>
+		                          </div>
+		                        </div>
+		                        <!-- First Name input box end -->
+		                        <!-- Birthdate select box -->
+		                        <div class="form-group col-sm-3">
+		                          <label for="application_date_from" class="col-sm-12">Birthdate From:</label>
+		                            <div class="input-group date form_date col-sm-12" data-date="" data-date-format="yyyy/mm/dd" data-link-field="application_date_from" data-link-format="yyyy-mm-dd">
+		                                <input class="form-control" size="16" type="text" name="brithday" value="<?php echo $brithday; ?>" readonly>
+		                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+		                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+		                            </div>
+		                            <input type="hidden" id="application_date_from" value="" />
+		                        </div>
+		                        <div class="form-group col-sm-3">
+		                          <label for="application_date_from" class="col-sm-12">Birthdate to:</label>
+		                            <div class="input-group date form_date col-sm-12" data-date="" data-date-format="yyyy/mm/dd" data-link-field="application_date_from" data-link-format="yyyy-mm-dd">
+		                                <input class="form-control" size="16" type="text" name="brithday2" value="<?php echo $brithday2; ?>" readonly>
+		                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+		                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+		                            </div>
+		                            <input type="hidden" id="application_date_from" value="" />
+		                        </div>
+		                        <!-- Birthdate select box end -->
 
+		                      </div>
+		                      <!-- policy information search -->
+		                      <div class="row">
+		                        <!-- Policy Number input box -->
+		                        <div class="form-group col-sm-3">
+		                          <label class="col-sm-12">Policy Number:</label>
+		                          <div class="input-group col-sm-12">
+		                              <input type="text" name='policy' value='<?php echo $policy; ?>' class="form-control"/>
+		                          </div>
+		                        </div>
+		                        <!-- Policy Number input box end -->
+		                        <!-- Agent input box -->
+		                        <div class="form-group col-sm-3">
+		                          <label class="col-sm-12">Agent/School Name:</label>
+		                          <div class="input-group col-sm-12">
+		                              <input type="text" name='uname' value='<?php echo $uname; ?>' class="form-control"/>
+		                          </div>
+		                        </div>
+		                        <!-- Agent input box end -->
+		                        <!-- Batch No. input box -->
+		                        <div class="form-group col-sm-3">
+		                          <label class="col-sm-12">Batch No.:</label>
+		                          <div class="input-group col-sm-12">
+		                              <input type="text" name='batch_number' value='<?php echo $batch_number; ?>' class="form-control"/>
+		                          </div>
+		                        </div>
+		                        <!-- Batch No. input box end -->
 
+		                        <!-- Product select box -->
+		                        <div class="form-group col-sm-3">
+		                          <label class="col-sm-12">Our Product:</label>
+		                          <select name='product_short' class="form-control">
+									<option value='0'> -- select product -- </option>
+									<?php foreach ($product_list as $key => $value) { ?>
+									<option value='<?php echo $key; ?>' <?php echo ($key == $product_short) ? 'selected' : ''; ?>><?php echo $value['full_name']; ?></option>
+									<?php } ?>
+								  </select>
+		                              
+		                        </div>
+		                        <!-- Product select box end -->
+		                      </div>
+		                      <!-- related date search -->
+		                      <div class="row">
+		                        <!-- Application Date -->
+		                        <div class="form-group col-sm-3">
+		                          <!-- Application Date from -->
+		                            <label for="application_date_from" class="col-sm-12">Application Date From</label>
+		                            <div class="input-group date form_date col-sm-12" data-date="" data-date-format="yyyy/mm/dd" data-link-field="application_date_from" data-link-format="yyyy-mm-dd">
+		                                <input class="form-control" size="16" type="text" name='apply_date' value='<?php echo $apply_date; ?>' readonly>
+		                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+		                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+		                            </div>
 
-					<p>Search Form</p>
-					<?php if (!empty($error_message)) { echo $error_message . "<br>"; } ?>
-					<form action='<?php echo $search_url; ?>' method='POST'>
-					<input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'><br>
-					Last Name: <input type='text' name='firstname' value='<?php echo $firstname; ?>'><br>
-					First Name: <input type='text' name='lastname' value='<?php echo $lastname; ?>'><br>
-					Birth Date From: <input type='date' name='brithday' value='<?php echo $brithday; ?>'><br>
-					Birth Date To: <input type='date' name='brithday2' value='<?php echo $brithday2; ?>'><br>
-					Policy Number: <input type='text' name='policy' value='<?php echo $policy; ?>'><br>
-					Apply Date From: <input type='date' name='apply_date' value='<?php echo $apply_date; ?>'><br>
-					Apply Date To: <input type='date' name='apply_date2' value='<?php echo $apply_date2; ?>'><br>
-					Arrival Date From: <input type='date' name='arrival_date' value='<?php echo $arrival_date; ?>'><br>
-					Arrival Date To: <input type='date' name='arrival_date2' value='<?php echo $arrival_date2; ?>'><br>
-					Effective Date From: <input type='date' name='effective_date' value='<?php echo $effective_date; ?>'><br>
-					Effective Date To: <input type='date' name='effective_date2' value='<?php echo $effective_date2; ?>'><br>
-					Expiry Date From: <input type='date' name='expiry_date' value='<?php echo $expiry_date; ?>'><br>
-					Expiry Date To: <input type='date' name='expiry_date2' value='<?php echo $expiry_date2; ?>'><br>
-					<?php if ($beuser['user_group_id'] > 5) { ?>
-					Agent/School Name: <input type='text' name='uname' value='<?php echo $uname; ?>'><br>
-					<?php } ?>
-					Batch No.: <input type='text' name='batch_number' value='<?php echo $batch_number; ?>'><br>
-					Policy Status: <select name='status_id'>
-					<option value='0'> -- select policy status -- </option>
-					<?php foreach ($status_list as $key => $value) { ?>
-					<option value='<?php echo $key; ?>' <?php echo ($key == $status_id) ? 'selected' : ''; ?>><?php echo $value['name']; ?></option>
-					<?php } ?>
-					</select><br>
-					Product List: <select name='product_short'>
-					<option value='0'> -- select product -- </option>
-					<?php foreach ($product_list as $key => $value) { ?>
-					<option value='<?php echo $key; ?>' <?php echo ($key == $product_short) ? 'selected' : ''; ?>><?php echo $value['full_name']; ?></option>
-					<?php } ?>
-					</select><br>
-					Province: <div id='province2_div'></div><br>
-					Country: <div id='country2_div'></div><br>
-					<input type='submit' name='search' value='Search'><br>
-					</form><br />
-					=========================================================================<br />
-					<form action='<?php echo $add_url; ?>' method='POST'>
-					<input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'><br>
-					Product List: <select name='product_short'>
-					<?php foreach ($product_list as $key => $value) { ?>
-					<option value='<?php echo $key; ?>'><?php echo $value['full_name']; ?></option>
-					<?php } ?>
-					</select><br>
-					<input type='submit' name='add' value='Create'><br>
+		                            <input type="hidden" id="application_date_from" value="" />
+		                            <!-- Application Date from End-->
+		                            <!-- Application Date to -->
+		                            <label for="application_date_to" class="col-sm-12">Application Date To</label>
+		                            <div class="input-group date form_date col-sm-12" data-date="" data-date-format="yyyy/mm/dd" data-link-field="application_date_to" data-link-format="yyyy-mm-dd">
+		                                <input class="form-control" size="16" type="text" name='apply_date2' value='<?php echo $apply_date2; ?>' readonly>
+		                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+		                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+		                            </div>
+		                            <input type="hidden" id="application_date_to" value="" />
+		                            <!-- Application Date to End -->
+		                        </div>
+		                        <!-- Application Date End-->
+		                        <!-- Create Date-->
+		                        <div class="form-group col-sm-3">
+		                            <!-- Create Date From-->
+		                            <label for="create_date_from" class="col-sm-12">Arrival Date From</label>
+		                            <div class="input-group date form_date col-sm-12" data-date="" data-date-format="yyyy/mm/dd" data-link-field="create_date_from" data-link-format="yyyy-mm-dd">
+		                                <input class="form-control" size="16" type="text" name='arrival_date' value='<?php echo $arrival_date; ?>' readonly>
+		                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+		                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+		                            </div>
+		                            <input type="hidden" id="create_date_from" value="" />
+		                            <!-- Create Date From End-->
+		                            <!-- Create Date to -->
+		                            <label for="create_date_to" class="col-sm-12">Arrival Date To</label>
+		                            <div class="input-group date form_date col-sm-12" data-date="" data-date-format="yyyy/mm/dd" data-link-field="create_date_to" data-link-format="yyyy-mm-dd">
+		                                <input class="form-control" size="16" type="text" name='arrival_date2' value='<?php echo $arrival_date2; ?>' readonly>
+		                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+		                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+		                            </div>
+		                            <input type="hidden" id="create_date_to" value="" />
+		                            <!-- Create Date to End -->
+		                        </div>
+		                        <!-- Create Date End -->
+		                        <!-- Effective Date-->
+		                        <div class="form-group col-sm-3">
+		                            <!-- Effective Date From-->
+		                            <label for="effective_date_from" class="col-sm-12">Effective Date From</label>
+		                            <div class="input-group date form_date col-sm-12" data-date="" data-date-format="yyyy/mm/dd" data-link-field="effective_date_from" data-link-format="yyyy-mm-dd">
+		                                <input class="form-control" size="16" type="text" name='effective_date' value='<?php echo $effective_date; ?>' readonly>
+		                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+		                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+		                            </div>
+		                            <input type="hidden" id="effective_date_from" value="" />
+		                            <!-- Effective Date From End-->
+		                            <!-- Effective Date to -->
+		                            <label for="effective_date_to" class="col-sm-12">Effective Date To</label>
+		                            <div class="input-group date form_date col-sm-12" data-date="" data-date-format="yyyy/mm/dd" data-link-field="effective_date_to" data-link-format="yyyy-mm-dd">
+		                                <input class="form-control" size="16" type="text" name='effective_date2' value='<?php echo $effective_date2; ?>' readonly>
+		                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+		                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+		                            </div>
+		                            <input type="hidden" id="effective_date_to" value="" />
+		                            <!-- Effective Date to End -->
+		                        </div>
+		                        
+		                        <div class="form-group col-sm-3">
+		                            
+		                            <label for="payment_update_date_from" class="col-sm-12">Expiry Date From</label>
+		                            <div class="input-group date form_date col-sm-12" data-date="" data-date-format="yyyy/mm/dd" data-link-field="payment_update_date_from" data-link-format="yyyy-mm-dd">
+		                                <input class="form-control" size="16" type="text" name='expiry_date' value='<?php echo $expiry_date; ?>' readonly>
+		                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+		                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+		                            </div>
+		                            <input type="hidden" id="payment_update_date_from" value="" />
+		                           
+		                            <label for="payment_update_date_to" class="col-sm-12">Expiry Date To</label>
+		                            <div class="input-group date form_date col-sm-12" data-date="" data-date-format="yyyy/mm/dd" data-link-field="payment_update_date_to" data-link-format="yyyy-mm-dd">
+		                                <input class="form-control" size="16" type="text" name='expiry_date2' value='<?php echo $expiry_date2; ?>' readonly>
+		                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+		                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+		                            </div>
+		                            <input type="hidden" id="payment_update_date_to" value="" />
+		                       
+		                        </div>
+		                        
+		                      </div>
+		                      <div class="row">
+		                      	<!-- Policy Status select box -->
+		                        <div class="form-group col-sm-3">
+		                          <label class="col-sm-12">Policy Status:</label>
+		                          <select name='status_id' class="form-control">
+									<option value='0'> -- select policy status -- </option>
+									<?php foreach ($status_list as $key => $value) { ?>
+									<option value='<?php echo $key; ?>' <?php echo ($key == $status_id) ? 'selected' : ''; ?>><?php echo $value['name']; ?></option>
+									<?php } ?>
+								  </select>
+		                             
+		                        </div>
+		                        <!-- Policy Status select box end -->
+		                        <div class="form-group col-sm-3">
+		                          <label class="col-sm-12">Province:</label>
+		                          <div class="input-group col-sm-12">
+		                              <div class="form-control" id='province2_div'></div>
+		                          </div>
+		                        </div>
+		                        <div class="form-group col-sm-3">
+		                          <label class="col-sm-12">Province:</label>
+		                          <div class="input-group col-sm-12">
+		                              <div class="form-control" id='country2_div'></div>
+		                          </div>
+		                        </div>
+		                        
+		                      </div>
+		                      <!-- submit button -->
+		                      <div class="row">
+		                        <!-- submit button -->
+		                          <div class="col-sm-12">
+		                          	<input class="btn btn-default pull-right" type='submit' name='search' value='Start Search'>
+		                    
+		                          </div> 
+		                        <!-- submit button -->
+		                      </div>
+		                    </form>
+
+				</div>
+                </div>
+              </div>
+            </div><!-- End Filter Section -->
+            <!-- Create Section -->
+            <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>Create<small></small></h2>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                    <br />
+                    <form action='<?php echo $add_url; ?>' method='POST' class="form-horizontal">
+
+					<input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
+
+					<div class="form-group col-sm-3">
+		                <label class="col-sm-12">Product List:</label>
+		                <select name='product_short' class="form-control">
+							<?php foreach ($product_list as $key => $value) { ?>
+							<option value='<?php echo $key; ?>'><?php echo $value['full_name']; ?></option>
+							<?php } ?>
+						</select>
+		                
+		            </div>
+
+					<div class="form-group col-sm-3">
+						<label class="col-sm-12"> &nbsp;</label>
+						<input class="btn btn-default" type='submit' name='add' value='Create'>
+					</div>
 					</form> 
-					=========================================================================<br />
-					<p>Policy List</p>
-					<table>
-						<tr>
-							<th>Policy No.</th>
-							<th>Batch No.</th>
-							<th>Name</th>
-							<th>Status</th>
-							<th>Effect Date</th>
-							<th>User</th>
-					<?php if ($beuser['user_group_id'] > 5) { ?>
-							<th>Agent</th>
-					<?php } ?>
-							<th>&nbsp</th>
-						</tr>
+                  </div>
+                </div>
+              </div>
+            </div><!-- End Create Section -->
+            <!-- List Section -->
+            <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>Search Result<small></small></h2>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                    <br />
+                     <div class="table-responsive">
+                      <table class="table table-hover table-bordered">
+                      	<thead>
+							<tr>
+								<th>Policy No.</th>
+								<th>Batch No.</th>
+								<th>Name</th>
+								<th>Status</th>
+								<th>Effect Date</th>
+								<th>User</th>
+						<?php if ($beuser['user_group_id'] > 5) { ?>
+								<th>Agent</th>
+						<?php } ?>
+								<th>&nbsp</th>
+							</tr>
+						</thead>
+						<tbody>
 					<?php foreach ($plan_list as $plan) { ?>
 						<tr>
 							<td><a href='<?php echo $edit_url.$plan['plan_id']; ?>'><?php echo $plan['policy']?></a></td>
@@ -148,127 +325,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<td><a href='<?php echo $copy_url.$plan['plan_id']; ?>'>Copy</a></td>
 						</tr>
 					<?php } ?>
+					    </tbody>
 					</table>
-
-
-				</div>
-                </div>
-              </div>
-            </div><!-- End Filter Section -->
-            <!-- List Section -->
-            <div class="row">
-              <div class="col-md-12 col-sm-12 col-xs-12">
-                <div class="x_panel">
-                  <div class="x_title">
-                    <h2>Search Result<small></small></h2>
-                    <div class="clearfix"></div>
-                  </div>
-                  <div class="x_content">
-                    <br />
-                    <div class="table-responsive">
-                      <table class="table table-hover table-bordered">
-                        <thead>
-                          <tr>
-                            <th>Travel Plan Number</th>
-                            <th>First Name</th>
-                            <th>Last Name</th>
-                            <th>Gender</th>
-                            <th>Birthdate</th>
-                            <th>Address Line 1</th>
-                            <th>City</th>
-                            <th>Province</th>
-                            <th>Postal Code</th>
-                            <th>Option</th>
-                            <th>Agent</th>
-                            <th>Application Date</th>
-                            <th>Create Date</th>
-                            <th>Effective Date</th>
-                            <th>Expiry Date</th>
-                            <th>Number of Days</th>
-                            <th>Sum Insured</th>
-                            <th>Net Premium</th>
-                           
-                            <th>Gross Premium</th>
-                           
-                            <th>Rate Per Day</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                              <td colspan="22">JF Optimum Plus</td>
-                            </tr>
-                            <tr>
-                              <td><a href="">OPL248778</a></td>
-                              <td>TestGiven</td>
-                              <td>TestLast</td>
-                              <td>M</td>
-                              <td>1980-05-03</td>
-                              <td>14 Asdf fdsfsdf</td>
-                              <td>Toronto</td>
-                              <td>ON</td>
-                              <td>M2M 4M5</td>
-                              <td>9283</td>
-                              <td>458286</td>
-                              <td>2016-06-05</td>
-                              <td>2016-05-05</td>
-                              <td>2016-08-03</td>
-                              <td>2017-08-02</td>
-                              <td>365</td>
-                              <td>10,000</td>
-                              <td>733.21</td>
-                              <td>1,357.80</td>
-                              <td>3.72</td>
-                            </tr>
-                            <tr>
-                              <td><a href="">OPL248777</a></td>
-                              <td>TestGiven</td>
-                              <td>TestLast</td>
-                              <td>M</td>
-                              <td>1980-05-03</td>
-                              <td>14 Asdf fdsfsdf</td>
-                              <td>Toronto</td>
-                              <td>ON</td>
-                              <td>M2M 4M5</td>
-                              <td>9283</td>
-                              <td>458286</td>
-                              <td>2016-06-05</td>
-                              <td>2016-05-05</td>
-                              <td>2016-08-03</td>
-                              <td>2017-08-02</td>
-                              <td>365</td>
-                              <td>10,000</td>
-                              <td>733.21</td>
-                              <td>1,357.80</td>
-                              <td>3.72</td>
-                            </tr>
-                            <tr>
-                              <td colspan="22">JF Royal Visitor to Canada</td>
-                            </tr>
-                            <tr>
-                              <td><a href="">JFR248775</a></td>
-                              <td>TestGiven</td>
-                              <td>TestLast</td>
-                              <td>M</td>
-                              <td>1980-05-03</td>
-                              <td>14 Asdf fdsfsdf</td>
-                              <td>Toronto</td>
-                              <td>ON</td>
-                              <td>M2M 4M5</td>
-                              <td>9283</td>
-                              <td>458286</td>
-                              <td>2016-06-05</td>
-                              <td>2016-05-05</td>
-                              <td>2016-08-03</td>
-                              <td>2017-08-02</td>
-                              <td>365</td>
-                              <td>10,000</td>
-                              <td>733.21</td>
-                              <td>1,357.80</td>
-                              <td>3.72</td>
-                            </tr>
-                        </tbody>
-                      </table>
-                    </div>
+                    
                   </div>
                 </div>
               </div>
