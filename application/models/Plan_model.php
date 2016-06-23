@@ -114,7 +114,7 @@ class Plan_model extends CI_Model {
 		if (isset($para['residence'])) $sql .= " residence=" . $this->db->escape(trim($para['residence'])) . ", ";
 		if (isset($para['note'])) $sql .= " note=" . $this->db->escape(trim($para['note'])) . ", ";
 		$sql .= " ip=" . $this->db->escape($_SERVER['REMOTE_ADDR']) . ", ";
-		$sql .= " premium='0', commission_amount='0' ";
+		$sql .= " commission_amount='0' ";
 		$this->db->query($sql);
 		$plan_id = $this->db->insert_id();
 		$this->sqlstr .= $this->db->last_query() . "; ";
@@ -407,6 +407,40 @@ class Plan_model extends CI_Model {
 				$this->sqlstr = $this->customer_model->sqlstr . "; ";
 				$this->logstr = $this->customer_model->logstr . "; ";
 			}
+		}
+		
+		if ($premiumchged != 0) {
+			if ($plan['status_id'] > 2) {
+				// Paied policy
+				$new_premium = (float)$para['premium'] - (float)$plan['premium'];
+				$this->load->model('trans_model');
+				$para = array();
+				$para['user_id'] = $beuser['user_id'];
+				$para['plan_id'] = $plan['plan_id'];
+				$para['amount'] = $new_premium;
+				$para['ispaid'] = 0;
+				$para['pay_type'] = $this->trans_model->pay_type('premium');
+				$para['added'] = date('Y-m-d');
+				$para['note'] = 'Plan change';
+				$this->trans_model->add($para);
+				$this->sqlstr = $this->trans_model->sqlstr . "; ";
+				$this->logstr = $this->trans_model->logstr . "; ";
+			}
+		}
+		if ($commissionchged != 0) {
+			$commission_amount = (float)$para['commission_amount'] - (float)$plan['commission_amount'];
+			$this->load->model('trans_model');
+			$para = array();
+			$para['user_id'] = $beuser['user_id'];
+			$para['plan_id'] = $plan['plan_id'];
+			$para['amount'] = $commission_amount;
+			$para['ispaid'] = 0;
+			$para['pay_type'] = $this->trans_model->pay_type('commission');
+			$para['added'] = date('Y-m-d');
+			$para['note'] = 'Plan change';
+			$this->trans_model->add($para);
+			$this->sqlstr = $this->trans_model->sqlstr . "; ";
+			$this->logstr = $this->trans_model->logstr . "; ";
 		}
 		
 		return $plan_id;

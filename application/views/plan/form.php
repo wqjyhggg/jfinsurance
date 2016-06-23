@@ -4,7 +4,6 @@
 <input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'><br>
 <input type='hidden' name='plan_id' value='<?php echo $plan_id; ?>'>
 <input type='hidden' name='product_short' value='<?php echo $product_short; ?>'>
-Apply Date: <?php echo empty($apply_time) ? "N/A" : $apply_time; ?><br>
 <?php if (empty($plan_id) || empty(status_id)) { ?>
 	<?php /* it should be new plan */ ?>
 	<input type='hidden' name='status_id' value='0'>
@@ -140,7 +139,10 @@ function get_premium() {
 	var apply_date = $('input[name="apply_date"]').val();
 	var effective_date = $('input[name="effective_date"]').val();
 	var expiry_date = $('input[name="expiry_date"]').val();
-	var isfamilyplan = $('input[name="isfamilyplan"]').is(':checked');	// checkbox
+	var isfamilyplan = '';
+	if ($('input[name="isfamilyplan"]').is(':checked')) {
+		isfamilyplan = 1;	// checkbox
+	}
 	var sum_insured = $('select[name="sum_insured"]').val();	// select
 	var deductiable_amount = $('select[name="deductiable_amount"]').val();	// select
 	var stable_condition = $('input[name="stable_condition"]:checked').val();	// radio
@@ -182,7 +184,7 @@ function get_premium() {
 		console.log('Call: ');
 		$.ajax({
 			url: '<?php echo $premium_url; ?>',
-			type: 'post',
+			type: 'get',
 			data: {
 				product_short: product_short,
 				apply_date: apply_date,

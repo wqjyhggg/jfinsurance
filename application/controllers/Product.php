@@ -56,15 +56,15 @@ class Product extends MY_Controller {
 		$beuser = $this->func_model->verify_login(); 
 		$this->load->model('product_model');
 		$para = array(
-			'product_short' => $this->input->post('product_short'),
-			'apply_date' => $this->input->post('apply_date'),
-			'effective_date' => $this->input->post('effective_date'),
-			'expiry_date' => $this->input->post('expiry_date'),
-			'isfamilyplan' => $this->input->post('isfamilyplan'),
-			'sum_insured' => $this->input->post('sum_insured'),
-			'deductiable_amount' => $this->input->post('deductiable_amount'),
-			'stable_condition' => $this->input->post('stable_condition'),
-			'brithday' => $this->input->post('brithday'));
+			'product_short' => $this->input->post_get('product_short'),
+			'apply_date' => $this->input->post_get('apply_date'),
+			'effective_date' => $this->input->post_get('effective_date'),
+			'expiry_date' => $this->input->post_get('expiry_date'),
+			'isfamilyplan' => $this->input->post_get('isfamilyplan'),
+			'sum_insured' => $this->input->post_get('sum_insured'),
+			'deductiable_amount' => $this->input->post_get('deductiable_amount'),
+			'stable_condition' => $this->input->post_get('stable_condition'),
+			'brithday' => $this->input->post_get('brithday'));
 
 		$premium = $this->product_model->get_premium($para);
 		if (empty($premium)) {

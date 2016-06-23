@@ -81,20 +81,25 @@ class Plan extends MY_Controller {
 			redirect(base_url('plan'));
 		}
 		
-		$nowtm = time();
+		$nowtm = strtotime(date('Y-m-d'));
 		$arrival_date = $this->input->post('arrival_date');
 		$arrivaltm = strtotime($arrival_date);
 		if (empty($arrival_date) || ($arrivaltm < $nowtm)) {
+			if (empty($arrival_date)) {
+				$this->error['error_arrival_date'] = 'Arrival Date['.$arrival_date.']';
+			} else if ($arrivaltm <= $nowtm) {
+				$this->error['error_arrival_date'] = 'Arrival Date['.$arrivaltm.']['.$nowtm.']';
+			} else
 			$this->error['error_arrival_date'] = 'Confirm Arrival Date';
 		}
 		$effective_date = $this->input->post('effective_date');
 		$effectivetm = strtotime($effective_date);
-		if (empty($effective_date) || ($effectivetm < $nowtm)) {
+		if (empty($effective_date) || ($effectivetm <= $nowtm)) {
 			$this->error['error_effective_date'] = 'Confirm Effective Date';
 		}
 		$expiry_date = $this->input->post('expiry_date');
 		$expirytm = strtotime($expiry_date);
-		if (empty($expiry_date) || ($expirytm < $nowtm) || ($expirytm < $effectivetm)) {
+		if (empty($expiry_date) || ($expirytm <= $nowtm) || ($expirytm < $effectivetm)) {
 			$this->error['error_expiry_date'] = 'Confirm Expiry Date';
 		}
 		if (empty($this->input->post('beneficiary'))) {
