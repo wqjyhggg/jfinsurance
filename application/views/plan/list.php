@@ -305,7 +305,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<th>Status</th>
 								<th>Effect Date</th>
 								<th>User</th>
-						<?php if ($beuser['user_group_id'] > 5) { ?>
+						<?php if ($beuser['user_group_id'] < 5) { ?>
 								<th>Agent</th>
 						<?php } ?>
 								<th>&nbsp</th>
@@ -316,11 +316,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<tr>
 							<td><a href='<?php echo $edit_url.$plan['plan_id']; ?>'><?php echo $plan['policy']?></a></td>
 							<td><?php echo $plan['batch_number']; ?></td>
-							<td><?php echo $plan['full_name']; ?></td>
-							<td><?php echo $status_list[$plan['status_id']]; ?></td>
+							<td><?php echo $plan['product_short']; ?></td>
+							<td><?php echo $status_list[$plan['status_id']]['name']; ?></td>
 							<td><?php echo $plan['effective_date']; ?></td>
 							<td><?php echo $plan['firstname'] . " " . $plan['lastname']; ?></td>
-					<?php if ($beuser['user_group_id'] > 5) { ?>
+					<?php if ($beuser['user_group_id'] < 5) { ?>
 							<td><?php echo $plan['agent_firstname'] . " " . $plan['agent_lastname']; ?></td>
 					<?php } ?>
 							<td><a href='<?php echo $copy_url.$plan['plan_id']; ?>'>Copy</a></td>

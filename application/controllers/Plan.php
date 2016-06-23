@@ -43,7 +43,6 @@ class Plan extends MY_Controller {
 		if ($this->input->post('search')) {
 			/* plan_id, policy, batch_number, full_name, status_id, effective_date, firstname(customer), lastname(customer), agent_firstname, agent_lastname */
 			$data['plan_list'] = $this->plan_model->plan_search($this->input->post(), 100);
-			$data['plan_list'] = array();
 		} else {
 			$data['plan_list'] = array();
 		}
