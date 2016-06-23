@@ -97,13 +97,13 @@ class Product_model extends CI_Model {
 	/**
 	 * Get Product premium
 	 * 
-	 * @param array $para	parameter array 'product_short', 'apply_date', 'effective_date', 'expiry_date', 'isfamilyplan', 'sum_insured', 'deductiable_amount', 'stable_condition', 'brithday'
+	 * @param array $para	parameter array 'product_short', 'apply_date', 'effective_date', 'expiry_date', 'isfamilyplan', 'sum_insured', 'deductiable_amount', 'stable_condition', 'birthday'
 	 * @return float 		premium, 8 means can't caculate.
 	 */
 	public function get_premium($para) {
 		$premium = 0;
 		$days = $this->getDays($para['effective_date'], $para['expiry_date']);
-		$years = $this->getYears($para['apply_date'], $para['brithday']);
+		$years = $this->getYears($para['apply_date'], $para['birthday']);
 		if ($para['product_short'] == 'OPL') {
 			if ($para['stable_condition'] == 1) {
 				// With stable pre-existing conditions coverage option

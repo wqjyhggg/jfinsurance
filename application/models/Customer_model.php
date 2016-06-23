@@ -114,8 +114,8 @@ class Customer_model extends CI_Model {
 			if (isset($para['lastname']) && ($para['lastname'] != $customer['lastname'])) {
 				$this->logstr .= " lastname " . $para['lastname'] . "(" . $customer['lastname'] . ")";
 			}
-			if (isset($para['brithday']) && ($para['brithday'] != $customer['brithday'])) {
-				$this->logstr .= " brithday " . $para['brithday'] . "(" . $customer['brithday'] . ")";
+			if (isset($para['birthday']) && ($para['birthday'] != $customer['birthday'])) {
+				$this->logstr .= " birthday " . $para['birthday'] . "(" . $customer['birthday'] . ")";
 			}
 			if ($this->logstr != "") {
 				$id = $this->db->insert_id();
@@ -125,4 +125,12 @@ class Customer_model extends CI_Model {
 		}
 		return null;
 	}
+	
+	/**
+	 * Get max birthday for a plan
+	 * 
+	 * @param integer $customer_id	master customer ImagickDraw
+	 * @return string		oldest customer birthday
+	 */
+	get_max_birthday($plan['customer_id'])
 }

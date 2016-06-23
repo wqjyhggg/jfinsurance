@@ -78,8 +78,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'><br>
 					Last Name: <input type='text' name='firstname' value='<?php echo $firstname; ?>'><br>
 					First Name: <input type='text' name='lastname' value='<?php echo $lastname; ?>'><br>
-					Birth Date From: <input type='date' name='brithday' value='<?php echo $brithday; ?>'><br>
-					Birth Date To: <input type='date' name='brithday2' value='<?php echo $brithday2; ?>'><br>
+					Birth Date From: <input type='date' name='birthday' value='<?php echo $birthday; ?>'><br>
+					Birth Date To: <input type='date' name='birthday2' value='<?php echo $birthday2; ?>'><br>
 					Policy Number: <input type='text' name='policy' value='<?php echo $policy; ?>'><br>
 					Apply Date From: <input type='date' name='apply_date' value='<?php echo $apply_date; ?>'><br>
 					Apply Date To: <input type='date' name='apply_date2' value='<?php echo $apply_date2; ?>'><br>

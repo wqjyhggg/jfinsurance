@@ -64,7 +64,7 @@ class Product extends MY_Controller {
 			'sum_insured' => $this->input->post_get('sum_insured'),
 			'deductiable_amount' => $this->input->post_get('deductiable_amount'),
 			'stable_condition' => $this->input->post_get('stable_condition'),
-			'brithday' => $this->input->post_get('brithday'));
+			'birthday' => $this->input->post_get('birthday'));
 
 		$premium = $this->product_model->get_premium($para);
 		if (empty($premium)) {
