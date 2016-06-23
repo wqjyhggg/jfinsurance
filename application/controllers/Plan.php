@@ -458,7 +458,7 @@ class Plan extends MY_Controller {
 		);
 
 		//$this->load->common('plan/form', $data);
-		$this->load->view('plan/form', $data);
+		$this->load->common('plan/form', $data);
 	}
 	
 	function add() {
@@ -472,6 +472,7 @@ class Plan extends MY_Controller {
 	}
 
 	function term($plan_id=0) {
+		
 		$beuser = $this->func_model->verify_login(); 
 		if (empty($plan_id)) {
 			$plan_id = $this->input->post['plan_id'];
@@ -479,6 +480,7 @@ class Plan extends MY_Controller {
 		if (empty($plan_id)) {
 			redirect(base_url('production'));
 		}
+
 		$data['message'] = '';
 		if ($this->input->post('submit')) {
 			$agree = $this->post->post('agree');
@@ -499,6 +501,7 @@ class Plan extends MY_Controller {
 			}
 		}
 		$data['plan_id'] = $plan_id;
+		
 		$data['action_url'] = base_url('plan/term');
 		$data['title_txt'] = 'Policy';
 		$data['top_menu'] = $this->menu_model->load_top_menu();
@@ -508,7 +511,7 @@ class Plan extends MY_Controller {
 				'value' => $this->security->get_csrf_hash ()
 		);
 		
-		$this->load->view('plan/term', $data);
+		$this->load->common('plan/term', $data);
 	}
 
 	function detail($plan_id=0, $sekey='') {
