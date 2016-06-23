@@ -130,7 +130,23 @@ class Customer_model extends CI_Model {
 	 * Get max birthday for a plan
 	 * 
 	 * @param integer $customer_id	master customer ImagickDraw
+	 * @param integer $isfamilyplan
 	 * @return string		oldest customer birthday
 	 */
-	get_max_birthday($plan['customer_id'])
+	public function get_max_birthday($customer_id, $isfamilyplan) {
+		$c = $this->get_customer_by_id($customer_id);
+		$birthday = $c['birthday'];
+		if ($isfamilyplan) {
+			$cs = $this->get_customer_by_parent_id($customer_id);
+			$mxtm = strtotime($birthday);
+			foreach ($cs as $cc) {
+				$bd = $c['birthday'];
+				$tm = strtotime($bd);
+				if ($mxtm < $tm) {
+					$birthday = $bd;
+				}
+			}
+		}
+		return $birthday;
+	}
 }
