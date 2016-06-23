@@ -179,6 +179,7 @@ class Plan_model extends CI_Model {
 	 * @return	array					user table search result
 	 */
 	public function update($plan_id, $para) {
+		$this->load->model('customer_model');
 		$arr = array();
 		$beuser = $this->session->userdata ( 'beuser' );
 		if (empty($beuser)) {
@@ -189,7 +190,7 @@ class Plan_model extends CI_Model {
 			return 0;
 		}
 		$plan_id = $plan['plan_id'];
-		$this->logstr .= "Change Plan (" . (int)$plan_id . "): " . $para['product_short'];
+		$this->logstr .= "Change Plan (" . (int)$plan_id . "): ";
 		
 		$isfamilyplan = empty($para['isfamilyplan']) ? 0 : 1;
 		$sql  = "UPDATE plan SET";
@@ -257,7 +258,7 @@ class Plan_model extends CI_Model {
 		if (isset($para['premium']) && ((float)$para['premium'] != (float)$plan['premium'])) {
 			$premiumchged = 1;
 			$this->logstr .= " premium " . $para['premium'] . "(" . $plan['premium'] . ")";
-			$sql .= " premium='" . (float) $para['deductiable_amount'] . "', ";
+			$sql .= " premium='" . (float) $para['premium'] . "', ";
 		}
 		$commissionchged = 0;
 		if (isset($para['commission_amount']) && ((float)$para['commission_amount'] != (float)$plan['commission_amount'])) {
@@ -342,16 +343,18 @@ class Plan_model extends CI_Model {
 		$this->db->query($sql);
 		$this->sqlstr = $this->db->last_query() . "; ";
 
-		$cpara = array(
-				'gender' => $para['gender'],
-				'firstname' => $para['firstname'],
-				'lastname' => $para['lastname'],
-				'birthday' => $para['birthday']
-		);
-		$customer_id = $this->customer_model->update($plan['customer_id'], $cpara);
-		if ($customer_id) {
-			$this->sqlstr = $this->customer_model->sqlstr . "; ";
-			$this->logstr = $this->customer_model->logstr . "; ";
+		if (!empty($para['gender']) && !empty($para['firstname']) && !empty($para['lastname']) && !empty($para['birthday'])) {
+			$cpara = array(
+					'gender' => $para['gender'],
+					'firstname' => $para['firstname'],
+					'lastname' => $para['lastname'],
+					'birthday' => $para['birthday']
+			);
+			$customer_id = $this->customer_model->update($plan['customer_id'], $cpara);
+			if ($customer_id) {
+				$this->sqlstr = $this->customer_model->sqlstr . "; ";
+				$this->logstr = $this->customer_model->logstr . "; ";
+			}
 		}
 			
 		if ($isfamilyplan) {
@@ -402,7 +405,7 @@ class Plan_model extends CI_Model {
 				}
 			}
 		} else {
-			$$customer_id_this = $this->customer_model->delete_by_parent_id($plan['customer_id']);
+			$customer_id_this = $this->customer_model->delete_by_parent_id($plan['customer_id']);
 			if ($customer_id_this) {
 				$this->sqlstr = $this->customer_model->sqlstr . "; ";
 				$this->logstr = $this->customer_model->logstr . "; ";

@@ -83,8 +83,8 @@ Without stable pre-existion condition coverage <input type='radio' class='setpre
 <?php } ?>
 =========================================================================<br />
 <input type='hidden' name='customer_id' value='<?php echo !empty($customer_id) ? $customer_id : 0; ?>'>Custmer Name:<br>
-Last Name: <input type='text' name='firstname' value='<?php echo !empty($firstname) ? $firstname : ''; ?>'><?php if (!empty($error_firstname)) { echo $error_firstname; } ?><br>
-First Name: <input type='text' name='lastname' value='<?php echo !empty($lastname) ? $lastname : ''; ?>'><?php if (!empty($error_lastname)) { echo $error_lastname; } ?><br>
+First Name: <input type='text' name='firstname' value='<?php echo !empty($firstname) ? $firstname : ''; ?>'><?php if (!empty($error_firstname)) { echo $error_firstname; } ?><br>
+Last Name: <input type='text' name='lastname' value='<?php echo !empty($lastname) ? $lastname : ''; ?>'><?php if (!empty($error_lastname)) { echo $error_lastname; } ?><br>
 Birth Date: <input type='date' class='setpremium' name='birthday' value='<?php echo !empty($birthday) ? $birthday : ''; ?>'><?php if (!empty($error_birthday)) { echo $error_birthday; } ?><br>
 Gender: <select name='gender'>
 <option value='M' <?php echo (empty($gender) || ($gender != 'F')) ? "selected" : ""; ?>>Male</option>
@@ -94,8 +94,8 @@ Gender: <select name='gender'>
 <div id='family_member' style='display:none'>
 <?php for ($i = 1; $i < 9; $i++) { ?>
 <input type='hidden' name='customer_id_<?php echo $i; ?>' value='<?php echo !empty(${'customer_id_'.$i}) ? ${'customer_id_'.$i} : 0; ?>'>Family member <?php echo $i; ?> :<br>
-Last Name: <input type='text' name='firstname_<?php echo $i; ?>' value='<?php echo !empty(${'firstname_'.$i}) ? ${'firstname_'.$i} : ''; ?>'><br>
-First Name: <input type='text' name='lastname_<?php echo $i; ?>' value='<?php echo !empty(${'lastname_'.$i}) ? ${'lastname_'.$i} : ''; ?>'><br>
+First Name: <input type='text' name='firstname_<?php echo $i; ?>' value='<?php echo !empty(${'firstname_'.$i}) ? ${'firstname_'.$i} : ''; ?>'><br>
+Last Name: <input type='text' name='lastname_<?php echo $i; ?>' value='<?php echo !empty(${'lastname_'.$i}) ? ${'lastname_'.$i} : ''; ?>'><br>
 Birth Date: <input type='date' class='setpremium' name='birthday_<?php echo $i; ?>' value='<?php echo !empty(${'birthday_'.$i}) ? ${'birthday_'.$i} : ''; ?>'><br>
 Gender: <select name='gender_<?php echo $i; ?>'>
 <option value='M' <?php echo (empty(${'gender_'.$i}) || (${'gender_'.$i} != 'F')) ? "selected" : ""; ?>>Male</option>

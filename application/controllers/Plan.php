@@ -536,6 +536,10 @@ class Plan extends MY_Controller {
 		}
 		
 		$data['plan'] = $plan;
+		$data['customer'] = $this->customer_model->get_customer_by_id($plan['customer_id']);
+		$data['customers'] = $this->customer_model->get_customer_by_parent_id($plan['customer_id']);
+		$data['apply_date'] = date('Y-m-d');
+		
 		$para = array();
 		$para['product_short'] = $plan['product_short'];
 		$para['apply_date'] = date('Y-m-d');
@@ -545,7 +549,7 @@ class Plan extends MY_Controller {
 		$para['sum_insured'] = $plan['sum_insured'];
 		$para['deductiable_amount'] = $plan['deductiable_amount'];
 		$para['stable_condition'] = $plan['stable_condition'];
-		$para['birthday'] = $this->customer_model->get_max_birthday($plan['customer_id']);
+		$para['birthday'] = $this->customer_model->get_max_birthday($plan['customer_id'], $plan['isfamilyplan']);
 		$premium = $this->product_model->get_premium($para);
 		if ((float)$premium != (float)$plan['premium']) {
 			$para = array('premium' => $premium);
@@ -565,7 +569,7 @@ class Plan extends MY_Controller {
 				'value' => $this->security->get_csrf_hash ()
 		);
 		
-		$this->load->view('plan/detail', $data);
+		$this->load->common('plan/detail', $data);
 	}
 
 	function copy($plan_id) {
