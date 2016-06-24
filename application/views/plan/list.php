@@ -36,36 +36,43 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                   <div class="x_content">
                     <br />
 
-                    		<form action="" method="POST" class="form-horizontal">
-                    			<div class="row">
-                    				<div class="form-group col-sm-5 col-xs-12">
-			                          <label class="col-sm-12">Product:</label>
+                    		
+
+                    		
+			                <?php if (!empty($error_message)) { echo $error_message . "<br>"; } ?>
+							<form action='<?php echo $search_url; ?>' method='POST'  class="form-horizontal">
+			    				  <input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
+
+			    				  <div class="row">
+                    				<!-- Product select box -->
+			                        <div class="form-group col-sm-5 col-xs-12">
+			                          <label class="col-sm-12">Our Product:</label>
 			                          <select name='product_short' class="form-control">
 										<option value='0'> -- select product -- </option>
 										<?php foreach ($product_list as $key => $value) { ?>
 										<option value='<?php echo $key; ?>' <?php echo ($key == $product_short) ? 'selected' : ''; ?>><?php echo $value['full_name']; ?></option>
 										<?php } ?>
 									  </select>
+			                              
 			                        </div>
+			                        <!-- Product select box end -->
+			                        <!-- Policy Number input box -->
 			                        <div class="form-group col-sm-3">
-			                        	<label class="col-sm-12">Policy Number:</label>
-			                        	<div class="input-group col-sm-12">
-			                        		 <input type="text" name='policy' value='<?php echo $policy; ?>' class="form-control"/>
-			                        	</div>
+			                          <label class="col-sm-12">Policy Number:</label>
+			                          <div class="input-group col-sm-12">
+			                              <input type="text" name='policy' value='<?php echo $policy; ?>' class="form-control"/>
+			                          </div>
 			                        </div>
+			                        <!-- Policy Number input box end -->
 			                        <div class="form-group col-sm-4">
 			                        	<label class="col-sm-12">&nbsp;</label>
 			                        	<input class="btn btn-default" type='submit' name='search' value='Search'>
 			                        	<input type="button" class="btn btn-info" data-toggle="collapse" data-target="#history1" name='search' value='Advance Search'>
 			                        </div>	
                     			</div>
-                    		</form>
 
-                    		<div id="history1" class="collapse">
-			                    <?php if (!empty($error_message)) { echo $error_message . "<br>"; } ?>
-								<form action='<?php echo $search_url; ?>' method='POST'  class="form-horizontal">
-			    				  <input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
 			                      <!-- personal information search -->
+			                    <div id="history1" class="collapse">
 			                      <div class="row">
 			                        <!-- Last Name input box -->
 			                        <div class="form-group col-sm-3">
@@ -104,17 +111,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			                        </div>
 			                        <!-- Birthdate select box end -->
 
-			                      </div>
+			                    </div>
 			                      <!-- policy information search -->
-			                      <div class="row">
-			                        <!-- Policy Number input box -->
-			                        <div class="form-group col-sm-3">
-			                          <label class="col-sm-12">Policy Number:</label>
-			                          <div class="input-group col-sm-12">
-			                              <input type="text" name='policy' value='<?php echo $policy; ?>' class="form-control"/>
-			                          </div>
-			                        </div>
-			                        <!-- Policy Number input box end -->
+			                    <div class="row">
+			                        
 			                        <!-- Agent input box -->
 			                        <div class="form-group col-sm-3">
 			                          <label class="col-sm-12">Agent/School Name:</label>
@@ -132,21 +132,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			                        </div>
 			                        <!-- Batch No. input box end -->
 
-			                        <!-- Product select box -->
-			                        <div class="form-group col-sm-3">
-			                          <label class="col-sm-12">Our Product:</label>
-			                          <select name='product_short' class="form-control">
-										<option value='0'> -- select product -- </option>
-										<?php foreach ($product_list as $key => $value) { ?>
-										<option value='<?php echo $key; ?>' <?php echo ($key == $product_short) ? 'selected' : ''; ?>><?php echo $value['full_name']; ?></option>
-										<?php } ?>
-									  </select>
-			                              
-			                        </div>
-			                        <!-- Product select box end -->
-			                      </div>
+			                        
+			                    </div>
 			                      <!-- related date search -->
-			                      <div class="row">
+			                    <div class="row">
 			                        <!-- Application Date -->
 			                        <div class="form-group col-sm-3">
 			                          <!-- Application Date from -->
@@ -235,8 +224,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			                       
 			                        </div>
 			                        
-			                      </div>
-			                      <div class="row">
+			                    </div>
+			                      
+			                    <div class="row">
 			                      	<!-- Policy Status select box -->
 			                        <div class="form-group col-sm-3">
 			                          <label class="col-sm-12">Policy Status:</label>
@@ -262,19 +252,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			                          </div>
 			                        </div>
 			                        
-			                      </div>
-			                      <!-- submit button -->
-			                      <div class="row">
-			                        <!-- submit button -->
-			                          <div class="col-sm-12">
-			                          	<input class="btn btn-default pull-right" type='submit' name='search' value='Start Search'>
-			                    
-			                          </div> 
-			                        <!-- submit button -->
-			                      </div>
-			                    </form>
-		                	</div>
-
+			                    </div>
+			                      
+			                      
+			                </div>
+			            </form>
+		                	
 				  </div>
                 </div>
               </div>
