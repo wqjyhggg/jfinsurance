@@ -83,22 +83,17 @@ class Plan extends MY_Controller {
 		$nowtm = strtotime(date('Y-m-d'));
 		$arrival_date = $this->input->post('arrival_date');
 		$arrivaltm = strtotime($arrival_date);
-		if (empty($arrival_date) || ($arrivaltm < $nowtm)) {
-			if (empty($arrival_date)) {
-				$this->error['error_arrival_date'] = 'Arrival Date['.$arrival_date.']';
-			} else if ($arrivaltm <= $nowtm) {
-				$this->error['error_arrival_date'] = 'Arrival Date['.$arrivaltm.']['.$nowtm.']';
-			} else
+		if (empty($arrival_date) || ($arrivaltm < 1466555500)) {
 			$this->error['error_arrival_date'] = 'Confirm Arrival Date';
 		}
 		$effective_date = $this->input->post('effective_date');
 		$effectivetm = strtotime($effective_date);
-		if (empty($effective_date) || ($effectivetm <= $nowtm)) {
+		if (empty($effective_date) || ($effectivetm < 1466555500)) {
 			$this->error['error_effective_date'] = 'Confirm Effective Date';
 		}
 		$expiry_date = $this->input->post('expiry_date');
 		$expirytm = strtotime($expiry_date);
-		if (empty($expiry_date) || ($expirytm <= $nowtm) || ($expirytm < $effectivetm)) {
+		if (empty($expiry_date) || ($expirytm < 1466555500) || ($expirytm < $effectivetm)) {
 			$this->error['error_expiry_date'] = 'Confirm Expiry Date';
 		}
 		if (empty($this->input->post('beneficiary'))) {
@@ -148,18 +143,35 @@ class Plan extends MY_Controller {
 			if (empty($plan_id)) {
 				$plan_id = $this->plan_model->add($this->input->post());
 				if ($plan_id) {
-					$this->log_model->activity('plan', array('message' => $this->plan_model->logstr, 'systemlog' => $this->plan_model->sqlstr));
+					$plan = $this->plan_model->get_plan_by_id($plan_id);
+					$para = array(
+							'plan_id' => $plan_id, 
+							'customer_id' => $plan['customer_id'], 
+							'payment_id' => 0, 
+							'message' => $this->plan_model->logstr, 
+							'systemlog' => $this->plan_model->sqlstr
+					);
+					$this->log_model->activity('plan', $para);
 				}
 			} else {
 				$plan_id = $this->plan_model->update($plan_id, $this->input->post());
 				if ($plan_id) {
-					$this->log_model->activity('plan', array('message' => $this->plan_model->logstr, 'systemlog' => $this->plan_model->sqlstr));
+					$plan = $this->plan_model->get_plan_by_id($plan_id);
+					$para = array(
+							'plan_id' => $plan_id, 
+							'customer_id' => $plan['customer_id'], 
+							'payment_id' => 0, 
+							'message' => $this->plan_model->logstr, 
+							'systemlog' => $this->plan_model->sqlstr
+					);
+					$this->log_model->activity('plan', $para);
 				}
 			}
 			if ($plan_id) {
 				redirect("plan/term/" . $plan_id);
 			}
 		} else if (isset($plan['plan_id'])) {
+			$plan_id = $plan['plan_id'];
 			$customer = array();
 			$customers = array();
 			$plan = $this->plan_model->get_plan_by_id($plan['plan_id']);
@@ -169,6 +181,8 @@ class Plan extends MY_Controller {
 					$customers = $this->customer_model->get_customer_by_parent_id($plan['customer_id']);
 				}
 			}
+		} else {
+			$plan = 0;
 		}
 		$data = $this->error;
 		
@@ -419,10 +433,11 @@ class Plan extends MY_Controller {
 		} else {
 			$data['note'] = '';
 		}
-		if (empty($plan_id)) {
+
+		if (empty($data['plan_id'])) {
 			$data['submit'] = 'Add New Policy';
 		} else {
-			$data['submit'] = 'Update';
+			$data['submit'] = 'Update Policy';
 		}
 		$data['sum_insured_url'] = base_url ( "product/insured/" . $data['product_short'] );
 		if (!empty($data['sum_insured'])) $data['sum_insured_url'] .= "/" . $data['sum_insured']; 
@@ -476,7 +491,6 @@ class Plan extends MY_Controller {
 	}
 
 	function term($plan_id=0) {
-		
 		$beuser = $this->func_model->verify_login(); 
 		if (empty($plan_id)) {
 			$plan_id = $this->input->post('plan_id');
@@ -494,7 +508,15 @@ class Plan extends MY_Controller {
 				
 				$para = array('agree' => 1);
 				$this->plan_model->update($plan_id, $para);
-				$this->log_model->activity('plan', array('message' => $this->plan_model->logstr, 'systemlog' => $this->plan_model->sqlstr));
+				$plan = $this->plan_model->get_plan_by_id($plan_id);
+				$para = array(
+						'plan_id' => $plan_id, 
+						'customer_id' => $plan['customer_id'], 
+						'payment_id' => 0, 
+						'message' => $this->plan_model->logstr, 
+						'systemlog' => $this->plan_model->sqlstr
+				);
+				$this->log_model->activity('plan', $para);
 				
 				redirect('plan/detail/'.$plan_id);
 			} else {
@@ -523,7 +545,11 @@ class Plan extends MY_Controller {
 		$this->load->model('customer_model');
 		$this->load->model('plan_model');
 		$this->load->model('product_model');
+		$this->load->model('paytype_model');
 		$plan = $this->plan_model->get_plan_by_id($plan_id);
+		if (empty($plan)) {
+			redirect('user/login');
+		}
 		if (empty($sekey)) {
 			$beuser = $this->func_model->verify_login();
 		} else {
@@ -534,6 +560,8 @@ class Plan extends MY_Controller {
 			}
 		}
 		
+		$data['beuser'] = $beuser;
+		$data['sekey'] = $sekey;
 		$data['plan'] = $plan;
 		$data['customer'] = $this->customer_model->get_customer_by_id($plan['customer_id']);
 		$data['customers'] = $this->customer_model->get_customer_by_parent_id($plan['customer_id']);
@@ -553,11 +581,25 @@ class Plan extends MY_Controller {
 		if ((float)$premium != (float)$plan['premium']) {
 			$para = array('premium' => $premium);
 			$this->plan_model->update($plan['plan_id'], $para);
-			$this->log_model->activity('plan', array('message' => $this->plan_model->logstr, 'systemlog' => $this->plan_model->sqlstr));
+			$plan = $this->plan_model->get_plan_by_id($plan['plan_id']);
+			$para = array(
+					'plan_id' => $plan_id, 
+					'customer_id' => $plan['customer_id'], 
+					'payment_id' => 0, 
+					'message' => $this->plan_model->logstr, 
+					'systemlog' => $this->plan_model->sqlstr
+			);
+			$this->log_model->activity('plan', $para);
 		}
 		$data['customer'] = $this->customer_model->get_customer_by_id($plan['customer_id']);
 		$data['customers'] = $this->customer_model->get_customer_by_parent_id($plan['customer_id']);
-
+		
+		if ($beuser['user_group_id'] <= 2) {
+			$this->data['paytype_list'] = $this->paytype_model->paytype_list();
+		} else {
+			$this->data['paytype_list'] = split(",", $beuser['pay_type']);
+		}
+		
 		$data['action_url'] = base_url('plan/term');
 
 		$data['title_txt'] = 'Policy';
@@ -572,9 +614,23 @@ class Plan extends MY_Controller {
 	}
 
 	function copy($plan_id) {
+		$this->load->model('plan_model');
+		$plan = $this->plan_model->get_plan_by_id($plan_id);
+		if ($plan) {
+			unset($plan['plan_id']);
+			unset($plan['customer_id']);
+			unset($plan['user_id']);
+			unset($plan['status_id']);
+			unset($plan['policy']);
+			unset($plan['agree']);
+			unset($plan['batch_number']);
+		}
+		$this->form($plan);
 	}
 
-	function edit($plan_id) {
-		$this->load->common('plan', $data);
+	function edit($plan_id=0) {
+		$this->load->model('plan_model');
+		$plan = $this->plan_model->get_plan_by_id($plan_id);
+		$this->form($plan);
 	}
 }

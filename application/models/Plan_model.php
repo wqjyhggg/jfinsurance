@@ -198,10 +198,6 @@ class Plan_model extends CI_Model {
 			$this->logstr .= " user_id " . $para['user_id'] . "(" . $plan['user_id'] . ")";
 			$sql .= " user_id='" . (int)$para['user_id'] . ", ";
 		}
-		if (isset($para['status_id']) && ((int)$para['status_id'] != (int)$plan['status_id'])) {
-			$this->logstr .= " status_id " . $para['status_id'] . "(" . $plan['status_id'] . ")";
-			$sql .= " status_id='" . (int)$para['status_id'] . "', ";
-		}
 		if (isset($para['policy']) && ($para['policy'] != $plan['policy'])) {
 			$this->logstr .= " policy " . $para['policy'] . "(" . $plan['policy'] . ")";
 			$sql .= " policy=" . $this->db->escape($para['policy']) . ", ";
@@ -257,8 +253,15 @@ class Plan_model extends CI_Model {
 		$premiumchged = 0;
 		if (isset($para['premium']) && ((float)$para['premium'] != (float)$plan['premium'])) {
 			$premiumchged = 1;
+			if ($plan['status_id'] > 2) {
+				$para['status_id'] = 2;
+			}
 			$this->logstr .= " premium " . $para['premium'] . "(" . $plan['premium'] . ")";
 			$sql .= " premium='" . (float) $para['premium'] . "', ";
+		}
+		if (isset($para['status_id']) && ((int)$para['status_id'] != (int)$plan['status_id'])) {
+			$this->logstr .= " status_id " . $para['status_id'] . "(" . $plan['status_id'] . ")";
+			$sql .= " status_id='" . (int)$para['status_id'] . "', ";
 		}
 		$commissionchged = 0;
 		if (isset($para['commission_amount']) && ((float)$para['commission_amount'] != (float)$plan['commission_amount'])) {
