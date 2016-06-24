@@ -19,7 +19,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
         <!-- page content -->
         <div class="right_col" role="main" style="margin-bottom:60px;">
-          <div class="">
+          
             <div class="page-title">
               <div class="title_left">
                 <h3>Create Policy</h3>
@@ -35,14 +35,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
-                    <br />
-
+                    
 					<!--<script src="<?php echo base_url(); ?>js/jquery-3.0.0.min.js" type="text/javascript"></script>-->
 					<?php if (!empty($error_message)) { echo $error_message . "<br>"; } ?>
+
 					<form action='<?php echo $action_url; ?>' method='POST' class="form-horizontal">
-					<input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'><br>
-					<input type='hidden' name='plan_id' value='<?php echo $plan_id; ?>'>
-					<input type='hidden' name='product_short' value='<?php echo $product_short; ?>'>
+
+						<input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
+						<input type='hidden' name='plan_id' value='<?php echo $plan_id; ?>'>
+						<input type='hidden' name='product_short' value='<?php echo $product_short; ?>'>
 					<?php if (empty($plan_id) || empty($status_id)) { ?>
 						<?php /* it should be new plan */ ?>
 						<input type='hidden' name='status_id' value='0'>
@@ -68,7 +69,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<div class="row">
 						<div class="col-sm-12">
 						<fieldset>
-   						 <legend>Travel Dates:</legend>
+   						 <legend>Travel Dates</legend>
    						 <div class="row">
 							<div class="form-group col-sm-3">
 								<label class="col-sm-12">Apply Date:</label>
@@ -126,20 +127,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									</div>
 									<div class="form-group col-sm-3">
 										<label class="col-sm-12">Is Family Plan</label>
-										<div class="input-group col-sm-12">
+										<div class="input-group col-sm-12" style="border: 1px solid #ccc;padding: 5px;">
 											 <input type='checkbox' class='setpremium' name='isfamilyplan' id='isfamilyplan' <?php echo empty($isfamilyplan) ? "" : "checked"; ?>> Yes
 										</div>
 									</div>
 									<div class="form-group col-sm-3">
 										<label class="col-sm-12">Sum Insured (CAD):</label>
 										<div class="input-group col-sm-12">
-											<div class="form-control" id='sum_insured_div'></div>
+											<div id='sum_insured_div'></div>
 										</div>
 									</div>
 									<div class="form-group col-sm-3">
 										<label class="col-sm-12">Deductible amount (CAD):</label>
 										<div class="input-group col-sm-12">
-											 <div class="form-control" id='deductiable_amount_div'></div>
+											 <div id='deductiable_amount_div'></div>
 										</div>
 									</div>
 								</div>
@@ -150,8 +151,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										<div class="input-group col-sm-4">
 											<input type='radio' class='setpremium' name='stable_condition' value='1' <?php echo (empty($stable_condition) || ($stable_condition != 2 )) ? "checked" : ""; ?>>
 										</div>
-									</div>	
-									<div class="col-sm-6">
 										<label class="col-sm-8">Without stable pre-existion condition coverage </label>
 										<div class="input-group col-sm-4">
 											<input type='radio' class='setpremium' name='stable_condition' value='2' <?php echo (!empty($stable_condition) && ($stable_condition == 2 )) ? "checked" : ""; ?>>
@@ -161,58 +160,227 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								</div>
 							</fieldset>
 						</div>
-					</div>
-
-					=========================================================================<br />
-
+					</div><br />
 					
+					<div class="row">
+						<div class="col-sm-12">
+							<fieldset>
+								<legend>Insurable Members</legend>
+								<input type='hidden' name='customer_id' value='<?php echo !empty($customer_id) ? $customer_id : 0; ?>'>
+								<div class="row">
+									<label class="col-sm-12">Customer Information</label>
+									<div class="col-sm-3">
+										<label class="col-sm-12">First Name:</label>
+										<div class="input-group col-sm-12">
+											<input class="form-control" type='text' name='firstname' value='<?php echo !empty($firstname) ? $firstname : ''; ?>'>
+											<?php if (!empty($error_firstname)) { echo $error_firstname; } ?>
+										</div>
+									</div>
+									<div class="col-sm-3">
+										<label class="col-sm-12">Last Name:</label>
+										<div class="input-group col-sm-12">
+											<input class="form-control" type='text' name='lastname' value='<?php echo !empty($lastname) ? $lastname : ''; ?>'>
+											<?php if (!empty($error_lastname)) { echo $error_lastname; } ?>
+										</div>
+									</div>
+									<div class="col-sm-3">
+										<label class="col-sm-12">Birth Date:</label>
+										<div class="input-group date form_date col-sm-12" data-date="" data-date-format="yyyy/mm/dd" data-link-field="application_date_from" data-link-format="yyyy-mm-dd">
+					                        <input size="16" type="text" class='setpremium form-control' name='birthday' value='<?php echo !empty($birthday) ? $birthday : ''; ?>' readonly>
+					                        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+					                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+					                        <?php if (!empty($error_birthday)) { echo $error_birthday; } ?>
+					                    </div>
+									</div>
+									<div class="col-sm-3">
+										<label class="col-sm-12">Gender: </label>
+										<div class="col-sm-12">
+											<select name='gender' class="form-control">
+											<option value='M' <?php echo (empty($gender) || ($gender != 'F')) ? "selected" : ""; ?>>Male</option>
+											<option value='F' <?php echo (!empty($gender) && ($gender == 'F')) ? "selected" : ""; ?>>Female</option>
+											</select>
+										</div>
+									</div>
+								</div>	
+
+								<div id='family_member' style='display:none'>
+									<?php for ($i = 1; $i < 9; $i++) { ?>
+									<div class="row">
+									<input type='hidden' name='customer_id_<?php echo $i; ?>' value='<?php echo !empty(${'customer_id_'.$i}) ? ${'customer_id_'.$i} : 0; ?>'>
+									<hr />
+									<label class="col-sm-12">Family member <?php echo $i; ?> :</label>
+										<div class="col-sm-3">
+											<label class="col-sm-12">First Name: </label>
+											<div class="col-sm-12">
+												<input class="form-control" type='text' name='firstname_<?php echo $i; ?>' value='<?php echo !empty(${'firstname_'.$i}) ? ${'firstname_'.$i} : ''; ?>'>
+											</div>
+										</div>
+										<div class="col-sm-3">
+											<label class="col-sm-12">Last Name: </label>
+											<div class="col-sm-12">	
+												<input class="form-control" type='text' name='lastname_<?php echo $i; ?>' value='<?php echo !empty(${'lastname_'.$i}) ? ${'lastname_'.$i} : ''; ?>'>
+											</div>
+										</div>
+										<div class="col-sm-3">
+											<label class="col-sm-12">Birth Date: </label>
+											
+											<div class="input-group date form_date col-sm-12" data-date="" data-date-format="yyyy/mm/dd" data-link-field="application_date_from" data-link-format="yyyy-mm-dd">
+					                        <input size="16" type="text" class='setpremium form-control' name='birthday_<?php echo $i; ?>' value='<?php echo !empty(${'birthday_'.$i}) ? ${'birthday_'.$i} : ''; ?>' readonly>
+					                        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+					                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+					                       
+					                    </div>
+										</div>
+										<div class="col-sm-3">
+											<label class="col-sm-12">Gender: </label>
+											<div class="col-sm-12">
+												<select name='gender_<?php echo $i; ?>' class="form-control">
+												<option value='M' <?php echo (empty(${'gender_'.$i}) || (${'gender_'.$i} != 'F')) ? "selected" : ""; ?>>Male</option>
+												<option value='F' <?php echo (!empty(${'gender_'.$i}) && (${'gender_'.$i} == 'F')) ? "selected" : ""; ?>>Female</option>
+												</select>
+											</div>
+										</div>
+									</div>
+									<?php } ?>
+								</div>
+							</fieldset>
+						</div>
+					</div><br />
+
+					<div class="row">
+						<div class="col-sm-12">
+							<fieldset>
+								<legend>Address</legend>
+								<div class="row">
+									<div class="col-sm-3">
+										<label class="col-sm-12">Street No: </label>
+										<div class="input-group col-sm-12">
+											<input class="form-control" type='text' name='street_number' value='<?php echo $street_number; ?>'>
+											<?php if (!empty($error_street_number)) { echo $error_street_number; } ?>
+										</div>
+									</div>
+									<div class="col-sm-3">
+										<label class="col-sm-12">Street Name: </label>
+										<div class="input-group col-sm-12">
+											<input class="form-control" type='text' name='street_name' value='<?php echo $street_name; ?>'>
+											<?php if (!empty($error_street_name)) { echo $error_street_name; } ?>
+										</div>
+									</div>
+									<div class="col-sm-3">
+										<label class="col-sm-12">Suite No.: </label>
+										<div class="input-group col-sm-12">
+											<input class="form-control" type='text' name='suite_number' value='<?php echo $suite_number; ?>'>
+										</div>
+									</div>
+									<div class="col-sm-3">
+										<label class="col-sm-12">City: </label>
+										<div class="input-group col-sm-12">
+											<input class="form-control" type='text' name='city' value='<?php echo $city; ?>'>
+											<?php if (!empty($error_city)) { echo $error_city; } ?>
+										</div>
+									</div>
+									<div class="col-sm-3">
+										<label class="col-sm-12">Province: </label>
+										<div class="input-group col-sm-12">
+											<div id='province2_div'></div>
+										</div>
+									</div>
+									<div class="col-sm-3">
+										<label class="col-sm-12">Country: </label>
+										<div class="input-group col-sm-12">
+											<div id='country2_div'></div>
+										</div>
+									</div>
+									<div class="col-sm-3">
+										<label class="col-sm-12">Postcode: </label>
+										<div class="input-group col-sm-12">
+											<input class="form-control" type='text' name='postcode' value='<?php echo $postcode; ?>'>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-sm-3">
+										<label class="col-sm-12">Phone1: </label>
+										<div class="input-group col-sm-12">
+											<input class="form-control" type='text' name='phone1' value='<?php echo $phone1; ?>'>
+											<?php if (!empty($error_phone1)) { echo $error_phone1; } ?>
+										</div>
+									</div>
+									<div class="col-sm-3">
+										<label class="col-sm-12">Phone2: </label>
+										<div class="input-group col-sm-12">
+											<input class="form-control" type='text' name='phone2' value='<?php echo $phone2; ?>'>
+										</div>
+									</div>
+								</div>
+							</fieldset>
+						</div>
+					</div><br />
+					<div class="row">
+						<div class="col-sm-12">
+							<fieldset>
+								<legend>Contact</legend>
+								<div class="row">
+									<div class="col-sm-3">
+										<label class="col-sm-12">Email: </label>
+										<div class="input-group col-sm-12">
+											<input class="form-control" type='text' name='contact_email' value='<?php echo $contact_email; ?>'>
+											<?php if (!empty($error_contact_email)) { echo $error_contact_email; } ?>
+										</div>
+									</div>
+									<div class="col-sm-3">
+										<label class="col-sm-12">Contact Phone: </label>
+										<div class="input-group col-sm-12">
+											<input class="form-control" type='text' name='contact_phone' value='<?php echo $contact_phone; ?>'>
+										</div>
+									</div>
+									<div class="col-sm-3">
+										<label class="col-sm-12">Residence: </label>
+										<div class="input-group col-sm-12">
+											<input class="form-control" type='text' name='residence' value='<?php echo $residence; ?>'>
+										</div>
+									</div>
+									
+							</fieldset>
+						</div>
+					</div><br />	
+										
+					<div class="row">
+						<div class="col-sm-12">
+							<fieldset>
+								<legend>Special Note/Instructions</legend>
+								<?php if ($user_group_id <= 3) { ?>
+								<div class="row">
+									<div class="col-sm-3">
+										<label class="col-sm-12">Premium: </label>
+										<div class="input-group col-sm-12">
+											<input type='input' name='premium' id='premium' value='<?php echo $premium; ?>'>
+										</div>
+									</div>
+								</div>
+								<?php } else { ?>
+									<input class="form-control" type='hidden' name='premium' id='premium' value='<?php echo $premium; ?>'>	
+								<?php } ?>
+								<div class="row">
+									<div class="col-sm-12">
+										<label class="col-sm-12">Notes: </label>
+										<div class="input-group col-sm-12">
+								 			<textarea class="form-control" name="note" value="<?php echo $note; ?>"></textarea>
+								 		</div>
+								 	</div>
+								</div>
+								
+							</fieldset>
+						</div>
+					</div><br />
 					
-					=========================================================================<br />
-					<input type='hidden' name='customer_id' value='<?php echo !empty($customer_id) ? $customer_id : 0; ?>'>Custmer Name:<br>
-					First Name: <input type='text' name='firstname' value='<?php echo !empty($firstname) ? $firstname : ''; ?>'><?php if (!empty($error_firstname)) { echo $error_firstname; } ?><br>
-					Last Name: <input type='text' name='lastname' value='<?php echo !empty($lastname) ? $lastname : ''; ?>'><?php if (!empty($error_lastname)) { echo $error_lastname; } ?><br>
-					Birth Date: <input type='date' class='setpremium' name='birthday' value='<?php echo !empty($birthday) ? $birthday : ''; ?>'><?php if (!empty($error_birthday)) { echo $error_birthday; } ?><br>
-					Gender: <select name='gender'>
-					<option value='M' <?php echo (empty($gender) || ($gender != 'F')) ? "selected" : ""; ?>>Male</option>
-					<option value='F' <?php echo (!empty($gender) && ($gender == 'F')) ? "selected" : ""; ?>>Female</option>
-					</select><br>
-					=========================================================================<br />
-					<div id='family_member' style='display:none'>
-					<?php for ($i = 1; $i < 9; $i++) { ?>
-					<input type='hidden' name='customer_id_<?php echo $i; ?>' value='<?php echo !empty(${'customer_id_'.$i}) ? ${'customer_id_'.$i} : 0; ?>'>Family member <?php echo $i; ?> :<br>
-					First Name: <input type='text' name='firstname_<?php echo $i; ?>' value='<?php echo !empty(${'firstname_'.$i}) ? ${'firstname_'.$i} : ''; ?>'><br>
-					Last Name: <input type='text' name='lastname_<?php echo $i; ?>' value='<?php echo !empty(${'lastname_'.$i}) ? ${'lastname_'.$i} : ''; ?>'><br>
-					Birth Date: <input type='date' class='setpremium' name='birthday_<?php echo $i; ?>' value='<?php echo !empty(${'birthday_'.$i}) ? ${'birthday_'.$i} : ''; ?>'><br>
-					Gender: <select name='gender_<?php echo $i; ?>'>
-					<option value='M' <?php echo (empty(${'gender_'.$i}) || (${'gender_'.$i} != 'F')) ? "selected" : ""; ?>>Male</option>
-					<option value='F' <?php echo (!empty(${'gender_'.$i}) && (${'gender_'.$i} == 'F')) ? "selected" : ""; ?>>Female</option>
-					</select><br>
-					=========================================================================<br />
-					<?php } ?>
+					<div class="row">
+						<div class="col-sm-12">
+							<input class="btn btn-default pull-right" type='submit' name='submit' value='<?php echo $submit; ?>' />		
+						</div>
 					</div>
-					Street No: <input type='text' name='street_number' value='<?php echo $street_number; ?>'><?php if (!empty($error_street_number)) { echo $error_street_number; } ?><br>
-					Street Name: <input type='text' name='street_name' value='<?php echo $street_name; ?>'><?php if (!empty($error_street_name)) { echo $error_street_name; } ?><br>
-					Suite No.: <input type='text' name='suite_number' value='<?php echo $suite_number; ?>'><br>
-					City: <input type='text' name='city' value='<?php echo $city; ?>'><?php if (!empty($error_city)) { echo $error_city; } ?><br>
-					Province: <div id='province2_div'></div><br>
-					Country: <div id='country2_div'></div><br>
-					Postcode: <input type='text' name='postcode' value='<?php echo $postcode; ?>'><br>
-					Phone1: <input type='text' name='phone1' value='<?php echo $phone1; ?>'><?php if (!empty($error_phone1)) { echo $error_phone1; } ?><br>
-					Phone2: <input type='text' name='phone2' value='<?php echo $phone2; ?>'><br>
-					=========================================================================<br />
-					Email: <input type='text' name='contact_email' value='<?php echo $contact_email; ?>'><?php if (!empty($error_contact_email)) { echo $error_contact_email; } ?><br>
-					Contact Phone: <input type='text' name='contact_phone' value='<?php echo $contact_phone; ?>'><br>
-					Residence: <input type='text' name='residence' value='<?php echo $residence; ?>'><br>
-					=========================================================================<br />
-					<?php if ($user_group_id <= 3) { ?>
-					Premium: <input type='input' name='premium' id='premium' value='<?php echo $premium; ?>'><br>
-					<?php } else { ?>
-					Premium: <input type='hidden' name='premium' id='premium' value='<?php echo $premium; ?>'><br>
-					<?php } ?>
-					Notes: <input type='text' name='note' value='<?php echo $note; ?>'><br>
-					=========================================================================<br />
-					<input type='submit' name='submit' value='<?php echo $submit; ?>'><br>
-					</form> 
+				</form> 
+
 				<script>
 				$( document ).ready(function() {
 					$.ajax({
@@ -334,10 +502,82 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				} 
 				</script>
 
-				</div>
-                </div>
+				</div><!-- /x_content end-->
+                </div><!-- /x_panel end -->
               </div>
-            </div><!-- End Form -->
+            </div><!-- End Form Section-->
+            <!-- New Section -->
+            <div class="row">
+            	<div class="col-sm-12">
+            		<div class="x_panel">
+	                  <div class="x_title">
+	                    <h2>Policy History<small></small></h2>
+	                    <div class="clearfix"></div>
+	                  </div>
+	                  <div class="x_content">
+		                  <div class="row">
+		                  	<div class="col-sm-12">
+			                  	<button type="button" class="btn btn-info" data-toggle="collapse" data-target="#history1">History1 <span class="fa fa-chevron-down"></span></button>
+			                  	<div id="history1" class="collapse">
+			                  		<div class="table-responsive">
+			                  			<table class="table table-hover table-bordered">
+				                      	<thead>
+											<tr>
+												<th>1</th>
+												<th>1</th>
+												<th>1</th>
+												<th>1</th>
+												<th>1</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td>1.1</td>
+												<td>1.1</td>
+												<td>1.1</td>
+												<td>1.1</td>
+												<td>1.1</td>
+											</tr>
+										</tbody>
+										</table>
+			                  		</div>
+			                  	</div>
+		                  	</div>
+		                  </div>
+		                  <div class="row">
+		                  	<div class="col-sm-12">
+			                  	<button type="button" class="btn btn-info" data-toggle="collapse" data-target="#history2">History2 <span class="fa fa-chevron-down"></span></button>
+			                  	<div id="history2" class="collapse">
+			                  		<div class="table-responsive">
+			                  			<table class="table table-hover table-bordered">
+				                      	<thead>
+											<tr>
+												<th>2</th>
+												<th>2</th>
+												<th>2</th>
+												<th>2</th>
+												<th>2</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td>2.2</td>
+												<td>2.2</td>
+												<td>2.2</td>
+												<td>2.2</td>
+												<td>2.2</td>
+											</tr>
+										</tbody>
+										</table>
+			                  		</div>
+			                  	</div>
+		                  	</div>
+		                  </div>
+
+	                  </div><!--/x_content end-->
+	              </div><!--x_panel-->
+            	</div>
             </div>
+           
         </div>
         <!-- /page content -->

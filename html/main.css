@@ -39,6 +39,10 @@ footer p{margin: 0;}
 	margin: 20px auto;
 	max-width: 300px;
 }
+.navbar-form .form-control{
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+}
 /* Header End*/
 
 /* Login Page */

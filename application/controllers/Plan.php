@@ -420,7 +420,7 @@ class Plan extends MY_Controller {
 			$data['note'] = '';
 		}
 		if (empty($plan_id)) {
-			$data['submit'] = 'Add';
+			$data['submit'] = 'Add New Policy';
 		} else {
 			$data['submit'] = 'Update';
 		}
