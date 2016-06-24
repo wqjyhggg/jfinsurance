@@ -521,7 +521,7 @@ class Plan_model extends CI_Model {
 				
 		$sql  = "SELECT p.*, c.firstname, c.lastname, u.firstname AS agent_firstname, u.lastname AS agent_lastname FROM plan p";
 		$sql .= " INNER JOIN customer c ON (p.customer_id=c.customer_id)";
-		$sql .= " INNER JOIN user u ON (u.user_id=u.user_id)";
+		$sql .= " INNER JOIN user u ON (p.user_id=u.user_id)";
 		$where = array();
 		if (!empty($para['policy'])) {
 			$where[] = "p.policy=" . $this->db->escape($para['policy']);

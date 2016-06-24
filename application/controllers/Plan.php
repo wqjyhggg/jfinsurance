@@ -43,7 +43,7 @@ class Plan extends MY_Controller {
 		if ($this->input->post('search')) {
 			/* plan_id, policy, batch_number, full_name, status_id, effective_date, firstname(customer), lastname(customer), agent_firstname, agent_lastname */
 			$data['plan_list'] = $this->plan_model->plan_search($this->input->post(), 100);
-		} else {
+			} else {
 			$data['plan_list'] = array();
 		}
 
@@ -182,7 +182,7 @@ class Plan extends MY_Controller {
 				}
 			}
 		} else {
-			$plan = 0;
+			$plan_id = 0;
 		}
 		$data = $this->error;
 		
@@ -195,7 +195,7 @@ class Plan extends MY_Controller {
 		}
 		if ($this->input->post('product_short')) {
 			$data['product_short'] = $this->input->post('product_short'); 
-		} else if (isset($plan['plan_id'])) {
+		} else if (isset($plan['product_short'])) {
 			$data['product_short'] = $plan['product_short'];
 		} else {
 			redirect(base_url('plan'));
@@ -597,6 +597,11 @@ class Plan extends MY_Controller {
 			$this->data['paytype_list'] = $this->paytype_model->paytype_list();
 		} else {
 			$this->data['paytype_list'] = split(",", $beuser['pay_type']);
+		}
+		$display = 1;
+		if (in_array('Credit Card', $data['pay_type'])) {
+			$data['credit_dis'] = $display;
+			$data['credit_url'] = base_url('beanstream');
 		}
 		
 		$data['action_url'] = base_url('plan/term');
