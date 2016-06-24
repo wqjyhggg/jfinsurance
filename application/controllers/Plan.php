@@ -433,10 +433,11 @@ class Plan extends MY_Controller {
 		} else {
 			$data['note'] = '';
 		}
+
 		if (empty($data['plan_id'])) {
-			$data['submit'] = 'Add';
+			$data['submit'] = 'Add New Policy';
 		} else {
-			$data['submit'] = 'Update';
+			$data['submit'] = 'Update Policy';
 		}
 		$data['sum_insured_url'] = base_url ( "product/insured/" . $data['product_short'] );
 		if (!empty($data['sum_insured'])) $data['sum_insured_url'] .= "/" . $data['sum_insured']; 

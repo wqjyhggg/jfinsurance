@@ -184,7 +184,7 @@ a,a:visited,a:focus,a:active,:visited,:focus,:active,.btn:focus,
 .btn:active:focus,.btn.active:focus,.btn.focus,.btn:active.focus,
 .btn.active.focus{outline:0}
 a:hover,a:focus{text-decoration:none}
-.navbar{margin-bottom:0}
+.navbar{margin-bottom:0;border-radius: 0;}
 .navbar-header{background:#34495E}
 .navbar-right{margin-right:0}
 .top_nav .navbar-right{margin:0;width:70%;float:right}
@@ -216,7 +216,7 @@ a:hover,a:focus{text-decoration:none}
 .nav li li li.current-page{background:none}
 .nav li li.current-page a{color:#fff}
 .nav.side-menu>li.active>a{text-shadow:rgba(0,0,0,0.25) 0 -1px 0;background:linear-gradient(#334556, #2C4257),#2A3F54;box-shadow:rgba(0,0,0,0.25) 0 1px 0,inset rgba(255,255,255,0.16) 0 1px 0}
-.navbar-brand,.navbar-nav>li>a{font-weight:500;color:#ECF0F1 !important;margin-left:0 !important;line-height:32px}
+.navbar-brand,.navbar-nav>li>a{font-weight:500;color:#ECF0F1 !important;margin-left:0 !important;line-height:25px}
 .site_title{text-overflow:ellipsis;overflow:hidden;font-weight:400;font-size:22px;width:100%;color:#ECF0F1 !important;margin-left:0 !important;line-height:59px;display:block;height:55px;margin:0;padding-left:10px}
 .site_title:hover,.site_title:focus{text-decoration:none}
 .nav.navbar-nav>li>a{color:#515356 !important}
@@ -503,6 +503,10 @@ legend{
 	border-bottom: none;
 	width:auto;
 	font-size: 16px;
+	border: 1px solid #ddd;
+    padding: 2px 5px;
+    background: #F7F7F7;
+    color: #73879E;
 }
 .form-horizontal .form-group{margin-right:0;margin-left:0}
 .form-control-feedback{margin-top:8px;height:23px;color:#bbb;line-height:24px;font-size:15px}

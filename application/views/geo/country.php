@@ -1,4 +1,4 @@
-<select name='country2' id='country2'>
+<select class="form-control" name='country2' id='country2'>
 <?php foreach ($country as $key => $value) { ?>
 <option value='<?php echo $key; ?>' <?php echo $value['selected']; ?>><?php echo $value['name']; ?></option>
 <?php } ?>
