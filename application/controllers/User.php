@@ -271,7 +271,7 @@ class User extends MY_Controller {
 			$pt = '';
 			foreach ($this->data['paytype_list'] as $k => $p) {
 				if (isset($_POST['paytype_list']) && in_array($p, $_POST['paytype_list'])) {
-					$pt .= " " . $p;
+					$pt .= "," . $p;
 				}
 			}
 			$this->data['pay_type'] = $pt;

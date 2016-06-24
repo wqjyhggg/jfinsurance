@@ -4,8 +4,47 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "62190fa75b8761c65421e7526a338e6d",
+    "hash": "649a08e62ff720fe28f627c53bbbe389",
     "packages": [
+        {
+            "name": "beanstream/beanstream",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Beanstream/beanstream-php.git",
+                "reference": "204b68284755f1d46fe8c943721fbb692af09566"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Beanstream/beanstream-php/zipball/204b68284755f1d46fe8c943721fbb692af09566",
+                "reference": "204b68284755f1d46fe8c943721fbb692af09566",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Beanstream": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Pavel Kulbakin",
+                    "email": "p.kulbakin@gmail.com"
+                },
+                {
+                    "name": "Kevin Saliba"
+                }
+            ],
+            "description": "Beanstream PHP API",
+            "time": "2016-05-30 16:51:24"
+        },
         {
             "name": "box/spout",
             "version": "v2.4.4",
@@ -180,7 +219,9 @@
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "beanstream/beanstream": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

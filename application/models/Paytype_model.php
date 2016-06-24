@@ -10,6 +10,6 @@ class Paytype_model extends CI_Model {
 	 * @return	array					user table search result
 	 */
 	public function paytype_list() {
-		return array('Credit Cart', 'Cash', 'Cheque');
+		return array('Credit Card', 'Cash', 'Cheque');
 	}
 }

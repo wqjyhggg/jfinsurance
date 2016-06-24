@@ -70,7 +70,7 @@ class Product extends MY_Controller {
 		if (empty($premium)) {
 			$data = array('status' => 'Error', 'message' => "Can't caculate premium");
 		} else {
-			$data = array('status' => 'OK', 'premium' => $premium);
+			$data = array('status' => 'OK', 'premium' => number_format($premium, 2, '.', ','));
 		}
 		header('Content-Type: application/json');
 		echo json_encode($data);

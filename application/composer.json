@@ -1,5 +1,6 @@
 {
 	"require": {
+		"beanstream/beanstream": "dev-master",
 		"mpdf/mpdf": "6.1.*",
 		"ext-zip": "*",
 		"ext-xmlreader": "*",
