@@ -466,17 +466,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					if (new Date(birthday) < new Date($('input[name="birthday_8"]').val())) {
 						birthday = $('input[name="birthday_8"]').val();
 					}
-					console.log('product_short: ' + product_short);
-					console.log('apply_date: ' + apply_date);
-					console.log('effective_date: ' + effective_date);
-					console.log('expiry_date: ' + expiry_date);
-					console.log('isfamilyplan: ' + isfamilyplan);
-					console.log('sum_insured: ' + sum_insured);
-					console.log('deductiable_amount: ' + deductiable_amount);
-					console.log('stable_condition: ' + stable_condition);
-					console.log('birthday: ' + birthday);
 					if (effective_date && expiry_date && sum_insured && birthday) {
-						console.log('Call: ');
 						$.ajax({
 							url: '<?php echo $premium_url; ?>',
 							type: 'get',
@@ -507,6 +497,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               </div>
             </div><!-- End Form Section-->
             <!-- New Section -->
+<?php if ($show_history) { ?>
             <div class="row">
             	<div class="col-sm-12">
             		<div class="x_panel">
@@ -516,68 +507,70 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	                  </div>
 	                  <div class="x_content">
 		                  <div class="row">
+<?php 	if (!empty($payments) && is_array($payments) && (sizeof($payments > 0))) { ?>
 		                  	<div class="col-sm-12">
-			                  	<button type="button" class="btn btn-info" data-toggle="collapse" data-target="#history1">History1 <span class="fa fa-chevron-down"></span></button>
+			                  	<button type="button" class="btn btn-info" data-toggle="collapse" data-target="#history1">Payments <span class="fa fa-chevron-down"></span></button>
 			                  	<div id="history1" class="collapse">
 			                  		<div class="table-responsive">
 			                  			<table class="table table-hover table-bordered">
 				                      	<thead>
 											<tr>
-												<th>1</th>
-												<th>1</th>
-												<th>1</th>
-												<th>1</th>
-												<th>1</th>
+												<th>ID</th>
+												<th>Amount</th>
+												<th>Type</th>
+												<th>Date</th>
+												<th>Notes</th>
 											</tr>
 										</thead>
 										<tbody>
+<?php 		foreach ($payments as $p) { ?>
 											<tr>
-												<td>1.1</td>
-												<td>1.1</td>
-												<td>1.1</td>
-												<td>1.1</td>
-												<td>1.1</td>
+												<td><?php echo $p['payment_id']; ?></td>
+												<td><?php echo $p['amount']; ?></td>
+												<td><?php echo $p['ispaid'] ? "Paied" : $p['pay_type']; ?></td>
+												<td><?php echo $p['added']; ?></td>
+												<td><?php echo (strlen($p['note']) > 60) ? (substr($p['note'], 0, 57) . "...") : $p['note']; ?></td>
 											</tr>
+<?php 		} ?>
 										</tbody>
 										</table>
 			                  		</div>
 			                  	</div>
 		                  	</div>
+<?php 	} ?>
 		                  </div>
 		                  <div class="row">
+<?php 	if (!empty($activelogs) && is_array($activelogs) && (sizeof($activelogs > 0))) { ?>
 		                  	<div class="col-sm-12">
-			                  	<button type="button" class="btn btn-info" data-toggle="collapse" data-target="#history2">History2 <span class="fa fa-chevron-down"></span></button>
+			                  	<button type="button" class="btn btn-info" data-toggle="collapse" data-target="#history2">Changes <span class="fa fa-chevron-down"></span></button>
 			                  	<div id="history2" class="collapse">
 			                  		<div class="table-responsive">
 			                  			<table class="table table-hover table-bordered">
 				                      	<thead>
 											<tr>
-												<th>2</th>
-												<th>2</th>
-												<th>2</th>
-												<th>2</th>
-												<th>2</th>
+												<th>ID</th>
+												<th>Message</th>
 											</tr>
 										</thead>
 										<tbody>
+<?php 		foreach ($activelogs as $p) { ?>
 											<tr>
-												<td>2.2</td>
-												<td>2.2</td>
-												<td>2.2</td>
-												<td>2.2</td>
-												<td>2.2</td>
+												<td><?php echo $p['activity_id']; ?></td>
+												<td><?php echo (strlen($p['message']) > 120) ? (substr($p['message'], 0, 117) . "...") : $p['message']; ?></td>
 											</tr>
+<?php 		} ?>
 										</tbody>
 										</table>
 			                  		</div>
 			                  	</div>
 		                  	</div>
+<?php 	} ?>
 		                  </div>
 
 	                  </div><!--/x_content end-->
 	              </div><!--x_panel-->
             	</div>
             </div>
-           
+<?php } ?>
         </div>
         <!-- /page content -->

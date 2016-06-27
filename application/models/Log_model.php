@@ -34,4 +34,11 @@ class Log_model extends CI_Model {
 		$this->db->insert ( "activity", $log );
 		return $this->db->insert_id ();
 	}
+	
+	public function get_activity_by_plan_id($plan_id) {
+		$this->db->where('plan_id', $plan_id);
+		$this->db->where('atype', 'plan');
+		$this->db->order_by('activity_id', 'ASC');
+		return $this->db->get('activity')->result_array();
+	}
 }

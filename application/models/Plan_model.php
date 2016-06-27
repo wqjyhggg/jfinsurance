@@ -25,8 +25,8 @@ class Plan_model extends CI_Model {
 	 * @return	string					policy number
 	 */
 	public function get_plan_key($plan_id) {
-		$user = $this->get_plan_by_id($plan_id);
-		$key = md5('jfuk0621' . $user['user_id'] . $user['customer_id']);
+		$plan = $this->get_plan_by_id($plan_id);
+		$key = md5('jfuk0621' . $plan_id . $plan['user_id'] . $plan['customer_id']);
 		return $key;
 	}
 	
@@ -336,6 +336,10 @@ class Plan_model extends CI_Model {
 		if (isset($para['residence']) && ($para['residence'] != $plan['residence'])) {
 			$this->logstr .= " residence " . $para['residence'] . "(" . $plan['residence'] . ")";
 			$sql .= " residence=" . $this->db->escape($para['residence']) . ", ";
+		}
+		if (isset($para['payinfo']) && ($para['payinfo'] != $plan['payinfo'])) {
+			$this->logstr .= " payinfo " . $para['payinfo'] . "(" . $plan['payinfo'] . ")";
+			$sql .= " payinfo=" . $this->db->escape($para['payinfo']) . ", ";
 		}
 		if (isset($para['note']) && ($para['note'] != $plan['note'])) {
 			$this->logstr .= " note " . $para['note'] . "(" . $plan['note'] . ")";

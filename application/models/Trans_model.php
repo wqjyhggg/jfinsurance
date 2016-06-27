@@ -50,4 +50,10 @@ class Trans_model extends CI_Model {
 		$this->logstr = 'Update payment[' . $payment_id . ']:' . join(', ', $para);
 		return $payment_id;
 	}
+	
+	public function get_payment_by_plan_id($plan_id) {
+		$this->db->where('plan_id', $plan_id);
+		$this->db->order_by('payment_id', 'ASC');
+		return $this->db->get('payment')->result_array();
+	}
 }
