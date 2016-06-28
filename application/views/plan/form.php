@@ -442,6 +442,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					var deductiable_amount = $('select[name="deductiable_amount"]').val();	// select
 					var stable_condition = $('input[name="stable_condition"]:checked').val();	// radio
 					var birthday = $('input[name="birthday"]').val();	// 
+					var number_customer = 0;
 					if (new Date(birthday) < new Date($('input[name="birthday_1"]').val())) {
 						birthday = $('input[name="birthday_1"]').val();
 					} 
@@ -466,6 +467,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					if (new Date(birthday) < new Date($('input[name="birthday_8"]').val())) {
 						birthday = $('input[name="birthday_8"]').val();
 					}
+					
+					if ($('input[name="firstname"]').val() && $('input[name="lastname"]').val()) number_customer++;
+					if ($('input[name="firstname_1"]').val() && $('input[name="lastname_1"]').val()) number_customer++;
+					if ($('input[name="firstname_2"]').val() && $('input[name="lastname_2"]').val()) number_customer++;
+					if ($('input[name="firstname_3"]').val() && $('input[name="lastname_3"]').val()) number_customer++;
+					if ($('input[name="firstname_4"]').val() && $('input[name="lastname_4"]').val()) number_customer++;
+					if ($('input[name="firstname_5"]').val() && $('input[name="lastname_5"]').val()) number_customer++;
+					if ($('input[name="firstname_6"]').val() && $('input[name="lastname_6"]').val()) number_customer++;
+					if ($('input[name="firstname_7"]').val() && $('input[name="lastname_7"]').val()) number_customer++;
+					if ($('input[name="firstname_8"]').val() && $('input[name="lastname_8"]').val()) number_customer++;
+
 					if (effective_date && expiry_date && sum_insured && birthday) {
 						$.ajax({
 							url: '<?php echo $premium_url; ?>',
@@ -479,6 +491,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								sum_insured: sum_insured,
 								deductiable_amount: deductiable_amount,
 								stable_condition: stable_condition,
+								number_customer: number_customer,
 								birthday: birthday},
 							success: function(data, textStatus, jqXHR) {
 								if (data['status'] == 'OK') {

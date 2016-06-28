@@ -97,8 +97,8 @@ class Product_model extends CI_Model {
 	/**
 	 * Get Product premium
 	 * 
-	 * @param array $para	parameter array 'product_short', 'apply_date', 'effective_date', 'expiry_date', 'isfamilyplan', 'sum_insured', 'deductiable_amount', 'stable_condition', 'birthday'
-	 * @return float 		premium, 8 means can't caculate.
+	 * @param array $para	parameter array 'product_short', 'apply_date', 'effective_date', 'expiry_date', 'isfamilyplan', 'number_customer', 'sum_insured', 'deductiable_amount', 'stable_condition', 'birthday'
+	 * @return float 		premium, 0 means can't caculate.
 	 */
 	public function get_premium($para) {
 		$premium = 0;
@@ -230,8 +230,10 @@ class Product_model extends CI_Model {
 					$discount = 0.8;
 					break;
 				case 2500:
-					if (($para['sum_insured'] == 25000) && ($years <= 85))	{
-						$discount = 0.8;
+					if ($para['sum_insured'] == 25000) {
+						$discount = 0.7;
+					} else if (($para['sum_insured'] == 50000) && ($years <= 85))	{
+						$discount = 0.75;
 					} else {
 						return 0;
 					}
@@ -244,8 +246,214 @@ class Product_model extends CI_Model {
 				$rate *= 2;
 			}
 			$premium = $rate * $days * $discount;
+		} else if ($para['product_short'] == 'JFR') {
+			if ($para['stable_condition'] == 1) {
+				// With stable pre-existing conditions coverage option
+				switch ($para['sum_insured']) {
+					case 10000:
+						if ($years <= 25) 		$rate = 1.7;
+						elseif ($years <= 40) 	$rate = 1.86;
+						elseif ($years <= 60) 	$rate = 2.14;
+						elseif ($years <= 64) 	$rate = 2.44;
+						elseif ($years <= 69) 	$rate = 3;
+						elseif ($years <= 74) 	$rate = 4.85;
+						elseif ($years <= 79) 	$rate = 5.8;
+						elseif ($years <= 85) 	$rate = 11.48;
+						else				  	return 0;
+						break;
+					case 15000:
+						if ($years <= 25) 		$rate = 2.04;
+						elseif ($years <= 40) 	$rate = 2.22;
+						elseif ($years <= 60) 	$rate = 2.55;
+						elseif ($years <= 64) 	$rate = 3.11;
+						elseif ($years <= 69) 	$rate = 3.91;
+						elseif ($years <= 74) 	$rate = 6.32;
+						elseif ($years <= 79) 	$rate = 7.54;
+						elseif ($years <= 85) 	return 0;
+						else				  	return 0;
+						break;
+					case 25000:
+						if ($years <= 25) 		$rate = 2.27;
+						elseif ($years <= 40) 	$rate = 2.49;
+						elseif ($years <= 60) 	$rate = 2.86;
+						elseif ($years <= 64) 	$rate = 3.73;
+						elseif ($years <= 69) 	$rate = 4.72;
+						elseif ($years <= 74) 	$rate = 7.6;
+						elseif ($years <= 79) 	$rate = 8.96;
+						elseif ($years <= 85) 	$rate = 17.76;
+						else				  	return 0;
+						break;
+					case 50000:
+						if ($years <= 25) 		$rate = 2.49;
+						elseif ($years <= 40) 	$rate = 2.74;
+						elseif ($years <= 60) 	$rate = 3.11;
+						elseif ($years <= 64) 	$rate = 4.02;
+						elseif ($years <= 69) 	$rate = 5.09;
+						elseif ($years <= 74) 	$rate = 8.35;
+						elseif ($years <= 79) 	$rate = 9.88;
+						elseif ($years <= 85) 	$rate = 19.58;
+						else				  	return 0;
+						break;
+					case 100000:
+						if ($years <= 25) 		$rate = 3.59;
+						elseif ($years <= 40) 	$rate = 4.02;
+						elseif ($years <= 60) 	$rate = 4.95;
+						elseif ($years <= 64) 	$rate = 4.98;
+						elseif ($years <= 69) 	$rate = 5.94;
+						elseif ($years <= 74) 	$rate = 9.79;
+						elseif ($years <= 79) 	$rate = 11.59;
+						elseif ($years <= 85) 	$rate = 22.95;
+						else				  	return 0;
+						break;
+					case 150000:
+						if ($years <= 25) 		$rate = 4.3;
+						elseif ($years <= 40) 	$rate = 4.66;
+						elseif ($years <= 60) 	$rate = 5.75;
+						elseif ($years <= 64) 	$rate = 6.16;
+						elseif ($years <= 69) 	$rate = 7.4;
+						elseif ($years <= 74) 	$rate = 12.17;
+						elseif ($years <= 79) 	$rate = 14.41;
+						elseif ($years <= 85) 	return 0;
+						else				  	return 0;
+						break;
+					default:
+						return 0;
+				}
+				
+			} else {
+				// With stable pre-existing conditions coverage option
+				switch ($para['sum_insured']) {
+					case 10000:
+						if ($years <= 69) 		return 0;
+						elseif ($years <= 74) 	$rate = 3.82;
+						elseif ($years <= 79) 	$rate = 4.59;
+						elseif ($years <= 85) 	$rate = 6.23;
+						else				  	$rate = 9.57;
+						break;
+					case 15000:
+						if ($years <= 69) 		return 0;
+						elseif ($years <= 74) 	$rate = 4.99;
+						elseif ($years <= 79) 	$rate = 5.98;
+						elseif ($years <= 85) 	$rate = 7.88;
+						else				  	$rate = 12.37;
+						break;
+					case 25000:
+						if ($years <= 69) 		return 0;
+						elseif ($years <= 74) 	$rate = 5.99;
+						elseif ($years <= 79) 	$rate = 7.11;
+						elseif ($years <= 85) 	$rate = 9.69;
+						else				  	$rate = 14.9;
+						break;
+					case 50000:
+						if ($years <= 69) 		return 0;
+						elseif ($years <= 74) 	$rate = 6.59;
+						elseif ($years <= 79) 	$rate = 7.83;
+						elseif ($years <= 85) 	$rate = 10.43;
+						else				  	$rate = 16.4;
+						break;
+					case 100000:
+						if ($years <= 69) 		return 0;
+						elseif ($years <= 74) 	$rate = 8.12;
+						elseif ($years <= 79) 	$rate = 10.32;
+						elseif ($years <= 85) 	$rate = 13.94;
+						else				  	$rate = 22.30;
+						break;
+					case 150000:
+					default:
+						return 0;
+				}
+			}
+			$discount = 1;
+			switch ($para['deductiable_amount']) {
+				case 100:
+					$discount = 0.95;
+					break;
+				case 1000:
+					$discount = 0.8;
+					break;
+				case 2500:
+					if ($para['sum_insured'] == 25000) {
+						$discount = 0.7;
+					} else if (($para['sum_insured'] == 50000) && ($years <= 85))	{
+						$discount = 0.75;
+					} else {
+						return 0;
+					}
+					break;
+				case 3000:
+					$discount = 0.7;
+					break;
+			}
+			if ($para['isfamilyplan']) {
+				$rate *= 2;
+			}
+			$premium = $rate * $days * $discount;
+		} else if ($para['product_short'] == 'JUS') {
+			$number_customer = (int)$para['number_customer'] - 2;
+			if ($para['stable_condition'] == 1) {	// Here is Plus / Prefer
+				if ($years <= 24) 		$rate = 3.25;
+				elseif ($years <= 30) 	$rate = 4.65;
+				elseif ($years <= 40) 	$rate = 10.4;
+				else				  	$rate = 21.47;
+				if ($para['isfamilyplan']) {
+					$rate += 21.23;
+				}
+				if ($number_customer > 0) {
+					$rate += 11.51 * $number_customer;
+				}
+			} else {
+				if ($years <= 24) 		$rate = 3.25;
+				elseif ($years <= 30) 	$rate = 4.65;
+				elseif ($years <= 40) 	$rate = 10.4;
+				else				  	$rate = 21.47;
+				if ($para['isfamilyplan']) {
+					$rate += 24.79;
+				}
+				if ($number_customer > 0) {
+					$rate += 11.54 * $number_customer;
+				}
+			}
+			$premium = $rate * $days;
+		} else if ($para['product_short'] == 'NUS') {
+			$number_customer = (int)$para['number_customer'] - 2;
+			if ($para['stable_condition'] == 1) {	// Here is Plus / Prefer
+				if ($years <= 24) 		$rate = 4.1;
+				elseif ($years <= 30) 	$rate = 5.82;
+				elseif ($years <= 40) 	$rate = 12;
+				else				  	$rate = 24.66;
+				if ($para['isfamilyplan']) {
+					$rate += 24.71;
+				}
+				if ($number_customer > 0) {
+					$rate += 14.32 * $number_customer;
+				}
+			} else {
+				if ($years <= 24) 		$rate = 4.69;
+				elseif ($years <= 30) 	$rate = 6.62;
+				elseif ($years <= 40) 	$rate = 13.16;
+				else				  	$rate = 28.07;
+				if ($para['isfamilyplan']) {
+					$rate += 27.45;
+				}
+				if ($number_customer > 0) {
+					$rate += 14.35 * $number_customer;
+				}
+			}
+			$premium = $rate * $days;
+		} else if ($para['product_short'] == 'JES') {
+			$number_customer = (int)$para['number_customer'];
+			$rate = 1.6;
+			if ($number_customer == 2) {
+				$premium = $rate * $days * 2.5;
+			} else {
+				$premium = $rate * $days * $number_customer;
+			}
+		} else if ($para['product_short'] == 'JFC') {
+			if ($years <= 3) 		return 0;
+			elseif ($years <= 59) 	$rate = 1.5;
+			else				  	return 0;
+			$premium = $rate * $days;
 		}
 		return $premium; 
 	}
-	
 }
