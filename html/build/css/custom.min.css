@@ -1,3 +1,5 @@
+.main_container{position: relative;}
+
 .left_col{background:#2A3F54}
 
 .nav-sm .container.body .col-md-3.left_col{
@@ -70,7 +72,7 @@
 }
 .nav-md .container.body .col-md-3.left_col,
 #leftMenu .col-md-3.left_col{width:230px;padding:0;position:absolute;display:-ms-flexbox;display:flex;z-index:9999}
-#leftMenu .col-md-3.left_col{height: 88.7%;}
+#leftMenu .col-md-3.left_col{height: 100%;}
 .nav-md .container.body .col-md-3.left_col.menu_fixed{height:100%;position:fixed}
 body .container.body .right_col{background:#F7F7F7}
 .nav-md .container.body .right_col{padding:10px 20px 0;margin-left:230px}

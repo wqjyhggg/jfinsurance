@@ -18,7 +18,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <!-- Content top navigation End-->
 
         <!-- page content -->
-        <div class="right_col" role="main" style="margin-bottom:60px;">
+        <div class="right_col" role="main" style="padding-bottom:60px;">
           
             <div class="page-title">
               <div class="title_left">
@@ -100,8 +100,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							</div>
 							<div class="form-group col-sm-3">
 								<label class="col-sm-12">Expiry Date: </label>
-						  		<div class="input-group date form_date col-sm-12" data-data="" data-data-format="yyyy/mm/dd" data-link-field="application_date_form" data-link-format="yyyy-mm-dd">
-									<input type='text' name='expiry_date' name='expiry_date' class='setpremium form-control' value='<?php echo $expiry_date; ?>' readonly>
+						  		<div class="input-group date form_date col-sm-12" data-data="" data-date-format="yyyy/mm/dd" data-link-field="application_date_from" data-link-format="yyyy-mm-dd">
+									<input size="16" type='text' name='expiry_date' class='setpremium form-control' value='<?php echo $expiry_date; ?>' readonly>
 									<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
 			                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
 									<?php if (!empty($error_expiry_date)) { echo $error_expiry_date; } ?>							
