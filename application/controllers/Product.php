@@ -64,8 +64,9 @@ class Product extends MY_Controller {
 			'sum_insured' => $this->input->post_get('sum_insured'),
 			'deductiable_amount' => $this->input->post_get('deductiable_amount'),
 			'stable_condition' => $this->input->post_get('stable_condition'),
-			'birthday' => $this->input->post_get('birthday'));
-
+			'birthday' => $this->input->post_get('birthday'),
+			'number_customer' => $this->input->post_get('number_customer'));
+		
 		$premium = $this->product_model->get_premium($para);
 		if (empty($premium)) {
 			$data = array('status' => 'Error', 'message' => "Can't caculate premium");

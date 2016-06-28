@@ -25,8 +25,8 @@ class Plan_model extends CI_Model {
 	 * @return	string					policy number
 	 */
 	public function get_plan_key($plan_id) {
-		$user = $this->get_plan_by_id($plan_id);
-		$key = md5('jfuk0621' . $user['user_id'] . $user['customer_id']);
+		$plan = $this->get_plan_by_id($plan_id);
+		$key = md5('jfuk0621' . $plan_id . $plan['user_id'] . $plan['customer_id']);
 		return $key;
 	}
 	
@@ -250,12 +250,7 @@ class Plan_model extends CI_Model {
 			$this->logstr .= " deductiable_amount " . $para['deductiable_amount'] . "(" . $plan['deductiable_amount'] . ")";
 			$sql .= " deductiable_amount=" . $this->db->escape($para['deductiable_amount']) . ", ";
 		}
-		$premiumchged = 0;
 		if (isset($para['premium']) && ((float)$para['premium'] != (float)$plan['premium'])) {
-			$premiumchged = 1;
-			if ($plan['status_id'] > 2) {
-				$para['status_id'] = 2;
-			}
 			$this->logstr .= " premium " . $para['premium'] . "(" . $plan['premium'] . ")";
 			$sql .= " premium='" . (float) $para['premium'] . "', ";
 		}
@@ -263,9 +258,7 @@ class Plan_model extends CI_Model {
 			$this->logstr .= " status_id " . $para['status_id'] . "(" . $plan['status_id'] . ")";
 			$sql .= " status_id='" . (int)$para['status_id'] . "', ";
 		}
-		$commissionchged = 0;
 		if (isset($para['commission_amount']) && ((float)$para['commission_amount'] != (float)$plan['commission_amount'])) {
-			$commissionchged = 1;
 			$this->logstr .= " commission_amount " . $para['commission_amount'] . "(" . $plan['commission_amount'] . ")";
 			$sql .= " commission_amount='" . (float) $para['commission_amount'] . "', ";
 		}
@@ -336,6 +329,10 @@ class Plan_model extends CI_Model {
 		if (isset($para['residence']) && ($para['residence'] != $plan['residence'])) {
 			$this->logstr .= " residence " . $para['residence'] . "(" . $plan['residence'] . ")";
 			$sql .= " residence=" . $this->db->escape($para['residence']) . ", ";
+		}
+		if (isset($para['payinfo']) && ($para['payinfo'] != $plan['payinfo'])) {
+			$this->logstr .= " payinfo " . $para['payinfo'] . "(" . $plan['payinfo'] . ")";
+			$sql .= " payinfo=" . $this->db->escape($para['payinfo']) . ", ";
 		}
 		if (isset($para['note']) && ($para['note'] != $plan['note'])) {
 			$this->logstr .= " note " . $para['note'] . "(" . $plan['note'] . ")";
@@ -415,40 +412,6 @@ class Plan_model extends CI_Model {
 			}
 		}
 		
-		if ($premiumchged != 0) {
-			if ($plan['status_id'] > 2) {
-				// Paied policy
-				$new_premium = (float)$para['premium'] - (float)$plan['premium'];
-				$this->load->model('trans_model');
-				$para = array();
-				$para['user_id'] = $beuser['user_id'];
-				$para['plan_id'] = $plan['plan_id'];
-				$para['amount'] = $new_premium;
-				$para['ispaid'] = 0;
-				$para['pay_type'] = $this->trans_model->pay_type('premium');
-				$para['added'] = date('Y-m-d');
-				$para['note'] = 'Plan change';
-				$this->trans_model->add($para);
-				$this->sqlstr = $this->trans_model->sqlstr . "; ";
-				$this->logstr = $this->trans_model->logstr . "; ";
-			}
-		}
-		if ($commissionchged != 0) {
-			$commission_amount = (float)$para['commission_amount'] - (float)$plan['commission_amount'];
-			$this->load->model('trans_model');
-			$para = array();
-			$para['user_id'] = $beuser['user_id'];
-			$para['plan_id'] = $plan['plan_id'];
-			$para['amount'] = $commission_amount;
-			$para['ispaid'] = 0;
-			$para['pay_type'] = $this->trans_model->pay_type('commission');
-			$para['added'] = date('Y-m-d');
-			$para['note'] = 'Plan change';
-			$this->trans_model->add($para);
-			$this->sqlstr = $this->trans_model->sqlstr . "; ";
-			$this->logstr = $this->trans_model->logstr . "; ";
-		}
-		
 		return $plan_id;
 	}
 	
@@ -521,7 +484,7 @@ class Plan_model extends CI_Model {
 				
 		$sql  = "SELECT p.*, c.firstname, c.lastname, u.firstname AS agent_firstname, u.lastname AS agent_lastname FROM plan p";
 		$sql .= " INNER JOIN customer c ON (p.customer_id=c.customer_id)";
-		$sql .= " INNER JOIN user u ON (u.user_id=u.user_id)";
+		$sql .= " INNER JOIN user u ON (p.user_id=u.user_id)";
 		$where = array();
 		if (!empty($para['policy'])) {
 			$where[] = "p.policy=" . $this->db->escape($para['policy']);
