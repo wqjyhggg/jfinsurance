@@ -87,6 +87,21 @@ class User_model extends CI_Model {
 		$sql = "SELECT * FROM user WHERE user_id = '" . (int)$user_id . "'";
 		return $this->db->query($sql)->row_array();
 	}
+
+	/**
+	 * Get brokerage user list
+	 *
+	 * @return	array					user table search result
+	 */
+	public function get_school_id_list() {
+		$sql = "SELECT user_id,business FROM user WHERE user_group_id = '3'";
+		$rt = $this->db->query($sql)->result_array();
+		$rtArr = array();
+		foreach ($rt as $rc) {
+			$rtArr[$rc['user_id']] = $rc['business'];
+		}
+		return $rtArr;
+	}
 	
 	/**
 	 * Get brokerage user list

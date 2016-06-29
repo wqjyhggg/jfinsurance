@@ -140,7 +140,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<div class="form-group col-sm-3">
 										<label class="col-sm-12">Deductible amount (CAD):</label>
 										<div class="input-group col-sm-12">
-											 <div id='deductiable_amount_div'></div>
+											 <div id='deductible_amount_div'></div>
 										</div>
 									</div>
 								</div>
@@ -404,9 +404,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				    	},
 					});
 					$.ajax({
-						url: '<?php echo $deductiable_amount_url; ?>',
+						url: '<?php echo $deductible_amount_url; ?>',
 						success: function(data, textStatus, jqXHR) {
-				        	$('#deductiable_amount_div').html(data);
+				        	$('#deductible_amount_div').html(data);
 				    	},
 					});
 					if ($('#isfamilyplan').get(0).checked) {
@@ -439,7 +439,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						isfamilyplan = 1;	// checkbox
 					}
 					var sum_insured = $('select[name="sum_insured"]').val();	// select
-					var deductiable_amount = $('select[name="deductiable_amount"]').val();	// select
+					var deductible_amount = $('select[name="deductible_amount"]').val();	// select
 					var stable_condition = $('input[name="stable_condition"]:checked').val();	// radio
 					var birthday = $('input[name="birthday"]').val();	// 
 					var number_customer = 0;
@@ -489,7 +489,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								expiry_date: expiry_date,
 								isfamilyplan: isfamilyplan,
 								sum_insured: sum_insured,
-								deductiable_amount: deductiable_amount,
+								deductible_amount: deductible_amount,
 								stable_condition: stable_condition,
 								number_customer: number_customer,
 								birthday: birthday},

@@ -265,12 +265,12 @@ class Plan extends MY_Controller {
 		} else {
 			$data['premium'] = 0;
 		}
-		if ($this->input->post('deductiable_amount')) {
-			$data['deductiable_amount'] = $this->input->post('deductiable_amount'); 
-		} else if (isset($plan['deductiable_amount'])) {
-			$data['deductiable_amount'] = $plan['deductiable_amount'];
+		if ($this->input->post('deductible_amount')) {
+			$data['deductible_amount'] = $this->input->post('deductible_amount'); 
+		} else if (isset($plan['deductible_amount'])) {
+			$data['deductible_amount'] = $plan['deductible_amount'];
 		} else {
-			$data['deductiable_amount'] = '';
+			$data['deductible_amount'] = '';
 		}
 		if ($this->input->post('customer_id')) {
 			$data['customer_id'] = $this->input->post('customer_id');
@@ -450,8 +450,8 @@ class Plan extends MY_Controller {
 		}
 		$data['sum_insured_url'] = base_url ( "product/insured/" . $data['product_short'] );
 		if (!empty($data['sum_insured'])) $data['sum_insured_url'] .= "/" . $data['sum_insured']; 
-		$data['deductiable_amount_url'] = base_url ( "product/deductiable/" . $data['product_short'] );
-		if (!empty($data['deductiable_amount'])) $data['deductiable_amount_url'] .= "/" . $data['deductiable_amount'];
+		$data['deductible_amount_url'] = base_url ( "product/deductible/" . $data['product_short'] );
+		if (!empty($data['deductible_amount'])) $data['deductible_amount_url'] .= "/" . $data['deductible_amount'];
 		$data['province_url'] = base_url ( "geo/province/" . $data['country2'] . "/" . $data['province2'] );
 		$data['country_url'] = base_url ( "geo/country/" . $data['country2'] );
 		if (!empty($data['country2'])) {
@@ -596,7 +596,7 @@ class Plan extends MY_Controller {
 				);
 				$this->log_model->activity('payment', $para);
 				
-				$para = array('payinfo' => $payinfo, 'status_id' => 2);
+				$para = array('payinfo' => $payinfo, 'status_id' => 2, 'policy' => $this->plan_model->get_policy_number($plan_id, 2));
 				$this->plan_model->update($plan_id, $para);
 				$para = array(
 						'plan_id' => $plan_id,
@@ -744,7 +744,7 @@ class Plan extends MY_Controller {
 			);
 			$this->log_model->activity('payment', $para);
 			
-			$para = array('payinfo' => $payinfo, 'status_id' => 2);
+			$para = array('payinfo' => $payinfo, 'status_id' => 2, 'policy' => $this->plan_model->get_policy_number($plan_id, 2));
 			$this->plan_model->update($plan_id, $para);
 			$para = array(
 					'plan_id' => $plan_id,
@@ -817,7 +817,7 @@ class Plan extends MY_Controller {
 			$dt['ispaid'] = 0;
 			$payment_id = $this->trans_model->add($dt);
 				
-			$para = array('payinfo' => $payinfo, 'status_id' => 2);
+			$para = array('payinfo' => $payinfo, 'status_id' => 2, 'policy' => $this->plan_model->get_policy_number($plan_id, 2));
 			$this->plan_model->update($plan_id, $para);
 			$para = array(
 					'plan_id' => $plan_id,
@@ -905,7 +905,7 @@ class Plan extends MY_Controller {
 		$para['expiry_date'] = $plan['expiry_date'];
 		$para['isfamilyplan'] = $plan['isfamilyplan'];
 		$para['sum_insured'] = $plan['sum_insured'];
-		$para['deductiable_amount'] = $plan['deductiable_amount'];
+		$para['deductible_amount'] = $plan['deductible_amount'];
 		$para['stable_condition'] = $plan['stable_condition'];
 		$para['birthday'] = $this->customer_model->get_max_birthday($plan['customer_id'], $plan['isfamilyplan']);
 		$para['number_customer'] = $this->customer_model->get_number_customer($plan['customer_id'], $plan['isfamilyplan']);
@@ -928,24 +928,24 @@ class Plan extends MY_Controller {
 		$data['customers'] = $this->customer_model->get_customer_by_parent_id($plan['customer_id']);
 		
 		if ($beuser['user_group_id'] <= 2) {
-			$this->data['paytype_list'] = $this->paytype_model->paytype_list();
+			$data['paytype_list'] = $this->paytype_model->paytype_list();
 		} else {
-			$this->data['paytype_list'] = split(",", $beuser['pay_type']);
+			$data['paytype_list'] = split(",", $beuser['pay_type']);
 		}
 		$data['active_url'] = current_url();
 		if ($plan['status_id'] <= 2) {
 			$display = 1;
-			if (in_array('Credit Card', $data['pay_type'])) {
+			if (in_array('Credit Card', $data['paytype_list'])) {
 				$data['credit_dis'] = $display;
 				$data['pay_type'] = 'Credit Card';
 				$display = 0;
 			}
-			if (in_array('Cheque', $data['pay_type'])) {
+			if (in_array('Cheque', $data['paytype_list'])) {
 				$data['cheque_dis'] = $display;
 				$data['pay_type'] = 'Cheque';
 				$display = 0;
 			}
-			if (in_array('Cash', $data['pay_type'])) {
+			if (in_array('Cash', $data['paytype_list'])) {
 				$data['cash_dis'] = $display;
 				$data['pay_type'] = 'Cash';
 				$display = 0;

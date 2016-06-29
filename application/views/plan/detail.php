@@ -76,7 +76,7 @@ Expiry Date: <?php echo $plan['expiry_date']; ?><br>
 Beneficiary: <?php echo $plan['beneficiary']; ?><br>
 <?php if ($plan['isfamilyplan']) { ?> Family Plan <br><?php } ?>
 Sum Insured (CAD): $<?php echo number_format($plan['sum_insured'], 2, '.', ','); ?><br>
-Deductible amount (CAD):  $<?php echo number_format($plan['deductiable_amount'], 2, '.', ','); ?><br>
+Deductible amount (CAD):  $<?php echo number_format($plan['deductible_amount'], 2, '.', ','); ?><br>
 <?php
 if (empty ( $disable_stable_condition )) {
 	if ($plan ['stable_condition'] == 1) {
