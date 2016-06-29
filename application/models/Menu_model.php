@@ -97,7 +97,7 @@ class Menu_model extends CI_Model {
 			1 => array(
 					"<a href='" . base_url() . "' class='leftmeun'>" . $this->lang->line ( 'text_home' ) . "</a>",
 					"<a href='" . base_url('our_products') . "' class='leftmeun'>" . $this->lang->line ( 'text_our_products' ) . "</a>",
-					"<a href='" . base_url('downloads') . "' class='leftmeun'>" . $this->lang->line ( 'text_downloads' ) . "</a>",
+					"<a href='" . base_url('pdf/pdflist') . "' class='leftmeun'>" . $this->lang->line ( 'text_downloads' ) . "</a>",
 					"<a href='" . base_url() . "' class='leftmeun'>" . $this->lang->line ( 'text_languages' ) . "</a>",
 					"<a href='" . base_url('user/logout') . "' class='leftmeun'>" . $this->lang->line ( 'text_logout' ) . "</a>",
 				),

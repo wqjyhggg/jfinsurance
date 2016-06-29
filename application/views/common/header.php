@@ -35,7 +35,9 @@
 			<img class="img-responsive" src="<?php echo base_url();?>image/logo.jpg" alt="JF Insurance">
 		</div>
 		<nav class="navbar navbar-default">
-
+		  <!--div class="col-sm-3 pull-left hidden-xs">
+			<img class="img-responsive" src="<?php echo base_url();?>image/logo.jpg" alt="JF Insurance">
+		  </div-->
 		  <div class="container-fluid">
 		    <div class="navbar-header">
 		    	<div class="visible-xs">
@@ -48,6 +50,7 @@
 			    </div>  
 		    </div>
 		    <div class="collapse navbar-collapse" id="myNavbar">
+
 		    	<!-- Top Menu -->
 		    	<?php if (isset($top_menu) && is_array($top_menu)) { ?>
 					<ul class="nav navbar-nav">
@@ -62,7 +65,7 @@
 		                <div class="input-group" style="margin-bottom:0;">
 		                    <input type="text" class="form-control" placeholder="Search" name="q">
 		                    <div class="input-group-btn">
-		                        <button class="btn btn-default" type="submit" style="margin-bottom:0;"><i class="glyphicon glyphicon-search"></i></button>
+		                        <button class="btn btn-default" type="submit" style="margin-bottom:0;padding-bottom:5px;"><i class="glyphicon glyphicon-search"></i></button>
 		                    </div>
 		                </div>
 		            </form>

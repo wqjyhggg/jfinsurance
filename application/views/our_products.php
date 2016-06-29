@@ -19,7 +19,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
         <!-- page content -->
         <div class="right_col" role="main">
-          
+          <duv class-"main-div">
             <div class="page-title">
               <div class="title_left">
                 <h3>Our Products</h3>
@@ -37,7 +37,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
-                    <br />
+                  
                     <div class="table-responsive">
                       <table class="table table-hover table-bordered">
                         <thead>
@@ -81,6 +81,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               </div>
             </div><!-- End List Section -->
 
-          
+          </div>
         </div>
         <!-- /page content -->

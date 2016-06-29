@@ -18,7 +18,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
         <!-- page content -->
         <div class="right_col" role="main">
-          <div class="">
+          <div class="main-div">
             <div class="page-title">
               <div class="title_left">
                 <h3>Agent Search</h3>
@@ -36,7 +36,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                    
         					<?php if (!empty($error_message)) { echo $error_message . "<br>"; } ?>
         					<form action='<?php $action_url; ?>' method='POST' class="form-horizontal">
-        					  <input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'><br>
+        					  <input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
           					
                     <div class="row">
                       <div class="col-sm-3 form-group">
@@ -114,8 +114,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
-                    <br />
-                    
+                   
                     <div class="table-responsive">
                       <table class="table table-hover table-bordered">
                         <thead>
@@ -134,7 +133,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <tbody>
                         <?php foreach ($user_list as $user) { ?>
                           <tr>
-                            <td><a href='<?php echo $edit_url.$user['user_id']; ?>'><?php echo $user['username']?></a></td>
+                            <td><a style="color:#46b8da;" href='<?php echo $edit_url.$user['user_id']; ?>'><?php echo $user['username']?></a></td>
                             <td><?php echo $user_group_list[$user['user_group_id']]; ?></td>
                             <td><?php echo $user['business']; ?></td>
                             <td><?php echo $user['lastname'] . " " . $user['lastname']; ?></td>
