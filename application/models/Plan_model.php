@@ -88,6 +88,7 @@ class Plan_model extends CI_Model {
 		$status_id = empty($para['status_id']) ? 1 : (int)$para['status_id'];
 		$sql .= " status_id='" . (int)$status_id . "', ";
 		$sql .= " product_short=" . $this->db->escape($para['product_short']) . ", ";
+		if (isset($para['policy'])) $sql .= " policy=" . $this->db->escape($para['policy']) . ", ";
 		if (isset($para['batch_number'])) $sql .= " batch_number=" . $this->db->escape($para['batch_number']) . ", ";
 		$sql .= " isfamilyplan='" . (int)$isfamilyplan . "', ";
 		if (isset($para['apply_date'])) $sql .= " apply_date=" . $this->db->escape($para['apply_date']) . ", ";
@@ -99,7 +100,7 @@ class Plan_model extends CI_Model {
 		if (isset($para['rate_options'])) $sql .= " rate_options='" . (int)$para['rate_options'] . "', ";
 		if (isset($para['sum_insured'])) $sql .= " sum_insured='" . (int)$para['sum_insured'] . "', ";
 		if (isset($para['deductible_amount'])) $sql .= " deductible_amount='" . (int)$para['deductible_amount'] . "', ";
-		if (isset($para['premium']))  $sql .= " premium='" . (float) $para['deductible_amount'] . "', ";
+		if (isset($para['premium']))  $sql .= " premium='" . (float) $para['premium'] . "', ";
 		if (isset($para['street_number'])) $sql .= " street_number=" . $this->db->escape(trim($para['street_number'])) . ", ";
 		if (isset($para['street_name'])) $sql .= " street_name=" . $this->db->escape(trim($para['street_name'])) . ", ";
 		if (isset($para['suite_number'])) $sql .= " suite_number=" . $this->db->escape(trim($para['suite_number'])) . ", ";

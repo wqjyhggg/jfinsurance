@@ -129,17 +129,13 @@ Notes: <?php echo $plan['note']; ?><br>
 <script type="text/javascript">
 $(document).ready(function() {
 	$('#credit_card_div').click(function() {
-		if ($('#credit_card').is(":visible")) {
-			$('#credit_card').hide();
-		} else {
-			$('#credit_card').show();
+		$('#credit_card').show();
 <?php if (isset($cheque_dis)) { ?>
-			$('#cheque').hide();
+		$('#cheque').hide();
 <?php } ?>
 <?php if (isset($cash_dis)) { ?>
-			$('#cash').hide();
+		$('#cash').hide();
 <?php } ?>
-		}
 	});
 });
 </script>
@@ -178,6 +174,7 @@ Expiry Year: <select name='expiry_month'>
 	<option value='<?php echo date('y',strtotime('+8 years')); ?>'> <?php echo date('y',strtotime('+8 years')); ?> </option>
 	<option value='<?php echo date('y',strtotime('+9 years')); ?>'> <?php echo date('y',strtotime('+9 years')); ?> </option>
 </select> |
+Card CVV: <input type='text' name='card_cvv' value=''> |
 Amount: $<?php echo number_format($plan['premium'], 2, '.', ','); ?> |
 <input type='submit' name='submit' value='Pay'><br> 
 Pay url send to user by Email: <input type='text' name='payurl' value='<?php echo $payurl; ?>' readonly>
@@ -189,17 +186,13 @@ Pay url send to user by Email: <input type='text' name='payurl' value='<?php ech
 <script type="text/javascript">
 $(document).ready(function() {
 	$('#cheque_div').click(function() {
-		if ($('#cheque').is(":visible")) {
-			$('#cheque').hide();
-		} else {
-			$('#cheque').show();
+		$('#cheque').show();
 <?php if (isset($credit_dis)) { ?>
-			$('#credit_card').hide();
+		$('#credit_card').hide();
 <?php } ?>
 <?php if (isset($cash_dis)) { ?>
-			$('#cash').hide();
+		$('#cash').hide();
 <?php } ?>
-		}
 	});
 });
 </script>
@@ -223,17 +216,13 @@ Amount: $<?php echo number_format($plan['premium'], 2, '.', ','); ?> |
 <script type="text/javascript">
 $(document).ready(function() {
 	$('#cash_div').click(function() {
-		if ($('#cash').is(":visible")) {
-			$('#cash').hide();
-		} else {
-			$('#cash').show();
+		$('#cash').show();
 <?php if (isset($credit_dis)) { ?>
-			$('#credit_card').hide();
+		$('#credit_card').hide();
 <?php } ?>
 <?php if (isset($cheque_dis)) { ?>
-			$('#cheque').hide();
+		$('#cheque').hide();
 <?php } ?>
-		}
 	});
 });
 </script>
@@ -246,7 +235,6 @@ $(document).ready(function() {
 <input type='hidden' name='premium' value='<?php echo number_format($plan['premium'], 2, '.', ','); ?>'>
 Amount: $<?php echo number_format($plan['premium'], 2, '.', ','); ?> |
 <input type='submit' name='submit' value='Pay'><br> 
-Pay url send to user by Email: <input type='text' name='payurl' value='<?php echo $payurl; ?>' readonly>
 </form>
 </div>
 <?php } ?>
