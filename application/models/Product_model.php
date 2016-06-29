@@ -64,14 +64,14 @@ class Product_model extends CI_Model {
 	}
 	
 	/**
-	 * Get Plan deductiable
+	 * Get Plan deductible
 	 * 
 	 * @param	string	$product_short		Search parameters
 	 * @return	array					user table search result
 	 */
-	public function product_deductiable($product_short) {
+	public function product_deductible($product_short) {
 		$arr = array();
-		$sql = "SELECT amount FROM product_deductiable WHERE product_short=" . $this->db->escape($product_short) . " ORDER BY product_deductiable_id";
+		$sql = "SELECT amount FROM product_deductible WHERE product_short=" . $this->db->escape($product_short) . " ORDER BY product_deductible_id";
 		$rows = $this->db->query($sql)->result_array();
 		foreach ($rows as $row) {
 			$arr[] = $row['amount'];
@@ -97,7 +97,7 @@ class Product_model extends CI_Model {
 	/**
 	 * Get Product premium
 	 * 
-	 * @param array $para	parameter array 'product_short', 'apply_date', 'effective_date', 'expiry_date', 'isfamilyplan', 'number_customer', 'sum_insured', 'deductiable_amount', 'stable_condition', 'birthday'
+	 * @param array $para	parameter array 'product_short', 'apply_date', 'effective_date', 'expiry_date', 'isfamilyplan', 'number_customer', 'sum_insured', 'deductible_amount', 'stable_condition', 'birthday'
 	 * @return float 		premium, 0 means can't caculate.
 	 */
 	public function get_premium($para) {
@@ -222,7 +222,7 @@ class Product_model extends CI_Model {
 				}
 			}
 			$discount = 1;
-			switch ($para['deductiable_amount']) {
+			switch ($para['deductible_amount']) {
 				case 100:
 					$discount = 0.95;
 					break;
@@ -364,7 +364,7 @@ class Product_model extends CI_Model {
 				}
 			}
 			$discount = 1;
-			switch ($para['deductiable_amount']) {
+			switch ($para['deductible_amount']) {
 				case 100:
 					$discount = 0.95;
 					break;

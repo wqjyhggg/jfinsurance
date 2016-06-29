@@ -34,9 +34,10 @@ class Plan_model extends CI_Model {
 	 * Get Plan current policy number
 	 * 
 	 * @param	integer	$plan_id		Parameters
+	 * @param	integer	$status			status id for policy
 	 * @return	string					policy number
 	 */
-	public function get_policy_number($plan_id) {
+	public function get_policy_number($plan_id, $status=0) {
 		$plan = $this->get_plan_by_id($plan_id);
 		if (empty($plan)) {
 			return "Unknow1:";
@@ -46,7 +47,10 @@ class Plan_model extends CI_Model {
 		$this->load->model('product_model');
 		$product = $this->product_model->get_product($product_short);
 		
-		if ($plan['status_id'] <= 1) {
+		if (empty($status)) {
+			$status = $plan['status_id'];
+		}
+		if ($status <= 1) {
 			return $product['qoute_pre'] . sprintf("%06d", $plan_id);
 		} else {
 			return $product['plan_pre'] . sprintf("%06d", $plan_id);
@@ -92,9 +96,10 @@ class Plan_model extends CI_Model {
 		if (isset($para['expiry_date'])) $sql .= " expiry_date=" . $this->db->escape($para['expiry_date']) . ", ";
 		if (isset($para['beneficiary'])) $sql .= " beneficiary=" . $this->db->escape($para['beneficiary']) . ", ";
 		if (isset($para['stable_condition'])) $sql .= " stable_condition='" . (int)$para['stable_condition'] . "', ";
+		if (isset($para['rate_options'])) $sql .= " rate_options='" . (int)$para['rate_options'] . "', ";
 		if (isset($para['sum_insured'])) $sql .= " sum_insured='" . (int)$para['sum_insured'] . "', ";
-		if (isset($para['deductiable_amount'])) $sql .= " deductiable_amount='" . (int)$para['deductiable_amount'] . "', ";
-		if (isset($para['premium']))  $sql .= " premium='" . (float) $para['deductiable_amount'] . "', ";
+		if (isset($para['deductible_amount'])) $sql .= " deductible_amount='" . (int)$para['deductible_amount'] . "', ";
+		if (isset($para['premium']))  $sql .= " premium='" . (float) $para['deductible_amount'] . "', ";
 		if (isset($para['street_number'])) $sql .= " street_number=" . $this->db->escape(trim($para['street_number'])) . ", ";
 		if (isset($para['street_name'])) $sql .= " street_name=" . $this->db->escape(trim($para['street_name'])) . ", ";
 		if (isset($para['suite_number'])) $sql .= " suite_number=" . $this->db->escape(trim($para['suite_number'])) . ", ";
@@ -125,9 +130,11 @@ class Plan_model extends CI_Model {
 		$this->sqlstr = $this->customer_model->sqlstr . "; ";
 		$this->logstr = $this->customer_model->logstr . "; ";
 		
-		$policy = $this->get_policy_number($plan_id);
-		$sql  = "UPDATE plan SET policy=" . $this->db->escape($policy) . " WHERE plan_id='" . (int)$plan_id . "'";
-		$this->db->query($sql);
+		if (empty($para['batch_number'])) {
+			$policy = $this->get_policy_number($plan_id);
+			$sql  = "UPDATE plan SET policy=" . $this->db->escape($policy) . " WHERE plan_id='" . (int)$plan_id . "'";
+			$this->db->query($sql);
+		}
 		
 		if ($isfamilyplan) {
 			$i = 1;
@@ -242,13 +249,17 @@ class Plan_model extends CI_Model {
 			$this->logstr .= " stable_condition " . $para['stable_condition'] . "(" . $plan['stable_condition'] . ")";
 			$sql .= " stable_condition='" . (int)$para['stable_condition'] . "', ";
 		}
+		if (isset($para['rate_options']) && ((int)$para['rate_options'] != (int)$plan['rate_options'])) {
+			$this->logstr .= " rate_options " . $para['rate_options'] . "(" . $plan['rate_options'] . ")";
+			$sql .= " rate_options='" . (int)$para['rate_options'] . "', ";
+		}
 		if (isset($para['sum_insured']) && ($para['sum_insured'] != $plan['sum_insured'])) {
 			$this->logstr .= " sum_insured " . $para['sum_insured'] . "(" . $plan['sum_insured'] . ")";
 			$sql .= " sum_insured=" . $this->db->escape($para['sum_insured']) . ", ";
 		}
-		if (isset($para['deductiable_amount']) && ($para['deductiable_amount'] != $plan['deductiable_amount'])) {
-			$this->logstr .= " deductiable_amount " . $para['deductiable_amount'] . "(" . $plan['deductiable_amount'] . ")";
-			$sql .= " deductiable_amount=" . $this->db->escape($para['deductiable_amount']) . ", ";
+		if (isset($para['deductible_amount']) && ($para['deductible_amount'] != $plan['deductible_amount'])) {
+			$this->logstr .= " deductible_amount " . $para['deductible_amount'] . "(" . $plan['deductible_amount'] . ")";
+			$sql .= " deductible_amount=" . $this->db->escape($para['deductible_amount']) . ", ";
 		}
 		if (isset($para['premium']) && ((float)$para['premium'] != (float)$plan['premium'])) {
 			$this->logstr .= " premium " . $para['premium'] . "(" . $plan['premium'] . ")";

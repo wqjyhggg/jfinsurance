@@ -32,9 +32,9 @@ class Product extends MY_Controller {
 		$this->load->view('product/insured', $data);
 	}
 	
-	function deductiable($product_short='', $deductiable_amount='') {
+	function deductible($product_short='', $deductible_amount='') {
 		$this->load->model('product_model');
-		$plans = $this->product_model->product_deductiable($product_short);
+		$plans = $this->product_model->product_deductible($product_short);
 		$plist = array();
 		foreach($plans as $amount) {
 			if ($amount != 'unlimit') {
@@ -42,14 +42,14 @@ class Product extends MY_Controller {
 			} else {
 				$amountname = $amount;
 			}
-			if ($deductiable_amount == $amount) {
+			if ($deductible_amount == $amount) {
 				$plist[$amount] = array("name" => $amountname, "selected" => "selected");
 			} else {
 				$plist[$amount] = array("name" => $amountname, "selected" => "");
 			}
 		}
 		$data = array('plist' => $plist);
-		$this->load->view('product/deductiable', $data);
+		$this->load->view('product/deductible', $data);
 	}
 	
 	function premium() {
@@ -62,7 +62,7 @@ class Product extends MY_Controller {
 			'expiry_date' => $this->input->post_get('expiry_date'),
 			'isfamilyplan' => $this->input->post_get('isfamilyplan'),
 			'sum_insured' => $this->input->post_get('sum_insured'),
-			'deductiable_amount' => $this->input->post_get('deductiable_amount'),
+			'deductible_amount' => $this->input->post_get('deductible_amount'),
 			'stable_condition' => $this->input->post_get('stable_condition'),
 			'birthday' => $this->input->post_get('birthday'),
 			'number_customer' => $this->input->post_get('number_customer'));

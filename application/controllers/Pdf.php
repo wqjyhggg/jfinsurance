@@ -72,32 +72,71 @@ class Pdf extends MY_Controller {
 
 	public function import()
 	{
+		$beuser = $this->func_model->verify_login();
+		$user = $this->session->unset_userdata ('user');
+		
+		$this->load->model('batch_model');
+		
 		$data['errormsg'] = "";
-		if ($this->input->post()) {
+		if ($user['user_group_id'] <= 2) {
+			$data['errormsg'] = $this->lang->line ("error_no_permission");
+		}
+		if (empty($data['errormsg']) && $this->input->post('submit')) {
 			$uf = array_shift($_FILES);
 			$name = $uf['name'];
 			$type = $uf['type'];
 			$tmp_name = $uf['tmp_name'];
 			$size = $uf['size'];
 			$fileinfo = pathinfo($name);
-			if (empty($uf['error'])) {
+			if (!empty($uf['error'])) {
 				$data['errormsg'] = sprintf($this->lang->line ( 'error_file_upload' ), $name) . "<br />";
-			} else if (!in_array($fileinfo['extension'], array('xlsx','csv'))) {
-		    	$data['errormsg'] = sprintf($this->lang->line ( 'error_file_type' ), $name);
+			} else if (!in_array($fileinfo['extension'], array('xlsx'/*,'csv'*/))) {
+				$data['errormsg'] = sprintf($this->lang->line ( 'error_file_type' ), $name);
 		    } else {
-				$reader = ReaderFactory::create(Type::XLSX); // for XLSX files
+		    	$reader = ReaderFactory::create(Type::XLSX); // for XLSX files
 				//$reader = ReaderFactory::create(Type::CSV); // for CSV files
 				//$reader = ReaderFactory::create(Type::ODS); // for ODS files
 				$reader->open($tmp_name);
-				
+				$keyArr = array();
+				$batch_number = $this->batch_model->get_batch_number($name, "Upload file by (" . $user['user_id'] . "): " . $user['firstname']. " " . $user['lastname']);
 				foreach ($reader->getSheetIterator() as $sheet) {
+					$i = 0;
 					foreach ($sheet->getRowIterator() as $row) {
-						print_r($row);
+						$i++;
+						if (empty($keyArr)) {
+							$keyArr = $row;
+							continue;
+						} else if (sizeof($keyArr) != sizeof($row)) {
+							$data['errormsg'] .= "File data error at line " . $i . ": " . join("|", $row) . "<br>\n";
+							continue;
+						}
+						$data = array();
+						for ($j = 0; $j < sizeof($keyArr); $j++) {
+							$data[$keyArr[$j]] = $row[$j];
+						}
+						if (empty($data['user_id'])) {
+							if ($this->input->post('user_id')) {
+								$data['user_id'] = $this->input->post('user_id');
+							} else {
+								$data['user_id'] = $beuser['user_id'];
+							}
+						}
+						if (empty($data['product_short'])) {
+							if ($this->input->post('product_short')) {
+								$data['product_short'] = $this->input->post('product_short');
+							} else {
+								$data['errormsg'] .= "No product at line " . $i . ": " . join("|", $row) . "<br>\n";
+								continue;
+							}
+						}
+						if (empty($data['batch_number'])) {
+							$data['$batch_number'] = $batch_number;
+						}
+						$this->batch_model->add_record($data);
 					}
 				}
 				
 				$reader->close();
-				$gourl = $this->input->post('gourl');
 				if (empty($gourl)) {
 					$data['successmsg'] = $this->lang->line ( 'text_option_success' );
 				} else {
@@ -105,12 +144,19 @@ class Pdf extends MY_Controller {
 				}
 			}
 		}
+		$data['user_id'] = $this->input->post('user_id');
+		$data['product_id'] = $this->input->post('product_id');
+		$data['schools'] = $this->user_model->get_school_id_list();
+		$data['products'] = $this->product_model->product_list();
+//		echo "<pre>"; print_r($data['products']); die('XX'); //XXXXXXXXXXXXXXXXXXXXX
 		$data['action_url'] = current_url();
 		$data ['csrf'] = array (
 				'name' => $this->security->get_csrf_token_name (),
 				'value' => $this->security->get_csrf_hash () 
 		);
-		$this->load->view ( 'pdf/import', $data );
+		$data['top_menu'] = $this->menu_model->load_top_menu();
+		$data['menu'] = $this->menu_model->load_meun();
+		$this->load->common ( 'pdf/import', $data );
 	}
 
 	public function download($filename)
