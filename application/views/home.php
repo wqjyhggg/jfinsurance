@@ -18,7 +18,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
         <!-- page content -->
         <div class="right_col" role="main">
-          <div class="">
+          <div class="main-div">
             <div class="page-title">
               <div class="title_left">
                 <h3>Home</h3>

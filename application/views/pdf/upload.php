@@ -18,7 +18,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
         <!-- page content -->
         <div class="right_col" role="main">
-          <div class="">
+          <div class="main-div">
             <div class="page-title">
               <div class="title_left">
                 <h3>Upload Policy</h3>
@@ -33,43 +33,56 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
-                    <br />
+                    
                     <?php if (!empty($errormsg)) { ?>
           					<?php echo $errormsg;?>
           					<?php } ?>
           					<form action="<?php $action_url; ?>" method="post" enctype="multipart/form-data" class="form-horizontal form-label-left">
           					<input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
-          					<div class="form-group">
-                        <label class="col-sm-12">School</label>
-                        <div class="col-sm-12">
-                          <select class="form-control">
-                            <option>Choose option</option>
-                            <option>Option one</option>
-                            <option>Option two</option>
-                            <option>Option three</option>
-                            <option>Option four</option>
-                          </select>
+                    <div class="col-sm-3">
+                      <div class="row">
+              					<div class="form-group">
+                            <label class="col-sm-12">School</label>
+                            <div class="col-sm-12">
+                              <select class="form-control">
+                                <option>Choose option</option>
+                                <option>Option one</option>
+                                <option>Option two</option>
+                                <option>Option three</option>
+                                <option>Option four</option>
+                              </select>
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-12">Insurance Product</label>
-                        <div class="col-sm-12">
-                          <select class="form-control">
-                            <option>Choose option</option>
-                            <option>Option one</option>
-                            <option>Option two</option>
-                            <option>Option three</option>
-                            <option>Option four</option>
-                          </select>
-                        </div>
-                    </div>
-                    <hr />
-
-                    <div class="form-group">
-                      <div class="col-sm-12">
-                        <input style="display:inline-block;vertical-align:middle;" type="file" name="userfile" size="20" />	
-          					    <input style="display:inline-block;vertical-align:middle;" type="submit" value="upload" />
                       </div>
+                    </div>
+                    <div class="col-sm-3">
+                      <div class="row">
+                        <div class="form-group">
+                            <label class="col-sm-12">Insurance Product</label>
+                            <div class="col-sm-12">
+                              <select class="form-control">
+                                <option>Choose option</option>
+                                <option>Option one</option>
+                                <option>Option two</option>
+                                <option>Option three</option>
+                                <option>Option four</option>
+                              </select>
+                            </div>
+                        </div>
+                      </div>
+                    </div>
+
+                      <div class="col-sm-12">
+                        <hr />
+                        <div class="row">
+                        <div class="col-sm-4">
+                        <input class="form-control" type="file" name="userfile" size="20" />	
+                        </div>
+                        <div class="col-sm-4">
+          					     <input class="btn btn-primary" type="submit" value="upload" />
+                        </div>
+                      </div>
+                      
                     </div>
           					</form>
                   </div>

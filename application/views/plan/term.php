@@ -18,7 +18,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
         <!-- page content -->
         <div class="right_col" role="main" style="margin-bottom:40px;">
-          <div class="">
+          <div class="main-div">
             <div class="page-title">
               <div class="title_left">
                 <h3>Terms & Conditions</h3>
@@ -34,22 +34,31 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
-                    <br />
 
+        					<p>Term & condition.</p>
+        					<p>babababababababa.</p>
 
-					<p>Term & condition.</p>
-					<p>babababababababa.</p>
+                  <br />
+                  
+                    <?php if (!empty($message)) { ?>
+                      <div class="alert-error">
+                        <?php echo $message . "<br>";?>
+                      </div>
+                    <?php } ?>  
+                    
 
-					<?php if (!empty($message)) { echo $message . "<br>"; } ?>
-
-					<form action='<?php echo $action_url; ?>' method='POST'>
-					<input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'><br>
-					<input type='hidden' name='plan_id' value='<?php echo $plan_id; ?>'>
-					Agree: <input type='checkbox' name='agree' id='agree'><br>
-					<input type='submit' name='submit' value='Agree'><br>
-					</form> 
-	
-				</div>
+        					<form action='<?php echo $action_url; ?>' method='POST'>
+        					<input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
+                  <input type='hidden' name='plan_id' value='<?php echo $plan_id; ?>'>
+                  <div class="row">
+                    <div class="col-sm-12">
+        					   Agree: <input type='checkbox' name='agree' id='agree'>
+        					   <input class="btn btn-primary" type='submit' name='submit' value='Agree'><br>
+        					  </div>
+                  </div>
+                  </form> 
+        	
+        				</div>
                 </div>
               </div>
             </div><!-- End Term -->

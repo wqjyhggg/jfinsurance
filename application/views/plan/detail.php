@@ -37,7 +37,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 
 <!-- page content -->
 <div class="right_col" role="main" style="margin-bottom: 40px;">
-	<div class="">
+	<div class="main-div">
 		<div class="page-title">
 			<div class="title_left">
 				<h3>Create Policy</h3>
@@ -67,6 +67,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 						<div class="clearfix"></div>
 					</div>
 					<div class="x_content">
+
 						<br />
 Apply Date: <?php echo $apply_date; ?><br>
 Arrival Date: <?php echo $plan['arrival_date']; ?><br>
@@ -238,6 +239,7 @@ Amount: $<?php echo number_format($plan['premium'], 2, '.', ','); ?> |
 </form>
 </div>
 <?php } ?>
+>>>>>>> 09be4a4375db56302684322c2987ad789b19cb1d
 				</div>
 				</div>
 			</div>

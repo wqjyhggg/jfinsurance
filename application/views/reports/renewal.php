@@ -18,7 +18,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
         <!-- page content -->
         <div class="right_col" role="main">
-          <div class="">
+          <div class="main-div">
             <div class="page-title">
               <div class="title_left">
                 <h3>Renewal Report</h3>
@@ -34,7 +34,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
-                    <br />
 
                     <form method="post" class="form-horizontal">
                       <div class="row">
@@ -183,7 +182,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
-                    <br />
+                  
                     <div class="table-responsive">
                       <table class="table table-hover table-bordered">
                         <thead>

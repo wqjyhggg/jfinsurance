@@ -19,7 +19,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
         <!-- page content -->
         <div class="right_col" role="main" style="padding-bottom:60px;">
-          
+          <div class="main-div">
             <div class="page-title">
               <div class="title_left">
                 <h3>Create Policy</h3>
@@ -37,7 +37,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                   <div class="x_content">
                     
 					<!--<script src="<?php echo base_url(); ?>js/jquery-3.0.0.min.js" type="text/javascript"></script>-->
-					<?php if (!empty($error_message)) { echo $error_message . "<br>"; } ?>
+					<?php if (!empty($error_message)) {?>
+					<div class="alert-error">
+						<?php echo $error_message . "<br>";?>
+					</div>
+					<?php } ?>
 
 					<form action='<?php echo $action_url; ?>' method='POST' class="form-horizontal">
 
@@ -48,23 +52,33 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<?php /* it should be new plan */ ?>
 						<input type='hidden' name='status_id' value='0'>
 					<?php } else { ?>
+					<div class="row" style="margin-bottom:15px;">
+						<div class="col-sm-4">
 						<?php /* it should be created plan */ ?>
 						<?php if ($status_id == 1) { /* qutoe */ ?>
-						<a href='<?php echo $pay_url; ?>'>Pay</a>
+
+						<a href='<?php echo $pay_url; ?>'><span class="btn btn-info">Pay</span></a>
 						<?php } ?>
-						<a href='<?php echo $copy_url; ?>'>Copy</a>
+
+						<a href='<?php echo $copy_url; ?>'><span class="btn btn-info">Copy</span></a>
+						</div>
 						<?php if ($user_group_id > 2) { ?>
 							<?php /* it is school or brokerage or agent */ ?>
 							Policy Status: <?php echo $status_list[$status_id]; ?> 
-							<input type='hidden' name='status_id' value='<?php echo $status_id; ?>'>
+							<input type='hidden' name='status_id' value='<?php echo $status_id; ?>' class="form-control">
 							<?php } else { ?>
-							Policy Status: <select name='status_id'>
+							<div class="form-group col-sm-8">
+							<label style="display:inline-block;vertical-align:middle;">Policy Status:</label>
+							<div style="display:inline-block;vertical-align:middle;">
+							<select name='status_id' class="form-control">
 								<option value='0'> -- select policy status -- </option>
 								<?php foreach ($status_list as $key => $value) { ?>
 								<option value='<?php echo $key; ?>' <?php echo ($key == $status_id) ? 'selected' : ''; ?>><?php echo $value['name']; ?></option>
 								<?php } ?>
-							</select>
+							</select></div>
+							</div>
 							<?php } ?>
+					</div>
 					<?php } ?>
 					<div class="row">
 						<div class="col-sm-12">
@@ -73,7 +87,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
    						 <div class="row">
 							<div class="form-group col-sm-3">
 								<label class="col-sm-12">Apply Date:</label>
-								<div class="input-group date form_date col-sm-12" data-date="" data-date-format="yyyy/mm/dd" data-link-field="application_date_from" data-link-format="yyyy-mm-dd">
+								<div class="input-group date form_date col-sm-12" data-date="" data-date-format="yyyy/mm/dd" data-link-field="apply_date" data-link-format="yyyy-mm-dd">
 			                        <input class="form-control" size="16" type="text" name='apply_date' value='<?php echo $apply_date; ?>' readonly>
 			                        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
 			                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
@@ -81,32 +95,43 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							</div>
 							<div class="form-group col-sm-3">
 								<label class="col-sm-12">Arrival Date: </label>
-								<div class="input-group date form_date col-sm-12" data-date="" data-date-format="yyyy/mm/dd" data-link-field="application_date_from" data-link-format="yyyy-mm-dd">
+								<div class="input-group date form_date col-sm-12" data-date="" data-date-format="yyyy/mm/dd" data-link-field="arrival_date" data-link-format="yyyy-mm-dd">
 			                        <input class="form-control" size="16" type="text" name='arrival_date' value='<?php echo $arrival_date; ?>' readonly>
 			                        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
 			                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-			                        <?php if (!empty($error_arrival_date)) { echo $error_arrival_date; } ?>
 			                    </div>
+			                    <?php if (!empty($error_arrival_date)) { ?>
+			                    <div class="alert-error"> 
+			                        <?php echo $error_arrival_date; ?>
+			                    </div>
+			                    <?php } ?>
 
 							</div>
 							<div class="form-group col-sm-3">
 								<label class="col-sm-12">Effective Date: </label>
-								<div class="input-group date form_date col-sm-12" data-date="" data-date-format="yyyy/mm/dd" data-link-field="application_date_from" data-link-format="yyyy-mm-dd">
+								<div class="input-group date form_date col-sm-12" data-date="" data-date-format="yyyy/mm/dd" data-link-field="effective_date" data-link-format="yyyy-mm-dd">
 			                        <input class="form-control" size="16" type="text" name='effective_date' value='<?php echo $effective_date; ?>' readonly>
 			                        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
 			                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-			                        <?php if (!empty($error_effective_date)) { echo $error_effective_date; } ?>
 			                    </div>
+			                    <?php if (!empty($error_effective_date)) { ?>
+			                    <div class="alert-error">
+			                    	<?php echo $error_effective_date; ?> 
+			                	</div>
+			                    <?php } ?>
 							</div>
 							<div class="form-group col-sm-3">
 								<label class="col-sm-12">Expiry Date: </label>
-						  		<div class="input-group date form_date col-sm-12" data-data="" data-date-format="yyyy/mm/dd" data-link-field="application_date_from" data-link-format="yyyy-mm-dd">
+						  		<div class="input-group date form_date col-sm-12" data-data="" data-date-format="yyyy/mm/dd" data-link-field="expiry_date" data-link-format="yyyy-mm-dd">
 									<input size="16" type='text' name='expiry_date' class='setpremium form-control' value='<?php echo $expiry_date; ?>' readonly>
 									<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
 			                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-									<?php if (!empty($error_expiry_date)) { echo $error_expiry_date; } ?>							
 								</div>
-								
+								<?php if (!empty($error_expiry_date)) { ?>
+								<div class="alert-error">
+									<?php echo $error_expiry_date;?> 															
+								</div>
+								<?php } ?>
 							</div>
 						</div>
 					 	</fieldset>
@@ -121,13 +146,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										<label class="col-sm-12">Beneficiary</label>
 										<div class="input-group col-sm-12">
 											<input type='text' name='beneficiary' value='<?php echo $beneficiary; ?>' class="form-control">
-											<?php if (!empty($error_beneficiary)) { echo $error_beneficiary; } ?>
-
 										</div>
+										<?php if (!empty($error_beneficiary)) {?>
+										<div class="alert-error">
+											<?php echo $error_beneficiary;?>
+										</div>	
+										<?php } ?>
 									</div>
 									<div class="form-group col-sm-3">
 										<label class="col-sm-12">Is Family Plan</label>
-										<div class="input-group col-sm-12" style="border: 1px solid #ccc;padding: 5px;">
+										<div class="input-group col-sm-12" style="border: 1px solid #ccc;padding: 3px;">
 											 <input type='checkbox' class='setpremium' name='isfamilyplan' id='isfamilyplan' <?php echo empty($isfamilyplan) ? "" : "checked"; ?>> Yes
 										</div>
 									</div>
@@ -146,13 +174,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								</div>
 								<div class="row">
 									<?php if (empty($disable_stable_condition)) { ?>
-									<div class="col-sm-6">
-										<label class="col-sm-8">With stable pre-existion condition coverage</label>
-										<div class="input-group col-sm-4">
+									<div class="col-sm-12">
+										<label class="inline">With stable pre-existion condition coverage</label>
+										<div class="inline">
 											<input type='radio' class='setpremium' name='stable_condition' value='1' <?php echo (empty($stable_condition) || ($stable_condition != 2 )) ? "checked" : ""; ?>>
 										</div>
-										<label class="col-sm-8">Without stable pre-existion condition coverage </label>
-										<div class="input-group col-sm-4">
+									</div>
+									<div class="col-sm-12">
+										<label class="inline">Without stable pre-existion condition coverage </label>
+										<div class="inline">
 											<input type='radio' class='setpremium' name='stable_condition' value='2' <?php echo (!empty($stable_condition) && ($stable_condition == 2 )) ? "checked" : ""; ?>>
 										</div>
 									</div>
@@ -173,15 +203,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										<label class="col-sm-12">First Name:</label>
 										<div class="input-group col-sm-12">
 											<input class="form-control" type='text' name='firstname' value='<?php echo !empty($firstname) ? $firstname : ''; ?>'>
-											<?php if (!empty($error_firstname)) { echo $error_firstname; } ?>
 										</div>
+										<?php if (!empty($error_firstname)) {?>
+										<div class="alert-error">
+											<?php echo $error_firstname; ?>
+										</div>
+										<?php } ?>
 									</div>
 									<div class="col-sm-3">
 										<label class="col-sm-12">Last Name:</label>
 										<div class="input-group col-sm-12">
 											<input class="form-control" type='text' name='lastname' value='<?php echo !empty($lastname) ? $lastname : ''; ?>'>
-											<?php if (!empty($error_lastname)) { echo $error_lastname; } ?>
 										</div>
+										<?php if (!empty($error_lastname)) {?>
+										<div class="alert-error">
+											<?php echo $error_lastname; ?>
+										</div>
+										<?php } ?>
 									</div>
 									<div class="col-sm-3">
 										<label class="col-sm-12">Birth Date:</label>
@@ -189,8 +227,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					                        <input size="16" type="text" class='setpremium form-control' name='birthday' value='<?php echo !empty($birthday) ? $birthday : ''; ?>' readonly>
 					                        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
 					                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-					                        <?php if (!empty($error_birthday)) { echo $error_birthday; } ?>
 					                    </div>
+					                   <?php if (!empty($error_birthday)) {?>
+										<div class="alert-error">
+											<?php echo $error_birthday; ?>
+										</div>
+										<?php } ?>
 									</div>
 									<div class="col-sm-3">
 										<label class="col-sm-12">Gender: </label>
@@ -256,15 +298,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										<label class="col-sm-12">Street No: </label>
 										<div class="input-group col-sm-12">
 											<input class="form-control" type='text' name='street_number' value='<?php echo $street_number; ?>'>
-											<?php if (!empty($error_street_number)) { echo $error_street_number; } ?>
 										</div>
+										<?php if (!empty($error_street_number)) {?>
+										<div class="alert-error">
+											<?php echo $error_street_number; ?>
+										</div>
+										<?php } ?>
 									</div>
 									<div class="col-sm-3">
 										<label class="col-sm-12">Street Name: </label>
 										<div class="input-group col-sm-12">
 											<input class="form-control" type='text' name='street_name' value='<?php echo $street_name; ?>'>
-											<?php if (!empty($error_street_name)) { echo $error_street_name; } ?>
 										</div>
+										<?php if (!empty($error_street_name)) {?>
+										<div class="alert-error">
+											<?php echo $error_street_name; ?>
+										</div>
+										<?php } ?>
 									</div>
 									<div class="col-sm-3">
 										<label class="col-sm-12">Suite No.: </label>
@@ -276,8 +326,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										<label class="col-sm-12">City: </label>
 										<div class="input-group col-sm-12">
 											<input class="form-control" type='text' name='city' value='<?php echo $city; ?>'>
-											<?php if (!empty($error_city)) { echo $error_city; } ?>
 										</div>
+										<?php if (!empty($error_city)) {?>
+										<div class="alert-error">
+											<?php echo $error_city; ?>
+										</div>
+										<?php } ?>
 									</div>
 									<div class="col-sm-3">
 										<label class="col-sm-12">Province: </label>
@@ -303,8 +357,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										<label class="col-sm-12">Phone1: </label>
 										<div class="input-group col-sm-12">
 											<input class="form-control" type='text' name='phone1' value='<?php echo $phone1; ?>'>
-											<?php if (!empty($error_phone1)) { echo $error_phone1; } ?>
 										</div>
+										<?php if (!empty($error_phone1)) {?>
+										<div class="alert-error">
+											<?php echo $error_phone1; ?>
+										</div>
+										<?php } ?>
 									</div>
 									<div class="col-sm-3">
 										<label class="col-sm-12">Phone2: </label>
@@ -325,8 +383,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										<label class="col-sm-12">Email: </label>
 										<div class="input-group col-sm-12">
 											<input class="form-control" type='text' name='contact_email' value='<?php echo $contact_email; ?>'>
-											<?php if (!empty($error_contact_email)) { echo $error_contact_email; } ?>
 										</div>
+										<?php if (!empty($error_contact_email)) {?>
+										<div class="alert-error">
+											<?php echo $error_contact_email; ?>
+										</div>
+										<?php } ?>
 									</div>
 									<div class="col-sm-3">
 										<label class="col-sm-12">Contact Phone: </label>
@@ -510,7 +572,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               </div>
             </div><!-- End Form Section-->
             <!-- New Section -->
-<?php if ($show_history) { ?>
+			<?php if ($show_history) { ?>
             <div class="row">
             	<div class="col-sm-12">
             		<div class="x_panel">
@@ -520,7 +582,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	                  </div>
 	                  <div class="x_content">
 		                  <div class="row">
-<?php 	if (!empty($payments) && is_array($payments) && (sizeof($payments > 0))) { ?>
+							<?php 	if (!empty($payments) && is_array($payments) && (sizeof($payments > 0))) { ?>
 		                  	<div class="col-sm-12">
 			                  	<button type="button" class="btn btn-info" data-toggle="collapse" data-target="#history1">Payments <span class="fa fa-chevron-down"></span></button>
 			                  	<div id="history1" class="collapse">
@@ -536,7 +598,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 											</tr>
 										</thead>
 										<tbody>
-<?php 		foreach ($payments as $p) { ?>
+											<?php foreach ($payments as $p) { ?>
 											<tr>
 												<td><?php echo $p['payment_id']; ?></td>
 												<td><?php echo $p['amount']; ?></td>
@@ -544,16 +606,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 												<td><?php echo $p['added']; ?></td>
 												<td><?php echo (strlen($p['note']) > 60) ? (substr($p['note'], 0, 57) . "...") : $p['note']; ?></td>
 											</tr>
-<?php 		} ?>
+											<?php 		} ?>
 										</tbody>
 										</table>
 			                  		</div>
 			                  	</div>
 		                  	</div>
-<?php 	} ?>
+							<?php 	} ?>
 		                  </div>
 		                  <div class="row">
-<?php 	if (!empty($activelogs) && is_array($activelogs) && (sizeof($activelogs > 0))) { ?>
+							<?php 	if (!empty($activelogs) && is_array($activelogs) && (sizeof($activelogs > 0))) { ?>
 		                  	<div class="col-sm-12">
 			                  	<button type="button" class="btn btn-info" data-toggle="collapse" data-target="#history2">Changes <span class="fa fa-chevron-down"></span></button>
 			                  	<div id="history2" class="collapse">
@@ -566,24 +628,25 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 											</tr>
 										</thead>
 										<tbody>
-<?php 		foreach ($activelogs as $p) { ?>
+										<?php foreach ($activelogs as $p) { ?>
 											<tr>
 												<td><?php echo $p['activity_id']; ?></td>
 												<td><?php echo (strlen($p['message']) > 120) ? (substr($p['message'], 0, 117) . "...") : $p['message']; ?></td>
 											</tr>
-<?php 		} ?>
+										<?php 		} ?>
 										</tbody>
 										</table>
 			                  		</div>
 			                  	</div>
 		                  	</div>
-<?php 	} ?>
+							<?php 	} ?>
 		                  </div>
 
 	                  </div><!--/x_content end-->
 	              </div><!--x_panel-->
             	</div>
             </div>
-<?php } ?>
+			<?php } ?>
+		  </div>
         </div>
         <!-- /page content -->
