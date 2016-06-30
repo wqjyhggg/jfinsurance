@@ -244,7 +244,7 @@ a:hover,a:focus{text-decoration:none}
 .line_30{line-height:30px}
 .main_menu_side{padding:0}
 .bs-docs-sidebar .nav>li>a{display:block;padding:4px 6px}
-footer{background:#080808;padding:15px 20px;display:block}
+footer{background:#080808;padding:15px 20px;display:block;z-index: 99999;}
 @media (min-width: 768px){
 footer{/*margin-left:230px*/}
 }

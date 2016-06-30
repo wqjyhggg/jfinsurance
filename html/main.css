@@ -3,7 +3,8 @@
 /**************/
 
 /* General Customize */
-body{position: relative;}
+html{background-color: #d9e9ef;}
+body{position: relative;max-width: 1500px;margin: 0 auto!important;}
 .form-control-label {
     padding: .375rem .75rem;
     margin-bottom: 0;
@@ -87,24 +88,28 @@ footer p{margin: 0;}
 @media(min-width: 1500px){
     .lh-top{      
         position:absolute;
-        width:40%;
-        padding:5% 8%;
+        width:60%;
+        padding:4% 8%;
     } 
 }
-@media(max-width: 1499px) and (min-width: 1200px){
-    .lh-top{      
-        position:absolute;
-        width:55%;
-        padding:3% 5%;
-    } 
-}
-@media(max-width: 1199px) and (min-width: 1060px){
+@media(max-width: 1499px) and (min-width: 1250px){
     .lh-top{      
         position:absolute;
         width:65%;
+        padding:2% 4%;
+    } 
+    .lh-top>h1{font-size: 28px;}
+}
+@media(max-width: 1249px){
+    .lh-top{      
+        position:relative;
+        width:100%;
         padding:3% 5%;
     } 
+    .lh-top>h1{font-size: 24px;}
+    .lh-topdiv>img{display: none;}
 }
+/*
 @media(max-width: 1059px) and (min-width: 768px){
     .lh-top{      
         position:absolute;
@@ -118,40 +123,57 @@ footer p{margin: 0;}
         padding:3% 5%;
     } 
 }
-
-@media(min-width: 1170px){
+*/
+@media(min-width: 1400px){
     .h-top{
         position:absolute;
-        width:40%;
-        padding:5% 8%;
+        width:50%;
+        padding:3% 8%;
     }
+    .h-top>p{font-size: 16px;}
 }
-@media(max-width: 1169px) and (min-width: 922px){
+@media(max-width: 1399px) and (min-width: 1200px){
     .h-top{
         position:absolute;
-        width: 45%;
+        width: 50%;
         padding:3% 5%;
     }
+    .h-top>p{font-size: 15px;}
 }
-@media(max-width: 921px) and (min-width: 768px){
+@media(max-width: 1199px) and (min-width: 1060px){
     .h-top{
         position:absolute;
         width: 65%;
-        padding:3% 5%;
+        padding:2% 5%;
     }
+    .h-top>h1{font-size:30px}
+    .h-top>p{font-size: 15px;}
+}
+@media(max-width: 1059px) and (min-width: 768px){
+    .h-top{
+        position: absolute;
+        width: 80%;
+        padding: 2% 3%;
+    }
+    .h-top>h1{font-size: 26px;}
+    .h-top>p{font-size: 14px;}
 }
 @media(max-width: 767px) and (min-width: 615px){
     .h-top{
-        position:absolute;
+        position:relative;
         width: 100%;
         padding:3% 5%;
     }
+    .h-top>h1{font-size: 24px;}
+    .h-topdiv>img{display: none;}
 }
 @media(max-width: 614px){
     .h-top{
         width: 100%;
         padding:3% 5%;
     }
+    .h-top>h1{font-size: 24px;}
+    .h-topdiv>img{display: none;}
 }
 
 .img-title{
@@ -161,3 +183,14 @@ footer p{margin: 0;}
 }
 
 /* Home page not logined End*/
+
+/* Plan Detail Page */
+.p-detail .row{
+    background-color: #e8f5f9;
+    border:1px solid #96c8d8;
+}
+.p-detail label{margin-top: 5px;}
+.p-detail [class*="col-"]{
+    border:1px solid #fff;
+}
+/* End Plan Detail Page */

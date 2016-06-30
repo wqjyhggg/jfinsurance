@@ -222,7 +222,7 @@ class Plan_model extends CI_Model {
 			$this->logstr .= " batch_number " . $para['batch_number'] . "(" . $plan['batch_number'] . ")";
 			$sql .= " batch_number=" . $this->db->escape($para['batch_number']) . ", ";
 		}
-		if ($isfamilyplan != $plan['isfamilyplan']) {
+		if (isset($para['isfamilyplan']) && ($isfamilyplan != $plan['isfamilyplan'])) {
 			$this->logstr .= " isfamilyplan " . $isfamilyplan . "(" . $plan['isfamilyplan'] . ")";
 			$sql .= " isfamilyplan='" . (int)$isfamilyplan . "', ";
 		}
@@ -350,7 +350,7 @@ class Plan_model extends CI_Model {
 			$this->logstr .= " note " . $para['note'] . "(" . $plan['note'] . ")";
 			$sql .= " note=" . $this->db->escape($para['note']) . ", ";
 		}
-		$sql .= " agree=agree ";
+		$sql .= " plan_id=plan_id ";
 		$sql .= " WHERE plan_id='" . (int)$plan_id . "'";
 		$this->db->query($sql);
 		$this->sqlstr = $this->db->last_query() . "; ";
