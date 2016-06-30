@@ -183,3 +183,14 @@ footer p{margin: 0;}
 }
 
 /* Home page not logined End*/
+
+/* Plan Detail Page */
+.p-detail .row{
+    background-color: #e8f5f9;
+    border:1px solid #96c8d8;
+}
+.p-detail label{margin-top: 5px;}
+.p-detail [class*="col-"]{
+    border:1px solid #fff;
+}
+/* End Plan Detail Page */

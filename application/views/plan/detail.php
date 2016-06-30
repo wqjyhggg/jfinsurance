@@ -11,48 +11,17 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 			<div class="nav toggle">
 				<a id="menu_toggle"><i class="fa fa-bars"></i></a>
 			</div>
-
-			<ul class="nav navbar-nav navbar-right">
-				<!-- User section -->
-				<li class=""><a href="javascript:;"
-					class="user-profile dropdown-toggle" data-toggle="dropdown"
-					aria-expanded="false"> <img src="images/img.jpg" alt="">John Doe <span
-						class=" fa fa-angle-down"></span>
-				</a>
-					<ul class="dropdown-menu dropdown-usermenu pull-right">
-						<li><a href="javascript:;"> Profile</a></li>
-						<li><a href="javascript:;"> <span class="badge bg-red pull-right">50%</span>
-								<span>Settings</span>
-						</a></li>
-						<li><a href="javascript:;">Help</a></li>
-						<li><a href="login.html"><i class="fa fa-sign-out pull-right"></i>
-								Log Out</a></li>
-					</ul></li>
-				<!-- User section End -->
-			</ul>
 		</nav>
 	</div>
 </div>
 <!-- Content top navigation End-->
 
 <!-- page content -->
-<div class="right_col" role="main" style="margin-bottom: 40px;">
+<div class="right_col" role="main">
 	<div class="main-div">
 		<div class="page-title">
 			<div class="title_left">
-				<h3>Create Policy</h3>
-			</div>
-
-			<div class="title_right">
-				<div
-					class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
-					<div class="input-group">
-						<input type="text" class="form-control"
-							placeholder="Search for..."> <span class="input-group-btn">
-							<button class="btn btn-default" type="button">Go!</button>
-						</span>
-					</div>
-				</div>
+				<h3>Policy</h3>
 			</div>
 		</div>
 		<div class="clearfix"></div>
@@ -62,185 +31,440 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 				<div class="x_panel">
 					<div class="x_title">
 						<h2>
-							Policy<small></small>
+							Policy Detail<small></small>
 						</h2>
 						<div class="clearfix"></div>
 					</div>
 					<div class="x_content">
+						<div class="p-detail">
+						<div class="row">
+							<div class="col-sm-3">
+								<label class="inline">Apply Date:</label>
+								<span><?php echo $apply_date; ?></span>
+							</div>
+							<div class="col-sm-3">
+								<label class="inline">Arrival Date:</label>
+								<span><?php echo $plan['arrival_date']; ?></span>
+							</div>
+							<div class="col-sm-3">
+								<label class="inline">Effective Date:</label>
+								<span><?php echo $plan['effective_date']; ?></span>
+							</div>
+							<div class="col-sm-3">
+								<label class="inline">Expiry Date:</label>
+								<span><?php echo $plan['expiry_date']; ?></span>
+							</div>
+						</div>		
+						<div class="row">
+							<div class="col-sm-3">
+								<label class="inline">Beneficiary:</label>
+								<span><?php echo $plan['beneficiary']; ?></span>
+							</div>
+							<div class="col-sm-3">
+								<label class="inline">Sum Insured (CAD):</label>
+								<span>$<?php echo number_format($plan['sum_insured'], 2, '.', ',');  ?></span>
+							</div>
+							<div class="col-sm-6">
+								<label class="inline">Deductible amount (CAD):</label>
+								<span>$<?php echo number_format($plan['deductible_amount'], 2, '.', ','); ?></span>
+							</div>
+							
+						</div>
+						
+						<div class="row">
+							<?php if ($plan['isfamilyplan']) { 
 
-						<br />
-Apply Date: <?php echo $apply_date; ?><br>
-Arrival Date: <?php echo $plan['arrival_date']; ?><br>
-Effective Date: <?php echo $plan['effective_date']; ?><br>
-Expiry Date: <?php echo $plan['expiry_date']; ?><br>
-=========================================================================<br />
-Beneficiary: <?php echo $plan['beneficiary']; ?><br>
-<?php if ($plan['isfamilyplan']) { ?> Family Plan <br><?php } ?>
-Sum Insured (CAD): $<?php echo number_format($plan['sum_insured'], 2, '.', ','); ?><br>
-Deductible amount (CAD):  $<?php echo number_format($plan['deductible_amount'], 2, '.', ','); ?><br>
-<?php
-if (empty ( $disable_stable_condition )) {
-	if ($plan ['stable_condition'] == 1) {
-		echo "With stable pre-existion condition coverage<br>";
-	} else if ($plan ['stable_condition'] == 2) {
-		echo "Without stable pre-existion condition coverage<br>";
-	}
-}
-?>
-=========================================================================<br />
-Custmer Name:<br>
-Last Name: <?php echo $customer['lastname']; ?><br>
-First Name: <?php echo $customer['firstname']; ?><br>
-Birth Date: <?php echo $customer['birthday']; ?><br>
-Gender: <?php echo $customer['gender']; ?><br>
-=========================================================================<br />
-<?php if ($plan['isfamilyplan']) { ?>
-Family members:<br>
-<?php for ($i = 1; $i < 9; $i++) { ?>
-<?php if (empty($customers[$i]['lastname']) && empty($customers[$i]['firstname'])) continue; ?>
-Last Name: <?php echo $customers[$i]['lastname']; ?><br>
-First Name: <?php echo $customers[$i]['firstname']; ?><br>
-Birth Date: <?php echo $customers[$i]['birthday']; ?><br>
-Gender: <?php echo $customers[$i]['gender']; ?><br>
-=========================================================================<br />
-<?php } ?>
-<?php } ?>
-Street No: <?php echo $plan['street_number']; ?><br>
-Street Name: <?php echo $plan['street_name']; ?><br>
-Suite No.: <?php echo $plan['suite_number']; ?><br>
-City: <?php echo $plan['city']; ?><br>
-Province: <?php echo $plan['province2']; ?><br>
-Country: <?php echo $plan['country2']; ?><br>
-Postcode: <?php echo $plan['postcode']; ?><br>
-Phone1: <?php echo $plan['phone1']; ?><br>
-Phone2: <?php echo $plan['phone2']; ?><br>
-=========================================================================<br />
-Email: <?php echo $plan['contact_email']; ?><br>
-Contact Phone: <?php echo $plan['contact_phone']; ?><br>
-Residence: <?php echo $plan['residence']; ?><br>
-=========================================================================<br />
-Premium: $<?php echo number_format($plan['premium'], 2, '.', ','); ?><br>
-Notes: <?php echo $plan['note']; ?><br>
-=========================================================================<br />
-<?php if (!empty($errormsg)) { ?>
-<?php echo $errormsg; ?><br>
-<?php } ?>
-<?php if (isset($credit_dis)) { ?>
-<div id='credit_card_div'>Pay By Credit Card</div>
-<script type="text/javascript">
-$(document).ready(function() {
-	$('#credit_card_div').click(function() {
-		$('#credit_card').show();
-<?php if (isset($cheque_dis)) { ?>
-		$('#cheque').hide();
-<?php } ?>
-<?php if (isset($cash_dis)) { ?>
-		$('#cash').hide();
-<?php } ?>
-	});
-});
-</script>
-<div id='credit_card' <?php if (empty($credit_dis)) { ?> style='display: none;' <?php } ?>>
-<form action='<?php echo $active_url; ?>' method='POST'>
-<input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
-<input type='hidden' name='plan_id' value='<?php echo $plan['plan_id']; ?>'>
-<input type='hidden' name='play_type' value='<?php echo $pay_type; ?>'>
-<input type='hidden' name='sekey' value='<?php echo $sekey; ?>'>
-<input type='hidden' name='premium' value='<?php echo number_format($plan['premium'], 2, '.', ','); ?>'>
-Card Number: <input type='text' name='card_number' value=''> | 
-Card Name: <input type='text' name='card_name' value=''> | 
-Expiry Month: <select name='expiry_month'>
-	<option value='01'>01</option>
-	<option value='02'>02</option>
-	<option value='03'>03</option>
-	<option value='04'>04</option>
-	<option value='05'>05</option>
-	<option value='06'>06</option>
-	<option value='07'>07</option>
-	<option value='08'>08</option>
-	<option value='09'>09</option>
-	<option value='10'>10</option>
-	<option value='11'>11</option>
-	<option value='12'>12</option>
-</select> | 
-Expiry Year: <select name='expiry_month'>
-	<option value='<?php echo date('y'); ?>'> <?php echo date('y'); ?> </option>
-	<option value='<?php echo date('y',strtotime('+1 years')); ?>'> <?php echo date('y',strtotime('+1 years')); ?> </option>
-	<option value='<?php echo date('y',strtotime('+2 years')); ?>'> <?php echo date('y',strtotime('+2 years')); ?> </option>
-	<option value='<?php echo date('y',strtotime('+3 years')); ?>'> <?php echo date('y',strtotime('+3 years')); ?> </option>
-	<option value='<?php echo date('y',strtotime('+4 years')); ?>'> <?php echo date('y',strtotime('+4 years')); ?> </option>
-	<option value='<?php echo date('y',strtotime('+5 years')); ?>'> <?php echo date('y',strtotime('+5 years')); ?> </option>
-	<option value='<?php echo date('y',strtotime('+6 years')); ?>'> <?php echo date('y',strtotime('+6 years')); ?> </option>
-	<option value='<?php echo date('y',strtotime('+7 years')); ?>'> <?php echo date('y',strtotime('+7 years')); ?> </option>
-	<option value='<?php echo date('y',strtotime('+8 years')); ?>'> <?php echo date('y',strtotime('+8 years')); ?> </option>
-	<option value='<?php echo date('y',strtotime('+9 years')); ?>'> <?php echo date('y',strtotime('+9 years')); ?> </option>
-</select> |
-Card CVV: <input type='text' name='card_cvv' value=''> |
-Amount: $<?php echo number_format($plan['premium'], 2, '.', ','); ?> |
-<input type='submit' name='submit' value='Pay'><br> 
-Pay url send to user by Email: <input type='text' name='payurl' value='<?php echo $payurl; ?>' readonly>
-</form>
-</div>
-<?php } ?>
-<?php if (isset($cheque_dis)) { ?>
-<div id='cheque_div'>Pay By Check</div>
-<script type="text/javascript">
-$(document).ready(function() {
-	$('#cheque_div').click(function() {
-		$('#cheque').show();
-<?php if (isset($credit_dis)) { ?>
-		$('#credit_card').hide();
-<?php } ?>
-<?php if (isset($cash_dis)) { ?>
-		$('#cash').hide();
-<?php } ?>
-	});
-});
-</script>
-<div id='cheque' <?php if (empty($cheque_dis)) { ?> style='display: none;' <?php } ?>>
-<form action='<?php echo $active_url; ?>' method='POST'>
-<input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
-<input type='hidden' name='plan_id' value='<?php echo $plan['plan_id']; ?>'>
-<input type='hidden' name='play_type' value='<?php echo $pay_type; ?>'>
-<input type='hidden' name='sekey' value='<?php echo $sekey; ?>'>
-<input type='hidden' name='premium' value='<?php echo number_format($plan['premium'], 2, '.', ','); ?>'>
-Bank Name: <input type='text' name='bank_name' value=''> | 
-Payor Name: <input type='text' name='payor_name' value=''> | 
-Checque #: <input type='text' name='cheque_number' value=''> |
-Amount: $<?php echo number_format($plan['premium'], 2, '.', ','); ?> |
-<input type='submit' name='submit' value='Pay'><br> 
-</form>
-</div>
-<?php } ?>
-<?php if (isset($cash_dis)) { ?>
-<div id='cash_div'>Pay By Cash</div>
-<script type="text/javascript">
-$(document).ready(function() {
-	$('#cash_div').click(function() {
-		$('#cash').show();
-<?php if (isset($credit_dis)) { ?>
-		$('#credit_card').hide();
-<?php } ?>
-<?php if (isset($cheque_dis)) { ?>
-		$('#cheque').hide();
-<?php } ?>
-	});
-});
-</script>
-<div id='cash' <?php if (empty($cash_dis)) { ?> style='display: none;' <?php } ?>>
-<form action='<?php echo $active_url; ?>' method='POST'>
-<input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
-<input type='hidden' name='plan_id' value='<?php echo $plan['plan_id']; ?>'>
-<input type='hidden' name='play_type' value='<?php echo $pay_type; ?>'>
-<input type='hidden' name='sekey' value='<?php echo $sekey; ?>'>
-<input type='hidden' name='premium' value='<?php echo number_format($plan['premium'], 2, '.', ','); ?>'>
-Amount: $<?php echo number_format($plan['premium'], 2, '.', ','); ?> |
-<input type='submit' name='submit' value='Pay'><br> 
-</form>
-</div>
-<?php } ?>
->>>>>>> 09be4a4375db56302684322c2987ad789b19cb1d
-				</div>
+								?>
+							<div class="col-sm-6">
+								<label class="inline">Family Plan:</label>
+								<span>Yes</span>
+							</div>
+							<?php } ?>
+							<?php if (empty ( $disable_stable_condition )) { ?>
+								<?php if ($plan ['stable_condition'] == 1) { ?>
+							<div class="col-sm-6">
+								<label class="inline"><?php echo "With stable pre-existion condition coverage"; ?></label>
+							</div>
+								<?php } else if ($plan ['stable_condition'] == 2) { ?>
+							<div class="col-sm-6">
+								<label class="inline"><?php echo "Without stable pre-existion condition coverage"; ?></label>
+								<?php } ?>
+							<?php } ?>
+						</div>
+						<div class="row">
+							<div class="col-sm-12" style="background-color:#5bc0de; color:#fff;">
+								<label class="inline">Customer Information</label>
+							</div>
+						
+							<div class="col-sm-3">
+								<label class="inline">Last Name:</label>
+								<span><?php echo $customer['lastname']; ?></span>
+							</div>
+							<div class="col-sm-3">
+								<label class="inline">First Name:</label>
+								<span><?php echo $customer['lastname']; ?></span>
+							</div>
+							<div class="col-sm-3">
+								<label class="inline">Birth Date:</label>
+								<span><?php echo $customer['birthday']; ?></span>
+							</div>
+							<div class="col-sm-3">
+								<label class="inline">Gender:</label>
+								<span><?php echo $customer['gender']; ?></span>
+							</div>
+						</div>
+
+						<?php if ($plan['isfamilyplan']) { ?>
+							<div class="row">
+								<div class="col-sm-12" style="background-color:#5bc0de; color:#fff;">
+									<label class="inline">Family Member Information</label>
+								</div>
+							
+							<?php for ($i = 1; $i < 9; $i++) { ?>
+								<?php if (empty($customers[$i]['lastname']) && empty($customers[$i]['firstname'])) continue; ?>
+								
+									<div class="col-sm-3">
+										<label class="inline">Last Name:</label>
+										<span><?php echo $customers[$i]['lastname']; ?></span>
+									</div>
+									<div class="col-sm-3">
+										<label class="inline">First Name:</label>
+										<span><?php echo $customers[$i]['firstname']; ?></span>
+									</div>
+									<div class="col-sm-3">
+										<label class="inline">Birth Date:</label>
+										<span><?php echo $customers[$i]['birthday']; ?></span>
+									</div>
+									<div class="col-sm-3">
+										<label class="inline">Gender:</label>
+										<span><?php echo $customers[$i]['gender']; ?></span>
+									</div>
+								
+
+							<?php } ?>
+							</div>
+						<?php } ?>	
+
+						<div class="row">
+							<div class="col-sm-12" style="background-color:#5bc0de; color:#fff;"><label>Address Information</label></div>
+							<div class="col-sm-3">
+								<label class="inline">Street No:</label>
+								<span><?php echo $plan['street_number']; ?></span>
+							</div>
+							<div class="col-sm-3">
+								<label class="inline">Street Name:</label>
+								<span><?php echo $plan['street_name']; ?></span>
+							</div>
+							<div class="col-sm-3">
+								<label class="inline">Suite No.:</label>
+								<span><?php echo $plan['suite_number']; ?></span>
+							</div>
+							<div class="col-sm-3">
+								<label class="inline">City: </label>
+								<span><?php echo $plan['city']; ?></span>
+							</div>	
+						
+							<div class="col-sm-3">
+								<label class="inline">Province:</label>
+								<span><?php echo $plan['province2']; ?></span>
+							</div>
+							<div class="col-sm-3">
+								<label class="inline">Country:</label>
+								<span><?php echo $plan['country2']; ?></span>
+							</div>
+							<div class="col-sm-3">
+								<label class="inline">Postcode:</label>
+								<span><?php echo $plan['postcode']; ?></span>
+							</div>
+							
+							<div class="col-sm-3">
+								<label class="inline">Phone1:</label>
+								<span><?php echo $plan['phone1']; ?></span>
+							</div>
+							<div class="col-sm-3">
+								<label class="inline">Phone2:</label>
+								<span><?php echo $plan['phone2']; ?></span>
+							</div>
+							
+						</div>
+						<div class="row">
+							<div class="col-sm-12" style="background-color:#5bc0de; color:#fff;">
+								<label class="inline">Contact Information</label>
+							</div>
+							<div class="col-sm-3">
+								<label class="inline">Email:</label>
+								<span><?php echo $plan['contact_email']; ?></span>
+							</div>
+							<div class="col-sm-3">
+								<label class="inline">Contact Phone:</label>
+								<span><?php echo $plan['contact_phone']; ?></span>
+							</div>
+							<div class="col-sm-3">
+								<label class="inline">Residence:</label>
+								<span><?php echo $plan['residence']; ?></span>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-sm-12" style="background-color:#5bc0de; color:#fff;">
+								<label class="inline">Special Note/Instructions</label>
+							</div>
+							<div class="col-sm-12">
+								<label class="inline">Premium:</label>
+								<span>$<?php echo number_format($plan['premium'], 2, '.', ',');?></span>
+							</div>
+							<div class="col-sm-12">
+								<label class="inline">Notes:</label>
+								<span><?php echo $plan['note']; ?></span>
+							</div>
+							
+						</div>
+					</div><!-- p-detail --><br />
+
+						<?php if (!empty($errormsg)) { ?>
+						<div class="alert-error">
+							<?php echo $errormsg; ?>
+						</div>
+						<?php } ?>
+						<?php if (isset($credit_dis)) { ?>
+						<div id='credit_card_div'><a class="btn btn-info">Pay By Credit Card <i class="fa fa-chevron-down"></i></a></div>
+						<script type="text/javascript">
+						$(document).ready(function() {
+							$('#credit_card_div').click(function() {
+								$('#credit_card').show();
+						<?php if (isset($cheque_dis)) { ?>
+								$('#cheque').hide();
+						<?php } ?>
+						<?php if (isset($cash_dis)) { ?>
+								$('#cash').hide();
+						<?php } ?>
+							});
+						});
+						</script>
+						<div id='credit_card' <?php if (empty($credit_dis)) { ?> style='display: none;' <?php } ?>>
+						<form action='<?php echo $active_url; ?>' method='POST'>
+							<input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
+							<input type='hidden' name='plan_id' value='<?php echo $plan['plan_id']; ?>'>
+							<input type='hidden' name='play_type' value='<?php echo $pay_type; ?>'>
+							<input type='hidden' name='sekey' value='<?php echo $sekey; ?>'>
+							<input type='hidden' name='premium' value='<?php echo number_format($plan['premium'], 2, '.', ','); ?>'>
+							<div class="row">
+								<div class="col-sm-12">
+									<label class="col-sm-12">Card Number:</label>
+									<div class="col-sm-3 input-group">
+										<input type='text' name='card_number' value='' class="form-control">
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-12">
+									<label class="col-sm-12">Card Name:</label>
+									<div class="col-sm-3 input-group">
+										<input type='text' name='card_name' value='' class="form-control">
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-12">
+									<div style="width:100px;" class="inline">
+										<label class="inline">Expiry Month: </label>
+										<select name='expiry_month' class="form-control" style="width:100px;text-align:center;">
+											<option value='01'>01</option>
+											<option value='02'>02</option>
+											<option value='03'>03</option>
+											<option value='04'>04</option>
+											<option value='05'>05</option>
+											<option value='06'>06</option>
+											<option value='07'>07</option>
+											<option value='08'>08</option>
+											<option value='09'>09</option>
+											<option value='10'>10</option>
+											<option value='11'>11</option>
+											<option value='12'>12</option>
+										</select> 
+									</div>
+									<div style="width:100px;" class="inline">
+										<label class="inline">Expiry Year: </label>
+										<select name='expiry_month' class="form-control" style="width:100px;text-align:center;">
+											<option value='<?php echo date('y'); ?>'> <?php echo date('y'); ?> </option>
+											<option value='<?php echo date('y',strtotime('+1 years')); ?>'> <?php echo date('y',strtotime('+1 years')); ?> </option>
+											<option value='<?php echo date('y',strtotime('+2 years')); ?>'> <?php echo date('y',strtotime('+2 years')); ?> </option>
+											<option value='<?php echo date('y',strtotime('+3 years')); ?>'> <?php echo date('y',strtotime('+3 years')); ?> </option>
+											<option value='<?php echo date('y',strtotime('+4 years')); ?>'> <?php echo date('y',strtotime('+4 years')); ?> </option>
+											<option value='<?php echo date('y',strtotime('+5 years')); ?>'> <?php echo date('y',strtotime('+5 years')); ?> </option>
+											<option value='<?php echo date('y',strtotime('+6 years')); ?>'> <?php echo date('y',strtotime('+6 years')); ?> </option>
+											<option value='<?php echo date('y',strtotime('+7 years')); ?>'> <?php echo date('y',strtotime('+7 years')); ?> </option>
+											<option value='<?php echo date('y',strtotime('+8 years')); ?>'> <?php echo date('y',strtotime('+8 years')); ?> </option>
+											<option value='<?php echo date('y',strtotime('+9 years')); ?>'> <?php echo date('y',strtotime('+9 years')); ?> </option>
+										</select>
+									</div> 
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-12" style="padding:10px;">
+									<label class="inline" style="margin-bottom:0;">Card CVV:</label>
+									<div style="display:inline-block;vertical-align:middle;" >
+										<input type='text' name='card_cvv' value='' class="form-control" style="width:137px;">
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-12">
+									<label class="inline">Amount:</label><span>$<?php echo number_format($plan['premium'], 2, '.', ','); ?></span>
+									<input class="btn btn-primary" type='submit' name='submit' value='Pay'>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-12">
+									<label class="inline" style="margin-bottom:0;">Pay url send to user by Email:</label>
+									
+								</div><br />
+							</div>
+							<div class="row">
+								<div class="col-sm-4">
+									<div class="input-group">
+									    <input  id="copy-input" class="form-control" type='text' name='payurl' value='<?php echo $payurl; ?>' readonly>
+									    <span class="input-group-btn">
+									      <button class="btn btn-default" type="button" id="copy-button"
+									          data-toggle="tooltip"
+									          title="Copy to Clipboard">
+									        Copy
+									      </button>
+									    </span>
+									</div>
+								</div>
+							</div>
+							<!-- Copy button -->
+						 	<script>
+						 		$(document).ready(function() {
+								  // Initialize the tooltip.
+								  $('#copy-button').tooltip();
+
+								  // When the copy button is clicked, select the value of the text box, attempt
+								  // to execute the copy command, and trigger event to update tooltip message
+								  // to indicate whether the text was successfully copied.
+								  $('#copy-button').bind('click', function() {
+								    var input = document.querySelector('#copy-input');
+								    input.setSelectionRange(0, input.value.length + 1);
+								    try {
+								      var success = document.execCommand('copy');
+								      if (success) {
+								        $('#copy-button').trigger('copied', ['Copied!']);
+								      } else {
+								        $('#copy-button').trigger('copied', ['Copy with Ctrl-c']);
+								      }
+								    } catch (err) {
+								      $('#copy-button').trigger('copied', ['Copy with Ctrl-c']);
+								    }
+								  });
+
+								  // Handler for updating the tooltip message.
+								  $('#copy-button').bind('copied', function(event, message) {
+								    $(this).attr('title', message)
+								        .tooltip('fixTitle')
+								        .tooltip('show')
+								        .attr('title', "Copy to Clipboard")
+								        .tooltip('fixTitle');
+								  });
+								});
+						 	</script><!-- End copy button -->
+						</form>
+						<hr />
+						</div><!-- End pay by credit card -->
+						<?php } ?>
+						<?php if (isset($cheque_dis)) { ?>
+						<div id='cheque_div'><a class="btn btn-info">Pay By Check <i class="fa fa-chevron-down"></i></a></div>
+						<script type="text/javascript">
+						$(document).ready(function() {
+							$('#cheque_div').click(function() {
+								$('#cheque').show();
+						<?php if (isset($credit_dis)) { ?>
+								$('#credit_card').hide();
+						<?php } ?>
+						<?php if (isset($cash_dis)) { ?>
+								$('#cash').hide();
+						<?php } ?>
+							});
+						});
+						</script>
+						<div id='cheque' <?php if (empty($cheque_dis)) { ?> style='display: none;' <?php } ?>>
+						<form action='<?php echo $active_url; ?>' method='POST'>
+							<input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
+							<input type='hidden' name='plan_id' value='<?php echo $plan['plan_id']; ?>'>
+							<input type='hidden' name='play_type' value='<?php echo $pay_type; ?>'>
+							<input type='hidden' name='sekey' value='<?php echo $sekey; ?>'>
+							<input type='hidden' name='premium' value='<?php echo number_format($plan['premium'], 2, '.', ','); ?>'>
+							<div class="row">
+								<div class="col-sm-12">
+									<label class="col-sm-12">Bank Name:</label>
+									<div class="col-sm-3 input-group">
+										<input type='text' name='bank_name' value='' class="form-control">
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-12">
+									<label class="col-sm-12">Payor Name:</label>
+									<div class="col-sm-3 input-group">
+										<input type='text' name='payor_name' value='' class="form-control">
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-12">
+									<label class="col-sm-12">Checque No.:</label>
+									<div class="col-sm-3 input-group">
+										<input type='text' name='cheque_number' value='' class="form-control">
+									</div>
+								</div>
+							</div>
+							
+							<div class="row" style="padding:10px;">
+								<div class="col-sm-12">
+									<label class="inline">Amount:</label><span>$<?php echo number_format($plan['premium'], 2, '.', ','); ?></span>
+									<input class="btn btn-primary" type='submit' name='submit' value='Pay'>
+								</div>
+							</div>
+							
+							 
+						</form>
+						<hr />
+						</div>
+						<?php } ?>
+						<?php if (isset($cash_dis)) { ?>
+						<div id='cash_div'><a class="btn btn-info">Pay By Cash <i class="fa fa-chevron-down"></i></a></div>
+						<script type="text/javascript">
+						$(document).ready(function() {
+							$('#cash_div').click(function() {
+								$('#cash').show();
+						<?php if (isset($credit_dis)) { ?>
+								$('#credit_card').hide();
+						<?php } ?>
+						<?php if (isset($cheque_dis)) { ?>
+								$('#cheque').hide();
+						<?php } ?>
+							});
+						});
+						</script>
+						<div id='cash' <?php if (empty($cash_dis)) { ?> style='display: none;' <?php } ?>>
+						<form action='<?php echo $active_url; ?>' method='POST'>
+						<input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
+						<input type='hidden' name='plan_id' value='<?php echo $plan['plan_id']; ?>'>
+						<input type='hidden' name='play_type' value='<?php echo $pay_type; ?>'>
+						<input type='hidden' name='sekey' value='<?php echo $sekey; ?>'>
+						<input type='hidden' name='premium' value='<?php echo number_format($plan['premium'], 2, '.', ','); ?>'>
+						<div class="row" style="padding:10px;">
+							<div class="col-sm-12">
+								<label class="inline">Amount:</label><span>$<?php echo number_format($plan['premium'], 2, '.', ','); ?></span>
+								<input class="btn btn-primary" type='submit' name='submit' value='Pay'>
+							</div>
+						</div>
+						
+						</form><hr />
+						</div>
+						<?php } ?>
+
+				</div><!-- x_content -->
 				</div>
 			</div>
 		</div>
