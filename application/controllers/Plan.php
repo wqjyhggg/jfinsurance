@@ -491,7 +491,7 @@ class Plan extends MY_Controller {
 	
 	function add() {
 		$beuser = $this->func_model->verify_login(); 
-		$product_short = $this->input->post('product_short');
+		$product_short = $this->input->post_get('product_short');
 		if (empty($product_short)) {
 			redirect(base_url('production'));
 		}

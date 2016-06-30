@@ -128,6 +128,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <th>Expire</th>
                             <th>Pay Types</th>
                             <th>Status</th>
+                            <th>&nbsp;</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -142,6 +143,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <td><?php echo $user['licence_expire']; ?></td>
                             <td><?php echo $user['pay_type']; ?></td>
                             <td><?php echo $user['status'] ? 'Act' : '-'; ?></td>
+<?php if ($user_group_id < $user['user_group_id']) { ?>
+                            <td><a style="color:#46b8da;" href='<?php echo $behalf_url.$user['user_id']; ?>'>behalf</a></td>
+<?php } else { ?>
+                            <td>-</td>
+<?php } ?>
                           </tr>
                         <?php } ?>
                       </tbody>

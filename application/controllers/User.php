@@ -157,6 +157,9 @@ class User extends MY_Controller {
 		$data['email'] = $this->input->post ( 'email' );
 		$data['business'] = $this->input->post ( 'business' );
 		
+		$data['user_group_id'] = $this->session->user['user_group_id'];
+		$data['behalf_url'] = base_url('behalf/to') . "/";
+		
 		$data ['csrf'] = array (
 				'name' => $this->security->get_csrf_token_name (),
 				'value' => $this->security->get_csrf_hash () 
