@@ -6,54 +6,11 @@ if (!defined('BASEPATH'))
 class Batch_model extends CI_Model {
 	public $error;
 	
-	/**
-	 * Add plan customer
-	 * 
-	 * @param	integer $plan_id
-	 * @param	array	$para	Parameter array
-	 * @return	array					user table search result
-	 */
-	public function add_customer($plan_id, $para) {
-		$this->load->model('customer_model');
-		$data = array();
-		if (empty($para['firstname'])) { $data['firstname'] = ''; } else { $data['firstname'] = $para['firstname']; }
-		if (empty($para['lastname'])) { $data['lastname'] = ''; } else { $data['lastname'] = $para['lastname']; }
-		if (empty($para['gender'])) { $data['gender'] = 'M'; } else { $data['gender'] = $para['gender']; }
-		if (empty($para['birthday'])) {
-			$data['birthday'] = date('Y-m-d');
-		} else {
-			$dt = strtotime($para['birthday']);
-			if (empty($dt)) {
-				$data['birthday'] = date('Y-m-d');
-			} else {
-				$data['birthday'] = date('Y-m-d', $dt);
-			}
-		}
-		$data['parent_customer_id'] = 0;
-		$data['date_added'] = date('Y-m-d');
-		$customer_id = $this->customer_model->add($data);
-		for ($i = 1; $i < 9; $i++) {
-			$data = array();
-			if (empty($para['firstname_'.$i])) { $data['firstname'] = ''; } else { $data['firstname'] = $para['firstname_'.$i]; }
-			if (empty($para['lastname_'.$i])) { $data['lastname'] = ''; } else { $data['lastname'] = $para['lastname_'.$i]; }
-			if (empty($para['gender_'.$i])) { $data['gender'] = 'M'; } else { $data['gender'] = $para['gender_'.$i]; }
-			if (empty($para['birthday_'.$i])) {
-				$data['birthday'] = date('Y-m-d');
-			} else {
-				$dt = strtotime($para['birthday_'.$i]);
-				if (empty($dt)) {
-					$data['birthday'] = date('Y-m-d');
-				} else {
-					$data['birthday'] = date('Y-m-d', $dt);
-				}
-			}
-			$data['parent_customer_id'] = $customer_id;
-			$data['date_added'] = date('Y-m-d');
-			$this->customer_model->add($data);
-		}
-		return $customer_id;
+	function unixstamp( $excelDateTime ) {
+		$d = floor( $excelDateTime ); // seconds since 1900
+		$t = $excelDateTime - $d + 1;
+		return ($d > 0) ? ( $d - 25569 ) * 86400 + $t * 86400 : $t * 86400;
 	}
-	
 	/**
 	 * Add / Update policy record
 	 * 
@@ -63,7 +20,7 @@ class Batch_model extends CI_Model {
 	public function add_record($para) {
 		$this->load->model('plan_model');
 		$this->load->model('customer_model');
-		
+
 		$data = array();
 
 		if (empty($para['customer_id'])) { ; } else { $data['customer_id'] = $para['customer_id']; }
@@ -78,12 +35,12 @@ class Batch_model extends CI_Model {
 		} 
 		$data['batch_number'] = $para['batch_number'];
 		if (empty($para['isfamilyplan'])) { $data['isfamilyplan'] = 0; } else { $data['isfamilyplan'] = $para['isfamilyplan']; }
-		if (empty($para['apply_date'])) { $data['apply_date'] = data('Y-m-d'); } else { $data['apply_date'] = $para['apply_date']; }
+		if (empty($para['apply_date'])) { $data['apply_date'] = date('Y-m-d'); } else { $data['apply_date'] = $para['apply_date']; }
 		if (empty($para['arrival_date'])) {
 			$this->error = 'Need Arrival Date.';
 			return 0;
 		} else {
-			$dt = strtotime($para['arrival_date']);
+			$dt = $this->unixstamp($para['arrival_date']);
 			if (empty($dt)) {
 				$this->error = 'Unknown arrival_date';
 				return 0;
@@ -95,7 +52,7 @@ class Batch_model extends CI_Model {
 			$this->error = 'Need Effective Date.';
 			return 0;
 		} else {
-			$dt = strtotime($para['effective_date']);
+			$dt = $this->unixstamp($para['effective_date']);
 			if (empty($dt)) {
 				$this->error = 'Unknown effective_date';
 				return 0;
@@ -107,7 +64,7 @@ class Batch_model extends CI_Model {
 			$this->error = 'Need Expiry Date.';
 			return 0;
 		} else {
-			$dt = strtotime($para['expiry_date']);
+			$dt = $this->unixstamp($para['expiry_date']);
 			if (empty($dt)) {
 				$this->error = 'Unknown expiry_date';
 				return 0;
@@ -123,7 +80,7 @@ class Batch_model extends CI_Model {
 		if (isset($para['premium'])) { $data['premium'] = $para['premium']; } else { ; }
 		if (isset($para['commission_amount'])) { $data['commission_amount'] = $para['commission_amount']; } else { ; }
 		if (isset($para['street_number'])) { $data['street_number'] = $para['street_number']; } else { ; }
-		if (isset($para['street_name'])) { $data['street_number'] = $para['street_number']; } else { ; }
+		if (isset($para['street_name'])) { $data['street_name'] = $para['street_name']; } else { ; }
 		if (isset($para['suite_number'])) { $data['suite_number'] = $para['suite_number']; } else { ; }
 		if (isset($para['city'])) { $data['city'] = $para['city']; } else { ; }
 		if (isset($para['province2'])) { $data['province2'] = $para['province2']; } else { ; }
@@ -142,10 +99,44 @@ class Batch_model extends CI_Model {
 		if (isset($para['payinfo'])) { $data['payinfo'] = $para['payinfo']; } else { ; }
 		$data['note'] = 'Batch upload';
 		$data['ip'] = $_SERVER['REMOTE_ADDR'];
+
+		if (empty($para['firstname'])) { $data['firstname'] = ''; } else { $data['firstname'] = $para['firstname']; }
+		if (empty($para['lastname'])) { $data['lastname'] = ''; } else { $data['lastname'] = $para['lastname']; }
+		if (empty($para['gender'])) { $data['gender'] = 'M'; } else { $data['gender'] = $para['gender']; }
+		if (empty($para['birthday'])) {
+			$data['birthday'] = date('Y-m-d');
+		} else {
+			$dt = $this->unixstamp($para['birthday']);
+			if (empty($dt)) {
+				$data['birthday'] = date('Y-m-d');
+			} else {
+				$data['birthday'] = date('Y-m-d', $dt);
+			}
+		}
+		
+		for ($i = 1; $i < 9; $i++) {
+			if (empty($para['firstname_'.$i])) { $data['firstname_'.$i] = ''; } else { $data['firstname_'.$i] = $para['firstname_'.$i]; }
+			if (empty($para['lastname_'.$i])) { $data['lastname_'.$i] = ''; } else { $data['lastname_'.$i] = $para['lastname_'.$i]; }
+			if (empty($para['gender_'.$i])) { $data['gender_'.$i] = 'M'; } else { $data['gender_'.$i] = $para['gender_'.$i]; }
+			if (empty($para['birthday_'.$i])) {
+				$data['birthday'] = date('Y-m-d');
+			} else {
+				$dt = $this->unixstamp($para['birthday_'.$i]);
+				if (empty($dt)) {
+					$data['birthday'] = date('Y-m-d');
+				} else {
+					$data['birthday'] = date('Y-m-d', $dt);
+				}
+			}
+		}
+		
 		if (isset($para['plan_id'])) {
 			$plan = $this->plan_model->get_plan_by_id($para['plan_id']);
 		}
-		if ($plan) {
+		if (empty($plan)) {
+			// Add
+			$plan_id = $this->plan_model->add($data);
+		} else {
 			$this->customer_model->delete($plan['customer_id']);
 			if ($cms = $this->customer_model->get_customer_by_parent_id($plan['customer_id'])) {
 				foreach ($cms as $c) {
@@ -154,23 +145,19 @@ class Batch_model extends CI_Model {
 			}
 			// Update
 			$plan_id = $this->plan_model->update($para['plan_id'], $data);
-		} else {
-			// Add
-			$plan_id = $this->plan_model->add($data);
 		}
 		if ($plan_id) {
-			$customer_id = $this->add_customer($plan_id, $para);
 			$plan = $this->plan_model->get_plan_by_id($plan_id);
 			$para1 = array(
 					'plan_id' => $plan_id,
-					'customer_id' => $customer_id,
+					'customer_id' => $plan['customer_id'],
 					'payment_id' => 0,
 					'message' => $this->plan_model->logstr,
 					'systemlog' => $this->plan_model->sqlstr
 			);
-			$plan_id = $this->plan_model->update($plan_id, array('customer_id' => $customer_id));
 			$this->log_model->activity('plan', $para1);
 		}
+		return $plan_id;
 	}
 	
 	/**

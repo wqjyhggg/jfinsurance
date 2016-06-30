@@ -36,16 +36,19 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 					</div>
 					<div class="x_content">
 						<br />
-                    <?php if (!empty($errormsg)) { ?>
-          					<?php echo $errormsg;?>
-          					<?php } ?>
+<?php if (!empty($errormsg)) { ?>
+<?php echo $errormsg; ?>
+<?php } ?>
+<?php if (!empty($successmsg)) { ?>
+<?php echo $successmsg; ?>
+<?php } ?>
           					<form action="<?php $action_url; ?>" method="post" enctype="multipart/form-data" class="form-horizontal form-label-left">
 							<input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
 							<div class="form-group">
 								<label class="col-sm-12">School</label>
 								<div class="col-sm-12">
 									<select class="form-control" name='user_id'>
-										<option>Choose School</option>
+										<option value=''>Choose School</option>
 <?php foreach ($schools as $key => $value) { ?>                            
                             			<option value='<?php echo $key?>' <?php echo ($user_id == $key) ? 'selected' : ''; ?>><?php echo $value; ?></option>
 <?php } ?>
@@ -56,7 +59,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 								<label class="col-sm-12">Insurance Product</label>
 								<div class="col-sm-12">
 									<select class="form-control" name='product_short'>
-										<option>Choose Product</option>
+										<option value=''>Choose Product</option>
 <?php foreach ($products as $key => $value) { ?>                            
                             			<option value='<?php echo $key?>' <?php echo ($product_id == $key) ? 'selected' : ''; ?>><?php echo $value['full_name']; ?></option>
 <?php } ?>

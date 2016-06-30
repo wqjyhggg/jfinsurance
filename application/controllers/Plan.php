@@ -884,7 +884,7 @@ class Plan extends MY_Controller {
 		if (empty($sekey)) {
 			$beuser = $this->func_model->verify_login();
 		} else {
-			$beuser = $this->func_model->get_user_by_id($plan['user_id']);
+			$beuser = $this->user_model->get_user_by_id($plan['user_id']);
 			$key = $this->plan_model->get_plan_key($plan_id);
 			if ($key != $sekey) {
 				redirect('user/login');
@@ -932,6 +932,7 @@ class Plan extends MY_Controller {
 		} else {
 			$data['paytype_list'] = split(",", $beuser['pay_type']);
 		}
+		$data['payurl'] = base_url('plan/detail/' . $plan_id . '/' . $this->plan_model->get_plan_key($plan_id));
 		$data['active_url'] = current_url();
 		if ($plan['status_id'] <= 2) {
 			$display = 1;

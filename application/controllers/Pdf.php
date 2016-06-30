@@ -73,12 +73,12 @@ class Pdf extends MY_Controller {
 	public function import()
 	{
 		$beuser = $this->func_model->verify_login();
-		$user = $this->session->unset_userdata ('user');
-		
+		$user = $this->session->userdata('user');
+		$this->load->model('product_model');
 		$this->load->model('batch_model');
 		
 		$data['errormsg'] = "";
-		if ($user['user_group_id'] <= 2) {
+		if ($user['user_group_id'] > 2) {
 			$data['errormsg'] = $this->lang->line ("error_no_permission");
 		}
 		if (empty($data['errormsg']) && $this->input->post('submit')) {
@@ -130,25 +130,31 @@ class Pdf extends MY_Controller {
 							}
 						}
 						if (empty($data['batch_number'])) {
-							$data['$batch_number'] = $batch_number;
+							$data['batch_number'] = $batch_number;
 						}
-						$this->batch_model->add_record($data);
+						$plan_id = $this->batch_model->add_record($data);
+						if ($plan_id) {
+							$plan = $this->plan_model->get_plan_by_id($plan_id);
+							$para = array(
+									'plan_id' => $plan_id, 
+									'customer_id' => $plan['customer_id'], 
+									'payment_id' => 0, 
+									'message' => $this->plan_model->logstr, 
+									'systemlog' => $this->plan_model->sqlstr
+							);
+							$this->log_model->activity('plan', $para);
+						}
 					}
 				}
 				
 				$reader->close();
-				if (empty($gourl)) {
-					$data['successmsg'] = $this->lang->line ( 'text_option_success' );
-				} else {
-					redirect ( base_url ( $gourl ) );
-				}
+				$data['successmsg'] = "Processed upload file: " . $name;
 			}
 		}
 		$data['user_id'] = $this->input->post('user_id');
 		$data['product_id'] = $this->input->post('product_id');
 		$data['schools'] = $this->user_model->get_school_id_list();
 		$data['products'] = $this->product_model->product_list();
-//		echo "<pre>"; print_r($data['products']); die('XX'); //XXXXXXXXXXXXXXXXXXXXX
 		$data['action_url'] = current_url();
 		$data ['csrf'] = array (
 				'name' => $this->security->get_csrf_token_name (),
