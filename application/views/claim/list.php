@@ -83,9 +83,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                           <label class="col-sm-12">Our Product:</label>
                               <select class="form-control" name='product_short'>
                                 <option>Choose option</option>
-<?php foreach ($products as $p) {?>
-								<option value='<?php echo $p['product_short']; ?>'><?php echo $p['full_name']; ?></option>
-<?php } ?>
+                                <?php foreach ($products as $p) {?>
+								                <option value='<?php echo $p['product_short']; ?>'><?php echo $p['full_name']; ?></option>
+                                <?php } ?>
                               </select>
                         </div>
                         <!-- Product select box end -->
@@ -97,9 +97,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                           </div>
                         </div>
                         <!-- Cheque No. input box end -->
-                      </div>
-                      <!-- related date search -->
-                      <div class="row">
+                      
                         <!-- Claim Date -->
                         <div class="form-group col-sm-3">
                           <!-- Claim Date from -->
@@ -111,6 +109,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             </div>
                             <input type="hidden" id="claim_date_from" value="" />
                             <!-- Claim Date from End-->
+                        </div>    
+                        <div class="form-group col-sm-3">    
                             <!-- Claim Date to -->
                             <label for="claim_date_to" class="col-sm-12">Claim Date To</label>
                             <div class="input-group date form_date col-sm-12" data-date="" data-date-format="yyyy/mm/dd" data-link-field="claim_date_to" data-link-format="yyyy-mm-dd">
@@ -168,7 +168,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                           </tr>
                         </thead>
                         <tbody>
-<?php foreach ($lists as $c) { ?>
+                        <?php foreach ($lists as $c) { ?>
                             <tr>
                               <td><a href="<?php echo $edit_url."/".$c['claim_id']?>">edit</a></td>
                               <td><?php echo $c['policy_number']; ?></td>
@@ -184,8 +184,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                               <td><?php echo $c['cheque_number']; ?></td>
                               <td><?php echo ($c['done'] == 1) ? 'Y' : 'N'; ?></td>
                               <td><a href="<?php echo $edit_url."/".$c['claim_id']?>">edit</a></td>
-<?php } ?>
                             </tr>
+                        <?php } ?>    
                         </tbody>
                       </table>
                     </div>
