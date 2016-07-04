@@ -22,7 +22,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           <div class="main-div">
             <div class="page-title">
               <div class="title_left">
-                <h3>Create Policy</h3>
+                <h3><?php echo $p_header; ?></h3>
               </div>
             </div>
             <div class="clearfix"></div>
@@ -31,7 +31,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Policy Form<small></small></h2>
+                    <h2>Policy Detail<small></small></h2>
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
@@ -438,7 +438,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					
 					<div class="row">
 						<div class="col-sm-12">
-							<input class="btn btn-default pull-right" type='submit' name='submit' value='<?php echo $submit; ?>' />		
+							<input class="btn btn-primary pull-right" type='submit' name='submit' value='<?php echo $submit; ?>' />		
 						</div>
 					</div>
 				</form> 

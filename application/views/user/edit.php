@@ -250,7 +250,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<div class="row">
 		              <!-- submit button -->
 		              <div class="col-sm-12">
-		              	<input class="btn btn-default pull-right" type='submit' value='<?php echo ($user_id) ? "Update" : "Add"; ?>'>
+		              	<input class="btn btn-primary pull-right" type='submit' value='<?php echo ($user_id) ? "Update" : "Add"; ?>'>
 		              </div> 
 		              <!-- submit button -->
 		            </div>

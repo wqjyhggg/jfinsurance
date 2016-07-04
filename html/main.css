@@ -34,7 +34,7 @@ footer p{margin: 0;}
     margin-bottom: 0;
 }
 
-#uploadFile{height: 30px;}
+#uploadFile,.uploadFile{height: 30px;}
 .fileUpload {
     position: relative;
     overflow: hidden;
@@ -215,3 +215,11 @@ footer p{margin: 0;}
     border:1px solid #fff;
 }
 /* End Plan Detail Page */
+
+/* Manage download file page */
+.mdfile{float: none !important;}
+@media(max-width: 400px){
+    .uploadFile{width: 100%;}
+}
+.df-row:hover{background-color: #eee;}
+/* End Manage download file page */

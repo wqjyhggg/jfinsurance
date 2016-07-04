@@ -22,7 +22,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <div class="page-title">
               <div class="title_left">
                 <h3>View/Edit Policy
-                	<span class="btn btn-primary" data-toggle="collapse" data-target="#create-div" title="Create New"><i class="fa fa-plus"></i> New</span>
+                	<span class="btn btn-info" data-toggle="collapse" data-target="#create-div" title="Create New"><i class="fa fa-plus"></i> New</span>
 	            </h3>
               </div>
             </div>
@@ -50,7 +50,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				            </div>
 							<div class="form-group col-sm-3">
 								<label class="col-sm-12"> &nbsp;</label>
-								<input class="btn btn-default" type='submit' name='add' value='Create'>
+								<input class="btn btn-primary" type='submit' name='add' value='Create'>
 							</div>
 						</div>
 					</form> 
@@ -96,7 +96,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			                        <!-- Policy Number input box end -->
 			                        <div class="form-group col-sm-4">
 			                        	<label class="col-sm-12">&nbsp;</label>
-			                        	<input class="btn btn-default" type='submit' name='search' value='Search'>
+			                        	<input class="btn btn-primary" type='submit' name='search' value='Search'>
 			                        	<input type="button" class="btn btn-info" data-toggle="collapse" data-target="#adv-search" name='search' value='Advance Search'>
 			                        </div>	
                     			</div>

@@ -441,7 +441,9 @@ class Plan extends MY_Controller {
 		$data['show_history'] = 0;
 		if (empty($data['plan_id'])) {
 			$data['submit'] = 'Add New Policy';
+			$data['p_header'] = 'Create Policy';
 		} else {
+			$data['p_header'] = 'Edit Policy';
 			$data['submit'] = 'Update Policy';
 			if ($beuser['user_group_id'] <= 2) {
 				$this->load->model('trans_model');

@@ -82,7 +82,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 										document.getElementById("uploadFile").value = this.value;
 									};
 									</script>
-									<input style="display: inline-block; vertical-align: bottom;" class="btn btn-primary" type="submit" name='submit' value="upload" />
+									<input style="display: inline-block; vertical-align: bottom;" class="btn btn-primary" type="submit" name='submit' value="Upload" />
 								</div>
 							</div>
 							
