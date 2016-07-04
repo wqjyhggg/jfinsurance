@@ -43,7 +43,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<div class="form-group col-sm-3">
 				                <label class="col-sm-12">Product List:</label>
 				                <select name='product_short' class="form-control">
-									<?php foreach ($product_list as $key => $value) { ?>
+									<?php foreach ($product_list_a as $key => $value) { ?>
 									<option value='<?php echo $key; ?>'><?php echo $value['full_name']; ?></option>
 									<?php } ?>
 								</select>				                

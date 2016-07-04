@@ -95,13 +95,14 @@ class Product extends MY_Controller {
 			'isfamilyplan' => $this->input->post_get('isfamilyplan'),
 			'sum_insured' => $this->input->post_get('sum_insured'),
 			'deductible_amount' => $this->input->post_get('deductible_amount'),
+			'rate_options' => $this->input->post_get('rate_options'),
 			'stable_condition' => $this->input->post_get('stable_condition'),
 			'birthday' => $this->input->post_get('birthday'),
 			'number_customer' => $this->input->post_get('number_customer'));
 		
 		$premium = $this->product_model->get_premium($para);
 		if (empty($premium)) {
-			$data = array('status' => 'Error', 'message' => "Can't caculate premium");
+			$data = array('status' => 'Error', 'message' => $this->product_model->get_message());
 		} else {
 			$data = array('status' => 'OK', 'premium' => number_format($premium, 2, '.', ','));
 		}

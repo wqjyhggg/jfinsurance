@@ -110,7 +110,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<div class="form-group col-sm-3">
 								<label class="col-sm-12">Effective Date: </label>
 								<div class="input-group date form_date col-sm-12" data-date="" data-date-format="yyyy/mm/dd" data-link-field="effective_date" data-link-format="yyyy-mm-dd">
-			                        <input class="form-control" size="16" type="text" name='effective_date' value='<?php echo $effective_date; ?>' readonly>
+			                        <input class="setpremium form-control" size="16" type="text" name='effective_date' value='<?php echo $effective_date; ?>' readonly>
 			                        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
 			                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
 			                    </div>
@@ -137,61 +137,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					 	</fieldset>
 					 	</div>
 					</div><br />
-					<div class="row">
-						<div class="col-sm-12">
-							<fieldset>
-								<legend>Insurable Options</legend>
-								<div class="row">
-									<div class="form-group col-sm-3">
-										<label class="col-sm-12">Beneficiary</label>
-										<div class="input-group col-sm-12">
-											<input type='text' name='beneficiary' value='<?php echo $beneficiary; ?>' class="form-control">
-										</div>
-										<?php if (!empty($error_beneficiary)) {?>
-										<div class="alert-error">
-											<?php echo $error_beneficiary;?>
-										</div>	
-										<?php } ?>
-									</div>
-									<div class="form-group col-sm-3">
-										<label class="col-sm-12">Is Family Plan</label>
-										<div class="input-group col-sm-12" style="border: 1px solid #ccc;padding: 3px;">
-											 <input type='checkbox' class='setpremium' name='isfamilyplan' id='isfamilyplan' <?php echo empty($isfamilyplan) ? "" : "checked"; ?>> Yes
-										</div>
-									</div>
-									<div class="form-group col-sm-3">
-										<label class="col-sm-12">Sum Insured (CAD):</label>
-										<div class="input-group col-sm-12">
-											<div id='sum_insured_div'></div>
-										</div>
-									</div>
-									<div class="form-group col-sm-3">
-										<label class="col-sm-12">Deductible amount (CAD):</label>
-										<div class="input-group col-sm-12">
-											 <div id='deductible_amount_div'></div>
-										</div>
-									</div>
-								</div>
-								<div class="row">
-									<?php if (empty($disable_stable_condition)) { ?>
-									<div class="col-sm-12">
-										<label class="inline">With stable pre-existion condition coverage</label>
-										<div class="inline">
-											<input type='radio' class='setpremium' name='stable_condition' value='1' <?php echo (empty($stable_condition) || ($stable_condition != 2 )) ? "checked" : ""; ?>>
-										</div>
-									</div>
-									<div class="col-sm-12">
-										<label class="inline">Without stable pre-existion condition coverage </label>
-										<div class="inline">
-											<input type='radio' class='setpremium' name='stable_condition' value='2' <?php echo (!empty($stable_condition) && ($stable_condition == 2 )) ? "checked" : ""; ?>>
-										</div>
-									</div>
-									<?php } ?>
-								</div>
-							</fieldset>
-						</div>
-					</div><br />
-					
+					<?php echo $insurable_options; ?>
 					<div class="row">
 						<div class="col-sm-12">
 							<fieldset>
@@ -464,18 +410,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				        	$('#country2_div').html(data);
 				    	},
 					});
-					$.ajax({
-						url: '<?php echo $sum_insured_url; ?>',
-						success: function(data, textStatus, jqXHR) {
-				        	$('#sum_insured_div').html(data);
-				    	},
-					});
-					$.ajax({
-						url: '<?php echo $deductible_amount_url; ?>',
-						success: function(data, textStatus, jqXHR) {
-				        	$('#deductible_amount_div').html(data);
-				    	},
-					});
+					if ( $( "#sum_insured_div" ).length ) {
+						$.ajax({
+							url: '<?php echo $sum_insured_url; ?>',
+							success: function(data, textStatus, jqXHR) {
+					        	$('#sum_insured_div').html(data);
+					    	},
+						});
+					}
+					if ( $( "#deductible_amount_div" ).length ) {
+						$.ajax({
+							url: '<?php echo $deductible_amount_url; ?>',
+							success: function(data, textStatus, jqXHR) {
+					        	$('#deductible_amount_div').html(data);
+					    	},
+						});
+					}
 					if ($('#isfamilyplan').get(0).checked) {
 						$('#family_member').show();
 					}
@@ -497,6 +447,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				});
 
 				function get_premium() {
+					console.log('get_premium'); //XXXXXXXXXXXXXXXXXXXXX
 					var product_short = $('input[name="product_short"]').val();
 					var apply_date = $('input[name="apply_date"]').val();
 					var effective_date = $('input[name="effective_date"]').val();
@@ -505,9 +456,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					if ($('input[name="isfamilyplan"]').is(':checked')) {
 						isfamilyplan = 1;	// checkbox
 					}
-					var sum_insured = $('select[name="sum_insured"]').val();	// select
-					var deductible_amount = $('select[name="deductible_amount"]').val();	// select
-					var stable_condition = $('input[name="stable_condition"]:checked').val();	// radio
+					var sum_insured = 0;
+					if ($('select[name="sum_insured"]').length) {
+						sum_insured = $('select[name="sum_insured"]').val();	// select
+					}
+					var deductible_amount = 0;
+					if ($('select[name="deductible_amount"]').length) {
+						deductible_amount = $('select[name="deductible_amount"]').val();	// select
+					}
+					var stable_condition = 0;
+					if ($('input[name="stable_condition"]').length) {
+						stable_condition = $('input[name="stable_condition"]:checked').val();	// radio
+					}
+					var rate_options = 0;
+					if ($('input[name="rate_options"]').length) {
+						rate_options = $('input[name="rate_options"]:checked').val();	// radio
+					}
 					var birthday = $('input[name="birthday"]').val();	// 
 					var number_customer = 0;
 					if (new Date(birthday) < new Date($('input[name="birthday_1"]').val())) {
@@ -545,7 +509,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					if ($('input[name="firstname_7"]').val() && $('input[name="lastname_7"]').val()) number_customer++;
 					if ($('input[name="firstname_8"]').val() && $('input[name="lastname_8"]').val()) number_customer++;
 
-					if (effective_date && expiry_date && sum_insured && birthday) {
+					if (effective_date && expiry_date && birthday) {
 						$.ajax({
 							url: '<?php echo $premium_url; ?>',
 							type: 'get',
@@ -558,13 +522,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								sum_insured: sum_insured,
 								deductible_amount: deductible_amount,
 								stable_condition: stable_condition,
+								rate_options: rate_options,
 								number_customer: number_customer,
 								birthday: birthday},
 							success: function(data, textStatus, jqXHR) {
 								if (data['status'] == 'OK') {
 					        		$('#premium').val(data['premium']);
 								} else {
-									alert('Unavailable');
+									if (data['message']) {
+										alert(data['message']);
+									}
 								}
 					    	},
 						});
