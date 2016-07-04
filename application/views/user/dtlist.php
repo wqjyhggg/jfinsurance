@@ -94,7 +94,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         			      <div class="row">
                       <!-- submit button -->
                       <div class="col-sm-12">
-                        <button class="btn btn-default pull-right">Start Search</button>
+                        <button class="btn btn-primary pull-right">Display Agent</button>
                       </div> 
                       <!-- submit button -->
                     </div>
@@ -110,7 +110,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>User List<small><a href='<?php echo $edit_url."0"; ?>'>Add user</a></small></h2>
+                    <h2>User List<small><a class="btn btn-info" href='<?php echo $edit_url."0"; ?>'><i class="fa fa-plus"></i> Add user</a></small></h2>
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">

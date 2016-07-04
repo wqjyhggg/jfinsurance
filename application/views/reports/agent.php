@@ -28,319 +28,150 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <div class="clearfix"></div>
             <!-- Filter Section -->
             <div class="row">
-              <!-- Common Filter Form -->
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Common Filter<small></small></h2>
+                    <h2>Report Filter<small></small></h2>
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
-                    
-                    <form class="form-horizontal">
-                      <input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
-
-                      <div class="col-md-4 col-sm-4 col-xs-12 form-group">
-                        <div class="form-group">
-                          <label class="col-sm-12">Product:</label>
-                          <div class="col-sm-12">
-                            <select class="form-control">
-                              <option>Choose option</option>
-                              <option>Option one</option>
-                              <option>Option two</option>
-                              <option>Option three</option>
-                              <option>Option four</option>
-                            </select>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div class="col-md-4 col-sm-4 col-xs-12 form-group">
-                        <div class="form-group">
+                    <form method="post" class="form-horizontal">
+                      <div class="row">
+                      <!-- Agent input box -->
+                        <div class="form-group col-sm-4">
                           <label class="col-sm-12">Agent:</label>
-                          <div class="col-sm-12">
-                            <select class="form-control">
-                              <option>Choose option</option>
-                              <option>Option one</option>
-                              <option>Option two</option>
-                              <option>Option three</option>
-                              <option>Option four</option>
-                            </select>
+                          <div class="input-group col-sm-12">
+                              <select class="form-control">
+                                <option>Choose option</option>
+                                <option>Option one</option>
+                                <option>Option two</option>
+                                <option>Option three</option>
+                                <option>Option four</option>
+                              </select>
                           </div>
                         </div>
+                        <!-- Agent input box end -->
+
+                        <!-- Product input box -->
+                        <div class="form-group col-sm-4">
+                          <label class="col-sm-12">Product:</label>
+                            <div input-group class="col-sm-12">
+                              <select class="form-control">
+                                <option>Choose option</option>
+                                <option>Option one</option>
+                                <option>Option two</option>
+                                <option>Option three</option>
+                                <option>Option four</option>
+                              </select>
+                          </div>
+                        </div>
+                        <!-- Product input box end -->
+                      </div>
+
+                      <div class="row">
+                        <!-- Application Date -->
+                        <div class="form-group col-sm-3">
+                          <!-- Application Date from -->
+                            <label for="application_date_from" class="col-sm-12">Application Date From</label>
+                            <div class="input-group date form_date col-sm-12" data-date="" data-date-format="yyyy/mm/dd" data-link-field="application_date_from" data-link-format="yyyy-mm-dd">
+                                <input class="form-control" size="16" type="text" value="" readonly>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                            </div>
+                            <input type="hidden" id="application_date_from" value="" />
+                            <!-- Application Date from End-->
+                            <!-- Application Date to -->
+                            <label for="application_date_to" class="col-sm-12">Application Date To</label>
+                            <div class="input-group date form_date col-sm-12" data-date="" data-date-format="yyyy/mm/dd" data-link-field="application_date_to" data-link-format="yyyy-mm-dd">
+                                <input class="form-control" size="16" type="text" value="" readonly>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                            </div>
+                            <input type="hidden" id="application_date_to" value="" /><br/>
+                            <!-- Application Date to End -->
+                        </div>
+                        <!-- Application Date End-->
+                        <!-- Create Date-->
+                        <div class="form-group col-sm-3">
+                            <!-- Create Date From-->
+                            <label for="create_date_from" class="col-sm-12">Create Date From</label>
+                            <div class="input-group date form_date col-sm-12" data-date="" data-date-format="yyyy/mm/dd" data-link-field="create_date_from" data-link-format="yyyy-mm-dd">
+                                <input class="form-control" size="16" type="text" value="" readonly>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                            </div>
+                            <input type="hidden" id="create_date_from" value="" />
+                            <!-- Create Date From End-->
+                            <!-- Create Date to -->
+                            <label for="create_date_to" class="col-sm-12">Create Date To</label>
+                            <div class="input-group date form_date col-sm-12" data-date="" data-date-format="yyyy/mm/dd" data-link-field="create_date_to" data-link-format="yyyy-mm-dd">
+                                <input class="form-control" size="16" type="text" value="" readonly>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                            </div>
+                            <input type="hidden" id="create_date_to" value="" /><br/>
+                            <!-- Create Date to End -->
+                        </div>
+                        <!-- Create Date End -->
+                        <!-- Effective Date-->
+                        <div class="form-group col-sm-3">
+                            <!-- Effective Date From-->
+                            <label for="effective_date_from" class="col-sm-12">Effective Date From</label>
+                            <div class="input-group date form_date col-sm-12" data-date="" data-date-format="yyyy/mm/dd" data-link-field="effective_date_from" data-link-format="yyyy-mm-dd">
+                                <input class="form-control" size="16" type="text" value="" readonly>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                            </div>
+                            <input type="hidden" id="effective_date_from" value="" />
+                            <!-- Effective Date From End-->
+                            <!-- Effective Date to -->
+                            <label for="effective_date_to" class="col-sm-12">Effective Date To</label>
+                            <div class="input-group date form_date col-sm-12" data-date="" data-date-format="yyyy/mm/dd" data-link-field="effective_date_to" data-link-format="yyyy-mm-dd">
+                                <input class="form-control" size="16" type="text" value="" readonly>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                            </div>
+                            <input type="hidden" id="effective_date_to" value="" /><br/>
+                            <!-- Effective Date to End -->
+                        </div>
+                        <!-- Effective Date End -->
                         
-                      </div>
-                      <div class="col-md-4 col-sm-4 col-xs-12 form-group">
-                        <div class="form-group">
-                          <label class="col-sm-12">Date Type</label>
-                          <div class="col-sm-12">
-                            <select class="form-control">
-                              <option>Choose option</option>
-                              <option>Option one</option>
-                              <option>Option two</option>
-                              <option>Option three</option>
-                              <option>Option four</option>
-                            </select>
-                          </div>
+                        <!-- Payment Update Date-->
+                        <div class="form-group col-sm-3">
+                            <!-- Payment Update Date From-->
+                            <label for="payment_update_date_from" class="col-sm-12">Payment Update Date From</label>
+                            <div class="input-group date form_date col-sm-12" data-date="" data-date-format="yyyy/mm/dd" data-link-field="payment_update_date_from" data-link-format="yyyy-mm-dd">
+                                <input class="form-control" size="16" type="text" value="" readonly>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                            </div>
+                            <input type="hidden" id="payment_update_date_from" value="" />
+                            <!-- Payment Update Date From End-->
+                            <!-- Payment Update Date to -->
+                            <label for="payment_update_date_to" class="col-sm-12">Payment Update Date To</label>
+                            <div class="input-group date form_date col-sm-12" data-date="" data-date-format="yyyy/mm/dd" data-link-field="payment_update_date_to" data-link-format="yyyy-mm-dd">
+                                <input class="form-control" size="16" type="text" value="" readonly>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                            </div>
+                            <input type="hidden" id="payment_update_date_to" value="" /><br/>
+                            <!-- Payment Update Date to End -->
                         </div>
+                        <!-- Payment Update Date End -->
                       </div>
-                      <div class="col-sm-12 form-group">
-                        <div class="form-group">
+                      <div class="row">
+                        <!-- submit button -->
                           <div class="col-sm-12">
-                            <button class="btn btn-default pull-right">Display Sales Report</button>
-                          </div>
-                        </div>
+                            <button class="btn btn-primary pull-right">Display Sales Report</button>
+                          </div> 
+                        <!-- submit button -->
                       </div>
                     </form>
+
                   </div>
                 </div>
               </div>
-              <!-- Common Filter Form End -->
-
-              <!-- Monthly Report Filter Form -->
-              <div class="col-md-12 col-sm-12 col-xs-12">
-                <div class="x_panel">
-                  <div class="x_title">
-                    <h2>Monthly Report Filter<small></small></h2>
-                    <div class="clearfix"></div>
-                  </div>
-                  <div class="x_content">
-                    
-                    <form class="form-horizontal">
-                      <input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
-
-                      <div class="col-md-4 col-sm-4 col-xs-12 form-group">
-                        <div class="form-group">
-                          <label class="col-sm-12">Year:</label>
-                          <div class="col-sm-12">
-                            <select class="form-control">
-                              <option>Choose option</option>
-                              <option>Option one</option>
-                              <option>Option two</option>
-                              <option>Option three</option>
-                              <option>Option four</option>
-                            </select>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div class="col-md-4 col-sm-4 col-xs-12 form-group">
-                        <div class="form-group">
-                          <label class="col-sm-12">Month:</label>
-                          <div class="col-sm-12">
-                            <select class="form-control">
-                              <option>Choose option</option>
-                              <option>Option one</option>
-                              <option>Option two</option>
-                              <option>Option three</option>
-                              <option>Option four</option>
-                            </select>
-                          </div>
-                        </div>
-                        
-                      </div>
-                      
-                      <div class="col-md-4 col-sm-4 col-xs-12 form-group">
-                        <div class="form-group">
-                          <label class="col-sm-12">&nbsp;</label>
-                          <div class="col-sm-12">
-                            <button class="btn btn-default pull-right">Display Sales Report</button>
-                          </div>
-                        </div>
-                      </div>
-
-                    </form>
-                  </div>
-                </div>
-              </div>
-              <!-- Monthly Report Filter Form End-->
-
-              <!-- Daily Report Filter Form -->
-              <div class="col-md-12 col-sm-12 col-xs-12">
-                <div class="x_panel">
-                  <div class="x_title">
-                    <h2>Daily Report Filter<small></small></h2>
-                    <div class="clearfix"></div>
-                  </div>
-                  <div class="x_content">
-                    
-                    <form class="form-horizontal">
-                      <input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
-
-                      <div class="col-md-4 col-sm-4 col-xs-12 form-group">
-                        <div class="form-group">
-                          <label class="col-sm-12">Year:</label>
-                          <div class="col-sm-12">
-                            <select class="form-control">
-                              <option>Choose option</option>
-                              <option>Option one</option>
-                              <option>Option two</option>
-                              <option>Option three</option>
-                              <option>Option four</option>
-                            </select>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div class="col-md-4 col-sm-4 col-xs-12 form-group">
-                        <div class="form-group">
-                          <label class="col-sm-12">Month:</label>
-                          <div class="col-sm-12">
-                            <select class="form-control">
-                              <option>Choose option</option>
-                              <option>Option one</option>
-                              <option>Option two</option>
-                              <option>Option three</option>
-                              <option>Option four</option>
-                            </select>
-                          </div>
-                        </div>
-                        
-                      </div>
-                      <div class="col-md-4 col-sm-4 col-xs-12 form-group">
-                        <div class="form-group">
-                          <label class="col-sm-12">Day</label>
-                          <div class="col-sm-12">
-                            <select class="form-control">
-                              <option>Choose option</option>
-                              <option>Option one</option>
-                              <option>Option two</option>
-                              <option>Option three</option>
-                              <option>Option four</option>
-                            </select>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-sm-12 form-group">
-                        <div class="form-group">
-                          <div class="col-sm-12">
-                            <button class="btn btn-default pull-right">Display Sales Report</button>
-                          </div>
-                        </div>
-                      </div>
-
-                    </form>
-                  </div>
-                </div>
-              </div>
-              <!-- Daily Report Filter Form End-->
-
-              <!-- Duration Report Filter Form -->
-              <div class="col-md-12 col-sm-12 col-xs-12">
-                <div class="x_panel">
-                  <div class="x_title">
-                    <h2>Duration Report Filter<small></small></h2>
-                    <div class="clearfix"></div>
-                  </div>
-                  <div class="x_content">
-                    
-                    <form class="form-horizontal">
-                      <input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
-
-                      <div class="col-md-4 col-sm-4 col-xs-12 form-group">
-                        <div class="form-group">
-                          <label class="col-sm-12">From Year:</label>
-                          <div class="col-sm-12">
-                            <select class="form-control">
-                              <option>Choose option</option>
-                              <option>Option one</option>
-                              <option>Option two</option>
-                              <option>Option three</option>
-                              <option>Option four</option>
-                            </select>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div class="col-md-4 col-sm-4 col-xs-12 form-group">
-                        <div class="form-group">
-                          <label class="col-sm-12">Month:</label>
-                          <div class="col-sm-12">
-                            <select class="form-control">
-                              <option>Choose option</option>
-                              <option>Option one</option>
-                              <option>Option two</option>
-                              <option>Option three</option>
-                              <option>Option four</option>
-                            </select>
-                          </div>
-                        </div>              
-                      </div>
-                      <div class="col-md-4 col-sm-4 col-xs-12 form-group">
-                        <div class="form-group">
-                          <label class="col-sm-12">Day</label>
-                          <div class="col-sm-12">
-                            <select class="form-control">
-                              <option>Choose option</option>
-                              <option>Option one</option>
-                              <option>Option two</option>
-                              <option>Option three</option>
-                              <option>Option four</option>
-                            </select>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div class="col-md-4 col-sm-4 col-xs-12 form-group">
-                        <div class="form-group">
-                          <label class="col-sm-12">To Year:</label>
-                          <div class="col-sm-12">
-                            <select class="form-control">
-                              <option>Choose option</option>
-                              <option>Option one</option>
-                              <option>Option two</option>
-                              <option>Option three</option>
-                              <option>Option four</option>
-                            </select>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div class="col-md-4 col-sm-4 col-xs-12 form-group">
-                        <div class="form-group">
-                          <label class="col-sm-12">Month:</label>
-                          <div class="col-sm-12">
-                            <select class="form-control">
-                              <option>Choose option</option>
-                              <option>Option one</option>
-                              <option>Option two</option>
-                              <option>Option three</option>
-                              <option>Option four</option>
-                            </select>
-                          </div>
-                        </div>    
-                      </div>
-
-                      <div class="col-md-4 col-sm-4 col-xs-12 form-group">
-                        <div class="form-group">
-                          <label class="col-sm-12">Day:</label>
-                          <div class="col-sm-12">
-                            <select class="form-control">
-                              <option>Choose option</option>
-                              <option>Option one</option>
-                              <option>Option two</option>
-                              <option>Option three</option>
-                              <option>Option four</option>
-                            </select>
-                          </div>
-                        </div>
-                      </div>
-
-
-                      <div class="col-sm-12 form-group">
-                        <div class="form-group">
-                          <div class="col-sm-12">
-                            <button class="btn btn-default pull-right">Display Sales Report</button>
-                          </div>
-                        </div>
-                      </div>
-
-                    </form>
-                  </div>
-                </div>
-              </div>
-              <!-- Duration Report Filter Form End-->
-            </div><!-- Filter Section End -->
+            </div><!-- End Filter Section -->
             <!-- List Section -->
             <div class="row">
               <div class="col-md-12 col-sm-12 col-xs-12">

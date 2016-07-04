@@ -163,7 +163,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                       <div class="row">
                         <!-- submit button -->
                           <div class="col-sm-12">
-                            <button class="btn btn-default pull-right">Display Sales Report</button>
+                            <button class="btn btn-primary pull-right">Display Report</button>
                           </div> 
                         <!-- submit button -->
                       </div>
