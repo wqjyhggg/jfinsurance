@@ -51,6 +51,7 @@ class Pdf extends MY_Controller {
 					continue;
 				}
 				$fileinfo = pathinfo($name);
+				$filename = $this->input->post('lcfilename');
 			    if (!in_array($fileinfo['extension'], $this->uploadtype)) {
 			    	$data['errormsg'] .= sprintf($this->lang->line ( 'error_file_type' ), $name) . "<br />";
 			    } else {
@@ -195,7 +196,7 @@ class Pdf extends MY_Controller {
 	        	$this->session->set_userdata ( "error_message", $this->lang->line ( 'error_no_file' ) );
 	        	redirect ( base_url ( 'errorpage' ) );
 	    }       
-	    header('Content-type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+	    header('Content-type: ' . $mimeType);
 	    header('Content-Disposition: attachment; filename="' . $filename . '"');
 	    header('Content-Transfer-Encoding: binary');
 	    header('Expires: 0');

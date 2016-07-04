@@ -63,7 +63,7 @@
 
 		    	<?php if (isset($top_menu) && !empty($top_menu['islogin'])){ ?>
 		    	<div class="col-sm-3 col-md-3 pull-right">
-		            <form class="navbar-form" >
+		            <form class="navbar-form" method='GET' action='<?php echo base_url('plan'); ?>'>
 		                <div class="input-group" style="margin-bottom:0;">
 		                    <input type="text" class="form-control" placeholder="Search" name="q">
 		                    <div class="input-group-btn">
