@@ -9,7 +9,39 @@ class Product extends MY_Controller {
 	 */
 	public function index()
 	{
-		die("");
+		$beuser = $this->func_model->verify_login(); 
+
+		$this->load->model('product_model');
+		$data['products'] = $this->product_model->product_array(1);
+		
+		$data['quote_url'] = base_url('plan/add');
+		$data['view_url'] = base_url('product/detail') . "/";
+		
+		$data['title_txt'] = 'Products';
+
+		$data['top_menu'] = $this->menu_model->load_top_menu();
+		$data['menu'] = $this->menu_model->load_meun();
+		$data['csrf'] = array (
+				'name' => $this->security->get_csrf_token_name (),
+				'value' => $this->security->get_csrf_hash ()
+		);
+		
+		$this->load->common('product/product', $data);	
+	}
+	
+	function detail($product_short='') {
+		if (empty($product_short)) {
+			redirect(base_url('production'));
+		}
+		$data['title_txt'] = 'Product : ' . $product_short;
+
+		$data['top_menu'] = $this->menu_model->load_top_menu();
+		$data['menu'] = $this->menu_model->load_meun();
+		$data['csrf'] = array (
+				'name' => $this->security->get_csrf_token_name (),
+				'value' => $this->security->get_csrf_hash ()
+		);
+		$this->load->common('product/'.$product_short, $data);	
 	}
 	
 	function insured($product_short='', $sum_insured='') {

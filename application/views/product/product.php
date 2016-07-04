@@ -42,37 +42,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                       <table class="table table-hover table-bordered">
                         <thead>
                           <tr>
-                            <th>Product Name</th>
-                            <th>Short Description</th>
+                            <th>Product Short Name</th>
+                            <th>Full Name</th>
                             <th>Quote</th>
                             <th>Summary</th>
                             
                           </tr>
                         </thead>
                         <tbody>
-
+<?php foreach ($products as $p) { ?>
                             <tr>
-                              <td>JF Optimum Plus</td>
-                              <td>- Single Trip Emergency Hospital & Medical Insurance to Canada</td>
-                              <td><a href="" class="btn btn-default">Quote</a></td>
-                              <td><a href="" class="btn btn-default">View Summary</a></td>
-                              
+                              <td><?php echo $p['product_short']; ?></td>
+                              <td><?php echo $p['full_name']; ?></td>
+                              <td><a href="<?php echo $quote_url . "?product_short=" . $p['product_short']; ?>" class="btn btn-default">Quote</a></td>
+                              <td><a href="<?php echo $view_url . $p['product_short']; ?>" class="btn btn-default">View Summary</a></td>
                             </tr>
-                            <tr>
-                              <td>JF Royal Visitor to Canada</td>
-                              <td>- Single Trip Emergency Hospital & Medical Insurance to Canada</td>
-                              <td><a href="" class="btn btn-default">Quote</a></td>
-                              <td><a href="" class="btn btn-default">View Summary</a></td>
-                              
-                            </tr>
-
-                            <tr>
-                              <td>NihaoUSA</td>
-                              <td>- Emergency Hospital & Medical Insurance for foreign students studying in USA</td>
-                              <td><a href="" class="btn btn-default">Quote</a></td>
-                              <td><a href="" class="btn btn-default">View Summary</a></td>
-                              
-                            </tr>
+<?php } ?>
                         </tbody>
                       </table>
                     </div>

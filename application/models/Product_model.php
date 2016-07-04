@@ -18,9 +18,10 @@ class Product_model extends CI_Model {
 	/**
 	 * Get All product list
 	 * 
+	 * @param	integer	$processonly
 	 * @return	array					user table search result
 	 */
-	public function product_array() {
+	public function product_array($processonly=0) {
 		$beuser = $this->session->userdata ( 'beuser' );
 		if (empty($beuser)) {
 			return array();
@@ -28,6 +29,13 @@ class Product_model extends CI_Model {
 		$sql = "SELECT p.* FROM product p ";
 		if ($beuser['user_group_id'] > 2) {
 			$sql .= " INNER JOIN user_product up ON (up.product_short=p.product_short) WHERE up.user_id='". (int)$beuser['user_id'] ."'";
+			if ($processonly) {
+				$sql .= " AND p.calculate='1'";
+			}
+		} else {
+			if ($processonly) {
+				$sql .= " WHERE p.calculate='1'";
+			}
 		}
 		$sql .= " ORDER BY p.product_short ASC";
 		return $this->db->query($sql)->result_array();

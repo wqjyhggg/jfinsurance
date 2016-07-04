@@ -368,59 +368,61 @@ class Plan_model extends CI_Model {
 				$this->logstr = $this->customer_model->logstr . "; ";
 			}
 		}
-			
-		if ($isfamilyplan) {
-			$i = 1;
-			for ( ; $i < 9; $i++) {
-				if (!empty($para['customer_id_' . $i])) {
-					$customer_id_this = $para['customer_id_' . $i];
-				} else {
-					break;
-				}
-				if (empty($para['firstname_' . $i]) && empty($para['lastname_' . $i])) {
-					$customer_id = $this->customer_model->delete($customer_id_this);
-					if ($customer_id) {
+		
+		if (isset($para['isfamilyplan'])) {
+			if ($isfamilyplan) {
+				$i = 1;
+				for ( ; $i < 9; $i++) {
+					if (!empty($para['customer_id_' . $i])) {
+						$customer_id_this = $para['customer_id_' . $i];
+					} else {
+						break;
+					}
+					if (empty($para['firstname_' . $i]) && empty($para['lastname_' . $i])) {
+						$customer_id = $this->customer_model->delete($customer_id_this);
+						if ($customer_id) {
+							$this->sqlstr = $this->customer_model->sqlstr . "; ";
+							$this->logstr = $this->customer_model->logstr . "; ";
+						}
+						continue;
+					}
+					
+					$cpara = array(
+							'gender' => $para['gender_' . $i],
+							'firstname' => $para['firstname_' . $i],
+							'lastname' => $para['lastname_' . $i],
+							'birthday' => $para['birthday_' . $i]
+					);
+					$customer_id_this = $this->customer_model->update($customer_id_this, $cpara);
+					if ($customer_id_this) {
 						$this->sqlstr = $this->customer_model->sqlstr . "; ";
 						$this->logstr = $this->customer_model->logstr . "; ";
 					}
-					continue;
 				}
-				
-				$cpara = array(
-						'gender' => $para['gender_' . $i],
-						'firstname' => $para['firstname_' . $i],
-						'lastname' => $para['lastname_' . $i],
-						'birthday' => $para['birthday_' . $i]
-				);
-				$customer_id_this = $this->customer_model->update($customer_id_this, $cpara);
+				for ( ; $i < 9; $i++) {
+					if (empty($para['firstname_' . $i]) && empty($para['lastname_' . $i])) {
+						break;
+					}
+					$cpara = array(
+							'plan_id' => $plan['plan_id'],
+							'parent_customer_id' => $plan['customer_id'],
+							'gender' => $para['gender_' . $i],
+							'firstname' => $para['firstname_' . $i],
+							'lastname' => $para['lastname_' . $i],
+							'birthday' => $para['birthday_' . $i]
+					);
+					$customer_id_this = $this->customer_model->add($cpara);
+					if ($customer_id_this) {
+						$this->sqlstr = $this->customer_model->sqlstr . "; ";
+						$this->logstr = $this->customer_model->logstr . "; ";
+					}
+				}
+			} else {
+				$customer_id_this = $this->customer_model->delete_by_parent_id($plan['customer_id']);
 				if ($customer_id_this) {
 					$this->sqlstr = $this->customer_model->sqlstr . "; ";
 					$this->logstr = $this->customer_model->logstr . "; ";
 				}
-			}
-			for ( ; $i < 9; $i++) {
-				if (empty($para['firstname_' . $i]) && empty($para['lastname_' . $i])) {
-					break;
-				}
-				$cpara = array(
-						'plan_id' => $plan['plan_id'],
-						'parent_customer_id' => $plan['customer_id'],
-						'gender' => $para['gender_' . $i],
-						'firstname' => $para['firstname_' . $i],
-						'lastname' => $para['lastname_' . $i],
-						'birthday' => $para['birthday_' . $i]
-				);
-				$customer_id_this = $this->customer_model->add($cpara);
-				if ($customer_id_this) {
-					$this->sqlstr = $this->customer_model->sqlstr . "; ";
-					$this->logstr = $this->customer_model->logstr . "; ";
-				}
-			}
-		} else {
-			$customer_id_this = $this->customer_model->delete_by_parent_id($plan['customer_id']);
-			if ($customer_id_this) {
-				$this->sqlstr = $this->customer_model->sqlstr . "; ";
-				$this->logstr = $this->customer_model->logstr . "; ";
 			}
 		}
 		
