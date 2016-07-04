@@ -460,4 +460,10 @@ class User_model extends CI_Model {
 		
 		return $user_id;
 	}
+	
+	public function check_sub_user($user_id, $sub_user_id) {
+		$this->db->where('parent_user_id', $user_id);
+		$this->db->where('user_id', $sub_user_id);
+		return $this->db->get('user')->row_array();
+	}
 }

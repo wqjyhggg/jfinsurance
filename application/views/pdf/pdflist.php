@@ -33,27 +33,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
-                   
-                    <?php foreach ($filelist as $filename) {?>
-          					<?php echo $filename; ?><br />
-          					<?php }?>
-                    <br /><br />
-                    <div class="text-element"><p>In order to update a specific file, please make sure use the same file name!</p></div>
-                    <form action="" method="post" >
-                    <input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
-                    <div class="col-sm-12">
-                        <div class="row">
-                        <div class="col-sm-4">
-                        <input class="form-control" type="file" name="userfile" size="20" />  
-                        </div>
-                        <div class="col-sm-4">
-                         <input class="btn btn-primary" type="submit" value="Update" />
-                        </div>
-                      </div>
-                      </div>
-                   
-                    </form>
-
+<?php foreach ($filelist as $filename) {?>
+                    <form action="<?php echo $upload_url; ?>" method="post" >
+                    	<input type='hidden' name='lcfilename' value='<?php echo $filename; ?>'>
+          				<?php echo $filename; ?><input class="form-control" type="file" name="userfile" size="20" /><input class="btn btn-primary" type="submit" value="Update" />
+          			</form>
+<?php }?>
                   </div>
                 </div>
               </div>
