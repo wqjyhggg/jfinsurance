@@ -4,6 +4,8 @@ if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
 class Product_model extends CI_Model {
+	public $message;
+	
 	/**
 	 * Get product 
 	 * 
@@ -102,6 +104,10 @@ class Product_model extends CI_Model {
 		return $a->diff($b)->format('%y');
 	}
 	
+	public function get_message() {
+		return $this->message;
+	}
+	
 	/**
 	 * Get Product premium
 	 * 
@@ -109,9 +115,26 @@ class Product_model extends CI_Model {
 	 * @return float 		premium, 0 means can't caculate.
 	 */
 	public function get_premium($para) {
+		$this->message = '';
 		$premium = 0;
+		
+		if (empty($para['effective_date']) || empty($para['expiry_date'])) {
+			return 0;
+		}
 		$days = $this->getDays($para['effective_date'], $para['expiry_date']);
+		if (empty($days)) {
+			$this->message = 'Please check effective date and expiry date';
+			return 0;
+		}
+
+		if (empty($para['birthday'])) {
+			return 0;
+		}
 		$years = $this->getYears($para['apply_date'], $para['birthday']);
+		if (empty($years)) {
+			$this->message = 'Please check birthday date';
+			return 0;
+		}
 		if ($para['product_short'] == 'OPL') {
 			if ($para['stable_condition'] == 1) {
 				// With stable pre-existing conditions coverage option
@@ -125,7 +148,7 @@ class Product_model extends CI_Model {
 						elseif ($years <= 74) 	$rate = 4.85;
 						elseif ($years <= 79) 	$rate = 5.8;
 						elseif ($years <= 85) 	$rate = 11.48;
-						else				  	return 0;
+						else				  	{ $this->message = "Over 85 years old must select without stable pre-existing condition coverage option"; return 0; }
 						break;
 					case 15000:
 						if ($years <= 25) 		$rate = 2.04;
@@ -135,8 +158,8 @@ class Product_model extends CI_Model {
 						elseif ($years <= 69) 	$rate = 3.91;
 						elseif ($years <= 74) 	$rate = 6.32;
 						elseif ($years <= 79) 	$rate = 7.54;
-						elseif ($years <= 85) 	return 0;
-						else				  	return 0;
+						elseif ($years <= 85) 	{ $this->message = "Over 80 years old $15,000 option isn't available"; return 0; }
+						else				  	{ $this->message = "Over 80 years old $15,000 option isn't available"; return 0; }
 						break;
 					case 25000:
 						if ($years <= 25) 		$rate = 2.27;
@@ -147,7 +170,7 @@ class Product_model extends CI_Model {
 						elseif ($years <= 74) 	$rate = 7.6;
 						elseif ($years <= 79) 	$rate = 8.96;
 						elseif ($years <= 85) 	$rate = 17.76;
-						else				  	return 0;
+						else				  	{ $this->message = "Over 85 years old must select without stable pre-existing condition coverage option"; return 0; }
 						break;
 					case 50000:
 						if ($years <= 25) 		$rate = 2.49;
@@ -158,7 +181,7 @@ class Product_model extends CI_Model {
 						elseif ($years <= 74) 	$rate = 8.35;
 						elseif ($years <= 79) 	$rate = 9.88;
 						elseif ($years <= 85) 	$rate = 19.58;
-						else				  	return 0;
+						else				  	{ $this->message = "Over 85 years old must select without stable pre-existing condition coverage option"; return 0; }
 						break;
 					case 100000:
 						if ($years <= 25) 		$rate = 3.59;
@@ -169,7 +192,7 @@ class Product_model extends CI_Model {
 						elseif ($years <= 74) 	$rate = 9.79;
 						elseif ($years <= 79) 	$rate = 11.59;
 						elseif ($years <= 85) 	$rate = 22.95;
-						else				  	return 0;
+						else				  	{ $this->message = "Over 85 years old must select without stable pre-existing condition coverage option"; return 0; }
 						break;
 					case 150000:
 						if ($years <= 25) 		$rate = 4.3;
@@ -179,8 +202,8 @@ class Product_model extends CI_Model {
 						elseif ($years <= 69) 	$rate = 7.4;
 						elseif ($years <= 74) 	$rate = 12.17;
 						elseif ($years <= 79) 	$rate = 14.41;
-						elseif ($years <= 85) 	return 0;
-						else				  	return 0;
+						elseif ($years <= 85) 	{ $this->message = "Over 80 years old $150,000 option isn't available"; return 0; }
+						else				  	{ $this->message = "Over 80 years old $150,000 option isn't available"; return 0; }
 						break;
 					default:
 						return 0;
@@ -190,35 +213,35 @@ class Product_model extends CI_Model {
 				// With stable pre-existing conditions coverage option
 				switch ($para['sum_insured']) {
 					case 10000:
-						if ($years <= 69) 		return 0;
+						if ($years <= 69) 		{ $this->message = "Under 70 years old must select with stable pre-existing condition coverage option"; return 0; }
 						elseif ($years <= 74) 	$rate = 3.82;
 						elseif ($years <= 79) 	$rate = 4.59;
 						elseif ($years <= 85) 	$rate = 6.23;
 						else				  	$rate = 9.57;
 						break;
 					case 15000:
-						if ($years <= 69) 		return 0;
+						if ($years <= 69) 		{ $this->message = "Under 70 years old must select with stable pre-existing condition coverage option"; return 0; }
 						elseif ($years <= 74) 	$rate = 4.99;
 						elseif ($years <= 79) 	$rate = 5.98;
 						elseif ($years <= 85) 	$rate = 7.88;
 						else				  	$rate = 12.37;
 						break;
 					case 25000:
-						if ($years <= 69) 		return 0;
+						if ($years <= 69) 		{ $this->message = "Under 70 years old must select with stable pre-existing condition coverage option"; return 0; }
 						elseif ($years <= 74) 	$rate = 5.99;
 						elseif ($years <= 79) 	$rate = 7.11;
 						elseif ($years <= 85) 	$rate = 9.69;
 						else				  	$rate = 14.9;
 						break;
 					case 50000:
-						if ($years <= 69) 		return 0;
+						if ($years <= 69) 		{ $this->message = "Under 70 years old must select with stable pre-existing condition coverage option"; return 0; }
 						elseif ($years <= 74) 	$rate = 6.59;
 						elseif ($years <= 79) 	$rate = 7.83;
 						elseif ($years <= 85) 	$rate = 10.43;
 						else				  	$rate = 16.4;
 						break;
 					case 100000:
-						if ($years <= 69) 		return 0;
+						if ($years <= 69) 		{ $this->message = "Under 70 years old must select with stable pre-existing condition coverage option"; return 0; }
 						elseif ($years <= 74) 	$rate = 8.12;
 						elseif ($years <= 79) 	$rate = 10.32;
 						elseif ($years <= 85) 	$rate = 13.94;
@@ -226,29 +249,33 @@ class Product_model extends CI_Model {
 						break;
 					case 150000:
 					default:
+						$this->message = "$150,000 option isn't available";
 						return 0;
 				}
 			}
 			$discount = 1;
-			switch ($para['deductible_amount']) {
-				case 100:
-					$discount = 0.95;
-					break;
-				case 1000:
-					$discount = 0.8;
-					break;
-				case 2500:
-					if ($para['sum_insured'] == 25000) {
+			if ($years <= 85) {
+				switch ($para['deductible_amount']) {
+					case 100:
+						$discount = 0.95;
+						break;
+					case 1000:
+						$discount = 0.8;
+						break;
+					case 2500:
+						if ($para['sum_insured'] == 25000) {
+							$discount = 0.7;
+						} else if ($para['sum_insured'] == 50000) {
+							$discount = 0.75;
+						} else {
+							$this->message = "$25,000 deductible amount isn't available";
+							return 0;
+						}
+						break;
+					case 3000:
 						$discount = 0.7;
-					} else if (($para['sum_insured'] == 50000) && ($years <= 85))	{
-						$discount = 0.75;
-					} else {
-						return 0;
-					}
-					break;
-				case 3000:
-					$discount = 0.7;
-					break;
+						break;
+				}
 			}
 			if ($para['isfamilyplan']) {
 				$rate *= 2;
@@ -267,7 +294,7 @@ class Product_model extends CI_Model {
 						elseif ($years <= 74) 	$rate = 4.85;
 						elseif ($years <= 79) 	$rate = 5.8;
 						elseif ($years <= 85) 	$rate = 11.48;
-						else				  	return 0;
+						else				  	{ $this->message = "Over 85 years old must select without stable pre-existing condition coverage option"; return 0; }
 						break;
 					case 15000:
 						if ($years <= 25) 		$rate = 2.04;
@@ -277,8 +304,8 @@ class Product_model extends CI_Model {
 						elseif ($years <= 69) 	$rate = 3.91;
 						elseif ($years <= 74) 	$rate = 6.32;
 						elseif ($years <= 79) 	$rate = 7.54;
-						elseif ($years <= 85) 	return 0;
-						else				  	return 0;
+						elseif ($years <= 85) 	{ $this->message = "Over 80 years old $15,000 option isn't available"; return 0; }
+						else				  	{ $this->message = "Over 80 years old $15,000 option isn't available"; return 0; }
 						break;
 					case 25000:
 						if ($years <= 25) 		$rate = 2.27;
@@ -289,7 +316,7 @@ class Product_model extends CI_Model {
 						elseif ($years <= 74) 	$rate = 7.6;
 						elseif ($years <= 79) 	$rate = 8.96;
 						elseif ($years <= 85) 	$rate = 17.76;
-						else				  	return 0;
+						else				  	{ $this->message = "Over 85 years old must select without stable pre-existing condition coverage option"; return 0; }
 						break;
 					case 50000:
 						if ($years <= 25) 		$rate = 2.49;
@@ -300,7 +327,7 @@ class Product_model extends CI_Model {
 						elseif ($years <= 74) 	$rate = 8.35;
 						elseif ($years <= 79) 	$rate = 9.88;
 						elseif ($years <= 85) 	$rate = 19.58;
-						else				  	return 0;
+						else				  	{ $this->message = "Over 85 years old must select without stable pre-existing condition coverage option"; return 0; }
 						break;
 					case 100000:
 						if ($years <= 25) 		$rate = 3.59;
@@ -311,7 +338,7 @@ class Product_model extends CI_Model {
 						elseif ($years <= 74) 	$rate = 9.79;
 						elseif ($years <= 79) 	$rate = 11.59;
 						elseif ($years <= 85) 	$rate = 22.95;
-						else				  	return 0;
+						else				  	{ $this->message = "Over 85 years old must select without stable pre-existing condition coverage option"; return 0; }
 						break;
 					case 150000:
 						if ($years <= 25) 		$rate = 4.3;
@@ -321,8 +348,8 @@ class Product_model extends CI_Model {
 						elseif ($years <= 69) 	$rate = 7.4;
 						elseif ($years <= 74) 	$rate = 12.17;
 						elseif ($years <= 79) 	$rate = 14.41;
-						elseif ($years <= 85) 	return 0;
-						else				  	return 0;
+						elseif ($years <= 85) 	{ $this->message = "Over 80 years old $150,000 option isn't available"; return 0; }
+						else				  	{ $this->message = "Over 80 years old $150,000 option isn't available"; return 0; }
 						break;
 					default:
 						return 0;
@@ -332,35 +359,35 @@ class Product_model extends CI_Model {
 				// With stable pre-existing conditions coverage option
 				switch ($para['sum_insured']) {
 					case 10000:
-						if ($years <= 69) 		return 0;
+						if ($years <= 69) 		{ $this->message = "Under 70 years old must select with stable pre-existing condition coverage option"; return 0; }
 						elseif ($years <= 74) 	$rate = 3.82;
 						elseif ($years <= 79) 	$rate = 4.59;
 						elseif ($years <= 85) 	$rate = 6.23;
 						else				  	$rate = 9.57;
 						break;
 					case 15000:
-						if ($years <= 69) 		return 0;
+						if ($years <= 69) 		{ $this->message = "Under 70 years old must select with stable pre-existing condition coverage option"; return 0; }
 						elseif ($years <= 74) 	$rate = 4.99;
 						elseif ($years <= 79) 	$rate = 5.98;
 						elseif ($years <= 85) 	$rate = 7.88;
 						else				  	$rate = 12.37;
 						break;
 					case 25000:
-						if ($years <= 69) 		return 0;
+						if ($years <= 69) 		{ $this->message = "Under 70 years old must select with stable pre-existing condition coverage option"; return 0; }
 						elseif ($years <= 74) 	$rate = 5.99;
 						elseif ($years <= 79) 	$rate = 7.11;
 						elseif ($years <= 85) 	$rate = 9.69;
 						else				  	$rate = 14.9;
 						break;
 					case 50000:
-						if ($years <= 69) 		return 0;
+						if ($years <= 69) 		{ $this->message = "Under 70 years old must select with stable pre-existing condition coverage option"; return 0; }
 						elseif ($years <= 74) 	$rate = 6.59;
 						elseif ($years <= 79) 	$rate = 7.83;
 						elseif ($years <= 85) 	$rate = 10.43;
 						else				  	$rate = 16.4;
 						break;
 					case 100000:
-						if ($years <= 69) 		return 0;
+						if ($years <= 69) 		{ $this->message = "Under 70 years old must select with stable pre-existing condition coverage option"; return 0; }
 						elseif ($years <= 74) 	$rate = 8.12;
 						elseif ($years <= 79) 	$rate = 10.32;
 						elseif ($years <= 85) 	$rate = 13.94;
@@ -368,29 +395,33 @@ class Product_model extends CI_Model {
 						break;
 					case 150000:
 					default:
+						$this->message = "$150,000 option isn't available";
 						return 0;
 				}
 			}
 			$discount = 1;
-			switch ($para['deductible_amount']) {
-				case 100:
-					$discount = 0.95;
-					break;
-				case 1000:
-					$discount = 0.8;
-					break;
-				case 2500:
-					if ($para['sum_insured'] == 25000) {
+			if ($years <= 85) {
+				switch ($para['deductible_amount']) {
+					case 100:
+						$discount = 0.95;
+						break;
+					case 1000:
+						$discount = 0.8;
+						break;
+					case 2500:
+						if ($para['sum_insured'] == 25000) {
+							$discount = 0.7;
+						} else if ($para['sum_insured'] == 50000)	{
+							$discount = 0.75;
+						} else {
+							$this->message = "$25,000 deductible amount isn't available";
+							return 0;
+						}
+						break;
+					case 3000:
 						$discount = 0.7;
-					} else if (($para['sum_insured'] == 50000) && ($years <= 85))	{
-						$discount = 0.75;
-					} else {
-						return 0;
-					}
-					break;
-				case 3000:
-					$discount = 0.7;
-					break;
+						break;
+				}
 			}
 			if ($para['isfamilyplan']) {
 				$rate *= 2;
@@ -398,7 +429,7 @@ class Product_model extends CI_Model {
 			$premium = $rate * $days * $discount;
 		} else if ($para['product_short'] == 'JUS') {
 			$number_customer = (int)$para['number_customer'] - 2;
-			if ($para['stable_condition'] == 1) {	// Here is Plus / Prefer
+			if ($para['rate_options'] != 2) {	// Here is Plus / Prefer
 				if ($years <= 24) 		$rate = 3.25;
 				elseif ($years <= 30) 	$rate = 4.65;
 				elseif ($years <= 40) 	$rate = 10.4;
@@ -424,7 +455,7 @@ class Product_model extends CI_Model {
 			$premium = $rate * $days;
 		} else if ($para['product_short'] == 'NUS') {
 			$number_customer = (int)$para['number_customer'] - 2;
-			if ($para['stable_condition'] == 1) {	// Here is Plus / Prefer
+			if ($para['rate_options'] != 2) {	// Here is Plus / Prefer
 				if ($years <= 24) 		$rate = 4.1;
 				elseif ($years <= 30) 	$rate = 5.82;
 				elseif ($years <= 40) 	$rate = 12;

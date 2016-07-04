@@ -40,6 +40,13 @@ class Plan extends MY_Controller {
 		$data['country2'] = $this->input->get_post('country2');
 
 		$data['product_list'] = $this->product_model->product_list();
+		$prod2 = array();
+		foreach($data['product_list'] as $key => $value) {
+			if ($value['calculate']) {
+				$prod2[$key] = $value;
+			}
+		}
+		$data['product_list_a'] = $prod2;
 		$data['status_list'] = $this->status_model->status_list();
 
 		if ($this->input->post('search')) {
@@ -477,6 +484,7 @@ class Plan extends MY_Controller {
 			$data['copy_url'] = '';
 			$data['pay_url'] = '';
 		}
+		
 		$data['premium_url'] = base_url ( "product/premium" );
 		$data['action_url'] = base_url ( "plan/form" );
 		$data['title_txt'] = 'Policy';
@@ -486,6 +494,20 @@ class Plan extends MY_Controller {
 				'name' => $this->security->get_csrf_token_name (),
 				'value' => $this->security->get_csrf_hash ()
 		);
+		
+		if ($plan['product_short'] == 'OPL') {
+			$data['insurable_options'] = $this->load->view('plan/form_opl', $data, TRUE);
+		} else if ($plan['product_short'] == 'JFR') {
+			$data['insurable_options'] = $this->load->view('plan/form_opl', $data, TRUE);
+		} else if ($plan['product_short'] == 'JUS') {
+			$data['insurable_options'] = $this->load->view('plan/form_jus', $data, TRUE);
+		} else if ($plan['product_short'] == 'NUS') {
+			$data['insurable_options'] = $this->load->view('plan/form_jus', $data, TRUE);
+		} else if ($plan['product_short'] == 'JES') {
+			$data['insurable_options'] = $this->load->view('plan/form_jes', $data, TRUE);
+		} else /* if ($plan['product_short'] == 'JFC') */ {
+			$data['insurable_options'] = $this->load->view('plan/form_jes', $data, TRUE);
+		}
 
 		//$this->load->common('plan/form', $data);
 		$this->load->common('plan/form', $data);
