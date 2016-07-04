@@ -71,7 +71,7 @@ class Menu_model extends CI_Model {
     		}
     	}
     	$menu = $meunArr[$group];
-    	if ($user['user_group_id'] < 5) {
+    	if ($user && ($user['user_group_id'] < 5)) {
 			if ($onbehalf) {
 				array_push($menu, $unbehalf);
 			} else {
