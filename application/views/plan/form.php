@@ -350,6 +350,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										<div class="input-group col-sm-12">
 											<input class="form-control" type='text' name='postcode' value='<?php echo $postcode; ?>'>
 										</div>
+										<?php if (!empty($error_postcode)) {?>
+										<div class="alert-error">
+											<?php echo $error_postcode; ?>
+										</div>
+										<?php } ?>
 									</div>
 								</div>
 								<div class="row">

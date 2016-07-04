@@ -142,8 +142,10 @@ class Plan extends MY_Controller {
 		$this->load->model('plan_model');
 
 		$this->error = array();
+	
 		if ($this->input->post('submit') && $this->form_valid()) {
 			$plan_id = $this->input->post('plan_id');
+		
 			if (empty($plan_id)) {
 				$plan_id = $this->plan_model->add($this->input->post());
 				if ($plan_id) {
@@ -188,6 +190,7 @@ class Plan extends MY_Controller {
 		} else {
 			$plan_id = 0;
 		}
+		
 		$data = $this->error;
 		
 		if ($this->input->post('plan_id')) {
