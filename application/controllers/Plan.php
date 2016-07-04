@@ -2,8 +2,8 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Plan extends MY_Controller {
-	private $merchentID = "XXXXXXXXXX";
-	private $apikey = "XXXXXX";
+	private $merchentID = "300203256";
+	private $apikey = "EA368D97B29E474DB7E02B02CA679523";
 	public $error;
 	
 	/**
