@@ -149,6 +149,7 @@ class Menu_model extends CI_Model {
 				array_push($menu, $behalf);
 			}
 		}
-    	return $menu;
+		$rarr = array('islogin' => $group, 'menu' => $menu);
+    	return $rarr;
 	}
 }

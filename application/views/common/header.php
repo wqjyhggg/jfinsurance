@@ -52,14 +52,16 @@
 		    <div class="collapse navbar-collapse" id="myNavbar">
 
 		    	<!-- Top Menu -->
-		    	<?php if (isset($top_menu) && is_array($top_menu)) { ?>
+		    	<?php if (isset($top_menu) && isset($top_menu['menu']) && is_array($top_menu['menu'])) { ?>
 					<ul class="nav navbar-nav">
-					<?php foreach ($top_menu as $tm) { ?>
+					<?php foreach ($top_menu['menu'] as $tm) { ?>
 					<li> <?php echo $tm; ?> </li>
 					<?php } ?>
 					</ul>
 				<?php } ?>
 		    	<!-- Top Menu End-->
+
+		    	<?php if (isset($top_menu) && !empty($top_menu['islogin'])){ ?>
 		    	<div class="col-sm-3 col-md-3 pull-right">
 		            <form class="navbar-form" >
 		                <div class="input-group" style="margin-bottom:0;">
@@ -70,6 +72,7 @@
 		                </div>
 		            </form>
 		        </div> 
+		        <?php } ?>
 		    </div>
 		  </div>
 		</nav>
