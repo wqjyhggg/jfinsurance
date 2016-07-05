@@ -281,6 +281,10 @@ class Product_model extends CI_Model {
 				$rate *= 2;
 			}
 			$premium = $rate * $days * $discount;
+			$message = "";
+			if ($years > 85) $message = "Over 85 years old must have $500 Deductible";
+
+			$rArr = array('premium' => $premium, 'rate' => $rate, 'years' => $years, 'days' => $days, 'message' => $message, 'sum_insured' => number_format($para['sum_insured'], 2, '.', ','), 'deductible_amount' => number_format($para['deductible_amount'], 2, '.', ','));
 		} else if ($para['product_short'] == 'JFR') {
 			if ($para['stable_condition'] == 1) {
 				// With stable pre-existing conditions coverage option
@@ -427,6 +431,10 @@ class Product_model extends CI_Model {
 				$rate *= 2;
 			}
 			$premium = $rate * $days * $discount;
+			$message = "";
+			if ($years > 85) $message = "Over 85 years old must have $500 Deductible";
+
+			$rArr = array('premium' => $premium, 'rate' => $rate, 'years' => $years, 'days' => $days, 'message' => $message, 'sum_insured' => number_format($para['sum_insured'], 2, '.', ','), 'deductible_amount' => number_format($para['deductible_amount'], 2, '.', ','));
 		} else if ($para['product_short'] == 'JUS') {
 			$number_customer = (int)$para['number_customer'] - 2;
 			if ($para['rate_options'] != 2) {	// Here is Plus / Prefer
@@ -434,7 +442,7 @@ class Product_model extends CI_Model {
 				elseif ($years <= 30) 	$rate = 4.65;
 				elseif ($years <= 40) 	$rate = 10.4;
 				else				  	$rate = 21.47;
-				if ($para['isfamilyplan']) {
+				if ($para['isfamilyplan'] && ($number_customer == 0)) {
 					$rate += 21.23;
 				}
 				if ($number_customer > 0) {
@@ -445,7 +453,7 @@ class Product_model extends CI_Model {
 				elseif ($years <= 30) 	$rate = 4.65;
 				elseif ($years <= 40) 	$rate = 10.4;
 				else				  	$rate = 21.47;
-				if ($para['isfamilyplan']) {
+				if ($para['isfamilyplan'] && ($number_customer == 0)) {
 					$rate += 24.79;
 				}
 				if ($number_customer > 0) {
@@ -453,6 +461,7 @@ class Product_model extends CI_Model {
 				}
 			}
 			$premium = $rate * $days;
+			$rArr = array('premium' => $premium, 'rate' => $rate, 'years' => $years, 'days' => $days, 'message' => "", 'sum_insured' => number_format($para['sum_insured'], 2, '.', ','), 'deductible_amount' => number_format($para['deductible_amount'], 2, '.', ','));
 		} else if ($para['product_short'] == 'NUS') {
 			$number_customer = (int)$para['number_customer'] - 2;
 			if ($para['rate_options'] != 2) {	// Here is Plus / Prefer
@@ -460,7 +469,7 @@ class Product_model extends CI_Model {
 				elseif ($years <= 30) 	$rate = 5.82;
 				elseif ($years <= 40) 	$rate = 12;
 				else				  	$rate = 24.66;
-				if ($para['isfamilyplan']) {
+				if ($para['isfamilyplan'] && ($number_customer == 0)) {
 					$rate += 24.71;
 				}
 				if ($number_customer > 0) {
@@ -471,7 +480,7 @@ class Product_model extends CI_Model {
 				elseif ($years <= 30) 	$rate = 6.62;
 				elseif ($years <= 40) 	$rate = 13.16;
 				else				  	$rate = 28.07;
-				if ($para['isfamilyplan']) {
+				if ($para['isfamilyplan'] && ($number_customer == 0)) {
 					$rate += 27.45;
 				}
 				if ($number_customer > 0) {
@@ -479,6 +488,7 @@ class Product_model extends CI_Model {
 				}
 			}
 			$premium = $rate * $days;
+			$rArr = array('premium' => $premium, 'rate' => $rate, 'years' => $years, 'days' => $days, 'message' => "", 'sum_insured' => number_format($para['sum_insured'], 2, '.', ','), 'deductible_amount' => number_format($para['deductible_amount'], 2, '.', ','));
 		} else if ($para['product_short'] == 'JES') {
 			$number_customer = (int)$para['number_customer'];
 			$rate = 1.6;
@@ -487,12 +497,14 @@ class Product_model extends CI_Model {
 			} else {
 				$premium = $rate * $days * $number_customer;
 			}
+			$rArr = array('premium' => $premium, 'rate' => $rate, 'years' => $years, 'days' => $days, 'message' => "", 'sum_insured' => number_format($para['sum_insured'], 2, '.', ','), 'deductible_amount' => number_format($para['deductible_amount'], 2, '.', ','));
 		} else if ($para['product_short'] == 'JFC') {
 			if ($years <= 3) 		return 0;
 			elseif ($years <= 59) 	$rate = 1.5;
 			else				  	return 0;
 			$premium = $rate * $days;
+			$rArr = array('premium' => $premium, 'rate' => $rate, 'years' => $years, 'days' => $days, 'message' => "", 'sum_insured' => number_format($para['sum_insured'], 2, '.', ','), 'deductible_amount' => number_format($para['deductible_amount'], 2, '.', ','));
 		}
-		return $premium; 
+		return $rArr; 
 	}
 }

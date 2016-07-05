@@ -463,8 +463,8 @@ class Plan extends MY_Controller {
 		if (!empty($data['sum_insured'])) $data['sum_insured_url'] .= "/" . $data['sum_insured']; 
 		$data['deductible_amount_url'] = base_url ( "product/deductible/" . $data['product_short'] );
 		if (!empty($data['deductible_amount'])) $data['deductible_amount_url'] .= "/" . $data['deductible_amount'];
-		$data['province_url'] = base_url ( "geo/province/" . $data['country2'] . "/" . $data['province2'] );
-		$data['country_url'] = base_url ( "geo/country/" . $data['country2'] );
+		$data['province_url'] = base_url ( "geo/province" );
+		$data['country_url'] = base_url ( "geo/country" );
 		if (!empty($data['country2'])) {
 			$data['province_url'] .= "/" . $data['country2'];
 			$data['country_url'] .= "/" . $data['country2'];
@@ -935,9 +935,9 @@ class Plan extends MY_Controller {
 		$para['stable_condition'] = $plan['stable_condition'];
 		$para['birthday'] = $this->customer_model->get_max_birthday($plan['customer_id'], $plan['isfamilyplan']);
 		$para['number_customer'] = $this->customer_model->get_number_customer($plan['customer_id'], $plan['isfamilyplan']);
-		$premium = $this->product_model->get_premium($para);
-		if ((float)$premium != (float)$plan['premium']) {
-			$para = array('premium' => $premium);
+		$premiumarr = $this->product_model->get_premium($para);
+		if (!empty($premiumarr) && !empty($premiumarr['premium']) && ((float)$premiumarr['premium'] != (float)$plan['premium'])) {
+			$para = array('premium' => $premiumarr['premium']);
 			$this->plan_model->update($plan['plan_id'], $para);
 			$plan = $this->plan_model->get_plan_by_id($plan['plan_id']);
 			$para = array(
@@ -949,6 +949,7 @@ class Plan extends MY_Controller {
 			);
 			$this->log_model->activity('plan', $para);
 		}
+		$data['premiumarr'] = $premiumarr;
 		$data['plan'] = $plan;
 		$data['customer'] = $this->customer_model->get_customer_by_id($plan['customer_id']);
 		$data['customers'] = $this->customer_model->get_customer_by_parent_id($plan['customer_id']);

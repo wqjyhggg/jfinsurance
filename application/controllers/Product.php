@@ -100,11 +100,12 @@ class Product extends MY_Controller {
 			'birthday' => $this->input->post_get('birthday'),
 			'number_customer' => $this->input->post_get('number_customer'));
 		
-		$premium = $this->product_model->get_premium($para);
-		if (empty($premium)) {
+		$premiumarr = $this->product_model->get_premium($para);
+		if (empty($premiumarr) || empty($premiumarr['premium'])) {
 			$data = array('status' => 'Error', 'message' => $this->product_model->get_message());
 		} else {
-			$data = array('status' => 'OK', 'premium' => number_format($premium, 2, '.', ','));
+			$premiumarr['premium'] = number_format($premiumarr['premium'], 2, '.', ',');
+			$data = array('status' => 'OK', 'premiumarr' => $premiumarr);
 		}
 		header('Content-Type: application/json');
 		echo json_encode($data);

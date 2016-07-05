@@ -357,18 +357,31 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<div class="col-sm-12">
 							<fieldset>
 								<legend>Special Note/Instructions</legend>
-								<?php if ($user_group_id <= 3) { ?>
 								<div class="row">
+									<div class="col-sm-3">
+										<label class="col-sm-12">Days: </label>
+										<div class="input-group col-sm-12">
+											<div id='days'></div>	
+										</div>
+									</div>
+									<div class="col-sm-3">
+										<label class="col-sm-12">Oldest Customer: </label>
+										<div class="input-group col-sm-12">
+											<div id='years'></div>	
+										</div>
+									</div>
 									<div class="col-sm-3">
 										<label class="col-sm-12">Premium: </label>
 										<div class="input-group col-sm-12">
+											<?php if ($user_group_id <= 3) { ?>
 											<input type='input' name='premium' id='premium' value='<?php echo $premium; ?>'>
+											<?php } else { ?>
+											<input class="form-control" type='hidden' name='premium' id='premium' value='<?php echo $premium; ?>'>	
+											<div id='premium'><?php echo $premium; ?></div>	
+											<?php } ?>
 										</div>
 									</div>
 								</div>
-								<?php } else { ?>
-									<input class="form-control" type='hidden' name='premium' id='premium' value='<?php echo $premium; ?>'>	
-								<?php } ?>
 								<div class="row">
 									<div class="col-sm-12">
 										<label class="col-sm-12">Notes: </label>
@@ -442,7 +455,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				});
 
 				function get_premium() {
-					console.log('get_premium'); //XXXXXXXXXXXXXXXXXXXXX
 					var product_short = $('input[name="product_short"]').val();
 					var apply_date = $('input[name="apply_date"]').val();
 					var effective_date = $('input[name="effective_date"]').val();
@@ -522,7 +534,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								birthday: birthday},
 							success: function(data, textStatus, jqXHR) {
 								if (data['status'] == 'OK') {
-					        		$('#premium').val(data['premium']);
+					        		$('input[name="premium"]').val(data['premiumarr']['premium']);
+									<?php if ($user_group_id > 3) { ?>
+									$('#premium').html(data['premiumarr']['premium']);
+									<?php } ?>
+									$('#years').html(data['premiumarr']['years']);
+									$('#days').html(data['premiumarr']['days']);
+									if (data['premiumarr']['message']) {
+										alert(data['premiumarr']['message']);
+									}
 								} else {
 									if (data['message']) {
 										alert(data['message']);
