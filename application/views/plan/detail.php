@@ -404,7 +404,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 							</div>
 							<div class="col-sm-4">
 								<?php if (isset($cheque_dis)) { ?>
-								<div id='cheque_div'><a class="btn btn-info col-sm-12">Pay By Check <i class="fa fa-chevron-down"></i></a></div>
+								<div id='cheque_div'><a class="btn btn-info col-sm-12">Pay By Cheque <i class="fa fa-chevron-down"></i></a></div>
 								<script type="text/javascript">
 								$(document).ready(function() {
 									$('#cheque_div').click(function() {
@@ -444,7 +444,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 									</div>
 									<div class="row">
 										<div class="col-sm-12">
-											<label class="col-sm-12">Checque No.:</label>
+											<label class="col-sm-12">Cheque No.:</label>
 											<div class="col-sm-12 input-group">
 												<input type='text' name='cheque_number' value='' class="form-control">
 											</div>

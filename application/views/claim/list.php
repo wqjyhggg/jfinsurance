@@ -37,14 +37,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                   </div>
                   <div class="x_content">
                    
-                    <form method="post" class="form-horizontal">
+                    <form method="get" class="form-horizontal" active='<?php echo $action_url; ?>'>
                       <!-- personal information search -->
                       <div class="row">
                         <!-- Last Name input box -->
                         <div class="form-group col-sm-3">
                           <label class="col-sm-12">Last Name:</label>
                           <div class="input-group col-sm-12">
-                              <input type="text" name="lastname" class="form-control"/>
+                              <input type="text" name="lastname" value='<?php echo $lastname; ?>' class="form-control"/>
                           </div>
                         </div>
                         <!-- Last Name input box end -->
@@ -52,7 +52,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <div class="form-group col-sm-3">
                           <label class="col-sm-12">First Name:</label>
                           <div class="input-group col-sm-12">
-                              <input type="text" name="firstname" class="form-control"/>
+                              <input type="text" name="firstname" value='<?php echo $firstname; ?>' class="form-control"/>
                           </div>
                         </div>
                         <!-- First Name input box end -->
@@ -61,7 +61,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <div class="form-group col-sm-3">
                           <label class="col-sm-12">Policy Number:</label>
                           <div class="input-group col-sm-12">
-                              <input type="text" name="policy_number" class="form-control"/>
+                              <input type="text" name="policy_number" value='<?php echo $policy_number; ?>' class="form-control"/>
                           </div>
                         </div>
                         <!-- Policy Number input box end -->
@@ -69,7 +69,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <div class="form-group col-sm-3">
                           <label class="col-sm-12">Claim Number:</label>
                           <div class="input-group col-sm-12">
-                              <input type="text" name="claim_number" class="form-control"/>
+                              <input type="text" name="claim_number" value='<?php echo $claim_number; ?>' class="form-control"/>
                           </div>
                         </div>
                         <!-- Claim Number input box end -->
@@ -82,9 +82,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <div class="form-group col-sm-3">
                           <label class="col-sm-12">Our Product:</label>
                               <select class="form-control" name='product_short'>
-                                <option>Choose option</option>
+                                <option value=''>Choose option</option>
                                 <?php foreach ($products as $p) {?>
-								                <option value='<?php echo $p['product_short']; ?>'><?php echo $p['full_name']; ?></option>
+								<option value='<?php echo $p['product_short']; ?>' <?php echo ($p['product_short'] == $product_short) ? "selected" : ""; ?>><?php echo $p['full_name']; ?></option>
                                 <?php } ?>
                               </select>
                         </div>
@@ -93,7 +93,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <div class="form-group col-sm-3">
                           <label class="col-sm-12">Cheque No.:</label>
                           <div class="input-group col-sm-12">
-                              <input type="text" name="cheque_number" class="form-control"/>
+                              <input type="text" name="cheque_number" value='<?php echo $cheque_number; ?>' class="form-control"/>
                           </div>
                         </div>
                         <!-- Cheque No. input box end -->
@@ -103,22 +103,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                           <!-- Claim Date from -->
                             <label for="claim_date_from" class="col-sm-12">Claim Date From</label>
                             <div class="input-group date form_date col-sm-12" data-date="" data-date-format="yyyy/mm/dd" data-link-field="claim_date_from" data-link-format="yyyy-mm-dd">
-                                <input class="form-control" size="16" type="text" name='claim_date' value="" readonly>
+                                <input class="form-control" size="16" type="text" name='claim_date' value="<?php echo $claim_date; ?>" readonly>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
-                            <input type="hidden" id="claim_date_from" value="" />
                             <!-- Claim Date from End-->
                         </div>    
                         <div class="form-group col-sm-3">    
                             <!-- Claim Date to -->
                             <label for="claim_date_to" class="col-sm-12">Claim Date To</label>
                             <div class="input-group date form_date col-sm-12" data-date="" data-date-format="yyyy/mm/dd" data-link-field="claim_date_to" data-link-format="yyyy-mm-dd">
-                                <input class="form-control" size="16" type="text" name='claim_date2' value="" readonly>
+                                <input class="form-control" size="16" type="text" name='claim_date2' value="<?php echo $claim_date2; ?>" readonly>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
-                            <input type="hidden" id="claim_date_to" value="" /><br/>
                             <!-- Claim Date to End -->
                         </div>
                         <!-- Claim Date End-->
@@ -172,7 +170,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <tr>
                               <td><a href="<?php echo $edit_url."/".$c['claim_id']?>">edit</a></td>
                               <td><?php echo $c['policy_number']; ?></td>
-                              <td><?php echo $c['cliaim_number']; ?></td>
+                              <td><?php echo $c['claim_number']; ?></td>
                               <td><?php echo $c['firstname']; ?></td>
                               <td><?php echo $c['lastname']; ?></td>
                               <td><?php echo $c['gender']; ?></td>

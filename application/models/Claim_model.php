@@ -15,23 +15,24 @@ class Claim_model extends CI_Model {
 	 * @return	array					user table search result
 	 */
 	public function search($para) {
-		if (isset($para['product_short'])) $this->db->where('product_short', $para['product_short']);
-		if (isset($para['claim_date2'])) {
-			if (isset($para['claim_date'])) {
+		if (!empty($para['product_short'])) $this->db->where('product_short', $para['product_short']);
+		if (!empty($para['claim_date2'])) {
+			if (!empty($para['claim_date'])) {
 				$this->db->where('claim_date >=', $para['claim_date']);
 				$this->db->where('claim_date <=', $para['claim_date2']);
 			}
 		} else {
-			if (isset($para['claim_date'])) {
+			if (!empty($para['claim_date'])) {
 				$this->db->where('claim_date', $para['claim_date']);
 			}
 		}
-		if (isset($para['policy_number'])) $this->db->like('policy_number', $para['policy_number']);
-		if (isset($para['claim_number'])) $this->db->like('claim_number', $para['claim_number']);
-		if (isset($para['lastname'])) $this->db->like('lastname', $para['lastname']);
-		if (isset($para['firstname'])) $this->db->like('firstname', $para['firstname']);
-		if (isset($para['cheque_number'])) $this->db->like('cheque_number', $para['cheque_number']);
-		return $this->db->get()->result_array();
+		if (!empty($para['policy_number'])) $this->db->like('policy_number', $para['policy_number']);
+		if (!empty($para['claim_number'])) $this->db->like('claim_number', $para['claim_number']);
+		if (!empty($para['lastname'])) $this->db->like('lastname', $para['lastname']);
+		if (!empty($para['firstname'])) $this->db->like('firstname', $para['firstname']);
+		if (!empty($para['cheque_number'])) $this->db->like('cheque_number', $para['cheque_number']);
+		$arr = $this->db->get('claim')->result_array();
+		return $arr;
 	}
 	
 	/**
@@ -42,7 +43,7 @@ class Claim_model extends CI_Model {
 	 */
 	public function get_claim_by_id($claim_id) {
 		$this->db->where('claim_id', $claim_id);
-		return $this->db->get()->row_array();
+		return $this->db->get('claim')->row_array();
 	}
 	
 	/**
@@ -52,7 +53,7 @@ class Claim_model extends CI_Model {
 	 * @return	array					user table search result
 	 */
 	public function add($para) {
-		$this->db->insert($para);
+		$this->db->insert('claim', $para);
 		$this->sqlstr = $this->db->last_query();
 		$claim_id = $this->db->insert_id();
 		$this->logstr = "Add claim record (" . $claim_id . ") : " . join(',', $para);
@@ -67,10 +68,77 @@ class Claim_model extends CI_Model {
 	 * @return	array					user table search result
 	 */
 	public function update($claim_id, $para) {
-		$this->db->insert($para);
-		$this->sqlstr = $this->db->last_query();
-		$claim_id = $this->db->insert_id();
-		$this->logstr = "Add claim record (" . $claim_id . ") : " . join(',', $para);
+		$claim = $this->get_claim_by_id($claim_id);
+		if ($claim) {
+			if (isset($para['plan_id']) && ($para['plan_id'] != $claim['plan_id'])) {
+				$this->logstr .= " plan_id " . $para['plan_id'] . "(" . $claim['plan_id'] . ")";
+			}
+			if (isset($para['user_id']) && ($para['user_id'] != $claim['user_id'])) {
+				$this->logstr .= " user_id " . $para['user_id'] . "(" . $claim['user_id'] . ")";
+			}
+			if (isset($para['customer_id']) && ($para['customer_id'] != $claim['customer_id'])) {
+				$this->logstr .= " customer_id " . $para['customer_id'] . "(" . $claim['customer_id'] . ")";
+			}
+			if (isset($para['done']) && ($para['done'] != $claim['done'])) {
+				$this->logstr .= " done " . $para['done'] . "(" . $claim['done'] . ")";
+			}
+			if (isset($para['product_short']) && ($para['product_short'] != $claim['product_short'])) {
+				$this->logstr .= " product_short " . $para['product_short'] . "(" . $claim['product_short'] . ")";
+			}
+			if (isset($para['policy_number']) && ($para['policy_number'] != $claim['policy_number'])) {
+				$this->logstr .= " policy_number " . $para['policy_number'] . "(" . $claim['policy_number'] . ")";
+			}
+			if (isset($para['cliaim_number']) && ($para['cliaim_number'] != $claim['cliaim_number'])) {
+				$this->logstr .= " cliaim_number " . $para['cliaim_number'] . "(" . $claim['cliaim_number'] . ")";
+			}
+			if (isset($para['lastname']) && ($para['lastname'] != $claim['lastname'])) {
+				$this->logstr .= " lastname " . $para['lastname'] . "(" . $claim['lastname'] . ")";
+			}
+			if (isset($para['firstname']) && ($para['firstname'] != $claim['firstname'])) {
+				$this->logstr .= " firstname " . $para['firstname'] . "(" . $claim['firstname'] . ")";
+			}
+			if (isset($para['birthday']) && ($para['birthday'] != $claim['birthday'])) {
+				$this->logstr .= " birthday " . $para['birthday'] . "(" . $claim['birthday'] . ")";
+			}
+			if (isset($para['gender']) && ($para['gender'] != $claim['gender'])) {
+				$this->logstr .= " gender " . $para['gender'] . "(" . $claim['gender'] . ")";
+			}
+			if (isset($para['claim_date']) && ($para['claim_date'] != $claim['claim_date'])) {
+				$this->logstr .= " claim_date " . $para['claim_date'] . "(" . $claim['claim_date'] . ")";
+			}
+			if (isset($para['claimed']) && ($para['claimed'] != $claim['claimed'])) {
+				$this->logstr .= " claimed " . $para['claimed'] . "(" . $claim['claimed'] . ")";
+			}
+			if (isset($para['paid']) && ($para['paid'] != $claim['paid'])) {
+				$this->logstr .= " paid " . $para['paid'] . "(" . $claim['paid'] . ")";
+			}
+			if (isset($para['pay_to']) && ($para['pay_to'] != $claim['pay_to'])) {
+				$this->logstr .= " pay_to " . $para['pay_to'] . "(" . $claim['pay_to'] . ")";
+			}
+			if (isset($para['cheque_number']) && ($para['cheque_number'] != $claim['cheque_number'])) {
+				$this->logstr .= " cheque_number " . $para['cheque_number'] . "(" . $claim['cheque_number'] . ")";
+			}
+			if (isset($para['coverage_code_id']) && ($para['coverage_code_id'] != $claim['coverage_code_id'])) {
+				$this->logstr .= " coverage_code_id " . $para['coverage_code_id'] . "(" . $claim['coverage_code_id'] . ")";
+			}
+			if (isset($para['service_date']) && ($para['service_date'] != $claim['service_date'])) {
+				$this->logstr .= " service_date " . $para['service_date'] . "(" . $claim['service_date'] . ")";
+			}
+			if (isset($para['diagnosis']) && ($para['diagnosis'] != $claim['diagnosis'])) {
+				$this->logstr .= " diagnosis " . $para['diagnosis'] . "(" . $claim['diagnosis'] . ")";
+			}
+			if (isset($para['memo']) && ($para['memo'] != $claim['memo'])) {
+				$this->logstr .= " memo " . $para['memo'] . "(" . $claim['memo'] . ")";
+			}
+			if (isset($para['decline_reason']) && ($para['decline_reason'] != $claim['decline_reason'])) {
+				$this->logstr .= " decline_reason " . $para['decline_reason'] . "(" . $claim['decline_reason'] . ")";
+			}
+
+			$this->db->where('claim_id', $claim_id);
+			$this->db->update($para);
+			$this->sqlstr = $this->db->last_query();
+			$this->logstr = "Update claim record (" . $claim_id . ") : " . join(',', $para);
+		}
 		return $claim_id;
 	}
 }

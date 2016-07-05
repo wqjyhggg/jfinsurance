@@ -118,7 +118,8 @@ class Customer_model extends CI_Model {
 				$this->logstr .= " birthday " . $para['birthday'] . "(" . $customer['birthday'] . ")";
 			}
 			if ($this->logstr != "") {
-				$id = $this->db->insert_id();
+				$this->db->where('customer_id', $customer_id);
+				$this->db->update('customer', $para);
 				$this->sqlstr = $this->db->last_query();
 				return $id;
 			}
