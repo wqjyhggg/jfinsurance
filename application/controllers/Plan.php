@@ -500,15 +500,15 @@ class Plan extends MY_Controller {
 				'value' => $this->security->get_csrf_hash ()
 		);
 		
-		if ($plan['product_short'] == 'OPL') {
+		if ($data['product_short'] == 'OPL') {
 			$data['insurable_options'] = $this->load->view('plan/form_opl', $data, TRUE);
-		} else if ($plan['product_short'] == 'JFR') {
+		} else if ($data['product_short'] == 'JFR') {
 			$data['insurable_options'] = $this->load->view('plan/form_opl', $data, TRUE);
-		} else if ($plan['product_short'] == 'JUS') {
+		} else if ($data['product_short'] == 'JUS') {
 			$data['insurable_options'] = $this->load->view('plan/form_jus', $data, TRUE);
-		} else if ($plan['product_short'] == 'NUS') {
+		} else if ($data['product_short'] == 'NUS') {
 			$data['insurable_options'] = $this->load->view('plan/form_jus', $data, TRUE);
-		} else if ($plan['product_short'] == 'JES') {
+		} else if ($data['product_short'] == 'JES') {
 			$data['insurable_options'] = $this->load->view('plan/form_jes', $data, TRUE);
 		} else /* if ($plan['product_short'] == 'JFC') */ {
 			$data['insurable_options'] = $this->load->view('plan/form_jes', $data, TRUE);
