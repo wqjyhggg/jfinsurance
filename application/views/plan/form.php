@@ -180,13 +180,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										</div>
 										<?php } ?>
 									</div>
-									<div class="col-sm-3">
+									<div class="col-sm-1">
 										<label class="col-sm-12">Gender: </label>
 										<div class="col-sm-12">
 											<select name='gender' class="form-control">
 											<option value='M' <?php echo (empty($gender) || ($gender != 'F')) ? "selected" : ""; ?>>Male</option>
 											<option value='F' <?php echo (!empty($gender) && ($gender == 'F')) ? "selected" : ""; ?>>Female</option>
 											</select>
+										</div>
+									</div>
+									<div class="col-sm-2">
+										<label class="col-sm-12">&nbsp;</label>
+										<div class="col-sm-12">
+											<?php if (($status_id >= 2) && !empty($customer_id)) {?>
+											<a href='<?php echo $claimurl . $customer_id; ?>'>Claim</a>
+											<?php } ?>
 										</div>
 									</div>
 								</div>	
@@ -216,16 +224,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					                        <input size="16" type="text" class='setpremium form-control' name='birthday_<?php echo $i; ?>' value='<?php echo !empty(${'birthday_'.$i}) ? ${'birthday_'.$i} : ''; ?>' readonly>
 					                        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
 					                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-					                       
-					                    </div>
+					                        </div>
 										</div>
-										<div class="col-sm-3">
+										<div class="col-sm-1">
 											<label class="col-sm-12">Gender: </label>
 											<div class="col-sm-12">
 												<select name='gender_<?php echo $i; ?>' class="form-control">
 												<option value='M' <?php echo (empty(${'gender_'.$i}) || (${'gender_'.$i} != 'F')) ? "selected" : ""; ?>>Male</option>
 												<option value='F' <?php echo (!empty(${'gender_'.$i}) && (${'gender_'.$i} == 'F')) ? "selected" : ""; ?>>Female</option>
 												</select>
+											</div>
+										</div>
+										<div class="col-sm-2">
+											<label class="col-sm-12">&nbsp;</label>
+											<div class="col-sm-12">
+												<?php if (($status_id >= 2) && !empty(${'customer_id_'.$i})) {?>
+												<a href='<?php echo $claimurl . ${'customer_id_'.$i}; ?>'>Claim</a>
+												<?php } ?>
 											</div>
 										</div>
 									</div>

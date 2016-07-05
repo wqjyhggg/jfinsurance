@@ -492,6 +492,7 @@ class Plan extends MY_Controller {
 		
 		$data['premium_url'] = base_url ( "product/premium" );
 		$data['action_url'] = base_url ( "plan/form" );
+		$data['claimurl'] = base_url ( "claim/add" ) . "/";
 		$data['title_txt'] = 'Policy';
 		$data['top_menu'] = $this->menu_model->load_top_menu();
 		$data['menu'] = $this->menu_model->load_meun();
