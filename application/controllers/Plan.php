@@ -3,7 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Plan extends MY_Controller {
 	private $merchentID = "300203256";
-	private $apikey = "EA368D97B29E474DB7E02B02CA679523";
+	private $apikey = "634E4AFd7Eda4dcEaA2976207A7C92bb";
 	public $error;
 	
 	/**
@@ -447,7 +447,12 @@ class Plan extends MY_Controller {
 		} else {
 			$data['note'] = '';
 		}
-
+		if (isset($plan['policy'])) {
+			$data['policy'] = $plan['policy'];
+		} else {
+			$data['policy'] = '';
+		}
+		
 		$data['show_history'] = 0;
 		if (empty($data['plan_id'])) {
 			$data['submit'] = 'Add New Policy';
@@ -584,22 +589,22 @@ class Plan extends MY_Controller {
 		$plan_id = $this->input->post('plan_id');
 		$premium = $this->input->post('premium');
 		
-		if (empty( $this->request->post ['card_number'] ) ) {
+		if (empty( $this->input->post('card_number') ) ) {
 			$this->error = 'Please input Card Number';
-		} else if (empty( $this->request->post ['card_name'] ) ) {
+		} else if (empty( $this->input->post('card_name') ) ) {
 			$this->error = 'Please input Card Name';
-		} else if (empty( $this->request->post ['expiry_month'] ) ) {
+		} else if (empty( $this->input->post('expiry_month') ) ) {
 			$this->error = 'Please select Expiry Month';
-		} else if (empty( $this->request->post ['expiry_year'] ) ) {
+		} else if (empty( $this->input->post('expiry_year') ) ) {
 			$this->error = 'Please select Expiry Year';
-		} else if (empty( $this->request->post ['card_cvv'] ) ) {
+		} else if (empty( $this->input->post('card_cvv') ) ) {
 			$this->error = 'Please Card CVV';
 		} else {
-			$card_number = $this->request->post ['card_number'];
-			$card_name = $this->request->post ['card_name'];
-			$expiry_month = $this->request->post ['expiry_month'];
-			$expiry_year = $this->request->post ['expiry_year'];
-			$card_cvv = $this->request->post ['card_cvv'];
+			$card_number = $this->input->post('card_number');
+			$card_name = $this->input->post('card_name');
+			$expiry_month = $this->input->post('expiry_month');
+			$expiry_year = $this->input->post('expiry_year');
+			$card_cvv = $this->input->post('card_cvv');
 
 			$plan = $this->plan_model->get_plan_by_id($plan_id);
 			if ($plan['status_id'] != 2) {
@@ -614,7 +619,6 @@ class Plan extends MY_Controller {
 				$dt['last4'] = substr($card_number, -4);
 				$dt['expiry_month'] = $expiry_month;
 				$dt['expiry_year'] = $expiry_year;
-				$dt['expiry_year'] = $expiry_year;
 				$dt['ispaid'] = 0;
 				$payment_id = $this->trans_model->add($dt);
 				$para = array(
@@ -625,6 +629,8 @@ class Plan extends MY_Controller {
 						'systemlog' => $this->trans_model->sqlstr
 				);
 				$this->log_model->activity('payment', $para);
+				
+				$payinfo = "Credit Card: " . substr($card_number, 0, 5) . "xxx" . substr($card_number, -4) . " " . $card_name .  " " . $expiry_month . "/" . $expiry_year;
 				
 				$para = array('payinfo' => $payinfo, 'status_id' => 2, 'policy' => $this->plan_model->get_policy_number($plan_id, 2));
 				$this->plan_model->update($plan_id, $para);
@@ -666,6 +672,8 @@ class Plan extends MY_Controller {
 					$payment_id = $payment['payment_id'];
 				}
 				
+				$payinfo = "Credit Card: " . substr($card_number, 0, 5) . "xxx" . substr($card_number, -4) . " " . $card_name .  " " . $expiry_month . "/" . $expiry_year;
+				
 				$para = array('payinfo' => $payinfo, 'status_id' => 2);
 				$this->plan_model->update($plan_id, $para);
 				$para = array(
@@ -692,6 +700,7 @@ class Plan extends MY_Controller {
 					) 
 			);
 			try {
+				echo "ID: [".$this->merchentID."][".$this->apikey."]";
 				$result = $beanstream->payments ()->makeCardPayment ( $payment_data, TRUE ); // set to FALSE for Pre-Auth
 				if (isset($result['approved'])) {
 					$dt['ispaid'] = 1;
@@ -749,6 +758,7 @@ class Plan extends MY_Controller {
 	private function cash() {
 		$this->load->model('plan_model');
 		$this->load->model('product_model');
+		$this->load->model('trans_model');
 		
 		$plan_id = $this->input->post('plan_id');
 		$premium = $this->input->post('premium');
@@ -888,15 +898,19 @@ class Plan extends MY_Controller {
 
 	function detail($plan_id=0, $sekey='') {
 		$this->error = '';
+		$defaultpay_type = '';
 		if ($play_type = $this->input->post('play_type')) {
 			$plan_id = $this->input->post('plan_id');
 			$sekey = $this->input->post('sekey');
 			if ($play_type == 'Credit Card') {
 				$this->credit_card();
+				$defaultpay_type = 'Credit Card';
 			} else if ($play_type == 'Cash') {
 				$this->cash();
+				$defaultpay_type = 'Cash';
 			} else if ($play_type == 'Cheque') {
 				$this->cheque();
+				$defaultpay_type = 'Cheque';
 			}
 		}
 		if (empty($plan_id)) {
@@ -907,6 +921,7 @@ class Plan extends MY_Controller {
 		$this->load->model('plan_model');
 		$this->load->model('product_model');
 		$this->load->model('paytype_model');
+		$this->load->model('status_model');
 		$plan = $this->plan_model->get_plan_by_id($plan_id);
 		if (empty($plan)) {
 			redirect('user/login');
@@ -921,11 +936,10 @@ class Plan extends MY_Controller {
 			}
 		}
 		
-		$data['errorms'] = $beuser;
+		$data['errormsg'] = $this->error;
+		$data['defaultpay_type'] = $defaultpay_type;
 		$data['beuser'] = $beuser;
 		$data['sekey'] = $sekey;
-		$data['customer'] = $this->customer_model->get_customer_by_id($plan['customer_id']);
-		$data['customers'] = $this->customer_model->get_customer_by_parent_id($plan['customer_id']);
 		$data['apply_date'] = date('Y-m-d');
 		
 		$para = array();
@@ -965,22 +979,38 @@ class Plan extends MY_Controller {
 		}
 		$data['payurl'] = base_url('plan/detail/' . $plan_id . '/' . $this->plan_model->get_plan_key($plan_id));
 		$data['active_url'] = current_url();
+		$data['pdf_url'] = base_url('plan/pdf') . "/";
+		$data['status_list'] = $this->status_model->status_list();
 		if ($plan['status_id'] <= 2) {
 			$display = 1;
-			if (in_array('Credit Card', $data['paytype_list'])) {
-				$data['credit_dis'] = $display;
-				$data['pay_type'] = 'Credit Card';
-				$display = 0;
-			}
-			if (in_array('Cheque', $data['paytype_list'])) {
-				$data['cheque_dis'] = $display;
-				$data['pay_type'] = 'Cheque';
-				$display = 0;
-			}
-			if (in_array('Cash', $data['paytype_list'])) {
-				$data['cash_dis'] = $display;
-				$data['pay_type'] = 'Cash';
-				$display = 0;
+			if (empty($data['defaultpay_type'])) {
+				if (in_array('Credit Card', $data['paytype_list'])) {
+					$data['credit_dis'] = $display;
+					$data['pay_type'] = 'Credit Card';
+					$display = 0;
+				}
+				if (in_array('Cheque', $data['paytype_list'])) {
+					$data['cheque_dis'] = $display;
+					$data['pay_type'] = 'Cheque';
+					$display = 0;
+				}
+				if (in_array('Cash', $data['paytype_list'])) {
+					$data['cash_dis'] = $display;
+					$data['pay_type'] = 'Cash';
+					$display = 0;
+				}
+			} else {
+				$data['credit_dis'] = 0;
+				$data['cheque_dis'] = 0;
+				$data['cash_dis'] = 0;
+				$data['pay_type'] = $data['defaultpay_type'];
+				if ($data['pay_type'] == 'Credit Card') {
+					$data['credit_dis'] = 1;
+				} else if ($data['pay_type'] == 'Cheque') {
+					$data['cheque_dis'] = 1;
+				} else /* if ($data['pay_type'] == 'Cash') */ {
+					$data['cash_dis'] = 1;
+				}
 			}
 		}
 		
@@ -995,7 +1025,35 @@ class Plan extends MY_Controller {
 		$this->load->common('plan/detail', $data);
 	}
 
-	function copy($plan_id) {
+	public function pdf($plan_id)
+	{
+		$beuser = $this->func_model->verify_login();
+		$this->load->model('customer_model');
+		$this->load->model('plan_model');
+		$this->load->model('product_model');
+		$this->load->model('paytype_model');
+		$this->load->model('status_model');
+		$plan = $this->plan_model->get_plan_by_id($plan_id);
+		if (empty($plan)) {
+			redirect('user/login');
+		}
+		
+		$data['beuser'] = $beuser;
+		$data['plan'] = $plan;
+		$data['customer'] = $this->customer_model->get_customer_by_id($plan['customer_id']);
+		$data['customers'] = $this->customer_model->get_customer_by_parent_id($plan['customer_id']);
+		$data['paytype_list'] = $this->paytype_model->paytype_list();
+		$data['status_list'] = $this->status_model->status_list();
+		
+		$data['title_txt'] = 'Policy';
+
+		$mpdf = new mPDF('c');
+		$html = $this->load->view('plan/pdf', $data, TRUE);
+		$mpdf->writeHTML($html);
+		$mpdf->Output();
+	}
+	
+	public function copy($plan_id) {
 		$this->load->model('plan_model');
 		$plan = $this->plan_model->get_plan_by_id($plan_id);
 		if ($plan) {
@@ -1010,7 +1068,7 @@ class Plan extends MY_Controller {
 		$this->form($plan);
 	}
 
-	function edit($plan_id=0) {
+	public function edit($plan_id=0) {
 		$this->load->model('plan_model');
 		$plan = $this->plan_model->get_plan_by_id($plan_id);
 		$this->form($plan);

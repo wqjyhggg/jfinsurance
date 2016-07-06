@@ -39,7 +39,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                   <div class="x_content">
                   	<div class="row">
                   		<div class="col-sm-12">
-                  			<label>OPL </label>
+                  			<label>JF Optimum Plus</label>
+                  		</div>
+                  		<div class="col-sm-12">
+                  			<a class="d_brochure" target="_blank" href="<?php echo $downloads_url. 'JF_Elite_Plus_Benefit_Summary.pdf' ;?>">Brochure</a>
+                  			<a class="d_benifit" target="_blank" href="">Benefit Summary</a>
+                  			<a class="d_claimf" target="_blank" href="">Claim Form</a>
+                  			<a class="d_claimp" target="_blank" href="">Claim Procedure</a>
+                  			<a class="d_consent" target="_blank" href="">Consent Form</a>
+                  			<a class="d_policy" target="_blank" href="">Policy</a>
                   		</div>
                   	</div>
                     

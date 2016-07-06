@@ -9,7 +9,7 @@ class Downloads extends MY_Controller {
 	public function index()
 	{
 		$data['title_txt'] = 'Downloads';
-
+		$data['downloads_url'] = base_url('pdf/download') . "/";
 		$data['top_menu'] = $this->menu_model->load_top_menu();
 		$data['menu'] = $this->menu_model->load_meun();
 

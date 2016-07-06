@@ -229,7 +229,7 @@ class User extends MY_Controller {
 		$this->data['date_added'] = '';
 		$this->data['note'] = '';
 
-		$product_list = $this->product_model->product_list();
+		$product_list = $this->product_model->product_list(1);
 		$plist = array();
 		foreach ($product_list as $p) {
 			$p['checked'] = '';
@@ -271,7 +271,7 @@ class User extends MY_Controller {
 				}
 				$this->data['product_list'][$k]['commission'] = $this->input->post('product_commission_'.$k);
 			}
-			$pt = '';
+			$pt = ' ';
 			foreach ($this->data['paytype_list'] as $k => $p) {
 				if (isset($_POST['paytype_list']) && in_array($p, $_POST['paytype_list'])) {
 					$pt .= "," . $p;
@@ -288,7 +288,7 @@ class User extends MY_Controller {
 				foreach($user_product_list as $up) {
 					if ($p['product_short'] == $up['product_short']) {
 						$p['checked'] = 'checked';
-						$p['commission'] = 'commission';
+						$p['commission'] = $up['commission'];
 					}
 				}
 				$this->data['product_list'][$k] = $p;
