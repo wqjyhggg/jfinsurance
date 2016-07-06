@@ -511,28 +511,28 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					}
 					var birthday = $('input[name="birthday"]').val();	// 
 					var number_customer = 0;
-					if (new Date(birthday) < new Date($('input[name="birthday_1"]').val())) {
+					if (new Date(birthday) > new Date($('input[name="birthday_1"]').val())) {
 						birthday = $('input[name="birthday_1"]').val();
 					} 
-					if (new Date(birthday) < new Date($('input[name="birthday_2"]').val())) {
+					if (new Date(birthday) > new Date($('input[name="birthday_2"]').val())) {
 						birthday = $('input[name="birthday_2"]').val();
 					} 
-					if (new Date(birthday) < new Date($('input[name="birthday_3"]').val())) {
+					if (new Date(birthday) > new Date($('input[name="birthday_3"]').val())) {
 						birthday = $('input[name="birthday_3"]').val();
 					} 
-					if (new Date(birthday) < new Date($('input[name="birthday_4"]').val())) {
+					if (new Date(birthday) > new Date($('input[name="birthday_4"]').val())) {
 						birthday = $('input[name="birthday_4"]').val();
 					} 
-					if (new Date(birthday) < new Date($('input[name="birthday_5"]').val())) {
+					if (new Date(birthday) > new Date($('input[name="birthday_5"]').val())) {
 						birthday = $('input[name="birthday_5"]').val();
 					} 
-					if (new Date(birthday) < new Date($('input[name="birthday_6"]').val())) {
+					if (new Date(birthday) > new Date($('input[name="birthday_6"]').val())) {
 						birthday = $('input[name="birthday_6"]').val();
 					} 
-					if (new Date(birthday) < new Date($('input[name="birthday_7"]').val())) {
+					if (new Date(birthday) > new Date($('input[name="birthday_7"]').val())) {
 						birthday = $('input[name="birthday_7"]').val();
 					} 
-					if (new Date(birthday) < new Date($('input[name="birthday_8"]').val())) {
+					if (new Date(birthday) > new Date($('input[name="birthday_8"]').val())) {
 						birthday = $('input[name="birthday_8"]').val();
 					}
 					

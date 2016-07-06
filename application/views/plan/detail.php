@@ -230,8 +230,10 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 						</div><!-- end p-detail --><br />
 						<div class="row">
 								<div class="col-sm-12">
+
 								<a class="btn btn-info pull-right" href='<?php echo $pdf_url . $plan['plan_id']; ?>'>Export PDF</a>
-								<?php if (($plan['status_id'] == 2) && empty($defaultpay_type)) { ?>						
+								<?php if (($plan['status_id'] <= 2) && empty($defaultpay_type)) { ?>						
+
 									<button class="btn btn-primary pull-right" data-toggle="collapse" data-target="#payment-div">Comfirm and Pay</button>		
 								<?php } ?>
 								</div>
@@ -241,7 +243,9 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 			</div>
 		</div>
 		<!-- End Form -->
-		<?php if (($plan['status_id'] == 2) && empty($defaultpay_type)) { ?>						
+
+	<?php if (($plan['status_id'] <= 2) && empty($defaultpay_type)) { ?>
+
 		<!-- Payment -->
 		<div class="row <?php if (empty($defaultpay_type)) { ?>collapse<?php } ?>" id="payment-div" style="padding-bottom:30px;">
 			<div class="col-md-12 col-sm-12 col-xs-12">
