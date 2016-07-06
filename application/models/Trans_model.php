@@ -58,6 +58,9 @@ class Trans_model extends CI_Model {
 		if (isset($para['pay_type'])) {
 			$para['pay_type'] = $this->pay_type($para['pay_type']);
 		}
+		if ($beuser = $this->session->userdata ( 'beuser' )) {
+			$para['user_id'] = $beuser['user_id'];
+		}
 		$this->logstr = '';
 		$this->db->insert('payment', $para);
 		$payment_id = $this->db->insert_id();
