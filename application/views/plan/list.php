@@ -97,7 +97,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			                        <div class="form-group col-sm-4">
 			                        	<label class="col-sm-12">&nbsp;</label>
 			                        	<input class="btn btn-primary" type='submit' name='search' value='Search'>
-			                        	<input type="button" class="btn btn-info" data-toggle="collapse" data-target="#adv-search" name='search' value='Advance Search'>
+			                        	<input type="button" class="btn btn-info" data-toggle="collapse" data-target="#adv-search" name='search' value='More Filter'>
 			                        </div>	
                     			</div>
 
