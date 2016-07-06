@@ -25,7 +25,7 @@ class Pdf extends MY_Controller {
 				$data['filelist'][] = $file;
 			}
 		}
-		$data['title_txt'] = 'Download Files';
+		$data['title_txt'] = 'Manage Download Files';
 		$data['upload_url'] = base_url('pdf/upload');
 		$data ['csrf'] = array (
 				'name' => $this->security->get_csrf_token_name (),

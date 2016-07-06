@@ -31,7 +31,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 				<div class="x_panel">
 					<div class="x_title">
 						<h2>
-							Policy Detail<small></small>
+							Review Policy Detail<small></small>
 						</h2>
 						<div class="clearfix"></div>
 					</div>

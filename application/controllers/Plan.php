@@ -481,7 +481,7 @@ class Plan extends MY_Controller {
 		if ((int)$data['plan_id'] > 0) {
 			$data['copy_url'] = base_url ( "plan/copy/" . (int)$data['plan_id'] );
 			if ((int)$data['status_id'] == 1) {
-				$data['pay_url'] = base_url ( "plan/pay/" . (int)$data['plan_id'] );
+				$data['pay_url'] = base_url ( "plan/term/" . (int)$data['plan_id'] );
 			} else {
 				$data['pay_url'] = '';
 			}

@@ -11,8 +11,8 @@ class Downloads extends MY_Controller {
 		$data['title_txt'] = 'Downloads';
 
 		$data['top_menu'] = $this->menu_model->load_top_menu();
-		//$data['menu'] = $this->menu_model->load_meun();
+		$data['menu'] = $this->menu_model->load_meun();
 
-		$this->load->common('about_us', $data);
+		$this->load->common('downloads', $data);
 	}
 }
