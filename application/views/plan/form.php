@@ -180,23 +180,28 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										</div>
 										<?php } ?>
 									</div>
-									<div class="col-sm-1">
-										<label class="col-sm-12">Gender: </label>
-										<div class="col-sm-12">
-											<select name='gender' class="form-control">
-											<option value='M' <?php echo (empty($gender) || ($gender != 'F')) ? "selected" : ""; ?>>Male</option>
-											<option value='F' <?php echo (!empty($gender) && ($gender == 'F')) ? "selected" : ""; ?>>Female</option>
-											</select>
+									<div class="col-sm-3">
+										<div class="row">
+											<div class="col-sm-6">
+												<label class="col-sm-12">Gender: </label>
+												<div class="col-sm-12">
+													<select name='gender' class="form-control" style="padding:6px 2px;">
+													<option value='M' <?php echo (empty($gender) || ($gender != 'F')) ? "selected" : ""; ?>>Male</option>
+													<option value='F' <?php echo (!empty($gender) && ($gender == 'F')) ? "selected" : ""; ?>>Female</option>
+													</select>
+												</div>
+											</div>
+											<div class="col-sm-6">
+												<label class="col-sm-12">&nbsp;</label>
+												<div class="col-sm-12">
+													<?php if (($status_id >= 2) && !empty($customer_id)) {?>
+													<a class="btn btn-primary" href='<?php echo $claimurl . $customer_id; ?>'>Claim</a>
+													<?php } ?>
+												</div>
+											</div>
 										</div>
 									</div>
-									<div class="col-sm-2">
-										<label class="col-sm-12">&nbsp;</label>
-										<div class="col-sm-12">
-											<?php if (($status_id >= 2) && !empty($customer_id)) {?>
-											<a href='<?php echo $claimurl . $customer_id; ?>'>Claim</a>
-											<?php } ?>
-										</div>
-									</div>
+									
 								</div>	
 
 								<div id='family_member' style='display:none'>
