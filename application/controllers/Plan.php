@@ -700,7 +700,6 @@ class Plan extends MY_Controller {
 					) 
 			);
 			try {
-				echo "ID: [".$this->merchentID."][".$this->apikey."]";
 				$result = $beanstream->payments ()->makeCardPayment ( $payment_data, TRUE ); // set to FALSE for Pre-Auth
 				if (isset($result['approved'])) {
 					$dt['ispaid'] = 1;
