@@ -53,7 +53,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						  </div>
 	              		</div>
 	              		<div class="col-sm-3 form-group">
-		                  <label class="col-sm-12">User Type:</label>
+		                  <label class="col-sm-12">Brokerage:</label>
 		                  <div class="col-sm-12 input-group">
 		                  	<select name='parent_user_id' class="form-control">
 								<option value='0' <?php echo empty($parent_user_id) ? 'selected' : ''; ?>> -- select brokerage -- </option>
@@ -70,7 +70,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			                </div>
 			            </div>
 			            <div class="form-group col-sm-3">
-			                <label class="col-sm-12">Brokerage:</label>
+			                <label class="col-sm-12">Business:</label>
 			                <div class="input-group col-sm-12">
 			                	<input type='text' name='business' value='<?php echo $business; ?>' class="form-control">
 			                </div>
@@ -85,7 +85,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			                </div>
 			            </div>
 			            <div class="form-group col-sm-3">
-			                <label class="col-sm-12">Brokerage:</label>
+			                <label class="col-sm-12">Password:</label>
 			                <div class="input-group col-sm-12">
 			                	<input type='text' name='password' value='' class="form-control" class="form-control">
 			                </div>

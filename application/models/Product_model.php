@@ -48,8 +48,8 @@ class Product_model extends CI_Model {
 	 * 
 	 * @return	array					user table search result
 	 */
-	public function product_list() {
-		$rt = $this->product_array();
+	public function product_list($processonly=0) {
+		$rt = $this->product_array($processonly);
 		$rArr = array();
 		foreach ($rt as $rc) {
 			$rArr[$rc['product_short']] = $rc;

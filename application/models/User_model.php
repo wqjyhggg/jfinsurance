@@ -138,8 +138,8 @@ class User_model extends CI_Model {
 	 */
 	public function update($user_id, $post) {
 		$this_user = array();
-		$this->log = '';
-		$this->sql = '';
+		$this->logstr = '';
+		$this->sqlstr = '';
 		if ($user_id) {
 			$sql = "SELECT * FROM user WHERE user_id = '" . (int)$user_id . "'";
 			$this_user = $this->db->query($sql)->row_array();
@@ -152,7 +152,7 @@ class User_model extends CI_Model {
 		if (!empty($post['user_group_id'])) {
 			if ($this_user) {
 				if ($this_user['user_group_id'] != (int)$post['user_group_id']) {
-					$this->log = "UserGroup[".$this_user['user_group_id']."]=>[".(int)$post['user_group_id']."],";
+					$this->logstr .= "UserGroup[".$this_user['user_group_id']."]=>[".(int)$post['user_group_id']."],";
 					$para['user_group_id'] = (int)$post['user_group_id'];
 				}
 			} else {
@@ -162,7 +162,7 @@ class User_model extends CI_Model {
 		if (!empty($post['parent_user_id'])) {
 			if ($this_user) {
 				if ($this_user['parent_user_id'] != (int)$post['parent_user_id']) {
-					$this->log = "UserParentGroup[".$this_user['parent_user_id']."]=>[".(int)$post['parent_user_id']."],";
+					$this->logstr .= "UserParentGroup[".$this_user['parent_user_id']."]=>[".(int)$post['parent_user_id']."],";
 					$para['parent_user_id'] = (int)$post['parent_user_id'];
 				}
 			} else {
@@ -172,10 +172,11 @@ class User_model extends CI_Model {
 		if (!empty($post['username'])) {
 			if ($this_user) {
 				if ($this_user['username'] != $post['username']) {
-					$this->log = "username[".$this_user['username']."]=>[".$post['username']."],";
+					$this->logstr .= "username[".$this_user['username']."]=>[".$post['username']."],";
 					$para['username'] = trim($post['username']);
 				}
 			} else {
+				$this->logstr .= "username[".$post['username']."],";
 				$para['username'] = trim($post['username']);
 			}
 		}
@@ -184,7 +185,7 @@ class User_model extends CI_Model {
 			$pw = password_hash($password, PASSWORD_DEFAULT);
 			if ($this_user) {
 				if ($this_user['password'] != $post['password']) {
-					$this->log = "password => * ,";
+					$this->logstr .= "password => * ,";
 					$para['password'] = $pw;
 				}
 			} else {
@@ -194,7 +195,7 @@ class User_model extends CI_Model {
 		if (!empty($post['region'])) {
 			if ($this_user) {
 				if ($this_user['region'] != $post['region']) {
-					$this->log = "region[".$this_user['region']."]=>[".$post['region']."],";
+					$this->logstr .= "region[".$this_user['region']."]=>[".$post['region']."],";
 					$para['region'] = trim($post['region']);
 				}
 			} else {
@@ -204,7 +205,7 @@ class User_model extends CI_Model {
 		if (!empty($post['business'])) {
 			if ($this_user) {
 				if ($this_user['business'] != $post['business']) {
-					$this->log = "business[".$this_user['business']."]=>[".$post['business']."],";
+					$this->logstr .= "business[".$this_user['business']."]=>[".$post['business']."],";
 					$para['business'] = trim($post['business']);
 				}
 			} else {
@@ -214,7 +215,7 @@ class User_model extends CI_Model {
 		if (!empty($post['gender'])) {
 			if ($this_user) {
 				if ($this_user['gender'] != $post['gender']) {
-					$this->log = "gender[".$this_user['gender']."]=>[".$post['gender']."],";
+					$this->logstr .= "gender[".$this_user['gender']."]=>[".$post['gender']."],";
 					$para['gender'] = trim($post['gender']);
 				}
 			} else {
@@ -224,7 +225,7 @@ class User_model extends CI_Model {
 		if (!empty($post['firstname'])) {
 			if ($this_user) {
 				if ($this_user['firstname'] != $post['firstname']) {
-					$this->log = "firstname[".$this_user['firstname']."]=>[".$post['firstname']."],";
+					$this->logstr .= "firstname[".$this_user['firstname']."]=>[".$post['firstname']."],";
 					$para['firstname'] = trim($post['firstname']);
 				}
 			} else {
@@ -234,7 +235,7 @@ class User_model extends CI_Model {
 		if (!empty($post['lastname'])) {
 			if ($this_user) {
 				if ($this_user['lastname'] != $post['lastname']) {
-					$this->log = "lastname[".$this_user['lastname']."]=>[".$post['lastname']."],";
+					$this->logstr .= "lastname[".$this_user['lastname']."]=>[".$post['lastname']."],";
 					$para['lastname'] = trim($post['lastname']);
 				}
 			} else {
@@ -244,7 +245,7 @@ class User_model extends CI_Model {
 		if (!empty($post['email'])) {
 			if ($this_user) {
 				if ($this_user['email'] != $post['email']) {
-					$this->log = "email[".$this_user['email']."]=>[".$post['email']."],";
+					$this->logstr .= "email[".$this_user['email']."]=>[".$post['email']."],";
 					$para['email'] = strtolower(trim($post['email']));
 				}
 			} else {
@@ -254,7 +255,7 @@ class User_model extends CI_Model {
 		if (!empty($post['address'])) {
 			if ($this_user) {
 				if ($this_user['address'] != $post['address']) {
-					$this->log = "address[".$this_user['address']."]=>[".$post['address']."],";
+					$this->logstr .= "address[".$this_user['address']."]=>[".$post['address']."],";
 					$para['address'] = trim($post['address']);
 				}
 			} else {
@@ -264,7 +265,7 @@ class User_model extends CI_Model {
 		if (!empty($post['city'])) {
 			if ($this_user) {
 				if ($this_user['city'] != $post['city']) {
-					$this->log = "city[".$this_user['city']."]=>[".$post['city']."],";
+					$this->logstr .= "city[".$this_user['city']."]=>[".$post['city']."],";
 					$para['city'] = trim($post['city']);
 				}
 			} else {
@@ -274,7 +275,7 @@ class User_model extends CI_Model {
 		if (!empty($post['province2'])) {
 			if ($this_user) {
 				if ($this_user['province2'] != $post['province2']) {
-					$this->log = "province[".$this_user['province2']."]=>[".$post['province2']."],";
+					$this->logstr .= "province[".$this_user['province2']."]=>[".$post['province2']."],";
 					$para['province2'] = trim($post['province2']);
 				}
 			} else {
@@ -284,7 +285,7 @@ class User_model extends CI_Model {
 		if (!empty($post['country2'])) {
 			if ($this_user) {
 				if ($this_user['country2'] != $post['country2']) {
-					$this->log = "country[".$this_user['country2']."]=>[".$post['country2']."],";
+					$this->logstr .= "country[".$this_user['country2']."]=>[".$post['country2']."],";
 					$para['country2'] = trim($post['country2']);
 				}
 			} else {
@@ -294,7 +295,7 @@ class User_model extends CI_Model {
 		if (!empty($post['postcode'])) {
 			if ($this_user) {
 				if ($this_user['postcode'] != $post['postcode']) {
-					$this->log = "postcode[".$this_user['postcode']."]=>[".$post['postcode']."],";
+					$this->logstr .= "postcode[".$this_user['postcode']."]=>[".$post['postcode']."],";
 					$para['postcode'] = trim(strtoupper($post['postcode']));
 				}
 			} else {
@@ -304,7 +305,7 @@ class User_model extends CI_Model {
 		if (!empty($post['website'])) {
 			if ($this_user) {
 				if ($this_user['website'] != $post['website']) {
-					$this->log = "website[".$this_user['website']."]=>[".$post['website']."],";
+					$this->logstr .= "website[".$this_user['website']."]=>[".$post['website']."],";
 					$para['website'] = trim($post['website']);
 				}
 			} else {
@@ -314,7 +315,7 @@ class User_model extends CI_Model {
 		if (!empty($post['licence_number'])) {
 			if ($this_user) {
 				if ($this_user['licence_number'] != $post['licence_number']) {
-					$this->log = "licence_number[".$this_user['licence_number']."]=>[".$post['licence_number']."],";
+					$this->logstr .= "licence_number[".$this_user['licence_number']."]=>[".$post['licence_number']."],";
 					$para['licence_number'] = trim($post['licence_number']);
 				}
 			} else {
@@ -324,7 +325,7 @@ class User_model extends CI_Model {
 		if (!empty($post['licence_expire'])) {
 			if ($this_user) {
 				if ($this_user['licence_expire'] != $post['licence_expire']) {
-					$this->log = "licence_expire[".$this_user['licence_expire']."]=>[".$post['licence_expire']."],";
+					$this->logstr .= "licence_expire[".$this_user['licence_expire']."]=>[".$post['licence_expire']."],";
 					$para['licence_expire'] = trim($post['licence_expire']);
 				}
 			} else {
@@ -334,7 +335,7 @@ class User_model extends CI_Model {
 		if (!empty($post['business_phone'])) {
 			if ($this_user) {
 				if ($this_user['business_phone'] != $post['business_phone']) {
-					$this->log = "business_phone[".$this_user['business_phone']."]=>[".$post['business_phone']."],";
+					$this->logstr .= "business_phone[".$this_user['business_phone']."]=>[".$post['business_phone']."],";
 					$para['business_phone'] = trim($post['business_phone']);
 				}
 			} else {
@@ -344,7 +345,7 @@ class User_model extends CI_Model {
 		if (!empty($post['mobile_phone'])) {
 			if ($this_user) {
 				if ($this_user['mobile_phone'] != $post['mobile_phone']) {
-					$this->log = "mobile_phone[".$this_user['mobile_phone']."]=>[".$post['mobile_phone']."],";
+					$this->logstr .= "mobile_phone[".$this_user['mobile_phone']."]=>[".$post['mobile_phone']."],";
 					$para['mobile_phone'] = trim($post['mobile_phone']);
 				}
 			} else {
@@ -354,7 +355,7 @@ class User_model extends CI_Model {
 		if (!empty($post['fax_number'])) {
 			if ($this_user) {
 				if ($this_user['fax_number'] != $post['fax_number']) {
-					$this->log = "fax_number[".$this_user['fax_number']."]=>[".$post['fax_number']."],";
+					$this->logstr .= "fax_number[".$this_user['fax_number']."]=>[".$post['fax_number']."],";
 					$para['fax_number'] = trim($post['fax_number']);
 				}
 			} else {
@@ -364,7 +365,7 @@ class User_model extends CI_Model {
 		if (!empty($post['toll_free'])) {
 			if ($this_user) {
 				if ($this_user['toll_free'] != $post['toll_free']) {
-					$this->log = "toll_free[".$this_user['toll_free']."]=>[".$post['toll_free']."],";
+					$this->logstr .= "toll_free[".$this_user['toll_free']."]=>[".$post['toll_free']."],";
 					$para['toll_free'] = trim($post['toll_free']);
 				}
 			} else {
@@ -374,27 +375,28 @@ class User_model extends CI_Model {
 		if (!empty($post['mobile_phone'])) {
 			if ($this_user) {
 				if ($this_user['mobile_phone'] != $post['mobile_phone']) {
-					$this->log = "mobile_phone[".$this_user['mobile_phone']."]=>[".$post['mobile_phone']."],";
+					$this->logstr .= "mobile_phone[".$this_user['mobile_phone']."]=>[".$post['mobile_phone']."],";
 					$para['mobile_phone'] = trim($post['mobile_phone']);
 				}
 			} else {
 				$para['mobile_phone'] = trim($post['mobile_phone']);
 			}
 		}
-		$pay_type = " " . join(" ", $post['paytype_list']);
+		$pay_type = " " . join(",", $post['paytype_list']);
 		if ($this_user) {
 			if ($this_user['pay_type'] != $pay_type) {
-				$this->log = "pay_type[".$this_user['pay_type']."]=>[".$pay_type."],";
+				$this->logstr .= "pay_type[".$this_user['pay_type']."]=>[".$pay_type."],";
 				$para['pay_type'] = $pay_type;
 			}
 		} else {
 			$para['pay_type'] = $pay_type;
+			$this->logstr .= "pay_type[".$pay_type."],";
 			$para['ip'] = $this->input->ip_address();
 		}
 		$status = empty($post['status']) ? 0 : 1;
 		if ($this_user) {
 			if ($this_user['status'] != $status) {
-				$this->log = "status[".$this_user['status']."]=>[".$status."],";
+				$this->logstr .= "status[".$this_user['status']."]=>[".$status."],";
 				$para['status'] = $status;
 			}
 		} else {
@@ -403,7 +405,7 @@ class User_model extends CI_Model {
 		if (!empty($post['note'])) {
 			if ($this_user) {
 				if ($this_user['note'] != $post['note']) {
-					$this->log = "note[".$this_user['note']."]=>[".$post['note']."],";
+					$this->logstr .= "note[".$this_user['note']."]=>[".$post['note']."],";
 					$para['note'] = trim($post['note']);
 				}
 			} else {
