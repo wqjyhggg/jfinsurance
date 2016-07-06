@@ -31,12 +31,17 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 				<div class="x_panel">
 					<div class="x_title">
 						<h2>
-							Policy Detail<small></small>
+							Policy Detail<small><?php echo $status_list[$plan['status_id']]['name']; ?>  <a href='<?php echo $pdf_url . $plan['plan_id']; ?>'>Export PDF</a></small>
 						</h2>
 						<div class="clearfix"></div>
 					</div>
 					<div class="x_content">
 						<div class="p-detail"><!-- policy detail -->
+							<div class="row">
+								<div class="col-sm-12">
+									<label class="inline">Policy Number: <span><?php echo $plan['policy']; ?></span></label>
+								</div>
+							</div>		
 							<div class="row">
 								<div class="col-sm-3">
 									<label class="inline">Apply Date:</label>
@@ -72,9 +77,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 							</div>
 							
 							<div class="row">
-								<?php if ($plan['isfamilyplan']) { 
-
-									?>
+								<?php if ($plan['isfamilyplan']) { ?>
 								<div class="col-sm-6">
 									<label class="inline">Family Plan:</label>
 									<span>Yes</span>
@@ -122,7 +125,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 										<label class="inline">Family Member Information</label>
 									</div>
 								
-								<?php for ($i = 1; $i < 9; $i++) { ?>
+								<?php for ($i = 0; $i < 9; $i++) { ?>
 									<?php if (empty($customers[$i]['lastname']) && empty($customers[$i]['firstname'])) continue; ?>
 									
 										<div class="col-sm-3">
@@ -225,7 +228,10 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 						</div><!-- end p-detail --><br />
 						<div class="row">
 								<div class="col-sm-12">
+								<a href='<?php echo $pdf_url . $plan['plan_id']; ?>'>Export PDF</a>
+<?php if (($plan['status_id'] == 2) && empty($defaultpay_type)) { ?>						
 									<button class="btn btn-primary pull-right" data-toggle="collapse" data-target="#payment-div">Comfirm and Pay</button>		
+<?php } ?>
 								</div>
 						</div>
 					</div><!-- x_content -->
@@ -233,8 +239,9 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 			</div>
 		</div>
 		<!-- End Form -->
+<?php if (($plan['status_id'] == 2) && empty($defaultpay_type)) { ?>						
 		<!-- Payment -->
-		<div class="row collapse" id="payment-div" style="padding-bottom:30px;">
+		<div class="row <?php if (empty($defaultpay_type)) { ?>collapse<?php } ?>" id="payment-div" style="padding-bottom:30px;">
 			<div class="col-md-12 col-sm-12 col-xs-12">
 				<div class="x_panel">
 					<div class="x_title">
@@ -252,6 +259,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 						<?php } ?>
 
 						<div class="row">
+<?php if (in_array('Credit Card', $paytype_list)) { ?>
 							<div class="col-sm-4">
 								<?php if (isset($credit_dis)) { ?>
 								<div id='credit_card_div'><a class="btn btn-info col-sm-12">Pay By Credit Card <i class="fa fa-chevron-down"></i></a></div>
@@ -273,7 +281,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 								<form action='<?php echo $active_url; ?>' method='POST'>
 									<input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
 									<input type='hidden' name='plan_id' value='<?php echo $plan['plan_id']; ?>'>
-									<input type='hidden' name='play_type' value='<?php echo $pay_type; ?>'>
+									<input type='hidden' name='play_type' value='Credit Card'>
 									<input type='hidden' name='sekey' value='<?php echo $sekey; ?>'>
 									<input type='hidden' name='premium' value='<?php echo number_format($plan['premium'], 2, '.', ','); ?>'>
 									<div class="row">
@@ -332,7 +340,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 											</div>
 											<div style="width:100px;" class="inline">
 												<label class="inline">Expiry Year: </label>
-												<select name='expiry_month' class="form-control" style="width:100px;text-align:center;">
+												<select name='expiry_year' class="form-control" style="width:100px;text-align:center;">
 													<option value='<?php echo date('y'); ?>'> <?php echo date('y'); ?> </option>
 													<option value='<?php echo date('y',strtotime('+1 years')); ?>'> <?php echo date('y',strtotime('+1 years')); ?> </option>
 													<option value='<?php echo date('y',strtotime('+2 years')); ?>'> <?php echo date('y',strtotime('+2 years')); ?> </option>
@@ -402,6 +410,8 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 								</div><!-- End pay by credit card -->
 								<?php } ?>
 							</div>
+<?php } /* end cheque pay */ ?>
+<?php if (in_array('Cheque', $paytype_list)) { ?>
 							<div class="col-sm-4">
 								<?php if (isset($cheque_dis)) { ?>
 								<div id='cheque_div'><a class="btn btn-info col-sm-12">Pay By Cheque <i class="fa fa-chevron-down"></i></a></div>
@@ -423,7 +433,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 								<form action='<?php echo $active_url; ?>' method='POST'>
 									<input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
 									<input type='hidden' name='plan_id' value='<?php echo $plan['plan_id']; ?>'>
-									<input type='hidden' name='play_type' value='<?php echo $pay_type; ?>'>
+									<input type='hidden' name='play_type' value='Cheque'>
 									<input type='hidden' name='sekey' value='<?php echo $sekey; ?>'>
 									<input type='hidden' name='premium' value='<?php echo number_format($plan['premium'], 2, '.', ','); ?>'>
 									<div class="row">
@@ -463,6 +473,8 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 								</div>
 								<?php } ?>
 							</div>
+<?php } /* end cheque pay */ ?>
+<?php if (in_array('Cash', $paytype_list)) { ?>
 							<div class="col-sm-4">
 								<?php if (isset($cash_dis)) { ?>
 								<div id='cash_div'><a class="btn btn-info col-sm-12">Pay By Cash <i class="fa fa-chevron-down"></i></a></div>
@@ -484,7 +496,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 								<form action='<?php echo $active_url; ?>' method='POST'>
 								<input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
 								<input type='hidden' name='plan_id' value='<?php echo $plan['plan_id']; ?>'>
-								<input type='hidden' name='play_type' value='<?php echo $pay_type; ?>'>
+								<input type='hidden' name='play_type' value='Cash'>
 								<input type='hidden' name='sekey' value='<?php echo $sekey; ?>'>
 								<input type='hidden' name='premium' value='<?php echo number_format($plan['premium'], 2, '.', ','); ?>'>
 								<div class="row" style="padding:10px;">
@@ -498,6 +510,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 								</div>
 								<?php } ?>
 							</div>
+<?php } /* end cash pay */ ?>
 						</div>
 
 				</div><!-- x_content -->
@@ -505,6 +518,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 			</div>
 		</div>
 		<!-- End Payment -->
+<?php } ?>
 	</div>
 </div>
 <!-- /page content -->

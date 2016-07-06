@@ -82,6 +82,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<?php } ?>
 					<div class="row">
 						<div class="col-sm-12">
+							<label class="inline"><?php if ($plan['status_id'] < 2) { ?>Quote<?php } else {?>Policy<?php } ?> Number: <span><?php echo $plan['policy']; ?></span></label>
+						</div>
+						<div class="col-sm-12">
 						<fieldset>
    						 <legend>Travel Dates</legend>
    						 <div class="row">
@@ -406,7 +409,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<div class="col-sm-12">
 										<label class="col-sm-12">Notes: </label>
 										<div class="input-group col-sm-12">
-								 			<textarea class="form-control" name="note" value="<?php echo $note; ?>"></textarea>
+								 			<textarea class="form-control" name="note"><?php echo $note; ?></textarea>
 								 		</div>
 								 	</div>
 								</div>
