@@ -82,7 +82,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<?php } ?>
 					<div class="row">
 						<div class="col-sm-12">
-							<label class="inline"><?php if ($plan['status_id'] < 2) { ?>Quote<?php } else {?>Policy<?php } ?> Number: <span><?php echo $plan['policy']; ?></span></label>
+							<label class="inline"><?php if ($status_id < 2) { ?>Quote<?php } else {?>Policy<?php } ?> Number: <span><?php echo $policy; ?></span></label>
 						</div>
 						<div class="col-sm-12">
 						<fieldset>

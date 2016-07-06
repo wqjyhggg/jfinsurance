@@ -447,7 +447,12 @@ class Plan extends MY_Controller {
 		} else {
 			$data['note'] = '';
 		}
-
+		if (isset($plan['policy'])) {
+			$data['policy'] = $plan['policy'];
+		} else {
+			$data['policy'] = '';
+		}
+		
 		$data['show_history'] = 0;
 		if (empty($data['plan_id'])) {
 			$data['submit'] = 'Add New Policy';
