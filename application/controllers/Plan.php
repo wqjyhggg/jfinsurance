@@ -1,8 +1,8 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-use Box\Spout\Writer\WriterFactory;
 use Box\Spout\Common\Type;
+use Box\Spout\Writer\WriterFactory;
 
 class Plan extends MY_Controller {
 	private $merchentID = "300203256";
@@ -618,9 +618,11 @@ class Plan extends MY_Controller {
 			} else {
 				$data['pay_url'] = '';
 			}
+			$data['next_url'] = base_url ( "plan/term/" . (int)$data['plan_id'] );
 		} else {
 			$data['copy_url'] = '';
 			$data['pay_url'] = '';
+			$data['next_url'] = '';
 		}
 		
 		$data['premium_url'] = base_url ( "product/premium" );
@@ -735,19 +737,46 @@ class Plan extends MY_Controller {
 			$card_cvv = $this->input->post('card_cvv');
 
 			$plan = $this->plan_model->get_plan_by_id($plan_id);
-			if ($plan['status_id'] < 2) {
-				$dt = array();
-				$dt['plan_id'] = $plan_id;
-				$dt['amount'] = $premium;
-				$dt['pay_type'] = 'premium';
-				$dt['pay_mothed'] = 'Credit Card';
-				$dt['name'] = $card_name;
-				$dt['added'] = date('c');
-				$dt['first5'] = substr($card_number, 0, 5);
-				$dt['last4'] = substr($card_number, -4);
-				$dt['expiry_month'] = $expiry_month;
-				$dt['expiry_year'] = $expiry_year;
-				$dt['ispaid'] = 0;
+			$dt = array();
+			$dt['plan_id'] = $plan_id;
+			$dt['amount'] = $premium;
+			$dt['pay_type'] = 'premium';
+			$dt['pay_mothed'] = 'Credit Card';
+			$dt['name'] = $card_name;
+			$dt['added'] = date('c');
+			$dt['first5'] = substr($card_number, 0, 5);
+			$dt['last4'] = substr($card_number, -4);
+			$dt['expiry_month'] = $expiry_month;
+			$dt['expiry_year'] = $expiry_year;
+			$dt['ispaid'] = 0;
+			$commission_amount = $this->plan_model->get_commission($plan_id);
+			if ($plan['payment_id']) {
+				$payment = $this->trans_model->get_payment_by_plan_id($plan['payment_id']);
+				if (isset($payment['ispaid']) && ($payment['ispaid'] == 1)) {
+					// Add adjust amount
+					$dt['amount'] -= $payment['amount'];
+					$payment_id = $this->trans_model->add($dt);
+					$para = array(
+							'plan_id' => $plan_id,
+							'customer_id' => $plan['customer_id'],
+							'payment_id' => $payment_id,
+							'message' => $this->trans_model->logstr,
+							'systemlog' => $this->trans_model->sqlstr
+					);
+					$this->log_model->activity('payment', $para);
+				} else {
+					// Adjust directally
+					$payment_id = $this->trans_model->update($plan['payment_id'], $dt);
+					$para = array(
+							'plan_id' => $plan_id,
+							'customer_id' => $plan['customer_id'],
+							'payment_id' => $payment_id,
+							'message' => $this->trans_model->logstr,
+							'systemlog' => $this->trans_model->sqlstr
+					);
+					$this->log_model->activity('payment', $para);
+				}
+			} else {
 				$payment_id = $this->trans_model->add($dt);
 				$para = array(
 						'plan_id' => $plan_id,
@@ -757,62 +786,63 @@ class Plan extends MY_Controller {
 						'systemlog' => $this->trans_model->sqlstr
 				);
 				$this->log_model->activity('payment', $para);
-				
-				$payinfo = "Credit Card: " . substr($card_number, 0, 5) . "xxx" . substr($card_number, -4) . " " . $card_name .  " " . $expiry_month . "/" . $expiry_year;
-				
-				$para = array('payment_id' => $payment_id, 'payinfo' => $payinfo, 'status_id' => 2, 'policy' => $this->plan_model->get_policy_number($plan_id, 2));
-				$this->plan_model->update($plan_id, $para);
-				$para = array(
-						'plan_id' => $plan_id,
-						'customer_id' => $plan['customer_id'],
-						'payment_id' => $payment_id,
-						'message' => $this->plan_model->logstr,
-						'systemlog' => $this->plan_model->sqlstr
-				);
-				$this->log_model->activity('plan', $para);
+			}
+			$premium = dt['amount'];	// Adjust amount if it was paid 
 
-			} else /* if ($plan['status_id'] == 2) */ {
-				$payment = $this->trans_model->get_payment_by_plan_id($plan['payment_id']);
-				$dt = array();
-				$dt['plan_id'] = $plan_id;
-				$dt['amount'] = $premium;
-				$dt['pay_type'] = 'premium';
-				$dt['pay_mothed'] = 'Credit Card';
-				$dt['name'] = $card_name;
-				$dt['added'] = date('c');
-				$dt['first5'] = substr($card_number, 0, 5);
-				$dt['last4'] = substr($card_number, -4);
-				$dt['expiry_month'] = $expiry_month;
-				$dt['expiry_year'] = $expiry_year;
-				$dt['expiry_year'] = $expiry_year;
-				$dt['ispaid'] = 0;
-				if (empty($premium)) {
-					$payment_id = $this->trans_model->add($dt);
+			// Adjust commission
+			$dt['pay_type'] = 'commission';
+			if ($plan['commission_payment_id']) {
+				$commission_payment = $this->trans_model->get_payment_by_plan_id($plan['commission_payment_id']);
+				if (isset($commission_payment['ispaid']) && ($commission_payment['ispaid'] == 1)) {
+					// Add adjust amount
+					$dt['amount'] = $commission_amount - $pcommission_ayment['amount'];
+					$commission_payment_id = $this->trans_model->add($dt);
+					$para = array(
+							'plan_id' => $plan_id,
+							'customer_id' => $plan['customer_id'],
+							'payment_id' => $commission_payment_id,
+							'message' => $this->trans_model->logstr,
+							'systemlog' => $this->trans_model->sqlstr
+					);
+					$this->log_model->activity('commission', $para);
 				} else {
-					$payment_id = $this->trans_model->update($payment['payment_id'], $dt);
+					// Adjust directally
+					$dt['amount'] = $commission_amount;
+					$commission_payment_id = $this->trans_model->update($plan['commission_payment_id'], $dt);
+					$para = array(
+							'plan_id' => $plan_id,
+							'customer_id' => $plan['customer_id'],
+							'payment_id' => $commission_payment_id,
+							'message' => $this->trans_model->logstr,
+							'systemlog' => $this->trans_model->sqlstr
+					);
+					$this->log_model->activity('commission', $para);
 				}
+			} else {
+				$dt['amount'] = $commission_amount;
+				$commission_payment_id = $this->trans_model->add($dt);
 				$para = array(
 						'plan_id' => $plan_id,
 						'customer_id' => $plan['customer_id'],
-						'payment_id' => $payment_id,
+						'payment_id' => $commission_payment_id,
 						'message' => $this->trans_model->logstr,
 						'systemlog' => $this->trans_model->sqlstr
 				);
-				$this->log_model->activity('payment', $para);
-				
-				$payinfo = "Credit Card: " . substr($card_number, 0, 5) . "xxx" . substr($card_number, -4) . " " . $card_name .  " " . $expiry_month . "/" . $expiry_year;
-				
-				$para = array('payment_id' => $payment_id, 'payinfo' => $payinfo, 'status_id' => 2);
-				$this->plan_model->update($plan_id, $para);
-				$para = array(
-						'plan_id' => $plan_id,
-						'customer_id' => $plan['customer_id'],
-						'payment_id' => $payment_id,
-						'message' => $this->plan_model->logstr,
-						'systemlog' => $this->plan_model->sqlstr
-				);
-				$this->log_model->activity('plan', $para);
+				$this->log_model->activity('commission', $para);
 			}
+
+			$payinfo = "Credit Card: " . substr($card_number, 0, 5) . "xxx" . substr($card_number, -4) . " " . $card_name .  " " . $expiry_month . "/" . $expiry_year;
+				
+			$para = array('payment_id' => $payment_id, 'payinfo' => $payinfo, 'commission_amount' => $commission_amount, 'status_id' => 2, 'policy' => $this->plan_model->get_policy_number($plan_id, 2));
+			$this->plan_model->update($plan_id, $para);
+			$para = array(
+					'plan_id' => $plan_id,
+					'customer_id' => $plan['customer_id'],
+					'payment_id' => $payment_id,
+					'message' => $this->plan_model->logstr,
+					'systemlog' => $this->plan_model->sqlstr
+			);
+			$this->log_model->activity('plan', $para);
 
 			$beanstream = new \Beanstream\Gateway ( $this->merchentID, $this->apikey, 'www', 'v1' );
 			$payment_data = array (
@@ -893,15 +923,43 @@ class Plan extends MY_Controller {
 		$payinfo = "Pay Cash: " . 'Premium: $' . $premium . "; ";
 		
 		$plan = $this->plan_model->get_plan_by_id($plan_id);
-		if ($plan['status_id'] != 2) {
-			$dt = array();
-			$dt['plan_id'] = $plan_id;
-			$dt['amount'] = $premium;
-			$dt['pay_type'] = 'premium';
-			$dt['pay_mothed'] = 'Cash';
-			$dt['added'] = date('c');
-			$dt['note'] = $payinfo;
-			$dt['ispaid'] = 0;
+		$dt = array();
+		$dt['plan_id'] = $plan_id;
+		$dt['amount'] = $premium;
+		$dt['pay_type'] = 'premium';
+		$dt['pay_mothed'] = 'Cash';
+		$dt['added'] = date('c');
+		$dt['note'] = $payinfo;
+		$dt['ispaid'] = 0;
+		$commission_amount = $this->plan_model->get_commission($plan_id);
+		
+		if ($plan['payment_id']) {
+			$payment = $this->trans_model->get_payment_by_plan_id($plan['payment_id']);
+			if (isset($payment['ispaid']) && ($payment['ispaid'] == 1)) {
+				// Add adjust amount
+				$dt['amount'] -= $payment['amount'];
+				$payment_id = $this->trans_model->add($dt);
+				$para = array(
+						'plan_id' => $plan_id,
+						'customer_id' => $plan['customer_id'],
+						'payment_id' => $payment_id,
+						'message' => $this->trans_model->logstr,
+						'systemlog' => $this->trans_model->sqlstr
+				);
+				$this->log_model->activity('payment', $para);
+			} else {
+				// Adjust directally
+				$payment_id = $this->trans_model->update($plan['payment_id'], $dt);
+				$para = array(
+						'plan_id' => $plan_id,
+						'customer_id' => $plan['customer_id'],
+						'payment_id' => $payment_id,
+						'message' => $this->trans_model->logstr,
+						'systemlog' => $this->trans_model->sqlstr
+				);
+				$this->log_model->activity('payment', $para);
+			}
+		} else {
 			$payment_id = $this->trans_model->add($dt);
 			$para = array(
 					'plan_id' => $plan_id,
@@ -911,55 +969,60 @@ class Plan extends MY_Controller {
 					'systemlog' => $this->trans_model->sqlstr
 			);
 			$this->log_model->activity('payment', $para);
-			
-			$para = array('payment_id' => $payment_id, 'payinfo' => $payinfo, 'status_id' => 2, 'policy' => $this->plan_model->get_policy_number($plan_id, 2));
-			$this->plan_model->update($plan_id, $para);
-			$para = array(
-					'plan_id' => $plan_id,
-					'customer_id' => $plan['customer_id'],
-					'payment_id' => $payment_id,
-					'message' => $this->plan_model->logstr,
-					'systemlog' => $this->plan_model->sqlstr
-			);
-			$this->log_model->activity('plan', $para);
+		}
+		$premium = dt['amount'];	// Adjust amount if it was paid
 		
-		} else /* if ($plan['status_id'] == 2) */ {
-			// Change pay_type
-			$payment = $this->trans_model->get_payment_by_plan_id($plan['plan_id']);
-			$dt = array();
-			$dt['plan_id'] = $plan_id;
-			$dt['amount'] = $premium;
-			$dt['pay_type'] = 'premium';
-			$dt['pay_mothed'] = 'Cash';
-			$dt['added'] = date('c');
-			$dt['note'] = $payinfo;
-			$dt['ispaid'] = 0;
-			if (empty($premium)) {
-				$payment_id = $this->trans_model->add($dt);
+		// Adjust commission
+		$dt['pay_type'] = 'commission';
+		if ($plan['commission_payment_id']) {
+			$commission_payment = $this->trans_model->get_payment_by_plan_id($plan['commission_payment_id']);
+			if (isset($commission_payment['ispaid']) && ($commission_payment['ispaid'] == 1)) {
+				// Add adjust amount
+				$dt['amount'] = $commission_amount - $commission_payment['amount'];
+				$commission_payment_id = $this->trans_model->add($dt);
+				$para = array(
+						'plan_id' => $plan_id,
+						'customer_id' => $plan['customer_id'],
+						'payment_id' => $commission_payment_id,
+						'message' => $this->trans_model->logstr,
+						'systemlog' => $this->trans_model->sqlstr
+				);
+				$this->log_model->activity('commission', $para);
 			} else {
-				$payment_id = $this->trans_model->update($payment['payment_id'], $dt);
+				// Adjust directally
+				$dt['amount'] = $commission_amount;
+				$commission_payment_id = $this->trans_model->update($plan['commission_payment_id'], $dt);
+				$para = array(
+						'plan_id' => $plan_id,
+						'customer_id' => $plan['customer_id'],
+						'payment_id' => $commission_payment_id,
+						'message' => $this->trans_model->logstr,
+						'systemlog' => $this->trans_model->sqlstr
+				);
+				$this->log_model->activity('commission', $para);
 			}
+		} else {
+			$dt['amount'] = $commission_amount;
+			$payment_id = $this->trans_model->add($dt);
 			$para = array(
 					'plan_id' => $plan_id,
 					'customer_id' => $plan['customer_id'],
-					'payment_id' => $payment_id,
+					'payment_id' => $commission_payment_id,
 					'message' => $this->trans_model->logstr,
 					'systemlog' => $this->trans_model->sqlstr
 			);
-			$this->log_model->activity('payment', $para);
-				
-			$para = array('payment_id' => $payment_id, 'payinfo' => $payinfo);
-			$this->plan_model->update($plan_id, $para);
-			$para = array(
-					'plan_id' => $plan_id,
-					'customer_id' => $plan['customer_id'],
-					'payment_id' => $payment_id,
-					'message' => $this->plan_model->logstr,
-					'systemlog' => $this->plan_model->sqlstr
-			);
-			$this->log_model->activity('plan', $para);
-		
+			$this->log_model->activity('commission', $para);
 		}
+		$para = array('payment_id' => $payment_id, 'payinfo' => $payinfo, 'commission_amount' => $commission_amount, 'status_id' => 2, 'policy' => $this->plan_model->get_policy_number($plan_id, 2));
+		$this->plan_model->update($plan_id, $para);
+		$para = array(
+				'plan_id' => $plan_id,
+				'customer_id' => $plan['customer_id'],
+				'payment_id' => $payment_id,
+				'message' => $this->plan_model->logstr,
+				'systemlog' => $this->plan_model->sqlstr
+		);
+		$this->log_model->activity('plan', $para);
 	}
 
 	private function cheque() {
@@ -975,42 +1038,44 @@ class Plan extends MY_Controller {
 		$payinfo .= 'Premium: $' . $this->input->post('premium') . "; ";
 
 		$plan = $this->plan_model->get_plan_by_id($plan_id);
-		if ($plan['status_id'] != 2) {
-			$dt = array();
-			$dt['plan_id'] = $plan_id;
-			$dt['amount'] = $premium;
-			$dt['pay_type'] = 'premium';
-			$dt['pay_mothed'] = 'Checque';
-			$dt['added'] = date('c');
-			$dt['note'] = $payinfo;
-			$dt['ispaid'] = 0;
-			$payment_id = $this->trans_model->add($dt);
-				
-			$para = array('payinfo' => $payinfo, 'status_id' => 2, 'policy' => $this->plan_model->get_policy_number($plan_id, 2));
-			$this->plan_model->update($plan_id, $para);
-			$para = array(
-					'plan_id' => $plan_id,
-					'customer_id' => $plan['customer_id'],
-					'payment_id' => 0,
-					'message' => $this->plan_model->logstr,
-					'systemlog' => $this->plan_model->sqlstr
-			);
-			$this->log_model->activity('plan', $para);
-		} else {
-			$payment = $this->trans_model->get_payment_by_plan_id($plan['plan_id']);
-			$dt = array();
-			$dt['plan_id'] = $plan_id;
-			$dt['amount'] = $premium;
-			$dt['pay_type'] = 'premium';
-			$dt['pay_mothed'] = 'Checque';
-			$dt['added'] = date('c');
-			$dt['note'] = $payinfo;
-			$dt['ispaid'] = 0;
-			if (!empty($premium)) {
+		$dt = array();
+		$dt['plan_id'] = $plan_id;
+		$dt['amount'] = $premium;
+		$dt['pay_type'] = 'premium';
+		$dt['pay_mothed'] = 'Cheque';
+		$dt['added'] = date('c');
+		$dt['note'] = $payinfo;
+		$dt['ispaid'] = 0;
+		$commission_amount = $this->plan_model->get_commission($plan_id);
+		
+		if ($plan['payment_id']) {
+			$payment = $this->trans_model->get_payment_by_plan_id($plan['payment_id']);
+			if (isset($payment['ispaid']) && ($payment['ispaid'] == 1)) {
+				// Add adjust amount
+				$dt['amount'] -= $payment['amount'];
 				$payment_id = $this->trans_model->add($dt);
+				$para = array(
+						'plan_id' => $plan_id,
+						'customer_id' => $plan['customer_id'],
+						'payment_id' => $payment_id,
+						'message' => $this->trans_model->logstr,
+						'systemlog' => $this->trans_model->sqlstr
+				);
+				$this->log_model->activity('payment', $para);
 			} else {
-				$payment_id = $this->trans_model->update($payment['payment_id'], $dt);
+				// Adjust directally
+				$payment_id = $this->trans_model->update($plan['payment_id'], $dt);
+				$para = array(
+						'plan_id' => $plan_id,
+						'customer_id' => $plan['customer_id'],
+						'payment_id' => $payment_id,
+						'message' => $this->trans_model->logstr,
+						'systemlog' => $this->trans_model->sqlstr
+				);
+				$this->log_model->activity('payment', $para);
 			}
+		} else {
+			$payment_id = $this->trans_model->add($dt);
 			$para = array(
 					'plan_id' => $plan_id,
 					'customer_id' => $plan['customer_id'],
@@ -1019,18 +1084,60 @@ class Plan extends MY_Controller {
 					'systemlog' => $this->trans_model->sqlstr
 			);
 			$this->log_model->activity('payment', $para);
-			
-			$para = array('payment_id' => $payment_id, 'payinfo' => $payinfo);
-			$this->plan_model->update($plan_id, $para);
+		}
+		$premium = dt['amount'];	// Adjust amount if it was paid
+		
+		// Adjust commission
+		$dt['pay_type'] = 'commission';
+		if ($plan['commission_payment_id']) {
+			$commission_payment = $this->trans_model->get_payment_by_plan_id($plan['commission_payment_id']);
+			if (isset($commission_payment['ispaid']) && ($commission_payment['ispaid'] == 1)) {
+				// Add adjust amount
+				$dt['amount'] = $commission_amount - $commission_payment['amount'];
+				$commission_payment_id = $this->trans_model->add($dt);
+				$para = array(
+						'plan_id' => $plan_id,
+						'customer_id' => $plan['customer_id'],
+						'payment_id' => $commission_payment_id,
+						'message' => $this->trans_model->logstr,
+						'systemlog' => $this->trans_model->sqlstr
+				);
+				$this->log_model->activity('commission', $para);
+			} else {
+				// Adjust directally
+				$dt['amount'] = $commission_amount;
+				$commission_payment_id = $this->trans_model->update($plan['commission_payment_id'], $dt);
+				$para = array(
+						'plan_id' => $plan_id,
+						'customer_id' => $plan['customer_id'],
+						'payment_id' => $commission_payment_id,
+						'message' => $this->trans_model->logstr,
+						'systemlog' => $this->trans_model->sqlstr
+				);
+				$this->log_model->activity('commission', $para);
+			}
+		} else {
+			$dt['amount'] = $commission_amount;
+			$payment_id = $this->trans_model->add($dt);
 			$para = array(
 					'plan_id' => $plan_id,
 					'customer_id' => $plan['customer_id'],
-					'payment_id' => $payment_id,
-					'message' => $this->plan_model->logstr,
-					'systemlog' => $this->plan_model->sqlstr
+					'payment_id' => $commission_payment_id,
+					'message' => $this->trans_model->logstr,
+					'systemlog' => $this->trans_model->sqlstr
 			);
-			$this->log_model->activity('plan', $para);
+			$this->log_model->activity('commission', $para);
 		}
+		$para = array('payment_id' => $payment_id, 'payinfo' => $payinfo, 'commission_amount' => $commission_amount, 'status_id' => 2, 'policy' => $this->plan_model->get_policy_number($plan_id, 2));
+		$this->plan_model->update($plan_id, $para);
+		$para = array(
+				'plan_id' => $plan_id,
+				'customer_id' => $plan['customer_id'],
+				'payment_id' => $payment_id,
+				'message' => $this->plan_model->logstr,
+				'systemlog' => $this->plan_model->sqlstr
+		);
+		$this->log_model->activity('plan', $para);
 	}
 
 	function detail($plan_id=0, $sekey='') {

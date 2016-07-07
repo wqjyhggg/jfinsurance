@@ -427,6 +427,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					
 					<div class="row">
 						<div class="col-sm-12">
+						<?php if (!empty($next_url)) { ?>
+						<a href='<?php echo $next_url; ?>'><span class="btn btn-info">No Change</span></a>
+						<?php } ?>
 							<input class="btn btn-primary pull-right" type='submit' name='submit' value='<?php echo $submit; ?>' />		
 						</div>
 					</div>
@@ -607,9 +610,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			                  			<table class="table table-hover table-bordered">
 				                      	<thead>
 											<tr>
-												<th>ID</th>
-												<th>Amount</th>
 												<th>Type</th>
+												<th>Amount</th>
+												<th>Pay Status</th>
 												<th>Date</th>
 												<th>Notes</th>
 											</tr>
@@ -617,9 +620,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										<tbody>
 											<?php foreach ($payments as $p) { ?>
 											<tr>
-												<td><?php echo $p['payment_id']; ?></td>
+												<td><?php echo $p['pay_type']; ?></td>
 												<td><?php echo $p['amount']; ?></td>
-												<td><?php echo $p['ispaid'] ? "Paied" : $p['pay_type']; ?></td>
+												<td><?php echo $p['ispaid'] ? "Paied" : "-"; ?></td>
 												<td><?php echo $p['added']; ?></td>
 												<td><?php echo (strlen($p['note']) > 60) ? (substr($p['note'], 0, 57) . "...") : $p['note']; ?></td>
 											</tr>
@@ -640,14 +643,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			                  			<table class="table table-hover table-bordered">
 				                      	<thead>
 											<tr>
-												<th>ID</th>
+												<th>Username</th>
+												<th>Date Time</th>
 												<th>Message</th>
 											</tr>
 										</thead>
 										<tbody>
 										<?php foreach ($activelogs as $p) { ?>
 											<tr>
-												<td><?php echo $p['activity_id']; ?></td>
+												<td><?php echo $p['username']; ?></td>
+												<td><?php echo $p['tm']; ?></td>
 												<td><?php echo (strlen($p['message']) > 120) ? (substr($p['message'], 0, 117) . "...") : $p['message']; ?></td>
 											</tr>
 										<?php 		} ?>

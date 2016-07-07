@@ -730,4 +730,27 @@ class Plan_model extends CI_Model {
 		}
 		return $rArr;
 	}
+	
+	/**
+	 * Get plan's commission
+	 * 
+	 * @param integer $plan_id
+	 * @return float 
+	 */
+	public function get_commission($plan_id) {
+		$plan = $this->get_plan_by_id($plan_id);
+		if (empty($plan)) {
+			return 0;
+		}
+		
+		$this->db->where('user_id', $plan['user_id']);
+		$this->db->where('product_short', $plan['product_short']);
+		$user_product = $this->db->get('user_product')->row_array();
+		if (empty($user_product)) {
+			return 0;
+		}
+		
+		$commission = $plan['premium'] * $user_product['commission'] / 100;
+		return $commission;
+	}
 }
