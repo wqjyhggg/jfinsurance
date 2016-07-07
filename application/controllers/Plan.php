@@ -646,8 +646,10 @@ class Plan extends MY_Controller {
 			$data['insurable_options'] = $this->load->view('plan/form_jus', $data, TRUE);
 		} else if ($data['product_short'] == 'JES') {
 			$data['insurable_options'] = $this->load->view('plan/form_jes', $data, TRUE);
-		} else /* if ($plan['product_short'] == 'JFC') */ {
+		} else if ($plan['product_short'] == 'JFC') {
 			$data['insurable_options'] = $this->load->view('plan/form_jes', $data, TRUE);
+		} else {
+			$data['insurable_options'] = $this->load->view('plan/form_other', $data, TRUE);
 		}
 
 		//$this->load->common('plan/form', $data);
@@ -787,7 +789,7 @@ class Plan extends MY_Controller {
 				);
 				$this->log_model->activity('payment', $para);
 			}
-			$premium = dt['amount'];	// Adjust amount if it was paid 
+			$premium = $dt['amount'];	// Adjust amount if it was paid 
 
 			// Adjust commission
 			$dt['pay_type'] = 'commission';
@@ -833,7 +835,7 @@ class Plan extends MY_Controller {
 
 			$payinfo = "Credit Card: " . substr($card_number, 0, 5) . "xxx" . substr($card_number, -4) . " " . $card_name .  " " . $expiry_month . "/" . $expiry_year;
 				
-			$para = array('payment_id' => $payment_id, 'payinfo' => $payinfo, 'commission_amount' => $commission_amount, 'status_id' => 2, 'policy' => $this->plan_model->get_policy_number($plan_id, 2));
+			$para = array('payment_id' => $payment_id, 'payinfo' => $payinfo, 'commission_payment_id' => $commission_payment_id, 'status_id' => 2, 'policy' => $this->plan_model->get_policy_number($plan_id, 2));
 			$this->plan_model->update($plan_id, $para);
 			$para = array(
 					'plan_id' => $plan_id,
@@ -970,7 +972,7 @@ class Plan extends MY_Controller {
 			);
 			$this->log_model->activity('payment', $para);
 		}
-		$premium = dt['amount'];	// Adjust amount if it was paid
+		$premium = $dt['amount'];	// Adjust amount if it was paid
 		
 		// Adjust commission
 		$dt['pay_type'] = 'commission';
@@ -1003,7 +1005,7 @@ class Plan extends MY_Controller {
 			}
 		} else {
 			$dt['amount'] = $commission_amount;
-			$payment_id = $this->trans_model->add($dt);
+			$commission_payment_id = $this->trans_model->add($dt);
 			$para = array(
 					'plan_id' => $plan_id,
 					'customer_id' => $plan['customer_id'],
@@ -1013,7 +1015,7 @@ class Plan extends MY_Controller {
 			);
 			$this->log_model->activity('commission', $para);
 		}
-		$para = array('payment_id' => $payment_id, 'payinfo' => $payinfo, 'commission_amount' => $commission_amount, 'status_id' => 2, 'policy' => $this->plan_model->get_policy_number($plan_id, 2));
+		$para = array('payment_id' => $payment_id, 'payinfo' => $payinfo, 'commission_payment_id' => $commission_payment_id, 'status_id' => 2, 'policy' => $this->plan_model->get_policy_number($plan_id, 2));
 		$this->plan_model->update($plan_id, $para);
 		$para = array(
 				'plan_id' => $plan_id,
@@ -1085,7 +1087,7 @@ class Plan extends MY_Controller {
 			);
 			$this->log_model->activity('payment', $para);
 		}
-		$premium = dt['amount'];	// Adjust amount if it was paid
+		$premium = $dt['amount'];	// Adjust amount if it was paid
 		
 		// Adjust commission
 		$dt['pay_type'] = 'commission';
@@ -1118,7 +1120,7 @@ class Plan extends MY_Controller {
 			}
 		} else {
 			$dt['amount'] = $commission_amount;
-			$payment_id = $this->trans_model->add($dt);
+			$commission_payment_id = $this->trans_model->add($dt);
 			$para = array(
 					'plan_id' => $plan_id,
 					'customer_id' => $plan['customer_id'],
@@ -1128,7 +1130,7 @@ class Plan extends MY_Controller {
 			);
 			$this->log_model->activity('commission', $para);
 		}
-		$para = array('payment_id' => $payment_id, 'payinfo' => $payinfo, 'commission_amount' => $commission_amount, 'status_id' => 2, 'policy' => $this->plan_model->get_policy_number($plan_id, 2));
+		$para = array('payment_id' => $payment_id, 'payinfo' => $payinfo, 'commission_payment_id' => $commission_payment_id, 'status_id' => 2, 'policy' => $this->plan_model->get_policy_number($plan_id, 2));
 		$this->plan_model->update($plan_id, $para);
 		$para = array(
 				'plan_id' => $plan_id,
@@ -1266,6 +1268,23 @@ class Plan extends MY_Controller {
 		);
 		
 		$data['defaultpay_type'] = $defaultpay_type;
+		
+		if ($data['plan']['product_short'] == 'OPL') {
+			$data['insurable_options'] = $this->load->view('plan/detail_opl', $data, TRUE);
+		} else if ($data['plan']['product_short'] == 'JFR') {
+			$data['insurable_options'] = $this->load->view('plan/detail_opl', $data, TRUE);
+		} else if ($data['plan']['product_short'] == 'JUS') {
+			$data['insurable_options'] = $this->load->view('plan/detail_jus', $data, TRUE);
+		} else if ($data['plan']['product_short'] == 'NUS') {
+			$data['insurable_options'] = $this->load->view('plan/detail_jus', $data, TRUE);
+		} else if ($data['plan']['product_short'] == 'JES') {
+			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
+		} else if ($plan['plan']['product_short'] == 'JFC') {
+			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
+		} else {
+			$data['insurable_options'] = $this->load->view('plan/detail_other', $data, TRUE);
+		}
+		
 		$this->load->common('plan/detail', $data);
 	}
 

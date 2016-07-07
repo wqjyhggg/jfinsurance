@@ -118,6 +118,9 @@ class Plan_model extends CI_Model {
 		if (isset($para['contact_email'])) $sql .= " contact_email=" . $this->db->escape(trim($para['contact_email'])) . ", ";
 		if (isset($para['contact_phone'])) $sql .= " contact_phone=" . $this->db->escape(trim($para['contact_phone'])) . ", ";
 		if (isset($para['residence'])) $sql .= " residence=" . $this->db->escape(trim($para['residence'])) . ", ";
+		if (isset($para['payment_id'])) $sql .= " payment_id=" . (int)$para['payment_id'] . ", ";
+		if (isset($para['commission_payment_id'])) $sql .= " commission_payment_id=" . (int)$para['commission_payment_id'] . ", ";
+		if (isset($para['payinfo'])) $sql .= " payinfo=" . $this->db->escape(trim($para['payinfo'])) . ", ";
 		if (isset($para['note'])) $sql .= " note=" . $this->db->escape(trim($para['note'])) . ", ";
 		$sql .= " ip=" . $this->db->escape($_SERVER['REMOTE_ADDR']) . ", ";
 		$sql .= " commission_amount='0' ";
@@ -341,6 +344,14 @@ class Plan_model extends CI_Model {
 		if (isset($para['residence']) && ($para['residence'] != $plan['residence'])) {
 			$this->logstr .= " residence " . $para['residence'] . "(" . $plan['residence'] . ")";
 			$sql .= " residence=" . $this->db->escape($para['residence']) . ", ";
+		}
+		if (isset($para['payment_id']) && ((int)$para['payment_id'] != (int)$plan['payment_id'])) {
+			$this->logstr .= " payment_id " . $para['payment_id'] . "(" . $plan['payment_id'] . ")";
+			$sql .= " payment_id=" . (int)$para['payment_id'] . ", ";
+		}
+		if (isset($para['commission_payment_id']) && ((int)$para['commission_payment_id'] != (int)$plan['commission_payment_id'])) {
+			$this->logstr .= " commission_payment_id " . $para['commission_payment_id'] . "(" . $plan['commission_payment_id'] . ")";
+			$sql .= " commission_payment_id=" . (int)$para['commission_payment_id'] . ", ";
 		}
 		if (isset($para['payinfo']) && ($para['payinfo'] != $plan['payinfo'])) {
 			$this->logstr .= " payinfo " . $para['payinfo'] . "(" . $plan['payinfo'] . ")";
