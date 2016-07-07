@@ -6,30 +6,29 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 				<div class="x_panel">
 					<div class="x_title">
 						<h2>
-							Policy Detail<small><?php echo $status_list[$plan['status_id']]['name']; ?></small>
+							Policy Detail<span> ---- <?php echo $status_list[$plan['status_id']]['name']; ?></span>
 						</h2>
 						<div class="clearfix"></div>
 					</div>
 					<div class="x_content">
 						<div class="p-detail"><!-- policy detail -->
 							<div class="row">
-								<div class="col-sm-3">
-									<label class="inline">Apply Date:</label>
-									<span><?php echo $plan['apply_date']; ?></span>
-								</div>
-								<div class="col-sm-3">
-									<label class="inline">Arrival Date:</label>
-									<span><?php echo $plan['arrival_date']; ?></span>
-								</div>
-								<div class="col-sm-3">
-									<label class="inline">Effective Date:</label>
-									<span><?php echo $plan['effective_date']; ?></span>
-								</div>
-								<div class="col-sm-3">
-									<label class="inline">Expiry Date:</label>
-									<span><?php echo $plan['expiry_date']; ?></span>
-								</div>
-							</div>		
+								<div class="col-sm-12">
+							<table>
+								<tbody>
+									<tr>
+										<td style="width:20%;"><label>Apply Date: </label><span style="border-bottom:1px solid #ccc;"><?php echo $plan['apply_date']; ?></span></td>
+									
+										<td style="width:20%;"><label>Arrival Date: </label><span style="border-bottom:1px solid #ccc;"><?php echo $plan['arrival_date']; ?></span></td>
+									
+										<td style="width:20%;"><label>Effective Date: </label><span style="border-bottom:1px solid #ccc;"><?php echo $plan['effective_date']; ?></span></td>
+									
+										<td style="width:20%;"><label>Expiry Date: </label><span style="border-bottom:1px solid #ccc;"><?php echo $plan['expiry_date']; ?></span></td>
+									</tr>
+								</tbody>
+							</table>
+							</div>	
+							</div>	
 							<div class="row">
 								<div class="col-sm-3">
 									<label class="inline">Beneficiary:</label>

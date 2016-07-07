@@ -34,7 +34,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 							Review Policy Detail<small></small>
 							<span><b>[ <?php echo $status_list[$plan['status_id']]['name']; ?> ]</b></span>
 						</h2>
-						<a class="btn btn-info pull-right" href='<?php echo $pdf_url . $plan['plan_id']; ?>'>Export PDF</a>
+						<a class="btn btn-info pull-right" target="_blank" href='<?php echo $pdf_url . $plan['plan_id']; ?>'>Export PDF</a>
 						<div class="clearfix"></div>
 					</div>
 					<div class="x_content">
@@ -195,12 +195,11 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 						</div><!-- end p-detail --><br />
 						<div class="row">
 								<div class="col-sm-12">
-
-								<a class="btn btn-info pull-right" href='<?php echo $pdf_url . $plan['plan_id']; ?>'>Export PDF</a>
 								<?php if (($plan['status_id'] <= 2) && empty($defaultpay_type)) { ?>						
-
 									<button class="btn btn-primary pull-right" data-toggle="collapse" data-target="#payment-div">Comfirm and Pay</button>		
 								<?php } ?>
+								<a class="btn btn-info pull-right" target="_blank" href='<?php echo $pdf_url . $plan['plan_id']; ?>'>Export PDF</a>
+
 								</div>
 						</div>
 					</div><!-- x_content -->
