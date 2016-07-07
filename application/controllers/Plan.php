@@ -1,6 +1,8 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+use Box\Spout\Writer\WriterFactory;
+
 class Plan extends MY_Controller {
 	private $merchentID = "300203256";
 	private $apikey = "634E4AFd7Eda4dcEaA2976207A7C92bb";
@@ -51,15 +53,19 @@ class Plan extends MY_Controller {
 
 		if ($this->input->post('search')) {
 			/* plan_id, policy, batch_number, full_name, status_id, effective_date, firstname(customer), lastname(customer), agent_firstname, agent_lastname */
-			$data['plan_list'] = $this->plan_model->plan_search($this->input->post(), 100);
+			$data['plan_list'] = $this->plan_model->plan_search($this->input->post());
+			$this->session->set_userdata('policy_search', json_encode($this->input->post()));
 		} else if ($this->input->get('q')) {
-			$data['plan_list'] = $data['plan_list'] = $this->plan_model->plan_search(array('policy' => $this->input->get('q')), 100);
+			$para = array('policy' => $this->input->get('q'));
+			$data['plan_list'] = $this->plan_model->plan_search($para);
+			$this->session->set_userdata('policy_search', json_encode($para));
 		} else {
 			$data['plan_list'] = array();
+			$this->session->unset_userdata ( 'policy_search' );
 		}
-
 		$data['search_url'] = current_url ();
 		$data['add_url'] = base_url ( "plan/add" );
+		$data['export_list'] = base_url ( "plan/export_list" );
 		$data['edit_url'] = base_url ( "plan/edit" ) . "/";
 		$data['copy_url'] = base_url ( "plan/copy" ) . "/";
 		$data['province_url'] = base_url ( "geo/province/" );
@@ -81,6 +87,125 @@ class Plan extends MY_Controller {
 		);
 		
 		$this->load->common('plan/list', $data);
+	}
+	
+	function export_list() {
+		$beuser = $this->func_model->verify_login(); 
+		$this->load->model('status_model');
+		$this->load->model('product_model');
+		$this->load->model('plan_model');
+		
+	
+		$data['product_list'] = $this->product_model->product_list();
+		$prod2 = array();
+		foreach($data['product_list'] as $key => $value) {
+			if ($value['calculate']) {
+				$prod2[$key] = $value;
+			}
+		}
+		$data['product_list_a'] = $prod2;
+		$data['status_list'] = $this->status_model->status_list();
+
+		$policy_search = $this->session->userdata('policy_search');
+		if ($policy_search) {
+			$policies = $this->plan_model->plan_export_search($policy_search);
+		} else {
+			$policies = array();
+		}
+		
+		$w = WriterFactory::create(Type::XLSX); // for XLSX files
+		$kArr = array(
+				'plan_id',
+				'customer_id',
+				'user_id',
+				'policy',
+				'product_short',
+				'batch_number',
+				'isfamilyplan',
+				'apply_date',
+				'arrival_date',
+				'effective_date',
+				'expiry_date',
+				'beneficiary',
+				'stable_condition',
+				'rate_options',
+				'sum_insured',
+				'deductible_amount',
+				'premium',
+				'commission_amount',
+				'street_number',
+				'street_name',
+				'suite_number',
+				'city',
+				'province2',
+				'country2',
+				'postcode',
+				'phone1',
+				'phone2',
+				'institution',
+				'institution_addr',
+				'student_id',
+				'institution_phone',
+				'institution_fax',
+				'contact_email',
+				'contact_phone',
+				'residence',
+				'payinfo',
+				'firstname',
+				'lastname',
+				'gende',
+				'birthday',
+				'firstname_1',
+				'lastname_1',
+				'gende_1',
+				'birthday_1',
+				'firstname_2',
+				'lastname_2',
+				'gende_2',
+				'birthday_2',
+				'firstname_3',
+				'lastname_3',
+				'gende_3',
+				'birthday_3',
+				'firstname_4',
+				'lastname_4',
+				'gende_4',
+				'birthday_4',
+				'firstname_5',
+				'lastname_5',
+				'gende_5',
+				'birthday_5',
+				'firstname_6',
+				'lastname_6',
+				'gende_6',
+				'birthday_6',
+				'firstname_7',
+				'lastname_7',
+				'gende_7',
+				'birthday_7',
+				'firstname_8',
+				'lastname_8',
+				'gende_8',
+				'birthday_8');
+		$tmpfname = "/tmp/jf_test.xlsx";
+		//$w->openToBrowser("Policy' . date('Ymd') . '.xlsx");
+		$w->openToFile($tmpfname);
+		$w->addRow($kArr);
+		foreach($policies as $p) {
+			$para = array();
+			foreach($kArr as $k) {
+				$para[] = empty($p[$k]) ? '' : $p[$k];
+			}
+			$w->addRow($para);
+		}
+		$w->close();
+		header('Content-type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+		header('Content-Disposition: attachment; filename="Policy' . date('Ymd') . '.xlsx"');
+		header('Content-Transfer-Encoding: binary');
+		header('Expires: 0');
+		header('Pragma: no-cache');
+		readfile($tmpfname);
+		unlink($tmpfname);
 	}
 	
 	function form_valid() {
