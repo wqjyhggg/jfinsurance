@@ -30,9 +30,11 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 			<div class="col-md-12 col-sm-12 col-xs-12">
 				<div class="x_panel">
 					<div class="x_title">
-						<h2>
-							Policy Detail<small><?php echo $status_list[$plan['status_id']]['name']; ?>  <a href='<?php echo $pdf_url . $plan['plan_id']; ?>'>Export PDF</a></small>
+						<h2 class="col-xs-8 col-sm-8">
+							Review Policy Detail<small></small>
+							<span><b>[ <?php echo $status_list[$plan['status_id']]['name']; ?> ]</b></span>
 						</h2>
+						<a class="btn btn-info pull-right" href='<?php echo $pdf_url . $plan['plan_id']; ?>'>Export PDF</a>
 						<div class="clearfix"></div>
 					</div>
 					<div class="x_content">
@@ -228,10 +230,12 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 						</div><!-- end p-detail --><br />
 						<div class="row">
 								<div class="col-sm-12">
-								<a href='<?php echo $pdf_url . $plan['plan_id']; ?>'>Export PDF</a>
-<?php if (($plan['status_id'] <= 2) && empty($defaultpay_type)) { ?>
+
+								<a class="btn btn-info pull-right" href='<?php echo $pdf_url . $plan['plan_id']; ?>'>Export PDF</a>
+								<?php if (($plan['status_id'] <= 2) && empty($defaultpay_type)) { ?>						
+
 									<button class="btn btn-primary pull-right" data-toggle="collapse" data-target="#payment-div">Comfirm and Pay</button>		
-<?php } ?>
+								<?php } ?>
 								</div>
 						</div>
 					</div><!-- x_content -->
@@ -239,7 +243,9 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 			</div>
 		</div>
 		<!-- End Form -->
-<?php if (($plan['status_id'] <= 2) && empty($defaultpay_type)) { ?>
+
+	<?php if (($plan['status_id'] <= 2) && empty($defaultpay_type)) { ?>
+
 		<!-- Payment -->
 		<div class="row <?php if (empty($defaultpay_type)) { ?>collapse<?php } ?>" id="payment-div" style="padding-bottom:30px;">
 			<div class="col-md-12 col-sm-12 col-xs-12">
@@ -259,7 +265,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 						<?php } ?>
 
 						<div class="row">
-<?php if (in_array('Credit Card', $paytype_list)) { ?>
+						<?php if (in_array('Credit Card', $paytype_list)) { ?>
 							<div class="col-sm-4">
 								<?php if (isset($credit_dis)) { ?>
 								<div id='credit_card_div'><a class="btn btn-info col-sm-12">Pay By Credit Card <i class="fa fa-chevron-down"></i></a></div>
@@ -410,8 +416,8 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 								</div><!-- End pay by credit card -->
 								<?php } ?>
 							</div>
-<?php } /* end cheque pay */ ?>
-<?php if (in_array('Cheque', $paytype_list)) { ?>
+						<?php } /* end cheque pay */ ?>
+						<?php if (in_array('Cheque', $paytype_list)) { ?>
 							<div class="col-sm-4">
 								<?php if (isset($cheque_dis)) { ?>
 								<div id='cheque_div'><a class="btn btn-info col-sm-12">Pay By Cheque <i class="fa fa-chevron-down"></i></a></div>
@@ -473,8 +479,8 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 								</div>
 								<?php } ?>
 							</div>
-<?php } /* end cheque pay */ ?>
-<?php if (in_array('Cash', $paytype_list)) { ?>
+						<?php } /* end cheque pay */ ?>
+						<?php if (in_array('Cash', $paytype_list)) { ?>
 							<div class="col-sm-4">
 								<?php if (isset($cash_dis)) { ?>
 								<div id='cash_div'><a class="btn btn-info col-sm-12">Pay By Cash <i class="fa fa-chevron-down"></i></a></div>
@@ -510,7 +516,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 								</div>
 								<?php } ?>
 							</div>
-<?php } /* end cash pay */ ?>
+						<?php } /* end cash pay */ ?>
 						</div>
 
 				</div><!-- x_content -->
@@ -518,7 +524,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 			</div>
 		</div>
 		<!-- End Payment -->
-<?php } ?>
+	<?php } ?>
 	</div>
 </div>
 <!-- /page content -->

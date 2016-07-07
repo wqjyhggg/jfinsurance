@@ -55,7 +55,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <!-- Product input box -->
                         <div class="form-group col-sm-4">
                           <label class="col-sm-12">Product:</label>
-                            <div input-group class="col-sm-12">
+                            <div class="input-group col-sm-12">
                               <select class="form-control">
                                 <option>Choose option</option>
                                 <option>Option one</option>

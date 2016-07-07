@@ -223,3 +223,18 @@ footer p{margin: 0;}
 }
 .df-row:hover{background-color: #eee;}
 /* End Manage download file page */
+
+/* Download file page */
+.dfile-list a{
+    padding:5px 15px 5px 0;
+    text-decoration: underline;
+}
+.dfile-list a:hover{color:#04c;}
+.dfile-list .nofile{color:#ccc;}
+.dfile-list .d_brochure{color:#16c4cb;}
+.dfile-list .d_benefit{color:#16c4cb;}
+.dfile-list .d_claimf{color:#16c4cb;}
+.dfile-list .d_claimp{color:#16c4cb;}
+.dfile-list .d_consent{color:#16c4cb;}
+.dfile-list .d_policy{color:#16c4cb;}
+/* End download file page */

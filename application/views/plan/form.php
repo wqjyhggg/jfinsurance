@@ -53,18 +53,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<input type='hidden' name='status_id' value='0'>
 					<?php } else { ?>
 					<div class="row" style="margin-bottom:15px;">
-						<div class="col-sm-4">
+						<div class="col-sm-4 pull-right text-right">
 						<?php /* it should be created plan */ ?>
 						<?php if ($status_id == 1) { /* qutoe */ ?>
 
 						<a href='<?php echo $pay_url; ?>'><span class="btn btn-info">Pay</span></a>
-						<?php } ?>
+						<?php } ?> 
 
 						<a href='<?php echo $copy_url; ?>'><span class="btn btn-info">Copy</span></a>
 						</div>
 						<?php if ($user_group_id > 2) { ?>
 							<?php /* it is school or brokerage or agent */ ?>
-							Policy Status: <?php echo $status_list[$status_id]; ?> 
+							<div class="form-group col-sm-8">
+								<label style="font-size:16px;">Policy Status: <?php echo $status_list[$status_id]['name']; ?> </label>
+							</div>
 							<input type='hidden' name='status_id' value='<?php echo $status_id; ?>' class="form-control">
 							<?php } else { ?>
 							<div class="form-group col-sm-8">
@@ -263,7 +265,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<fieldset>
 								<legend>Address</legend>
 								<div class="row">
-									<div class="col-sm-3">
+									<div class="form-group col-sm-3">
 										<label class="col-sm-12">Street No: </label>
 										<div class="input-group col-sm-12">
 											<input class="form-control" type='text' name='street_number' value='<?php echo $street_number; ?>'>
@@ -274,7 +276,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										</div>
 										<?php } ?>
 									</div>
-									<div class="col-sm-3">
+									<div class="form-group col-sm-3">
 										<label class="col-sm-12">Street Name: </label>
 										<div class="input-group col-sm-12">
 											<input class="form-control" type='text' name='street_name' value='<?php echo $street_name; ?>'>
@@ -285,13 +287,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										</div>
 										<?php } ?>
 									</div>
-									<div class="col-sm-3">
+									<div class="form-group col-sm-3">
 										<label class="col-sm-12">Suite No.: </label>
 										<div class="input-group col-sm-12">
 											<input class="form-control" type='text' name='suite_number' value='<?php echo $suite_number; ?>'>
 										</div>
 									</div>
-									<div class="col-sm-3">
+									<div class="form-group col-sm-3">
 										<label class="col-sm-12">City: </label>
 										<div class="input-group col-sm-12">
 											<input class="form-control" type='text' name='city' value='<?php echo $city; ?>'>
@@ -302,19 +304,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										</div>
 										<?php } ?>
 									</div>
-									<div class="col-sm-3">
+									<div class="form-group col-sm-3">
 										<label class="col-sm-12">Province: </label>
 										<div class="input-group col-sm-12">
 											<div id='province2_div'></div>
 										</div>
 									</div>
-									<div class="col-sm-3">
+									<div class="form-group col-sm-3">
 										<label class="col-sm-12">Country: </label>
 										<div class="input-group col-sm-12">
 											<div id='country2_div'></div>
 										</div>
 									</div>
-									<div class="col-sm-3">
+									<div class="form-group col-sm-3">
 										<label class="col-sm-12">Postcode: </label>
 										<div class="input-group col-sm-12">
 											<input class="form-control" type='text' name='postcode' value='<?php echo $postcode; ?>'>
@@ -399,10 +401,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										</div>
 									</div>
 									<div class="col-sm-3">
-										<label class="col-sm-12">Premium: </label>
+										<label class="inline">Premium: </label>
 										<div class="input-group col-sm-12">
 											<?php if ($user_group_id <= 3) { ?>
-											<input type='input' name='premium' id='premium' value='<?php echo $premium; ?>'>
+											<input class="form-control" type='input' name='premium' id='premium' value='<?php echo $premium; ?>'>
 											<?php } else { ?>
 											<input class="form-control" type='hidden' name='premium' id='premium' value='<?php echo $premium; ?>'>	
 											<div id='premium'><?php echo $premium; ?></div>	
