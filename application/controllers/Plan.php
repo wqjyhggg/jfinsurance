@@ -835,7 +835,7 @@ class Plan extends MY_Controller {
 
 			$payinfo = "Credit Card: " . substr($card_number, 0, 5) . "xxx" . substr($card_number, -4) . " " . $card_name .  " " . $expiry_month . "/" . $expiry_year;
 				
-			$para = array('payment_id' => $payment_id, 'payinfo' => $payinfo, 'commission_amount' => $commission_amount, 'status_id' => 2, 'policy' => $this->plan_model->get_policy_number($plan_id, 2));
+			$para = array('payment_id' => $payment_id, 'payinfo' => $payinfo, 'commission_payment_id' => $commission_payment_id, 'status_id' => 2, 'policy' => $this->plan_model->get_policy_number($plan_id, 2));
 			$this->plan_model->update($plan_id, $para);
 			$para = array(
 					'plan_id' => $plan_id,
@@ -1005,7 +1005,7 @@ class Plan extends MY_Controller {
 			}
 		} else {
 			$dt['amount'] = $commission_amount;
-			$payment_id = $this->trans_model->add($dt);
+			$commission_payment_id = $this->trans_model->add($dt);
 			$para = array(
 					'plan_id' => $plan_id,
 					'customer_id' => $plan['customer_id'],
@@ -1015,7 +1015,7 @@ class Plan extends MY_Controller {
 			);
 			$this->log_model->activity('commission', $para);
 		}
-		$para = array('payment_id' => $payment_id, 'payinfo' => $payinfo, 'commission_amount' => $commission_amount, 'status_id' => 2, 'policy' => $this->plan_model->get_policy_number($plan_id, 2));
+		$para = array('payment_id' => $payment_id, 'payinfo' => $payinfo, 'commission_payment_id' => $commission_payment_id, 'status_id' => 2, 'policy' => $this->plan_model->get_policy_number($plan_id, 2));
 		$this->plan_model->update($plan_id, $para);
 		$para = array(
 				'plan_id' => $plan_id,
@@ -1120,7 +1120,7 @@ class Plan extends MY_Controller {
 			}
 		} else {
 			$dt['amount'] = $commission_amount;
-			$payment_id = $this->trans_model->add($dt);
+			$commission_payment_id = $this->trans_model->add($dt);
 			$para = array(
 					'plan_id' => $plan_id,
 					'customer_id' => $plan['customer_id'],
@@ -1130,7 +1130,7 @@ class Plan extends MY_Controller {
 			);
 			$this->log_model->activity('commission', $para);
 		}
-		$para = array('payment_id' => $payment_id, 'payinfo' => $payinfo, 'commission_amount' => $commission_amount, 'status_id' => 2, 'policy' => $this->plan_model->get_policy_number($plan_id, 2));
+		$para = array('payment_id' => $payment_id, 'payinfo' => $payinfo, 'commission_payment_id' => $commission_payment_id, 'status_id' => 2, 'policy' => $this->plan_model->get_policy_number($plan_id, 2));
 		$this->plan_model->update($plan_id, $para);
 		$para = array(
 				'plan_id' => $plan_id,
