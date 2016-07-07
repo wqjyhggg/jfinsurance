@@ -149,7 +149,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                       <table class="table table-hover table-bordered">
                         <thead>
                           <tr>
-                            <th>&nbsp</th>
+                            <th>Action</th>
                             <th>Policy Number</th>
                             <th>Claim Number</th>
                             <th>First Name</th>
@@ -162,13 +162,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <th>Pay To</th>
                             <th>Cheque Number</th>
                             <th>Recieved</th>
-                            <th>&nbsp</th>
+                            <th>Action</th>
                           </tr>
                         </thead>
                         <tbody>
                         <?php foreach ($lists as $c) { ?>
                             <tr>
-                              <td><a href="<?php echo $edit_url."/".$c['claim_id']?>">edit</a></td>
+                              <td><a style="color:#46b8da;" href="<?php echo $edit_url."/".$c['claim_id']?>">Edit</a></td>
                               <td><?php echo $c['policy_number']; ?></td>
                               <td><?php echo $c['claim_number']; ?></td>
                               <td><?php echo $c['firstname']; ?></td>
@@ -181,7 +181,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                               <td><?php echo $c['pay_to']; ?></td>
                               <td><?php echo $c['cheque_number']; ?></td>
                               <td><?php echo ($c['done'] == 1) ? 'Y' : 'N'; ?></td>
-                              <td><a href="<?php echo $edit_url."/".$c['claim_id']?>">edit</a></td>
+                              <td><a style="color:#46b8da;" href="<?php echo $edit_url."/".$c['claim_id']?>">Edit</a></td>
                             </tr>
                         <?php } ?>    
                         </tbody>

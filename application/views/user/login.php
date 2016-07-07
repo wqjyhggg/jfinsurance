@@ -9,8 +9,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<div class="main">
 				<div class="login-form">
 					<h3>Login</h3>
-					<?php if (!empty($error_message)) { echo $error_message . "<br>"; } ?>
-					
+					<?php if (!empty($error_message)) { ?>
+					<div class="alert-error">
+						<p><?php echo $error_message; ?></p>
+						<br />
+					</div>
+					<?php } ?>
+				
 					<form action='<?php $action_url; ?>' method='POST'>
 						<div class="form-group row">
 							<input type='hidden'  name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
@@ -18,7 +23,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<div class="col-sm-9">
 								<input type='text' class="form-control" id="username" name='username' value='<?php echo $username; ?>' placeholder="Username">
 								<?php if (!empty($username_error)) { ?>
-								<div class="alert alert-warning"> 
+								<div class="alert-error text-left"> 
 									<?php echo $username_error . "<br>";?>
 								</div>
 								<?php } ?>
@@ -30,15 +35,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<div class="col-sm-9">
 								<input type='password' class="form-control" id="password" name='password' value='' placeholder="Password">
 								<?php if (!empty($password_error)) {?>
-								<div class="alert alert-warning">
+								<div class="alert-error text-left">
 								<?php echo $password_error . "<br>"; ?>
 								</div>
 								<?php } ?>
 							</div>
 						</div>
+						<br />
 						<div class="form-group row">
 						    <div class="col-sm-12 pull-right">
-						      <input class="btn btn-default btn-lg" type='submit'>
+						      <input class="btn btn-default" style="padding:6px 25px;" type='submit'>
 						    </div>
 						 </div>
 					

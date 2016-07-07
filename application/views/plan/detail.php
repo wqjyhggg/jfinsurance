@@ -258,7 +258,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 					<div class="x_content">
 
 						<?php if (!empty($errormsg)) { ?>
-						<div class="alert-error">
+						<div class="alert-error" style="margin-bottom:15px;">
 							<?php echo $errormsg; ?>
 						</div>
 						<?php } ?>

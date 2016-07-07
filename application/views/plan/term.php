@@ -36,22 +36,32 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                   <div class="x_content">
 
         					<p>Term & condition.</p>
-        					<p>babababababababa.</p>
+        					<p>Hac urna excepturi, quisque adipisicing numquam, enim lorem. 
+                    Duis ea duis dapibus pretium ex tortor? Etiam, aperiam, cupidatat ratione repudiandae. 
+                    Condimentum primis, perferendis, dolorum sunt illo quisque hac? 
+                    Voluptatem eget tempus tempus quia necessitatibus provident risus a leo eius ullamcorper, dicta fames incidunt quae? 
+                    Nascetur! Libero! Accumsan quam conubia exercitation, ultrices! Deserunt? 
+                    Nunc voluptates, rerum! 
+                    Aenean, officiis imperdiet dapibus numquam. Esse posuere lacinia cupiditate, laboriosam morbi. 
+                    Pretium sociosqu curabitur sit nisi, irure! 
+                    Inceptos lectus placeat morbi penatibus animi officia tempora! 
+                    Nemo quasi irure qui. Maxime, blanditiis feugiat. Ut? Iste accumsan, odit. 
+                    Aliquip expedita explicabo rem tempore expedita, nulla adipiscing rerum.</p>
 
                   <br />
                   
                     <?php if (!empty($message)) { ?>
                       <div class="alert-error">
-                        <?php echo $message . "<br>";?>
+                        <?php echo $message;?>
                       </div>
                     <?php } ?>  
                     
-
+                  <br />  
         					<form action='<?php echo $action_url; ?>' method='POST'>
         					<input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
                   <input type='hidden' name='plan_id' value='<?php echo $plan_id; ?>'>
                   <div class="row">
-                    <div class="col-sm-12">
+                    <div class="col-sm-12 text-right">
         					   Agree: <input type='checkbox' name='agree' id='agree'>
         					   <input class="btn btn-primary" type='submit' name='submit' value='Agree'><br>
         					  </div>

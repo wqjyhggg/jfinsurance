@@ -34,7 +34,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
-					<?php if (!empty($error_message)) { echo $error_message . "<br>"; } ?>
+					<?php if (!empty($error_message)) { ?>
+
+					<div class="alert-error">
+						<?php echo $error_message; ?>
+						<br />
+					</div>
+					<?php } ?>
 					<form action='<?php $action_url; ?>' method='POST' class="form-horizontal">
 
 					<input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
@@ -50,6 +56,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<option value='<?php echo $key; ?>' <?php echo ($user_group_id == $key) ? 'selected' : ''; ?>><?php echo $name; ?></option>
 							<?php } ?>
 							</select>
+							<?php if (!empty($error_user_group)){ ?>
+							<div class="alert-error">	
+								<?php echo $error_user_group; ?>
+							</div>
+							<?php } ?>
 						  </div>
 	              		</div>
 	              		<div class="col-sm-3 form-group">
@@ -82,24 +93,45 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			                <label class="col-sm-12">Username:</label>
 			                <div class="input-group col-sm-12">
 			                	<input type='text' name='username' value='<?php echo $username; ?>' class="form-control">
+			                	<?php if (!empty($error_username)){ ?>
+								<div class="alert-error">	
+									<?php echo $error_username; ?>
+								</div>
+								<?php } ?>
 			                </div>
 			            </div>
 			            <div class="form-group col-sm-3">
 			                <label class="col-sm-12">Password:</label>
 			                <div class="input-group col-sm-12">
 			                	<input type='text' name='password' value='' class="form-control" class="form-control">
+			                	
+			                	<?php if (!empty($error_password)){ ?>
+								<div class="alert-error">	
+									<?php echo $error_password; ?>
+								</div>
+								<?php } ?>			                	
 			                </div>
 			            </div>
 			            <div class="form-group col-sm-2">
 			                <label class="col-sm-12">First Name:</label>
 			                <div class="input-group col-sm-12">
 			                	<input type='text' name='firstname' value='<?php echo $firstname; ?>' class="form-control">
+			                	<?php if (!empty($error_firstname)){ ?>
+								<div class="alert-error">	
+									<?php echo $error_firstname; ?>
+								</div>
+								<?php } ?>
 			                </div>
 			            </div>
 			            <div class="form-group col-sm-2">
 			                <label class="col-sm-12">Last Name:</label>
 			                <div class="input-group col-sm-12">
 			                	<input type='text' name='lastname' value='<?php echo $lastname; ?>' class="form-control">
+			                	<?php if (!empty($error_lastname)){ ?>
+								<div class="alert-error">	
+									<?php echo $error_lastname; ?>
+								</div>
+								<?php } ?>
 			                </div>
 			            </div>
 			            <div class="form-group col-sm-2">
@@ -118,12 +150,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			                <label class="col-sm-12">E-mail:</label>
 			                <div class="input-group col-sm-12">
 			                	<input type='text' name='email' value='<?php echo $email; ?>' class="form-control">
+			                	<?php if (!empty($error_email)){ ?>
+								<div class="alert-error">	
+									<?php echo $error_email; ?>
+								</div>
+								<?php } ?>
 			                </div>
 			            </div>
 			            <div class="form-group col-sm-9">
 			                <label class="col-sm-12">Address:</label>
 			                <div class="input-group col-sm-12">
 			                	<input type='text' name='address' value='<?php echo $address; ?>' class="form-control">
+			                	<?php if (!empty($error_address)){ ?>
+								<div class="alert-error">	
+									<?php echo $error_address; ?>
+								</div>
+								<?php } ?>
 			                </div>
 			            </div>
 			        </div>
@@ -132,12 +174,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			                <label class="col-sm-12">City:</label>
 			                <div class="input-group col-sm-12">
 			                	<input type='text' name='city' value='<?php echo $city; ?>' class="form-control">
+			                	<?php if (!empty($error_city)){ ?>
+								<div class="alert-error">	
+									<?php echo $error_city; ?>
+								</div>
+								<?php } ?>
 			                </div>
 			            </div>
 			            <div class="form-group col-sm-3">
 			                <label class="col-sm-12">Province:</label>
 			                <div class="input-group col-sm-12">
 			                	<div id='province2_div'></div>
+			                	<?php if (!empty($error_province)){ ?>
+								<div class="alert-error">	
+									<?php echo $error_province; ?>
+								</div>
+								<?php } ?>
 			                </div>
 			            </div>
 			            <div class="form-group col-sm-3">
@@ -150,6 +202,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			                <label class="col-sm-12">Post Code:</label>
 			                <div class="col-sm-12 input-group">
 				                <input type='text' name='postcode' value='<?php echo $postcode; ?>' class="form-control">
+								<?php if (!empty($error_postcode)){ ?>
+								<div class="alert-error">	
+									<?php echo $error_postcode; ?>
+								</div>
+								<?php } ?>
 							</div>
 			            </div>
 	              	</div>
@@ -164,12 +221,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			                <label class="col-sm-12">Licence No.:</label>
 			                <div class="input-group col-sm-12">
 			                	<input type='text' name='licence_number' value='<?php echo $licence_number; ?>' class="form-control">
+			                	<?php if (!empty($error_licence_number)){ ?>
+								<div class="alert-error">	
+									<?php echo $error_licence_number; ?>
+								</div>
+								<?php } ?>
 			                </div>
 			            </div>
 			            <div class="form-group col-sm-3">
 			                <label class="col-sm-12">Licence Expire Date:</label>
 			                <div class="input-group col-sm-12">
 			                	<input type='date' name='licence_expire' value='<?php echo $licence_expire; ?>' class="form-control">
+			                	<?php if (!empty($error_licence_expire)){ ?>
+								<div class="alert-error">	
+									<?php echo $error_licence_expire; ?>
+								</div>
+								<?php } ?>
 			                </div>
 			            </div>
 			            

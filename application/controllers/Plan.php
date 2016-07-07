@@ -694,7 +694,7 @@ class Plan extends MY_Controller {
 				
 				redirect('plan/detail/'.$plan_id);
 			} else {
-				$data['message'] = 'You need agree term and conditions to continue';
+				$data['message'] = 'You need agree term and conditions to continue.';
 			}
 		}
 		$data['plan_id'] = $plan_id;
@@ -720,13 +720,13 @@ class Plan extends MY_Controller {
 		$premium = $this->input->post('premium');
 		
 		if (empty( $this->input->post('card_number') ) ) {
-			$this->error = 'Please input Card Number';
+			$this->error = 'Please input Card Number.';
 		} else if (empty( $this->input->post('card_name') ) ) {
-			$this->error = 'Please input Card Name';
+			$this->error = 'Please input Card Name.';
 		} else if (empty( $this->input->post('expiry_month') ) ) {
-			$this->error = 'Please select Expiry Month';
+			$this->error = 'Please select Expiry Month.';
 		} else if (empty( $this->input->post('expiry_year') ) ) {
-			$this->error = 'Please select Expiry Year';
+			$this->error = 'Please select Expiry Year.';
 		} else if (empty( $this->input->post('card_cvv') ) ) {
 			$this->error = 'Please Card CVV';
 		} else {
