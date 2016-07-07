@@ -504,6 +504,9 @@ class Product_model extends CI_Model {
 			else				  	return 0;
 			$premium = $rate * $days;
 			$rArr = array('premium' => $premium, 'rate' => $rate, 'years' => $years, 'days' => $days, 'message' => "", 'sum_insured' => number_format($para['sum_insured'], 2, '.', ','), 'deductible_amount' => number_format($para['deductible_amount'], 2, '.', ','));
+		} else {
+			$this->message = "";
+			return 0;
 		}
 		return $rArr; 
 	}

@@ -646,8 +646,10 @@ class Plan extends MY_Controller {
 			$data['insurable_options'] = $this->load->view('plan/form_jus', $data, TRUE);
 		} else if ($data['product_short'] == 'JES') {
 			$data['insurable_options'] = $this->load->view('plan/form_jes', $data, TRUE);
-		} else /* if ($plan['product_short'] == 'JFC') */ {
+		} else if ($plan['product_short'] == 'JFC') {
 			$data['insurable_options'] = $this->load->view('plan/form_jes', $data, TRUE);
+		} else {
+			$data['insurable_options'] = $this->load->view('plan/form_other', $data, TRUE);
 		}
 
 		//$this->load->common('plan/form', $data);
@@ -787,7 +789,7 @@ class Plan extends MY_Controller {
 				);
 				$this->log_model->activity('payment', $para);
 			}
-			$premium = dt['amount'];	// Adjust amount if it was paid 
+			$premium = $dt['amount'];	// Adjust amount if it was paid 
 
 			// Adjust commission
 			$dt['pay_type'] = 'commission';
@@ -970,7 +972,7 @@ class Plan extends MY_Controller {
 			);
 			$this->log_model->activity('payment', $para);
 		}
-		$premium = dt['amount'];	// Adjust amount if it was paid
+		$premium = $dt['amount'];	// Adjust amount if it was paid
 		
 		// Adjust commission
 		$dt['pay_type'] = 'commission';
@@ -1085,7 +1087,7 @@ class Plan extends MY_Controller {
 			);
 			$this->log_model->activity('payment', $para);
 		}
-		$premium = dt['amount'];	// Adjust amount if it was paid
+		$premium = $dt['amount'];	// Adjust amount if it was paid
 		
 		// Adjust commission
 		$dt['pay_type'] = 'commission';
@@ -1266,6 +1268,23 @@ class Plan extends MY_Controller {
 		);
 		
 		$data['defaultpay_type'] = $defaultpay_type;
+		
+		if ($data['product_short'] == 'OPL') {
+			$data['insurable_options'] = $this->load->view('plan/detail_opl', $data, TRUE);
+		} else if ($data['product_short'] == 'JFR') {
+			$data['insurable_options'] = $this->load->view('plan/detail_opl', $data, TRUE);
+		} else if ($data['product_short'] == 'JUS') {
+			$data['insurable_options'] = $this->load->view('plan/detail_jus', $data, TRUE);
+		} else if ($data['product_short'] == 'NUS') {
+			$data['insurable_options'] = $this->load->view('plan/detail_jus', $data, TRUE);
+		} else if ($data['product_short'] == 'JES') {
+			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
+		} else if ($plan['product_short'] == 'JFC') {
+			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
+		} else {
+			$data['insurable_options'] = $this->load->view('plan/detail_other', $data, TRUE);
+		}
+		
 		$this->load->common('plan/detail', $data);
 	}
 

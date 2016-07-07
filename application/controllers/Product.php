@@ -102,7 +102,12 @@ class Product extends MY_Controller {
 		
 		$premiumarr = $this->product_model->get_premium($para);
 		if (empty($premiumarr) || empty($premiumarr['premium'])) {
-			$data = array('status' => 'Error', 'message' => $this->product_model->get_message());
+			$message = $this->product_model->get_message();
+			if (empty($message)) {
+				$data = array('status' => 'Unknown', 'message' => '');
+			} else {
+				$data = array('status' => 'Error', 'message' => $message);
+			}
 		} else {
 			$premiumarr['premium'] = number_format($premiumarr['premium'], 2, '.', ',');
 			$data = array('status' => 'OK', 'premiumarr' => $premiumarr);
