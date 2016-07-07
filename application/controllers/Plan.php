@@ -1269,17 +1269,17 @@ class Plan extends MY_Controller {
 		
 		$data['defaultpay_type'] = $defaultpay_type;
 		
-		if ($data['product_short'] == 'OPL') {
+		if ($data['plan']['product_short'] == 'OPL') {
 			$data['insurable_options'] = $this->load->view('plan/detail_opl', $data, TRUE);
-		} else if ($data['product_short'] == 'JFR') {
+		} else if ($data['plan']['product_short'] == 'JFR') {
 			$data['insurable_options'] = $this->load->view('plan/detail_opl', $data, TRUE);
-		} else if ($data['product_short'] == 'JUS') {
+		} else if ($data['plan']['product_short'] == 'JUS') {
 			$data['insurable_options'] = $this->load->view('plan/detail_jus', $data, TRUE);
-		} else if ($data['product_short'] == 'NUS') {
+		} else if ($data['plan']['product_short'] == 'NUS') {
 			$data['insurable_options'] = $this->load->view('plan/detail_jus', $data, TRUE);
-		} else if ($data['product_short'] == 'JES') {
+		} else if ($data['plan']['product_short'] == 'JES') {
 			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
-		} else if ($plan['product_short'] == 'JFC') {
+		} else if ($plan['plan']['product_short'] == 'JFC') {
 			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
 		} else {
 			$data['insurable_options'] = $this->load->view('plan/detail_other', $data, TRUE);
