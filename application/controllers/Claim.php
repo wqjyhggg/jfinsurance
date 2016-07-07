@@ -351,7 +351,7 @@ class Claim extends MY_Controller {
 		
 		if (!empty($this->data['error_message'])) {
 			// How to show error_message?
-			redirect('plan/list');
+			redirect('claim');
 		}
 
 		$this->load->model('coverage_model');
