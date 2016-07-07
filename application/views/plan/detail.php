@@ -243,7 +243,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 		</div>
 		<!-- End Form -->
 
-	<?php if (($plan['status_id'] <= 2) && empty($defaultpay_type)) { ?>
+	<?php if (($plan['status_id'] <= 2)) { ?>
 
 		<!-- Payment -->
 		<div class="row <?php if (empty($defaultpay_type)) { ?>collapse<?php } ?>" id="payment-div" style="padding-bottom:30px;">

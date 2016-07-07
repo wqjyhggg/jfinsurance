@@ -425,6 +425,23 @@ class Plan_model extends CI_Model {
 				}
 			}
 		}
+
+		if (isset($para['status_id']) && ((int)$para['status_id'] != (int)$plan['status_id']) && ((int)$para['status_id'] == 3) && ((int)$plan['status_id'] == 2)) {
+			$payment_id = empty($plan['payment_id']) ? (empty($para['payment_id']) ? 0 : $para['payment_id']) : $plan['payment_id'];
+			if ($payment_id) {
+				$this->load->model('trans_model');
+				$dt['ispaid'] = 1;
+				$payment_id = $this->trans_model->update($payment_id, $dt);
+				$para = array(
+						'plan_id' => $plan['plan_id'],
+						'customer_id' => $plan['customer_id'],
+						'payment_id' => $payment_id,
+						'message' => $this->trans_model->logstr,
+						'systemlog' => $this->trans_model->sqlstr
+				);
+				$this->log_model->activity('payment', $para);
+			}
+		}
 		
 		return $plan_id;
 	}
@@ -436,7 +453,7 @@ class Plan_model extends CI_Model {
 	 * @param	int		$limit		limit
 	 * @return	array					user table search result
 	 */
-	public function plan_search($para, $limit) {
+	public function plan_search($para, $limit=0) {
 		$beuser = $this->session->userdata('beuser');
 		if (empty($beuser)) {
 			return array();
@@ -559,7 +576,181 @@ class Plan_model extends CI_Model {
 		if (!empty($where)) {
 			$sql .= " WHERE " . join(" AND ", $where);
 		}
-		$sql .= " ORDER BY plan_id DESC LIMIT " . $limit;
+		$sql .= " ORDER BY plan_id DESC";
+		if ($limit) {
+			$sql .= " LIMIT " . $limit;
+		}
 		return $this->db->query($sql)->result_array();
+	}
+
+	/**
+	 * Search Plans (policies) by conditions for export
+	 * 
+	 * @param	array	$para		Search parameters
+	 * @param	int		$limit		limit
+	 * @return	array					user table search result
+	 */
+	public function plan_export_search($para) {
+		$beuser = $this->session->userdata('beuser');
+		if (empty($beuser)) {
+			return array();
+		}
+		
+		$plans = array();
+		$carr = array();
+		if (!empty($para['firstname'])) {
+			$carr[] = "firstname LIKE " . $this->db->escape($para['firstname'] . "%");
+		} 
+		if (!empty($para['lastname'])) {
+			$carr[] = "lastname LIKE " . $this->db->escape($para['lastname'] . "%");
+		} 
+		if (!empty($para['birthday'])) {
+			if (!empty($para['birthday2'])) {
+				$carr[] = "birthday >= " . $this->db->escape($para['birthday']);
+				$carr[] = "birthday <= " . $this->db->escape($para['birthday2']);
+			} else {
+				$carr[] = "birthday = " . $this->db->escape($para['birthday']);
+			}
+		}
+		if (!empty($carr)) {
+			$sql = "SELECT customer_id FROM customer WHERE " . join(" AND ", $carr);
+			$rows = $this->db->query($sql)->result_array();
+			foreach ($rows as $row) {
+				$plans[] = $row['plan_id'];
+			}
+		}
+		$users = array();
+		if ($beuser['user_group_id'] < 3) {
+			if (!empty($para['uname'])) {
+				$sql = "SELECT user_id FROM user WHERE firstname LIKE " . $this->db->escape($para['uname'] . "%") . " OR lastname LIKE " . $this->db->escape($para['uname'] . "%");
+				$rows = $this->db->query($sql)->result_array();
+				foreach ($rows as $row) {
+					$users[] = $row['user_id'];
+				}
+			}
+		} else if ($beuser['user_group_id'] == 4) {
+			if (!empty($para['uname'])) {
+				$sql = "SELECT user_id FROM user WHERE (user_id='".(int)$beuser['user_id']."' OR parent_user_id='".(int)$beuser['user_id']."') AND firstname LIKE " . $this->db->escape($para['uname'] . "%") . " OR lastname LIKE " . $this->db->escape($para['uname'] . "%");
+			} else {
+				$sql = "SELECT user_id FROM user WHERE user_id='".(int)$beuser['user_id']."' OR parent_user_id='".(int)$beuser['user_id']."'";
+			}
+			$rows = $this->db->query($sql)->result_array();
+			foreach ($rows as $row) {
+				$users[] = $row['user_id'];
+			}
+		} else {
+			if (!empty($para['uname'])) {
+				$sql = "SELECT user_id FROM user WHERE user_id='".(int)$beuser['user_id']."' AND firstname LIKE " . $this->db->escape($para['uname'] . "%") . " OR lastname LIKE " . $this->db->escape($para['uname'] . "%");
+			} else {
+				$sql = "SELECT user_id FROM user WHERE user_id='".(int)$beuser['user_id']."'";
+			}
+			$rows = $this->db->query($sql)->result_array();
+			foreach ($rows as $row) {
+				$users[] = $row['user_id'];
+			}
+		}
+				
+		$sql  = "SELECT p.*, c.firstname, c.lastname, c.gender, c.birthday FROM plan p";
+		$sql .= " INNER JOIN customer c ON (p.customer_id=c.customer_id)";
+		$where = array();
+		if (!empty($para['policy'])) {
+			$where[] = "p.policy=" . $this->db->escape($para['policy']);
+		}
+		if (!empty($para['batch_number'])) {
+			$where[] = "p.batch_number=" . $this->db->escape($para['batch_number']);
+		}
+		if (!empty($para['status_id'])) {
+			$where[] = "p.status_id='" . (int)$para['status_id'] . "'";
+		}
+		if (!empty($para['product_short'])) {
+			$where[] = "p.product_short=" . $this->db->escape($para['product_short']);
+		}
+		if (!empty($plans)) {
+			$where[] = "p.plan_id IN (" . join(",", $plans) . ")";
+		}
+		if (!empty($users)) {
+			$where[] = "p.user_id IN (" . join(",", $users) . ")";
+		}
+		if (!empty($para['province2'])) {
+			$where[] = "p.province2=" . $this->db->escape($para['province2']);
+		}
+		if (!empty($para['country2'])) {
+			$where[] = "p.country2=" . $this->db->escape($para['country2']);
+		}
+		if (!empty($para['apply_date'])) {
+			if (!empty($para['apply_date2'])) {
+				$carr[] = "p.apply_date >= " . $this->db->escape($para['apply_date']);
+				$carr[] = "p.apply_date <= " . $this->db->escape($para['apply_date2']);
+			} else {
+				$carr[] = "p.apply_date = " . $this->db->escape($para['apply_date']);
+			}
+		}
+		if (!empty($para['arrival_date'])) {
+			if (!empty($para['arrival_date2'])) {
+				$carr[] = "p.arrival_date >= " . $this->db->escape($para['arrival_date']);
+				$carr[] = "p.arrival_date <= " . $this->db->escape($para['arrival_date2']);
+			} else {
+				$carr[] = "p.arrival_date = " . $this->db->escape($para['arrival_date']);
+			}
+		}
+		if (!empty($para['effective_date'])) {
+			if (!empty($para['effective_date2'])) {
+				$where[] = "p.effective_date >= " . $this->db->escape($para['effective_date']);
+				$where[] = "p.effective_date <= " . $this->db->escape($para['effective_date2']);
+			} else {
+				$where[] = "p.effective_date = " . $this->db->escape($para['effective_date']);
+			}
+		}
+		if (!empty($para['expiry_date'])) {
+			if (!empty($para['expiry_date2'])) {
+				$carr[] = "p.expiry_date >= " . $this->db->escape($para['expiry_date']);
+				$carr[] = "p.expiry_date <= " . $this->db->escape($para['expiry_date2']);
+			} else {
+				$carr[] = "p.expiry_date = " . $this->db->escape($para['expiry_date']);
+			}
+		}
+		if (!empty($where)) {
+			$sql .= " WHERE " . join(" AND ", $where);
+		}
+		$sql .= " ORDER BY plan_id DESC";
+		$rArr = $this->db->query($sql)->result_array();
+		for ($i = 0; $i < sizeof($rArr); $i++) {
+			if ($rArr[$i]['isfamilyplan']) {
+				$this->db->where('plan_id', $rArr[$i]['plan_id']);
+				$this->db->where('parent_customer_id', $rArr[$i]['customer_id']);
+				$cArr = $this->db->get('customer')->result_array();
+				for ($j = 0; $j < sizeof($cArr); $j++) {
+					$m = $j + 1;
+					$rArr[$i]['gender_'.$m] = $cArr[$j]['gender'];
+					$rArr[$i]['firstname_'.$m] = $cArr[$j]['firstname'];
+					$rArr[$i]['lastname_'.$m] = $cArr[$j]['lastname'];
+					$rArr[$i]['birthday_'.$m] = $cArr[$j]['birthday'];
+				}
+			}
+		}
+		return $rArr;
+	}
+	
+	/**
+	 * Get plan's commission
+	 * 
+	 * @param integer $plan_id
+	 * @return float 
+	 */
+	public function get_commission($plan_id) {
+		$plan = $this->get_plan_by_id($plan_id);
+		if (empty($plan)) {
+			return 0;
+		}
+		
+		$this->db->where('user_id', $plan['user_id']);
+		$this->db->where('product_short', $plan['product_short']);
+		$user_product = $this->db->get('user_product')->row_array();
+		if (empty($user_product)) {
+			return 0;
+		}
+		
+		$commission = $plan['premium'] * $user_product['commission'] / 100;
+		return $commission;
 	}
 }

@@ -123,7 +123,8 @@ abstract class AbstractWriter implements WriterInterface
 
         // Set headers
         $this->globalFunctionsHelper->header('Content-Type: ' . static::$headerContentType);
-        $this->globalFunctionsHelper->header('Content-Disposition: attachment; filename="' . $this->outputFilePath . '"');
+        //$this->globalFunctionsHelper->header('Content-Disposition: attachment; filename="' . $this->outputFilePath . '"');
+        $this->globalFunctionsHelper->header('Content-Disposition: inline; filename="' . $this->outputFilePath . '"');
 
         /*
          * When forcing the download of a file over SSL,IE8 and lower browsers fail
