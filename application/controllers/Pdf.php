@@ -197,7 +197,8 @@ class Pdf extends MY_Controller {
 	        	redirect ( base_url ( 'errorpage' ) );
 	    }       
 	    header('Content-type: ' . $mimeType);
-	    header('Content-Disposition: attachment; filename="' . $filename . '"');
+	    //header('Content-Disposition: attachment; filename="' . $filename . '"');
+	    header('Content-Disposition: inline; filename="' . $filename . '"');
 	    header('Content-Transfer-Encoding: binary');
 	    header('Expires: 0');
 	    header('Pragma: no-cache');

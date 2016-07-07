@@ -425,6 +425,23 @@ class Plan_model extends CI_Model {
 				}
 			}
 		}
+
+		if (isset($para['status_id']) && ((int)$para['status_id'] != (int)$plan['status_id']) && ((int)$para['status_id'] == 3) && ((int)$plan['status_id'] == 2)) {
+			$payment_id = empty($plan['payment_id']) ? (empty($para['payment_id']) ? 0 : $para['payment_id']) : $plan['payment_id'];
+			if ($payment_id) {
+				$this->load->model('trans_model');
+				$dt['ispaid'] = 1;
+				$payment_id = $this->trans_model->update($payment_id, $dt);
+				$para = array(
+						'plan_id' => $plan['plan_id'],
+						'customer_id' => $plan['customer_id'],
+						'payment_id' => $payment_id,
+						'message' => $this->trans_model->logstr,
+						'systemlog' => $this->trans_model->sqlstr
+				);
+				$this->log_model->activity('payment', $para);
+			}
+		}
 		
 		return $plan_id;
 	}

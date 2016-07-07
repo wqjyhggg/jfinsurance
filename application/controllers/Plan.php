@@ -2,6 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 use Box\Spout\Writer\WriterFactory;
+use Box\Spout\Common\Type;
 
 class Plan extends MY_Controller {
 	private $merchentID = "300203256";
@@ -188,8 +189,8 @@ class Plan extends MY_Controller {
 				'gende_8',
 				'birthday_8');
 		$tmpfname = "/tmp/jf_test.xlsx";
-		//$w->openToBrowser("Policy' . date('Ymd') . '.xlsx");
-		$w->openToFile($tmpfname);
+		$w->openToBrowser("Policy" . date('Ymd') . ".xlsx");
+		//$w->openToFile($tmpfname);
 		$w->addRow($kArr);
 		foreach($policies as $p) {
 			$para = array();
@@ -199,13 +200,15 @@ class Plan extends MY_Controller {
 			$w->addRow($para);
 		}
 		$w->close();
+		/*
 		header('Content-type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
 		header('Content-Disposition: attachment; filename="Policy' . date('Ymd') . '.xlsx"');
 		header('Content-Transfer-Encoding: binary');
 		header('Expires: 0');
 		header('Pragma: no-cache');
 		readfile($tmpfname);
-		unlink($tmpfname);
+		*/
+		//unlink($tmpfname);
 	}
 	
 	function form_valid() {
@@ -732,7 +735,7 @@ class Plan extends MY_Controller {
 			$card_cvv = $this->input->post('card_cvv');
 
 			$plan = $this->plan_model->get_plan_by_id($plan_id);
-			if ($plan['status_id'] != 2) {
+			if ($plan['status_id'] < 2) {
 				$dt = array();
 				$dt['plan_id'] = $plan_id;
 				$dt['amount'] = $premium;
@@ -757,7 +760,7 @@ class Plan extends MY_Controller {
 				
 				$payinfo = "Credit Card: " . substr($card_number, 0, 5) . "xxx" . substr($card_number, -4) . " " . $card_name .  " " . $expiry_month . "/" . $expiry_year;
 				
-				$para = array('payinfo' => $payinfo, 'status_id' => 2, 'policy' => $this->plan_model->get_policy_number($plan_id, 2));
+				$para = array('payment_id' => $payment_id, 'payinfo' => $payinfo, 'status_id' => 2, 'policy' => $this->plan_model->get_policy_number($plan_id, 2));
 				$this->plan_model->update($plan_id, $para);
 				$para = array(
 						'plan_id' => $plan_id,
@@ -769,37 +772,37 @@ class Plan extends MY_Controller {
 				$this->log_model->activity('plan', $para);
 
 			} else /* if ($plan['status_id'] == 2) */ {
-				$payment = $this->trans_model->get_payment($plan_id, 'premium', 0);
-				if (!empty($premium)) {
-					$dt = array();
-					$dt['plan_id'] = $plan_id;
-					$dt['amount'] = $premium;
-					$dt['pay_type'] = 'premium';
-					$dt['pay_mothed'] = 'Credit Card';
-					$dt['name'] = $card_name;
-					$dt['added'] = date('c');
-					$dt['first5'] = substr($card_number, 0, 5);
-					$dt['last4'] = substr($card_number, -4);
-					$dt['expiry_month'] = $expiry_month;
-					$dt['expiry_year'] = $expiry_year;
-					$dt['expiry_year'] = $expiry_year;
-					$dt['ispaid'] = 0;
-					$payment_id = $this->trans_model->update($payment['payment_id'], $dt);
-					$para = array(
-							'plan_id' => $plan_id,
-							'customer_id' => $plan['customer_id'],
-							'payment_id' => $payment_id,
-							'message' => $this->trans_model->logstr,
-							'systemlog' => $this->trans_model->sqlstr
-					);
-					$this->log_model->activity('payment', $para);
+				$payment = $this->trans_model->get_payment_by_plan_id($plan['payment_id']);
+				$dt = array();
+				$dt['plan_id'] = $plan_id;
+				$dt['amount'] = $premium;
+				$dt['pay_type'] = 'premium';
+				$dt['pay_mothed'] = 'Credit Card';
+				$dt['name'] = $card_name;
+				$dt['added'] = date('c');
+				$dt['first5'] = substr($card_number, 0, 5);
+				$dt['last4'] = substr($card_number, -4);
+				$dt['expiry_month'] = $expiry_month;
+				$dt['expiry_year'] = $expiry_year;
+				$dt['expiry_year'] = $expiry_year;
+				$dt['ispaid'] = 0;
+				if (empty($premium)) {
+					$payment_id = $this->trans_model->add($dt);
 				} else {
-					$payment_id = $payment['payment_id'];
+					$payment_id = $this->trans_model->update($payment['payment_id'], $dt);
 				}
+				$para = array(
+						'plan_id' => $plan_id,
+						'customer_id' => $plan['customer_id'],
+						'payment_id' => $payment_id,
+						'message' => $this->trans_model->logstr,
+						'systemlog' => $this->trans_model->sqlstr
+				);
+				$this->log_model->activity('payment', $para);
 				
 				$payinfo = "Credit Card: " . substr($card_number, 0, 5) . "xxx" . substr($card_number, -4) . " " . $card_name .  " " . $expiry_month . "/" . $expiry_year;
 				
-				$para = array('payinfo' => $payinfo, 'status_id' => 2);
+				$para = array('payment_id' => $payment_id, 'payinfo' => $payinfo, 'status_id' => 2);
 				$this->plan_model->update($plan_id, $para);
 				$para = array(
 						'plan_id' => $plan_id,
@@ -827,6 +830,17 @@ class Plan extends MY_Controller {
 			try {
 				$result = $beanstream->payments ()->makeCardPayment ( $payment_data, TRUE ); // set to FALSE for Pre-Auth
 				if (isset($result['approved'])) {
+					$para = array('status_id' => 3);
+					$this->plan_model->update($plan_id, $para);
+					$para = array(
+							'plan_id' => $plan_id,
+							'customer_id' => $plan['customer_id'],
+							'payment_id' => $payment_id,
+							'message' => $this->plan_model->logstr,
+							'systemlog' => $this->plan_model->sqlstr
+					);
+					$this->log_model->activity('plan', $para);
+					
 					$dt['ispaid'] = 1;
 					$dt['note'] = "Success: Raw Data=> " . json_encode($result);
 					$payment_id = $this->trans_model->update($payment_id, $dt);
@@ -839,16 +853,6 @@ class Plan extends MY_Controller {
 					);
 					$this->log_model->activity('payment', $para);
 
-					$para = array('payinfo' => $payinfo, 'status_id' => 3);
-					$this->plan_model->update($plan_id, $para);
-					$para = array(
-							'plan_id' => $plan_id,
-							'customer_id' => $plan['customer_id'],
-							'payment_id' => $payment_id,
-							'message' => $this->plan_model->logstr,
-							'systemlog' => $this->plan_model->sqlstr
-					);
-					$this->log_model->activity('payment', $para);
 				} else {
 					$dt['ispaid'] = 0;
 					$dt['note'] = "Failur: Raw Data=> " . json_encode($result);
@@ -908,7 +912,7 @@ class Plan extends MY_Controller {
 			);
 			$this->log_model->activity('payment', $para);
 			
-			$para = array('payinfo' => $payinfo, 'status_id' => 2, 'policy' => $this->plan_model->get_policy_number($plan_id, 2));
+			$para = array('payment_id' => $payment_id, 'payinfo' => $payinfo, 'status_id' => 2, 'policy' => $this->plan_model->get_policy_number($plan_id, 2));
 			$this->plan_model->update($plan_id, $para);
 			$para = array(
 					'plan_id' => $plan_id,
@@ -921,30 +925,30 @@ class Plan extends MY_Controller {
 		
 		} else /* if ($plan['status_id'] == 2) */ {
 			// Change pay_type
-			$payment = $this->trans_model->get_payment($plan_id, 'premium', 0);
-			if (!empty($premium)) {
-				$dt = array();
-				$dt['plan_id'] = $plan_id;
-				$dt['amount'] = $premium;
-				$dt['pay_type'] = 'premium';
-				$dt['pay_mothed'] = 'Cash';
-				$dt['added'] = date('c');
-				$dt['note'] = $payinfo;
-				$dt['ispaid'] = 0;
-				$payment_id = $this->trans_model->update($payment['payment_id'], $dt);
-				$para = array(
-						'plan_id' => $plan_id,
-						'customer_id' => $plan['customer_id'],
-						'payment_id' => $payment_id,
-						'message' => $this->trans_model->logstr,
-						'systemlog' => $this->trans_model->sqlstr
-				);
-				$this->log_model->activity('payment', $para);
+			$payment = $this->trans_model->get_payment_by_plan_id($plan['plan_id']);
+			$dt = array();
+			$dt['plan_id'] = $plan_id;
+			$dt['amount'] = $premium;
+			$dt['pay_type'] = 'premium';
+			$dt['pay_mothed'] = 'Cash';
+			$dt['added'] = date('c');
+			$dt['note'] = $payinfo;
+			$dt['ispaid'] = 0;
+			if (empty($premium)) {
+				$payment_id = $this->trans_model->add($dt);
 			} else {
-				$payment_id = $payment['payment_id'];
+				$payment_id = $this->trans_model->update($payment['payment_id'], $dt);
 			}
-					
-			$para = array('payinfo' => $payinfo);
+			$para = array(
+					'plan_id' => $plan_id,
+					'customer_id' => $plan['customer_id'],
+					'payment_id' => $payment_id,
+					'message' => $this->trans_model->logstr,
+					'systemlog' => $this->trans_model->sqlstr
+			);
+			$this->log_model->activity('payment', $para);
+				
+			$para = array('payment_id' => $payment_id, 'payinfo' => $payinfo);
 			$this->plan_model->update($plan_id, $para);
 			$para = array(
 					'plan_id' => $plan_id,
@@ -961,6 +965,7 @@ class Plan extends MY_Controller {
 	private function cheque() {
 		$this->load->model('plan_model');
 		$this->load->model('product_model');
+		$this->load->model('trans_model');
 		
 		$plan_id = $this->input->post('plan_id');
 		$premium = $this->input->post('premium');
@@ -992,27 +997,35 @@ class Plan extends MY_Controller {
 			);
 			$this->log_model->activity('plan', $para);
 		} else {
-			$payment = $this->trans_model->get_payment($plan_id, 'premium', 0);
+			$payment = $this->trans_model->get_payment_by_plan_id($plan['plan_id']);
+			$dt = array();
+			$dt['plan_id'] = $plan_id;
+			$dt['amount'] = $premium;
+			$dt['pay_type'] = 'premium';
+			$dt['pay_mothed'] = 'Checque';
+			$dt['added'] = date('c');
+			$dt['note'] = $payinfo;
+			$dt['ispaid'] = 0;
 			if (!empty($premium)) {
-				$dt = array();
-				$dt['plan_id'] = $plan_id;
-				$dt['amount'] = $premium;
-				$dt['pay_type'] = 'premium';
-				$dt['pay_mothed'] = 'Checque';
-				$dt['added'] = date('c');
-				$dt['note'] = $payinfo;
-				$dt['ispaid'] = 0;
-				$payment_id = $this->trans_model->update($dt);
+				$payment_id = $this->trans_model->add($dt);
 			} else {
-				$payment_id = $payment['payment_id'];
+				$payment_id = $this->trans_model->update($payment['payment_id'], $dt);
 			}
+			$para = array(
+					'plan_id' => $plan_id,
+					'customer_id' => $plan['customer_id'],
+					'payment_id' => $payment_id,
+					'message' => $this->trans_model->logstr,
+					'systemlog' => $this->trans_model->sqlstr
+			);
+			$this->log_model->activity('payment', $para);
 			
-			$para = array('payinfo' => $payinfo, 'status_id' => 2);
+			$para = array('payment_id' => $payment_id, 'payinfo' => $payinfo);
 			$this->plan_model->update($plan_id, $para);
 			$para = array(
 					'plan_id' => $plan_id,
 					'customer_id' => $plan['customer_id'],
-					'payment_id' => 0,
+					'payment_id' => $payment_id,
 					'message' => $this->plan_model->logstr,
 					'systemlog' => $this->plan_model->sqlstr
 			);
@@ -1061,7 +1074,6 @@ class Plan extends MY_Controller {
 		}
 		
 		$data['errormsg'] = $this->error;
-		$data['defaultpay_type'] = $defaultpay_type;
 		$data['beuser'] = $beuser;
 		$data['sekey'] = $sekey;
 		$data['apply_date'] = date('Y-m-d');
@@ -1146,6 +1158,7 @@ class Plan extends MY_Controller {
 				'value' => $this->security->get_csrf_hash ()
 		);
 		
+		$data['defaultpay_type'] = $defaultpay_type;
 		$this->load->common('plan/detail', $data);
 	}
 
