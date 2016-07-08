@@ -25,16 +25,14 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 									<span>Yes</span>
 								</div>
 								<?php } ?>
-								<?php if (empty ( $disable_stable_condition )) { ?>
-									<?php if ($plan ['stable_condition'] == 1) { ?>
+								<?php if ($plan ['stable_condition'] == 1) { ?>
 								<div class="col-sm-6">
-									<label class="inline"><?php echo "With stable pre-existion condition coverage"; ?></label>
+									<label class="inline">With stable pre-existion condition coverage</label>
 								</div>
-									<?php } else if ($plan ['stable_condition'] == 2) { ?>
+								<?php } else if ($plan ['stable_condition'] == 2) { ?>
 								<div class="col-sm-6">
-									<label class="inline"><?php echo "Without stable pre-existion condition coverage"; ?></label>
+									<label class="inline">Without stable pre-existion condition coverage</label>
 								</div>	
-									<?php } ?>
 								<?php } ?>
 
 							</div>

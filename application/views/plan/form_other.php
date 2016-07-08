@@ -80,7 +80,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<div class="form-group col-sm-3">
 										<label class="col-sm-12">Institution Phone</label>
 										<div class="input-group col-sm-12">
-											<input type='text' name='institution' value='<?php echo $institution; ?>' class="form-control">
+											<input type='text' name='institution' value='<?php echo institution_phone; ?>' class="form-control">
 										</div>
 									</div>
 									<div class="form-group col-sm-3">

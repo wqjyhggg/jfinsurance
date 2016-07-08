@@ -11,31 +11,20 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 									<label class="inline">Sum Insured (CAD):</label>
 									<span>Unlimited</span>
 								</div>
-								<div class="col-sm-6">
-									<label class="inline">Deductible amount (CAD):</label>
-									<span>$<?php echo number_format($plan['deductible_amount'], 2, '.', ','); ?></span>
-								</div>
-								
-							</div>
-							
-							<div class="row">
 								<?php if ($plan['isfamilyplan']) { ?>
-								<div class="col-sm-6">
+								<div class="col-sm-3">
 									<label class="inline">Family Plan:</label>
 									<span>Yes</span>
 								</div>
 								<?php } ?>
-								<?php if (empty ( $disable_stable_condition )) { ?>
-									<?php if ($plan ['stable_condition'] == 1) { ?>
-								<div class="col-sm-6">
-									<label class="inline"><?php echo "With stable pre-existion condition coverage"; ?></label>
+								<?php if ($plan ['rate_options'] == 1) { ?>
+								<div class="col-sm-3">
+									<label class="inline">Rate Options Plus</label>
 								</div>
-									<?php } else if ($plan ['stable_condition'] == 2) { ?>
-								<div class="col-sm-6">
-									<label class="inline"><?php echo "Without stable pre-existion condition coverage"; ?></label>
+								<?php } else if ($plan ['rate_options'] == 2) { ?>
+								<div class="col-sm-3">
+									<label class="inline">Rate Options Preferred</label>
 								</div>	
-									<?php } ?>
 								<?php } ?>
-
 							</div>
 <!-- Special parts end -->
