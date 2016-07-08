@@ -40,8 +40,11 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 					<div class="x_content">
 						<div class="p-detail"><!-- policy detail -->
 							<div class="row">
-								<div class="col-sm-12">
+								<div class="col-sm-6 pull-right text-right">
 									<label class="inline"><?php if ($plan['status_id'] < 2) { ?>Quote<?php } else {?>Policy<?php } ?> Number: <span><?php echo $plan['policy']; ?></span></label>
+								</div>
+								<div class="col-sm-6">
+									<label class="inline"><span><?php echo $plan_full_name; ?></span></label>
 								</div>
 							</div>		
 							<div class="row">

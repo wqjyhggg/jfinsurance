@@ -7,10 +7,16 @@ class Batch_model extends CI_Model {
 	public $error;
 	
 	function unixstamp( $excelDateTime ) {
-		$d = floor( $excelDateTime ); // seconds since 1900
-		$t = $excelDateTime - $d + 1;
-		return ($d > 0) ? ( $d - 25569 ) * 86400 + $t * 86400 : $t * 86400;
+		$excelDateTime =trim($excelDateTime);
+		if (ctype_digit($excelDateTime)) {
+			$d = floor( $excelDateTime ); // seconds since 1900
+			$t = $excelDateTime - $d + 1;
+			return ($d > 0) ? ( $d - 25569 ) * 86400 + $t * 86400 : $t * 86400;
+		} else {
+			return strtotime($excelDateTime);
+		}
 	}
+	
 	/**
 	 * Add / Update policy record
 	 * 

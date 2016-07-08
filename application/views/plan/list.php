@@ -318,7 +318,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<?php foreach ($plan_list as $plan) { ?>
 						<tr>
 							<td><a style="color:#46b8da;" href='<?php echo $edit_url.$plan['plan_id']; ?>'><?php echo $plan['policy']?></a></td>
-							<td><?php echo $plan['batch_number']; ?></td>
+							<td><?php echo $plan['batch_number'] ? $plan['batch_number'] : ''; ?></td>
 							<td><?php echo $plan['product_short']; ?></td>
 							<td><?php echo $status_list[$plan['status_id']]['name']; ?></td>
 							<td><?php echo $plan['effective_date']; ?></td>
@@ -338,6 +338,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </div><!-- End Result List Section -->
            
           </div>
+        </div>
         </div>
         <!-- /page content -->
 
