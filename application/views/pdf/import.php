@@ -74,7 +74,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 								<div class="form-group col-sm-8">
 									<input id="uploadFile" placeholder="Choose File" />
 									<div class="fileUpload btn btn-primary">
-										<span>Browse</span>
+										<span>Select File</span>
 										<input id="uploadBtn" type="file" class="upload" name="userfile" size="20"/>
 									</div>
 									<script>

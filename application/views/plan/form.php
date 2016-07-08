@@ -402,13 +402,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<div class="col-sm-3">
 										<label class="col-sm-12">Days: </label>
 										<div class="input-group col-sm-12">
-											<div id='days'></div>	
+											<div id='days' class="div-box"></div>	
 										</div>
 									</div>
 									<div class="col-sm-3">
 										<label class="col-sm-12">Oldest Customer: </label>
 										<div class="input-group col-sm-12">
-											<div id='years'></div>	
+											<div id='years' class="div-box"></div>	
 										</div>
 									</div>
 									<div class="col-sm-3">
@@ -590,6 +590,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								} else {
 									if (data['message']) {
 										alert(data['message']);
+										$('input[name="premium"]').val(0);
 									}
 								}
 					    	},
