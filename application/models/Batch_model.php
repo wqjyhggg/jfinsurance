@@ -104,11 +104,11 @@ class Batch_model extends CI_Model {
 		if (empty($para['lastname'])) { $data['lastname'] = ''; } else { $data['lastname'] = $para['lastname']; }
 		if (empty($para['gender'])) { $data['gender'] = 'M'; } else { $data['gender'] = $para['gender']; }
 		if (empty($para['birthday'])) {
-			$data['birthday'] = date('Y-m-d');
+			$data['birthday'] = '';
 		} else {
 			$dt = $this->unixstamp($para['birthday']);
 			if (empty($dt)) {
-				$data['birthday'] = date('Y-m-d');
+				$data['birthday'] = '';
 			} else {
 				$data['birthday'] = date('Y-m-d', $dt);
 			}
@@ -119,13 +119,13 @@ class Batch_model extends CI_Model {
 			if (empty($para['lastname_'.$i])) { $data['lastname_'.$i] = ''; } else { $data['lastname_'.$i] = $para['lastname_'.$i]; }
 			if (empty($para['gender_'.$i])) { $data['gender_'.$i] = 'M'; } else { $data['gender_'.$i] = $para['gender_'.$i]; }
 			if (empty($para['birthday_'.$i])) {
-				$data['birthday'] = date('Y-m-d');
+				$data['birthday_'.$i] = '';
 			} else {
 				$dt = $this->unixstamp($para['birthday_'.$i]);
 				if (empty($dt)) {
-					$data['birthday'] = date('Y-m-d');
+					$data['birthday_'.$i] = '';
 				} else {
-					$data['birthday'] = date('Y-m-d', $dt);
+					$data['birthday_'.$i] = date('Y-m-d', $dt);
 				}
 			}
 		}
