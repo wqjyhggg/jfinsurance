@@ -60,19 +60,19 @@ class User_model extends CI_Model {
 			$sql = "SELECT * FROM user WHERE user_group_id >= '" . (int)$user_group_id . "'";
 		}
 		if (isset($para['username'])) {
-			$sql .= " AND username LIKE " . $this->db-escape($para['username'] . "%");
+			$sql .= " AND username LIKE " . $this->db->escape($para['username'] . "%");
 		}
 		if (isset($para['firstname'])) {
-			$sql .= " AND firstname LIKE " . $this->db-escape($para['firstname'] . "%");
+			$sql .= " AND firstname LIKE " . $this->db->escape($para['firstname'] . "%");
 		}
 		if (isset($para['lastname'])) {
-			$sql .= " AND lastname LIKE " . $this->db-escape($para['lastname'] . "%");
+			$sql .= " AND lastname LIKE " . $this->db->escape($para['lastname'] . "%");
 		}
 		if (isset($para['email'])) {
-			$sql .= " AND email LIKE " . $this->db-escape($para['email'] . "%");
+			$sql .= " AND email LIKE " . $this->db->escape($para['email'] . "%");
 		}
 		if (isset($para['business'])) {
-			$sql .= " AND business LIKE " . $this->db-escape($para['business'] . "%");
+			$sql .= " AND business LIKE " . $this->db->escape($para['business'] . "%");
 		}
 		return $this->db->query($sql)->result_array();
 	}
