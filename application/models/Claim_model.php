@@ -69,75 +69,97 @@ class Claim_model extends CI_Model {
 	 */
 	public function update($claim_id, $para) {
 		$claim = $this->get_claim_by_id($claim_id);
+		$data = array();
 		if ($claim) {
 			if (isset($para['plan_id']) && ($para['plan_id'] != $claim['plan_id'])) {
+				$data['plan_id'] = $para['plan_id'];
 				$this->logstr .= " plan_id " . $para['plan_id'] . "(" . $claim['plan_id'] . ")";
 			}
 			if (isset($para['user_id']) && ($para['user_id'] != $claim['user_id'])) {
+				$data['user_id'] = $para['user_id'];
 				$this->logstr .= " user_id " . $para['user_id'] . "(" . $claim['user_id'] . ")";
 			}
 			if (isset($para['customer_id']) && ($para['customer_id'] != $claim['customer_id'])) {
+				$data['customer_id'] = $para['customer_id'];
 				$this->logstr .= " customer_id " . $para['customer_id'] . "(" . $claim['customer_id'] . ")";
 			}
 			if (isset($para['done']) && ($para['done'] != $claim['done'])) {
+				$data['done'] = $para['done'];
 				$this->logstr .= " done " . $para['done'] . "(" . $claim['done'] . ")";
 			}
 			if (isset($para['product_short']) && ($para['product_short'] != $claim['product_short'])) {
+				$data['product_short'] = $para['product_short'];
 				$this->logstr .= " product_short " . $para['product_short'] . "(" . $claim['product_short'] . ")";
 			}
 			if (isset($para['policy_number']) && ($para['policy_number'] != $claim['policy_number'])) {
+				$data['policy_number'] = $para['policy_number'];
 				$this->logstr .= " policy_number " . $para['policy_number'] . "(" . $claim['policy_number'] . ")";
 			}
 			if (isset($para['claim_number']) && ($para['claim_number'] != $claim['claim_number'])) {
+				$data['claim_number'] = $para['claim_number'];
 				$this->logstr .= " claim_number " . $para['claim_number'] . "(" . $claim['claim_number'] . ")";
 			}
 			if (isset($para['lastname']) && ($para['lastname'] != $claim['lastname'])) {
+				$data['lastname'] = $para['lastname'];
 				$this->logstr .= " lastname " . $para['lastname'] . "(" . $claim['lastname'] . ")";
 			}
 			if (isset($para['firstname']) && ($para['firstname'] != $claim['firstname'])) {
+				$data['firstname'] = $para['firstname'];
 				$this->logstr .= " firstname " . $para['firstname'] . "(" . $claim['firstname'] . ")";
 			}
 			if (isset($para['birthday']) && ($para['birthday'] != $claim['birthday'])) {
+				$data['birthday'] = $para['birthday'];
 				$this->logstr .= " birthday " . $para['birthday'] . "(" . $claim['birthday'] . ")";
 			}
 			if (isset($para['gender']) && ($para['gender'] != $claim['gender'])) {
+				$data['gender'] = $para['gender'];
 				$this->logstr .= " gender " . $para['gender'] . "(" . $claim['gender'] . ")";
 			}
 			if (isset($para['claim_date']) && ($para['claim_date'] != $claim['claim_date'])) {
+				$data['claim_date'] = $para['claim_date'];
 				$this->logstr .= " claim_date " . $para['claim_date'] . "(" . $claim['claim_date'] . ")";
 			}
 			if (isset($para['claimed']) && ($para['claimed'] != $claim['claimed'])) {
+				$data['claimed'] = $para['claimed'];
 				$this->logstr .= " claimed " . $para['claimed'] . "(" . $claim['claimed'] . ")";
 			}
 			if (isset($para['paid']) && ($para['paid'] != $claim['paid'])) {
+				$data['paid'] = $para['paid'];
 				$this->logstr .= " paid " . $para['paid'] . "(" . $claim['paid'] . ")";
 			}
 			if (isset($para['pay_to']) && ($para['pay_to'] != $claim['pay_to'])) {
+				$data['pay_to'] = $para['pay_to'];
 				$this->logstr .= " pay_to " . $para['pay_to'] . "(" . $claim['pay_to'] . ")";
 			}
 			if (isset($para['cheque_number']) && ($para['cheque_number'] != $claim['cheque_number'])) {
+				$data['cheque_number'] = $para['cheque_number'];
 				$this->logstr .= " cheque_number " . $para['cheque_number'] . "(" . $claim['cheque_number'] . ")";
 			}
 			if (isset($para['coverage_code_id']) && ($para['coverage_code_id'] != $claim['coverage_code_id'])) {
+				$data['coverage_code_id'] = $para['coverage_code_id'];
 				$this->logstr .= " coverage_code_id " . $para['coverage_code_id'] . "(" . $claim['coverage_code_id'] . ")";
 			}
 			if (isset($para['service_date']) && ($para['service_date'] != $claim['service_date'])) {
+				$data['service_date'] = $para['service_date'];
 				$this->logstr .= " service_date " . $para['service_date'] . "(" . $claim['service_date'] . ")";
 			}
 			if (isset($para['diagnosis']) && ($para['diagnosis'] != $claim['diagnosis'])) {
+				$data['diagnosis'] = $para['diagnosis'];
 				$this->logstr .= " diagnosis " . $para['diagnosis'] . "(" . $claim['diagnosis'] . ")";
 			}
 			if (isset($para['memo']) && ($para['memo'] != $claim['memo'])) {
+				$data['memo'] = $para['memo'];
 				$this->logstr .= " memo " . $para['memo'] . "(" . $claim['memo'] . ")";
 			}
 			if (isset($para['decline_reason']) && ($para['decline_reason'] != $claim['decline_reason'])) {
+				$data['decline_reason'] = $para['decline_reason'];
 				$this->logstr .= " decline_reason " . $para['decline_reason'] . "(" . $claim['decline_reason'] . ")";
 			}
 
 			$this->db->where('claim_id', $claim_id);
-			$this->db->update($para);
+			$this->db->update('claim', $data);
 			$this->sqlstr = $this->db->last_query();
-			$this->logstr = "Update claim record (" . $claim_id . ") : " . join(',', $para);
+			$this->logstr = "Update claim record (" . $claim_id . ") : " . join(',', $data);
 		}
 		return $claim_id;
 	}

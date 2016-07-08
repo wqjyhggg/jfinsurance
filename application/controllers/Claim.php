@@ -168,11 +168,11 @@ class Claim extends MY_Controller {
 			$this->data['error_lastname'] = 'Lastname is Required';
 			$r = FALSE;
 		}
-		if ($this->input->post('firstname')) {
+		if (empty($this->input->post('firstname'))) {
 			$this->data['error_firstname'] = 'Firstname is Required';
 			$r = FALSE;
 		}
-		if ($this->input->post('birthday')) {
+		if (empty($this->input->post('birthday')) && (strtotime($this->input->post('birthday')) > 0)) {
 			$this->data['error_birthday'] = 'Birthday is Required';
 			$r = FALSE;
 		}
@@ -193,7 +193,7 @@ class Claim extends MY_Controller {
 	public function form($claim=array()) {
 		$beuser = $this->func_model->verify_login();
 
-		if ($this->input->post('submit') && $this->form_valid()) {
+		if ($this->input->post() && $this->form_valid()) {
 			$this->load->model('claim_model');
 			$claim_id = $this->input->post('claim_id');
 			$this->claim_model->update($claim_id, $this->input->post());
