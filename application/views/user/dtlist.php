@@ -110,7 +110,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2 style="width:100%;">User List <span><a class="btn btn-info" href='<?php echo $edit_url."0"; ?>'><i class="fa fa-plus"></i> Add user</a></span></h2>
+                    <h2 style="width:100%;">User List <span><a class="btn btn-info" href='<?php echo $edit_url."0"; ?>'><i class="fa fa-plus"></i> Add User</a></span></h2>
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
@@ -128,7 +128,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <th>Expire</th>
                             <th>Pay Types</th>
                             <th>Status</th>
-                            <th>&nbsp;</th>
+                            <th>Action</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -144,7 +144,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <td><?php echo $user['pay_type']; ?></td>
                             <td><?php echo $user['status'] ? 'Act' : '-'; ?></td>
 <?php if ($user_group_id < $user['user_group_id']) { ?>
-                            <td><a style="color:#46b8da;" href='<?php echo $behalf_url.$user['user_id']; ?>'>behalf</a></td>
+                            <td><a style="color:#46b8da;" href='<?php echo $behalf_url.$user['user_id']; ?>'>Behalf</a></td>
 <?php } else { ?>
                             <td>-</td>
 <?php } ?>

@@ -239,23 +239,29 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
 					                        </div>
 										</div>
-										<div class="col-sm-1">
-											<label class="col-sm-12">Gender: </label>
-											<div class="col-sm-12">
-												<select name='gender_<?php echo $i; ?>' class="form-control">
-												<option value='M' <?php echo (empty(${'gender_'.$i}) || (${'gender_'.$i} != 'F')) ? "selected" : ""; ?>>Male</option>
-												<option value='F' <?php echo (!empty(${'gender_'.$i}) && (${'gender_'.$i} == 'F')) ? "selected" : ""; ?>>Female</option>
-												</select>
+										<div class="col-sm-3">
+											<div class="row">
+												<div class="col-sm-6">
+													<label class="col-sm-12">Gender: </label>
+													<div class="col-sm-12">
+														<select name='gender_<?php echo $i; ?>' class="form-control" style="padding:6px 2px;">
+														<option value='M' <?php echo (empty(${'gender_'.$i}) || (${'gender_'.$i} != 'F')) ? "selected" : ""; ?>>Male</option>
+														<option value='F' <?php echo (!empty(${'gender_'.$i}) && (${'gender_'.$i} == 'F')) ? "selected" : ""; ?>>Female</option>
+														</select>
+													</div>
+												</div>
+												<div class="col-sm-6">
+													<label class="col-sm-12">&nbsp;</label>
+													<div class="col-sm-12">
+														<?php if (($status_id >= 2) && !empty(${'customer_id_'.$i})) {?>
+														<a href='<?php echo $claimurl . ${'customer_id_'.$i}; ?>'>Claim</a>
+														<?php } ?>
+													</div>
+												</div>
 											</div>
 										</div>
-										<div class="col-sm-2">
-											<label class="col-sm-12">&nbsp;</label>
-											<div class="col-sm-12">
-												<?php if (($status_id >= 2) && !empty(${'customer_id_'.$i})) {?>
-												<a href='<?php echo $claimurl . ${'customer_id_'.$i}; ?>'>Claim</a>
-												<?php } ?>
-											</div>
-										</div>
+
+										
 									</div>
 									<?php } ?>
 								</div>
@@ -307,6 +313,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										</div>
 										<?php } ?>
 									</div>
+								</div>
+								<div class="row">	
 									<div class="form-group col-sm-3">
 										<label class="col-sm-12">Province: </label>
 										<div class="input-group col-sm-12">
