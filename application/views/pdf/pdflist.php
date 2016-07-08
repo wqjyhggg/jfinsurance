@@ -44,7 +44,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <div class="inline">
                         <input id="<?php echo 'uploadFile' . $i; ?>" placeholder="Choose File" class="uploadFile"/>
                         <div class="fileUpload btn btn-info">
-                          <span>Browse</span>
+                          <span>Select File</span>
                           <input id="<?php echo 'uploadBtn' . $i; ?>" type="file" class="upload" name="userfile" size="20"/>
                         </div>
                         <script>

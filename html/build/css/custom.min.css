@@ -4,6 +4,13 @@
 .main_container{position: relative;}
 .inline{display: inline-block;vertical-align: middle;}
 .main-div{position: relative;}
+.div-box{
+    border: 1px solid #ccc;
+    height: 30px;
+    padding: 6px 12px;
+    font-size: 12px;
+    color: #333;
+}
 /* Custom End */
 .left_col{background:#2A3F54}
 
