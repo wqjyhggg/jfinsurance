@@ -88,8 +88,8 @@ class Claim_model extends CI_Model {
 			if (isset($para['policy_number']) && ($para['policy_number'] != $claim['policy_number'])) {
 				$this->logstr .= " policy_number " . $para['policy_number'] . "(" . $claim['policy_number'] . ")";
 			}
-			if (isset($para['cliaim_number']) && ($para['cliaim_number'] != $claim['cliaim_number'])) {
-				$this->logstr .= " cliaim_number " . $para['cliaim_number'] . "(" . $claim['cliaim_number'] . ")";
+			if (isset($para['claim_number']) && ($para['claim_number'] != $claim['claim_number'])) {
+				$this->logstr .= " claim_number " . $para['claim_number'] . "(" . $claim['claim_number'] . ")";
 			}
 			if (isset($para['lastname']) && ($para['lastname'] != $claim['lastname'])) {
 				$this->logstr .= " lastname " . $para['lastname'] . "(" . $claim['lastname'] . ")";

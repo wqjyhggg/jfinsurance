@@ -40,8 +40,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                       <input type='hidden' name='customer_id' value='<?php echo $customer_id; ?>'>
                       <div class="row">
                         <div class="form-group col-sm-3">
-                          <label class="inline">Cliaim No.: </label>
-                          <input style="width:100px;" class="inline form-control" type='text' name='cliaim_number' value='<?php echo $cliaim_number; ?>'>
+                          <label class="inline">Claim No.: </label>
+                          <input style="width:100px;" class="inline form-control" type='text' name='claim_number' value='<?php echo $claim_number; ?>'>
                         </div>
                         <div class="form-group col-sm-3">
                           <label class="inline">Product: </label> <?php echo $product_short; ?>

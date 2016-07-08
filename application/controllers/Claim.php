@@ -160,8 +160,8 @@ class Claim extends MY_Controller {
 			$this->data['error_message'] = 'Unknown Policy Number';
 			$r = FALSE;
 		}
-		if (empty($this->input->post('cliaim_number'))) {
-			$this->data['error_cliaim_number'] = 'Claim Number is Required';
+		if (empty($this->input->post('claim_number'))) {
+			$this->data['error_claim_number'] = 'Claim Number is Required';
 			$r = FALSE;
 		}
 		if (empty($this->input->post('lastname'))) {
@@ -243,12 +243,12 @@ class Claim extends MY_Controller {
 		} else {
 			$this->data['error_message'] = 'Unknown Policy';
 		}
-		if ($this->input->post('cliaim_number')) {
-			$this->data['cliaim_number'] = $this->input->post('cliaim_number'); 
-		} else if (isset($claim['cliaim_number'])) {
-			$this->data['cliaim_number'] = $claim['cliaim_number'];
+		if ($this->input->post('claim_number')) {
+			$this->data['claim_number'] = $this->input->post('claim_number'); 
+		} else if (isset($claim['claim_number'])) {
+			$this->data['claim_number'] = $claim['claim_number'];
 		} else {
-			$this->data['cliaim_number'] = '';
+			$this->data['claim_number'] = '';
 		}
 		if ($this->input->post('lastname')) {
 			$this->data['lastname'] = $this->input->post('lastname'); 
