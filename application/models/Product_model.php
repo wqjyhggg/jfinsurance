@@ -131,7 +131,7 @@ class Product_model extends CI_Model {
 			return 0;
 		}
 		$years = $this->getYears($para['apply_date'], $para['birthday']);
-		if (empty($years)) {
+		if (($years < 0) || (strtotime($para['birthday']) <= 0)) {
 			$this->message = 'Please check birthday date';
 			return 0;
 		}

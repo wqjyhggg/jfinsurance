@@ -121,10 +121,10 @@ class Customer_model extends CI_Model {
 				$this->db->where('customer_id', $customer_id);
 				$this->db->update('customer', $para);
 				$this->sqlstr = $this->db->last_query();
-				return $id;
+				return $customer_id;
 			}
 		}
-		return null;
+		return 0;
 	}
 	
 	/**
