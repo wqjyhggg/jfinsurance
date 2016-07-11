@@ -66,6 +66,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<div class="form-group col-sm-3">
 							<label class="inline"><span><?php echo $plan_full_name; ?></span></label>
 						</div>
+						
+						<div class="form-group col-sm-3">
+							<label class="inline"><?php if ($status_id < 2) { ?>Quote<?php } else {?>Policy<?php } ?> Number: <span><?php echo $policy; ?></span></label>
+						</div>
 						<?php if ($user_group_id > 2) { ?>
 							<?php /* it is school or brokerage or agent */ ?>
 							<div class="form-group col-sm-3">
@@ -84,10 +88,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							</select></div>
 							</div>
 							<?php } ?>
-						<div class="form-group col-sm-3">
-							<label class="inline"><?php if ($status_id < 2) { ?>Quote<?php } else {?>Policy<?php } ?> Number: <span><?php echo $policy; ?></span></label>
-						</div>
-
 					</div>
 					<?php } ?>
 					<div class="row">
@@ -256,7 +256,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 													<label class="col-sm-12">&nbsp;</label>
 													<div class="col-sm-12">
 														<?php if (($status_id >= 2) && !empty(${'customer_id_'.$i})) {?>
-														<a href='<?php echo $claimurl . ${'customer_id_'.$i}; ?>'>Claim</a>
+														<a class="btn btn-primary" href='<?php echo $claimurl . ${'customer_id_'.$i}; ?>'>Claim</a>
 														<?php } ?>
 													</div>
 												</div>
