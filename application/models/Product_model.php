@@ -121,7 +121,8 @@ class Product_model extends CI_Model {
 		if (empty($para['effective_date']) || empty($para['expiry_date'])) {
 			return 0;
 		}
-		$days = $this->getDays($para['effective_date'], $para['expiry_date']);
+		$days = $this->getDays($para['effective_date'], $para['expiry_date']);	// $dt1 = date_create('1900-01-01 00:00:00'); $dt2 = date_create('1970-01-01 12:12:12'); echo $dt2->diff($dt1)->days;
+		
 		if (empty($days)) {
 			$this->message = 'Please check effective date and expiry date';
 			return 0;
@@ -130,8 +131,9 @@ class Product_model extends CI_Model {
 		if (empty($para['birthday'])) {
 			return 0;
 		}
-		$years = $this->getYears($para['apply_date'], $para['birthday']);
-		if (($years < 0) || (strtotime($para['birthday']) <= 0)) {
+		$years = $this->getYears($para['apply_date'], $para['birthday']);	// 
+		$dt = date_create($para['birthday']);
+		if (($years < 0) || !$dt) {
 			$this->message = 'Please check birthday date';
 			return 0;
 		}

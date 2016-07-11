@@ -85,49 +85,81 @@ class Claim extends MY_Controller {
 	
 	public function add($customer_id) {
 		$beuser = $this->func_model->verify_login();
-		
+
 		$this->load->model('customer_model');
 		$this->load->model('claim_model');
 		$this->load->model('plan_model');
-		
-		$this->data = array();
-		$claim = array();
-		if (!empty($customer_id)) {
-			$customer = $this->customer_model->get_customer_by_id($customer_id);
-			if ($customer) {
-				$plan = $this->plan_model->get_plan_by_id($customer['plan_id']);
-				if ($plan && ($plan['status_id'] >= 2)) {
-					$para = array();
-					$para['plan_id'] = $plan['plan_id'];
-					$para['user_id'] = $beuser['user_id'];
-					$para['customer_id'] = $customer['customer_id'];
-					$para['done'] = 2;
-					$para['product_short'] = $plan['product_short'];
-					$para['policy_number'] = $plan['policy'];
-					$para['lastname'] = $customer['lastname'];
-					$para['firstname'] = $customer['firstname'];
-					$para['birthday'] = $customer['birthday'];
-					$para['gender'] = $customer['gender'];
-					$para['claim_date'] = date('Y-m-d');
-					$claim_id = $this->claim_model->add($para);
-					$log = array(
-							'plan_id' => $plan['plan_id'], 
-							'customer_id' => $customer['customer_id'], 
-							'payment_id' => 0, 
-							'message' => $this->claim_model->logstr, 
-							'systemlog' => $this->claim_model->sqlstr
-					);
-					$this->log_model->activity('claim', $para);
-					$claim = $this->claim_model->get_claim_by_id($claim_id);
+
+		if ($this->input->post() && ($customer_id == $this->input->post('customer_id'))) {
+			$this->data = array();
+			$claim = array();
+			if (!empty($customer_id)) {
+				$customer = $this->customer_model->get_customer_by_id($customer_id);
+				if ($customer) {
+					$plan = $this->plan_model->get_plan_by_id($customer['plan_id']);
+					if ($plan && ($plan['status_id'] >= 2)) {
+						$para = array();
+						$para['plan_id'] = $plan['plan_id'];
+						$para['user_id'] = $beuser['user_id'];
+						$para['customer_id'] = $customer['customer_id'];
+						$para['done'] = 2;
+						$para['product_short'] = $plan['product_short'];
+						$para['policy_number'] = $plan['policy'];
+						$para['lastname'] = $customer['lastname'];
+						$para['firstname'] = $customer['firstname'];
+						$para['birthday'] = $customer['birthday'];
+						$para['gender'] = $customer['gender'];
+						$para['claim_date'] = date('Y-m-d');
+						$claim_id = $this->claim_model->add($para);
+						$log = array(
+								'plan_id' => $plan['plan_id'], 
+								'customer_id' => $customer['customer_id'], 
+								'payment_id' => 0, 
+								'message' => $this->claim_model->logstr, 
+								'systemlog' => $this->claim_model->sqlstr
+						);
+						$this->log_model->activity('claim', $para);
+						$claim = $this->claim_model->get_claim_by_id($claim_id);
+					} else {
+						$this->data['error_message'] = "Can't find customer";
+					}
 				} else {
 					$this->data['error_message'] = "Can't find customer";
 				}
-			} else {
-				$this->data['error_message'] = "Can't find customer";
 			}
+			
+			$this->form($claim);
+		} else {
+			$this->load->model('product_model');
+			$customer = $this->customer_model->get_customer_by_id($customer_id);
+			$para['plan_id'] = $customer['plan_id'];
+			$data['lists'] = $this->claim_model->search($para);
+			$data['firstname'] = $customer["firstname"];
+			$data['lastname'] = $customer["lastname"];
+			$data['birthday'] = $customer["birthday"];
+			$data['gender'] = $customer["gender"];
+			$data['policy_number'] = '';
+			$data['claim_number'] = '';
+			$data['product_short'] = '';
+			$data['cheque_number'] = '';
+			$data['claim_date'] = '';
+			$data['claim_date2'] = '';
+			$data['customer'] = $customer;
+				
+			$data['add_url'] = current_url();
+			$data['action_url'] = base_url('claim');
+			$data['edit_url'] = base_url('claim/edit');
+			$data['products'] = $this->product_model->product_array();
+			$data['title_txt'] = 'Claim';
+			$data['top_menu'] = $this->menu_model->load_top_menu();
+			$data['menu'] = $this->menu_model->load_meun();
+			$data['csrf'] = array (
+					'name' => $this->security->get_csrf_token_name (),
+					'value' => $this->security->get_csrf_hash ()
+			);
+			
+			$this->load->common('claim/list', $data);
 		}
-		
-		$this->form($claim);
 	}
 	
 	public function edit($claim_id) {
@@ -172,7 +204,8 @@ class Claim extends MY_Controller {
 			$this->data['error_firstname'] = 'Firstname is Required';
 			$r = FALSE;
 		}
-		if (empty($this->input->post('birthday')) && (strtotime($this->input->post('birthday')) > 0)) {
+		$dt = date_create($this->input->post('birthday'));
+		if (empty($this->input->post('birthday')) && !$dt) {
 			$this->data['error_birthday'] = 'Birthday is Required';
 			$r = FALSE;
 		}

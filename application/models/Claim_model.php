@@ -15,6 +15,7 @@ class Claim_model extends CI_Model {
 	 * @return	array					user table search result
 	 */
 	public function search($para) {
+		if (!empty($para['plan_id'])) $this->db->where('plan_id', $para['plan_id']);
 		if (!empty($para['product_short'])) $this->db->where('product_short', $para['product_short']);
 		if (!empty($para['claim_date2'])) {
 			if (!empty($para['claim_date'])) {

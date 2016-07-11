@@ -27,6 +27,71 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
             </div>
             <div class="clearfix"></div>
+<?php if (isset($customer)) { ?>
+           <!-- Filter Section -->
+            <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>Claim Add<small></small></h2>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                   
+                    <form method="post" class="form-horizontal" active='<?php echo $add_url; ?>'>
+                    	<input type="hidden" name="customer_id" value='<?php echo $customer['customer_id']; ?>'>
+                      <!-- personal information search -->
+                      <div class="row">
+                        <!-- Last Name input box -->
+                        <div class="form-group col-sm-3">
+                          <label class="col-sm-12">Last Name:</label>
+                          <div class="input-group col-sm-12">
+                              <input type="text" name="lastname" value='<?php echo $customer['lastname']; ?>' class="form-control" disabled />
+                          </div>
+                        </div>
+                        <!-- Last Name input box end -->
+                        <!-- First Name input box -->
+                        <div class="form-group col-sm-3">
+                          <label class="col-sm-12">First Name:</label>
+                          <div class="input-group col-sm-12">
+                              <input type="text" name="firstname" value='<?php echo $customer['firstname']; ?>' class="form-control" disabled />
+                          </div>
+                        </div>
+                        <!-- First Name input box end -->
+                        
+                        <!-- Policy Number input box -->
+                        <div class="form-group col-sm-3">
+                          <label class="col-sm-12">Birthday:</label>
+                          <div class="input-group col-sm-12">
+                              <input type="text" name="birthday" value='<?php echo $customer['birthday']; ?>' class="form-control" disabled />
+                          </div>
+                        </div>
+                        <!-- Policy Number input box end -->
+                        <!-- Claim Number input box -->
+                        <div class="form-group col-sm-3">
+                          <label class="col-sm-12">Gender:</label>
+                          <div class="input-group col-sm-12">
+                              <input type="text" name="gender" value='<?php echo $customer['gender']; ?>' class="form-control" disabled />
+                          </div>
+                        </div>
+                        <!-- Claim Number input box end -->
+                        
+                      </div>
+                      <!-- submit button -->
+                      <div class="row">
+                        <!-- submit button -->
+                          <div class="col-sm-12">
+                            <button class="btn btn-primary pull-right">Add New Claim</button>
+                          </div> 
+                        <!-- submit button -->
+                      </div>
+                    </form>
+
+                  </div>
+                </div>
+              </div>
+            </div><!-- End Filter Section -->
+<?php } ?>
            <!-- Filter Section -->
             <div class="row">
               <div class="col-md-12 col-sm-12 col-xs-12">

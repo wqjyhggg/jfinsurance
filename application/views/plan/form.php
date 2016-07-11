@@ -217,7 +217,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 								<div id='family_member' style='display:none'>
 									<?php for ($i = 1; $i < 9; $i++) { ?>
-									<div class="row">
+									<div class="row" id='customer_member_<?php echo $i; ?>' style='display:none'>
 									<input type='hidden' name='customer_id_<?php echo $i; ?>' value='<?php echo !empty(${'customer_id_'.$i}) ? ${'customer_id_'.$i} : 0; ?>'>
 									<hr />
 									<label class="col-sm-12">Family member <?php echo $i; ?> :</label>
@@ -263,10 +263,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 												</div>
 											</div>
 										</div>
-
-										
 									</div>
 									<?php } ?>
+									<div class="row">
+										<div class="col-sm-12">
+											<input type='button' id='addmorememberid' name='addmorememberid' value='Add More Member' onclick='addmoremember();'>
+										</div>
+									</div>
 								</div>
 							</fieldset>
 						</div>
@@ -500,8 +503,30 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 					$('.setpremium').change(get_premium); 
 					get_premium();
+					addmoremember();
 				});
 
+				function addmoremember() {
+					for (i = 1; i < 9; i++) {
+						$('#customer_member_1').show();
+						if ( !$('input[name="firstname_1"]').val() || !$('input[name="lastname_1"]').val() || !$('input[name="birthday_1"]').val()) return;
+						$('#customer_member_2').show();
+						if ( !$('input[name="firstname_2"]').val() || !$('input[name="lastname_2"]').val() || !$('input[name="birthday_2"]').val()) return;
+						$('#customer_member_3').show();
+						if ( !$('input[name="firstname_3"]').val() || !$('input[name="lastname_3"]').val() || !$('input[name="birthday_3"]').val()) return;
+						$('#customer_member_4').show();
+						if ( !$('input[name="firstname_4"]').val() || !$('input[name="lastname_4"]').val() || !$('input[name="birthday_4"]').val()) return;
+						$('#customer_member_5').show();
+						if ( !$('input[name="firstname_5"]').val() || !$('input[name="lastname_5"]').val() || !$('input[name="birthday_5"]').val()) return;
+						$('#customer_member_6').show();
+						if ( !$('input[name="firstname_6"]').val() || !$('input[name="lastname_6"]').val() || !$('input[name="birthday_6"]').val()) return;
+						$('#customer_member_7').show();
+						if ( !$('input[name="firstname_7"]').val() || !$('input[name="lastname_7"]').val() || !$('input[name="birthday_7"]').val()) return;
+						$('#customer_member_8').show();
+						if ( !$('input[name="firstname_8"]').val() || !$('input[name="lastname_8"]').val() || !$('input[name="birthday_8"]').val()) return;
+					}
+				}
+				
 				function get_premium() {
 					var product_short = $('input[name="product_short"]').val();
 					var apply_date = $('input[name="apply_date"]').val();
