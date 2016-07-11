@@ -123,21 +123,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			                        <!-- Birthdate select box -->
 			                        <div class="form-group col-sm-3">
 			                          <!--label for="application_date_from" class="col-sm-4">Birthdate From:</label-->
-			                            <div class="input-group date form_date col-sm-12" data-date="" data-date-format="yyyy/mm/dd" data-link-field="birthday" data-link-format="yyyy-mm-dd">
-			                                <input class="form-control" size="16" type="text" name="birthday" placeholder="Birthdate From" data-toggle="tooltip" title="Birthdate From" value="<?php echo $birthday; ?>" readonly>
-			                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
-			                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+			                            <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
+			                                <input type="text" size="16" name="birthday" placeholder="Birthdate From" data-toggle="tooltip" title="Birthdate From" value="<?php echo $birthday; ?>" class="form-control">
+			                                <div class="input-group-addon">
+			                                    <span class="glyphicon glyphicon-calendar"></span>
+			                                </div>
 			                            </div>
-			                            <input type="hidden" id="application_date_from" value="" />
+			                            
 			                        </div>
 			                        <div class="form-group col-sm-3">
 			                          <!--label for="application_date_from" class="col-sm-4">Birthdate to:</label-->
-			                            <div class="input-group date form_date col-sm-12" data-date="" data-date-format="yyyy/mm/dd" data-link-field="birthday2" data-link-format="yyyy-mm-dd">
-			                                <input class="form-control" size="16" type="text" name="birthday2" placeholder="Birthdate to" data-toggle="tooltip" title="Birthdate to" value="<?php echo $birthday2; ?>" readonly>
-			                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
-			                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+			                            <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
+			                                <input type="text" size="16" name="birthday2" placeholder="Birthdate To" data-toggle="tooltip" title="Birthdate To" value="<?php echo $birthday2; ?>" class="form-control">
+			                                <div class="input-group-addon">
+			                                    <span class="glyphicon glyphicon-calendar"></span>
+			                                </div>
 			                            </div>
-			                            <input type="hidden" id="application_date_from" value="" />
 			                        </div>
 			                        <!-- Birthdate select box end -->
 
@@ -170,22 +171,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			                        <div class="form-group col-sm-3">
 			                          <!-- Application Date from -->
 			                            <!--label for="application_date_from" class="col-sm-12">Application Date From</label-->
-			                            <div class="input-group date form_date col-sm-12" data-date="" data-date-format="yyyy/mm/dd" data-link-field="apply_date" data-link-format="yyyy-mm-dd">
-			                                <input class="form-control" size="16" type="text" name='apply_date' placeholder="Application Date From" data-toggle="tooltip" title="Application Date From" value='<?php echo $apply_date; ?>' readonly>
-			                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
-			                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+			                            <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
+			                                <input type="text" size="16" name='apply_date' placeholder="Application Date From" data-toggle="tooltip" title="Application Date From" value='<?php echo $apply_date; ?>' class="form-control">
+			                                <div class="input-group-addon">
+			                                    <span class="glyphicon glyphicon-calendar"></span>
+			                                </div>
 			                            </div>
-
 
 			                            <input type="hidden" id="application_date_from" value="" />
 			                            <!-- Application Date from End-->
 			                            <!-- Application Date to -->
 			                            <!--label for="application_date_to" class="col-sm-12">Application Date To</label-->
-			                            <div class="input-group date form_date col-sm-12" data-date="" data-date-format="yyyy/mm/dd" data-link-field="apply_date2" data-link-format="yyyy-mm-dd">
-			                                <input class="form-control" size="16" type="text" name='apply_date2' placeholder="Application Date To" data-toggle="tooltip" title="Application Date To" value='<?php echo $apply_date2; ?>' readonly>
-			                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
-			                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+			                            <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
+			                                <input type="text" size="16" name='apply_date2' placeholder="Application Date To" data-toggle="tooltip" title="Application Date To" value='<?php echo $apply_date2; ?>' class="form-control">
+			                                <div class="input-group-addon">
+			                                    <span class="glyphicon glyphicon-calendar"></span>
+			                                </div>
 			                            </div>
+			                            
 			                            <input type="hidden" id="application_date_to" value="" />
 			                            <!-- Application Date to End -->
 			                        </div>
@@ -194,20 +197,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			                        <div class="form-group col-sm-3">
 			                            <!-- Create Date From-->
 			                            <!--label for="create_date_from" class="col-sm-12">Arrival Date From</label-->
-			                            <div class="input-group date form_date col-sm-12" data-date="" data-date-format="yyyy/mm/dd" data-link-field="arrival_date" data-link-format="yyyy-mm-dd">
-			                                <input class="form-control" size="16" type="text" name='arrival_date' placeholder="Arrival Date From" data-toggle="tooltip" title="Arrival Date From" value='<?php echo $arrival_date; ?>' readonly>
-			                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
-			                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+			                            <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
+			                                <input type="text" size="16" name='arrival_date' placeholder="Arrival Date From" data-toggle="tooltip" title="Arrival Date From" value='<?php echo $arrival_date; ?>' class="form-control">
+			                                <div class="input-group-addon">
+			                                    <span class="glyphicon glyphicon-calendar"></span>
+			                                </div>
 			                            </div>
+			                           
 			                            <input type="hidden" id="create_date_from" value="" />
 			                            <!-- Create Date From End-->
 			                            <!-- Create Date to -->
 			                            <!--label for="create_date_to" class="col-sm-12">Arrival Date To</label-->
-			                            <div class="input-group date form_date col-sm-12" data-date="" data-date-format="yyyy/mm/dd" data-link-field="arrival_date2" data-link-format="yyyy-mm-dd">
-			                                <input class="form-control" size="16" type="text" name='arrival_date2' placeholder="Arrival Date To" data-toggle="tooltip" title="Arrival Date To" value='<?php echo $arrival_date2; ?>' readonly>
-			                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
-			                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+			                            <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
+			                                <input type="text" size="16" name='arrival_date2' placeholder="Arrival Date To" data-toggle="tooltip" title="Arrival Date To" value='<?php echo $arrival_date2; ?>' class="form-control">
+			                                <div class="input-group-addon">
+			                                    <span class="glyphicon glyphicon-calendar"></span>
+			                                </div>
 			                            </div>
+			                            
 			                            <input type="hidden" id="create_date_to" value="" />
 			                            <!-- Create Date to End -->
 			                        </div>
@@ -216,20 +223,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			                        <div class="form-group col-sm-3">
 			                            <!-- Effective Date From-->
 			                            <!--label for="effective_date_from" class="col-sm-12">Effective Date From</label-->
-			                            <div class="input-group date form_date col-sm-12" data-date="" data-date-format="yyyy/mm/dd" data-link-field="effective_date" data-link-format="yyyy-mm-dd">
-			                                <input class="form-control" size="16" type="text" name='effective_date' placeholder="Effective Date From" data-toggle="tooltip" title="Effective Date From" value='<?php echo $effective_date; ?>' readonly>
-			                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
-			                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+			                            <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
+			                                <input type="text" size="16" name='effective_date' placeholder="Effective Date From" data-toggle="tooltip" title="Effective Date From" value='<?php echo $effective_date; ?>' class="form-control">
+			                                <div class="input-group-addon">
+			                                    <span class="glyphicon glyphicon-calendar"></span>
+			                                </div>
 			                            </div>
+			                            
 			                            <input type="hidden" id="effective_date_from" value="" />
 			                            <!-- Effective Date From End-->
 			                            <!-- Effective Date to -->
 			                            <!--label for="effective_date_to" class="col-sm-12">Effective Date To</label-->
-			                            <div class="input-group date form_date col-sm-12" data-date="" data-date-format="yyyy/mm/dd" data-link-field="effective_date2" data-link-format="yyyy-mm-dd">
-			                                <input class="form-control" size="16" type="text" name='effective_date2' placeholder="Effective Date To" data-toggle="tooltip" title="Effective Date To" value='<?php echo $effective_date2; ?>' readonly>
-			                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
-			                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+			                            <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
+			                                <input type="text" size="16" name='effective_date2' placeholder="Effective Date To" data-toggle="tooltip" title="Effective Date To" value='<?php echo $effective_date2; ?>' class="form-control">
+			                                <div class="input-group-addon">
+			                                    <span class="glyphicon glyphicon-calendar"></span>
+			                                </div>
 			                            </div>
+			                            
 			                            <input type="hidden" id="effective_date_to" value="" />
 			                            <!-- Effective Date to End -->
 			                        </div>
@@ -237,17 +248,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			                        <div class="form-group col-sm-3">
 			                            
 			                            <!--label for="payment_update_date_from" class="col-sm-12">Expiry Date From</label-->
-			                            <div class="input-group date form_date col-sm-12" data-date="" data-date-format="yyyy/mm/dd" data-link-field="expiry_date" data-link-format="yyyy-mm-dd">
-			                                <input class="form-control" size="16" type="text" name='expiry_date' placeholder="Expiry Date From" data-toggle="tooltip" title="Expiry Date From" value='<?php echo $expiry_date; ?>' readonly>
-			                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
-			                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+			                            <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
+			                                <input type="text" size="16" name='expiry_date' placeholder="Expiry Date From" data-toggle="tooltip" title="Expiry Date From" value='<?php echo $expiry_date; ?>' class="form-control">
+			                                <div class="input-group-addon">
+			                                    <span class="glyphicon glyphicon-calendar"></span>
+			                                </div>
 			                            </div>
+			                            
 			                            <input type="hidden" id="payment_update_date_from" value="" />
 			                           
 			                            <!--label for="payment_update_date_to" class="col-sm-12">Expiry Date To</label-->
-			                            <div class="input-group date form_date col-sm-12" data-date="" data-date-format="yyyy/mm/dd" data-link-field="expiry_date2" data-link-format="yyyy-mm-dd">
-			                                <input class="form-control" size="16" type="text" name='expiry_date2' placeholder="Expiry Date To" data-toggle="tooltip" title="Expiry Date To" value='<?php echo $expiry_date2; ?>' readonly>
-			                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+			                            <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
+			                                <input class="form-control" size="16" type="text" name='expiry_date2' placeholder="Expiry Date To" data-toggle="tooltip" title="Expiry Date To" value='<?php echo $expiry_date2; ?>' >
 			                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
 			                            </div>
 			                            <input type="hidden" id="payment_update_date_to" value="" />

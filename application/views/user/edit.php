@@ -231,9 +231,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			            <div class="form-group col-sm-3">
 			                <label class="col-sm-12">Licence Expire Date:</label>
 			                <div class="input-group col-sm-12">
-			                	<div class="input-group date form_date col-sm-12" data-date="" data-date-format="yyyy/mm/dd" data-link-field="birthday" data-link-format="yyyy-mm-dd">
-			                        <input class="form-control" size="16" type="text" name='licence_expire' value='<?php echo $licence_expire; ?>' readonly>
-			                        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+			                	<div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
+			                        <input class="form-control" size="16" type="text" name='licence_expire' value='<?php echo $licence_expire; ?>' >
 			                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
 			                    </div>
 

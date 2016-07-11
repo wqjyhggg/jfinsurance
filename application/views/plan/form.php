@@ -66,6 +66,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<div class="form-group col-sm-3">
 							<label class="inline"><span><?php echo $plan_full_name; ?></span></label>
 						</div>
+						
+						<div class="form-group col-sm-3">
+							<label class="inline"><?php if ($status_id < 2) { ?>Quote<?php } else {?>Policy<?php } ?> Number: <span><?php echo $policy; ?></span></label>
+						</div>
 						<?php if ($user_group_id > 2) { ?>
 							<?php /* it is school or brokerage or agent */ ?>
 							<div class="form-group col-sm-3">
@@ -84,10 +88,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							</select></div>
 							</div>
 							<?php } ?>
-						<div class="form-group col-sm-3">
-							<label class="inline"><?php if ($status_id < 2) { ?>Quote<?php } else {?>Policy<?php } ?> Number: <span><?php echo $policy; ?></span></label>
-						</div>
-
 					</div>
 					<?php } ?>
 					<div class="row">
@@ -98,17 +98,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
    						 <div class="row">
 							<div class="form-group col-sm-3">
 								<label class="col-sm-12">Apply Date:</label>
-								<div class="input-group date form_date col-sm-12" data-date="" data-date-format="yyyy/mm/dd" data-link-field="apply_date" data-link-format="yyyy-mm-dd">
-			                        <input class="form-control" size="16" type="text" name='apply_date' value='<?php echo $apply_date; ?>' readonly>
-			                        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+								<div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
+			                        <input class="form-control" size="16" type="text" name='apply_date' value='<?php echo $apply_date; ?>'>
 			                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
 			                    </div>
 							</div>
 							<div class="form-group col-sm-3">
 								<label class="col-sm-12">Arrival Date: </label>
-								<div class="input-group date form_date col-sm-12" data-date="" data-date-format="yyyy/mm/dd" data-link-field="arrival_date" data-link-format="yyyy-mm-dd">
-			                        <input class="form-control" size="16" type="text" name='arrival_date' value='<?php echo $arrival_date; ?>' readonly>
-			                        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+								<div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
+			                        <input class="form-control" size="16" type="text" name='arrival_date' value='<?php echo $arrival_date; ?>'>
+			                        
 			                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
 			                    </div>
 			                    <?php if (!empty($error_arrival_date)) { ?>
@@ -120,9 +119,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							</div>
 							<div class="form-group col-sm-3">
 								<label class="col-sm-12">Effective Date: </label>
-								<div class="input-group date form_date col-sm-12" data-date="" data-date-format="yyyy/mm/dd" data-link-field="effective_date" data-link-format="yyyy-mm-dd">
-			                        <input class="setpremium form-control" size="16" type="text" name='effective_date' value='<?php echo $effective_date; ?>' readonly>
-			                        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+								<div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
+			                        <input class="setpremium form-control" size="16" type="text" name='effective_date' value='<?php echo $effective_date; ?>'>
+			                        
 			                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
 			                    </div>
 			                    <?php if (!empty($error_effective_date)) { ?>
@@ -133,9 +132,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							</div>
 							<div class="form-group col-sm-3">
 								<label class="col-sm-12">Expiry Date: </label>
-						  		<div class="input-group date form_date col-sm-12" data-data="" data-date-format="yyyy/mm/dd" data-link-field="expiry_date" data-link-format="yyyy-mm-dd">
-									<input size="16" type='text' name='expiry_date' class='setpremium form-control' value='<?php echo $expiry_date; ?>' readonly>
-									<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+						  		<div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
+									<input size="16" type='text' name='expiry_date' class='setpremium form-control' value='<?php echo $expiry_date; ?>'>
+									
 			                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
 								</div>
 								<?php if (!empty($error_expiry_date)) { ?>
@@ -180,9 +179,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									</div>
 									<div class="col-sm-3">
 										<label class="col-sm-12">Birth Date:</label>
-										<div class="input-group date form_date col-sm-12" data-date="" data-date-format="yyyy/mm/dd" data-link-field="application_date_from" data-link-format="yyyy-mm-dd">
-					                        <input size="16" type="text" class='setpremium form-control' name='birthday' value='<?php echo !empty($birthday) ? $birthday : ''; ?>' readonly>
-					                        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+										<div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
+					                        <input size="16" type="text" class='setpremium form-control' name='birthday' value='<?php echo !empty($birthday) ? $birthday : ''; ?>'>
+					                        
 					                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
 					                    </div>
 					                   <?php if (!empty($error_birthday)) {?>
@@ -236,10 +235,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										<div class="col-sm-3">
 											<label class="col-sm-12">Birth Date: </label>
 											
-											<div class="input-group date form_date col-sm-12" data-date="" data-date-format="yyyy/mm/dd" data-link-field="application_date_from" data-link-format="yyyy-mm-dd">
-					                        <input size="16" type="text" class='setpremium form-control' name='birthday_<?php echo $i; ?>' value='<?php echo !empty(${'birthday_'.$i}) ? ${'birthday_'.$i} : ''; ?>' readonly>
-					                        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
-					                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+											<div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
+					                        	<input size="16" type="text" class='setpremium form-control' name='birthday_<?php echo $i; ?>' value='<?php echo !empty(${'birthday_'.$i}) ? ${'birthday_'.$i} : ''; ?>'>
+					                        	
+					                        	<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
 					                        </div>
 										</div>
 										<div class="col-sm-3">
@@ -257,7 +256,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 													<label class="col-sm-12">&nbsp;</label>
 													<div class="col-sm-12">
 														<?php if (($status_id >= 2) && !empty(${'customer_id_'.$i})) {?>
-														<a href='<?php echo $claimurl . ${'customer_id_'.$i}; ?>'>Claim</a>
+														<a class="btn btn-primary" href='<?php echo $claimurl . ${'customer_id_'.$i}; ?>'>Claim</a>
 														<?php } ?>
 													</div>
 												</div>

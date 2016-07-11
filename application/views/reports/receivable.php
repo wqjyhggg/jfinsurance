@@ -87,18 +87,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <div class="form-group col-sm-3">
                           <!-- Application Date from -->
                             <label for="application_date_from" class="col-sm-12">Application Date From</label>
-                            <div class="input-group date form_date col-sm-12" data-date="" data-date-format="yyyy/mm/dd" data-link-field="application_date_from" data-link-format="yyyy-mm-dd">
-                                <input class="form-control" size="16" type="text" value="" readonly>
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                            <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
+                                <input class="form-control" size="16" type="text" value="" >
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
                             <input type="hidden" id="application_date_from" value="" />
                             <!-- Application Date from End-->
                             <!-- Application Date to -->
                             <label for="application_date_to" class="col-sm-12">Application Date To</label>
-                            <div class="input-group date form_date col-sm-12" data-date="" data-date-format="yyyy/mm/dd" data-link-field="application_date_to" data-link-format="yyyy-mm-dd">
-                                <input class="form-control" size="16" type="text" value="" readonly>
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                            <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
+                                <input class="form-control" size="16" type="text" value="" >
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
                             <input type="hidden" id="application_date_to" value="" /><br/>
@@ -109,18 +107,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <div class="form-group col-sm-3">
                             <!-- Create Date From-->
                             <label for="create_date_from" class="col-sm-12">Create Date From</label>
-                            <div class="input-group date form_date col-sm-12" data-date="" data-date-format="yyyy/mm/dd" data-link-field="create_date_from" data-link-format="yyyy-mm-dd">
-                                <input class="form-control" size="16" type="text" value="" readonly>
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                            <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
+                                <input class="form-control" size="16" type="text" value="" >
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
                             <input type="hidden" id="create_date_from" value="" />
                             <!-- Create Date From End-->
                             <!-- Create Date to -->
                             <label for="create_date_to" class="col-sm-12">Create Date To</label>
-                            <div class="input-group date form_date col-sm-12" data-date="" data-date-format="yyyy/mm/dd" data-link-field="create_date_to" data-link-format="yyyy-mm-dd">
-                                <input class="form-control" size="16" type="text" value="" readonly>
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                            <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
+                                <input class="form-control" size="16" type="text" value="" >
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
                             <input type="hidden" id="create_date_to" value="" /><br/>
@@ -131,18 +127,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <div class="form-group col-sm-3">
                             <!-- Effective Date From-->
                             <label for="effective_date_from" class="col-sm-12">Effective Date From</label>
-                            <div class="input-group date form_date col-sm-12" data-date="" data-date-format="yyyy/mm/dd" data-link-field="effective_date_from" data-link-format="yyyy-mm-dd">
-                                <input class="form-control" size="16" type="text" value="" readonly>
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                            <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
+                                <input class="form-control" size="16" type="text" value="" >
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
                             <input type="hidden" id="effective_date_from" value="" />
                             <!-- Effective Date From End-->
                             <!-- Effective Date to -->
                             <label for="effective_date_to" class="col-sm-12">Effective Date To</label>
-                            <div class="input-group date form_date col-sm-12" data-date="" data-date-format="yyyy/mm/dd" data-link-field="effective_date_to" data-link-format="yyyy-mm-dd">
-                                <input class="form-control" size="16" type="text" value="" readonly>
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                            <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
+                                <input class="form-control" size="16" type="text" value="" >
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
                             <input type="hidden" id="effective_date_to" value="" /><br/>
@@ -154,18 +148,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <div class="form-group col-sm-3">
                             <!-- Payment Update Date From-->
                             <label for="payment_update_date_from" class="col-sm-12">Payment Update Date From</label>
-                            <div class="input-group date form_date col-sm-12" data-date="" data-date-format="yyyy/mm/dd" data-link-field="payment_update_date_from" data-link-format="yyyy-mm-dd">
-                                <input class="form-control" size="16" type="text" value="" readonly>
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                            <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
+                                <input class="form-control" size="16" type="text" value="" >
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
                             <input type="hidden" id="payment_update_date_from" value="" />
                             <!-- Payment Update Date From End-->
                             <!-- Payment Update Date to -->
                             <label for="payment_update_date_to" class="col-sm-12">Payment Update Date To</label>
-                            <div class="input-group date form_date col-sm-12" data-date="" data-date-format="yyyy/mm/dd" data-link-field="payment_update_date_to" data-link-format="yyyy-mm-dd">
-                                <input class="form-control" size="16" type="text" value="" readonly>
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                            <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
+                                <input class="form-control" size="16" type="text" value="" >
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
                             <input type="hidden" id="payment_update_date_to" value="" /><br/>

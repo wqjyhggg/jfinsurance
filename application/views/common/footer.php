@@ -12,9 +12,6 @@
 </div><!-- End Body Content -->
 
  <!-- Bootstrap -->
-<script src="<?php echo base_url();?>stylesheet/bootstrap/dist/js/bootstrap.min.js"></script>
-
-<script src="<?php echo base_url();?>stylesheet/datetimepicker/js/bootstrap-datetimepicker.js"></script>
 
  <!-- FastClick -->
 <script src="<?php echo base_url();?>stylesheet/fastclick/lib/fastclick.js"></script>
@@ -47,22 +44,6 @@
 <script src="<?php echo base_url();?>stylesheet/starrr/dist/starrr.js"></script>
 <!-- Build Custom Theme Scripts -->
 <script src="<?php echo base_url();?>build/js/custom.min.js"></script>
-
-<!-- Datetime picker on jf page -->
-
-<script type="text/javascript">
-    $('.form_date').datetimepicker({
-        //language:  'fr',
-        weekStart: 1,
-        todayBtn:  1,
-        autoclose: 1,
-        todayHighlight: 1,
-        startView: 2,
-        minView: 2,
-        forceParse: 0
-    });
-</script>
-
 
 </body>
 </html>
