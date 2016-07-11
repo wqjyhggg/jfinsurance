@@ -7,10 +7,16 @@ class Batch_model extends CI_Model {
 	public $error;
 	
 	function unixstamp( $excelDateTime ) {
-		$d = floor( $excelDateTime ); // seconds since 1900
-		$t = $excelDateTime - $d + 1;
-		return ($d > 0) ? ( $d - 25569 ) * 86400 + $t * 86400 : $t * 86400;
+		$excelDateTime =trim($excelDateTime);
+		if (ctype_digit($excelDateTime)) {
+			$d = floor( $excelDateTime ); // seconds since 1900
+			$t = $excelDateTime - $d + 1;
+			return ($d > 0) ? ( $d - 25569 ) * 86400 + $t * 86400 : $t * 86400;
+		} else {
+			return strtotime($excelDateTime);
+		}
 	}
+	
 	/**
 	 * Add / Update policy record
 	 * 
@@ -137,13 +143,6 @@ class Batch_model extends CI_Model {
 			// Add
 			$plan_id = $this->plan_model->add($data);
 		} else {
-			$this->customer_model->delete($plan['customer_id']);
-			if ($cms = $this->customer_model->get_customer_by_parent_id($plan['customer_id'])) {
-				foreach ($cms as $c) {
-					$this->customer_model->delete($c['customer_id']);
-				}
-			}
-			// Update
 			$plan_id = $this->plan_model->update($para['plan_id'], $data);
 		}
 		if ($plan_id) {

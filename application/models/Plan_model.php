@@ -190,6 +190,8 @@ class Plan_model extends CI_Model {
 	 * @return	array					user table search result
 	 */
 	public function update($plan_id, $para) {
+		$this->logstr = '';
+		$this->sqlstr = '';
 		$this->load->model('customer_model');
 		$arr = array();
 		$beuser = $this->session->userdata ( 'beuser' );
@@ -202,8 +204,45 @@ class Plan_model extends CI_Model {
 		}
 		$plan_id = $plan['plan_id'];
 		$this->logstr .= "Change Plan (" . (int)$plan_id . "): ";
-		
 		$isfamilyplan = empty($para['isfamilyplan']) ? 0 : 1;
+		
+		if (!empty($para['gender']) && !empty($para['firstname']) && !empty($para['lastname']) && !empty($para['birthday'])) {
+			$cpara = array(
+					'gender' => $para['gender'],
+					'firstname' => $para['firstname'],
+					'lastname' => $para['lastname'],
+					'birthday' => $para['birthday']
+			);
+			$customer_id = $this->customer_model->update($plan['customer_id'], $cpara);
+			if ($customer_id) {
+				$this->sqlstr .= $this->customer_model->sqlstr . "; ";
+				$this->logstr .= $this->customer_model->logstr . "; ";
+			}
+		}
+		$customer_id = $plan['customer_id'];
+		$this->customer_model->delete_by_parent_id($customer_id);
+		
+		if ($isfamilyplan) {
+			for ($i = 1 ; $i < 9; $i++) {
+				if (empty($para['gender_' . $i]) || empty($para['firstname_' . $i]) || empty($para['lastname_' . $i]) || empty($para['birthday_' . $i])) {
+					continue;
+				}
+				$cpara = array(
+						'plan_id' => $plan_id,
+						'parent_customer_id' => $customer_id,
+						'gender' => $para['gender_' . $i],
+						'firstname' => $para['firstname_' . $i],
+						'lastname' => $para['lastname_' . $i],
+						'birthday' => $para['birthday_' . $i]
+				);
+				$customer_id_this = $this->customer_model->add($cpara);
+				if ($customer_id_this) {
+					$this->sqlstr .= $this->customer_model->sqlstr . "; ";
+					$this->logstr .= $this->customer_model->logstr . "; ";
+				}
+			}
+		}
+
 		$sql  = "UPDATE plan SET";
 		if (isset($para['user_id']) && ((int)$para['user_id'] != (int)$plan['user_id'])) {
 			$this->logstr .= " user_id " . $para['user_id'] . "(" . $plan['user_id'] . ")";
@@ -365,77 +404,6 @@ class Plan_model extends CI_Model {
 		$sql .= " WHERE plan_id='" . (int)$plan_id . "'";
 		$this->db->query($sql);
 		$this->sqlstr = $this->db->last_query() . "; ";
-
-		if (!empty($para['gender']) && !empty($para['firstname']) && !empty($para['lastname']) && !empty($para['birthday'])) {
-			$cpara = array(
-					'gender' => $para['gender'],
-					'firstname' => $para['firstname'],
-					'lastname' => $para['lastname'],
-					'birthday' => $para['birthday']
-			);
-			$customer_id = $this->customer_model->update($plan['customer_id'], $cpara);
-			if ($customer_id) {
-				$this->sqlstr = $this->customer_model->sqlstr . "; ";
-				$this->logstr = $this->customer_model->logstr . "; ";
-			}
-		}
-		
-		if (isset($para['isfamilyplan'])) {
-			if ($isfamilyplan) {
-				$i = 1;
-				for ( ; $i < 9; $i++) {
-					if (!empty($para['customer_id_' . $i])) {
-						$customer_id_this = $para['customer_id_' . $i];
-					} else {
-						break;
-					}
-					if (empty($para['firstname_' . $i]) && empty($para['lastname_' . $i])) {
-						$customer_id = $this->customer_model->delete($customer_id_this);
-						if ($customer_id) {
-							$this->sqlstr = $this->customer_model->sqlstr . "; ";
-							$this->logstr = $this->customer_model->logstr . "; ";
-						}
-						continue;
-					}
-					
-					$cpara = array(
-							'gender' => $para['gender_' . $i],
-							'firstname' => $para['firstname_' . $i],
-							'lastname' => $para['lastname_' . $i],
-							'birthday' => $para['birthday_' . $i]
-					);
-					$customer_id_this = $this->customer_model->update($customer_id_this, $cpara);
-					if ($customer_id_this) {
-						$this->sqlstr = $this->customer_model->sqlstr . "; ";
-						$this->logstr = $this->customer_model->logstr . "; ";
-					}
-				}
-				for ( ; $i < 9; $i++) {
-					if (empty($para['firstname_' . $i]) && empty($para['lastname_' . $i])) {
-						break;
-					}
-					$cpara = array(
-							'plan_id' => $plan['plan_id'],
-							'parent_customer_id' => $plan['customer_id'],
-							'gender' => $para['gender_' . $i],
-							'firstname' => $para['firstname_' . $i],
-							'lastname' => $para['lastname_' . $i],
-							'birthday' => $para['birthday_' . $i]
-					);
-					$customer_id_this = $this->customer_model->add($cpara);
-					if ($customer_id_this) {
-						$this->sqlstr = $this->customer_model->sqlstr . "; ";
-						$this->logstr = $this->customer_model->logstr . "; ";
-					}
-				}
-			} else {
-				$customer_id_this = $this->customer_model->delete_by_parent_id($plan['customer_id']);
-				if ($customer_id_this) {
-					$this->sqlstr = $this->customer_model->sqlstr . "; ";
-					$this->logstr = $this->customer_model->logstr . "; ";
-				}
-			}
-		}
 
 		if (isset($para['status_id']) && ((int)$para['status_id'] != (int)$plan['status_id']) && ((int)$para['status_id'] == 3) && ((int)$plan['status_id'] == 2)) {
 			$payment_id = empty($plan['payment_id']) ? (empty($para['payment_id']) ? 0 : $para['payment_id']) : $plan['payment_id'];

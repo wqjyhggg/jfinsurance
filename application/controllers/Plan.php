@@ -610,6 +610,8 @@ class Plan extends MY_Controller {
 		}
 
 		$data['user_group_id'] = $beuser['user_group_id'];
+		$product = $this->product_model->get_product($data['product_short']);
+		$data['plan_full_name'] = $product ? $product['full_name'] : '';
 		$data['status_list'] = $this->status_model->status_list();
 		if ((int)$data['plan_id'] > 0) {
 			$data['copy_url'] = base_url ( "plan/copy/" . (int)$data['plan_id'] );
@@ -1214,6 +1216,9 @@ class Plan extends MY_Controller {
 		}
 		$data['premiumarr'] = $premiumarr;
 		$data['plan'] = $plan;
+		$product = $this->product_model->get_product($plan['product_short']);
+		$data['plan_full_name'] = $product ? $product['full_name'] : '';
+		
 		$data['customer'] = $this->customer_model->get_customer_by_id($plan['customer_id']);
 		$data['customers'] = $this->customer_model->get_customer_by_parent_id($plan['customer_id']);
 		

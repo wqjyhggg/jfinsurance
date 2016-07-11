@@ -54,7 +54,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<?php } else { ?>
 					<div class="row" style="margin-bottom:15px;">
 						
-						<div class="col-sm-4 pull-right text-right">
+						<div class="col-sm-3 pull-right text-right">
 						<?php /* it should be created plan */ ?>
 						<?php if ($status_id == 1) { /* qutoe */ ?>
 
@@ -63,18 +63,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 						<a href='<?php echo $copy_url; ?>'><span class="btn btn-info">Copy</span></a>
 						</div>
-						<div class="form-group col-sm-4">
-							<label class="inline"><?php if ($status_id < 2) { ?>Quote<?php } else {?>Policy<?php } ?> Number: <span><?php echo $policy; ?></span></label>
+						<div class="form-group col-sm-3">
+							<label class="inline"><span><?php echo $plan_full_name; ?></span></label>
 						</div>
 						<?php if ($user_group_id > 2) { ?>
 							<?php /* it is school or brokerage or agent */ ?>
-							<div class="form-group col-sm-4">
-								<label style="font-size:16px;">Policy Status: <?php echo $status_list[$status_id]['name']; ?> </label>
+							<div class="form-group col-sm-3">
+								<label style="font-size:16px;">Status: <?php echo $status_list[$status_id]['name']; ?> </label>
 							</div>
 							<input type='hidden' name='status_id' value='<?php echo $status_id; ?>' class="form-control">
 							<?php } else { ?>
-							<div class="form-group col-sm-4">
-							<label style="display:inline-block;vertical-align:middle;">Policy Status:</label>
+							<div class="form-group col-sm-3">
+							<label style="display:inline-block;vertical-align:middle;">Status:</label>
 							<div style="display:inline-block;vertical-align:middle;">
 							<select name='status_id' class="form-control">
 								<option value='0'> -- select policy status -- </option>
@@ -84,6 +84,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							</select></div>
 							</div>
 							<?php } ?>
+						<div class="form-group col-sm-3">
+							<label class="inline"><?php if ($status_id < 2) { ?>Quote<?php } else {?>Policy<?php } ?> Number: <span><?php echo $policy; ?></span></label>
+						</div>
 
 					</div>
 					<?php } ?>
@@ -495,6 +498,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				    });
 
 					$('.setpremium').change(get_premium); 
+					get_premium();
 				});
 
 				function get_premium() {
