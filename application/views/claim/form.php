@@ -71,9 +71,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         </div>
                         <div class="form-group col-sm-3">
                             <label class="col-sm-12">Birthdate From:</label>
-                            <div class="input-group date form_date col-sm-12" data-date="" data-date-format="yyyy/mm/dd" data-link-field="birthday" data-link-format="yyyy/mm/dd">
-                                <input class="form-control" size="16" type="text" name="birthday" placeholder="Birthdate From" value="<?php echo $birthday; ?>" readonly>
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                            <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
+                                <input class="form-control" size="16" type="text" name="birthday" placeholder="Birthdate From" value="<?php echo $birthday; ?>" >
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
                             <input type="hidden" id="application_date_from" value="" />
@@ -133,9 +132,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         </div>
                         <div class="form-group col-sm-3">
                             <label class="col-sm-12">Service Date: </label>
-                            <div class="input-group date form_date col-sm-12" data-date="" data-date-format="yyyy/mm/dd" data-link-field="birthday" data-link-format="yyyy/mm/dd">
-                                <input class="form-control" size="16" type="text" name='service_date' placeholder="Birthdate From" value='<?php echo $service_date; ?>' readonly>
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                            <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
+                                <input class="form-control" size="16" type="text" name='service_date' placeholder="Birthdate From" value='<?php echo $service_date; ?>' >
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
                             <input type="hidden" id="application_date_from" value="" />

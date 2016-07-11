@@ -102,9 +102,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <div class="form-group col-sm-3">
                           <!-- Claim Date from -->
                             <label for="claim_date_from" class="col-sm-12">Claim Date From</label>
-                            <div class="input-group date form_date col-sm-12" data-date="" data-date-format="yyyy/mm/dd" data-link-field="claim_date_from" data-link-format="yyyy-mm-dd">
-                                <input class="form-control" size="16" type="text" name='claim_date' value="<?php echo $claim_date; ?>" readonly>
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                            <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
+                                <input class="form-control" size="16" type="text" name='claim_date' value="<?php echo $claim_date; ?>" >
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
                             <!-- Claim Date from End-->
@@ -112,9 +111,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <div class="form-group col-sm-3">    
                             <!-- Claim Date to -->
                             <label for="claim_date_to" class="col-sm-12">Claim Date To</label>
-                            <div class="input-group date form_date col-sm-12" data-date="" data-date-format="yyyy/mm/dd" data-link-field="claim_date_to" data-link-format="yyyy-mm-dd">
-                                <input class="form-control" size="16" type="text" name='claim_date2' value="<?php echo $claim_date2; ?>" readonly>
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                            <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
+                                <input class="form-control" size="16" type="text" name='claim_date2' value="<?php echo $claim_date2; ?>" >
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
                             <!-- Claim Date to End -->
