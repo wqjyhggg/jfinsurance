@@ -111,7 +111,7 @@ class Pdf extends MY_Controller {
 							$data['errormsg'] .= "File data error at line " . $i . ": " . join("|", $row) . "<br>\n";
 							continue;
 						}
-						$data = array();
+						$data = array('errormsg' => '');
 						for ($j = 0; $j < sizeof($keyArr); $j++) {
 							$data[$keyArr[$j]] = $row[$j];
 						}
