@@ -412,6 +412,27 @@ class Plan extends MY_Controller {
 		} else {
 			$data['deductible_amount'] = '';
 		}
+		if ($this->input->post('totaldays')) {
+			$data['totaldays'] = $this->input->post('totaldays'); 
+		} else if (isset($plan['totaldays'])) {
+			$data['totaldays'] = $plan['totaldays'];
+		} else {
+			$data['totaldays'] = '';
+		}
+		if ($this->input->post('dailyrate')) {
+			$data['dailyrate'] = $this->input->post('dailyrate'); 
+		} else if (isset($plan['dailyrate'])) {
+			$data['dailyrate'] = $plan['dailyrate'];
+		} else {
+			$data['dailyrate'] = '';
+		}
+		if ($this->input->post('totalyears')) {
+			$data['totalyears'] = $this->input->post('totalyears'); 
+		} else if (isset($plan['totalyears'])) {
+			$data['totalyears'] = $plan['totalyears'];
+		} else {
+			$data['totalyears'] = '';
+		}
 		if ($this->input->post('customer_id')) {
 			$data['customer_id'] = $this->input->post('customer_id');
 		} else if (isset($plan['customer_id'])) {
@@ -670,18 +691,22 @@ class Plan extends MY_Controller {
 
 	function term($plan_id=0) {
 		$beuser = $this->func_model->verify_login(); 
+		$this->load->model('plan_model');
 		if (empty($plan_id)) {
 			$plan_id = $this->input->post('plan_id');
 		}
 		if (empty($plan_id)) {
 			redirect(base_url('production'));
 		}
-
+		$plan = $this->plan_model->get_plan_by_id($plan_id);
+		if (empty($plan)) {
+			redirect(base_url('production'));
+		}
+		
 		$data['message'] = '';
 		if ($this->input->post('submit')) {
 			$agree = $this->input->post('agree');
 			if ($agree) {
-				$this->load->model('plan_model');
 				$this->load->model('product_model');
 				
 				$para = array('agree' => 1);
@@ -702,6 +727,7 @@ class Plan extends MY_Controller {
 			}
 		}
 		$data['plan_id'] = $plan_id;
+		$data['agree'] = $plan['agree'];
 		
 		$data['action_url'] = base_url('plan/term');
 		$data['title_txt'] = 'Policy';
@@ -1188,33 +1214,35 @@ class Plan extends MY_Controller {
 		$data['beuser'] = $beuser;
 		$data['sekey'] = $sekey;
 		$data['apply_date'] = date('Y-m-d');
-		
-		$para = array();
-		$para['product_short'] = $plan['product_short'];
-		$para['apply_date'] = date('Y-m-d');
-		$para['effective_date'] = $plan['effective_date'];
-		$para['expiry_date'] = $plan['expiry_date'];
-		$para['isfamilyplan'] = $plan['isfamilyplan'];
-		$para['sum_insured'] = $plan['sum_insured'];
-		$para['deductible_amount'] = $plan['deductible_amount'];
-		$para['stable_condition'] = $plan['stable_condition'];
-		$para['birthday'] = $this->customer_model->get_max_birthday($plan['customer_id'], $plan['isfamilyplan']);
-		$para['number_customer'] = $this->customer_model->get_number_customer($plan['customer_id'], $plan['isfamilyplan']);
-		$premiumarr = $this->product_model->get_premium($para);
-		if (!empty($premiumarr) && !empty($premiumarr['premium']) && ((float)$premiumarr['premium'] != (float)$plan['premium'])) {
-			$para = array('premium' => $premiumarr['premium']);
-			$this->plan_model->update($plan['plan_id'], $para);
-			$plan = $this->plan_model->get_plan_by_id($plan['plan_id']);
-			$para = array(
-					'plan_id' => $plan_id, 
-					'customer_id' => $plan['customer_id'], 
-					'payment_id' => 0, 
-					'message' => $this->plan_model->logstr, 
-					'systemlog' => $this->plan_model->sqlstr
-			);
-			$this->log_model->activity('plan', $para);
+	
+		if ($plan['status_id'] < 3) {
+			// Before Paid
+			$para = array();
+			$para['product_short'] = $plan['product_short'];
+			$para['apply_date'] = date('Y-m-d');
+			$para['effective_date'] = $plan['effective_date'];
+			$para['expiry_date'] = $plan['expiry_date'];
+			$para['isfamilyplan'] = $plan['isfamilyplan'];
+			$para['sum_insured'] = $plan['sum_insured'];
+			$para['deductible_amount'] = $plan['deductible_amount'];
+			$para['stable_condition'] = $plan['stable_condition'];
+			$para['birthday'] = $this->customer_model->get_max_birthday($plan['customer_id'], $plan['isfamilyplan']);
+			$para['number_customer'] = $this->customer_model->get_number_customer($plan['customer_id'], $plan['isfamilyplan']);
+			$premiumarr = $this->product_model->get_premium($para);
+			if (!empty($premiumarr) && !empty($premiumarr['premium']) && ((float)$premiumarr['premium'] != (float)$plan['premium'])) {
+				$para = array('premium' => $premiumarr['premium'],'dailyrate' => $premiumarr['dailyrate'],'totaldays' => $premiumarr['totaldays'],'totalyears' => $premiumarr['totalyears']);
+				$this->plan_model->update($plan['plan_id'], $para);
+				$plan = $this->plan_model->get_plan_by_id($plan['plan_id']);
+				$para = array(
+						'plan_id' => $plan_id, 
+						'customer_id' => $plan['customer_id'], 
+						'payment_id' => 0, 
+						'message' => $this->plan_model->logstr, 
+						'systemlog' => $this->plan_model->sqlstr
+				);
+				$this->log_model->activity('plan', $para);
+			}
 		}
-		$data['premiumarr'] = $premiumarr;
 		$data['plan'] = $plan;
 		$product = $this->product_model->get_product($plan['product_short']);
 		$data['plan_full_name'] = $product ? $product['full_name'] : '';

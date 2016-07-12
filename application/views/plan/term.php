@@ -62,7 +62,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                   <input type='hidden' name='plan_id' value='<?php echo $plan_id; ?>'>
                   <div class="row">
                     <div class="col-sm-12 text-right">
-        					   Agree: <input type='checkbox' name='agree' id='agree'>
+        					   Agree: <input type='checkbox' name='agree' id='agree' <?php echo $agree ? 'checked' : ''; ?>>
         					   <input class="btn btn-primary" type='submit' name='submit' value='Agree'><br>
         					  </div>
                   </div>

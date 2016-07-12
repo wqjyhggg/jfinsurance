@@ -407,13 +407,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<div class="col-sm-3">
 										<label class="col-sm-12">Days: </label>
 										<div class="input-group col-sm-12">
-											<div id='days' class="div-box"></div>	
+											<!-- div id='totaldays' class="div-box"></div -->
+											<input class="form-control" type='text' name='totaldays' id='totaldays' value='<?php echo $totaldays; ?>' disabled >
 										</div>
 									</div>
 									<div class="col-sm-3">
-										<label class="col-sm-12">Oldest Customer: </label>
+										<label class="col-sm-12">Daily Rate: </label>
 										<div class="input-group col-sm-12">
-											<div id='years' class="div-box"></div>	
+											<input class="form-control" type='text' name='dailyrate' id='dailyrate' value='<?php echo $dailyrate; ?>' disabled >
+										</div>
+									</div>
+									<div class="col-sm-3">
+										<label class="col-sm-12">Age: </label>
+										<div class="input-group col-sm-12">
+											<input class="form-control" type='text' name='totalyears' id='totalyears' value='<?php echo $dailyrate; ?>' disabled >
 										</div>
 									</div>
 									<div class="col-sm-3">
@@ -610,8 +617,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<?php if ($user_group_id > 3) { ?>
 									$('#premium').html(data['premiumarr']['premium']);
 									<?php } ?>
-									$('#years').html(data['premiumarr']['years']);
-									$('#days').html(data['premiumarr']['days']);
+									$('#totalyears').val(data['premiumarr']['totalyears']);
+									$('#totaldays').val(data['premiumarr']['totaldays']);
+									$('#dailyrate').val(data['premiumarr']['dailyrate']);
 									if (data['premiumarr']['message']) {
 										alert(data['premiumarr']['message']);
 									}

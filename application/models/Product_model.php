@@ -286,7 +286,7 @@ class Product_model extends CI_Model {
 			$message = "";
 			if ($years > 85) $message = "Over 85 years old must have $500 Deductible";
 
-			$rArr = array('premium' => $premium, 'rate' => $rate, 'years' => $years, 'days' => $days, 'message' => $message, 'sum_insured' => number_format($para['sum_insured'], 2, '.', ','), 'deductible_amount' => number_format($para['deductible_amount'], 2, '.', ','));
+			$rArr = array('premium' => $premium, 'dailyrate' => $rate, 'totalyears' => $years, 'totaldays' => $days, 'message' => $message, 'sum_insured' => number_format($para['sum_insured'], 2, '.', ','), 'deductible_amount' => number_format($para['deductible_amount'], 2, '.', ','));
 		} else if ($para['product_short'] == 'JFR') {
 			if ($para['stable_condition'] == 1) {
 				// With stable pre-existing conditions coverage option
@@ -436,7 +436,7 @@ class Product_model extends CI_Model {
 			$message = "";
 			if ($years > 85) $message = "Over 85 years old must have $500 Deductible";
 
-			$rArr = array('premium' => $premium, 'rate' => $rate, 'years' => $years, 'days' => $days, 'message' => $message, 'sum_insured' => number_format($para['sum_insured'], 2, '.', ','), 'deductible_amount' => number_format($para['deductible_amount'], 2, '.', ','));
+			$rArr = array('premium' => $premium, 'dailyrate' => $rate, 'totalyears' => $years, 'totaldays' => $days, 'message' => $message, 'sum_insured' => number_format($para['sum_insured'], 2, '.', ','), 'deductible_amount' => number_format($para['deductible_amount'], 2, '.', ','));
 		} else if ($para['product_short'] == 'JUS') {
 			$number_customer = (int)$para['number_customer'] - 2;
 			if ($para['rate_options'] != 2) {	// Here is Plus / Prefer
@@ -463,7 +463,7 @@ class Product_model extends CI_Model {
 				}
 			}
 			$premium = $rate * $days;
-			$rArr = array('premium' => $premium, 'rate' => $rate, 'years' => $years, 'days' => $days, 'message' => "", 'sum_insured' => number_format($para['sum_insured'], 2, '.', ','), 'deductible_amount' => number_format($para['deductible_amount'], 2, '.', ','));
+			$rArr = array('premium' => $premium, 'dailyrate' => $rate, 'totalyears' => $years, 'totaldays' => $days, 'message' => "", 'sum_insured' => number_format($para['sum_insured'], 2, '.', ','), 'deductible_amount' => number_format($para['deductible_amount'], 2, '.', ','));
 		} else if ($para['product_short'] == 'NUS') {
 			$number_customer = (int)$para['number_customer'] - 2;
 			if ($para['rate_options'] != 2) {	// Here is Plus / Prefer
@@ -490,7 +490,7 @@ class Product_model extends CI_Model {
 				}
 			}
 			$premium = $rate * $days;
-			$rArr = array('premium' => $premium, 'rate' => $rate, 'years' => $years, 'days' => $days, 'message' => "", 'sum_insured' => number_format($para['sum_insured'], 2, '.', ','), 'deductible_amount' => number_format($para['deductible_amount'], 2, '.', ','));
+			$rArr = array('premium' => $premium, 'dailyrate' => $rate, 'totalyears' => $years, 'totaldays' => $days, 'message' => "", 'sum_insured' => number_format($para['sum_insured'], 2, '.', ','), 'deductible_amount' => number_format($para['deductible_amount'], 2, '.', ','));
 		} else if ($para['product_short'] == 'JES') {
 			$number_customer = (int)$para['number_customer'];
 			$rate = 1.6;
@@ -499,13 +499,13 @@ class Product_model extends CI_Model {
 			} else {
 				$premium = $rate * $days * $number_customer;
 			}
-			$rArr = array('premium' => $premium, 'rate' => $rate, 'years' => $years, 'days' => $days, 'message' => "", 'sum_insured' => number_format($para['sum_insured'], 2, '.', ','), 'deductible_amount' => number_format($para['deductible_amount'], 2, '.', ','));
+			$rArr = array('premium' => $premium, 'dailyrate' => $rate, 'totalyears' => $years, 'totaldays' => $days, 'message' => "", 'sum_insured' => number_format($para['sum_insured'], 2, '.', ','), 'deductible_amount' => number_format($para['deductible_amount'], 2, '.', ','));
 		} else if ($para['product_short'] == 'JFC') {
 			if ($years <= 3) 		return 0;
 			elseif ($years <= 59) 	$rate = 1.5;
 			else				  	return 0;
 			$premium = $rate * $days;
-			$rArr = array('premium' => $premium, 'rate' => $rate, 'years' => $years, 'days' => $days, 'message' => "", 'sum_insured' => number_format($para['sum_insured'], 2, '.', ','), 'deductible_amount' => number_format($para['deductible_amount'], 2, '.', ','));
+			$rArr = array('premium' => $premium, 'dailyrate' => $rate, 'totalyears' => $years, 'totaldays' => $days, 'message' => "", 'sum_insured' => number_format($para['sum_insured'], 2, '.', ','), 'deductible_amount' => number_format($para['deductible_amount'], 2, '.', ','));
 		} else {
 			$this->message = "";
 			return 0;

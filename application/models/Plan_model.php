@@ -100,6 +100,9 @@ class Plan_model extends CI_Model {
 		if (isset($para['rate_options'])) $sql .= " rate_options='" . (int)$para['rate_options'] . "', ";
 		if (isset($para['sum_insured'])) $sql .= " sum_insured='" . (int)$para['sum_insured'] . "', ";
 		if (isset($para['deductible_amount'])) $sql .= " deductible_amount='" . (int)$para['deductible_amount'] . "', ";
+		if (isset($para['totaldays'])) $sql .= " totaldays='" . (int)$para['totaldays'] . "', ";
+		if (isset($para['totalyears'])) $sql .= " totalyears='" . (int)$para['totalyears'] . "', ";
+		if (isset($para['dailyrate']))  $sql .= " dailyrate='" . (float) $para['dailyrate'] . "', ";
 		if (isset($para['premium']))  $sql .= " premium='" . (float) $para['premium'] . "', ";
 		if (isset($para['street_number'])) $sql .= " street_number=" . $this->db->escape(trim($para['street_number'])) . ", ";
 		if (isset($para['street_name'])) $sql .= " street_name=" . $this->db->escape(trim($para['street_name'])) . ", ";
@@ -303,6 +306,18 @@ class Plan_model extends CI_Model {
 		if (isset($para['deductible_amount']) && ($para['deductible_amount'] != $plan['deductible_amount'])) {
 			$this->logstr .= " deductible_amount " . $para['deductible_amount'] . "(" . $plan['deductible_amount'] . ")";
 			$sql .= " deductible_amount=" . $this->db->escape($para['deductible_amount']) . ", ";
+		}
+		if (isset($para['totaldays']) && ($para['totaldays'] != $plan['totaldays'])) {
+			$this->logstr .= " totaldays " . $para['totaldays'] . "(" . $plan['totaldays'] . ")";
+			$sql .= " totaldays=" . $this->db->escape($para['totaldays']) . ", ";
+		}
+		if (isset($para['totalyears']) && ($para['totalyears'] != $plan['totalyears'])) {
+			$this->logstr .= " totalyears " . $para['totalyears'] . "(" . $plan['totalyears'] . ")";
+			$sql .= " totalyears=" . $this->db->escape($para['totalyears']) . ", ";
+		}
+		if (isset($para['dailyrate']) && ((float)$para['dailyrate'] != (float)$plan['dailyrate'])) {
+			$this->logstr .= " dailyrate " . $para['dailyrate'] . "(" . $plan['dailyrate'] . ")";
+			$sql .= " dailyrate='" . (float) $para['dailyrate'] . "', ";
 		}
 		if (isset($para['premium']) && ((float)$para['premium'] != (float)$plan['premium'])) {
 			$this->logstr .= " premium " . $para['premium'] . "(" . $plan['premium'] . ")";

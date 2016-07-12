@@ -185,9 +185,21 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 								<div class="col-sm-12" style="background-color:#5bc0de; color:#fff;">
 									<label class="inline">Special Note/Instructions</label>
 								</div>
-								<div class="col-sm-12">
+								<div class="col-sm-3">
+									<label class="inline">Age</label>
+									<span><?php echo $plan['totalyears']; ?></span>
+								</div>
+								<div class="col-sm-3">
+									<label class="inline">Daily Rate:</label>
+									<span>$<?php echo number_format($plan['dailyrate'], 2, '.', ','); ?></span>
+								</div>
+								<div class="col-sm-3">
+									<label class="inline">Total Days:</label>
+									<span><?php echo $plan['totaldays']; ?></span>
+								</div>
+								<div class="col-sm-3">
 									<label class="inline">Premium:</label>
-									<span>$<?php echo number_format($plan['premium'], 2, '.', ',');?></span>
+									<span>$<?php echo number_format($plan['premium'], 2, '.', ','); ?></span>
 								</div>
 								<div class="col-sm-12">
 									<label class="inline">Notes:</label>
