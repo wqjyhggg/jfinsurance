@@ -408,19 +408,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										<label class="col-sm-12">Days: </label>
 										<div class="input-group col-sm-12">
 											<!-- div id='totaldays' class="div-box"></div -->
-											<input class="form-control" type='text' name='totaldays' id='totaldays' value='<?php echo $totaldays; ?>' disabled >
+											<input class="form-control" type='text' name='totaldays' id='totaldays' value='<?php echo $totaldays; ?>' readonly >
 										</div>
 									</div>
 									<div class="col-sm-3">
 										<label class="col-sm-12">Daily Rate: </label>
 										<div class="input-group col-sm-12">
-											<input class="form-control" type='text' name='dailyrate' id='dailyrate' value='<?php echo $dailyrate; ?>' disabled >
+											<input class="form-control" type='text' name='dailyrate' id='dailyrate' value='<?php echo $dailyrate; ?>' readonly >
 										</div>
 									</div>
 									<div class="col-sm-3">
 										<label class="col-sm-12">Age: </label>
 										<div class="input-group col-sm-12">
-											<input class="form-control" type='text' name='totalyears' id='totalyears' value='<?php echo $dailyrate; ?>' disabled >
+											<input class="form-control" type='text' name='totalyears' id='totalyears' value='<?php echo $dailyrate; ?>' readonly >
 										</div>
 									</div>
 									<div class="col-sm-3">

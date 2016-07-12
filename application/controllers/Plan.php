@@ -912,7 +912,7 @@ class Plan extends MY_Controller {
 							'systemlog' => $this->trans_model->sqlstr
 					);
 					$this->log_model->activity('payment', $para);
-
+								
 				} else {
 					$dt['ispaid'] = 0;
 					$dt['note'] = "Failur: Raw Data=> " . json_encode($result);
@@ -925,6 +925,7 @@ class Plan extends MY_Controller {
 							'systemlog' => $this->trans_model->sqlstr
 					);
 					$this->log_model->activity('payment', $para);
+					$this->error = 'Payment Failed. Please confirm card information.';
 				}
 			} catch ( \Beanstream\Exception $e ) {
 				// print_r ( $e->getMessage() );
@@ -939,6 +940,7 @@ class Plan extends MY_Controller {
 						'systemlog' => $this->trans_model->sqlstr
 				);
 				$this->log_model->activity('payment', $para);
+				$this->error = 'Payment Failed. Please pay it later.';
 			}
 		}
 	}
