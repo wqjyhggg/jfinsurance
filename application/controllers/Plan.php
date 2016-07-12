@@ -14,7 +14,7 @@ class Plan extends MY_Controller {
 	 */
 	public function index()
 	{
-		$beuser = $this->func_model->verify_login(); 
+		$beuser = $this->func_model->verify_login();
 		$this->load->model('status_model');
 		$this->load->model('product_model');
 		$this->load->model('plan_model');
@@ -690,7 +690,7 @@ class Plan extends MY_Controller {
 	}
 
 	function term($plan_id=0) {
-		$beuser = $this->func_model->verify_login(); 
+		$beuser = $this->func_model->verify_login(TRUE); 
 		$this->load->model('plan_model');
 		if (empty($plan_id)) {
 			$plan_id = $this->input->post('plan_id');
@@ -1208,6 +1208,7 @@ class Plan extends MY_Controller {
 			if ($key != $sekey) {
 				redirect('user/login');
 			}
+			$this->session->set_userdata ( 'beuser',  $beuser);
 		}
 		
 		$data['errormsg'] = $this->error;
@@ -1257,7 +1258,6 @@ class Plan extends MY_Controller {
 		}
 		$data['payurl'] = base_url('plan/detail/' . $plan_id . '/' . $this->plan_model->get_plan_key($plan_id));
 		$data['active_url'] = current_url();
-		$data['pdf_url'] = base_url('plan/pdf') . "/";
 		$data['status_list'] = $this->status_model->status_list();
 		if ($plan['status_id'] <= 2) {
 			$display = 1;
@@ -1289,6 +1289,24 @@ class Plan extends MY_Controller {
 				} else /* if ($data['pay_type'] == 'Cash') */ {
 					$data['cash_dis'] = 1;
 				}
+			}
+		}
+
+		$data['pdf_url'] = base_url('plan/pdf/' . $plan['plan_id']);
+		$data['print_card_url'] = '';
+		$data['print_receipt_url'] = '';
+		$data['cancel_letter_url'] = '';
+		$data['refund_letter_url'] = '';
+		if ($plan['status_id'] >= 2) {
+			if ($plan['status_id'] == 5) {
+				// Cancel
+				$data['cancel_letter_url'] = base_url('plan/cancel/' . $plan['plan_id']);
+			} else if ($plan['status_id'] == 6) {
+				// Refund
+				$data['refund_letter_url'] = base_url('plan/refund/' . $plan['plan_id']);
+			} else {
+				$data['print_card_url'] = base_url('plan/card/' . $plan['plan_id']);
+				$data['print_receipt_url'] = base_url('plan/receipt/' . $plan['plan_id']);
 			}
 		}
 		
@@ -1323,7 +1341,7 @@ class Plan extends MY_Controller {
 
 	public function pdf($plan_id)
 	{
-		$beuser = $this->func_model->verify_login();
+		$beuser = $this->func_model->verify_login(TRUE);
 		$this->load->model('customer_model');
 		$this->load->model('plan_model');
 		$this->load->model('product_model');
@@ -1340,11 +1358,103 @@ class Plan extends MY_Controller {
 		$data['customers'] = $this->customer_model->get_customer_by_parent_id($plan['customer_id']);
 		$data['paytype_list'] = $this->paytype_model->paytype_list();
 		$data['status_list'] = $this->status_model->status_list();
+
+		if ($data['plan']['product_short'] == 'OPL') {
+			$data['insurable_options'] = $this->load->view('plan/detail_opl', $data, TRUE);
+		} else if ($data['plan']['product_short'] == 'JFR') {
+			$data['insurable_options'] = $this->load->view('plan/detail_opl', $data, TRUE);
+		} else if ($data['plan']['product_short'] == 'JUS') {
+			$data['insurable_options'] = $this->load->view('plan/detail_jus', $data, TRUE);
+		} else if ($data['plan']['product_short'] == 'NUS') {
+			$data['insurable_options'] = $this->load->view('plan/detail_jus', $data, TRUE);
+		} else if ($data['plan']['product_short'] == 'JES') {
+			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
+		} else if ($plan['plan']['product_short'] == 'JFC') {
+			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
+		} else {
+			$data['insurable_options'] = $this->load->view('plan/detail_other', $data, TRUE);
+		}
 		
 		$data['title_txt'] = 'Policy';
 
 		$mpdf = new mPDF('c');
 		$html = $this->load->view('plan/pdf', $data, TRUE);
+		$mpdf->writeHTML($html);
+		$mpdf->Output();
+	}
+
+	/**
+	 * Cancel Letter
+	 * 
+	 * @param integer $plan_id
+	 */
+	public function cancel($plan_id) {
+		$beuser = $this->func_model->verify_login(TRUE);
+		$plan = $this->plan_model->get_plan_by_id($plan_id);
+		if (empty($plan)) {
+			redirect ( base_url ('user/login') );
+			return;
+		}
+		$mpdf = new mPDF('c');
+		$data = array();
+		$html = $this->load->view('plan/cancel', $data, TRUE);
+		$mpdf->writeHTML($html);
+		$mpdf->Output();
+	}
+	
+	/**
+	 * Refund Letter
+	 * 
+	 * @param integer $plan_id
+	 */
+	public function refund($plan_id) {
+		$beuser = $this->func_model->verify_login(TRUE);
+		$plan = $this->plan_model->get_plan_by_id($plan_id);
+		if (empty($plan)) {
+			redirect ( base_url ('user/login') );
+			return;
+		}
+		$mpdf = new mPDF('c');
+		$data = array();
+		$html = $this->load->view('plan/refund', $data, TRUE);
+		$mpdf->writeHTML($html);
+		$mpdf->Output();
+	}
+	
+	/**
+	 * Print Travel Card
+	 * 
+	 * @param integer $plan_id
+	 */
+	public function card($plan_id) {
+		$beuser = $this->func_model->verify_login(TRUE);
+		$plan = $this->plan_model->get_plan_by_id($plan_id);
+		if (empty($plan)) {
+			redirect ( base_url ('user/login') );
+			return;
+		}
+		$mpdf = new mPDF('c');
+		$data = array();
+		$html = $this->load->view('plan/card', $data, TRUE);
+		$mpdf->writeHTML($html);
+		$mpdf->Output();
+	}
+	
+	/**
+	 * Print Receipt
+	 * 
+	 * @param integer $plan_id
+	 */
+	public function receipt($plan_id) {
+		$beuser = $this->func_model->verify_login(TRUE);
+		$plan = $this->plan_model->get_plan_by_id($plan_id);
+		if (empty($plan)) {
+			redirect ( base_url ('user/login') );
+			return;
+		}
+		$mpdf = new mPDF('c');
+		$data = array();
+		$html = $this->load->view('plan/receipt', $data, TRUE);
 		$mpdf->writeHTML($html);
 		$mpdf->Output();
 	}

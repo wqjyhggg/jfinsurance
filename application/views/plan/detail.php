@@ -34,7 +34,19 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 							Review Policy Detail<small></small>
 							<span><b>[ <?php echo $status_list[$plan['status_id']]['name']; ?> ]</b></span>
 						</h2>
-						<a class="btn btn-info pull-right" target="_blank" href='<?php echo $pdf_url . $plan['plan_id']; ?>'>Export PDF</a>
+						<a class="btn btn-info pull-right" target="_blank" href='<?php echo $pdf_url; ?>'>Export PDF</a>
+						<?php if (!empty($print_card_url)) { ?>
+						<a class="btn btn-info pull-right" target="_blank" href='<?php echo $print_card_url; ?>'>Print Card</a>
+						<?php } ?>
+						<?php if (!empty($print_receipt_url)) { ?>
+						<a class="btn btn-info pull-right" target="_blank" href='<?php echo $print_receipt_url; ?>'>Print Receipt</a>
+						<?php } ?>
+						<?php if (!empty($cancel_letter_url)) { ?>
+						<a class="btn btn-info pull-right" target="_blank" href='<?php echo $print_cancel_url; ?>'>Cancel Letter</a>
+						<?php } ?>
+						<?php if (!empty($refund_letter_url)) { ?>
+						<a class="btn btn-info pull-right" target="_blank" href='<?php echo $print_refund_url; ?>'>Refund letter</a>
+						<?php } ?>
 						<div class="clearfix"></div>
 					</div>
 					<div class="x_content">

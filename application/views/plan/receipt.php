@@ -29,6 +29,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 							</table>
 							</div>	
 							</div>
+
 							<?php echo $insurable_options; ?>
 							
 							<div class="row">
