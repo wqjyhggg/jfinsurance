@@ -223,9 +223,9 @@ class Plan_model extends CI_Model {
 			}
 		}
 		$customer_id = $plan['customer_id'];
-		$this->customer_model->delete_by_parent_id($customer_id);
 		
-		if ($isfamilyplan) {
+		if ($isfamilyplan && !empty($para['gender_1']) && !empty($para['firstname_1']) && !empty($para['lastname_1']) && !empty($para['birthday_1'])) {
+			$this->customer_model->delete_by_parent_id($customer_id);
 			for ($i = 1 ; $i < 9; $i++) {
 				if (empty($para['gender_' . $i]) || empty($para['firstname_' . $i]) || empty($para['lastname_' . $i]) || empty($para['birthday_' . $i])) {
 					continue;
