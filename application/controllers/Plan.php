@@ -1358,8 +1358,8 @@ class Plan extends MY_Controller {
 		$data['plan'] = $plan;
 		$product = $this->product_model->get_product($plan['product_short']);
 		$data['plan_full_name'] = $product ? $product['full_name'] : '';
-		$data['customer'] = $this->customer_model->get_customer_by_id($plan['plan']['customer_id']);
-		$data['customers'] = $this->customer_model->get_customer_by_parent_id($plan['plan']['customer_id']);
+		$data['customer'] = $this->customer_model->get_customer_by_id($data['plan']['customer_id']);
+		$data['customers'] = $this->customer_model->get_customer_by_parent_id($data['plan']['customer_id']);
 		$data['paytype_list'] = $this->paytype_model->paytype_list();
 		$data['status_list'] = $this->status_model->status_list();
 
@@ -1379,9 +1379,6 @@ class Plan extends MY_Controller {
 			$data['insurable_options'] = $this->load->view('plan/detail_other', $data, TRUE);
 		}
 		
-		$data['bootstrap'] = $this->config->item('base_url') . 'stylesheet/bootstrap/dist/css/bootstrap.css';
-		$data['bootstrapmin'] = $this->config->item('base_url') . 'stylesheet/bootstrap/dist/css/bootstrap.min.css';
-
 		$data['title_txt'] = 'Policy';
 		$data['style'] = $this->load->view('common/pdf_style',$data, TRUE);
 		$mpdf = new mPDF('c');
