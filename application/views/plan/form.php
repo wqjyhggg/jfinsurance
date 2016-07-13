@@ -547,9 +547,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				function addmoremember() {
 					for (i = 1; i < 9; i++) {
 						$('#customer_member_' + i).show();
+						$('#firstname_' + i).removeClass('alert-error');
+						$('#lastname_' + i).removeClass('alert-error');
+						$('#birthday_' + i).removeClass('alert-error');
 						if ( !$('#firstname_' + i).val() && !$('#lastname_' + i).val() && !$('#birthday_' + i).val()) {
 							break;
-						} else if ( !$('#firstname_' + i).val() || !$('#lastname_' + i).val() || !$('#birthday_' + i).val()) {
+						}
+						if ( !$('#firstname_' + i).val() ) {
+							$('#firstname_' + i).addClass('alert-error');
+						}
+						if ( !$('#lastname_' + i).val() ) {
+							$('#lastname_' + i).addClass('alert-error');
+						}
+						if ( !$('#birthday_' + i).val() ) {
+							$('#birthday_' + i).addClass('alert-error');
+						}
+						if ( !$('#firstname_' + i).val() || !$('#lastname_' + i).val() || !$('#birthday_' + i).val()) {
 							$('#errormessage_' + i).html("Please fill in all information.");
 							break;
 						}
@@ -557,7 +570,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					}
 					i++;
 					for ( ; i < 9; i++) {
+						$('#firstname_' + i).removeClass('alert-error');
+						$('#lastname_' + i).removeClass('alert-error');
+						$('#birthday_' + i).removeClass('alert-error');
 						$('#customer_member_' + i).hide();
+						$('#errormessage_' + i).html("");
 					}
 				}
 				
