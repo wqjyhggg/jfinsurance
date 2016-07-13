@@ -7,8 +7,6 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title>PDF File</title>
-	<!--link rel="stylesheet" href="<?php echo $bootstrap;?>">
-	<link rel="stylesheet" href="<?php echo $bootstrapmin;?>"-->
 	<?php echo $style;?>
 </head>
 <body>
