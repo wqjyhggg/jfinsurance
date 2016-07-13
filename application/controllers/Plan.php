@@ -861,19 +861,6 @@ class Plan extends MY_Controller {
 				$this->log_model->activity('commission', $para);
 			}
 
-			$payinfo = "Credit Card: " . substr($card_number, 0, 5) . "xxx" . substr($card_number, -4) . " " . $card_name .  " " . $expiry_month . "/" . $expiry_year;
-				
-			$para = array('payment_id' => $payment_id, 'payinfo' => $payinfo, 'commission_payment_id' => $commission_payment_id, 'status_id' => 2, 'policy' => $this->plan_model->get_policy_number($plan_id, 2));
-			$this->plan_model->update($plan_id, $para);
-			$para = array(
-					'plan_id' => $plan_id,
-					'customer_id' => $plan['customer_id'],
-					'payment_id' => $payment_id,
-					'message' => $this->plan_model->logstr,
-					'systemlog' => $this->plan_model->sqlstr
-			);
-			$this->log_model->activity('plan', $para);
-
 			$beanstream = new \Beanstream\Gateway ( $this->merchentID, $this->apikey, 'www', 'v1' );
 			$payment_data = array (
 					'order_number' => $plan_id,
@@ -890,7 +877,9 @@ class Plan extends MY_Controller {
 			try {
 				$result = $beanstream->payments ()->makeCardPayment ( $payment_data, TRUE ); // set to FALSE for Pre-Auth
 				if (isset($result['approved'])) {
-					$para = array('status_id' => 3);
+					$payinfo = "Credit Card: " . substr($card_number, 0, 5) . "xxx" . substr($card_number, -4) . " " . $card_name .  " " . $expiry_month . "/" . $expiry_year;
+						
+					$para = array('payment_id' => $payment_id, 'payinfo' => $payinfo, 'commission_payment_id' => $commission_payment_id, 'status_id' => 3, 'policy' => $this->plan_model->get_policy_number($plan_id, 2));
 					$this->plan_model->update($plan_id, $para);
 					$para = array(
 							'plan_id' => $plan_id,
@@ -912,8 +901,20 @@ class Plan extends MY_Controller {
 							'systemlog' => $this->trans_model->sqlstr
 					);
 					$this->log_model->activity('payment', $para);
-								
 				} else {
+					$payinfo = "Credit Card: " . substr($card_number, 0, 5) . "xxx" . substr($card_number, -4) . " " . $card_name .  " " . $expiry_month . "/" . $expiry_year;
+						
+					$para = array('payment_id' => $payment_id, 'payinfo' => $payinfo, 'commission_payment_id' => $commission_payment_id );
+					$this->plan_model->update($plan_id, $para);
+					$para = array(
+							'plan_id' => $plan_id,
+							'customer_id' => $plan['customer_id'],
+							'payment_id' => $payment_id,
+							'message' => $this->plan_model->logstr,
+							'systemlog' => $this->plan_model->sqlstr
+					);
+					$this->log_model->activity('plan', $para);
+					
 					$dt['ispaid'] = 0;
 					$dt['note'] = "Failur: Raw Data=> " . json_encode($result);
 					$payment_id = $this->trans_model->update($payment_id, $dt);
@@ -928,6 +929,19 @@ class Plan extends MY_Controller {
 					$this->error = 'Payment Failed. Please confirm card information.';
 				}
 			} catch ( \Beanstream\Exception $e ) {
+				$payinfo = "Credit Card: " . substr($card_number, 0, 5) . "xxx" . substr($card_number, -4) . " " . $card_name .  " " . $expiry_month . "/" . $expiry_year;
+					
+				$para = array('payment_id' => $payment_id, 'payinfo' => $payinfo, 'commission_payment_id' => $commission_payment_id);
+				$this->plan_model->update($plan_id, $para);
+				$para = array(
+						'plan_id' => $plan_id,
+						'customer_id' => $plan['customer_id'],
+						'payment_id' => $payment_id,
+						'message' => $this->plan_model->logstr,
+						'systemlog' => $this->plan_model->sqlstr
+				);
+				$this->log_model->activity('plan', $para);
+				
 				// print_r ( $e->getMessage() );
 				$dt['ispaid'] = 0;
 				$dt['note'] = "Failur: (libraray) Raw Data=> " . $e->getMessage() . " : " . json_encode($e);
