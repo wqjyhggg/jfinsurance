@@ -1356,6 +1356,8 @@ class Plan extends MY_Controller {
 		
 		$data['beuser'] = $beuser;
 		$data['plan'] = $plan;
+		$product = $this->product_model->get_product($plan['product_short']);
+		$data['plan_full_name'] = $product ? $product['full_name'] : '';
 		$data['customer'] = $this->customer_model->get_customer_by_id($plan['customer_id']);
 		$data['customers'] = $this->customer_model->get_customer_by_parent_id($plan['customer_id']);
 		$data['paytype_list'] = $this->paytype_model->paytype_list();
@@ -1377,10 +1379,14 @@ class Plan extends MY_Controller {
 			$data['insurable_options'] = $this->load->view('plan/detail_other', $data, TRUE);
 		}
 		
-		$data['title_txt'] = 'Policy';
+		$data['bootstrap'] = $this->config->item('base_url') . 'stylesheet/bootstrap/dist/css/bootstrap.css';
+		$data['bootstrapmin'] = $this->config->item('base_url') . 'stylesheet/bootstrap/dist/css/bootstrap.min.css';
 
+		$data['title_txt'] = 'Policy';
+		$data['style'] = $this->load->view('common/pdf_style',$data, TRUE);
 		$mpdf = new mPDF('c');
 		$html = $this->load->view('plan/pdf', $data, TRUE);
+		//die($html);
 		$mpdf->writeHTML($html);
 		$mpdf->Output();
 	}

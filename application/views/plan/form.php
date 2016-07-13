@@ -11,7 +11,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               <div class="nav toggle">
                 <a id="menu_toggle"><i class="fa fa-bars"></i></a>
               </div>
-
             </nav>
           </div>
         </div>
@@ -219,16 +218,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<div class="row" id='customer_member_<?php echo $i; ?>' style='display:none'>
 									<input type='hidden' name='customer_id_<?php echo $i; ?>' value='<?php echo !empty(${'customer_id_'.$i}) ? ${'customer_id_'.$i} : 0; ?>'>
 									<hr />
-									<label class="col-sm-12">Family member <?php echo $i; ?> :</label>
+									<label class="col-sm-12">Family Member <?php echo $i; ?> :</label>
 										<div class="col-sm-3">
 											<label class="col-sm-12">First Name: </label>
-											<div class="col-sm-12">
+											<div class="input-group col-sm-12">
 												<input class="form-control" type='text' name='firstname_<?php echo $i; ?>' value='<?php echo !empty(${'firstname_'.$i}) ? ${'firstname_'.$i} : ''; ?>'>
 											</div>
 										</div>
 										<div class="col-sm-3">
 											<label class="col-sm-12">Last Name: </label>
-											<div class="col-sm-12">	
+											<div class="input-group col-sm-12">	
 												<input class="form-control" type='text' name='lastname_<?php echo $i; ?>' value='<?php echo !empty(${'lastname_'.$i}) ? ${'lastname_'.$i} : ''; ?>'>
 											</div>
 										</div>
@@ -245,7 +244,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 											<div class="row">
 												<div class="col-sm-6">
 													<label class="col-sm-12">Gender: </label>
-													<div class="col-sm-12">
+													<div class="input-group col-sm-12">
 														<select name='gender_<?php echo $i; ?>' class="form-control" style="padding:6px 2px;">
 														<option value='M' <?php echo (empty(${'gender_'.$i}) || (${'gender_'.$i} != 'F')) ? "selected" : ""; ?>>Male</option>
 														<option value='F' <?php echo (!empty(${'gender_'.$i}) && (${'gender_'.$i} == 'F')) ? "selected" : ""; ?>>Female</option>
@@ -264,9 +263,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										</div>
 									</div>
 									<?php } ?>
+									<br />
 									<div class="row">
 										<div class="col-sm-12">
-											<input type='button' id='addmorememberid' name='addmorememberid' value='Add More Member' onclick='addmoremember();'>
+											<input class="btn btn-info" type='button'  id='addmorememberid' name='addmorememberid' value='Add More Member' onclick='addmoremember();'>
 										</div>
 									</div>
 								</div>
