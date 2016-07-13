@@ -1358,8 +1358,8 @@ class Plan extends MY_Controller {
 		$data['plan'] = $plan;
 		$product = $this->product_model->get_product($plan['product_short']);
 		$data['plan_full_name'] = $product ? $product['full_name'] : '';
-		$data['customer'] = $this->customer_model->get_customer_by_id($plan['customer_id']);
-		$data['customers'] = $this->customer_model->get_customer_by_parent_id($plan['customer_id']);
+		$data['customer'] = $this->customer_model->get_customer_by_id($plan['plan']['customer_id']);
+		$data['customers'] = $this->customer_model->get_customer_by_parent_id($plan['plan']['customer_id']);
 		$data['paytype_list'] = $this->paytype_model->paytype_list();
 		$data['status_list'] = $this->status_model->status_list();
 
@@ -1403,8 +1403,26 @@ class Plan extends MY_Controller {
 			redirect ( base_url ('user/login') );
 			return;
 		}
+		$data = array('plan' => $plan);
+		$this->load->model('customer_model');
+		$data['customer'] = $this->customer_model->get_customer_by_id($data['plan']['customer_id']);
+		$data['customers'] = $this->customer_model->get_customer_by_parent_id($data['plan']['customer_id']);
+		if ($data['plan']['product_short'] == 'OPL') {
+			$data['insurable_options'] = $this->load->view('plan/detail_opl', $data, TRUE);
+		} else if ($data['plan']['product_short'] == 'JFR') {
+			$data['insurable_options'] = $this->load->view('plan/detail_opl', $data, TRUE);
+		} else if ($data['plan']['product_short'] == 'JUS') {
+			$data['insurable_options'] = $this->load->view('plan/detail_jus', $data, TRUE);
+		} else if ($data['plan']['product_short'] == 'NUS') {
+			$data['insurable_options'] = $this->load->view('plan/detail_jus', $data, TRUE);
+		} else if ($data['plan']['product_short'] == 'JES') {
+			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
+		} else if ($plan['plan']['product_short'] == 'JFC') {
+			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
+		} else {
+			$data['insurable_options'] = $this->load->view('plan/detail_other', $data, TRUE);
+		}
 		$mpdf = new mPDF('c');
-		$data = array();
 		$html = $this->load->view('plan/cancel', $data, TRUE);
 		$mpdf->writeHTML($html);
 		$mpdf->Output();
@@ -1422,8 +1440,26 @@ class Plan extends MY_Controller {
 			redirect ( base_url ('user/login') );
 			return;
 		}
+		$data = array('plan' => $plan);
+		$this->load->model('customer_model');
+		$data['customer'] = $this->customer_model->get_customer_by_id($data['plan']['customer_id']);
+		$data['customers'] = $this->customer_model->get_customer_by_parent_id($data['plan']['customer_id']);
+		if ($data['plan']['product_short'] == 'OPL') {
+			$data['insurable_options'] = $this->load->view('plan/detail_opl', $data, TRUE);
+		} else if ($data['plan']['product_short'] == 'JFR') {
+			$data['insurable_options'] = $this->load->view('plan/detail_opl', $data, TRUE);
+		} else if ($data['plan']['product_short'] == 'JUS') {
+			$data['insurable_options'] = $this->load->view('plan/detail_jus', $data, TRUE);
+		} else if ($data['plan']['product_short'] == 'NUS') {
+			$data['insurable_options'] = $this->load->view('plan/detail_jus', $data, TRUE);
+		} else if ($data['plan']['product_short'] == 'JES') {
+			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
+		} else if ($plan['plan']['product_short'] == 'JFC') {
+			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
+		} else {
+			$data['insurable_options'] = $this->load->view('plan/detail_other', $data, TRUE);
+		}
 		$mpdf = new mPDF('c');
-		$data = array();
 		$html = $this->load->view('plan/refund', $data, TRUE);
 		$mpdf->writeHTML($html);
 		$mpdf->Output();
@@ -1442,8 +1478,26 @@ class Plan extends MY_Controller {
 			redirect ( base_url ('user/login') );
 			return;
 		}
+		$data = array('plan' => $plan);
+		$this->load->model('customer_model');
+		$data['customer'] = $this->customer_model->get_customer_by_id($data['plan']['customer_id']);
+		$data['customers'] = $this->customer_model->get_customer_by_parent_id($data['plan']['customer_id']);
+		if ($data['plan']['product_short'] == 'OPL') {
+			$data['insurable_options'] = $this->load->view('plan/detail_opl', $data, TRUE);
+		} else if ($data['plan']['product_short'] == 'JFR') {
+			$data['insurable_options'] = $this->load->view('plan/detail_opl', $data, TRUE);
+		} else if ($data['plan']['product_short'] == 'JUS') {
+			$data['insurable_options'] = $this->load->view('plan/detail_jus', $data, TRUE);
+		} else if ($data['plan']['product_short'] == 'NUS') {
+			$data['insurable_options'] = $this->load->view('plan/detail_jus', $data, TRUE);
+		} else if ($data['plan']['product_short'] == 'JES') {
+			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
+		} else if ($plan['plan']['product_short'] == 'JFC') {
+			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
+		} else {
+			$data['insurable_options'] = $this->load->view('plan/detail_other', $data, TRUE);
+		}
 		$mpdf = new mPDF('c');
-		$data = array();
 		$html = $this->load->view('plan/card', $data, TRUE);
 		$mpdf->writeHTML($html);
 		$mpdf->Output();
@@ -1462,8 +1516,26 @@ class Plan extends MY_Controller {
 			redirect ( base_url ('user/login') );
 			return;
 		}
+		$data = array('plan' => $plan);
+		$this->load->model('customer_model');
+		$data['customer'] = $this->customer_model->get_customer_by_id($data['plan']['customer_id']);
+		$data['customers'] = $this->customer_model->get_customer_by_parent_id($data['plan']['customer_id']);
+		if ($data['plan']['product_short'] == 'OPL') {
+			$data['insurable_options'] = $this->load->view('plan/detail_opl', $data, TRUE);
+		} else if ($data['plan']['product_short'] == 'JFR') {
+			$data['insurable_options'] = $this->load->view('plan/detail_opl', $data, TRUE);
+		} else if ($data['plan']['product_short'] == 'JUS') {
+			$data['insurable_options'] = $this->load->view('plan/detail_jus', $data, TRUE);
+		} else if ($data['plan']['product_short'] == 'NUS') {
+			$data['insurable_options'] = $this->load->view('plan/detail_jus', $data, TRUE);
+		} else if ($data['plan']['product_short'] == 'JES') {
+			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
+		} else if ($plan['plan']['product_short'] == 'JFC') {
+			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
+		} else {
+			$data['insurable_options'] = $this->load->view('plan/detail_other', $data, TRUE);
+		}
 		$mpdf = new mPDF('c');
-		$data = array();
 		$html = $this->load->view('plan/receipt', $data, TRUE);
 		$mpdf->writeHTML($html);
 		$mpdf->Output();

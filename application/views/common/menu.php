@@ -2,13 +2,16 @@
 <div class="container body" style="padding:0;"><!-- div.container.body-->
 <div class="main_container"><!-- div.main_container -->
 
-<?php if (isset($menu) && is_array($menu) && (sizeof($menu)>0)) { ?>
+<?php 
+if (isset($menu) && is_array($menu) && (sizeof($menu)>0)) {
+	$user = $this->session->userdata('user');
+?>
 <div id="leftMenu">
         <div class="col-md-3 left_col">
           <div class="left_col scroll-view">
             <div class="navbar nav_title" style="border: 0;">
-              <a class="site_title"><i class="fa fa-user"></i> <span>Admin</span></a>
-              <p style="padding-left:15px;">Welcome <span>AuroraTD</span></p>
+              <a class="site_title"><i class="fa fa-user"></i> <span><?php echo $user['username']; ?></span></a>
+              <p style="padding-left:15px;">Welcome <span><?php echo $user['firstname'] . " " . $user['lastname']; ?></span></p>
             </div>
 
             <div class="clearfix"></div>
