@@ -219,7 +219,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<input type='hidden' name='customer_id_<?php echo $i; ?>'  id='customer_id_<?php echo $i; ?>' value='<?php echo !empty(${'customer_id_'.$i}) ? ${'customer_id_'.$i} : 0; ?>'>
 									<hr />
 									<div class="col-sm-12">
-									<label>Family Member <?php echo $i; ?> </label><span> <input type='button' onclick='remove_member(<?php echo $i;?>)' value='X' data-toggle="tooltip" title="Remove Member?" class="btn btn-warn"></span> <span class="alert-error" id='errormessage_<?php echo $i;?>'></span>
+									<label>Family Member <?php echo $i; ?> </label><span> [ <input type='button' onclick='remove_member(<?php echo $i;?>)' value='Remove' data-toggle="tooltip" title="Remove Member!" class="btn btn-warn">]</span><br /> <span class="alert-error" id='errormessage_<?php echo $i;?>'></span>
 									</div>
 									
 										<div class="col-sm-3">
@@ -547,23 +547,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				function addmoremember() {
 					for (i = 1; i < 9; i++) {
 						$('#customer_member_' + i).show();
-						$('#firstname_' + i).removeClass('alert-error');
-						$('#lastname_' + i).removeClass('alert-error');
-						$('#birthday_' + i).removeClass('alert-error');
+						$('#firstname_' + i).removeClass('alert-error-input');
+						$('#lastname_' + i).removeClass('alert-error-input');
+						$('#birthday_' + i).removeClass('alert-error-input');
 						if ( !$('#firstname_' + i).val() && !$('#lastname_' + i).val() && !$('#birthday_' + i).val()) {
 							break;
 						}
 						if ( !$('#firstname_' + i).val() ) {
-							$('#firstname_' + i).addClass('alert-error');
+							$('#firstname_' + i).addClass('alert-error-input');
 						}
 						if ( !$('#lastname_' + i).val() ) {
-							$('#lastname_' + i).addClass('alert-error');
+							$('#lastname_' + i).addClass('alert-error-input');
 						}
 						if ( !$('#birthday_' + i).val() ) {
-							$('#birthday_' + i).addClass('alert-error');
+							$('#birthday_' + i).addClass('alert-error-input');
 						}
 						if ( !$('#firstname_' + i).val() || !$('#lastname_' + i).val() || !$('#birthday_' + i).val()) {
-							$('#errormessage_' + i).html("Please fill in all information.");
+							$('#errormessage_' + i).html("Please fill in all required information.");
 							break;
 						}
 						$('#errormessage_' + i).html("");
