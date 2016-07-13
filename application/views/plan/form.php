@@ -218,13 +218,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<div class="row" id='customer_member_<?php echo $i; ?>' style='display:none'>
 									<input type='hidden' name='customer_id_<?php echo $i; ?>'  id='customer_id_<?php echo $i; ?>' value='<?php echo !empty(${'customer_id_'.$i}) ? ${'customer_id_'.$i} : 0; ?>'>
 									<hr />
-
-									<label class="col-sm-12">Family Member <?php echo $i; ?> :</label>
-									<span><input type='button' onclick='remove_member(<?php echo $i;?>)' value='X'></span>
+									<div class="col-sm-12">
+									<label>Family Member <?php echo $i; ?> </label><span> <input type='button' onclick='remove_member(<?php echo $i;?>)' value='X' data-toggle="tooltip" title="Remove Member?" class="btn btn-warn"></span>
+									</div>
 									<span id='errormessage_<?php echo $i;?>'></span>
 										<div class="col-sm-3">
 											<label class="col-sm-12">First Name: </label>
-											<div class="col-sm-12">
+											<div class="input-group col-sm-12">
 												<input class="form-control" type='text' name='firstname_<?php echo $i; ?>' id='firstname_<?php echo $i; ?>' value='<?php echo !empty(${'firstname_'.$i}) ? ${'firstname_'.$i} : ''; ?>'>
 											</div>
 										</div>
@@ -550,10 +550,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						if ( !$('#firstname_' + i).val() && !$('#lastname_' + i).val() && !$('#birthday_' + i).val()) {
 							break;
 						} else if ( !$('#firstname_' + i).val() || !$('#lastname_' + i).val() || !$('#birthday_' + i).val()) {
-							$('#errormessage_1').html("Please input all information");
+							$('#errormessage_' + i).html("Please input all information");
 							break;
 						}
-						$('#errormessage_1').html("");
+						$('#errormessage_' + i).html("");
 					}
 					i++;
 					for ( ; i < 9; i++) {

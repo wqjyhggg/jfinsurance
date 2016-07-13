@@ -1436,6 +1436,7 @@ class Plan extends MY_Controller {
 	 */
 	public function card($plan_id) {
 		$beuser = $this->func_model->verify_login(TRUE);
+		$this->load->model('plan_model');
 		$plan = $this->plan_model->get_plan_by_id($plan_id);
 		if (empty($plan)) {
 			redirect ( base_url ('user/login') );
@@ -1455,6 +1456,7 @@ class Plan extends MY_Controller {
 	 */
 	public function receipt($plan_id) {
 		$beuser = $this->func_model->verify_login(TRUE);
+		$this->load->model('plan_model');
 		$plan = $this->plan_model->get_plan_by_id($plan_id);
 		if (empty($plan)) {
 			redirect ( base_url ('user/login') );
@@ -1468,6 +1470,7 @@ class Plan extends MY_Controller {
 	}
 	
 	public function copy($plan_id) {
+		$beuser = $this->func_model->verify_login(TRUE);
 		$this->load->model('plan_model');
 		$plan = $this->plan_model->get_plan_by_id($plan_id);
 		if ($plan) {

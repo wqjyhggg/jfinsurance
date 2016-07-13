@@ -11,6 +11,11 @@
     font-size: 12px;
     color: #333;
 }
+.btn-warn{
+    padding:1px 5px !important;
+    color:red;
+}
+.btn-warn:hover{background: red;color:#fff;}
 /* Custom End */
 .left_col{background:#2A3F54}
 
