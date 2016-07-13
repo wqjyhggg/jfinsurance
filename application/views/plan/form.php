@@ -219,9 +219,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<input type='hidden' name='customer_id_<?php echo $i; ?>'  id='customer_id_<?php echo $i; ?>' value='<?php echo !empty(${'customer_id_'.$i}) ? ${'customer_id_'.$i} : 0; ?>'>
 									<hr />
 									<div class="col-sm-12">
-									<label>Family Member <?php echo $i; ?> </label><span> <input type='button' onclick='remove_member(<?php echo $i;?>)' value='X' data-toggle="tooltip" title="Remove Member?" class="btn btn-warn"></span>
+									<label>Family Member <?php echo $i; ?> </label><span> <input type='button' onclick='remove_member(<?php echo $i;?>)' value='X' data-toggle="tooltip" title="Remove Member?" class="btn btn-warn"></span> <span class="alert-error" id='errormessage_<?php echo $i;?>'></span>
 									</div>
-									<span id='errormessage_<?php echo $i;?>'></span>
+									
 										<div class="col-sm-3">
 											<label class="col-sm-12">First Name: </label>
 											<div class="input-group col-sm-12">
@@ -550,7 +550,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						if ( !$('#firstname_' + i).val() && !$('#lastname_' + i).val() && !$('#birthday_' + i).val()) {
 							break;
 						} else if ( !$('#firstname_' + i).val() || !$('#lastname_' + i).val() || !$('#birthday_' + i).val()) {
-							$('#errormessage_' + i).html("Please input all information");
+							$('#errormessage_' + i).html("Please fill in all information.");
 							break;
 						}
 						$('#errormessage_' + i).html("");

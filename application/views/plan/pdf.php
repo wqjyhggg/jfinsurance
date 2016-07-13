@@ -7,8 +7,8 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title>PDF File</title>
-	<link rel="stylesheet" href="<?php echo $bootstrap;?>">
-	<link rel="stylesheet" href="<?php echo $bootstrapmin;?>">
+	<!--link rel="stylesheet" href="<?php echo $bootstrap;?>">
+	<link rel="stylesheet" href="<?php echo $bootstrapmin;?>"-->
 	<?php echo $style;?>
 </head>
 <body>
@@ -17,13 +17,13 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 	</header>
 	<div class="container">	
 		<div class="row">
-			<h3 class="col-sm-12">
+			<h3 class="col-sm-12 nopadding">
 				<?php echo $plan_full_name;?>
 			</h3>
 		</div>
 		<div class="row">
-			<h4 class="col-sm-6"><?php if ($plan['status_id'] < 2) { ?>Quote<?php } else {?>Policy<?php } ?> Number: <span><?php echo $plan['policy']; ?></span></h4>
-			<h4 class="col-sm-6 text-right pull-right">Policy Status: <?php echo $status_list[$plan['status_id']]['name']; ?></h4>
+			<h4 class="col-sm-6 nopadding"><?php if ($plan['status_id'] < 2) { ?>Quote<?php } else {?>Policy<?php } ?> Number: <span><?php echo $plan['policy']; ?></span></h4>
+			<h4 class="col-sm-6 nopadding text-right" style="margin-top:0px;">Policy Status: <?php echo $status_list[$plan['status_id']]['name']; ?></h4>
 		</div>
 		<div>
 			<div class="p-detail"><!-- policy detail -->
@@ -48,8 +48,8 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 
 				<?php echo $insurable_options; ?>
 
-				<div class="row">
-					<div class="col-sm-12" style="background-color:#5bc0de; color:#fff;">
+				<div class="headingrow">
+					<div class="col-sm-12">
 						<label class="inline">Customer Information</label>
 					</div>
 				</div>
@@ -73,10 +73,12 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 				</div>
 
 				<?php if ($plan['isfamilyplan']) { ?>
-				<div class="row">
-					<div class="col-sm-12" style="background-color:#5bc0de; color:#fff;">
+				<div class="headingrow">
+					<div class="col-sm-12">
 						<label class="inline">Family Member Information</label>
 					</div>
+				</div>
+				<div class="row">
 					<?php for ($i = 0; $i < 9; $i++) { ?>
 					<?php if (empty($customers[$i]['lastname']) && empty($customers[$i]['firstname'])) continue; ?>
 					<div class="col-sm-3">
@@ -99,9 +101,12 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 				</div>
 				<?php } ?>	
 
-				<div class="row">
-					<div class="col-sm-12" style="background-color:#5bc0de; color:#fff;"><label>Address Information</label>
+				<div class="headingrow">
+					<div class="col-sm-12">
+						<label>Address Information</label>
 					</div>
+				</div>
+				<div class="row">
 					<div class="col-sm-3">
 						<label class="inline">Street No:</label>
 						<span><?php echo $plan['street_number']; ?></span>
@@ -142,10 +147,12 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 					</div>
 
 				</div>
-				<div class="row">
-					<div class="col-sm-12" style="background-color:#5bc0de; color:#fff;">
+				<div class="headingrow">
+					<div class="col-sm-12">
 						<label class="inline">Contact Information</label>
 					</div>
+				</div>
+				<div class="row">
 					<div class="col-sm-3">
 						<label class="inline">Email:</label>
 						<span><?php echo $plan['contact_email']; ?></span>
@@ -160,10 +167,12 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 					</div>
 				</div>
 
-				<div class="row">
-					<div class="col-sm-12" style="background-color:#5bc0de; color:#fff;">
+				<div class="headingrow">
+					<div class="col-sm-12">
 						<label class="inline">Special Note/Instructions</label>
 					</div>
+				</div>
+				<div class="row">
 					<div class="col-sm-12">
 						<label class="inline">Premium:</label>
 						<span>$<?php echo number_format($plan['premium'], 2, '.', ',');?></span>
@@ -174,9 +183,14 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 					</div>
 
 				</div>
-
+				
 			</div><!-- end p-detail --><br />
 		</div><!-- x_content -->
+		<div class="row">
+			<div class="col-sm-12 text-right">
+				<label>Export Date: <?php echo date('Y-M-d');?></label>
+			</div>
+		</div>
 	</div><!-- End Container -->
 </body>
 </html>
