@@ -82,4 +82,15 @@ class Report_model extends CI_Model {
         }
         return $results;
     }
+
+    /**
+     * Get sales report to JF data
+     * 
+     * @param array $para Parameter array
+     * @return array sales report to agent data
+     */
+    public function get_sales_report_jf($para)
+    {
+        return array();
+    }
 }
