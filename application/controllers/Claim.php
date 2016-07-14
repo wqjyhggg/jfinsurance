@@ -120,6 +120,18 @@ class Claim extends MY_Controller {
 						);
 						$this->log_model->activity('claim', $para);
 						$claim = $this->claim_model->get_claim_by_id($claim_id);
+						if ($claim) {
+							$para = array('status_id' => 4, 'note' => $plan['note'] . ";\n" . "Add Claim(" . $claim['claim_id'] .")");
+							$this->plan_model->update($plan['plan_id'], $para);
+							$log = array(
+									'plan_id' => $plan['plan_id'], 
+									'customer_id' => $customer['customer_id'], 
+									'payment_id' => 0, 
+									'message' => $this->claim_model->logstr, 
+									'systemlog' => $this->claim_model->sqlstr
+							);
+							$this->log_model->activity('plan', $para);
+						}
 					} else {
 						$this->data['error_message'] = "Can't find customer";
 					}
