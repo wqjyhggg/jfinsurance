@@ -75,9 +75,9 @@ class Report_model extends CI_Model {
         $results = array();
         foreach ($query as $row) {
             $row['commission_rate'] = empty($row['up_commission']) ? $row['pr_commission'] . '%' : $row['up_commission'] . '%'; 
-            $row['commission_amount'] =  sprintf("$%01.2f", ($row['policy_premium'] * $row['commission_rate'] / 100));
-            $row['net_premium'] = sprintf("$%01.2f", ($row['policy_premium'] - $row['commission_amount']));
-            $row['daily_rate'] = sprintf("$%01.2f", ($row['net_premium'] / $row['total_days']));
+            $row['commission_amount'] =  sprintf("%01.2f", ($row['policy_premium'] * $row['commission_rate'] / 100));
+            $row['net_premium'] = sprintf("%01.2f", ($row['policy_premium'] - $row['commission_amount']));
+            $row['daily_rate'] = sprintf("%01.2f", ($row['policy_premium'] / $row['total_days']));
             $results[] = $row; 
         }
         return $results;

@@ -216,11 +216,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <td><?=$record['effective_date'] ?></td>
                             <td><?=$record['expiry_date'] ?></td>
                             <td><?=$record['total_days'] ?></td>
-                            <td><?=$record['daily_rate'] ?></td>
-                            <td><?=$record['policy_premium'] ?></td>
+                            <td>$<?=$record['daily_rate'] ?></td>
+                            <td>$<?=$record['policy_premium'] ?></td>
                             <td><?=$record['commission_rate'] ?></td>
-                            <td><?=$record['net_premium'] ?></td>
-                            <td><?=$record['commission_amount'] ?></td>
+                            <td>$<?=$record['net_premium'] ?></td>
+                            <td>$<?=$record['commission_amount'] ?></td>
                             </tr>
 <?php endforeach; ?>
                         </tbody>
