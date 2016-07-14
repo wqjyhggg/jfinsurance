@@ -861,19 +861,6 @@ class Plan extends MY_Controller {
 				$this->log_model->activity('commission', $para);
 			}
 
-			$payinfo = "Credit Card: " . substr($card_number, 0, 5) . "xxx" . substr($card_number, -4) . " " . $card_name .  " " . $expiry_month . "/" . $expiry_year;
-				
-			$para = array('payment_id' => $payment_id, 'payinfo' => $payinfo, 'commission_payment_id' => $commission_payment_id, 'status_id' => 2, 'policy' => $this->plan_model->get_policy_number($plan_id, 2));
-			$this->plan_model->update($plan_id, $para);
-			$para = array(
-					'plan_id' => $plan_id,
-					'customer_id' => $plan['customer_id'],
-					'payment_id' => $payment_id,
-					'message' => $this->plan_model->logstr,
-					'systemlog' => $this->plan_model->sqlstr
-			);
-			$this->log_model->activity('plan', $para);
-
 			$beanstream = new \Beanstream\Gateway ( $this->merchentID, $this->apikey, 'www', 'v1' );
 			$payment_data = array (
 					'order_number' => $plan_id,
@@ -890,7 +877,9 @@ class Plan extends MY_Controller {
 			try {
 				$result = $beanstream->payments ()->makeCardPayment ( $payment_data, TRUE ); // set to FALSE for Pre-Auth
 				if (isset($result['approved'])) {
-					$para = array('status_id' => 3);
+					$payinfo = "Credit Card: " . substr($card_number, 0, 5) . "xxx" . substr($card_number, -4) . " " . $card_name .  " " . $expiry_month . "/" . $expiry_year;
+						
+					$para = array('payment_id' => $payment_id, 'payinfo' => $payinfo, 'commission_payment_id' => $commission_payment_id, 'status_id' => 3, 'policy' => $this->plan_model->get_policy_number($plan_id, 2));
 					$this->plan_model->update($plan_id, $para);
 					$para = array(
 							'plan_id' => $plan_id,
@@ -912,8 +901,20 @@ class Plan extends MY_Controller {
 							'systemlog' => $this->trans_model->sqlstr
 					);
 					$this->log_model->activity('payment', $para);
-								
 				} else {
+					$payinfo = "Credit Card: " . substr($card_number, 0, 5) . "xxx" . substr($card_number, -4) . " " . $card_name .  " " . $expiry_month . "/" . $expiry_year;
+						
+					$para = array('payment_id' => $payment_id, 'payinfo' => $payinfo, 'commission_payment_id' => $commission_payment_id );
+					$this->plan_model->update($plan_id, $para);
+					$para = array(
+							'plan_id' => $plan_id,
+							'customer_id' => $plan['customer_id'],
+							'payment_id' => $payment_id,
+							'message' => $this->plan_model->logstr,
+							'systemlog' => $this->plan_model->sqlstr
+					);
+					$this->log_model->activity('plan', $para);
+					
 					$dt['ispaid'] = 0;
 					$dt['note'] = "Failur: Raw Data=> " . json_encode($result);
 					$payment_id = $this->trans_model->update($payment_id, $dt);
@@ -928,6 +929,19 @@ class Plan extends MY_Controller {
 					$this->error = 'Payment Failed. Please confirm card information.';
 				}
 			} catch ( \Beanstream\Exception $e ) {
+				$payinfo = "Credit Card: " . substr($card_number, 0, 5) . "xxx" . substr($card_number, -4) . " " . $card_name .  " " . $expiry_month . "/" . $expiry_year;
+					
+				$para = array('payment_id' => $payment_id, 'payinfo' => $payinfo, 'commission_payment_id' => $commission_payment_id);
+				$this->plan_model->update($plan_id, $para);
+				$para = array(
+						'plan_id' => $plan_id,
+						'customer_id' => $plan['customer_id'],
+						'payment_id' => $payment_id,
+						'message' => $this->plan_model->logstr,
+						'systemlog' => $this->plan_model->sqlstr
+				);
+				$this->log_model->activity('plan', $para);
+				
 				// print_r ( $e->getMessage() );
 				$dt['ispaid'] = 0;
 				$dt['note'] = "Failur: (libraray) Raw Data=> " . $e->getMessage() . " : " . json_encode($e);
@@ -1356,8 +1370,10 @@ class Plan extends MY_Controller {
 		
 		$data['beuser'] = $beuser;
 		$data['plan'] = $plan;
-		$data['customer'] = $this->customer_model->get_customer_by_id($plan['customer_id']);
-		$data['customers'] = $this->customer_model->get_customer_by_parent_id($plan['customer_id']);
+		$product = $this->product_model->get_product($plan['product_short']);
+		$data['plan_full_name'] = $product ? $product['full_name'] : '';
+		$data['customer'] = $this->customer_model->get_customer_by_id($data['plan']['customer_id']);
+		$data['customers'] = $this->customer_model->get_customer_by_parent_id($data['plan']['customer_id']);
 		$data['paytype_list'] = $this->paytype_model->paytype_list();
 		$data['status_list'] = $this->status_model->status_list();
 
@@ -1378,9 +1394,10 @@ class Plan extends MY_Controller {
 		}
 		
 		$data['title_txt'] = 'Policy';
-
+		$data['style'] = $this->load->view('common/pdf_style',$data, TRUE);
 		$mpdf = new mPDF('c');
 		$html = $this->load->view('plan/pdf', $data, TRUE);
+		//die($html);
 		$mpdf->writeHTML($html);
 		$mpdf->Output();
 	}
@@ -1397,8 +1414,26 @@ class Plan extends MY_Controller {
 			redirect ( base_url ('user/login') );
 			return;
 		}
+		$data = array('plan' => $plan);
+		$this->load->model('customer_model');
+		$data['customer'] = $this->customer_model->get_customer_by_id($data['plan']['customer_id']);
+		$data['customers'] = $this->customer_model->get_customer_by_parent_id($data['plan']['customer_id']);
+		if ($data['plan']['product_short'] == 'OPL') {
+			$data['insurable_options'] = $this->load->view('plan/detail_opl', $data, TRUE);
+		} else if ($data['plan']['product_short'] == 'JFR') {
+			$data['insurable_options'] = $this->load->view('plan/detail_opl', $data, TRUE);
+		} else if ($data['plan']['product_short'] == 'JUS') {
+			$data['insurable_options'] = $this->load->view('plan/detail_jus', $data, TRUE);
+		} else if ($data['plan']['product_short'] == 'NUS') {
+			$data['insurable_options'] = $this->load->view('plan/detail_jus', $data, TRUE);
+		} else if ($data['plan']['product_short'] == 'JES') {
+			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
+		} else if ($plan['plan']['product_short'] == 'JFC') {
+			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
+		} else {
+			$data['insurable_options'] = $this->load->view('plan/detail_other', $data, TRUE);
+		}
 		$mpdf = new mPDF('c');
-		$data = array();
 		$html = $this->load->view('plan/cancel', $data, TRUE);
 		$mpdf->writeHTML($html);
 		$mpdf->Output();
@@ -1416,8 +1451,26 @@ class Plan extends MY_Controller {
 			redirect ( base_url ('user/login') );
 			return;
 		}
+		$data = array('plan' => $plan);
+		$this->load->model('customer_model');
+		$data['customer'] = $this->customer_model->get_customer_by_id($data['plan']['customer_id']);
+		$data['customers'] = $this->customer_model->get_customer_by_parent_id($data['plan']['customer_id']);
+		if ($data['plan']['product_short'] == 'OPL') {
+			$data['insurable_options'] = $this->load->view('plan/detail_opl', $data, TRUE);
+		} else if ($data['plan']['product_short'] == 'JFR') {
+			$data['insurable_options'] = $this->load->view('plan/detail_opl', $data, TRUE);
+		} else if ($data['plan']['product_short'] == 'JUS') {
+			$data['insurable_options'] = $this->load->view('plan/detail_jus', $data, TRUE);
+		} else if ($data['plan']['product_short'] == 'NUS') {
+			$data['insurable_options'] = $this->load->view('plan/detail_jus', $data, TRUE);
+		} else if ($data['plan']['product_short'] == 'JES') {
+			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
+		} else if ($plan['plan']['product_short'] == 'JFC') {
+			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
+		} else {
+			$data['insurable_options'] = $this->load->view('plan/detail_other', $data, TRUE);
+		}
 		$mpdf = new mPDF('c');
-		$data = array();
 		$html = $this->load->view('plan/refund', $data, TRUE);
 		$mpdf->writeHTML($html);
 		$mpdf->Output();
@@ -1430,13 +1483,32 @@ class Plan extends MY_Controller {
 	 */
 	public function card($plan_id) {
 		$beuser = $this->func_model->verify_login(TRUE);
+		$this->load->model('plan_model');
 		$plan = $this->plan_model->get_plan_by_id($plan_id);
 		if (empty($plan)) {
 			redirect ( base_url ('user/login') );
 			return;
 		}
+		$data = array('plan' => $plan);
+		$this->load->model('customer_model');
+		$data['customer'] = $this->customer_model->get_customer_by_id($data['plan']['customer_id']);
+		$data['customers'] = $this->customer_model->get_customer_by_parent_id($data['plan']['customer_id']);
+		if ($data['plan']['product_short'] == 'OPL') {
+			$data['insurable_options'] = $this->load->view('plan/detail_opl', $data, TRUE);
+		} else if ($data['plan']['product_short'] == 'JFR') {
+			$data['insurable_options'] = $this->load->view('plan/detail_opl', $data, TRUE);
+		} else if ($data['plan']['product_short'] == 'JUS') {
+			$data['insurable_options'] = $this->load->view('plan/detail_jus', $data, TRUE);
+		} else if ($data['plan']['product_short'] == 'NUS') {
+			$data['insurable_options'] = $this->load->view('plan/detail_jus', $data, TRUE);
+		} else if ($data['plan']['product_short'] == 'JES') {
+			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
+		} else if ($plan['plan']['product_short'] == 'JFC') {
+			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
+		} else {
+			$data['insurable_options'] = $this->load->view('plan/detail_other', $data, TRUE);
+		}
 		$mpdf = new mPDF('c');
-		$data = array();
 		$html = $this->load->view('plan/card', $data, TRUE);
 		$mpdf->writeHTML($html);
 		$mpdf->Output();
@@ -1449,19 +1521,39 @@ class Plan extends MY_Controller {
 	 */
 	public function receipt($plan_id) {
 		$beuser = $this->func_model->verify_login(TRUE);
+		$this->load->model('plan_model');
 		$plan = $this->plan_model->get_plan_by_id($plan_id);
 		if (empty($plan)) {
 			redirect ( base_url ('user/login') );
 			return;
 		}
+		$data = array('plan' => $plan);
+		$this->load->model('customer_model');
+		$data['customer'] = $this->customer_model->get_customer_by_id($data['plan']['customer_id']);
+		$data['customers'] = $this->customer_model->get_customer_by_parent_id($data['plan']['customer_id']);
+		if ($data['plan']['product_short'] == 'OPL') {
+			$data['insurable_options'] = $this->load->view('plan/detail_opl', $data, TRUE);
+		} else if ($data['plan']['product_short'] == 'JFR') {
+			$data['insurable_options'] = $this->load->view('plan/detail_opl', $data, TRUE);
+		} else if ($data['plan']['product_short'] == 'JUS') {
+			$data['insurable_options'] = $this->load->view('plan/detail_jus', $data, TRUE);
+		} else if ($data['plan']['product_short'] == 'NUS') {
+			$data['insurable_options'] = $this->load->view('plan/detail_jus', $data, TRUE);
+		} else if ($data['plan']['product_short'] == 'JES') {
+			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
+		} else if ($plan['plan']['product_short'] == 'JFC') {
+			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
+		} else {
+			$data['insurable_options'] = $this->load->view('plan/detail_other', $data, TRUE);
+		}
 		$mpdf = new mPDF('c');
-		$data = array();
 		$html = $this->load->view('plan/receipt', $data, TRUE);
 		$mpdf->writeHTML($html);
 		$mpdf->Output();
 	}
 	
 	public function copy($plan_id) {
+		$beuser = $this->func_model->verify_login(TRUE);
 		$this->load->model('plan_model');
 		$plan = $this->plan_model->get_plan_by_id($plan_id);
 		if ($plan) {

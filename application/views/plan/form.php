@@ -11,7 +11,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               <div class="nav toggle">
                 <a id="menu_toggle"><i class="fa fa-bars"></i></a>
               </div>
-
             </nav>
           </div>
         </div>
@@ -217,26 +216,30 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<div id='family_member' style='display:none'>
 									<?php for ($i = 1; $i < 9; $i++) { ?>
 									<div class="row" id='customer_member_<?php echo $i; ?>' style='display:none'>
-									<input type='hidden' name='customer_id_<?php echo $i; ?>' value='<?php echo !empty(${'customer_id_'.$i}) ? ${'customer_id_'.$i} : 0; ?>'>
+									<input type='hidden' name='customer_id_<?php echo $i; ?>'  id='customer_id_<?php echo $i; ?>' value='<?php echo !empty(${'customer_id_'.$i}) ? ${'customer_id_'.$i} : 0; ?>'>
 									<hr />
-									<label class="col-sm-12">Family member <?php echo $i; ?> :</label>
+									<div class="col-sm-12">
+									<label>Family Member <?php echo $i; ?> </label><span> [ <input type='button' onclick='remove_member(<?php echo $i;?>)' value='Remove' data-toggle="tooltip" title="Remove Member!" class="btn btn-warn">]</span><br /> <span class="alert-error" id='errormessage_<?php echo $i;?>'></span>
+									</div>
+									
 										<div class="col-sm-3">
 											<label class="col-sm-12">First Name: </label>
-											<div class="col-sm-12">
-												<input class="form-control" type='text' name='firstname_<?php echo $i; ?>' value='<?php echo !empty(${'firstname_'.$i}) ? ${'firstname_'.$i} : ''; ?>'>
+											<div class="input-group col-sm-12">
+												<input class="form-control" type='text' name='firstname_<?php echo $i; ?>' id='firstname_<?php echo $i; ?>' value='<?php echo !empty(${'firstname_'.$i}) ? ${'firstname_'.$i} : ''; ?>'>
 											</div>
 										</div>
 										<div class="col-sm-3">
 											<label class="col-sm-12">Last Name: </label>
-											<div class="col-sm-12">	
-												<input class="form-control" type='text' name='lastname_<?php echo $i; ?>' value='<?php echo !empty(${'lastname_'.$i}) ? ${'lastname_'.$i} : ''; ?>'>
+
+											<div class="input-group col-sm-12">	
+												<input class="form-control" type='text' name='lastname_<?php echo $i; ?>' id='lastname_<?php echo $i; ?>' value='<?php echo !empty(${'lastname_'.$i}) ? ${'lastname_'.$i} : ''; ?>'>
 											</div>
 										</div>
 										<div class="col-sm-3">
 											<label class="col-sm-12">Birth Date: </label>
 											
 											<div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
-					                        	<input size="16" type="text" class='setpremium form-control' name='birthday_<?php echo $i; ?>' value='<?php echo !empty(${'birthday_'.$i}) ? ${'birthday_'.$i} : ''; ?>'>
+					                        	<input size="16" type="text" class='setpremium form-control' name='birthday_<?php echo $i; ?>' id='birthday_<?php echo $i; ?>' value='<?php echo !empty(${'birthday_'.$i}) ? ${'birthday_'.$i} : ''; ?>'>
 					                        	
 					                        	<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
 					                        </div>
@@ -245,8 +248,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 											<div class="row">
 												<div class="col-sm-6">
 													<label class="col-sm-12">Gender: </label>
-													<div class="col-sm-12">
-														<select name='gender_<?php echo $i; ?>' class="form-control" style="padding:6px 2px;">
+													<div class="input-group col-sm-12">
+														<select name='gender_<?php echo $i; ?>' id='gender_<?php echo $i; ?>' class="form-control" style="padding:6px 2px;">
 														<option value='M' <?php echo (empty(${'gender_'.$i}) || (${'gender_'.$i} != 'F')) ? "selected" : ""; ?>>Male</option>
 														<option value='F' <?php echo (!empty(${'gender_'.$i}) && (${'gender_'.$i} == 'F')) ? "selected" : ""; ?>>Female</option>
 														</select>
@@ -264,9 +267,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										</div>
 									</div>
 									<?php } ?>
+									<br />
 									<div class="row">
 										<div class="col-sm-12">
-											<input type='button' id='addmorememberid' name='addmorememberid' value='Add More Member' onclick='addmoremember();'>
+											<input class="btn btn-info" type='button'  id='addmorememberid' name='addmorememberid' value='Add More Member' onclick='addmoremember();'>
 										</div>
 									</div>
 								</div>
@@ -512,24 +516,65 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					addmoremember();
 				});
 
+				function remove_member(i) {
+					var s, d;
+					for (j = i + 1 ; j < 8; j++) {
+						s = '#customer_id_' + j;
+						d = '#customer_id_' + i;
+						$(d).val($(s).val());
+						s = '#firstname_' + j;
+						d = '#firstname_' + i;
+						$(d).val($(s).val());
+						s = '#lastname_' + j;
+						d = '#lastname_' + i;
+						$(d).val($(s).val());
+						s = '#birthday_' + j;
+						d = '#birthday_' + i;
+						$(d).val($(s).val());
+						s = '#gender_' + j;
+						d = '#gender_' + i;
+						$(d).val($(s).val());
+						i++;
+					}
+					$('#customer_id_8').val();
+					$('#firstname_8').val();
+					$('#lastname_8').val();
+					$('#birthday_8').val();
+					$('#gender_8').val();
+					addmoremember();
+				}
+
 				function addmoremember() {
 					for (i = 1; i < 9; i++) {
-						$('#customer_member_1').show();
-						if ( !$('input[name="firstname_1"]').val() || !$('input[name="lastname_1"]').val() || !$('input[name="birthday_1"]').val()) return;
-						$('#customer_member_2').show();
-						if ( !$('input[name="firstname_2"]').val() || !$('input[name="lastname_2"]').val() || !$('input[name="birthday_2"]').val()) return;
-						$('#customer_member_3').show();
-						if ( !$('input[name="firstname_3"]').val() || !$('input[name="lastname_3"]').val() || !$('input[name="birthday_3"]').val()) return;
-						$('#customer_member_4').show();
-						if ( !$('input[name="firstname_4"]').val() || !$('input[name="lastname_4"]').val() || !$('input[name="birthday_4"]').val()) return;
-						$('#customer_member_5').show();
-						if ( !$('input[name="firstname_5"]').val() || !$('input[name="lastname_5"]').val() || !$('input[name="birthday_5"]').val()) return;
-						$('#customer_member_6').show();
-						if ( !$('input[name="firstname_6"]').val() || !$('input[name="lastname_6"]').val() || !$('input[name="birthday_6"]').val()) return;
-						$('#customer_member_7').show();
-						if ( !$('input[name="firstname_7"]').val() || !$('input[name="lastname_7"]').val() || !$('input[name="birthday_7"]').val()) return;
-						$('#customer_member_8').show();
-						if ( !$('input[name="firstname_8"]').val() || !$('input[name="lastname_8"]').val() || !$('input[name="birthday_8"]').val()) return;
+						$('#customer_member_' + i).show();
+						$('#firstname_' + i).removeClass('alert-error-input');
+						$('#lastname_' + i).removeClass('alert-error-input');
+						$('#birthday_' + i).removeClass('alert-error-input');
+						if ( !$('#firstname_' + i).val() && !$('#lastname_' + i).val() && !$('#birthday_' + i).val()) {
+							break;
+						}
+						if ( !$('#firstname_' + i).val() ) {
+							$('#firstname_' + i).addClass('alert-error-input');
+						}
+						if ( !$('#lastname_' + i).val() ) {
+							$('#lastname_' + i).addClass('alert-error-input');
+						}
+						if ( !$('#birthday_' + i).val() ) {
+							$('#birthday_' + i).addClass('alert-error-input');
+						}
+						if ( !$('#firstname_' + i).val() || !$('#lastname_' + i).val() || !$('#birthday_' + i).val()) {
+							$('#errormessage_' + i).html("Please fill in all required information.");
+							break;
+						}
+						$('#errormessage_' + i).html("");
+					}
+					i++;
+					for ( ; i < 9; i++) {
+						$('#firstname_' + i).removeClass('alert-error');
+						$('#lastname_' + i).removeClass('alert-error');
+						$('#birthday_' + i).removeClass('alert-error');
+						$('#customer_member_' + i).hide();
+						$('#errormessage_' + i).html("");
 					}
 				}
 				
