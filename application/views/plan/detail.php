@@ -226,7 +226,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 								<?php if (($plan['status_id'] <= 2) && empty($defaultpay_type)) { ?>						
 									<button class="btn btn-primary pull-right" data-toggle="collapse" data-target="#payment-div">Comfirm and Pay</button>		
 								<?php } ?>
-								<a class="btn btn-info pull-right" target="_blank" href='<?php echo $pdf_url . $plan['plan_id']; ?>'>Export PDF</a>
+								<a class="btn btn-info pull-right" target="_blank" href='<?php echo $pdf_url; ?>'>Export PDF</a>
 
 								</div>
 						</div>
