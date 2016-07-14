@@ -29,7 +29,7 @@ class Product_model extends CI_Model {
 			return array();
 		}
 		$sql = "SELECT p.* FROM product p ";
-		if ($beuser['user_group_id'] > 2) {
+		if ($beuser['user_group_id'] > 100) {
 			$sql .= " INNER JOIN user_product up ON (up.product_short=p.product_short) WHERE up.user_id='". (int)$beuser['user_id'] ."'";
 			if ($processonly) {
 				$sql .= " AND p.calculate='1'";

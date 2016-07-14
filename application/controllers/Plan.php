@@ -609,7 +609,7 @@ class Plan extends MY_Controller {
 		} else {
 			$data['p_header'] = 'Edit Policy';
 			$data['submit'] = 'Update Policy';
-			if ($beuser['user_group_id'] <= 2) {
+			if ($beuser['user_group_id'] < 100) {
 				$this->load->model('trans_model');
 				$data['show_history'] = 1;
 				$data['activelogs'] = $this->log_model->get_activity_by_plan_id($data['plan_id']);
@@ -1267,7 +1267,7 @@ class Plan extends MY_Controller {
 		$data['customer'] = $this->customer_model->get_customer_by_id($plan['customer_id']);
 		$data['customers'] = $this->customer_model->get_customer_by_parent_id($plan['customer_id']);
 		
-		if ($beuser['user_group_id'] <= 2) {
+		if ($beuser['user_group_id'] < 100) {
 			$data['paytype_list'] = $this->paytype_model->paytype_list();
 		} else {
 			$data['paytype_list'] = split(",", $beuser['pay_type']);

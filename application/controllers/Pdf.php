@@ -79,7 +79,7 @@ class Pdf extends MY_Controller {
 		$this->load->model('batch_model');
 		
 		$data['errormsg'] = "";
-		if ($user['user_group_id'] > 2) {
+		if ($user['user_group_id'] > 100) {
 			$data['errormsg'] = $this->lang->line ("error_no_permission");
 		}
 		if (empty($data['errormsg']) && $this->input->post('submit')) {

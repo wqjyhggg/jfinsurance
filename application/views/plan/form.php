@@ -69,7 +69,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<div class="form-group col-sm-3">
 							<label class="inline"><?php if ($status_id < 2) { ?>Quote<?php } else {?>Policy<?php } ?> Number: <span><?php echo $policy; ?></span></label>
 						</div>
-						<?php if ($user_group_id > 2) { ?>
+						<?php if ($user_group_id > 100) { ?>
 							<?php /* it is school or brokerage or agent */ ?>
 							<div class="form-group col-sm-3">
 								<label style="font-size:16px;">Status: <?php echo $status_list[$status_id]['name']; ?> </label>
@@ -430,7 +430,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<div class="col-sm-3">
 										<label class="inline">Premium: </label>
 										<div class="input-group col-sm-12">
-											<?php if ($user_group_id <= 3) { ?>
+											<?php if ($user_group_id < 100) { ?>
 											<input class="form-control" type='input' name='premium' id='premium' value='<?php echo $premium; ?>'>
 											<?php } else { ?>
 											<input class="form-control" type='hidden' name='premium' id='premium' value='<?php echo $premium; ?>'>	
@@ -453,11 +453,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					</div><br />
 					
 					<div class="row">
-						<div class="col-sm-12">
+						<div class="col-sm-12" id='goto_next_page'>
 						<?php if (!empty($next_url)) { ?>
 						<a href='<?php echo $next_url; ?>'><span class="btn btn-info">No Change</span></a>
 						<?php } ?>
 							<input class="btn btn-primary pull-right" type='submit' name='submit' value='<?php echo $submit; ?>' />		
+						</div>
+						<div class="col-sm-12 alert-error" id='error_next_page'>
 						</div>
 					</div>
 				</form> 
@@ -639,7 +641,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					if ($('input[name="firstname_6"]').val() && $('input[name="lastname_6"]').val()) number_customer++;
 					if ($('input[name="firstname_7"]').val() && $('input[name="lastname_7"]').val()) number_customer++;
 					if ($('input[name="firstname_8"]').val() && $('input[name="lastname_8"]').val()) number_customer++;
-
+				
 					if (effective_date && expiry_date && birthday) {
 						$.ajax({
 							url: '<?php echo $premium_url; ?>',
@@ -658,19 +660,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								birthday: birthday},
 							success: function(data, textStatus, jqXHR) {
 								if (data['status'] == 'OK') {
+									$('#goto_next_page').show();
 					        		$('input[name="premium"]').val(data['premiumarr']['premium']);
-									<?php if ($user_group_id > 3) { ?>
+									<?php if ($user_group_id > 100) { ?>
 									$('#premium').html(data['premiumarr']['premium']);
 									<?php } ?>
 									$('#totalyears').val(data['premiumarr']['totalyears']);
 									$('#totaldays').val(data['premiumarr']['totaldays']);
 									$('#dailyrate').val(data['premiumarr']['dailyrate']);
 									if (data['premiumarr']['message']) {
-										alert(data['premiumarr']['message']);
+										$('#error_next_page').html(data['premiumarr']['message']);
 									}
 								} else {
+									$('#goto_next_page').hide();
 									if (data['message']) {
-										alert(data['message']);
+										$('#error_next_page').html(data['message']);
 										$('input[name="premium"]').val(0);
 									}
 								}

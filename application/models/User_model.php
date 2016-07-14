@@ -80,7 +80,7 @@ class User_model extends CI_Model {
     public function get_available_user_list()
     {
         $user_group = (int) $this->session->user['user_group_id'];
-        if ($user_group > 2 && $user_group !== 4) {
+        if (($user_group > 100) && ($user_group != 104)) {
             return array(
                 'user_id' => $this->session->user['user_id'],
                 'username' => $this->session->user['username'],
@@ -93,13 +93,13 @@ class User_model extends CI_Model {
             u.username,
             concat(u.firstname, " ", u.lastname) as full_name
         ');
-        if ($user_group === 4){
+        if ($user_group == 104){
             $this->db->from('user u, user u2');
             $this->db->where('u.parent_user_id = u2.user_id');
             $this->db->or_where('u.user_id= ' . ((int) $this->session->user['user_id']));
         } else {
             $this->db->from('user u');
-            if ($user_group === 2){
+            if ($user_group == 2){
                 $this->db->where('u.user_group_id >= 2');
             }
         }
@@ -122,7 +122,7 @@ class User_model extends CI_Model {
 	 * @return	array					user table search result
 	 */
 	public function get_school_id_list() {
-		$sql = "SELECT user_id,business FROM user WHERE user_group_id = '3'";
+		$sql = "SELECT user_id,business FROM user WHERE user_group_id = '103'";
 		$rt = $this->db->query($sql)->result_array();
 		$rtArr = array();
 		foreach ($rt as $rc) {
@@ -137,7 +137,7 @@ class User_model extends CI_Model {
 	 * @return	array					user table search result
 	 */
 	public function get_broker_id_list() {
-		$sql = "SELECT user_id,business FROM user WHERE user_group_id = '4'";
+		$sql = "SELECT user_id,business FROM user WHERE user_group_id = '104'";
 		$rt = $this->db->query($sql)->result_array();
 		$rtArr = array();
 		foreach ($rt as $rc) {

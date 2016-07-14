@@ -477,7 +477,7 @@ class Plan_model extends CI_Model {
 			}
 		}
 		$users = array();
-		if ($beuser['user_group_id'] < 3) {
+		if ($beuser['user_group_id'] < 100) {
 			if (!empty($para['uname'])) {
 				$sql = "SELECT user_id FROM user WHERE firstname LIKE " . $this->db->escape($para['uname'] . "%") . " OR lastname LIKE " . $this->db->escape($para['uname'] . "%");
 				$rows = $this->db->query($sql)->result_array();
@@ -485,7 +485,7 @@ class Plan_model extends CI_Model {
 					$users[] = $row['user_id'];
 				}
 			}
-		} else if ($beuser['user_group_id'] == 4) {
+		} else if ($beuser['user_group_id'] == 104) {
 			if (!empty($para['uname'])) {
 				$sql = "SELECT user_id FROM user WHERE (user_id='".(int)$beuser['user_id']."' OR parent_user_id='".(int)$beuser['user_id']."') AND firstname LIKE " . $this->db->escape($para['uname'] . "%") . " OR lastname LIKE " . $this->db->escape($para['uname'] . "%");
 			} else {
@@ -614,7 +614,7 @@ class Plan_model extends CI_Model {
 			}
 		}
 		$users = array();
-		if ($beuser['user_group_id'] < 3) {
+		if ($beuser['user_group_id'] < 100) {
 			if (!empty($para['uname'])) {
 				$sql = "SELECT user_id FROM user WHERE firstname LIKE " . $this->db->escape($para['uname'] . "%") . " OR lastname LIKE " . $this->db->escape($para['uname'] . "%");
 				$rows = $this->db->query($sql)->result_array();
@@ -622,7 +622,7 @@ class Plan_model extends CI_Model {
 					$users[] = $row['user_id'];
 				}
 			}
-		} else if ($beuser['user_group_id'] == 4) {
+		} else if ($beuser['user_group_id'] == 104) {
 			if (!empty($para['uname'])) {
 				$sql = "SELECT user_id FROM user WHERE (user_id='".(int)$beuser['user_id']."' OR parent_user_id='".(int)$beuser['user_id']."') AND firstname LIKE " . $this->db->escape($para['uname'] . "%") . " OR lastname LIKE " . $this->db->escape($para['uname'] . "%");
 			} else {

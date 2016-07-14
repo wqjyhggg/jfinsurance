@@ -22,7 +22,7 @@ class Behalf extends MY_Controller {
 			redirect ( base_url ( 'errorpage' ) );
 		}
 		$me = $this->session->userdata('user');
-		if ($me['user_group_id'] > 2) {
+		if ($me['user_group_id'] > 100) {
 			// School or brokerage need check permission
 			if ( ! $this->user_model->check_sub_user($me['user_id'], $user_id) ) {
 				$this->session->set_userdata ( "error_message", $this->lang->line ( 'error_no_permission' ) );

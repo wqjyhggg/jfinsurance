@@ -320,7 +320,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<th>Status</th>
 								<th>Effect Date</th>
 								<th>User</th>
-						<?php if ($beuser['user_group_id'] < 5) { ?>
+						<?php if ($beuser['user_group_id'] < 105) { ?>
 								<th>Agent</th>
 						<?php } ?>
 								<th>Action</th>
@@ -335,7 +335,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<td><?php echo $status_list[$plan['status_id']]['name']; ?></td>
 							<td><?php echo $plan['effective_date']; ?></td>
 							<td><?php echo $plan['firstname'] . " " . $plan['lastname']; ?></td>
-					<?php if ($beuser['user_group_id'] < 5) { ?>
+					<?php if ($beuser['user_group_id'] < 105) { ?>
 							<td><?php echo $plan['agent_firstname'] . " " . $plan['agent_lastname']; ?></td>
 					<?php } ?>
 							<td><a style="color:#46b8da;" href='<?php echo $copy_url.$plan['plan_id']; ?>'>Copy</a></td>
