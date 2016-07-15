@@ -39,6 +39,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                   <div class="x_content">
                    
                     <form method="post" class="form-horizontal" active='<?php echo $add_url; ?>'>
+                        <input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
                     	<input type="hidden" name="customer_id" value='<?php echo $customer['customer_id']; ?>'>
                       <!-- personal information search -->
                       <div class="row">
