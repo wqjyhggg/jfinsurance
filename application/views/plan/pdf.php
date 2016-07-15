@@ -15,13 +15,28 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 	</header>
 	<div class="container">	
 		<div class="row">
-			<h3 class="col-sm-12 nopadding">
-				<?php echo $plan_full_name;?>
-			</h3>
+			<div style="float:left;width:90px;">
+				<img class="img-responsive" style="width:80px;" src="<?php echo base_url();?>image/jf_logo.png" />
+			</div>
+			<div style="float:left;width:400px;">
+				<p style="margin:0;font-weight:bold;"> JF Agent - <?php echo "Agent Name";?></p>
+				<p style="margin:0;f">228-340 Ferrier Street, Markham Ontario L3R 2Z5</p>
+				<p style="margin:0;">Tel: 647-993-8826</p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-12 text-right">
+				<h2>Confirmation of Insurance</h2>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-12 text-right">
+				<h4><u>Policy Details</u></h4>
+			</div>
 		</div>
 		<div class="row">
 			<h4 class="col-sm-6 nopadding"><?php if ($plan['status_id'] < 2) { ?>Quote<?php } else {?>Policy<?php } ?> Number: <span><?php echo $plan['policy']; ?></span></h4>
-			<h4 class="col-sm-6 nopadding text-right" style="margin-top:0px;">Policy Status: <?php echo $status_list[$plan['status_id']]['name']; ?></h4>
+			<h4 class="col-sm-6 nopadding" style="margin-top:0px;">Policy Status: <?php echo $status_list[$plan['status_id']]['name']; ?></h4>
 		</div>
 		<div>
 			<div class="p-detail"><!-- policy detail -->

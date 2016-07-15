@@ -197,7 +197,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<div class="main" style="min-height:800px;">
         
         <div class="h-topdiv">
-				  <img class="img-responsive" src="<?php echo base_url();?>image/homepic.jpg" alt="JF Insurance">
+				  <img class="img-responsive" src="<?php echo base_url();?>image/homepic.png" alt="JF Insurance">
           <div class="h-top">
                 <h1>WHY BUY INSURANCE</h1>
                 <p>

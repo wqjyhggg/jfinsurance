@@ -54,4 +54,11 @@ h4{
 .pull-right{float: right;}
 .text-right{text-align: right;}
 
+.inline{
+    display:inline-block;
+    vertical-align: middle;
+}
+
+
+
 </style>
