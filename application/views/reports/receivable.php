@@ -37,18 +37,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                   </div>
                   <div class="x_content">
 
-                    <form method="post" class="form-horizontal">
+                    <form method="post" action="<?=$action_url ?>" class="form-horizontal">
+                      <input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
                       <div class="row">
                       <!-- Agent select box -->
                         <div class="form-group col-sm-4">
                           <label class="col-sm-12">Agent:</label>
                           <div class="input-group col-sm-12">
-                              <select class="form-control">
-                                <option>Choose option</option>
-                                <option>Option one</option>
-                                <option>Option two</option>
-                                <option>Option three</option>
-                                <option>Option four</option>
+                              <select name="agent_id" class="form-control">
+                                <option>Choose Agent</option>
+<?php foreach ($user_list as $agent) : ?>
+    <?php if ($agent_id == $agent['user_id']) : ?>
+                                <option value="<?=$agent['user_id'] ?>"  selected>
+    <?php else : ?>
+                                <option value="<?=$agent['user_id'] ?>" >
+    <?php endif; ?>
+                                    <?=$agent['full_name'] ?> (<?=$agent['username'] ?>)
+                                </option>
+<?php endforeach; ?>
                               </select>
                           </div>
                         </div>
@@ -58,12 +64,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <div class="form-group col-sm-4">
                           <label class="col-sm-12">Product:</label>
                             <div class="input-group col-sm-12">
-                              <select class="form-control">
-                                <option>Choose option</option>
-                                <option>Option one</option>
-                                <option>Option two</option>
-                                <option>Option three</option>
-                                <option>Option four</option>
+                              <select name="agent_id" class="form-control">
+                                <option value="">Choose Product</option>
+<?php foreach ($product_list as $product) : ?>
+    <?php if ($product_short == $product['product_short']) : ?>
+                                <option value="<?=$product['product_short'] ?>"  selected>
+    <?php else : ?>
+                                <option value="<?=$product['product_short'] ?>" >
+    <?php endif; ?>
+                                    <?=$product['full_name'] ?> (<?=$product['product_short'] ?>)
+                                </option>
+<?php endforeach; ?>
                               </select>
                           </div>
                         </div>
@@ -72,10 +83,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <div class="form-group col-sm-4">
                           <label class="col-sm-12">Policy Status:</label>
                             <div input-group class="col-sm-12">
-                              <select class="form-control">
-                                <option>Quote</option>
-                                <option>Sold</option>
-                                <option>All</option>
+                              <select name="policy_status" class="form-control">
+                                <option value=1>Quote</option>
+                                <option value=2>Sold</option>
+                                <option value=0>All</option>
                               </select>
                           </div>
                         </div>
@@ -88,7 +99,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                           <!-- Application Date from -->
                             <label for="application_date_from" class="col-sm-12">Application Date From</label>
                             <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
-                                <input class="form-control" size="16" type="text" value="" >
+                                <input name="application_date_from" class="form-control" size="16" type="text" value="<?=$application_date_from ?>" >
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
                             <input type="hidden" id="application_date_from" value="" />
@@ -96,7 +107,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <!-- Application Date to -->
                             <label for="application_date_to" class="col-sm-12">Application Date To</label>
                             <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
-                                <input class="form-control" size="16" type="text" value="" >
+                                <input name="application_date_to" class="form-control" size="16" type="text" value="<?=$application_date_to ?>" >
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
                             <input type="hidden" id="application_date_to" value="" /><br/>
@@ -116,7 +127,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <!-- Create Date to -->
                             <label for="create_date_to" class="col-sm-12">Create Date To</label>
                             <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
-                                <input class="form-control" size="16" type="text" value="" >
+                                <input name="create_date_from" class="form-control" size="16" type="text" value="<?=$create_date_from ?>" >
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
                             <input type="hidden" id="create_date_to" value="" /><br/>
@@ -136,7 +147,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <!-- Effective Date to -->
                             <label for="effective_date_to" class="col-sm-12">Effective Date To</label>
                             <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
-                                <input class="form-control" size="16" type="text" value="" >
+                                <input name="effective_date_to" class="form-control" size="16" type="text" value="<?=$effective_date_to ?>" >
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
                             <input type="hidden" id="effective_date_to" value="" /><br/>
@@ -149,7 +160,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <!-- Payment Update Date From-->
                             <label for="payment_update_date_from" class="col-sm-12">Payment Update Date From</label>
                             <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
-                                <input class="form-control" size="16" type="text" value="" >
+                                <input name="payment_update_date_from" class="form-control" size="16" type="text" value="<?=$payment_update_date_from ?>" >
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
                             <input type="hidden" id="payment_update_date_from" value="" />
@@ -157,7 +168,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <!-- Payment Update Date to -->
                             <label for="payment_update_date_to" class="col-sm-12">Payment Update Date To</label>
                             <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
-                                <input class="form-control" size="16" type="text" value="" >
+                                <input name="payment_update_date_to" class="form-control" size="16" type="text" value="<?=$payment_update_date_to ?>" >
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
                             <input type="hidden" id="payment_update_date_to" value="" /><br/>
@@ -190,114 +201,57 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                   <div class="x_content">
                      
                     <div class="table-responsive">
+<?php if (!empty($report_data['data'])) : ?>
+                       <div>
+                         JF Insurance Agency Group Inc. <br> 
+                         15 Wertheim court, Suite 501, Richmond Hill, ON, L4B 3H7 <br>   
+                         Tel: 905-707-1512 Fax: 905-707-1513 Toll free: 1-877-832-5541<br>   
+                         Invoice Statement<br>
+                         For Policy of<br>
+                         From:<?=$report_data['period']['from'] ?>
+                         To:<?=$report_data['period']['to'] ?><br>
+                       </div>
                       <table class="table table-hover table-bordered">
+    <?php foreach ($report_data['data'] as $user_id => $data) :?>
+                        <tr><td colspan=8>
+                          Bill to:<br>
+                          <?=$data['agency']['agent_name'] ?><br>
+                          <?=$data['agency']['address'] ?><br>
+                          <?=$data['agency']['province'] ?>&nbsp;&nbsp; <?=$data['agency']['postal_code'] ?><br><br>
+                          Premium collected on behalf of JF Insurance Agency Inc::<?=$data['agency']['outstanding'] ?><br>
+                          Less Administration Fee for handaling the following policies:<?=$data['agency']['commission'] ?><br>
+                          Net payable to JF Insurance Ageny Inc.:<?=$data['agency']['payable_to_jf'] ?>
+                        </td></tr>
                         <thead>
                           <tr>
-                            <th>Travel Plan Number</th>
-                            <th>First Name</th>
-                            <th>Last Name</th>
-                            <th>Gender</th>
-                            <th>Birthdate</th>
-                            <th>Address Line 1</th>
-                            <th>City</th>
-                            <th>Province</th>
-                            <th>Postal Code</th>
-                            <th>Option</th>
-                            <th>Agent</th>
-                            <th>Application Date</th>
-                            <th>Create Date</th>
+                            <th>Pruchase Date</th>
+                            <th>Policy Number</th>
+                            <th>Customer Name</th>
                             <th>Effective Date</th>
                             <th>Expiry Date</th>
-                            <th>Number of Days</th>
-                            <th>Sum Insured</th>
-                            <th>Net Premium</th>
-                        
-                            <th>Gross Premium</th>
-                      
-                            <th>Rate Per Day</th>
+                            <th>Trip Length</th>
+                            <th>Total Premium</th>
+                            <th>Outstanding Amount</th>
                           </tr>
                         </thead>
                         <tbody>
+        <?php foreach ($data['records'] as $record) : ?>
                             <tr>
-                              <td colspan="22">JF Optimum Plus</td>
+                              <td><?=$record['order_date'] ?></td>
+                              <td><?=$record['policy'] ?></td>
+                              <td><?=$record['insured_name'] ?></td>
+                              <td><?=$record['insured_name'] ?></td>
+                              <td><?=$record['effective_date'] ?></td>
+                              <td><?=$record['expiry_date'] ?></td>
+                              <td><?=$record['total_days'] ?></td>
+                              <td>$<?=$record['policy_premium'] ?></td>
+                              <td>$<?=$record['net_premium'] ?></td>
                             </tr>
-                            <tr>
-                              <td>OPL248778</td>
-                              <td>TestGiven</td>
-                              <td>TestLast</td>
-                              <td>M</td>
-                              <td>1980-05-03</td>
-                              <td>14 Asdf fdsfsdf</td>
-                              <td>Toronto</td>
-                              <td>ON</td>
-                              <td>M2M 4M5</td>
-                              <td>9283</td>
-                              <td>458286</td>
-                              <td>2016-06-05</td>
-                              <td>2016-05-05</td>
-                              <td>2016-08-03</td>
-                              <td>2017-08-02</td>
-                              <td>365</td>
-                              <td>10,000</td>
-                              <td>733.21</td>
-                        
-                              <td>1,357.80</td>
-                         
-                              <td>3.72</td>
-                            </tr>
-                            <tr>
-                              <td>OPL248777</td>
-                              <td>TestGiven</td>
-                              <td>TestLast</td>
-                              <td>M</td>
-                              <td>1980-05-03</td>
-                              <td>14 Asdf fdsfsdf</td>
-                              <td>Toronto</td>
-                              <td>ON</td>
-                              <td>M2M 4M5</td>
-                              <td>9283</td>
-                              <td>458286</td>
-                              <td>2016-06-05</td>
-                              <td>2016-05-05</td>
-                              <td>2016-08-03</td>
-                              <td>2017-08-02</td>
-                              <td>365</td>
-                              <td>10,000</td>
-                              <td>733.21</td>
-                              
-                              <td>1,357.80</td>
-                              
-                              <td>3.72</td>
-                            </tr>
-                            <tr>
-                              <td colspan="22">JF Royal Visitor to Canada</td>
-                            </tr>
-                            <tr>
-                              <td>JFR248775</td>
-                              <td>TestGiven</td>
-                              <td>TestLast</td>
-                              <td>M</td>
-                              <td>1980-05-03</td>
-                              <td>14 Asdf fdsfsdf</td>
-                              <td>Toronto</td>
-                              <td>ON</td>
-                              <td>M2M 4M5</td>
-                              <td>9283</td>
-                              <td>458286</td>
-                              <td>2016-06-05</td>
-                              <td>2016-05-05</td>
-                              <td>2016-08-03</td>
-                              <td>2017-08-02</td>
-                              <td>365</td>
-                              <td>10,000</td>
-                              <td>733.21</td>
-                           
-                              <td>1,357.80</td>
-                           
-                              <td>3.72</td>
-                            </tr>
+        <?php endforeach; ?>
                         </tbody>
+    <?php endforeach; ?>                        
                       </table>
+<?php endif; ?>                      
                     </div>
                   </div>
                 </div>

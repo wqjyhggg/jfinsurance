@@ -85,7 +85,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                           <!-- Application Date from -->
                             <label for="application_date_from" class="col-sm-12">Application Date From</label>
                             <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
-                            <input name="application_date_from" class="form-control" size="16" type="text" value="<?=$application_date_from ?>" >
+                                <input name="application_date_from" class="form-control" size="16" type="text" value="<?=$application_date_from ?>" >
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
                             <input type="hidden" id="application_date_from" value="" />
@@ -93,7 +93,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <!-- Application Date to -->
                             <label for="application_date_to" class="col-sm-12">Application Date To</label>
                             <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
-                            <input name="application_date_to" class="form-control" size="16" type="text" value="<?=$application_date_to ?>" >
+                                <input name="application_date_to" class="form-control" size="16" type="text" value="<?=$application_date_to ?>" >
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
                             <input type="hidden" id="application_date_to" value="" /><br/>
@@ -105,7 +105,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <!-- Create Date From-->
                             <label for="create_date_from" class="col-sm-12">Create Date From</label>
                             <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
-                            <input name="create_date_from" class="form-control" size="16" type="text" value="<?=$create_date_from ?>" >
+                                <input name="create_date_from" class="form-control" size="16" type="text" value="<?=$create_date_from ?>" >
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
                             <input type="hidden" id="create_date_from" value="" />
@@ -145,7 +145,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <!-- Payment Update Date From-->
                             <label for="payment_update_date_from" class="col-sm-12">Payment Update Date From</label>
                             <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
-                            <input name="payment_update_date_from" class="form-control" size="16" type="text" value="<?=$payment_update_date_from ?>" >
+                                <input name="payment_update_date_from" class="form-control" size="16" type="text" value="<?=$payment_update_date_from ?>" >
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
                             <input type="hidden" id="payment_update_date_from" value="" />
@@ -184,6 +184,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                   </div>
                   <div class="x_content">
                     <div class="table-responsive">
+<?php if (!empty($report_data)) : ?>                    
                       <table class="table table-hover table-bordered">
                         <thead>
                           <tr>
@@ -204,27 +205,28 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                           </tr>
                         </thead>
                         <tbody>
-<?php $cnt = 1; ?>
-<?php foreach ($report_data as $record) :?>
+    <?php $cnt = 1; ?>
+    <?php foreach ($report_data as $record) :?>
                             <tr>
-                            <td><?=$cnt++ ?></td>
-                            <td><?=$record['order_date'] ?></td>
-                            <td><?=$record['policy'] ?></td>
-                            <td><?=$record['insurer'] ?></td>
-                            <td><?=$record['product'] ?></td>
-                            <td><?=$record['insured_name'] ?></td>
-                            <td><?=$record['effective_date'] ?></td>
-                            <td><?=$record['expiry_date'] ?></td>
-                            <td><?=$record['total_days'] ?></td>
-                            <td>$<?=$record['daily_rate'] ?></td>
-                            <td>$<?=$record['policy_premium'] ?></td>
-                            <td><?=$record['commission_rate'] ?></td>
-                            <td>$<?=$record['net_premium'] ?></td>
-                            <td>$<?=$record['commission_amount'] ?></td>
+                              <td><?=$cnt++ ?></td>
+                              <td><?=$record['order_date'] ?></td>
+                              <td><?=$record['policy'] ?></td>
+                              <td><?=$record['insurer'] ?></td>
+                              <td><?=$record['product'] ?></td>
+                              <td><?=$record['insured_name'] ?></td>
+                              <td><?=$record['effective_date'] ?></td>
+                              <td><?=$record['expiry_date'] ?></td>
+                              <td><?=$record['total_days'] ?></td>
+                              <td>$<?=$record['daily_rate'] ?></td>
+                              <td>$<?=$record['policy_premium'] ?></td>
+                              <td><?=$record['commission_rate'] ?></td>
+                              <td>$<?=$record['net_premium'] ?></td>
+                              <td>$<?=$record['commission_amount'] ?></td>
                             </tr>
-<?php endforeach; ?>
+    <?php endforeach; ?>
                         </tbody>
                       </table>
+<?php endif; ?>                      
                     </div>
                   </div>
                 </div>

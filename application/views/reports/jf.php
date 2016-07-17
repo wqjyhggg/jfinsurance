@@ -185,13 +185,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                   <div class="x_content">
                     <div class="table-responsive">
                       <table class="table table-hover table-bordered">
-                        <thead>
+<?php $cnt = 1; ?>
+<?php foreach ($report_data as $user_id => $data) :?>
+                          <tr>
+                              <td><?='$' . $data['policy_premium'] ?></td>
+                              <td><?=$user_id ?></td>
+                              <td><?=$data['agency'] ?></td>
+                              <td colspan=14>&nbsp;</td>
+                          </tr>
                           <tr>
                             <th>Text39</th>
                             <th>OrderID</th>
                             <th>Order Date</th>
-                            <th>Policy No</th>
-                            <th>Insurer</th>
+                            <th>Policy Num</th>
+                            <th>Invoice Num</th>
+                            <th>InsurerCoName</th>
                             <th>Product</th>
                             <th>Insured Name</th>
                             <th>Text177</th>
@@ -204,20 +212,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <th>Net Premium</th>
                             <th>Commission Amount</th>
                           </tr>
-                        </thead>
-                        <tbody>
-<?php $cnt = 1; ?>
-<?php foreach ($report_data as $user => $data) :?>
     <?php foreach ($data['data'] as $date => $info) :?>
         <?php foreach ($info['records'] as $record) :?>
-    
-                            <tr>
+                          <tr>
                             <td><?=$cnt++ ?></td>
+                            <td><?=$record['plan_id'] ?></td>
                             <td><?=$record['order_date'] ?></td>
                             <td><?=$record['policy'] ?></td>
-                            <td><?=$record['insurer'] ?></td>
+                            <td><?=$record['invoice_num'] ?></td><!-- todo -->
+                            <td><?=$record['insurerCoName'] ?></td>
                             <td><?=$record['product'] ?></td>
-                            <td><?=$record['insured_name'] ?></td>
+                            <td><?=$record['insured'] ?></td>
+                            <td><?=$record['agency'] ?></td>
                             <td><?=$record['effective_date'] ?></td>
                             <td><?=$record['expiry_date'] ?></td>
                             <td><?=$record['total_days'] ?></td>
@@ -226,11 +232,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <td><?=$record['commission_rate'] ?></td>
                             <td>$<?=$record['net_premium'] ?></td>
                             <td>$<?=$record['commission_amount'] ?></td>
-                            </tr>
+                          </tr>
         <?php endforeach; ?>
+                          <tr>
+                              <td><?=$info['cnt'] ?></td>
+                              <td colspan=9>&nbsp;<td>
+                              <td>Text204</td>
+                              <td><?=$info['policy_premium'] ?></td>
+                              <td>Text250</td>
+                              <td><?=$info['net_premium'] ?></td>
+                              <td>Text251</td>
+                              <td><?=$info['commission'] ?></td>
+                          </tr>
     <?php endforeach; ?>
 <?php endforeach; ?>
-                        </tbody>
                       </table>
                     </div>
                   </div>
