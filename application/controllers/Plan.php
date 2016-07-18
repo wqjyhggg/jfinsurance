@@ -1467,6 +1467,8 @@ class Plan extends MY_Controller {
 		$data['style'] = $this->load->view('common/pdf_style',$data, TRUE);
 		$mpdf = new mPDF('c');
 		$html = $this->load->view('plan/pdf', $data, TRUE);
+		
+		//print_r($plan);
 		//die($html);
 		$mpdf->writeHTML($html);
 		$mpdf->Output();
@@ -1579,6 +1581,8 @@ class Plan extends MY_Controller {
 			$data['insurable_options'] = $this->load->view('plan/detail_other', $data, TRUE);
 		}
 		$mpdf = new mPDF('c');
+		$data['title_txt'] = 'Card';
+		$data['style'] = $this->load->view('common/pdf_style',$data, TRUE);
 		$html = $this->load->view('plan/card', $data, TRUE);
 		$mpdf->writeHTML($html);
 		$mpdf->Output();
@@ -1617,6 +1621,8 @@ class Plan extends MY_Controller {
 			$data['insurable_options'] = $this->load->view('plan/detail_other', $data, TRUE);
 		}
 		$mpdf = new mPDF('c');
+		$data['title_txt'] = 'Receipt';
+		$data['style'] = $this->load->view('common/pdf_style',$data, TRUE);
 		$html = $this->load->view('plan/receipt', $data, TRUE);
 		$mpdf->writeHTML($html);
 		$mpdf->Output();
