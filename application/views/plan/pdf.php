@@ -43,7 +43,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 				<!-- policy detail -->
 				<div class="row">
 					<div class="col-sm-6 nopadding">
-						<h4>Policy Holder: <span><?php echo $customer['firstname'] . " " . $customer['lastname']?></span></h4>
+						<h4>Policy Holder: <span><?php echo $customer['firstname'] . " " . $customer['lastname']; ?></span></h4>
 						<h4>Date of Birth: <span><?php echo $customer['birthday'];?></sapn> </h4>
 						<h4>Address: <span><?php if(!empty($plan['suite_number'])){echo  $plan['suite_number'] . "- ";} ?><?php echo $plan['street_number'] . ' ' . $plan['street_name'] . ' ' . $plan['city'] . ', ' . $plan['province2'] . ' ' . $plan['postcode']; ?></sapn> </h4>
 						<h4>Phone Number: <span><?php echo $plan['phone1'];?></sapn> </h4>
@@ -64,9 +64,9 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 				<div class="row">
 					<div class="col-sm-6 nopadding">
 						<h4><u>Coverage Details</u></h4>
-						<h4>Insurance Plan: <span><?php echo $customer['firstname'] . " " . $customer['lastname']?></span></h4>
+						<h4>Insurance Plan: <span><?php echo $customer['firstname'] . " " . $customer['lastname'];?></span></h4>
 						<h4>Plan Type: <span><?php echo $customer['birthday'];?></sapn> </h4>
-						<h4>Sum Insured: <span><?php echo $plan['sum_insured']?></sapn> </h4>
+						<h4>Sum Insured: <span><?php echo $plan['sum_insured']; ?></sapn> </h4>
 						<h4>Deductible: <span><?php echo $plan['deductible_amount'];?></sapn> </h4>
 						<h4>Beneficiary: <span><?php echo $plan['beneficiary'];?></sapn> </h4>
 					</div>

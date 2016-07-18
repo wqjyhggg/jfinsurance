@@ -1,4 +1,5 @@
 <style>
+html{position: relative;}
 body, p, span, h2,h4{font-family:'Open Sans', sans-serif;}
 span{font-weight: normal;}
 .p-detail .row{
@@ -44,6 +45,7 @@ h4{
 }
 .pull-right{float: right;}
 .text-right{text-align: right;}
+.text-center{text-align: center;}
 
 .inline{
     display:inline-block;
