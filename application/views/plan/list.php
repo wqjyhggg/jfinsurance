@@ -338,7 +338,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<?php if ($beuser['user_group_id'] < 105) { ?>
 							<td><?php echo $plan['agent_firstname'] . " " . $plan['agent_lastname']; ?></td>
 					<?php } ?>
-							<td><a style="color:#46b8da;" href='<?php echo $copy_url.$plan['plan_id']; ?>'>Copy</a></td>
+							<td><a style="color:#46b8da;" href='<?php echo $copy_url.$plan['plan_id']; ?>'>Copy</a> <?php if ($plan['status_id'] > 1) { ?> | <a style="color:#46b8da;" href='<?php echo $sendpackage_url . $plan['plan_id']; ?>'>Send Package</a><?php } ?></td>
 						</tr>
 					<?php } ?>
 					    </tbody>

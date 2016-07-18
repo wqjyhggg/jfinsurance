@@ -61,6 +61,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<?php } ?> 
 
 						<a href='<?php echo $copy_url; ?>'><span class="btn btn-info">Copy</span></a>
+						
+						<?php if ($status_id > 1) { ?>
+							<a href='<?php echo $sendpackage_url . $plan_id; ?>'><span class="btn btn-info">Send Package</span></a>
+						<?php } ?>
 						</div>
 						<div class="form-group col-sm-3">
 							<label class="inline"><span><?php echo $plan_full_name; ?></span></label>

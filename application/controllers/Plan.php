@@ -71,6 +71,7 @@ class Plan extends MY_Controller {
 		$data['copy_url'] = base_url ( "plan/copy" ) . "/";
 		$data['province_url'] = base_url ( "geo/province/" );
 		$data['country_url'] = base_url ( "geo/country/" );
+		$data['sendpackage_url'] = base_url ( "plan/sendpackage" ) . "/";
 		if (!empty($data['country2'])) {
 			$data['province_url'] .= "/" . $data['country2'];
 			$data['country_url'] .= "/" . $data['country2'];
@@ -651,6 +652,8 @@ class Plan extends MY_Controller {
 		$data['premium_url'] = base_url ( "product/premium" );
 		$data['action_url'] = base_url ( "plan/form" );
 		$data['claimurl'] = base_url ( "claim/add" ) . "/";
+		$data['sendpackage_url'] = base_url ( "plan/sendpackage" ) . "/";
+		
 		$data['title_txt'] = 'Policy';
 		$data['top_menu'] = $this->menu_model->load_top_menu();
 		$data['menu'] = $this->menu_model->load_meun();
@@ -1353,6 +1356,73 @@ class Plan extends MY_Controller {
 		}
 		
 		$this->load->common('plan/detail', $data);
+	}
+
+	public function sendpackage($plan_id)
+	{
+		$beuser = $this->func_model->verify_login(TRUE);
+		$this->load->model('customer_model');
+		$this->load->model('plan_model');
+		$this->load->model('product_model');
+		$this->load->model('paytype_model');
+		$this->load->model('status_model');
+		$plan = $this->plan_model->get_plan_by_id($plan_id);
+		if (empty($plan)) {
+			redirect('user/login');
+		}
+		
+		$data['beuser'] = $beuser;
+		$data['plan'] = $plan;
+		$product = $this->product_model->get_product($plan['product_short']);
+		$data['plan_full_name'] = $product ? $product['full_name'] : '';
+		$data['customer'] = $this->customer_model->get_customer_by_id($data['plan']['customer_id']);
+		$data['customers'] = $this->customer_model->get_customer_by_parent_id($data['plan']['customer_id']);
+		$data['paytype_list'] = $this->paytype_model->paytype_list();
+		$data['status_list'] = $this->status_model->status_list();
+
+		if ($data['plan']['product_short'] == 'OPL') {
+			$data['insurable_options'] = $this->load->view('plan/detail_opl', $data, TRUE);
+		} else if ($data['plan']['product_short'] == 'JFR') {
+			$data['insurable_options'] = $this->load->view('plan/detail_opl', $data, TRUE);
+		} else if ($data['plan']['product_short'] == 'JUS') {
+			$data['insurable_options'] = $this->load->view('plan/detail_jus', $data, TRUE);
+		} else if ($data['plan']['product_short'] == 'NUS') {
+			$data['insurable_options'] = $this->load->view('plan/detail_jus', $data, TRUE);
+		} else if ($data['plan']['product_short'] == 'JES') {
+			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
+		} else if ($plan['plan']['product_short'] == 'JFC') {
+			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
+		} else {
+			$data['insurable_options'] = $this->load->view('plan/detail_other', $data, TRUE);
+		}
+		
+		$policy_file = tempnam("/tmp", "Policy");
+		
+		$data['title_txt'] = 'Policy';
+		$data['style'] = $this->load->view('common/pdf_style',$data, TRUE);
+		$mpdf = new mPDF('c');
+		$html = $this->load->view('plan/pdf', $data, TRUE);
+		//die($html);
+		$mpdf->writeHTML($html);
+		$mpdf->Output($policy_file, 'F');
+		
+		$this->load->model('mymail_model');
+		$body = $this->load->view('mail/package',$data, TRUE);
+		$files = array(
+			'policy' => $policy_file,
+		);
+		$data['sendok'] = $this->mymail_model->send_mymail($beuser['email'], 'Insure Packages', $body, $files, $from='Support');
+		unlink($policy_file);
+		
+		$data['title_txt'] = 'Policy';
+		$data['top_menu'] = $this->menu_model->load_top_menu();
+		$data['menu'] = $this->menu_model->load_meun();
+		$data['csrf'] = array (
+				'name' => $this->security->get_csrf_token_name (),
+				'value' => $this->security->get_csrf_hash ()
+		);
+		
+		$this->load->common('plan/sendpackage', $data);
 	}
 
 	public function pdf($plan_id)
