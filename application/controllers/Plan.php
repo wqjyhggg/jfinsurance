@@ -1433,6 +1433,7 @@ class Plan extends MY_Controller {
 		$this->load->model('product_model');
 		$this->load->model('paytype_model');
 		$this->load->model('status_model');
+		$this->load->model('trans_model');
 		$plan = $this->plan_model->get_plan_by_id($plan_id);
 		if (empty($plan)) {
 			redirect('user/login');
@@ -1440,6 +1441,14 @@ class Plan extends MY_Controller {
 		
 		$data['beuser'] = $beuser;
 		$data['plan'] = $plan;
+		$data['payment'] = '';
+		if ($plan['payment_id']) {
+			$data['payment'] = $this->trans_model->get_payment_by_id($plan['payment_id']);
+		}
+		$data['user'] = '';
+		if ($plan['user_id']) {
+			$data['user'] = $this->user_model->get_user_by_id($plan['user_id']);
+		}
 		$product = $this->product_model->get_product($plan['product_short']);
 		$data['plan_full_name'] = $product ? $product['full_name'] : '';
 		$data['customer'] = $this->customer_model->get_customer_by_id($data['plan']['customer_id']);
@@ -1468,8 +1477,6 @@ class Plan extends MY_Controller {
 		$mpdf = new mPDF('c');
 		$html = $this->load->view('plan/pdf', $data, TRUE);
 		
-		//print_r($plan);
-		//die($html);
 		$mpdf->writeHTML($html);
 		$mpdf->Output();
 	}

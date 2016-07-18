@@ -19,7 +19,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 				<img class="img-responsive" style="width:80px;" src="<?php echo base_url();?>image/jf_logo.png" />
 			</div>
 			<div style="float:left;width:400px;">
-				<p class="topp" style="font-weight:bold;"> JF Agent - <?php echo "Agent Name";?></p>
+				<p class="topp" style="font-weight:bold;"> JF Agent - <?php echo ($user) ? $user['firstname'] . " " . $user['lastname'] : ''; ?></p>
 				<p class="topp">228-340 Ferrier Street, Markham Ontario L3R 2Z5</p>
 				<p class="topp">Tel: 647-993-8826</p>
 			</div>
@@ -73,10 +73,10 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 					<div class="col-sm-6 nopadding">
 						<h4><u>Payment Details</u></h4>
 						<h4>Total Permium: <span>$<?php echo number_format($plan['premium'], 2, '.', ',');?></span></h4>
-						<h4>Taxes: <span><?php echo 'taxes';?></sapn> </h4>
+						<h4>Taxes: <span><?php echo 'N / A';?></sapn> </h4>
 						<h4>Premium: <span>$<?php echo number_format($plan['premium'], 2, '.', ','); ?></sapn> </h4>
-						<h4>Payment Date: <span><?php echo 'pay date'; ?></sapn> </h4>
-						<h4>Payment Method: <span><?php echo 'pay method';?></sapn> </h4>
+						<h4>Payment Date: <span><?php echo isset($payment['added']) ? date('Y-m-d', strtotime($payment['added'])) : ''; ?></sapn> </h4>
+						<h4>Payment Method: <span><?php echo isset($payment['pay_mothed']) ? $payment['pay_mothed'] : ''; ?></sapn> </h4>
 					</div>
 				</div>
 				<!-- End coverage adn payment details -->

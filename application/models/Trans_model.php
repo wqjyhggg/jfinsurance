@@ -23,6 +23,17 @@ class Trans_model extends CI_Model {
 	}
 
 	/**
+	 * Get payment by id
+	 *
+	 * @param integer $payment_id
+	 * @return array
+	 */
+	public function get_payment_by_id($payment_id) {
+		$this->db->where('payment_id', $payment_id);
+		return $this->db->get('payment')->row_array();
+	}
+	
+	/**
 	 * Get plan payment history
 	 *
 	 * @param integer $plan_id
