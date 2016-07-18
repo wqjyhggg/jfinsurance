@@ -11,6 +11,10 @@ class Report_model extends CI_Model {
     const CANCEL = 5;
     const REFUND = 6;
 
+    const ADMIN = 1;
+    const STAFF = 2;
+    const BROKERAGE = 104;
+    const AGENT = 105;
     /**
      * Get sales report to agent data
      *
@@ -46,7 +50,8 @@ class Report_model extends CI_Model {
             pl.dailyrate AS daily_rate,
             pl.premium AS policy_premium,
             pr.commission AS pr_commission,
-            up.commission AS up_commission
+            up.commission AS up_commission,
+            u.user_id
         ');
     }
 
@@ -56,14 +61,12 @@ class Report_model extends CI_Model {
         $this->db->join('customer c', 'pl.customer_id = c.customer_id');
         $this->db->join('product pr', 'pl.product_short = pr.product_short');
         $this->db->join('user u', 'pl.user_id = u.user_id');
-        $this->db->join('user_product up', 'u.user_id = up.user_id and pr.product_short = up.product_short', 'left');
-// todo need to clear payment data struct, and usage        
-//        $this->db->join('payment p1', 'pl.payment_id = p1.payment_id AND pl.user_id=p1.user_id AND pl.plan_id = p1.plan_id');
-//        $this->db->join('payment p2', 'pl.commission_payment_id = p2.payment_id AND pl.user_id=p2.user_id AND pl.plan_id = p2.plan_id AND p2.ispaid = 1');
+        $this->db->join('user_product up', 'u.user_id = up.user_id and pr.product_short = up.product_short');
     }
 
     private function sales_report_agent_where($para)
     {
+        $this->db->where_in('pl.status_id', array(self::SOLD, self::PAID, self::CLAIMED));
         $this->common_report_where($para);
     }
 
@@ -71,12 +74,19 @@ class Report_model extends CI_Model {
     {
         $results = array();
         foreach ($query as $row) {
-            //$row['commission_rate'] = empty($row['up_commission']) ? $row['pr_commission'] . '%' : $row['up_commission'] . '%';
             $row['commission_rate'] = $row['up_commission'];
             $row['commission_amount'] =  sprintf("%01.2f", ($row['policy_premium'] * $row['commission_rate'] / 100));
             $row['net_premium'] = sprintf("%01.2f", ($row['policy_premium'] - $row['commission_amount']));
             $row['daily_rate'] = sprintf("%01.2f", ($row['policy_premium'] / $row['total_days']));
-            $results[] = $row;
+
+            $results[$row['user_id']]['data']['policy_premium'] = (
+                empty($results[$row['user_id']]['data']['policy_premium']) ?
+                $row['policy_premium'] : $results[$row['user_id']]['data']['policy_premium'] + $row['policy_premium']);
+            $results[$row['user_id']]['data']['net_premium'] = (
+                empty($results[$row['user_id']]['data']['net_premium']) ?
+                $row['net_premium'] : $results[$row['user_id']]['data']['net_premium'] + $row['net_premium']);
+
+            $results[$row['user_id']]['records'][] = $row;
         }
         return $results;
     }
@@ -131,13 +141,12 @@ class Report_model extends CI_Model {
         $this->db->join('customer c', 'pl.customer_id = c.customer_id');
         $this->db->join('product pr', 'pl.product_short = pr.product_short');
         $this->db->join('user u', 'pl.user_id = u.user_id');
-        $this->db->join('user_product up', 'u.user_id = up.user_id and pr.product_short = up.product_short', 'left');
-//        $this->db->join('payment p1', 'pl.payment_id = p1.payment_id AND pl.user_id=p1.user_id AND pl.plan_id = p1.plan_id');
-//        $this->db->join('payment p2', 'pl.commission_payment_id = p2.payment_id AND pl.user_id=p2.user_id AND pl.plan_id = p2.plan_id AND p2.ispaid = 1');
+        $this->db->join('user_product up', 'u.user_id = up.user_id and pr.product_short = up.product_short');
     }
 
     private function sales_report_jf_where($para)
     {
+        $this->db->where_in('pl.status_id', array(self::SOLD, self::PAID, self::CLAIMED));
         $this->common_report_where($para);
     }
 
@@ -145,7 +154,6 @@ class Report_model extends CI_Model {
     {
         $results = array();
         foreach ($query as $row) {
-            //$row['commission_rate'] = empty($row['up_commission']) ? $row['pr_commission'] . '%' : $row['up_commission'] . '%';
             $row['commission_rate'] = $row['up_commission'];
             $row['commission_amount'] =  sprintf("%01.2f", ($row['policy_premium'] * $row['commission_rate'] / 100));
             $row['net_premium'] = sprintf("%01.2f", ($row['policy_premium'] - $row['commission_amount']));
@@ -226,13 +234,12 @@ class Report_model extends CI_Model {
         $this->db->join('customer c', 'pl.customer_id = c.customer_id');
         $this->db->join('product pr', 'pl.product_short = pr.product_short');
         $this->db->join('user u', 'pl.user_id = u.user_id');
-        $this->db->join('user_product up', 'u.user_id = up.user_id and pr.product_short = up.product_short', 'left');
-//        $this->db->join('payment p1', 'pl.payment_id = p1.payment_id AND pl.user_id=p1.user_id AND pl.plan_id = p1.plan_id');
-//        $this->db->join('payment p2', 'pl.commission_payment_id = p2.payment_id AND pl.user_id=p2.user_id AND pl.plan_id = p2.plan_id AND p2.ispaid = 1');
+        $this->db->join('user_product up', 'u.user_id = up.user_id and pr.product_short = up.product_short');
     }
 
     private function sales_report_insurer_where($para)
     {
+        $this->db->where_in('pl.status_id', array(self::SOLD, self::PAID, self::CLAIMED));
         $this->common_report_where($para);
     }
 
@@ -240,7 +247,6 @@ class Report_model extends CI_Model {
     {
         $results = array();
         foreach ($query as $row) {
-            //$row['commission_rate'] = empty($row['up_commission']) ? $row['pr_commission'] . '%' : $row['up_commission'] . '%';
             $row['commission_rate'] = $row['pr_commission'];
             $row['commission_amount'] =  sprintf("%01.2f",
                 ($row['policy_premium'] * $row['commission_rate'] / 100));
@@ -309,16 +315,14 @@ class Report_model extends CI_Model {
         $this->db->join('customer c', 'pl.customer_id = c.customer_id');
         $this->db->join('product pr', 'pl.product_short = pr.product_short');
         $this->db->join('user u', 'pl.user_id = u.user_id');
-        $this->db->join('user_product up', 'u.user_id = up.user_id and pr.product_short = up.product_short', 'left');
-//        $this->db->join('payment p1', 'pl.payment_id = p1.payment_id AND pl.user_id=p1.user_id AND pl.plan_id = p1.plan_id');
-//        $this->db->join('payment p2', 'pl.commission_payment_id = p2.payment_id AND pl.user_id=p2.user_id AND pl.plan_id = p2.plan_id AND p2.ispaid = 1');
+        $this->db->join('user_product up', 'u.user_id = up.user_id and pr.product_short = up.product_short');
     }
 
     private function receivable_where($para)
     {
         $this->common_report_where($para);
         if (!empty($para['policy_status'])) {
-            if ($para['policy_status'] <= 0 || $para['policy_status'] > self::SOLD) {
+            if ($para['policy_status'] < self::QUTOE || $para['policy_status'] > self::SOLD) {
                 $this->db->where('pl.status <=', self::SOLD);
             } else {
                 $this->db->where('pl.status', $para['policy_status']);
@@ -330,7 +334,6 @@ class Report_model extends CI_Model {
     {
         $results = array();
         foreach ($query as $row) {
-            //$row['commission_rate'] = empty($row['up_commission']) ? $row['pr_commission'] . '%' : $row['up_commission'] . '%';
             $row['commission_rate'] = $row['up_commission'];
             $row['commission_amount'] =  sprintf("%01.2f", ($row['policy_premium'] * $row['commission_rate'] / 100));
             $row['net_premium'] = sprintf("%01.2f", ($row['policy_premium'] - $row['commission_amount']));
@@ -416,9 +419,7 @@ class Report_model extends CI_Model {
         $this->db->join('user u', 'cl.user_id = u.user_id');
         $this->db->join('product pr', 'cl.product_short = pr.product_short');
         $this->db->join('plan pl', 'cl.plan_id = pl.plan_id');
-        $this->db->join('coverage_code cc', 'cl.coverage_code_id = cc.coverage_code_id', 'left');
-//        $this->db->join('payment p1', 'pl.payment_id = p1.payment_id AND pl.user_id=p1.user_id AND pl.plan_id = p1.plan_id');
-//        $this->db->join('payment p2', 'pl.commission_payment_id = p2.payment_id AND pl.user_id=p2.user_id AND pl.plan_id = p2.plan_id AND p2.ispaid = 1');
+        $this->db->join('coverage_code cc', 'cl.coverage_code_id = cc.coverage_code_id');
     }
 
     private function claim_report_where($para)
@@ -489,8 +490,6 @@ class Report_model extends CI_Model {
         $this->db->join('product pr', 'pl.product_short = pr.product_short');
         $this->db->join('customer c', 'pl.customer_id = c.customer_id');
         $this->db->join('user u', 'pl.user_id = u.user_id');
-//        $this->db->join('payment p1', 'pl.payment_id = p1.payment_id AND pl.user_id=p1.user_id AND pl.plan_id = p1.plan_id');
-//        $this->db->join('payment p2', 'pl.commission_payment_id = p2.payment_id AND pl.user_id=p2.user_id AND pl.plan_id = p2.plan_id AND p2.ispaid = 1');
     }
 
     private function renewal_report_where($para)
@@ -565,9 +564,7 @@ class Report_model extends CI_Model {
         $this->db->join('customer c', 'pl.customer_id = c.customer_id');
         $this->db->join('product pr', 'pl.product_short = pr.product_short');
         $this->db->join('user u', 'pl.user_id = u.user_id');
-        $this->db->join('user_product up', 'u.user_id = up.user_id and pr.product_short = up.product_short', 'left');
-//        $this->db->join('payment p1', 'pl.payment_id = p1.payment_id AND pl.user_id=p1.user_id AND pl.plan_id = p1.plan_id');
-//        $this->db->join('payment p2', 'pl.commission_payment_id = p2.payment_id AND pl.user_id=p2.user_id AND pl.plan_id = p2.plan_id AND p2.ispaid = 1');
+        $this->db->join('user_product up', 'u.user_id = up.user_id and pr.product_short = up.product_short');
     }
 
     private function commission_where($para)
@@ -586,7 +583,6 @@ class Report_model extends CI_Model {
     {
         $results = array();
         foreach ($query as $row) {
-            //$row['commission_rate'] = empty($row['up_commission']) ? $row['pr_commission'] . '%' : $row['up_commission'] . '%';
             $row['commission_rate'] = $row['up_commission'];
             $row['commission_amount'] =  sprintf("%01.2f", ($row['policy_premium'] * $row['commission_rate'] / 100));
             $row['net_premium'] = sprintf("%01.2f", ($row['policy_premium'] - $row['commission_amount']));
@@ -634,11 +630,29 @@ class Report_model extends CI_Model {
     }
     private function common_report_where($para)
     {
-        if (!empty($para['product_short'])) {
+        $beuser = $this->session->beuser;
+        $available_user_ids = array_keys($para['user_list']);
+        $available_product_short = array();
+        foreach ($para['product_list'] as $product) {
+            $available_product_short[] = $product['product_short'];
+        }
+
+        if (empty($para['product_short']) || !in_array($para['product_short'], $available_product_short)) {
+            $this->db->where_in('pr.product_short', $available_product_short);
+        } else {
             $this->db->where('pr.product_short', $para['product_short']);
         }
+
         if (!empty($para['agent_id'])) {
-            $this->db->where('u.user_id', $para['agent_id']);
+            if (!in_array($para['agent_id'], $available_user_ids)) {
+                $this->db->where('u.user_id', $beuser['user_id']);
+            } else {
+                $this->db->where('u.user_id', $para['agent_id']);
+            }
+        } else {
+            if ($beuser['user_group_id'] > self::STAFF) {
+                $this->db->where_in('u.user_id', $available_user_ids);
+            }
         }
         if (!empty($para['application_date_from'])) {
             $this->db->where('pl.apply_date >=', $para['application_date_from']);
