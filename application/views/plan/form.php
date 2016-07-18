@@ -485,6 +485,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							url: '<?php echo $sum_insured_url; ?>',
 							success: function(data, textStatus, jqXHR) {
 					        	$('#sum_insured_div').html(data);
+								get_premium();
 					    	},
 						});
 					}
@@ -493,6 +494,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							url: '<?php echo $deductible_amount_url; ?>',
 							success: function(data, textStatus, jqXHR) {
 					        	$('#deductible_amount_div').html(data);
+								get_premium();
 					    	},
 						});
 					}
