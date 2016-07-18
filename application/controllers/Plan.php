@@ -1397,6 +1397,8 @@ class Plan extends MY_Controller {
 		$data['style'] = $this->load->view('common/pdf_style',$data, TRUE);
 		$mpdf = new mPDF('c');
 		$html = $this->load->view('plan/pdf', $data, TRUE);
+		
+		//print_r($plan);
 		//die($html);
 		$mpdf->writeHTML($html);
 		$mpdf->Output();
