@@ -77,14 +77,21 @@ class User_model extends CI_Model {
 		return $this->db->query($sql)->result_array();
 	}
 
+    /**
+     * Get Available user list of current user
+     *
+     * @return array available user list
+     **/
     public function get_available_user_list()
     {
-        $user_group = (int) $this->session->user['user_group_id'];
-        if (($user_group > 100) && ($user_group != 104)) {
+        $beuser = $this->session->beuser;
+        if (($beuser['user_group_id'] > 100) && ($beuser['user_group_id'] != 104)) {
             return array(
-                'user_id' => $this->session->user['user_id'],
-                'username' => $this->session->user['username'],
-                'full_name' => $this->session->user['firstname'] . ' ' . $this->session->user['lastname']
+                $beuser['user_id'] => array(
+                    'user_id' => $beuser['user_id'],
+                    'username' => $beuser['username'],
+                    'full_name' => $beuser['firstname'] . ' ' . $beuser['lastname']
+                )
             );
         }
         $this->db->distinct();
@@ -93,18 +100,24 @@ class User_model extends CI_Model {
             u.username,
             concat(u.firstname, " ", u.lastname) as full_name
         ');
-        if ($user_group == 104){
+        if ($beuser['user_group_id'] == 104){
             $this->db->from('user u, user u2');
             $this->db->where('u.parent_user_id = u2.user_id');
-            $this->db->or_where('u.user_id= ' . ((int) $this->session->user['user_id']));
+            $this->db->or_where('u.user_id= ' . ((int) $beuser['user_id']));
         } else {
             $this->db->from('user u');
-            if ($user_group == 2){
+            if ($beuser['user_group_id'] >= 2){
                 $this->db->where('u.user_group_id >= 2');
             }
         }
-        return $this->db->get()->result_array();
+        $results = $this->db->get()->result_array();
+        $records = array();
+        foreach ($results as $row) {
+            $records[$row['user_id']] = $row;
+        }
+        return $records;
     }
+
 	/**
 	 * Get user By ID
 	 *

@@ -1,168 +1,108 @@
 <?php
 defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 ?>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>PDF File</title>
+	<?php echo $style;?>
+</head>
+<body>
+	<header>
+		<!--p class="rh">JF Group</p-->
+	</header>
+	<div class="container">	
+
 		<div class="row">
-			<div class="col-md-12 col-sm-12 col-xs-12">
-				<div class="x_panel">
-					<div class="x_title">
-						<h2>
-							Policy Detail<span> ---- <?php echo $status_list[$plan['status_id']]['name']; ?></span>
-						</h2>
-						<div class="clearfix"></div>
-					</div>
-					<div class="x_content">
-						<div class="p-detail"><!-- policy detail -->
-							<div class="row">
-								<div class="col-sm-12">
-							<table>
-								<tbody>
-									<tr>
-										<td style="width:20%;"><label>Apply Date: </label><span style="border-bottom:1px solid #ccc;"><?php echo $plan['apply_date']; ?></span></td>
-									
-										<td style="width:20%;"><label>Arrival Date: </label><span style="border-bottom:1px solid #ccc;"><?php echo $plan['arrival_date']; ?></span></td>
-									
-										<td style="width:20%;"><label>Effective Date: </label><span style="border-bottom:1px solid #ccc;"><?php echo $plan['effective_date']; ?></span></td>
-									
-										<td style="width:20%;"><label>Expiry Date: </label><span style="border-bottom:1px solid #ccc;"><?php echo $plan['expiry_date']; ?></span></td>
-									</tr>
-								</tbody>
-							</table>
-							</div>	
-							</div>
-
-							<?php echo $insurable_options; ?>
-							
-							<div class="row">
-								<div class="col-sm-12" style="background-color:#5bc0de; color:#fff;">
-									<label class="inline">Customer Information</label>
-								</div>
-							
-								<div class="col-sm-3">
-									<label class="inline">Last Name:</label>
-									<span><?php echo $customer['lastname']; ?></span>
-								</div>
-								<div class="col-sm-3">
-									<label class="inline">First Name:</label>
-									<span><?php echo $customer['lastname']; ?></span>
-								</div>
-								<div class="col-sm-3">
-									<label class="inline">Birth Date:</label>
-									<span><?php echo $customer['birthday']; ?></span>
-								</div>
-								<div class="col-sm-3">
-									<label class="inline">Gender:</label>
-									<span><?php echo $customer['gender']; ?></span>
-								</div>
-							</div>
-
-							<?php if ($plan['isfamilyplan']) { ?>
-								<div class="row">
-									<div class="col-sm-12" style="background-color:#5bc0de; color:#fff;">
-										<label class="inline">Family Member Information</label>
-									</div>
-								<?php for ($i = 0; $i < 9; $i++) { ?>
-									<?php if (empty($customers[$i]['lastname']) && empty($customers[$i]['firstname'])) continue; ?>
-										<div class="col-sm-3">
-											<label class="inline">Last Name:</label>
-											<span><?php echo $customers[$i]['lastname']; ?></span>
-										</div>
-										<div class="col-sm-3">
-											<label class="inline">First Name:</label>
-											<span><?php echo $customers[$i]['firstname']; ?></span>
-										</div>
-										<div class="col-sm-3">
-											<label class="inline">Birth Date:</label>
-											<span><?php echo $customers[$i]['birthday']; ?></span>
-										</div>
-										<div class="col-sm-3">
-											<label class="inline">Gender:</label>
-											<span><?php echo $customers[$i]['gender']; ?></span>
-										</div>
-								<?php } ?>
-								</div>
-							<?php } ?>	
-
-							<div class="row">
-								<div class="col-sm-12" style="background-color:#5bc0de; color:#fff;"><label>Address Information</label></div>
-								<div class="col-sm-3">
-									<label class="inline">Street No:</label>
-									<span><?php echo $plan['street_number']; ?></span>
-								</div>
-								<div class="col-sm-3">
-									<label class="inline">Street Name:</label>
-									<span><?php echo $plan['street_name']; ?></span>
-								</div>
-								<div class="col-sm-3">
-									<label class="inline">Suite No.:</label>
-									<span><?php echo $plan['suite_number']; ?></span>
-								</div>
-								<div class="col-sm-3">
-									<label class="inline">City: </label>
-									<span><?php echo $plan['city']; ?></span>
-								</div>	
-							
-								<div class="col-sm-3">
-									<label class="inline">Province:</label>
-									<span><?php echo $plan['province2']; ?></span>
-								</div>
-								<div class="col-sm-3">
-									<label class="inline">Country:</label>
-									<span><?php echo $plan['country2']; ?></span>
-								</div>
-								<div class="col-sm-3">
-									<label class="inline">Postcode:</label>
-									<span><?php echo $plan['postcode']; ?></span>
-								</div>
-								
-								<div class="col-sm-3">
-									<label class="inline">Phone1:</label>
-									<span><?php echo $plan['phone1']; ?></span>
-								</div>
-								<div class="col-sm-3">
-									<label class="inline">Phone2:</label>
-									<span><?php echo $plan['phone2']; ?></span>
-								</div>
-								
-							</div>
-							<div class="row">
-								<div class="col-sm-12" style="background-color:#5bc0de; color:#fff;">
-									<label class="inline">Contact Information</label>
-								</div>
-								<div class="col-sm-3">
-									<label class="inline">Email:</label>
-									<span><?php echo $plan['contact_email']; ?></span>
-								</div>
-								<div class="col-sm-3">
-									<label class="inline">Contact Phone:</label>
-									<span><?php echo $plan['contact_phone']; ?></span>
-								</div>
-								<div class="col-sm-3">
-									<label class="inline">Residence:</label>
-									<span><?php echo $plan['residence']; ?></span>
-								</div>
-							</div>
-
-							<div class="row">
-								<div class="col-sm-12" style="background-color:#5bc0de; color:#fff;">
-									<label class="inline">Special Note/Instructions</label>
-								</div>
-								<div class="col-sm-12">
-									<label class="inline">Premium:</label>
-									<span>$<?php echo number_format($plan['premium'], 2, '.', ',');?></span>
-								</div>
-								<div class="col-sm-12">
-									<label class="inline">Notes:</label>
-									<span><?php echo $plan['note']; ?></span>
-								</div>
-								
-							</div>
-							
-						</div><!-- end p-detail --><br />
-					</div><!-- x_content -->
-				</div>
+			<div class="col-sm-12 nopadding text-center">
+				<h2 style="margin:0 auto;">TAX RECEIPT FOR INSURANCE</h2>
 			</div>
 		</div>
-		<!-- End Form -->
+		<div class="row">
+			<div class="col-sm-12">
+				<p class="nopm" style="margin-bottom:2px;"><?php echo $customer['firstname'] . " " . $customer['lastname']; ?></p>
+				<p class="nopm"><?php if(!empty($plan['suite_number'])){echo  $plan['suite_number'] . "- ";} ?><?php echo $plan['street_number'] . ' ' . $plan['street_name'] . '<br />' . $plan['city'] . ', ' . $plan['province2'] . ', ' . $plan['postcode']; ?></p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-12 nopadding receipt-info">
+				<h4><?php if ($plan['status_id'] < 2) { ?>QUOTE<?php } else {?>POLICY<?php } ?> NUMBER: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span><?php echo $plan['policy']; ?></span></h4>
+				<h4>EFFECTIVE DATE: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span><?php echo $plan['effective_date']; ?></sapn> </h4>
+				<h4>EXPIRATION DATE: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span><?php echo $plan['expiry_date']; ?></sapn> </h4>
+				<h4>PREMIUM PAID: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>$<?php echo number_format($plan['premium'], 2, '.', ',');?></span> </h4>
+				<h4>SALES AGENT: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span><?php echo '...';?></span> </h4>
+				<h4>PRODUCT: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span><?php echo $plan_full_name;?></span> </h4>
+				<h4>COVERAGE: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span><?php echo '...';?></span> </h4>
+				<h4>TYPE: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span><?php echo '...';?></span> </h4>
+				
+			</div>
+		</div>
+		<hr />
+		<div class="row">
+			<div style="float:left;width:80px;">
+				<img class="img-responsive" style="width:70px;" src="<?php echo base_url();?>image/jf_logo.png" />
+			</div>
+			<div style="float:left;margin-top:5px;" class="receipt-info">
+				<p class="topp">Johnson Fu Insurance Agency Inc.</p>
+				<p class="topp">15 Wertheim Court, Suite 501, Richmond Hill, ON, L4B3H7</p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-12 nopm text-right">
+				<h4 class="nopm">INCOME TAX RECEIPT</h4>
+			</div>
+		</div>
+		<div style="border-bottom:3px solid #eee;margin:10px auto 20px;"></div>
+
+		<div class="row">
+			<div class="col-sm-6 nopadding receipt-info">
+				<h4>DATE: <span><?php echo '...';?></span></h4>
+				<h4>NAME: <span><?php echo $customer['firstname'] . " " . $customer['lastname']; ?></span></h4>
+				<h4>ADDRESS: <span><?php if(!empty($plan['suite_number'])){echo  $plan['suite_number'] . "- ";} ?><?php echo $plan['street_number'] . ' ' . $plan['street_name'] . ' ' . $plan['city'] . ', ' . $plan['province2'] . ' ' . $plan['postcode']; ?></sapn> </h4>
+				<h4><?php if ($plan['status_id'] < 2) { ?>QUOTE<?php } else {?>POLICY<?php } ?>: <span><?php echo $plan['policy']; ?></span></h4>
+				<h4>FOR: <span><?php echo '...individual';?></sapn> </h4>
+			</div>
+			<div class="col-sm-6 nopadding receipt-info">
+				<h4>INSURANCE PREMIUM: <span>$<?php echo number_format($plan['premium'], 2, '.', ',');?></sapn> </h4>
+				<h4>Payor Name: <span><?php echo "...";?></sapn> </h4><br />
+				<h4>EFFECTIVE DATE: <span><?php echo $plan['effective_date']; ?></sapn> </h4>
+				<h4>EXPIRATION DATE: <span><?php echo $plan['expiry_date']; ?></sapn> </h4>
+			</div>
+		</div>
+		<div style="border-bottom:1px dotted;margin:20px 0;"></div>
+		<div class="row">
+			<div style="float:left;width:80px;">
+				<img class="img-responsive" style="width:70px;" src="<?php echo base_url();?>image/jf_logo.png" />
+			</div>
+			<div style="float:left;margin-top:5px;" class="receipt-info">
+				<p class="topp">Johnson Fu Insurance Agency Inc.</p>
+				<p class="topp">15 Wertheim Court, Suite 501, Richmond Hill, ON, L4B3H7</p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-12 nopm text-right">
+				<h4 class="nopm">INCOME TAX RECEIPT</h4>
+			</div>
+		</div>
+		<div style="border-bottom:3px solid #eee;margin:10px auto 20px;"></div>
+		<div class="row">
+			<div class="col-sm-6 nopadding receipt-info">
+				<h4>DATE: <span><?php echo '...';?></span></h4>
+				<h4>NAME: <span><?php echo $customer['firstname'] . " " . $customer['lastname']; ?></span></h4>
+				<h4>ADDRESS: <span><?php if(!empty($plan['suite_number'])){echo  $plan['suite_number'] . "- ";} ?><?php echo $plan['street_number'] . ' ' . $plan['street_name'] . ' ' . $plan['city'] . ', ' . $plan['province2'] . ' ' . $plan['postcode']; ?></sapn> </h4>
+				<h4><?php if ($plan['status_id'] < 2) { ?>QUOTE<?php } else {?>POLICY<?php } ?>: <span><?php echo $plan['policy']; ?></span></h4>
+				<h4>FOR: <span><?php echo '...individual';?></sapn> </h4>
+			</div>
+			<div class="col-sm-6 nopadding receipt-info">
+				<h4>INSURANCE PREMIUM: <span>$<?php echo number_format($plan['premium'], 2, '.', ',');?></sapn> </h4>
+				<h4>Payor Name: <span><?php echo "...";?></sapn> </h4><br />
+				<h4>EFFECTIVE DATE: <span><?php echo $plan['effective_date']; ?></sapn> </h4>
+				<h4>EXPIRATION DATE: <span><?php echo $plan['expiry_date']; ?></sapn> </h4>
+			</div>
+		</div>
+		<hr />
 	</div>
-</div>
-<!-- /page content -->
+</body>
+</html>
