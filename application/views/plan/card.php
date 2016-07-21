@@ -17,13 +17,13 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 
 		<div class="row">
 			<div class="col-sm-12 nopadding text-center">
-				<h2 style="margin:0 auto;">JF Optimum Plus</h2>
+				<h2 style="margin:0 auto;"><?php echo $plan_full_name;?></h2>
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-sm-12">
-				<p><?php echo $customer['firstname'] . " " . $customer['lastname']; ?></p>
-				<p><?php if(!empty($plan['suite_number'])){echo  $plan['suite_number'] . "- ";} ?><?php echo $plan['street_number'] . ' ' . $plan['street_name'] . '<br />' . $plan['city'] . ', ' . $plan['province2'] . '<br />' . $plan['postcode']; ?></p>
+				<p class="nopm" style="margin-bottom:2px;"><?php echo $customer['firstname'] . " " . $customer['lastname']; ?></p>
+				<p class="nopm"><?php if(!empty($plan['suite_number'])){echo  $plan['suite_number'] . "- ";} ?><?php echo $plan['street_number'] . ' ' . $plan['street_name'] . '<br />' . $plan['city'] . ', ' . $plan['province2'] . ', ' . $plan['postcode']; ?></p>
 			</div>
 		</div>
 		<div class="row">
@@ -71,9 +71,9 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 			</div>
 		</div>
 		<div class="row">
-			<div class="jfcard" style="position:absolute;bottom:5px;left:5px;width:270px;margin-top:200px;">
+			<div class="jfcard" style="position:absolute;bottom:5px;left:5px;width:280px;margin-top:200px;">
 
-				<h3 class="pull-right text-right">JF Optimum Plus</h3>
+				<h4 class="pull-right text-right"><?php echo $plan_full_name;?></h4>
 				<h4> Insured Name:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span><?php echo $customer['firstname'] . " " . $customer['lastname']; ?></span></h4>
 				<h4><?php if ($plan['status_id'] < 2) { ?>Quote<?php } else {?>Policy<?php } ?> Number: &nbsp;&nbsp;&nbsp;&nbsp;<span><?php echo $plan['policy']; ?></span></h4>
 				<h4> Deductible: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span><?php echo $plan['deductible_amount']; ?></span></h4>

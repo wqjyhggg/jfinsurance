@@ -58,7 +58,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 					</div>
 				</div>
 				<!-- end policy detail -->
-				<hr />
+				<hr/>
 
 				<!-- Coverage and payment Details-->
 				<div class="row">

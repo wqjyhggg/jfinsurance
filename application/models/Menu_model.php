@@ -47,11 +47,15 @@ class Menu_model extends CI_Model {
 					"<a href='" . base_url() . "' class='leftmeun'>" . $this->lang->line ( 'text_home' ) . "</a>",
 					"<a href='" . base_url('plan') . "' class='leftmeun'>" . $this->lang->line ( 'text_policy' ) . "</a>",
 				),
-			4 =>array(
+			103 =>array(
+					"<a href='" . base_url() . "' class='leftmeun'>" . $this->lang->line ( 'text_home' ) . "</a>",
+					"<a href='" . base_url('plan') . "' class='leftmeun'>" . $this->lang->line ( 'text_policy' ) . "</a>",
+				),
+			104 =>array(
 					"<a href='" . base_url() . "' class='leftmeun'>" . $this->lang->line ( 'text_home' ) . "</a>",
 					"<a href='" . base_url('plan') . "' class='leftmeun'>" . $this->lang->line ( 'text_policy' ) . "</a>",				
 				),
-			5 =>array(
+			105 =>array(
 					"<a href='" . base_url() . "' class='leftmeun'>" . $this->lang->line ( 'text_home' ) . "</a>",
 					"<a href='" . base_url('plan') . "' class='leftmeun'>" . $this->lang->line ( 'text_policy' ) . "</a>",					
 				),
@@ -116,12 +120,17 @@ class Menu_model extends CI_Model {
 					"<a href='" . base_url('user/login') . "' class='leftmeun'>" . $this->lang->line ( 'text_login' ) . "</a>",
 					"<a href='" . base_url('user/logout') . "' class='leftmeun'>" . $this->lang->line ( 'text_logout' ) . "</a>",
 				),
-			4 =>array(
+			103 =>array(
 					"<a href='" . base_url() . "' class='leftmeun'>" . $this->lang->line ( 'text_home' ) . "</a>",
 					"<a href='" . base_url('user/login') . "' class='leftmeun'>" . $this->lang->line ( 'text_login' ) . "</a>",
 					"<a href='" . base_url('user/logout') . "' class='leftmeun'>" . $this->lang->line ( 'text_logout' ) . "</a>",
 				),
-			5 =>array(
+			104 =>array(
+					"<a href='" . base_url() . "' class='leftmeun'>" . $this->lang->line ( 'text_home' ) . "</a>",
+					"<a href='" . base_url('user/login') . "' class='leftmeun'>" . $this->lang->line ( 'text_login' ) . "</a>",
+					"<a href='" . base_url('user/logout') . "' class='leftmeun'>" . $this->lang->line ( 'text_logout' ) . "</a>",
+				),
+			105 =>array(
 					"<a href='" . base_url() . "' class='leftmeun'>" . $this->lang->line ( 'text_home' ) . "</a>",
 					"<a href='" . base_url('user/login') . "' class='leftmeun'>" . $this->lang->line ( 'text_login' ) . "</a>",
 					"<a href='" . base_url('user/logout') . "' class='leftmeun'>" . $this->lang->line ( 'text_logout' ) . "</a>",
@@ -142,7 +151,7 @@ class Menu_model extends CI_Model {
     		}
     	}
 		$menu = $meunArr[$group];
-		if (($group == 1) || ($group == 2) ||($group == 4)) {
+		if (($group == 1) || ($group == 2) ||($group == 104)) {
 			if ($onbehalf) {
 				array_push($menu, $unbehalf);
 			} else {

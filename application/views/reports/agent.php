@@ -184,8 +184,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                   </div>
                   <div class="x_content">
                     <div class="table-responsive">
-<?php if (!empty($report_data)) : ?>                    
                       <table class="table table-hover table-bordered">
+<?php foreach ($report_data as $data) :?>
                         <thead>
                           <tr>
                             <th>Count</th>
@@ -206,7 +206,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         </thead>
                         <tbody>
     <?php $cnt = 1; ?>
-    <?php foreach ($report_data as $record) :?>
+    <?php foreach ($data['records'] as $record) :?>
                             <tr>
                               <td><?=$cnt++ ?></td>
                               <td><?=$record['order_date'] ?></td>
@@ -224,9 +224,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                               <td>$<?=$record['commission_amount'] ?></td>
                             </tr>
     <?php endforeach; ?>
+                            <tr><td colspan=13>
+                                Total Premium: $<?=$data['data']['policy_premium'] ?>&nbsp;&nbsp;
+                                Net Premium: $<?=$data['data']['net_premium'] ?>
+                            </td></tr>
                         </tbody>
+<?php endforeach; ?>
                       </table>
-<?php endif; ?>                      
                     </div>
                   </div>
                 </div>

@@ -1769,6 +1769,7 @@ class Plan extends MY_Controller {
 	public function card($plan_id) {
 		$beuser = $this->func_model->verify_login(TRUE);
 		$this->load->model('plan_model');
+		$this->load->model('product_model');
 		$plan = $this->plan_model->get_plan_by_id($plan_id);
 		if (empty($plan)) {
 			redirect ( base_url ('user/login') );
@@ -1793,6 +1794,10 @@ class Plan extends MY_Controller {
 		} else {
 			$data['insurable_options'] = $this->load->view('plan/detail_other', $data, TRUE);
 		}
+
+		$product = $this->product_model->get_product($plan['product_short']);
+		$data['plan_full_name'] = $product ? $product['full_name'] : '';
+
 		$mpdf = new mPDF('c');
 		$data['title_txt'] = 'Card';
 		$data['style'] = $this->load->view('common/pdf_style',$data, TRUE);
@@ -1809,6 +1814,7 @@ class Plan extends MY_Controller {
 	public function receipt($plan_id) {
 		$beuser = $this->func_model->verify_login(TRUE);
 		$this->load->model('plan_model');
+		$this->load->model('product_model');
 		$plan = $this->plan_model->get_plan_by_id($plan_id);
 		if (empty($plan)) {
 			redirect ( base_url ('user/login') );
@@ -1833,6 +1839,10 @@ class Plan extends MY_Controller {
 		} else {
 			$data['insurable_options'] = $this->load->view('plan/detail_other', $data, TRUE);
 		}
+
+		$product = $this->product_model->get_product($plan['product_short']);
+		$data['plan_full_name'] = $product ? $product['full_name'] : '';
+		
 		$mpdf = new mPDF('c');
 		$data['title_txt'] = 'Receipt';
 		$data['style'] = $this->load->view('common/pdf_style',$data, TRUE);
