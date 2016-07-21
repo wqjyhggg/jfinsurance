@@ -20,6 +20,13 @@ class User_model extends CI_Model {
 		if ($rc && password_verify($password, $rc['password'])) {
 			$this->logstr = $username . " login";
 			$this->sqlstr = $this->db->last_query();
+			if ($rc['user_group_id'] > 103) {
+				$tm = strtotime($rc['licence_expire']) + 86400;
+				$now = time();
+				if ($now > $tm) {
+					return NULL;
+				}
+			}
 			return $rc;
 		}
 		return NULL;
