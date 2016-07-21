@@ -90,7 +90,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                       </div>
                     </div>
         				
-               
+                    <br />
         			      <div class="row">
                       <!-- submit button -->
                       <div class="col-sm-12">

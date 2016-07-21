@@ -185,6 +185,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         </div>
                         <!-- Claim Date End-->
                       </div>
+                      <br/>
                       <!-- submit button -->
                       <div class="row">
                         <!-- submit button -->
