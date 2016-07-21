@@ -64,7 +64,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						
 						<?php if ($status_id > 1) { ?>
 							<a href='<?php echo $sendpackage_url . $plan_id; ?>'><span class="btn btn-info">Send Package</span></a>
+						<?php if ($status_id <= 3) { ?>
+							<a href='<?php echo $cancel_url . $plan_id; ?>'><span class="btn btn-info">Cancel</span></a>
+							<a href='<?php echo $refund_url . $plan_id; ?>'><span class="btn btn-info">Refund</span></a>
 						<?php } ?>
+						<?php } ?>
+
 						</div>
 						<div class="form-group col-sm-3">
 							<label class="inline"><span><?php echo $plan_full_name; ?></span></label>
@@ -73,7 +78,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<div class="form-group col-sm-3">
 							<label class="inline"><?php if ($status_id < 2) { ?>Quote<?php } else {?>Policy<?php } ?> Number: <span><?php echo $policy; ?></span></label>
 						</div>
-						<?php if ($user_group_id > 100) { ?>
+						<?php if ($user_group_id != 1) { ?>
 							<?php /* it is school or brokerage or agent */ ?>
 							<div class="form-group col-sm-3">
 								<label style="font-size:16px;">Status: <?php echo $status_list[$status_id]['name']; ?> </label>
@@ -101,10 +106,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
    						 <div class="row">
 							<div class="form-group col-sm-3">
 								<label class="col-sm-12">Apply Date:</label>
+								<?php if ($user_group_id != 1) { ?>
+			                        <input type="hidden" name='apply_date' value='<?php echo $apply_date; ?>'>
+			                        <?php echo $apply_date; ?>
+								<?php } else { ?>
 								<div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
 			                        <input class="form-control" size="16" type="text" name='apply_date' value='<?php echo $apply_date; ?>'>
 			                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
 			                    </div>
+								<?php } ?>
 							</div>
 							<div class="form-group col-sm-3">
 								<label class="col-sm-12">Arrival Date: </label>

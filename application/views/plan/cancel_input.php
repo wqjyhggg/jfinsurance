@@ -37,9 +37,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					  <div class="row">
                         <!-- Product select box -->
                         <div class="form-group col-sm-5 col-xs-12">
-                          <label class="col-sm-12">Will Send Package To this Email address:</label>
+                          <label class="col-sm-12">Refund Amount:</label>
                           <div class="input-group col-sm-12">
-                            <input type="text" name='emailaddr' value='<?php echo $emailaddr; ?>' class="form-control"/>
+                            <input type="number" step="any" name='refund_amount' id='refund_amount' value='<?php echo $plan['premium']; ?>' class="form-control"/>
+                          </div>
+                        </div>
+
+                        <div class="form-group col-sm-5 col-xs-12">
+                          <label class="col-sm-12">Admin Fee:</label>
+                          <div class="input-group col-sm-12">
+                            <input type="number" step="any" name='admin_fee' value='' class="form-control"/>
                           </div>
                         </div>
                         <!-- Policy Number input box end -->

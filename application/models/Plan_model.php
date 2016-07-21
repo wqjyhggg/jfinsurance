@@ -31,6 +31,25 @@ class Plan_model extends CI_Model {
 	}
 	
 	/**
+	 * Get Plan refund amount
+	 * 
+	 * @param	integer	$plan_id		Parameters
+	 * @return	float
+	 */
+	public function refund_amount($plan_id, $refund_date) {
+		$plan = $this->get_plan_by_id($plan_id);
+		if ($plan) {
+			$stm = strtotime($refund_date);
+			$etm = strtotime($plan['expiry_date']);
+			if (empty($stm) || empty($etm) || ($stm > $etm)) {
+				return 0;
+			}
+			return ((($etm - $stm) / 86400) * $plan['dailyrate']);
+		}
+		return 0;
+	}
+	
+	/**
 	 * Get Plan current policy number
 	 * 
 	 * @param	integer	$plan_id		Parameters
@@ -731,7 +750,7 @@ class Plan_model extends CI_Model {
 	 * @param integer $plan_id
 	 * @return float 
 	 */
-	public function get_commission($plan_id) {
+	public function get_commission($plan_id, $amount=0) {
 		$plan = $this->get_plan_by_id($plan_id);
 		if (empty($plan)) {
 			return 0;
@@ -744,7 +763,11 @@ class Plan_model extends CI_Model {
 			return 0;
 		}
 		
-		$commission = $plan['premium'] * $user_product['commission'] / 100;
+		if (empty($amount)) {
+			$commission = $plan['premium'] * $user_product['commission'] / 100;
+		} else {
+			$commission = $amount * $user_product['commission'] / 100;
+		}
 		return $commission;
 	}
 }
