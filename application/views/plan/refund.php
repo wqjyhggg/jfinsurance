@@ -6,7 +6,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 				<div class="x_panel">
 					<div class="x_title">
 						<h2>
-							Refund Policy Detail<span> ---- <?php echo $status_list[$plan['status_id']]['name']; ?></span>
+							Refund Policy Detail<span> ---- <?php echo $status_list[$plan['status_id']]['name']; ?> Refund amount: $<?php echo $refund_amount; ?> Admin Fee: $<?php echo $admin_fee; ?> Total amount: $<?php echo $total_amount; ?></span>
 						</h2>
 						<div class="clearfix"></div>
 					</div>

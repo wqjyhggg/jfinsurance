@@ -6,14 +6,14 @@ if (!defined('BASEPATH'))
 class Mymail_model extends CI_Model {
 	public $config = Array(
 			'protocol' => 'smtp',
-			'smtp_host' => 'tls://mail.auroratd.com',
-			'smtp_port' => 587,
-			'smtp_user' => 'aurora2',
-			'smtp_pass' => 'aaaaaaaa',
+			'smtp_host' => 'ssl://smtp.gmail.com',
+			'smtp_port' => 465,
+			'smtp_user' => 'jackauroratd@gmail.com',
+			'smtp_pass' => '123123123s',
 			'mailtype'  => 'html',
 			'charset'   => 'UTF-8'
 			);
-	public $myemail = 'aurora2@auroratd.com';
+	public $myemail = 'jackauroratd@gmail.com';
 	
 	/**
 	 * Send email
@@ -35,7 +35,6 @@ class Mymail_model extends CI_Model {
 		}
 		$this->email->to($to);
 		$this->email->subject($subject);
-		$this->email->message($body);
 		$this->email->message($body);
 		if (!empty($attach)) {
 			foreach ($attach as $name => $file) {
