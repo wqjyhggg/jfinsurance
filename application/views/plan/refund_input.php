@@ -36,8 +36,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     				  <input type='hidden' name='plan_id' value='<?php echo $plan_id; ?>'>
 					  <div class="row">
                         <div class="form-group col-sm-5 col-xs-12">
-                          <label class="col-sm-12">Effective Date:</label>
-                          <div class="input-group col-sm-12">
+                          <label class="col-xs-6 col-sm-3">Effective Date:</label>
+                          <div class="input-group col-xs-6">
 	              			<?php echo $plan['effective_date']; ?>
                           </div>
                         </div>

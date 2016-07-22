@@ -109,7 +109,7 @@ class Product extends MY_Controller {
 				$data = array('status' => 'Error', 'message' => $message);
 			}
 		} else {
-			$premiumarr['premium'] = number_format($premiumarr['premium'], 2, '.', ',');
+			//$premiumarr['premium'] = number_format($premiumarr['premium'], 2, '.', ',');
 			$data = array('status' => 'OK', 'premiumarr' => $premiumarr);
 		}
 		header('Content-Type: application/json');
