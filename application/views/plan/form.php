@@ -718,11 +718,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<?php 	if (!empty($payments) && is_array($payments) && (sizeof($payments > 0))) { ?>
 		                  	<div class="col-sm-12">
 			                  	<button type="button" class="btn btn-info" data-toggle="collapse" data-target="#history1">Payments <span class="fa fa-chevron-down"></span></button>
+			                  	<form action='<?php echo $makepay_url; ?>' method='POST' class="form-horizontal">
+			                  	<input type="submit" class="btn btn-info" name='submit' value='Make Pay'>
+								<input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
 			                  	<div id="history1" class="collapse">
 			                  		<div class="table-responsive">
 			                  			<table class="table table-hover table-bordered">
 				                      	<thead>
 											<tr>
+												<th>&nbsp;</th>
 												<th>Type</th>
 												<th>Amount</th>
 												<th>Pay Status</th>
@@ -733,6 +737,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										<tbody>
 											<?php foreach ($payments as $p) { ?>
 											<tr>
+												<td><input type='checkbox' name='payment[]' value='<?php echo $p['payment_id']; ?>'><?php echo $p['payment_id']; ?></td>
 												<td><?php echo $p['pay_type']; ?></td>
 												<td><?php echo $p['amount']; ?></td>
 												<td><?php echo $p['ispaid'] ? "Paied" : "-"; ?></td>
@@ -744,6 +749,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										</table>
 			                  		</div>
 			                  	</div>
+			                  	</form>
 		                  	</div>
 							<?php 	} ?>
 		                  </div>

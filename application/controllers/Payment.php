@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Claim extends MY_Controller {
+class Payment extends MY_Controller {
 	public $data;
 
 	/**
@@ -17,59 +17,49 @@ class Claim extends MY_Controller {
 		$data = array();
 		$data['payments'] = array();
 		$payment = $this->input->post('payment');
+		$pay_submit = $this->input->post('pay_submit');
 		if ($this->input->post() && !empty($payment) && is_array($payment)) {
 			$this->load->model('payment_model');
-			foreach ($payment as $pay) {
-				$data['payments'][] = 
-				$customer = $this->customer_model->get_customer_by_id($customer_id);
-				if ($customer) {
-					$plan = $this->plan_model->get_plan_by_id($customer['plan_id']);
-					if ($plan && ($plan['status_id'] >= 2)) {
-						$para = array();
-						$para['plan_id'] = $plan['plan_id'];
-						$para['user_id'] = $beuser['user_id'];
-						$para['customer_id'] = $customer['customer_id'];
-						$para['done'] = 2;
-						$para['product_short'] = $plan['product_short'];
-						$para['policy_number'] = $plan['policy'];
-						$para['lastname'] = $customer['lastname'];
-						$para['firstname'] = $customer['firstname'];
-						$para['birthday'] = $customer['birthday'];
-						$para['gender'] = $customer['gender'];
-						$para['claim_date'] = date('Y-m-d');
-						$claim_id = $this->claim_model->add($para);
-						$log = array(
-								'plan_id' => $plan['plan_id'], 
-								'customer_id' => $customer['customer_id'], 
-								'payment_id' => 0, 
-								'message' => $this->claim_model->logstr, 
-								'systemlog' => $this->claim_model->sqlstr
-						);
-						$this->log_model->activity('claim', $para);
-						$claim = $this->claim_model->get_claim_by_id($claim_id);
-						if ($claim) {
-							$para = array('status_id' => 4, 'note' => $plan['note'] . ";\n" . "Add Claim(" . $claim['claim_id'] .")");
-							$this->plan_model->update($plan['plan_id'], $para);
-							$log = array(
-									'plan_id' => $plan['plan_id'], 
-									'customer_id' => $customer['customer_id'], 
-									'payment_id' => 0, 
-									'message' => $this->claim_model->logstr, 
-									'systemlog' => $this->claim_model->sqlstr
-							);
-							$this->log_model->activity('plan', $para);
-						}
+			$this->load->model('plan_model');
+			$payarr = array(
+				'bank_name' => $this->input->post('bank_name'),
+				'payor_name' => $this->input->post('payor_name'),
+				'cheque_number' => $this->input->post('cheque_number'),
+				'pay_to' => $this->input->post('pay_to'),
+				'ispaid' => 1,
+				'pay_mothed' => 'Checque',
+				'pay_date' => date('Y-m-d'),
+			);
+			
+			foreach ($payment as $payment_id) {
+				$pay = $this->payment_model->get_payment_by_id($payment_id);
+				if ($pay) {
+					$payarr['note'] = $pay['note'] . "; Make pay by " . $this->session->userdata ( 'user' )['username'];
+					if ($pay_submit && !$pay['ispaid']) {
+						// Submit pay
+						$this->payment_model->update($payment_id, $payarr);
 					} else {
-						$this->data['error_message'] = "Can't find customer";
+						$plan = $this->plan_model->get_plan_by_id($pay['plan_id']);
+						if ($plan) {
+							$pay['policy'] = $plan['policy'];
+						} else {
+							$pay['policy'] = "Unknown";
+						}
 					}
-				} else {
-					$this->data['error_message'] = "Can't find customer";
+				}
+				if (!$pay['ispaid']) {
+					$data['payments'][] = $pay;
 				}
 			}
 		} else {
 			$data['error_message'] = "Don't understand which payment to pay";
 		}
-
+		if ($pay_submit) {
+			redirect('plan');
+		}
+		
+		$data['pay_url'] = current_url();
+		
 		$data['title_txt'] = 'Claim';
 		$data['top_menu'] = $this->menu_model->load_top_menu();
 		$data['menu'] = $this->menu_model->load_meun();
