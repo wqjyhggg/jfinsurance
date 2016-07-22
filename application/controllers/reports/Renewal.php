@@ -12,7 +12,7 @@ class Renewal extends MY_Controller {
         $data = $this->set_data();
 		$this->load->common('reports/renewal', $data);
 /*
-        //todo when we need pdf, when we send out email? the logic is not clear yet
+        //todo when do we need pdf, when we send out email? the logic is not clear yet
         $data['style'] = $this->load->view('common/pdf_style',$data, TRUE);
         $mpdf = new mPDF('c');
         $html = $this->load->view('reports/renewal', $data, TRUE);

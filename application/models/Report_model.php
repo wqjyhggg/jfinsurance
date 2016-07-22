@@ -4,7 +4,7 @@ if (!defined('BASEPATH'))
 
 class Report_model extends CI_Model {
 
-    const QUTOE = 1;
+    const QUOTE = 1;
     const SOLD = 2;
     const PAID = 3;
     const CLAIMED = 4;
@@ -41,9 +41,9 @@ class Report_model extends CI_Model {
         $this->db->select('
             pl.apply_date AS order_date,
             pl.policy,
-            u.username AS insurer,
+            CONCAT(u.lastname, ", ", u.firstname) AS insurer,
             pr.full_name AS product,
-            concat(c.lastname, ", ", c.firstname) AS insured_name,
+            CONCAT(c.lastname, ", ", c.firstname) AS insured_name,
             pl.effective_date,
             pl.expiry_date,
             datediff(pl.expiry_date, pl.effective_date) AS total_days,
@@ -57,10 +57,7 @@ class Report_model extends CI_Model {
 
     private function sales_report_agent_from()
     {
-        $this->db->from('plan pl');
-        $this->db->join('customer c', 'pl.customer_id = c.customer_id');
-        $this->db->join('product pr', 'pl.product_short = pr.product_short');
-        $this->db->join('user u', 'pl.user_id = u.user_id');
+        $this->common_from();
         $this->db->join('user_product up', 'u.user_id = up.user_id and pr.product_short = up.product_short');
     }
 
@@ -74,10 +71,7 @@ class Report_model extends CI_Model {
     {
         $results = array();
         foreach ($query as $row) {
-            $row['commission_rate'] = $row['up_commission'];
-            $row['commission_amount'] =  sprintf("%01.2f", ($row['policy_premium'] * $row['commission_rate'] / 100));
-            $row['net_premium'] = sprintf("%01.2f", ($row['policy_premium'] - $row['commission_amount']));
-            $row['daily_rate'] = sprintf("%01.2f", ($row['policy_premium'] / $row['total_days']));
+            $row = $this->common_set_row($row);
 
             $results[$row['user_id']]['data']['policy_premium'] = (
                 empty($results[$row['user_id']]['data']['policy_premium']) ?
@@ -121,7 +115,7 @@ class Report_model extends CI_Model {
             "invoice num" AS invoice_num,
             u.business AS insurerCoName,
             pr.full_name AS product,
-            concat(c.lastname, ", ", c.firstname) AS insured,
+            CONCAT(c.lastname, ", ", c.firstname) AS insured,
             u.username AS agency,
             pl.effective_date,
             pl.expiry_date,
@@ -137,10 +131,7 @@ class Report_model extends CI_Model {
 
     private function sales_report_jf_from()
     {
-        $this->db->from('plan pl');
-        $this->db->join('customer c', 'pl.customer_id = c.customer_id');
-        $this->db->join('product pr', 'pl.product_short = pr.product_short');
-        $this->db->join('user u', 'pl.user_id = u.user_id');
+        $this->common_from();
         $this->db->join('user_product up', 'u.user_id = up.user_id and pr.product_short = up.product_short');
     }
 
@@ -149,15 +140,11 @@ class Report_model extends CI_Model {
         $this->db->where_in('pl.status_id', array(self::SOLD, self::PAID, self::CLAIMED));
         $this->common_report_where($para);
     }
-
     private function get_sales_report_jf_result($query)
     {
         $results = array();
         foreach ($query as $row) {
-            $row['commission_rate'] = $row['up_commission'];
-            $row['commission_amount'] =  sprintf("%01.2f", ($row['policy_premium'] * $row['commission_rate'] / 100));
-            $row['net_premium'] = sprintf("%01.2f", ($row['policy_premium'] - $row['commission_amount']));
-            $row['daily_rate'] = sprintf("%01.2f", ($row['net_premium'] / $row['total_days']));
+            $row = $this->common_set_row($row);
 
             $results[$row['user_id']]['data'][$row['order_date']]['cnt'] = (
                 empty($results[$row['user_id']]['data'][$row['order_date']]['cnt']) ? 1 : ++$results[$row['user_id']]['data'][$row['order_date']]['cnt']
@@ -210,7 +197,7 @@ class Report_model extends CI_Model {
             c.lastname,
             c.gender,
             c.birthday,
-            concat(pl.street_number, " ", pl.street_name) AS address,  
+            CONCAT(pl.street_number, " ", pl.street_name) AS address,
             pl.suite_number,
             pl.city,
             pl.province2 AS province,
@@ -230,10 +217,7 @@ class Report_model extends CI_Model {
 
     private function sales_report_insurer_from()
     {
-        $this->db->from('plan pl');
-        $this->db->join('customer c', 'pl.customer_id = c.customer_id');
-        $this->db->join('product pr', 'pl.product_short = pr.product_short');
-        $this->db->join('user u', 'pl.user_id = u.user_id');
+        $this->common_from();
         $this->db->join('user_product up', 'u.user_id = up.user_id and pr.product_short = up.product_short');
     }
 
@@ -254,7 +238,8 @@ class Report_model extends CI_Model {
                 ($row['policy_premium'] * $row['merchant_fee_per'] / 100));
             $row['claims_handling_fee'] =  sprintf("%01.2f",
                 ($row['policy_premium'] * $row['claims_handling_fee_per'] / 100));
-            $row['total_compensation'] = $row['commission_amount'] + $row['commission_amount'] + $row['merchant_fee'];
+
+            $row['total_compensation'] = $row['commission_amount'] + $row['merchant_fee'] + $row['claims_handling_fee'];
             $row['net_premium'] = sprintf("%01.2f", ($row['policy_premium'] - $row['total_compensation']));
             $row['total_compensation_per'] = $row['commission_rate'] + $row['merchant_fee_per'] + $row['claims_handling_fee_per'];
             $row['daily_rate'] = sprintf("%01.2f", ($row['policy_premium'] / $row['total_days']));
@@ -293,7 +278,7 @@ class Report_model extends CI_Model {
             pl.policy,
             u.username AS insurer,
             pr.full_name AS product,
-            concat(c.lastname, ", ", c.firstname) AS insured_name,
+            CONCAT(c.lastname, ", ", c.firstname) AS insured_name,
             pl.effective_date,
             pl.expiry_date,
             datediff(pl.expiry_date, pl.effective_date) AS total_days,
@@ -302,8 +287,8 @@ class Report_model extends CI_Model {
             pr.commission AS pr_commission,
             up.commission AS up_commission,
             u.user_id,
-            concat(u.firstname," ", u.lastname) AS agent_name,
-            concat(u.address, " ", u.city) AS address,
+            CONCAT(u.firstname," ", u.lastname) AS agent_name,
+            CONCAT(u.address, " ", u.city) AS address,
             u.province2 AS province,
             u.postcode
         ');
@@ -311,22 +296,19 @@ class Report_model extends CI_Model {
 
     private function receivable_from()
     {
-        $this->db->from('plan pl');
-        $this->db->join('customer c', 'pl.customer_id = c.customer_id');
-        $this->db->join('product pr', 'pl.product_short = pr.product_short');
-        $this->db->join('user u', 'pl.user_id = u.user_id');
+        $this->common_from();
         $this->db->join('user_product up', 'u.user_id = up.user_id and pr.product_short = up.product_short');
+        //group by pl.plan_id sum(premium) and/or sum(commission)
+        //$this->db->join('outstanding o', 'pl.plan_id = o.plan_id', 'left')
     }
 
     private function receivable_where($para)
     {
         $this->common_report_where($para);
-        if (!empty($para['policy_status'])) {
-            if ($para['policy_status'] < self::QUTOE || $para['policy_status'] > self::SOLD) {
-                $this->db->where('pl.status <=', self::SOLD);
-            } else {
-                $this->db->where('pl.status', $para['policy_status']);
-            }
+        if (!empty($para['policy_status']) && in_array($para['policy_status'], array(self::QUOTE, self::SOLD))) {
+            $this->db->where('pl.status_id', $para['policy_status']);
+        } else {
+            $this->db->where('pl.status_id <=', self::SOLD);
         }
     }
 
@@ -334,15 +316,14 @@ class Report_model extends CI_Model {
     {
         $results = array();
         foreach ($query as $row) {
-            $row['commission_rate'] = $row['up_commission'];
-            $row['commission_amount'] =  sprintf("%01.2f", ($row['policy_premium'] * $row['commission_rate'] / 100));
-            $row['net_premium'] = sprintf("%01.2f", ($row['policy_premium'] - $row['commission_amount']));
-            $row['daily_rate'] = sprintf("%01.2f", ($row['policy_premium'] / $row['total_days']));
+            $row = $this->common_set_row($row);
 
             $results['data'][$row['user_id']]['agency']['agent_name'] = $row['agent_name'];
             $results['data'][$row['user_id']]['agency']['address'] = $row['address'];
             $results['data'][$row['user_id']]['agency']['province'] = $row['province'];
             $results['data'][$row['user_id']]['agency']['postal_code'] = $row['postcode'];
+            //todo
+            //outstanding is outstanding, not premium, here is temporary place holder to display data only
             $results['data'][$row['user_id']]['agency']['outstanding'] = (
                 empty($results['data'][$row['user_id']]['agency']['outstanding']) ?
                 $row['policy_premium'] : $results['data'][$row['user_id']]['agency']['outstanding'] + $row['policy_premium']);
@@ -378,6 +359,7 @@ class Report_model extends CI_Model {
         $this->claim_report_fields();
         $this->claim_report_from();
         $this->claim_report_where($para);
+        $this->db->order_by('cl.plan_id');
         return $this->db->get()->result_array();
     }
 
@@ -386,15 +368,15 @@ class Report_model extends CI_Model {
         $this->db->select('
             cl.policy_number,
             pl.deductible_amount,
-            concat(cl.firstname, " ", u.lastname) AS customer_name,
+            CONCAT(cl.firstname, " ", u.lastname) AS customer_name,
             cl.birthday,
-            concat(pl.street_number, " ", pl.street_name) AS address,  
+            CONCAT(pl.street_number, " ", pl.street_name) AS address,
             pl.suite_number,
             pl.city,
             pl.province2 AS province,
             pl.postcode,
             cl.gender,
-            concat(u.firstname, " ", u.lastname) AS agent_name,
+            CONCAT(u.firstname, " ", u.lastname) AS agent_name,
             cl.claim_number,
             cl.claim_date,
             cl.service_date,
@@ -408,17 +390,17 @@ class Report_model extends CI_Model {
             cl.pay_to,
             cl.memo,
             u.user_id,
-            concat(u.firstname, " ", u.lastname) AS agent
+            CONCAT(u.firstname, " ", u.lastname) AS agent
         ');
     }
 
     private function claim_report_from()
     {
         $this->db->from('claim cl');
-        $this->db->join('customer c', 'cl.customer_id = c.customer_id');
-        $this->db->join('user u', 'cl.user_id = u.user_id');
-        $this->db->join('product pr', 'cl.product_short = pr.product_short');
         $this->db->join('plan pl', 'cl.plan_id = pl.plan_id');
+        $this->db->join('customer c', 'cl.customer_id = c.customer_id');
+        $this->db->join('product pr', 'cl.product_short = pr.product_short');
+        $this->db->join('user u', 'cl.user_id = u.user_id');
         $this->db->join('coverage_code cc', 'cl.coverage_code_id = cc.coverage_code_id');
     }
 
@@ -475,21 +457,20 @@ class Report_model extends CI_Model {
             pl.policy,
             pl.effective_date,
             pl.expiry_date,
-            concat(c.firstname, " ", c.lastname) AS customer_name,
+            CONCAT(c.firstname, " ", c.lastname) AS customer_name,
             pl.province2 AS province,
             pl.phone1 AS phone,
+            pl.contact_phone,
+            pl.phone1 AS phone,
             pl.contact_email AS email,
-            concat(u.firstname, " ", u.lastname) AS agent_name,
+            CONCAT(u.firstname, " ", u.lastname) AS agent_name,
             u.user_id
         ');
     }
 
     private function renewal_report_from()
     {
-        $this->db->from('plan pl');
-        $this->db->join('product pr', 'pl.product_short = pr.product_short');
-        $this->db->join('customer c', 'pl.customer_id = c.customer_id');
-        $this->db->join('user u', 'pl.user_id = u.user_id');
+        $this->common_from();
     }
 
     private function renewal_report_where($para)
@@ -540,7 +521,7 @@ class Report_model extends CI_Model {
             pl.policy,
             pr.full_name AS product,
             u.username AS insurer,
-            concat(c.lastname, ", ", c.firstname) AS insured_name,
+            CONCAT(c.lastname, ", ", c.firstname) AS insured_name,
             pl.effective_date,
             pl.expiry_date,
             datediff(pl.expiry_date, pl.effective_date) AS total_days,
@@ -548,8 +529,8 @@ class Report_model extends CI_Model {
             pr.commission AS pr_commission,
             up.commission AS up_commission,
             u.user_id,
-            concat(u.firstname," ", u.lastname) AS agent_name,
-            concat(u.address, " ", u.city) AS address,
+            CONCAT(u.firstname," ", u.lastname) AS agent_name,
+            CONCAT(u.address, " ", u.city) AS address,
             u.province2 AS province,
             u.postcode,
             "u.cheque_title" AS cheque_title,
@@ -560,33 +541,28 @@ class Report_model extends CI_Model {
 
     private function commission_from()
     {
-        $this->db->from('plan pl');
-        $this->db->join('customer c', 'pl.customer_id = c.customer_id');
-        $this->db->join('product pr', 'pl.product_short = pr.product_short');
-        $this->db->join('user u', 'pl.user_id = u.user_id');
-        $this->db->join('user_product up', 'u.user_id = up.user_id and pr.product_short = up.product_short');
+        $this->common_from();
+        $this->db->join('user_product up', 'u.user_id = up.user_id AND pr.product_short = up.product_short');
+        //$this->db->join('outstanding o', 'pl.plan_id = o.plan_id', 'left')
     }
 
     private function commission_where($para)
     {
         $this->common_report_where($para);
-        if (!empty($para['policy_status'])) {
-            if ($para['policy_status'] <= 0 || $para['policy_status'] > self::SOLD) {
-                $this->db->where('pl.status <=', self::SOLD);
-            } else {
-                $this->db->where('pl.status', $para['policy_status']);
-            }
+        /*todo we need get sold and uppaid records and paid but has outstanding (+ or -)
+        if (!empty($para['policy_status']) && in_array($para['policy_status'], array(self::QUOTE, self::SOLD))) {
+            $this->db->where('pl.status_id', $para['policy_status']);
+        } else {
+            $this->db->where('pl.status_id <=', self::SOLD);
         }
+         */
     }
 
     private function get_commission_result($query)
     {
         $results = array();
         foreach ($query as $row) {
-            $row['commission_rate'] = $row['up_commission'];
-            $row['commission_amount'] =  sprintf("%01.2f", ($row['policy_premium'] * $row['commission_rate'] / 100));
-            $row['net_premium'] = sprintf("%01.2f", ($row['policy_premium'] - $row['commission_amount']));
-            $row['daily_rate'] = sprintf("%01.2f", ($row['policy_premium'] / $row['total_days']));
+            $row = $this->common_set_row($row);
             $row['payment_status'] = $this->get_status($row['status_id']);
             //todo
             $row['commission_status'] = 'commission_status';
@@ -607,7 +583,7 @@ class Report_model extends CI_Model {
     {
         $status = 0;
         switch ($status_id) {
-        case self::QUTOE:
+        case self::QUOTE:
             $status = 'Quote';
             break;
         case self::SOLD:
@@ -628,6 +604,15 @@ class Report_model extends CI_Model {
         }
         return $status;
     }
+
+    private function common_from()
+    {
+        $this->db->from('plan pl');
+        $this->db->join('customer c', 'pl.customer_id = c.customer_id');
+        $this->db->join('product pr', 'pl.product_short = pr.product_short');
+        $this->db->join('user u', 'pl.user_id = u.user_id');
+    }
+
     private function common_report_where($para)
     {
         $beuser = $this->session->beuser;
@@ -666,11 +651,26 @@ class Report_model extends CI_Model {
         if (!empty($para['effective_date_to'])) {
             $this->db->where('pl.effective_date <=', $para['effective_date_to']);
         }
+        if (!empty($para['expiry_date_from'])) {
+            $this->db->where('pl.expiry_date >=', $para['expiry_date_from']);
+        }
+        if (!empty($para['expiry_date_to'])) {
+            $this->db->where('pl.expiry_date <=', $para['expiry_date_to']);
+        }
         if (!empty($para['payment_update_date_from'])) {
             $this->db->where('pl.create_date >=', $para['payment_update_date_from']);
         }
         if (!empty($para['payment_update_date_to'])) {
             $this->db->where('pl.create_date <=', $para['payment_update_date_to']);
         }
+    }
+
+    private function common_set_row($row)
+    {
+        $row['commission_rate'] = empty($row['up_commission']) ? $row['pr_commission'] : $row['up_commission'];
+        $row['commission_amount'] =  sprintf("%01.2f", ($row['policy_premium'] * $row['commission_rate'] / 100));
+        $row['net_premium'] = sprintf("%01.2f", ($row['policy_premium'] - $row['commission_amount']));
+        $row['daily_rate'] = sprintf("%01.2f", ($row['net_premium'] / $row['total_days']));
+        return $row;
     }
 }
