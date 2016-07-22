@@ -1487,22 +1487,30 @@ class Plan extends MY_Controller {
 
 		if ($data['plan']['product_short'] == 'OPL') {
 			$data['insurable_options'] = $this->load->view('plan/detail_opl', $data, TRUE);
+			$data['special_note'] = $this->load->view('plan/pdf_note_opl',$data, TRUE);
 		} else if ($data['plan']['product_short'] == 'JFR') {
 			$data['insurable_options'] = $this->load->view('plan/detail_opl', $data, TRUE);
+			$data['special_note'] = $this->load->view('plan/pdf_note_jfr',$data, TRUE);
 		} else if ($data['plan']['product_short'] == 'JUS') {
 			$data['insurable_options'] = $this->load->view('plan/detail_jus', $data, TRUE);
+			$data['special_note'] = $this->load->view('plan/pdf_note_opl',$data, TRUE);
 		} else if ($data['plan']['product_short'] == 'NUS') {
 			$data['insurable_options'] = $this->load->view('plan/detail_jus', $data, TRUE);
+			$data['special_note'] = $this->load->view('plan/pdf_note_opl',$data, TRUE);
 		} else if ($data['plan']['product_short'] == 'JES') {
 			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
+			$data['special_note'] = $this->load->view('plan/pdf_note_jes',$data, TRUE);
 		} else if ($plan['plan']['product_short'] == 'JFC') {
 			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
+			$data['special_note'] = $this->load->view('plan/pdf_note_opl',$data, TRUE);
 		} else {
 			$data['insurable_options'] = $this->load->view('plan/detail_other', $data, TRUE);
+			$data['special_note'] = $this->load->view('plan/pdf_note_opl',$data, TRUE);
 		}
 		
 		$data['title_txt'] = 'Policy';
-		$data['style'] = $this->load->view('common/pdf_style',$data, TRUE);
+		$data['style'] = $this->load->view('common/pdf_style',$data, TRUE);		
+		
 		$mpdf = new mPDF('c');
 		$html = $this->load->view('plan/pdf', $data, TRUE);
 		

@@ -84,39 +84,41 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 									<input class="btn btn-primary pull-right" type='submit' name='pay_submit' value='Make Pay' />		
 								</div>
 								</div>
-							</div>
+							</div><br />
 
 							<div class="row">
 								<div class="col-sm-12">
-							<div class="table-responsive">
-		                      <table class="table table-hover table-bordered">
-		                      	<thead>
-									<tr>
-										<th>&nbsp;</th>
-										<th>Policy</th>
-										<th>Type</th>
-										<th>Added Date</th>
-										<th>Amount</th>
-										<th>Note</th>
-									</tr>
-								</thead>
-								<tbody>
-							<?php foreach ($payments as $payment) { ?>
-								<tr>
-									<td><input type='checkbox' name='payment[]' value='<?php echo $payment['payment_id']; ?>' checked ></td>
-									<td><?php echo $payment['policy']; ?></td>
-									<td><?php echo $payment['pay_type']; ?></td>
-									<td><?php echo $payment['added']; ?></td>
-									<td><?php echo $payment['amount']; ?></td>
-									<td><?php echo ((strlen($payment['note']) > 40) ? $payment['note'] : (substr($payment['note'], 0, 37) . "...")); ?></td>
-								</tr>
-							<?php } ?>
-							    </tbody>
-							</table>
-						  </div>
-						  </div></div>
+									<div class="table-responsive" style="margin-right:5px;margin-left:5px;">
+				                      <table class="table table-hover table-bordered">
+				                      	<thead>
+											<tr>
+												<th>&nbsp;</th>
+												<th>Policy</th>
+												<th>Type</th>
+												<th>Added Date</th>
+												<th>Amount</th>
+												<th>Note</th>
+											</tr>
+										</thead>
+										<tbody>
+									<?php foreach ($payments as $payment) { ?>
+										<tr>
+											<td><input type='checkbox' name='payment[]' value='<?php echo $payment['payment_id']; ?>' checked ></td>
+											<td><?php echo $payment['policy']; ?></td>
+											<td><?php echo $payment['pay_type']; ?></td>
+											<td><?php echo $payment['added']; ?></td>
+											<td><?php echo $payment['amount']; ?></td>
+											<td><?php echo ((strlen($payment['note']) > 40) ? $payment['note'] : (substr($payment['note'], 0, 37) . "...")); ?></td>
+										</tr>
+									<?php } ?>
+									    </tbody>
+									</table>
+								  </div>
+								</div>
+							</div>
 						</form>
 					</div><!-- x_content -->
+					</div>
 				</div>
 			</div>
 		</div>

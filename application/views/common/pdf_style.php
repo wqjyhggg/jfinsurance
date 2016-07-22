@@ -54,11 +54,11 @@ h4{
 
 .nopm{margin: 0 !important;padding:0 !important;}
 .topp{margin:0;line-height: 18px;}
-.small{margin-bottom: 0px !important;font-size: 10px !important;line-height: 6px!important;height: 6px;}
+.small{margin-bottom: 0px !important;font-size: 10px !important;line-height: 12px!important;height: 10px;}
 
 .receipt-info h4{margin:0!important;font-size: 12px;}
 .receipt-info p{font-size: 12px;}
 
 .dotted{border-top: 1px dotted #333;}
-
+.special-note{margin-top: 30px;}
 </style>
