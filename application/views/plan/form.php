@@ -718,10 +718,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<?php 	if (!empty($payments) && is_array($payments) && (sizeof($payments > 0))) { ?>
 		                  	<div class="col-sm-12">
 			                  	<button type="button" class="btn btn-info" data-toggle="collapse" data-target="#history1">Payments <span class="fa fa-chevron-down"></span></button>
+			  			        <div id="history1" class="collapse">                	
 			                  	<form action='<?php echo $makepay_url; ?>' method='POST' class="form-horizontal">
-			                  	<input type="submit" class="btn btn-info" name='submit' value='Make Pay'>
 								<input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
-			                  	<div id="history1" class="collapse">
 			                  		<div class="table-responsive">
 			                  			<table class="table table-hover table-bordered">
 				                      	<thead>
@@ -748,8 +747,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										</tbody>
 										</table>
 			                  		</div>
+			                  		<div class="row"><div class="col-sm-12">
+			                  			<input type="submit" class="btn btn-primary pull-right" name='submit' value='Make Pay'>
+			                  		</div></div>
+			                  		</form>
+			                  		<hr />
 			                  	</div>
-			                  	</form>
+			                  	
 		                  	</div>
 							<?php 	} ?>
 		                  </div>
