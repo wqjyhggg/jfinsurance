@@ -110,7 +110,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
+<?php if ($user_group_id < 100) { ?>
                     <h2 style="width:100%;">User List <span><a class="btn btn-info" href='<?php echo $edit_url."0"; ?>'><i class="fa fa-plus"></i> Add User</a></span></h2>
+<?php } ?>
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
@@ -134,7 +136,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <tbody>
                         <?php foreach ($user_list as $user) { ?>
                           <tr>
-                            <td><a style="color:#46b8da;" href='<?php echo $edit_url.$user['user_id']; ?>'><?php echo $user['username']?></a></td>
+                            <td>
+<?php if ($user_group_id < 100) { ?>
+                            	<a style="color:#46b8da;" href='<?php echo $edit_url.$user['user_id']; ?>'><?php echo $user['username']?></a>
+<?php } else { ?>
+                            	<?php echo $user['username']?>
+<?php } ?>
+                            </td>
                             <td><?php echo $user_group_list[$user['user_group_id']]; ?></td>
                             <td><?php echo $user['business']; ?></td>
                             <td><?php echo $user['lastname'] . " " . $user['lastname']; ?></td>
