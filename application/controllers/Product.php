@@ -18,6 +18,7 @@ class Product extends MY_Controller {
 		$data['view_url'] = base_url('product/detail') . "/";
 		
 		$data['title_txt'] = 'Products';
+		$data['downloads_url'] = base_url('pdf/download') . "/";
 
 		$data['top_menu'] = $this->menu_model->load_top_menu();
 		$data['menu'] = $this->menu_model->load_meun();
@@ -26,6 +27,9 @@ class Product extends MY_Controller {
 				'value' => $this->security->get_csrf_hash ()
 		);
 		
+		$data['downloads_url'] = base_url('pdf/download') . "/";
+		$data['url_benefit'] = '_Benefit_Summary';
+
 		$this->load->common('product/product', $data);	
 	}
 	
