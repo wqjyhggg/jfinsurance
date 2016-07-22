@@ -25,12 +25,12 @@ class Downloads extends MY_Controller {
 		$data['text_consent'] = 'Consent Form';
 		$data['text_policy'] = 'Policy';
 
-		$data['opl'] = 'OPL_Visitor';
+		$data['opl'] = 'OPL';
 		$data['nus'] = 'NUS';
 		$data['jus'] = 'JUS';
 		$data['jfss'] = 'JFSS';
 		$data['jfr'] = 'JFR';
-		$data['jfep'] = 'JF_Elite_Plus';
+		$data['jfep'] = 'JES';
 
 		$data['top_menu'] = $this->menu_model->load_top_menu();
 		$data['menu'] = $this->menu_model->load_meun();
