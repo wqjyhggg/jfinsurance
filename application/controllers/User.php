@@ -98,6 +98,22 @@ class User extends MY_Controller {
 			$this->data['error_postcode'] = $this->lang->line('error_postcode');
 			$rt = FALSE;
 		}
+		if (empty(trim($this->input->post('mail_address')))) {
+			$this->data['error_mail_address'] = $this->lang->line('error_mail_address');
+			$rt = FALSE;
+		}
+		if (empty(trim($this->input->post('mail_city')))) {
+			$this->data['error_mail_city'] = $this->lang->line('error_mail_city');
+			$rt = FALSE;
+		}
+		if (empty(trim($this->input->post('mail_province2')))) {
+			$this->data['error_mail_province'] = $this->lang->line('error_mail_province');
+			$rt = FALSE;
+		}
+		if (empty(trim($this->input->post('mail_postcode')))) {
+			$this->data['error_mail_postcode'] = $this->lang->line('error_mail_postcode');
+			$rt = FALSE;
+		}
 		// $this->data['website'] = $this->input->post('website');
 		if (empty(trim($this->input->post('licence_number')))) {
 			$this->data['error_licence_number'] = $this->lang->line('error_licence_number');
@@ -216,6 +232,11 @@ class User extends MY_Controller {
 		$this->data['province2'] = 'ON';
 		$this->data['country2'] = 'CA';
 		$this->data['postcode'] = '';
+		$this->data['mail_address'] = '';
+		$this->data['mail_city'] = '';
+		$this->data['mail_province2'] = 'ON';
+		$this->data['mail_country2'] = 'CA';
+		$this->data['mail_postcode'] = '';
 		$this->data['website'] = '';
 		$this->data['licence_number'] = '';
 		$this->data['licence_expire'] = '';
@@ -254,6 +275,11 @@ class User extends MY_Controller {
 			$this->data['province2'] = $this->input->post('province2');
 			$this->data['country2'] = $this->input->post('country2');
 			$this->data['postcode'] = $this->input->post('postcode');
+			$this->data['mail_address'] = $this->input->post('mail_address');
+			$this->data['mail_city'] = $this->input->post('mail_city');
+			$this->data['mail_province2'] = $this->input->post('mail_province2');
+			$this->data['mail_country2'] = $this->input->post('mail_country2');
+			$this->data['mail_postcode'] = $this->input->post('mail_postcode');
 			$this->data['website'] = $this->input->post('website');
 			$this->data['licence_number'] = $this->input->post('licence_number');
 			$this->data['licence_expire'] = $this->input->post('licence_expire');
@@ -298,6 +324,8 @@ class User extends MY_Controller {
 		if (empty($this->data['country2'])) $this->data['country2'] = 'CA';
 		$this->data['province_url'] = base_url ( "geo/province/" . $this->data['country2'] . "/" . $this->data['province2'] );
 		$this->data['country_url'] = base_url ( "geo/country/" . $this->data['country2'] );
+		$this->data['mail_province_url'] = base_url ( "geo/province/" . $this->data['mail_country2'] . "/" . $this->data['mail_province2'] );
+		$this->data['mail_country_url'] = base_url ( "geo/country/" . $this->data['mail_country2'] );
 		$this->data ['csrf'] = array (
 				'name' => $this->security->get_csrf_token_name (),
 				'value' => $this->security->get_csrf_hash () 
