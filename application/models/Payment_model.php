@@ -3,7 +3,7 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-class Trans_model extends CI_Model {
+class Payment_model extends CI_Model {
 	public $logstr;
 	public $sqlstr;
 	public $error;

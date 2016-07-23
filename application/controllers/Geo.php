@@ -11,6 +11,7 @@ class Geo extends MY_Controller {
 		$this->load->model('geo_model');
 		$countries = $this->geo_model->get_country();
 		$neednull = $this->input->get_post('neednull');
+		$myid = $this->input->get_post('myid');
 		if ($neednull) {
 			$clist = array('' => array("name" => ' -- select country --', "selected" => ""));
 		} else {
@@ -26,6 +27,7 @@ class Geo extends MY_Controller {
 			}
 		}
 		$data = array('country' => $clist);
+		$data['myid'] = $myid;
 		$data['country_url'] = base_url ( "geo/province" ) . "/";
 		$this->load->view('geo/country', $data);
 	}
@@ -40,6 +42,7 @@ class Geo extends MY_Controller {
 		if (empty($c)) $c = 'CA';	// double safe for country code
 		$provinces = $this->geo_model->get_province($c);
 		$neednull = $this->input->get_post('neednull');
+		$myid = $this->input->get_post('myid');
 		if ($neednull) {
 			$plist = array('' => array("name" => ' -- select province --', "selected" => ""));
 		} else {
@@ -53,7 +56,9 @@ class Geo extends MY_Controller {
 				$plist[$k] = array("name" => $pv['name'], "selected" => "");
 			}
 		}
-		$this->load->view('geo/province', array('province' => $plist));
+		$data['province'] = $plist;
+		$data['myid'] = $myid;
+		$this->load->view('geo/province', $data);
 	}
 	
 	public function index()

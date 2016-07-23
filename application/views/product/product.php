@@ -55,7 +55,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                               <td><?php echo $p['product_short']; ?></td>
                               <td><?php echo $p['full_name']; ?></td>
                               <td><a href="<?php echo $quote_url . "?product_short=" . $p['product_short']; ?>" class="btn btn-primary">Quote</a></td>
-                              <td><a href="<?php echo $view_url . $p['product_short']; ?>" class="btn btn-info">View Summary</a></td>
+                              <td><a target="_bland" href="<?php echo $downloads_url . $p['product_short'] . $url_benefit . '.pdf'; ?>" class="btn btn-info">View Summary</a></td>
                             </tr>
                             <?php } ?>
                         </tbody>

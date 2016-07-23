@@ -95,7 +95,7 @@ class Product_model extends CI_Model {
 		if (empty($stm) || empty($etm) || ($stm > $etm)) {
 			return 0;
 		}
-		return (($etm - $stm) / 86400) + 1;
+		return (int)((($etm - $stm) / 86400) + 1);
 	}
 	
 	public function getYears($applydt, $brithdt) {

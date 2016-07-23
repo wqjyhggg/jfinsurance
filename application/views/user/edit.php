@@ -211,6 +211,66 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			            </div>
 	              	</div>
 	              	<div class="row">
+	              		<div class="form-group col-sm-3">
+			                <label class="col-sm-12">Mail is same:</label>
+			                <div class="input-group col-sm-12">
+			                	<input type='checkbox' name='issame' id='issame' value='1' checked class="form-control">
+			                </div>
+			            </div>
+			            <div class="form-group col-sm-9">
+			                <label class="col-sm-12">Mail Address:</label>
+			                <div class="input-group col-sm-12">
+			                	<input type='text' name='mail_address' value='<?php echo $mail_address; ?>' class="form-control">
+			                	<?php if (!empty($error_mail_address)){ ?>
+								<div class="alert-error">	
+									<?php echo $error_mail_address; ?>
+								</div>
+								<?php } ?>
+			                </div>
+			            </div>
+			        </div>
+			        <div class="row">
+			            <div class="form-group col-sm-3">
+			                <label class="col-sm-12">Mail City:</label>
+			                <div class="input-group col-sm-12">
+			                	<input type='text' name='mail_city' value='<?php echo $mail_city; ?>' class="form-control">
+			                	<?php if (!empty($error_mail_city)){ ?>
+								<div class="alert-error">	
+									<?php echo $error_mail_city; ?>
+								</div>
+								<?php } ?>
+			                </div>
+			            </div>
+			            <div class="form-group col-sm-3">
+			                <label class="col-sm-12">Mail Province:</label>
+			                <div class="input-group col-sm-12">
+			                	<div id='mail_province2_div'></div>
+			                	<?php if (!empty($error_mail_province)){ ?>
+								<div class="alert-error">	
+									<?php echo $error_mail_province; ?>
+								</div>
+								<?php } ?>
+			                </div>
+			            </div>
+			            <div class="form-group col-sm-3">
+			                <label class="col-sm-12">Mail Country:</label>
+			                <div class="input-group col-sm-12">
+			                	<div id='mail_country2_div'></div>
+			                </div>
+			            </div>
+			            <div class="form-group col-sm-3">
+			                <label class="col-sm-12">Mail Post Code:</label>
+			                <div class="col-sm-12 input-group">
+				                <input type='text' name='mail_postcode' value='<?php echo $mail_postcode; ?>' class="form-control">
+								<?php if (!empty($error_mail_postcode)){ ?>
+								<div class="alert-error">	
+									<?php echo $error_mail_postcode; ?>
+								</div>
+								<?php } ?>
+							</div>
+			            </div>
+	              	</div>
+	              	<div class="row">
 			            <div class="form-group col-sm-3">
 			                <label class="col-sm-12">Website:</label>
 			                <div class="input-group col-sm-12">
@@ -333,18 +393,59 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<script>
 					$( document ).ready(function() {
 						$.ajax({
-							url: '<?php echo $province_url; ?>',
-							type: 'GET',
-							success: function(data, textStatus, jqXHR) {
-					        	$('#province2_div').html(data);
-					    	},
-						});
-						$.ajax({
 							url: '<?php echo $country_url; ?>',
 							type: 'GET',
 							success: function(data, textStatus, jqXHR) {
 					        	$('#country2_div').html(data);
+								$.ajax({
+									url: '<?php echo $mail_country_url; ?>?myid=mail_',
+									type: 'GET',
+									success: function(data, textStatus, jqXHR) {
+							        	$('#mail_country2_div').html(data);
+										$.ajax({
+											url: '<?php echo $mail_province_url; ?>?myid=mail_',
+											type: 'GET',
+											success: function(data, textStatus, jqXHR) {
+									        	$('#mail_province2_div').html(data);
+												$('#province2').change(function() {
+													if ($('#issame').is(':checked')) {
+														$('#mail_province2').val($('#province2').val());
+													}
+												});
+									    	},
+										});
+										$('#country2').change(function() {
+											if ($('#issame').is(':checked')) {
+												$('#mail_country2').val($('#country2').val());
+												$("#mail_country2").trigger( "change" );
+											}
+										});
+							    	},
+								});
+								$.ajax({
+									url: '<?php echo $province_url; ?>',
+									type: 'GET',
+									success: function(data, textStatus, jqXHR) {
+							        	$('#province2_div').html(data);
+							    	},
+								});
 					    	},
+						});
+
+						$("input[name='address']").change(function() {
+							if ($('#issame').is(':checked')) {
+								$("input[name='mail_address']").val($("input[name='address']").val());
+							}
+						});
+						$("input[name='city']").change(function() {
+							if ($('#issame').is(':checked')) {
+								$("input[name='mail_city']").val($("input[name='city']").val());
+							}
+						});
+						$("input[name='postcode']").change(function() {
+							if ($('#issame').is(':checked')) {
+								$("input[name='mail_postcode']").val($("input[name='postcode']").val());
+							}
 						});
 					});
 					</script>
