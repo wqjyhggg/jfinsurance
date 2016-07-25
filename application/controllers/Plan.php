@@ -655,6 +655,7 @@ class Plan extends MY_Controller {
 		$data['sendpackage_url'] = base_url ( "plan/sendpackage" ) . "/";
 		$data['cancel_url'] = base_url ( "plan/cancel" ) . "/";
 		$data['refund_url'] = base_url ( "plan/refund" ) . "/";
+		$data['revert_url'] = base_url ( "plan/revert" ) . "/";
 		$data['makepay_url'] = base_url ( "payment/makepay" );
 		
 		$data['title_txt'] = 'Policy';
@@ -773,10 +774,12 @@ class Plan extends MY_Controller {
 			$card_cvv = $this->input->post('card_cvv');
 
 			$plan = $this->plan_model->get_plan_by_id($plan_id);
+			$product = $this->product_model->get_product[$plan['product_short']];
 			$dt = array();
 			$dt['plan_id'] = $plan_id;
 			$dt['amount'] = $premium;
 			$dt['pay_type'] = 'premium';
+			$dt['currency'] = $plan['currency'];
 			$dt['pay_mothed'] = 'Credit Card';
 			$dt['name'] = $card_name;
 			$dt['added'] = date('c');
@@ -867,7 +870,7 @@ class Plan extends MY_Controller {
 				$this->log_model->activity('commission', $para);
 			}
 
-			$beanstream = new \Beanstream\Gateway ( $this->merchentID, $this->apikey, 'www', 'v1' );
+			$beanstream = new \Beanstream\Gateway ( $product->merchent_id, $this->apikey, 'www', 'v1' );
 			$payment_data = array (
 					'order_number' => $plan_id,
 					'amount' => $premium,
@@ -979,6 +982,7 @@ class Plan extends MY_Controller {
 		$dt['plan_id'] = $plan_id;
 		$dt['amount'] = $premium;
 		$dt['pay_type'] = 'premium';
+		$dt['currency'] = $plan['currency'];
 		$dt['pay_mothed'] = 'Cash';
 		$dt['added'] = date('c');
 		$dt['note'] = $payinfo;
@@ -1084,7 +1088,8 @@ class Plan extends MY_Controller {
 		
 		$plan_id = $this->input->post('plan_id');
 		$premium = $this->input->post('premium');
-		$payinfo  = 'Bank Name: ' . $this->input->post('bank_name') . "; ";
+		$payinfo  = 'Invoice Number: ' . $this->input->post('invoice_num') . "; ";
+		$payinfo .= 'Bank Name: ' . $this->input->post('bank_name') . "; ";
 		$payinfo .= 'Payor Name: ' . $this->input->post('payor_name') . "; ";
 		$payinfo .= 'Checque#: ' . $this->input->post('cheque_number') . "; ";
 		$payinfo .= 'Premium: $' . $this->input->post('premium') . "; ";
@@ -1094,6 +1099,7 @@ class Plan extends MY_Controller {
 		$dt['plan_id'] = $plan_id;
 		$dt['amount'] = $premium;
 		$dt['pay_type'] = 'premium';
+		$dt['currency'] = $plan['currency'];
 		$dt['pay_mothed'] = 'Cheque';
 		$dt['added'] = date('c');
 		$dt['note'] = $payinfo;
@@ -1545,7 +1551,7 @@ class Plan extends MY_Controller {
 			$refund_amount = (float)$this->input->post('refund_amount');
 			$admin_fee = (float)$this->input->post('admin_fee');
 
-			$total_amount =(float)$refund_amount - (float)$admin_fee;
+			$total_amount = (float)$refund_amount - (float)$admin_fee;
 
 			if ($total_amount > 0) {
 				$this->load->model('payment_model');
@@ -1553,6 +1559,7 @@ class Plan extends MY_Controller {
 				$dt['plan_id'] = $plan_id;
 				$dt['amount'] = $total_amount * (-1);
 				$dt['pay_type'] = 'cancel';
+				$dt['currency'] = $plan['currency'];
 				$dt['pay_mothed'] = 'Checque';
 				$dt['added'] = date('c');
 				$dt['ispaid'] = 0;
@@ -1692,6 +1699,7 @@ class Plan extends MY_Controller {
 				$dt['plan_id'] = $plan_id;
 				$dt['amount'] = $total_amount * (-1);
 				$dt['pay_type'] = 'refund';
+				$dt['currency'] = $plan['currency'];
 				$dt['pay_mothed'] = 'Checque';
 				$dt['added'] = date('c');
 				$dt['ispaid'] = 0;

@@ -737,12 +737,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 											</tr>
 										</thead>
 										<tbody>
-											<?php foreach ($payments as $p) { ?>
+											<?php 
+											foreach ($payments as $p) {
+												$rev_str = '';
+												$sbstr = substr($p['pay_type'], 0, 6);
+												if ($sbstr == 'refund') {
+													$rev_str = 'Revert Refund';
+												} else if ($sbstr == 'cancel') {
+													$rev_str = 'Revert Cancel';
+												}
+											?>
 											<tr>
 												<td><input type='checkbox' name='payment[]' value='<?php echo $p['payment_id']; ?>'><?php //echo $p['payment_id']; ?></td>
 												<td><?php echo $p['pay_type']; ?></td>
 												<td><?php echo $p['amount']; ?></td>
-												<td><?php echo $p['ispaid'] ? "Paied" : "-"; ?></td>
+												<td><?php echo $p['ispaid'] ? "Paied" : "-"; ?> <?php if (!empty($rev_str)) { ?><a href='<?php echo $revert . $p['payment_id']; ?>'><?php echo $rev_str; ?></a><?php } ?></td>
 												<td><?php echo $p['added']; ?></td>
 												<td><?php echo (strlen($p['note']) > 60) ? (substr($p['note'], 0, 57) . "...") : $p['note']; ?></td>
 											</tr>
