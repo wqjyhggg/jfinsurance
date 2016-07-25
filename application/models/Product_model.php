@@ -512,4 +512,22 @@ class Product_model extends CI_Model {
 		}
 		return $rArr; 
 	}
+
+    /**
+     * Get available product list
+     *
+     * @return array product list
+     */
+    public function get_available_product_list()
+    {
+        $this->load->model('user_model');
+        $available_user = $this->user_model->get_available_user_list();
+        $this->db->distinct();
+        $this->db->select('p.*');
+        $this->db->from('product p');
+        $this->db->join('user_product up', 'p.product_short = up.product_short');
+        $this->db->where_in('up.user_id', array_keys($available_user));
+        $this->db->order_by('p.product_short');
+        return $this->db->get()->result_array();
+    }
 }

@@ -239,7 +239,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                               <td>$<?=$record['paid'] ?></td>
                               <td>$<?=$record['amount_received'] ?></td>
                               <td><?=$record['cheque_number'] ?></td>
-                              <td><?=$record['cheque_cash_day'] ?></td>
+                              <td><?=$record['cheque_cash_date'] ?></td>
                               <td><?=$record['pay_to'] ?></td>
                               <td><?=$record['memo'] ?></td>
                             </tr>

@@ -13,6 +13,8 @@ class Report_model extends CI_Model {
 
     const ADMIN = 1;
     const STAFF = 2;
+    const ACCOUNTING = 3;
+    const SCHOOL = 103;
     const BROKERAGE = 104;
     const AGENT = 105;
     /**
@@ -58,7 +60,7 @@ class Report_model extends CI_Model {
     private function sales_report_agent_from()
     {
         $this->common_from();
-        $this->db->join('user_product up', 'u.user_id = up.user_id and pr.product_short = up.product_short');
+        $this->db->join('user_product up', 'u.user_id = up.user_id and pr.product_short = up.product_short', 'left');
     }
 
     private function sales_report_agent_where($para)
@@ -112,8 +114,8 @@ class Report_model extends CI_Model {
             pl.plan_id,
             pl.apply_date AS order_date,
             pl.policy,
-            "invoice num" AS invoice_num,
-            u.business AS insurerCoName,
+            pa.invoice_num,
+            pr.up_insuer AS insurerCoName,
             pr.full_name AS product,
             CONCAT(c.lastname, ", ", c.firstname) AS insured,
             u.username AS agency,
@@ -132,7 +134,9 @@ class Report_model extends CI_Model {
     private function sales_report_jf_from()
     {
         $this->common_from();
-        $this->db->join('user_product up', 'u.user_id = up.user_id and pr.product_short = up.product_short');
+        $this->db->join('user_product up', 'u.user_id = up.user_id and pr.product_short = up.product_short', 'left');
+        $this->db->join('payment pa', 'pa.payment_id=
+            (SELECT MIN(payment_id) FROM payment pa2 WHERE pl.payment_id = pa2.payment_id AND pa2.pay_type = "premium" AND ispaid = 1)', 'left');
     }
 
     private function sales_report_jf_where($para)
@@ -208,6 +212,7 @@ class Report_model extends CI_Model {
             pl.sum_insured,
             pl.deductible_amount,
             pl.premium AS policy_premium,
+            pr.up_pay_rate AS commission_rate_jf,
             pr.commission AS pr_commission,
             up.commission AS up_commission,
             "2.5" AS merchant_fee_per,
@@ -218,7 +223,7 @@ class Report_model extends CI_Model {
     private function sales_report_insurer_from()
     {
         $this->common_from();
-        $this->db->join('user_product up', 'u.user_id = up.user_id and pr.product_short = up.product_short');
+        $this->db->join('user_product up', 'u.user_id = up.user_id and pr.product_short = up.product_short', 'left');
     }
 
     private function sales_report_insurer_where($para)
@@ -231,9 +236,8 @@ class Report_model extends CI_Model {
     {
         $results = array();
         foreach ($query as $row) {
-            $row['commission_rate'] = $row['pr_commission'];
             $row['commission_amount'] =  sprintf("%01.2f",
-                ($row['policy_premium'] * $row['commission_rate'] / 100));
+                ($row['policy_premium'] * $row['commission_rate_jf'] / 100));
             $row['merchant_fee'] =  sprintf("%01.2f",
                 ($row['policy_premium'] * $row['merchant_fee_per'] / 100));
             $row['claims_handling_fee'] =  sprintf("%01.2f",
@@ -241,7 +245,7 @@ class Report_model extends CI_Model {
 
             $row['total_compensation'] = $row['commission_amount'] + $row['merchant_fee'] + $row['claims_handling_fee'];
             $row['net_premium'] = sprintf("%01.2f", ($row['policy_premium'] - $row['total_compensation']));
-            $row['total_compensation_per'] = $row['commission_rate'] + $row['merchant_fee_per'] + $row['claims_handling_fee_per'];
+            $row['total_compensation_per'] = $row['commission_rate_jf'] + $row['merchant_fee_per'] + $row['claims_handling_fee_per'];
             $row['daily_rate'] = sprintf("%01.2f", ($row['policy_premium'] / $row['total_days']));
             $results[] = $row;
         }
@@ -297,7 +301,7 @@ class Report_model extends CI_Model {
     private function receivable_from()
     {
         $this->common_from();
-        $this->db->join('user_product up', 'u.user_id = up.user_id and pr.product_short = up.product_short');
+        $this->db->join('user_product up', 'u.user_id = up.user_id and pr.product_short = up.product_short', 'left');
         //group by pl.plan_id sum(premium) and/or sum(commission)
         //$this->db->join('outstanding o', 'pl.plan_id = o.plan_id', 'left')
     }
@@ -386,7 +390,7 @@ class Report_model extends CI_Model {
             cl.paid,
             "Amount Received" AS amount_received,
             cl.cheque_number,
-            "Cheque Cash Day" as cheque_cash_day,
+            pa.cheque_cash_date,
             cl.pay_to,
             cl.memo,
             u.user_id,
@@ -402,6 +406,7 @@ class Report_model extends CI_Model {
         $this->db->join('product pr', 'cl.product_short = pr.product_short');
         $this->db->join('user u', 'cl.user_id = u.user_id');
         $this->db->join('coverage_code cc', 'cl.coverage_code_id = cc.coverage_code_id');
+        $this->db->join('payment pa', 'pa.payment_id = cl.payment_id', 'left');
     }
 
     private function claim_report_where($para)
@@ -542,7 +547,7 @@ class Report_model extends CI_Model {
     private function commission_from()
     {
         $this->common_from();
-        $this->db->join('user_product up', 'u.user_id = up.user_id AND pr.product_short = up.product_short');
+        $this->db->join('user_product up', 'u.user_id = up.user_id and pr.product_short = up.product_short', 'left');
         //$this->db->join('outstanding o', 'pl.plan_id = o.plan_id', 'left')
     }
 
@@ -670,7 +675,7 @@ class Report_model extends CI_Model {
         $row['commission_rate'] = empty($row['up_commission']) ? $row['pr_commission'] : $row['up_commission'];
         $row['commission_amount'] =  sprintf("%01.2f", ($row['policy_premium'] * $row['commission_rate'] / 100));
         $row['net_premium'] = sprintf("%01.2f", ($row['policy_premium'] - $row['commission_amount']));
-        $row['daily_rate'] = sprintf("%01.2f", ($row['net_premium'] / $row['total_days']));
+        $row['daily_rate'] = empty($row['total_days']) ? '' : sprintf("%01.2f", ($row['net_premium'] / $row['total_days']));
         return $row;
     }
 }
