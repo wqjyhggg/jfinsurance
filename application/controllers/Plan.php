@@ -1625,7 +1625,7 @@ class Plan extends MY_Controller {
 		}
 		$data['action_url'] = base_url('plan/cancel');
 		$data['plan_id'] = $plan['plan_id'];
-		
+		$data['url_back_to_policy'] = base_url('plan/');
 		$data['title_txt'] = 'Policy';
 		$data['top_menu'] = $this->menu_model->load_top_menu();
 		$data['menu'] = $this->menu_model->load_meun();
@@ -1645,8 +1645,13 @@ class Plan extends MY_Controller {
 	public function refund_amount($plan_id) {
 		$beuser = $this->func_model->verify_login(TRUE);
 		$this->load->model('plan_model');
+		$plan = $this->plan_model->get_plan_by_id($plan_id);
+
+		//print_r($plan);die('==');
+		$data['total_premium'] = $plan['premium'];
 		$data['status'] = 'OK';
 		$data['refund_amount'] = $this->plan_model->refund_amount($plan_id, $this->input->get('refund_date'));
+		$data['used_amount'] = $plan['premium'] - $data['refund_amount']; 
 		header('Content-Type: application/json');
 		echo json_encode($data);
 	}
@@ -1758,6 +1763,7 @@ class Plan extends MY_Controller {
 		$data['action_url'] = base_url('plan/refund');
 		$data['refund_amount_url'] = base_url('plan/refund_amount')."/".$plan['plan_id'];
 		$data['plan_id'] = $plan['plan_id'];
+		$data['url_back_to_policy'] = base_url('plan/');
 		
 		$data['title_txt'] = 'Policy';
 		$data['top_menu'] = $this->menu_model->load_top_menu();

@@ -18,6 +18,11 @@
     margin-bottom: 3px!important;
 }
 .btn-warn:hover{text-decoration: underline;color:red;}
+.inline-date{
+	width: 70%;
+    display: inline-block;
+    vertical-align: middle;
+}
 /* Custom End */
 .left_col{background:#2A3F54}
 

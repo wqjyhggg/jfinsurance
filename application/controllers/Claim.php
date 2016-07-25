@@ -23,6 +23,7 @@ class Claim extends MY_Controller {
 			$para['claim_date'] = $this->input->get('claim_date');
 			$para['claim_date2'] = $this->input->get('claim_date2');
 			$para['cheque_number'] = $this->input->get('cheque_number');
+			$para['invoice_num'] = $this->input->get('invoice_num');
 			$data['lists'] = $this->claim_model->search($para);
 		} else {
 			$data['lists'] = array();
@@ -52,6 +53,11 @@ class Claim extends MY_Controller {
 			$data['product_short'] = $this->input->get("product_short");
 		} else {
 			$data['product_short'] = '';
+		}
+		if ($this->input->get("invoice_num")) {
+			$data['invoice_num'] = $this->input->get("invoice_num");
+		} else {
+			$data['invoice_num'] = '';
 		}
 		if ($this->input->get("cheque_number")) {
 			$data['cheque_number'] = $this->input->get("cheque_number");
@@ -153,6 +159,7 @@ class Claim extends MY_Controller {
 			$data['policy_number'] = '';
 			$data['claim_number'] = '';
 			$data['product_short'] = '';
+			$data['invoice_num'] = '';
 			$data['cheque_number'] = '';
 			$data['claim_date'] = '';
 			$data['claim_date2'] = '';
@@ -226,6 +233,7 @@ class Claim extends MY_Controller {
 		// $this->input->post('claimed')
 		// $this->input->post('paid')
 		// $this->input->post('pay_to')
+		// $this->input->post('invoice_num')
 		// $this->input->post('cheque_number')
 		// $this->input->post('coverage_code_id')
 		// $this->input->post('service_date')
@@ -350,6 +358,13 @@ class Claim extends MY_Controller {
 			$this->data['pay_to'] = $claim['pay_to'];
 		} else {
 			$this->data['pay_to'] = '';
+		}
+		if ($this->input->post('invoice_num')) {
+			$this->data['invoice_num'] = $this->input->post('invoice_num'); 
+		} else if (isset($claim['invoice_num'])) {
+			$this->data['invoice_num'] = $claim['invoice_num'];
+		} else {
+			$this->data['invoice_num'] = '';
 		}
 		if ($this->input->post('cheque_number')) {
 			$this->data['cheque_number'] = $this->input->post('cheque_number'); 

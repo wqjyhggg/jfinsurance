@@ -31,6 +31,7 @@ class Claim_model extends CI_Model {
 		if (!empty($para['claim_number'])) $this->db->like('claim_number', $para['claim_number']);
 		if (!empty($para['lastname'])) $this->db->like('lastname', $para['lastname']);
 		if (!empty($para['firstname'])) $this->db->like('firstname', $para['firstname']);
+		if (!empty($para['invoice_num'])) $this->db->like('invoice_num', $para['invoice_num']);
 		if (!empty($para['cheque_number'])) $this->db->like('cheque_number', $para['cheque_number']);
 		$arr = $this->db->get('claim')->result_array();
 		return $arr;
@@ -131,6 +132,10 @@ class Claim_model extends CI_Model {
 			if (isset($para['pay_to']) && ($para['pay_to'] != $claim['pay_to'])) {
 				$data['pay_to'] = $para['pay_to'];
 				$this->logstr .= " pay_to " . $para['pay_to'] . "(" . $claim['pay_to'] . ")";
+			}
+			if (isset($para['invoice_num']) && ($para['invoice_num'] != $claim['invoice_num'])) {
+				$data['invoice_num'] = $para['invoice_num'];
+				$this->logstr .= " invoice_num " . $para['invoice_num'] . "(" . $claim['invoice_num'] . ")";
 			}
 			if (isset($para['cheque_number']) && ($para['cheque_number'] != $claim['cheque_number'])) {
 				$data['cheque_number'] = $para['cheque_number'];
