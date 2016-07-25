@@ -30,50 +30,62 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_content">
-                  <?php if (!empty($error_message)) { echo $error_message . "<br>"; } ?>
+                  <?php if (!empty($error_message)) { ?>
+                  <div class="alert-error"> 
+                    <?php echo $error_message . "<br>"; ?>
+                    <br />
+                  </div>
+                  <?php } ?>
                     <form action='<?php echo $action_url; ?>' method='POST'  class="form-horizontal">
-    				  <input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
-    				  <input type='hidden' name='plan_id' value='<?php echo $plan_id; ?>'>
-					  <div class="row">
-                        <div class="form-group col-sm-5 col-xs-12">
-                          <label class="col-xs-6 col-sm-3">Effective Date:</label>
-                          <div class="input-group col-xs-6">
-	              			<?php echo $plan['effective_date']; ?>
-                          </div>
+              				  <input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
+              				  <input type='hidden' name='plan_id' value='<?php echo $plan_id; ?>'>
+          					  <div class="row">
+                        <div class="form-group col-sm-4 col-xs-12">
+                          <label>Effective Date:</label> <?php echo $plan['effective_date']; ?>
                         </div>
 
-                        <div class="form-group col-sm-5 col-xs-12">
-                          <label class="col-sm-12">Expiry Date:</label>
-                          <div class="input-group col-sm-12">
-	              			<?php echo $plan['expiry_date']; ?>
+                        <div class="form-group col-sm-4 col-xs-12">
+                          <label>Expiry Date:</label> <?php echo $plan['expiry_date']; ?>
+                        </div>
+                        <div class="form-group col-sm-4 col-xs-12">
+                          <label>Total Premium:</label> <?php echo "..."; ?>
+                        </div>
+                      </div>
+                      <div class="row">  
+                        <div class="form-group col-sm-4 col-xs-12">
+                          <label>Refund Date:</label>
+                          <div class="inline-date">
+                            <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
+                              <input class="form-control" size="16" type="text" name='refund_date' id='refund_date' value='<?php echo $plan['expiry_date']; ?>' min='<?php echo $plan['effective_date']; ?>' max='<?php echo $plan['expiry_date']; ?>'>
+                              <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                            </div>
                           </div>
+                          <br />
                         </div>
 
-                        <div class="form-group col-sm-5 col-xs-12">
-                          <label class="col-sm-12">Refund Date:</label>
-                          <div class="input-group col-sm-12">
-                            <input type="date" name='refund_date' id='refund_date' value='<?php echo $plan['expiry_date']; ?>' min='<?php echo $plan['effective_date']; ?>' max='<?php echo $plan['expiry_date']; ?>' class="form-control"/>
-                          </div>
+                        <div class="form-group col-sm-4 col-xs-12 pull-right">
+                          <label>Used Premium:</label> <?php echo "..."; ?>
+                         
                         </div>
+                      </div>
 
-                        <div class="form-group col-sm-5 col-xs-12">
-                          <label class="col-sm-12">Refund Amount:</label>
-                          <div class="input-group col-sm-12">
-                            <input type="number" step="any" name='refund_amount' id='refund_amount' value='' class="form-control"/>
-                          </div>
+                      <div class="row">  
+                        <div class="form-group col-sm-8 col-xs-12">
+                            <label class="radio-inline"><input type="radio" name="optradio">$0 Adminstration Fee</label>
+                            <label class="radio-inline"><input type="radio" name="optradio">$40 Adminstration Fee</label>
                         </div>
-
-                        <div class="form-group col-sm-5 col-xs-12">
-                          <label class="col-sm-12">Admin Fee:</label>
-                          <div class="input-group col-sm-12">
-                            <input type="number" step="any" name='admin_fee' value='40' class="form-control"/>
-                          </div>
+                        <div class="form-group col-sm-4 col-xs-12">
+                          <label>Refund Premium:</label> <span id="refund_amount"></span>
+                          <!--input type="number" step="any" name='refund_amount' id='refund_amount' value='' class="form-control"/-->
                         </div>
-
-			            <div class="form-group col-sm-4">
-			           	  <label class="col-sm-12">&nbsp;</label>
-			              <input class="btn btn-primary" type='submit' name='send' value='Send'>
-			            </div>	
+      			            
+                      </div>
+                      <div class="row">
+                        <div class="form-group col-sm-12 text-right">
+                          <label class="inline">Are you sure you want to refund this policy? </label>
+                         <input class="btn btn-primary inline" type='submit' name='send' value='YES'>
+                         <a class="btn btn-default inline" href="<?php echo $url_back_to_policy;?>">NO</a>
+                        </div>  
                       </div>
 			        </form>
 				  </div>
@@ -84,7 +96,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         </div>
       </div>
       <!-- /page content -->
-<<script type="text/javascript">
+<script type="text/javascript">
 <!--
 $( document ).ready(function() {
 	$('#refund_date').change(get_refund_amount); 
@@ -100,7 +112,8 @@ function get_refund_amount() {
 		data: {	refund_date: refund_date },
 		success: function(data, textStatus, jqXHR) {
 			if (data['status'] == 'OK') {
-        		$('input[name="refund_amount"]').val(data['refund_amount']);
+        		//$('input[name="refund_amount"]').val(data['refund_amount']);
+            $('#refund_amount').text(data['refund_amount']);
 			}
     	},
 	});

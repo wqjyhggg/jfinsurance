@@ -1758,6 +1758,7 @@ class Plan extends MY_Controller {
 		$data['action_url'] = base_url('plan/refund');
 		$data['refund_amount_url'] = base_url('plan/refund_amount')."/".$plan['plan_id'];
 		$data['plan_id'] = $plan['plan_id'];
+		$data['url_back_to_policy'] = base_url('plan/');
 		
 		$data['title_txt'] = 'Policy';
 		$data['top_menu'] = $this->menu_model->load_top_menu();
