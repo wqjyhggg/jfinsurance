@@ -22,6 +22,7 @@ class Payment extends MY_Controller {
 			$this->load->model('payment_model');
 			$this->load->model('plan_model');
 			$payarr = array(
+				'invoice_num' => $this->input->post('invoice_num'),
 				'bank_name' => $this->input->post('bank_name'),
 				'payor_name' => $this->input->post('payor_name'),
 				'cheque_number' => $this->input->post('cheque_number'),

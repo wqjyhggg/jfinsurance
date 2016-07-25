@@ -1084,7 +1084,8 @@ class Plan extends MY_Controller {
 		
 		$plan_id = $this->input->post('plan_id');
 		$premium = $this->input->post('premium');
-		$payinfo  = 'Bank Name: ' . $this->input->post('bank_name') . "; ";
+		$payinfo  = 'Invoice Number: ' . $this->input->post('invoice_num') . "; ";
+		$payinfo .= 'Bank Name: ' . $this->input->post('bank_name') . "; ";
 		$payinfo .= 'Payor Name: ' . $this->input->post('payor_name') . "; ";
 		$payinfo .= 'Checque#: ' . $this->input->post('cheque_number') . "; ";
 		$payinfo .= 'Premium: $' . $this->input->post('premium') . "; ";

@@ -18,6 +18,10 @@ class Payment_model extends CI_Model {
 		switch ($str) {
 			case 'premium': return 'premium';
 			case 'commission': return 'commission';
+			case 'refund': return 'refund';
+			case 'cancel': return 'cancel';
+			case 'refund_commission': return 'refund_commission';
+			case 'cancel_commission': return 'cancel_commission';
 		}
 		return 'unknown : ' . $str;
 	}
