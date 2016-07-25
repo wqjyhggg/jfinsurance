@@ -655,6 +655,7 @@ class Plan extends MY_Controller {
 		$data['sendpackage_url'] = base_url ( "plan/sendpackage" ) . "/";
 		$data['cancel_url'] = base_url ( "plan/cancel" ) . "/";
 		$data['refund_url'] = base_url ( "plan/refund" ) . "/";
+		$data['revert_url'] = base_url ( "plan/revert" ) . "/";
 		$data['makepay_url'] = base_url ( "payment/makepay" );
 		
 		$data['title_txt'] = 'Policy';
