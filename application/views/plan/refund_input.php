@@ -48,7 +48,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                           <label>Expiry Date:</label> <?php echo $plan['expiry_date']; ?>
                         </div>
                         <div class="form-group col-sm-4 col-xs-12">
-                          <label>Total Premium:</label> <?php echo "..."; ?>
+                          <label>Total Premium:</label> <?php echo $plan['premium']; ?>
                         </div>
                       </div>
                       <div class="row">  
@@ -64,7 +64,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         </div>
 
                         <div class="form-group col-sm-4 col-xs-12 pull-right">
-                          <label>Used Premium:</label> <?php echo "..."; ?>
+                          <label>Used Premium:</label> <span id="used_amount"></span>
                          
                         </div>
                       </div>
@@ -114,6 +114,8 @@ function get_refund_amount() {
 			if (data['status'] == 'OK') {
         		//$('input[name="refund_amount"]').val(data['refund_amount']);
             $('#refund_amount').text(data['refund_amount']);
+            $('#used_amount').text(data['used_amount']);
+
 			}
     	},
 	});
