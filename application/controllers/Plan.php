@@ -1541,10 +1541,10 @@ class Plan extends MY_Controller {
 		$data['beuser'] = $beuser;
 		$data['plan'] = $plan;
 		if ($this->input->post()) {
-			$refund_amount = number_format((float)$this->input->post('refund_amount'), 2);
-			$admin_fee = number_format((float)$this->input->post('admin_fee'), 2);
+			$refund_amount = (float)$this->input->post('refund_amount');
+			$admin_fee = (float)$this->input->post('admin_fee');
 
-			$total_amount = number_format((float)$refund_amount - (float)$admin_fee, 2);
+			$total_amount = (float)$refund_amount - (float)$admin_fee;
 			if ($total_amount > 0) {
 				$this->load->model('payment_model');
 				$dt = array();

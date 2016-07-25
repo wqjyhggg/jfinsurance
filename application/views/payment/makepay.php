@@ -40,26 +40,35 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 									<fieldset>
 										<legend>Pay Information</legend>
 										<div class="row">
-											<div class="col-sm-3">
+											<div class="col-sm-4">
+												<label class="col-sm-12">Bank Name: </label>
+												<div class="input-group col-sm-12">
+													<!-- div id='totaldays' class="div-box"></div -->
+													<input class="form-control" type='text' name='invoice_num' id='invoice_num' value='' >
+												</div>
+											</div>
+											<div class="col-sm-4">
 												<label class="col-sm-12">Bank Name: </label>
 												<div class="input-group col-sm-12">
 													<!-- div id='totaldays' class="div-box"></div -->
 													<input class="form-control" type='text' name='bank_name' id='bank_name' value='' >
 												</div>
 											</div>
-											<div class="col-sm-3">
+											<div class="col-sm-4">
 												<label class="col-sm-12">Payor: </label>
 												<div class="input-group col-sm-12">
 													<input class="form-control" type='text' name='payor_name' id='payor_name' value='' >
 												</div>
 											</div>
-											<div class="col-sm-3">
+										</div>
+										<div class="row">
+											<div class="col-sm-4">
 												<label class="col-sm-12">Cheque Number: </label>
 												<div class="input-group col-sm-12">
 													<input class="form-control" type='text' name='cheque_number' id='cheque_number' value='' >
 												</div>
 											</div>
-											<div class="col-sm-3">
+											<div class="col-sm-4">
 												<label class="inline">Pay To: </label>
 												<div class="input-group col-sm-12">
 													<input class="form-control" type='input' name='pay_to' id='pay_to' value=''>
