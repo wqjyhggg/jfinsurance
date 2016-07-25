@@ -779,7 +779,7 @@ class Plan extends MY_Controller {
 			$dt['plan_id'] = $plan_id;
 			$dt['amount'] = $premium;
 			$dt['pay_type'] = 'premium';
-			$dt['currency'] = $plan['currency'];
+			$dt['currency'] = $product['currency'];
 			$dt['pay_mothed'] = 'Credit Card';
 			$dt['name'] = $card_name;
 			$dt['added'] = date('c');
@@ -978,11 +978,12 @@ class Plan extends MY_Controller {
 		$payinfo = "Pay Cash: " . 'Premium: $' . $premium . "; ";
 		
 		$plan = $this->plan_model->get_plan_by_id($plan_id);
+		$product = $this->product_model->get_product($plan['product_short']);
 		$dt = array();
 		$dt['plan_id'] = $plan_id;
 		$dt['amount'] = $premium;
 		$dt['pay_type'] = 'premium';
-		$dt['currency'] = $plan['currency'];
+		$dt['currency'] = $product['currency'];
 		$dt['pay_mothed'] = 'Cash';
 		$dt['added'] = date('c');
 		$dt['note'] = $payinfo;
@@ -1095,11 +1096,12 @@ class Plan extends MY_Controller {
 		$payinfo .= 'Premium: $' . $this->input->post('premium') . "; ";
 
 		$plan = $this->plan_model->get_plan_by_id($plan_id);
+		$product = $this->product_model->get_product($plan['product_short']);
 		$dt = array();
 		$dt['plan_id'] = $plan_id;
 		$dt['amount'] = $premium;
 		$dt['pay_type'] = 'premium';
-		$dt['currency'] = $plan['currency'];
+		$dt['currency'] = $product['currency'];
 		$dt['pay_mothed'] = 'Cheque';
 		$dt['added'] = date('c');
 		$dt['note'] = $payinfo;
@@ -1542,6 +1544,8 @@ class Plan extends MY_Controller {
 		if (empty($plan)) {
 			redirect('user/login');
 		}
+		$this->load->model('product_model');
+		$product = $this->product_model->get_product($plan['product_short']);
 		
 		$data['beuser'] = $beuser;
 		$data['plan'] = $plan;
@@ -1556,7 +1560,7 @@ class Plan extends MY_Controller {
 				$dt['plan_id'] = $plan_id;
 				$dt['amount'] = $total_amount * (-1);
 				$dt['pay_type'] = 'cancel';
-				$dt['currency'] = $plan['currency'];
+				$dt['currency'] = $product['currency'];
 				$dt['pay_mothed'] = 'Checque';
 				$dt['added'] = date('c');
 				$dt['ispaid'] = 0;
@@ -1681,6 +1685,8 @@ class Plan extends MY_Controller {
 		if (empty($plan)) {
 			redirect('user/login');
 		}
+		$this->load->model('product_model');
+		$product = $this->product_model->get_product($plan['product_short']);
 		
 		$data['beuser'] = $beuser;
 		$data['plan'] = $plan;
@@ -1695,7 +1701,7 @@ class Plan extends MY_Controller {
 				$dt['plan_id'] = $plan_id;
 				$dt['amount'] = $total_amount * (-1);
 				$dt['pay_type'] = 'refund';
-				$dt['currency'] = $plan['currency'];
+				$dt['currency'] = $product['currency'];
 				$dt['pay_mothed'] = 'Checque';
 				$dt['added'] = date('c');
 				$dt['ispaid'] = 0;
