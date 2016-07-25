@@ -240,7 +240,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                               <td><?=$record['order_date'] ?></td>
                               <td><?=$record['policy'] ?></td>
                               <td><?=$record['insured_name'] ?></td>
-                              <td><?=$record['insured_name'] ?></td>
+                              <!--td><?=$record['insured_name'] ?></td-->
                               <td><?=$record['effective_date'] ?></td>
                               <td><?=$record['expiry_date'] ?></td>
                               <td><?=$record['total_days'] ?></td>

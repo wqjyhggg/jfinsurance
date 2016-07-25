@@ -1539,11 +1539,14 @@ class Plan extends MY_Controller {
 		
 		$data['beuser'] = $beuser;
 		$data['plan'] = $plan;
-		if ($this->input->post()) {
-			$refund_amount = number_format((float)$this->input->post('refund_amount'), 2);
-			$admin_fee = number_format((float)$this->input->post('admin_fee'), 2);
 
-			$total_amount = number_format((float)$refund_amount - (float)$admin_fee, 2);
+
+		if ($this->input->post()) {
+			$refund_amount = (float)$this->input->post('refund_amount');
+			$admin_fee = (float)$this->input->post('admin_fee');
+
+			$total_amount =(float)$refund_amount - (float)$admin_fee;
+
 			if ($total_amount > 0) {
 				$this->load->model('payment_model');
 				$dt = array();
@@ -1613,8 +1616,9 @@ class Plan extends MY_Controller {
 				} else {
 					$data['insurable_options'] = $this->load->view('plan/detail_other', $data, TRUE);
 				}
-				$html = $this->load->view('plan/cancel', $data, TRUE);
 
+				$data['style'] = $this->load->view('common/pdf_style',$data, TRUE);
+				$html = $this->load->view('plan/cancel', $data, TRUE);
 				$mpdf = new mPDF('c');
 				$mpdf->writeHTML($html);
 				$mpdf->Output();
@@ -1678,10 +1682,10 @@ class Plan extends MY_Controller {
 		$data['beuser'] = $beuser;
 		$data['plan'] = $plan;
 		if ($this->input->post()) {
-			$refund_amount = number_format((float)$this->input->post('refund_amount'), 2);
-			$admin_fee = number_format((float)$this->input->post('admin_fee'), 2);
-
-			$total_amount = number_format((float)$refund_amount - (float)$admin_fee, 2);
+			$refund_amount = (float)$this->input->post('refund_amount');
+			$admin_fee = (float)$this->input->post('admin_fee');
+			$total_amount = (float)$refund_amount - (float)$admin_fee;
+			//die($refund_amount . '==' . $admin_fee . '++' . $total_amount);
 			if ($total_amount > 0) {
 				$this->load->model('payment_model');
 				$dt = array();
@@ -1751,7 +1755,7 @@ class Plan extends MY_Controller {
 				} else {
 					$data['insurable_options'] = $this->load->view('plan/detail_other', $data, TRUE);
 				}
-				
+				$data['style'] = $this->load->view('common/pdf_style',$data, TRUE);
 				$html = $this->load->view('plan/refund', $data, TRUE);
 				$mpdf = new mPDF('c');
 				$mpdf->writeHTML($html);
@@ -1764,7 +1768,7 @@ class Plan extends MY_Controller {
 		$data['refund_amount_url'] = base_url('plan/refund_amount')."/".$plan['plan_id'];
 		$data['plan_id'] = $plan['plan_id'];
 		$data['url_back_to_policy'] = base_url('plan/');
-		
+
 		$data['title_txt'] = 'Policy';
 		$data['top_menu'] = $this->menu_model->load_top_menu();
 		$data['menu'] = $this->menu_model->load_meun();
