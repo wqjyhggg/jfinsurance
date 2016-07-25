@@ -114,6 +114,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                       </div>
                       <div class="row">
                         <div class="form-group col-sm-3">
+                          <label  class="col-sm-12">Invoice Number: </label>
+                          <div class="input-group col-sm-12">
+                            <input class="form-control" type='text' name='invoice_num' value='<?php echo $invoice_num; ?>'>
+                          </div>
+                        </div>
+                      
+                        <div class="form-group col-sm-3">
                           <label  class="col-sm-12">Cheque Number: </label>
                           <div class="input-group col-sm-12">
                             <input class="form-control" type='text' name='cheque_number' value='<?php echo $cheque_number; ?>'>

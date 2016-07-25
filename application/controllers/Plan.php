@@ -1645,8 +1645,10 @@ class Plan extends MY_Controller {
 	public function refund_amount($plan_id) {
 		$beuser = $this->func_model->verify_login(TRUE);
 		$this->load->model('plan_model');
+		$plan = $this->get_plan_by_id($plan_id);
 		$data['status'] = 'OK';
 		$data['refund_amount'] = $this->plan_model->refund_amount($plan_id, $this->input->get('refund_date'));
+		$data['used_amount'] = $plan['premium'] - $data['refund_amount']; 
 		header('Content-Type: application/json');
 		echo json_encode($data);
 	}
