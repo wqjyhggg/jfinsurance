@@ -64,9 +64,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						
 						<?php if ($status_id > 1) { ?>
 							<a href='<?php echo $sendpackage_url . $plan_id; ?>'><span class="btn btn-info">Send Package</span></a>
-						<?php if ($status_id <= 3) { ?>
+						<?php if ($status_id == 3) { ?>
+						<?php if((time()-(60*60*24)) < strtotime($effective_date)){ ?>
 							<a href='<?php echo $cancel_url . $plan_id; ?>'><span class="btn btn-info">Cancel</span></a>
+							<?php }else{?>
 							<a href='<?php echo $refund_url . $plan_id; ?>'><span class="btn btn-info">Refund</span></a>
+							<?php } ?>
 						<?php } ?>
 						<?php } ?>
 
@@ -745,7 +748,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 												}
 											?>
 											<tr>
-												<td><input type='checkbox' name='payment[]' value='<?php echo $p['payment_id']; ?>'><?php echo $p['payment_id']; ?></td>
+												<td><input type='checkbox' name='payment[]' value='<?php echo $p['payment_id']; ?>'><?php //echo $p['payment_id']; ?></td>
 												<td><?php echo $p['pay_type']; ?></td>
 												<td><?php echo $p['amount']; ?></td>
 												<td><?php echo $p['ispaid'] ? "Paied" : "-"; ?> <?php if (!empty($rev_str)) { ?><a href='<?php echo $revert . $p['payment_id']; ?>'><?php echo $rev_str; ?></a><?php } ?></td>
@@ -757,7 +760,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										</table>
 			                  		</div>
 			                  		<div class="row"><div class="col-sm-12">
-			                  			<input type="submit" class="btn btn-primary pull-right" name='submit' value='Make Pay'>
+			                  			<input type="submit" class="btn btn-primary" name='submit' value='Make Pay'>
 			                  		</div></div>
 			                  		</form>
 			                  		<hr />

@@ -30,33 +30,39 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_content">
-                  <?php if (!empty($error_message)) { echo $error_message . "<br>"; } ?>
+                  <?php if (!empty($error_message)) {?>
+                  <div class="alert-error">
+                    <?php echo $error_message . "<br>";?>
+                  </div>
+                  <?php } ?>
                     <form action='<?php echo $action_url; ?>' method='POST'  class="form-horizontal">
-    				  <input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
-    				  <input type='hidden' name='plan_id' value='<?php echo $plan_id; ?>'>
-					  <div class="row">
-                        <!-- Product select box -->
-                        <div class="form-group col-sm-5 col-xs-12">
-                          <label class="col-sm-12">Refund Amount:</label>
-                          <div class="input-group col-sm-12">
-                            <input type="number" step="any" name='refund_amount' id='refund_amount' value='<?php echo $plan['premium']; ?>' class="form-control"/>
-                          </div>
+            				  <input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
+            				  <input type='hidden' name='plan_id' value='<?php echo $plan_id; ?>'>
+
+                        <div class="form-group col-sm-4 col-xs-12"  style="display:none;">
+                          <label>Refund Premium:</label> <!--span id="refund_amount"></span-->
+                          <input readonly type="number" step="any" name='refund_amount' id='refund_amount' value='<?php echo $plan['premium']; ?>' class="form-control"/>
                         </div>
 
-                        <div class="form-group col-sm-5 col-xs-12">
+        					  <div class="row">
+
+                        <div class="form-group col-sm-5 col-xs-12" style="display:none;">
                           <label class="col-sm-12">Admin Fee:</label>
                           <div class="input-group col-sm-12">
                             <input type="number" step="any" name='admin_fee' value='' class="form-control"/>
                           </div>
                         </div>
-                        <!-- Policy Number input box end -->
-			            <div class="form-group col-sm-4">
-			           	  <label class="col-sm-12">&nbsp;</label>
-			              <input class="btn btn-primary" type='submit' name='send' value='Send'>
-			            </div>	
+                        
+                      </div><br />
+                      <div class="row">
+                        <div class="form-group col-sm-12 text-center">
+                          <label class="inline">Are you sure you want to cancel this policy? </label>
+                         <input class="btn btn-primary inline" type='submit' name='send' value='YES'>
+                         <a class="btn btn-default inline" href="<?php echo $url_back_to_policy;?>">NO</a>
+                        </div>  
                       </div>
-			        </form>
-				  </div>
+			              </form>
+				          </div>
                 </div>
               </div>
             </div><!-- End Filter Section -->
