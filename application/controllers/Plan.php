@@ -41,7 +41,24 @@ class Plan extends MY_Controller {
 		$data['product_short'] = $this->input->get_post('product_short');
 		$data['province2'] = $this->input->get_post('province2');
 		$data['country2'] = $this->input->get_post('country2');
-
+		$data['morefilter'] = (    empty($data['firstname']) 
+								&& empty($data['lastname']) 
+								&& empty($data['birthday']) 
+								&& empty($data['birthday2']) 
+								&& empty($data['apply_date']) 
+								&& empty($data['apply_date2']) 
+								&& empty($data['arrival_date']) 
+								&& empty($data['arrival_date2']) 
+								&& empty($data['effective_date']) 
+								&& empty($data['effective_date2']) 
+								&& empty($data['expiry_date']) 
+								&& empty($data['expiry_date2']) 
+								&& empty($data['uname']) 
+								&& empty($data['status_id']) 
+								&& empty($data['product_short']) 
+								&& empty($data['country2']) 
+								&& empty($data['batch_number']) ) ? 1 : 0;
+		
 		$data['product_list'] = $this->product_model->product_list();
 		$prod2 = array();
 		foreach($data['product_list'] as $key => $value) {
@@ -110,7 +127,7 @@ class Plan extends MY_Controller {
 
 		$policy_search = $this->session->userdata('policy_search');
 		if ($policy_search) {
-			$policies = $this->plan_model->plan_export_search($policy_search);
+			$policies = $this->plan_model->plan_export_search(json_decode($policy_search, TRUE));
 		} else {
 			$policies = array();
 		}

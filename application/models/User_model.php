@@ -24,7 +24,7 @@ class User_model extends CI_Model {
 				$tm = strtotime($rc['licence_expire']) + 86400;
 				$now = time();
 				if ($now > $tm) {
-					return NULL;
+					return 'licence Expired';
 				}
 			}
 			return $rc;
