@@ -63,7 +63,7 @@ class User extends MY_Controller {
 			$rt = FALSE;
 		}
 		$password = trim($this->input->post('password'));
-		if ( (strlen($password) < self::PASSWORD_MIN) || (strlen($password) > self::PASSWORD_MAX)) {
+		if (!empty($password) && ((strlen($password) < self::PASSWORD_MIN) || (strlen($password) > self::PASSWORD_MAX))) {
 			$this->data['error_password'] = $this->lang->line('error_password');
 			$rt = FALSE;
 		}

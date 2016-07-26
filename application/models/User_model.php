@@ -350,6 +350,56 @@ class User_model extends CI_Model {
 				$para['postcode'] = trim(strtoupper($post['postcode']));
 			}
 		}
+		if (!empty($post['mail_address'])) {
+			if ($this_user) {
+				if ($this_user['mail_address'] != $post['mail_address']) {
+					$this->logstr .= "mail_address[".$this_user['mail_address']."]=>[".$post['mail_address']."],";
+					$para['mail_address'] = trim($post['mail_address']);
+				}
+			} else {
+				$para['mail_address'] = trim($post['mail_address']);
+			}
+		}
+		if (!empty($post['mail_city'])) {
+			if ($this_user) {
+				if ($this_user['mail_city'] != $post['mail_city']) {
+					$this->logstr .= "mail_city[".$this_user['mail_city']."]=>[".$post['mail_city']."],";
+					$para['mail_city'] = trim($post['mail_city']);
+				}
+			} else {
+				$para['mail_city'] = trim($post['mail_city']);
+			}
+		}
+		if (!empty($post['mail_province2'])) {
+			if ($this_user) {
+				if ($this_user['mail_province2'] != $post['mail_province2']) {
+					$this->logstr .= "mail_province[".$this_user['mail_province2']."]=>[".$post['mail_province2']."],";
+					$para['mail_province2'] = trim($post['mail_province2']);
+				}
+			} else {
+				$para['mail_province2'] = trim($post['mail_province2']);
+			}
+		}
+		if (!empty($post['mail_country2'])) {
+			if ($this_user) {
+				if ($this_user['mail_country2'] != $post['mail_country2']) {
+					$this->logstr .= "mail_country[".$this_user['mail_country2']."]=>[".$post['mail_country2']."],";
+					$para['mail_country2'] = trim($post['mail_country2']);
+				}
+			} else {
+				$para['mail_country2'] = trim($post['mail_country2']);
+			}
+		}
+		if (!empty($post['mail_postcode'])) {
+			if ($this_user) {
+				if ($this_user['mail_postcode'] != $post['mail_postcode']) {
+					$this->logstr .= "mail_postcode[".$this_user['mail_postcode']."]=>[".$post['mail_postcode']."],";
+					$para['mail_postcode'] = trim(strtoupper($post['mail_postcode']));
+				}
+			} else {
+				$para['mail_postcode'] = trim(strtoupper($post['mail_postcode']));
+			}
+		}
 		if (!empty($post['website'])) {
 			if ($this_user) {
 				if ($this_user['website'] != $post['website']) {
@@ -473,7 +523,6 @@ class User_model extends CI_Model {
 			$this->logstr = "Add user(" . $user_id . "): " . $this->logstr;
 			$this->sqlstr = $this->db->last_query();
 		}
-		
 		// user_product
 		$this->db->where('user_id', $user_id);
 		$rt = $this->db->get('user_product');
