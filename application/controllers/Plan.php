@@ -774,7 +774,7 @@ class Plan extends MY_Controller {
 			$card_cvv = $this->input->post('card_cvv');
 
 			$plan = $this->plan_model->get_plan_by_id($plan_id);
-			$product = $this->product_model->get_product[$plan['product_short']];
+			$product = $this->product_model->get_product($plan['product_short']);
 			$dt = array();
 			$dt['plan_id'] = $plan_id;
 			$dt['amount'] = $premium;
