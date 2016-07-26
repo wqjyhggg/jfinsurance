@@ -421,6 +421,7 @@ class Report_model extends CI_Model {
         if (!empty($para['create_date_to'])) {
             $this->db->where('cl.claim_date <=', $para['create_date_to']);
         }
+        $this->db->where_in('pl.status_id', array(self::SOLD, self::PAID, self::CLAIMED));
     }
 
     private function get_claim_report_result($query)
@@ -560,6 +561,7 @@ class Report_model extends CI_Model {
     private function commission_where($para)
     {
         $this->common_report_where($para);
+        ethis->db->where_in('pl.status_id', array(self::SOLD, self::PAID, self::CLAIMED));
     }
 
     private function get_commission_result($query)
