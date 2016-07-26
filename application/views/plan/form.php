@@ -557,11 +557,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						$(d).val($(s).val());
 						i++;
 					}
-					$('#customer_id_8').val();
-					$('#firstname_8').val();
-					$('#lastname_8').val();
-					$('#birthday_8').val();
-					$('#gender_8').val();
+					$('#customer_id_8').val(0);
+					$('#firstname_8').val('');
+					$('#lastname_8').val('');
+					$('#birthday_8').val('');
+					$('#gender_8').val('M');
+					get_premium();
 					addmoremember();
 				}
 
