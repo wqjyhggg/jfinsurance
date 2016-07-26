@@ -63,7 +63,7 @@ class User extends MY_Controller {
 			$rt = FALSE;
 		}
 		$password = trim($this->input->post('password'));
-		if ( (strlen($password) < self::PASSWORD_MIN) || (strlen($password) > self::PASSWORD_MAX)) {
+		if (!empty($password) && ((strlen($password) < self::PASSWORD_MIN) || (strlen($password) > self::PASSWORD_MAX))) {
 			$this->data['error_password'] = $this->lang->line('error_password');
 			$rt = FALSE;
 		}
@@ -357,9 +357,13 @@ class User extends MY_Controller {
 			// Login post check
 			$r = $this->user_model->login ( $this->input->post ( 'username' ), $this->input->post ( 'password' ) );
 			if ($r) {
-				$this->session->set_userdata ( 'user', $r );
-				$this->session->set_userdata ( 'beuser', $r );
-				redirect ( base_url ('product') );
+				if (is_array($r)) {
+					$this->session->set_userdata ( 'user', $r );
+					$this->session->set_userdata ( 'beuser', $r );
+					redirect ( base_url ('product') );
+				} else {
+					$this->data['error_message'] = $r;
+				}
 			} else {
 				$this->data['error_message'] = $this->lang->line ( 'error_no_user_found' );
 			}

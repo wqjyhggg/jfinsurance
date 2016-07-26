@@ -11,6 +11,9 @@ class Payment extends MY_Controller {
 	{
 	}
 	
+	/**
+	 * Make a Payment
+	 */
 	public function makepay() {
 		$beuser = $this->func_model->verify_login();
 
@@ -22,6 +25,7 @@ class Payment extends MY_Controller {
 			$this->load->model('payment_model');
 			$this->load->model('plan_model');
 			$payarr = array(
+				'invoice_num' => $this->input->post('invoice_num'),
 				'bank_name' => $this->input->post('bank_name'),
 				'payor_name' => $this->input->post('payor_name'),
 				'cheque_number' => $this->input->post('cheque_number'),
@@ -69,5 +73,62 @@ class Payment extends MY_Controller {
 		);
 		
 		$this->load->common('payment/makepay', $data);
+	}
+
+	/**
+	 * Revert Payment
+	 *
+	 * @param integer $plan_id
+	 */
+	public function revert($payment_id=0) {
+		$beuser = $this->func_model->verify_login(TRUE);
+		$this->load->model('payment_model');
+		$this->load->model('plan_model');
+
+		if (empty($payment_id)) {
+			$payment_id = $this->input->post('payment_id');
+		}
+		if (empty($payment_id)) {
+			redirect('user/login');
+		}
+		$payment = $this->payment_model->get_payment_by_id($payment_id);
+		if (empty($payment)) {
+			redirect('user/login');
+		}
+
+		$plan = $this->plan_model->get_plan_by_id($payment['plan_id']);
+		
+		$data['beuser'] = $beuser;
+		$dt = array();
+		$dt['amount'] = 0;
+		$dt['ispaid'] = 1;
+		$dt['note'] = "Revert: " . $payment['amount'] . "; " . $payment['note'];
+		$payment_id = $this->payment_model->update($payment_id, $dt);
+		$para = array(
+				'plan_id' => $plan['plan_id'],
+				'customer_id' => $plan['customer_id'],
+				'payment_id' => $payment_id,
+				'message' => $this->payment_model->logstr,
+				'systemlog' => $this->payment_model->sqlstr
+		);
+		if (($payment['pay_type'] == 'refund') || ($payment['pay_type'] == 'cancel')) {
+			$this->log_model->activity('payment', $para);
+			
+			$note = "Revert " . $payment['pay_type'] . " : " . $payment['amount'] . "; " . $plan['note'];
+			$para = array('status_id' => 4, 'note' => $note );  // Change status to Paid
+			$this->plan_model->update($plan_id, $para);
+			$para = array(
+					'plan_id' => $plan_id,
+					'customer_id' => $plan['customer_id'],
+					'payment_id' => $payment_id,
+					'message' => $this->plan_model->logstr,
+					'systemlog' => $this->plan_model->sqlstr
+			);
+			$this->log_model->activity('plan', $para);
+		} else {
+			$this->log_model->activity('commission', $para);
+		}
+		
+		redirec('plan');
 	}
 }

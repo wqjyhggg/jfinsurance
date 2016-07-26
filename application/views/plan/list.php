@@ -102,7 +102,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     			</div>
 
 			                      <!-- personal information search -->
-			                    <div id="adv-search" class="collapse">
+			                    <div id="adv-search" <?php if ($morefilter) { ?>class="collapse" <?php } ?>>
 			                      <div class="row">
 			                        <!-- Last Name input box -->
 			                        <div class="form-group col-sm-3">

@@ -43,8 +43,8 @@ class Renewal extends MY_Controller {
         $data['create_date_to'] = $this->input->post('create_date_to');
         $data['effective_date_from'] = $this->input->post('effective_date_from');
         $data['effective_date_to'] = $this->input->post('effective_date_to');
-        $data['expiry_date_from'] = empty($this->input->post('expiry_date_from')) ? date('Y-m-01') : $this->input->post('expiry_date_from');
-        $data['expiry_date_to'] = empty($this->input->post('expiry_date_to')) ? date("Y-m-d") : $this->input->post('expiry_date_to');
+        $data['expiry_date_from'] = empty($this->input->post('expiry_date_from')) ? date('Y-m-01') : $this->input->post('expiry_date_from', true);
+        $data['expiry_date_to'] = empty($this->input->post('expiry_date_to')) ? date("Y-m-d") : $this->input->post('expiry_date_to', true);
 
         $data['product_list'] = $this->product_model->get_available_product_list();
         $data['user_list'] = $this->user_model->get_available_user_list();

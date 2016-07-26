@@ -1,167 +1,104 @@
 <?php
 defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 ?>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>PDF File</title>
+	<?php echo $style;?>
+</head>
+<body>
+	<header>
+		<!--p class="rh">JF Group</p-->
+	</header>
+	<div class="container">	
 		<div class="row">
-			<div class="col-md-12 col-sm-12 col-xs-12">
-				<div class="x_panel">
-					<div class="x_title">
-						<h2>
-							Refund Policy Detail<span> ---- <?php echo $status_list[$plan['status_id']]['name']; ?> Refund amount: $<?php echo $refund_amount; ?> Admin Fee: $<?php echo $admin_fee; ?> Total amount: $<?php echo $total_amount; ?></span>
-						</h2>
-						<div class="clearfix"></div>
-					</div>
-					<div class="x_content">
-						<div class="p-detail"><!-- policy detail -->
-							<div class="row">
-								<div class="col-sm-12">
-							<table>
-								<tbody>
-									<tr>
-										<td style="width:20%;"><label>Apply Date: </label><span style="border-bottom:1px solid #ccc;"><?php echo $plan['apply_date']; ?></span></td>
-									
-										<td style="width:20%;"><label>Arrival Date: </label><span style="border-bottom:1px solid #ccc;"><?php echo $plan['arrival_date']; ?></span></td>
-									
-										<td style="width:20%;"><label>Effective Date: </label><span style="border-bottom:1px solid #ccc;"><?php echo $plan['effective_date']; ?></span></td>
-									
-										<td style="width:20%;"><label>Expiry Date: </label><span style="border-bottom:1px solid #ccc;"><?php echo $plan['expiry_date']; ?></span></td>
-									</tr>
-								</tbody>
-							</table>
-							</div>	
-							</div>
-							<?php echo $insurable_options; ?>
-							
-							<div class="row">
-								<div class="col-sm-12" style="background-color:#5bc0de; color:#fff;">
-									<label class="inline">Customer Information</label>
-								</div>
-							
-								<div class="col-sm-3">
-									<label class="inline">Last Name:</label>
-									<span><?php echo $customer['lastname']; ?></span>
-								</div>
-								<div class="col-sm-3">
-									<label class="inline">First Name:</label>
-									<span><?php echo $customer['lastname']; ?></span>
-								</div>
-								<div class="col-sm-3">
-									<label class="inline">Birth Date:</label>
-									<span><?php echo $customer['birthday']; ?></span>
-								</div>
-								<div class="col-sm-3">
-									<label class="inline">Gender:</label>
-									<span><?php echo $customer['gender']; ?></span>
-								</div>
-							</div>
-
-							<?php if ($plan['isfamilyplan']) { ?>
-								<div class="row">
-									<div class="col-sm-12" style="background-color:#5bc0de; color:#fff;">
-										<label class="inline">Family Member Information</label>
-									</div>
-								<?php for ($i = 0; $i < 9; $i++) { ?>
-									<?php if (empty($customers[$i]['lastname']) && empty($customers[$i]['firstname'])) continue; ?>
-										<div class="col-sm-3">
-											<label class="inline">Last Name:</label>
-											<span><?php echo $customers[$i]['lastname']; ?></span>
-										</div>
-										<div class="col-sm-3">
-											<label class="inline">First Name:</label>
-											<span><?php echo $customers[$i]['firstname']; ?></span>
-										</div>
-										<div class="col-sm-3">
-											<label class="inline">Birth Date:</label>
-											<span><?php echo $customers[$i]['birthday']; ?></span>
-										</div>
-										<div class="col-sm-3">
-											<label class="inline">Gender:</label>
-											<span><?php echo $customers[$i]['gender']; ?></span>
-										</div>
-								<?php } ?>
-								</div>
-							<?php } ?>	
-
-							<div class="row">
-								<div class="col-sm-12" style="background-color:#5bc0de; color:#fff;"><label>Address Information</label></div>
-								<div class="col-sm-3">
-									<label class="inline">Street No:</label>
-									<span><?php echo $plan['street_number']; ?></span>
-								</div>
-								<div class="col-sm-3">
-									<label class="inline">Street Name:</label>
-									<span><?php echo $plan['street_name']; ?></span>
-								</div>
-								<div class="col-sm-3">
-									<label class="inline">Suite No.:</label>
-									<span><?php echo $plan['suite_number']; ?></span>
-								</div>
-								<div class="col-sm-3">
-									<label class="inline">City: </label>
-									<span><?php echo $plan['city']; ?></span>
-								</div>	
-							
-								<div class="col-sm-3">
-									<label class="inline">Province:</label>
-									<span><?php echo $plan['province2']; ?></span>
-								</div>
-								<div class="col-sm-3">
-									<label class="inline">Country:</label>
-									<span><?php echo $plan['country2']; ?></span>
-								</div>
-								<div class="col-sm-3">
-									<label class="inline">Postcode:</label>
-									<span><?php echo $plan['postcode']; ?></span>
-								</div>
-								
-								<div class="col-sm-3">
-									<label class="inline">Phone1:</label>
-									<span><?php echo $plan['phone1']; ?></span>
-								</div>
-								<div class="col-sm-3">
-									<label class="inline">Phone2:</label>
-									<span><?php echo $plan['phone2']; ?></span>
-								</div>
-								
-							</div>
-							<div class="row">
-								<div class="col-sm-12" style="background-color:#5bc0de; color:#fff;">
-									<label class="inline">Contact Information</label>
-								</div>
-								<div class="col-sm-3">
-									<label class="inline">Email:</label>
-									<span><?php echo $plan['contact_email']; ?></span>
-								</div>
-								<div class="col-sm-3">
-									<label class="inline">Contact Phone:</label>
-									<span><?php echo $plan['contact_phone']; ?></span>
-								</div>
-								<div class="col-sm-3">
-									<label class="inline">Residence:</label>
-									<span><?php echo $plan['residence']; ?></span>
-								</div>
-							</div>
-
-							<div class="row">
-								<div class="col-sm-12" style="background-color:#5bc0de; color:#fff;">
-									<label class="inline">Special Note/Instructions</label>
-								</div>
-								<div class="col-sm-12">
-									<label class="inline">Premium:</label>
-									<span>$<?php echo number_format($plan['premium'], 2, '.', ',');?></span>
-								</div>
-								<div class="col-sm-12">
-									<label class="inline">Notes:</label>
-									<span><?php echo $plan['note']; ?></span>
-								</div>
-								
-							</div>
-							
-						</div><!-- end p-detail --><br />
-					</div><!-- x_content -->
+			<div style="width:390px; margin:0 auto;">
+				<div style="float:left;width:90px;">
+					<img class="img-responsive" style="width:80px;" src="<?php echo base_url();?>image/jf_logo.png" />
+				</div>
+				<div style="float:left;width:300px;text-align:center;">
+					<h3 style="margin-bottom:0;">JF Insurance Agency Group Inc.</h3>
+					<h3 style="margin-top:0;">www.jfgroup.ca</h3>
 				</div>
 			</div>
+		</div><br /><br /><br />
+		<div class="row">
+			<div class="col-sm-12 nopadding">
+				<p class="nopm"><?php echo date("F j, Y");?></p>
+			</div>
 		</div>
-		<!-- End Form -->
-	</div>
-</div>
-<!-- /page content -->
+		<div class="row">
+			<div class="col-sm-12 nopadding">
+				<p  class="nopm"><?php echo $customer['firstname'] . " " . $customer['lastname']; ?></p>
+				<p  class="nopm"><?php if(!empty($plan['suite_number'])){echo  $plan['suite_number'] . "- ";} ?><?php echo $plan['street_number'] . ' ' . $plan['street_name'] . '<br />' . $plan['city'] . ', ' . $plan['province2'] . ', ' . $plan['postcode']; ?></p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-12 nopadding">
+				<p  class="nopm">Dear <?php echo $customer['firstname'] . " " . $customer['lastname']; ?>,</p>
+				<p  class="nopm">We have processed your request to refund the policy of <span><b><?php echo $plan['policy']; ?></b></span>, <b><?php echo $customer['firstname'] . " " . $customer['lastname']; ?></b>. We are pleased to provide you a refund for the policy.</p>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-12 nopadding">
+				<p  class="nopm">Please find summary details below for this refund:</p>
+				<table class="bordered">
+					<thead>
+						<tr>
+							<th colspan="2">Policy Refund to the Insured:</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>Original Premium: </td><td><span>$<?php echo number_format($plan['premium'], 2, '.', ',');?></span></td>
+						</tr>
+						<tr>
+							<td>Time on risk: </td><td><span>$<?php echo number_format(((float)$plan['premium'] - (float)$refund_amount), 2, '.', ','); ?></span></td>
+						</tr>
+						<tr>	
+							<td>Un-used Premium: </td><td><span>$<?php echo number_format($refund_amount, 2, '.', ','); ?></span></td>
+						</tr>
+						<tr>	
+							<td>Minus Cancellation Fee: </td><td><span>$<?php echo number_format($admin_fee, 2, '.', ','); ?></span></td>
+						</tr>
+						<tr>	
+							<td>Total Refund: </td><td><span>$<?php echo number_format($total_amount, 2, '.', ','); ?></span></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-12 nopadding">
+			<p>
+				Please find enclosed a cheque with the amount stated for "Total Refund".<br />
+				By accepting this refund, <b>JF Insurance Agency Group Inc. and Allianz Travel Insurance Coordinators Ltd</b> will no longer be liable for any claims on this policy.
+			</p>
+		</div>
+		<br />
+		<div class="row">
+			<div class="col-sm-12 nopadding">
+				<p>Sincerely,</p>
+			</div>
+		</div>	
+		<br />
+		<div class="row">
+			<div class="col-sm-12 nopadding">
+				<p><span style="border-top:1px solid #777;">For and on hehalf of</span><br /> JF Insurance Agency Group Inc.</p>
+			</div>
+		</div>		
+		<div class="row">
+			<div class="col-sm-12 nopadding text-center">
+				<hr class="nopm"/>
+				<p class="text-center;">Head Office: 15 Wertheim Court, Suite 501, Richmond Hill, Ontario L4B 3H7</p>
+				<p class="text-center;">Phone: <u>905-707-1512</u> Fax:<u>905-707-1513</u> Toll free:<u>1-877-832-5541</u></p>
+			
+			</div>
+		</div>
+	</div><!-- End Container -->
+</body>
+</html>

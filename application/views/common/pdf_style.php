@@ -61,4 +61,9 @@ h4{
 
 .dotted{border-top: 1px dotted #333;}
 .special-note{margin-top: 30px;}
+table.bordered{
+	border:1px solid #777;
+}
+.bordered thead th, .bordered tbody td{border:1px solid #777;padding:2px 8px;}
+.bordered thead th{background-color: #eee;}
 </style>

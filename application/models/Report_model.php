@@ -262,8 +262,8 @@ class Report_model extends CI_Model {
     {
         $query = $this->get_receivable_query($para);
         $results = $this->get_receivable_result($query);
-        $results['period']['from'] = $this->input->post('application_date_from', true);
-        $results['period']['to'] = $this->input->post('application_date_to', true);
+        $results['period']['from'] = $para['application_date_from'];
+        $results['period']['to'] = $para['application_date_to'];
         return $results;
     }
 
@@ -294,7 +294,8 @@ class Report_model extends CI_Model {
             CONCAT(u.firstname," ", u.lastname) AS agent_name,
             CONCAT(u.address, " ", u.city) AS address,
             u.province2 AS province,
-            u.postcode
+            u.postcode,
+            pa.amount AS pa_amount
         ');
     }
 
@@ -302,8 +303,8 @@ class Report_model extends CI_Model {
     {
         $this->common_from();
         $this->db->join('user_product up', 'u.user_id = up.user_id and pr.product_short = up.product_short', 'left');
-        //group by pl.plan_id sum(premium) and/or sum(commission)
-        //$this->db->join('outstanding o', 'pl.plan_id = o.plan_id', 'left')
+        //todo extra join to get each unpaid premium item, depend on payment decision put below here for now.
+        $this->db->join('payment pa', 'pl.plan_id = pa.plan_id AND pa.pay_type = "premium" AND pa.ispaid = 0', 'left');
     }
 
     private function receivable_where($para)
@@ -327,7 +328,9 @@ class Report_model extends CI_Model {
             $results['data'][$row['user_id']]['agency']['province'] = $row['province'];
             $results['data'][$row['user_id']]['agency']['postal_code'] = $row['postcode'];
             //todo
-            //outstanding is outstanding, not premium, here is temporary place holder to display data only
+            //outstanding is outstanding, not premium, here is temporary place holder to display data only, see above
+            $row['policy_premium'] = (empty($row['pa_amount'])) ? $row['policy_premium'] : $row['pa_amount'];
+
             $results['data'][$row['user_id']]['agency']['outstanding'] = (
                 empty($results['data'][$row['user_id']]['agency']['outstanding']) ?
                 $row['policy_premium'] : $results['data'][$row['user_id']]['agency']['outstanding'] + $row['policy_premium']);
@@ -353,8 +356,8 @@ class Report_model extends CI_Model {
     {
         $query = $this->get_claim_report_query($para);
         $results = $this->get_claim_report_result($query);
-        $results['period']['from'] = $this->input->post('create_date_from', true);
-        $results['period']['to'] = $this->input->post('create_date_to', true);
+        $results['period']['from'] = $para['create_date_from'];
+        $results['period']['to'] = $para['create_date_to'];
         return $results;
     }
 
@@ -390,7 +393,8 @@ class Report_model extends CI_Model {
             cl.paid,
             "Amount Received" AS amount_received,
             cl.cheque_number,
-            pa.cheque_cash_date,
+            -- pa.cheque_cash_date,
+            "" AS cheque_cash_date,
             cl.pay_to,
             cl.memo,
             u.user_id,
@@ -406,7 +410,6 @@ class Report_model extends CI_Model {
         $this->db->join('product pr', 'cl.product_short = pr.product_short');
         $this->db->join('user u', 'cl.user_id = u.user_id');
         $this->db->join('coverage_code cc', 'cl.coverage_code_id = cc.coverage_code_id');
-        $this->db->join('payment pa', 'pa.payment_id = cl.payment_id', 'left');
     }
 
     private function claim_report_where($para)
@@ -443,8 +446,8 @@ class Report_model extends CI_Model {
     {
         $query = $this->get_renewal_report_query($para);
         $results = $this->get_renewal_report_result($query);
-        $results['period']['from'] = $this->input->post('expiry_date_from', true);
-        $results['period']['to'] = $this->input->post('expiry_date_to', true);
+        $results['period']['from'] = $para['expiry_date_from'];
+        $results['period']['to'] = $para['expiry_date_to'];
         return $results;
     }
 
@@ -506,8 +509,8 @@ class Report_model extends CI_Model {
     {
         $query = $this->get_commission_query($para);
         $results = $this->get_commission_result($query);
-        $results['period']['from'] = $this->input->post('application_date_from', true);
-        $results['period']['to'] = $this->input->post('application_date_to', true);
+        $results['period']['from'] = $para['application_date_from'];
+        $results['period']['to'] = $para['application_date_to'];
         return $results;
     }
 
@@ -540,7 +543,9 @@ class Report_model extends CI_Model {
             u.postcode,
             "u.cheque_title" AS cheque_title,
             u.pay_type,
-            pl.status_id
+            pl.status_id,
+            pa.amount AS pa_commission,
+            pa.ispaid AS commission_status
         ');
     }
 
@@ -548,19 +553,13 @@ class Report_model extends CI_Model {
     {
         $this->common_from();
         $this->db->join('user_product up', 'u.user_id = up.user_id and pr.product_short = up.product_short', 'left');
-        //$this->db->join('outstanding o', 'pl.plan_id = o.plan_id', 'left')
+        //todo extra join to get each unpaid commission item, depend on payment decision put below here for now.
+        $this->db->join('payment pa', 'pl.plan_id = pa.plan_id AND pa.pay_type = "commission" AND pa.ispaid = 0', 'left');
     }
 
     private function commission_where($para)
     {
         $this->common_report_where($para);
-        /*todo we need get sold and uppaid records and paid but has outstanding (+ or -)
-        if (!empty($para['policy_status']) && in_array($para['policy_status'], array(self::QUOTE, self::SOLD))) {
-            $this->db->where('pl.status_id', $para['policy_status']);
-        } else {
-            $this->db->where('pl.status_id <=', self::SOLD);
-        }
-         */
     }
 
     private function get_commission_result($query)
@@ -569,8 +568,9 @@ class Report_model extends CI_Model {
         foreach ($query as $row) {
             $row = $this->common_set_row($row);
             $row['payment_status'] = $this->get_status($row['status_id']);
-            //todo
-            $row['commission_status'] = 'commission_status';
+            //todo  see above, ....
+            $row['commission_status'] = ($row['commission_status'] == 1) ? 'paid' : 'unpaid';
+            $row['commission_amount'] = (empty($row['pa_commission'])) ? $row['commission_amount'] : $row['pa_commission'];
 
             $results['data'][$row['user_id']]['agency']['agent_name'] = $row['agent_name'];
             $results['data'][$row['user_id']]['agency']['address'] = $row['address'];

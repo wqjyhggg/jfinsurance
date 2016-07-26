@@ -141,9 +141,9 @@ class Customer_model extends CI_Model {
 			$cs = $this->get_customer_by_parent_id($customer_id);
 			$mxtm = strtotime($birthday);
 			foreach ($cs as $cc) {
-				$bd = $c['birthday'];
+				$bd = $cc['birthday'];
 				$tm = strtotime($bd);
-				if ($mxtm < $tm) {
+				if ($mxtm > $tm) {
 					$birthday = $bd;
 				}
 			}

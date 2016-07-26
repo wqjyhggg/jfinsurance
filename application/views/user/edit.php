@@ -103,7 +103,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			            <div class="form-group col-sm-3">
 			                <label class="col-sm-12">Password:</label>
 			                <div class="input-group col-sm-12">
-			                	<input type='text' name='password' value='' class="form-control" class="form-control">
+			                	<input type='password' name='password' value='' class="form-control" class="form-control">
 			                	
 			                	<?php if (!empty($error_password)){ ?>
 								<div class="alert-error">	
@@ -212,12 +212,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	              	</div>
 	              	<div class="row">
 	              		<div class="form-group col-sm-3">
-			                <label class="col-sm-12">Mail is same:</label>
-			                <div class="input-group col-sm-12">
-			                	<input type='checkbox' name='issame' id='issame' value='1' checked class="form-control">
-			                </div>
+			                <label>Mail is same:</label>
+		                	<input type='checkbox' name='issame' id='issame' value='1' checked>
 			            </div>
-			            <div class="form-group col-sm-9">
+			            <div class="form-group col-sm-9 mailaddr">
 			                <label class="col-sm-12">Mail Address:</label>
 			                <div class="input-group col-sm-12">
 			                	<input type='text' name='mail_address' value='<?php echo $mail_address; ?>' class="form-control">
@@ -229,7 +227,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			                </div>
 			            </div>
 			        </div>
-			        <div class="row">
+			        <div class="row mailaddr">
 			            <div class="form-group col-sm-3">
 			                <label class="col-sm-12">Mail City:</label>
 			                <div class="input-group col-sm-12">
@@ -447,7 +445,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								$("input[name='mail_postcode']").val($("input[name='postcode']").val());
 							}
 						});
+						$('#issame').change(issamecheck());
+
+						issamecheck();
 					});
+					function issamecheck() {
+						if ($('#issame').is(':checked')) {
+							$(".mailaddr']").hide();
+						} else {
+							$(".mailaddr']").show();
+						}
+					};
 					</script>
 
 

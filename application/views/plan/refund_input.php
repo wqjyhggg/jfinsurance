@@ -31,7 +31,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <div class="x_panel">
                   <div class="x_content">
                   <?php if (!empty($error_message)) { ?>
-                  <div class="alert-error"> 
+                    <div class="alert-error"> 
                     <?php echo $error_message . "<br>"; ?>
                     <br />
                   </div>
@@ -71,15 +71,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
                       <div class="row">  
                         <div class="form-group col-sm-8 col-xs-12">
-                            <label class="radio-inline"><input type="radio" name="optradio">$0 Adminstration Fee</label>
-                            <label class="radio-inline"><input type="radio" name="optradio">$40 Adminstration Fee</label>
+                            <label class="radio-inline"><input type="radio" name="admin_fee" value="0">$0 Adminstration Fee</label>
+                            <label class="radio-inline"><input type="radio" name="admin_fee" value="40">$40 Adminstration Fee</label>
                         </div>
                         <div class="form-group col-sm-4 col-xs-12">
-                          <label>Refund Premium:</label> <span id="refund_amount"></span>
-                          <!--input type="number" step="any" name='refund_amount' id='refund_amount' value='' class="form-control"/-->
+                          <label>Refund Premium:</label> <!--span id="refund_amount"></span-->
+                          <input type="number" step="any" name='refund_amount' id='refund_amount' value='' class="form-control"/>
                         </div>
       			            
                       </div>
+                      <br />
                       <div class="row">
                         <div class="form-group col-sm-12 text-right">
                           <label class="inline">Are you sure you want to refund this policy? </label>
@@ -112,8 +113,8 @@ function get_refund_amount() {
 		data: {	refund_date: refund_date },
 		success: function(data, textStatus, jqXHR) {
 			if (data['status'] == 'OK') {
-        		//$('input[name="refund_amount"]').val(data['refund_amount']);
-            $('#refund_amount').text(data['refund_amount']);
+        		$('input[name="refund_amount"]').val(data['refund_amount']);
+            //$('#refund_amount').text(data['refund_amount']);
             $('#used_amount').text(data['used_amount']);
 
 			}

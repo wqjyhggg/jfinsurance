@@ -18,6 +18,43 @@ class Product_model extends CI_Model {
 	}
 
 	/**
+	 * Get product commission rate
+	 *
+	 * @param integer $product_short
+	 * @param integer $user_id
+	 * @return float
+	 */
+	public function get_commission_rate($product_short, $user_id) {
+		$product = $this->get_product($product_short);
+		if (empty($product)) {
+			return 0;
+		}
+	
+		$commission = $product['commission'];
+		$this->db->where('user_id', $user_id);
+		$this->db->where('product_short', $product_short);
+		$user_product = $this->db->get('user_product')->row_array();
+		if ($user_product) {
+			$commission = $user_product['commission'];
+		}
+		return $commission;
+	}
+	
+	/**
+	 * Get product commission rate
+	 *
+	 * @param integer $product_short
+	 * @return float
+	 */
+	public function get_up_commission_rate($product_short) {
+		$product = $this->get_product($product_short);
+		if (empty($product)) {
+			return 0;
+		}
+		return $product['up_pay_rate'];
+	}
+	
+	/**
 	 * Get All product list
 	 * 
 	 * @param	integer	$processonly

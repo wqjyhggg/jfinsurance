@@ -64,9 +64,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						
 						<?php if ($status_id > 1) { ?>
 							<a href='<?php echo $sendpackage_url . $plan_id; ?>'><span class="btn btn-info">Send Package</span></a>
-						<?php if ($status_id <= 3) { ?>
+						<?php if ($status_id == 3) { ?>
+						<?php if((time()-(60*60*24)) < strtotime($effective_date)){ ?>
 							<a href='<?php echo $cancel_url . $plan_id; ?>'><span class="btn btn-info">Cancel</span></a>
+							<?php }else{?>
 							<a href='<?php echo $refund_url . $plan_id; ?>'><span class="btn btn-info">Refund</span></a>
+							<?php } ?>
 						<?php } ?>
 						<?php } ?>
 
@@ -554,11 +557,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						$(d).val($(s).val());
 						i++;
 					}
-					$('#customer_id_8').val();
-					$('#firstname_8').val();
-					$('#lastname_8').val();
-					$('#birthday_8').val();
-					$('#gender_8').val();
+					$('#customer_id_8').val(0);
+					$('#firstname_8').val('');
+					$('#lastname_8').val('');
+					$('#birthday_8').val('');
+					$('#gender_8').val('M');
+					get_premium();
 					addmoremember();
 				}
 
@@ -734,12 +738,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 											</tr>
 										</thead>
 										<tbody>
-											<?php foreach ($payments as $p) { ?>
+											<?php 
+											foreach ($payments as $p) {
+												$rev_str = '';
+												$sbstr = substr($p['pay_type'], 0, 6);
+												if ($sbstr == 'refund') {
+													$rev_str = 'Revert Refund';
+												} else if ($sbstr == 'cancel') {
+													$rev_str = 'Revert Cancel';
+												}
+											?>
 											<tr>
-												<td><input type='checkbox' name='payment[]' value='<?php echo $p['payment_id']; ?>'><?php echo $p['payment_id']; ?></td>
+												<td><input type='checkbox' name='payment[]' value='<?php echo $p['payment_id']; ?>'><?php //echo $p['payment_id']; ?></td>
 												<td><?php echo $p['pay_type']; ?></td>
 												<td><?php echo $p['amount']; ?></td>
-												<td><?php echo $p['ispaid'] ? "Paied" : "-"; ?></td>
+												<td><?php echo $p['ispaid'] ? "Paied" : "-"; ?> <?php if (!empty($rev_str)) { ?><a href='<?php echo $revert . $p['payment_id']; ?>'><?php echo $rev_str; ?></a><?php } ?></td>
 												<td><?php echo $p['added']; ?></td>
 												<td><?php echo (strlen($p['note']) > 60) ? (substr($p['note'], 0, 57) . "...") : $p['note']; ?></td>
 											</tr>
@@ -748,7 +761,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										</table>
 			                  		</div>
 			                  		<div class="row"><div class="col-sm-12">
-			                  			<input type="submit" class="btn btn-primary pull-right" name='submit' value='Make Pay'>
+			                  			<input type="submit" class="btn btn-primary" name='submit' value='Make Pay'>
 			                  		</div></div>
 			                  		</form>
 			                  		<hr />
