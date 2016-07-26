@@ -489,10 +489,14 @@ class Plan_model extends CI_Model {
 			}
 		}
 		if (!empty($carr)) {
-			$sql = "SELECT customer_id FROM customer WHERE " . join(" AND ", $carr);
+			$sql = "SELECT distinct plan_id FROM customer WHERE " . join(" AND ", $carr);
 			$rows = $this->db->query($sql)->result_array();
 			foreach ($rows as $row) {
 				$plans[] = $row['plan_id'];
+			}
+			if (empty($plans)) {
+				// Not customer on plans
+				return array();
 			}
 		}
 		$users = array();
