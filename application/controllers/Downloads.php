@@ -28,7 +28,7 @@ class Downloads extends MY_Controller {
 		$data['opl'] = 'OPL';
 		$data['nus'] = 'NUS';
 		$data['jus'] = 'JUS';
-		$data['jfss'] = 'JFSS';
+		$data['jfc'] = 'JFC';
 		$data['jfr'] = 'JFR';
 		$data['jfep'] = 'JES';
 
