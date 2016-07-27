@@ -1518,19 +1518,19 @@ class Plan extends MY_Controller {
 			$data['special_note'] = $this->load->view('plan/pdf_note_jfr',$data, TRUE);
 		} else if ($data['plan']['product_short'] == 'JUS') {
 			$data['insurable_options'] = $this->load->view('plan/detail_jus', $data, TRUE);
-			$data['special_note'] = $this->load->view('plan/pdf_note_opl',$data, TRUE);
+			$data['special_note'] = $this->load->view('plan/pdf_note_jus',$data, TRUE);
 		} else if ($data['plan']['product_short'] == 'NUS') {
 			$data['insurable_options'] = $this->load->view('plan/detail_jus', $data, TRUE);
-			$data['special_note'] = $this->load->view('plan/pdf_note_opl',$data, TRUE);
+			$data['special_note'] = $this->load->view('plan/pdf_note_nus',$data, TRUE);
 		} else if ($data['plan']['product_short'] == 'JES') {
 			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
 			$data['special_note'] = $this->load->view('plan/pdf_note_jes',$data, TRUE);
 		} else if ($plan['plan']['product_short'] == 'JFC') {
 			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
-			$data['special_note'] = $this->load->view('plan/pdf_note_opl',$data, TRUE);
+			$data['special_note'] = $this->load->view('plan/pdf_note_jfc',$data, TRUE);
 		} else {
 			$data['insurable_options'] = $this->load->view('plan/detail_other', $data, TRUE);
-			$data['special_note'] = $this->load->view('plan/pdf_note_opl',$data, TRUE);
+			$data['special_note'] = " ";
 		}
 		
 		$data['title_txt'] = 'Policy';
@@ -1538,7 +1538,6 @@ class Plan extends MY_Controller {
 		
 		$mpdf = new mPDF('c');
 		$html = $this->load->view('plan/pdf', $data, TRUE);
-		
 		$mpdf->writeHTML($html);
 		$mpdf->Output();
 	}
@@ -1888,6 +1887,12 @@ class Plan extends MY_Controller {
 			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
 		} else {
 			$data['insurable_options'] = $this->load->view('plan/detail_other', $data, TRUE);
+		}
+
+		$this->load->model('payment_model');
+		$data['payment'] = '';
+		if ($plan['payment_id']) {
+			$data['payment'] = $this->payment_model->get_payment_by_id($plan['payment_id']);
 		}
 
 		$product = $this->product_model->get_product($plan['product_short']);
