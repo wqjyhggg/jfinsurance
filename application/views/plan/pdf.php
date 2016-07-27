@@ -63,7 +63,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 					<div class="col-sm-6 nopadding">
 						<h4 style="margin-bottom:15px;"><u>Coverage Details</u></h4>
 						<h4>Insurance Plan: <span><?php echo $customer['firstname'] . " " . $customer['lastname'];?></span></h4>
-						<h4>Plan Type: <span><?php echo $customer['birthday'];?></sapn> </h4>
+						<h4>Plan Type: <span><?php if($plan['isfamilyplan']==1){ echo "Family";}else{echo "Individual";} ?></sapn> </h4>
 						<h4>Sum Insured: <span><?php echo $plan['sum_insured']; ?></sapn> </h4>
 						<h4>Deductible: <span><?php echo $plan['deductible_amount'];?></sapn> </h4>
 						<h4>Beneficiary: <span><?php echo $plan['beneficiary'];?></sapn> </h4>
@@ -77,7 +77,26 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 						<h4>Payment Method: <span><?php echo isset($payment['pay_mothed']) ? $payment['pay_mothed'] : ''; ?></sapn> </h4>
 					</div>
 				</div>
-				<!-- End coverage adn payment details -->
+
+				<?php if($plan['isfamilyplan']==1){ ?>
+				<div class="row">
+					<div class="col-sm-12" style="padding:0;">	
+						<p><u>Family Members</u></p>
+					</div>
+				</div>
+					
+				<div class="row">
+					<?php for ($i = 0; $i < 9; $i++) { ?>
+						<?php if (empty($customers[$i]['lastname']) && empty($customers[$i]['firstname'])) continue; ?>
+						<div class="col-sm-4" style="padding:0;">
+							<h4><span><?php echo $customers[$i]['firstname']  . " " . $customers[$i]['lastname']; ?></span>&nbsp;&nbsp;&nbsp;&nbsp;<span><?php echo $customers[$i]['birthday']; ?></span></h4>
+						</div>
+						
+					<?php } ?>
+				</div>
+					
+		<?php } ?>
+				<!-- End Family Member -->
 		<div class="row">
 			<div class="col-sm-12 nopm special-note">
 				<h4 style="border-bottom:1px solid #777;">Special Note</h4>

@@ -21,7 +21,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-sm-12">
+			<div class="col-sm-12 nopadding">
 				<p class="nopm" style="margin-bottom:2px;"><?php echo $customer['firstname'] . " " . $customer['lastname']; ?></p>
 				<p class="nopm"><?php if(!empty($plan['suite_number'])){echo  $plan['suite_number'] . "- ";} ?><?php echo $plan['street_number'] . ' ' . $plan['street_name'] . '<br />' . $plan['city'] . ', ' . $plan['province2'] . ', ' . $plan['postcode']; ?></p>
 			</div>
@@ -35,7 +35,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 				<h4>SALES AGENT: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span><?php echo '...';?></span> </h4>
 				<h4>PRODUCT: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span><?php echo $plan_full_name;?></span> </h4>
 				<h4>COVERAGE: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span><?php echo '...';?></span> </h4>
-				<h4>TYPE: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span><?php echo '...';?></span> </h4>
+				<h4>TYPE: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span><?php if($plan['isfamilyplan']==1){ echo "Family";}else{echo "Individual";} ?></sapn> </h4>
 				
 			</div>
 		</div>
@@ -58,15 +58,15 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 
 		<div class="row">
 			<div class="col-sm-6 nopadding receipt-info">
-				<h4>DATE: <span><?php echo '...';?></span></h4>
+				<h4>DATE: <span><?php echo isset($payment['pay_date']) ? $payment['pay_date'] : ''; ?></span></h4>
 				<h4>NAME: <span><?php echo $customer['firstname'] . " " . $customer['lastname']; ?></span></h4>
 				<h4>ADDRESS: <span><?php if(!empty($plan['suite_number'])){echo  $plan['suite_number'] . "- ";} ?><?php echo $plan['street_number'] . ' ' . $plan['street_name'] . ' ' . $plan['city'] . ', ' . $plan['province2'] . ' ' . $plan['postcode']; ?></sapn> </h4>
 				<h4><?php if ($plan['status_id'] < 2) { ?>QUOTE<?php } else {?>POLICY<?php } ?>: <span><?php echo $plan['policy']; ?></span></h4>
-				<h4>FOR: <span><?php echo '...individual';?></sapn> </h4>
+				<h4>FOR: <span><?php if($plan['isfamilyplan']==1){ echo "Family";}else{echo "Individual";} ?></sapn> </h4>
 			</div>
 			<div class="col-sm-6 nopadding receipt-info">
 				<h4>INSURANCE PREMIUM: <span>$<?php echo number_format($plan['premium'], 2, '.', ',');?></sapn> </h4>
-				<h4>Payor Name: <span><?php echo "...";?></sapn> </h4><br />
+				<h4>Payor Name: <span><?php echo $plan['beneficiary']; ?> </h4><br />
 				<h4>EFFECTIVE DATE: <span><?php echo $plan['effective_date']; ?></sapn> </h4>
 				<h4>EXPIRATION DATE: <span><?php echo $plan['expiry_date']; ?></sapn> </h4>
 			</div>
@@ -89,15 +89,15 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 		<div style="border-bottom:3px solid #eee;margin:10px auto 20px;"></div>
 		<div class="row">
 			<div class="col-sm-6 nopadding receipt-info">
-				<h4>DATE: <span><?php echo '...';?></span></h4>
+				<h4>DATE: <span><?php echo isset($payment['pay_date']) ? $payment['pay_date'] : ''; ?></span></h4>
 				<h4>NAME: <span><?php echo $customer['firstname'] . " " . $customer['lastname']; ?></span></h4>
 				<h4>ADDRESS: <span><?php if(!empty($plan['suite_number'])){echo  $plan['suite_number'] . "- ";} ?><?php echo $plan['street_number'] . ' ' . $plan['street_name'] . ' ' . $plan['city'] . ', ' . $plan['province2'] . ' ' . $plan['postcode']; ?></sapn> </h4>
 				<h4><?php if ($plan['status_id'] < 2) { ?>QUOTE<?php } else {?>POLICY<?php } ?>: <span><?php echo $plan['policy']; ?></span></h4>
-				<h4>FOR: <span><?php echo '...individual';?></sapn> </h4>
+				<h4>FOR: <span><?php if($plan['isfamilyplan']==1){ echo "Family";}else{echo "Individual";} ?></sapn> </h4>
 			</div>
 			<div class="col-sm-6 nopadding receipt-info">
 				<h4>INSURANCE PREMIUM: <span>$<?php echo number_format($plan['premium'], 2, '.', ',');?></sapn> </h4>
-				<h4>Payor Name: <span><?php echo "...";?></sapn> </h4><br />
+				<h4>Payor Name: <span><?php echo $plan['beneficiary']; ?></sapn> </h4><br />
 				<h4>EFFECTIVE DATE: <span><?php echo $plan['effective_date']; ?></sapn> </h4>
 				<h4>EXPIRATION DATE: <span><?php echo $plan['expiry_date']; ?></sapn> </h4>
 			</div>
