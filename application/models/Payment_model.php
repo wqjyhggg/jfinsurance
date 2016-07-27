@@ -17,11 +17,14 @@ class Payment_model extends CI_Model {
 	private function pay_type($str) {
 		switch ($str) {
 			case 'premium': return 'premium';
-			case 'commission': return 'commission';
 			case 'refund': return 'refund';
 			case 'cancel': return 'cancel';
+			case 'commission': return 'commission';
 			case 'refund_commission': return 'refund_commission';
 			case 'cancel_commission': return 'cancel_commission';
+			case 'up_commission': return 'up_commission';
+			case 'refund_up_commission': return 'refund_up_commission';
+			case 'cancel_up_commission': return 'cancel_up_commission';
 		}
 		return 'unknown : ' . $str;
 	}
@@ -61,6 +64,19 @@ class Payment_model extends CI_Model {
 		$this->db->order_by('payment_id', 'DESC');
 		$this->db->limit(1);
 		return $this->db->get('payment')->row_array();
+	}
+	
+	/**
+	 * Get plan payment total
+	 *
+	 * @param integer $plan_id
+	 * @return array
+	 */
+	public function get_total_paid($plan_id, $pay_type='premium') {
+		$this->db->select_sum('amount');
+		$this->db->where('plan_id', $plan_id);
+		$this->db->where('pay_type', $pay_type);
+		return $this->db->get('payment')->row()->amount;
 	}
 	
 	/**
