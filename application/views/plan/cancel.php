@@ -57,16 +57,16 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 							<td>Original Premium: </td><td><span>$<?php echo number_format($plan['premium'], 2, '.', ',');?></span></td>
 						</tr>
 						<tr>
-							<td>Time on risk: </td><td><span>$</span></td>
+							<td>Time on risk: </td><td><span>$<?php echo number_format(((float)$plan['premium'] - (float)$refund_amount), 2, '.', ','); ?></span></td>
 						</tr>
 						<tr>	
-							<td>Un-used Premium: </td><td><span>$<?php echo $refund_amount; ?></span></td>
+							<td>Un-used Premium: </td><td><span>$<?php echo number_format($refund_amount, 2, '.', ','); ?></span></td>
 						</tr>
 						<tr>	
-							<td>Minus Cancellation Fee: </td><td><span>$<?php echo $admin_fee; ?></span></td>
+							<td>Minus Cancellation Fee: </td><td><span>$<?php echo number_format($admin_fee, 2, '.', ','); ?></span></td>
 						</tr>
 						<tr>	
-							<td>Total Refund: </td><td><span>$<?php echo $total_amount; ?></span></td>
+							<td>Total Refund: </td><td><span>$<?php echo number_format($total_amount, 2, '.', ','); ?></span></td>
 						</tr>
 					</tbody>
 				</table>
@@ -96,6 +96,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 				<hr class="nopm"/>
 				<p class="text-center;">Head Office: 15 Wertheim Court, Suite 501, Richmond Hill, Ontario L4B 3H7</p>
 				<p class="text-center;">Phone: <u>905-707-1512</u> Fax:<u>905-707-1513</u> Toll free:<u>1-877-832-5541</u></p>
+			
 			</div>
 		</div>
 	</div><!-- End Container -->
