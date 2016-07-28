@@ -38,6 +38,7 @@ $lang['text_receivable_report'] = "Receivable Report";
 $lang['text_claim_report'] = "Claim Report";
 $lang['text_renewal_report'] = "Renewal Report";
 $lang['text_commission_report'] = "Commission Report";
+$lang['text_agent_commission_report'] = "Agent Commission Report";
 /* Left menu - submenu End */
 
 $lang['error_address'] = 'Address is required!';

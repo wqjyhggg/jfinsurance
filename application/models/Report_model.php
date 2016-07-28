@@ -561,7 +561,7 @@ class Report_model extends CI_Model {
     private function commission_where($para)
     {
         $this->common_report_where($para);
-        ethis->db->where_in('pl.status_id', array(self::SOLD, self::PAID, self::CLAIMED));
+        $this->db->where_in('pl.status_id', array(self::SOLD, self::PAID, self::CLAIMED));
     }
 
     private function get_commission_result($query)

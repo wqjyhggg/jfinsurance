@@ -71,7 +71,6 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 					<div class="col-sm-6 nopadding">
 						<h4 style="margin-bottom:15px;"><u>Payment Details</u></h4>
 						<h4>Total Permium: <span>$<?php echo number_format($plan['premium'], 2, '.', ',');?></span></h4>
-						<h4>Taxes: <span><?php echo 'N / A';?></sapn> </h4>
 						<h4>Premium: <span>$<?php echo number_format($plan['premium'], 2, '.', ','); ?></sapn> </h4>
 						<h4>Payment Date: <span><?php echo isset($payment['added']) ? date('Y-m-d', strtotime($payment['added'])) : ''; ?></sapn> </h4>
 						<h4>Payment Method: <span><?php echo isset($payment['pay_mothed']) ? $payment['pay_mothed'] : ''; ?></sapn> </h4>

@@ -24,6 +24,7 @@ class Menu_model extends CI_Model {
 							"<a href='" . base_url('reports/claimreport') . "' class='leftmeun'>" . $this->lang->line ( 'text_claim_report' ) . "</a>",
 							"<a href='" . base_url('reports/renewal') . "' class='leftmeun'>" . $this->lang->line ( 'text_renewal_report' ) . "</a>",
 							"<a href='" . base_url('reports/commission') . "' class='leftmeun'>" . $this->lang->line ( 'text_commission_report' ) . "</a>",
+							"<a href='" . base_url('reports/agent_commission') . "' class='leftmeun'>" . $this->lang->line ( 'text_agent_commission_report' ) . "</a>",
 						),
 					
 					"<a href='" . base_url('claim') . "' class='leftmeun'>" . $this->lang->line ( 'text_claim' ) . "</a>",
@@ -43,6 +44,7 @@ class Menu_model extends CI_Model {
 							"<a href='" . base_url('reports/claimreport') . "' class='leftmeun'>" . $this->lang->line ( 'text_claim_report' ) . "</a>",
 							"<a href='" . base_url('reports/renewal') . "' class='leftmeun'>" . $this->lang->line ( 'text_renewal_report' ) . "</a>",
 							"<a href='" . base_url('reports/commission') . "' class='leftmeun'>" . $this->lang->line ( 'text_commission_report' ) . "</a>",
+							"<a href='" . base_url('reports/agent_commission') . "' class='leftmeun'>" . $this->lang->line ( 'text_agent_commission_report' ) . "</a>",						
 						),
 					
 					"<a href='" . base_url('claim') . "' class='leftmeun'>" . $this->lang->line ( 'text_claim' ) . "</a>",
@@ -60,6 +62,8 @@ class Menu_model extends CI_Model {
 							"<a href='" . base_url('reports/claimreport') . "' class='leftmeun'>" . $this->lang->line ( 'text_claim_report' ) . "</a>",
 							"<a href='" . base_url('reports/renewal') . "' class='leftmeun'>" . $this->lang->line ( 'text_renewal_report' ) . "</a>",
 							"<a href='" . base_url('reports/commission') . "' class='leftmeun'>" . $this->lang->line ( 'text_commission_report' ) . "</a>",
+							"<a href='" . base_url('reports/agent_commission') . "' class='leftmeun'>" . $this->lang->line ( 'text_agent_commission_report' ) . "</a>",
+
 						),
 					
 					"<a href='" . base_url('product') . "' class='leftmeun'>" . $this->lang->line ( 'text_our_products' ) . "</a>",
@@ -76,6 +80,7 @@ class Menu_model extends CI_Model {
 							"<a href='" . base_url('reports/claimreport') . "' class='leftmeun'>" . $this->lang->line ( 'text_claim_report' ) . "</a>",
 							"<a href='" . base_url('reports/renewal') . "' class='leftmeun'>" . $this->lang->line ( 'text_renewal_report' ) . "</a>",
 							"<a href='" . base_url('reports/commission') . "' class='leftmeun'>" . $this->lang->line ( 'text_commission_report' ) . "</a>",
+							"<a href='" . base_url('reports/agent_commission') . "' class='leftmeun'>" . $this->lang->line ( 'text_agent_commission_report' ) . "</a>",
 						),
 					"<a href='" . base_url('product') . "' class='leftmeun'>" . $this->lang->line ( 'text_our_products' ) . "</a>",
 				),
@@ -90,6 +95,8 @@ class Menu_model extends CI_Model {
 							"<a href='" . base_url('reports/claimreport') . "' class='leftmeun'>" . $this->lang->line ( 'text_claim_report' ) . "</a>",
 							"<a href='" . base_url('reports/renewal') . "' class='leftmeun'>" . $this->lang->line ( 'text_renewal_report' ) . "</a>",
 							"<a href='" . base_url('reports/commission') . "' class='leftmeun'>" . $this->lang->line ( 'text_commission_report' ) . "</a>",
+							"<a href='" . base_url('reports/agent_commission') . "' class='leftmeun'>" . $this->lang->line ( 'text_agent_commission_report' ) . "</a>",
+
 						),
 					"<a href='" . base_url('product') . "' class='leftmeun'>" . $this->lang->line ( 'text_our_products' ) . "</a>",
 					"<a href='" . base_url('user') . "' class='leftmeun'>" . $this->lang->line ( 'text_agent' ) . "</a>",
@@ -105,6 +112,7 @@ class Menu_model extends CI_Model {
 							"<a href='" . base_url('reports/claimreport') . "' class='leftmeun'>" . $this->lang->line ( 'text_claim_report' ) . "</a>",
 							"<a href='" . base_url('reports/renewal') . "' class='leftmeun'>" . $this->lang->line ( 'text_renewal_report' ) . "</a>",
 							"<a href='" . base_url('reports/commission') . "' class='leftmeun'>" . $this->lang->line ( 'text_commission_report' ) . "</a>",
+							"<a href='" . base_url('reports/agent_commission') . "' class='leftmeun'>" . $this->lang->line ( 'text_agent_commission_report' ) . "</a>",
 						),
 					"<a href='" . base_url('product') . "' class='leftmeun'>" . $this->lang->line ( 'text_our_products' ) . "</a>",
 				),
