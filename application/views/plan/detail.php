@@ -31,7 +31,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 				<div class="x_panel">
 					<div class="x_title">
 						<h2 class="col-xs-8 col-sm-8">
-							Review Policy Detail<small></small>
+							Review Policy Detail<small>  By agent: <?php echo $policy_user['firstname'] . " " . $policy_user['lastname']; ?></small>
 							<span><b>[ <?php echo $status_list[$plan['status_id']]['name']; ?> ]</b></span>
 						</h2>
 						<a class="btn btn-info pull-right" target="_blank" href='<?php echo $pdf_url; ?>'>Export PDF</a>

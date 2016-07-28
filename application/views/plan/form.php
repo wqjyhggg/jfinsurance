@@ -30,7 +30,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Policy Detail<small></small></h2>
+                    <h2>Policy Detail<small> By agent: <?php echo $policy_user['firstname'] . " " . $policy_user['lastname']; ?></small></h2>
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
@@ -70,6 +70,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<?php }else{?>
 							<a href='<?php echo $refund_url . $plan_id; ?>'><span class="btn btn-info">Refund</span></a>
 							<?php } ?>
+						<?php } else if ($status_id == 5) { ?>
+							<a href='<?php echo $refundprint_url . $plan_id; ?>'><span class="btn btn-info">Refund Letter</span></a>
+						<?php } else if ($status_id == 6) { ?>
+							<a href='<?php echo $cancelprint_url . $plan_id; ?>'><span class="btn btn-info">Cancel Letter</span></a>
 						<?php } ?>
 						<?php } ?>
 
@@ -731,6 +735,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 											<tr>
 												<th>&nbsp;</th>
 												<th>Type</th>
+												<th>Pay Type</th>
 												<th>Amount</th>
 												<th>Pay Status</th>
 												<th>Date</th>
@@ -751,6 +756,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 											<tr>
 												<td><input type='checkbox' name='payment[]' value='<?php echo $p['payment_id']; ?>'><?php //echo $p['payment_id']; ?></td>
 												<td><?php echo $p['pay_type']; ?></td>
+												<td><?php echo $p['pay_mothed']; ?></td>
 												<td><?php echo $p['amount']; ?></td>
 												<td><?php echo $p['ispaid'] ? "Paied" : "-"; ?> <?php if (!empty($rev_str)) { ?><a href='<?php echo $revert . $p['payment_id']; ?>'><?php echo $rev_str; ?></a><?php } ?></td>
 												<td><?php echo $p['added']; ?></td>

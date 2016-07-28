@@ -666,12 +666,15 @@ class Plan extends MY_Controller {
 			$data['next_url'] = '';
 		}
 		
+		$data['policy_user'] = $this->user_model->get_user_by_id($plan['user_id']);
 		$data['premium_url'] = base_url ( "product/premium" );
 		$data['action_url'] = base_url ( "plan/form" );
 		$data['claimurl'] = base_url ( "claim/add" ) . "/";
 		$data['sendpackage_url'] = base_url ( "plan/sendpackage" ) . "/";
 		$data['cancel_url'] = base_url ( "plan/cancel" ) . "/";
 		$data['refund_url'] = base_url ( "plan/refund" ) . "/";
+		$data['cancelprint_url'] = base_url ( "plan/cancelprint" ) . "/";
+		$data['refundprint_url'] = base_url ( "plan/refundprint" ) . "/";
 		$data['revert_url'] = base_url ( "plan/revert" ) . "/";
 		$data['makepay_url'] = base_url ( "payment/makepay" );
 		
@@ -1020,7 +1023,7 @@ class Plan extends MY_Controller {
 				'message' => $this->payment_model->logstr,
 				'systemlog' => $this->payment_model->sqlstr
 		);
-		$this->log_model->activity('commission', $para);
+		$this->log_model->activity('up_commission', $para);
 
 		$para = array('payment_id' => $payment_id, 'payinfo' => $payinfo, 'commission_payment_id' => $commission_payment_id, 'status_id' => 2, 'policy' => $this->plan_model->get_policy_number($plan_id, 2));
 		$this->plan_model->update($plan_id, $para);
@@ -1110,7 +1113,7 @@ class Plan extends MY_Controller {
 				'message' => $this->payment_model->logstr,
 				'systemlog' => $this->payment_model->sqlstr
 		);
-		$this->log_model->activity('commission', $para);
+		$this->log_model->activity('up_commission', $para);
 
 		$para = array('payment_id' => $payment_id, 'payinfo' => $payinfo, 'commission_payment_id' => $commission_payment_id, 'status_id' => 2, 'policy' => $this->plan_model->get_policy_number($plan_id, 2));
 		$this->plan_model->update($plan_id, $para);
@@ -1246,6 +1249,7 @@ class Plan extends MY_Controller {
 			}
 		}
 
+		$data['policy_user'] = $this->user_model->get_user_by_id($plan['user_id']);
 		$data['pdf_url'] = base_url('plan/pdf/' . $plan['plan_id']);
 		$data['print_card_url'] = '';
 		$data['print_receipt_url'] = '';
@@ -1478,20 +1482,26 @@ class Plan extends MY_Controller {
 			$refund_amount = (float)$this->input->post('refund_amount');
 			$admin_fee = (float)$this->input->post('admin_fee');
 
-			$total_amount = (float)$refund_amount - (float)$admin_fee;
+			$total_amount = $refund_amount - $admin_fee;
 
 			if ($total_amount > 0) {
 				$this->load->model('payment_model');
 				$dt = array();
 				$dt['plan_id'] = $plan_id;
-				$dt['amount'] = $total_amount * (-1);
-				$dt['pay_type'] = 'cancel';
+				$dt['admin_fee'] = $admin_fee;
 				$dt['currency'] = $product['currency'];
 				$dt['pay_mothed'] = 'Checque';
 				$dt['added'] = date('c');
 				$dt['ispaid'] = 0;
 				$dt['note'] = "Cancel at " . $dt['added'] . " amount: " . $refund_amount . " admin fee: " . $admin_fee;
-				$commission_amount = $this->plan_model->get_commission($plan_id, $refund_amount);
+				
+				$commission_rate = $this->product_model->get_commission_rate($plan['product_short'], $plan['user_id']);
+				$commission_amount = $refund_amount * $commission_rate / 100.0;
+				$up_commission_rate = $this->product_model->get_up_commission_rate($plan['product_short']);
+				$up_commission_amount = $refund_amount * $up_commission_rate / 100.0;
+				
+				$dt['amount'] = $total_amount * (-1);
+				$dt['pay_type'] = 'cancel';
 				$payment_id = $this->payment_model->add($dt);
 				$para = array(
 						'plan_id' => $plan_id,
@@ -1514,8 +1524,20 @@ class Plan extends MY_Controller {
 				);
 				$this->log_model->activity('commission', $para);
 	
-				$note = $plan['note'] . "; Refund at " . $dt['added'] . " amount: " . $refund_amount . " admin fee: " . $admin_fee;
-				$para = array('status_id' => 6, 'note' => $note );  // Change status to refund
+				$dt['pay_type'] = 'cancel_up_commission';
+				$dt['amount'] = $up_commission_amount * (-1);
+				$up_commission_payment_id = $this->payment_model->add($dt);
+				$para = array(
+						'plan_id' => $plan_id,
+						'customer_id' => $plan['customer_id'],
+						'payment_id' => $up_commission_payment_id,
+						'message' => $this->payment_model->logstr,
+						'systemlog' => $this->payment_model->sqlstr
+				);
+				$this->log_model->activity('up_commission', $para);
+	
+				$note = "Cancel at " . $dt['added'] . " amount: " . $refund_amount . " admin fee: " . $admin_fee . "; " . $plan['note'];
+				$para = array('status_id' => 5, 'payment_id' => $payment_id, 'commission_payment_id' => $commission_payment_id, 'note' => $note );  // Change status to cancel
 				$this->plan_model->update($plan_id, $para);
 				$para = array(
 						'plan_id' => $plan_id,
@@ -1526,37 +1548,7 @@ class Plan extends MY_Controller {
 				);
 				$this->log_model->activity('plan', $para);
 				
-				$this->load->model('status_model');
-				$data['status_list'] = $this->status_model->status_list();
-				$data['refund_amount'] = $refund_amount;
-				$data['admin_fee'] = $admin_fee;
-				$data['total_amount'] = $total_amount;
-					
-				$this->load->model('customer_model');
-				$data['customer'] = $this->customer_model->get_customer_by_id($data['plan']['customer_id']);
-				$data['customers'] = $this->customer_model->get_customer_by_parent_id($data['plan']['customer_id']);
-				if ($data['plan']['product_short'] == 'OPL') {
-					$data['insurable_options'] = $this->load->view('plan/detail_opl', $data, TRUE);
-				} else if ($data['plan']['product_short'] == 'JFR') {
-					$data['insurable_options'] = $this->load->view('plan/detail_opl', $data, TRUE);
-				} else if ($data['plan']['product_short'] == 'JUS') {
-					$data['insurable_options'] = $this->load->view('plan/detail_jus', $data, TRUE);
-				} else if ($data['plan']['product_short'] == 'NUS') {
-					$data['insurable_options'] = $this->load->view('plan/detail_jus', $data, TRUE);
-				} else if ($data['plan']['product_short'] == 'JES') {
-					$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
-				} else if ($plan['plan']['product_short'] == 'JFC') {
-					$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
-				} else {
-					$data['insurable_options'] = $this->load->view('plan/detail_other', $data, TRUE);
-				}
-
-				$data['style'] = $this->load->view('common/pdf_style',$data, TRUE);
-				$html = $this->load->view('plan/cancel', $data, TRUE);
-				$mpdf = new mPDF('c');
-				$mpdf->writeHTML($html);
-				$mpdf->Output();
-				exit;
+				redirect('plan');
 			} else {
 				$data['error_message'] = 'Invalid refund amount';
 			}
@@ -1620,20 +1612,28 @@ class Plan extends MY_Controller {
 		if ($this->input->post()) {
 			$refund_amount = (float)$this->input->post('refund_amount');
 			$admin_fee = (float)$this->input->post('admin_fee');
-			$total_amount = (float)$refund_amount - (float)$admin_fee;
+			$total_amount = $refund_amount - $admin_fee;
 			//die($refund_amount . '==' . $admin_fee . '++' . $total_amount);
 			if ($total_amount > 0) {
 				$this->load->model('payment_model');
 				$dt = array();
 				$dt['plan_id'] = $plan_id;
 				$dt['amount'] = $total_amount * (-1);
+				$dt['admin_fee'] = (float)$admin_fee;
 				$dt['pay_type'] = 'refund';
 				$dt['currency'] = $product['currency'];
 				$dt['pay_mothed'] = 'Checque';
 				$dt['added'] = date('c');
 				$dt['ispaid'] = 0;
 				$dt['note'] = "Refund at " . $dt['added'] . " amount: " . $refund_amount . " admin fee: " . $admin_fee;
-				$commission_amount = $this->plan_model->get_commission($plan_id, $refund_amount);
+				
+				$commission_rate = $this->product_model->get_commission_rate($plan['product_short'], $plan['user_id']);
+				$commission_amount = $refund_amount * $commission_rate / 100.0;
+				$up_commission_rate = $this->product_model->get_up_commission_rate($plan['product_short']);
+				$up_commission_amount = $refund_amount * $up_commission_rate / 100.0;
+				
+				$dt['amount'] = $total_amount * (-1);
+				$dt['pay_type'] = 'refund';
 				$payment_id = $this->payment_model->add($dt);
 				$para = array(
 						'plan_id' => $plan_id,
@@ -1655,9 +1655,21 @@ class Plan extends MY_Controller {
 						'systemlog' => $this->payment_model->sqlstr
 				);
 				$this->log_model->activity('commission', $para);
-
-				$note = $plan['note'] . "; Refund at " . $dt['added'] . " amount: " . $refund_amount . " admin fee: " . $admin_fee;
-				$para = array('status_id' => 6, 'note' => $note );  // Change status to refund
+	
+				$dt['pay_type'] = 'refund_up_commission';
+				$dt['amount'] = $up_commission_amount * (-1);
+				$up_commission_payment_id = $this->payment_model->add($dt);
+				$para = array(
+						'plan_id' => $plan_id,
+						'customer_id' => $plan['customer_id'],
+						'payment_id' => $up_commission_payment_id,
+						'message' => $this->payment_model->logstr,
+						'systemlog' => $this->payment_model->sqlstr
+				);
+				$this->log_model->activity('up_commission', $para);
+	
+				$note = "Refund at " . $dt['added'] . " amount: " . $refund_amount . " admin fee: " . $admin_fee . "; " . $plan['note'];
+				$para = array('status_id' => 6, 'payment_id' => $payment_id, 'commission_payment_id' => $commission_payment_id, 'note' => $note );  // Change status to refund
 				$this->plan_model->update($plan_id, $para);
 				$para = array(
 						'plan_id' => $plan_id,
@@ -1668,35 +1680,7 @@ class Plan extends MY_Controller {
 				);
 				$this->log_model->activity('plan', $para);
 				
-				$this->load->model('status_model');
-				$data['status_list'] = $this->status_model->status_list();
-				$data['refund_amount'] = $refund_amount;
-				$data['admin_fee'] = $admin_fee;
-				$data['total_amount'] = $total_amount;
-				
-				$this->load->model('customer_model');
-				$data['customer'] = $this->customer_model->get_customer_by_id($data['plan']['customer_id']);
-				$data['customers'] = $this->customer_model->get_customer_by_parent_id($data['plan']['customer_id']);
-				if ($data['plan']['product_short'] == 'OPL') {
-					$data['insurable_options'] = $this->load->view('plan/detail_opl', $data, TRUE);
-				} else if ($data['plan']['product_short'] == 'JFR') {
-					$data['insurable_options'] = $this->load->view('plan/detail_opl', $data, TRUE);
-				} else if ($data['plan']['product_short'] == 'JUS') {
-					$data['insurable_options'] = $this->load->view('plan/detail_jus', $data, TRUE);
-				} else if ($data['plan']['product_short'] == 'NUS') {
-					$data['insurable_options'] = $this->load->view('plan/detail_jus', $data, TRUE);
-				} else if ($data['plan']['product_short'] == 'JES') {
-					$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
-				} else if ($plan['plan']['product_short'] == 'JFC') {
-					$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
-				} else {
-					$data['insurable_options'] = $this->load->view('plan/detail_other', $data, TRUE);
-				}
-				$data['style'] = $this->load->view('common/pdf_style',$data, TRUE);
-				$html = $this->load->view('plan/refund', $data, TRUE);
-				$mpdf = new mPDF('c');
-				$mpdf->writeHTML($html);
-				$mpdf->Output();
+				redirect('plan');
 			} else {
 				$data['error_message'] = 'Invalid refund amount';
 			}
@@ -1715,6 +1699,129 @@ class Plan extends MY_Controller {
 		);
 		
 		$this->load->common('plan/refund_input', $data);
+	}
+	
+
+	/**
+	 * Cancel Letter
+	 * 
+	 * @param integer $plan_id
+	 */
+	public function cancelprint($plan_id=0) {
+		$beuser = $this->func_model->verify_login(TRUE);
+		$this->load->model('plan_model');
+		if (empty($plan_id)) {
+			$plan_id = $this->input->post('plan_id');
+		}
+		if (empty($plan_id)) {
+			redirect('user/login');
+		}
+		$plan = $this->plan_model->get_plan_by_id($plan_id);
+		if (empty($plan) && ($plan['status'] != 5)) {
+			redirect('plan');
+		}
+		$this->load->model('product_model');
+		$this->load->model('payment_model');
+		$product = $this->product_model->get_product($plan['product_short']);
+		$payment = $this->payment_model->get_payment_by_id($plan['payment_id']);
+		
+		$data['beuser'] = $beuser;
+		$data['plan'] = $plan;
+
+		$total_amount = (float)$payment['amount'] * (-1);
+		$admin_fee = (float)$payment['admin_fee'];
+		$refund_amount = $total_amount + $admin_fee;
+
+		$this->load->model('status_model');
+		$data['status_list'] = $this->status_model->status_list();
+		$data['refund_amount'] = $refund_amount;
+		$data['admin_fee'] = $admin_fee;
+		$data['total_amount'] = $total_amount;
+				
+		$this->load->model('customer_model');
+		$data['customer'] = $this->customer_model->get_customer_by_id($data['plan']['customer_id']);
+		$data['customers'] = $this->customer_model->get_customer_by_parent_id($data['plan']['customer_id']);
+		if ($data['plan']['product_short'] == 'OPL') {
+			$data['insurable_options'] = $this->load->view('plan/detail_opl', $data, TRUE);
+		} else if ($data['plan']['product_short'] == 'JFR') {
+			$data['insurable_options'] = $this->load->view('plan/detail_opl', $data, TRUE);
+		} else if ($data['plan']['product_short'] == 'JUS') {
+			$data['insurable_options'] = $this->load->view('plan/detail_jus', $data, TRUE);
+		} else if ($data['plan']['product_short'] == 'NUS') {
+			$data['insurable_options'] = $this->load->view('plan/detail_jus', $data, TRUE);
+		} else if ($data['plan']['product_short'] == 'JES') {
+			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
+		} else if ($plan['plan']['product_short'] == 'JFC') {
+			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
+		} else {
+			$data['insurable_options'] = $this->load->view('plan/detail_other', $data, TRUE);
+		}
+
+		$data['style'] = $this->load->view('common/pdf_style',$data, TRUE);
+		$html = $this->load->view('plan/cancel', $data, TRUE);
+		$mpdf = new mPDF('c');
+		$mpdf->writeHTML($html);
+		$mpdf->Output();
+	}
+	
+	/**
+	 * Refund Letter
+	 * 
+	 * @param integer $plan_id
+	 */
+	public function refundprint($plan_id=0) {
+		$beuser = $this->func_model->verify_login(TRUE);
+		$this->load->model('plan_model');
+		if (empty($plan_id)) {
+			$plan_id = $this->input->post('plan_id');
+		}
+		if (empty($plan_id)) {
+			redirect('user/login');
+		}
+		$plan = $this->plan_model->get_plan_by_id($plan_id);
+		if (empty($plan)) {
+			redirect('user/login');
+		}
+		$this->load->model('product_model');
+		$product = $this->product_model->get_product($plan['product_short']);
+		$payment = $this->payment_model->get_payment_by_id($plan['payment_id']);
+		
+		$data['beuser'] = $beuser;
+		$data['plan'] = $plan;
+		
+		$total_amount = (float)$payment['amount'] * (-1);
+		$admin_fee = (float)$payment['admin_fee'];
+		$refund_amount = $total_amount + $admin_fee;
+		
+		$this->load->model('status_model');
+		$data['status_list'] = $this->status_model->status_list();
+		$data['refund_amount'] = $refund_amount;
+		$data['admin_fee'] = $admin_fee;
+		$data['total_amount'] = $total_amount;
+		
+		$this->load->model('customer_model');
+		$data['customer'] = $this->customer_model->get_customer_by_id($data['plan']['customer_id']);
+		$data['customers'] = $this->customer_model->get_customer_by_parent_id($data['plan']['customer_id']);
+		if ($data['plan']['product_short'] == 'OPL') {
+			$data['insurable_options'] = $this->load->view('plan/detail_opl', $data, TRUE);
+		} else if ($data['plan']['product_short'] == 'JFR') {
+			$data['insurable_options'] = $this->load->view('plan/detail_opl', $data, TRUE);
+		} else if ($data['plan']['product_short'] == 'JUS') {
+			$data['insurable_options'] = $this->load->view('plan/detail_jus', $data, TRUE);
+		} else if ($data['plan']['product_short'] == 'NUS') {
+			$data['insurable_options'] = $this->load->view('plan/detail_jus', $data, TRUE);
+		} else if ($data['plan']['product_short'] == 'JES') {
+			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
+		} else if ($plan['plan']['product_short'] == 'JFC') {
+			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
+		} else {
+			$data['insurable_options'] = $this->load->view('plan/detail_other', $data, TRUE);
+		}
+		$data['style'] = $this->load->view('common/pdf_style',$data, TRUE);
+		$html = $this->load->view('plan/refund', $data, TRUE);
+		$mpdf = new mPDF('c');
+		$mpdf->writeHTML($html);
+		$mpdf->Output();
 	}
 	
 	/**
