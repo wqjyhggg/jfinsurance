@@ -1501,6 +1501,7 @@ class Plan extends MY_Controller {
 				$up_commission_amount = $refund_amount * $up_commission_rate / 100.0;
 				
 				$dt['amount'] = $total_amount * (-1);
+				$dt['rate'] = 100;
 				$dt['pay_type'] = 'cancel';
 				$payment_id = $this->payment_model->add($dt);
 				$para = array(
@@ -1513,6 +1514,7 @@ class Plan extends MY_Controller {
 				$this->log_model->activity('payment', $para);
 				
 				$dt['pay_type'] = 'cancel_commission';
+				$dt['rate'] = $commission_rate;
 				$dt['amount'] = $commission_amount * (-1);
 				$commission_payment_id = $this->payment_model->add($dt);
 				$para = array(
@@ -1525,6 +1527,7 @@ class Plan extends MY_Controller {
 				$this->log_model->activity('commission', $para);
 	
 				$dt['pay_type'] = 'cancel_up_commission';
+				$dt['rate'] = $up_commission_amount;
 				$dt['amount'] = $up_commission_amount * (-1);
 				$up_commission_payment_id = $this->payment_model->add($dt);
 				$para = array(
@@ -1633,6 +1636,7 @@ class Plan extends MY_Controller {
 				$up_commission_amount = $refund_amount * $up_commission_rate / 100.0;
 				
 				$dt['amount'] = $total_amount * (-1);
+				$dt['rate'] = 100;
 				$dt['pay_type'] = 'refund';
 				$payment_id = $this->payment_model->add($dt);
 				$para = array(
@@ -1645,6 +1649,7 @@ class Plan extends MY_Controller {
 				$this->log_model->activity('payment', $para);
 				
 				$dt['pay_type'] = 'refund_commission';
+				$dt['rate'] = $commission_rate;
 				$dt['amount'] = $commission_amount * (-1);
 				$commission_payment_id = $this->payment_model->add($dt);
 				$para = array(
@@ -1657,6 +1662,7 @@ class Plan extends MY_Controller {
 				$this->log_model->activity('commission', $para);
 	
 				$dt['pay_type'] = 'refund_up_commission';
+				$dt['rate'] = $up_commission_rate;
 				$dt['amount'] = $up_commission_amount * (-1);
 				$up_commission_payment_id = $this->payment_model->add($dt);
 				$para = array(

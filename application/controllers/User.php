@@ -245,6 +245,7 @@ class User extends MY_Controller {
 		$this->data['fax_number'] = '';
 		$this->data['toll_free'] = '';
 		$this->data['pay_type'] = '';
+		$this->data['receive_type'] = 'Cheque';
 		$this->data['ip'] = '';
 		$this->data['status'] = '';
 		$this->data['date_added'] = '';
@@ -304,6 +305,7 @@ class User extends MY_Controller {
 				}
 			}
 			$this->data['pay_type'] = $pt;
+			$this->data['receive_type'] = $this->input->post('receive_type');
 		} else if ($user_id) {
 			$user = $this->user_model->get_user_by_id($user_id);
 			$user_product_list = $this->user_model->get_user_product_list($user_id);
