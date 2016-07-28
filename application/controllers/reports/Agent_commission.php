@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Jf extends MY_Controller {
+class Agent_Commission extends MY_Controller {
 
 	/**
 	 * Index Page for this controller.
@@ -10,7 +10,16 @@ class Jf extends MY_Controller {
 	{
         $beuser = $this->func_model->verify_login();
         $data = $this->set_data();
-        $this->load->common('reports/jf', $data);
+		$this->load->common('reports/agent_commission', $data);
+/*
+        //todo when we need pdf, when we send out email? the logic is not clear yet
+        $data['style'] = $this->load->view('common/pdf_style',$data, TRUE);
+        $mpdf = new mPDF('c');
+        //todo may need separate commission pdf view
+        $html = $this->load->view('reports/commission', $data, TRUE);
+        $mpdf->writeHTML($html);
+        $mpdf->Output();
+*/
     }
 
     private function set_data()
@@ -22,15 +31,15 @@ class Jf extends MY_Controller {
             'name' => $this->security->get_csrf_token_name (),
             'value' => $this->security->get_csrf_hash ()
         );
-        $data['title_txt'] = 'Sales Report to Jf';
+        $data['title_txt'] = 'Commission Report';
         $data['top_menu'] = $this->menu_model->load_top_menu();
         $data['menu'] = $this->menu_model->load_meun();
         $data['action_url'] = current_url();
 
         $data['agent_id'] = $this->input->post('agent_id');
         $data['product_short'] = $this->input->post('product_short');
-        $data['application_date_from'] = $this->input->post('application_date_from');
-        $data['application_date_to'] = $this->input->post('application_date_to');
+        $data['application_date_from'] = $this->input->post('application_date_from', true);
+        $data['application_date_to'] = $this->input->post('application_date_to', true);
         $data['create_date_from'] = $this->input->post('create_date_from');
         $data['create_date_to'] = $this->input->post('create_date_to');
         $data['effective_date_from'] = $this->input->post('effective_date_from');
@@ -40,7 +49,7 @@ class Jf extends MY_Controller {
 
         $data['product_list'] = $this->product_model->get_available_product_list();
         $data['user_list'] = $this->user_model->get_available_user_list();
-        $data['report_data'] = empty($_POST) ? array() : $this->report_model->get_sales_report_jf($data);
+        $data['report_data'] = empty($_POST) ? array() : $this->report_model->get_commission_report($data);
         return $data;
 	}
 }

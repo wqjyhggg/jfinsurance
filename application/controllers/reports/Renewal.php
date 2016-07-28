@@ -12,7 +12,7 @@ class Renewal extends MY_Controller {
         $data = $this->set_data();
 		$this->load->common('reports/renewal', $data);
 /*
-        //todo when we need pdf, when we send out email? the logic is not clear yet
+        //todo when do we need pdf, when we send out email? the logic is not clear yet
         $data['style'] = $this->load->view('common/pdf_style',$data, TRUE);
         $mpdf = new mPDF('c');
         $html = $this->load->view('reports/renewal', $data, TRUE);
@@ -43,10 +43,10 @@ class Renewal extends MY_Controller {
         $data['create_date_to'] = $this->input->post('create_date_to');
         $data['effective_date_from'] = $this->input->post('effective_date_from');
         $data['effective_date_to'] = $this->input->post('effective_date_to');
-        $data['expiry_date_from'] = empty($this->input->post('expiry_date_from')) ? date('Y-m-01') : $this->input->post('expiry_date_from');
-        $data['expiry_date_to'] = empty($this->input->post('expiry_date_to')) ? date("Y-m-d") : $this->input->post('expiry_date_to');
+        $data['expiry_date_from'] = empty($this->input->post('expiry_date_from')) ? date('Y-m-01') : $this->input->post('expiry_date_from', true);
+        $data['expiry_date_to'] = empty($this->input->post('expiry_date_to')) ? date("Y-m-d") : $this->input->post('expiry_date_to', true);
 
-        $data['product_list'] = $this->product_model->product_array();
+        $data['product_list'] = $this->product_model->get_available_product_list();
         $data['user_list'] = $this->user_model->get_available_user_list();
         $data['report_data'] = empty($_POST) ? array() : $this->report_model->get_renewal_report($data);
         return $data;

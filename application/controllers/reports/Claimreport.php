@@ -31,14 +31,14 @@ class Claimreport extends MY_Controller {
         $data['product_short'] = $this->input->post('product_short');
         $data['application_date_from'] = $this->input->post('application_date_from');
         $data['application_date_to'] = $this->input->post('application_date_to');
-        $data['create_date_from'] = empty($this->input->post('create_date_from')) ? date('Y-m-01') : $this->input->post('create_date_from');
-        $data['create_date_to'] = empty($this->input->post('create_date_to')) ? date("Y-m-d") : $this->input->post('create_date_to');
+        $data['create_date_from'] = empty($this->input->post('create_date_from')) ? date('Y-m-01') : $this->input->post('create_date_from', true);
+        $data['create_date_to'] = empty($this->input->post('create_date_to')) ? date("Y-m-d") : $this->input->post('create_date_to', true);
         $data['effective_date_from'] = $this->input->post('effective_date_from');
         $data['effective_date_to'] = $this->input->post('effective_date_to');
         $data['payment_update_date_from'] = $this->input->post('payment_update_date_from');
         $data['payment_update_date_to'] = $this->input->post('payment_update_date_to');
 
-        $data['product_list'] = $this->product_model->product_array();
+        $data['product_list'] = $this->product_model->get_available_product_list();
         $data['user_list'] = $this->user_model->get_available_user_list();
         $data['report_data'] = empty($_POST) ? array() : $this->report_model->get_claim_report($data);
         return $data;

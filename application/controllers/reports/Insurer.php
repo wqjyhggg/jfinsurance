@@ -39,7 +39,7 @@ class Insurer extends MY_Controller {
         $data['payment_update_date_to'] = $this->input->post('payment_update_date_to');
         $data['policy_status'] = $this->input->post('policy_status');
 
-        $data['product_list'] = $this->product_model->product_array();
+        $data['product_list'] = $this->product_model->get_available_product_list();
         $data['user_list'] = $this->user_model->get_available_user_list();
         $data['report_data'] = empty($_POST) ? array() : $this->report_model->get_sales_report_insurer($data);
         return $data;

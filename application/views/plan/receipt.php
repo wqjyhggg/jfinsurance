@@ -34,7 +34,6 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 				<h4>PREMIUM PAID: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>$<?php echo number_format($plan['premium'], 2, '.', ',');?></span> </h4>
 				<h4>SALES AGENT: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span><?php echo '...';?></span> </h4>
 				<h4>PRODUCT: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span><?php echo $plan_full_name;?></span> </h4>
-				<h4>COVERAGE: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span><?php echo '...';?></span> </h4>
 				<h4>TYPE: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span><?php if($plan['isfamilyplan']==1){ echo "Family";}else{echo "Individual";} ?></sapn> </h4>
 				
 			</div>
@@ -66,7 +65,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 			</div>
 			<div class="col-sm-6 nopadding receipt-info">
 				<h4>INSURANCE PREMIUM: <span>$<?php echo number_format($plan['premium'], 2, '.', ',');?></sapn> </h4>
-				<h4>Payor Name: <span><?php echo $plan['beneficiary']; ?> </h4><br />
+				<h4>PAYER NAME: <span><?php echo $plan['beneficiary']; ?> </h4><br />
 				<h4>EFFECTIVE DATE: <span><?php echo $plan['effective_date']; ?></sapn> </h4>
 				<h4>EXPIRATION DATE: <span><?php echo $plan['expiry_date']; ?></sapn> </h4>
 			</div>
@@ -97,7 +96,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 			</div>
 			<div class="col-sm-6 nopadding receipt-info">
 				<h4>INSURANCE PREMIUM: <span>$<?php echo number_format($plan['premium'], 2, '.', ',');?></sapn> </h4>
-				<h4>Payor Name: <span><?php echo $plan['beneficiary']; ?></sapn> </h4><br />
+				<h4>PAYER NAME: <span><?php echo $plan['beneficiary']; ?></sapn> </h4><br />
 				<h4>EFFECTIVE DATE: <span><?php echo $plan['effective_date']; ?></sapn> </h4>
 				<h4>EXPIRATION DATE: <span><?php echo $plan['expiry_date']; ?></sapn> </h4>
 			</div>

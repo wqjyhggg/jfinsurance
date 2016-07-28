@@ -154,7 +154,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <!-- Effective Date to End -->
                         </div>
                         <!-- Effective Date End -->
-                        
+
                         <!-- Payment Update Date-->
                         <div class="form-group col-sm-3">
                             <!-- Payment Update Date From-->
@@ -180,7 +180,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <!-- submit button -->
                           <div class="col-sm-12">
                             <button class="btn btn-primary pull-right">Display Report</button>
-                          </div> 
+                          </div>
                         <!-- submit button -->
                       </div>
                     </form>
@@ -199,30 +199,32 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
-                     
+
                     <div class="table-responsive">
 <?php if (!empty($report_data['data'])) : ?>
                        <div>
-                         JF Insurance Agency Group Inc. <br> 
-                         15 Wertheim court, Suite 501, Richmond Hill, ON, L4B 3H7 <br>   
-                         Tel: 905-707-1512 Fax: 905-707-1513 Toll free: 1-877-832-5541<br>   
+                         JF Insurance Agency Group Inc. <br>
+                         15 Wertheim court, Suite 501, Richmond Hill, ON, L4B 3H7 <br>
+                         Tel: 905-707-1512 Fax: 905-707-1513 Toll free: 1-877-832-5541<br>
                          Invoice Statement<br>
-                         For Policy of<br>
+                         For Policy of
                          From:<?=$report_data['period']['from'] ?>
-                         To:<?=$report_data['period']['to'] ?><br>
+                         To:<?=$report_data['period']['to'] ?><br><br>
                        </div>
                       <table class="table table-hover table-bordered">
     <?php foreach ($report_data['data'] as $user_id => $data) :?>
+                        <thead>
                         <tr><td colspan=8>
-                          Bill to:<br>
+                          Bill to:
                           <?=$data['agency']['agent_name'] ?><br>
                           <?=$data['agency']['address'] ?><br>
-                          <?=$data['agency']['province'] ?>&nbsp;&nbsp; <?=$data['agency']['postal_code'] ?><br><br>
+                          <?=$data['agency']['province'] ?>,&nbsp;&nbsp; <?=$data['agency']['postal_code'] ?><br><br>
                           Premium collected on behalf of JF Insurance Agency Inc::<?=$data['agency']['outstanding'] ?><br>
                           Less Administration Fee for handaling the following policies:<?=$data['agency']['commission'] ?><br>
                           Net payable to JF Insurance Ageny Inc.:<?=$data['agency']['payable_to_jf'] ?>
                         </td></tr>
-                        <thead>
+                        </thead>
+                        <tbody>
                           <tr>
                             <th>Pruchase Date</th>
                             <th>Policy Number</th>
@@ -233,14 +235,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <th>Total Premium</th>
                             <th>Outstanding Amount</th>
                           </tr>
-                        </thead>
-                        <tbody>
         <?php foreach ($data['records'] as $record) : ?>
                             <tr>
                               <td><?=$record['order_date'] ?></td>
                               <td><?=$record['policy'] ?></td>
                               <td><?=$record['insured_name'] ?></td>
-                              <!--td><?=$record['insured_name'] ?></td-->
                               <td><?=$record['effective_date'] ?></td>
                               <td><?=$record['expiry_date'] ?></td>
                               <td><?=$record['total_days'] ?></td>
@@ -249,9 +248,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             </tr>
         <?php endforeach; ?>
                         </tbody>
-    <?php endforeach; ?>                        
+    <?php endforeach; ?>
                       </table>
-<?php endif; ?>                      
+<?php endif; ?>
                     </div>
                   </div>
                 </div>
@@ -261,4 +260,4 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           </div>
         </div>
         <!-- /page content -->
-        
+
