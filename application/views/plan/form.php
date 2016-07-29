@@ -43,13 +43,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<?php } ?>
 
 					<form action='<?php echo $action_url; ?>' method='POST' class="form-horizontal">
-
 						<input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
 						<input type='hidden' name='plan_id' value='<?php echo $plan_id; ?>'>
 						<input type='hidden' name='product_short' value='<?php echo $product_short; ?>'>
+						<input type='hidden' name='force_deductable' value=''>
 					<?php if (empty($plan_id) || empty($status_id)) { ?>
 						<?php /* it should be new plan */ ?>
 						<input type='hidden' name='status_id' value='0'>
+					<div class="row" style="margin-bottom:15px;">
+						<div class="form-group col-sm-3">
+							<label><span><?php echo $plan_full_name; ?></span></label>
+						</div>
+						<div class="form-group col-sm-3">
+							<label style="text-transform: capitalize;">By Agent: <?php echo $policy_user['firstname'] . " " . $policy_user['lastname']; ?></label>
+						</div>
+					</div>
 					<?php } else { ?>
 					<div class="row" style="margin-bottom:15px;">
 						
@@ -539,6 +547,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				    });
 
 					$('.setpremium').change(get_premium); 
+					if ($('input[name="holiday_rate"]').length) {
+						$('input[name="holiday_rate"]').change(get_premium);
+					}
 					get_premium();
 					addmoremember();
 				});
@@ -631,6 +642,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					if ($('input[name="rate_options"]').length) {
 						rate_options = $('input[name="rate_options"]:checked').val();	// radio
 					}
+					var holiday_rate = 0;
+					if ($('input[name="holiday_rate"]').length) {
+						holiday_rate = $('input[name="holiday_rate"]:checked').val();	// checkbox
+					}
 					var birthday = $('input[name="birthday"]').val();	// 
 					var number_customer = 0;
 					if (new Date(birthday) > new Date($('input[name="birthday_1"]').val())) {
@@ -682,11 +697,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								deductible_amount: deductible_amount,
 								stable_condition: stable_condition,
 								rate_options: rate_options,
+								holiday_rate: holiday_rate,
 								number_customer: number_customer,
 								birthday: birthday},
 							success: function(data, textStatus, jqXHR) {
 								if (data['status'] == 'OK') {
-									$('#goto_next_page').show();
 					        		$('input[name="premium"]').val(data['premiumarr']['premium']);
 									<?php if ($user_group_id > 100) { ?>
 									$('#premium').html(data['premiumarr']['premium']);
@@ -696,6 +711,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									$('#dailyrate').val(data['premiumarr']['dailyrate']);
 									if (data['premiumarr']['message']) {
 										$('#error_next_page').html(data['premiumarr']['message']);
+									}
+									if (data['premiumarr']['force_deductable']) {
+						        		$('input[name="force_deductable"]').val(data['premiumarr']['force_deductable']);
+									} else {
+						        		$('input[name="force_deductable"]').val(0);
+									}
+									if (data['premiumarr']['premium']) {
+										$('#goto_next_page').show();
+									} else {
+										$('#goto_next_page').hide();
 									}
 								} else {
 									$('#goto_next_page').hide();

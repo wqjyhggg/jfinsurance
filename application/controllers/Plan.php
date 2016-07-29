@@ -666,8 +666,8 @@ class Plan extends MY_Controller {
 			$data['next_url'] = '';
 		}
 		
-		$data['policy_user'] = $this->user_model->get_user_by_id($plan['user_id']);
-		$data['premium_url'] = base_url ( "product/premium" );
+		$data['policy_user'] = (isset($plan) && !empty($plan['user_id'])) ? $this->user_model->get_user_by_id($plan['user_id']) : $this->user_model->get_user_by_id($beuser['user_id']);
+		$data['premium_url'] = base_url ( "product/getpremium" );
 		$data['action_url'] = base_url ( "plan/form" );
 		$data['claimurl'] = base_url ( "claim/add" ) . "/";
 		$data['sendpackage_url'] = base_url ( "plan/sendpackage" ) . "/";
@@ -1184,6 +1184,7 @@ class Plan extends MY_Controller {
 			$para['sum_insured'] = $plan['sum_insured'];
 			$para['deductible_amount'] = $plan['deductible_amount'];
 			$para['stable_condition'] = $plan['stable_condition'];
+			$para['holiday_rate'] = (($plan['product_short'] == 'JES') && ($plan['dailyrate'] >= 1.84)) ? 1 : 0;
 			$para['birthday'] = $this->customer_model->get_max_birthday($plan['customer_id'], $plan['isfamilyplan']);
 			$para['number_customer'] = $this->customer_model->get_number_customer($plan['customer_id'], $plan['isfamilyplan']);
 			$premiumarr = $this->product_model->get_premium($para);

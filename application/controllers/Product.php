@@ -88,7 +88,7 @@ class Product extends MY_Controller {
 		$this->load->view('product/deductible', $data);
 	}
 	
-	function premium() {
+	function getpremium() {
 		$beuser = $this->func_model->verify_login(); 
 		$this->load->model('product_model');
 		$para = array(
@@ -101,17 +101,12 @@ class Product extends MY_Controller {
 			'deductible_amount' => $this->input->post_get('deductible_amount'),
 			'rate_options' => $this->input->post_get('rate_options'),
 			'stable_condition' => $this->input->post_get('stable_condition'),
+			'holiday_rate' => $this->input->post_get('holiday_rate'),
 			'birthday' => $this->input->post_get('birthday'),
 			'number_customer' => $this->input->post_get('number_customer'));
-		
 		$premiumarr = $this->product_model->get_premium($para);
 		if (empty($premiumarr) || empty($premiumarr['premium'])) {
-			$message = $this->product_model->get_message();
-			if (empty($message)) {
-				$data = array('status' => 'Unknown', 'message' => '');
-			} else {
-				$data = array('status' => 'Error', 'message' => $message);
-			}
+			$data = array('status' => 'Unknown', 'message' => '');
 		} else {
 			//$premiumarr['premium'] = number_format($premiumarr['premium'], 2, '.', ',');
 			$data = array('status' => 'OK', 'premiumarr' => $premiumarr);

@@ -18,13 +18,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										<?php } ?>
 									</div>
 									<div class="form-group col-sm-3">
-										<label class="col-sm-12">Is Family Plan</label>
-										<div class="input-group col-sm-12" style="border: 1px solid #ccc;padding: 3px;">
-											 <input type='checkbox' class='setpremium' name='isfamilyplan' id='isfamilyplan' <?php echo empty($isfamilyplan) ? "" : "checked"; ?>> Yes
-										</div>
+										<label class="col-sm-12">Is Family Plan : <input type='checkbox' class='setpremium' name='isfamilyplan' id='isfamilyplan' <?php echo empty($isfamilyplan) ? "" : "checked"; ?>></label>
 									</div>
+									<?php if (($product_short == "JES") && ($user_group_id < 100)) { ?>
 									<div class="form-group col-sm-3">
-										<label class="col-sm-12">Sum Insured (CAD): Unlimited</label>
+										<label class="col-sm-12">Holiday Rate : <input type='checkbox' name='holiday_rate' id='holiday_rate' value='1'></label>
+									</div>
+									<?php } ?>
+									<div class="form-group col-sm-3">
+										<label class="col-sm-12">Sum Insured (CAD) : Unlimited</label>
 									</div>
 								</div>
 							</fieldset>

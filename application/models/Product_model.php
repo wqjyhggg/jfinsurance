@@ -138,41 +138,50 @@ class Product_model extends CI_Model {
 	public function getYears($applydt, $brithdt) {
 		$a = new DateTime($applydt);
 		$b = new DateTime($brithdt);
-		return $a->diff($b)->format('%y');
+		return $a->diff($b)->y;
 	}
 	
-	public function get_message() {
-		return $this->message;
+	public function getYearDays($dt) {
+		$a = new DateTime($dt);
+		$b = new DateTime($dt);
+		$a->add(new DateInterval('P1Y'));
+		return $a->diff($b)->days;
 	}
 	
 	/**
 	 * Get Product premium
 	 * 
 	 * @param array $para	parameter array 'product_short', 'apply_date', 'effective_date', 'expiry_date', 'isfamilyplan', 'number_customer', 'sum_insured', 'deductible_amount', 'stable_condition', 'birthday'
-	 * @return float 		premium, 0 means can't caculate.
+	 * @return array.
 	 */
 	public function get_premium($para) {
-		$this->message = '';
-		$premium = 0;
+		$premiumArr = array('premium' => 0, 'totalyears' => 0, 'totaldays' => 0, 'dailyrate' => 0, 'message' => 0, 'force_deductable' => 0, 'sum_insured' => 0, 'deductible_amount' => 0);
 		
 		if (empty($para['effective_date']) || empty($para['expiry_date'])) {
-			return 0;
+			return FALSE;
 		}
 		$days = $this->getDays($para['effective_date'], $para['expiry_date']);	// $dt1 = date_create('1900-01-01 00:00:00'); $dt2 = date_create('1970-01-01 12:12:12'); echo $dt2->diff($dt1)->days;
+		$yearday = $this->getYearDays($para['effective_date']);
+		if ($days > $yearday) {
+			$premiumArr['totaldays'] = $days;
+			$premiumArr['message'] = "Period longer than a year, too long";
+			return $premiumArr;
+		}
 		
 		if (empty($days)) {
-			$this->message = 'Please check effective date and expiry date';
-			return 0;
+			return FALSE;
 		}
 
 		if (empty($para['birthday'])) {
-			return 0;
+			return FALSE;
 		}
 		$years = $this->getYears($para['apply_date'], $para['birthday']);	// 
-		$dt = date_create($para['birthday']);
-		if (($years < 0) || !$dt) {
-			$this->message = 'Please check birthday date';
-			return 0;
+		$d1 = new \DateTime("now");
+		$d2 = new \DateTime($para['birthday']);
+		$df = $d2->diff($d1);
+		if ($df->invert) {
+			$premiumArr['message'] = "Check birthday";
+			return $premiumArr;
 		}
 		if ($para['product_short'] == 'OPL') {
 			if ($para['stable_condition'] == 1) {
@@ -187,7 +196,7 @@ class Product_model extends CI_Model {
 						elseif ($years <= 74) 	$rate = 4.85;
 						elseif ($years <= 79) 	$rate = 5.8;
 						elseif ($years <= 85) 	$rate = 11.48;
-						else				  	{ $this->message = "Over 85 years old must select without stable pre-existing condition coverage option"; return 0; }
+						else				  	{ $premiumArr['message'] = "Over 85 years old must select without stable pre-existing condition coverage option"; return $premiumArr; }
 						break;
 					case 15000:
 						if ($years <= 25) 		$rate = 2.04;
@@ -197,8 +206,8 @@ class Product_model extends CI_Model {
 						elseif ($years <= 69) 	$rate = 3.91;
 						elseif ($years <= 74) 	$rate = 6.32;
 						elseif ($years <= 79) 	$rate = 7.54;
-						elseif ($years <= 85) 	{ $this->message = "Over 80 years old $15,000 option isn't available"; return 0; }
-						else				  	{ $this->message = "Over 80 years old $15,000 option isn't available"; return 0; }
+						elseif ($years <= 85) 	{ $premiumArr['message'] = "Over 80 years old $15,000 option isn't available"; return $premiumArr; }
+						else				  	{ $premiumArr['message'] = "Over 80 years old $15,000 option isn't available"; return $premiumArr; }
 						break;
 					case 25000:
 						if ($years <= 25) 		$rate = 2.27;
@@ -209,7 +218,7 @@ class Product_model extends CI_Model {
 						elseif ($years <= 74) 	$rate = 7.6;
 						elseif ($years <= 79) 	$rate = 8.96;
 						elseif ($years <= 85) 	$rate = 17.76;
-						else				  	{ $this->message = "Over 85 years old must select without stable pre-existing condition coverage option"; return 0; }
+						else				  	{ $premiumArr['message'] = "Over 85 years old must select without stable pre-existing condition coverage option"; return $premiumArr; }
 						break;
 					case 50000:
 						if ($years <= 25) 		$rate = 2.49;
@@ -220,7 +229,7 @@ class Product_model extends CI_Model {
 						elseif ($years <= 74) 	$rate = 8.35;
 						elseif ($years <= 79) 	$rate = 9.88;
 						elseif ($years <= 85) 	$rate = 19.58;
-						else				  	{ $this->message = "Over 85 years old must select without stable pre-existing condition coverage option"; return 0; }
+						else				  	{ $premiumArr['message'] = "Over 85 years old must select without stable pre-existing condition coverage option"; return $premiumArr; }
 						break;
 					case 100000:
 						if ($years <= 25) 		$rate = 3.59;
@@ -231,7 +240,7 @@ class Product_model extends CI_Model {
 						elseif ($years <= 74) 	$rate = 9.79;
 						elseif ($years <= 79) 	$rate = 11.59;
 						elseif ($years <= 85) 	$rate = 22.95;
-						else				  	{ $this->message = "Over 85 years old must select without stable pre-existing condition coverage option"; return 0; }
+						else				  	{ $premiumArr['message'] = "Over 85 years old must select without stable pre-existing condition coverage option"; return $premiumArr; }
 						break;
 					case 150000:
 						if ($years <= 25) 		$rate = 4.3;
@@ -241,46 +250,46 @@ class Product_model extends CI_Model {
 						elseif ($years <= 69) 	$rate = 7.4;
 						elseif ($years <= 74) 	$rate = 12.17;
 						elseif ($years <= 79) 	$rate = 14.41;
-						elseif ($years <= 85) 	{ $this->message = "Over 80 years old $150,000 option isn't available"; return 0; }
-						else				  	{ $this->message = "Over 80 years old $150,000 option isn't available"; return 0; }
+						elseif ($years <= 85) 	{ $premiumArr['message'] = "Over 80 years old $150,000 option isn't available"; return $premiumArr; }
+						else				  	{ $premiumArr['message'] = "Over 80 years old $150,000 option isn't available"; return $premiumArr; }
 						break;
 					default:
-						return 0;
+						return FALSE;
 				}
 				
 			} else {
 				// With stable pre-existing conditions coverage option
 				switch ($para['sum_insured']) {
 					case 10000:
-						if ($years <= 69) 		{ $this->message = "Under 70 years old must select with stable pre-existing condition coverage option"; return 0; }
+						if ($years <= 69) 		{ $premiumArr['message'] = "Under 70 years old must select with stable pre-existing condition coverage option"; return $premiumArr; }
 						elseif ($years <= 74) 	$rate = 3.82;
 						elseif ($years <= 79) 	$rate = 4.59;
 						elseif ($years <= 85) 	$rate = 6.23;
 						else				  	$rate = 9.57;
 						break;
 					case 15000:
-						if ($years <= 69) 		{ $this->message = "Under 70 years old must select with stable pre-existing condition coverage option"; return 0; }
+						if ($years <= 69) 		{ $premiumArr['message'] = "Under 70 years old must select with stable pre-existing condition coverage option"; return $premiumArr; }
 						elseif ($years <= 74) 	$rate = 4.99;
 						elseif ($years <= 79) 	$rate = 5.98;
 						elseif ($years <= 85) 	$rate = 7.88;
 						else				  	$rate = 12.37;
 						break;
 					case 25000:
-						if ($years <= 69) 		{ $this->message = "Under 70 years old must select with stable pre-existing condition coverage option"; return 0; }
+						if ($years <= 69) 		{ $premiumArr['message'] = "Under 70 years old must select with stable pre-existing condition coverage option"; return $premiumArr; }
 						elseif ($years <= 74) 	$rate = 5.99;
 						elseif ($years <= 79) 	$rate = 7.11;
 						elseif ($years <= 85) 	$rate = 9.69;
 						else				  	$rate = 14.9;
 						break;
 					case 50000:
-						if ($years <= 69) 		{ $this->message = "Under 70 years old must select with stable pre-existing condition coverage option"; return 0; }
+						if ($years <= 69) 		{ $premiumArr['message'] = "Under 70 years old must select with stable pre-existing condition coverage option"; return $premiumArr; }
 						elseif ($years <= 74) 	$rate = 6.59;
 						elseif ($years <= 79) 	$rate = 7.83;
 						elseif ($years <= 85) 	$rate = 10.43;
 						else				  	$rate = 16.4;
 						break;
 					case 100000:
-						if ($years <= 69) 		{ $this->message = "Under 70 years old must select with stable pre-existing condition coverage option"; return 0; }
+						if ($years <= 69) 		{ $premiumArr['message'] = "Under 70 years old must select with stable pre-existing condition coverage option"; return $premiumArr; }
 						elseif ($years <= 74) 	$rate = 8.12;
 						elseif ($years <= 79) 	$rate = 10.32;
 						elseif ($years <= 85) 	$rate = 13.94;
@@ -288,8 +297,8 @@ class Product_model extends CI_Model {
 						break;
 					case 150000:
 					default:
-						$this->message = "$150,000 option isn't available";
-						return 0;
+						$premiumArr['message'] = "$150,000 option isn't available";
+						return $premiumArr;
 				}
 			}
 			$discount = 1;
@@ -307,8 +316,8 @@ class Product_model extends CI_Model {
 						} else if ($para['sum_insured'] == 50000) {
 							$discount = 0.75;
 						} else {
-							$this->message = "$25,000 deductible amount isn't available";
-							return 0;
+							$premiumArr['message'] = "$25,000 deductible amount isn't available";
+							return $premiumArr;
 						}
 						break;
 					case 3000:
@@ -321,9 +330,15 @@ class Product_model extends CI_Model {
 			}
 			$premium = $rate * $days * $discount;
 			$message = "";
-			if ($years > 85) $message = "<p style='color:#2e6da4;'>Over 85 years old must have $500 Deductible</p>";
-
-			$rArr = array('premium' => $premium, 'dailyrate' => $rate, 'totalyears' => $years, 'totaldays' => $days, 'message' => $message, 'sum_insured' => number_format($para['sum_insured'], 2, '.', ','), 'deductible_amount' => number_format($para['deductible_amount'], 2, '.', ','));
+			if ($years > 85) {
+				$premiumArr['message'] = "<p style='color:#2e6da4;'>Over 85 years old must have $500 Deductible</p>";
+			}
+			$premiumArr['premium'] = $premium;
+			$premiumArr['totalyears'] = $years;
+			$premiumArr['totaldays'] = $days;
+			$premiumArr['dailyrate'] = $rate;
+			$premiumArr['sum_insured'] = number_format($para['sum_insured'], 2, '.', ',');
+			$premiumArr['deductible_amount'] =  number_format($para['deductible_amount'], 2, '.', ',');
 		} else if ($para['product_short'] == 'JFR') {
 			if ($para['stable_condition'] == 1) {
 				// With stable pre-existing conditions coverage option
@@ -337,7 +352,7 @@ class Product_model extends CI_Model {
 						elseif ($years <= 74) 	$rate = 4.85;
 						elseif ($years <= 79) 	$rate = 5.8;
 						elseif ($years <= 85) 	$rate = 11.48;
-						else				  	{ $this->message = "Over 85 years old must select without stable pre-existing condition coverage option"; return 0; }
+						else				  	{ $premiumArr['message'] = "Over 85 years old must select without stable pre-existing condition coverage option"; return $premiumArr; }
 						break;
 					case 15000:
 						if ($years <= 25) 		$rate = 2.04;
@@ -347,8 +362,8 @@ class Product_model extends CI_Model {
 						elseif ($years <= 69) 	$rate = 3.91;
 						elseif ($years <= 74) 	$rate = 6.32;
 						elseif ($years <= 79) 	$rate = 7.54;
-						elseif ($years <= 85) 	{ $this->message = "Over 80 years old $15,000 option isn't available"; return 0; }
-						else				  	{ $this->message = "Over 80 years old $15,000 option isn't available"; return 0; }
+						elseif ($years <= 85) 	{ $premiumArr['message'] = "Over 80 years old $15,000 option isn't available"; return $premiumArr; }
+						else				  	{ $premiumArr['message'] = "Over 80 years old $15,000 option isn't available"; return $premiumArr; }
 						break;
 					case 25000:
 						if ($years <= 25) 		$rate = 2.27;
@@ -359,7 +374,7 @@ class Product_model extends CI_Model {
 						elseif ($years <= 74) 	$rate = 7.6;
 						elseif ($years <= 79) 	$rate = 8.96;
 						elseif ($years <= 85) 	$rate = 17.76;
-						else				  	{ $this->message = "Over 85 years old must select without stable pre-existing condition coverage option"; return 0; }
+						else				  	{ $premiumArr['message'] = "Over 85 years old must select without stable pre-existing condition coverage option"; return $premiumArr; }
 						break;
 					case 50000:
 						if ($years <= 25) 		$rate = 2.49;
@@ -370,7 +385,7 @@ class Product_model extends CI_Model {
 						elseif ($years <= 74) 	$rate = 8.35;
 						elseif ($years <= 79) 	$rate = 9.88;
 						elseif ($years <= 85) 	$rate = 19.58;
-						else				  	{ $this->message = "Over 85 years old must select without stable pre-existing condition coverage option"; return 0; }
+						else				  	{ $premiumArr['message'] = "Over 85 years old must select without stable pre-existing condition coverage option"; return $premiumArr; }
 						break;
 					case 100000:
 						if ($years <= 25) 		$rate = 3.59;
@@ -381,7 +396,7 @@ class Product_model extends CI_Model {
 						elseif ($years <= 74) 	$rate = 9.79;
 						elseif ($years <= 79) 	$rate = 11.59;
 						elseif ($years <= 85) 	$rate = 22.95;
-						else				  	{ $this->message = "Over 85 years old must select without stable pre-existing condition coverage option"; return 0; }
+						else				  	{ $premiumArr['message'] = "Over 85 years old must select without stable pre-existing condition coverage option"; return $premiumArr; }
 						break;
 					case 150000:
 						if ($years <= 25) 		$rate = 4.3;
@@ -391,46 +406,46 @@ class Product_model extends CI_Model {
 						elseif ($years <= 69) 	$rate = 7.4;
 						elseif ($years <= 74) 	$rate = 12.17;
 						elseif ($years <= 79) 	$rate = 14.41;
-						elseif ($years <= 85) 	{ $this->message = "Over 80 years old $150,000 option isn't available"; return 0; }
-						else				  	{ $this->message = "Over 80 years old $150,000 option isn't available"; return 0; }
+						elseif ($years <= 85) 	{ $premiumArr['message'] = "Over 80 years old $150,000 option isn't available"; return $premiumArr; }
+						else				  	{ $premiumArr['message'] = "Over 80 years old $150,000 option isn't available"; return $premiumArr; }
 						break;
 					default:
-						return 0;
+						return $premiumArr;
 				}
 				
 			} else {
 				// With stable pre-existing conditions coverage option
 				switch ($para['sum_insured']) {
 					case 10000:
-						if ($years <= 69) 		{ $this->message = "Under 70 years old must select with stable pre-existing condition coverage option"; return 0; }
+						if ($years <= 69) 		{ $premiumArr['message'] = "Under 70 years old must select with stable pre-existing condition coverage option"; return $premiumArr; }
 						elseif ($years <= 74) 	$rate = 3.82;
 						elseif ($years <= 79) 	$rate = 4.59;
 						elseif ($years <= 85) 	$rate = 6.23;
 						else				  	$rate = 9.57;
 						break;
 					case 15000:
-						if ($years <= 69) 		{ $this->message = "Under 70 years old must select with stable pre-existing condition coverage option"; return 0; }
+						if ($years <= 69) 		{ $premiumArr['message'] = "Under 70 years old must select with stable pre-existing condition coverage option"; return $premiumArr; }
 						elseif ($years <= 74) 	$rate = 4.99;
 						elseif ($years <= 79) 	$rate = 5.98;
 						elseif ($years <= 85) 	$rate = 7.88;
 						else				  	$rate = 12.37;
 						break;
 					case 25000:
-						if ($years <= 69) 		{ $this->message = "Under 70 years old must select with stable pre-existing condition coverage option"; return 0; }
+						if ($years <= 69) 		{ $premiumArr['message'] = "Under 70 years old must select with stable pre-existing condition coverage option"; return $premiumArr; }
 						elseif ($years <= 74) 	$rate = 5.99;
 						elseif ($years <= 79) 	$rate = 7.11;
 						elseif ($years <= 85) 	$rate = 9.69;
 						else				  	$rate = 14.9;
 						break;
 					case 50000:
-						if ($years <= 69) 		{ $this->message = "Under 70 years old must select with stable pre-existing condition coverage option"; return 0; }
+						if ($years <= 69) 		{ $premiumArr['message'] = "Under 70 years old must select with stable pre-existing condition coverage option"; return $premiumArr; }
 						elseif ($years <= 74) 	$rate = 6.59;
 						elseif ($years <= 79) 	$rate = 7.83;
 						elseif ($years <= 85) 	$rate = 10.43;
 						else				  	$rate = 16.4;
 						break;
 					case 100000:
-						if ($years <= 69) 		{ $this->message = "Under 70 years old must select with stable pre-existing condition coverage option"; return 0; }
+						if ($years <= 69) 		{ $premiumArr['message'] = "Under 70 years old must select with stable pre-existing condition coverage option"; return $premiumArr; }
 						elseif ($years <= 74) 	$rate = 8.12;
 						elseif ($years <= 79) 	$rate = 10.32;
 						elseif ($years <= 85) 	$rate = 13.94;
@@ -438,8 +453,8 @@ class Product_model extends CI_Model {
 						break;
 					case 150000:
 					default:
-						$this->message = "$150,000 option isn't available";
-						return 0;
+						$premiumArr['message'] = "$150,000 option isn't available";
+						return $premiumArr;
 				}
 			}
 			$discount = 1;
@@ -457,8 +472,8 @@ class Product_model extends CI_Model {
 						} else if ($para['sum_insured'] == 50000)	{
 							$discount = 0.75;
 						} else {
-							$this->message = "$25,000 deductible amount isn't available";
-							return 0;
+							$premiumArr['message'] = "$25,000 deductible amount isn't available";
+							return $premiumArr;
 						}
 						break;
 					case 3000:
@@ -470,10 +485,15 @@ class Product_model extends CI_Model {
 				$rate *= 2;
 			}
 			$premium = $rate * $days * $discount;
-			$message = "";
-			if ($years > 85) $message = "<p style='color:#2e6da4;'>Notice: Over 85 years old will have $500 Deductible</p>";
-
-			$rArr = array('premium' => $premium, 'dailyrate' => $rate, 'totalyears' => $years, 'totaldays' => $days, 'message' => $message, 'sum_insured' => number_format($para['sum_insured'], 2, '.', ','), 'deductible_amount' => number_format($para['deductible_amount'], 2, '.', ','));
+			if ($years > 85) {
+				$premiumArr['message'] = "<p style='color:#2e6da4;'>Notice: Over 85 years old will have $500 Deductible</p>";
+			}
+			$premiumArr['premium'] = $premium;
+			$premiumArr['totalyears'] = $years;
+			$premiumArr['totaldays'] = $days;
+			$premiumArr['dailyrate'] = $rate;
+			$premiumArr['sum_insured'] = number_format($para['sum_insured'], 2, '.', ',');
+			$premiumArr['deductible_amount'] =  number_format($para['deductible_amount'], 2, '.', ',');
 		} else if ($para['product_short'] == 'JUS') {
 			$number_customer = (int)$para['number_customer'] - 2;
 			if ($para['rate_options'] != 2) {	// Here is Plus / Prefer
@@ -500,7 +520,12 @@ class Product_model extends CI_Model {
 				}
 			}
 			$premium = $rate * $days;
-			$rArr = array('premium' => $premium, 'dailyrate' => $rate, 'totalyears' => $years, 'totaldays' => $days, 'message' => "", 'sum_insured' => number_format($para['sum_insured'], 2, '.', ','), 'deductible_amount' => number_format($para['deductible_amount'], 2, '.', ','));
+			$premiumArr['premium'] = $premium;
+			$premiumArr['totalyears'] = $years;
+			$premiumArr['totaldays'] = $days;
+			$premiumArr['dailyrate'] = $rate;
+			$premiumArr['sum_insured'] = number_format($para['sum_insured'], 2, '.', ',');
+			$premiumArr['deductible_amount'] =  number_format($para['deductible_amount'], 2, '.', ',');
 		} else if ($para['product_short'] == 'NUS') {
 			$number_customer = (int)$para['number_customer'] - 2;
 			if ($para['rate_options'] != 2) {	// Here is Plus / Prefer
@@ -527,27 +552,42 @@ class Product_model extends CI_Model {
 				}
 			}
 			$premium = $rate * $days;
-			$rArr = array('premium' => $premium, 'dailyrate' => $rate, 'totalyears' => $years, 'totaldays' => $days, 'message' => "", 'sum_insured' => number_format($para['sum_insured'], 2, '.', ','), 'deductible_amount' => number_format($para['deductible_amount'], 2, '.', ','));
+			$premiumArr['premium'] = $premium;
+			$premiumArr['totalyears'] = $years;
+			$premiumArr['totaldays'] = $days;
+			$premiumArr['dailyrate'] = $rate;
+			$premiumArr['sum_insured'] = number_format($para['sum_insured'], 2, '.', ',');
+			$premiumArr['deductible_amount'] =  number_format($para['deductible_amount'], 2, '.', ',');
 		} else if ($para['product_short'] == 'JES') {
 			$number_customer = (int)$para['number_customer'];
 			$rate = 1.6;
+			if (isset($para['holiday_rate']) && $para['holiday_rate']) $rate = 1.85; 
 			if ($number_customer == 2) {
 				$premium = $rate * $days * 2.5;
 			} else {
 				$premium = $rate * $days * $number_customer;
 			}
-			$rArr = array('premium' => $premium, 'dailyrate' => $rate, 'totalyears' => $years, 'totaldays' => $days, 'message' => "", 'sum_insured' => number_format($para['sum_insured'], 2, '.', ','), 'deductible_amount' => number_format($para['deductible_amount'], 2, '.', ','));
+			$premiumArr['premium'] = $premium;
+			$premiumArr['totalyears'] = $years;
+			$premiumArr['totaldays'] = $days;
+			$premiumArr['dailyrate'] = $rate;
+			$premiumArr['sum_insured'] = number_format($para['sum_insured'], 2, '.', ',');
+			$premiumArr['deductible_amount'] =  number_format($para['deductible_amount'], 2, '.', ',');
 		} else if ($para['product_short'] == 'JFC') {
-			if ($years <= 3) 		return 0;
+			if ($years <= 3) 		return $premiumArr;
 			elseif ($years <= 59) 	$rate = 1.5;
-			else				  	return 0;
+			else				  	return $premiumArr;
 			$premium = $rate * $days;
-			$rArr = array('premium' => $premium, 'dailyrate' => $rate, 'totalyears' => $years, 'totaldays' => $days, 'message' => "", 'sum_insured' => number_format($para['sum_insured'], 2, '.', ','), 'deductible_amount' => number_format($para['deductible_amount'], 2, '.', ','));
+			$premiumArr['premium'] = $premium;
+			$premiumArr['totalyears'] = $years;
+			$premiumArr['totaldays'] = $days;
+			$premiumArr['dailyrate'] = $rate;
+			$premiumArr['sum_insured'] = number_format($para['sum_insured'], 2, '.', ',');
+			$premiumArr['deductible_amount'] =  number_format($para['deductible_amount'], 2, '.', ',');
 		} else {
-			$this->message = "";
-			return 0;
+			$premiumArr['message'] = "";
 		}
-		return $rArr; 
+		return $premiumArr;
 	}
 
     /**
