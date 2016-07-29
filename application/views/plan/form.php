@@ -70,9 +70,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<?php }else{?>
 							<a href='<?php echo $refund_url . $plan_id; ?>'><span class="btn btn-info">Refund</span></a>
 							<?php } ?>
-						<?php } else if ($status_id == 5) { ?>
-							<a href='<?php echo $refundprint_url . $plan_id; ?>'><span class="btn btn-info">Refund Letter</span></a>
 						<?php } else if ($status_id == 6) { ?>
+							<a href='<?php echo $refundprint_url . $plan_id; ?>'><span class="btn btn-info">Refund Letter</span></a>
+						<?php } else if ($status_id == 5) { ?>
 							<a href='<?php echo $cancelprint_url . $plan_id; ?>'><span class="btn btn-info">Cancel Letter</span></a>
 						<?php } ?>
 						<?php } ?>
@@ -748,12 +748,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										<tbody>
 											<?php 
 											foreach ($payments as $p) {
-												$rev_str = '';
+												$pay_str = '';
 												$sbstr = substr($p['pay_type'], 0, 6);
-												if ($sbstr == 'refund') {
-													$rev_str = 'Revert Refund';
-												} else if ($sbstr == 'cancel') {
-													$rev_str = 'Revert Cancel';
+												if ($p['ispaid']) {
+													if (($sbstr == 'refund') || ($sbstr == 'cancel')) {
+														$pay_str = 'N / A';
+													} else {
+														$pay_str = 'Paied';
+													}
+												} else {
+													if ($sbstr == 'refund') {
+														$pay_str = "<a href='" . $revert_url . $p['payment_id'] . "'>Revert Refund</a>";
+													} else if ($sbstr == 'cancel') {
+														$pay_str = "<a href='" . $revert_url . $p['payment_id'] . "'>Revert Cancel</a>";
+													} else {
+														$pay_str = '-';
+													}
 												}
 											?>
 											<tr>
@@ -762,7 +772,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 												<td><?php echo $p['pay_mothed']; ?></td>
 												<td><?php echo $p['amount']; ?></td>
 												<td><?php echo $p['rate']; ?></td>
-												<td><?php echo $p['ispaid'] ? "Paied" : "-"; ?> <?php if (!empty($rev_str)) { ?><a href='<?php echo $revert . $p['payment_id']; ?>'><?php echo $rev_str; ?></a><?php } ?></td>
+												<td><?php echo $pay_str; ?></td>
 												<td><?php echo $p['added']; ?></td>
 												<td><?php echo (strlen($p['note']) > 60) ? (substr($p['note'], 0, 57) . "...") : $p['note']; ?></td>
 											</tr>
