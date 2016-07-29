@@ -9,29 +9,26 @@ class Downloads extends MY_Controller {
 	public function index()
 	{
 		$data['title_txt'] = 'Downloads';
-		$data['downloads_url'] = base_url('pdf/download') . "/";
+		$this->load->model('product_model');
+
+		$downloads_url = base_url('pdf/download') . "/";
+		$file_url = array();
+		$product_list = $this->product_model->product_list(1);
+		ksort($product_list);
+		$fileName = array('_Brochure', '_Benefit_Summary', '_Claim_Form', '_Claim_Procedure', '_Consent_Form', '_Policy');
 		
-		$data['url_brochure'] = '_Brochure';
-		$data['url_benefit'] = '_Benefit_Summary';
-		$data['url_claimf'] = '_Claim_Form';
-		$data['url_claimp'] = '_Claim_Procedure';
-		$data['url_consent'] = '_Consent_Form';
-		$data['url_policy'] = '_Policy';
+		foreach ($product_list as $product_short => $p) {
+			$file_url[$product_short] = array('fullname' => $p['full_name'], 'files' => array());
+			foreach ($fileName as $fn) {
+				$name = str_replace('_', ' ', $fn);
+				$fname = $product_short . $fn . ".pdf";
+				if (file_exists(DOWNLOADDIR . $fname)) {
+					$file_url[$product_short]['files'][] = array('url' => $downloads_url . $fname, 'name' => $name);
+				}
+			}
+		}
 
-		$data['text_brochure'] = 'Brochure';
-		$data['text_benefit'] = 'Benefit Summary';
-		$data['text_claimf'] = 'Claim Form';
-		$data['text_claimp'] = 'Claim Procedure';
-		$data['text_consent'] = 'Consent Form';
-		$data['text_policy'] = 'Policy';
-
-		$data['opl'] = 'OPL';
-		$data['nus'] = 'NUS';
-		$data['jus'] = 'JUS';
-		$data['jfc'] = 'JFC';
-		$data['jfr'] = 'JFR';
-		$data['jfep'] = 'JES';
-
+		$data['file_url'] = $file_url;
 		$data['top_menu'] = $this->menu_model->load_top_menu();
 		$data['menu'] = $this->menu_model->load_meun();
 

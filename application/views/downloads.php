@@ -37,89 +37,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
+<?php foreach ($file_url as $product_short => $farr) { ?>                    
                     <div class="row dfile-list">
                       <div class="col-sm-12">
                         <br />
-                        <label>JES --- JF Elite Plus International Student to Canada</label>
+                        <label><?php echo $product_short; ?> --- <?php echo $farr['fullname']; ?></label>
                       </div>
                       <div class="col-sm-12">
-                        <a class="d_brochure" target="_blank" href="<?php echo $downloads_url. $jfep . $url_brochure . '.pdf';?>"><?php echo $text_brochure;?></a>
-                        <a class="d_benefit" target="_blank" href="<?php echo $downloads_url. $jfep . $url_benefit . '.pdf';?>"><?php echo $text_benefit;?></a>
-                        <a class="d_claimf" target="_blank" href="<?php echo $downloads_url. $jfep . $url_claimf . '.pdf';?>"><?php echo $text_claimf;?></a>
-                        <a class="d_policy" target="_blank" href="<?php echo $downloads_url. $jfep . $url_policy . '.pdf';?>"><?php echo $text_policy;?></a>
+<?php 	foreach ($farr['files'] as $rc) { ?>                      
+                        <a class="d_brochure" target="_blank" href="<?php echo $rc['url']; ?>"><?php echo $rc['name']; ?></a>
+<?php 	} ?>                    
                       </div>
                     </div>
-                  	
-                  	<div class="row dfile-list">
-                  		<div class="col-sm-12">
-                  			<br />
-                  			<label>JFC --- JF Care International Student to Canada</label>
-                  		</div>
-                  		<div class="col-sm-12">
-                  			<a class="nofile" target="_blank" ><?php echo $text_brochure;?></a>
-                        <a class="d_benefit" target="_blank" href="<?php echo $downloads_url. $jfc . $url_benefit . '.pdf';?>"><?php echo $text_benefit;?></a>
-                  			<a class="nofile" target="_blank" ><?php echo $text_claimf;?></a>
-                  			<a class="nofile" target="_blank" ><?php echo $text_claimp;?></a>
-                  			<a class="nofile" target="_blank" ><?php echo $text_consent;?></a>
-                  			<a class="nofile" target="_blank" ><?php echo $text_policy;?></a>
-                  		</div>
-                  	</diV>
-                    <div class="row dfile-list">
-                      <div class="col-sm-12">
-                        <br />
-                        <label>JFR --- JF Royal Visitor to Canada</label>
-                      </div>
-                      <div class="col-sm-12">
-                        <a class="d_brochure" target="_blank" href="<?php echo $downloads_url. $jfr . $url_brochure . '.pdf';?>"><?php echo $text_brochure;?></a>
-                        <a class="d_benefit" target="_blank" href="<?php echo $downloads_url. $jfr . $url_benefit . '.pdf';?>"><?php echo $text_benefit;?></a>
-                        <a class="d_claimf" target="_blank" href="<?php echo $downloads_url. $jfr . $url_claimf . '.pdf';?>"><?php echo $text_claimf;?></a>
-                        <a class="d_claimp" target="_blank" href="<?php echo $downloads_url. $jfr . $url_claimp . '.pdf';?>"><?php echo $text_claimp;?></a>
-                        <a class="d_consent" target="_blank" href="<?php echo $downloads_url. $jfr . $url_consent . '.pdf';?>"><?php echo $text_consent;?></a>
-                        <a class="d_policy" target="_blank" href="<?php echo $downloads_url. $jfr . $url_policy . '.pdf';?>"><?php echo $text_policy;?></a>
-                      </div>
-                    </div>
-                    <div class="row dfile-list">
-                      <div class="col-sm-12">
-                        <br />
-                        <label>JUS --- JF USA International Student to USA</label>
-                      </div>
-                      <div class="col-sm-12">
-                        <a class="d_brochure" target="_blank" href="<?php echo $downloads_url. $jus . $url_brochure . '.pdf';?>"><?php echo $text_brochure;?></a>
-                        <a class="d_benefit" target="_blank" href="<?php echo $downloads_url. $jus . $url_benefit . '.pdf';?>" ><?php echo $text_benefit;?></a>
-                        <a class="nofile" target="_blank" ><?php echo $text_claimf;?></a>
-                        <a class="nofile" target="_blank" ><?php echo $text_claimp;?></a>
-                        <a class="nofile" target="_blank" ><?php echo $text_consent;?></a>
-                        <a class="nofile" target="_blank" ><?php echo $text_policy;?></a>
-                      </div>
-                    </div>
-                    <div class="row dfile-list">
-                      <div class="col-sm-12">
-                        <br />
-                        <label>NUS --- Nihao USA International Student to USA</label>
-                      </div>
-                      <div class="col-sm-12">
-                        <a class="d_brochure" target="_blank" href="<?php echo $downloads_url. $nus . $url_brochure . '.pdf';?>"><?php echo $text_brochure;?></a>
-                        <a class="d_benefit" target="_blank" href="<?php echo $downloads_url. $nus . $url_benefit . '.pdf';?>" ><?php echo $text_benefit;?></a>
-                        <a class="nofile" target="_blank"><?php echo $text_claimf;?></a>
-                        <a class="nofile" target="_blank" ><?php echo $text_claimp;?></a>
-                        <a class="nofile" target="_blank" ><?php echo $text_consent;?></a>
-                        <a class="nofile" target="_blank" ><?php echo $text_policy;?></a>
-                      </div>
-                    </div>
-                    <div class="row dfile-list">
-                      <div class="col-sm-12">
-                        <label>OPL --- JF Optimum Plus</label>
-                      </div>
-                      <div class="col-sm-12">
-                        <a class="d_brochure" target="_blank" href="<?php echo $downloads_url. $opl . $url_brochure . '.pdf';?>"><?php echo $text_brochure;?></a>
-                        <a class="d_benefit" target="_blank" href="<?php echo $downloads_url. $opl . $url_benefit . '.pdf';?>"><?php echo $text_benefit;?></a>
-                        <a class="d_claimf" target="_blank" href="<?php echo $downloads_url. $opl . $url_claimf . '.pdf';?>"><?php echo $text_claimf;?></a>
-                        <a class="d_claimp" target="_blank" href="<?php echo $downloads_url. $opl . $url_claimp . '.pdf';?>"><?php echo $text_claimp;?></a>
-                        <a class="d_consent" target="_blank" href="<?php echo $downloads_url. $opl . $url_consent . '.pdf';?>"><?php echo $text_consent;?></a>
-                        <a class="d_policy" target="_blank" href="<?php echo $downloads_url. $opl . $url_policy . '.pdf';?>"><?php echo $text_policy;?></a>
-                      </div>
-                    </div>
-                    
+<?php } ?>                    
                   </div>
                 </div>
               </div>

@@ -24,6 +24,7 @@ class Pdf extends MY_Controller {
 				if (substr($file, 0, 1) == '.') continue;
 				$data['filelist'][] = $file;
 			}
+			asort($data['filelist']);
 		}
 		$data['title_txt'] = 'Manage Download Files';
 		$data['upload_url'] = base_url('pdf/upload');
