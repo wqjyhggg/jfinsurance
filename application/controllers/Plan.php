@@ -675,7 +675,7 @@ class Plan extends MY_Controller {
 		$data['refund_url'] = base_url ( "plan/refund" ) . "/";
 		$data['cancelprint_url'] = base_url ( "plan/cancelprint" ) . "/";
 		$data['refundprint_url'] = base_url ( "plan/refundprint" ) . "/";
-		$data['revert_url'] = base_url ( "plan/revert" ) . "/";
+		$data['revert_url'] = base_url ( "payment/revert" ) . "/";
 		$data['makepay_url'] = base_url ( "payment/makepay" );
 		
 		$data['title_txt'] = 'Policy';
@@ -1527,7 +1527,7 @@ class Plan extends MY_Controller {
 				$this->log_model->activity('commission', $para);
 	
 				$dt['pay_type'] = 'cancel_up_commission';
-				$dt['rate'] = $up_commission_amount;
+				$dt['rate'] = $up_commission_rate;
 				$dt['amount'] = $up_commission_amount * (-1);
 				$up_commission_payment_id = $this->payment_model->add($dt);
 				$para = array(

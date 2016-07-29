@@ -348,15 +348,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					
 				
 					<div class="row">
-						<div class="form-group col-sm-4">
-							<p><b>Pay type:</b></p>
+						<div class="form-group col-sm-6">
+							<p><b>Allow Customer Pay type:</b></p>
 							<?php foreach ($paytype_list as $pay) { ?>
 							<div class="col-sm-4">
 							<input type='checkbox' name='paytype_list[]' value='<?php echo $pay; ?>' <?php echo (strpos($pay_type, $pay) === FALSE) ? '' : 'checked'; ?>> <?php echo $pay; ?><br>
 							</div>
 							<?php } ?>
 						</div>
-						<div class="form-group col-sm-4">
+						<div class="form-group col-sm-3">
 							<label class="col-sm-12">Status:</label>
 			                <div class="col-sm-12 input-group">
 								<select name='status' class="form-control">
@@ -365,8 +365,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								</select>
 							</div>
 					    </div>
-						<div class="form-group col-sm-4">
-							<label class="col-sm-12">Receive Type:</label>
+						<div class="form-group col-sm-3">
+							<label class="col-sm-12">Pay to Agent:</label>
 			                <div class="col-sm-12 input-group">
 								<select name='receive_type' class="form-control">
 									<option value='Cheque' <?php echo ($receive_type == 'Cheque') ? 'selected' : ''; ?>>Cheque</option>

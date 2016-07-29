@@ -131,10 +131,10 @@ class Payment extends MY_Controller {
 			$this->log_model->activity('payment', $para);
 			
 			$note = "Revert " . $payment['pay_type'] . " : " . $payment['amount'] . "; " . $plan['note'];
-			$para = array('status_id' => 4, 'note' => $note );  // Change status to Paid
-			$this->plan_model->update($plan_id, $para);
+			$para = array('status_id' => 3, 'note' => $note );  // Change status to Paid
+			$this->plan_model->update($plan['plan_id'], $para);
 			$para = array(
-					'plan_id' => $plan_id,
+					'plan_id' => $plan['plan_id'],
 					'customer_id' => $plan['customer_id'],
 					'payment_id' => $payment_id,
 					'message' => $this->plan_model->logstr,
@@ -144,7 +144,6 @@ class Payment extends MY_Controller {
 		} else {
 			$this->log_model->activity('commission', $para);
 		}
-		
-		redirec('plan');
+		redirect('plan');
 	}
 }
