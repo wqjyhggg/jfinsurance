@@ -41,7 +41,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 										<legend>Pay Information</legend>
 										<div class="row">
 											<div class="col-sm-4">
-												<label class="col-sm-12">Bank Name: </label>
+												<label class="col-sm-12">Invoice: </label>
 												<div class="input-group col-sm-12">
 													<!-- div id='totaldays' class="div-box"></div -->
 													<input class="form-control" type='text' name='invoice_num' id='invoice_num' value='' >

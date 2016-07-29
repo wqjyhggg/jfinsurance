@@ -739,6 +739,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 												<th>Type</th>
 												<th>Pay Type</th>
 												<th>Amount</th>
+												<th>Rate</th>
 												<th>Pay Status</th>
 												<th>Date</th>
 												<th>Notes</th>
@@ -760,6 +761,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 												<td><?php echo $p['pay_type']; ?></td>
 												<td><?php echo $p['pay_mothed']; ?></td>
 												<td><?php echo $p['amount']; ?></td>
+												<td><?php echo $p['rate']; ?></td>
 												<td><?php echo $p['ispaid'] ? "Paied" : "-"; ?> <?php if (!empty($rev_str)) { ?><a href='<?php echo $revert . $p['payment_id']; ?>'><?php echo $rev_str; ?></a><?php } ?></td>
 												<td><?php echo $p['added']; ?></td>
 												<td><?php echo (strlen($p['note']) > 60) ? (substr($p['note'], 0, 57) . "...") : $p['note']; ?></td>

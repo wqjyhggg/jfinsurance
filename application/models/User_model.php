@@ -17,7 +17,7 @@ class User_model extends CI_Model {
 	public function login($username, $password) {
 		$sql = "SELECT * FROM user WHERE username=" . $this->db->escape($username) . " AND status='1'";
 		$rc = $this->db->query($sql)->row_array();
-		if ($rc && password_verify($password, $rc['password'])) {
+		if ($rc && password_verify($password, $rc['password']) && $rc['status']) {
 			$this->logstr = $username . " login";
 			$this->sqlstr = $this->db->last_query();
 			if ($rc['user_group_id'] > 103) {
@@ -499,6 +499,16 @@ class User_model extends CI_Model {
 			}
 		} else {
 			$para['status'] = $status;
+		}
+		if (!empty($post['receive_type'])) {
+			if ($this_user) {
+				if ($this_user['receive_type'] != $post['receive_type']) {
+					$this->logstr .= "note[".$this_user['receive_type']."]=>[".$post['receive_type']."],";
+					$para['note'] = trim($post['note']);
+				}
+			} else {
+				$para['receive_type'] = trim($post['receive_type']);
+			}
 		}
 		if (!empty($post['note'])) {
 			if ($this_user) {

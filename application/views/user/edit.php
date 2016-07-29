@@ -348,7 +348,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					
 				
 					<div class="row">
-						<div class="form-group col-sm-6">
+						<div class="form-group col-sm-4">
 							<p><b>Pay type:</b></p>
 							<?php foreach ($paytype_list as $pay) { ?>
 							<div class="col-sm-4">
@@ -356,12 +356,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							</div>
 							<?php } ?>
 						</div>
-						<div class="form-group col-sm-6">
+						<div class="form-group col-sm-4">
 							<label class="col-sm-12">Status:</label>
 			                <div class="col-sm-12 input-group">
 								<select name='status' class="form-control">
 									<option value='1' <?php echo ($status || empty($user_id)) ? 'selected' : ''; ?>>Active</option>
 									<option value='0' <?php echo (empty($status) && $user_id) ? 'selected' : ''; ?>>Disable</option>
+								</select>
+							</div>
+					    </div>
+						<div class="form-group col-sm-4">
+							<label class="col-sm-12">Receive Type:</label>
+			                <div class="col-sm-12 input-group">
+								<select name='receive_type' class="form-control">
+									<option value='Cheque' <?php echo ($receive_type == 'Cheque') ? 'selected' : ''; ?>>Cheque</option>
+									<option value='Cash' <?php echo ($receive_type == 'Cash') ? 'selected' : ''; ?>>Cash</option>
+									<option value='Deposit' <?php echo ($receive_type == 'Deposit') ? 'selected' : ''; ?>>Deposit</option>
 								</select>
 							</div>
 					    </div>

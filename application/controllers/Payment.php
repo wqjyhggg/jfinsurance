@@ -38,10 +38,26 @@ class Payment extends MY_Controller {
 			foreach ($payment as $payment_id) {
 				$pay = $this->payment_model->get_payment_by_id($payment_id);
 				if ($pay) {
-					$payarr['note'] = $pay['note'] . "; Make pay by " . $this->session->userdata ( 'user' )['username'];
+					$payarr['note'] = "Make pay by " . $this->session->userdata ( 'user' )['username'] . "; " . $pay['note'];
 					if ($pay_submit && !$pay['ispaid']) {
 						// Submit pay
 						$this->payment_model->update($payment_id, $payarr);
+						if ($pay['pay_type'] == 'premium') {
+							$plan = $this->plan_model->get_plan_by_id($pay['plan_id']);
+							if ($plan && ($plan['status_id'] == 2)) {
+								$note = 'Mark pay by: ' . $beuser['username'] . "; " . $plan['note'];
+								$para = array('note' => $note, 'status_id' => 3);
+								$this->plan_model->update($plan['plan_id'], $para);
+								$para = array(
+										'plan_id' => $plan['plan_id'],
+										'customer_id' => $plan['customer_id'],
+										'payment_id' => $payment_id,
+										'message' => $this->plan_model->logstr,
+										'systemlog' => $this->plan_model->sqlstr
+								);
+								$this->log_model->activity('plan', $para);
+							}
+						}
 					} else {
 						$plan = $this->plan_model->get_plan_by_id($pay['plan_id']);
 						if ($plan) {
