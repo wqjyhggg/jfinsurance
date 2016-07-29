@@ -58,8 +58,9 @@ footer p{margin: 0;}
 
 /* Header */
 .hlogo>img{
-	margin: 5px auto;
-	max-width: 300px;
+    margin: 15px auto;
+    max-width: 390px;
+    width: 100%;
 }
 .navbar-form .form-control{
     border-top-left-radius: 4px;
@@ -230,7 +231,8 @@ footer p{margin: 0;}
     text-decoration: underline;
 }
 .dfile-list a:hover{color:#04c;}
-.dfile-list .nofile{color:#ccc;}
+.dfile-list .nofile{color:#ccc;text-decoration: none;}
+.dfile-list .nofile:hover{color: #ccc;}
 .dfile-list .d_brochure{color:#16c4cb;}
 .dfile-list .d_benefit{color:#16c4cb;}
 .dfile-list .d_claimf{color:#16c4cb;}

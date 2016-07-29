@@ -34,7 +34,7 @@
 <header>
 	<div class="container" style="padding:0;">
 		<div class="hlogo">
-			<img class="img-responsive" src="<?php echo base_url();?>image/logo.jpg" alt="JF Insurance">
+			<img class="img-responsive" src="<?php echo base_url();?>image/logo.png" alt="JF Insurance">
 		</div>
 		<nav class="navbar navbar-default">
 		  <!--div class="col-sm-3 pull-left hidden-xs">
