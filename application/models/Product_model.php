@@ -585,7 +585,17 @@ class Product_model extends CI_Model {
 			$premiumArr['sum_insured'] = number_format($para['sum_insured'], 2, '.', ',');
 			$premiumArr['deductible_amount'] =  number_format($para['deductible_amount'], 2, '.', ',');
 		} else {
-			$premiumArr['message'] = "";
+			$premiumArr['message'] = "Unknow Product";
+			return $premiumArr;
+		}
+		
+		$this->load->model('plan_model');
+		$product = $this->get_product($para['product_short']);
+		if (!empty($product['min_premium'])) {
+			if ((float)$product['min_premium'] > $premiumArr['premium']) {
+				$premiumArr['premium'] = 0;
+				$premiumArr['message'] = "Minumum premium must more than " . (float)$product['min_premium'];
+			}
 		}
 		return $premiumArr;
 	}

@@ -828,21 +828,7 @@ class Plan extends MY_Controller {
 			$this->log_model->activity('payment', $para);
 			$premium = $dt['amount'];	// Adjust amount if it was paid 
 
-			// commission
-			$dt['amount'] = $commission_amount - $paid_commission_amount;
-			$dt['rate'] = $commission_rate;
-			$dt['pay_type'] = 'commission';
-			$commission_payment_id = $this->payment_model->add($dt);
-			$para = array(
-					'plan_id' => $plan_id,
-					'customer_id' => $plan['customer_id'],
-					'payment_id' => $commission_payment_id,
-					'message' => $this->payment_model->logstr,
-					'systemlog' => $this->payment_model->sqlstr
-			);
-			$this->log_model->activity('commission', $para);
-
-			// commission
+			// upstream commission
 			$dt['amount'] = $up_commission_amount - $paid_up_commission_amount;
 			$dt['rate'] = $up_commission_rate;
 			$dt['pay_type'] = 'up_commission';
@@ -855,6 +841,23 @@ class Plan extends MY_Controller {
 					'systemlog' => $this->payment_model->sqlstr
 			);
 			$this->log_model->activity('up_commission', $para);
+
+			// commission
+			$dt['amount'] = $commission_amount - $paid_commission_amount;
+			$dt['rate'] = $commission_rate;
+			$dt['pay_type'] = 'commission';
+			if (($plan['product_short'] == 'OPL') || ($plan['product_short'] == 'JFR') && ($premium > 100000)) {
+				$dt['added'] = $plan['effective_date'];
+			}
+			$commission_payment_id = $this->payment_model->add($dt);
+			$para = array(
+					'plan_id' => $plan_id,
+					'customer_id' => $plan['customer_id'],
+					'payment_id' => $commission_payment_id,
+					'message' => $this->payment_model->logstr,
+					'systemlog' => $this->payment_model->sqlstr
+			);
+			$this->log_model->activity('commission', $para);
 
 			$beanstream = new \Beanstream\Gateway ( $product->merchent_id, $this->apikey, 'www', 'v1' );
 			$payment_data = array (
@@ -997,20 +1000,6 @@ class Plan extends MY_Controller {
 		$this->log_model->activity('payment', $para);
 		$premium = $dt['amount'];	// Adjust amount if it was paid
 		
-		// commission
-		$dt['amount'] = $commission_amount - $paid_commission_amount;
-		$dt['rate'] = $commission_rate;
-		$dt['pay_type'] = 'commission';
-		$commission_payment_id = $this->payment_model->add($dt);
-		$para = array(
-				'plan_id' => $plan_id,
-				'customer_id' => $plan['customer_id'],
-				'payment_id' => $commission_payment_id,
-				'message' => $this->payment_model->logstr,
-				'systemlog' => $this->payment_model->sqlstr
-		);
-		$this->log_model->activity('commission', $para);
-
 		// up commission
 		$dt['amount'] = $up_commission_amount - $paid_up_commission_amount;
 		$dt['rate'] = $up_commission_rate;
@@ -1024,6 +1013,23 @@ class Plan extends MY_Controller {
 				'systemlog' => $this->payment_model->sqlstr
 		);
 		$this->log_model->activity('up_commission', $para);
+
+		// commission
+		$dt['amount'] = $commission_amount - $paid_commission_amount;
+		$dt['rate'] = $commission_rate;
+		$dt['pay_type'] = 'commission';
+		if (($plan['product_short'] == 'OPL') || ($plan['product_short'] == 'JFR') && ($premium > 100000)) {
+			$dt['added'] = $plan['effective_date'];
+		}
+		$commission_payment_id = $this->payment_model->add($dt);
+		$para = array(
+				'plan_id' => $plan_id,
+				'customer_id' => $plan['customer_id'],
+				'payment_id' => $commission_payment_id,
+				'message' => $this->payment_model->logstr,
+				'systemlog' => $this->payment_model->sqlstr
+		);
+		$this->log_model->activity('commission', $para);
 
 		$para = array('payment_id' => $payment_id, 'payinfo' => $payinfo, 'commission_payment_id' => $commission_payment_id, 'status_id' => 2, 'policy' => $this->plan_model->get_policy_number($plan_id, 2));
 		$this->plan_model->update($plan_id, $para);
@@ -1086,20 +1092,6 @@ class Plan extends MY_Controller {
 		);
 		$this->log_model->activity('payment', $para);
 		$premium = $dt['amount'];	// Adjust amount if it was paid
-		
-		// commission
-		$dt['amount'] = $commission_amount - $paid_commission_amount;
-		$dt['rate'] = $commission_rate;
-		$dt['pay_type'] = 'commission';
-		$commission_payment_id = $this->payment_model->add($dt);
-		$para = array(
-				'plan_id' => $plan_id,
-				'customer_id' => $plan['customer_id'],
-				'payment_id' => $commission_payment_id,
-				'message' => $this->payment_model->logstr,
-				'systemlog' => $this->payment_model->sqlstr
-		);
-		$this->log_model->activity('commission', $para);
 
 		// up commission
 		$dt['amount'] = $up_commission_amount - $paid_up_commission_amount;
@@ -1115,6 +1107,23 @@ class Plan extends MY_Controller {
 		);
 		$this->log_model->activity('up_commission', $para);
 
+		// commission
+		$dt['amount'] = $commission_amount - $paid_commission_amount;
+		$dt['rate'] = $commission_rate;
+		$dt['pay_type'] = 'commission';
+		if (($plan['product_short'] == 'OPL') || ($plan['product_short'] == 'JFR') && ($premium > 100000)) {
+			$dt['added'] = $plan['effective_date'];
+		}
+		$commission_payment_id = $this->payment_model->add($dt);
+		$para = array(
+				'plan_id' => $plan_id,
+				'customer_id' => $plan['customer_id'],
+				'payment_id' => $commission_payment_id,
+				'message' => $this->payment_model->logstr,
+				'systemlog' => $this->payment_model->sqlstr
+		);
+		$this->log_model->activity('commission', $para);
+		
 		$para = array('payment_id' => $payment_id, 'payinfo' => $payinfo, 'commission_payment_id' => $commission_payment_id, 'status_id' => 2, 'policy' => $this->plan_model->get_policy_number($plan_id, 2));
 		$this->plan_model->update($plan_id, $para);
 		$para = array(
