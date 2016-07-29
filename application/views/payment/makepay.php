@@ -55,7 +55,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 												</div>
 											</div>
 											<div class="col-sm-4">
-												<label class="col-sm-12">Payor: </label>
+												<label class="col-sm-12">Payer: </label>
 												<div class="input-group col-sm-12">
 													<input class="form-control" type='text' name='payor_name' id='payor_name' value='' >
 												</div>
@@ -69,7 +69,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 												</div>
 											</div>
 											<div class="col-sm-4">
-												<label class="inline">Pay To: </label>
+												<label class="col-sm-12">Pay To: </label>
 												<div class="input-group col-sm-12">
 													<input class="form-control" type='input' name='pay_to' id='pay_to' value=''>
 												</div>

@@ -31,7 +31,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 				<div class="x_panel">
 					<div class="x_title">
 						<h2 class="col-xs-8 col-sm-8">
-							Review Policy Detail<small>  By agent: <?php echo $policy_user['firstname'] . " " . $policy_user['lastname']; ?></small>
+							Review Policy Detail
 							<span><b>[ <?php echo $status_list[$plan['status_id']]['name']; ?> ]</b></span>
 						</h2>
 						<a class="btn btn-info pull-right" target="_blank" href='<?php echo $pdf_url; ?>'>Export PDF</a>
@@ -52,11 +52,14 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 					<div class="x_content">
 						<div class="p-detail"><!-- policy detail -->
 							<div class="row">
-								<div class="col-sm-6">
-									<label class="inline"><span><?php echo $plan_full_name; ?></span></label>
+								<div class="col-sm-3">
+									<label><span><?php echo $plan_full_name; ?></span></label>
 								</div>
-								<div class="col-sm-6">
-									<label class="inline"><?php if ($plan['status_id'] < 2) { ?>Quote<?php } else {?>Policy<?php } ?> Number: <span><?php echo $plan['policy']; ?></span></label>
+								<div class="col-sm-3">
+									<label><?php if ($plan['status_id'] < 2) { ?>Quote<?php } else {?>Policy<?php } ?> Number: <span><?php echo $plan['policy']; ?></span></label>
+								</div>
+								<div class="col-sm-3">
+									<label style="text-transform: capitalize;">  By agent: <?php echo $policy_user['firstname'] . " " . $policy_user['lastname']; ?></label>
 								</div>
 								
 							</div>		

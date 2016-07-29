@@ -30,7 +30,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Policy Detail<small> By agent: <?php echo $policy_user['firstname'] . " " . $policy_user['lastname']; ?></small></h2>
+                    <h2>Policy Detail<small></small></h2>
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
@@ -79,11 +79,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 						</div>
 						<div class="form-group col-sm-3">
-							<label class="inline"><span><?php echo $plan_full_name; ?></span></label>
+							<label><span><?php echo $plan_full_name; ?></span></label>
+							<label><?php if ($status_id < 2) { ?>Quote<?php } else {?>Policy<?php } ?> Number: <span><?php echo $policy; ?></span></label>
+							 
 						</div>
 						
 						<div class="form-group col-sm-3">
-							<label class="inline"><?php if ($status_id < 2) { ?>Quote<?php } else {?>Policy<?php } ?> Number: <span><?php echo $policy; ?></span></label>
+							<label style="text-transform: capitalize;">By Agent: <?php echo $policy_user['firstname'] . " " . $policy_user['lastname']; ?></label>
 						</div>
 						<?php if ($user_group_id != 1) { ?>
 							<?php /* it is school or brokerage or agent */ ?>

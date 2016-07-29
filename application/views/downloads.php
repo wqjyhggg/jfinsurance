@@ -57,6 +57,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                   		</div>
                   		<div class="col-sm-12">
                   			<a class="nofile" target="_blank" ><?php echo $text_brochure;?></a>
+                        <a class="d_benefit" target="_blank" href="<?php echo $downloads_url. $jfc . $url_benefit . '.pdf';?>"><?php echo $text_benefit;?></a>
                   			<a class="nofile" target="_blank" ><?php echo $text_claimf;?></a>
                   			<a class="nofile" target="_blank" ><?php echo $text_claimp;?></a>
                   			<a class="nofile" target="_blank" ><?php echo $text_consent;?></a>

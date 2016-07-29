@@ -321,7 +321,7 @@ class Product_model extends CI_Model {
 			}
 			$premium = $rate * $days * $discount;
 			$message = "";
-			if ($years > 85) $message = "Over 85 years old must have $500 Deductible";
+			if ($years > 85) $message = "<p style='color:#2e6da4;'>Over 85 years old must have $500 Deductible</p>";
 
 			$rArr = array('premium' => $premium, 'dailyrate' => $rate, 'totalyears' => $years, 'totaldays' => $days, 'message' => $message, 'sum_insured' => number_format($para['sum_insured'], 2, '.', ','), 'deductible_amount' => number_format($para['deductible_amount'], 2, '.', ','));
 		} else if ($para['product_short'] == 'JFR') {
@@ -471,7 +471,7 @@ class Product_model extends CI_Model {
 			}
 			$premium = $rate * $days * $discount;
 			$message = "";
-			if ($years > 85) $message = "Over 85 years old must have $500 Deductible";
+			if ($years > 85) $message = "<p style='color:#2e6da4;'>Notice: Over 85 years old will have $500 Deductible</p>";
 
 			$rArr = array('premium' => $premium, 'dailyrate' => $rate, 'totalyears' => $years, 'totaldays' => $days, 'message' => $message, 'sum_insured' => number_format($para['sum_insured'], 2, '.', ','), 'deductible_amount' => number_format($para['deductible_amount'], 2, '.', ','));
 		} else if ($para['product_short'] == 'JUS') {
