@@ -8,6 +8,8 @@ class Downloads extends MY_Controller {
 	 */
 	public function index()
 	{
+		$beuser = $this->func_model->verify_login();
+		
 		$data['title_txt'] = 'Downloads';
 		$this->load->model('product_model');
 

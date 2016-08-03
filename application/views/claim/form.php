@@ -57,6 +57,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         
                       </div>
                       <div class="row">
+                        <div class="form-group col-sm-2">
+                          <label  class="col-sm-12">Claim Date: </label>
+                          <div class="input-group col-sm-12">
+                            <input class="form-control" value="<?php echo $claim_date; ?>" disabled/>
+                          </div>
+                        </div>
                         <div class="form-group col-sm-3">
                           <label class="col-sm-12">Last Name: </label>
                           <div class="input-group col-sm-12">
@@ -69,16 +75,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <input class="form-control" type='text' name='firstname' value='<?php echo $firstname; ?>'>
                           </div>
                         </div>
-                        <div class="form-group col-sm-3">
-                            <label class="col-sm-12">Birthdate From:</label>
+                        <div class="form-group col-sm-2">
+                            <label class="col-sm-12">Birthday:</label>
                             <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
                                 <input class="form-control" size="16" type="text" name="birthday" placeholder="Birthdate From" value="<?php echo $birthday; ?>" >
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
                             <input type="hidden" id="application_date_from" value="" />
                         </div>
-                        
-                        <div class="form-group col-sm-3">
+                        <div class="form-group col-sm-2">
                           <label  class="col-sm-12">Gender: </label>
                             <select name='gender' class="form-control">
                               <option value='M' <?php echo (empty($gender) || ($gender != 'F')) ? "selected" : ""; ?>>Male</option>
@@ -87,87 +92,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         </div>
                       </div>
                       <div class="row">
-                        <div class="form-group col-sm-3">
-                          <label  class="col-sm-12">Claim Date: </label>
-                          <div class="input-group col-sm-12">
-                            <input class="form-control" value="<?php echo $claim_date; ?>" disabled/>
-                          </div>
-                        </div>
-                        <div class="form-group col-sm-3">
-                          <label  class="col-sm-12">Claimed: </label>
-                          <div class="input-group col-sm-12">
-                            <input class="form-control" type='number' name='claimed' value='<?php echo $claimed; ?>'>
-                          </div>
-                        </div>
-                        <div class="form-group col-sm-3">
-                          <label class="col-sm-12">Paid: </label>
-                          <div class="input-group col-sm-12">
-                            <input class="form-control" type='number' name='paid' value='<?php echo $paid; ?>'>
-                          </div>
-                        </div>
-                        <div class="form-group col-sm-3">
-                          <label  class="col-sm-12">Pay To: </label>
-                          <div class="input-group col-sm-12">
-                            <input class="form-control" type='text' name='pay_to' value='<?php echo $pay_to; ?>'>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="form-group col-sm-3">
-                          <label  class="col-sm-12">Invoice Number: </label>
-                          <div class="input-group col-sm-12">
-                            <input class="form-control" type='text' name='invoice_num' value='<?php echo $invoice_num; ?>'>
-                          </div>
-                        </div>
-                      
-                        <div class="form-group col-sm-3">
-                          <label  class="col-sm-12">Cheque Number: </label>
-                          <div class="input-group col-sm-12">
-                            <input class="form-control" type='text' name='cheque_number' value='<?php echo $cheque_number; ?>'>
-                          </div>
-                        </div>
-                      
-                        <div class="form-group col-sm-3">
-                          <label  class="col-sm-12">Coverage Code: </label>
-                            <select name='coverage_code_id' class="form-control">
-                            <option value='' <?php echo (empty($coverage_code_id)) ? "selected" : ""; ?>> -- select code --</option>
-                            <?php foreach ($coverage_codes as $ccode) { ?>
-                            <option value='<?php echo $ccode['coverage_code_id']?>' <?php echo ($coverage_code_id == $ccode['coverage_code_id']) ? "selected" : ""; ?>><?php echo $ccode['name']; ?></option>
-                            <?php } ?>
-                            </select>
-                          
-                        </div>
-                        <div class="form-group col-sm-3">
-                            <label class="col-sm-12">Service Date: </label>
-                            <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
-                                <input class="form-control" size="16" type="text" name='service_date' placeholder="Birthdate From" value='<?php echo $service_date; ?>' >
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                            </div>
-                            <input type="hidden" id="application_date_from" value="" />
-                        </div>
-                        
-                      </div>
-                      <div class="row">
                         <div class="form-group col-sm-12">
-                          <label class="col-sm-12">Diagnosis: </label>
-                          <div class="input-group col-sm-12">
-                            <textarea class="form-control" rows="3" name='diagnosis'><?php echo $diagnosis; ?></textarea>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="form-group col-sm-12">
-                          <label class="col-sm-12">Memo: </label>
+                          <label class="col-sm-12">Note: </label>
                           <div class="input-group col-sm-12">  
-                            <textarea class="form-control" rows="3" name='memo'><?php echo $memo; ?></textarea>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="form-group col-sm-12">
-                          <label>Decline Reason: </label>
-                          <div class="input-group col-sm-12">
-                            <textarea class="form-control" rows="3" name='decline_reason'><?php echo $decline_reason; ?></textarea>
+                            <textarea class="form-control" rows="3" name='note'><?php echo $note; ?></textarea>
                           </div>
                         </div>
                       </div>

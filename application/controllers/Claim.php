@@ -54,16 +54,6 @@ class Claim extends MY_Controller {
 		} else {
 			$data['product_short'] = '';
 		}
-		if ($this->input->get("invoice_num")) {
-			$data['invoice_num'] = $this->input->get("invoice_num");
-		} else {
-			$data['invoice_num'] = '';
-		}
-		if ($this->input->get("cheque_number")) {
-			$data['cheque_number'] = $this->input->get("cheque_number");
-		} else {
-			$data['cheque_number'] = '';
-		}
 		if ($this->input->get("claim_date")) {
 			$data['claim_date'] = $this->input->get("claim_date");
 		} else {
@@ -77,6 +67,7 @@ class Claim extends MY_Controller {
 				
 		$data['action_url'] = current_url();
 		$data['edit_url'] = base_url('claim/edit');
+		$data['citem_url'] = base_url('citem/itemlist');
 		$data['products'] = $this->product_model->product_array();
 		$data['title_txt'] = 'Claim';
 		$data['top_menu'] = $this->menu_model->load_top_menu();
@@ -159,8 +150,6 @@ class Claim extends MY_Controller {
 			$data['policy_number'] = '';
 			$data['claim_number'] = '';
 			$data['product_short'] = '';
-			$data['invoice_num'] = '';
-			$data['cheque_number'] = '';
 			$data['claim_date'] = '';
 			$data['claim_date2'] = '';
 			$data['customer'] = $customer;
@@ -230,16 +219,7 @@ class Claim extends MY_Controller {
 		}
 		// $this->input->post('gender')
 		// $this->input->post('claim_date')
-		// $this->input->post('claimed')
-		// $this->input->post('paid')
-		// $this->input->post('pay_to')
-		// $this->input->post('invoice_num')
-		// $this->input->post('cheque_number')
-		// $this->input->post('coverage_code_id')
-		// $this->input->post('service_date')
-		// $this->input->post('diagnosis')
-		// $this->input->post('memo')
-		// $this->input->post('decline_reason')
+		// $this->input->post('note')
 		return $r;
 	}
 	
@@ -338,75 +318,12 @@ class Claim extends MY_Controller {
 		} else {
 			$this->data['claim_date'] = '';
 		}
-		if ($this->input->post('claimed')) {
-			$this->data['claimed'] = $this->input->post('claimed'); 
-		} else if (isset($claim['claimed'])) {
-			$this->data['claimed'] = $claim['claimed'];
+		if ($this->input->post('note')) {
+			$this->data['note'] = $this->input->post('note'); 
+		} else if (isset($claim['note'])) {
+			$this->data['note'] = $claim['note'];
 		} else {
-			$this->data['claimed'] = 0;
-		}
-		if ($this->input->post('paid')) {
-			$this->data['paid'] = $this->input->post('paid'); 
-		} else if (isset($claim['paid'])) {
-			$this->data['paid'] = $claim['paid'];
-		} else {
-			$this->data['paid'] = 0;
-		}
-		if ($this->input->post('pay_to')) {
-			$this->data['pay_to'] = $this->input->post('pay_to'); 
-		} else if (isset($claim['pay_to'])) {
-			$this->data['pay_to'] = $claim['pay_to'];
-		} else {
-			$this->data['pay_to'] = '';
-		}
-		if ($this->input->post('invoice_num')) {
-			$this->data['invoice_num'] = $this->input->post('invoice_num'); 
-		} else if (isset($claim['invoice_num'])) {
-			$this->data['invoice_num'] = $claim['invoice_num'];
-		} else {
-			$this->data['invoice_num'] = '';
-		}
-		if ($this->input->post('cheque_number')) {
-			$this->data['cheque_number'] = $this->input->post('cheque_number'); 
-		} else if (isset($claim['cheque_number'])) {
-			$this->data['cheque_number'] = $claim['cheque_number'];
-		} else {
-			$this->data['cheque_number'] = '';
-		}
-		if ($this->input->post('coverage_code_id')) {
-			$this->data['coverage_code_id'] = $this->input->post('coverage_code_id'); 
-		} else if (isset($claim['coverage_code_id'])) {
-			$this->data['coverage_code_id'] = $claim['coverage_code_id'];
-		} else {
-			$this->data['coverage_code_id'] = 0;
-		}
-		if ($this->input->post('service_date')) {
-			$this->data['service_date'] = $this->input->post('service_date'); 
-		} else if (isset($claim['service_date'])) {
-			$this->data['service_date'] = $claim['service_date'];
-		} else {
-			$this->data['service_date'] = '';
-		}
-		if ($this->input->post('diagnosis')) {
-			$this->data['diagnosis'] = $this->input->post('diagnosis'); 
-		} else if (isset($claim['diagnosis'])) {
-			$this->data['diagnosis'] = $claim['diagnosis'];
-		} else {
-			$this->data['diagnosis'] = '';
-		}
-		if ($this->input->post('memo')) {
-			$this->data['memo'] = $this->input->post('memo'); 
-		} else if (isset($claim['memo'])) {
-			$this->data['memo'] = $claim['memo'];
-		} else {
-			$this->data['memo'] = '';
-		}
-		if ($this->input->post('decline_reason')) {
-			$this->data['decline_reason'] = $this->input->post('decline_reason'); 
-		} else if (isset($claim['decline_reason'])) {
-			$this->data['decline_reason'] = $claim['decline_reason'];
-		} else {
-			$this->data['decline_reason'] = '';
+			$this->data['note'] = '';
 		}
 		
 		if (!empty($this->data['error_message'])) {
@@ -414,8 +331,6 @@ class Claim extends MY_Controller {
 			redirect('claim');
 		}
 
-		$this->load->model('coverage_model');
-		$this->data['coverage_codes'] = $this->coverage_model->get_coverage_codes();
 		$this->data['edit_url'] = base_url('claim/form');
 		
 		$this->data['title_txt'] = 'Claim';

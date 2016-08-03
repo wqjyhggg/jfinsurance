@@ -155,14 +155,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                               </select>
                         </div>
                         <!-- Product select box end -->
-                        <!-- Cheque No. input box -->
-                        <div class="form-group col-sm-3">
-                          <label class="col-sm-12">Cheque No.:</label>
-                          <div class="input-group col-sm-12">
-                              <input type="text" name="cheque_number" value='<?php echo $cheque_number; ?>' class="form-control"/>
-                          </div>
-                        </div>
-                        <!-- Cheque No. input box end -->
                       
                         <!-- Claim Date -->
                         <div class="form-group col-sm-3">
@@ -214,7 +206,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                       <table class="table table-hover table-bordered">
                         <thead>
                           <tr>
-                            <th>Action</th>
+                            <th>Detail</th>
                             <th>Policy Number</th>
                             <th>Claim Number</th>
                             <th>First Name</th>
@@ -222,18 +214,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <th>Gender</th>
                             <th>Birth Date</th>
                             <th>Claim Date</th>
-                            <th>Claimed</th>
-                            <th>Paid</th>
-                            <th>Pay To</th>
-                            <th>Cheque Number</th>
-                            <th>Recieved</th>
+                            <th>Status</th>
                             <th>Action</th>
                           </tr>
                         </thead>
                         <tbody>
                         <?php foreach ($lists as $c) { ?>
                             <tr>
-                              <td><a style="color:#46b8da;" href="<?php echo $edit_url."/".$c['claim_id']?>">Edit</a></td>
+                              <td><a style="color:#46b8da;" href="<?php echo $citem_url."/".$c['claim_id']; ?>"><?php echo $c['claim_id']; ?></a></td>
                               <td><?php echo $c['policy_number']; ?></td>
                               <td><?php echo $c['claim_number']; ?></td>
                               <td><?php echo $c['firstname']; ?></td>
@@ -241,10 +229,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                               <td><?php echo $c['gender']; ?></td>
                               <td><?php echo $c['birthday']; ?></td>
                               <td><?php echo $c['claim_date']; ?></td>
-                              <td><?php echo $c['claimed']; ?></td>
-                              <td><?php echo $c['paid']; ?></td>
-                              <td><?php echo $c['pay_to']; ?></td>
-                              <td><?php echo $c['cheque_number']; ?></td>
                               <td><?php echo ($c['done'] == 1) ? 'Y' : 'N'; ?></td>
                               <td><a style="color:#46b8da;" href="<?php echo $edit_url."/".$c['claim_id']?>">Edit</a></td>
                             </tr>
