@@ -350,6 +350,11 @@ class Claim_model extends CI_Model {
 				$this->logstr .= " external_note " . $para['external_note'] . "(" . $citem['external_note'] . ")";
 			}
 
+			if (empty($data)) {
+				$this->sqlstr = '';
+				$this->logstr = "No Update";
+				return $citem_id;
+			}
 			$this->db->where('citem_id', $citem_id);
 			$this->db->update('citem', $data);
 			$this->sqlstr = $this->db->last_query();
