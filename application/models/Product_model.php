@@ -593,8 +593,8 @@ class Product_model extends CI_Model {
 		$product = $this->get_product($para['product_short']);
 		if (!empty($product['min_premium'])) {
 			if ((float)$product['min_premium'] > $premiumArr['premium']) {
+				$premiumArr['message'] = "Minumum premium must more than " . (float)$product['min_premium'] . " ( " . (float)$premiumArr['premium'] . " estimate )";
 				$premiumArr['premium'] = 0;
-				$premiumArr['message'] = "Minumum premium must more than " . (float)$product['min_premium'];
 			}
 		}
 		return $premiumArr;

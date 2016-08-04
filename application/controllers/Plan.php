@@ -813,7 +813,7 @@ class Plan extends MY_Controller {
 			$up_commission_rate = $this->product_model->get_up_commission_rate($plan['product_short']);
 			$up_commission_amount = $premium * $up_commission_rate / 100.0;
 			$paid_up_commission_amount = $this->payment_model->get_total_paid($plan_id, 'up_commission');
-
+					
 			$dt['amount'] = $premium - $paid_amount;
 			$dt['rate'] = 100;
 			$dt['pay_type'] = 'premium';
@@ -836,7 +836,7 @@ class Plan extends MY_Controller {
 			$para = array(
 					'plan_id' => $plan_id,
 					'customer_id' => $plan['customer_id'],
-					'payment_id' => $commission_payment_id,
+					'payment_id' => $up_commission_payment_id,
 					'message' => $this->payment_model->logstr,
 					'systemlog' => $this->payment_model->sqlstr
 			);
@@ -858,8 +858,7 @@ class Plan extends MY_Controller {
 					'systemlog' => $this->payment_model->sqlstr
 			);
 			$this->log_model->activity('commission', $para);
-
-			$beanstream = new \Beanstream\Gateway ( $product->merchent_id, $this->apikey, 'www', 'v1' );
+			$beanstream = new \Beanstream\Gateway ( $product['merchent_id'], $product['apikey'], 'www', 'v1' );
 			$payment_data = array (
 					'order_number' => $plan_id,
 					'amount' => $premium,
@@ -888,6 +887,7 @@ class Plan extends MY_Controller {
 					);
 					$this->log_model->activity('plan', $para);
 					
+					$dt = array();
 					$dt['ispaid'] = 1;
 					$dt['note'] = "Success: Raw Data=> " . json_encode($result);
 					$payment_id = $this->payment_model->update($payment_id, $dt);
@@ -913,8 +913,10 @@ class Plan extends MY_Controller {
 					);
 					$this->log_model->activity('plan', $para);
 					
+					$dt = array();
 					$dt['ispaid'] = 0;
-					$dt['note'] = "Failur: Raw Data=> " . json_encode($result);
+					$dt['amount'] = 0;
+					$dt['note'] = "Failur pay (" . $premium . "): Raw Data=> " . json_encode($result);
 					$payment_id = $this->payment_model->update($payment_id, $dt);
 					$para = array(
 							'plan_id' => $plan_id,
@@ -924,6 +926,8 @@ class Plan extends MY_Controller {
 							'systemlog' => $this->payment_model->sqlstr
 					);
 					$this->log_model->activity('payment', $para);
+					$commission_payment_id = $this->payment_model->update($commission_payment_id, $dt);
+					$up_commission_payment_id = $this->payment_model->update($up_commission_payment_id, $dt);
 					$this->error = 'Payment Failed. Please confirm card information.';
 				}
 			} catch ( \Beanstream\Exception $e ) {
@@ -941,8 +945,10 @@ class Plan extends MY_Controller {
 				$this->log_model->activity('plan', $para);
 				
 				// print_r ( $e->getMessage() );
+				$dt = array();
 				$dt['ispaid'] = 0;
-				$dt['note'] = "Failur: (libraray) Raw Data=> " . $e->getMessage() . " : " . json_encode($e);
+				$dt['amount'] = 0;
+				$dt['note'] = "Failur pay (" . $premium . "): (libraray) Raw Data=> " . $e->getMessage() . " : " . json_encode($e);
 				$payment_id = $this->payment_model->update($payment_id, $dt);
 				$para = array(
 						'plan_id' => $plan_id,
@@ -952,6 +958,8 @@ class Plan extends MY_Controller {
 						'systemlog' => $this->payment_model->sqlstr
 				);
 				$this->log_model->activity('payment', $para);
+				$commission_payment_id = $this->payment_model->update($commission_payment_id, $dt);
+				$up_commission_payment_id = $this->payment_model->update($up_commission_payment_id, $dt);
 				$this->error = 'Payment Failed. Please pay it later.';
 			}
 		}
@@ -1008,7 +1016,7 @@ class Plan extends MY_Controller {
 		$para = array(
 				'plan_id' => $plan_id,
 				'customer_id' => $plan['customer_id'],
-				'payment_id' => $commission_payment_id,
+				'payment_id' => $up_commission_payment_id,
 				'message' => $this->payment_model->logstr,
 				'systemlog' => $this->payment_model->sqlstr
 		);
@@ -1101,7 +1109,7 @@ class Plan extends MY_Controller {
 		$para = array(
 				'plan_id' => $plan_id,
 				'customer_id' => $plan['customer_id'],
-				'payment_id' => $commission_payment_id,
+				'payment_id' => $up_commission_payment_id,
 				'message' => $this->payment_model->logstr,
 				'systemlog' => $this->payment_model->sqlstr
 		);
@@ -1221,7 +1229,7 @@ class Plan extends MY_Controller {
 		if ($beuser['user_group_id'] < 100) {
 			$data['paytype_list'] = $this->paytype_model->paytype_list();
 		} else {
-			$data['paytype_list'] = split(",", $beuser['pay_type']);
+			$data['paytype_list'] = explode(",", trim($beuser['pay_type']));
 		}
 		$data['payurl'] = base_url('plan/detail/' . $plan_id . '/' . $this->plan_model->get_plan_key($plan_id));
 		$data['active_url'] = current_url();

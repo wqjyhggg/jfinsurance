@@ -105,7 +105,7 @@ class Product extends MY_Controller {
 			'birthday' => $this->input->post_get('birthday'),
 			'number_customer' => $this->input->post_get('number_customer'));
 		$premiumarr = $this->product_model->get_premium($para);
-		if (empty($premiumarr) || empty($premiumarr['premium'])) {
+		if (empty($premiumarr) || (empty($premiumarr['premium']) && empty($premiumarr['message']))) {
 			$data = array('status' => 'Unknown', 'message' => '');
 		} else {
 			//$premiumarr['premium'] = number_format($premiumarr['premium'], 2, '.', ',');

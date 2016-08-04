@@ -127,7 +127,7 @@ class Pdf extends MY_Controller {
 							if ($this->input->post('product_short')) {
 								$data['product_short'] = $this->input->post('product_short');
 							} else {
-								$data['errormsg'] .= "No product at line " . $i . ": " . join("|", $row) . "<br>\n";
+								$data['errormsg'] .= "No product at line " . $i . ": " . @join("|", $row) . "<br>\n";
 								continue;
 							}
 						}

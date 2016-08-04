@@ -465,7 +465,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 											<input class="form-control" type='input' name='premium' id='premium' value='<?php echo $premium; ?>'>
 											<?php } else { ?>
 											<input class="form-control" type='hidden' name='premium' id='premium' value='<?php echo $premium; ?>'>	
-											<div id='premium'><?php echo $premium; ?></div>	
+											<div id='premiumdisplay'><?php echo $premium; ?></div>	
 											<?php } ?>
 										</div>
 									</div>
@@ -704,13 +704,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								if (data['status'] == 'OK') {
 					        		$('input[name="premium"]').val(data['premiumarr']['premium']);
 									<?php if ($user_group_id > 100) { ?>
-									$('#premium').html(data['premiumarr']['premium']);
+									$('#premiumdisplay').html(data['premiumarr']['premium']);
 									<?php } ?>
 									$('#totalyears').val(data['premiumarr']['totalyears']);
 									$('#totaldays').val(data['premiumarr']['totaldays']);
 									$('#dailyrate').val(data['premiumarr']['dailyrate']);
 									if (data['premiumarr']['message']) {
 										$('#error_next_page').html(data['premiumarr']['message']);
+									} else {
+										$('#error_next_page').html('');
 									}
 									if (data['premiumarr']['force_deductable']) {
 						        		$('input[name="force_deductable"]').val(data['premiumarr']['force_deductable']);
