@@ -1200,6 +1200,7 @@ class Plan extends MY_Controller {
 			$para['isfamilyplan'] = $plan['isfamilyplan'];
 			$para['sum_insured'] = $plan['sum_insured'];
 			$para['deductible_amount'] = $plan['deductible_amount'];
+			$para['rate_options'] = $plan['rate_options'];
 			$para['stable_condition'] = $plan['stable_condition'];
 			$para['holiday_rate'] = (($plan['product_short'] == 'JES') && ($plan['dailyrate'] >= 1.84)) ? 1 : 0;
 			$para['birthday'] = $this->customer_model->get_max_birthday($plan['customer_id'], $plan['isfamilyplan']);
