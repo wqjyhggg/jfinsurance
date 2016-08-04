@@ -157,6 +157,7 @@ class Claim extends MY_Controller {
 			$data['add_url'] = current_url();
 			$data['action_url'] = base_url('claim');
 			$data['edit_url'] = base_url('claim/edit');
+			$data['citem_url'] = base_url('citem/itemlist');
 			$data['products'] = $this->product_model->product_array();
 			$data['title_txt'] = 'Claim';
 			$data['top_menu'] = $this->menu_model->load_top_menu();
