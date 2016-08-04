@@ -531,12 +531,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					}
 					if ($('#isfamilyplan').get(0).checked) {
 						$('#family_member').show();
+						if ($('#spousediv').length) {
+							$('#spousediv').show();
+						}
 					}
 					$('#isfamilyplan').change(function() {
 				        if ($(this).get(0).checked) {
 				    		$('#family_member').show();
+							if ($('#spousediv').length) {
+								$('#spousediv').show();
+							}
 				        } else {
 				        	$('#family_member').hide();
+							if ($('#spousediv').length) {
+								$('#spousediv').hide();
+							}
 				        	$("input[name^='firstname_']").each(function() {
 				            	$(this).val('');
 				        	});
@@ -623,6 +632,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					var effective_date = $('input[name="effective_date"]').val();
 					var expiry_date = $('input[name="expiry_date"]').val();
 					var isfamilyplan = '';
+					var spouse = '';
+			
 					if ($('input[name="isfamilyplan"]').is(':checked')) {
 						isfamilyplan = 1;	// checkbox
 					}
@@ -683,6 +694,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					if ($('input[name="firstname_7"]').val() && $('input[name="lastname_7"]').val()) number_customer++;
 					if ($('input[name="firstname_8"]').val() && $('input[name="lastname_8"]').val()) number_customer++;
 				
+					if ($('#spouse').get(0).checked) {
+						spouse = 1;
+					}
+
 					if (effective_date && expiry_date && birthday) {
 						$.ajax({
 							url: '<?php echo $premium_url; ?>',
@@ -699,6 +714,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								rate_options: rate_options,
 								holiday_rate: holiday_rate,
 								number_customer: number_customer,
+								spouse: spouse,
 								birthday: birthday},
 							success: function(data, textStatus, jqXHR) {
 								if (data['status'] == 'OK') {
