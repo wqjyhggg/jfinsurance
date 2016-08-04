@@ -197,6 +197,11 @@ class Claim_model extends CI_Model {
 				$this->logstr .= " decline_reason " . $para['decline_reason'] . "(" . $claim['decline_reason'] . ")";
 			}
 
+			if (empty($data)) {
+				$this->sqlstr = '';
+				$this->logstr = "No Update";
+				return $claim_id;
+			}
 			$this->db->where('claim_id', $claim_id);
 			$this->db->update('claim', $data);
 			$this->sqlstr = $this->db->last_query();
