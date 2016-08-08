@@ -43,7 +43,7 @@ class Report_model extends CI_Model {
         $this->db->select('
             pl.apply_date AS order_date,
             pl.policy,
-            CONCAT(u.lastname, ", ", u.firstname) AS insurer,
+            pr.up_insuer AS insurer,
             pr.full_name AS product,
             CONCAT(c.lastname, ", ", c.firstname) AS insured_name,
             pl.effective_date,
@@ -216,7 +216,7 @@ class Report_model extends CI_Model {
             pl.sum_insured,
             pl.deductible_amount,
             pl.premium AS policy_premium,
-            pr.up_pay_rate AS commission_rate_jf,
+            (100 - pr.up_pay_rate) AS commission_rate_jf,
             pr.commission AS pr_commission,
             up.commission AS up_commission,
             "2.5" AS merchant_fee_per,
@@ -633,10 +633,14 @@ class Report_model extends CI_Model {
             $available_product_short[] = $product['product_short'];
         }
 
-        if (empty($para['product_short']) || !in_array($para['product_short'], $available_product_short)) {
-            $this->db->where_in('pr.product_short', $available_product_short);
+        if (!empty($available_product_short)) {
+            if (empty($para['product_short']) || !in_array($para['product_short'], $available_product_short)) {
+                $this->db->where_in('pr.product_short', $available_product_short);
+            } else {
+                $this->db->where('pr.product_short', $para['product_short']);
+            }
         } else {
-            $this->db->where('pr.product_short', $para['product_short']);
+            $this->db->where('pr.product_short','');
         }
 
         if (!empty($para['agent_id'])) {
