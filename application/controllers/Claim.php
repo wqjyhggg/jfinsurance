@@ -81,6 +81,7 @@ class Claim extends MY_Controller {
 	}
 	
 	public function add($customer_id) {
+
 		$beuser = $this->func_model->verify_login();
 
 		$this->load->model('customer_model');
@@ -137,10 +138,12 @@ class Claim extends MY_Controller {
 				}
 			}
 			
+			$this->data['button'] = 'Submit';
 			$this->form($claim);
 		} else {
 			$this->load->model('product_model');
 			$customer = $this->customer_model->get_customer_by_id($customer_id);
+			$plan = $this->plan_model->get_plan_by_id($customer['plan_id']);
 			$para['plan_id'] = $customer['plan_id'];
 			$data['lists'] = $this->claim_model->search($para);
 			$data['firstname'] = $customer["firstname"];
@@ -153,6 +156,7 @@ class Claim extends MY_Controller {
 			$data['claim_date'] = '';
 			$data['claim_date2'] = '';
 			$data['customer'] = $customer;
+			$data['plan'] = $plan;
 				
 			$data['add_url'] = current_url();
 			$data['action_url'] = base_url('claim');
@@ -178,6 +182,7 @@ class Claim extends MY_Controller {
 		
 		$this->data = array();
 		$claim = $this->claim_model->get_claim_by_id($claim_id);
+		
 		$this->form($claim);
 	}
 	
@@ -232,6 +237,7 @@ class Claim extends MY_Controller {
 			$claim_id = $this->input->post('claim_id');
 			$this->claim_model->update($claim_id, $this->input->post());
 			$claim = $this->claim_model->get_claim_by_id($claim_id);
+			redirect('claim');
 		}
 		
 		if ($this->input->post('claim_id')) {
@@ -330,6 +336,11 @@ class Claim extends MY_Controller {
 		if (!empty($this->data['error_message'])) {
 			// How to show error_message?
 			redirect('claim');
+		}
+
+
+		if (!isset($this->data['button']) || ($this->data['button'] != 'Submit' )) {
+			$this->data['button'] = 'Update';
 		}
 
 		$this->data['edit_url'] = base_url('claim/form');

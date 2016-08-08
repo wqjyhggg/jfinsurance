@@ -27,13 +27,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
             </div>
             <div class="clearfix"></div>
-<?php if (isset($customer)) { ?>
-           <!-- Filter Section -->
+        <?php if (isset($customer)) { ?>
+           <!-- Policy Info Section -->
             <div class="row">
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Claim Add<small></small></h2>
+                    <h2>Policy Info<small></small></h2>
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
@@ -43,41 +43,90 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     	<input type="hidden" name="customer_id" value='<?php echo $customer['customer_id']; ?>'>
                       <!-- personal information search -->
                       <div class="row">
-                        <!-- Last Name input box -->
+                        <!-- Last First Name input box -->
                         <div class="form-group col-sm-3">
-                          <label class="col-sm-12">Last Name:</label>
+                          <label class="col-sm-12">Policy No.:</label>
                           <div class="input-group col-sm-12">
-                              <input type="text" name="lastname" value='<?php echo $customer['lastname']; ?>' class="form-control" disabled />
+                              <input type="text" name="policyNo" value="<?php echo $plan['policy']; ?>" class="form-control" disabled />
                           </div>
                         </div>
-                        <!-- Last Name input box end -->
-                        <!-- First Name input box -->
-                        <div class="form-group col-sm-3">
-                          <label class="col-sm-12">First Name:</label>
-                          <div class="input-group col-sm-12">
-                              <input type="text" name="firstname" value='<?php echo $customer['firstname']; ?>' class="form-control" disabled />
-                          </div>
-                        </div>
-                        <!-- First Name input box end -->
+                        <!-- Last First Name input box end -->
                         
-                        <!-- Policy Number input box -->
+                        <div class="form-group col-sm-3">
+                          <label class="col-sm-12">Arrival Date:</label>
+                          <div class="input-group col-sm-12">
+                              <input type="text" name="arrival_date" value="<?php echo $plan['arrival_date']; ?>" class="form-control" disabled />
+                          </div>
+                        </div>
+                        
+                        <div class="form-group col-sm-3">
+                          <label class="col-sm-12">Effective Date:</label>
+                          <div class="input-group col-sm-12">
+                              <input type="text" name="effective_date" value="<?php echo $plan['effective_date']; ?>" class="form-control" disabled />
+                          </div>
+                        </div>
+                        
+                        <div class="form-group col-sm-3">
+                          <label class="col-sm-12">Expiry Date:</label>
+                          <div class="input-group col-sm-12">
+                              <input type="text" name="expiry_date" value="<?php echo $plan['expiry_date']; ?>" class="form-control" disabled />
+                          </div>
+                        </div>
+                        
+                      </div>
+                      <div class="row">
+                        <div class="form-group col-sm-3">
+                          <label class="col-sm-12">Beneficiary:</label>
+                          <div class="input-group col-sm-12">
+                              <input type="text" name="beneficiary" value="<?php echo $plan['beneficiary']; ?>" class="form-control" disabled />
+                          </div>
+                        </div>
+                        <div class="form-group col-sm-3">
+                          <label class="col-sm-12">Sum Insured:</label>
+                          <div class="input-group col-sm-12">
+                              <input type="text" name="sum_insured" value="<?php echo $plan['sum_insured']; ?>" class="form-control" disabled />
+                          </div>
+                        </div>
+                        <div class="form-group col-sm-3">
+                          <label class="col-sm-12">Deductible:</label>
+                          <div class="input-group col-sm-12">
+                              <input type="text" name="deductible" value="<?php echo $plan['deductible_amount']; ?>" class="form-control" disabled />
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <!-- Last First Name input box -->
+                        <div class="form-group col-sm-3">
+                          <label class="col-sm-12">Last First Name:</label>
+                          <div class="input-group col-sm-12">
+                              <input type="text" name="lastname" value='<?php echo $customer['lastname'] . ', ' . $customer['firstname']; ?>' class="form-control" disabled />
+                          </div>
+                        </div>
+                        <!-- Last First Name input box end -->
+                        
                         <div class="form-group col-sm-3">
                           <label class="col-sm-12">Birthday:</label>
                           <div class="input-group col-sm-12">
                               <input type="text" name="birthday" value='<?php echo $customer['birthday']; ?>' class="form-control" disabled />
                           </div>
                         </div>
-                        <!-- Policy Number input box end -->
-                        <!-- Claim Number input box -->
+                        
                         <div class="form-group col-sm-3">
                           <label class="col-sm-12">Gender:</label>
                           <div class="input-group col-sm-12">
                               <input type="text" name="gender" value='<?php echo $customer['gender']; ?>' class="form-control" disabled />
                           </div>
                         </div>
-                        <!-- Claim Number input box end -->
-                        
                       </div>
+                      <div class="row">  
+                        <div class="form-group col-sm-12">
+                          <label class="col-sm-12">Address:</label>
+                          <div class="input-group col-sm-12">
+                              <input type="text" name="gender" value="<?php if(!empty($plan['suite_number'])){echo  $plan['suite_number'] . "- ";} ?><?php echo $plan['street_number'] . ' ' . $plan['street_name'] . ' ' . $plan['city'] . ', ' . $plan['province2'] . ', ' . $plan['postcode']; ?>" class="form-control" disabled />
+                          </div>
+                        </div>
+                        
+                      </div><br />
                       <!-- submit button -->
                       <div class="row">
                         <!-- submit button -->
@@ -91,10 +140,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                   </div>
                 </div>
               </div>
-            </div><!-- End Filter Section -->
-<?php } ?>
+            </div>
+        <?php } ?>
            <!-- Filter Section -->
+          <?php if (isset($customer)) { ?>
+            <div class="row" style="display:none;">
+          <?php }else{ ?>
             <div class="row">
+          <?php } ?>      
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
@@ -197,7 +250,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
+                    <?php if (isset($customer)) { ?>
+                    <h2>Claim Info<small></small></h2>
+                    <?php }else{ ?>
                     <h2>Search Result<small></small></h2>
+                    <?php } ?>
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">

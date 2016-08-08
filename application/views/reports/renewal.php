@@ -198,10 +198,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         </thead>
                         <tbody>
     <?php foreach ($report_data['data'] as $agent_id => $renewal_data) :?>
-                            <tr><td colspan=22>
+                            <tr><td colspan=7>
                                 Date: <?=$report_data['period']['from'] ?> To <?=$report_data['period']['to'] ?><br>
                                 <?=$renewal_data['agency'] ?>
-                            <td></tr>
+                            </td></tr>
         <?php foreach ($renewal_data['records'] as $record) : ?>
                             <tr>
                               <td><?=$record['policy'] ?></td>

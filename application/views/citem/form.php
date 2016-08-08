@@ -22,7 +22,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           
             <div class="page-title">
               <div class="title_left">
-                <h3>Claim Item Edit</h3>
+                <h3>Claim Item Detail</h3>
               </div>
 
             </div>
@@ -72,26 +72,26 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                       </div>
                       <div class="row">
                         <div class="form-group col-sm-3">
-                            <label class="col-sm-12">Service Date: </label>
+                            <label>Service Date: </label>
                             <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
                                 <input class="form-control" size="16" type="text" name='service_date' placeholder="Birthdate From" value='<?php echo $service_date; ?>' >
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
                         </div>
                         <div class="form-group col-sm-3">
-                          <label  class="col-sm-12">Claimed: </label>
+                          <label >Claimed: </label>
                           <div class="input-group col-sm-12">
                             <input class="form-control" type='number' name='claimed' value='<?php echo $claimed; ?>'>
                           </div>
                         </div>
                         <div class="form-group col-sm-3">
-                          <label class="col-sm-12">Paid: </label>
+                          <label>Paid: </label>
                           <div class="input-group col-sm-12">
                             <input class="form-control" type='number' name='paid' value='<?php echo $paid; ?>'>
                           </div>
                         </div>
                         <div class="form-group col-sm-3">
-                          <label  class="col-sm-12">Pay To: </label>
+                          <label >Pay To: </label>
                           <div class="input-group col-sm-12">
                             <input class="form-control" type='text' name='pay_to' value='<?php echo $pay_to; ?>'>
                           </div>
@@ -99,14 +99,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                       </div>
                       <div class="row">
                         <div class="form-group col-sm-3">
-                            <label class="col-sm-12">Paid Date: </label>
+                            <label>Paid Date: </label>
                             <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
                                 <input class="form-control" size="16" type="text" name='paid_date' placeholder="Birthdate From" value='<?php echo $paid_date; ?>' >
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
                         </div>
                         <div class="form-group col-sm-3">
-                          <label  class="col-sm-12">Coverage Code: </label>
+                          <label >Coverage Code: </label>
                             <select name='coverage_code_id' class="form-control">
                             <option value='' <?php echo (empty($coverage_code_id)) ? "selected" : ""; ?>> -- select code --</option>
                             <?php foreach ($coverage_codes as $ccode) { ?>
@@ -115,37 +115,37 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             </select>
                         </div>
                         <div class="form-group col-sm-3">
-                          <label  class="col-sm-12">Address: </label>
+                          <label >Address: </label>
                           <div class="input-group col-sm-12">
                             <input class="form-control" type='text' name='address' value='<?php echo $address; ?>'>
                           </div>
                         </div>
                         <div class="form-group col-sm-3">
-                          <label  class="col-sm-12">City: </label>
+                          <label >City: </label>
                           <div class="input-group col-sm-12">
                             <input class="form-control" type='text' name='city' value='<?php echo $city; ?>'>
                           </div>
                         </div>
  			            <div class="form-group col-sm-3">
-			                <label class="col-sm-12">Province:</label>
+			                <label>Province:</label>
 			                <div class="input-group col-sm-12">
 			                	<div id='province2_div'></div>
 			                </div>
 			            </div>
 			            <div class="form-group col-sm-3">
-			                <label class="col-sm-12">Country:</label>
+			                <label>Country:</label>
 			                <div class="input-group col-sm-12">
 			                	<div id='country2_div'></div>
 			                </div>
 			            </div>
 			            <div class="form-group col-sm-3">
-			                <label class="col-sm-12">Post Code:</label>
+			                <label>Post Code:</label>
 			                <div class="col-sm-12 input-group">
 				                <input type='text' name='postcode' value='<?php echo $postcode; ?>' class="form-control">
 							</div>
 			            </div>
                         <div class="form-group col-sm-3">
-                            <label class="col-sm-12">EOB Date: </label>
+                            <label>EOB Date: </label>
                             <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
                                 <input class="form-control" size="16" type="text" name='eob_date' placeholder="Birthdate From" value='<?php echo $eob_date; ?>' >
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
@@ -153,27 +153,27 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         </div>
                       
                         <div class="form-group col-sm-3">
-                          <label  class="col-sm-12">Cheque Number: </label>
+                          <label >Cheque Number: </label>
                           <div class="input-group col-sm-12">
                             <input class="form-control" type='text' name='cheque_number' value='<?php echo $cheque_number; ?>'>
                           </div>
                         </div>
                       
                         <div class="form-group col-sm-3">
-                          <label  class="col-sm-12">Amount Received: </label>
+                          <label >Amount Received: </label>
                           <div class="input-group col-sm-12">
                             <input class="form-control" type='number' name='received' value='<?php echo $received; ?>'>
                           </div>
                         </div>
                         <div class="form-group col-sm-3">
-                            <label class="col-sm-12">Cheque Cashed Date: </label>
+                            <label>Cheque Cashed Date: </label>
                             <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
                                 <input class="form-control" size="16" type="text" name='cashed_date' placeholder="Birthdate From" value='<?php echo $cashed_date; ?>' >
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
                         </div>
                         <div class="form-group col-sm-3">
-                          <label  class="col-sm-12">EOB Cheque No: </label>
+                          <label >EOB Cheque No: </label>
                           <div class="input-group col-sm-12">
                             <input class="form-control" type='text' name='eob_cheque_no' value='<?php echo $eob_cheque_no; ?>'>
                           </div>
@@ -182,7 +182,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                       </div>
                       <div class="row">
                         <div class="form-group col-sm-12">
-                          <label class="col-sm-12">Diagnosis: </label>
+                          <label>Diagnosis: </label>
                           <div class="input-group col-sm-12">
                             <textarea class="form-control" rows="3" name='diagnosis'><?php echo $diagnosis; ?></textarea>
                           </div>
@@ -190,7 +190,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                       </div>
                       <div class="row">
                         <div class="form-group col-sm-12">
-                          <label class="col-sm-12">Internal Note: </label>
+                          <label>Internal Note: </label>
                           <div class="input-group col-sm-12">  
                             <textarea class="form-control" rows="3" name='internal_note'><?php echo $internal_note; ?></textarea>
                           </div>
@@ -198,7 +198,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                       </div>
                       <div class="row">
                         <div class="form-group col-sm-12">
-                          <label class="col-sm-12">External Note: </label>
+                          <label>External Note: </label>
                           <div class="input-group col-sm-12">  
                             <textarea class="form-control" rows="3" name='external_note'><?php echo $external_note; ?></textarea>
                           </div>
@@ -206,7 +206,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                       </div>
                       <div class="row">
                         <div class="form-group col-sm-12 text-right">
-                          <input class="btn btn-primary" type='submit' name='submit' value='Update'>
+                          <input class="btn btn-primary" type='submit' name='submit' value="<?php echo $button_text;?>">
                         </div>
                       </div>
 

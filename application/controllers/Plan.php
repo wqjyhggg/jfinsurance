@@ -1354,35 +1354,59 @@ class Plan extends MY_Controller {
 		
 				if ($data['plan']['product_short'] == 'OPL') {
 					$data['insurable_options'] = $this->load->view('plan/detail_opl', $data, TRUE);
+					$files = array(
+					'OPL_Policy.pdf' => DOWNLOADDIR . 'OPL_Policy.pdf',
+					'OPL_Claim_Procedure.pdf' => DOWNLOADDIR . 'OPL_Claim_Procedure.pdf',
+					'OPL_Consent_Form.pdf' => DOWNLOADDIR . 'OPL_Consent_Form.pdf',
+					'OPL_Claim_Form.pdf' => DOWNLOADDIR . 'OPL_Claim_Form.pdf',
+					'OPL_Brochure.pdf' => DOWNLOADDIR . 'OPL_Brochure.pdf'
+					);
 				} else if ($data['plan']['product_short'] == 'JFR') {
 					$data['insurable_options'] = $this->load->view('plan/detail_opl', $data, TRUE);
+					$files = array(
+					'JFR_Policy.pdf' => DOWNLOADDIR . 'JFR_Policy.pdf',
+					'JFR_Claim_Procedure.pdf' => DOWNLOADDIR . 'JFR_Claim_Procedure.pdf',
+					'JFR_Consent_Form.pdf' => DOWNLOADDIR . 'JFR_Consent_Form.pdf',
+					'JFR_Claim_Form.pdf' => DOWNLOADDIR . 'JFR_Claim_Form.pdf',
+					'JFR_Brochure.pdf' => DOWNLOADDIR . 'JFR_Brochure.pdf'
+					);
 				} else if ($data['plan']['product_short'] == 'JUS') {
 					$data['insurable_options'] = $this->load->view('plan/detail_jus', $data, TRUE);
+					$files = array(
+					'JUS_Brochure.pdf' => DOWNLOADDIR . 'JUS_Brochure.pdf'
+					);
 				} else if ($data['plan']['product_short'] == 'NUS') {
 					$data['insurable_options'] = $this->load->view('plan/detail_jus', $data, TRUE);
+					$files = array(
+					'NUS_Brochure.pdf' => DOWNLOADDIR . 'NUS_Brochure.pdf'
+					);
 				} else if ($data['plan']['product_short'] == 'JES') {
 					$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
+					$files = array(
+					'JFR_Policy.pdf' => DOWNLOADDIR . 'JFR_Policy.pdf',
+					'JFR_Claim_Form.pdf' => DOWNLOADDIR . 'JFR_Claim_Form.pdf',
+					'JFR_Brochure.pdf' => DOWNLOADDIR . 'JFR_Brochure.pdf'
+					);
 				} else if ($plan['plan']['product_short'] == 'JFC') {
 					$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
+					
 				} else {
 					$data['insurable_options'] = $this->load->view('plan/detail_other', $data, TRUE);
 				}
 				
 				$policy_file = tempnam("/tmp", "Policy");
-				
+				//$policy_file = "C:\Users\Administrator\AppData\Local\Temp\Policy";
 				$data['title_txt'] = 'Policy';
 				$data['style'] = $this->load->view('common/pdf_style',$data, TRUE);
 				$mpdf = new mPDF('c');
 				$html = $this->load->view('plan/pdf', $data, TRUE);
-				//die($html);
 				$mpdf->writeHTML($html);
 				$mpdf->Output($policy_file, 'F');
 				
 				$this->load->model('mymail_model');
 				$body = $this->load->view('mail/package',$data, TRUE);
-				$files = array(
-					'policy' => $policy_file,
-				);
+				
+				$files['policy.pdf'] = $policy_file;
 				$sendok = $this->mymail_model->send_mymail($emailaddr, 'Insure Packages', $body, $files, $from='Support');
 				unlink($policy_file);
 				if ($sendok) {

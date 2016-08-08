@@ -224,10 +224,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                               <td>$<?=$record['commission_amount'] ?></td>
                             </tr>
     <?php endforeach; ?>
-                            <tr><td colspan=13>
-                                Total Premium: $<?=$data['data']['policy_premium'] ?>&nbsp;&nbsp;
-                                Net Premium: $<?=$data['data']['net_premium'] ?>
+                            <tr><td colspan=14>
+                                Total Premium: $<?=$data['data']['policy_premium'] ?>;&nbsp;&nbsp;
+                                Total Net Premium: $<?=$data['data']['net_premium'] ?>
                             </td></tr>
+                            <tr style="background:#eee;"><td colspan=14></td></tr>
                         </tbody>
 <?php endforeach; ?>
                       </table>

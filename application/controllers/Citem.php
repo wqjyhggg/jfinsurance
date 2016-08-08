@@ -40,7 +40,6 @@ class Citem extends MY_Controller {
 	
 	public function add($claim_id) {
 		$beuser = $this->func_model->verify_login();
-
 		$this->load->model('customer_model');
 		$this->load->model('claim_model');
 		$this->load->model('plan_model');
@@ -70,6 +69,8 @@ class Citem extends MY_Controller {
 			);
 			$this->log_model->activity('claim_item', $para);
 			$citem = $this->claim_model->get_claim_item_by_id($citem_id);
+			$this->data['button_text'] = 'Submit';
+
 			$this->form($citem);
 		} else {
 			$this->data['error_message'] = "Can't find Claim";
@@ -78,11 +79,12 @@ class Citem extends MY_Controller {
 	
 	public function edit($citem_id) {
 		$beuser = $this->func_model->verify_login();
-		
 		$this->load->model('claim_model');
 		
 		$this->data = array();
 		$citem = $this->claim_model->get_claim_item_by_id($citem_id);
+		$this->data['button_text'] = 'Update';
+
 		$this->form($citem);
 	}
 	
