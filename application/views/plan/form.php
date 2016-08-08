@@ -455,7 +455,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<div class="col-sm-3">
 										<label class="col-sm-12">Age: </label>
 										<div class="input-group col-sm-12">
-											<input class="form-control" type='text' name='totalyears' id='totalyears' value='<?php echo $dailyrate; ?>' readonly >
+											<input class="form-control" type='text' name='totalyears' id='totalyears' value='<?php echo $totalyears; ?>' readonly >
 										</div>
 									</div>
 									<div class="col-sm-3">
@@ -694,8 +694,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					if ($('input[name="firstname_7"]').val() && $('input[name="lastname_7"]').val()) number_customer++;
 					if ($('input[name="firstname_8"]').val() && $('input[name="lastname_8"]').val()) number_customer++;
 				
-					if ($('#spouse').get(0).checked) {
-						spouse = 1;
+					if ($('#spousediv').length) {
+						if ($('#spouse').get(0).checked) {
+							spouse = 1;
+						}
 					}
 
 					if (effective_date && expiry_date && birthday) {
