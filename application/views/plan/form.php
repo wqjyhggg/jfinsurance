@@ -209,7 +209,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									</div>
 									<div class="col-sm-3">
 										<label class="col-sm-12">Birth Date:</label>
-										<div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
+										<div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd" data-date-end-date="0d" >
 					                        <input size="16" type="text" class='setpremium form-control' name='birthday' value='<?php echo !empty($birthday) ? $birthday : ''; ?>'>
 					                        
 					                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
@@ -269,7 +269,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										<div class="col-sm-3">
 											<label class="col-sm-12">Birth Date: </label>
 											
-											<div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
+											<div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd" data-date-end-date="0d">
 					                        	<input size="16" type="text" class='setpremium form-control' name='birthday_<?php echo $i; ?>' id='birthday_<?php echo $i; ?>' value='<?php echo !empty(${'birthday_'.$i}) ? ${'birthday_'.$i} : ''; ?>'>
 					                        	
 					                        	<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
