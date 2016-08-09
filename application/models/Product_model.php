@@ -257,7 +257,7 @@ class Product_model extends CI_Model {
 						return FALSE;
 				}
 				
-			} else {
+			} else if ($para['stable_condition'] == 2) {
 				// With stable pre-existing conditions coverage option
 				switch ($para['sum_insured']) {
 					case 10000:
@@ -300,6 +300,9 @@ class Product_model extends CI_Model {
 						$premiumArr['message'] = "$150,000 option isn't available";
 						return $premiumArr;
 				}
+			} else {
+				$premiumArr['message'] = "Please select pre-existion condition coverage";
+				return $premiumArr;
 			}
 			$discount = 1;
 			if ($years <= 85) {
@@ -413,7 +416,7 @@ class Product_model extends CI_Model {
 						return $premiumArr;
 				}
 				
-			} else {
+			} else if ($para['stable_condition'] == 2) {
 				// With stable pre-existing conditions coverage option
 				switch ($para['sum_insured']) {
 					case 10000:
@@ -456,6 +459,9 @@ class Product_model extends CI_Model {
 						$premiumArr['message'] = "$150,000 option isn't available";
 						return $premiumArr;
 				}
+			} else {
+				$premiumArr['message'] = "Please select pre-existion condition coverage";
+				return $premiumArr;
 			}
 			$discount = 1;
 			if ($years <= 85) {
@@ -496,23 +502,33 @@ class Product_model extends CI_Model {
 			$premiumArr['deductible_amount'] =  number_format($para['deductible_amount'], 2, '.', ',');
 		} else if ($para['product_short'] == 'JUS') {
 			$number_customer = (int)$para['number_customer'] - 1;
-			if ($para['rate_options'] != 2) {	// Here is Plus / Prefer
-				if ($years <= 24) 		$rate = 2.86;
-				elseif ($years <= 30) 	$rate = 4.01;
-				elseif ($years <= 40) 	$rate = 7.16;
-				else				  	$rate = 14.60;
+			if ($para['rate_options'] == 1) {	// Here is Plus
+				if ($years <= 24) 		$rate = 3.25;
+				elseif ($years <= 30) 	$rate = 4.65;
+				elseif ($years <= 40) 	$rate = 10.40;
+				else				  	$rate = 21.47;
+				if ($para['spouse'] && ($number_customer >= 0)) {
+					$rate += 21.23;
+					$number_customer--;
+				}
+				if ($number_customer > 0) {
+					$rate += 11.51 * $number_customer;
+				}
+			} else if ($para['rate_options'] == 2) { // Prefer
+				if ($years <= 24) 		$rate = 3.71;
+				elseif ($years <= 30) 	$rate = 5.29;
+				elseif ($years <= 40) 	$rate = 11.45;
+				else				  	$rate = 24.47;
+				if ($para['spouse'] && ($number_customer >= 0)) {
+					$rate += 24.79;
+					$number_customer--;
+				}
+				if ($number_customer > 0) {
+					$rate += 11.54 * $number_customer;
+				}
 			} else {
-				if ($years <= 24) 		$rate = 3.27;
-				elseif ($years <= 30) 	$rate = 4.57;
-				elseif ($years <= 40) 	$rate = 7.79;
-				else				  	$rate = 16.62;
-			}
-			if ($para['spouse'] && ($number_customer >= 0)) {
-				$rate += 15;
-				$number_customer--;
-			}
-			if ($number_customer > 0) {
-				$rate += 9.79 * $number_customer;
+				$premiumArr['message'] = "Please select rate option";
+				return $premiumArr;
 			}
 			$premium = $rate * $days;
 			$premiumArr['premium'] = $premium;
@@ -523,23 +539,33 @@ class Product_model extends CI_Model {
 			$premiumArr['deductible_amount'] =  number_format($para['deductible_amount'], 2, '.', ',');
 		} else if ($para['product_short'] == 'NUS') {
 			$number_customer = (int)$para['number_customer'] - 1;
-			if ($para['rate_options'] != 2) {	// Here is Plus / Prefer
-				if ($years <= 24) 		$rate = 4.00;
-				elseif ($years <= 30) 	$rate = 5.60;
-				elseif ($years <= 40) 	$rate = 9.98;
-				else				  	$rate = 20.30;
+			if ($para['rate_options'] == 1) {	// Here is Plus 
+				if ($years <= 24) 		$rate = 4.10;
+				elseif ($years <= 30) 	$rate = 5.82;
+				elseif ($years <= 40) 	$rate = 12.0;
+				else				  	$rate = 24.66;
+				if ($para['spouse'] && ($number_customer >= 0)) {
+					$rate += 24.71;
+					$number_customer--;
+				}
+				if ($number_customer > 0) {
+					$rate += 14.32 * $number_customer;
+				}
+			} else if ($para['rate_options'] == 2) { // Prefer
+				if ($years <= 24) 		$rate = 4.69;
+				elseif ($years <= 30) 	$rate = 6.62;
+				elseif ($years <= 40) 	$rate = 13.16;
+				else				  	$rate = 28.07;
+				if ($para['spouse'] && ($number_customer >= 0)) {
+					$rate += 27.45;
+					$number_customer--;
+				}
+				if ($number_customer > 0) {
+					$rate += 14.35 * $number_customer;
+				}
 			} else {
-				if ($years <= 24) 		$rate = 4.57;
-				elseif ($years <= 30) 	$rate = 6.37;
-				elseif ($years <= 40) 	$rate = 10.85;
-				else				  	$rate = 23.12;
-			}
-			if ($para['spouse'] && ($number_customer >= 0)) {
-				$rate += 20.87;
-				$number_customer--;
-			}
-			if ($number_customer > 0) {
-				$rate += 13.65 * $number_customer;
+				$premiumArr['message'] = "Please select rate option";
+				return $premiumArr;
 			}
 			$premium = $rate * $days;
 			$premiumArr['premium'] = $premium;

@@ -646,12 +646,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						deductible_amount = $('select[name="deductible_amount"]').val();	// select
 					}
 					var stable_condition = 0;
-					if ($('input[name="stable_condition"]').length) {
-						stable_condition = $('input[name="stable_condition"]:checked').val();	// radio
+					if ($('select[name="stable_condition"]').length) {
+						stable_condition = $('select[name="stable_condition"]').val();	// radio
 					}
 					var rate_options = 0;
-					if ($('input[name="rate_options"]').length) {
-						rate_options = $('input[name="rate_options"]:checked').val();	// radio
+					if ($('select[name="rate_options"]').length) {
+						rate_options = $('select[name="rate_options"]').val();	// radio
 					}
 					var holiday_rate = 0;
 					if ($('input[name="holiday_rate"]').length) {
@@ -737,13 +737,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									} else {
 						        		$('input[name="force_deductable"]').val(0);
 									}
-									if (data['premiumarr']['premium']) {
-										$('#goto_next_page').show();
-									} else {
-										$('#goto_next_page').hide();
-									}
+									
+									//if (data['premiumarr']['premium']) {
+									//	$('#goto_next_page').show();
+									//} else {
+									//	$('#goto_next_page').hide();
+									//}
 								} else {
-									$('#goto_next_page').hide();
+									// $('#goto_next_page').hide();
 									if (data['message']) {
 										$('#error_next_page').html(data['message']);
 										$('input[name="premium"]').val(0);

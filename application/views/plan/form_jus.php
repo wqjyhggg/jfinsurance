@@ -32,16 +32,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								</div>
 								<div class="row">
 									<div class="col-sm-12">
-										<label class="inline">Rate Options Plus</label>
+										<label class="inline">Rate Options</label>
 										<div class="inline">
-											<input type='radio' class='setpremium' name='rate_options' value='1' <?php echo (empty($rate_options) || ($rate_options != 2 )) ? "checked" : ""; ?>>
+											<select name='rate_options' class="form-control">
+												<option value='0'> -- select condition -- </option>
+												<option value='1' <?php echo ($rate_options == 1) ? 'selected' : ''; ?>>Rate Options Plus</option>
+												<option value='2' <?php echo ($rate_options == 2) ? 'selected' : ''; ?>>Rate Options Preferred</option>
+											</select>
 										</div>
-									</div>
-									<div class="col-sm-12">
-										<label class="inline">Rate Options Preferred</label>
-										<div class="inline">
-											<input type='radio' class='setpremium' name='rate_options' value='2' <?php echo (!empty($rate_options) && ($rate_options == 2 )) ? "checked" : ""; ?>>
-										</div>
+										<?php if (!empty($error_rate_options)) {?>
+										<div class="alert-error">
+											<?php echo $error_rate_options;?>
+										</div>	
+										<?php } ?>
 									</div>
 								</div>
 							</fieldset>

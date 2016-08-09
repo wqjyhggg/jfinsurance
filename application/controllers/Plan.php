@@ -283,6 +283,17 @@ class Plan extends MY_Controller {
 		if (empty($this->input->post('contact_email'))) {
 			$this->error['error_contact_email'] = 'Contact email is Required';
 		}
+		if (($data['product_short'] == 'OPL') || ($data['product_short'] == 'JFR')) {
+			if (empty($this->input->post('stable_condition'))) {
+				$this->error['error_stable_condition'] = 'Please select pre-existion condition coverage';
+			}
+		} else if (($data['product_short'] == 'JUS') || ($data['product_short'] == 'NUS')) {
+			if (empty($this->input->post('rate_options'))) {
+				$this->error['error_rate_options'] = 'Please select rate options';
+			}
+		} else if (($data['product_short'] == 'JES') || ($plan['product_short'] == 'JFC')) {
+		}
+		
 		return empty($this->error);
 	}
 	
@@ -422,6 +433,20 @@ class Plan extends MY_Controller {
 			$data['premium'] = $plan['premium'];
 		} else {
 			$data['premium'] = 0;
+		}
+		if ($this->input->post('stable_condition')) {
+			$data['stable_condition'] = $this->input->post('stable_condition'); 
+		} else if (isset($plan['stable_condition'])) {
+			$data['stable_condition'] = $plan['stable_condition'];
+		} else {
+			$data['stable_condition'] = 0;
+		}
+		if ($this->input->post('rate_options')) {
+			$data['rate_options'] = $this->input->post('rate_options'); 
+		} else if (isset($plan['rate_options'])) {
+			$data['rate_options'] = $plan['rate_options'];
+		} else {
+			$data['rate_options'] = 0;
 		}
 		if ($this->input->post('deductible_amount')) {
 			$data['deductible_amount'] = $this->input->post('deductible_amount'); 
@@ -685,7 +710,7 @@ class Plan extends MY_Controller {
 				'name' => $this->security->get_csrf_token_name (),
 				'value' => $this->security->get_csrf_hash ()
 		);
-		
+
 		if ($data['product_short'] == 'OPL') {
 			$data['insurable_options'] = $this->load->view('plan/form_opl', $data, TRUE);
 		} else if ($data['product_short'] == 'JFR') {
