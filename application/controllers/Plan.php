@@ -1376,7 +1376,10 @@ class Plan extends MY_Controller {
 				$data['customers'] = $this->customer_model->get_customer_by_parent_id($data['plan']['customer_id']);
 				$data['paytype_list'] = $this->paytype_model->paytype_list();
 				$data['status_list'] = $this->status_model->status_list();
-		
+				
+				if ($plan['user_id']) {
+					$data['user'] = $this->user_model->get_user_by_id($plan['user_id']);
+				}
 				if ($data['plan']['product_short'] == 'OPL') {
 					$data['insurable_options'] = $this->load->view('plan/detail_opl', $data, TRUE);
 					$data['special_note'] = $this->load->view('plan/pdf_note_opl',$data, TRUE);
@@ -1433,7 +1436,6 @@ class Plan extends MY_Controller {
 				$html = $this->load->view('plan/pdf', $data, TRUE);
 				$mpdf->writeHTML($html);
 				$mpdf->Output($policy_file, 'F');
-				
 				$this->load->model('mymail_model');
 				$body = $this->load->view('mail/package',$data, TRUE);
 				
