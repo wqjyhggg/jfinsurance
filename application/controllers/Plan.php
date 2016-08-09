@@ -1354,6 +1354,7 @@ class Plan extends MY_Controller {
 		
 				if ($data['plan']['product_short'] == 'OPL') {
 					$data['insurable_options'] = $this->load->view('plan/detail_opl', $data, TRUE);
+					$data['special_note'] = $this->load->view('plan/pdf_note_opl',$data, TRUE);
 					$files = array(
 					'OPL_Policy.pdf' => DOWNLOADDIR . 'OPL_Policy.pdf',
 					'OPL_Claim_Procedure.pdf' => DOWNLOADDIR . 'OPL_Claim_Procedure.pdf',
@@ -1363,6 +1364,7 @@ class Plan extends MY_Controller {
 					);
 				} else if ($data['plan']['product_short'] == 'JFR') {
 					$data['insurable_options'] = $this->load->view('plan/detail_opl', $data, TRUE);
+					$data['special_note'] = $this->load->view('plan/pdf_note_jfr',$data, TRUE);
 					$files = array(
 					'JFR_Policy.pdf' => DOWNLOADDIR . 'JFR_Policy.pdf',
 					'JFR_Claim_Procedure.pdf' => DOWNLOADDIR . 'JFR_Claim_Procedure.pdf',
@@ -1372,16 +1374,19 @@ class Plan extends MY_Controller {
 					);
 				} else if ($data['plan']['product_short'] == 'JUS') {
 					$data['insurable_options'] = $this->load->view('plan/detail_jus', $data, TRUE);
+					$data['special_note'] = $this->load->view('plan/pdf_note_jus',$data, TRUE);
 					$files = array(
 					'JUS_Brochure.pdf' => DOWNLOADDIR . 'JUS_Brochure.pdf'
 					);
 				} else if ($data['plan']['product_short'] == 'NUS') {
 					$data['insurable_options'] = $this->load->view('plan/detail_jus', $data, TRUE);
+					$data['special_note'] = $this->load->view('plan/pdf_note_nus',$data, TRUE);
 					$files = array(
 					'NUS_Brochure.pdf' => DOWNLOADDIR . 'NUS_Brochure.pdf'
 					);
 				} else if ($data['plan']['product_short'] == 'JES') {
 					$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
+					$data['special_note'] = $this->load->view('plan/pdf_note_jes',$data, TRUE);
 					$files = array(
 					'JES_Policy.pdf' => DOWNLOADDIR . 'JES_Policy.pdf',
 					'JES_Claim_Form.pdf' => DOWNLOADDIR . 'JES_Claim_Form.pdf',
@@ -1389,6 +1394,7 @@ class Plan extends MY_Controller {
 					);
 				} else if ($plan['plan']['product_short'] == 'JFC') {
 					$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
+					$data['special_note'] = $this->load->view('plan/pdf_note_jfc',$data, TRUE);
 					
 				} else {
 					$data['insurable_options'] = $this->load->view('plan/detail_other', $data, TRUE);
