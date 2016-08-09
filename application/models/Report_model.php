@@ -119,6 +119,8 @@ class Report_model extends CI_Model {
             pr.full_name AS product,
             CONCAT(c.lastname, ", ", c.firstname) AS insured,
             u.username AS agency,
+            u.firstname AS agency_fname,
+            u.lastname AS agency_lname,
             pl.effective_date,
             pl.expiry_date,
             datediff(pl.expiry_date, pl.effective_date) AS total_days,
@@ -166,6 +168,8 @@ class Report_model extends CI_Model {
             $results[$row['user_id']]['policy_premium'] = (empty($results[$row['user_id']]['policy_premium']) ?
                 $row['policy_premium'] : $results[$row['user_id']]['policy_premium'] + $row['policy_premium']);
             $results[$row['user_id']]['agency'] = $row['agency'];
+            $results[$row['user_id']]['agency_lname'] = $row['agency_lname'];
+            $results[$row['user_id']]['agency_fname'] = $row['agency_fname'];
 
             $results[$row['user_id']]['data'][$row['order_date']]['records'][] = $row;
         }

@@ -1383,9 +1383,9 @@ class Plan extends MY_Controller {
 				} else if ($data['plan']['product_short'] == 'JES') {
 					$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
 					$files = array(
-					'JFR_Policy.pdf' => DOWNLOADDIR . 'JFR_Policy.pdf',
-					'JFR_Claim_Form.pdf' => DOWNLOADDIR . 'JFR_Claim_Form.pdf',
-					'JFR_Brochure.pdf' => DOWNLOADDIR . 'JFR_Brochure.pdf'
+					'JES_Policy.pdf' => DOWNLOADDIR . 'JES_Policy.pdf',
+					'JES_Claim_Form.pdf' => DOWNLOADDIR . 'JES_Claim_Form.pdf',
+					'JES_Brochure.pdf' => DOWNLOADDIR . 'JES_Brochure.pdf'
 					);
 				} else if ($plan['plan']['product_short'] == 'JFC') {
 					$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);

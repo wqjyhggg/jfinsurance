@@ -190,14 +190,26 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <?php if (!empty($report_data['data'])) : ?>
                     <div class="table-responsive">
                       <table class="table table-hover table-bordered">
+
     <?php foreach ($report_data['data'] as $user_id => $data) :?>
-                        <tr><td colspan=8>
-                          Agent Name: <?=$data['agency']['agent_name'] ?><br>
-                          Payment Method: <?=$data['agency']['payment_method'] ?><br>
-                          Commission Cheque Title: <?=$data['agency']['cheque_title'] ?><br>
-                          Mailing Address: <?=$data['agency']['address'] ?><br>
-                        </td></tr>
-                        <thead>
+                        <tbody>
+                          <tr><td colspan=2>Agent Name: </td>
+                            <td colspan=2><?=$data['agency']['agent_name'] ?></td>
+                            <td colspan=6></td>
+                            <td colspan=2>Payment Method: </td>
+                            <td colspan=2><?=$data['agency']['payment_method'] ?></td>
+                          </tr>
+                          <tr>
+                            <td colspan=10></td>
+                            <td colspan=2>Mailing Address: </td>
+                            <td colspan=2><?=$data['agency']['address'] ?></td>
+                          </tr>
+                          <tr>
+                            <td colspan=2>Commission Cheque Title: </td>
+                            <td colspan=2><?=$data['agency']['cheque_title'] ?></td>
+                            <td colspan=10></td>
+                          </tr>
+                          <tr><td colspan=14>&nbsp;</td></tr>
                           <tr>
                             <th>Count</th>
                             <th>Payment Date</th>
@@ -214,8 +226,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <th>Commission Amount</th>
                             <th>Commission Status</th>
                           </tr>
-                        </thead>
-                        <tbody>
         <?php $cnt = 1; ?>
         <?php foreach ($data['records'] as $record) : ?>
                             <tr>
@@ -235,6 +245,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                               <td><?=$record['commission_status'] ?></td>
                             </tr>
         <?php endforeach; ?>
+                            <tr style="background:#eee;"><td colspan=14></td></tr>
                         </tbody>
     <?php endforeach; ?>
                       </table>

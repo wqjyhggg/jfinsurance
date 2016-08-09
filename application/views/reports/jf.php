@@ -190,7 +190,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                           <tr>
                               <td><?='$' . $data['policy_premium'] ?></td>
                               <td><?=$user_id ?></td>
-                              <td><?=$data['agency'] ?></td>
+                              <td><?=$data['agency_lname'].','.$data['agency_fname'] ?></td>
                               <td colspan=14>&nbsp;</td>
                           </tr>
                           <tr>
@@ -206,11 +206,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <th>Effective Date</th>
                             <th>Expiry Date</th>
                             <th>Number of Days</th>
-                            <th>Daily Rate</th>
+                            <!--th>Daily Rate</th-->
                             <th>Policy Premium</th>
                             <th>Commission Rate</th>
                             <th>Net Premium</th>
                             <th>Commission Amount</th>
+                            <th>&nbsp;</th>
                           </tr>
     <?php foreach ($data['data'] as $date => $info) :?>
         <?php foreach ($info['records'] as $record) :?>
@@ -227,16 +228,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <td><?=$record['effective_date'] ?></td>
                             <td><?=$record['expiry_date'] ?></td>
                             <td><?=$record['total_days'] ?></td>
-                            <td>$<?=$record['daily_rate'] ?></td>
+                            <!--td>$<?=$record['daily_rate'] ?></td-->
                             <td>$<?=$record['policy_premium'] ?></td>
                             <td><?=$record['commission_rate'] ?></td>
                             <td>$<?=$record['net_premium'] ?></td>
                             <td>$<?=$record['commission_amount'] ?></td>
+                            <td>&nbsp;</td>
                           </tr>
         <?php endforeach; ?>
                           <tr>
+                              <td>&nbsp;</td>
                               <td><?=$info['cnt'] ?></td>
-                              <td colspan=9>&nbsp;<td>
+                              <td colspan=8>&nbsp;<td>
                               <td>Text204</td>
                               <td><?=$info['policy_premium'] ?></td>
                               <td>Text250</td>

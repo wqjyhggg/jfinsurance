@@ -186,7 +186,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <?php if (!empty($report_data['data'])) :?>
                       <table class="table table-hover table-bordered">
                         <thead>
-                          <tr>
+                          
+                        </thead>
+                        <tbody>
+    <?php foreach ($report_data['data'] as $agent_id => $renewal_data) :?>
+                            <tr><td>Expiry Date:</td> 
+                                <td><?=$report_data['period']['from'] ?></td> 
+                                <td>To </td>
+                                <td><?=$report_data['period']['to'] ?></td>
+                                <td colspan=4></td>
+                                
+                            </td></tr>
+                            <tr><td colspan=7><?=$renewal_data['agency'] ?></td></tr>
+                            <tr>
                             <th>Policy Number</th>
                             <th>Effective Date</th>
                             <th>Expiry Date</th>
@@ -195,13 +207,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <th>Phone Number</th>
                             <th>Email Address</th>
                           </tr>
-                        </thead>
-                        <tbody>
-    <?php foreach ($report_data['data'] as $agent_id => $renewal_data) :?>
-                            <tr><td colspan=7>
-                                Date: <?=$report_data['period']['from'] ?> To <?=$report_data['period']['to'] ?><br>
-                                <?=$renewal_data['agency'] ?>
-                            </td></tr>
         <?php foreach ($renewal_data['records'] as $record) : ?>
                             <tr>
                               <td><?=$record['policy'] ?></td>
@@ -213,7 +218,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                               <td><?=$record['email'] ?></td>
                             </tr>
         <?php endforeach; ?>
+                            <tr><td colspan=8>&nbsp;</td></tr>
     <?php endforeach; ?>
+
                         </tbody>
                       </table>
 <?php endif; ?>                      
