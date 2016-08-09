@@ -151,7 +151,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <td><?php echo $user['licence_expire']; ?></td>
                             <td><?php echo $user['pay_type']; ?></td>
                             <td><?php echo $user['status'] ? 'Act' : '-'; ?></td>
-<?php if ($user_group_id < $user['user_group_id']) { ?>
+<?php if (($user_group_id < $user['user_group_id']) && !empty($behalf_url)) { ?>
                             <td><a style="color:#46b8da;" href='<?php echo $behalf_url.$user['user_id']; ?>'>Behalf</a></td>
 <?php } else { ?>
                             <td>-</td>

@@ -45,7 +45,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 					<input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
 					<input type='hidden' name='user_id' value='<?php echo $user_id; ?>'>
-					
+<?php if ($user_group_id < 100) { ?>
 					<div class="row">
 						<div class="col-sm-3 form-group">
 		                  <label class="col-sm-12">User Type:</label>
@@ -88,6 +88,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			            </div>
 
 	              	</div>
+<?php } else {?>					
+					<input type='hidden' name='user_group_id' value='<?php echo $user_group_id; ?>'>
+					<input type='hidden' name='parent_user_id' value='<?php echo $parent_user_id; ?>'>
+					<input type='hidden' name='region' value='<?php echo $region; ?>'>
+					<input type='hidden' name='business' value='<?php echo $business; ?>'>
+					<div class="row">
+			            <div class="form-group col-sm-3">
+			                <label class="col-sm-12"><?php echo $business; ?></label>
+			            </div>
+	              	</div>
+<?php } ?>
 	              	<div class="row">
 	              		<div class="form-group col-sm-3">
 			                <label class="col-sm-12">Username:</label>
@@ -331,6 +342,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			            
 	              	</div>
 					<hr />
+<?php if ($user_group_id < 100) { ?>
 					<div class="row">
 						<div class="form-group col-sm-12">
 							<h4>Products:</h4>
@@ -385,6 +397,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			            	<textarea name='note' class="form-control"><?php echo $note; ?></textarea>
 			            </div>
 					</div><br />
+<?php } ?>
 
 					<div class="row">
 		              <!-- submit button -->

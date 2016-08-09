@@ -163,8 +163,8 @@ class User extends MY_Controller {
 		// Get all text depend language
 		//$data = $this->lang->language;
 		$this->load->model('user_group_model');
-		$data['user_group_list'] = $this->user_group_model->get_user_group_list($this->session->user['user_group_id']);
-		$data['user_list'] = $this->user_model->get_user_list($this->session->user['user_group_id'], $this->input->post());
+		$data['user_group_list'] = $this->user_group_model->get_user_group_list(1);	// Get full list
+		$data['user_list'] = $this->user_model->get_user_list($this->session->beuser['user_group_id'], $this->session->beuser['user_id'], $this->input->post());
 		$data['action_url'] = current_url();
 		$data['edit_url'] = base_url('user/edit')."?user_id=";
 		$data['username'] = $this->input->post ( 'username' );
@@ -174,7 +174,11 @@ class User extends MY_Controller {
 		$data['business'] = $this->input->post ( 'business' );
 		
 		$data['user_group_id'] = $this->session->user['user_group_id'];
-		$data['behalf_url'] = base_url('behalf/to') . "/";
+		if ($this->session->beuser == $this->session->user) {
+			$data['behalf_url'] = base_url('behalf/to') . "/";
+		} else {
+			$data['behalf_url'] = '';
+		}
 		
 		$data ['csrf'] = array (
 				'name' => $this->security->get_csrf_token_name (),
@@ -217,12 +221,12 @@ class User extends MY_Controller {
 		$this->data['broker_list'] = $this->user_model->get_broker_id_list();
 		$this->data['province_list'] = $this->province_model->province_list();
 		
-		$this->data['user_group_id'] = '';
-		$this->data['parent_user_id'] = '';
+		$this->data['user_group_id'] = $this->session->beuser['user_group_id'];
+		$this->data['parent_user_id'] = ($this->session->beuser['user_group_id'] < 100) ? 0 : $this->session->beuser['user_id'];
 		$this->data['username'] = '';
 		$this->data['password'] = '';
-		$this->data['region'] = '';
-		$this->data['business'] = '';
+		$this->data['region'] = ($this->session->beuser['user_group_id'] < 100) ? '' : $this->session->beuser['region'];
+		$this->data['business'] = ($this->session->beuser['user_group_id'] < 100) ? '' : $this->session->beuser['business'];
 		$this->data['gender'] = '';
 		$this->data['firstname'] = '';
 		$this->data['lastname'] = '';

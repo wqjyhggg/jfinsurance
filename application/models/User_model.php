@@ -60,11 +60,15 @@ class User_model extends CI_Model {
 	 * @param	array	$para			search conditions
 	 * @return	array					user table search result
 	 */
-	public function get_user_list($user_group_id, $para=array()) {
-		if (isset($para['user_group_id']) && ((int)$para['user_group_id'] > $user_group_id)) {
-			$sql = "SELECT * FROM user WHERE user_group_id = '" . (int)$para['user_group_id'] . "'";
+	public function get_user_list($user_group_id, $user_id, $para=array()) {
+		if ($user_group_id <= 1) {
+			// Admin
+			$sql = "SELECT * FROM user WHERE user_group_id >= '0'";
+		} else if ($user_group_id < 100) {
+			// Staff
+			$sql = "SELECT * FROM user WHERE user_group_id >= '100'";
 		} else {
-			$sql = "SELECT * FROM user WHERE user_group_id >= '" . (int)$user_group_id . "'";
+			$sql = "SELECT * FROM user WHERE parent_user_id = '" . (int)$user_id . "'";
 		}
 		if (isset($para['username'])) {
 			$sql .= " AND username LIKE " . $this->db->escape($para['username'] . "%");
