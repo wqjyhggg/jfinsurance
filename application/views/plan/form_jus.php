@@ -34,7 +34,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<div class="col-sm-12">
 										<label class="inline">Rate Options</label>
 										<div class="inline">
-											<select name='rate_options' class="form-control">
+											<select name='rate_options' class="form-control setpremium">
 												<option value='0'> -- select condition -- </option>
 												<option value='1' <?php echo ($rate_options == 1) ? 'selected' : ''; ?>>Rate Options Plus</option>
 												<option value='2' <?php echo ($rate_options == 2) ? 'selected' : ''; ?>>Rate Options Preferred</option>
