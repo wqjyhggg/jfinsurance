@@ -283,15 +283,15 @@ class Plan extends MY_Controller {
 		if (empty($this->input->post('contact_email'))) {
 			$this->error['error_contact_email'] = 'Contact email is Required';
 		}
-		if (($data['product_short'] == 'OPL') || ($data['product_short'] == 'JFR')) {
+		if (($product_short == 'OPL') || ($product_short == 'JFR')) {
 			if (empty($this->input->post('stable_condition'))) {
 				$this->error['error_stable_condition'] = 'Please select pre-existion condition coverage';
 			}
-		} else if (($data['product_short'] == 'JUS') || ($data['product_short'] == 'NUS')) {
+		} else if (($product_short == 'JUS') || ($product_short == 'NUS')) {
 			if (empty($this->input->post('rate_options'))) {
 				$this->error['error_rate_options'] = 'Please select rate options';
 			}
-		} else if (($data['product_short'] == 'JES') || ($plan['product_short'] == 'JFC')) {
+		} else if (($product_short == 'JES') || ($product_short == 'JFC')) {
 		}
 		
 		return empty($this->error);
