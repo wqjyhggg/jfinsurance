@@ -148,6 +148,7 @@ class Plan extends MY_Controller {
 				'beneficiary',
 				'stable_condition',
 				'rate_options',
+				'spouse',
 				'sum_insured',
 				'deductible_amount',
 				'premium',
@@ -293,6 +294,19 @@ class Plan extends MY_Controller {
 		} else if (($product_short == 'JUS') || ($product_short == 'NUS')) {
 			if (empty($this->input->post('rate_options'))) {
 				$this->error['error_rate_options'] = 'Please select rate options';
+			}
+			$skip_cnt = (empty($this->input->post('spouse'))) ? 0 : 1;
+			$apply_date = $this->input->post('apply_date');
+			for ($i = 1; $i < 9; $i++) {
+				$birthday = $this->input->post('birthday_'.$i);
+				if (empty($birthday)) break;
+				$years = $this->product_model->getYears($apply_date, $birthday);
+				if ($years > 26) {
+					if ($skip_cnt <= 0) {
+						$this->error['error_message'] = 'Dependent children must under age 26';
+					}
+					$skip_cnt--;
+				}
 			}
 		} else if (($product_short == 'JES') || ($product_short == 'JFC')) {
 		}
@@ -450,6 +464,13 @@ class Plan extends MY_Controller {
 			$data['rate_options'] = $plan['rate_options'];
 		} else {
 			$data['rate_options'] = 0;
+		}
+		if ($this->input->post('spouse')) {
+			$data['spouse'] = $this->input->post('spouse');; 
+		} else if (isset($plan['spouse'])) {
+			$data['spouse'] = $plan['spouse'];
+		} else {
+			$data['spouse'] = 0;
 		}
 		if ($this->input->post('deductible_amount')) {
 			$data['deductible_amount'] = $this->input->post('deductible_amount'); 
@@ -1229,6 +1250,7 @@ class Plan extends MY_Controller {
 			$para['sum_insured'] = $plan['sum_insured'];
 			$para['deductible_amount'] = $plan['deductible_amount'];
 			$para['rate_options'] = $plan['rate_options'];
+			$para['spouse'] = $plan['spouse'];
 			$para['stable_condition'] = $plan['stable_condition'];
 			$para['holiday_rate'] = (($plan['product_short'] == 'JES') && ($plan['dailyrate'] >= 1.84)) ? 1 : 0;
 			$para['birthday'] = $this->customer_model->get_max_birthday($plan['customer_id'], $plan['isfamilyplan']);

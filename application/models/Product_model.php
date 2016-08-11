@@ -190,8 +190,12 @@ class Product_model extends CI_Model {
 			return $premiumArr;
 		}
 		if (($para['product_short'] == 'JUS') || ($para['product_short'] == 'NUS')) {
-			$d1 = new \DateTime($para['expiry_date']);
-			$d2 = new \DateTime('2017-09-17');
+			if ($days < 90) {
+				$premiumArr['message'] = "Minimum length of policy is 90 days";
+				return $premiumArr;
+			}
+			$d1 = new \DateTime('2017-09-30');
+			$d2 = new \DateTime($para['expiry_date']);
 			$df = $d2->diff($d1);
 			if ($df->invert) {
 				$premiumArr['message'] = "Expiry Date must before Sep 30, 2017";
@@ -559,7 +563,7 @@ class Product_model extends CI_Model {
 				elseif ($years <= 30) 	$rate = 5.82;
 				elseif ($years <= 40) 	$rate = 12.0;
 				else				  	$rate = 24.66;
-				if ($para['spouse'] && ($number_customer >= 0)) {
+				if (isset($para['spouse']) && ($number_customer >= 0)) {
 					$rate += 24.71;
 					$number_customer--;
 				}

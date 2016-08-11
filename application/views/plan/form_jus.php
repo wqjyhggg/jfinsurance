@@ -26,7 +26,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<div class="form-group col-sm-3">
 										<label class="col-sm-12">Include Spouse</label>
 										<div class="input-group col-sm-12" style="border: 1px solid #ccc;padding: 3px;" id='spousediv'>
-											 <input type='checkbox' class='setpremium' name='spouse' id='spouse' > Yes
+											 <input type='checkbox' class='setpremium' name='spouse' id='spouse' value='1' <?php echo empty($spouse) ? "" : "checked"; ?>> Yes
 										</div>
 									</div>
 								</div>
