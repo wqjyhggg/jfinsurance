@@ -70,7 +70,7 @@ class Product extends MY_Controller {
 	
 	function deductible($product_short='', $deductible_amount='') {
 		$this->load->model('product_model');
-		$plans = $this->product_model->product_deductible($product_short);
+		$plans = $this->product_model->product_deductible($product_short, $deductible_amount);
 		$plist = array();
 		foreach($plans as $amount) {
 			if ($amount != 'unlimit') {

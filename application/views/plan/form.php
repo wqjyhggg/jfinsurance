@@ -496,6 +496,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				</form> 
 
 				<script>
+				var age85 = 0;
 				$( document ).ready(function() {
 					$.ajax({
 						url: '<?php echo $province_url; ?>',
@@ -737,7 +738,30 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									} else {
 						        		$('input[name="force_deductable"]').val(0);
 									}
-									
+
+									if (age85 && (data['premiumarr']['totalyears'] <= 85)) {
+										if ( $( "#deductible_amount_div" ).length ) {
+											$.ajax({
+												url: '<?php echo $deductible_amount_url; ?>',
+												success: function(data, textStatus, jqXHR) {
+										        	$('#deductible_amount_div').html(data);
+													get_premium();
+										    	},
+											});
+										}
+										age85 = 0;
+									} else if (!age85 && (data['premiumarr']['totalyears'] > 85)) {
+										if ( $( "#deductible_amount_div" ).length ) {
+											$.ajax({
+												url: '<?php echo $deductible_amount_url; ?>/500',
+												success: function(data, textStatus, jqXHR) {
+										        	$('#deductible_amount_div').html(data);
+													get_premium();
+										    	},
+											});
+										}
+										age85 = 1;
+									}
 									//if (data['premiumarr']['premium']) {
 									//	$('#goto_next_page').show();
 									//} else {
