@@ -468,15 +468,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								$("input[name='mail_postcode']").val($("input[name='postcode']").val());
 							}
 						});
-						$('#issame').change(issamecheck());
+						$('#issame').change(issamecheck);
 
 						issamecheck();
 					});
 					function issamecheck() {
 						if ($('#issame').is(':checked')) {
-							$(".mailaddr']").hide();
+							$("input[name='mail_address']").val($("input[name='address']").val());
+							$("input[name='mail_city']").val($("input[name='city']").val());
+							$("input[name='mail_postcode']").val($("input[name='postcode']").val());
+							$('#mail_country2').val($('#country2').val());
+							$('#mail_province2').val($('#province2').val());
+							$(".mailaddr").show();
 						} else {
-							$(".mailaddr']").show();
+							$(".mailaddr").hide();
 						}
 					};
 					</script>
