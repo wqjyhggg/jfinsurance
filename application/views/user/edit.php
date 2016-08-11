@@ -45,7 +45,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 					<input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
 					<input type='hidden' name='user_id' value='<?php echo $user_id; ?>'>
-<?php if ($user_group_id < 100) { ?>
+<?php if ($op_user_group_id < 100) { ?>
 					<div class="row">
 						<div class="col-sm-3 form-group">
 		                  <label class="col-sm-12">User Type:</label>
@@ -312,6 +312,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<?php } ?>
 			                </div>
 			            </div>
+			            <div class="form-group col-sm-3">
+			                <label class="col-sm-12">Create Date:</label>
+			                <div class="input-group col-sm-12">
+			                	<?php echo $date_added; ?>
+			                </div>
+			            </div>
 			            
 	              	</div>
 					<div class="row">
@@ -342,7 +348,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			            
 	              	</div>
 					<hr />
-<?php if ($user_group_id < 100) { ?>
+<?php if ($op_user_group_id < 100) { ?>
 					<div class="row">
 						<div class="form-group col-sm-12">
 							<h4>Products:</h4>
@@ -468,15 +474,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								$("input[name='mail_postcode']").val($("input[name='postcode']").val());
 							}
 						});
-						$('#issame').change(issamecheck());
+						$('#issame').change(issamecheck);
 
 						issamecheck();
 					});
 					function issamecheck() {
 						if ($('#issame').is(':checked')) {
-							$(".mailaddr']").hide();
+							$(".mailaddr").hide();
 						} else {
-							$(".mailaddr']").show();
+							$("input[name='mail_address']").val($("input[name='address']").val());
+							$("input[name='mail_city']").val($("input[name='city']").val());
+							$("input[name='mail_postcode']").val($("input[name='postcode']").val());
+							$('#mail_country2').val($('#country2').val());
+							$('#mail_province2').val($('#province2').val());
+							$(".mailaddr").show();
 						}
 					};
 					</script>
