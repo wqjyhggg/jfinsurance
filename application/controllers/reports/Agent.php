@@ -1,6 +1,9 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+use Box\Spout\Common\Type;
+use Box\Spout\Writer\WriterFactory;
+
 class Agent extends MY_Controller {
 
     /**
@@ -41,6 +44,77 @@ class Agent extends MY_Controller {
         $data['product_list'] = $this->product_model->get_available_product_list();
         $data['user_list'] = $this->user_model->get_available_user_list();
         $data['report_data'] = empty($_POST) ? array() : $this->report_model->get_sales_report_agent($data);
+        $data['export_list'] = base_url ( "reports/agent/export_list" );
         return $data;
     }
+
+    function export_list() {
+        $beuser = $this->func_model->verify_login(); 
+        $this->load->model('status_model');
+        $this->load->model('product_model');
+        $this->load->model('plan_model');
+        
+        $data = $this->set_data();
+
+        $w = WriterFactory::create(Type::XLSX); // for XLSX files
+        $kArr = array(
+                'Order Date',
+                'Policy No.',
+                'Insurer',
+                'Product',
+                'Insured Name',
+                'Effective Date',
+                'Expiry Date',
+                'Number of Days',
+                'Daily Rate',
+                'Policy Premium',
+                'Commission Rate',
+                'Net Premium',
+                'Commission Amount');
+
+        $tmpfname = "/tmp/jf_test.xlsx";
+        $w->openToBrowser("Policy" . date('Ymd') . ".xlsx");
+        //$w->openToFile($tmpfname);
+
+        print_r($data['report_data']);die('---');
+
+        //$w->addRow($kArr);
+        $kkArr = array(
+                'order_date',
+                'policy',
+                'insurer',
+                'product',
+                'insured_name',
+                'effective_date',
+                'expiry_date',
+                'total_days',
+                'daily_rate',
+                'policy_premium',
+                'commission_rate',
+                'net_premium',
+                'commission_amount');
+   
+   /*
+        foreach ($report_data as $data){
+             $w->addRow($kArr);
+             $para = array();
+             foreach ($kkArr as $k) {
+                 $para[] = empty($p[$k]) ? '' : $p[$k];
+             }
+             $w->addRow($para);
+        }
+   */
+        
+        $w->close();
+        /*
+        header('Content-type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment; filename="Policy' . date('Ymd') . '.xlsx"');
+        header('Content-Transfer-Encoding: binary');
+        header('Expires: 0');
+        header('Pragma: no-cache');
+        readfile($tmpfname);
+        */
+        //unlink($tmpfname);
+    }
+    
 }

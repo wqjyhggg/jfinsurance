@@ -179,7 +179,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Search Result<small></small></h2>
+                    <h2>Search Result <span> <a class="btn btn-info" href='<?php echo $export_list; ?>'><i class="fa fa-share"></i> Export Xlsx</a></span></h2>
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
