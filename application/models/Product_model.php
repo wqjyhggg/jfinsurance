@@ -334,7 +334,7 @@ class Product_model extends CI_Model {
 			$premium = $rate * $days * $discount;
 			$message = "";
 			if ($years > 85) {
-				$premiumArr['message'] = "<p style='color:#2e6da4;'>Over 85 years old must have $500 Deductible</p>";
+				$premiumArr['message'] = "<p style='color:#2e6da4;'>Notice: Over 85 years old will have $500 Deductible</p>";
 			}
 			$premiumArr['premium'] = $premium;
 			$premiumArr['totalyears'] = $years;
@@ -355,7 +355,7 @@ class Product_model extends CI_Model {
 						elseif ($years <= 74) 	$rate = 4.85;
 						elseif ($years <= 79) 	$rate = 5.8;
 						elseif ($years <= 85) 	$rate = 11.48;
-						else				  	{ $premiumArr['message'] = "Over 85 years old must select without stable pre-existing condition coverage option"; return $premiumArr; }
+						else				  	{ $premiumArr['message'] = "Please check <b>Insurable Options</b>. Over 85 years old must select <b>without stable pre-existing condition coverage</b> option"; return $premiumArr; }
 						break;
 					case 15000:
 						if ($years <= 25) 		$rate = 2.04;
@@ -377,7 +377,7 @@ class Product_model extends CI_Model {
 						elseif ($years <= 74) 	$rate = 7.6;
 						elseif ($years <= 79) 	$rate = 8.96;
 						elseif ($years <= 85) 	$rate = 17.76;
-						else				  	{ $premiumArr['message'] = "Over 85 years old must select without stable pre-existing condition coverage option"; return $premiumArr; }
+						else				  	{ $premiumArr['message'] = "Please check <b>Insurable Options</b>. Over 85 years old must select <b>without stable pre-existing condition coverage</b> option"; return $premiumArr; }
 						break;
 					case 50000:
 						if ($years <= 25) 		$rate = 2.49;

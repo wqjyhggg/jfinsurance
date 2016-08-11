@@ -399,7 +399,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					</div><br />
 <?php } ?>
 
-					<div class="row">
+					<div class="row" style="margin-bottom:200px;">
 		              <!-- submit button -->
 		              <div class="col-sm-12">
 		              	<input class="btn btn-primary pull-right" type='submit' value='<?php echo ($user_id) ? "Update" : "Add"; ?>'>
