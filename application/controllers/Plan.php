@@ -253,6 +253,9 @@ class Plan extends MY_Controller {
 		if (empty($expiry_date) || ($expirytm < 1466555500) || ($expirytm < $effectivetm)) {
 			$this->error['error_expiry_date'] = 'Confirm Expiry Date';
 		}
+		if ((float)($this->input->post('premium')) < 0.1) {
+			$this->error['error_beneficiary'] = "Please check you input, Premium amount can't be 0";
+		}
 		if (empty($this->input->post('beneficiary'))) {
 			$this->error['error_beneficiary'] = 'Beneficiary is Required';
 		}
@@ -721,8 +724,8 @@ class Plan extends MY_Controller {
 			$data['insurable_options'] = $this->load->view('plan/form_jus', $data, TRUE);
 		} else if ($data['product_short'] == 'JES') {
 			$data['insurable_options'] = $this->load->view('plan/form_jes', $data, TRUE);
-		} else if ($plan['product_short'] == 'JFC') {
-			$data['insurable_options'] = $this->load->view('plan/form_jes', $data, TRUE);
+		} else if ($data['product_short'] == 'JFC') {
+			$data['insurable_options'] = $this->load->view('plan/form_jfc', $data, TRUE);
 		} else {
 			$data['insurable_options'] = $this->load->view('plan/form_other', $data, TRUE);
 		}
