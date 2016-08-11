@@ -16,7 +16,7 @@ class Behalf extends MY_Controller {
 	 */
 	public function to($user_id)
 	{
-		if (! $this->func_model->verify_level ( 4 )) {
+		if (! $this->func_model->verify_level ( 104 )) {
 			// Login user
 			$this->session->set_userdata ( "error_message", $this->lang->line ( 'error_no_permission' ) );
 			redirect ( base_url ( 'errorpage' ) );
@@ -43,7 +43,7 @@ class Behalf extends MY_Controller {
 	 */
 	public function undo()
 	{
-		if (! $this->func_model->verify_level ( 4 )) {
+		if (! $this->func_model->verify_level ( 104 )) {
 			// Login user
 			$this->session->set_userdata ( "error_message", $this->lang->line ( 'error_no_permission' ) );
 			redirect ( base_url ( 'errorpage' ) );

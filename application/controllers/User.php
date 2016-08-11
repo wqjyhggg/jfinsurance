@@ -154,7 +154,7 @@ class User extends MY_Controller {
 	 * User list current user list
 	 */
 	public function dtlist() {
-		if (! $this->func_model->verify_level ( 2 )) {
+		if (! $this->func_model->verify_level ( 104 )) {
 			// Login user
 			$this->session->set_userdata ( "error_message", $this->lang->line ( 'error_no_permission' ) );
 			redirect ( base_url ( 'errorpage' ) );
