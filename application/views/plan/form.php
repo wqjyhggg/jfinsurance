@@ -490,7 +490,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<?php } ?>
 							<input class="btn btn-primary pull-right" type='submit' name='submit' value='<?php echo $submit; ?>' />		
 						</div>
-						<div class="col-sm-12 alert-error" id='error_next_page'>
+
+						<div class="col-sm-12 alert-error float-error" title="Click to Close the notice" style="display:none;" id='error_next_page'>
 						</div>
 					</div>
 				</form> 
@@ -730,8 +731,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									$('#dailyrate').val(data['premiumarr']['dailyrate']);
 									if (data['premiumarr']['message']) {
 										$('#error_next_page').html(data['premiumarr']['message']);
+										$('#error_next_page').css('display','block');
 									} else {
 										$('#error_next_page').html('');
+										$('#error_next_page').css('display','none');
 									}
 									if (data['premiumarr']['force_deductable']) {
 						        		$('input[name="force_deductable"]').val(data['premiumarr']['force_deductable']);
@@ -898,3 +901,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		  </div>
         </div>
         <!-- /page content -->
+<script>
+	$('#error_next_page').click(function(){
+		$('#error_next_page').css('display','none');
+	});
+</script>

@@ -1,4 +1,19 @@
 /*New Custom*/
+.float-error{
+	position: fixed!important;
+    display: block;
+    padding: 10px;
+    border: 1px solid #337ab7!important;
+    top: 50%;
+    max-width: 260px;
+    z-index: 99;
+    background: #fff !important;
+    right: 0px;
+    border-bottom-left-radius: 6px;
+    border-top-left-radius: 6px;
+    cursor: pointer;
+}
+
 .btn{line-height: 1.213;}
 .form-control{height: 30px;font-size: 12px;}
 .main_container{position: relative;}
