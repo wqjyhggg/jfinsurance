@@ -221,7 +221,7 @@ class User extends MY_Controller {
 		$this->data['broker_list'] = $this->user_model->get_broker_id_list();
 		$this->data['province_list'] = $this->province_model->province_list();
 		
-		$this->data['user_group_id'] = $this->session->beuser['user_group_id'];
+		$this->data['op_user_group_id'] = $this->session->beuser['user_group_id'];
 		$this->data['parent_user_id'] = ($this->session->beuser['user_group_id'] < 100) ? 0 : $this->session->beuser['user_id'];
 		$this->data['username'] = '';
 		$this->data['password'] = '';
