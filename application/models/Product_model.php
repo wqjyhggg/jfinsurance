@@ -189,6 +189,15 @@ class Product_model extends CI_Model {
 			$premiumArr['message'] = "Check birthday";
 			return $premiumArr;
 		}
+		if (($para['product_short'] == 'JUS') || ($para['product_short'] == 'NUS')) {
+			$d1 = new \DateTime($para['expiry_date']);
+			$d2 = new \DateTime('2017-09-17');
+			$df = $d2->diff($d1);
+			if ($df->invert) {
+				$premiumArr['message'] = "Expiry Date must before Sep 30, 2017";
+				return $premiumArr;
+			}
+		}
 		if ($para['product_short'] == 'OPL') {
 			if ($para['stable_condition'] == 1) {
 				// With stable pre-existing conditions coverage option
