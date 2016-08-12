@@ -58,43 +58,28 @@ class Agent extends MY_Controller {
 
         $w = WriterFactory::create(Type::XLSX); // for XLSX files
         $kArr = array(
-                'Order Date',
-                'Policy No.',
-                'Insurer',
-                'Product',
-                'Insured Name',
-                'Effective Date',
-                'Expiry Date',
-                'Number of Days',
-                'Daily Rate',
-                'Policy Premium',
-                'Commission Rate',
-                'Net Premium',
-                'Commission Amount');
+                'order_date' => 'Order Date',
+                'policy' => 'Policy No.',
+                'insurer' => 'Insurer',
+                'product' => 'Product',
+                'insured_name' => 'Insured Name',
+                'effective_date' => 'Effective Date',
+                'expiry_date' => 'Expiry Date',
+                'total_days' => 'Number of Days',
+                'daily_rate' => 'Daily Rate',
+                'policy_premium' => 'Policy Premium',
+                'commission_rate' => 'Commission Rate',
+                'net_premium' => 'Net Premium',
+                'commission_amount' => 'Commission Amount');
 
         $tmpfname = "/tmp/jf_test.xlsx";
+        echo "<pre>"; print_r($data['report_data']);die('---');
+        
         $w->openToBrowser("Policy" . date('Ymd') . ".xlsx");
         //$w->openToFile($tmpfname);
 
-        print_r($data['report_data']);die('---');
 
         //$w->addRow($kArr);
-        $kkArr = array(
-                'order_date',
-                'policy',
-                'insurer',
-                'product',
-                'insured_name',
-                'effective_date',
-                'expiry_date',
-                'total_days',
-                'daily_rate',
-                'policy_premium',
-                'commission_rate',
-                'net_premium',
-                'commission_amount');
-   
-   /*
         foreach ($report_data as $data){
              $w->addRow($kArr);
              $para = array();
@@ -103,7 +88,6 @@ class Agent extends MY_Controller {
              }
              $w->addRow($para);
         }
-   */
         
         $w->close();
         /*
