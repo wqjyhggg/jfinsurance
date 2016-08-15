@@ -4,8 +4,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 use Box\Spout\Common\Type;
 use Box\Spout\Writer\WriterFactory;
 
-class Agent extends MY_Controller {
-
+class Agent extends MY_Controller
+{
     /**
      * Index Page for this controller.
      */

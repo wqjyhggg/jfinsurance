@@ -44,38 +44,41 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                           <div class="input-group col-sm-12">
                               <select name="agent_id" class="form-control">
                                 <option value=0>Choose Agent</option>
-                                <?php foreach ($user_list as $agent) : ?>
-                                 <?php if ($agent_id == $agent['user_id']) : ?>
+<?php foreach ($user_list as $agent) : ?>
+    <?php if ($agent_id == $agent['user_id']) : ?>
                                 <option value="<?=$agent['user_id'] ?>"  selected>
-                                <?php else : ?>
+    <?php else : ?>
                                 <option value="<?=$agent['user_id'] ?>" >
-                                <?php endif; ?>
+    <?php endif; ?>
                                     <?=$agent['full_name'] ?> (<?=$agent['username'] ?>)
                                 </option>
-                                <?php endforeach; ?>
+<?php endforeach; ?>
                               </select>
                           </div>
                         </div>
                         <!-- Agent input box end -->
                         <div class="form-group col-sm-4">
                           <!-- all report before the selected date -->
-                            <label for="application_date_from" class="col-sm-12">Up to Date</label>
+                            <label for="payment_update_date_to" class="col-sm-12">Up to Date</label>
                             <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
-                                <input name="application_date_from" class="form-control" size="16" type="text" value="<?=$application_date_from ?>" >
+                                <input name="payment_update_date_to" class="form-control" size="16" type="text" value="<?=$payment_update_date_to ?>" >
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
-                            <input type="hidden" id="application_date_from" value="" />
-                            
+                            <input type="hidden" id="payment_update_date_to" value="" />
                         </div>
                         <div class="form-group col-sm-4">
                           <label class="col-sm-12">Payment Method:</label>
                           <div class="input-group col-sm-12">
-                              <select name="agent_id" class="form-control">
-                                <option value=0>Choose Payment Method</option>
-                                <option value=1>Cash</option>
-                                <option value=2>Direct Deposit</option>
-                                <option value=3>Cheque</option>
-                                
+                              <select name="payment_method" class="form-control">
+                                <option value=''>Choose Payment Method</option>
+<?php foreach (array('Cash', 'Direct Deposit', 'Cheque') as $my_payment_method) : ?>
+    <?php if ($payment_method == $my_payment_method) : ?>
+                                <option value='<?=$my_payment_method ?>' selected>
+    <?php else : ?>
+                                <option value='<?=$my_payment_method ?>'>
+    <?php endif; ?>
+                                <?=$my_payment_method ?></option>
+<?php endforeach ?>
                               </select>
                           </div>
                         </div>
@@ -105,7 +108,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                   <div class="x_content">
                     <div class="table-responsive">
                       <table class="table table-hover table-bordered">
-                      
                         <thead>
                           <tr>
                             <th>Agent</th>
@@ -114,20 +116,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                           </tr>
                         </thead>
                         <tbody>
-                       
+<?php foreach ($report_data as $data) : ?>
+    <?php foreach ($data['records'] as $record) : ?>
                             <tr>
-                              <td>Jack Li</td>
-                              <td>12000</td>
-                              <td>Direct Deposit</td>
+                            <td><?=$record['agent_name'] ?></td>
+                            <td><?=$record['total_balance'] ?></td>
+                            <td><?=$record['payment_method'] ?></td>
                             </tr>
-                            <tr>
-                              <td>Li Li</td>
-                              <td>0</td>
-                              <td>Cash</td>
-                            </tr>
-                           
+    <?php endforeach; ?>
+<?php endforeach; ?>
                         </tbody>
-                     
                       </table>
                     </div>
                   </div>
