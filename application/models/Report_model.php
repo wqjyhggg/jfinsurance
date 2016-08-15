@@ -477,7 +477,8 @@ class Report_model extends CI_Model {
             pl.phone1 AS phone,
             pl.contact_email AS email,
             CONCAT(u.firstname, " ", u.lastname) AS agent_name,
-            u.user_id
+            u.user_id,
+        	u.email AS agent_email
         ');
     }
 
@@ -496,6 +497,7 @@ class Report_model extends CI_Model {
         $results = array();
         foreach ($query as $row) {
             $results['data'][$row['user_id']]['agency'] = $row['agent_name'];
+            $results['data'][$row['user_id']]['agency_email'] = $row['agent_email'];
             if (!empty($row['suite_number'])) {
                 $row['address'] .= ', ' . $row['suite_number'];
             }
