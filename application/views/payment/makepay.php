@@ -104,6 +104,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 												<th>&nbsp;</th>
 												<th>Policy</th>
 												<th>Type</th>
+												<th>Batch Pay</th>
 												<th>Added Date</th>
 												<th>Amount</th>
 												<th>Note</th>
@@ -115,6 +116,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 											<td><input type='checkbox' name='payment[]' value='<?php echo $payment['payment_id']; ?>' checked ></td>
 											<td><?php echo $payment['policy']; ?></td>
 											<td><?php echo $payment['pay_type']; ?></td>
+											<td><?php if (!empty($payment['batch_number'])) { ?><input type='checkbox' name='batchpay_<?php echo $payment['payment_id']?>' value='1'><?php echo $payment['batch_number']; } ?> </td>
 											<td><?php echo $payment['added']; ?></td>
 											<td><?php echo $payment['amount']; ?></td>
 											<td><?php echo ((strlen($payment['note']) > 40) ? $payment['note'] : (substr($payment['note'], 0, 37) . "...")); ?></td>

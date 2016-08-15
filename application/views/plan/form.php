@@ -840,7 +840,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 												}
 											?>
 											<tr>
-												<td><input type='checkbox' name='payment[]' value='<?php echo $p['payment_id']; ?>'><?php //echo $p['payment_id']; ?></td>
+												<td><?php if (empty($p['ispaid'])) { ?><input type='checkbox' name='payment[]' value='<?php echo $p['payment_id']; ?>'><?php } ?></td>
 												<td><?php echo $p['pay_type']; ?></td>
 												<td><?php echo $p['pay_mothed']; ?></td>
 												<td><?php echo $p['amount']; ?></td>

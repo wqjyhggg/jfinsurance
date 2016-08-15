@@ -175,4 +175,36 @@ class Batch_model extends CI_Model {
 		$id = $this->db->insert_id();
 		return $id;
 	}
+	
+	/**
+	 * Batch update payment status
+	 */
+	public function batch_pay($batch_number, $payarr) {
+		$this->load->model('payment_model');
+		$sql = $this->db->where('status_id', 2);
+		$sql = $this->db->where('batch_number', $batch_number);
+		$plans = $this->db->get('plan')->result_array();
+		echo "[[[".$this->db->last_query()."]]]";
+		if ($plans) {
+			foreach ($plans as $plan) {
+				$pay = $this->payment_model->get_payment_by_id($plan['payment_id']);
+				if ($pay && !$pay['ispaid']) {
+					$payarr['note'] = "Make pay by " . $this->session->userdata ( 'user' )['username'] . "; " . $pay['note'];
+					$this->payment_model->update($plan['payment_id'], $payarr);
+					
+					$note = 'Mark pay by: ' . $beuser['username'] . "; " . $plan['note'];
+					$para = array('note' => $note, 'status_id' => 3);
+					$this->plan_model->update($plan['plan_id'], $para);
+					$para = array(
+							'plan_id' => $plan['plan_id'],
+							'customer_id' => $plan['customer_id'],
+							'payment_id' => $payment_id,
+							'message' => $this->plan_model->logstr,
+							'systemlog' => $this->plan_model->sqlstr
+					);
+					$this->log_model->activity('plan', $para);
+				}
+			}
+		}
+	}
 }
