@@ -45,7 +45,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                           <label class="col-sm-12">Agent:</label>
                           <div class="input-group col-sm-12">
                               <select name="agent_id" class="form-control">
-                                <option>Choose Agent</option>
+                                <option value=0>Choose Agent</option>
 <?php foreach ($user_list as $agent) : ?>
     <?php if ($agent_id == $agent['user_id']) : ?>
                                 <option value="<?=$agent['user_id'] ?>"  selected>
@@ -64,7 +64,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <div class="form-group col-sm-4">
                           <label class="col-sm-12">Product:</label>
                             <div class="input-group col-sm-12">
-                              <select name="agent_id" class="form-control">
+                              <select name="product_short" class="form-control">
                                 <option value="">Choose Product</option>
 <?php foreach ($product_list as $product) : ?>
     <?php if ($product_short == $product['product_short']) : ?>
@@ -233,7 +233,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                               <td><?=$record['order_date'] ?></td>
                               <td><?=$record['policy'] ?></td>
                               <td><?=$record['payment_status'] ?></td>
-                              <td><?=$record['product'] ?></td>
+                              <td><?=$record['insurerCoName'] ?></td>
                               <td><?=$record['insured_name'] ?></td>
                               <td><?=$record['effective_date'] ?></td>
                               <td><?=$record['expiry_date'] ?></td>

@@ -189,7 +189,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <thead>
                           <tr>
                             <th>Policy Number</th>
-                            <th>Decuctible</th>
+                            <th>Deductible</th>
                             <th>Customer Name</th>
                             <th>Date of Birth</th>
                             <th>Address</th>
@@ -239,9 +239,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                               <td>$<?=$record['paid'] ?></td>
                               <td>$<?=$record['amount_received'] ?></td>
                               <td><?=$record['cheque_number'] ?></td>
-                              <td><?=$record['cheque_cash_date'] ?></td>
+                              <td><?=$record['cashed_date'] ?></td>
                               <td><?=$record['pay_to'] ?></td>
-                              <td><?=$record['memo'] ?></td>
+                              <td><?=$record['external_note'] ?></td>
                             </tr>
         <?php endforeach; ?>
     <?php endforeach; ?>

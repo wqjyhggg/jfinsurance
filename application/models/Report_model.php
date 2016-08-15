@@ -2,8 +2,8 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-class Report_model extends CI_Model {
-
+class Report_model extends CI_Model
+{
     const QUOTE = 1;
     const SOLD = 2;
     const PAID = 3;
@@ -17,6 +17,7 @@ class Report_model extends CI_Model {
     const SCHOOL = 103;
     const BROKERAGE = 104;
     const AGENT = 105;
+
     /**
      * Get sales report to agent data
      *
@@ -145,6 +146,12 @@ class Report_model extends CI_Model {
     {
         $this->db->where_in('pl.status_id', array(self::SOLD, self::PAID, self::CLAIMED));
         $this->common_report_where($para);
+        if (!empty($para['payment_update_date_from'])) {
+            $this->db->where('pa.last_update >=', $para['payment_update_date_from']);
+        }
+        if (!empty($para['payment_update_date_to'])) {
+            $this->db->where('pa.last_update <=', $para['payment_update_date_to']);
+        }
     }
     private function get_sales_report_jf_result($query)
     {
@@ -250,7 +257,11 @@ class Report_model extends CI_Model {
             $row['total_compensation'] = $row['commission_amount'] + $row['merchant_fee'] + $row['claims_handling_fee'];
             $row['net_premium'] = sprintf("%01.2f", ($row['policy_premium'] - $row['total_compensation']));
             $row['total_compensation_per'] = $row['commission_rate_jf'] + $row['merchant_fee_per'] + $row['claims_handling_fee_per'];
-            $row['daily_rate'] = sprintf("%01.2f", ($row['policy_premium'] / $row['total_days']));
+            if ($row['total_days'] <= 0) {
+                $row['daily_rate'] = 0;
+            } else {
+                $row['daily_rate'] = sprintf("%01.2f", ($row['policy_premium'] / $row['total_days']));
+            }
             $results[] = $row;
         }
         return $results;
@@ -299,7 +310,11 @@ class Report_model extends CI_Model {
             CONCAT(u.address, " ", u.city) AS address,
             u.province2 AS province,
             u.postcode,
-            pa.amount AS pa_amount
+            pl.status_id,
+            pa.amount AS pa_amount,
+            pa.pay_type,
+            pa.currency,
+            pa.last_update
         ');
     }
 
@@ -307,8 +322,7 @@ class Report_model extends CI_Model {
     {
         $this->common_from();
         $this->db->join('user_product up', 'u.user_id = up.user_id and pr.product_short = up.product_short', 'left');
-        //todo extra join to get each unpaid premium item, depend on payment decision put below here for now.
-        $this->db->join('payment pa', 'pl.plan_id = pa.plan_id AND pa.pay_type = "premium" AND pa.ispaid = 0', 'left');
+        $this->db->join('payment pa', 'pl.plan_id = pa.plan_id AND pa.ispaid = 0');
     }
 
     private function receivable_where($para)
@@ -317,35 +331,53 @@ class Report_model extends CI_Model {
         if (!empty($para['policy_status']) && in_array($para['policy_status'], array(self::QUOTE, self::SOLD))) {
             $this->db->where('pl.status_id', $para['policy_status']);
         } else {
-            $this->db->where('pl.status_id <=', self::SOLD);
+            $this->db->where('pl.status_id', self::SOLD);
         }
+        $this->db->where('pa.amount >', 0);
+        if (!empty($para['payment_update_date_from'])) {
+            $this->db->where('pa.last_update >=', $para['payment_update_date_from']);
+        }
+        if (!empty($para['payment_update_date_to'])) {
+            $this->db->where('pa.last_update <=', $para['payment_update_date_to']);
+        }
+        $this->db->order_by('pl.policy, pa.payment_id');
     }
 
     private function get_receivable_result($query)
     {
         $results = array();
+        $policy = '';
+        $premium_last_update = 0;
         foreach ($query as $row) {
             $row = $this->common_set_row($row);
-
             $results['data'][$row['user_id']]['agency']['agent_name'] = $row['agent_name'];
             $results['data'][$row['user_id']]['agency']['address'] = $row['address'];
             $results['data'][$row['user_id']]['agency']['province'] = $row['province'];
             $results['data'][$row['user_id']]['agency']['postal_code'] = $row['postcode'];
-            //todo
-            //outstanding is outstanding, not premium, here is temporary place holder to display data only, see above
-            $row['policy_premium'] = (empty($row['pa_amount'])) ? $row['policy_premium'] : $row['pa_amount'];
 
-            $results['data'][$row['user_id']]['agency']['outstanding'] = (
-                empty($results['data'][$row['user_id']]['agency']['outstanding']) ?
-                $row['policy_premium'] : $results['data'][$row['user_id']]['agency']['outstanding'] + $row['policy_premium']);
-            $results['data'][$row['user_id']]['agency']['commission'] = (
-                empty($results['data'][$row['user_id']]['agency']['commission']) ?
-                $row['commission_amount'] : $results['data'][$row['user_id']]['agency']['commission'] + $row['commission_amount']);
-            $results['data'][$row['user_id']]['agency']['payable_to_jf'] = (
-                empty($results['data'][$row['user_id']]['agency']['payable_to_jf']) ?
-                $row['net_premium'] : $results['data'][$row['user_id']]['agency']['payable_to_jf'] + $row['net_premium']);
+            if ($row['pay_type'] === 'premium') {
+                $premium_last_update = strtotime($row['last_update']);
+                $policy = $row['policy'];
+                $premium = $row['pa_amount'];
+                if (empty($results['data'][$row['user_id']]['agency']['outstanding'])) {
+                    $results['data'][$row['user_id']]['agency']['outstanding'] = 0;
+                    $results['data'][$row['user_id']]['agency']['commission'] = 0;
+                    $results['data'][$row['user_id']]['agency']['payable_to_jf'] = 0;
+                }
+                $results['data'][$row['user_id']]['agency']['outstanding'] += $premium;
+                $results['data'][$row['user_id']]['records'][] = $row;
+            } else {
+                if ($row['pay_type'] === 'commission') {
+                    if ($policy != $row['policy'] || abs($premium_last_update - strtotime($row['last_update'])) > 5) {
+                        continue;
+                    }
+                    $commission = $row['pa_amount'];
+                    $net_premium = $premium - $commission;
 
-            $results['data'][$row['user_id']]['records'][] = $row;
+                    $results['data'][$row['user_id']]['agency']['commission'] += $commission;
+                    $results['data'][$row['user_id']]['agency']['payable_to_jf'] += $net_premium;
+                }
+            }
         }
         return $results;
     }
@@ -390,30 +422,29 @@ class Report_model extends CI_Model {
             CONCAT(u.firstname, " ", u.lastname) AS agent_name,
             cl.claim_number,
             cl.claim_date,
-            cl.service_date,
-            cl.diagnosis,
+            ci.service_date,
+            ci.diagnosis,
             cc.name,
-            cl.claimed,
-            cl.paid,
-            "Amount Received" AS amount_received,
-            cl.cheque_number,
-            -- pa.cheque_cash_date,
-            "" AS cheque_cash_date,
-            cl.pay_to,
-            cl.memo,
-            u.user_id,
-            CONCAT(u.firstname, " ", u.lastname) AS agent
+            ci.claimed,
+            ci.paid,
+            ci.received AS amount_received,
+            ci.cheque_number,
+            ci.cashed_date,
+            ci.pay_to,
+            ci.external_note,
+            u.user_id
         ');
     }
 
     private function claim_report_from()
     {
         $this->db->from('claim cl');
+        $this->db->join('citem ci', 'cl.claim_id = ci.claim_id');
         $this->db->join('plan pl', 'cl.plan_id = pl.plan_id');
         $this->db->join('customer c', 'cl.customer_id = c.customer_id');
         $this->db->join('product pr', 'cl.product_short = pr.product_short');
         $this->db->join('user u', 'cl.user_id = u.user_id');
-        $this->db->join('coverage_code cc', 'cl.coverage_code_id = cc.coverage_code_id');
+        $this->db->join('coverage_code cc', 'ci.coverage_code_id = cc.coverage_code_id');
     }
 
     private function claim_report_where($para)
@@ -535,7 +566,7 @@ class Report_model extends CI_Model {
             pl.apply_date AS order_date,
             pl.policy,
             pr.full_name AS product,
-            u.username AS insurer,
+            pr.up_insuer AS insurerCoName,
             CONCAT(c.lastname, ", ", c.firstname) AS insured_name,
             pl.effective_date,
             pl.expiry_date,
@@ -560,14 +591,20 @@ class Report_model extends CI_Model {
     {
         $this->common_from();
         $this->db->join('user_product up', 'u.user_id = up.user_id and pr.product_short = up.product_short', 'left');
-        //todo extra join to get each unpaid commission item, depend on payment decision put below here for now.
-        $this->db->join('payment pa', 'pl.plan_id = pa.plan_id AND pa.pay_type = "commission" AND pa.ispaid = 0', 'left');
+        $this->db->join('payment pa', 'pl.plan_id = pa.plan_id AND pa.pay_type = "commission"');
     }
 
     private function commission_where($para)
     {
         $this->common_report_where($para);
         $this->db->where_in('pl.status_id', array(self::SOLD, self::PAID, self::CLAIMED));
+        $this->db->where('pa.amount >', 0);
+        if (!empty($para['payment_update_date_from'])) {
+            $this->db->where('pa.last_update >=', $para['payment_update_date_from']);
+        }
+        if (!empty($para['payment_update_date_to'])) {
+            $this->db->where('pa.last_update <=', $para['payment_update_date_to']);
+        }
     }
 
     private function get_commission_result($query)
@@ -588,6 +625,81 @@ class Report_model extends CI_Model {
             $results['data'][$row['user_id']]['agency']['cheque_title'] = $row['cheque_title'];
 
             $results['data'][$row['user_id']]['records'][] = $row;
+        }
+        return $results;
+    }
+
+    /**
+     * Get Agent Commission report data
+     *
+     * @param array $para Parameter array
+     * @return array commission report data
+     */
+    public function get_agent_commission_report($para)
+    {
+        $query = $this->get_agent_commission_query($para);
+        $results = $this->get_agent_commission_result($query);
+        return $results;
+    }
+
+    private function get_agent_commission_query($para)
+    {
+        $this->agent_commission_fields();
+        $this->agent_commission_from();
+        $this->agent_commission_where($para);
+        return $this->db->get()->result_array();
+    }
+
+    private function agent_commission_fields()
+    {
+        $this->db->select('
+            CONCAT(u.firstname," ", u.lastname) AS agent_name,
+            SUM(amount) AS total_balance,
+            u.pay_type AS payment_method,
+            u.user_id AS agent_id
+        ');
+    }
+
+    private function agent_commission_from()
+    {
+        $this->db->from('user u');
+        $this->db->join('payment pa', 'u.user_id = pa.user_id AND pa.pay_type = "commission"');
+    }
+
+    private function agent_commission_where($para)
+    {
+        $beuser = $this->session->beuser;
+        $available_user_ids = array_keys($para['user_list']);
+        $this->db->where('pa.amount >', 0);
+        if (!empty($para['payment_update_date_from'])) {
+            $this->db->where('pa.last_update >=', $para['payment_update_date_from']);
+        }
+        if (!empty($para['payment_update_date_to'])) {
+            $this->db->where('pa.last_update <=', $para['payment_update_date_to']);
+        }
+        if (!empty($para['agent_id'])) {
+            if (!in_array($para['agent_id'], $available_user_ids)) {
+                $this->db->where('u.user_id', $beuser['user_id']);
+            } else {
+                $this->db->where('u.user_id', $para['agent_id']);
+            }
+        } else {
+            if ($beuser['user_group_id'] > self::STAFF) {
+                $this->db->where_in('u.user_id', $available_user_ids);
+            }
+        }
+        if (!empty($para['payment_method'])) {
+            $this->db->like('u.pay_type', $para['payment_method']);
+        }
+        $this->db->group_by('agent_id');
+        $this->db->having('total_balance <', 0);
+    }
+
+    private function get_agent_commission_result($query)
+    {
+        $results = array();
+        foreach ($query as $row) {
+            $results['data']['records'][] = $row;
         }
         return $results;
     }
@@ -673,12 +785,6 @@ class Report_model extends CI_Model {
         }
         if (!empty($para['expiry_date_to'])) {
             $this->db->where('pl.expiry_date <=', $para['expiry_date_to']);
-        }
-        if (!empty($para['payment_update_date_from'])) {
-            $this->db->where('pl.create_date >=', $para['payment_update_date_from']);
-        }
-        if (!empty($para['payment_update_date_to'])) {
-            $this->db->where('pl.create_date <=', $para['payment_update_date_to']);
         }
     }
 
