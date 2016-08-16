@@ -1329,10 +1329,10 @@ class Plan extends MY_Controller {
 		if ($plan['status_id'] >= 2) {
 			if ($plan['status_id'] == 5) {
 				// Cancel
-				$data['cancel_letter_url'] = base_url('plan/cancel/' . $plan['plan_id']);
+				$data['cancel_letter_url'] = base_url('plan/cancelprint/' . $plan['plan_id']);
 			} else if ($plan['status_id'] == 6) {
 				// Refund
-				$data['refund_letter_url'] = base_url('plan/refund/' . $plan['plan_id']);
+				$data['refund_letter_url'] = base_url('plan/refundprint/' . $plan['plan_id']);
 			} else {
 				$data['print_card_url'] = base_url('plan/card/' . $plan['plan_id']);
 				$data['print_receipt_url'] = base_url('plan/receipt/' . $plan['plan_id']);
