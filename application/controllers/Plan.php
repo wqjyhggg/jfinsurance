@@ -605,14 +605,14 @@ class Plan extends MY_Controller {
 		} else if (isset($plan['province2'])) {
 			$data['province2'] = $plan['province2'];
 		} else {
-			$data['province2'] = '';
+			$data['province2'] = 'ON';
 		}
 		if ($this->input->post('country2')) {
 			$data['country2'] = $this->input->post('country2');
 		} else if (isset($plan['country2'])) {
 			$data['country2'] = $plan['country2'];
 		} else {
-			$data['country2'] = '';
+			$data['country2'] = 'CA';
 		}
 		if ($this->input->post('postcode')) {
 			$data['postcode'] = $this->input->post('postcode');
