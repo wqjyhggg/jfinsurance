@@ -32,7 +32,16 @@ class Batch_model extends CI_Model {
 		if (empty($para['customer_id'])) { ; } else { $data['customer_id'] = $para['customer_id']; }
 		if (empty($para['user_id'])) { ; } else { $data['user_id'] = $para['user_id']; }
 		if (empty($para['status_id'])) { $data['status_id'] = 2; } else { $data['status_id'] = $para['status_id']; }
-		if (empty($para['policy'])) { $data['policy'] = $this->plan_model->get_policy_number($plan_id, 2); } else { $data['policy'] = $para['policy']; }
+		if (empty($para['policy'])) {
+			if (empty($para['plan_id'])) {
+				$this->error = 'No policy or plan_id';
+				return 0;
+			} else {
+				$data['policy'] = $this->plan_model->get_policy_number($para['plan_id'], 2);
+			}
+		} else { 
+			$data['policy'] = $para['policy'];
+		}
 		if (empty($para['product_short'])) { 
 			$this->error = 'Need product_short';
 			return 0;

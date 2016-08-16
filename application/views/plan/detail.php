@@ -42,10 +42,10 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 						<a class="btn btn-info pull-right" target="_blank" href='<?php echo $print_receipt_url; ?>'>Print Receipt</a>
 						<?php } ?>
 						<?php if (!empty($cancel_letter_url)) { ?>
-						<a class="btn btn-info pull-right" target="_blank" href='<?php echo $print_cancel_url; ?>'>Cancel Letter</a>
+						<a class="btn btn-info pull-right" target="_blank" href='<?php echo $cancel_letter_url; ?>'>Cancel Letter</a>
 						<?php } ?>
 						<?php if (!empty($refund_letter_url)) { ?>
-						<a class="btn btn-info pull-right" target="_blank" href='<?php echo $print_refund_url; ?>'>Refund letter</a>
+						<a class="btn btn-info pull-right" target="_blank" href='<?php echo $refund_letter_url; ?>'>Refund letter</a>
 						<?php } ?>
 						<div class="clearfix"></div>
 					</div>
@@ -93,7 +93,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 								</div>
 								<div class="col-sm-3">
 									<label class="inline">First Name:</label>
-									<span><?php echo $customer['lastname']; ?></span>
+									<span><?php echo $customer['firstname']; ?></span>
 								</div>
 								<div class="col-sm-3">
 									<label class="inline">Birth Date:</label>
@@ -226,8 +226,8 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 						</div><!-- end p-detail --><br />
 						<div class="row">
 								<div class="col-sm-12">
-								<?php if (($plan['status_id'] <= 2) && empty($defaultpay_type)) { ?>						
-									<button class="btn btn-primary pull-right" data-toggle="collapse" data-target="#payment-div">Comfirm and Pay</button>		
+								<?php if (($plan['status_id'] < 2) && empty($defaultpay_type)) { ?>						
+									<button class="btn btn-primary pull-right" data-toggle="collapse" data-target="#payment-div">Confirm and Pay</button>		
 								<?php } ?>
 								<a class="btn btn-info pull-right" target="_blank" href='<?php echo $pdf_url; ?>'>Export PDF</a>
 

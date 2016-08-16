@@ -291,9 +291,11 @@ class Plan_model extends CI_Model {
 			$this->logstr .= " isfamilyplan " . $isfamilyplan . "(" . $plan['isfamilyplan'] . ")";
 			$sql .= " isfamilyplan='" . (int)$isfamilyplan . "', ";
 		}
-		if (isset($para['apply_date']) && ($para['apply_date'] != $plan['apply_date'])) {
-			$this->logstr .= " apply_date " . $para['apply_date'] . "(" . $plan['apply_date'] . ")";
-			$sql .= " apply_date=" . $this->db->escape($para['apply_date']) . ", ";
+		if (($beuser['user_group_id'] == 1) || ($plan['status_id'] < 2)) {
+			if (isset($para['apply_date']) && ($para['apply_date'] != $plan['apply_date'])) {
+				$this->logstr .= " apply_date " . $para['apply_date'] . "(" . $plan['apply_date'] . ")";
+				$sql .= " apply_date=" . $this->db->escape($para['apply_date']) . ", ";
+			}
 		}
 		if (isset($para['arrival_date']) && ($para['arrival_date'] != $plan['arrival_date'])) {
 			$this->logstr .= " arrival_date " . $para['arrival_date'] . "(" . $plan['arrival_date'] . ")";
