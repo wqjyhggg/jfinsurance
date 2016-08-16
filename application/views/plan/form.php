@@ -531,31 +531,33 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					    	},
 						});
 					}
-					if ($('#isfamilyplan').get(0).checked) {
-						$('#family_member').show();
-						if ($('#spousediv').length) {
-							$('#spousediv').show();
-						}
-					}
-					$('#isfamilyplan').change(function() {
-				        if ($(this).get(0).checked) {
-				    		$('#family_member').show();
+					if ( $( "#isfamilyplan" ).length ) {
+						if ($('#isfamilyplan').get(0).checked) {
+							$('#family_member').show();
 							if ($('#spousediv').length) {
 								$('#spousediv').show();
 							}
-				        } else {
-				        	$('#family_member').hide();
-							if ($('#spousediv').length) {
-								$('#spousediv').hide();
-							}
-				        	$("input[name^='firstname_']").each(function() {
-				            	$(this).val('');
-				        	});
-				        	$("input[name^='lastname_']").each(function() {
-				            	$(this).val('');
-				        	});
-				        }
-				    });
+						}
+						$('#isfamilyplan').change(function() {
+					        if ($(this).get(0).checked) {
+					    		$('#family_member').show();
+								if ($('#spousediv').length) {
+									$('#spousediv').show();
+								}
+					        } else {
+					        	$('#family_member').hide();
+								if ($('#spousediv').length) {
+									$('#spousediv').hide();
+								}
+					        	$("input[name^='firstname_']").each(function() {
+					            	$(this).val('');
+					        	});
+					        	$("input[name^='lastname_']").each(function() {
+					            	$(this).val('');
+					        	});
+					        }
+					    });
+					}
 
 					$('.setpremium').change(get_premium); 
 					if ($('input[name="holiday_rate"]').length) {
@@ -636,8 +638,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					var isfamilyplan = '';
 					var spouse = '';
 			
-					if ($('input[name="isfamilyplan"]').is(':checked')) {
-						isfamilyplan = 1;	// checkbox
+					if ( $( "#isfamilyplan" ).length ) {
+						if ($('input[name="isfamilyplan"]').is(':checked')) {
+							isfamilyplan = 1;	// checkbox
+						}
 					}
 					var sum_insured = 0;
 					if ($('select[name="sum_insured"]').length) {
