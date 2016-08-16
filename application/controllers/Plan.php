@@ -1121,7 +1121,7 @@ class Plan extends MY_Controller {
 		$dt['pay_type'] = 'premium';
 		$dt['currency'] = $product['currency'];
 		$dt['pay_mothed'] = 'Cheque';
-		$dt['invoice_num'] = $this->input->post('invoice_num');
+		$dt['invoice_num'] = empty($this->input->post('invoice_num')) ? '' : $this->input->post('invoice_num');
 		$dt['bank_name'] = $this->input->post('bank_name');
 		$dt['payor_name'] = $this->input->post('payor_name');
 		$dt['cheque_number'] = $this->input->post('cheque_number');
