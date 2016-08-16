@@ -134,10 +134,10 @@ class Customer_model extends CI_Model {
 	 * @param integer $isfamilyplan
 	 * @return string		oldest customer birthday
 	 */
-	public function get_max_birthday($customer_id, $isfamilyplan) {
+	public function get_max_birthday($customer_id, $isfamilyplan, $product_short) {
 		$c = $this->get_customer_by_id($customer_id);
 		$birthday = $c['birthday'];
-		if ($isfamilyplan) {
+		if ($isfamilyplan && ($product_short != 'JUS') && ($product_short != 'NUS')) {
 			$cs = $this->get_customer_by_parent_id($customer_id);
 			$mxtm = strtotime($birthday);
 			foreach ($cs as $cc) {

@@ -1253,7 +1253,7 @@ class Plan extends MY_Controller {
 			$para['spouse'] = $plan['spouse'];
 			$para['stable_condition'] = $plan['stable_condition'];
 			$para['holiday_rate'] = (($plan['product_short'] == 'JES') && ($plan['dailyrate'] >= 1.84)) ? 1 : 0;
-			$para['birthday'] = $this->customer_model->get_max_birthday($plan['customer_id'], $plan['isfamilyplan']);
+			$para['birthday'] = $this->customer_model->get_max_birthday($plan['customer_id'], $plan['isfamilyplan'], $plan['product_short']);
 			$para['number_customer'] = $this->customer_model->get_number_customer($plan['customer_id'], $plan['isfamilyplan']);
 			$premiumarr = $this->product_model->get_premium($para);
 			if (!empty($premiumarr) && !empty($premiumarr['premium']) && ((float)$premiumarr['premium'] != (float)$plan['premium'])) {
