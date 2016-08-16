@@ -1,4 +1,5 @@
 /*New Custom*/
+.inline-m{display: inline-block;vertical-align: middle;}
 .float-error{
 	position: fixed!important;
     display: block;

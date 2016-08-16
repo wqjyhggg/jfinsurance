@@ -178,7 +178,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Search Result<small></small></h2>
+                    <h2>Search Result <span class="inline-m"><?php echo $export_form; ?> </span></h2>
                     <div class="pull-right">
 	                  <form method="get" action="<?php echo $mail_url ?>">
 						<input type='hidden' name="agent_id" value="<?php echo $agent_id; ?>" />
@@ -212,7 +212,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <td colspan=4></td>
                                 
                             </td></tr>
-                            <tr><td colspan=7><?=$renewal_data['agency'] ?></td></tr>
+                            <tr><td colspan=7>Agent: <?=$renewal_data['agency'] ?></td></tr>
                             <tr>
                             <th>Policy Number</th>
                             <th>Effective Date</th>

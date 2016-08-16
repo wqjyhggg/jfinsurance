@@ -67,6 +67,9 @@ class Agent extends MY_Controller
         $data['user_list'] = $this->user_model->get_available_user_list();
         $data['report_data'] = $this->report_model->get_sales_report_agent($data);
         
+        //echo "<pre>";
+        //print_r($data['report_data']);die('============');
+
         $w = WriterFactory::create(Type::XLSX); // for XLSX files
         $kArr = array(
                 'order_date' => 'Order Date',
@@ -85,7 +88,7 @@ class Agent extends MY_Controller
 
         $tmpfname = "/tmp/jf_test.xlsx";
         
-        $w->openToBrowser("Policy" . date('Ymd') . ".xlsx");
+        $w->openToBrowser("Sales_Report_to_Agent_" . date('Ymd') . ".xlsx");
         //$w->openToFile($tmpfname);
         foreach ($data['report_data'] as $data) {
 			$arr = array();
