@@ -561,7 +561,7 @@ class Report_model extends CI_Model
     private function commission_fields()
     {
         $this->db->select('
-            pl.apply_date AS order_date,
+            pl.apply_date,
             pl.policy,
             pr.full_name AS product,
             pr.up_insuer AS insurerCoName,
@@ -577,11 +577,12 @@ class Report_model extends CI_Model
             CONCAT(u.address, " ", u.city) AS address,
             u.province2 AS province,
             u.postcode,
-            "u.cheque_title" AS cheque_title,
+            u.note AS cheque_title,
             u.pay_type,
             pl.status_id,
+            pa2.added AS premium_pay_date,
             pa.amount AS pa_commission,
-            pa.ispaid AS commission_status
+            pa.ispaid
         ');
     }
 
@@ -590,6 +591,7 @@ class Report_model extends CI_Model
         $this->common_from();
         $this->db->join('user_product up', 'u.user_id = up.user_id and pr.product_short = up.product_short', 'left');
         $this->db->join('payment pa', 'pl.plan_id = pa.plan_id AND pa.pay_type = "commission"');
+        $this->db->join('payment pa2', 'pa.plan_id = pa2.plan_id AND pa2.pay_type = "premium" AND ABS(TIMESTAMPDIFF(SECOND, pa2.added, pa.added)) <5');
     }
 
     private function commission_where($para)
@@ -610,9 +612,15 @@ class Report_model extends CI_Model
         $results = array();
         foreach ($query as $row) {
             $row = $this->common_set_row($row);
-            $row['payment_status'] = $this->get_status($row['status_id']);
-            //todo  see above, ....
-            $row['commission_status'] = ($row['commission_status'] == 1) ? 'paid' : 'unpaid';
+            $row['paid_status'] = $this->get_status($row['status_id']);
+            if ($row['ispaid'] == 1) {
+                $premium_pay_date = empty($row['premium_pay_date']) ? '' : $row['premium_pay_date'];
+                $row['commission_status'] = 'Paid';
+                $row['payment_status'] = 'Paid on ' . $premium_pay_date;
+            } else {
+                $row['commission_status'] = 'Unpaid';
+                $row['payment_status'] = '';
+            }
             $row['commission_amount'] = (empty($row['pa_commission'])) ? $row['commission_amount'] : $row['pa_commission'];
 
             $results['data'][$row['user_id']]['agency']['agent_name'] = $row['agent_name'];

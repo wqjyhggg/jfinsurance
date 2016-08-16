@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 <!-- Report/ Commission report page content -->
 
-	    <!-- Content top navigation -->
+        <!-- Content top navigation -->
         <div class="top_nav">
           <div class="nav_menu">
             <nav class="" role="navigation">
@@ -194,8 +194,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <?php foreach ($report_data['data'] as $user_id => $data) :?>
                         <tbody>
                           <tr><td colspan=2>Agent Name: </td>
-                            <td colspan=2><?=$data['agency']['agent_name'] ?></td>
-                            <td colspan=6></td>
+                            <td colspan=8><?=$data['agency']['agent_name'] ?></td>
                             <td colspan=2>Payment Method: </td>
                             <td colspan=2><?=$data['agency']['payment_method'] ?></td>
                           </tr>
@@ -206,8 +205,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                           </tr>
                           <tr>
                             <td colspan=2>Commission Cheque Title: </td>
-                            <td colspan=2><?=$data['agency']['cheque_title'] ?></td>
-                            <td colspan=10></td>
+                            <td colspan=12><?=$data['agency']['cheque_title'] ?></td>
                           </tr>
                           <tr><td colspan=14>&nbsp;</td></tr>
                           <tr>
@@ -230,9 +228,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <?php foreach ($data['records'] as $record) : ?>
                             <tr>
                               <td><?=$cnt++; ?></td>
-                              <td><?=$record['order_date'] ?></td>
+                              <td><?=$record['apply_date'] ?></td>
                               <td><?=$record['policy'] ?></td>
-                              <td><?=$record['payment_status'] ?></td>
+                              <td><?=$record['paid_status'] ?></td>
                               <td><?=$record['insurerCoName'] ?></td>
                               <td><?=$record['insured_name'] ?></td>
                               <td><?=$record['effective_date'] ?></td>
