@@ -56,11 +56,19 @@ class Payment extends MY_Controller {
 										'systemlog' => $this->plan_model->sqlstr
 								);
 								$this->log_model->activity('plan', $para);
+								if (!empty($plan['batch_number']) && !empty($this->input->post('batchpay_'.$payment_id))) {
+									// Batch Upadte
+									$this->load->model('batch_model');
+									$this->batch_model->batch_pay($plan['batch_number'], $payarr);
+								}
 							}
 						}
 					} else {
 						$plan = $this->plan_model->get_plan_by_id($pay['plan_id']);
 						if ($plan) {
+							if ($pay['pay_type'] == 'premium') {
+								$pay['batch_number'] = empty($plan['batch_number']) ? '' : $plan['batch_number'];
+							}
 							$pay['policy'] = $plan['policy'];
 						} else {
 							$pay['policy'] = "Unknown";

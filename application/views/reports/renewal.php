@@ -179,6 +179,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <div class="x_panel">
                   <div class="x_title">
                     <h2>Search Result<small></small></h2>
+                    <div class="pull-right">
+	                  <form method="get" action="<?php echo $mail_url ?>">
+						<input type='hidden' name="agent_id" value="<?php echo $agent_id; ?>" />
+						<input type='hidden' name='product_short' value="<?php echo $product_short; ?>" />
+						<input type='hidden' name="application_date_from" value="<? echo $application_date_from; ?>" />
+						<input type='hidden' name="application_date_from" value="<? echo $application_date_to; ?>" />
+						<input type="hidden" name="create_date_from" value="<? echo $create_date_from; ?>" />
+						<input type="hidden" name="create_date_to" value="<? echo $create_date_to; ?>" />
+						<input type="hidden" name="effective_date_from" value="<? echo $effective_date_from; ?>" />
+						<input type="hidden" name="effective_date_to" value="<? echo $effective_date_to; ?>" />
+						<input type="hidden" name="expiry_date_from" value="<? echo $expiry_date_from; ?>" />
+						<input type="hidden" name="expiry_date_to" value="<? echo $expiry_date_to; ?>" />
+						<button class="btn btn-primary pull-right">Send Renew Email</button>
+	                  </form>
+                    </div>
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
