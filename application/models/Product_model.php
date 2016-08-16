@@ -526,7 +526,7 @@ class Product_model extends CI_Model {
 				elseif ($years <= 30) 	$rate = 4.65;
 				elseif ($years <= 40) 	$rate = 10.40;
 				else				  	$rate = 21.47;
-				if ($para['spouse'] && ($number_customer >= 0)) {
+				if ($para['spouse'] && ($number_customer > 0)) {
 					$rate += 21.23;
 					$number_customer--;
 				}
@@ -538,7 +538,7 @@ class Product_model extends CI_Model {
 				elseif ($years <= 30) 	$rate = 5.29;
 				elseif ($years <= 40) 	$rate = 11.45;
 				else				  	$rate = 24.47;
-				if ($para['spouse'] && ($number_customer >= 0)) {
+				if ($para['spouse'] && ($number_customer > 0)) {
 					$rate += 24.79;
 					$number_customer--;
 				}
@@ -563,7 +563,7 @@ class Product_model extends CI_Model {
 				elseif ($years <= 30) 	$rate = 5.82;
 				elseif ($years <= 40) 	$rate = 12.0;
 				else				  	$rate = 24.66;
-				if (isset($para['spouse']) && ($number_customer >= 0)) {
+				if ($para['spouse'] && ($number_customer > 0)) {
 					$rate += 24.71;
 					$number_customer--;
 				}
@@ -575,7 +575,7 @@ class Product_model extends CI_Model {
 				elseif ($years <= 30) 	$rate = 6.62;
 				elseif ($years <= 40) 	$rate = 13.16;
 				else				  	$rate = 28.07;
-				if ($para['spouse'] && ($number_customer >= 0)) {
+				if ($para['spouse'] && ($number_customer > 0)) {
 					$rate += 27.45;
 					$number_customer--;
 				}
@@ -600,7 +600,7 @@ class Product_model extends CI_Model {
 			}
 			$number_customer = (int)$para['number_customer'];
 			$rate = 1.6;
-			if (isset($para['holiday_rate']) && $para['holiday_rate']) $rate = 1.85; 
+			if ($para['holiday_rate'] && $para['holiday_rate']) $rate = 1.85; 
 			if ($number_customer == 2) {
 				$premium = $rate * $days * 2.5;
 			} else {
