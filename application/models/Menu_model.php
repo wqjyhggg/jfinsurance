@@ -71,6 +71,7 @@ class Menu_model extends CI_Model {
 				),
 			103 =>array(
 					"<a href='" . base_url('plan') . "' class='leftmeun'>" . $this->lang->line ( 'text_policy' ) . "</a>",
+					"<a href='" . base_url('pdf/import') . "' class='leftmeun'>" . $this->lang->line ( 'text_upload_policy' ) . "</a>",
 					array(
 							"<a class='leftmeun'>" . $this->lang->line ( 'text_report' ) . "<span class='fa fa-chevron-down'></span></a>",
 							"<a href='" . base_url('reports/agent') . "' class='leftmeun'>" . $this->lang->line ( 'text_report_to_agent' ) . "</a>",
