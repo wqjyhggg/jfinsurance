@@ -1239,8 +1239,8 @@ class Plan extends MY_Controller {
 		$data['sekey'] = $sekey;
 		$data['apply_date'] = date('Y-m-d');
 	
-		if ($plan['status_id'] < 3) {
-			// Before Paid
+		if ($plan['status_id'] < 2) {
+			// Before Sold
 			$para = array();
 			$para['product_short'] = $plan['product_short'];
 			$para['apply_date'] = date('Y-m-d');
@@ -1269,6 +1269,8 @@ class Plan extends MY_Controller {
 				);
 				$this->log_model->activity('plan', $para);
 			}
+		} else {
+			$data['apply_date'] = $plan['apply_date'];
 		}
 		$data['plan'] = $plan;
 		$product = $this->product_model->get_product($plan['product_short']);
