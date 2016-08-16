@@ -1892,6 +1892,7 @@ class Plan extends MY_Controller {
 			redirect('user/login');
 		}
 		$this->load->model('product_model');
+		$this->load->model('payment_model');
 		$product = $this->product_model->get_product($plan['product_short']);
 		$payment = $this->payment_model->get_payment_by_id($plan['payment_id']);
 		
