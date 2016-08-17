@@ -69,8 +69,6 @@ class Receivable extends MY_Controller
         $data['user_list'] = $this->user_model->get_available_user_list();
         $data['report_data'] = $this->report_model->get_receivable($data);
         
-        //echo "<pre>";
-        //print_r($data['report_data']);die('============');
 
         $w = WriterFactory::create(Type::XLSX); // for XLSX files
         $kArr = array(
@@ -87,7 +85,7 @@ class Receivable extends MY_Controller
         
         $w->openToBrowser("Receivable_Report_" . date('Ymd') . ".xlsx");
         //$w->openToFile($tmpfname);
-        foreach ($data['report_data'] as $data) {
+        //foreach ($data['report_data'] as $datas) {
             $arr = array('JF Insurance Agency Group Inc.');
             $w->addRow($arr);
             $arr = array('15 Wertheim court, Suite 501, Richmond Hill, ON, L4B 3H7');
@@ -100,33 +98,32 @@ class Receivable extends MY_Controller
             $arr = array('Invoice Statement');
             $w->addRow($arr);
 
-            $arr = array('For Policy of: ', 'From ' . $data['period']['from'] , 'To ' . $data['period']['to']);
+            $arr = array('For Policy of: ', 'From ' . $data['report_data']['period']['from'] , 'To ' . $data['report_data']['period']['to']);
             $w->addRow($arr);
             $arr = array('', '','','','','','','');
             $w->addRow($arr);
 
-            foreach ($data['data'] as $datas) {
+            foreach ($data['report_data']['data'] as $datas) {
                 
-                $arr = array('Bill to: ' . $datas['agency']['agent_name'] .'<br />' . $datas['agency']['address'] . '<br />' . $datas['agency']['province'] . ', ' . $datas['agency']['postal_code']);
+                $arr = array('Bill to: ' . $datas['agency']['agent_name'] .', ' . $datas['agency']['address'] . ', ' . $datas['agency']['province'] . ', ' . $datas['agency']['postal_code']);
                 $w->addRow($arr);
                 
                 $arr = array();
                 foreach ($kArr as $k => $v) { $arr[] = $v; } 
                 $w->addRow($arr);
-                    /*
-                    foreach ($info['records'] as $record) {
-                        $arr = array();
-                        foreach ($kArr as $k => $v) { $arr[] = $record[$k]; } 
-                        $w->addRow($arr);
-                    }
-                    */
-                
+                  
+                foreach ($datas['records'] as $record) {
+                    $arr = array();
+                    foreach ($kArr as $k => $v) { $arr[] = $record[$k]; } 
+                    $w->addRow($arr);
+                }
+                   
             }
-            
+          
            
             $arr = array('', '','','','','','','');
             $w->addRow($arr);
-        }
+        //}
         $w->close();
         /*
         header('Content-type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');

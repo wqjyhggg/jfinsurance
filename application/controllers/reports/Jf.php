@@ -66,9 +66,6 @@ class Jf extends MY_Controller
         $data['product_list'] = $this->product_model->get_available_product_list();
         $data['user_list'] = $this->user_model->get_available_user_list();
         $data['report_data'] = $this->report_model->get_sales_report_jf($data);
-        
-        //echo "<pre>";
-        //print_r($data['report_data']);die('============');
 
         $w = WriterFactory::create(Type::XLSX); // for XLSX files
         $kArr = array(
@@ -92,8 +89,8 @@ class Jf extends MY_Controller
         
         $w->openToBrowser("Sales_Report_to_JF_" . date('Ymd') . ".xlsx");
         //$w->openToFile($tmpfname);
-        foreach ($data['report_data'] as $data) {
-            $arr = array('Policy Premium: ', $data['policy_premium'], '', 'Agent: ', $data['agency_fname'] . ' ' . $data['agency_lname']);
+        foreach ($data['report_data'] as $datas) {
+            $arr = array('Policy Premium: ', $datas['policy_premium'], '', 'Agent: ', $datas['agency_fname'] . ' ' . $datas['agency_lname']);
             $w->addRow($arr);
             $arr = array('');
             $w->addRow($arr);
@@ -102,14 +99,14 @@ class Jf extends MY_Controller
             foreach ($kArr as $k => $v) { $arr[] = $v; } 
             $w->addRow($arr);
             
-            foreach ($data['data'] as $records) {
-                /*
+            foreach ($datas['data'] as $records) {
+                
                 foreach ($records['records'] as $record) {
                     $arr = array();
                     foreach ($kArr as $k => $v) { $arr[] = $record[$k]; } 
                     $w->addRow($arr);
                 }
-                */
+                
                 $arr = array('Total Premium: $' . $records['policy_premium'],'','','Total Net Premium: $' . $records['net_premium'],'','','Total Commission: $', $records['commission']);
                 $w->addRow($arr);     
            
