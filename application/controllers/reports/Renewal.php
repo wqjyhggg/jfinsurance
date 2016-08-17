@@ -82,13 +82,10 @@ class Renewal extends MY_Controller
         $data['product_list'] = $this->product_model->get_available_product_list();
         $data['user_list'] = $this->user_model->get_available_user_list();
         $data['report_data'] = $this->report_model->get_renewal_report($data);
-        
-        //echo "<pre>";
-        //print_r($data['report_data']);die('============');
 
         $w = WriterFactory::create(Type::XLSX); // for XLSX files
         $kArr = array(
-                'policy_number' => 'Policy Number',
+                'policy' => 'Policy Number',
                 'effective_date' => 'Effective Date',
                 'expiry_date' => 'Expiry Date',
                 'customer_name' => 'Customer Name',
@@ -102,7 +99,6 @@ class Renewal extends MY_Controller
         $w->openToBrowser("Renewal_Report_" . date('Ymd') . ".xlsx");
         //$w->openToFile($tmpfname);
 
-        
         $date_from = $data['report_data']['period']['from'];
         $date_to = $data['report_data']['period']['to'];
 
@@ -116,16 +112,16 @@ class Renewal extends MY_Controller
             $arr = array();
             foreach ($kArr as $k => $v) { $arr[] = $v; } 
             $w->addRow($arr);
-            /*
-            foreach ($datas['records'] as $records) {
-                foreach ($records as $record) {
+            
+            foreach ($datas['records'] as $record) {
+                
                     $arr = array();
                     foreach ($kArr as $k => $v) { $arr[] = $record[$k]; } 
                     $w->addRow($arr);
-                }
+                
                 
             }
-            */
+            
             $arr = array('','');
             $w->addRow($arr);
         }
