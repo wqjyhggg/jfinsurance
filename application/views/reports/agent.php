@@ -156,7 +156,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <input name="payment_update_date_to" class="form-control" size="16" type="text" value="<?=$payment_update_date_to ?>" >
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
-                            <input name="payment_update_date_to" type="hidden" id="payment_update_date_to" value="" /><br/>
+                            <input type="hidden" id="payment_update_date_to" value="" /><br/>
                             <!-- Payment Update Date to End -->
                         </div>
                         <!-- Payment Update Date End -->
