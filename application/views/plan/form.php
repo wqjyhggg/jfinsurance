@@ -234,7 +234,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 											<div class="col-sm-6">
 												<label class="col-sm-12">&nbsp;</label>
 												<div class="col-sm-12">
-													<?php if ((($status_id == 2) || ($status_id == 2)) && !empty($customer_id)) {?>
+													<?php if ((($status_id == 2) || ($status_id == 3) || ($status_id == 4)) && !empty($customer_id)) {?>
 													<a class="btn btn-primary" href='<?php echo $claimurl . $customer_id; ?>'>Claim</a>
 													<?php } ?>
 												</div>
