@@ -179,7 +179,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Search Result<small></small></h2>
+                    <h2>Search Result <span class="inline-m"><?php echo $export_form; ?> </span></h2>
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
@@ -216,7 +216,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <?php foreach ($report_data['data'] as $agent_id => $claim_data) :?>
                             <tr><td colspan=22>
                                 Date: <?=$report_data['period']['from'] ?> To <?=$report_data['period']['to'] ?><br>
-                                <?=$claim_data['agency'] ?>
+                                Agent: <?=$claim_data['agency'] ?>
                             <td></tr>
         <?php foreach ($claim_data['records'] as $record) : ?>
                             <tr>

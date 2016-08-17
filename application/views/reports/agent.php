@@ -179,13 +179,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Search Result <span> <a class="btn btn-info" href='<?php echo $export_list; ?>'><i class="fa fa-share"></i> Export Xlsx</a> <?php echo $export_form; ?> </span></h2>
+                    <h2>Search Result <span class="inline-m"><?php echo $export_form; ?> </span></h2>
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
                     <div class="table-responsive">
                       <table class="table table-hover table-bordered">
-<?php foreach ($report_data as $data) :?>
+<?php 
+//echo "<pre>";
+//print_r($report_data);
+foreach ($report_data as $data) :?>
                         <thead>
                           <tr>
                             <th>Count</th>

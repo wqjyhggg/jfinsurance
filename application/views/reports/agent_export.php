@@ -12,5 +12,5 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<input type='hidden' name="effective_date_to" value="<?php echo $effective_date_to; ?>" />
 	<input type='hidden' name="payment_update_date_from" value="<?php echo $payment_update_date_from; ?>" />
 	<input type='hidden' name="payment_update_date_to" value="<?php echo $payment_update_date_to; ?>" />
-	<input type='submit' name="agent_id" value="Export Xlsx" />
+	<input class="btn btn-info" type='submit' value="Export Xlsx" />
 </form>

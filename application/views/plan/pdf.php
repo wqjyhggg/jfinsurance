@@ -20,8 +20,8 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 			</div>
 			<div style="float:left;width:400px;">
 				<p class="topp" style="font-weight:bold;"> JF Agent - <span style="text-transform: capitalize;font-weight:bold;"><?php echo ($user) ? $user['firstname'] . " " . $user['lastname'] : ''; ?></span></p>
-				<p class="topp">228-340 Ferrier Street, Markham Ontario L3R 2Z5</p>
-				<p class="topp">Tel: 647-993-8826</p>
+				<p class="topp"><?php echo ($user)? $user['address'] . ', ' . $user['city'] . ' ' . $user['province2'] . ' ' . $user['postcode']: ''; ?></p>
+				<p class="topp"><?php echo ($user)? $user['business_phone'] : '' ; ?></p>
 			</div>
 		</div>
 		<div class="row">

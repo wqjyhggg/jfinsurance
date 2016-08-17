@@ -195,7 +195,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Search Result<small></small></h2>
+                    <h2>Search Result <span class="inline-m"><?php echo $export_form; ?> </span></h2>
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
@@ -219,9 +219,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                           <?=$data['agency']['agent_name'] ?><br>
                           <?=$data['agency']['address'] ?><br>
                           <?=$data['agency']['province'] ?>,&nbsp;&nbsp; <?=$data['agency']['postal_code'] ?><br><br>
-                          Premium collected on behalf of JF Insurance Agency Inc::<?=$data['agency']['outstanding'] ?><br>
-                          Less Administration Fee for handaling the following policies:<?=$data['agency']['commission'] ?><br>
-                          Net payable to JF Insurance Ageny Inc.:<?=$data['agency']['payable_to_jf'] ?>
+                          Premium collected on behalf of JF Insurance Agency Inc: $<?=$data['agency']['outstanding'] ?><br>
+                          Less Administration Fee for handaling the following policies: $<?=$data['agency']['commission'] ?><br>
+                          Net payable to JF Insurance Ageny Inc.: $<?=$data['agency']['payable_to_jf'] ?>
                         </td></tr>
                         </thead>
                         <tbody>
