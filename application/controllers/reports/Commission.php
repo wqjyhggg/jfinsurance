@@ -61,7 +61,7 @@ class Commission extends MY_Controller
         $beuser = $this->func_model->verify_login(); 
         $this->load->model('product_model');
         $this->load->model('report_model');
-        $data['agent_id'] = empty($this->input->get_post('agent_id')) ? 0 : (int)$this->input->post('agent_id');
+        $data['agent_id'] = empty($this->input->get_post('agent_id')) ? 0 : (int)$this->input->get_post('agent_id');
         $data['product_short'] = $this->input->get_post('product_short');
         $data['application_date_from'] = $this->input->get_post('application_date_from');
         $data['application_date_to'] = $this->input->get_post('application_date_to');
@@ -88,7 +88,7 @@ class Commission extends MY_Controller
                 'effective_date' => 'Effective Date',
                 'expiry_date' => 'Expiry Date',
                 'total_days' => 'Trip Length',
-                'policy_premium' => 'Policy Premium',
+                'policy_premium' => 'Total Premium',
                 'payment_status' => 'Payment Status',
                 'commission_rate' => 'Commission Rate(%)',
                 'commission_amount' => 'Commission Amount',
@@ -96,23 +96,39 @@ class Commission extends MY_Controller
 
         $tmpfname = "/tmp/jf_test.xlsx";
         
-        $w->openToBrowser("Sales_Report_to_Agent_" . date('Ymd') . ".xlsx");
+        $w->openToBrowser("Commission_Report_" . date('Ymd') . ".xlsx");
         //$w->openToFile($tmpfname);
-        /*
-        foreach ($data['report_data'] as $data) {
+        
+        $date_from = $data['report_data']['period']['from'];
+        $date_to = $data['report_data']['period']['to'];
+
+        foreach ($data['report_data']['data'] as $datas) {
+            $arr = array('Agent Name:' , $datas['agency']['agent_name'], '','', 'Payment Method: ', $datas['agency']['payment_method']);
+            $w->addRow($arr);
+
+            $arr = array('','','','','Mailling Addrerss: ', $datas['agency']['address'] . ',' . $datas['agency']['province'] . ',' . $datas['agency']['postal_code']);
+            $w->addRow($arr);
+           
+            $arr = array('Commission Cheque Title: ', $datas['agency']['cheque_title']);
+            $w->addRow($arr);
+
+            $arr = array('', '');
+            $w->addRow($arr);
+
             $arr = array();
             foreach ($kArr as $k => $v) { $arr[] = $v; } 
             $w->addRow($arr);
-            foreach ($data['records'] as $record) {
+
+            foreach ($datas['records'] as $record) {
                 $arr = array();
                 foreach ($kArr as $k => $v) { $arr[] = $record[$k]; } 
                 $w->addRow($arr);
             }
-            $arr = array('Total Premium: $' . $data['data']['policy_premium'], '','','','','','','Total Net Premium: $' . $data['data']['net_premium']);
+
             $w->addRow($arr);
             $arr = array('', '','','','','','','');
             $w->addRow($arr);
-        }*/
+        }
         $w->close();
         /*
         header('Content-type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');

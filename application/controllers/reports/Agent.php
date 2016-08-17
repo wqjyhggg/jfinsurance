@@ -53,7 +53,8 @@ class Agent extends MY_Controller
         $beuser = $this->func_model->verify_login(); 
         $this->load->model('product_model');
         $this->load->model('report_model');
-        $data['agent_id'] = empty($this->input->get_post('agent_id')) ? 0 : (int)$this->input->post('agent_id');
+        $data['agent_id'] = empty($this->input->get_post('agent_id')) ? 0 : (int)$this->input->get_post('agent_id');
+
         $data['product_short'] = $this->input->get_post('product_short');
         $data['application_date_from'] = $this->input->get_post('application_date_from');
         $data['application_date_to'] = $this->input->get_post('application_date_to');
