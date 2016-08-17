@@ -782,6 +782,12 @@ class Report_model extends CI_Model
         if (!empty($para['application_date_to'])) {
             $this->db->where('pl.apply_date <=', $para['application_date_to']);
         }
+        if (!empty($para['arrival_date_from'])) {
+            $this->db->where('pl.arrival_date >=', $para['arrival_date_from']);
+        }
+        if (!empty($para['arrival_date_to'])) {
+            $this->db->where('pl.arrival_date <=', $para['arrival_date_to']);
+        }
         if (!empty($para['effective_date_from'])) {
             $this->db->where('pl.effective_date >=', $para['effective_date_from']);
         }

@@ -195,7 +195,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			                        <!-- Application Date End-->
 			                        <!-- Create Date-->
 			                        <div class="form-group col-sm-3">
-			                            <!-- Create Date From-->
+			                            <!-- Arrival Date From-->
 			                            <!--label for="create_date_from" class="col-sm-12">Arrival Date From</label-->
 			                            <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
 			                                <input type="text" size="16" name='arrival_date' placeholder="Arrival Date From" data-toggle="tooltip" title="Arrival Date From" value='<?php echo $arrival_date; ?>' class="form-control">
@@ -205,7 +205,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			                            </div>
 			                           
 			                            <input type="hidden" id="create_date_from" value="" />
-			                            <!-- Create Date From End-->
+			                            <!-- Arrival Date From End-->
 			                            <!-- Create Date to -->
 			                            <!--label for="create_date_to" class="col-sm-12">Arrival Date To</label-->
 			                            <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">

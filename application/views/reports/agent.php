@@ -102,21 +102,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <!-- Application Date End-->
                         <!-- Create Date-->
                         <div class="form-group col-sm-3">
-                            <!-- Create Date From-->
-                            <label for="create_date_from" class="col-sm-12">Create Date From</label>
+                            <!-- Arrival Date From-->
+                            <label for="arrival_date_from" class="col-sm-12">Arrival Date From</label>
                             <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
-                                <input name="create_date_from" class="form-control" size="16" type="text" value="<?=$create_date_from ?>" >
+                                <input name="arrival_date_from" class="form-control" size="16" type="text" value="<?=$arrival_date_from ?>" >
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
-                            <input type="hidden" id="create_date_from" value="" />
-                            <!-- Create Date From End-->
+                            <input type="hidden" id="arrival_date_from" value="" />
+                            <!-- Arrival Date From End-->
                             <!-- Create Date to -->
-                            <label for="create_date_to" class="col-sm-12">Create Date To</label>
+                            <label for="arrival_date_to" class="col-sm-12">Arrival Date To</label>
                             <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
-                                <input name="create_date_to" class="form-control" size="16" type="text" value="<?=$create_date_to ?>" >
+                                <input name="arrival_date_to" class="form-control" size="16" type="text" value="<?=$arrival_date_to ?>" >
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
-                            <input type="hidden" id="create_date_to" value="" /><br/>
+                            <input type="hidden" id="arrival_date_to" value="" /><br/>
                             <!-- Create Date to End -->
                         </div>
                         <!-- Create Date End -->
@@ -143,20 +143,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <!-- Payment Update Date-->
                         <div class="form-group col-sm-3">
                             <!-- Payment Update Date From-->
-                            <label for="payment_update_date_from" class="col-sm-12">Payment Update Date From</label>
+                            <label for="expiry_date_from" class="col-sm-12">Expiry Date From</label>
                             <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
-                                <input name="payment_update_date_from" class="form-control" size="16" type="text" value="<?=$payment_update_date_from ?>" >
+                                <input name="expiry_date_from" class="form-control" size="16" type="text" value="<?=$expiry_date_from ?>" >
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
-                            <input type="hidden" id="payment_update_date_from" value="" />
+                            <input type="hidden" id="expiry_date_from" value="" />
                             <!-- Payment Update Date From End-->
                             <!-- Payment Update Date to -->
-                            <label for="payment_update_date_to" class="col-sm-12">Payment Update Date To</label>
+                            <label for="expiry_date_to" class="col-sm-12">Expiry Date To</label>
                             <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
-                                <input name="payment_update_date_to" class="form-control" size="16" type="text" value="<?=$payment_update_date_to ?>" >
+                                <input name="expiry_date_to" class="form-control" size="16" type="text" value="<?=$expiry_date_to ?>" >
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
-                            <input type="hidden" id="payment_update_date_to" value="" /><br/>
+                            <input type="hidden" id="expiry_date_to" value="" /><br/>
                             <!-- Payment Update Date to End -->
                         </div>
                         <!-- Payment Update Date End -->
