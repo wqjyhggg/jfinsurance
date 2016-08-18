@@ -492,7 +492,7 @@ class Plan_model extends CI_Model {
 				$carr[] = "birthday >= " . $this->db->escape($para['birthday']);
 				$carr[] = "birthday <= " . $this->db->escape($para['birthday2']);
 			} else {
-				$carr[] = "birthday = " . $this->db->escape($para['birthday']);
+				$carr[] = "birthday >= " . $this->db->escape($para['birthday']);
 			}
 		}
 		if (!empty($carr)) {
@@ -570,7 +570,7 @@ class Plan_model extends CI_Model {
 				$carr[] = "p.apply_date >= " . $this->db->escape($para['apply_date']);
 				$carr[] = "p.apply_date <= " . $this->db->escape($para['apply_date2']);
 			} else {
-				$carr[] = "p.apply_date = " . $this->db->escape($para['apply_date']);
+				$carr[] = "p.apply_date >= " . $this->db->escape($para['apply_date']);
 			}
 		}
 		if (!empty($para['arrival_date'])) {
@@ -578,7 +578,7 @@ class Plan_model extends CI_Model {
 				$carr[] = "p.arrival_date >= " . $this->db->escape($para['arrival_date']);
 				$carr[] = "p.arrival_date <= " . $this->db->escape($para['arrival_date2']);
 			} else {
-				$carr[] = "p.arrival_date = " . $this->db->escape($para['arrival_date']);
+				$carr[] = "p.arrival_date >= " . $this->db->escape($para['arrival_date']);
 			}
 		}
 		if (!empty($para['effective_date'])) {
@@ -586,7 +586,7 @@ class Plan_model extends CI_Model {
 				$where[] = "p.effective_date >= " . $this->db->escape($para['effective_date']);
 				$where[] = "p.effective_date <= " . $this->db->escape($para['effective_date2']);
 			} else {
-				$where[] = "p.effective_date = " . $this->db->escape($para['effective_date']);
+				$where[] = "p.effective_date >= " . $this->db->escape($para['effective_date']);
 			}
 		}
 		if (!empty($para['expiry_date'])) {
@@ -594,7 +594,7 @@ class Plan_model extends CI_Model {
 				$carr[] = "p.expiry_date >= " . $this->db->escape($para['expiry_date']);
 				$carr[] = "p.expiry_date <= " . $this->db->escape($para['expiry_date2']);
 			} else {
-				$carr[] = "p.expiry_date = " . $this->db->escape($para['expiry_date']);
+				$carr[] = "p.expiry_date >= " . $this->db->escape($para['expiry_date']);
 			}
 		}
 		if (!empty($where)) {
