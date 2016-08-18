@@ -101,24 +101,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         </div>
                         <!-- Application Date End-->
                         <!-- Create Date-->
+                        <!--
                         <div class="form-group col-sm-3">
-                            <!-- Create Date From-->
+                            
                             <label for="create_date_from" class="col-sm-12">Create Date From</label>
                             <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
                                 <input name="create_date_from" class="form-control" size="16" type="text" value="<?=$create_date_from ?>" >
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
                             <input type="hidden" id="create_date_from" value="" />
-                            <!-- Create Date From End-->
-                            <!-- Create Date to -->
+                           
                             <label for="create_date_to" class="col-sm-12">Create Date To</label>
                             <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
                                 <input name="create_date_to" class="form-control" size="16" type="text" value="<?=$create_date_to ?>" >
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
                             <input type="hidden" id="create_date_to" value="" /><br/>
-                            <!-- Create Date to End -->
-                        </div>
+                           
+                        </div> -->
                         <!-- Create Date End -->
                         <!-- Effective Date-->
                         <div class="form-group col-sm-3">
