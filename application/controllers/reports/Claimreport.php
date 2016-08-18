@@ -34,8 +34,8 @@ class Claimreport extends MY_Controller
         $data['product_short'] = $this->input->post('product_short');
         $data['application_date_from'] = $this->input->post('application_date_from');
         $data['application_date_to'] = $this->input->post('application_date_to');
-        //$data['create_date_from'] = empty($this->input->post('create_date_from')) ? date('Y-m-01') : $this->input->post('create_date_from', true);
-        //$data['create_date_to'] = empty($this->input->post('create_date_to')) ? date("Y-m-d") : $this->input->post('create_date_to', true);
+        $data['create_date_from'] = empty($this->input->post('create_date_from')) ? date('Y-m-01') : $this->input->post('create_date_from', true);
+        $data['create_date_to'] = empty($this->input->post('create_date_to')) ? date("Y-m-d") : $this->input->post('create_date_to', true);
         $data['effective_date_from'] = $this->input->post('effective_date_from');
         $data['effective_date_to'] = $this->input->post('effective_date_to');
         $data['payment_update_date_from'] = $this->input->post('payment_update_date_from');
@@ -56,11 +56,10 @@ class Claimreport extends MY_Controller
         $this->load->model('report_model');
         $data['agent_id'] = empty($this->input->get_post('agent_id')) ? 0 : (int)$this->input->get_post('agent_id');
         $data['product_short'] = $this->input->get_post('product_short');
-
         $data['application_date_from'] = $this->input->get_post('application_date_from');
         $data['application_date_to'] = $this->input->get_post('application_date_to');
-        //$data['create_date_from'] = $this->input->get_post('create_date_from');
-        //$data['create_date_to'] = $this->input->get_post('create_date_to');
+        $data['create_date_from'] = $this->input->get_post('create_date_from');
+        $data['create_date_to'] = $this->input->get_post('create_date_to');
         $data['effective_date_from'] = $this->input->get_post('effective_date_from');
         $data['effective_date_to'] = $this->input->get_post('effective_date_to');
         $data['payment_update_date_from'] = $this->input->get_post('payment_update_date_from');
