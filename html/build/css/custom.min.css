@@ -14,6 +14,20 @@
     border-top-left-radius: 6px;
     cursor: pointer;
 }
+.float-perror{
+	position: fixed!important;
+    display: block;
+    padding: 10px;
+    border: 1px solid red!important;
+    top: 60%;
+    max-width: 260px;
+    z-index: 99;
+    background: #fff !important;
+    right: 0px;
+    border-bottom-left-radius: 6px;
+    border-top-left-radius: 6px;
+    cursor: pointer;
+}
 
 .btn{line-height: 1.213;}
 .form-control{height: 30px;font-size: 12px;}
