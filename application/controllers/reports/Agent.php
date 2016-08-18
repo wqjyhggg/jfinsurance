@@ -34,12 +34,12 @@ class Agent extends MY_Controller
         $data['product_short'] = $this->input->post('product_short');
         $data['application_date_from'] = $this->input->post('application_date_from');
         $data['application_date_to'] = $this->input->post('application_date_to');
-        $data['create_date_from'] = $this->input->post('create_date_from');
-        $data['create_date_to'] = $this->input->post('create_date_to');
+        $data['arrival_date_from'] = $this->input->post('arrival_date_from');
+        $data['arrival_date_to'] = $this->input->post('arrival_date_to');
         $data['effective_date_from'] = $this->input->post('effective_date_from');
         $data['effective_date_to'] = $this->input->post('effective_date_to');
-        $data['payment_update_date_from'] = $this->input->post('payment_update_date_from');
-        $data['payment_update_date_to'] = $this->input->post('payment_update_date_to');
+        $data['expiry_date_from'] = $this->input->post('expiry_date_from');
+        $data['expiry_date_to'] = $this->input->post('expiry_date_to');
 
         $data['product_list'] = $this->product_model->get_available_product_list();
         $data['user_list'] = $this->user_model->get_available_user_list();
@@ -58,12 +58,12 @@ class Agent extends MY_Controller
         $data['product_short'] = $this->input->get_post('product_short');
         $data['application_date_from'] = $this->input->get_post('application_date_from');
         $data['application_date_to'] = $this->input->get_post('application_date_to');
-        $data['create_date_from'] = $this->input->get_post('create_date_from');
-        $data['create_date_to'] = $this->input->get_post('create_date_to');
+        $data['arrival_date_from'] = $this->input->get_post('arrival_date_from');
+        $data['arrival_date_to'] = $this->input->get_post('arrival_date_to');
         $data['effective_date_from'] = $this->input->get_post('effective_date_from');
         $data['effective_date_to'] = $this->input->get_post('effective_date_to');
-        $data['payment_update_date_from'] = $this->input->get_post('payment_update_date_from');
-        $data['payment_update_date_to'] = $this->input->get_post('payment_update_date_to');
+        $data['expiry_date_from'] = $this->input->get_post('expiry_date_from');
+        $data['expiry_date_to'] = $this->input->get_post('expiry_date_to');
         $data['product_list'] = $this->product_model->get_available_product_list();
         $data['user_list'] = $this->user_model->get_available_user_list();
         $data['report_data'] = $this->report_model->get_sales_report_agent($data);

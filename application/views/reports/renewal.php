@@ -101,21 +101,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <!-- Application Date End-->
                         <!-- Create Date-->
                         <div class="form-group col-sm-3">
-                            <!-- Create Date From-->
-                            <label for="create_date_from" class="col-sm-12">Create Date From</label>
+                            <!-- Arrival Date From-->
+                            <label for="arrival_date_from" class="col-sm-12">Arrival Date From</label>
                             <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
-                                <input name="create_date_from" class="form-control" size="16" type="text" value="<?=$create_date_from ?>" >
+                                <input name="arrival_date_from" class="form-control" size="16" type="text" value="<?=$arrival_date_from ?>" >
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
-                            <input type="hidden" id="create_date_from" value="" />
-                            <!-- Create Date From End-->
+                            <input type="hidden" id="arrival_date_from" value="" />
+                            <!-- Arrival Date From End-->
                             <!-- Create Date to -->
-                            <label for="create_date_to" class="col-sm-12">Create Date To</label>
+                            <label for="arrival_date_to" class="col-sm-12">Arrival Date To</label>
                             <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
-                                <input name="create_date_to" class="form-control" size="16" type="text" value="<?=$create_date_to ?>" >
+                                <input name="arrival_date_to" class="form-control" size="16" type="text" value="<?=$arrival_date_to ?>" >
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
-                            <input type="hidden" id="create_date_to" value="" /><br/>
+                            <input type="hidden" id="arrival_date_to" value="" /><br/>
                             <!-- Create Date to End -->
                         </div>
                         <!-- Create Date End -->
@@ -185,8 +185,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<input type='hidden' name='product_short' value="<?php echo $product_short; ?>" />
 						<input type='hidden' name="application_date_from" value="<? echo $application_date_from; ?>" />
 						<input type='hidden' name="application_date_from" value="<? echo $application_date_to; ?>" />
-						<input type="hidden" name="create_date_from" value="<? echo $create_date_from; ?>" />
-						<input type="hidden" name="create_date_to" value="<? echo $create_date_to; ?>" />
+						<input type="hidden" name="arrival_date_from" value="<? echo $arrival_date_from; ?>" />
+						<input type="hidden" name="arrival_date_to" value="<? echo $arrival_date_to; ?>" />
 						<input type="hidden" name="effective_date_from" value="<? echo $effective_date_from; ?>" />
 						<input type="hidden" name="effective_date_to" value="<? echo $effective_date_to; ?>" />
 						<input type="hidden" name="expiry_date_from" value="<? echo $expiry_date_from; ?>" />
