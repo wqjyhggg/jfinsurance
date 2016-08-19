@@ -194,7 +194,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                               <td colspan=14>&nbsp;</td>
                           </tr>
                           <tr>
-                            <th>Text39</th>
+                            <th>Count</th>
                             <th>OrderID</th>
                             <th>Order Date</th>
                             <th>Policy Num</th>
@@ -240,11 +240,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                               <td>&nbsp;</td>
                               <td><?=$info['cnt'] ?></td>
                               <td colspan=8>&nbsp;<td>
-                              <td>Text204</td>
+                              <td>Total Premium</td>
                               <td><?=$info['policy_premium'] ?></td>
-                              <td>Text250</td>
+                              <td>Total Net Premium</td>
                               <td><?=$info['net_premium'] ?></td>
-                              <td>Text251</td>
+                              <td>Total Commission</td>
                               <td><?=$info['commission'] ?></td>
                           </tr>
     <?php endforeach; ?>
