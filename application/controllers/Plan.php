@@ -1718,7 +1718,7 @@ class Plan extends MY_Controller {
 		if ($this->input->post()) {
 			$refund_amount = (float)$this->input->post('refund_amount');
 			$admin_fee = (float)$this->input->post('admin_fee');
-			$total_amount = $refund_amount - $admin_fee;
+			$total_amount = (float)$this->input->post('total_refund');
 			//die($refund_amount . '==' . $admin_fee . '++' . $total_amount);
 			if ($total_amount > 0) {
 				$this->load->model('payment_model');
@@ -1895,7 +1895,7 @@ class Plan extends MY_Controller {
 		$this->load->model('payment_model');
 		$product = $this->product_model->get_product($plan['product_short']);
 		$payment = $this->payment_model->get_payment_by_id($plan['payment_id']);
-		
+
 		$data['beuser'] = $beuser;
 		$data['plan'] = $plan;
 		

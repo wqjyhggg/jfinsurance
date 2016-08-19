@@ -76,7 +76,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         </div>
                         <div class="form-group col-sm-4 col-xs-12">
                           <label>Refund Premium:</label> <!--span id="refund_amount"></span-->
-                          <input type="number" step="any" name='refund_amount' id='refund_amount' value='' class="form-control"/>
+                          <input type="number" step="any" name='refund_amount' id='refund_amount' value='' class="form-control" disabled />
                         </div>
       			            
                       </div>
@@ -84,8 +84,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <div class="form-group col-sm-8 col-xs-12"></div>       
                         <div class="form-group col-sm-4 col-xs-12">
                           <label>Total Refund:</label> 
-                          <input type="number" step="any" name='total_refund' id='total_refund' value='' class="form-control"/>
-                          
+                          <input type="number" step="any" name='total_refund' id='total_refund' value='' class="form-control" />
+                          <div class="alert-error">Changing "Total Refund" manually will cause "Refund Letter" data changed.</div>
                         </div>
                       </div>
                       <br />

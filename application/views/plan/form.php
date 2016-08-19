@@ -68,20 +68,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<a href='<?php echo $pay_url; ?>'><span class="btn btn-info">Pay</span></a>
 						<?php } ?> 
 
+						<?php if($user_group_id != 3){ ?>
 						<a href='<?php echo $copy_url; ?>'><span class="btn btn-info">Copy</span></a>
-						
-						<?php if ($status_id > 1) { ?>
+						<?php } ?>
+						<?php if ($status_id > 1 && $user_group_id !=3) { ?>
 							<a href='<?php echo $sendpackage_url . $plan_id; ?>'><span class="btn btn-info">Send Package</span></a>
-						<?php if ($status_id == 3 && $user_group_id <= 100) { ?>
+						<?php if ($status_id == 3 && $user_group_id <= 100 ) { ?>
 						<?php if((time()-(60*60*24)) < strtotime($effective_date)){ ?>
 							<a href='<?php echo $cancel_url . $plan_id; ?>'><span class="btn btn-info">Cancel</span></a>
 							<?php }else{?>
 							<a href='<?php echo $refund_url . $plan_id; ?>'><span class="btn btn-info">Refund</span></a>
 							<?php } ?>
 						<?php } else if ($status_id == 6 && $user_group_id <= 100) { ?>
-							<a href='<?php echo $refundprint_url . $plan_id; ?>'><span class="btn btn-info">Refund Letter</span></a>
+							<a target='_blank' href='<?php echo $refundprint_url . $plan_id; ?>'><span class="btn btn-info">Refund Letter</span></a>
 						<?php } else if ($status_id == 5 && $user_group_id <= 100) { ?>
-							<a href='<?php echo $cancelprint_url . $plan_id; ?>'><span class="btn btn-info">Cancel Letter</span></a>
+							<a target='_blank' href='<?php echo $cancelprint_url . $plan_id; ?>'><span class="btn btn-info">Cancel Letter</span></a>
 						<?php } ?>
 						<?php } ?>
 
@@ -234,7 +235,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 											<div class="col-sm-6">
 												<label class="col-sm-12">&nbsp;</label>
 												<div class="col-sm-12">
-													<?php if ((($status_id == 2) || ($status_id == 3) || ($status_id == 4)) && !empty($customer_id)) {?>
+													<?php if ((($status_id == 2) || ($status_id == 3) || ($status_id == 4)) && !empty($customer_id) && $user_group_id !=3) {?>
 													<a class="btn btn-primary" href='<?php echo $claimurl . $customer_id; ?>'>Claim</a>
 													<?php } ?>
 												</div>
@@ -289,7 +290,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 												<div class="col-sm-6">
 													<label class="col-sm-12">&nbsp;</label>
 													<div class="col-sm-12">
-														<?php if ((($status_id == 2) || ($status_id == 3) || ($status_id == 4)) && !empty($customer_id)) {?>
+														<?php if ((($status_id == 2) || ($status_id == 3) || ($status_id == 4)) && !empty($customer_id) && $user_group_id !=3) {?>
 														<a class="btn btn-primary" href='<?php echo $claimurl . ${'customer_id_'.$i}; ?>'>Claim</a>
 														<?php } ?>
 													</div>
@@ -484,7 +485,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					</div><br />
 
 
-					<?php if($user_group_id>100 && $status_id>1){ ?>
+					<?php if($user_group_id>100 && $status_id>1 || $user_group_id = 3 ){ ?>
 					<div class="row" style="display:none">
 					<?php }else{ ?>
 					<div class="row">
