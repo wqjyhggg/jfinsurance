@@ -22,9 +22,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           
             <div class="page-title">
               <div class="title_left">
-                <h3>Claim Item Detail</h3>
+                <h3>Claim Item Detail <a class="btn btn-info" href='<?php echo $letter_url; ?>' >Letter</a> </h3>
               </div>
-				<a href='<?php echo $letter_url; ?>' class='btn btn-primary pull-right'>Letter</a>
+				
             </div>
             <div class="clearfix"></div>
            <!-- Filter Section -->
