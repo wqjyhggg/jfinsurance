@@ -314,7 +314,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 									</div>
 									<div class="row">
 										<div class="col-sm-12">
-											<label class="col-sm-12">Card Name:</label>
+											<label class="col-sm-12">Card Holder's Name:</label>
 											<div class="col-sm-12 input-group">
 												<input type='text' name='card_name' value='' class="form-control">
 											</div>
