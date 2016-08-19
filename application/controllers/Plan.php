@@ -254,7 +254,7 @@ class Plan extends MY_Controller {
 		if (empty($expiry_date) || ($expirytm < 1466555500) || ($expirytm < $effectivetm)) {
 			$this->error['error_expiry_date'] = 'Confirm Expiry Date';
 		}
-		if ((float)($this->input->post('premium')) < 0.1) {
+		if ((float)$this->input->post('premium') < 0.1) {
 			$this->error['error_premium'] = "Please check all your input fields. Premium amount can't be 0!";
 		}
 		if (empty($this->input->post('beneficiary'))) {
@@ -823,7 +823,7 @@ class Plan extends MY_Controller {
 		$this->load->model('payment_model');
 		
 		$plan_id = $this->input->post('plan_id');
-		$premium = $this->input->post('premium');
+		$premium = preg_replace("/[^0-9\.]/", "", $this->input->post('premium'));
 		
 		if (empty( $this->input->post('card_number') ) ) {
 			$this->error = 'Please input Card Number.';
@@ -1020,7 +1020,7 @@ class Plan extends MY_Controller {
 		$this->load->model('payment_model');
 		
 		$plan_id = $this->input->post('plan_id');
-		$premium = $this->input->post('premium');
+		$premium = preg_replace("/[^0-9\.]/", "", $this->input->post('premium'));
 		$payinfo = "Pay Cash: " . 'Premium: $' . $premium . "; ";
 		
 		$plan = $this->plan_model->get_plan_by_id($plan_id);
@@ -1106,7 +1106,7 @@ class Plan extends MY_Controller {
 		$this->load->model('payment_model');
 		
 		$plan_id = $this->input->post('plan_id');
-		$premium = $this->input->post('premium');
+		$premium = preg_replace("/[^0-9\.]/", "", $this->input->post('premium'));
 		$payinfo  = 'Invoice Number: ' . $this->input->post('invoice_num') . "; ";
 		$payinfo .= 'Bank Name: ' . $this->input->post('bank_name') . "; ";
 		$payinfo .= 'Payor Name: ' . $this->input->post('payor_name') . "; ";

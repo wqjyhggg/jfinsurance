@@ -68,6 +68,10 @@ class Claimreport extends MY_Controller
         $data['user_list'] = $this->user_model->get_available_user_list();
         $data['report_data'] = $this->report_model->get_claim_report($data);
         
+        if (empty($data['report_data']) || empty($data['report_data']['data'])) {
+        	redirect('reports/claimreport') ;
+        }
+        
         //echo "<pre>";
        // print_r($data['report_data']['data']);die('============');
 
