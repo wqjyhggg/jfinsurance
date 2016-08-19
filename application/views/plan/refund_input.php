@@ -71,7 +71,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
                       <div class="row">  
                         <div class="form-group col-sm-8 col-xs-12">
-                            <label class="radio-inline"><input type="radio" name="admin_fee" value="0">$0 Adminstration Fee</label>
+                            <label class="radio-inline"><input type="radio" name="admin_fee" value="0" checked>$0 Adminstration Fee</label>
                             <label class="radio-inline"><input type="radio" name="admin_fee" value="40">$40 Adminstration Fee</label>
                         </div>
                         <div class="form-group col-sm-4 col-xs-12">
@@ -109,6 +109,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <!--
 $( document ).ready(function() {
 	$('#refund_date').change(get_refund_amount); 
+	$('input[name="admin_fee"]').change(get_refund_amount); 
 	get_refund_amount();
 });
 
@@ -124,7 +125,9 @@ function get_refund_amount() {
         		$('input[name="refund_amount"]').val(data['refund_amount']);
             //$('#refund_amount').text(data['refund_amount']);
             $('#used_amount').text(data['used_amount']);
-
+            var adminfee = $('input[name="admin_fee"]:checked').val();
+            var total_refund = parseFloat(data['refund_amount'] - adminfee).toFixed(2);
+    		$('input[name="total_refund"]').val(total_refund);
 			}
     	},
 	});
