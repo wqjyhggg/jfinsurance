@@ -72,15 +72,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						
 						<?php if ($status_id > 1) { ?>
 							<a href='<?php echo $sendpackage_url . $plan_id; ?>'><span class="btn btn-info">Send Package</span></a>
-						<?php if ($status_id == 3) { ?>
+						<?php if ($status_id == 3 && $user_group_id <= 100) { ?>
 						<?php if((time()-(60*60*24)) < strtotime($effective_date)){ ?>
 							<a href='<?php echo $cancel_url . $plan_id; ?>'><span class="btn btn-info">Cancel</span></a>
 							<?php }else{?>
 							<a href='<?php echo $refund_url . $plan_id; ?>'><span class="btn btn-info">Refund</span></a>
 							<?php } ?>
-						<?php } else if ($status_id == 6) { ?>
+						<?php } else if ($status_id == 6 && $user_group_id <= 100) { ?>
 							<a href='<?php echo $refundprint_url . $plan_id; ?>'><span class="btn btn-info">Refund Letter</span></a>
-						<?php } else if ($status_id == 5) { ?>
+						<?php } else if ($status_id == 5 && $user_group_id <= 100) { ?>
 							<a href='<?php echo $cancelprint_url . $plan_id; ?>'><span class="btn btn-info">Cancel Letter</span></a>
 						<?php } ?>
 						<?php } ?>
@@ -484,8 +484,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					</div><br />
 
 
-					
+					<?php if($user_group_id>100 && $status_id>1){ ?>
+					<div class="row" style="display:none">
+					<?php }else{ ?>
 					<div class="row">
+					<?php } ?>	
 						<div class="col-sm-12" id='goto_next_page'>
 						<?php if (!empty($next_url)) { ?>
 						<a href='<?php echo $next_url; ?>'><span class="btn btn-info">No Change</span></a>
@@ -496,6 +499,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<div class="col-sm-12 alert-error float-error" title="Click to Close the notice" style="display:none;" id='error_next_page'>
 						</div>
 					</div>
+					
 					<div class="row">
 						<div class="col-sm-12">
 							<?php if (!empty($error_premium)) {?>
@@ -929,3 +933,4 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		$('#premium_error').css('display','none');
 	});
 </script>
+
