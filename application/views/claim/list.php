@@ -271,8 +271,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <th>Gender</th>
                             <th>Birth Date</th>
                             <th>Claim Date</th>
-                            <th>Status</th>
-                            <th>Action</th>
+                            <th>&nbsp;</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -286,8 +285,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                               <td><?php echo $c['gender']; ?></td>
                               <td><?php echo $c['birthday']; ?></td>
                               <td><?php echo $c['claim_date']; ?></td>
-                              <td><?php echo ($c['done'] == 1) ? 'Y' : 'N'; ?></td>
-                              <td><a style="color:#46b8da;" href="<?php echo $edit_url."/".$c['claim_id']?>">Edit</a></td>
+                              <td><?php if ($c['done'] == 1) { echo "Finished"; } else { ?><a style="color:#46b8da;" href="<?php echo $edit_url."/".$c['claim_id']?>">Edit</a><?php } ?></td>
                             </tr>
                         <?php } ?>    
                         </tbody>

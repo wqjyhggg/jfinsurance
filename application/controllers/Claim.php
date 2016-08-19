@@ -239,7 +239,6 @@ class Claim extends MY_Controller {
 			$claim = $this->claim_model->get_claim_by_id($claim_id);
 			redirect('claim?lastname='.$this->input->post('lastname').'&firstname='.$this->input->post('firstname').'&policy_number='.$this->input->post('policy_number').'&claim_number='.$this->input->post('claim_number').'&product_short='.$this->input->post('product_short').'&claim_date=&claim_date2=');
 		}
-		
 		if ($this->input->post('claim_id')) {
 			$this->data['claim_id'] = $this->input->post('claim_id'); 
 		} else if (isset($claim['claim_id'])) {
@@ -262,9 +261,9 @@ class Claim extends MY_Controller {
 		} else {
 			$this->data['error_message'] = 'Unknown Customer';
 		}
-		if ($this->input->post('done')) {
+		/* if ($this->input->post('done')) {
 			$this->data['done'] = $this->input->post('done'); 
-		} else if (isset($claim['done'])) {
+		} else*/ if (isset($claim['done'])) {
 			$this->data['done'] = $claim['done'];
 		} else {
 			$this->data['done'] = 2;
