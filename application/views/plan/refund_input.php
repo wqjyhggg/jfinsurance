@@ -20,7 +20,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           <div class="main-div">
             <div class="page-title">
               <div class="title_left">
-                <h3>Send Policy Package</h3>
+                <h3>Refund Policy</h3>
               </div>
             </div>
             <div class="clearfix"></div>
@@ -79,6 +79,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                           <input type="number" step="any" name='refund_amount' id='refund_amount' value='' class="form-control"/>
                         </div>
       			            
+                      </div>
+                      <div class="row">
+                        <div class="form-group col-sm-8 col-xs-12"></div>       
+                        <div class="form-group col-sm-4 col-xs-12">
+                          <label>Total Refund:</label> 
+                          <input type="number" step="any" name='total_refund' id='total_refund' value='' class="form-control"/>
+                          
+                        </div>
                       </div>
                       <br />
                       <div class="row">
