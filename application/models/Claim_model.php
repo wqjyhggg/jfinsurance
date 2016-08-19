@@ -208,6 +208,18 @@ class Claim_model extends CI_Model {
 			$this->db->update('claim', $data);
 			$this->sqlstr = $this->db->last_query();
 			$this->logstr = "Update claim record (" . $claim_id . ") : " . join(',', $data);
+			if (isset($data['done'])) {
+				// cange claim status, check change plan status back or not
+				$this->db->where('plan_id', $claim['plan_id']);
+				$this->db->where('done !=', 1);
+				if (empty($this->db->get('claim')->row_array())) {
+					$this->db->set('status_id' , 3);
+					$this->db->where('plan_id' , $claim['plan_id']);
+					$this->db->update('plan');
+					$this->sqlstr .= '; ' . $this->db->last_query();
+					$this->logstr .= "Update plan: " . $claim['plan_id'] . " to paid";
+				}
+			}
 		}
 		return $claim_id;
 	}

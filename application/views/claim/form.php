@@ -24,6 +24,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               <div class="title_left">
                 <h3>Claim Detail</h3>
               </div>
+<?php if (isset($error_message)) { ?>
+				<div class="alert-error"><?php echo $error_message . "<br>";?></div>
+<?php } ?>
 
             </div>
             <div class="clearfix"></div>
@@ -44,6 +47,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <div class="form-group col-sm-2">
                           <label class="inline">Claim No.: </label>
                           <input style="width:100px;" class="inline form-control" type='text' name='claim_number' value='<?php echo $claim_number; ?>'>
+                          <?php if (isset($error_claim_number)) { ?>
+		 					<div class="alert-error">
+								<?php echo $error_claim_number;?>
+							</div>
+                          <?php } ?>
                         </div>
                         <div class="form-group col-sm-2">
                           <label class="inline">Product: </label> <?php echo $product_short; ?>
@@ -52,7 +60,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                           <label class="inline">Policy Number: </label> <?php echo $policy_number; ?>
                         </div>
                         <div class="form-group col-sm-3">
-                          <label class="inline">Finish Claim: </label> <input style="vertical-align:top;" type='checkbox' name='done' <?php echo ($done == 1) ? 'checked' : ''; ?> >
+                          <label class="inline">Finish Claim: </label> <?php if ($done == 1) { echo "Finished"; } else { ?><input style="vertical-align:top;" type='checkbox' name='done' value='1' /> <?php } ?>
                         </div>
                         
                       </div>
@@ -68,12 +76,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                           <div class="input-group col-sm-12">
                             <input class="form-control" type='text' name='lastname' value='<?php echo $lastname; ?>'>
                           </div>
+                          <?php if (isset($error_lastname)) { ?>
+		 					<div class="alert-error">
+								<?php echo $error_lastname;?>
+							</div>
+                          <?php } ?>
                         </div>
                         <div class="form-group col-sm-2">
                           <label>First Name: </label>
                           <div class="input-group col-sm-12">
                             <input class="form-control" type='text' name='firstname' value='<?php echo $firstname; ?>'>
                           </div>
+                          <?php if (isset($error_firstname)) { ?>
+		 					<div class="alert-error">
+								<?php echo $error_firstname;?>
+							</div>
+                          <?php } ?>
                         </div>
                         <div class="form-group col-sm-2">
                             <label>Birthday:</label>
@@ -82,6 +100,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
                             <input type="hidden" id="application_date_from" value="" />
+                          <?php if (isset($error_birthday)) { ?>
+		 					<div class="alert-error">
+								<?php echo $error_birthday;?>
+							</div>
+                          <?php } ?>
                         </div>
                         <div class="form-group col-sm-2">
                           <label>Gender: </label>
@@ -99,11 +122,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                           </div>
                         </div>
                       </div><br />
+<?php if ($done != 1) { ?>
                       <div class="row">
                         <div class="form-group col-sm-12 text-right">
                           <input class="btn btn-primary" type='submit' name='submit' value='<?php echo $button; ?>'>
                         </div>
                       </div>
+<?php } ?>
 
                     </form>
 
