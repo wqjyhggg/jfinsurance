@@ -108,10 +108,9 @@ class Insurer extends MY_Controller
         $w->addRow($arr);
 
         foreach ($data['report_data'] as $data) {
-            
-            //$arr = array();
-            //foreach ($kArr as $k => $v) { $arr[] = $data[$k]; } 
-            $w->addRow($data);
+            $arr = array();
+            foreach ($kArr as $k => $v) { $arr[] = $data[$k]; } 
+            $w->addRow($arr);
         }
         $w->close();
 
