@@ -32,6 +32,7 @@ class Claim_model extends CI_Model {
 		if (!empty($para['claim_number'])) $this->db->like('claim_number', $para['claim_number']);
 		if (!empty($para['lastname'])) $this->db->like('lastname', $para['lastname']);
 		if (!empty($para['firstname'])) $this->db->like('firstname', $para['firstname']);
+		$this->db->order_by('claim_id', 'DESC');
 		$arr = $this->db->get('claim')->result_array();
 		return $arr;
 	}

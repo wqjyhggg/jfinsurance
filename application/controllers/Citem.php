@@ -27,6 +27,7 @@ class Citem extends MY_Controller {
 		$data['lists'] = $this->claim_model->get_item_list($claim_id);
 		$data['add_url'] = base_url('citem/add/'.$claim_id);
 		$data['edit_url'] = base_url('citem/edit');
+		$data['letter_url'] = base_url('citem/letter');
 		$data['title_txt'] = 'Claim Item';
 		$data['top_menu'] = $this->menu_model->load_top_menu();
 		$data['menu'] = $this->menu_model->load_meun();
@@ -132,6 +133,7 @@ class Citem extends MY_Controller {
 		} else if (isset($citem['citem_id'])) {
 			$this->data['citem_id'] = $citem['citem_id'];
 		} else {
+			$this->data['citem_id'] = 0;
 		}
 		if ($this->input->post('claim_id')) {
 			$this->data['claim_id'] = $this->input->post('claim_id'); 
@@ -378,6 +380,7 @@ class Citem extends MY_Controller {
 		$this->load->model('coverage_model');
 		$this->data['coverage_codes'] = $this->coverage_model->get_coverage_codes();
 		$this->data['edit_url'] = base_url('citem/form');
+		$this->data['letter_url'] = base_url('citem/letter/'.$this->data['citem_id']);
 		
 		$this->data['title_txt'] = 'Claim';
 		$this->data['top_menu'] = $this->menu_model->load_top_menu();
@@ -387,5 +390,26 @@ class Citem extends MY_Controller {
 				'value' => $this->security->get_csrf_hash ()
 		);
 		$this->load->common('citem/form', $this->data);
+	}
+
+	public function letter($citem_id) {
+		$beuser = $this->func_model->verify_login();
+		$this->load->model('claim_model');
+		
+		$citem = $this->claim_model->get_claim_item_by_id($citem_id);
+		$this->data = $citem;
+		$this->data['title_txt'] = 'Claim Letter';
+		$this->load->model('coverage_model');
+		$this->data['coverage_codes'] = $this->coverage_model->get_coverage_codes();
+		$this->data['coverage_desc'] = 'Unknown'; 
+		foreach ($this->data['coverage_codes'] as $ccode) {
+			if ($ccode['coverage_code_id'] == $this->data['coverage_code_id']) { 
+				$this->data['coverage_desc'] = $ccode['name']; 
+			} 
+		}
+		$html = $this->load->view('citem/letter', $this->data, TRUE);
+		$mpdf = new mPDF('c');
+		$mpdf->writeHTML($html);
+		$mpdf->Output();
 	}
 }
