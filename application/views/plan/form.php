@@ -583,32 +583,34 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				});
 
 				function remove_member(i) {
-					var s, d;
-					for (j = i + 1 ; j < 8; j++) {
-						s = '#customer_id_' + j;
-						d = '#customer_id_' + i;
-						$(d).val($(s).val());
-						s = '#firstname_' + j;
-						d = '#firstname_' + i;
-						$(d).val($(s).val());
-						s = '#lastname_' + j;
-						d = '#lastname_' + i;
-						$(d).val($(s).val());
-						s = '#birthday_' + j;
-						d = '#birthday_' + i;
-						$(d).val($(s).val());
-						s = '#gender_' + j;
-						d = '#gender_' + i;
-						$(d).val($(s).val());
-						i++;
+					if(confirm("Are you sure to delete this info?") == true){
+						var s, d;
+						for (j = i + 1 ; j < 8; j++) {
+							s = '#customer_id_' + j;
+							d = '#customer_id_' + i;
+							$(d).val($(s).val());
+							s = '#firstname_' + j;
+							d = '#firstname_' + i;
+							$(d).val($(s).val());
+							s = '#lastname_' + j;
+							d = '#lastname_' + i;
+							$(d).val($(s).val());
+							s = '#birthday_' + j;
+							d = '#birthday_' + i;
+							$(d).val($(s).val());
+							s = '#gender_' + j;
+							d = '#gender_' + i;
+							$(d).val($(s).val());
+							i++;
+						}
+						$('#customer_id_8').val(0);
+						$('#firstname_8').val('');
+						$('#lastname_8').val('');
+						$('#birthday_8').val('');
+						$('#gender_8').val('M');
+						get_premium();
+						addmoremember();
 					}
-					$('#customer_id_8').val(0);
-					$('#firstname_8').val('');
-					$('#lastname_8').val('');
-					$('#birthday_8').val('');
-					$('#gender_8').val('M');
-					get_premium();
-					addmoremember();
 				}
 
 				function addmoremember() {

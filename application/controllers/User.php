@@ -70,6 +70,10 @@ class User extends MY_Controller {
 		// $this->data['region'] = $this->input->post('region');
 		// $this->data['business'] = $this->input->post('business');
 		// $this->data['gender'] = $this->input->post('gender');
+		if (empty(trim($this->input->post('business')))) {
+			$this->data['error_business'] = $this->lang->line('error_business');
+			$rt = FALSE;
+		}
 		if (empty(trim($this->input->post('firstname')))) {
 			$this->data['error_firstname'] = $this->lang->line('error_firstname');
 			$rt = FALSE;

@@ -51,6 +51,7 @@ $lang['error_mail_province'] = 'Please select mail province!';
 $lang['error_mail_postcode'] = 'Mail Postcode is required!';
 $lang['error_file_type'] = "The file %s uploading doesn't support!<br />";
 $lang['error_file_upload'] = "The file %s upload error!";
+$lang['error_business'] = 'Business Name is required!';
 $lang['error_firstname'] = 'Firstname is required!';
 $lang['error_lastname'] = 'Lastname is required!';
 $lang['error_licence_number'] = 'Licence number is required!';
