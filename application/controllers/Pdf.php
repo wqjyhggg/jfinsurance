@@ -101,6 +101,8 @@ class Pdf extends MY_Controller {
 				$reader->open($tmp_name);
 				$keyArr = array();
 				$batch_number = $this->batch_model->get_batch_number($name, "Upload file by (" . $user['user_id'] . "): " . $user['firstname']. " " . $user['lastname']);
+				$needShowBatch = 0;
+				$plancnt = 0;
 				foreach ($reader->getSheetIterator() as $sheet) {
 					$i = 0;
 					foreach ($sheet->getRowIterator() as $row) {
@@ -133,9 +135,11 @@ class Pdf extends MY_Controller {
 						}
 						if (!in_array('batch_number', $keyArr)) {
 							$data['batch_number'] = $batch_number;
+							$needShowBatch = 1;
 						}
 						$plan_id = $this->batch_model->add_record($data);
 						if ($plan_id) {
+							$plancnt++;
 							$plan = $this->plan_model->get_plan_by_id($plan_id);
 							$para = array(
 									'plan_id' => $plan_id, 
@@ -151,6 +155,10 @@ class Pdf extends MY_Controller {
 				
 				$reader->close();
 				$data['successmsg'] = "Processed upload file: " . $name;
+				$data['successmsg'] .= "; Created plan (" . $plancnt . ")";
+				if ($needShowBatch) {
+					$data['successmsg'] .= "<br>Batch Number is: " . $batch_number;
+				}
 			}
 		}
 		$data['user_id'] = $this->input->post('user_id');

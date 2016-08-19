@@ -140,7 +140,10 @@ class Renewal extends MY_Controller
 	public function sendemail() {
         $beuser = $this->func_model->verify_login();
 		
-        if (empty($_POST)) show_error('Unsupport Function', 404);
+        // if (empty($_POST)) show_error('Unsupport Function', 404);
+        $this->load->model('product_model');
+        $this->load->model('user_model');
+        $this->load->model('report_model');
         
         $data['agent_id'] = $this->input->post_get('agent_id');
 		$data['product_short'] = $this->input->post_get('product_short');
@@ -152,7 +155,10 @@ class Renewal extends MY_Controller
 		$data['effective_date_to'] = $this->input->post_get('effective_date_to');
 		$data['expiry_date_from'] = empty($this->input->post_get('expiry_date_from')) ? date('Y-m-01') : $this->input->post_get('expiry_date_from', true);
 		$data['expiry_date_to'] = empty($this->input->post_get('expiry_date_to')) ? date("Y-m-d") : $this->input->post_get('expiry_date_to', true);
-    
+		$data['product_list'] = $this->product_model->get_available_product_list();
+		$data['user_list'] = $this->user_model->get_available_user_list();
+		$data['report_data'] = $this->report_model->get_renewal_report($data);
+		
 		if ($report_data = $this->report_model->get_renewal_report($data)) {
 			$this->load->model('mymail_model');
 			foreach ($report_data['data'] as $agent_id => $renewal_data) {
@@ -160,10 +166,10 @@ class Renewal extends MY_Controller
 				$data['name'] = $renewal_data['agency'];
 				$data['email'] = $renewal_data['agency_email'];
 				$data['records'] = $renewal_data['records'];
-				$body = $this->load-view('reports/renewal_email', $data, TRUE);
+				$body = $this->load->view('reports/renewal_email', $data, TRUE);
 				$this->mymail_model->send_mymail($data['email'], 'Renewal Report', $body);
 			}
 		}
-		rediret('reports/renewal');
+		redirect('reports/renewal');
 	}
 }

@@ -183,15 +183,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	                  <form method="get" action="<?php echo $mail_url ?>">
 						<input type='hidden' name="agent_id" value="<?php echo $agent_id; ?>" />
 						<input type='hidden' name='product_short' value="<?php echo $product_short; ?>" />
-						<input type='hidden' name="application_date_from" value="<? echo $application_date_from; ?>" />
-						<input type='hidden' name="application_date_from" value="<? echo $application_date_to; ?>" />
-						<input type="hidden" name="arrival_date_from" value="<? echo $arrival_date_from; ?>" />
-						<input type="hidden" name="arrival_date_to" value="<? echo $arrival_date_to; ?>" />
-						<input type="hidden" name="effective_date_from" value="<? echo $effective_date_from; ?>" />
-						<input type="hidden" name="effective_date_to" value="<? echo $effective_date_to; ?>" />
-						<input type="hidden" name="expiry_date_from" value="<? echo $expiry_date_from; ?>" />
-						<input type="hidden" name="expiry_date_to" value="<? echo $expiry_date_to; ?>" />
-						<button class="btn btn-primary pull-right">Send Renew Email</button>
+						<input type='hidden' name="application_date_from" value="<?php echo $application_date_from; ?>" />
+						<input type='hidden' name="application_date_from" value="<?php echo $application_date_to; ?>" />
+						<input type="hidden" name="arrival_date_from" value="<?php echo $arrival_date_from; ?>" />
+						<input type="hidden" name="arrival_date_to" value="<?php echo $arrival_date_to; ?>" />
+						<input type="hidden" name="effective_date_from" value="<?php echo $effective_date_from; ?>" />
+						<input type="hidden" name="effective_date_to" value="<?php echo $effective_date_to; ?>" />
+						<input type="hidden" name="expiry_date_from" value="<?php echo $expiry_date_from; ?>" />
+						<input type="hidden" name="expiry_date_to" value="<?php echo $expiry_date_to; ?>" />
+						<button class="btn btn-primary pull-right">	Renew Email</button>
 	                  </form>
                     </div>
                     <div class="clearfix"></div>
