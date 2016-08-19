@@ -567,18 +567,18 @@ class Plan_model extends CI_Model {
 		}
 		if (!empty($para['apply_date'])) {
 			if (!empty($para['apply_date2'])) {
-				$carr[] = "p.apply_date >= " . $this->db->escape($para['apply_date']);
-				$carr[] = "p.apply_date <= " . $this->db->escape($para['apply_date2']);
+				$where[] = "p.apply_date >= " . $this->db->escape($para['apply_date']);
+				$where[] = "p.apply_date <= " . $this->db->escape($para['apply_date2']);
 			} else {
-				$carr[] = "p.apply_date >= " . $this->db->escape($para['apply_date']);
+				$where[] = "p.apply_date >= " . $this->db->escape($para['apply_date']);
 			}
 		}
 		if (!empty($para['arrival_date'])) {
 			if (!empty($para['arrival_date2'])) {
-				$carr[] = "p.arrival_date >= " . $this->db->escape($para['arrival_date']);
-				$carr[] = "p.arrival_date <= " . $this->db->escape($para['arrival_date2']);
+				$where[] = "p.arrival_date >= " . $this->db->escape($para['arrival_date']);
+				$where[] = "p.arrival_date <= " . $this->db->escape($para['arrival_date2']);
 			} else {
-				$carr[] = "p.arrival_date >= " . $this->db->escape($para['arrival_date']);
+				$where[] = "p.arrival_date >= " . $this->db->escape($para['arrival_date']);
 			}
 		}
 		if (!empty($para['effective_date'])) {
@@ -591,10 +591,10 @@ class Plan_model extends CI_Model {
 		}
 		if (!empty($para['expiry_date'])) {
 			if (!empty($para['expiry_date2'])) {
-				$carr[] = "p.expiry_date >= " . $this->db->escape($para['expiry_date']);
-				$carr[] = "p.expiry_date <= " . $this->db->escape($para['expiry_date2']);
+				$where[] = "p.expiry_date >= " . $this->db->escape($para['expiry_date']);
+				$where[] = "p.expiry_date <= " . $this->db->escape($para['expiry_date2']);
 			} else {
-				$carr[] = "p.expiry_date >= " . $this->db->escape($para['expiry_date']);
+				$where[] = "p.expiry_date >= " . $this->db->escape($para['expiry_date']);
 			}
 		}
 		if (!empty($where)) {

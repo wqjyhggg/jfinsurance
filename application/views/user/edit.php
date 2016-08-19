@@ -378,6 +378,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<input type='checkbox' name='paytype_list[]' value='<?php echo $pay; ?>' <?php echo (strpos($pay_type, $pay) === FALSE) ? '' : 'checked'; ?>> <?php echo $pay; ?><br>
 							</div>
 							<?php } ?>
+		                	<?php if (!empty($error_paytype_list)){ ?>
+							<div class="alert-error">	
+								<?php echo $error_paytype_list; ?>
+							</div>
+							<?php } ?>
 						</div>
 						<div class="form-group col-sm-3">
 							<label class="col-sm-12">Status:</label>
