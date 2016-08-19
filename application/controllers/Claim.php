@@ -237,7 +237,7 @@ class Claim extends MY_Controller {
 			$claim_id = $this->input->post('claim_id');
 			$this->claim_model->update($claim_id, $this->input->post());
 			$claim = $this->claim_model->get_claim_by_id($claim_id);
-			redirect('claim');
+			redirect('claim?lastname='.$this->input->post('lastname').'&firstname='.$this->input->post('firstname').'&policy_number='.$this->input->post('policy_number').'&claim_number='.$this->input->post('claim_number').'&product_short='.$this->input->post('product_short').'&claim_date=&claim_date2=');
 		}
 		
 		if ($this->input->post('claim_id')) {

@@ -24,7 +24,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               <div class="title_left">
                 <h3>Claim Item Detail</h3>
               </div>
-				<a href='<?php echo $letter_url; ?>' class='btn btn-primary pull-right'>Letter</a>
+
             </div>
             <div class="clearfix"></div>
            <!-- Filter Section -->
@@ -106,13 +106,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             </div>
                         </div>
                         <div class="form-group col-sm-3">
-                          <label >Coverage Code: </label>
-                            <select name='coverage_code_id' class="form-control">
-                            <option value='' <?php echo (empty($coverage_code_id)) ? "selected" : ""; ?>> -- select code --</option>
-                            <?php foreach ($coverage_codes as $ccode) { ?>
-                            <option value='<?php echo $ccode['coverage_code_id']?>' <?php echo ($coverage_code_id == $ccode['coverage_code_id']) ? "selected" : ""; ?>><?php echo $ccode['name']; ?></option>
-                            <?php } ?>
-                            </select>
+                          <label >Coverage Code: </label><?php echo $coverage_desc; ?>
                         </div>
                         <div class="form-group col-sm-3">
                           <label >Address: </label>
@@ -204,12 +198,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                           </div>
                         </div>
                       </div>
-                      <div class="row">
-                        <div class="form-group col-sm-12 text-right">
-                          <input class="btn btn-primary" type='submit' name='submit' value="<?php echo $button_text;?>">
-                        </div>
-                      </div>
-
                     </form>
 
                   </div>
@@ -218,21 +206,3 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </div><!-- End Filter Section -->
         </div>
         <!-- /page content -->
-<script>
-$( document ).ready(function() {
-	$.ajax({
-		url: '<?php echo $country_url; ?>',
-		type: 'GET',
-		success: function(data, textStatus, jqXHR) {
-        	$('#country2_div').html(data);
-			$.ajax({
-				url: '<?php echo $province_url; ?>',
-				type: 'GET',
-				success: function(data, textStatus, jqXHR) {
-		        	$('#province2_div').html(data);
-		    	},
-			});
-    	},
-	});
-});
-</script>
