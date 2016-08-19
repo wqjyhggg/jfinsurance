@@ -22,7 +22,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           
             <div class="page-title">
               <div class="title_left">
-                <h3>Claim Item Detail <a class="btn btn-info" href='<?php echo $letter_url; ?>' >Letter</a> </h3>
+                <h3>Claim Item Detail <a target="_blank" class="btn btn-info" href='<?php echo $letter_url; ?>' >Letter</a> </h3>
               </div>
 				
             </div>
