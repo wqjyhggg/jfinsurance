@@ -255,7 +255,7 @@ class Plan extends MY_Controller {
 			$this->error['error_expiry_date'] = 'Confirm Expiry Date';
 		}
 		if ((float)($this->input->post('premium')) < 0.1) {
-			$this->error['error_beneficiary'] = "Please check you input, Premium amount can't be 0";
+			$this->error['error_premium'] = "Please check all your input fields. Premium amount can't be 0!";
 		}
 		if (empty($this->input->post('beneficiary'))) {
 			$this->error['error_beneficiary'] = 'Beneficiary is Required';

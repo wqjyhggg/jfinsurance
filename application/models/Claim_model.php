@@ -22,9 +22,10 @@ class Claim_model extends CI_Model {
 				$this->db->where('claim_date >=', $para['claim_date']);
 				$this->db->where('claim_date <=', $para['claim_date2']);
 			}
+			
 		} else {
 			if (!empty($para['claim_date'])) {
-				$this->db->where('claim_date', $para['claim_date']);
+				$this->db->where('claim_date >=', $para['claim_date']);
 			}
 		}
 		if (!empty($para['policy_number'])) $this->db->like('policy_number', $para['policy_number']);

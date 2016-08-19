@@ -482,6 +482,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							</fieldset>
 						</div>
 					</div><br />
+
+
 					
 					<div class="row">
 						<div class="col-sm-12" id='goto_next_page'>
@@ -492,6 +494,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						</div>
 
 						<div class="col-sm-12 alert-error float-error" title="Click to Close the notice" style="display:none;" id='error_next_page'>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-12">
+							<?php if (!empty($error_premium)) {?>
+								<div class="alert-error float-perror" title="Click to Close the notice" id="premium_error">
+								<?php echo $error_premium; ?>
+								</div>
+							<?php } ?>
 						</div>
 					</div>
 				</form> 
@@ -910,5 +921,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script>
 	$('#error_next_page').click(function(){
 		$('#error_next_page').css('display','none');
+	});
+</script>
+
+<script>
+	$('#premium_error').click(function(){
+		$('#premium_error').css('display','none');
 	});
 </script>
