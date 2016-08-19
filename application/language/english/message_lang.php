@@ -66,3 +66,4 @@ $lang['error_unknown'] = 'Unknown Error!';
 $lang['error_username_input'] = 'Username Input Error!';
 $lang['error_user_group'] = "Please select a user group!";
 $lang['error_username'] = 'Username is required!';
+$lang['error_paytype_list'] = 'One paytype is required!';

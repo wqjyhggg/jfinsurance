@@ -141,6 +141,21 @@ class User_model extends CI_Model {
 	}
 
 	/**
+	 * Get user By ID
+	 *
+	 * @param	integer	$user_id
+	 * @param	integer	$username
+	 * @return	array					user table search result
+	 */
+	public function check_username($user_id, $username) {
+		$sql = "SELECT * FROM user WHERE user_id != '" . (int)$user_id . "' and username = " . $this->db->escape($username) ;
+		if ($this->db->query($sql)->row_array()) {
+			return 1;
+		}
+		return 0;
+	}
+
+	/**
 	 * Get brokerage user list
 	 *
 	 * @return	array					user table search result

@@ -118,6 +118,10 @@ class User extends MY_Controller {
 			$this->data['error_mail_postcode'] = $this->lang->line('error_mail_postcode');
 			$rt = FALSE;
 		}
+		if (empty($this->input->post('paytype_list'))) {
+			$this->data['error_paytype_list'] = $this->lang->line('error_paytype_list');
+			$rt = FALSE;
+		}
 		// $this->data['website'] = $this->input->post('website');
 		if (empty(trim($this->input->post('licence_number')))) {
 			$this->data['error_licence_number'] = $this->lang->line('error_licence_number');
@@ -214,13 +218,16 @@ class User extends MY_Controller {
 		$user_id = $this->input->get_post('user_id');
 		$this->data['user_id'] = $user_id;
 		if ($this->input->post () && $this->verify ()) {
-			$this->user_model->update ( $user_id, $this->input->post () );
-			$this->log_model->activity('user', array('message' => $this->user_model->logstr, 'systemlog' => $this->user_model->sqlstr));
-			redirect ( base_url ('user') );
+			if ($this->user_model->check_username( $user_id, $this->input->post('username'))) {
+				$this->data['error_message'] = "username existed, please select other username";
+			} else {
+				$this->user_model->update ( $user_id, $this->input->post () );
+				$this->log_model->activity('user', array('message' => $this->user_model->logstr, 'systemlog' => $this->user_model->sqlstr));
+				redirect ( base_url ('user') );
+			}
 		}
 		
 		// Get all text depend language
-		$this->data ['action_url'] = current_url ();
 		$this->data['user_group_list'] = $this->user_group_model->get_user_group_list($this->session->user['user_group_id']);
 		$this->data['broker_list'] = $this->user_model->get_broker_id_list();
 		$this->data['province_list'] = $this->province_model->province_list();
@@ -337,6 +344,7 @@ class User extends MY_Controller {
 		$this->data['country_url'] = base_url ( "geo/country/" . $this->data['country2'] );
 		$this->data['mail_province_url'] = base_url ( "geo/province/" . $this->data['mail_country2'] . "/" . $this->data['mail_province2'] );
 		$this->data['mail_country_url'] = base_url ( "geo/country/" . $this->data['mail_country2'] );
+		$this->data['action_url'] = base_url('user/edit');
 		$this->data ['csrf'] = array (
 				'name' => $this->security->get_csrf_token_name (),
 				'value' => $this->security->get_csrf_hash () 

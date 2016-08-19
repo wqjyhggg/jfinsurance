@@ -41,7 +41,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<br />
 					</div>
 					<?php } ?>
-					<form action='<?php $action_url; ?>' method='POST' class="form-horizontal">
+					<form action='<?php echo $action_url; ?>' method='POST' class="form-horizontal">
 
 					<input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
 					<input type='hidden' name='user_id' value='<?php echo $user_id; ?>'>
