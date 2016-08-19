@@ -133,6 +133,7 @@ class Citem extends MY_Controller {
 		} else if (isset($citem['citem_id'])) {
 			$this->data['citem_id'] = $citem['citem_id'];
 		} else {
+			$this->data['citem_id'] = 0;
 		}
 		if ($this->input->post('claim_id')) {
 			$this->data['claim_id'] = $this->input->post('claim_id'); 
@@ -379,7 +380,7 @@ class Citem extends MY_Controller {
 		$this->load->model('coverage_model');
 		$this->data['coverage_codes'] = $this->coverage_model->get_coverage_codes();
 		$this->data['edit_url'] = base_url('citem/form');
-		$this->data['letter_url'] = base_url('citem/letter');
+		$this->data['letter_url'] = base_url('citem/letter/'.$this->data['citem_id']);
 		
 		$this->data['title_txt'] = 'Claim';
 		$this->data['top_menu'] = $this->menu_model->load_top_menu();
