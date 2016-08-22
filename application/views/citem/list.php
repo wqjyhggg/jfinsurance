@@ -119,7 +119,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                               <td><?php echo $c['pay_to']; ?></td>
                               <td><?php echo $c['cheque_number']; ?></td>
                               <td><?php echo $c['received']; ?></td>
-                              <td><a style="color:#46b8da;" href="<?php echo $edit_url."/".$c['citem_id']?>">Edit</a> | <a style="color:#46b8da;" href="<?php echo $letter_url."/".$c['citem_id']?>">Letter</a></td>
+                              <td><a style="color:#46b8da;" href="<?php echo $edit_url."/".$c['citem_id']?>">Edit</a> | <a target="_blank" style="color:#46b8da;" href="<?php echo $letter_url."/".$c['citem_id']?>">Letter</a></td>
                             </tr>
                         <?php } ?>    
                         </tbody>
