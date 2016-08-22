@@ -8,7 +8,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<div class="col-sm-12">
 			<div class="main">
 				<div class="login-form">
-					<h3>Login</h3>
+					<h3 class="login-title" >Login</h3>
 					<?php if (!empty($error_message)) { ?>
 					<div class="alert-error">
 						<p><?php echo $error_message; ?></p>
@@ -41,10 +41,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<?php } ?>
 							</div>
 						</div>
-						<br />
+						<br /><br />
 						<div class="form-group row">
 						    <div class="col-sm-12 pull-right">
-						      <input class="btn btn-default" style="padding:6px 25px;" type='submit'>
+						      <input class="btn btn-primary" style="padding:6px 25px;" type='submit'>
 						    </div>
 						 </div>
 					
