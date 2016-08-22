@@ -70,6 +70,9 @@ class User_model extends CI_Model {
 		} else {
 			$sql = "SELECT * FROM user WHERE parent_user_id = '" . (int)$user_id . "'";
 		}
+		if (isset($para['user_group_id'])) {
+			$sql .= " AND user_group_id = '" . (int)$para['user_group_id'] . "'";
+		}
 		if (isset($para['username'])) {
 			$sql .= " AND username LIKE " . $this->db->escape($para['username'] . "%");
 		}

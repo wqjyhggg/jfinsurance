@@ -45,7 +45,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <select name='user_group_id' class="form-control">
                               <option value='0'> -- select user group -- </option>
                               <?php foreach ($user_group_list as $key => $name) { ?>
-                              <option value='<?php echo $key; ?>'><?php echo $name; ?></option>
+                              <option value='<?php echo $key; ?>' <?php echo ($user_group_id == $key) ? 'selected' : ''; ?>><?php echo $name; ?></option>
                               <?php } ?>
                             </select>
                           </div>
@@ -110,7 +110,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-<?php if ($user_group_id < 100) { ?>
+<?php if ($be_user_group_id < 100) { ?>
                     <h2 style="width:100%;">User List <span><a class="btn btn-info" href='<?php echo $edit_url."0"; ?>'><i class="fa fa-plus"></i> Add User</a></span></h2>
 <?php } ?>
                     <div class="clearfix"></div>
@@ -137,7 +137,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <?php foreach ($user_list as $user) { ?>
                           <tr>
                             <td>
-<?php if ($user_group_id < 100) { ?>
+<?php if ($be_user_group_id < 100) { ?>
                             	<a style="color:#46b8da;" href='<?php echo $edit_url.$user['user_id']; ?>'><?php echo $user['username']?></a>
 <?php } else { ?>
                             	<?php echo $user['username']?>
@@ -151,7 +151,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <td><?php echo $user['licence_expire']; ?></td>
                             <td><?php echo $user['pay_type']; ?></td>
                             <td><?php echo $user['status'] ? 'Act' : '-'; ?></td>
-<?php if (($user_group_id < $user['user_group_id']) && !empty($behalf_url)) { ?>
+<?php if (($be_user_group_id < $user['user_group_id']) && !empty($behalf_url)) { ?>
                             <td><a style="color:#46b8da;" href='<?php echo $behalf_url.$user['user_id']; ?>'>Behalf</a></td>
 <?php } else { ?>
                             <td>-</td>
