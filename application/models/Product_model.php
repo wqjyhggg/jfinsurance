@@ -614,7 +614,7 @@ class Product_model extends CI_Model {
 			$premiumArr['deductible_amount'] =  number_format($para['deductible_amount'], 2, '.', ',');
 		} else if ($para['product_short'] == 'JFC') {
 			if ($years <= 3) {
-				$premiumArr['message'] = "Customer age must over 3 years old";
+				$premiumArr['message'] = "Customer age must over 4 years old";
 				return $premiumArr;
 			} else if ($years <= 59) {
 				$rate = 1.5;
