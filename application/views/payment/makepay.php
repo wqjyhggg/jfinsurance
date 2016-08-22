@@ -35,6 +35,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 					</div>
 					<div class="x_content">
 						<form  action='<?php echo $pay_url; ?>' method='POST' class="form-horizontal">
+							<input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
 							<div class="row">
 								<div class="col-sm-12">
 									<fieldset>
