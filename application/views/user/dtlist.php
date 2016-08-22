@@ -145,7 +145,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             </td>
                             <td><?php echo $user_group_list[$user['user_group_id']]; ?></td>
                             <td><?php echo $user['business']; ?></td>
-                            <td><?php echo $user['lastname'] . " " . $user['lastname']; ?></td>
+                            <td><?php echo $user['lastname'] . ", " . $user['firstname']; ?></td>
                             <td><?php echo $user['email']; ?></td>
                             <td><?php echo $user['licence_number']; ?></td>
                             <td><?php echo $user['licence_expire']; ?></td>
