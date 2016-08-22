@@ -117,6 +117,7 @@ class Plan_model extends CI_Model {
 		if (isset($para['beneficiary'])) $sql .= " beneficiary=" . $this->db->escape($para['beneficiary']) . ", ";
 		if (isset($para['stable_condition'])) $sql .= " stable_condition='" . (int)$para['stable_condition'] . "', ";
 		if (isset($para['rate_options'])) $sql .= " rate_options='" . (int)$para['rate_options'] . "', ";
+		if (isset($para['holiday_rate'])) $sql .= " holiday_rate='" . (int)$para['holiday_rate'] . "', ";
 		if (isset($para['spouse'])) $sql .= " spouse='" . (int)$para['spouse'] . "', ";
 		if (isset($para['sum_insured'])) $sql .= " sum_insured='" . (int)$para['sum_insured'] . "', ";
 		if (isset($para['deductible_amount'])) $sql .= " deductible_amount='" . (int)$para['deductible_amount'] . "', ";
@@ -320,6 +321,10 @@ class Plan_model extends CI_Model {
 		if (isset($para['rate_options']) && ((int)$para['rate_options'] != (int)$plan['rate_options'])) {
 			$this->logstr .= " rate_options " . $para['rate_options'] . "(" . $plan['rate_options'] . ")";
 			$sql .= " rate_options='" . (int)$para['rate_options'] . "', ";
+		}
+		if (isset($para['holiday_rate']) && ((int)$para['holiday_rate'] != (int)$plan['holiday_rate'])) {
+			$this->logstr .= " holiday_rate " . $para['holiday_rate'] . "(" . $plan['holiday_rate'] . ")";
+			$sql .= " holiday_rate='" . (int)$para['holiday_rate'] . "', ";
 		}
 		if (isset($para['spouse']) && ((int)$para['spouse'] != (int)$plan['spouse'])) {
 			$this->logstr .= " spouse " . $para['spouse'] . "(" . $plan['spouse'] . ")";
