@@ -18,16 +18,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										<?php } ?>
 									</div>
 									<div class="form-group col-sm-3">
-										<label class="col-sm-12">Is Family Plan : <input type='checkbox' class='setpremium' name='isfamilyplan' id='isfamilyplan' <?php echo empty($isfamilyplan) ? "" : "checked"; ?>></label>
+										<label class="col-sm-12">Is Family Plan : </label>
+										<div class="input-group col-sm-12" style="border: 1px solid #ccc;padding: 3px;">
+											<input type='checkbox' class='setpremium' name='isfamilyplan' id='isfamilyplan' <?php echo empty($isfamilyplan) ? "" : "checked"; ?>> Yes
+										</div>
 									</div>
 									<?php if (($product_short == "JES") && ($user_group_id < 100)) { ?>
 									<div class="form-group col-sm-3">
-										<label class="col-sm-12">Holiday Rate : <input type='checkbox' name='holiday_rate' id='holiday_rate' value='1' <?php echo empty($holiday_rate) ? "" : "checked"; ?>></label>
+										<label class="col-sm-12">Holiday Rate : </label>
+										<div class="input-group col-sm-12" style="border: 1px solid #ccc;padding: 3px;">
+											<input type='checkbox' name='holiday_rate' id='holiday_rate' value='1' <?php echo empty($holiday_rate) ? "" : "checked"; ?>> Yes
+										</div>
 									</div>
 									<?php } ?>
 									<div class="form-group col-sm-3">
 										<label class="col-sm-12">Sum Insured (CAD) : $2,000,000</label>
 										<input type='hidden' name='sum_insured' value='2000000' />
+									</div>
 									</div>
 								</div>
 							</fieldset>
