@@ -137,6 +137,7 @@ class Plan extends MY_Controller {
 				'plan_id',
 				'customer_id',
 				'user_id',
+				'status_id',
 				'policy',
 				'product_short',
 				'batch_number',
@@ -148,9 +149,13 @@ class Plan extends MY_Controller {
 				'beneficiary',
 				'stable_condition',
 				'rate_options',
+				'holiday_rate',
 				'spouse',
 				'sum_insured',
 				'deductible_amount',
+				'dailyrate',
+				'totaldays',
+				'totalyears',
 				'premium',
 				'commission_amount',
 				'street_number',
@@ -464,6 +469,13 @@ class Plan extends MY_Controller {
 			$data['rate_options'] = $plan['rate_options'];
 		} else {
 			$data['rate_options'] = 0;
+		}
+		if ($this->input->post('holiday_rate')) {
+			$data['holiday_rate'] = $this->input->post('holiday_rate'); 
+		} else if (isset($plan['holiday_rate'])) {
+			$data['holiday_rate'] = $plan['holiday_rate'];
+		} else {
+			$data['holiday_rate'] = 0;
 		}
 		if ($this->input->post('spouse')) {
 			$data['spouse'] = $this->input->post('spouse');; 
@@ -1250,6 +1262,7 @@ class Plan extends MY_Controller {
 			$para['sum_insured'] = $plan['sum_insured'];
 			$para['deductible_amount'] = $plan['deductible_amount'];
 			$para['rate_options'] = $plan['rate_options'];
+			$para['holiday_rate'] = $plan['holiday_rate'];
 			$para['spouse'] = $plan['spouse'];
 			$para['stable_condition'] = $plan['stable_condition'];
 			$para['holiday_rate'] = (($plan['product_short'] == 'JES') && ($plan['dailyrate'] >= 1.84)) ? 1 : 0;

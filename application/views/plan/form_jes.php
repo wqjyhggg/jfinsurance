@@ -22,11 +22,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									</div>
 									<?php if (($product_short == "JES") && ($user_group_id < 100)) { ?>
 									<div class="form-group col-sm-3">
-										<label class="col-sm-12">Holiday Rate : <input type='checkbox' name='holiday_rate' id='holiday_rate' value='1'></label>
+										<label class="col-sm-12">Holiday Rate : <input type='checkbox' name='holiday_rate' id='holiday_rate' value='1' <?php echo empty($holiday_rate) ? "" : "checked"; ?>></label>
 									</div>
 									<?php } ?>
 									<div class="form-group col-sm-3">
-										<label class="col-sm-12">Sum Insured (CAD) : Unlimited</label>
+										<label class="col-sm-12">Sum Insured (CAD) : $2,000,000</label>
+										<input type='hidden' name='sum_insured' value='2000000' />
 									</div>
 								</div>
 							</fieldset>
