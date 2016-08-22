@@ -13,10 +13,10 @@ class Menu_model extends CI_Model {
 		$meunArr = array(
 			0 =>array(),
 			1 => array(
-					"<a href='" . base_url('plan') . "' class='leftmeun'>" . $this->lang->line ( 'text_policy' ) . "</a>",
-					"<a href='" . base_url('batch/import') . "' class='leftmeun'>" . $this->lang->line ( 'text_upload_policy' ) . "</a>",
+					"<a href='" . base_url('plan') . "' class='leftmeun'><i class='fa fa-file-text-o'></i>" . $this->lang->line ( 'text_policy' ) . "</a>",
+					"<a href='" . base_url('batch/import') . "' class='leftmeun'><i class='fa fa-upload'></i>" . $this->lang->line ( 'text_upload_policy' ) . "</a>",
 					array(
-							"<a class='leftmeun'>" . $this->lang->line ( 'text_report' ) . "<span class='fa fa-chevron-down'></span></a>",
+							"<a class='leftmeun'><i class='fa fa-file-excel-o'></i>" . $this->lang->line ( 'text_report' ) . "<span class='fa fa-chevron-down'></span></a>",
 							"<a href='" . base_url('reports/agent') . "' class='leftmeun'>" . $this->lang->line ( 'text_report_to_agent' ) . "</a>",
 							"<a href='" . base_url('reports/jf') . "' class='leftmeun'>" . $this->lang->line ( 'text_report_to_jf' ) . "</a>",
 							"<a href='" . base_url('reports/insurer') . "' class='leftmeun'>" . $this->lang->line ( 'text_report_to_insurer' ) . "</a>",
@@ -27,16 +27,16 @@ class Menu_model extends CI_Model {
 							"<a href='" . base_url('reports/agent_commission') . "' class='leftmeun'>" . $this->lang->line ( 'text_agent_commission_report' ) . "</a>",
 						),
 					
-					"<a href='" . base_url('claim') . "' class='leftmeun'>" . $this->lang->line ( 'text_claim' ) . "</a>",
-					"<a href='" . base_url('product') . "' class='leftmeun'>" . $this->lang->line ( 'text_our_products' ) . "</a>",
-					"<a href='" . base_url('user') . "' class='leftmeun'>" . $this->lang->line ( 'text_agent' ) . "</a>",
-					"<a href='" . base_url('pdf/pdflist') . "' class='leftmeun'>" . $this->lang->line ( 'text_list_download_file' ) . "</a>",
+					"<a href='" . base_url('claim') . "' class='leftmeun'><i class='fa fa-files-o'></i>" . $this->lang->line ( 'text_claim' ) . "</a>",
+					"<a href='" . base_url('product') . "' class='leftmeun'><i class='fa fa-shield'></i>" . $this->lang->line ( 'text_our_products' ) . "</a>",
+					"<a href='" . base_url('user') . "' class='leftmeun'><i class='fa fa-users'></i>" . $this->lang->line ( 'text_agent' ) . "</a>",
+					"<a href='" . base_url('pdf/pdflist') . "' class='leftmeun'><i class='fa fa-file-pdf-o'></i>" . $this->lang->line ( 'text_list_download_file' ) . "</a>",
 				),
 			2 => array(
-					"<a href='" . base_url('plan') . "' class='leftmeun'>" . $this->lang->line ( 'text_policy' ) . "</a>",
-					"<a href='" . base_url('batch/import') . "' class='leftmeun'>" . $this->lang->line ( 'text_upload_policy' ) . "</a>",
+					"<a href='" . base_url('plan') . "' class='leftmeun'><i class='fa fa-file-text-o'></i>" . $this->lang->line ( 'text_policy' ) . "</a>",
+					"<a href='" . base_url('batch/import') . "' class='leftmeun'><i class='fa fa-upload'></i>" . $this->lang->line ( 'text_upload_policy' ) . "</a>",
 					array(
-							"<a class='leftmeun'>" . $this->lang->line ( 'text_report' ) . "<span class='fa fa-chevron-down'></span></a>",
+							"<a class='leftmeun'><i class='fa fa-file-excel-o'></i>" . $this->lang->line ( 'text_report' ) . "<span class='fa fa-chevron-down'></span></a>",
 							"<a href='" . base_url('reports/agent') . "' class='leftmeun'>" . $this->lang->line ( 'text_report_to_agent' ) . "</a>",
 							"<a href='" . base_url('reports/jf') . "' class='leftmeun'>" . $this->lang->line ( 'text_report_to_jf' ) . "</a>",
 							"<a href='" . base_url('reports/insurer') . "' class='leftmeun'>" . $this->lang->line ( 'text_report_to_insurer' ) . "</a>",
@@ -47,15 +47,15 @@ class Menu_model extends CI_Model {
 							"<a href='" . base_url('reports/agent_commission') . "' class='leftmeun'>" . $this->lang->line ( 'text_agent_commission_report' ) . "</a>",						
 						),
 					
-					"<a href='" . base_url('claim') . "' class='leftmeun'>" . $this->lang->line ( 'text_claim' ) . "</a>",
-					"<a href='" . base_url('product') . "' class='leftmeun'>" . $this->lang->line ( 'text_our_products' ) . "</a>",
-					"<a href='" . base_url('user') . "' class='leftmeun'>" . $this->lang->line ( 'text_agent' ) . "</a>",
+					"<a href='" . base_url('claim') . "' class='leftmeun'><i class='fa fa-files-o'></i>" . $this->lang->line ( 'text_claim' ) . "</a>",
+					"<a href='" . base_url('product') . "' class='leftmeun'><i class='fa fa-shield'></i>" . $this->lang->line ( 'text_our_products' ) . "</a>",
+					"<a href='" . base_url('user') . "' class='leftmeun'><i class='fa fa-users'></i>" . $this->lang->line ( 'text_agent' ) . "</a>",
 				),
 			3 =>array(
-					"<a href='" . base_url('plan') . "' class='leftmeun'>" . $this->lang->line ( 'text_policy' ) . "</a>",
-					"<a href='" . base_url('batch/import') . "' class='leftmeun'>" . $this->lang->line ( 'text_upload_policy' ) . "</a>",
+					"<a href='" . base_url('plan') . "' class='leftmeun'><i class='fa fa-file-text-o'></i>" . $this->lang->line ( 'text_policy' ) . "</a>",
+					"<a href='" . base_url('batch/import') . "' class='leftmeun'><i class='fa fa-upload'></i>" . $this->lang->line ( 'text_upload_policy' ) . "</a>",
 					array(
-							"<a class='leftmeun'>" . $this->lang->line ( 'text_report' ) . "<span class='fa fa-chevron-down'></span></a>",
+							"<a class='leftmeun'><i class='fa fa-file-excel-o'></i>" . $this->lang->line ( 'text_report' ) . "<span class='fa fa-chevron-down'></span></a>",
 							"<a href='" . base_url('reports/agent') . "' class='leftmeun'>" . $this->lang->line ( 'text_report_to_agent' ) . "</a>",
 							"<a href='" . base_url('reports/jf') . "' class='leftmeun'>" . $this->lang->line ( 'text_report_to_jf' ) . "</a>",
 							"<a href='" . base_url('reports/insurer') . "' class='leftmeun'>" . $this->lang->line ( 'text_report_to_insurer' ) . "</a>",
@@ -67,14 +67,14 @@ class Menu_model extends CI_Model {
 
 						),
 					
-					//"<a href='" . base_url('product') . "' class='leftmeun'>" . $this->lang->line ( 'text_our_products' ) . "</a>",
-					//"<a href='" . base_url('user') . "' class='leftmeun'>" . $this->lang->line ( 'text_agent' ) . "</a>",
+					//"<a href='" . base_url('product') . "' class='leftmeun'><i class='fa fa-shield'></i>" . $this->lang->line ( 'text_our_products' ) . "</a>",
+					//"<a href='" . base_url('user') . "' class='leftmeun'><i class='fa fa-users'></i>" . $this->lang->line ( 'text_agent' ) . "</a>",
 				),
 			103 =>array(
-					"<a href='" . base_url('plan') . "' class='leftmeun'>" . $this->lang->line ( 'text_policy' ) . "</a>",
-					"<a href='" . base_url('batch/import') . "' class='leftmeun'>" . $this->lang->line ( 'text_upload_policy' ) . "</a>",
+					"<a href='" . base_url('plan') . "' class='leftmeun'><i class='fa fa-file-text-o'></i>" . $this->lang->line ( 'text_policy' ) . "</a>",
+					"<a href='" . base_url('batch/import') . "' class='leftmeun'><i class='fa fa-upload'></i>" . $this->lang->line ( 'text_upload_policy' ) . "</a>",
 					/*array(
-							"<a class='leftmeun'>" . $this->lang->line ( 'text_report' ) . "<span class='fa fa-chevron-down'></span></a>",
+							"<a class='leftmeun'><i class='fa fa-file-excel-o'></i>" . $this->lang->line ( 'text_report' ) . "<span class='fa fa-chevron-down'></span></a>",
 							"<a href='" . base_url('reports/agent') . "' class='leftmeun'>" . $this->lang->line ( 'text_report_to_agent' ) . "</a>",
 							"<a href='" . base_url('reports/jf') . "' class='leftmeun'>" . $this->lang->line ( 'text_report_to_jf' ) . "</a>",
 							"<a href='" . base_url('reports/insurer') . "' class='leftmeun'>" . $this->lang->line ( 'text_report_to_insurer' ) . "</a>",
@@ -84,13 +84,13 @@ class Menu_model extends CI_Model {
 							"<a href='" . base_url('reports/commission') . "' class='leftmeun'>" . $this->lang->line ( 'text_commission_report' ) . "</a>",
 							"<a href='" . base_url('reports/agent_commission') . "' class='leftmeun'>" . $this->lang->line ( 'text_agent_commission_report' ) . "</a>",
 						),
-					"<a href='" . base_url('product') . "' class='leftmeun'>" . $this->lang->line ( 'text_our_products' ) . "</a>",
+					"<a href='" . base_url('product') . "' class='leftmeun'><i class='fa fa-shield'></i>" . $this->lang->line ( 'text_our_products' ) . "</a>",
 					*/
 				),
 			104 =>array(
-					"<a href='" . base_url('plan') . "' class='leftmeun'>" . $this->lang->line ( 'text_policy' ) . "</a>",
+					"<a href='" . base_url('plan') . "' class='leftmeun'><i class='fa fa-file-text-o'></i>" . $this->lang->line ( 'text_policy' ) . "</a>",
 					array(
-							"<a class='leftmeun'>" . $this->lang->line ( 'text_report' ) . "<span class='fa fa-chevron-down'></span></a>",
+							"<a class='leftmeun'><i class='fa fa-file-excel-o'></i>" . $this->lang->line ( 'text_report' ) . "<span class='fa fa-chevron-down'></span></a>",
 							"<a href='" . base_url('reports/agent') . "' class='leftmeun'>" . $this->lang->line ( 'text_report_to_agent' ) . "</a>",
 							"<a href='" . base_url('reports/jf') . "' class='leftmeun'>" . $this->lang->line ( 'text_report_to_jf' ) . "</a>",
 							"<a href='" . base_url('reports/insurer') . "' class='leftmeun'>" . $this->lang->line ( 'text_report_to_insurer' ) . "</a>",
@@ -101,13 +101,13 @@ class Menu_model extends CI_Model {
 							"<a href='" . base_url('reports/agent_commission') . "' class='leftmeun'>" . $this->lang->line ( 'text_agent_commission_report' ) . "</a>",
 
 						),
-					"<a href='" . base_url('product') . "' class='leftmeun'>" . $this->lang->line ( 'text_our_products' ) . "</a>",
-					"<a href='" . base_url('user') . "' class='leftmeun'>" . $this->lang->line ( 'text_agent' ) . "</a>",
+					"<a href='" . base_url('product') . "' class='leftmeun'><i class='fa fa-shield'></i>" . $this->lang->line ( 'text_our_products' ) . "</a>",
+					"<a href='" . base_url('user') . "' class='leftmeun'><i class='fa fa-users'></i>" . $this->lang->line ( 'text_agent' ) . "</a>",
 				),
 			105 =>array(
-					"<a href='" . base_url('plan') . "' class='leftmeun'>" . $this->lang->line ( 'text_policy' ) . "</a>",
+					"<a href='" . base_url('plan') . "' class='leftmeun'><i class='fa fa-file-text-o'></i>" . $this->lang->line ( 'text_policy' ) . "</a>",
 					array(
-							"<a class='leftmeun'>" . $this->lang->line ( 'text_report' ) . "<span class='fa fa-chevron-down'></span></a>",
+							"<a class='leftmeun'><i class='fa fa-file-excel-o'></i>" . $this->lang->line ( 'text_report' ) . "<span class='fa fa-chevron-down'></span></a>",
 							"<a href='" . base_url('reports/agent') . "' class='leftmeun'>" . $this->lang->line ( 'text_report_to_agent' ) . "</a>",
 							"<a href='" . base_url('reports/jf') . "' class='leftmeun'>" . $this->lang->line ( 'text_report_to_jf' ) . "</a>",
 							"<a href='" . base_url('reports/insurer') . "' class='leftmeun'>" . $this->lang->line ( 'text_report_to_insurer' ) . "</a>",
@@ -117,12 +117,14 @@ class Menu_model extends CI_Model {
 							"<a href='" . base_url('reports/commission') . "' class='leftmeun'>" . $this->lang->line ( 'text_commission_report' ) . "</a>",
 							"<a href='" . base_url('reports/agent_commission') . "' class='leftmeun'>" . $this->lang->line ( 'text_agent_commission_report' ) . "</a>",
 						),
-					"<a href='" . base_url('product') . "' class='leftmeun'>" . $this->lang->line ( 'text_our_products' ) . "</a>",
+					"<a href='" . base_url('product') . "' class='leftmeun'><i class='fa fa-shield'></i>" . $this->lang->line ( 'text_our_products' ) . "</a>",
 				),
 		);
-		$behalf = "<a href='" . base_url('behalf') . "' class='leftmeun'>" . $this->lang->line ( 'text_behalf' ) . "</a>";
-		$unbehalf = "<a href='" . base_url('behalf/undo') . "' class='leftmeun'>" . $this->lang->line ( 'text_unbehalf' ) . "</a>";
-	
+		$behalf = "<a href='" . base_url('behalf') . "' class='leftmeun'><i class='fa fa-user'></i>" . $this->lang->line ( 'text_behalf' ) . "</a>";
+		$unbehalf = "<a href='" . base_url('behalf/undo') . "' class='leftmeun'><i class='fa fa-user'></i>" . $this->lang->line ( 'text_unbehalf' ) . "</a>";
+		$logout = "<a href='" . base_url('user/logout') . "' class='leftmeun'><i class='fa fa-power-off'></i>" . $this->lang->line ( 'text_logout' ) . "</a>";
+
+
 		$user = $this->session->userdata('user');
 		$beuser = $this->session->userdata('beuser');
 		$onbehalf = 0;
@@ -138,8 +140,10 @@ class Menu_model extends CI_Model {
     	if ($user && ($user['user_group_id'] != 105) && ($user['user_group_id'] != 103) && ($user['user_group_id'] != 3 )) {
 			if ($onbehalf) {
 				array_push($menu, $unbehalf);
+				array_push($menu, $logout);
 			} else {
 				array_push($menu, $behalf);
+				array_push($menu, $logout);
 			}
 		}
 		return $menu;

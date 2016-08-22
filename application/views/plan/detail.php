@@ -306,7 +306,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 									</div>
 									<div class="row">
 										<div class="col-sm-12">
-											<label class="col-sm-12">Card Number:</label>
+											<label  class="inline" style="margin-bottom:0;">Card Number:</label>
 											<div class="col-sm-12 input-group">
 												<input type='text' name='card_number' value='' class="form-control">
 											</div>
@@ -314,7 +314,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 									</div>
 									<div class="row">
 										<div class="col-sm-12">
-											<label class="col-sm-12">Card Holder's Name:</label>
+											<label  class="inline" style="margin-bottom:0;">Card Holder's Name:</label>
 											<div class="col-sm-12 input-group">
 												<input type='text' name='card_name' value='' class="form-control">
 											</div>
@@ -439,7 +439,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 									<input type='hidden' name='premium' value='<?php echo number_format($plan['premium'], 2, '.', ','); ?>'>
 									<div class="row">
 										<div class="col-sm-12">
-											<label class="col-sm-12">Bank Name:</label>
+											<label  class="inline" style="margin-bottom:0;">Bank Name:</label>
 											<div class="col-sm-12 input-group">
 												<input type='text' name='bank_name' value='' class="form-control">
 											</div>
@@ -447,7 +447,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 									</div>
 									<div class="row">
 										<div class="col-sm-12">
-											<label class="col-sm-12">Payor Name:</label>
+											<label  class="inline" style="margin-bottom:0;">Payor Name:</label>
 											<div class="col-sm-12 input-group">
 												<input type='text' name='payor_name' value='' class="form-control">
 											</div>
@@ -455,7 +455,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 									</div>
 									<div class="row">
 										<div class="col-sm-12">
-											<label class="col-sm-12">Cheque No.:</label>
+											<label  class="inline" style="margin-bottom:0;">Cheque No.:</label>
 											<div class="col-sm-12 input-group">
 												<input type='text' name='cheque_number' value='' class="form-control">
 											</div>
