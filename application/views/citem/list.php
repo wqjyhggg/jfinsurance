@@ -43,24 +43,29 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     	<input type="hidden" name="claim_id" value='<?php echo $claim['claim_id']; ?>'>
                       <!-- personal information search -->
                       <div class="row">
-                        <!-- Last Name input box -->
+                        <!-- claim_number box -->
                         <div class="form-group col-sm-2">
-                          <label class="col-sm-12"><?php echo $claim['lastname']; ?></label>
+                          <label class="col-sm-12"><?php echo $claim['policy_number']; ?></label>
                         </div>
-                        <!-- Last Name input box end -->
+                        <!-- claim_number box end -->
+                        <!-- claim_number box -->
+                        <div class="form-group col-sm-2">
+                          <label class="col-sm-12"><?php echo $claim['claim_number']; ?></label>
+                        </div>
+                        <!-- claim_number box end -->
                         <!-- First Name input box -->
                         <div class="form-group col-sm-2">
-                          <label class="col-sm-12"><?php echo $claim['firstname']; ?></label>
+                          <label class="col-sm-12"><?php echo $claim['firstname']; ?> <?php echo $claim['lastname']; ?></label>
                         </div>
                         <!-- First Name input box end -->
                         
                         <!-- Policy Number input box -->
-                        <div class="form-group col-sm-2">
+                        <div class="form-group col-sm-1">
                           <label class="col-sm-12">Birthday: <?php echo $claim['birthday']; ?></label>
                         </div>
                         <!-- Policy Number input box end -->
                         <!-- Claim Number input box -->
-                        <div class="form-group col-sm-2">
+                        <div class="form-group col-sm-1">
                           <label class="col-sm-12">Gender: <?php echo $claim['gender']; ?></label>
                         </div>
                         <!-- Claim Number input box end -->
@@ -89,8 +94,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                       <table class="table table-hover table-bordered">
                         <thead>
                           <tr>
-                            <th>Policy Number</th>
-                            <th>Claim Number</th>
                             <th>First Name</th>
                             <th>Last Name</th>
                             <th>Gender</th>
@@ -107,8 +110,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <tbody>
                         <?php foreach ($lists as $c) { ?>
                             <tr>
-                              <td><?php echo $c['policy_number']; ?></td>
-                              <td><?php echo $c['claim_number']; ?></td>
                               <td><?php echo $c['firstname']; ?></td>
                               <td><?php echo $c['lastname']; ?></td>
                               <td><?php echo $c['gender']; ?></td>

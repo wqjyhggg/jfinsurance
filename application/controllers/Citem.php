@@ -55,6 +55,7 @@ class Citem extends MY_Controller {
 			$para['customer_id'] = $claim['customer_id'];
 			$para['product_short'] = $claim['product_short'];
 			$para['policy_number'] = $claim['policy_number'];
+			$para['claim_number'] = $claim['claim_number'];
 			$para['lastname'] = $claim['lastname'];
 			$para['firstname'] = $claim['firstname'];
 			$para['birthday'] = $claim['birthday'];
