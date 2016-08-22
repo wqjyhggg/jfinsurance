@@ -85,7 +85,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <div class="form-group col-sm-4 col-xs-12">
                           <label>Total Refund:</label> 
                           <input type="number" step="any" name='total_refund' id='total_refund' value='' class="form-control" />
-                          <div class="alert-error">Changing "Total Refund" manually will cause "Refund Letter" data changed.</div>
+                          <div class="alert-error">Manually changing "Total Refund" will result in a difference in "Un-used Premium" field of the "Refund Letter". Please pay extra attention for your changes.</div>
                         </div>
                       </div>
                       <br />
