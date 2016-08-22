@@ -851,7 +851,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 													if (($sbstr == 'refund') || ($sbstr == 'cancel')) {
 														$pay_str = 'N / A';
 													} else {
-														$pay_str = 'Paied';
+														$pay_str = 'Paid';
 													}
 												} else {
 													if ($sbstr == 'refund') {

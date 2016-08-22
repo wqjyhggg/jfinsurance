@@ -44,34 +44,35 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                       <!-- personal information search -->
                       <div class="row">
                         <!-- claim_number box -->
-                        <div class="form-group col-sm-2">
-                          <label class="col-sm-12"><?php echo $claim['policy_number']; ?></label>
+                        <div class="form-group col-sm-3">
+                           <label class="inline">Policy No.: </label> <?php echo $claim['policy_number']; ?>
                         </div>
                         <!-- claim_number box end -->
                         <!-- claim_number box -->
-                        <div class="form-group col-sm-2">
-                          <label class="col-sm-12"><?php echo $claim['claim_number']; ?></label>
+                        <div class="form-group col-sm-3">
+                          <label class="inline">Claim No.: </label> <?php echo $claim['claim_number']; ?>
                         </div>
                         <!-- claim_number box end -->
                         <!-- First Name input box -->
-                        <div class="form-group col-sm-2">
-                          <label class="col-sm-12"><?php echo $claim['firstname']; ?> <?php echo $claim['lastname']; ?></label>
+                        <div class="form-group col-sm-3">
+                          <label class="inline">Name: </label> <?php echo $claim['firstname']; ?> <?php echo $claim['lastname']; ?>
                         </div>
                         <!-- First Name input box end -->
-                        
+                      </div>
+                      <div class="row">
                         <!-- Policy Number input box -->
-                        <div class="form-group col-sm-1">
-                          <label class="col-sm-12">Birthday: <?php echo $claim['birthday']; ?></label>
+                        <div class="form-group col-sm-3">
+                          <label class="inline">Birthday: </label> <?php echo $claim['birthday']; ?>
                         </div>
                         <!-- Policy Number input box end -->
                         <!-- Claim Number input box -->
-                        <div class="form-group col-sm-1">
-                          <label class="col-sm-12">Gender: <?php echo $claim['gender']; ?></label>
+                        <div class="form-group col-sm-3">
+                          <label class="inline">Gender:</label> <?php echo $claim['gender']; ?>
                         </div>
                         <!-- Claim Number input box end -->
                         
                         <!-- submit button -->
-                          <div class="col-sm-4">
+                          <div class="col-sm-3 col-sm-offset-3">
                             <button class="btn btn-primary pull-right">Add New Claim Item</button>
                           </div> 
                         <!-- submit button -->

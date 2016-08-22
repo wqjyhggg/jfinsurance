@@ -6,10 +6,29 @@
 			</div>
 		</div>
 	</div>
+	<a href="#" class="scrollToTop"><i class="fa fa-arrow-circle-up"></i></a>
 </footer>
 </div><!-- End of div.main_container -->
 </div><!-- End of div.container.body-->
 </div><!-- End Body Content -->
+<script>
+	
+	//Check to see if the window is top if not then display button
+	$(window).scroll(function(){
+		if ($(this).scrollTop() > 100) {
+			$('.scrollToTop').fadeIn();
+		} else {
+			$('.scrollToTop').fadeOut();
+		}
+	});
+	
+	//Click event to scroll to top
+	$('.scrollToTop').click(function(){
+		$('html, body').animate({scrollTop : 0},800);
+		return false;
+	});
+	
+</script>
 
  <!-- Bootstrap -->
 

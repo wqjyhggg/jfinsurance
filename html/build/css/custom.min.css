@@ -1,4 +1,17 @@
 /*New Custom*/
+.scrollToTop{
+
+	text-align:center; 
+	font-weight: bold;
+	color: #444;
+	text-decoration: none;
+	position:fixed;
+	bottom:35px;
+	right:40px;
+	display:none;
+	font-size: 4em;
+}
+.table-responsive{max-height: 800px;}
 .inline-m{display: inline-block;vertical-align: middle;}
 .float-error{
 	position: fixed!important;

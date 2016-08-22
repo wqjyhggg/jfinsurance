@@ -44,8 +44,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                       <input type='hidden' name='claim_number' value='<?php echo $claim_number; ?>'>
                       <div class="row">
                         <div class="form-group col-sm-3">
-                          <label class="inline">Claim No.: </label>
-                          <?php echo $claim_number; ?>
+                          <label class="inline">Claim No.: </label> <?php echo $claim_number; ?>
                         </div>
                         <div class="form-group col-sm-3">
                           <label class="inline">Product: </label> <?php echo $product_short; ?>
