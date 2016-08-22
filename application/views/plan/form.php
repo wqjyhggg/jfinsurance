@@ -225,7 +225,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										<div class="row">
 											<div class="col-sm-6">
 												<label class="col-sm-12">Gender: </label>
-												<div class="col-sm-12">
+												<div class="input-group col-sm-12">
 													<select name='gender' class="form-control" style="padding:6px 2px;">
 													<option value='M' <?php echo (empty($gender) || ($gender != 'F')) ? "selected" : ""; ?>>Male</option>
 													<option value='F' <?php echo (!empty($gender) && ($gender == 'F')) ? "selected" : ""; ?>>Female</option>
