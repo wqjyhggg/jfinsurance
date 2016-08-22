@@ -111,7 +111,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <div class="x_panel">
                   <div class="x_title">
 <?php if ($be_user_group_id < 100) { ?>
-                    <h2 style="width:100%;">User List <span><a class="btn btn-info" href='<?php echo $edit_url."0"; ?>'><i class="fa fa-plus"></i> Add User</a></span></h2>
+                    <h2 style="width:100%;">User List <span>
+                      <?php if($be_user_group_id != 2){ ?>
+                      <a class="btn btn-info" href='<?php echo $edit_url."0"; ?>'><i class="fa fa-plus"></i> Add User</a>
+                      <?php } ?>
+                    </span>
+                    </h2>
 <?php } ?>
                     <div class="clearfix"></div>
                   </div>
