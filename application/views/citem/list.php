@@ -50,24 +50,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <!-- claim_number box end -->
                         <!-- claim_number box -->
                         <div class="form-group col-sm-3">
-                          <label class="inline">Claim No.: </label><?php echo $claim['claim_number']; ?>
+                          <label class="inline">Claim No.: </label> <?php echo $claim['claim_number']; ?>
                         </div>
                         <!-- claim_number box end -->
                         <!-- First Name input box -->
                         <div class="form-group col-sm-3">
-                          <label class="inline">Name: </label><?php echo $claim['firstname']; ?> <?php echo $claim['lastname']; ?>
+                          <label class="inline">Name: </label> <?php echo $claim['firstname']; ?> <?php echo $claim['lastname']; ?>
                         </div>
                         <!-- First Name input box end -->
                       </div>
                       <div class="row">
                         <!-- Policy Number input box -->
                         <div class="form-group col-sm-3">
-                          <label class="inline">Birthday: </label><?php echo $claim['birthday']; ?>
+                          <label class="inline">Birthday: </label> <?php echo $claim['birthday']; ?>
                         </div>
                         <!-- Policy Number input box end -->
                         <!-- Claim Number input box -->
                         <div class="form-group col-sm-3">
-                          <label class="inline">Gender: <?php echo $claim['gender']; ?></label>
+                          <label class="inline">Gender:</label> <?php echo $claim['gender']; ?>
                         </div>
                         <!-- Claim Number input box end -->
                         
