@@ -2,6 +2,12 @@ AuthType Basic
 AuthName "My Protected Area"
 AuthUserFile /var/www/.htpasswd
 Require valid-user
+SetEnvIf Request_URI "^/image/" allow
+SetEnvIf Request_URI "^/js/" allow
+SetEnvIf Request_URI "^/stylesheet/" allow
+Order allow,deny
+Allow from env=allow
+Satisfy any
 
 RewriteEngine on
 RewriteCond %{REQUEST_FILENAME} !-f
