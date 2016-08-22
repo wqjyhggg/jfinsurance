@@ -183,7 +183,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
-                    <div class="table-responsive">
+                    <div class="table-responsive limit-tableh">
 <?php if (!empty($report_data)) : ?>                   
                       <table class="table table-hover table-bordered">
                         <thead>
