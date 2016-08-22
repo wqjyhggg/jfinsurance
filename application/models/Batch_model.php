@@ -18,6 +18,102 @@ class Batch_model extends CI_Model {
 	}
 	
 	/**
+	 * Add trasaction records base on plan and product data
+	 * 
+	 */
+	private function add_payment($plan_id) {
+		$this->load->model('plan_model');
+		$this->load->model('product_model');
+		$this->load->model('payment_model');
+		
+		$payinfo = "Batch Upload; ";
+		
+		$plan = $this->plan_model->get_plan_by_id($plan_id);
+		if (empty($plan)) {
+			return FALSE;
+		}
+		$product = $this->product_model->get_product($plan['product_short']);
+		if (empty($product)) {
+			return FALSE;
+		}
+		$premium = $plan['premium'];
+		
+		$dt = array();
+		$dt['plan_id'] = $plan_id;
+		$dt['amount'] = $plan['premium'];
+		$dt['pay_type'] = 'premium';
+		$dt['currency'] = $product['currency'];
+		$dt['pay_mothed'] = 'Cash';
+		$dt['added'] = date('c');
+		$dt['note'] = $payinfo;
+		$dt['ispaid'] = 0;
+		
+		$commission_rate = $this->product_model->get_commission_rate($plan['product_short'], $plan['user_id']);
+		$commission_amount = $premium * $commission_rate / 100.0;
+		$paid_commission_amount = $this->payment_model->get_total_paid($plan_id, 'commission');
+		$up_commission_rate = $this->product_model->get_up_commission_rate($plan['product_short']);
+		$up_commission_amount = $premium * $up_commission_rate / 100.0;
+		$paid_up_commission_amount = $this->payment_model->get_total_paid($plan_id, 'up_commission');
+		
+		$dt['amount'] = $premium;
+		$dt['rate'] = 100;
+		$dt['pay_type'] = 'premium';
+		$payment_id = $this->payment_model->add($dt);
+		$para = array(
+				'plan_id' => $plan_id,
+				'customer_id' => $plan['customer_id'],
+				'payment_id' => $payment_id,
+				'message' => $this->payment_model->logstr,
+				'systemlog' => $this->payment_model->sqlstr
+		);
+		$this->log_model->activity('payment', $para);
+		$premium = $dt['amount'];	// Adjust amount if it was paid
+		
+		// up commission
+		$dt['amount'] = $up_commission_amount - $paid_up_commission_amount;
+		$dt['rate'] = $up_commission_rate;
+		$dt['pay_type'] = 'up_commission';
+		$up_commission_payment_id = $this->payment_model->add($dt);
+		$para = array(
+				'plan_id' => $plan_id,
+				'customer_id' => $plan['customer_id'],
+				'payment_id' => $up_commission_payment_id,
+				'message' => $this->payment_model->logstr,
+				'systemlog' => $this->payment_model->sqlstr
+		);
+		$this->log_model->activity('up_commission', $para);
+		
+		// commission
+		$dt['amount'] = $commission_amount - $paid_commission_amount;
+		$dt['rate'] = $commission_rate;
+		$dt['pay_type'] = 'commission';
+		if (($plan['product_short'] == 'OPL') || ($plan['product_short'] == 'JFR') && ($premium > 100000)) {
+			$dt['added'] = $plan['effective_date'];
+		}
+		$commission_payment_id = $this->payment_model->add($dt);
+		$para = array(
+				'plan_id' => $plan_id,
+				'customer_id' => $plan['customer_id'],
+				'payment_id' => $commission_payment_id,
+				'message' => $this->payment_model->logstr,
+				'systemlog' => $this->payment_model->sqlstr
+		);
+		$this->log_model->activity('commission', $para);
+		
+		$para = array('payment_id' => $payment_id, 'payinfo' => $payinfo, 'commission_payment_id' => $commission_payment_id, 'status_id' => 2, 'policy' => $this->plan_model->get_policy_number($plan_id, 2));
+		$this->plan_model->update($plan_id, $para);
+		$para = array(
+				'plan_id' => $plan_id,
+				'customer_id' => $plan['customer_id'],
+				'payment_id' => $payment_id,
+				'message' => $this->plan_model->logstr,
+				'systemlog' => $this->plan_model->sqlstr
+		);
+		$this->log_model->activity('plan', $para);
+		return TRUE;
+	}
+
+	/**
 	 * Add / Update policy record
 	 * 
 	 * @param	array	$para	Parameter array
@@ -26,6 +122,7 @@ class Batch_model extends CI_Model {
 	public function add_record($para) {
 		$this->load->model('plan_model');
 		$this->load->model('customer_model');
+		$this->load->model('product_model');
 
 		$data = array();
 
@@ -47,6 +144,11 @@ class Batch_model extends CI_Model {
 			return 0;
 		} else {
 			$data['product_short'] = $para['product_short']; 
+			$product = $this->product_model->get_product($plan['product_short']);
+			if (empty($product)) {
+				$this->error = 'Unknown product_short';
+				return 0;
+			}
 		} 
 		$data['batch_number'] = $para['batch_number'];
 		if (empty($para['isfamilyplan'])) { $data['isfamilyplan'] = 0; } else { $data['isfamilyplan'] = $para['isfamilyplan']; }
@@ -151,19 +253,9 @@ class Batch_model extends CI_Model {
 		if (empty($plan)) {
 			// Add
 			$plan_id = $this->plan_model->add($data);
+			$this->add_payment($plan_id);
 		} else {
 			$plan_id = $this->plan_model->update($para['plan_id'], $data);
-		}
-		if ($plan_id) {
-			$plan = $this->plan_model->get_plan_by_id($plan_id);
-			$para1 = array(
-					'plan_id' => $plan_id,
-					'customer_id' => $plan['customer_id'],
-					'payment_id' => 0,
-					'message' => $this->plan_model->logstr,
-					'systemlog' => $this->plan_model->sqlstr
-			);
-			$this->log_model->activity('plan', $para1);
 		}
 		return $plan_id;
 	}
