@@ -175,13 +175,14 @@ class User extends MY_Controller {
 		$data['user_list'] = $this->user_model->get_user_list($this->session->beuser['user_group_id'], $this->session->beuser['user_id'], $this->input->post());
 		$data['action_url'] = current_url();
 		$data['edit_url'] = base_url('user/edit')."?user_id=";
+		$data['user_group_id'] = $this->input->post ( 'user_group_id' );
 		$data['username'] = $this->input->post ( 'username' );
 		$data['firstname'] = $this->input->post ( 'firstname' );
 		$data['lastname'] = $this->input->post ( 'lastname' );
 		$data['email'] = $this->input->post ( 'email' );
 		$data['business'] = $this->input->post ( 'business' );
 		
-		$data['user_group_id'] = $this->session->user['user_group_id'];
+		$data['be_user_group_id'] = $this->session->beuser['user_group_id'];
 		if ($this->session->beuser == $this->session->user) {
 			$data['behalf_url'] = base_url('behalf/to') . "/";
 		} else {

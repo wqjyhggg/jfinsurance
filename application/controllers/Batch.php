@@ -91,6 +91,7 @@ class Batch extends MY_Controller {
 						} else {
 							$data ['errormsg'] .= "Error happened (" . $this->batch_model->error . ") record at line " . $i . ": " . @join ( "|", $row ) . "<br>\n";
 						}
+					}
 				}
 				
 				$reader->close ();
