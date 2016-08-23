@@ -145,24 +145,24 @@ class Renewal extends MY_Controller
         $this->load->model('user_model');
         $this->load->model('report_model');
         
-        $data['agent_id'] = $this->input->post_get('agent_id');
-		$data['product_short'] = $this->input->post_get('product_short');
-		$data['application_date_from'] = $this->input->post_get('application_date_from');
-		$data['application_date_to'] = $this->input->post_get('application_date_to');
-		$data['arrival_date_from'] = $this->input->post_get('arrival_date_from');
-		$data['arrival_date_to'] = $this->input->post_get('arrival_date_to');
-		$data['effective_date_from'] = $this->input->post_get('effective_date_from');
-		$data['effective_date_to'] = $this->input->post_get('effective_date_to');
-		$data['expiry_date_from'] = empty($this->input->post_get('expiry_date_from')) ? date('Y-m-01') : $this->input->post_get('expiry_date_from', true);
-		$data['expiry_date_to'] = empty($this->input->post_get('expiry_date_to')) ? date("Y-m-d") : $this->input->post_get('expiry_date_to', true);
+        $data['agent_id'] = $this->input->get('agent_id');
+		$data['product_short'] = $this->input->get('product_short');
+		$data['application_date_from'] = $this->input->get('application_date_from');
+		$data['application_date_to'] = $this->input->get('application_date_to');
+		$data['arrival_date_from'] = $this->input->get('arrival_date_from');
+		$data['arrival_date_to'] = $this->input->get('arrival_date_to');
+		$data['effective_date_from'] = $this->input->get('effective_date_from');
+		$data['effective_date_to'] = $this->input->get('effective_date_to');
+		$data['expiry_date_from'] = $this->input->get('expiry_date_from');
+		$data['expiry_date_to'] = $this->input->get('expiry_date_to');
 		$data['product_list'] = $this->product_model->get_available_product_list();
 		$data['user_list'] = $this->user_model->get_available_user_list();
 		$data['report_data'] = $this->report_model->get_renewal_report($data);
-		
-		if ($report_data = $this->report_model->get_renewal_report($data)) {
+
+		if ($data['report_data']) {
 			$this->load->model('mymail_model');
-			foreach ($report_data['data'] as $agent_id => $renewal_data) {
-				$data['period'] = $report_data['period']['from'] . " to " . $report_data['period']['to'];
+			foreach ($data['report_data']['data'] as $agent_id => $renewal_data) {
+				$data['period'] = $data['report_data']['period']['from'] . " to " . $data['report_data']['period']['to'];
 				$data['name'] = $renewal_data['agency'];
 				$data['email'] = $renewal_data['agency_email'];
 				$data['records'] = $renewal_data['records'];
