@@ -285,7 +285,7 @@ class Batch_model extends CI_Model {
 		$sql = $this->db->where('status_id', 2);
 		$sql = $this->db->where('batch_number', $batch_number);
 		$plans = $this->db->get('plan')->result_array();
-		echo "[[[".$this->db->last_query()."]]]";
+		$beuser = $this->session->userdata ( 'beuser' );
 		if ($plans) {
 			foreach ($plans as $plan) {
 				$pay = $this->payment_model->get_payment_by_id($plan['payment_id']);
