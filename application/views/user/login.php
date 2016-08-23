@@ -44,7 +44,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<br /><br />
 						<div class="form-group row">
 						    <div class="col-sm-12 pull-right">
-						      <input class="btn btn-primary" style="padding:6px 25px;" type='submit'>
+						      <input class="btn btn-primary" style="padding:6px 25px;" type='submit' value="Submit">
 						    </div>
 						 </div>
 					
