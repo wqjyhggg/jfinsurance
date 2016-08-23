@@ -69,6 +69,7 @@ class Menu_model extends CI_Model {
 					
 					//"<a href='" . base_url('product') . "' class='leftmeun'><i class='fa fa-shield'></i>" . $this->lang->line ( 'text_our_products' ) . "</a>",
 					//"<a href='" . base_url('user') . "' class='leftmeun'><i class='fa fa-users'></i>" . $this->lang->line ( 'text_agent' ) . "</a>",
+					"<a href='" . base_url('user/logout') . "' class='leftmeun'><i class='fa fa-power-off'></i>" . $this->lang->line ( 'text_logout' ) . "</a>",
 				),
 			103 =>array(
 					"<a href='" . base_url('plan') . "' class='leftmeun'><i class='fa fa-file-text-o'></i>" . $this->lang->line ( 'text_policy' ) . "</a>",
@@ -86,6 +87,7 @@ class Menu_model extends CI_Model {
 						),
 					"<a href='" . base_url('product') . "' class='leftmeun'><i class='fa fa-shield'></i>" . $this->lang->line ( 'text_our_products' ) . "</a>",
 					*/
+					"<a href='" . base_url('user/logout') . "' class='leftmeun'><i class='fa fa-power-off'></i>" . $this->lang->line ( 'text_logout' ) . "</a>",
 				),
 			104 =>array(
 					"<a href='" . base_url('plan') . "' class='leftmeun'><i class='fa fa-file-text-o'></i>" . $this->lang->line ( 'text_policy' ) . "</a>",
@@ -118,6 +120,8 @@ class Menu_model extends CI_Model {
 							//"<a href='" . base_url('reports/agent_commission') . "' class='leftmeun'>" . $this->lang->line ( 'text_agent_commission_report' ) . "</a>",
 						),
 					"<a href='" . base_url('product') . "' class='leftmeun'><i class='fa fa-shield'></i>" . $this->lang->line ( 'text_our_products' ) . "</a>",
+					"<a href='" . base_url('user/logout') . "' class='leftmeun'><i class='fa fa-power-off'></i>" . $this->lang->line ( 'text_logout' ) . "</a>",
+
 				),
 		);
 		$behalf = "<a href='" . base_url('behalf') . "' class='leftmeun'><i class='fa fa-user'></i>" . $this->lang->line ( 'text_behalf' ) . "</a>";
