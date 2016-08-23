@@ -144,7 +144,7 @@ class Batch_model extends CI_Model {
 			return 0;
 		} else {
 			$data['product_short'] = $para['product_short']; 
-			$product = $this->product_model->get_product($plan['product_short']);
+			$product = $this->product_model->get_product($para['product_short']);
 			if (empty($product)) {
 				$this->error = 'Unknown product_short';
 				return 0;
