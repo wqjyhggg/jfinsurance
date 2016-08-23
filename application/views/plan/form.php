@@ -235,7 +235,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 											<div class="col-sm-6">
 												<label class="col-sm-12">&nbsp;</label>
 												<div class="col-sm-12">
-													<?php if ((($status_id == 2) || ($status_id == 3) || ($status_id == 4)) && !empty($customer_id) && $user_group_id !=3) {?>
+													<?php if ((($status_id == 2) || ($status_id == 3) || ($status_id == 4)) && !empty($customer_id) && $user_group_id !=3 && $user_group_id != 103) {?>
 													<a class="btn btn-primary" href='<?php echo $claimurl . $customer_id; ?>'>Claim</a>
 													<?php } ?>
 												</div>
@@ -290,7 +290,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 												<div class="col-sm-6">
 													<label class="col-sm-12">&nbsp;</label>
 													<div class="col-sm-12">
-														<?php if ((($status_id == 2) || ($status_id == 3) || ($status_id == 4)) && !empty($customer_id) && $user_group_id !=3) {?>
+														<?php if ((($status_id == 2) || ($status_id == 3) || ($status_id == 4)) && !empty($customer_id) && $user_group_id !=3 && $user_group_id != 103) {?>
 														<a class="btn btn-primary" href='<?php echo $claimurl . ${'customer_id_'.$i}; ?>'>Claim</a>
 														<?php } ?>
 													</div>
