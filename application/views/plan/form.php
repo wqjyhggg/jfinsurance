@@ -63,12 +63,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						
 						<div class="col-sm-3 pull-right text-right">
 						<?php /* it should be created plan */ ?>
-						<?php if ($status_id == 1) { /* qutoe */ ?>
+						<?php if ($status_id == 1 && $user_group_id != 103) { /* qutoe */ ?>
 
 						<a href='<?php echo $pay_url; ?>'><span class="btn btn-info">Pay</span></a>
 						<?php } ?> 
 
-						<?php if($user_group_id != 3){ ?>
+						<?php if($user_group_id != 3  && $user_group_id != 103){ ?>
 						<a href='<?php echo $copy_url; ?>'><span class="btn btn-info">Copy</span></a>
 						<?php } ?>
 						<?php if ($status_id > 1 && $user_group_id !=3) { ?>
@@ -485,7 +485,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					</div><br />
 
 
-					<?php if(($user_group_id>100 && $status_id>1) || $user_group_id == 3){ ?>
+					<?php if(($user_group_id>100 && $status_id>1) || $user_group_id == 3 || $user_group_id == 103){ ?>
 					<div class="row" style="display:none">
 					<?php }else{ ?>
 					<div class="row">
