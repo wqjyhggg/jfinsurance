@@ -299,7 +299,7 @@ class Batch_model extends CI_Model {
 					$para = array(
 							'plan_id' => $plan['plan_id'],
 							'customer_id' => $plan['customer_id'],
-							'payment_id' => $payment_id,
+							'payment_id' => $plan['payment_id'],
 							'message' => $this->plan_model->logstr,
 							'systemlog' => $this->plan_model->sqlstr
 					);
