@@ -841,6 +841,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 												<th>Rate</th>
 												<th>Pay Status</th>
 												<th>Date</th>
+												<th>Info</th>
 												<th>Notes</th>
 											</tr>
 										</thead>
@@ -864,15 +865,27 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 														$pay_str = '-';
 													}
 												}
-											?>
+												$pay_info = '';
+												if (!empty($p['invoice_num'])) $pay_info .= "[".$p['invoice_num']."]";
+												if (!empty($p['bank_name'])) $pay_info .= "[".$p['bank_name']."]";
+												if (!empty($p['payor_name'])) $pay_info .= "[".$p['payor_name']."]";
+												if (!empty($p['cheque_number'])) $pay_info .= "[".$p['cheque_number']."]";
+												if (!empty($p['pay_to'])) $pay_info .= "[".$p['pay_to']."]";
+												if (!empty($p['name'])) $pay_info .= "[".$p['name']."]";
+												if (!empty($p['first5'])) $pay_info .= "[".$p['first5']."]";
+												if (!empty($p['last4'])) $pay_info .= "[".$p['last4']."]";
+												if (!empty($p['expiry_month'])) $pay_info .= "[".$p['expiry_month']."]";
+												if (!empty($p['expiry_year'])) $pay_info .= "[".$p['expiry_year']."]";
+												?>
 											<tr>
 												<td><?php if (empty($p['ispaid'])) { ?><input type='checkbox' name='payment[]' value='<?php echo $p['payment_id']; ?>'><?php } ?></td>
 												<td><?php echo $p['pay_type']; ?></td>
 												<td><?php echo $p['pay_mothed']; ?></td>
 												<td><?php echo $p['amount']; ?></td>
-												<td><?php echo $p['rate']; ?></td>
+												<td><?php echo $p['rate'] . "%"; ?></td>
 												<td><?php echo $pay_str; ?></td>
 												<td><?php echo $p['added']; ?></td>
+												<td><?php echo $pay_info; ?></td>
 												<td><?php echo (strlen($p['note']) > 60) ? (substr($p['note'], 0, 57) . "...") : $p['note']; ?></td>
 											</tr>
 											<?php 		} ?>

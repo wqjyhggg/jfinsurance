@@ -1225,6 +1225,10 @@ class Plan extends MY_Controller {
 		if (empty($plan)) {
 			redirect('user/login');
 		}
+		$days = $this->product_model->getDays('today', $plan['effective_date']);
+		if ($days < 1) {
+			redirect('user/login');
+		}
 		if (empty($sekey)) {
 			$beuser = $this->func_model->verify_login();
 		} else {
@@ -1282,10 +1286,14 @@ class Plan extends MY_Controller {
 		$data['customer'] = $this->customer_model->get_customer_by_id($plan['customer_id']);
 		$data['customers'] = $this->customer_model->get_customer_by_parent_id($plan['customer_id']);
 		
-		if ($beuser['user_group_id'] < 100) {
-			$data['paytype_list'] = $this->paytype_model->paytype_list();
+		if (empty($sekey)) {
+			if ($beuser['user_group_id'] < 100) {
+				$data['paytype_list'] = $this->paytype_model->paytype_list();
+			} else {
+				$data['paytype_list'] = explode(",", trim($beuser['pay_type']));
+			}
 		} else {
-			$data['paytype_list'] = explode(",", trim($beuser['pay_type']));
+			$data['paytype_list'] = $this->paytype_model->paytype_default();
 		}
 		$data['payurl'] = base_url('plan/detail/' . $plan_id . '/' . $this->plan_model->get_plan_key($plan_id));
 		$data['active_url'] = current_url();
