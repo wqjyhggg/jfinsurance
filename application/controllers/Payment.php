@@ -43,8 +43,9 @@ class Payment extends MY_Controller {
 						// Submit pay
 						$this->payment_model->update($payment_id, $payarr);
 						if ($pay['pay_type'] == 'premium') {
+							$unpaied = $this->payment_model->get_payment($pay['plan_id'], 'premium', 0);
 							$plan = $this->plan_model->get_plan_by_id($pay['plan_id']);
-							if ($plan && ($plan['status_id'] == 2)) {
+							if (empty($unpaied) && $plan && ($plan['status_id'] == 2)) {
 								$note = 'Mark pay by: ' . $beuser['username'] . "; " . $plan['note'];
 								$para = array('note' => $note, 'status_id' => 3);
 								$this->plan_model->update($plan['plan_id'], $para);

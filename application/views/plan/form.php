@@ -72,7 +72,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<a href='<?php echo $copy_url; ?>'><span class="btn btn-info">Copy</span></a>
 						<?php } ?>
 						<?php if ($status_id > 1 && $user_group_id !=3) { ?>
+						<?php 	if (($status_id == 2) || ($status_id == 3)) { ?>
 							<a href='<?php echo $sendpackage_url . $plan_id; ?>'><span class="btn btn-info">Send Package</span></a>
+						<?php 	} ?>
 						<?php if ($status_id == 3 && $user_group_id <= 100 ) { ?>
 						<?php if((time()-(60*60*24)) < strtotime($effective_date)){ ?>
 							<a href='<?php echo $cancel_url . $plan_id; ?>'><span class="btn btn-info">Cancel</span></a>

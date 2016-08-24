@@ -835,7 +835,7 @@ class Plan extends MY_Controller {
 		$this->load->model('payment_model');
 		
 		$plan_id = $this->input->post('plan_id');
-		$premium = preg_replace("/[^0-9\.]/", "", $this->input->post('premium'));
+		$premium = preg_replace("/[^0-9\.-]/", "", $this->input->post('premium'));
 		
 		if (empty( $this->input->post('card_number') ) ) {
 			$this->error = 'Please input Card Number.';
@@ -867,15 +867,12 @@ class Plan extends MY_Controller {
 			$dt['expiry_month'] = $expiry_month;
 			$dt['expiry_year'] = $expiry_year;
 			$dt['ispaid'] = 0;
-			$paid_amount = $this->payment_model->get_total_paid($plan_id, 'premium');
 			$commission_rate = $this->product_model->get_commission_rate($plan['product_short'], $plan['user_id']);
 			$commission_amount = $premium * $commission_rate / 100.0;
-			$paid_commission_amount = $this->payment_model->get_total_paid($plan_id, 'commission');
 			$up_commission_rate = $this->product_model->get_up_commission_rate($plan['product_short']);
 			$up_commission_amount = $premium * $up_commission_rate / 100.0;
-			$paid_up_commission_amount = $this->payment_model->get_total_paid($plan_id, 'up_commission');
 					
-			$dt['amount'] = $premium - $paid_amount;
+			$dt['amount'] = $premium;
 			$dt['rate'] = 100;
 			$dt['pay_type'] = 'premium';
 			$payment_id = $this->payment_model->add($dt);
@@ -887,10 +884,9 @@ class Plan extends MY_Controller {
 					'systemlog' => $this->payment_model->sqlstr
 			);
 			$this->log_model->activity('payment', $para);
-			$premium = $dt['amount'];	// Adjust amount if it was paid 
 
 			// upstream commission
-			$dt['amount'] = $up_commission_amount - $paid_up_commission_amount;
+			$dt['amount'] = $up_commission_amount;
 			$dt['rate'] = $up_commission_rate;
 			$dt['pay_type'] = 'up_commission';
 			$up_commission_payment_id = $this->payment_model->add($dt);
@@ -904,7 +900,7 @@ class Plan extends MY_Controller {
 			$this->log_model->activity('up_commission', $para);
 
 			// commission
-			$dt['amount'] = $commission_amount - $paid_commission_amount;
+			$dt['amount'] = $commission_amount;
 			$dt['rate'] = $commission_rate;
 			$dt['pay_type'] = 'commission';
 			if (($plan['product_short'] == 'OPL') || ($plan['product_short'] == 'JFR') && ($premium > 100000)) {
@@ -1032,7 +1028,7 @@ class Plan extends MY_Controller {
 		$this->load->model('payment_model');
 		
 		$plan_id = $this->input->post('plan_id');
-		$premium = preg_replace("/[^0-9\.]/", "", $this->input->post('premium'));
+		$premium = preg_replace("/[^0-9\.-]/", "", $this->input->post('premium'));
 		$payinfo = "Pay Cash: " . 'Premium: $' . $premium . "; ";
 		
 		$plan = $this->plan_model->get_plan_by_id($plan_id);
@@ -1047,15 +1043,12 @@ class Plan extends MY_Controller {
 		$dt['note'] = $payinfo;
 		$dt['ispaid'] = 0;
 
-		$paid_amount = $this->payment_model->get_total_paid($plan_id, 'premium');
 		$commission_rate = $this->product_model->get_commission_rate($plan['product_short'], $plan['user_id']);
 		$commission_amount = $premium * $commission_rate / 100.0;
-		$paid_commission_amount = $this->payment_model->get_total_paid($plan_id, 'commission');
 		$up_commission_rate = $this->product_model->get_up_commission_rate($plan['product_short']);
 		$up_commission_amount = $premium * $up_commission_rate / 100.0;
-		$paid_up_commission_amount = $this->payment_model->get_total_paid($plan_id, 'up_commission');
 		
-		$dt['amount'] = $premium - $paid_amount;
+		$dt['amount'] = $premium;
 		$dt['rate'] = 100;
 		$dt['pay_type'] = 'premium';
 		$payment_id = $this->payment_model->add($dt);
@@ -1067,10 +1060,9 @@ class Plan extends MY_Controller {
 				'systemlog' => $this->payment_model->sqlstr
 		);
 		$this->log_model->activity('payment', $para);
-		$premium = $dt['amount'];	// Adjust amount if it was paid
 		
 		// up commission
-		$dt['amount'] = $up_commission_amount - $paid_up_commission_amount;
+		$dt['amount'] = $up_commission_amount;
 		$dt['rate'] = $up_commission_rate;
 		$dt['pay_type'] = 'up_commission';
 		$up_commission_payment_id = $this->payment_model->add($dt);
@@ -1084,7 +1076,7 @@ class Plan extends MY_Controller {
 		$this->log_model->activity('up_commission', $para);
 
 		// commission
-		$dt['amount'] = $commission_amount - $paid_commission_amount;
+		$dt['amount'] = $commission_amount;
 		$dt['rate'] = $commission_rate;
 		$dt['pay_type'] = 'commission';
 		if (($plan['product_short'] == 'OPL') || ($plan['product_short'] == 'JFR') && ($premium > 100000)) {
@@ -1118,7 +1110,7 @@ class Plan extends MY_Controller {
 		$this->load->model('payment_model');
 		
 		$plan_id = $this->input->post('plan_id');
-		$premium = preg_replace("/[^0-9\.]/", "", $this->input->post('premium'));
+		$premium = preg_replace("/[^0-9\.-]/", "", $this->input->post('premium'));
 		$payinfo  = 'Invoice Number: ' . $this->input->post('invoice_num') . "; ";
 		$payinfo .= 'Bank Name: ' . $this->input->post('bank_name') . "; ";
 		$payinfo .= 'Payor Name: ' . $this->input->post('payor_name') . "; ";
@@ -1140,15 +1132,13 @@ class Plan extends MY_Controller {
 		$dt['added'] = date('c');
 		$dt['note'] = $payinfo;
 		$dt['ispaid'] = 0;
-		$paid_amount = $this->payment_model->get_total_paid($plan_id, 'premium');
+
 		$commission_rate = $this->product_model->get_commission_rate($plan['product_short'], $plan['user_id']);
 		$commission_amount = $premium * $commission_rate / 100.0;
-		$paid_commission_amount = $this->payment_model->get_total_paid($plan_id, 'commission');
 		$up_commission_rate = $this->product_model->get_up_commission_rate($plan['product_short']);
 		$up_commission_amount = $premium * $up_commission_rate / 100.0;
-		$paid_up_commission_amount = $this->payment_model->get_total_paid($plan_id, 'up_commission');
 		
-		$dt['amount'] = $premium - $paid_amount;
+		$dt['amount'] = $premium;
 		$dt['rate'] = 100;
 		$dt['pay_type'] = 'premium';
 		$payment_id = $this->payment_model->add($dt);
@@ -1160,10 +1150,9 @@ class Plan extends MY_Controller {
 				'systemlog' => $this->payment_model->sqlstr
 		);
 		$this->log_model->activity('payment', $para);
-		$premium = $dt['amount'];	// Adjust amount if it was paid
 
 		// up commission
-		$dt['amount'] = $up_commission_amount - $paid_up_commission_amount;
+		$dt['amount'] = $up_commission_amount;
 		$dt['rate'] = $up_commission_rate;
 		$dt['pay_type'] = 'up_commission';
 		$up_commission_payment_id = $this->payment_model->add($dt);
@@ -1177,7 +1166,7 @@ class Plan extends MY_Controller {
 		$this->log_model->activity('up_commission', $para);
 
 		// commission
-		$dt['amount'] = $commission_amount - $paid_commission_amount;
+		$dt['amount'] = $commission_amount;
 		$dt['rate'] = $commission_rate;
 		$dt['pay_type'] = 'commission';
 		if (($plan['product_short'] == 'OPL') || ($plan['product_short'] == 'JFR') && ($premium > 100000)) {
@@ -1231,6 +1220,7 @@ class Plan extends MY_Controller {
 		$this->load->model('product_model');
 		$this->load->model('paytype_model');
 		$this->load->model('status_model');
+		$this->load->model('payment_model');
 		$plan = $this->plan_model->get_plan_by_id($plan_id);
 		if (empty($plan)) {
 			redirect('user/login');
@@ -1251,7 +1241,7 @@ class Plan extends MY_Controller {
 		$data['sekey'] = $sekey;
 		$data['apply_date'] = date('Y-m-d');
 	
-		if ($plan['status_id'] < 2) {
+		if (($plan['status_id'] < 2) && ($beuser['user_group_id'] > 100)) {
 			// Before Sold
 			$para = array();
 			$para['product_short'] = $plan['product_short'];
@@ -1265,7 +1255,7 @@ class Plan extends MY_Controller {
 			$para['holiday_rate'] = $plan['holiday_rate'];
 			$para['spouse'] = $plan['spouse'];
 			$para['stable_condition'] = $plan['stable_condition'];
-			$para['holiday_rate'] = (($plan['product_short'] == 'JES') && ($plan['dailyrate'] >= 1.84)) ? 1 : 0;
+			$para['holiday_rate'] = $plan['holiday_rate'];
 			$para['birthday'] = $this->customer_model->get_max_birthday($plan['customer_id'], $plan['isfamilyplan'], $plan['product_short']);
 			$para['number_customer'] = $this->customer_model->get_number_customer($plan['customer_id'], $plan['isfamilyplan']);
 			$premiumarr = $this->product_model->get_premium($para);
@@ -1300,39 +1290,39 @@ class Plan extends MY_Controller {
 		$data['payurl'] = base_url('plan/detail/' . $plan_id . '/' . $this->plan_model->get_plan_key($plan_id));
 		$data['active_url'] = current_url();
 		$data['status_list'] = $this->status_model->status_list();
-		if ($plan['status_id'] <= 2) {
-			$display = 1;
-			if (empty($data['defaultpay_type'])) {
-				if (in_array('Credit Card', $data['paytype_list'])) {
-					$data['credit_dis'] = $display;
-					$data['pay_type'] = 'Credit Card';
-					$display = 0;
-				}
-				if (in_array('Cheque', $data['paytype_list'])) {
-					$data['cheque_dis'] = $display;
-					$data['pay_type'] = 'Cheque';
-					$display = 0;
-				}
-				if (in_array('Cash', $data['paytype_list'])) {
-					$data['cash_dis'] = $display;
-					$data['pay_type'] = 'Cash';
-					$display = 0;
-				}
-			} else {
-				$data['credit_dis'] = 0;
-				$data['cheque_dis'] = 0;
-				$data['cash_dis'] = 0;
-				$data['pay_type'] = $data['defaultpay_type'];
-				if ($data['pay_type'] == 'Credit Card') {
-					$data['credit_dis'] = 1;
-				} else if ($data['pay_type'] == 'Cheque') {
-					$data['cheque_dis'] = 1;
-				} else /* if ($data['pay_type'] == 'Cash') */ {
-					$data['cash_dis'] = 1;
-				}
+		$data['payment_total'] = $plan['premium'] - $this->payment_model->get_total_paid($plan['plan_id'], 'premium');
+		$data['defaultpay_type'] = $defaultpay_type;
+		$display = 1;
+		if (empty($defaultpay_type)) {
+			if (in_array('Credit Card', $data['paytype_list'])) {
+				$data['credit_dis'] = $display;
+				$data['pay_type'] = 'Credit Card';
+				$display = 0;
+			}
+			if (in_array('Cheque', $data['paytype_list'])) {
+				$data['cheque_dis'] = $display;
+				$data['pay_type'] = 'Cheque';
+				$display = 0;
+			}
+			if (in_array('Cash', $data['paytype_list'])) {
+				$data['cash_dis'] = $display;
+				$data['pay_type'] = 'Cash';
+				$display = 0;
+			}
+		} else {
+			$data['credit_dis'] = 0;
+			$data['cheque_dis'] = 0;
+			$data['cash_dis'] = 0;
+			$data['pay_type'] = $defaultpay_type;
+			if ($data['pay_type'] == 'Credit Card') {
+				$data['credit_dis'] = 1;
+			} else if ($data['pay_type'] == 'Cheque') {
+				$data['cheque_dis'] = 1;
+			} else if ($data['pay_type'] == 'Cash') {
+				$data['cash_dis'] = 1;
 			}
 		}
-
+		
 		$data['policy_user'] = $this->user_model->get_user_by_id($plan['user_id']);
 		$data['pdf_url'] = base_url('plan/pdf/' . $plan['plan_id']);
 		$data['print_card_url'] = '';
@@ -1801,7 +1791,6 @@ class Plan extends MY_Controller {
 						'systemlog' => $this->plan_model->sqlstr
 				);
 				$this->log_model->activity('plan', $para);
-				
 				redirect('plan');
 			} else {
 				$data['error_message'] = 'Invalid refund amount';

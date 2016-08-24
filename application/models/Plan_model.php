@@ -350,13 +350,21 @@ class Plan_model extends CI_Model {
 			$this->logstr .= " dailyrate " . $para['dailyrate'] . "(" . $plan['dailyrate'] . ")";
 			$sql .= " dailyrate='" . (float) $para['dailyrate'] . "', ";
 		}
+		$premiumchanged = 0;
 		if (isset($para['premium']) && ((float)$para['premium'] != (float)$plan['premium'])) {
 			$this->logstr .= " premium " . $para['premium'] . "(" . $plan['premium'] . ")";
 			$sql .= " premium='" . (float) $para['premium'] . "', ";
+			$premiumchanged = 1;
 		}
 		if (isset($para['status_id']) && ((int)$para['status_id'] != (int)$plan['status_id'])) {
 			$this->logstr .= " status_id " . $para['status_id'] . "(" . $plan['status_id'] . ")";
 			$sql .= " status_id='" . (int)$para['status_id'] . "', ";
+		} else if ($premiumchanged) {
+			if (($plan['status_id'] == 2) || ($plan['status_id'] == 3)) {
+				// Forced to changed status
+				$this->logstr .= " status_id 7(" . $plan['status_id'] . ")";
+				$sql .= " status_id='7', ";
+			}
 		}
 		if (isset($para['commission_amount']) && ((float)$para['commission_amount'] != (float)$plan['commission_amount'])) {
 			$this->logstr .= " commission_amount " . $para['commission_amount'] . "(" . $plan['commission_amount'] . ")";
