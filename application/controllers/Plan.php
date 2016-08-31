@@ -1225,10 +1225,6 @@ class Plan extends MY_Controller {
 		if (empty($plan)) {
 			redirect('user/login');
 		}
-		$days = $this->product_model->getDays('today', $plan['effective_date']);
-		if ($days < 1) {
-			redirect('user/login');
-		}
 		if (empty($sekey)) {
 			$beuser = $this->func_model->verify_login();
 		} else {
@@ -1298,7 +1294,13 @@ class Plan extends MY_Controller {
 		$data['payurl'] = base_url('plan/detail/' . $plan_id . '/' . $this->plan_model->get_plan_key($plan_id));
 		$data['active_url'] = current_url();
 		$data['status_list'] = $this->status_model->status_list();
-		$data['payment_total'] = $plan['premium'] - $this->payment_model->get_total_paid($plan['plan_id'], 'premium');
+		$days = $this->product_model->getDays('today', $plan['effective_date']);
+		if ($days < 1) {
+			$data['error_message'] = "You have to pay before Effective date.";
+			$data['payment_total'] = '';
+		} else {
+			$data['payment_total'] = $plan['premium'] - $this->payment_model->get_total_paid($plan['plan_id'], 'premium');
+		}
 		$data['defaultpay_type'] = $defaultpay_type;
 		$display = 1;
 		if (empty($defaultpay_type)) {
@@ -1560,8 +1562,11 @@ class Plan extends MY_Controller {
 		
 		$data['title_txt'] = 'Policy';
 		$data['style'] = $this->load->view('common/pdf_style',$data, TRUE);		
-		
 		$mpdf = new mPDF('c');
+		if ($plan['status_id'] < 2) {
+			$mpdf->SetWatermarkText ("QUOTE", 0.1);
+			$mpdf->showWatermarkText = true;
+		}
 		$html = $this->load->view('plan/pdf', $data, TRUE);
 		$mpdf->writeHTML($html);
 		$mpdf->Output();

@@ -34,8 +34,10 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 							Review Policy Detail
 							<span><b>[ <?php echo $status_list[$plan['status_id']]['name']; ?> ]</b></span>
 						</h2>
-					<?php if (($plan['status_id'] == 2) || ($plan['status_id'] == 3)) { ?>
+					<?php if (($plan['status_id'] == 1) || ($plan['status_id'] == 2) || ($plan['status_id'] == 3)) { ?>
 						<a class="btn btn-info pull-right" target="_blank" href='<?php echo $pdf_url; ?>'>Export PDF</a>
+					<?php } ?>
+					<?php if (($plan['status_id'] == 2) || ($plan['status_id'] == 3)) { ?>
 						<?php if (!empty($print_card_url)) { ?>
 						<a class="btn btn-info pull-right" target="_blank" href='<?php echo $print_card_url; ?>'>Print Card</a>
 						<?php } ?>
@@ -52,6 +54,12 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 						<div class="clearfix"></div>
 					</div>
 					<div class="x_content">
+						<?php if (!empty($error_message)) { ?>
+						<div class="alert-error" style="margin-bottom:15px;">
+							<?php echo $error_message; ?>
+						</div>
+						<?php } ?>
+
 						<div class="p-detail"><!-- policy detail -->
 							<div class="row">
 								<div class="col-sm-3">
@@ -231,7 +239,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 								<?php if (!empty($payment_total)) { ?>						
 									<button class="btn btn-primary pull-right" data-toggle="collapse" data-target="#payment-div">Confirm and Pay</button>		
 								<?php } ?>
-								<?php if (($plan['status_id'] == 2) || ($plan['status_id'] == 3)) { ?>
+								<?php if (($plan['status_id'] == 1) || ($plan['status_id'] == 2) || ($plan['status_id'] == 3)) { ?>
 									<a class="btn btn-info pull-right" target="_blank" href='<?php echo $pdf_url; ?>'>Export PDF</a>
 								<?php } ?>
 

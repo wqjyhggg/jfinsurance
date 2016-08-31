@@ -473,7 +473,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										</div>
 									</div>
 								</div>
-								<div class="row">
+								<div class="row" <?php if ($user_group_id > 100) { ?>style='display:none; '<?php } ?>>
 									<div class="col-sm-12">
 										<label class="col-sm-12">Notes: </label>
 										<div class="input-group col-sm-12">
