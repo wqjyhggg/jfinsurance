@@ -227,7 +227,9 @@ class CI_Security {
 		if ( ! isset($_POST[$this->_csrf_token_name], $_COOKIE[$this->_csrf_cookie_name])
 			OR $_POST[$this->_csrf_token_name] !== $_COOKIE[$this->_csrf_cookie_name]) // Do the tokens match?
 		{
-			$this->csrf_show_error();
+			//$this->csrf_show_error();
+			header('Location: '.$_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
+			exit;
 		}
 
 		// We kill this since we're done and we don't want to polute the _POST array
