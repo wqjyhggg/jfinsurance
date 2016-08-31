@@ -55,7 +55,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<label><span><?php echo $plan_full_name; ?></span></label>
 						</div>
 						<div class="form-group col-sm-3">
-							<label style="text-transform: capitalize;">By Agent: <?php echo $policy_user['firstname'] . " " . $policy_user['lastname']; ?></label>
+							<label style="text-transform: capitalize;">By Agent<?php echo "[ AgentID:" . $policy_user['user_id'] . " ] "; ?>: <?php echo $policy_user['firstname'] . " " . $policy_user['lastname']; ?></label>
 						</div>
 					</div>
 					<?php } else { ?>
@@ -96,7 +96,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						</div>
 						
 						<div class="form-group col-sm-3">
-							<label style="text-transform: capitalize;">By Agent: <?php echo $policy_user['firstname'] . " " . $policy_user['lastname']; ?></label>
+							<label style="text-transform: capitalize;">By Agent<?php echo "[ AgentID:" . $policy_user['user_id'] . " ] "; ?>: <?php echo $policy_user['firstname'] . " " . $policy_user['lastname']; ?></label>
 						</div>
 						<?php if ($user_group_id != 1) { ?>
 							<?php /* it is school or brokerage or agent */ ?>

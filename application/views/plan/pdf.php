@@ -26,7 +26,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 		</div>
 		<div class="row">
 			<div class="col-sm-12 text-right">
-				<h2 style="margin:0;">Confirmation of Insurance</h2>
+				<h2 style="margin:0;"><?php if ($plan['status_id'] < 2) { ?>Quote<?php } else {?>Confirmation<?php } ?> of Insurance</h2>
 			</div>
 		</div>
 		

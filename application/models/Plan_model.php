@@ -550,7 +550,7 @@ class Plan_model extends CI_Model {
 			}
 		}
 				
-		$sql  = "SELECT p.*, c.firstname, c.lastname, c.gender, c.birthday, u.firstname AS agent_firstname, u.lastname AS agent_lastname FROM plan p";
+		$sql  = "SELECT p.*, c.firstname, c.lastname, c.gender, c.birthday, u.firstname AS agent_firstname, u.lastname AS agent_lastname, u.user_id AS agent_id FROM plan p";
 		$sql .= " INNER JOIN customer c ON (p.customer_id=c.customer_id)";
 		$sql .= " INNER JOIN user u ON (p.user_id=u.user_id)";
 		$where = array();

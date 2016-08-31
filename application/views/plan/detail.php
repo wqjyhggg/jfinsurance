@@ -69,7 +69,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 									<label><?php if ($plan['status_id'] < 2) { ?>Quote<?php } else {?>Policy<?php } ?> Number: <span><?php echo $plan['policy']; ?></span></label>
 								</div>
 								<div class="col-sm-3">
-									<label style="text-transform: capitalize;">  By agent: <?php echo $policy_user['firstname'] . " " . $policy_user['lastname']; ?></label>
+									<label style="text-transform: capitalize;">  By agent <?php echo "[ AgentID:" . $policy_user['user_id'] . " ] "; ?>: <?php echo $policy_user['firstname'] . " " . $policy_user['lastname']; ?></label>
 								</div>
 								
 							</div>		

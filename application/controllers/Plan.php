@@ -1240,7 +1240,16 @@ class Plan extends MY_Controller {
 		$data['beuser'] = $beuser;
 		$data['sekey'] = $sekey;
 		$data['apply_date'] = date('Y-m-d');
-	
+		if ($play_type = $this->input->post('play_type')) {
+			// Pay Action
+			if (($plan['status_id'] == 3) && empty($this->session->userdata ('user'))) {
+				// Paid Status and Paied from User
+				$this->load->model('mymail_model');
+				$body = "Hi; \r\nYour client " . $plan['firstname'] . " " . $plan['lastname'] . " has paied for Policy " . $plan['polcy'];
+				$this->mymail_model->send_mymail($beuser['email'], 'Your client paide', $body);
+			}
+		}
+		
 		if (($plan['status_id'] < 2) && ($beuser['user_group_id'] > 100)) {
 			// Before Sold
 			$para = array();

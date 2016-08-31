@@ -339,7 +339,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<td><?php echo $plan['effective_date']; ?></td>
 							<td><?php echo $plan['firstname'] . " " . $plan['lastname']; ?></td>
 					<?php if ($beuser['user_group_id'] < 105) { ?>
-							<td><?php echo $plan['agent_firstname'] . " " . $plan['agent_lastname']; ?></td>
+							<td><?php echo $plan['agent_firstname'] . " " . $plan['agent_lastname'] . " [ Agent ID: " . $plan['agent_id'] . " ] "; ?></td>
 					<?php } ?>
 							<td><a style="color:#46b8da;" href='<?php echo $copy_url.$plan['plan_id']; ?>'>Copy</a> <?php if (($plan['status_id'] == 2) || ($plan['status_id'] == 3)) { ?> | <a style="color:#46b8da;" href='<?php echo $sendpackage_url . $plan['plan_id']; ?>'>Send Package</a><?php } ?></td>
 						</tr>

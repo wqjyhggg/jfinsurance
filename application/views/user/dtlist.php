@@ -129,6 +129,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <th>Username</th>
                             <th>Type</th>
                             <th>Brokerage</th>
+                            <th>Agent ID</th>
                             <th>Name</th>
                             <th>Email</th>
                             <th>Licence#</th>
@@ -150,6 +151,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             </td>
                             <td><?php echo $user_group_list[$user['user_group_id']]; ?></td>
                             <td><?php echo $user['business']; ?></td>
+                            <td><?php echo $user['user_id']; ?></td>
                             <td><?php echo $user['lastname'] . ", " . $user['firstname']; ?></td>
                             <td><?php echo $user['email']; ?></td>
                             <td><?php echo $user['licence_number']; ?></td>
