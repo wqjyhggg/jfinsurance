@@ -54,7 +54,11 @@ class Report_model extends CI_Model
             pl.premium AS policy_premium,
             pr.commission AS pr_commission,
             up.commission AS up_commission,
-            u.user_id
+            u.email AS agent_email,
+            u.username AS agent_username,
+        	u.firstname AS agent_firstname,
+            u.lastname AS agent_lastname,
+        	u.user_id
         ');
     }
 
@@ -76,6 +80,10 @@ class Report_model extends CI_Model
         foreach ($query as $row) {
             $row = $this->common_set_row($row);
 
+            $results[$row['user_id']]['data']['agent_username'] = $row['agent_username'];
+            $results[$row['user_id']]['data']['agent_email'] = $row['agent_email'];
+            $results[$row['user_id']]['data']['agent_firstname'] = $row['agent_firstname'];
+            $results[$row['user_id']]['data']['agent_lastname'] = $row['agent_lastname'];
             $results[$row['user_id']]['data']['policy_premium'] = (
                 empty($results[$row['user_id']]['data']['policy_premium']) ?
                 $row['policy_premium'] : $results[$row['user_id']]['data']['policy_premium'] + $row['policy_premium']);
