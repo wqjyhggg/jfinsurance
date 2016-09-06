@@ -235,6 +235,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <th>Total Premium</th>
                             <th>Outstanding Amount</th>
                           </tr>
+		<?php if (!empty($data['records'])) : ?>
         <?php foreach ($data['records'] as $record) : ?>
                             <tr>
                               <td><?=$record['order_date'] ?></td>
@@ -247,6 +248,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                               <td>$<?=$record['pa_amount'] ?></td>
                             </tr>
         <?php endforeach; ?>
+		<?php endif; ?>
                         </tbody>
     <?php endforeach; ?>
                       </table>
