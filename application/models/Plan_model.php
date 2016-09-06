@@ -4,7 +4,15 @@ if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
 class Plan_model extends CI_Model {
-	public $logstr;
+    const QUOTE = 1;
+    const SOLD = 2;
+    const PAID = 3;
+    const CLAIMED = 4;
+    const CANCEL = 5;
+    const REFUND = 6;
+    const CHANGED = 7;
+	
+    public $logstr;
 	public $sqlstr;
 	
 	/**

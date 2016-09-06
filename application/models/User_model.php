@@ -4,7 +4,14 @@ if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
 class User_model extends CI_Model {
-	public $logstr;
+    const ADMIN = 1;
+    const STAFF = 2;
+    const ACCOUNTING = 3;
+    const SCHOOL = 103;
+    const BROKERAGE = 104;
+    const AGENT = 105;
+	
+    public $logstr;
 	public $sqlstr;
 	
     /**
