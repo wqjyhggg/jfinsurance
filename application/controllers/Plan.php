@@ -1304,11 +1304,10 @@ class Plan extends MY_Controller {
 		$data['active_url'] = current_url();
 		$data['status_list'] = $this->status_model->status_list();
 		$days = $this->product_model->getDays('today', $plan['effective_date']);
-		if ($days < 1) {
+		$data['payment_total'] = $plan['premium'] - $this->payment_model->get_total_paid($plan['plan_id'], 'premium');
+		if (!empty($data['payment_total']) && ($days < 1)) {
 			$data['error_message'] = "You have to pay before Effective date.";
 			$data['payment_total'] = '';
-		} else {
-			$data['payment_total'] = $plan['premium'] - $this->payment_model->get_total_paid($plan['plan_id'], 'premium');
 		}
 		$data['defaultpay_type'] = $defaultpay_type;
 		$display = 1;
