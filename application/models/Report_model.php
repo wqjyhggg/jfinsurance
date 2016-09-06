@@ -10,7 +10,8 @@ class Report_model extends CI_Model
     const CLAIMED = 4;
     const CANCEL = 5;
     const REFUND = 6;
-
+    const CHANGED = 7;
+    
     const ADMIN = 1;
     const STAFF = 2;
     const ACCOUNTING = 3;
@@ -70,7 +71,7 @@ class Report_model extends CI_Model
 
     private function sales_report_agent_where($para)
     {
-        $this->db->where_in('pl.status_id', array(self::SOLD, self::PAID, self::CLAIMED));
+        $this->db->where_in('pl.status_id', array(self::SOLD, self::PAID, self::CLAIMED, self::CHANGED));
         $this->common_report_where($para);
     }
 
