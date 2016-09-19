@@ -144,7 +144,7 @@ class Batch_model extends CI_Model {
 			return 0;
 		} else {
 			$data['product_short'] = $para['product_short']; 
-			$product = $this->product_model->get_product($plan['product_short']);
+			$product = $this->product_model->get_product($para['product_short']);
 			if (empty($product)) {
 				$this->error = 'Unknown product_short';
 				return 0;
@@ -285,7 +285,7 @@ class Batch_model extends CI_Model {
 		$sql = $this->db->where('status_id', 2);
 		$sql = $this->db->where('batch_number', $batch_number);
 		$plans = $this->db->get('plan')->result_array();
-		echo "[[[".$this->db->last_query()."]]]";
+		$beuser = $this->session->userdata ( 'beuser' );
 		if ($plans) {
 			foreach ($plans as $plan) {
 				$pay = $this->payment_model->get_payment_by_id($plan['payment_id']);
@@ -299,7 +299,7 @@ class Batch_model extends CI_Model {
 					$para = array(
 							'plan_id' => $plan['plan_id'],
 							'customer_id' => $plan['customer_id'],
-							'payment_id' => $payment_id,
+							'payment_id' => $plan['payment_id'],
 							'message' => $this->plan_model->logstr,
 							'systemlog' => $this->plan_model->sqlstr
 					);

@@ -4,7 +4,14 @@ if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
 class User_model extends CI_Model {
-	public $logstr;
+    const ADMIN = 1;
+    const STAFF = 2;
+    const ACCOUNTING = 3;
+    const SCHOOL = 103;
+    const BROKERAGE = 104;
+    const AGENT = 105;
+	
+    public $logstr;
 	public $sqlstr;
 	
     /**
@@ -70,22 +77,22 @@ class User_model extends CI_Model {
 		} else {
 			$sql = "SELECT * FROM user WHERE parent_user_id = '" . (int)$user_id . "'";
 		}
-		if (isset($para['user_group_id'])) {
+		if (!empty($para['user_group_id'])) {
 			$sql .= " AND user_group_id = '" . (int)$para['user_group_id'] . "'";
 		}
-		if (isset($para['username'])) {
+		if (!empty($para['username'])) {
 			$sql .= " AND username LIKE " . $this->db->escape($para['username'] . "%");
 		}
-		if (isset($para['firstname'])) {
+		if (!empty($para['firstname'])) {
 			$sql .= " AND firstname LIKE " . $this->db->escape($para['firstname'] . "%");
 		}
-		if (isset($para['lastname'])) {
+		if (!empty($para['lastname'])) {
 			$sql .= " AND lastname LIKE " . $this->db->escape($para['lastname'] . "%");
 		}
-		if (isset($para['email'])) {
+		if (!empty($para['email'])) {
 			$sql .= " AND email LIKE " . $this->db->escape($para['email'] . "%");
 		}
-		if (isset($para['business'])) {
+		if (!empty($para['business'])) {
 			$sql .= " AND business LIKE " . $this->db->escape($para['business'] . "%");
 		}
 		return $this->db->query($sql)->result_array();

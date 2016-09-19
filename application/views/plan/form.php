@@ -55,7 +55,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<label><span><?php echo $plan_full_name; ?></span></label>
 						</div>
 						<div class="form-group col-sm-3">
-							<label style="text-transform: capitalize;">By Agent: <?php echo $policy_user['firstname'] . " " . $policy_user['lastname']; ?></label>
+							<label style="text-transform: capitalize;">By Agent<?php echo "[ AgentID:" . $policy_user['user_id'] . " ] "; ?>: <?php echo $policy_user['firstname'] . " " . $policy_user['lastname']; ?></label>
 						</div>
 					</div>
 					<?php } else { ?>
@@ -72,7 +72,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<a href='<?php echo $copy_url; ?>'><span class="btn btn-info">Copy</span></a>
 						<?php } ?>
 						<?php if ($status_id > 1 && $user_group_id !=3) { ?>
+						<?php 	if (($status_id == 2) || ($status_id == 3)) { ?>
 							<a href='<?php echo $sendpackage_url . $plan_id; ?>'><span class="btn btn-info">Send Package</span></a>
+						<?php 	} ?>
 						<?php if ($status_id == 3 && $user_group_id <= 100 ) { ?>
 						<?php if((time()-(60*60*24)) < strtotime($effective_date)){ ?>
 							<a href='<?php echo $cancel_url . $plan_id; ?>'><span class="btn btn-info">Cancel</span></a>
@@ -94,7 +96,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						</div>
 						
 						<div class="form-group col-sm-3">
-							<label style="text-transform: capitalize;">By Agent: <?php echo $policy_user['firstname'] . " " . $policy_user['lastname']; ?></label>
+							<label style="text-transform: capitalize;">By Agent<?php echo "[ AgentID:" . $policy_user['user_id'] . " ] "; ?>: <?php echo $policy_user['firstname'] . " " . $policy_user['lastname']; ?></label>
 						</div>
 						<?php if ($user_group_id != 1) { ?>
 							<?php /* it is school or brokerage or agent */ ?>
@@ -471,7 +473,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										</div>
 									</div>
 								</div>
-								<div class="row">
+								<div class="row" <?php if ($user_group_id > 100) { ?>style='display:none; '<?php } ?>>
 									<div class="col-sm-12">
 										<label class="col-sm-12">Notes: </label>
 										<div class="input-group col-sm-12">
@@ -839,6 +841,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 												<th>Rate</th>
 												<th>Pay Status</th>
 												<th>Date</th>
+												<th>Info</th>
 												<th>Notes</th>
 											</tr>
 										</thead>
@@ -862,15 +865,27 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 														$pay_str = '-';
 													}
 												}
-											?>
+												$pay_info = '';
+												if (!empty($p['invoice_num'])) $pay_info .= "[".$p['invoice_num']."]";
+												if (!empty($p['bank_name'])) $pay_info .= "[".$p['bank_name']."]";
+												if (!empty($p['payor_name'])) $pay_info .= "[".$p['payor_name']."]";
+												if (!empty($p['cheque_number'])) $pay_info .= "[".$p['cheque_number']."]";
+												if (!empty($p['pay_to'])) $pay_info .= "[".$p['pay_to']."]";
+												if (!empty($p['name'])) $pay_info .= "[".$p['name']."]";
+												if (!empty($p['first5'])) $pay_info .= "[".$p['first5']."]";
+												if (!empty($p['last4'])) $pay_info .= "[".$p['last4']."]";
+												if (!empty($p['expiry_month'])) $pay_info .= "[".$p['expiry_month']."]";
+												if (!empty($p['expiry_year'])) $pay_info .= "[".$p['expiry_year']."]";
+												?>
 											<tr>
 												<td><?php if (empty($p['ispaid'])) { ?><input type='checkbox' name='payment[]' value='<?php echo $p['payment_id']; ?>'><?php } ?></td>
 												<td><?php echo $p['pay_type']; ?></td>
 												<td><?php echo $p['pay_mothed']; ?></td>
 												<td><?php echo $p['amount']; ?></td>
-												<td><?php echo $p['rate']; ?></td>
+												<td><?php echo $p['rate'] . "%"; ?></td>
 												<td><?php echo $pay_str; ?></td>
 												<td><?php echo $p['added']; ?></td>
+												<td><?php echo $pay_info; ?></td>
 												<td><?php echo (strlen($p['note']) > 60) ? (substr($p['note'], 0, 57) . "...") : $p['note']; ?></td>
 											</tr>
 											<?php 		} ?>

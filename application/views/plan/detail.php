@@ -34,7 +34,10 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 							Review Policy Detail
 							<span><b>[ <?php echo $status_list[$plan['status_id']]['name']; ?> ]</b></span>
 						</h2>
+					<?php if (($plan['status_id'] == 1) || ($plan['status_id'] == 2) || ($plan['status_id'] == 3)) { ?>
 						<a class="btn btn-info pull-right" target="_blank" href='<?php echo $pdf_url; ?>'>Export PDF</a>
+					<?php } ?>
+					<?php if (($plan['status_id'] == 2) || ($plan['status_id'] == 3)) { ?>
 						<?php if (!empty($print_card_url)) { ?>
 						<a class="btn btn-info pull-right" target="_blank" href='<?php echo $print_card_url; ?>'>Print Card</a>
 						<?php } ?>
@@ -47,9 +50,16 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 						<?php if (!empty($refund_letter_url)) { ?>
 						<a class="btn btn-info pull-right" target="_blank" href='<?php echo $refund_letter_url; ?>'>Refund letter</a>
 						<?php } ?>
+					<?php } ?>
 						<div class="clearfix"></div>
 					</div>
 					<div class="x_content">
+						<?php if (!empty($error_message)) { ?>
+						<div class="alert-error" style="margin-bottom:15px;">
+							<?php echo $error_message; ?>
+						</div>
+						<?php } ?>
+
 						<div class="p-detail"><!-- policy detail -->
 							<div class="row">
 								<div class="col-sm-3">
@@ -59,7 +69,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 									<label><?php if ($plan['status_id'] < 2) { ?>Quote<?php } else {?>Policy<?php } ?> Number: <span><?php echo $plan['policy']; ?></span></label>
 								</div>
 								<div class="col-sm-3">
-									<label style="text-transform: capitalize;">  By agent: <?php echo $policy_user['firstname'] . " " . $policy_user['lastname']; ?></label>
+									<label style="text-transform: capitalize;">  By agent <?php echo "[ AgentID:" . $policy_user['user_id'] . " ] "; ?>: <?php echo $policy_user['firstname'] . " " . $policy_user['lastname']; ?></label>
 								</div>
 								
 							</div>		
@@ -226,10 +236,12 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 						</div><!-- end p-detail --><br />
 						<div class="row">
 								<div class="col-sm-12">
-								<?php if (($plan['status_id'] < 2) && empty($defaultpay_type)) { ?>						
+								<?php if (!empty($payment_total)) { ?>						
 									<button class="btn btn-primary pull-right" data-toggle="collapse" data-target="#payment-div">Confirm and Pay</button>		
 								<?php } ?>
-								<a class="btn btn-info pull-right" target="_blank" href='<?php echo $pdf_url; ?>'>Export PDF</a>
+								<?php if (($plan['status_id'] == 1) || ($plan['status_id'] == 2) || ($plan['status_id'] == 3)) { ?>
+									<a class="btn btn-info pull-right" target="_blank" href='<?php echo $pdf_url; ?>'>Export PDF</a>
+								<?php } ?>
 
 								</div>
 						</div>
@@ -238,11 +250,9 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 			</div>
 		</div>
 		<!-- End Form -->
-
-	<?php if (($plan['status_id'] <= 2)) { ?>
-
+	<?php if (!empty($payment_total)) { ?>
 		<!-- Payment -->
-		<div class="row <?php if (empty($defaultpay_type)) { ?>collapse<?php } ?>" id="payment-div" style="padding-bottom:30px;">
+		<div class="row" id="payment-div" style="padding-bottom:30px;">
 			<div class="col-md-12 col-sm-12 col-xs-12">
 				<div class="x_panel">
 					<div class="x_title">
@@ -284,7 +294,8 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 									<input type='hidden' name='plan_id' value='<?php echo $plan['plan_id']; ?>'>
 									<input type='hidden' name='play_type' value='Credit Card'>
 									<input type='hidden' name='sekey' value='<?php echo $sekey; ?>'>
-									<input type='hidden' name='premium' value='<?php echo number_format($plan['premium'], 2, '.', ','); ?>'>
+									<input type='hidden' name='premium' value='<?php echo $payment_total; ?>'>
+								<?php if (empty($sekey)) { ?>
 									<div class="row">
 										<div class="col-sm-12">
 											<label class="inline" style="margin-bottom:0;">Pay url send to user by Email:</label>
@@ -304,6 +315,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 											</div>
 										</div>
 									</div>
+								<?php } ?>
 									<div class="row">
 										<div class="col-sm-12">
 											<label  class="inline" style="margin-bottom:0;">Card Number:</label>
@@ -366,7 +378,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 									</div>
 									<div class="row">
 										<div class="col-sm-12  text-right">
-											<label class="inline">Amount:</label><span> <b>$<?php echo number_format($plan['premium'], 2, '.', ','); ?></b></span>
+											<label class="inline">Amount:</label><span> <b>$<?php echo number_format($payment_total, 2, '.', ','); ?></b></span>
 											<input class="btn btn-primary" type='submit' name='submit' value='Pay Now'>
 										</div>
 									</div>
@@ -436,7 +448,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 									<input type='hidden' name='plan_id' value='<?php echo $plan['plan_id']; ?>'>
 									<input type='hidden' name='play_type' value='Cheque'>
 									<input type='hidden' name='sekey' value='<?php echo $sekey; ?>'>
-									<input type='hidden' name='premium' value='<?php echo number_format($plan['premium'], 2, '.', ','); ?>'>
+									<input type='hidden' name='premium' value='<?php echo $payment_total; ?>'>
 									<div class="row">
 										<div class="col-sm-12">
 											<label  class="inline" style="margin-bottom:0;">Bank Name:</label>
@@ -464,7 +476,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 									
 									<div class="row" style="padding:10px;">
 										<div class="col-sm-12 text-right">
-											<label class="inline">Amount:</label><span><b> $<?php echo number_format($plan['premium'], 2, '.', ','); ?></b></span>
+											<label class="inline">Amount:</label><span><b> $<?php echo number_format($payment_total, 2, '.', ','); ?></b></span>
 											<input class="btn btn-primary" type='submit' name='submit' value='Pay Now'>
 										</div>
 									</div>
@@ -499,10 +511,10 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 								<input type='hidden' name='plan_id' value='<?php echo $plan['plan_id']; ?>'>
 								<input type='hidden' name='play_type' value='Cash'>
 								<input type='hidden' name='sekey' value='<?php echo $sekey; ?>'>
-								<input type='hidden' name='premium' value='<?php echo number_format($plan['premium'], 2, '.', ','); ?>'>
+								<input type='hidden' name='premium' value='<?php echo $payment_total; ?>'>
 								<div class="row" style="padding:10px;">
 									<div class="col-sm-12">
-										<label class="inline">Amount:</label><span><b> $<?php echo number_format($plan['premium'], 2, '.', ','); ?></b></span>
+										<label class="inline">Amount:</label><span><b> $<?php echo number_format($payment_total, 2, '.', ','); ?></b></span>
 										<input class="btn btn-primary" type='submit' name='submit' value='Pay Now'>
 									</div>
 								</div>

@@ -229,7 +229,10 @@ foreach ($report_data as $data) :?>
     <?php endforeach; ?>
                             <tr><td colspan=14>
                                 Total Premium: $<?=$data['data']['policy_premium'] ?>;&nbsp;&nbsp;
-                                Total Net Premium: $<?=$data['data']['net_premium'] ?>
+                                Total Net Premium: $<?=$data['data']['net_premium'] ?>;&nbsp;&nbsp;&nbsp;&nbsp;
+                                Username: <?php echo $data['data']['agent_username']; ?>;&nbsp;&nbsp;
+                                Email: <?php echo $data['data']['agent_email']; ?>;&nbsp;&nbsp;
+                                Name: <?php echo $data['data']['agent_firstname'] . " " . $data['data']['agent_lastname']; ?>;&nbsp;&nbsp;
                             </td></tr>
                             <tr style="background:#eee;"><td colspan=14></td></tr>
                         </tbody>

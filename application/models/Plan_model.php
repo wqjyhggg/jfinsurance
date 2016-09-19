@@ -4,7 +4,15 @@ if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
 class Plan_model extends CI_Model {
-	public $logstr;
+    const QUOTE = 1;
+    const SOLD = 2;
+    const PAID = 3;
+    const CLAIMED = 4;
+    const CANCEL = 5;
+    const REFUND = 6;
+    const CHANGED = 7;
+	
+    public $logstr;
 	public $sqlstr;
 	
 	/**
@@ -350,13 +358,21 @@ class Plan_model extends CI_Model {
 			$this->logstr .= " dailyrate " . $para['dailyrate'] . "(" . $plan['dailyrate'] . ")";
 			$sql .= " dailyrate='" . (float) $para['dailyrate'] . "', ";
 		}
+		$premiumchanged = 0;
 		if (isset($para['premium']) && ((float)$para['premium'] != (float)$plan['premium'])) {
 			$this->logstr .= " premium " . $para['premium'] . "(" . $plan['premium'] . ")";
 			$sql .= " premium='" . (float) $para['premium'] . "', ";
+			$premiumchanged = 1;
 		}
 		if (isset($para['status_id']) && ((int)$para['status_id'] != (int)$plan['status_id'])) {
 			$this->logstr .= " status_id " . $para['status_id'] . "(" . $plan['status_id'] . ")";
 			$sql .= " status_id='" . (int)$para['status_id'] . "', ";
+		} else if ($premiumchanged) {
+			if (($plan['status_id'] == 2) || ($plan['status_id'] == 3)) {
+				// Forced to changed status
+				$this->logstr .= " status_id 7(" . $plan['status_id'] . ")";
+				$sql .= " status_id='7', ";
+			}
 		}
 		if (isset($para['commission_amount']) && ((float)$para['commission_amount'] != (float)$plan['commission_amount'])) {
 			$this->logstr .= " commission_amount " . $para['commission_amount'] . "(" . $plan['commission_amount'] . ")";
@@ -542,7 +558,7 @@ class Plan_model extends CI_Model {
 			}
 		}
 				
-		$sql  = "SELECT p.*, c.firstname, c.lastname, c.gender, c.birthday, u.firstname AS agent_firstname, u.lastname AS agent_lastname FROM plan p";
+		$sql  = "SELECT p.*, c.firstname, c.lastname, c.gender, c.birthday, u.firstname AS agent_firstname, u.lastname AS agent_lastname, u.user_id AS agent_id FROM plan p";
 		$sql .= " INNER JOIN customer c ON (p.customer_id=c.customer_id)";
 		$sql .= " INNER JOIN user u ON (p.user_id=u.user_id)";
 		$where = array();
