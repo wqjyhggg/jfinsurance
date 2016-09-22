@@ -58,7 +58,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                           <h3>ABOUT US</h3>
                           <h4>we take care of you</h4>
                           <hr style="border-bottom:2px solid; width:50px; margin:0 auto 20px;" />
-                          <p>JF Insurance Agency Group Inc. is an insurance broker incorporated in 1992. JF is a private Canadain firm that provides travel, emergency hospital and medical insurance.</p>
+                          <p>JF Insurance Agency Group Inc. (JF) is a licensed brokerage firm incorporated in 1992. We are the leading private firm in providing Emergency Hospital and Medical coverage for Canadians, visitors across Canada and International students. We are recognized for our dedication to serve our clients on both an individual basis and association groups.</p>
                         </div>
                       </div>
                       <div class="row" style="margin-right:0;margin-left:0;">
@@ -68,26 +68,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                               <div class="col-sm-4" style="padding:15px 5%;">
                                 <h2>Founder</h2>
                                 <hr style="border-bottom:2px solid #ddd; width:50px; margin:0 0 15px;"/>
-                                <p>The founder Mr. Johnson Fu has more than 30 plus years of experience in the Insurance and Financial Industry. 
-                                  Mr. Fu is also very active among many communities and charity events. 
-                                  It is through his involvement in community service that the JF corporate philosophy "To Serve" has come to fruition. 
-                                  This philosophy emphasizes the attitude of all staff members at JF.</p>
+                                <p>The founder Mr. Johnson Fu has more than 30 plus years of experience in the Insurance and Financial Industry. Mr. Fu is also very active among many communities and charity events. It is through his involvement in community service that the JF corporate philosophy “To Serve” has come to fruition. This philosophy emphasizes the attitude of all staff members at JF.</p>
                               </div>
                               <div class="col-sm-4" style="padding:15px 5%;">
                                 <h2>Mission</h2>
                                 <hr style="border-bottom:2px solid #ddd; width:50px; margin:0 0 15px;"/>
-                                <p>The founder Mr. Johnson Fu has more than 30 plus years of experience in the Insurance and Financial Industry. 
-                                  Mr. Fu is also very active among many communities and charity events. 
-                                  It is through his involvement in community service that the JF corporate philosophy "To Serve" has come to fruition. 
-                                  This philosophy emphasizes the attitude of all staff members at JF.</p>
+                                <p>To reach all that can benefit from the peace of mind we offer; to ensure claims are processed in a timely manner.</p>
                               </div>
                               <div class="col-sm-4" style="padding:15px 5%;">
-                                <h2>Location</h2>
+                                <h2>Vision</h2>
                                 <hr style="border-bottom:2px solid #ddd; width:50px; margin:0 0 15px;"/>
-                                <p>The founder Mr. Johnson Fu has more than 30 plus years of experience in the Insurance and Financial Industry. 
-                                  Mr. Fu is also very active among many communities and charity events. 
-                                  It is through his involvement in community service that the JF corporate philosophy "To Serve" has come to fruition. 
-                                  This philosophy emphasizes the attitude of all staff members at JF.</p>
+                                <p>To reach all that can benefit from the peace of mind we offer; to ensure claims are processed in a timely manner.</p>
                               </div>
                             </div>
                           </div>
@@ -107,31 +98,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <div class="row">
                                   <div class="col-sm-4" style="padding:15px 5%;">
                                     <img class="img-responsive img-title" src="<?php echo base_url();?>image/t1.jpg" alt="Emergency Hospital Insurance" />
-                                    <h2>Emergency Hospital Insurance</h2>
+                                    <h2>Visitor to Canada</h2>
                                     <hr style="border-bottom:2px solid #ddd; width:50px; margin:0 0 15px;"/>
-                                    
-                                    <p>The founder Mr. Johnson Fu has more than 30 plus years of experience in the Insurance and Financial Industry. 
-                                      Mr. Fu is also very active among many communities and charity events. 
-                                      It is through his involvement in community service that the JF corporate philosophy "To Serve" has come to fruition. 
-                                      This philosophy emphasizes the attitude of all staff members at JF.</p>
+                                    <p>Health care costs in Canada can be expensive if you’re not covered by a Canadian government health insurance plan. Therefore, be sure to carry visitor insurance to protect your finances and enjoy a secured stay while you are away from your home country.</p>
                                   </div>
                                   <div class="col-sm-4" style="padding:15px 5%;">
                                     <img class="img-responsive img-title" src="<?php echo base_url();?>image/t2.jpg" alt="Emergency Hospital Insurance" />
-                                    <h2>Travel Insurance</h2>
+                                    <h2>International Student to Canada</h2>
                                     <hr style="border-bottom:2px solid #ddd; width:50px; margin:0 0 15px;"/>
-                                    <p>The founder Mr. Johnson Fu has more than 30 plus years of experience in the Insurance and Financial Industry. 
-                                      Mr. Fu is also very active among many communities and charity events. 
-                                      It is through his involvement in community service that the JF corporate philosophy "To Serve" has come to fruition. 
-                                      This philosophy emphasizes the attitude of all staff members at JF.</p>
+                                    <p>Studying aboard is exciting and adventurous. Make sure you have the right insurance coverage for your journey while in Canada.</p>
                                   </div>
                                   <div class="col-sm-4" style="padding:15px 5%;">
                                     <img class="img-responsive img-title" src="<?php echo base_url();?>image/t3.jpg" alt="Emergency Hospital Insurance" />
-                                    <h2>Medical Insurance</h2>
+                                    <h2>Canadian Travel Out</h2>
                                     <hr style="border-bottom:2px solid #ddd; width:50px; margin:0 0 15px;"/>
-                                    <p>The founder Mr. Johnson Fu has more than 30 plus years of experience in the Insurance and Financial Industry. 
-                                      Mr. Fu is also very active among many communities and charity events. 
-                                      It is through his involvement in community service that the JF corporate philosophy "To Serve" has come to fruition. 
-                                      This philosophy emphasizes the attitude of all staff members at JF.</p>
+                                    <p>Your provincial health plan only covers a part of your health care costs incurred outside of Canada and limits coverage when travelling to another province.</p>
                                   </div>
                                 </div>
                               </div>
@@ -218,7 +199,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <h3>ABOUT US</h3>
             <h4>we take care of you</h4>
             <hr style="border-bottom:2px solid; width:50px; margin:0 auto 20px;" />
-            <p>JF Insurance Agency Group Inc. is an insurance broker incorporated in 1992. JF is a private Canadain firm that provides travel, emergency hospital and medical insurance.</p>
+            <p style="max-width:600px;width:100%;margin:0 auto;">JF Insurance Agency Group Inc. (JF) is a licensed brokerage firm incorporated in 1992. We are the leading private firm in providing Emergency Hospital and Medical coverage for Canadians, visitors across Canada and International students. We are recognized for our dedication to serve our clients on both an individual basis and association groups.</p>
           </div>
         </div>
 				<div class="row" style="margin-right:0;margin-left:0;">
@@ -228,26 +209,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <div class="col-sm-4" style="padding:15px 5%;">
                   <h2>Founder</h2>
                   <hr style="border-bottom:2px solid #ddd; width:50px; margin:0 0 15px;"/>
-                  <p>The founder Mr. Johnson Fu has more than 30 plus years of experience in the Insurance and Financial Industry. 
-                    Mr. Fu is also very active among many communities and charity events. 
-                    It is through his involvement in community service that the JF corporate philosophy "To Serve" has come to fruition. 
-                    This philosophy emphasizes the attitude of all staff members at JF.</p>
+                  <p>The founder Mr. Johnson Fu has more than 30 plus years of experience in the Insurance and Financial Industry. Mr. Fu is also very active among many communities and charity events. It is through his involvement in community service that the JF corporate philosophy “To Serve” has come to fruition. This philosophy emphasizes the attitude of all staff members at JF.</p>
                 </div>
                 <div class="col-sm-4" style="padding:15px 5%;">
                   <h2>Mission</h2>
                   <hr style="border-bottom:2px solid #ddd; width:50px; margin:0 0 15px;"/>
-                  <p>The founder Mr. Johnson Fu has more than 30 plus years of experience in the Insurance and Financial Industry. 
-                    Mr. Fu is also very active among many communities and charity events. 
-                    It is through his involvement in community service that the JF corporate philosophy "To Serve" has come to fruition. 
-                    This philosophy emphasizes the attitude of all staff members at JF.</p>
+                  <p>To reach all that can benefit from the peace of mind we offer; to ensure claims are processed in a timely manner.</p>
                 </div>
                 <div class="col-sm-4" style="padding:15px 5%;">
-                  <h2>Location</h2>
+                  <h2>Vision</h2>
                   <hr style="border-bottom:2px solid #ddd; width:50px; margin:0 0 15px;"/>
-                  <p>The founder Mr. Johnson Fu has more than 30 plus years of experience in the Insurance and Financial Industry. 
-                    Mr. Fu is also very active among many communities and charity events. 
-                    It is through his involvement in community service that the JF corporate philosophy "To Serve" has come to fruition. 
-                    This philosophy emphasizes the attitude of all staff members at JF.</p>
+                  <p>To reach all that can benefit from the peace of mind we offer; to ensure claims are processed in a timely manner.</p>
                 </div>
               </div>
 						</div>
@@ -268,30 +240,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                   <div class="row">
                     <div class="col-sm-4" style="padding:15px 5%;">
                       <img class="img-responsive img-title" src="<?php echo base_url();?>image/t1.jpg" alt="Emergency Hospital Insurance" />
-                      <h2>Emergency Hospital Insurance</h2>
+                      <h2>Visitor to Canada</h2>
                       <hr style="border-bottom:2px solid #ddd; width:50px; margin:0 0 15px;"/>
-                      <p>The founder Mr. Johnson Fu has more than 30 plus years of experience in the Insurance and Financial Industry. 
-                        Mr. Fu is also very active among many communities and charity events. 
-                        It is through his involvement in community service that the JF corporate philosophy "To Serve" has come to fruition. 
-                        This philosophy emphasizes the attitude of all staff members at JF.</p>
+                      <p>Health care costs in Canada can be expensive if you’re not covered by a Canadian government health insurance plan. Therefore, be sure to carry visitor insurance to protect your finances and enjoy a secured stay while you are away from your home country.</p>
                     </div>
                     <div class="col-sm-4" style="padding:15px 5%;">
                       <img class="img-responsive img-title" src="<?php echo base_url();?>image/t2.jpg" alt="Emergency Hospital Insurance" />
-                      <h2>Travel Insurance</h2>
+                      <h2>International Student to Canada</h2>
                       <hr style="border-bottom:2px solid #ddd; width:50px; margin:0 0 15px;"/>
-                      <p>The founder Mr. Johnson Fu has more than 30 plus years of experience in the Insurance and Financial Industry. 
-                        Mr. Fu is also very active among many communities and charity events. 
-                        It is through his involvement in community service that the JF corporate philosophy "To Serve" has come to fruition. 
-                        This philosophy emphasizes the attitude of all staff members at JF.</p>
+                      <p>Studying aboard is exciting and adventurous. Make sure you have the right insurance coverage for your journey while in Canada.</p>
                     </div>
                     <div class="col-sm-4" style="padding:15px 5%;">
                       <img class="img-responsive img-title" src="<?php echo base_url();?>image/t3.jpg" alt="Emergency Hospital Insurance" />
-                      <h2>Medical Insurance</h2>
+                      <h2>Canadian Travel Out</h2>
                       <hr style="border-bottom:2px solid #ddd; width:50px; margin:0 0 15px;"/>
-                      <p>The founder Mr. Johnson Fu has more than 30 plus years of experience in the Insurance and Financial Industry. 
-                        Mr. Fu is also very active among many communities and charity events. 
-                        It is through his involvement in community service that the JF corporate philosophy "To Serve" has come to fruition. 
-                        This philosophy emphasizes the attitude of all staff members at JF.</p>
+                      <p>Your provincial health plan only covers a part of your health care costs incurred outside of Canada and limits coverage when travelling to another province.</p>
                     </div>
                   </div>
                 </div>
