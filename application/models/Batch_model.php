@@ -129,27 +129,26 @@ class Batch_model extends CI_Model {
 		if (empty($para['customer_id'])) { ; } else { $data['customer_id'] = $para['customer_id']; }
 		if (empty($para['user_id'])) { ; } else { $data['user_id'] = $para['user_id']; }
 		if (empty($para['status_id'])) { $data['status_id'] = 2; } else { $data['status_id'] = $para['status_id']; }
+		if (empty($para['product_short'])) { 
+			$this->error = 'Need product_short';
+			return 0;
+		}
+		$data['product_short'] = $para['product_short']; 
+		$product = $this->product_model->get_product($para['product_short']);
+		if (empty($product)) {
+			$this->error = 'Unknown product_short';
+			return 0;
+		}
+
 		if (empty($para['policy'])) {
-			if (empty($para['plan_id'])) {
-				$this->error = 'No policy or plan_id';
+			$data['policy'] = '';
+			if ($product['calculate'] != 1) {
+				$this->error = 'Unknow policy';
 				return 0;
-			} else {
-				$data['policy'] = $this->plan_model->get_policy_number($para['plan_id'], 2);
 			}
 		} else { 
 			$data['policy'] = $para['policy'];
 		}
-		if (empty($para['product_short'])) { 
-			$this->error = 'Need product_short';
-			return 0;
-		} else {
-			$data['product_short'] = $para['product_short']; 
-			$product = $this->product_model->get_product($para['product_short']);
-			if (empty($product)) {
-				$this->error = 'Unknown product_short';
-				return 0;
-			}
-		} 
 		$data['batch_number'] = $para['batch_number'];
 		if (empty($para['isfamilyplan'])) { $data['isfamilyplan'] = 0; } else { $data['isfamilyplan'] = $para['isfamilyplan']; }
 		if (empty($para['apply_date'])) { $data['apply_date'] = date('Y-m-d'); } else { $data['apply_date'] = $para['apply_date']; }
@@ -253,6 +252,11 @@ class Batch_model extends CI_Model {
 		if (empty($plan)) {
 			// Add
 			$plan_id = $this->plan_model->add($data);
+			if (!empty($data['batch_number']) && empty($data['policy'])) {
+				$policy = $this->plan_model->get_policy_number($plan_id, 2);
+				$sql  = "UPDATE plan SET policy=" . $this->db->escape($policy) . " WHERE plan_id='" . (int)$plan_id . "'";
+				$this->db->query($sql);
+			}
 			$this->add_payment($plan_id);
 		} else {
 			$plan_id = $this->plan_model->update($para['plan_id'], $data);

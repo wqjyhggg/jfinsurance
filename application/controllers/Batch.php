@@ -75,6 +75,8 @@ class Batch extends MY_Controller {
 						if (! in_array ( 'batch_number', $keyArr )) {
 							$data ['batch_number'] = $batch_number;
 							$needShowBatch = 1;
+						} else {
+							$data ['batch_number'] = 0;
 						}
 						$plan_id = $this->batch_model->add_record ( $data );
 						if ($plan_id) {
