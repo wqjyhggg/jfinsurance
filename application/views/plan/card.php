@@ -34,7 +34,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 		</div>
 		<div class="row">
 			<div class="col-sm-12 nopadding text-center">
-				<h4 style="margin:0 auto;"><u>Polcy Declaration</u></h4>
+				<h4 style="margin:0 auto;"><u>Policy Declaration</u></h4>
 				
 			</div>
 		</div>

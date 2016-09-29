@@ -39,6 +39,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         					  <input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
           					
                     <div class="row">
+                    <?php if ($be_user_group_id > 100) { ?>
+                    	<input type='hidden' name='user_group_id' value="0">
+                    <?php } else { ?>
                       <div class="col-sm-3 form-group">
                           <label class="col-sm-12">User Type:</label>
                           <div class="col-sm-12 input-group">
@@ -50,8 +53,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             </select>
                           </div>
                       </div>
+                    <?php } ?>
                       <div class="form-group col-sm-3">
-                        <label class="col-sm-12">Brockerage:</label>
+                        <label class="col-sm-12">Company:</label>
                         <div class="input-group col-sm-12">
                           <input type='text' name='business' value='<?php echo $business; ?>' class="form-control">
                         </div>
@@ -128,7 +132,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                           <tr>
                             <th>Username</th>
                             <th>Type</th>
-                            <th>Brokerage</th>
+                            <th>Company</th>
                             <th>Agent ID</th>
                             <th>Name</th>
                             <th>Email</th>

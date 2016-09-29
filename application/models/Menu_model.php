@@ -208,11 +208,11 @@ class Menu_model extends CI_Model {
 					"<a href='" . base_url('user/logout') . "' class='leftmeun'>" . $this->lang->line ( 'text_logout' ) . "</a>",
 				),
 		);
-		$behalf = "<a href='" . base_url('behalf') . "' class='leftmeun'>" . $this->lang->line ( 'text_behalf' ) . "</a>";
-		$unbehalf = "<a href='" . base_url('behalf/undo') . "' class='leftmeun'>" . $this->lang->line ( 'text_unbehalf' ) . "</a>";
-	
 		$user = $this->session->userdata('user');
 		$beuser = $this->session->userdata('beuser');
+		$behalf = "<a href='" . base_url('behalf') . "' class='leftmeun'>" . $this->lang->line ( 'text_behalf' ) . "</a>";
+		$unbehalf = "<a href='" . base_url('behalf/undo') . "' class='leftmeun'>" . $this->lang->line ( 'text_unbehalf' ) . "</a> ( " . $beuser['username'] . " ) ";
+	
 		$onbehalf = 0;
 	   	if (!$user) {
     		$group = 0;

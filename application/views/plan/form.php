@@ -138,8 +138,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							</div>
 							<div class="form-group col-sm-3">
 								<label class="col-sm-12">Arrival Date: </label>
-								<div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
-			                        <input class="form-control" size="16" type="text" name='arrival_date' value='<?php echo $arrival_date; ?>'>
+								<div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd" id='arrival_date_div' >
+			                        <input class="form-control" size="16" type="text" name='arrival_date' id='arrival_date' value='<?php echo $arrival_date; ?>' data-date-format="yyyy-mm-dd" data-date-end-date="+0d" data-date-start-date="-1d">
 			                        
 			                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
 			                    </div>
@@ -152,7 +152,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							</div>
 							<div class="form-group col-sm-3">
 								<label class="col-sm-12">Effective Date: </label>
-								<div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
+								<div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd" id='effective_date_div'>
 			                        <input class="setpremium form-control" size="16" type="text" name='effective_date' value='<?php echo $effective_date; ?>'>
 			                        
 			                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
@@ -165,8 +165,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							</div>
 							<div class="form-group col-sm-3">
 								<label class="col-sm-12">Expiry Date: </label>
-						  		<div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
-									<input size="16" type='text' name='expiry_date' class='setpremium form-control' value='<?php echo $expiry_date; ?>'>
+						  		<div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd" id='expiry_date_div'>
+									<input size="16" type='text' name='expiry_date' class='setpremium form-control' id='expiry_date' value='<?php echo $expiry_date; ?>'>
 									
 			                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
 								</div>
@@ -177,6 +177,38 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<?php } ?>
 							</div>
 						</div>
+								<div class="row">
+									<div class="col-sm-3">
+										<label class="col-sm-12">Days: </label>
+										<div class="input-group col-sm-12">
+											<!-- div id='totaldays' class="div-box"></div -->
+											<input class="form-control" type='text' name='totaldays' id='totaldays' value='<?php echo $totaldays; ?>' >
+										</div>
+									</div>
+									<div class="col-sm-3">
+										<label class="col-sm-12">Daily Rate: </label>
+										<div class="input-group col-sm-12">
+											<input class="form-control" type='text' name='dailyrate' id='dailyrate' value='<?php echo $dailyrate; ?>' readonly >
+										</div>
+									</div>
+									<div class="col-sm-3">
+										<label class="col-sm-12">Age: </label>
+										<div class="input-group col-sm-12">
+											<input class="form-control" type='text' name='totalyears' id='totalyears' value='<?php echo $totalyears; ?>' readonly >
+										</div>
+									</div>
+									<div class="col-sm-3">
+										<label class="inline">Premium: </label>
+										<div class="input-group col-sm-12">
+											<?php if ($user_group_id < 100) { ?>
+											<input class="form-control" type='input' name='premium' id='premium' value='<?php echo $premium; ?>'>
+											<?php } else { ?>
+											<input class="form-control" type='hidden' name='premium' id='premium' value='<?php echo $premium; ?>'>	
+											<div id='premiumdisplay'><?php echo $premium; ?></div>	
+											<?php } ?>
+										</div>
+									</div>
+								</div>
 					 	</fieldset>
 					 	</div>
 					</div><br />
@@ -441,38 +473,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<div class="col-sm-12">
 							<fieldset>
 								<legend>Special Note/Instructions</legend>
-								<div class="row">
-									<div class="col-sm-3">
-										<label class="col-sm-12">Days: </label>
-										<div class="input-group col-sm-12">
-											<!-- div id='totaldays' class="div-box"></div -->
-											<input class="form-control" type='text' name='totaldays' id='totaldays' value='<?php echo $totaldays; ?>' readonly >
-										</div>
-									</div>
-									<div class="col-sm-3">
-										<label class="col-sm-12">Daily Rate: </label>
-										<div class="input-group col-sm-12">
-											<input class="form-control" type='text' name='dailyrate' id='dailyrate' value='<?php echo $dailyrate; ?>' readonly >
-										</div>
-									</div>
-									<div class="col-sm-3">
-										<label class="col-sm-12">Age: </label>
-										<div class="input-group col-sm-12">
-											<input class="form-control" type='text' name='totalyears' id='totalyears' value='<?php echo $totalyears; ?>' readonly >
-										</div>
-									</div>
-									<div class="col-sm-3">
-										<label class="inline">Premium: </label>
-										<div class="input-group col-sm-12">
-											<?php if ($user_group_id < 100) { ?>
-											<input class="form-control" type='input' name='premium' id='premium' value='<?php echo $premium; ?>'>
-											<?php } else { ?>
-											<input class="form-control" type='hidden' name='premium' id='premium' value='<?php echo $premium; ?>'>	
-											<div id='premiumdisplay'><?php echo $premium; ?></div>	
-											<?php } ?>
-										</div>
-									</div>
-								</div>
 								<div class="row" <?php if ($user_group_id > 100) { ?>style='display:none; '<?php } ?>>
 									<div class="col-sm-12">
 										<label class="col-sm-12">Notes: </label>
@@ -513,302 +513,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						</div>
 					</div>
 				</form> 
-
-				<script>
-				var age85 = 0;
-				$( document ).ready(function() {
-					$.ajax({
-						url: '<?php echo $province_url; ?>',
-						type: 'GET',
-						success: function(data, textStatus, jqXHR) {
-				        	$('#province2_div').html(data);
-				    	},
-					});
-					$.ajax({
-						url: '<?php echo $country_url; ?>',
-						type: 'GET',
-						success: function(data, textStatus, jqXHR) {
-				        	$('#country2_div').html(data);
-				    	},
-					});
-					if ( $( "#sum_insured_div" ).length ) {
-						$.ajax({
-							url: '<?php echo $sum_insured_url; ?>',
-							success: function(data, textStatus, jqXHR) {
-					        	$('#sum_insured_div').html(data);
-								get_premium();
-					    	},
-						});
-					}
-					if ( $( "#deductible_amount_div" ).length ) {
-						$.ajax({
-							url: '<?php echo $deductible_amount_url; ?>',
-							success: function(data, textStatus, jqXHR) {
-					        	$('#deductible_amount_div').html(data);
-								get_premium();
-					    	},
-						});
-					}
-					if ( $( "#isfamilyplan" ).length ) {
-						if ($('#isfamilyplan').get(0).checked) {
-							$('#family_member').show();
-							if ($('#spousediv').length) {
-								$('#spousediv').show();
-							}
-						}
-						$('#isfamilyplan').change(function() {
-					        if ($(this).get(0).checked) {
-					    		$('#family_member').show();
-								if ($('#spousediv').length) {
-									$('#spousediv').show();
-								}
-					        } else {
-					        	$('#family_member').hide();
-								if ($('#spousediv').length) {
-									$('#spousediv').hide();
-								}
-					        	$("input[name^='firstname_']").each(function() {
-					            	$(this).val('');
-					        	});
-					        	$("input[name^='lastname_']").each(function() {
-					            	$(this).val('');
-					        	});
-					        }
-					    });
-					}
-
-					$('.setpremium').change(get_premium); 
-					if ($('input[name="holiday_rate"]').length) {
-						$('input[name="holiday_rate"]').change(get_premium);
-					}
-					get_premium();
-					addmoremember();
-				});
-
-				function remove_member(i) {
-					if(confirm("Are you sure to delete this info?") == true){
-						var s, d;
-						for (j = i + 1 ; j < 8; j++) {
-							s = '#customer_id_' + j;
-							d = '#customer_id_' + i;
-							$(d).val($(s).val());
-							s = '#firstname_' + j;
-							d = '#firstname_' + i;
-							$(d).val($(s).val());
-							s = '#lastname_' + j;
-							d = '#lastname_' + i;
-							$(d).val($(s).val());
-							s = '#birthday_' + j;
-							d = '#birthday_' + i;
-							$(d).val($(s).val());
-							s = '#gender_' + j;
-							d = '#gender_' + i;
-							$(d).val($(s).val());
-							i++;
-						}
-						$('#customer_id_8').val(0);
-						$('#firstname_8').val('');
-						$('#lastname_8').val('');
-						$('#birthday_8').val('');
-						$('#gender_8').val('M');
-						get_premium();
-						addmoremember();
-					}
-				}
-
-				function addmoremember() {
-					for (i = 1; i < 9; i++) {
-						$('#customer_member_' + i).show();
-						$('#firstname_' + i).removeClass('alert-error-input');
-						$('#lastname_' + i).removeClass('alert-error-input');
-						$('#birthday_' + i).removeClass('alert-error-input');
-						if ( !$('#firstname_' + i).val() && !$('#lastname_' + i).val() && !$('#birthday_' + i).val()) {
-							break;
-						}
-						if ( !$('#firstname_' + i).val() ) {
-							$('#firstname_' + i).addClass('alert-error-input');
-						}
-						if ( !$('#lastname_' + i).val() ) {
-							$('#lastname_' + i).addClass('alert-error-input');
-						}
-						if ( !$('#birthday_' + i).val() ) {
-							$('#birthday_' + i).addClass('alert-error-input');
-						}
-						if ( !$('#firstname_' + i).val() || !$('#lastname_' + i).val() || !$('#birthday_' + i).val()) {
-							$('#errormessage_' + i).html("Please fill in all required information.");
-							break;
-						}
-						$('#errormessage_' + i).html("");
-					}
-					i++;
-					for ( ; i < 9; i++) {
-						$('#firstname_' + i).removeClass('alert-error');
-						$('#lastname_' + i).removeClass('alert-error');
-						$('#birthday_' + i).removeClass('alert-error');
-						$('#customer_member_' + i).hide();
-						$('#errormessage_' + i).html("");
-					}
-				}
-				
-				function get_premium() {
-					var product_short = $('input[name="product_short"]').val();
-					var apply_date = $('input[name="apply_date"]').val();
-					var effective_date = $('input[name="effective_date"]').val();
-					var expiry_date = $('input[name="expiry_date"]').val();
-					var isfamilyplan = '';
-					var spouse = '';
-			
-					if ( $( "#isfamilyplan" ).length ) {
-						if ($('input[name="isfamilyplan"]').is(':checked')) {
-							isfamilyplan = 1;	// checkbox
-						}
-					}
-					var sum_insured = 0;
-					if ($('select[name="sum_insured"]').length) {
-						sum_insured = $('select[name="sum_insured"]').val();	// select
-					}
-					var deductible_amount = 0;
-					if ($('select[name="deductible_amount"]').length) {
-						deductible_amount = $('select[name="deductible_amount"]').val();	// select
-					}
-					var stable_condition = 0;
-					if ($('select[name="stable_condition"]').length) {
-						stable_condition = $('select[name="stable_condition"]').val();	// radio
-					}
-					var rate_options = 0;
-					if ($('select[name="rate_options"]').length) {
-						rate_options = $('select[name="rate_options"]').val();	// radio
-					}
-					var holiday_rate = 0;
-					if ($('input[name="holiday_rate"]').length) {
-						holiday_rate = $('input[name="holiday_rate"]:checked').val();	// checkbox
-					}
-					var birthday = $('input[name="birthday"]').val();	// 
-					var number_customer = 0;
-					if ((product_short != 'NUS') && (product_short != 'JUS')) {
-						if (new Date(birthday) > new Date($('input[name="birthday_1"]').val())) {
-							birthday = $('input[name="birthday_1"]').val();
-						} 
-						if (new Date(birthday) > new Date($('input[name="birthday_2"]').val())) {
-							birthday = $('input[name="birthday_2"]').val();
-						} 
-						if (new Date(birthday) > new Date($('input[name="birthday_3"]').val())) {
-							birthday = $('input[name="birthday_3"]').val();
-						} 
-						if (new Date(birthday) > new Date($('input[name="birthday_4"]').val())) {
-							birthday = $('input[name="birthday_4"]').val();
-						} 
-						if (new Date(birthday) > new Date($('input[name="birthday_5"]').val())) {
-							birthday = $('input[name="birthday_5"]').val();
-						} 
-						if (new Date(birthday) > new Date($('input[name="birthday_6"]').val())) {
-							birthday = $('input[name="birthday_6"]').val();
-						} 
-						if (new Date(birthday) > new Date($('input[name="birthday_7"]').val())) {
-							birthday = $('input[name="birthday_7"]').val();
-						} 
-						if (new Date(birthday) > new Date($('input[name="birthday_8"]').val())) {
-							birthday = $('input[name="birthday_8"]').val();
-						}
-					}
-					
-					if ($('input[name="firstname"]').val() && $('input[name="lastname"]').val()) number_customer++;
-					if ($('input[name="firstname_1"]').val() && $('input[name="lastname_1"]').val()) number_customer++;
-					if ($('input[name="firstname_2"]').val() && $('input[name="lastname_2"]').val()) number_customer++;
-					if ($('input[name="firstname_3"]').val() && $('input[name="lastname_3"]').val()) number_customer++;
-					if ($('input[name="firstname_4"]').val() && $('input[name="lastname_4"]').val()) number_customer++;
-					if ($('input[name="firstname_5"]').val() && $('input[name="lastname_5"]').val()) number_customer++;
-					if ($('input[name="firstname_6"]').val() && $('input[name="lastname_6"]').val()) number_customer++;
-					if ($('input[name="firstname_7"]').val() && $('input[name="lastname_7"]').val()) number_customer++;
-					if ($('input[name="firstname_8"]').val() && $('input[name="lastname_8"]').val()) number_customer++;
-				
-					if ($('#spousediv').length) {
-						if ($('#spouse').get(0).checked) {
-							spouse = 1;
-						}
-					}
-
-					if (effective_date && expiry_date && birthday) {
-						$.ajax({
-							url: '<?php echo $premium_url; ?>',
-							type: 'get',
-							data: {
-								product_short: product_short,
-								apply_date: apply_date,
-								effective_date: effective_date,
-								expiry_date: expiry_date,
-								isfamilyplan: isfamilyplan,
-								sum_insured: sum_insured,
-								deductible_amount: deductible_amount,
-								stable_condition: stable_condition,
-								rate_options: rate_options,
-								holiday_rate: holiday_rate,
-								number_customer: number_customer,
-								spouse: spouse,
-								birthday: birthday},
-							success: function(data, textStatus, jqXHR) {
-								if (data['status'] == 'OK') {
-					        		$('input[name="premium"]').val(data['premiumarr']['premium']);
-									<?php if ($user_group_id > 100) { ?>
-									$('#premiumdisplay').html(data['premiumarr']['premium']);
-									<?php } ?>
-									$('#totalyears').val(data['premiumarr']['totalyears']);
-									$('#totaldays').val(data['premiumarr']['totaldays']);
-									$('#dailyrate').val(data['premiumarr']['dailyrate']);
-									if (data['premiumarr']['message']) {
-										$('#error_next_page').html(data['premiumarr']['message']);
-										$('#error_next_page').css('display','block');
-									} else {
-										$('#error_next_page').html('');
-										$('#error_next_page').css('display','none');
-									}
-									if (data['premiumarr']['force_deductable']) {
-						        		$('input[name="force_deductable"]').val(data['premiumarr']['force_deductable']);
-									} else {
-						        		$('input[name="force_deductable"]').val(0);
-									}
-
-									if (age85 && (data['premiumarr']['totalyears'] <= 85)) {
-										if ( $( "#deductible_amount_div" ).length ) {
-											$.ajax({
-												url: '<?php echo $deductible_amount_url; ?>',
-												success: function(data, textStatus, jqXHR) {
-										        	$('#deductible_amount_div').html(data);
-													get_premium();
-										    	},
-											});
-										}
-										age85 = 0;
-									} else if (!age85 && (data['premiumarr']['totalyears'] > 85)) {
-										if ( $( "#deductible_amount_div" ).length ) {
-											$.ajax({
-												url: '<?php echo $deductible_amount_url; ?>/500',
-												success: function(data, textStatus, jqXHR) {
-										        	$('#deductible_amount_div').html(data);
-													get_premium();
-										    	},
-											});
-										}
-										age85 = 1;
-									}
-									//if (data['premiumarr']['premium']) {
-									//	$('#goto_next_page').show();
-									//} else {
-									//	$('#goto_next_page').hide();
-									//}
-								} else {
-									// $('#goto_next_page').hide();
-									if (data['message']) {
-										$('#error_next_page').html(data['message']);
-										$('input[name="premium"]').val(0);
-									}
-								}
-					    	},
-						});
-					}
-				} 
-				</script>
-
 				</div><!-- /x_content end-->
                 </div><!-- /x_panel end -->
               </div>
@@ -951,4 +655,313 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		$('#premium_error').css('display','none');
 	});
 </script>
+<script>
+var age85 = 0;
+$( document ).ready(function() {
+	$.ajax({
+		url: '<?php echo $province_url; ?>',
+		type: 'GET',
+		success: function(data, textStatus, jqXHR) {
+        	$('#province2_div').html(data);
+    	},
+	});
+	$.ajax({
+		url: '<?php echo $country_url; ?>',
+		type: 'GET',
+		success: function(data, textStatus, jqXHR) {
+        	$('#country2_div').html(data);
+    	},
+	});
+	if ( $( "#sum_insured_div" ).length ) {
+		$.ajax({
+			url: '<?php echo $sum_insured_url; ?>',
+			success: function(data, textStatus, jqXHR) {
+	        	$('#sum_insured_div').html(data);
+				get_premium();
+	    	},
+		});
+	}
+	if ( $( "#deductible_amount_div" ).length ) {
+		$.ajax({
+			url: '<?php echo $deductible_amount_url; ?>',
+			success: function(data, textStatus, jqXHR) {
+	        	$('#deductible_amount_div').html(data);
+				get_premium();
+	    	},
+		});
+	}
+	if ( $( "#isfamilyplan" ).length ) {
+		if ($('#isfamilyplan').get(0).checked) {
+			$('#family_member').show();
+			if ($('#spousediv').length) {
+				$('#spousediv').show();
+			}
+		}
+		$('#isfamilyplan').change(function() {
+	        if ($(this).get(0).checked) {
+	    		$('#family_member').show();
+				if ($('#spousediv').length) {
+					$('#spousediv').show();
+				}
+	        } else {
+	        	$('#family_member').hide();
+				if ($('#spousediv').length) {
+					$('#spousediv').hide();
+				}
+	        	$("input[name^='firstname_']").each(function() {
+	            	$(this).val('');
+	        	});
+	        	$("input[name^='lastname_']").each(function() {
+	            	$(this).val('');
+	        	});
+	        }
+	    });
+	}
 
+	$('.setpremium').change(get_premium); 
+	if ($('input[name="holiday_rate"]').length) {
+		$('input[name="holiday_rate"]').change(get_premium);
+	}
+	get_premium();
+	addmoremember();
+});
+
+function remove_member(i) {
+	if(confirm("Are you sure to delete this info?") == true){
+		var s, d;
+		for (j = i + 1 ; j < 8; j++) {
+			s = '#customer_id_' + j;
+			d = '#customer_id_' + i;
+			$(d).val($(s).val());
+			s = '#firstname_' + j;
+			d = '#firstname_' + i;
+			$(d).val($(s).val());
+			s = '#lastname_' + j;
+			d = '#lastname_' + i;
+			$(d).val($(s).val());
+			s = '#birthday_' + j;
+			d = '#birthday_' + i;
+			$(d).val($(s).val());
+			s = '#gender_' + j;
+			d = '#gender_' + i;
+			$(d).val($(s).val());
+			i++;
+		}
+		$('#customer_id_8').val(0);
+		$('#firstname_8').val('');
+		$('#lastname_8').val('');
+		$('#birthday_8').val('');
+		$('#gender_8').val('M');
+		get_premium();
+		addmoremember();
+	}
+}
+
+function addmoremember() {
+	for (i = 1; i < 9; i++) {
+		$('#customer_member_' + i).show();
+		$('#firstname_' + i).removeClass('alert-error-input');
+		$('#lastname_' + i).removeClass('alert-error-input');
+		$('#birthday_' + i).removeClass('alert-error-input');
+		if ( !$('#firstname_' + i).val() && !$('#lastname_' + i).val() && !$('#birthday_' + i).val()) {
+			break;
+		}
+		if ( !$('#firstname_' + i).val() ) {
+			$('#firstname_' + i).addClass('alert-error-input');
+		}
+		if ( !$('#lastname_' + i).val() ) {
+			$('#lastname_' + i).addClass('alert-error-input');
+		}
+		if ( !$('#birthday_' + i).val() ) {
+			$('#birthday_' + i).addClass('alert-error-input');
+		}
+		if ( !$('#firstname_' + i).val() || !$('#lastname_' + i).val() || !$('#birthday_' + i).val()) {
+			$('#errormessage_' + i).html("Please fill in all required information.");
+			break;
+		}
+		$('#errormessage_' + i).html("");
+	}
+	i++;
+	for ( ; i < 9; i++) {
+		$('#firstname_' + i).removeClass('alert-error');
+		$('#lastname_' + i).removeClass('alert-error');
+		$('#birthday_' + i).removeClass('alert-error');
+		$('#customer_member_' + i).hide();
+		$('#errormessage_' + i).html("");
+	}
+}
+
+function get_premium() {
+	var product_short = $('input[name="product_short"]').val();
+	var apply_date = $('input[name="apply_date"]').val();
+	var effective_date = $('input[name="effective_date"]').val();
+	var expiry_date = $('input[name="expiry_date"]').val();
+	var isfamilyplan = '';
+	var spouse = '';
+
+	if ( $( "#isfamilyplan" ).length ) {
+		if ($('input[name="isfamilyplan"]').is(':checked')) {
+			isfamilyplan = 1;	// checkbox
+		}
+	}
+	var sum_insured = 0;
+	if ($('select[name="sum_insured"]').length) {
+		sum_insured = $('select[name="sum_insured"]').val();	// select
+	}
+	var deductible_amount = 0;
+	if ($('select[name="deductible_amount"]').length) {
+		deductible_amount = $('select[name="deductible_amount"]').val();	// select
+	}
+	var stable_condition = 0;
+	if ($('select[name="stable_condition"]').length) {
+		stable_condition = $('select[name="stable_condition"]').val();	// radio
+	}
+	var rate_options = 0;
+	if ($('select[name="rate_options"]').length) {
+		rate_options = $('select[name="rate_options"]').val();	// radio
+	}
+	var holiday_rate = 0;
+	if ($('input[name="holiday_rate"]').length) {
+		holiday_rate = $('input[name="holiday_rate"]:checked').val();	// checkbox
+	}
+	var birthday = $('input[name="birthday"]').val();	// 
+	var number_customer = 0;
+	if ((product_short != 'NUS') && (product_short != 'JUS')) {
+		if (new Date(birthday) > new Date($('input[name="birthday_1"]').val())) {
+			birthday = $('input[name="birthday_1"]').val();
+		} 
+		if (new Date(birthday) > new Date($('input[name="birthday_2"]').val())) {
+			birthday = $('input[name="birthday_2"]').val();
+		} 
+		if (new Date(birthday) > new Date($('input[name="birthday_3"]').val())) {
+			birthday = $('input[name="birthday_3"]').val();
+		} 
+		if (new Date(birthday) > new Date($('input[name="birthday_4"]').val())) {
+			birthday = $('input[name="birthday_4"]').val();
+		} 
+		if (new Date(birthday) > new Date($('input[name="birthday_5"]').val())) {
+			birthday = $('input[name="birthday_5"]').val();
+		} 
+		if (new Date(birthday) > new Date($('input[name="birthday_6"]').val())) {
+			birthday = $('input[name="birthday_6"]').val();
+		} 
+		if (new Date(birthday) > new Date($('input[name="birthday_7"]').val())) {
+			birthday = $('input[name="birthday_7"]').val();
+		} 
+		if (new Date(birthday) > new Date($('input[name="birthday_8"]').val())) {
+			birthday = $('input[name="birthday_8"]').val();
+		}
+	}
+	
+	if ($('input[name="firstname"]').val() && $('input[name="lastname"]').val()) number_customer++;
+	if ($('input[name="firstname_1"]').val() && $('input[name="lastname_1"]').val()) number_customer++;
+	if ($('input[name="firstname_2"]').val() && $('input[name="lastname_2"]').val()) number_customer++;
+	if ($('input[name="firstname_3"]').val() && $('input[name="lastname_3"]').val()) number_customer++;
+	if ($('input[name="firstname_4"]').val() && $('input[name="lastname_4"]').val()) number_customer++;
+	if ($('input[name="firstname_5"]').val() && $('input[name="lastname_5"]').val()) number_customer++;
+	if ($('input[name="firstname_6"]').val() && $('input[name="lastname_6"]').val()) number_customer++;
+	if ($('input[name="firstname_7"]').val() && $('input[name="lastname_7"]').val()) number_customer++;
+	if ($('input[name="firstname_8"]').val() && $('input[name="lastname_8"]').val()) number_customer++;
+
+	if ($('#spousediv').length) {
+		if ($('#spouse').get(0).checked) {
+			spouse = 1;
+		}
+	}
+
+	if (effective_date && expiry_date && birthday) {
+		$.ajax({
+			url: '<?php echo $premium_url; ?>',
+			type: 'get',
+			data: {
+				product_short: product_short,
+				apply_date: apply_date,
+				effective_date: effective_date,
+				expiry_date: expiry_date,
+				isfamilyplan: isfamilyplan,
+				sum_insured: sum_insured,
+				deductible_amount: deductible_amount,
+				stable_condition: stable_condition,
+				rate_options: rate_options,
+				holiday_rate: holiday_rate,
+				number_customer: number_customer,
+				spouse: spouse,
+				birthday: birthday},
+			success: function(data, textStatus, jqXHR) {
+				if (data['status'] == 'OK') {
+	        		$('input[name="premium"]').val(data['premiumarr']['premium']);
+					<?php if ($user_group_id > 100) { ?>
+					$('#premiumdisplay').html(data['premiumarr']['premium']);
+					<?php } ?>
+					$('#totalyears').val(data['premiumarr']['totalyears']);
+					$('#totaldays').val(data['premiumarr']['totaldays']);
+					$('#dailyrate').val(data['premiumarr']['dailyrate']);
+					if (data['premiumarr']['message']) {
+						$('#error_next_page').html(data['premiumarr']['message']);
+						$('#error_next_page').css('display','block');
+					} else {
+						$('#error_next_page').html('');
+						$('#error_next_page').css('display','none');
+					}
+					if (data['premiumarr']['force_deductable']) {
+		        		$('input[name="force_deductable"]').val(data['premiumarr']['force_deductable']);
+					} else {
+		        		$('input[name="force_deductable"]').val(0);
+					}
+
+					if (age85 && (data['premiumarr']['totalyears'] <= 85)) {
+						if ( $( "#deductible_amount_div" ).length ) {
+							$.ajax({
+								url: '<?php echo $deductible_amount_url; ?>',
+								success: function(data, textStatus, jqXHR) {
+						        	$('#deductible_amount_div').html(data);
+									get_premium();
+						    	},
+							});
+						}
+						age85 = 0;
+					} else if (!age85 && (data['premiumarr']['totalyears'] > 85)) {
+						if ( $( "#deductible_amount_div" ).length ) {
+							$.ajax({
+								url: '<?php echo $deductible_amount_url; ?>/500',
+								success: function(data, textStatus, jqXHR) {
+						        	$('#deductible_amount_div').html(data);
+									get_premium();
+						    	},
+							});
+						}
+						age85 = 1;
+					}
+					//if (data['premiumarr']['premium']) {
+					//	$('#goto_next_page').show();
+					//} else {
+					//	$('#goto_next_page').hide();
+					//}
+				} else {
+					// $('#goto_next_page').hide();
+					if (data['message']) {
+						$('#error_next_page').html(data['message']);
+						$('input[name="premium"]').val(0);
+					}
+				}
+	    	},
+		});
+	}
+} 
+</script>
+<script type="text/javascript">
+$(document).ready(function(){
+    $("#arrival_date_div").datepicker({
+        startDate: '-5y',
+        endDate: '+2y',
+    });
+    $('#totaldays').change(function(){
+        var days = $('#totaldays').val();
+        var effective = $('#effective_date_div').datepicker('getDate');
+        var myDate = new Date(effective);
+        days--;
+        myDate.setTime(myDate.getTime() + (days * 86400000));
+        $('#expiry_date_div').datepicker('setDate', myDate);
+    });
+});
+</script>

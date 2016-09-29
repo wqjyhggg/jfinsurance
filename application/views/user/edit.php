@@ -64,7 +64,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						  </div>
 	              		</div>
 	              		<div class="col-sm-3 form-group">
-		                  <label class="col-sm-12">Brokerage:</label>
+		                  <label class="col-sm-12">Company:</label>
 		                  <div class="col-sm-12 input-group">
 		                  	<select name='parent_user_id' class="form-control">
 								<option value='0' <?php echo empty($parent_user_id) ? 'selected' : ''; ?>> -- select brokerage -- </option>

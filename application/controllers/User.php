@@ -272,6 +272,9 @@ class User extends MY_Controller {
 		$plist = array();
 		foreach ($product_list as $p) {
 			$p['checked'] = '';
+			if (empty($user_id) && ($p['product_short'] != 'JFC')) {
+				$p['checked'] = 'checked';
+			} 
 			$plist[$p['product_short']] = $p;
 		}
 		$this->data['product_list'] = $plist;

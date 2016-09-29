@@ -19,9 +19,15 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 				<img class="img-responsive" style="width:80px;" src="<?php echo base_url();?>image/jf_logo.png" />
 			</div>
 			<div style="float:left;width:400px;">
+<?php if ($user['user_id'] > 100) { ?>			
 				<p class="topp" style="font-weight:bold;"> JF Agent - <span style="text-transform: capitalize;font-weight:bold;"><?php echo ($user) ? $user['firstname'] . " " . $user['lastname'] : ''; ?></span></p>
 				<p class="topp"><?php echo ($user)? $user['address'] . ', ' . $user['city'] . ' ' . $user['province2'] . ' ' . $user['postcode']: ''; ?></p>
 				<p class="topp"><?php echo ($user)? $user['business_phone'] : '' ; ?></p>
+<?php } else { ?>			
+				<p class="topp" style="font-weight:bold;"> JF Agent - <span style="text-transform: capitalize;font-weight:bold;">Johnson Fu</span></p>
+				<p class="topp"><?php echo ($user)? $user['address'] . ', ' . $user['city'] . ' ' . $user['province2'] . ' ' . $user['postcode']: ''; ?></p>
+				<p class="topp"><?php echo ($user)? $user['business_phone'] : '' ; ?></p>
+<?php } ?>			
 			</div>
 		</div>
 		<div class="row">

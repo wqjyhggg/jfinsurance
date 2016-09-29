@@ -32,8 +32,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									</div>
 									<?php } ?>
 									<div class="form-group col-sm-3">
-										<label class="col-sm-12">Sum Insured (CAD) : $2,000,000</label>
-										<input type='hidden' name='sum_insured' value='2000000' />
+										<label class="col-sm-12">Sum Insured (CAD) : $5,000,000</label>
+										<input type='hidden' name='sum_insured' value='5000000' />
 									</div>
 									</div>
 								</div>

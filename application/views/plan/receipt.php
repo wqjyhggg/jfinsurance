@@ -57,7 +57,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 
 		<div class="row">
 			<div class="col-sm-6 nopadding receipt-info">
-				<h4>DATE: <span><?php echo isset($payment['pay_date']) ? $payment['pay_date'] : ''; ?></span></h4>
+				<h4>DATE: <span><?php echo isset($payment['added']) ? $payment['added'] : ''; ?></span></h4>
 				<h4>NAME: <span><?php echo $customer['firstname'] . " " . $customer['lastname']; ?></span></h4>
 				<h4>ADDRESS: <span><?php if(!empty($plan['suite_number'])){echo  $plan['suite_number'] . "- ";} ?><?php echo $plan['street_number'] . ' ' . $plan['street_name'] . ' ' . $plan['city'] . ', ' . $plan['province2'] . ' ' . $plan['postcode']; ?></sapn> </h4>
 				<h4><?php if ($plan['status_id'] < 2) { ?>QUOTE<?php } else {?>POLICY<?php } ?>: <span><?php echo $plan['policy']; ?></span></h4>
@@ -88,7 +88,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 		<div style="border-bottom:3px solid #eee;margin:10px auto 20px;"></div>
 		<div class="row">
 			<div class="col-sm-6 nopadding receipt-info">
-				<h4>DATE: <span><?php echo isset($payment['pay_date']) ? $payment['pay_date'] : ''; ?></span></h4>
+				<h4>DATE: <span><?php echo isset($payment['added']) ? $payment['added'] : ''; ?></span></h4>
 				<h4>NAME: <span><?php echo $customer['firstname'] . " " . $customer['lastname']; ?></span></h4>
 				<h4>ADDRESS: <span><?php if(!empty($plan['suite_number'])){echo  $plan['suite_number'] . "- ";} ?><?php echo $plan['street_number'] . ' ' . $plan['street_name'] . ' ' . $plan['city'] . ', ' . $plan['province2'] . ' ' . $plan['postcode']; ?></sapn> </h4>
 				<h4><?php if ($plan['status_id'] < 2) { ?>QUOTE<?php } else {?>POLICY<?php } ?>: <span><?php echo $plan['policy']; ?></span></h4>

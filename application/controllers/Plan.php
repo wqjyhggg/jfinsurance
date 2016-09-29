@@ -86,6 +86,7 @@ class Plan extends MY_Controller {
 		$data['export_list'] = base_url ( "plan/export_list" );
 		$data['edit_url'] = base_url ( "plan/edit" ) . "/";
 		$data['copy_url'] = base_url ( "plan/copy" ) . "/";
+		$data['pdf_url'] = base_url ( "plan/pdf" ) . "/";
 		$data['province_url'] = base_url ( "geo/province/" );
 		$data['country_url'] = base_url ( "geo/country/" );
 		$data['sendpackage_url'] = base_url ( "plan/sendpackage" ) . "/";
