@@ -81,6 +81,8 @@ class Claim_model extends CI_Model {
 		$this->db->insert('claim', $para);
 		$this->sqlstr = $this->db->last_query();
 		$claim_id = $this->db->insert_id();
+		$uarr = array('claim_number' => $para['policy_number'] . "CLM" . $claim_id);
+		$this->update($claim_id, $uarr);
 		$this->logstr = "Add claim record (" . $claim_id . ") : " . join(',', $para);
 		return $claim_id;
 	}
