@@ -337,7 +337,11 @@ class Claim extends MY_Controller {
 			redirect('claim');
 		}
 
+		$this->load->model('plan_model');
+		$this->data['plan'] = $this->plan_model->get_plan_by_id($this->data['plan_id']);
 
+		$this->data['agent'] = $this->user_model->get_user_by_id($this->data['plan']['user_id']);
+		
 		if (!isset($this->data['button']) || ($this->data['button'] != 'Submit' )) {
 			$this->data['button'] = 'Update';
 		}

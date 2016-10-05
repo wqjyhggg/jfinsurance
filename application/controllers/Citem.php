@@ -47,6 +47,7 @@ class Citem extends MY_Controller {
 
 		$claim = $this->claim_model->get_claim_by_id($claim_id);
 		if ($claim) {
+			$plan = $this->plan_model->get_plan_by_id($claim['plan_id']);
 			$this->data = array();
 			$para = array();
 			$para['claim_id'] = $claim_id;
@@ -61,6 +62,11 @@ class Citem extends MY_Controller {
 			$para['birthday'] = $claim['birthday'];
 			$para['gender'] = $claim['gender'];
 			$para['claim_date'] = date('Y-m-d');
+			$para['address'] = $plan['suite_number'] . " " . $plan['street_number'] . " " . $plan['street_name'];
+			$para['city'] = $plan['city'];
+			$para['province2'] = $plan['province2'];
+			$para['country2'] = $plan['country2'];
+			$para['postcode'] = $plan['postcode'];
 			$citem_id = $this->claim_model->additem($para);
 			$log = array(
 					'plan_id' => $claim['plan_id'], 
