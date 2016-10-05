@@ -181,6 +181,7 @@ class User extends MY_Controller {
 		$data['lastname'] = $this->input->post ( 'lastname' );
 		$data['email'] = $this->input->post ( 'email' );
 		$data['business'] = $this->input->post ( 'business' );
+		$data['broker_list'] = $this->user_model->get_broker_id_list();
 		
 		$data['be_user_group_id'] = $this->session->beuser['user_group_id'];
 		if ($this->session->beuser == $this->session->user) {
@@ -360,6 +361,43 @@ class User extends MY_Controller {
 	}
 	
 	/**
+	 * User reset password page
+	 */
+	public function resetpassword() {
+		if (! $this->func_model->verify_login()) {
+			// Login user
+			$this->session->set_userdata ( "error_message", $this->lang->line ( 'error_no_permission' ) );
+			redirect ( base_url ( 'errorpage' ) );
+		}
+		
+		if ($this->input->post ()) {
+			$password = $this->input->post ('password');
+			$password2 = $this->input->post ('password2');
+			if (empty($password) || empty($password2)) {
+				$this->data['error_message'] = "Please input your new password";
+			} else if ($password != $password2){
+				$this->data['error_message'] = "New password and verify password are different, please reinput";
+			} else if ((strlen ( $password ) < self::PASSWORD_MIN) || (strlen ( $password ) > self::PASSWORD_MAX)) {
+				$this->data ['error_message'] = $this->lang->line ( 'error_password_input' );
+			} else {
+				$this->user_model->update ( $this->session->beuser['user_id'], array('password' => $password, 'status' => 1), 0);
+				$this->log_model->activity('user', array('message' => "Reset Password: ".$this->user_model->logstr, 'systemlog' => "Reset Password: ".$this->user_model->sqlstr));
+				redirect ( base_url ('product') );
+			}
+		}
+		
+		$this->data['action_url'] = base_url('user/resetpassword');
+		$this->data ['csrf'] = array (
+				'name' => $this->security->get_csrf_token_name (),
+				'value' => $this->security->get_csrf_hash () 
+		);
+
+		$this->data['top_menu'] = $this->menu_model->load_top_menu();
+		$this->data['menu'] = $this->menu_model->load_meun();
+		$this->load->common ( 'user/resetpassword', $this->data );
+	}
+	
+	/**
 	 * User login
 	 */
 	public function login() {
@@ -383,6 +421,9 @@ class User extends MY_Controller {
 				if (is_array($r)) {
 					$this->session->set_userdata ( 'user', $r );
 					$this->session->set_userdata ( 'beuser', $r );
+					if ($r['forcepw']) {
+						redirect ( base_url ('user/resetpassword') );
+					}
 					redirect ( base_url ('product') );
 				} else {
 					$this->data['error_message'] = $r;

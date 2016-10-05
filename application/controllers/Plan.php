@@ -236,6 +236,26 @@ class Plan extends MY_Controller {
 		//unlink($tmpfname);
 	}
 	
+	function from_valid_family_member() {
+		$older_than_21 = 0;
+		$today = date("Y-m-d");
+		for ($i = 1 ; $i < 9; $i++) {
+			if (empty($this->input->post('gender_' . $i)) || empty($this->input->post('firstname_' . $i)) || empty($this->input->post('lastname_' . $i)) || empty($this->input->post('birthday_' . $i))) {
+				continue;
+			}
+			$years = $this->product_model->getYears($today, $this->input->post('birthday_' . $i));
+			if ($years > 61) {
+				$this->error['error_birthday_' . $i] = 'Member older than 61';
+			}
+			if ($years > 21) {
+				$older_than_21++;
+				if ($older_than_21 > 2) {
+					$this->error['error_birthday_' . $i] = 'Multiple member older than 21';
+				}
+			}
+		}
+	}
+	
 	function form_valid() {
 		$this->error = array();
 
@@ -297,6 +317,7 @@ class Plan extends MY_Controller {
 			if (empty($this->input->post('stable_condition'))) {
 				$this->error['error_stable_condition'] = 'Please select pre-existion condition coverage';
 			}
+			$this->from_valid_family_member();
 		} else if (($product_short == 'JUS') || ($product_short == 'NUS')) {
 			if (empty($this->input->post('rate_options'))) {
 				$this->error['error_rate_options'] = 'Please select rate options';
@@ -457,6 +478,36 @@ class Plan extends MY_Controller {
 		} else {
 			$data['premium'] = 0;
 		}
+
+		if ($this->input->post('student_id')) {
+			$data['student_id'] = $this->input->post('student_id');
+		} else if (isset($plan['student_id'])) {
+			$data['student_id'] = $plan['student_id'];
+		} else {
+			$data['student_id'] = '';
+		}
+		if ($this->input->post('institution_addr')) {
+			$data['institution_addr'] = $this->input->post('institution_addr');
+		} else if (isset($plan['institution_addr'])) {
+			$data['institution_addr'] = $plan['institution_addr'];
+		} else {
+			$data['institution_addr'] = '';
+		}
+		if ($this->input->post('institution')) {
+			$data['institution'] = $this->input->post('institution');
+		} else if (isset($plan['institution'])) {
+			$data['institution'] = $plan['institution'];
+		} else {
+			$data['institution'] = '';
+		}
+		if ($this->input->post('institution_phone')) {
+			$data['institution_phone'] = $this->input->post('institution_phone');
+		} else if (isset($plan['institution_phone'])) {
+			$data['institution_phone'] = $plan['institution_phone'];
+		} else {
+			$data['institution_phone'] = '';
+		}
+		
 		if ($this->input->post('stable_condition')) {
 			$data['stable_condition'] = $this->input->post('stable_condition'); 
 		} else if (isset($plan['stable_condition'])) {
@@ -1306,7 +1357,7 @@ class Plan extends MY_Controller {
 		$data['status_list'] = $this->status_model->status_list();
 		$days = $this->product_model->getDays('today', $plan['effective_date']);
 		$data['payment_total'] = $plan['premium'] - $this->payment_model->get_total_paid($plan['plan_id'], 'premium');
-		if (!empty($data['payment_total']) && ($days < 1)) {
+		if (!empty($data['payment_total']) && ($days < 1) && ($beuser['user_group_id'] > 100)) {
 			$data['error_message'] = "You have to pay before Effective date.";
 			$data['payment_total'] = '';
 		}

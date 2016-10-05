@@ -132,7 +132,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                           <tr>
                             <th>Username</th>
                             <th>Type</th>
-                            <th>Company</th>
+                            <th>Brokerage</th>
                             <th>Agent ID</th>
                             <th>Name</th>
                             <th>Email</th>
@@ -154,7 +154,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <?php } ?>
                             </td>
                             <td><?php echo $user_group_list[$user['user_group_id']]; ?></td>
-                            <td><?php echo $user['business']; ?></td>
+                            <td><?php echo (!empty($user['parent_user_id']) && isset($broker_list[$user['parent_user_id']])) ? $broker_list[$user['parent_user_id']] : '';  ?></td>
                             <td><?php echo $user['user_id']; ?></td>
                             <td><?php echo $user['lastname'] . ", " . $user['firstname']; ?></td>
                             <td><?php echo $user['email']; ?></td>

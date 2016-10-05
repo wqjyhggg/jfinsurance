@@ -213,7 +213,7 @@ class User_model extends CI_Model {
 	 * @para	array	$post			post input
 	 * @return	integer user_id
 	 */
-	public function update($user_id, $post) {
+	public function update($user_id, $post, $forcepw=1) {
 		$this_user = array();
 		$this->logstr = '';
 		$this->sqlstr = '';
@@ -264,9 +264,11 @@ class User_model extends CI_Model {
 				if ($this_user['password'] != $post['password']) {
 					$this->logstr .= "password => * ,";
 					$para['password'] = $pw;
+					$para['forcepw'] = $forcepw;
 				}
 			} else {
 				$para['password'] = $pw;
+				$para['forcepw'] = $forcepw;
 			}
 		}
 		if (!empty($post['region'])) {
@@ -509,16 +511,18 @@ class User_model extends CI_Model {
 				$para['mobile_phone'] = trim($post['mobile_phone']);
 			}
 		}
-		$pay_type = " " . join(",", $post['paytype_list']);
-		if ($this_user) {
-			if ($this_user['pay_type'] != $pay_type) {
-				$this->logstr .= "pay_type[".$this_user['pay_type']."]=>[".$pay_type."],";
+		if (isset($post['paytype_list'])) {
+			$pay_type = " " . join(",", $post['paytype_list']);
+			if ($this_user) {
+				if ($this_user['pay_type'] != $pay_type) {
+					$this->logstr .= "pay_type[".$this_user['pay_type']."]=>[".$pay_type."],";
+					$para['pay_type'] = $pay_type;
+				}
+			} else {
 				$para['pay_type'] = $pay_type;
+				$this->logstr .= "pay_type[".$pay_type."],";
+				$para['ip'] = $this->input->ip_address();
 			}
-		} else {
-			$para['pay_type'] = $pay_type;
-			$this->logstr .= "pay_type[".$pay_type."],";
-			$para['ip'] = $this->input->ip_address();
 		}
 		$status = empty($post['status']) ? 0 : 1;
 		if ($this_user) {

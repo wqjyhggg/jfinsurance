@@ -35,9 +35,11 @@ class Payment extends MY_Controller {
 				'pay_date' => date('Y-m-d'),
 			);
 			
+			$redirect_plan_id = 0;
 			foreach ($payment as $payment_id) {
 				$pay = $this->payment_model->get_payment_by_id($payment_id);
 				if ($pay) {
+					$redirect_plan_id = empty($pay['plan_id']) ? 0 : $pay['plan_id'];
 					$payarr['note'] = "Make pay by " . $this->session->userdata ( 'user' )['username'] . "; " . $pay['note'];
 					if ($pay_submit && !$pay['ispaid']) {
 						// Submit pay
@@ -63,6 +65,8 @@ class Payment extends MY_Controller {
 									$this->batch_model->batch_pay($plan['batch_number'], $payarr);
 								}
 							}
+						} else {
+							
 						}
 					} else {
 						$plan = $this->plan_model->get_plan_by_id($pay['plan_id']);
@@ -84,6 +88,9 @@ class Payment extends MY_Controller {
 			$data['error_message'] = "Don't understand which payment to pay";
 		}
 		if ($pay_submit) {
+			if (!empty($redirect_plan_id)) {
+				redirect('plan/detail/'.$redirect_plan_id);
+			}
 			redirect('plan');
 		}
 		

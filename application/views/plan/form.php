@@ -309,6 +309,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					                        	
 					                        	<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
 					                        </div>
+											<?php if (!empty(${'error_birthday_'.$i})) {?>
+											<div class="alert-error">
+												<?php echo ${'error_birthday_'.$i}; ?>
+											</div>
+											<?php } ?>
 										</div>
 										<div class="col-sm-3">
 											<div class="row">
@@ -962,6 +967,7 @@ $(document).ready(function(){
         days--;
         myDate.setTime(myDate.getTime() + (days * 86400000));
         $('#expiry_date_div').datepicker('setDate', myDate);
+        get_premium();
     });
 });
 </script>
