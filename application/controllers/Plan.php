@@ -1730,7 +1730,7 @@ class Plan extends MY_Controller {
 				);
 				$this->log_model->activity('plan', $para);
 				
-				redirect('plan');
+				redirect('plan/detail/'.$plan_id);
 			} else {
 				$data['error_message'] = 'Invalid refund amount';
 			}
@@ -1864,7 +1864,7 @@ class Plan extends MY_Controller {
 						'systemlog' => $this->plan_model->sqlstr
 				);
 				$this->log_model->activity('plan', $para);
-				redirect('plan');
+				redirect('plan/detail/'.$plan_id);
 			} else {
 				$data['error_message'] = 'Invalid refund amount';
 			}
