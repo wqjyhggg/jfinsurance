@@ -39,7 +39,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <form action='<?php echo $action_url; ?>' method='POST'  class="form-horizontal">
               				  <input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
               				  <input type='hidden' name='plan_id' value='<?php echo $plan_id; ?>'>
-          					  <div class="row">
+   					  <div class="row">
+                        <div class="form-group col-sm-4 col-xs-12">
+                          <label>Policy #:</label> <?php echo $plan['policy']; ?>
+                        </div>
+
+                        <div class="form-group col-sm-4 col-xs-12">
+                          <label>Product:</label> <?php echo $plan['product_short']; ?>
+                        </div>
+                        <div class="form-group col-sm-4 col-xs-12">
+                          <label>Total Premium:</label> <?php echo $plan['premium']; ?>
+                        </div>
+                      </div>
+   					  <div class="row">
                         <div class="form-group col-sm-4 col-xs-12">
                           <label>Effective Date:</label> <?php echo $plan['effective_date']; ?>
                         </div>
@@ -48,11 +60,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                           <label>Expiry Date:</label> <?php echo $plan['expiry_date']; ?>
                         </div>
                         <div class="form-group col-sm-4 col-xs-12">
-                          <label>Total Premium:</label> <?php echo $plan['premium']; ?>
-                        </div>
-                      </div>
-                      <div class="row">  
-                        <div class="form-group col-sm-4 col-xs-12">
                           <label>Refund Date:</label>
                           <div class="inline-date">
                             <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
@@ -60,25 +67,25 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                               <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
                           </div>
-                          <br />
                         </div>
-
+                      </div>
+                      <div class="row">  
                         <div class="form-group col-sm-4 col-xs-12 pull-right">
                           <label>Used Premium:</label> <span id="used_amount"></span>
-                         
                         </div>
                       </div>
 
                       <div class="row">  
-                        <div class="form-group col-sm-8 col-xs-12">
-                            <label class="radio-inline"><input type="radio" name="admin_fee" value="0" checked>$0 Adminstration Fee</label>
-                            <label class="radio-inline"><input type="radio" name="admin_fee" value="40">$40 Adminstration Fee</label>
-                        </div>
-                        <div class="form-group col-sm-4 col-xs-12">
+                        <div class="form-group col-sm-4 col-xs-12 pull-right">
                           <label>Refund Premium:</label> <!--span id="refund_amount"></span-->
                           <input type="number" step="any" name='refund_amount' id='refund_amount' value='' class="form-control" readonly />
                         </div>
-      			            
+                      </div>
+                      <div class="row">  
+                        <div class="form-group col-sm-6 col-xs-12 pull-right">
+                            <label class="radio-inline"><input type="radio" name="admin_fee" value="0" checked>$0 Adminstration Fee</label>
+                            <label class="radio-inline"><input type="radio" name="admin_fee" value="40">$40 Adminstration Fee</label>
+                        </div>
                       </div>
                       <div class="row">
                         <div class="form-group col-sm-8 col-xs-12"></div>       
