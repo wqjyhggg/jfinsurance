@@ -32,8 +32,10 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 		</div>
 		<div class="row">
 			<div class="col-sm-12 nopadding">
-				<p  class="nopm"><?php echo $customer['firstname'] . " " . $customer['lastname']; ?></p>
-				<p  class="nopm"><?php if(!empty($plan['suite_number'])){echo  $plan['suite_number'] . "- ";} ?><?php echo $plan['street_number'] . ' ' . $plan['street_name'] . '<br />' . $plan['city'] . ', ' . $plan['province2'] . ', ' . $plan['postcode']; ?></p>
+				<p  class="nopm"><?php echo $customer_full_name; ?></p>
+				<p  class="nopm">
+					<?php echo $full_address; ?><br />
+					<?php echo $city . ', ' . $province2 . ', ' . $postcode; ?></p>
 			</div>
 		</div>
 		<div class="row">

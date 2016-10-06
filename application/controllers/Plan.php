@@ -1973,6 +1973,7 @@ class Plan extends MY_Controller {
 
 		$data['beuser'] = $beuser;
 		$data['plan'] = $plan;
+		$data['refundprint_url'] = base_url ( "plan/refundprint" ) . "/" . $plan_id;
 		
 		$total_amount = (float)$payment['amount'] * (-1);
 		$admin_fee = (float)$payment['admin_fee'];
@@ -2002,11 +2003,26 @@ class Plan extends MY_Controller {
 		} else {
 			$data['insurable_options'] = $this->load->view('plan/detail_other', $data, TRUE);
 		}
-		$data['style'] = $this->load->view('common/pdf_style',$data, TRUE);
-		$html = $this->load->view('plan/refund', $data, TRUE);
-		$mpdf = new mPDF('c');
-		$mpdf->writeHTML($html);
-		$mpdf->Output();
+		if ($this->input->post('customer_full_name')) {
+			$data['customer_full_name'] = $this->input->post('customer_full_name');
+			$data['full_address'] = $this->input->post('full_address');
+			$data['city'] = $this->input->post('city');
+			$data['province2'] = $this->input->post('province2');
+			$data['postcode'] = $this->input->post('postcode');
+			$data['style'] = $this->load->view('common/pdf_style',$data, TRUE);
+			$html = $this->load->view('plan/refund', $data, TRUE);
+			$mpdf = new mPDF('c');
+			$mpdf->writeHTML($html);
+			$mpdf->Output();
+		} else {
+			$data['customer_full_name'] = $data['customer']['firstname'] . " " . $data['customer']['lastname'];
+			$data['full_address'] = empty($plan['suite_number']) ? '' : $plan['suite_number'] . "- ";
+			$data['full_address'] .= $plan['street_number'] . ' ' . $plan['street_name'];
+			$data['city'] = $plan['city'];
+			$data['province2'] = $plan['province2'];
+			$data['postcode'] = $plan['postcode'];
+			$this->load->view('plan/refund_addr', $data);
+		}
 	}
 	
 	/**
