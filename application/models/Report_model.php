@@ -67,12 +67,20 @@ class Report_model extends CI_Model
     {
         $this->common_from();
         $this->db->join('user_product up', 'u.user_id = up.user_id and pr.product_short = up.product_short', 'left');
+        $this->db->join('payment pa', 'pa.payment_id=
+            (SELECT MIN(payment_id) FROM payment pa2 WHERE pl.payment_id = pa2.payment_id AND pa2.pay_type = "premium" AND ispaid = 1)', 'left');
     }
 
     private function sales_report_agent_where($para)
     {
         $this->db->where_in('pl.status_id', array(self::SOLD, self::PAID, self::CLAIMED, self::CHANGED));
         $this->common_report_where($para);
+        if (!empty($para['payment_date_from'])) {
+            $this->db->where('pa.last_update >=', $para['payment_date_from']);
+        }
+        if (!empty($para['payment_date_to'])) {
+            $this->db->where('pa.last_update <=', $para['payment_date_to']);
+        }
     }
 
     private function get_sales_report_agent_result($query)
@@ -155,11 +163,11 @@ class Report_model extends CI_Model
     {
         $this->db->where_in('pl.status_id', array(self::SOLD, self::PAID, self::CLAIMED));
         $this->common_report_where($para);
-        if (!empty($para['payment_update_date_from'])) {
-            $this->db->where('pa.last_update >=', $para['payment_update_date_from']);
+        if (!empty($para['payment_date_from'])) {
+            $this->db->where('pa.last_update >=', $para['payment_date_from']);
         }
-        if (!empty($para['payment_update_date_to'])) {
-            $this->db->where('pa.last_update <=', $para['payment_update_date_to']);
+        if (!empty($para['payment_date_to'])) {
+            $this->db->where('pa.last_update <=', $para['payment_date_to']);
         }
     }
     private function get_sales_report_jf_result($query)
@@ -244,12 +252,20 @@ class Report_model extends CI_Model
     {
         $this->common_from();
         $this->db->join('user_product up', 'u.user_id = up.user_id and pr.product_short = up.product_short', 'left');
+        $this->db->join('payment pa', 'pa.payment_id=
+            (SELECT MIN(payment_id) FROM payment pa2 WHERE pl.payment_id = pa2.payment_id AND pa2.pay_type = "premium" AND ispaid = 1)', 'left');
     }
 
     private function sales_report_insurer_where($para)
     {
         $this->db->where_in('pl.status_id', array(self::SOLD, self::PAID, self::CLAIMED));
         $this->common_report_where($para);
+        if (!empty($para['payment_date_from'])) {
+            $this->db->where('pa.last_update >=', $para['payment_date_from']);
+        }
+        if (!empty($para['payment_date_to'])) {
+            $this->db->where('pa.last_update <=', $para['payment_date_to']);
+        }
     }
 
     private function get_sales_report_insurer_result($query)
@@ -529,7 +545,8 @@ class Report_model extends CI_Model
 
     private function renewal_report_where($para)
     {
-        $this->common_report_where($para);
+    	$this->db->where('pl.status_id > ', self::QUOTE);
+    	$this->common_report_where($para);
     }
 
     private function get_renewal_report_result($query)

@@ -143,20 +143,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <!-- Payment Update Date-->
                         <div class="form-group col-sm-3">
                             <!-- Payment Update Date From-->
-                            <label for="expiry_date_from" class="col-sm-12">Expiry Date From</label>
+                            <label for="payment_date_from" class="col-sm-12">Payment Update Date From</label>
                             <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
-                            <input name="expiry_date_from" class="form-control" size="16" type="text" value="<?=$expiry_date_from ?>" >
+                            <input name="payment_date_from" class="form-control" size="16" type="text" value="<?=$payment_date_from ?>" >
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
-                            <input type="hidden" id="expiry_date_from" value="" />
+                            <input type="hidden" id="payment_date_from" value="" />
                             <!-- Payment Update Date From End-->
                             <!-- Payment Update Date to -->
-                            <label for="expiry_date_to" class="col-sm-12">Expiry Date To</label>
+                            <label for="payment_date_to" class="col-sm-12">Payment Update Date To</label>
                             <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
-                                <input name="expiry_date_to" class="form-control" size="16" type="text" value="<?=$expiry_date_to ?>" >
+                                <input name="payment_date_to" class="form-control" size="16" type="text" value="<?=$payment_date_to ?>" >
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
-                            <input type="hidden" id="expiry_date_to" value="" /><br/>
+                            <input type="hidden" id="payment_date_to" value="" /><br/>
                             <!-- Payment Update Date to End -->
                         </div>
                         <!-- Payment Update Date End -->
