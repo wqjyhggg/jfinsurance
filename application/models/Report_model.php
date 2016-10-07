@@ -325,7 +325,7 @@ class Report_model extends CI_Model
             CONCAT(c.lastname, ", ", c.firstname) AS insured_name,
             pl.effective_date,
             pl.expiry_date,
-            datediff(pl.expiry_date, pl.effective_date) AS total_days,
+            (datediff(pl.expiry_date, pl.effective_date) + 1) AS total_days,
             pl.dailyrate AS daily_rate,
             pl.premium AS policy_premium,
             pr.commission AS pr_commission,
@@ -379,7 +379,7 @@ class Report_model extends CI_Model
             $results['data'][$row['user_id']]['agency']['address'] = $row['address'];
             $results['data'][$row['user_id']]['agency']['province'] = $row['province'];
             $results['data'][$row['user_id']]['agency']['postal_code'] = $row['postcode'];
-
+            
             if ($row['pay_type'] === 'premium') {
                 $premium_last_update = strtotime($row['last_update']);
                 $policy = $row['policy'];
@@ -390,6 +390,7 @@ class Report_model extends CI_Model
                     $results['data'][$row['user_id']]['agency']['payable_to_jf'] = 0;
                 }
                 $results['data'][$row['user_id']]['agency']['outstanding'] += $premium;
+                $row['up_commission'] = empty($row['up_commission']) ? $row['pr_commission'] : $row['up_commission'];
                 $results['data'][$row['user_id']]['records'][] = $row;
             } else {
                 if ($row['pay_type'] === 'commission') {
@@ -673,6 +674,7 @@ class Report_model extends CI_Model
     {
         $query = $this->get_agent_commission_query($para);
         $results = $this->get_agent_commission_result($query);
+        // echo "<pre>"; echo "[".$this->db->last_query() . "]\n"; print_r($results); die("XXX");
         return $results;
     }
 
@@ -690,7 +692,9 @@ class Report_model extends CI_Model
             CONCAT(u.firstname," ", u.lastname) AS agent_name,
             SUM(amount) AS total_balance,
             u.pay_type AS payment_method,
-            u.user_id AS agent_id
+        	u.receive_type,
+        	u.note,
+        	u.user_id AS agent_id
         ');
     }
 
@@ -706,10 +710,10 @@ class Report_model extends CI_Model
         $available_user_ids = array_keys($para['user_list']);
         $this->db->where('pa.amount >', 0);
         if (!empty($para['payment_update_date_from'])) {
-            $this->db->where('pa.last_update >=', $para['payment_update_date_from']);
+            $this->db->where('pa.last_update >=', $para['payment_date_from']);
         }
         if (!empty($para['payment_update_date_to'])) {
-            $this->db->where('pa.last_update <=', $para['payment_update_date_to']);
+            $this->db->where('pa.last_update <=', $para['payment_date_to']);
         }
         if (!empty($para['agent_id'])) {
             if (!in_array($para['agent_id'], $available_user_ids)) {
@@ -722,11 +726,20 @@ class Report_model extends CI_Model
                 $this->db->where_in('u.user_id', $available_user_ids);
             }
         }
+        if (!empty($para['paied'])) {
+            $this->db->where('pa.ispaid', 0);
+        } else {
+        	$this->db->where('pa.ispaid', 1);
+        }
         if (!empty($para['payment_method'])) {
             $this->db->like('u.pay_type', $para['payment_method']);
         }
         $this->db->group_by('agent_id');
-        $this->db->having('total_balance <', 0);
+        if (!empty($para['minvalue'])) {
+        	$this->db->having('total_balance >', (int)$para['minvalue']);
+        } else {
+        	$this->db->having('total_balance >', 0);
+        }
     }
 
     private function get_agent_commission_result($query)

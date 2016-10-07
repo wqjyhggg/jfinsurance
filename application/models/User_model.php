@@ -537,7 +537,7 @@ class User_model extends CI_Model {
 			if ($this_user) {
 				if ($this_user['receive_type'] != $post['receive_type']) {
 					$this->logstr .= "note[".$this_user['receive_type']."]=>[".$post['receive_type']."],";
-					$para['note'] = trim($post['note']);
+					$para['receive_type'] = trim($post['receive_type']);
 				}
 			} else {
 				$para['receive_type'] = trim($post['receive_type']);

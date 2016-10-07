@@ -38,9 +38,11 @@ class Agent_Commission extends MY_Controller
 
         $data['agent_id'] = $this->input->post('agent_id');
         $data['payment_method'] = $this->input->post('payment_method');
-        $data['payment_update_date_from'] = $this->input->post('payment_update_date_from');
-        $data['payment_update_date_to'] = $this->input->post('payment_update_date_to');
-
+        $data['payment_date_from'] = $this->input->post('payment_date_from');
+        $data['payment_date_to'] = $this->input->post('payment_date_to');
+        $data['paied'] = $this->input->post('paied');
+        $data['minvalue'] = $this->input->post('minvalue');
+        
         $data['user_list'] = $this->user_model->get_available_user_list();
         $data['report_data'] = empty($_POST) ? array() : $this->report_model->get_agent_commission_report($data);
         return $data;

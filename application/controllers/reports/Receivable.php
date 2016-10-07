@@ -32,8 +32,8 @@ class Receivable extends MY_Controller
 
         $data['agent_id'] = $this->input->post('agent_id');
         $data['product_short'] = $this->input->post('product_short');
-        $data['application_date_from'] = empty($this->input->post('application_date_from')) ? date('Y-m-01') : $this->input->post('application_date_from', true);
-        $data['application_date_to'] = empty($this->input->post('application_date_to')) ? date("Y-m-d") : $this->input->post('application_date_to', true);
+        $data['application_date_from'] = empty($_POST) ? date('Y-m-01') : $this->input->post('application_date_from', true);
+        $data['application_date_to'] = empty($_POST) ? date("Y-m-d") : $this->input->post('application_date_to', true);
         $data['arrival_date_from'] = $this->input->post('arrival_date_from');
         $data['arrival_date_to'] = $this->input->post('arrival_date_to');
         $data['effective_date_from'] = $this->input->post('effective_date_from');

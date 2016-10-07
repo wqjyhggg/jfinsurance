@@ -79,7 +79,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             </div>
                         </div>
                         <div class="form-group col-sm-3">
-                          <label >Claimed: </label>
+                          <label >Claim Amount: </label>
                           <div class="input-group col-sm-12">
                             <input class="form-control" type='number' name='claimed' value='<?php echo $claimed; ?>'>
                           </div>

@@ -56,17 +56,30 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                               </select>
                           </div>
                         </div>
-                        <!-- Agent input box end -->
+                        <!-- Payment Update Date-->
                         <div class="form-group col-sm-4">
-                          <!-- all report before the selected date -->
-                            <label for="payment_update_date_to" class="col-sm-12">Up to Date</label>
+                            <!-- Payment Update Date From-->
+                            <label for="payment_date_from" class="col-sm-12">Payment Update Date From</label>
                             <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
-                                <input name="payment_update_date_to" class="form-control" size="16" type="text" value="<?=$payment_update_date_to ?>" >
+                            <input name="payment_date_from" class="form-control" size="16" type="text" value="<?=$payment_date_from ?>" >
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
-                            <input type="hidden" id="payment_update_date_to" value="" />
+                            <input type="hidden" id="payment_date_from" value="" />
+                            <!-- Payment Update Date From End-->
                         </div>
+                        <!-- Payment Update Date-->
                         <div class="form-group col-sm-4">
+                            <!-- Payment Update Date to -->
+                            <label for="payment_date_to" class="col-sm-12">Payment Update Date To</label>
+                            <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
+                                <input name="payment_date_to" class="form-control" size="16" type="text" value="<?=$payment_date_to ?>" >
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                            </div>
+                            <input type="hidden" id="payment_date_to" value="" /><br/>
+                            <!-- Payment Update Date to End -->
+                        </div>
+                        <!-- Payment Update Date End -->
+                        <!-- div class="form-group col-sm-4">
                           <label class="col-sm-12">Payment Method:</label>
                           <div class="input-group col-sm-12">
                               <select name="payment_method" class="form-control">
@@ -80,6 +93,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <?=$my_payment_method ?></option>
 <?php endforeach ?>
                               </select>
+                          </div>
+                        </div -->
+                      </div>
+                      <div class="row">
+                        <div class="form-group col-sm-4">
+                          <label class="col-sm-12">Minimum Value:</label>
+                          <div class="input-group col-sm-12">
+                              <input type='number' name="minvalue" value='<?php echo $minvalue; ?>'>
+                          </div>
+                        </div>
+                        <div class="form-group col-sm-4">
+                          <label class="col-sm-12">Paied:</label>
+                          <div class="input-group col-sm-12">
+                              <input type='checkbox' name="paied" <?php echo ($paied) ? "checked" : ''; ?>> check for paied report
                           </div>
                         </div>
                       </div>
@@ -112,7 +139,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                           <tr>
                             <th>Agent</th>
                             <th>Total Balance</th>
-                            <th>Payment Method <span class="fa fa-caret-down"></span></th><!-- Payment Method should be able to sort by acs -->
+                            <th>Pay Method <span class="fa fa-caret-down"></span></th>
+                            <th>Note <span class="fa fa-caret-down"></span></th>
                           </tr>
                         </thead>
                         <tbody>
@@ -121,7 +149,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <tr>
                             <td><?=$record['agent_name'] ?></td>
                             <td><?=$record['total_balance'] ?></td>
-                            <td><?=$record['payment_method'] ?></td>
+                            <td><?=$record['receive_type'] ?></td>
+                            <td><?=$record['note'] ?></td>
                             </tr>
     <?php endforeach; ?>
 <?php endforeach; ?>

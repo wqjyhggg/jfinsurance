@@ -139,7 +139,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <!-- Effective Date From-->
                             <label for="effective_date_from" class="col-sm-12">Effective Date From</label>
                             <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
-                                <input class="form-control" size="16" type="text" value="" >
+                                <input name="effective_date_from" class="form-control" size="16" type="text" value="<?=$effective_date_from ?>" >
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
                             <input type="hidden" id="effective_date_from" value="" />
@@ -233,6 +233,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <th>Expiry Date</th>
                             <th>Trip Length</th>
                             <th>Total Premium</th>
+                            <th>Commission Ratio(Current)</th>
                             <th>Outstanding Amount</th>
                           </tr>
 		<?php if (!empty($data['records'])) : ?>
@@ -245,6 +246,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                               <td><?=$record['expiry_date'] ?></td>
                               <td><?=$record['total_days'] ?></td>
                               <td>$<?=$record['policy_premium'] ?></td>
+                              <td><?=$record['up_commission'] ?>%</td>
                               <td>$<?=$record['pa_amount'] ?></td>
                             </tr>
         <?php endforeach; ?>
