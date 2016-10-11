@@ -1,47 +1,42 @@
 <?php
 defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 ?>
-<html lang="en">
-<head>
-	<meta charset="UTF-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Change information for PDF File</title>
-</head>
-<body>
-	<header>
-		<!--p class="rh">JF Group</p-->
-	</header>
-	<div class="container">	
+
 		<div class="row">
-			<div style="width:390px; margin:0 auto;">
-				<div style="float:left;width:90px;">
-					<img class="img-responsive" style="width:80px;" src="<?php echo base_url();?>image/jf_logo.png" />
+			<div class="col-sm-8 col-sm-offset-2">
+				<h2 class="text-center">Edit Information</h2>
+				<div class="popForm">
+					<form target="_blank" action='<?php echo $refundprint_url?>' method='post'>
+			
+					<div class="row">
+						<div class="col-sm-12">
+							<span style="width:110px;">Customer Name : </span><input type='text' name='customer_full_name' value='<?php echo !empty($firstname) ? $firstname : ''; ?>'><br />
+						</div>
+						<div class="col-sm-12">
+							</br>
+							<span style="width:110px;">Address : </span><input type='text' name='full_address' value='<?php echo !empty($suite_number)? $suite_number .' - '. $street_number .' , '. $street_name: $street_number .' , '. $street_name ; ?>'><br />
+						</div>
+						<div class="col-sm-12">
+							</br>
+							<span style="width:110px;">City: </span><input type='text' name='city' value='<?php echo $city; ?>'><br />
+						</div>
+						<div class="col-sm-12">
+							</br>
+							<span style="width:110px;">Province: </span><input type='text' name='province2' value='<?php echo $province2; ?>'><br />
+						</div>
+						<div class="col-sm-12">
+							</br>
+							<span style="width:110px;">Post Code: </span><input type='text' name='postcode' value='<?php echo $postcode; ?>'><br />
+						</div>
+					</div>
+					<div class="row">	
+						<div class="col-sm-12 text-center">
+							<br />
+							<input type='submit' class="btn btn-info" value='Export PDF'>
+						</div>
+					</div>
+					</form>
 				</div>
-				<div style="float:left;width:300px;text-align:center;">
-					<h3 style="margin-bottom:0;">JF Insurance Agency Group Inc.</h3>
-					<h3 style="margin-top:0;">www.jfgroup.ca</h3>
-				</div>
-			</div>
-		</div><br />
-		<br />
-		<br />
-		<br />
-		<br />
-		<br />
-		<br />
-		<form action='<?php echo $refundprint_url?>' method='post'>
-		<div class="row">
-			<div class="col-sm-12 nopadding">
-				Customer Name : <input type='text' name='customer_full_name' value='<?php echo $customer_full_name; ?>'><br />
-				Address : <input type='text' name='full_address' value='<?php $full_address; ?>'><br />
-				City: <input type='text' name='city' value='<?php echo $city; ?>'><br />
-				Province: <input type='text' name='province2' value='<?php echo $province2; ?>'><br />
-				Post Code: <input type='text' name='postcode' value='<?php echo $postcode; ?>'><br />
 			</div>
 		</div>
-		<input type='submit' value='Export PDF'><br />
-		</form>
-	</div><!-- End Container -->
-</body>
-</html>
+		

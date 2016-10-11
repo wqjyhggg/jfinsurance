@@ -82,7 +82,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<a href='<?php echo $refund_url . $plan_id; ?>'><span class="btn btn-info">Refund</span></a>
 							<?php } ?>
 						<?php } else if ($status_id == 6 && $user_group_id <= 100) { ?>
-							<a target='_blank' href='<?php echo $refundprint_url . $plan_id; ?>'><span class="btn btn-info">Refund Letter</span></a>
+							<!--a target='_blank' href='<?php echo $refundprint_url . $plan_id; ?>'><span class="btn btn-info">Refund Letter</span></a-->
+							<a id="popRefund"><span class="btn btn-info">Refund Letter</span></a>
+
+							
+
 						<?php } else if ($status_id == 5 && $user_group_id <= 100) { ?>
 							<a target='_blank' href='<?php echo $cancelprint_url . $plan_id; ?>'><span class="btn btn-info">Cancel Letter</span></a>
 						<?php } ?>
@@ -118,6 +122,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<?php } ?>
 					</div>
 					<?php } ?>
+
 					<div class="row">
 						
 						<div class="col-sm-12">
@@ -522,6 +527,28 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </div><!-- /x_panel end -->
               </div>
             </div><!-- End Form Section-->
+
+            <!-- Pop Section -->
+            	<div class="row">
+					<div class="popRefund" id="popRdiv" style="display:none;">
+						<span class="pop-close"><i class="fa fa-times"></i></span>
+						<?php echo $popRefund; ?>
+					</div>
+
+					<script>
+						$('#popRefund').click(function(){
+							$('.popRefund').removeAttr("class");
+							$('#popRdiv').attr('style','display:block;');
+							$('#popRdiv').attr('class','show-pop');
+										
+						});
+						$('.pop-close').click(function(){
+							$('#popRdiv').attr('style','display:none;');
+						});
+					</script>
+				</div>
+            <!-- Pop Section -->
+
             <!-- New Section -->
 			<?php if ($show_history) { ?>
             <div class="row">

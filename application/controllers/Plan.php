@@ -815,6 +815,8 @@ class Plan extends MY_Controller {
 			$data['insurable_options'] = $this->load->view('plan/form_other', $data, TRUE);
 		}
 
+		$data['popRefund'] = $this->load->view('plan/refund_addr', $data, TRUE);
+		
 		//$this->load->common('plan/form', $data);
 		$this->load->common('plan/form', $data);
 	}
@@ -2021,6 +2023,7 @@ class Plan extends MY_Controller {
 			$data['city'] = $plan['city'];
 			$data['province2'] = $plan['province2'];
 			$data['postcode'] = $plan['postcode'];
+
 			$this->load->view('plan/refund_addr', $data);
 		}
 	}

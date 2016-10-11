@@ -245,3 +245,44 @@ footer p{margin: 0;}
 .dfile-list .d_consent{color:#16c4cb;}
 .dfile-list .d_policy{color:#16c4cb;}
 /* End download file page */
+/* pop window*/
+.show-pop{
+    background: rgb(255, 255, 255);
+    position: fixed;
+    z-index: 999;
+    border-radius: 12px;
+    box-shadow: 0px 0px 6px 1px #73879C;
+    border: 1px solid #73879C;
+    margin: 0 14%;
+    top: 30%;
+}
+
+.show-pop span{
+    width: 123px;
+    display: inline-block;
+    vertical-align: middle;
+    font-weight: bold;
+}
+.popForm{
+    max-width: 390px;
+    padding: 15px;
+}
+.pop-close{
+    width: 31px !important;
+    height: 31px;
+    border: 1px solid #ddd;
+    padding: 4px 7px;
+    border-radius: 12px;
+    float: right;
+    background: #73879c;
+}
+.pop-close i{
+    font-size: 20px;
+    color: #fff;
+    cursor: pointer;
+}
+
+#popRdiv h2{
+    margin-top: 25px;
+}
+/* End pop window */
