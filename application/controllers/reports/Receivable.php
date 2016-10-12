@@ -100,14 +100,27 @@ class Receivable extends MY_Controller
 
             $arr = array('For Policy of: ', 'From ' . $data['report_data']['period']['from'] , 'To ' . $data['report_data']['period']['to']);
             $w->addRow($arr);
+
             $arr = array('', '','','','','','','');
             $w->addRow($arr);
+
 
             foreach ($data['report_data']['data'] as $datas) {
                 
                 $arr = array('Bill to: ' . $datas['agency']['agent_name'] .', ' . $datas['agency']['address'] . ', ' . $datas['agency']['province'] . ', ' . $datas['agency']['postal_code']);
                 $w->addRow($arr);
-                
+
+                $arr = array('', '','','','','','','');
+                $w->addRow($arr);
+
+                $arr = array('Total Premium ' . $datas['agency']['outstanding']);
+                $w->addRow($arr);
+                $arr = array('Net Payable Amount: ' . $datas['agency']['payable_to_jf']);
+                $w->addRow($arr);
+
+                $arr = array('', '','','','','','','');
+                $w->addRow($arr);
+
                 $arr = array();
                 foreach ($kArr as $k => $v) { $arr[] = $v; } 
                 $w->addRow($arr);
