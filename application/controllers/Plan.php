@@ -787,7 +787,7 @@ class Plan extends MY_Controller {
 		$data['cancel_url'] = base_url ( "plan/cancel" ) . "/";
 		$data['refund_url'] = base_url ( "plan/refund" ) . "/";
 		$data['cancelprint_url'] = base_url ( "plan/cancelprint" ) . "/";
-		$data['refundprint_url'] = base_url ( "plan/refundprint" ) . "/";
+		$data['refundprint_url'] = base_url ( "plan/refundprint" ) . "/" . (int)$data['plan_id'];
 		$data['revert_url'] = base_url ( "payment/revert" ) . "/";
 		$data['makepay_url'] = base_url ( "payment/makepay" );
 		
@@ -2005,7 +2005,11 @@ class Plan extends MY_Controller {
 		} else {
 			$data['insurable_options'] = $this->load->view('plan/detail_other', $data, TRUE);
 		}
+
+		//print_r($this->input->post());die('====');
+
 		if ($this->input->post('customer_full_name')) {
+
 			$data['customer_full_name'] = $this->input->post('customer_full_name');
 			$data['full_address'] = $this->input->post('full_address');
 			$data['city'] = $this->input->post('city');

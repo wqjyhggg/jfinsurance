@@ -6,11 +6,11 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 			<div class="col-sm-8 col-sm-offset-2">
 				<h2 class="text-center">Edit Information</h2>
 				<div class="popForm">
-					<form target="_blank" action='<?php echo $refundprint_url?>' method='post'>
-			
+					<form id="popRform" target="_blank" action='<?php echo $refundprint_url?>' method='post'>
+						<input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
 					<div class="row">
 						<div class="col-sm-12">
-							<span style="width:110px;">Customer Name : </span><input type='text' name='customer_full_name' value='<?php echo !empty($firstname) ? $firstname : ''; ?>'><br />
+							<span style="width:110px;">Customer Name : </span><input type='text' name='customer_full_name' value='<?php echo !empty($firstname . ' ' . $lastname) ? $firstname . ' ' . $lastname : ''; ?>'><br />
 						</div>
 						<div class="col-sm-12">
 							</br>
@@ -40,3 +40,22 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 			</div>
 		</div>
 		
+
+		<script>
+			$('#popRform').submit(function(event){
+				var oldCookie = document.cookie;
+
+			     var cookiePoll = setInterval(function() {
+			         if(oldCookie != document.cookie) {
+			             // stop polling
+			             clearInterval(cookiePoll);
+
+			             // assuming a login happened, reload page
+			             window.location.reload();
+			         }
+			     },1000); // check every second
+
+			     $('#popRdiv').attr('style','display:none;');
+			});
+
+		</script>
