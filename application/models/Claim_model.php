@@ -378,4 +378,17 @@ class Claim_model extends CI_Model {
 		}
 		return $citem_id;
 	}
+
+	/**
+	 * Update Claim Item record
+	 * 
+	 * @param	integer	$citem_id
+	 * @param	array	$para	Parameter array
+	 * @return	array					user table search result
+	 */
+	public function getClaimTotal($claim_id) {
+		$this->db->select_sum('claimed');
+		$this->db->where('claim_id', $claim_id);
+		return $this->db->get('citem')->row()->claimed;
+	}
 }

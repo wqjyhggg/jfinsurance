@@ -322,7 +322,7 @@ class Claim extends MY_Controller {
 		} else if (isset($claim['claim_date'])) {
 			$this->data['claim_date'] = $claim['claim_date'];
 		} else {
-			$this->data['claim_date'] = '';
+			$this->data['claim_date'] = date("Y-m-d");
 		}
 		if ($this->input->post('note')) {
 			$this->data['note'] = $this->input->post('note'); 
@@ -347,6 +347,11 @@ class Claim extends MY_Controller {
 		}
 
 		$this->data['edit_url'] = base_url('claim/form');
+		if ($this->data['claim_id']) {
+			$this->data['claimed_amount'] = $this->claim_model->getClaimTotal($this->data['claim_id']);
+		} else {
+			$this->data['claimed_amount'] = 0;
+		}
 		
 		$this->data['title_txt'] = 'Claim';
 		$this->data['top_menu'] = $this->menu_model->load_top_menu();

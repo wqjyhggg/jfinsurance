@@ -80,8 +80,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                       <div class="row">
                         <div class="form-group col-sm-2">
                           <label >Claim Date: </label>
-                          <div class="input-group col-sm-12">
-                            <input class="form-control" value="<?php echo $claim_date; ?>" disabled/>
+                          <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
+                              <input class="form-control" size="16" type="text" id="claim_date" name="claim_date" placeholder="Claim Date" value="<?php echo $claim_date; ?>" >
+                              <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                           </div>
                         </div>
                         <div class="form-group col-sm-2">
@@ -109,10 +110,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <div class="form-group col-sm-2">
                             <label>Birthday:</label>
                             <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
-                                <input class="form-control" size="16" type="text" name="birthday" placeholder="Birthdate From" value="<?php echo $birthday; ?>" >
+                                <input class="form-control" size="16" type="text" id="birthday" name="birthday" placeholder="Birthdate From" value="<?php echo $birthday; ?>" >
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
-                            <input type="hidden" id="application_date_from" value="" />
                           <?php if (isset($error_birthday)) { ?>
 		 					<div class="alert-error">
 								<?php echo $error_birthday;?>
@@ -125,6 +125,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                               <option value='M' <?php echo (empty($gender) || ($gender != 'F')) ? "selected" : ""; ?>>Male</option>
                               <option value='F' <?php echo (!empty($gender) && ($gender == 'F')) ? "selected" : ""; ?>>Female</option>
                             </select>
+                        </div>
+                      </div><br />
+                      <div class="row">
+                        <div class="form-group col-sm-12">
+                          <label>Total Claimed Amount: <?php echo $claimed_amount; ?></label>
                         </div>
                       </div>
                       <div class="row">
