@@ -71,6 +71,14 @@ class Batch extends MY_Controller {
 								$data ['errormsg'] .= "No product at line " . $i . ": " . @join ( "|", $row ) . "<br>\n";
 								continue;
 							}
+						} else {
+							if ($this->input->post ( 'product_short' )) {
+								$product_short = $this->input->post ( 'product_short' );
+								if ($product_short != $data ['product_short']) {
+									$data ['errormsg'] .= "product_short wrong at line (should be " . $product_short . ") " . $i . ": " . @join ( "|", $row ) . "<br>\n";
+									continue;
+								}
+							}
 						}
 						if (! in_array ( 'batch_number', $keyArr )) {
 							$data ['batch_number'] = $batch_number;
