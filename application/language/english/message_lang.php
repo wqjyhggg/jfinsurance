@@ -37,6 +37,7 @@ $lang['text_report_to_insurer'] = "Sales report to insurer";
 $lang['text_receivable_report'] = "Receivable Report";
 $lang['text_claim_report'] = "Claim Report";
 $lang['text_renewal_report'] = "Renewal Report";
+$lang['text_refund_report'] = "Refund Report";
 $lang['text_commission_report'] = "Commission Report";
 $lang['text_agent_commission_report'] = "Agent Commission Report";
 /* Left menu - submenu End */

@@ -437,7 +437,7 @@ class Report_model extends CI_Model
         $this->db->select('
             cl.policy_number,
             pl.deductible_amount,
-            CONCAT(cl.firstname, " ", u.lastname) AS customer_name,
+            CONCAT(cl.firstname, " ", cl.lastname) AS customer_name,
             cl.birthday,
             CONCAT(pl.street_number, " ", pl.street_name) AS address,
             pl.suite_number,
@@ -496,6 +496,79 @@ class Report_model extends CI_Model
             $results['data'][$row['user_id']]['records'][] = $row;
         }
         return $results;
+    }
+
+    /**
+     * Get Refund Report data
+     *
+     * @param array $para Parameter array
+     * @return array Refund Report data
+     */
+    public function get_refund_report($para)
+    {
+        $query = $this->get_refund_report_query($para);
+        return $query;
+    }
+
+    private function get_refund_report_query($para)
+    {
+        $this->refund_report_fields();
+        $this->refund_report_from();
+        $this->refund_report_where($para);
+        $this->db->order_by('pm.plan_id', 'ASC');
+        $this->db->order_by('pm.payment_id', 'ASC');
+        return $this->db->get()->result_array();
+    }
+
+    private function refund_report_fields()
+    {
+        $this->db->select('
+            pl.policy,
+            pl.deductible_amount,
+            CONCAT(c.firstname, " ", c.lastname) AS customer_name,
+            c.birthday,
+            CONCAT(pl.street_number, " ", pl.street_name) AS address,
+            pl.suite_number,
+            pl.city,
+            pl.province2 AS province,
+            pl.postcode,
+            CONCAT(u.firstname, " ", u.lastname) AS agent_name,
+            pm.amount,
+            pm.admin_fee,
+            pm.ispaid,
+        	pm.added,
+        	pm.pay_date,
+        	pm.pay_to
+        ');
+    }
+
+    private function refund_report_from()
+    {
+        $this->db->from('payment pm');
+        $this->db->join('plan pl', 'pm.plan_id = pl.plan_id');
+        $this->db->join('user u', 'pm.user_id = u.user_id');
+        $this->db->join('customer c', 'pl.customer_id = c.customer_id');
+    }
+
+    private function refund_report_where($para)
+    {
+        if (!empty($para['product_short'])) {
+            $this->db->where('pl.product_short >=', $para['product_short']);
+        }
+    	$this->db->where('pm.pay_type =', 'refund');
+    	$this->db->where('pm.ispaid =', (int)$para['ispaid']);
+    	if (!empty($para['create_date_from'])) {
+            $this->db->where('pm.added >=', $para['create_date_from']);
+        }
+        if (!empty($para['create_date_to'])) {
+            $this->db->where('pm.added <=', $para['create_date_to']);
+        }
+        if (!empty($para['pay_date_from'])) {
+            $this->db->where('pm.pay_date >=', $para['pay_date_from']);
+        }
+        if (!empty($para['pay_date_to'])) {
+            $this->db->where('pm.pay_date <=', $para['pay_date_to']);
+        }
     }
 
     /**
