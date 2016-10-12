@@ -216,7 +216,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                           </tr>
                         </thead>
                         <tbody>
+    <?php $premium_total = 0; ?>
     <?php foreach ($report_data as $record) :?>
+    <?php $premium_total += $record['policy_premium']; ?>
                             <tr>
                             <td><?=$record['policy'] ?></td>
                             <td><?=$record['firstname'] ?></td>
@@ -247,6 +249,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <?php endforeach; ?>
                         </tbody>
                       </table>
+                      Total Premium: <?php echo $premium_total; ?>
 <?php endif; ?>                      
                     </div>
                   </div>
