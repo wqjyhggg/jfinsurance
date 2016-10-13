@@ -52,17 +52,17 @@ class Plan_model extends CI_Model {
 			if (empty($stm) || empty($etm) || ($stm > $etm)) {
 				return 0;
 			}
-			$dailyrate = $plan['dailyrate'];
-			if ($dailyrate < 0.01) {
-				$this->load->model('product_model');
-				$this->load->model('customer_model');
-				$number_customer = $this->customer_model->get_number_customer($plan['customer_id'], $plan['isfamilyplan']);
-				$birthday = $this->customer_model->get_max_birthday($plan['customer_id'], $plan['isfamilyplan'], $plan['product_short']);
-				$para = array(
+			$premium = $plan['premium'];
+
+			$this->load->model('product_model');
+			$this->load->model('customer_model');
+			$number_customer = $this->customer_model->get_number_customer($plan['customer_id'], $plan['isfamilyplan']);
+			$birthday = $this->customer_model->get_max_birthday($plan['customer_id'], $plan['isfamilyplan'], $plan['product_short']);
+			$para = array(
 						'product_short' => $plan['product_short'],
 						'apply_date' => $plan['apply_date'],
 						'effective_date' => $plan['effective_date'],
-						'expiry_date' => $plan['expiry_date'],
+						'expiry_date' => $refund_date,
 						'isfamilyplan' => $plan['isfamilyplan'],
 						'number_customer' => $number_customer,
 						'sum_insured' => $plan['sum_insured'],
@@ -72,12 +72,10 @@ class Plan_model extends CI_Model {
 						'spouse' => $plan['spouse'],
 						'holiday_rate' => $plan['holiday_rate'],
 						'birthday' => $birthday);
-				$rarr = $this->product_model->get_premium($para);
-				if ($rarr) {
-					$dailyrate = $rarr['dailyrate'];
-				}
+			$rarr = $this->product_model->get_premium($para);
+			if (isset($rarr['premium']) && ($rarr['premium'] > 0.01)) {
+				return round($premium - $rarr['premium'], 2);
 			}
-			return round((($etm - $stm) / 86400) * $dailyrate, 2);
 		}
 		return 0;
 	}

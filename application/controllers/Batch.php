@@ -80,6 +80,11 @@ class Batch extends MY_Controller {
 								}
 							}
 						}
+						$p = $this->product_model->get_product($product_short);
+						if (empty($p)) {
+							$data ['errormsg'] .= "Unknown product_short at line (should be " . $product_short . ") " . $i . ": " . @join ( "|", $row ) . "<br>\n";
+							continue;
+						}
 						if (! in_array ( 'batch_number', $keyArr )) {
 							$data ['batch_number'] = $batch_number;
 							$needShowBatch = 1;

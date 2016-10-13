@@ -398,7 +398,6 @@ class Plan extends MY_Controller {
 		} else {
 			$plan_id = 0;
 		}
-		
 		$data = $this->error;
 		
 		if ($this->input->post('plan_id')) {
@@ -407,6 +406,9 @@ class Plan extends MY_Controller {
 			$data['plan_id'] = $plan['plan_id'];
 		} else {
 			$data['plan_id'] = 0;
+		}
+		if (empty($plan) && $data['plan_id']) {
+			$plan = $this->plan_model->get_plan_by_id($data['plan_id']);
 		}
 		if ($this->input->post('product_short')) {
 			$data['product_short'] = $this->input->post('product_short'); 
