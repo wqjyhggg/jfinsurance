@@ -655,10 +655,8 @@ class Product_model extends CI_Model {
      */
     public function get_available_product_list()
     {
-        $this->db->distinct();
-        $this->db->select('p.*');
-        $this->db->from('product p');
-    	$beuser = $this->session->beuser;
+    	$userArr = array();
+        $beuser = $this->session->beuser;
     	if ($beuser['user_group_id'] > 100) {
     		if ($beuser['user_group_id'] != 104) {
     			$userArr = array($beuser['user_id']);
@@ -667,10 +665,15 @@ class Product_model extends CI_Model {
         		$available_user = $this->user_model->get_available_user_list();
         		$userArr = array_keys($available_user);
     		}
+    	}
+    	$this->db->distinct();
+        $this->db->select('p.*');
+        $this->db->from('product p');
+        $this->db->order_by('p.product_short');
+        if (!empty($userArr)) {
 	        $this->db->join('user_product up', 'p.product_short = up.product_short');
 	        $this->db->where_in('up.user_id', $userArr);
-    	}
-        $this->db->order_by('p.product_short');
+        }
         return $this->db->get()->result_array();
     }
 }

@@ -42,7 +42,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					</div>
 					<?php } ?>
 
-					<form action='<?php echo $action_url; ?>' method='POST' class="form-horizontal">
+					<form action='<?php echo $action_url; ?>' method='POST' id='plan_edit_form' class="form-horizontal">
 						<input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
 						<input type='hidden' name='plan_id' value='<?php echo $plan_id; ?>'>
 						<input type='hidden' name='product_short' value='<?php echo $product_short; ?>'>
@@ -983,7 +983,14 @@ function get_premium() {
 </script>
 <script type="text/javascript">
 $(document).ready(function(){
-    $("#arrival_date_div").datepicker({
+	$('#formid').on('keyup keypress', function(e) {
+		var keyCode = e.keyCode || e.which;
+		if (keyCode === 13) {
+			e.preventDefault();
+			return false;
+		}
+	});
+	$("#arrival_date_div").datepicker({
         startDate: '-5y',
         endDate: '+2y',
     });
@@ -992,7 +999,8 @@ $(document).ready(function(){
         var effective = $('#effective_date_div').datepicker('getDate');
         var myDate = new Date(effective);
         days--;
-        myDate.setTime(myDate.getTime() + (days * 86400000));
+        var tm = myDate.getTime() + (days * 86400000) + 43200000;
+        myDate.setTime(tm);
         $('#expiry_date_div').datepicker('setDate', myDate);
         get_premium();
     });
