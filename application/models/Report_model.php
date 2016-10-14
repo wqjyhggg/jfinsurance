@@ -379,16 +379,16 @@ class Report_model extends CI_Model
             $results['data'][$row['user_id']]['agency']['address'] = $row['address'];
             $results['data'][$row['user_id']]['agency']['province'] = $row['province'];
             $results['data'][$row['user_id']]['agency']['postal_code'] = $row['postcode'];
+            if (!isset($results['data'][$row['user_id']]['agency']['outstanding'])) {
+            	$results['data'][$row['user_id']]['agency']['outstanding'] = 0;
+            	$results['data'][$row['user_id']]['agency']['commission'] = 0;
+            	$results['data'][$row['user_id']]['agency']['payable_to_jf'] = 0;
+            }
             
             if ($row['pay_type'] === 'premium') {
                 $premium_last_update = strtotime($row['last_update']);
                 $policy = $row['policy'];
                 $premium = $row['pa_amount'];
-                if (empty($results['data'][$row['user_id']]['agency']['outstanding'])) {
-                    $results['data'][$row['user_id']]['agency']['outstanding'] = 0;
-                    $results['data'][$row['user_id']]['agency']['commission'] = 0;
-                    $results['data'][$row['user_id']]['agency']['payable_to_jf'] = 0;
-                }
                 $results['data'][$row['user_id']]['agency']['outstanding'] += $premium;
                 $row['up_commission'] = empty($row['up_commission']) ? $row['pr_commission'] : $row['up_commission'];
                 $results['data'][$row['user_id']]['records'][] = $row;
