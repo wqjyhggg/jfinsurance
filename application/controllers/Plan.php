@@ -97,6 +97,17 @@ class Plan extends MY_Controller {
 				$data['province_url'] .= "/" . $data['province2'];
 			}
 		}
+		
+
+		$data['export_logo_url'] = base_url('plan/exportlogo') . "/";
+		$data['export_price_url'] = base_url('plan/exportprice') . "/";
+		$data['export_logo_price_option'] = FALSE;
+		if ($beuser['user_group_id'] < 100) $data['export_logo_price_option'] = TRUE;
+			
+		$this->session->set_userdata ( 'withlogo', 1);
+		$this->session->set_userdata ( 'withprice', 1);
+
+
 		$data['title_txt'] = 'Policy';
 		$data['top_menu'] = $this->menu_model->load_top_menu();
 		$data['menu'] = $this->menu_model->load_meun();
@@ -106,6 +117,8 @@ class Plan extends MY_Controller {
 				'value' => $this->security->get_csrf_hash ()
 		);
 		
+
+
 		$this->load->common('plan/list', $data);
 	}
 	

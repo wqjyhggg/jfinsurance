@@ -310,7 +310,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <div class="x_panel">
                   <div class="x_title">
                     <h2>Search Result <span> <a class="btn btn-info" href='<?php echo $export_list; ?>'><i class="fa fa-share"></i> Export Xlsx</a></span></h2>
-                    <div class="clearfix"></div>
+                   
+                    <?php if ($export_logo_price_option) { ?>
+						<div class='pull-right'>
+							<span style="color:#73879C;">Export Option for JES and JFC: </span>
+							<input type='checkbox' class='withlogobox' checked> With Logo  &nbsp;&nbsp;<input type='checkbox' class='withpricebox' checked> With Price 
+						</div>
+					<?php } ?>
+					 <div class="clearfix"></div>
+
                   </div>
                   <div class="x_content">
                      <div class="table-responsive">
@@ -381,3 +389,42 @@ $( document ).ready(function() {
 });
 </script>
 
+<?php if ($export_logo_price_option) { ?>
+<script type="text/javascript">
+$(document).ready(function() {
+	$('.withlogobox').change(function() {
+		var w = '0';
+		if ($(this).is(':checked')) {
+			$('.withlogobox').prop('checked', true);
+			w = '1';
+		} else {
+			$('.withlogobox').prop('checked', false);
+		}
+		$.ajax({
+			url: '<?php echo $export_logo_url; ?>' + w,
+			type: 'GET',
+			success: function(data, textStatus, jqXHR) {
+	        	//console.log(data);
+	    	},
+		});
+	});
+
+	$('.withpricebox').change(function() {
+		var w = '0';
+		if ($(this).is(':checked')) {
+			$('.withpricebox').prop('checked', true);
+			w = '1';
+		} else {
+			$('.withpricebox').prop('checked', false);
+		}
+		$.ajax({
+			url: '<?php echo $export_price_url; ?>' + w,
+			type: 'GET',
+			success: function(data, textStatus, jqXHR) {
+	        	//console.log(data);
+	    	},
+		});
+	});
+});
+<?php } ?>
+</script>

@@ -30,15 +30,18 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 			<div class="col-md-12 col-sm-12 col-xs-12">
 				<div class="x_panel">
 					<div class="x_title">
-						<h2 class="col-xs-8 col-sm-8">
+						<h2 class="col-xs-12 col-sm-12 col-md-12" style="width: auto;">
 							Review Policy Detail
 							<span><b>[ <?php echo $status_list[$plan['status_id']]['name']; ?> ]</b></span>
 						</h2>
 					<?php if (($plan['status_id'] == 1) || ($plan['status_id'] == 2) || ($plan['status_id'] == 3)) { ?>
-						<a class="btn btn-info pull-right" target="_blank" href='<?php echo $pdf_url; ?>'>Export PDF</a>
+
 						<?php if ($export_logo_price_option) { ?>
-						<div class='pull-right'><input type='checkbox' class='withlogobox' checked> With Logo | <input type='checkbox' class='withpricebox' checked> With Price </div>
+
+						<div class='pull-right spdf-option'><input type='checkbox' class='withlogobox' checked> With Logo <br /><input type='checkbox' class='withpricebox' checked> With Price </div>
 						<?php } ?>
+						<a class="btn btn-info pull-right" target="_blank" href='<?php echo $pdf_url; ?>'>Export PDF</a>
+						
 					<?php } ?>
 					<?php if (($plan['status_id'] == 2) || ($plan['status_id'] == 3)) { ?>
 						<?php if (!empty($print_card_url)) { ?>
@@ -243,10 +246,11 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 									<button class="btn btn-primary pull-right" data-toggle="collapse" data-target="#payment-div">Confirm and Pay</button>		
 								<?php } ?>
 								<?php if (($plan['status_id'] == 1) || ($plan['status_id'] == 2) || ($plan['status_id'] == 3)) { ?>
-									<a class="btn btn-info pull-right" target="_blank" href='<?php echo $pdf_url; ?>'>Export PDF</a>
 									<?php if ($export_logo_price_option) { ?>
-									<div class='pull-right'><input type='checkbox' class='withlogobox' checked> With Logo | <input type='checkbox' class='withpricebox' checked> With Price </div>
+									<div class='pull-right spdf-option'><input type='checkbox' class='withlogobox' checked> With Logo <br /><input type='checkbox' class='withpricebox' checked> With Price </div>
 									<?php } ?>
+									<a class="btn btn-info pull-right" target="_blank" href='<?php echo $pdf_url; ?>'>Export PDF</a>
+									
 								<?php } ?>
 
 								</div>
