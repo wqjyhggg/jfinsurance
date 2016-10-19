@@ -36,6 +36,9 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 						</h2>
 					<?php if (($plan['status_id'] == 1) || ($plan['status_id'] == 2) || ($plan['status_id'] == 3)) { ?>
 						<a class="btn btn-info pull-right" target="_blank" href='<?php echo $pdf_url; ?>'>Export PDF</a>
+						<?php if ($export_logo_price_option) { ?>
+						<div class='pull-right'><input type='checkbox' class='withlogobox' checked> With Logo | <input type='checkbox' class='withpricebox' checked> With Price </div>
+						<?php } ?>
 					<?php } ?>
 					<?php if (($plan['status_id'] == 2) || ($plan['status_id'] == 3)) { ?>
 						<?php if (!empty($print_card_url)) { ?>
@@ -241,6 +244,9 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 								<?php } ?>
 								<?php if (($plan['status_id'] == 1) || ($plan['status_id'] == 2) || ($plan['status_id'] == 3)) { ?>
 									<a class="btn btn-info pull-right" target="_blank" href='<?php echo $pdf_url; ?>'>Export PDF</a>
+									<?php if ($export_logo_price_option) { ?>
+									<div class='pull-right'><input type='checkbox' class='withlogobox' checked> With Logo | <input type='checkbox' class='withpricebox' checked> With Price </div>
+									<?php } ?>
 								<?php } ?>
 
 								</div>
@@ -534,4 +540,43 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 	<?php } ?>
 	</div>
 </div>
+<?php if ($export_logo_price_option) { ?>
+<script type="text/javascript">
+$(document).ready(function() {
+	$('.withlogobox').change(function() {
+		var w = '0';
+		if ($(this).is(':checked')) {
+			$('.withlogobox').prop('checked', true);
+			w = '1';
+		} else {
+			$('.withlogobox').prop('checked', false);
+		}
+		$.ajax({
+			url: '<?php echo $export_logo_url; ?>' + w,
+			type: 'GET',
+			success: function(data, textStatus, jqXHR) {
+	        	//console.log(data);
+	    	},
+		});
+	});
+
+	$('.withpricebox').change(function() {
+		var w = '0';
+		if ($(this).is(':checked')) {
+			$('.withpricebox').prop('checked', true);
+			w = '1';
+		} else {
+			$('.withpricebox').prop('checked', false);
+		}
+		$.ajax({
+			url: '<?php echo $export_price_url; ?>' + w,
+			type: 'GET',
+			success: function(data, textStatus, jqXHR) {
+	        	//console.log(data);
+	    	},
+		});
+	});
+});
+<?php } ?>
+</script>
 <!-- /page content -->

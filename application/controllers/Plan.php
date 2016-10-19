@@ -1250,6 +1250,16 @@ class Plan extends MY_Controller {
 		$this->log_model->activity('plan', $para);
 	}
 
+	function exportlogo($withlogo=1) {
+		$this->session->set_userdata ( 'withlogo',  $withlogo);
+		echo $withlog ? 'Has Logo' : 'No Logo';
+	}
+
+	function exportprice($withprice=1) {
+		$this->session->set_userdata ( 'withprice',  $withprice);
+		echo $withprice ? 'With Price' : 'No Price';
+	}
+
 	function detail($plan_id=0, $sekey='') {
 		$this->error = '';
 		$defaultpay_type = '';
@@ -1425,7 +1435,9 @@ class Plan extends MY_Controller {
 		);
 		
 		$data['defaultpay_type'] = $defaultpay_type;
-		
+		$data['export_logo_url'] = base_url('plan/exportlogo') . "/";
+		$data['export_price_url'] = base_url('plan/exportprice') . "/";
+		$data['export_logo_price_option'] = FALSE;
 		if ($data['plan']['product_short'] == 'OPL') {
 			$data['insurable_options'] = $this->load->view('plan/detail_opl', $data, TRUE);
 		} else if ($data['plan']['product_short'] == 'JFR') {
@@ -1435,12 +1447,17 @@ class Plan extends MY_Controller {
 		} else if ($data['plan']['product_short'] == 'NUS') {
 			$data['insurable_options'] = $this->load->view('plan/detail_jus', $data, TRUE);
 		} else if ($data['plan']['product_short'] == 'JES') {
+			if ($beuser['user_group_id'] < 100) $data['export_logo_price_option'] = TRUE;
 			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
 		} else if ($data['plan']['product_short'] == 'JFC') {
+			if ($beuser['user_group_id'] < 100) $data['export_logo_price_option'] = TRUE;
 			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
 		} else {
 			$data['insurable_options'] = $this->load->view('plan/detail_other', $data, TRUE);
 		}
+		
+		$this->session->set_userdata ( 'withlogo', 1);
+		$this->session->set_userdata ( 'withprice', 1);
 		
 		$this->load->common('plan/detail', $data);
 	}
@@ -1600,7 +1617,9 @@ class Plan extends MY_Controller {
 		$data['customers'] = $this->customer_model->get_customer_by_parent_id($data['plan']['customer_id']);
 		$data['paytype_list'] = $this->paytype_model->paytype_list();
 		$data['status_list'] = $this->status_model->status_list();
-
+		$data['withlogo'] = $this->session->userdata('withlogo');
+		$data['withprice'] = $this->session->userdata('withprice');
+		
 		if ($data['plan']['product_short'] == 'OPL') {
 			$data['insurable_options'] = $this->load->view('plan/detail_opl', $data, TRUE);
 			$data['special_note'] = $this->load->view('plan/pdf_note_opl',$data, TRUE);

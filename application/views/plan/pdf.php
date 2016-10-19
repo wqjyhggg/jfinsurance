@@ -15,6 +15,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 	</header>
 	<div class="container">	
 		<div class="row">
+<?php if ($withlogo) { ?>
 			<div style="float:left;width:90px;">
 				<img class="img-responsive" style="width:80px;" src="<?php echo base_url();?>image/jf_logo.png" />
 			</div>
@@ -29,6 +30,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 				<p class="topp"><?php echo ($user)? $user['business_phone'] : '' ; ?></p>
 <?php } ?>			
 			</div>
+<?php } ?>
 		</div>
 		<div class="row">
 			<div class="col-sm-12 text-right">
@@ -75,11 +77,13 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 						<h4>Beneficiary: <span><?php echo $plan['beneficiary'];?></sapn> </h4>
 					</div>
 					<div class="col-sm-6 nopadding">
+<?php if ($withprice) { ?>
 						<h4 style="margin-bottom:15px;"><u>Payment Details</u></h4>
 						<h4>Total Permium: <span>$<?php echo number_format($plan['premium'], 2, '.', ',');?></span></h4>
 						<h4>Premium: <span>$<?php echo number_format($plan['premium'], 2, '.', ','); ?></sapn> </h4>
 						<h4>Payment Date: <span><?php echo isset($payment['added']) ? date('Y-m-d', strtotime($payment['added'])) : ''; ?></sapn> </h4>
 						<h4>Payment Method: <span><?php echo isset($payment['pay_mothed']) ? $payment['pay_mothed'] : ''; ?></sapn> </h4>
+<?php } ?>
 					</div>
 				</div>
 
