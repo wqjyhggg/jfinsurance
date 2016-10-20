@@ -1,10 +1,54 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
-<p>
-Period: <?php echo $period; ?>
+<p>Good day:</p>
+<p>Thank you for choosing Johnson Fu Insurance Agency to cover the needs of your clients.</p><br />
+<p>Please find attached renewal report for your existing clients whose coverage is due for renewal.</p><br />
+
+<p><strong><span style="color: red;">Important:</span> Please reply to this email for policy renewal within the last 10 days of the current policy. Renew order will be process only if you have privded the complete information as following:</strong></p>
+<ol>
+	<li><strong><span style="color: red;">Renew Policy number</span></strong></li>
+	<li><strong><span style="color: red;">New effective date</span></strong></li>
+	<li><strong><span style="color: red;">New expiry date</span></strong></li>
+	<li><strong><span style="color: red;">Payment information: </span></strong>
+		<ul>
+			<li><strong><span style="color: red;">Credit card number</span></strong></li>
+			<li><strong><span style="color: red;">expiry date</span></strong></li>
+			<li><strong><span style="color: red;">cardholder's name</span></strong></li>
+			<li><strong><span style="color: red;">3 digits security code</span></strong></li>
+		</ul>
+	</li>
+</ol>
+<br />
+<p style="font-size: 14px;">
+	Please note that for renewal request send after the policy expiry date, new waiting period may apply.
 </p>
-<table>
+<br />
+<p>
+	Should you have any questions, please do not hesitate to contact us.
+</p>
+<br /><br />
+<p>Kind regards,</p>
+<p style="font-size: 14px;color:#2472a4;">
+	JF Insurance Agency Inc.<br />
+	15 Wertheim Court, Suite #501<br />
+	Richmond Hill, ON L4B 3H7<br />
+	Tel: 905-707-1512  Fax: 905-707-1513<br />
+	<span style="color:red;">
+		"This message, including any attachments, is privileged and intended only for the person(s) named above. This material may contain confidential or personal information, which may be subject to the provisions of the Freedom of Information & Protection Act. Any other distribution, copying or disclosure is strictly prohibited. If you are the intended recipient or have received this message in error, please notify us immediately by telephone, fax or email, and permanently delete the original transmission from us, including any attachments, without making a copy."
+	</span>
+</p>
+
+<br /><br />
+
+<hr />
+<hr />
+<br />
+<p>
+<!--Period: <?php //echo $period; ?> -->
+REPORT LIST:
+</p>
+<table style="font-size: 14px;">
 	<thead>
 	   <tr><th>Policy Number</th><th>Effective Date</th><th>Expiry Date</th><th>Customer Name</th><th>Province</th><th>Phone Number</th><th>Email Address</th></tr>
 	</thead>
