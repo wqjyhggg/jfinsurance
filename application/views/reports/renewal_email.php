@@ -1,11 +1,11 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
-<p>Good day:</p><br /><br />
+<p>Good day:</p>
 <p>Thank you for choosing Johnson Fu Insurance Agency to cover the needs of your clients.</p><br />
-<p>Please find attached renewal report for your existing clients whose coverage is due for renewal.</p><br /><br />
+<p>Please find attached renewal report for your existing clients whose coverage is due for renewal.</p><br />
 
-<p><strong><span style="color: red;">Important:</span> Please reply to this email for policy renewal within the last 10 days of the current policy. Renew order will be process only if you have privded the complete information as following:</strong></p><br />
+<p><strong><span style="color: red;">Important:</span> Please reply to this email for policy renewal within the last 10 days of the current policy. Renew order will be process only if you have privded the complete information as following:</strong></p>
 <ol>
 	<li>Renew Policy number</li>
 	<li>New effective date</li>
@@ -19,17 +19,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		</ul>
 	</li>
 </ol>
-
-<p style="font-size: 11px;">
+<br />
+<p style="font-size: 14px;">
 	Please note that for renewal request send after the policy expiry date, new waiting period may apply.
 </p>
-<br /><br />
+<br />
 <p>
 	Should you have any questions, please do not hesitate to contact us.
 </p>
 <br /><br />
 <p>Kind regards,</p>
-<p style="font-size: 11px;color:#2472a4;">
+<p style="font-size: 14px;color:#2472a4;">
 	JF Insurance Agency Inc.<br />
 	15 Wertheim Court, Suite #501<br />
 	Richmond Hill, ON L4B 3H7<br />
@@ -48,7 +48,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <!--Period: <?php //echo $period; ?> -->
 REPORT LIST:
 </p>
-<table>
+<table style="font-size: 14px;">
 	<thead>
 	   <tr><th>Policy Number</th><th>Effective Date</th><th>Expiry Date</th><th>Customer Name</th><th>Province</th><th>Phone Number</th><th>Email Address</th></tr>
 	</thead>
