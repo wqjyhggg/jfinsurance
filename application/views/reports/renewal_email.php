@@ -7,15 +7,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 <p><strong><span style="color: red;">Important:</span> Please reply to this email for policy renewal within the last 10 days of the current policy. Renew order will be process only if you have privded the complete information as following:</strong></p>
 <ol>
-	<li>Renew Policy number</li>
-	<li>New effective date</li>
-	<li>New expiry date</li>
-	<li>Payment information: 
+	<li><strong><span style="color: red;">Renew Policy number</span></strong></li>
+	<li><strong><span style="color: red;">New effective date</span></strong></li>
+	<li><strong><span style="color: red;">New expiry date</span></strong></li>
+	<li><strong><span style="color: red;">Payment information: </span></strong>
 		<ul>
-			<li>Credit card number</li>
-			<li>expiry date</li>
-			<li>cardholder's name</li>
-			<li>3 digits security code</li>
+			<li><strong><span style="color: red;">Credit card number</span></strong></li>
+			<li><strong><span style="color: red;">expiry date</span></strong></li>
+			<li><strong><span style="color: red;">cardholder's name</span></strong></li>
+			<li><strong><span style="color: red;">3 digits security code</span></strong></li>
 		</ul>
 	</li>
 </ol>
