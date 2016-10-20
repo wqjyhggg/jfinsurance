@@ -80,6 +80,7 @@ class Batch extends MY_Controller {
 								}
 							}
 						}
+						$product_short = $data ['product_short'];
 						$p = $this->product_model->get_product($product_short);
 						if (empty($p)) {
 							$data ['errormsg'] .= "Unknown product_short at line (should be " . $product_short . ") " . $i . ": " . @join ( "|", $row ) . "<br>\n";
