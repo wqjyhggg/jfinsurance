@@ -40,6 +40,7 @@ class Batch extends MY_Controller {
 				$batch_number = $this->batch_model->get_batch_number ( $name, "Upload file by (" . $user ['user_id'] . "): " . $user ['firstname'] . " " . $user ['lastname'] );
 				$needShowBatch = 0;
 				$plancnt = 0;
+				$data = array ('errormsg' => '');
 				foreach ( $reader->getSheetIterator () as $sheet ) {
 					$i = 0;
 					foreach ( $sheet->getRowIterator () as $row ) {
@@ -51,9 +52,6 @@ class Batch extends MY_Controller {
 							$data ['errormsg'] .= "File data error at line " . $i . ": " . join ( "|", $row ) . "<br>\n";
 							continue;
 						}
-						$data = array (
-								'errormsg' => '' 
-						);
 						for($j = 0; $j < sizeof ( $keyArr ); $j ++) {
 							$data [$keyArr [$j]] = $row [$j];
 						}
@@ -75,7 +73,7 @@ class Batch extends MY_Controller {
 							if ($this->input->post ( 'product_short' )) {
 								$product_short = $this->input->post ( 'product_short' );
 								if ($product_short != $data ['product_short']) {
-									$data ['errormsg'] .= "product_short wrong at line (should be " . $product_short . ") " . $i . ": " . @join ( "|", $row ) . "<br>\n";
+									$data ['errormsg'] .= "product_short wrong at line " . $i . " (should be " . $product_short . "): " . @join ( "|", $row ) . "<br>\n";
 									continue;
 								}
 							}
@@ -83,7 +81,7 @@ class Batch extends MY_Controller {
 						$product_short = $data ['product_short'];
 						$p = $this->product_model->get_product($product_short);
 						if (empty($p)) {
-							$data ['errormsg'] .= "Unknown product_short at line (should be " . $product_short . ") " . $i . ": " . @join ( "|", $row ) . "<br>\n";
+							$data ['errormsg'] .= "Unknown product_short at line " . $i . " (should be " . $product_short . "): " . @join ( "|", $row ) . "<br>\n";
 							continue;
 						}
 						if (! in_array ( 'batch_number', $keyArr )) {

@@ -100,7 +100,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <th>Gender</th>
                             <th>Birth Date</th>
                             <th>Claim Date</th>
-                            <th>Claimed</th>
+                            <th>Claim Amount</th>
                             <th>Paid</th>
                             <th>Pay To</th>
                             <th>Cheque Number</th>
