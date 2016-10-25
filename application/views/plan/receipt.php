@@ -41,7 +41,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 		<hr />
 		<div class="row">
 			<div style="float:left;width:80px;">
-				<img class="img-responsive" style="width:70px;" src="<?php echo base_url();?>image/jf_logo.png" />
+				<img class="img-responsive" style="width:70px;" src="<?php echo base_url();?>image/jf_logo.jpg" />
 			</div>
 			<div style="float:left;margin-top:5px;" class="receipt-info">
 				<p class="topp">Johnson Fu Insurance Agency Inc.</p>
@@ -73,7 +73,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 		<div style="border-bottom:1px dotted;margin:20px 0;"></div>
 		<div class="row">
 			<div style="float:left;width:80px;">
-				<img class="img-responsive" style="width:70px;" src="<?php echo base_url();?>image/jf_logo.png" />
+				<img class="img-responsive" style="width:70px;" src="<?php echo base_url();?>image/jf_logo.jpg" />
 			</div>
 			<div style="float:left;margin-top:5px;" class="receipt-info">
 				<p class="topp">Johnson Fu Insurance Agency Inc.</p>

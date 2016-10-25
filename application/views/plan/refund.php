@@ -17,7 +17,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 		<div class="row">
 			<div style="width:390px; margin:0 auto;">
 				<div style="float:left;width:90px;">
-					<img class="img-responsive" style="width:80px;" src="<?php echo base_url();?>image/jf_logo.png" />
+					<img class="img-responsive" style="width:80px;" src="<?php echo base_url();?>image/jf_logo.jpg" />
 				</div>
 				<div style="float:left;width:300px;text-align:center;">
 					<h3 style="margin-bottom:0;">JF Insurance Agency Group Inc.</h3>

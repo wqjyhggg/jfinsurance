@@ -17,7 +17,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 		<div class="row">
 <?php if ($withlogo) { ?>
 			<div style="float:left;width:90px;">
-				<img class="img-responsive" style="width:80px;" src="<?php echo base_url();?>image/jf_logo.png" />
+				<img class="img-responsive" style="width:80px;" src="<?php echo base_url();?>image/jf_logo.jpg" />
 			</div>
 			<div style="float:left;width:400px;">
 <?php if ($user['user_id'] > 100) { ?>			
