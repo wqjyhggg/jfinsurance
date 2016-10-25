@@ -34,7 +34,11 @@
 <header>
 	<div class="container" style="padding:0;">
 		<div class="hlogo">
+<?php if (!empty($myhomelogo)) { ?>
+			<img class="img-responsive" src="<?php echo $myhomelogo; ?>" alt="JF Insurance">
+<?php } else { ?>
 			<img class="img-responsive" src="<?php echo base_url();?>image/logo.png" alt="JF Insurance">
+<?php } ?>
 		</div>
 		<nav class="navbar navbar-default">
 		  <!--div class="col-sm-3 pull-left hidden-xs">

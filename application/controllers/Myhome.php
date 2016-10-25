@@ -1,0 +1,285 @@
+<?php
+defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
+class Myhome extends MY_Controller {
+	const NAME_MIN = 2;
+	const NAME_MAX = 32;
+	private $data;
+	private $logofile;
+	private $imagefile;
+	
+	/**
+	 * Login verify
+	 *
+	 * @param
+	 *        	$this->input->post.....
+	 * @return boolean
+	 */
+	private function verify() {
+		$rt = TRUE;
+		if (empty($this->input->post('myname'))) {
+			$this->data['error_myname'] = $this->lang->line ( 'error_myname_empty' );
+			$rt = FALSE;
+		} else if (!preg_match('/^([a-z0-9]+)_([a-z0-9])*$/', $this->input->post('myname'))) {
+			$this->data['error_myname'] = $this->lang->line ( 'error_myname_rule' );
+			$rt = FALSE;
+		}
+		
+		if (!empty($this->input->post('email')) && filter_var($this->input->post('email'), FILTER_VALIDATE_EMAIL)) {
+			$this->data['error_myname'] = $this->lang->line ( 'error_myname_email' );
+			$rt = FALSE;
+		}
+
+		$this->logofile = '';
+		$this->imagefile = '';
+		if (!empty($_FILES)) {
+			$this->load->library('upload');
+			$this->load->library('image_lib');
+			if (!empty($_FILES['logo_img']) && !empty($_FILES['logo_img']['tmp_name'])) {
+				$logo = $this->myhome_model->get_logo_filename();
+				foreach (glob(AGENTINFODIR . $logo ."*") as $filename) {
+					unlink($filename);
+				}
+			
+				$para = array(
+						'allowed_types' => 'gif|jpg|png', 
+						'file_name' => $logo,
+						'upload_path' => AGENTINFODIR,
+						'file_ext_tolower' => TRUE
+				);
+				$this->upload->initialize($para);
+				if ( ! $this->upload->do_upload('logo_img')) {
+					$this->data['error_myname_logo'] = $this->lang->line ( 'error_myname_logo' );
+					$rt = FALSE;
+				} else {
+					$filedata = $this->upload->data();
+					/*
+					[file_name] => logeccbc87e4b5ce2fe28308fd9f2a7baf33.png
+					[file_type] => image/png
+					[file_path] => /home/jackw/Public/jfgroup/agentinfo/
+					[full_path] => /home/jackw/Public/jfgroup/agentinfo/logeccbc87e4b5ce2fe28308fd9f2a7baf33.png
+					[raw_name] => logeccbc87e4b5ce2fe28308fd9f2a7baf33
+					[orig_name] => logeccbc87e4b5ce2fe28308fd9f2a7baf3.png
+					[client_name] => 2.PNG
+					[file_ext] => .png
+					[file_size] => 296.71
+					[is_image] => 1
+					[image_width] => 1409
+					[image_height] => 974
+					[image_type] => png
+					[image_size_str] => width="1409" height="974"
+					*/	
+					$disfile = $filedata['raw_name'] . "_thumb" . $filedata['file_ext'];
+					if (file_exists($disfile)) {
+						unlink($disfile);
+					}
+					$imgpara = array(
+							'image_library' => 'gd2',
+							'source_image' => $filedata['full_path'],
+							'maintain_ratio' => TRUE,
+							'create_thumb' => TRUE,
+							'width' => $this->myhome_model->get_logo_width(),
+					);
+					$this->image_lib->initialize($imgpara);
+					$this->image_lib->resize();
+					$this->image_lib->clear();
+					$this->logofile = $disfile;
+				}
+			}
+				
+			if (!empty($_FILES['image_img']) && !empty($_FILES['logo_img']['tmp_name'])) {
+				$image = $this->myhome_model->get_image_filename();
+				foreach (glob(AGENTINFODIR . $image ."*") as $filename) {
+					unlink($filename);
+				}
+				
+				$para = array(
+						'allowed_types' => 'gif|jpg|png', 
+						'file_name' => $image,
+						'upload_path' => AGENTINFODIR,
+						'file_ext_tolower' => TRUE
+				);
+				$this->upload->initialize($para);
+				if ( ! $this->upload->do_upload('image_img')) {
+					$this->data['error_myname_image'] = $this->lang->line ( 'error_myname_image' );
+					$rt = FALSE;
+				} else {
+					$filedata = $this->upload->data();
+					$disfile = $filedata['raw_name'] . "_thumb" . $filedata['file_ext'];
+					if (file_exists($disfile)) {
+						unlink($disfile);
+					}
+					$imgpara = array(
+							'image_library' => 'gd2',
+							'source_image' => $filedata['full_path'],
+							'maintain_ratio' => TRUE,
+							'create_thumb' => TRUE,
+							'width' => $this->myhome_model->get_image_width(),
+					);
+					$this->image_lib->initialize($imgpara);
+					$this->image_lib->resize();
+					$this->image_lib->clear();
+					$this->imagefile = $disfile;
+				}
+			}
+		}
+		
+		return $rt;
+	}
+	
+	/**
+	 * default for this controller. it is login page.
+	 */
+	public function index() {
+		if (! $this->func_model->verify_login()) {
+			redirect ( base_url ( 'user' ) );
+		}
+		
+		$this->load->model('myhome_model');
+		$this->data = array();
+		if ($this->input->post() && $this->verify()) {
+			$this->myhome_model->update(array_merge($this->input->post(), array('logo' => $this->logofile, 'image' => $this->imagefile)));
+			$this->data['success_message'] = 'Your My Home information has been saved';
+		}
+		$beuser = $this->session->userdata('beuser');
+		$myhome = $this->myhome_model->get_myhome($beuser['user_id']);
+		$mynameArr = array();
+		
+		if ($myhome) {
+			$this->data['myname'] = $myhome['myname'];
+			$mynameArr = preg_split('/_/', $myhome['myname']);
+		}
+		
+		$this->data['user_id'] = $beuser['user_id'];
+		if ($this->input->post('firstname')) {
+			$this->data['firstname'] = $this->input->post('firstname');
+		} else if ($myhome) {
+			$this->data['firstname'] = $mynameArr[0];
+		} else {
+			$this->data['firstname'] = $beuser['firstname'];
+		}
+		if ($this->input->post('lastname')) {
+			$this->data['lastname'] = $this->input->post('lastname');
+		} else if ($myhome) {
+			$this->data['lastname'] = $mynameArr[1];
+		} else {
+			$this->data['lastname'] = $beuser['lastname'];
+		}
+		if ($this->input->post('top_title')) {
+			$this->data['top_title'] = $this->input->post('top_title');
+		} else if ($myhome) {
+			$this->data['top_title'] = $myhome['top_title'];
+		} else {
+			$this->data['top_title'] = 'WHY BUY INSURANCE';
+		}
+		if ($this->input->post('top_desc')) {
+			$this->data['top_desc'] = $this->input->post('top_desc');
+		} else if ($myhome) {
+			$this->data['top_desc'] = $myhome['top_desc'];
+		} else {
+			$this->data['top_desc'] = "We don't like to think about it, but sudden, unexpected accidents or illnesses do happen, and trying to find an pay for adequate medical attention can be difficult when you are abroad.<br>Health car costs around the world can be bery expensive. Hospital can charge thousands of dollars per day. Your health plan may or may not cover a minute protion of these cost. Without adequate insurance coverage you could be responsible from dollar one, which could create a massive impact on your personal finances. Why take the risk?";
+		}
+		if ($this->input->post('foot_title')) {
+			$this->data['foot_title'] = $this->input->post('foot_title');
+		} else if ($myhome) {
+			$this->data['foot_title'] = $myhome['foot_title'];
+		} else {
+			$this->data['foot_title'] = 'Vancouver Office';
+		}
+		if ($this->input->post('address')) {
+			$this->data['address'] = $this->input->post('address');
+		} else if ($myhome) {
+			$this->data['address'] = $myhome['address'];
+		} else {
+			$this->data['address'] = '128-6061 No. 3 Road';
+		}
+		if ($this->input->post('city_province')) {
+			$this->data['city_province'] = $this->input->post('city_province');
+		} else if ($myhome) {
+			$this->data['city_province'] = $myhome['city_province'];
+		} else {
+			$this->data['city_province'] = 'Richmond, BC';
+		}
+		if ($this->input->post('post_code')) {
+			$this->data['post_code'] = $this->input->post('post_code');
+		} else if ($myhome) {
+			$this->data['post_code'] = $myhome['post_code'];
+		} else {
+			$this->data['post_code'] = 'V6Y 2B2 CANADA';
+		}
+		if ($this->input->post('phone')) {
+			$this->data['phone'] = $this->input->post('phone');
+		} else if ($myhome) {
+			$this->data['phone'] = $myhome['phone'];
+		} else {
+			$this->data['phone'] = 'Phone: 604-232-0896';
+		}
+		if ($this->input->post('fax')) {
+			$this->data['fax'] = $this->input->post('fax');
+		} else if ($myhome) {
+			$this->data['fax'] = $myhome['fax'];
+		} else {
+			$this->data['fax'] = 'Fax: 604-232-0897';
+		}
+		if ($this->input->post('toll_free')) {
+			$this->data['toll_free'] = $this->input->post('toll_free');
+		} else if ($myhome) {
+			$this->data['toll_free'] = $myhome['toll_free'];
+		} else {
+			$this->data['toll_free'] = 'Toll Free: 1-877-232-0896';
+		}
+		if ($this->input->post('email')) {
+			$this->data['email'] = $this->input->post('email');
+		} else if ($myhome) {
+			$this->data['email'] = $myhome['email'];
+		} else {
+			$this->data['email'] = 'E-mail: vancouver@jfuinsurance.com';
+		}
+		
+		if ($myhome && !empty($myhome['logo'])) {
+			$this->data['logo_src'] = base_url('agent/img') . '/' . $myhome['logo'];
+		} else {
+			$this->data['logo_src'] = base_url('agent/img') . '/logo_thumb.png';
+		}
+		if ($myhome && !empty($myhome['image'])) {
+			$this->data['image_src'] = base_url('agent/img') . '/' . $myhome['image'];
+		} else {
+			$this->data['image_src'] = base_url('agent/img') . '/back_thumb.png';
+		}
+		$this->data['action_url'] = current_url();
+		$this->data['myname_url'] = base_url('myhome/myname');
+		$this->data['myhome_url'] = base_url('agent');
+		
+		$this->data ['csrf'] = array (
+				'name' => $this->security->get_csrf_token_name (),
+				'value' => $this->security->get_csrf_hash () 
+		);
+
+		$this->data['top_menu'] = $this->menu_model->load_top_menu();
+		$this->data['menu'] = $this->menu_model->load_meun();
+		$this->load->common ( 'myhome/myhome', $this->data );
+	}
+	
+	/**
+	 * User information edit / add page
+	 */
+	public function myname() {
+		if ($this->func_model->verify_login()) {
+		
+			$this->load->model('myhome_model');
+			$beuser = $this->session->userdata('beuser');
+			
+			$firstname = $this->input->get_post('firstname');
+			$lastname = $this->input->get_post('lastname');
+			$name = $this->myhome_model->get_myname($firstname, $lastname);
+			$myhome = $this->myhome_model->get_myhome_by_name($name);
+			if ($myhome && ($myhome['user_id'] != $beuser['user_id'])) {
+				$data = 'invalid';
+			} else {
+				$data = $name;
+			}
+			
+			header('Content-Type: application/json');
+			echo json_encode($data);
+		}
+	}
+}

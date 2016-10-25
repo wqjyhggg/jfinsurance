@@ -178,6 +178,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<div class="main" style="min-height:800px;">
         
         <div class="h-topdiv">
+<?php if (!empty($myhomeimage)) {?>
+				  <img class="img-responsive" src="<?php echo $myhomeimage; ?>" alt="JF Insurance">
+<?php } else { ?>
+				  <img class="img-responsive" src="<?php echo base_url();?>image/homepic.png" alt="JF Insurance">
+<?php } ?>
+<?php if (!empty($myhome)) {?>
+                        <div class="h-top">
+                              <h1><?php echo $myhome['top_title']; ?></h1>
+                              <p><?php echo str_replace("\n", "</p><p>", $myhome['top_desc']); ?></p>
+                        </div>
+<?php } else { ?>
 				  <img class="img-responsive" src="<?php echo base_url();?>image/homepic.png" alt="JF Insurance">
           <div class="h-top">
                 <h1>WHY BUY INSURANCE</h1>
@@ -193,6 +204,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                   your personal finances. Why take the risk?
                 </p>
               </div>
+<?php } ?>
         </div>
         <div class="row" style="margin:40px 0;">
           <div class="col-sm-12 text-center">
@@ -283,6 +295,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                   <h5>E-mail: info@jfgroup.ca</h5>
 
                 </div>
+<?php if (!empty($myhome)) { ?>
+                <div class="col-sm-6 contact-right">
+                  <h3><?php echo $myhome['foot_title']; ?></h3><br />
+                  <h5><?php echo $myhome['address']; ?></h5>
+                  <h5><?php echo $myhome['city_province']; ?></h5>
+                  <h5><?php echo $myhome['post_code']; ?></h5><br />
+                  <h5><?php echo $myhome['phone']; ?></h5>
+                  <h5><?php echo $myhome['fax']; ?></h5>
+                  <h5><?php echo $myhome['toll_free']; ?></h5>
+                  <h5> &nbsp;</h5>
+                  <br />
+                  
+                  <h5><?php echo $myhome['email']; ?></h5>
+<?php } else { ?>
                 <div class="col-sm-6 contact-right">
                   <h3>Vancouver Office</h3><br />
                   <h5>128-6061 No. 3 Road</h5>
@@ -295,6 +321,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                   <br />
                   
                   <h5>E-mail: vancouver@jfuinsurance.com</h5>
+<?php } ?>
                 </div>
               </div>
             </div>
