@@ -179,6 +179,7 @@ switch (ENVIRONMENT)
  */
 	// $assign_to_config['name_of_config_item'] = 'value of config item';
 	define('DOWNLOADDIR', dirname(dirname(__FILE__)).DIRECTORY_SEPARATOR."download".DIRECTORY_SEPARATOR);
+	define('AGENTINFODIR', dirname(dirname(__FILE__)).DIRECTORY_SEPARATOR."agentinfo".DIRECTORY_SEPARATOR);
 	
 
 

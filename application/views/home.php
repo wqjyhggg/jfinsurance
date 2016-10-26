@@ -189,7 +189,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                               <p><?php echo str_replace("\n", "</p><p>", $myhome['top_desc']); ?></p>
                         </div>
 <?php } else { ?>
-				  <img class="img-responsive" src="<?php echo base_url();?>image/homepic.png" alt="JF Insurance">
           <div class="h-top">
                 <h1>WHY BUY INSURANCE</h1>
                 <p>
@@ -198,7 +197,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
                 </p>
                 <p>
-                  Health car costs around the world can be bery expensive. Hospital can charge thousands of dollars
+                  Health care costs around the world can be very expensive. Hospital can charge thousands of dollars
                   per day. Your health plan may or may not cover a minute protion of these cost. Without adequate
                   insurance coverage you could be responsible from dollar one, which could create a massive impact on
                   your personal finances. Why take the risk?
