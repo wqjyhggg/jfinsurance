@@ -86,7 +86,7 @@ class Myhome extends MY_Controller {
 				}
 			}
 				
-			if (!empty($_FILES['image_img']) && !empty($_FILES['logo_img']['tmp_name'])) {
+			if (!empty($_FILES['image_img']) && !empty($_FILES['image_img']['tmp_name'])) {
 				$image = $this->myhome_model->get_image_filename();
 				foreach (glob(AGENTINFODIR . $image ."*") as $filename) {
 					unlink($filename);

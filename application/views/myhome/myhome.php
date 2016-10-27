@@ -90,7 +90,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 								<div class="form-group col-sm-9">
 									<label class="col-sm-12">Description:</label>
 									<div class="input-group col-sm-12">
-										<textarea row='8' type='text' name='top_desc' class="form-control"><?php echo $top_desc; ?></textarea> 
+										<textarea rows='8' type='text' name='top_desc' class="form-control"><?php echo $top_desc; ?></textarea> 
 					                	<?php if (!empty($error_top_desc)){ ?>
 										<div class="alert-error">	
 											<?php echo $error_top_desc; ?>
@@ -202,7 +202,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 										</div>
 										<?php } ?>
 										<br />
-										<img class="img-responsive" src='<?php echo $logo_src; ?>' width='390px'>
+										<img class="img-responsive" src='<?php echo $logo_src; ?>' width='100%'>
 					                </div>
 								</div>
 								<div class="form-group col-sm-9">
