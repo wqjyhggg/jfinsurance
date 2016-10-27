@@ -90,7 +90,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 								<div class="form-group col-sm-9">
 									<label class="col-sm-12">Description:</label>
 									<div class="input-group col-sm-12">
-										<input type='text' name='top_desc' value="<?php echo $top_desc; ?>" class="form-control">
+										<textarea row='8' type='text' name='top_desc' class="form-control"><?php echo $top_desc; ?></textarea> 
 					                	<?php if (!empty($error_top_desc)){ ?>
 										<div class="alert-error">	
 											<?php echo $error_top_desc; ?>
@@ -202,7 +202,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 										</div>
 										<?php } ?>
 										<br />
-										<img src='<?php echo $logo_src; ?>' width='390px'>
+										<img class="img-responsive" src='<?php echo $logo_src; ?>' width='390px'>
 					                </div>
 								</div>
 								<div class="form-group col-sm-9">
@@ -215,7 +215,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 										</div>
 										<?php } ?>
 										<br />
-										<img src='<?php echo $image_src; ?>' width='1500px'>
+										<img class="img-responsive" src='<?php echo $image_src; ?>' width='1500px'>
 					                </div>
 								</div>
 							</div>
@@ -238,9 +238,10 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 
 <script>
 function load_myname() {
+
 	$.ajax({
 		url: '<?php echo $myname_url; ?>',
-		type: 'POST',
+		type: 'GET',
 		data: { firstname : $("input[name='firstname']").val(), lastname : $("input[name='lastname']").val(), },
 		success: function(data, textStatus, jqXHR) {
         	$('#showmyname').html('<?php echo $myhome_url; ?>' + '/' + data);
@@ -250,6 +251,7 @@ function load_myname() {
 }
 $( document ).ready(function() {
 	$("input[name='firstname'], input[name='lastname']").change(function() {
+		console.log("SSS");  //XXXXXXXXX
 		load_myname();
 	});
 	load_myname();

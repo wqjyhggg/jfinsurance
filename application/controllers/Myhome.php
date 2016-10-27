@@ -277,8 +277,8 @@ class Myhome extends MY_Controller {
 			} else {
 				$data = $name;
 			}
-			
 			header('Content-Type: application/json');
+			header('Cache-Control: no-store, no-cache, must-revalidate');
 			echo json_encode($data);
 		}
 	}
