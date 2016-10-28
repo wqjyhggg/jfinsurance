@@ -307,7 +307,7 @@ footer p{margin: 0;}
 .logo-img{
     border:1px solid #ccc;
     border-radius:6px;
-    width: 100px;
+    /*width: 100px;*/
 }
 
 .bg-img{
