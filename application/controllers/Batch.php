@@ -78,6 +78,12 @@ class Batch extends MY_Controller {
 								}
 							}
 						}
+						
+						if ($beuser['region_id'] && isset($data['region_id']) && ($beuser['region_id'] != $data['region_id'])) {
+							$data ['errormsg'] .= "You need permission to upload at line " . $i . " (" . $beuser['region_id'] . "): " . @join ( "|", $row ) . "<br>\n";
+							continue;
+						}
+						
 						$product_short = $data ['product_short'];
 						$p = $this->product_model->get_product($product_short);
 						if (empty($p)) {

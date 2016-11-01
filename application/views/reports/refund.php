@@ -38,6 +38,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                   <form method="post" action="<?=$action_url ?>" class="form-horizontal">
 						<input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
                       <div class="row">
+                        <div class="form-group col-sm-3">
+ <?php if ($beuser['region_id'] == 0) { ?>
+                        <!-- Product input box -->
+                          <label class="col-sm-12">Region:</label>
+                            <div class="input-group col-sm-12">
+                            <select name='region_id' class="form-control">
+                              <option value='0'> -- All Region -- </option>
+                              <?php foreach ($regions as $key => $name) { ?>
+                              <option value='<?php echo $key; ?>' <?php echo ($region_id == $key) ? 'selected' : ''; ?>><?php echo $name; ?></option>
+                              <?php } ?>
+                            </select>
+                          </div>
+<?php } else { ?>
+							<input type='hidden' name='region_id' value='<?php echo $beuser['region_id']; ?>'>
+<?php } ?>
+                        </div>
                         <!-- Product input box -->
                         <div class="form-group col-sm-3">
                           <label class="col-sm-12">Product:</label>
@@ -54,16 +70,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 </option>
 <?php endforeach; ?>
                               </select>
-                          </div>
-                        </div>
-                        <!-- Product input box end -->
-                      	<!-- ispaid input box -->
-                        <div class="form-group col-sm-2">
+                          </div><br>
                           <div class="input-group col-sm-12">
                               <input type='checkbox' name="ispaid" <?php echo ($ispaid) ? 'checked' : ''; ?>> Paid
                           </div>
                         </div>
-                        <!-- ispaid input box end -->
+                        <!-- Product input box end -->
 
                         <!-- Created Date -->
                         <div class="form-group col-sm-3">

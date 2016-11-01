@@ -12,7 +12,10 @@ class Renewal extends MY_Controller
 	{
         $beuser = $this->func_model->verify_login();
         $data = $this->set_data();
-		$this->load->common('reports/renewal', $data);
+        $data['beuser'] = $beuser;
+        $this->load->model('region_model');
+        $data['regions'] = $this->region_model->get_regions();
+        $this->load->common('reports/renewal', $data);
 /*
         //todo when do we need pdf, when we send out email? the logic is not clear yet
         $data['style'] = $this->load->view('common/pdf_style',$data, TRUE);
@@ -25,7 +28,8 @@ class Renewal extends MY_Controller
 
     private function set_data()
     {
-        $this->load->model('product_model');
+    	$beuser = $this->session->userdata ( 'beuser' );
+    	$this->load->model('product_model');
         $this->load->model('report_model');
 
         $data ['csrf'] = array (
@@ -39,6 +43,7 @@ class Renewal extends MY_Controller
         $data['mail_url'] = base_url('reports/renewal/sendemail');
         
         $data['agent_id'] = $this->input->post('agent_id');
+        $data['region_id'] = empty($this->input->post('region_id')) ? $beuser['region_id'] : $this->input->post('region_id');
         $data['product_short'] = $this->input->post('product_short');
         $data['application_date_from'] = $this->input->post('application_date_from');
         $data['application_date_to'] = $this->input->post('application_date_to');
@@ -63,6 +68,7 @@ class Renewal extends MY_Controller
         $this->load->model('product_model');
         $this->load->model('report_model');
         $data['agent_id'] = empty($this->input->get_post('agent_id')) ? 0 : (int)$this->input->get_post('agent_id');
+        $data['region_id'] = empty($this->input->post('region_id')) ? $beuser['region_id'] : $this->input->post('region_id');
         $data['product_short'] = $this->input->get_post('product_short');
         $data['application_date_from'] = $this->input->get_post('application_date_from');
         $data['application_date_to'] = $this->input->get_post('application_date_to');

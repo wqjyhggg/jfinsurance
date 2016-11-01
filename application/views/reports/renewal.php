@@ -76,6 +76,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                           </div>
                         </div>
                         <!-- Product input box end -->
+                        <!-- Region input box end -->
+<?php if ($beuser['region_id'] == 0) { ?>
+                        <!-- Product input box -->
+                        <div class="form-group col-sm-4">
+                          <label class="col-sm-12">Region:</label>
+                            <div class="input-group col-sm-12">
+                            <select name='region_id' class="form-control">
+                              <option value='0'> -- All Region -- </option>
+                              <?php foreach ($regions as $key => $name) { ?>
+                              <option value='<?php echo $key; ?>' <?php echo ($region_id == $key) ? 'selected' : ''; ?>><?php echo $name; ?></option>
+                              <?php } ?>
+                            </select>
+                          </div>
+                        </div>
+<?php } else { ?>
+						<input type='hidden' name='region_id' value='<?php echo $beuser['region_id']; ?>'>
+<?php } ?>
+                        <!-- Region input box end -->
                       </div>
 
                       <div class="row">

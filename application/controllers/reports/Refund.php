@@ -12,7 +12,10 @@ class Refund extends MY_Controller
 	{
         $beuser = $this->func_model->verify_login();
         $data = $this->set_data();
-		$this->load->common('reports/refund', $data);
+        $data['beuser'] = $beuser;
+        $this->load->model('region_model');
+        $data['regions'] = $this->region_model->get_regions();
+        $this->load->common('reports/refund', $data);
 /*
         //todo when do we need pdf, when we send out email? the logic is not clear yet
         $data['style'] = $this->load->view('common/pdf_style',$data, TRUE);
@@ -25,7 +28,8 @@ class Refund extends MY_Controller
 
     private function set_data()
     {
-        $this->load->model('product_model');
+    	$beuser = $this->session->userdata ( 'beuser' );
+    	$this->load->model('product_model');
         $this->load->model('report_model');
 
         $data ['csrf'] = array (
@@ -38,6 +42,7 @@ class Refund extends MY_Controller
         $data['action_url'] = current_url();
         
         $data['ispaid'] = empty($this->input->post('ispaid')) ? 0 : 1;
+        $data['region_id'] = empty($this->input->post('region_id')) ? $beuser['region_id'] : $this->input->post('region_id');
         $data['product_short'] = $this->input->post('product_short');
         $data['pay_date_from'] = $this->input->post('pay_date_from');
         $data['pay_date_to'] = $this->input->post('pay_date_to');
@@ -57,6 +62,7 @@ class Refund extends MY_Controller
         $this->load->model('product_model');
         $this->load->model('report_model');
         $data['ispaid'] = $this->input->post('ispaid', true);
+        $data['region_id'] = empty($this->input->post('region_id')) ? $beuser['region_id'] : $this->input->post('region_id');
         $data['product_short'] = $this->input->post('product_short', true);
         $data['pay_date_from'] = $this->input->post('pay_date_from', true);
         $data['pay_date_to'] = $this->input->post('pay_date_to', true);

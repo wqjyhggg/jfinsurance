@@ -123,6 +123,7 @@ class Batch_model extends CI_Model {
 		$this->load->model('plan_model');
 		$this->load->model('customer_model');
 		$this->load->model('product_model');
+		$beuser = $this->session->userdata ( 'beuser' );
 
 		$data = array();
 

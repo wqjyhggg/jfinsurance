@@ -39,7 +39,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         					  <input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
           					
                     <div class="row">
-                    <?php if ($be_user_group_id > 100) { ?>
+                    <?php if ($beuser_group_id > 100) { ?>
                     	<input type='hidden' name='user_group_id' value="0">
                     <?php } else { ?>
                       <div class="col-sm-3 form-group">
@@ -53,6 +53,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             </select>
                           </div>
                       </div>
+                    <?php } ?>
+                    <?php if (empty($beuser_region_id)) { ?>
+                      <div class="form-group col-sm-3">
+                        <label class="col-sm-12">Region:</label>
+                        <div class="input-group col-sm-12">
+                            <select name='region_id' class="form-control">
+                              <option value='0'> -- All Region -- </option>
+                              <?php foreach ($regions as $key => $name) { ?>
+                              <option value='<?php echo $key; ?>' <?php echo ($region_id == $key) ? 'selected' : ''; ?>><?php echo $name; ?></option>
+                              <?php } ?>
+                            </select>
+                        </div>
+                      </div>
+                    <?php } else { ?>
+                    	<input type='hidden' name='region_id' value='<?php echo $beuser_region_id; ?>'>
                     <?php } ?>
                       <div class="form-group col-sm-3">
                         <label class="col-sm-12">Company:</label>
@@ -114,9 +129,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-<?php if ($be_user_group_id < 100) { ?>
+<?php if ($beuser_group_id < 100) { ?>
                     <h2 style="width:100%;">User List <span>
-                      <?php if($be_user_group_id != 2){ ?>
+                      <?php if($beuser_group_id != 2){ ?>
                       <a class="btn btn-info" href='<?php echo $edit_url."0"; ?>'><i class="fa fa-plus"></i> Add User</a>
                       <?php } ?>
                     </span>
@@ -132,6 +147,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                           <tr>
                             <th>Username</th>
                             <th>Type</th>
+<?php if (empty($beuser_region_id)) { ?>
+                            <th>Region</th>
+<?php } ?>
                             <th>Brokerage</th>
                             <th>Agent ID</th>
                             <th>Name</th>
@@ -147,13 +165,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <?php foreach ($user_list as $user) { ?>
                           <tr>
                             <td>
-<?php if ($be_user_group_id < 100) { ?>
+<?php if ($beuser_group_id < 100) { ?>
                             	<a style="color:#46b8da;" href='<?php echo $edit_url.$user['user_id']; ?>'><?php echo $user['username']?></a>
 <?php } else { ?>
                             	<?php echo $user['username']?>
 <?php } ?>
                             </td>
                             <td><?php echo $user_group_list[$user['user_group_id']]; ?></td>
+<?php if (empty($beuser_region_id)) { ?>
+                            <td><?php echo empty($regions[$user['region_id']]) ? 'All' : $regions[$user['region_id']]; ?></td>
+<?php } ?>
                             <td><?php echo (!empty($user['parent_user_id']) && isset($broker_list[$user['parent_user_id']])) ? $broker_list[$user['parent_user_id']] : '';  ?></td>
                             <td><?php echo $user['user_id']; ?></td>
                             <td><?php echo $user['lastname'] . ", " . $user['firstname']; ?></td>
@@ -162,7 +183,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <td><?php echo $user['licence_expire']; ?></td>
                             <td><?php echo $user['pay_type']; ?></td>
                             <td><?php echo $user['status'] ? 'Act' : '-'; ?></td>
-<?php if (($be_user_group_id < $user['user_group_id']) && !empty($behalf_url)) { ?>
+<?php if (($beuser_group_id < $user['user_group_id']) && !empty($behalf_url)) { ?>
                             <td><a style="color:#46b8da;" href='<?php echo $behalf_url.$user['user_id']; ?>'>Behalf</a></td>
 <?php } else { ?>
                             <td>-</td>

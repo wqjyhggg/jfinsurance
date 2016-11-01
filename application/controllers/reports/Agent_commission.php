@@ -10,7 +10,10 @@ class Agent_Commission extends MY_Controller
 	{
         $beuser = $this->func_model->verify_login();
         $data = $this->set_data();
-		$this->load->common('reports/agent_commission', $data);
+        $data['beuser'] = $beuser;
+        $this->load->model('region_model');
+        $data['regions'] = $this->region_model->get_regions();
+        $this->load->common('reports/agent_commission', $data);
 /*
         //todo when we need pdf, when we send out email? the logic is not clear yet
         $data['style'] = $this->load->view('common/pdf_style',$data, TRUE);
@@ -24,7 +27,8 @@ class Agent_Commission extends MY_Controller
 
     private function set_data()
     {
-        $this->load->model('product_model');
+    	$beuser = $this->session->userdata ( 'beuser' );
+    	$this->load->model('product_model');
         $this->load->model('report_model');
 
         $data ['csrf'] = array (
@@ -37,6 +41,7 @@ class Agent_Commission extends MY_Controller
         $data['action_url'] = current_url();
 
         $data['agent_id'] = $this->input->post('agent_id');
+        $data['region_id'] = empty($this->input->post('region_id')) ? $beuser['region_id'] : $this->input->post('region_id');
         $data['payment_method'] = $this->input->post('payment_method');
         $data['payment_date_from'] = $this->input->post('payment_date_from');
         $data['payment_date_to'] = $this->input->post('payment_date_to');

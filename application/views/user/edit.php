@@ -77,7 +77,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	              		<div class="form-group col-sm-3">
 			                <label class="col-sm-12">Region:</label>
 			                <div class="input-group col-sm-12">
-			                	<input type='text' name='region' value='<?php echo $region; ?>' class="form-control">
+                            <select name='region_id' class="form-control">
+                              <option value='0'> -- All Region -- </option>
+                              <?php foreach ($regions as $key => $name) { ?>
+                              <option value='<?php echo $key; ?>' <?php echo ($region_id == $key) ? 'selected' : ''; ?>><?php echo $name; ?></option>
+                              <?php } ?>
+                            </select>
 			                </div>
 			            </div>
 			            <div class="form-group col-sm-3">

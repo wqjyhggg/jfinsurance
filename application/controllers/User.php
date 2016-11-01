@@ -171,11 +171,13 @@ class User extends MY_Controller {
 		// Get all text depend language
 		//$data = $this->lang->language;
 		$this->load->model('user_group_model');
+		$this->load->model('region_model');
 		$data['user_group_list'] = $this->user_group_model->get_user_group_list(1);	// Get full list
 		$data['user_list'] = $this->user_model->get_user_list($this->session->beuser['user_group_id'], $this->session->beuser['user_id'], $this->input->post());
 		$data['action_url'] = current_url();
 		$data['edit_url'] = base_url('user/edit')."?user_id=";
 		$data['user_group_id'] = $this->input->post ( 'user_group_id' );
+		$data['region_id'] = $this->input->post ( 'region_id' );
 		$data['username'] = $this->input->post ( 'username' );
 		$data['firstname'] = $this->input->post ( 'firstname' );
 		$data['lastname'] = $this->input->post ( 'lastname' );
@@ -183,7 +185,9 @@ class User extends MY_Controller {
 		$data['business'] = $this->input->post ( 'business' );
 		$data['broker_list'] = $this->user_model->get_broker_id_list();
 		
-		$data['be_user_group_id'] = $this->session->beuser['user_group_id'];
+		$data['beuser_group_id'] = $this->session->beuser['user_group_id'];
+		$data['beuser_region_id'] = $this->session->beuser['region_id'];
+		$data['regions'] = $this->region_model->get_regions();
 		if ($this->session->beuser == $this->session->user) {
 			$data['behalf_url'] = base_url('behalf/to') . "/";
 		} else {
@@ -214,6 +218,7 @@ class User extends MY_Controller {
 		$this->load->model('product_model');
 		$this->load->model('paytype_model');
 		$this->load->model('user_group_model');
+		$this->load->model('region_model');
 		$this->load->model('verify_model');
 		
 		//$this->data = $this->lang->language;
@@ -239,7 +244,7 @@ class User extends MY_Controller {
 		$this->data['parent_user_id'] = ($this->session->beuser['user_group_id'] < 100) ? 0 : $this->session->beuser['user_id'];
 		$this->data['username'] = '';
 		$this->data['password'] = '';
-		$this->data['region'] = ($this->session->beuser['user_group_id'] < 100) ? '' : $this->session->beuser['region'];
+		$this->data['region_id'] = $this->session->beuser['region_id'];
 		$this->data['business'] = ($this->session->beuser['user_group_id'] < 100) ? '' : $this->session->beuser['business'];
 		$this->data['gender'] = '';
 		$this->data['firstname'] = '';
@@ -286,7 +291,7 @@ class User extends MY_Controller {
 			$this->data['parent_user_id'] = $this->input->post('parent_user_id');
 			$this->data['username'] = $this->input->post('username');
 			$this->data['password'] = $this->input->post('password');
-			$this->data['region'] = $this->input->post('region');
+			$this->data['region_id'] = $this->input->post('region_id');
 			$this->data['business'] = $this->input->post('business');
 			$this->data['gender'] = $this->input->post('gender');
 			$this->data['firstname'] = $this->input->post('firstname');
@@ -345,6 +350,7 @@ class User extends MY_Controller {
 		}
 		if (empty($this->data['province2'])) $this->data['province2'] = 'ON';
 		if (empty($this->data['country2'])) $this->data['country2'] = 'CA';
+		$this->data['regions'] = $this->region_model->get_regions();
 		$this->data['province_url'] = base_url ( "geo/province/" . $this->data['country2'] . "/" . $this->data['province2'] );
 		$this->data['country_url'] = base_url ( "geo/country/" . $this->data['country2'] );
 		$this->data['mail_province_url'] = base_url ( "geo/province/" . $this->data['mail_country2'] . "/" . $this->data['mail_province2'] );

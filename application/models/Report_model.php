@@ -483,6 +483,9 @@ class Report_model extends CI_Model
             $this->db->where('cl.claim_date <=', $para['create_date_to']);
         }
         $this->db->where_in('pl.status_id', array(self::SOLD, self::PAID, self::CLAIMED));
+        if (!empty($para['region_id'])) {
+            $this->db->where('pl.region_id', $para['region_id']);
+        }
     }
 
     private function get_claim_report_result($query)
@@ -553,9 +556,12 @@ class Report_model extends CI_Model
     private function refund_report_where($para)
     {
         if (!empty($para['product_short'])) {
-            $this->db->where('pl.product_short >=', $para['product_short']);
+            $this->db->where('pl.product_short', $para['product_short']);
         }
-    	$this->db->where('pm.pay_type =', 'refund');
+        if (!empty($para['region_id'])) {
+            $this->db->where('pl.region_id', $para['region_id']);
+        }
+        $this->db->where('pm.pay_type =', 'refund');
     	$this->db->where('pm.ispaid =', (int)$para['ispaid']);
     	if (!empty($para['create_date_from'])) {
             $this->db->where('pm.added >=', $para['create_date_from']);
@@ -799,6 +805,9 @@ class Report_model extends CI_Model
                 $this->db->where_in('u.user_id', $available_user_ids);
             }
         }
+        if (!empty($para['region_id'])) {
+            $this->db->where('u.region_id', $para['region_id']);
+        }
         if (!empty($para['paied'])) {
             $this->db->where('pa.ispaid', 0);
         } else {
@@ -887,6 +896,9 @@ class Report_model extends CI_Model
             if ($beuser['user_group_id'] > self::STAFF) {
                 $this->db->where_in('u.user_id', $available_user_ids);
             }
+        }
+        if (!empty($para['region_id'])) {
+            $this->db->where('pl.region_id', $para['region_id']);
         }
         if (!empty($para['application_date_from'])) {
             $this->db->where('pl.apply_date >=', $para['application_date_from']);

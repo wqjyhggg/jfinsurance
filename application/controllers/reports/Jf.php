@@ -11,11 +11,16 @@ class Jf extends MY_Controller
 	{
         $beuser = $this->func_model->verify_login();
         $data = $this->set_data();
+        $data['beuser'] = $beuser;
+        $this->load->model('region_model');
+        $data['regions'] = $this->region_model->get_regions();
+        $this->load->common('reports/agent', $data);
         $this->load->common('reports/jf', $data);
     }
 
     private function set_data()
     {
+    	$beuser = $this->session->userdata ( 'beuser' );
         $this->load->model('product_model');
         $this->load->model('report_model');
 
@@ -29,6 +34,7 @@ class Jf extends MY_Controller
         $data['action_url'] = current_url();
 
         $data['agent_id'] = $this->input->post('agent_id');
+        $data['region_id'] = empty($this->input->post('region_id')) ? $beuser['region_id'] : $this->input->post('region_id');
         $data['product_short'] = $this->input->post('product_short');
         $data['application_date_from'] = $this->input->post('application_date_from');
         $data['application_date_to'] = $this->input->post('application_date_to');
@@ -55,7 +61,7 @@ class Jf extends MY_Controller
         $this->load->model('product_model');
         $this->load->model('report_model');
         $data['agent_id'] = empty($this->input->get_post('agent_id')) ? 0 : (int)$this->input->get_post('agent_id');
-
+        $data['region_id'] = empty($this->input->post('region_id')) ? $beuser['region_id'] : $this->input->post('region_id');
         $data['product_short'] = $this->input->get_post('product_short');
         $data['application_date_from'] = $this->input->get_post('application_date_from');
         $data['application_date_to'] = $this->input->get_post('application_date_to');

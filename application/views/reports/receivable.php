@@ -41,7 +41,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                       <input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
                       <div class="row">
                       <!-- Agent select box -->
-                        <div class="form-group col-sm-4">
+                        <div class="form-group col-sm-3">
                           <label class="col-sm-12">Agent:</label>
                           <div class="input-group col-sm-12">
                               <select name="agent_id" class="form-control">
@@ -61,7 +61,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <!-- Agent select box end -->
 
                         <!-- Product select box -->
-                        <div class="form-group col-sm-4">
+                        <div class="form-group col-sm-3">
                           <label class="col-sm-12">Product:</label>
                             <div class="input-group col-sm-12">
                               <select name="product_short" class="form-control">
@@ -80,7 +80,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         </div>
                         <!-- Product select box end -->
                         <!-- Product select box -->
-                        <div class="form-group col-sm-4">
+                        <div class="form-group col-sm-3">
                           <label class="col-sm-12">Policy Status:</label>
                             <div input-group class="col-sm-12">
                               <select name="policy_status" class="form-control">
@@ -91,6 +91,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                           </div>
                         </div>
                         <!-- Product select box end -->
+                        <!-- Region input box end -->
+<?php if ($beuser['region_id'] == 0) { ?>
+                        <!-- Product input box -->
+                        <div class="form-group col-sm-3">
+                          <label class="col-sm-12">Region:</label>
+                            <div class="input-group col-sm-12">
+                            <select name='region_id' class="form-control">
+                              <option value='0'> -- All Region -- </option>
+                              <?php foreach ($regions as $key => $name) { ?>
+                              <option value='<?php echo $key; ?>' <?php echo ($region_id == $key) ? 'selected' : ''; ?>><?php echo $name; ?></option>
+                              <?php } ?>
+                            </select>
+                          </div>
+                        </div>
+<?php } else { ?>
+						<input type='hidden' name='region_id' value='<?php echo $beuser['region_id']; ?>'>
+<?php } ?>
+                        <!-- Region input box end -->
                       </div>
 
                       <div class="row">

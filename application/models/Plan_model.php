@@ -138,6 +138,7 @@ class Plan_model extends CI_Model {
 		$status_id = empty($para['status_id']) ? 1 : (int)$para['status_id'];
 		$sql .= " status_id='" . (int)$status_id . "', ";
 		$sql .= " product_short=" . $this->db->escape($para['product_short']) . ", ";
+		$sql .= " region_id=" . (int)$beuser['region_id'] . ", ";
 		if (isset($para['policy'])) $sql .= " policy=" . $this->db->escape($para['policy']) . ", ";
 		if (isset($para['batch_number'])) $sql .= " batch_number=" . $this->db->escape($para['batch_number']) . ", ";
 		$sql .= " isfamilyplan='" . (int)$isfamilyplan . "', ";
@@ -525,6 +526,9 @@ class Plan_model extends CI_Model {
 		
 		$plans = array();
 		$carr = array();
+		if ($beuser['region_id']) {
+			$carr[] = "region_id = " . (int)$beuser['region_id'];
+		}
 		if (!empty($para['firstname'])) {
 			$carr[] = "firstname LIKE " . $this->db->escape($para['firstname'] . "%");
 		} 

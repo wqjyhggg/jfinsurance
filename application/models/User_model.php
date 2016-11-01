@@ -80,6 +80,9 @@ class User_model extends CI_Model {
 		if (!empty($para['user_group_id'])) {
 			$sql .= " AND user_group_id = '" . (int)$para['user_group_id'] . "'";
 		}
+		if (!empty($para['region_id'])) {
+			$sql .= " AND region_id = '" . (int)$para['region_id'] . "'";
+		}
 		if (!empty($para['username'])) {
 			$sql .= " AND username LIKE " . $this->db->escape($para['username'] . "%");
 		}
@@ -121,6 +124,9 @@ class User_model extends CI_Model {
             u.username,
             concat(u.firstname, " ", u.lastname) as full_name
         ');
+        if (!empty($beuser['region_id'])) {
+        	$this->db->where('u.region_id', $beuser['region_id']);
+        }
         if ($beuser['user_group_id'] == 104){
             $this->db->from('user u, user u2');
             $this->db->where('u.parent_user_id = u2.user_id');
@@ -187,6 +193,9 @@ class User_model extends CI_Model {
 	 */
 	public function get_broker_id_list() {
 		$sql = "SELECT user_id,business FROM user WHERE user_group_id = '104'";
+        if ($this->session->beuser['region_id'] != 0) {
+        	$sql .= " AND region_id='" . $this->session->beuser['region_id'] . "'";
+        }
 		$rt = $this->db->query($sql)->result_array();
 		$rtArr = array();
 		foreach ($rt as $rc) {
@@ -236,7 +245,17 @@ class User_model extends CI_Model {
 				$para['user_group_id'] = (int)$post['user_group_id'];
 			}
 		}
-		if (!empty($post['parent_user_id'])) {
+		if (isset($post['region_id'])) {
+			if ($this_user) {
+				if ($this_user['region_id'] != (int)$post['region_id']) {
+					$this->logstr .= "region_id[".$this_user['region_id']."]=>[".(int)$post['region_id']."],";
+					$para['region_id'] = (int)$post['region_id'];
+				}
+			} else {
+				$para['region_id'] = (int)$post['region_id'];
+			}
+		}
+        if (!empty($post['parent_user_id'])) {
 			if ($this_user) {
 				if ($this_user['parent_user_id'] != (int)$post['parent_user_id']) {
 					$this->logstr .= "UserParentGroup[".$this_user['parent_user_id']."]=>[".(int)$post['parent_user_id']."],";
