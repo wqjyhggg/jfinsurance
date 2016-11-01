@@ -60,7 +60,8 @@ footer p{margin: 0;}
 .hlogo>img{
     margin: 15px auto;
     max-width: 390px;
-    width: 100%;
+    width: auto;
+    max-height: 70px;
 }
 .navbar-form .form-control{
     border-top-left-radius: 4px;
@@ -300,3 +301,66 @@ footer p{margin: 0;}
 .withlogobox,
 .withpricebox{vertical-align: bottom;margin:0 !important;}
 /* New PDF option */
+
+/* Myhome */
+
+.logo-img{
+    border:1px solid #ccc;
+    border-radius:6px;
+    /*width: 100px;*/
+}
+
+.bg-img{
+    border:1px solid #ccc;
+    border-radius: 6px;
+    width:500px;
+}
+
+/***************/
+
+
+.custom-file-upload {
+  display: block;
+  width: auto;
+  font-size: 16px;
+  margin-top: 30px;
+}
+.custom-file-upload + label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.file-upload-wrapper {
+  position: relative;
+  margin-bottom: 5px;
+}
+
+.file-upload-input {
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  float: left;
+  width: 58.589%;
+  max-width: 200px;
+  /* IE 9 Fix */
+}
+
+.file-upload-button {
+  cursor: pointer;
+  display: inline-block;
+  color: #fff;
+  padding: 7px;
+  border: none;
+  margin-left: -1px;
+  background-color: #5bc0de;
+  width: 40%;
+  max-width: 120px;
+}
+.file-upload-button:hover {
+  background-color: #31b0d5;
+}
+
+
+/***************/
+
+
+/* Myhome */

@@ -86,7 +86,7 @@ class Myhome extends MY_Controller {
 				}
 			}
 				
-			if (!empty($_FILES['image_img']) && !empty($_FILES['logo_img']['tmp_name'])) {
+			if (!empty($_FILES['image_img']) && !empty($_FILES['image_img']['tmp_name'])) {
 				$image = $this->myhome_model->get_image_filename();
 				foreach (glob(AGENTINFODIR . $image ."*") as $filename) {
 					unlink($filename);
@@ -277,8 +277,8 @@ class Myhome extends MY_Controller {
 			} else {
 				$data = $name;
 			}
-			
 			header('Content-Type: application/json');
+			header('Cache-Control: no-store, no-cache, must-revalidate');
 			echo json_encode($data);
 		}
 	}
