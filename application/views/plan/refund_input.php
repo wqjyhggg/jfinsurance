@@ -43,21 +43,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <div class="form-group col-sm-4 col-xs-12">
                           <label>Policy #:</label> <?php echo $plan['policy']; ?>
                         </div>
-
                         <div class="form-group col-sm-4 col-xs-12">
                           <label>Product:</label> <?php echo $plan['product_short']; ?>
-                        </div>
-                        <div class="form-group col-sm-4 col-xs-12">
-                          <label>Total Premium:</label> <?php echo $plan['premium']; ?>
-                        </div>
-                      </div>
-   					  <div class="row">
-                        <div class="form-group col-sm-4 col-xs-12">
-                          <label>Effective Date:</label> <?php echo $plan['effective_date']; ?>
-                        </div>
-
-                        <div class="form-group col-sm-4 col-xs-12">
-                          <label>Expiry Date:</label> <?php echo $plan['expiry_date']; ?>
                         </div>
                         <div class="form-group col-sm-4 col-xs-12">
                           <label>Refund Date:</label>
@@ -69,20 +56,32 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                           </div>
                         </div>
                       </div>
-                      <div class="row">  
+   					  <div class="row">
+                        <div class="form-group col-sm-4 col-xs-12">
+                          <label>Effective Date:</label> <?php echo $plan['effective_date']; ?>
+                        </div>
+                        <div class="form-group col-sm-4 col-xs-12">
+                          <label>Expiry Date:</label> <?php echo $plan['expiry_date']; ?>
+                        </div>
                         <div class="form-group col-sm-4 col-xs-12 pull-right">
-                          <label>Used Premium:</label> <span id="used_amount"></span>
+                          <label>Used Premium:</label> <span id="used_amount"></span> <span id="used_days"></span>
                         </div>
                       </div>
 
                       <div class="row">  
+                        <div class="form-group col-sm-4 col-xs-12">
+                          <label>Total Premium:</label> <?php echo $plan['premium']; ?>
+                        </div>
+                        <div class="form-group col-sm-4 col-xs-12">
+                          <label>Total Days:</label> <?php echo $plan['totaldays']; ?>
+                        </div>
                         <div class="form-group col-sm-4 col-xs-12 pull-right">
                           <label>Refund Premium:</label> <!--span id="refund_amount"></span-->
                           <input type="number" step="any" name='refund_amount' id='refund_amount' value='' class="form-control" readonly />
                         </div>
                       </div>
                       <div class="row">  
-                        <div class="form-group col-sm-6 col-xs-12 pull-right">
+                        <div class="form-group col-sm-4 col-xs-12 pull-right">
                             <label class="radio-inline"><input type="radio" name="admin_fee" value="0" checked>$0 Adminstration Fee</label>
                             <label class="radio-inline"><input type="radio" name="admin_fee" value="40">$40 Adminstration Fee</label>
                         </div>
@@ -132,6 +131,7 @@ function get_refund_amount() {
         		$('input[name="refund_amount"]').val(data['refund_amount']);
             //$('#refund_amount').text(data['refund_amount']);
             $('#used_amount').text(data['used_amount']);
+            $('#used_days').html('(used days: ' + data['refund_days'] + ')');
             var adminfee = $('input[name="admin_fee"]:checked').val();
             var total_refund = parseFloat(data['refund_amount'] - adminfee).toFixed(2);
     		$('input[name="total_refund"]').val(total_refund);

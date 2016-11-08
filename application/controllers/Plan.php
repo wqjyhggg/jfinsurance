@@ -347,18 +347,40 @@ class Plan extends MY_Controller {
 			}
 			$skip_cnt = (empty($this->input->post('spouse'))) ? 0 : 1;
 			$apply_date = $this->input->post('apply_date');
-			for ($i = 1; $i < 9; $i++) {
-				$birthday = $this->input->post('birthday_'.$i);
-				if (empty($birthday)) break;
-				$years = $this->product_model->getYears($apply_date, $birthday);
-				if ($years > 26) {
-					if ($skip_cnt <= 0) {
-						$this->error['error_message'] = 'Dependent children must under age 26';
+			$birthday = $this->input->post('birthday');
+			$years = $this->product_model->getYears($apply_date, $birthday);
+			if ($years > 69) {
+				$this->error['error_message'] = "Customer age must less 69 years old";
+			} else {
+				for ($i = 1; $i < 9; $i++) {
+					$birthday = $this->input->post('birthday_'.$i);
+					if (empty($birthday)) break;
+					$years = $this->product_model->getYears($apply_date, $birthday);
+					if ($years > 26) {
+						if ($skip_cnt <= 0) {
+							$this->error['error_message'] = 'Dependent children must under age 26';
+						}
+						$skip_cnt--;
 					}
-					$skip_cnt--;
 				}
 			}
 		} else if (($product_short == 'JES') || ($product_short == 'JFC')) {
+			$apply_date = $this->input->post('apply_date');
+			$birthday = $this->input->post('birthday');
+			$years = $this->product_model->getYears($apply_date, $birthday);
+			if ($years > 69) {
+				$this->error['error_message'] = "Customer age must less 69 years old";
+			} else {
+				for ($i = 1; $i < 9; $i++) {
+					$birthday = $this->input->post('birthday_'.$i);
+					if (empty($birthday)) break;
+					$years = $this->product_model->getYears($apply_date, $birthday);
+					if ($years > 69) {
+						$this->error['error_message'] = "Customer age must less 69 years old";
+						break;
+					}
+				}
+			}
 		}
 		
 		return empty($this->error);
@@ -1831,12 +1853,14 @@ class Plan extends MY_Controller {
 	public function refund_amount($plan_id) {
 		$beuser = $this->func_model->verify_login(TRUE);
 		$this->load->model('plan_model');
+		$this->load->model('product_model');
 		$plan = $this->plan_model->get_plan_by_id($plan_id);
 
 		//print_r($plan);die('==');
 		$data['total_premium'] = $plan['premium'];
 		$data['status'] = 'OK';
 		$data['refund_amount'] = $this->plan_model->refund_amount($plan_id, $this->input->get('refund_date'));
+		$data['refund_days'] = $this->product_model->getDays($plan['effective_date'], $this->input->get('refund_date'));
 		$data['used_amount'] = $plan['premium'] - $data['refund_amount']; 
 		header('Content-Type: application/json');
 		echo json_encode($data);

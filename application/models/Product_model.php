@@ -520,6 +520,10 @@ class Product_model extends CI_Model {
 			$premiumArr['sum_insured'] = number_format($para['sum_insured'], 2, '.', ',');
 			$premiumArr['deductible_amount'] =  number_format($para['deductible_amount'], 2, '.', ',');
 		} else if ($para['product_short'] == 'JUS') {
+			if ($years > 69) {
+				$premiumArr['message'] = "Customer age must less 69 years old";
+				return $premiumArr;
+			}
 			$number_customer = (int)$para['number_customer'] - 1;
 			if ($para['rate_options'] == 1) {	// Here is Plus
 				if ($years <= 24) 		$rate = 3.25;
@@ -557,6 +561,10 @@ class Product_model extends CI_Model {
 			$premiumArr['sum_insured'] = number_format($para['sum_insured'], 2, '.', ',');
 			$premiumArr['deductible_amount'] =  number_format($para['deductible_amount'], 2, '.', ',');
 		} else if ($para['product_short'] == 'NUS') {
+			if ($years > 69) {
+				$premiumArr['message'] = "Customer age must less 69 years old";
+				return $premiumArr;
+			}
 			$number_customer = (int)$para['number_customer'] - 1;
 			if ($para['rate_options'] == 1) {	// Here is Plus 
 				if ($years <= 24) 		$rate = 4.10;

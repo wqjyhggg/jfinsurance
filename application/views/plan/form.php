@@ -183,11 +183,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							</div>
 						</div>
 								<div class="row">
-									<div class="col-sm-3">
+									<div class="col-sm-1">
 										<label class="col-sm-12">Days: </label>
 										<div class="input-group col-sm-12">
 											<!-- div id='totaldays' class="div-box"></div -->
 											<input class="form-control" type='text' name='totaldays' id='totaldays' value='<?php echo $totaldays; ?>' >
+										</div>
+									</div>
+									<div class="col-sm-2">
+										<div class="input-group col-sm-12" style="padding-top: 28px;">
+											 <input type='checkbox' class='setpremium' id='checkboxdays'> 1 Year
 										</div>
 									</div>
 									<div class="col-sm-3">
@@ -206,7 +211,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										<label class="inline">Premium: </label>
 										<div class="input-group col-sm-12">
 											<?php if ($user_group_id < 100) { ?>
-											<input class="form-control" type='input' name='premium' id='premium' value='<?php echo $premium; ?>'>
+											<input class="form-control" type='text' name='premium' id='premium' value='<?php echo $premium; ?>'>
 											<?php } else { ?>
 											<input class="form-control" type='hidden' name='premium' id='premium' value='<?php echo $premium; ?>'>	
 											<div id='premiumdisplay'><?php echo $premium; ?></div>	
@@ -995,6 +1000,14 @@ $(document).ready(function(){
 	$("#arrival_date_div").datepicker({
         startDate: '-5y',
         endDate: '+2y',
+    });
+    $('#checkboxdays').change(function(){
+        if (this.checked) {
+        	var effective = $('#effective_date_div').datepicker('getDate');
+        	var myDate = new Date(new Date(new Date().setFullYear(new Date(effective).getFullYear() + 1)).getTime() - 86400000);
+        	$('#expiry_date_div').datepicker('setDate', myDate);
+        	get_premium();
+        }
     });
     $('#totaldays').change(function(){
         var days = $('#totaldays').val();
