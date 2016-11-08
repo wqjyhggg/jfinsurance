@@ -57,6 +57,9 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 						<a class="btn btn-info pull-right" target="_blank" href='<?php echo $refund_letter_url; ?>'>Refund letter</a>
 						<?php } ?>
 					<?php } ?>
+					<?php if (!empty($plan_url)) { ?>
+						<a class="btn btn-info pull-right" href='<?php echo $plan_url; ?>'>Edit</a>
+					<?php } ?>
 						<div class="clearfix"></div>
 					</div>
 					<div class="x_content">

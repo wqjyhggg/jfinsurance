@@ -361,6 +361,8 @@ footer p{margin: 0;}
 
 
 /***************/
-
+.form_text_show {
+	padding-left: 12px;
+}
 
 /* Myhome */

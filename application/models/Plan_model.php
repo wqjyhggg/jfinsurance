@@ -526,9 +526,6 @@ class Plan_model extends CI_Model {
 		
 		$plans = array();
 		$carr = array();
-		if ($beuser['region_id']) {
-			$carr[] = "region_id = " . (int)$beuser['region_id'];
-		}
 		if (!empty($para['firstname'])) {
 			$carr[] = "firstname LIKE " . $this->db->escape($para['firstname'] . "%");
 		} 
@@ -600,6 +597,9 @@ class Plan_model extends CI_Model {
 		}
 		if (!empty($para['product_short'])) {
 			$where[] = "p.product_short=" . $this->db->escape($para['product_short']);
+		}
+		if ($beuser['region_id']) {
+			$where[] = "p.region_id = " . (int)$beuser['region_id'];
 		}
 		if (!empty($plans)) {
 			$where[] = "p.plan_id IN (" . join(",", $plans) . ")";

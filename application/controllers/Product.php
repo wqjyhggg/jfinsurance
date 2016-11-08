@@ -107,7 +107,15 @@ class Product extends MY_Controller {
 			'number_customer' => $this->input->post_get('number_customer'));
 		$premiumarr = $this->product_model->get_premium($para);
 		if (empty($premiumarr) || (empty($premiumarr['premium']) && empty($premiumarr['message']))) {
-			$data = array('status' => 'Unknown', 'message' => '');
+			$days = 0;
+			if (!empty($para['effective_date']) && !empty($para['expiry_date'])) {
+				$days = $this->product_model->getDays($para['effective_date'], $para['expiry_date']);
+			}
+			if ($days > 0) {
+				$data = array('status' => 'Days', 'days' => $days);
+			} else {
+				$data = array('status' => 'Unknown', 'message' => '');
+			}
 		} else {
 			//$premiumarr['premium'] = number_format($premiumarr['premium'], 2, '.', ',');
 			$data = array('status' => 'OK', 'premiumarr' => $premiumarr);

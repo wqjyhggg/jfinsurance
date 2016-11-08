@@ -288,6 +288,9 @@ class Plan extends MY_Controller {
 		if (empty($effective_date) || ($effectivetm < 1466555500)) {
 			$this->error['error_effective_date'] = 'Confirm Effective Date';
 		}
+		if ($arrivaltm > $effectivetm) {
+			$this->error['error_effective_date'] = 'Arrival Date cannot be later than Effective Date';
+		}
 		$expiry_date = $this->input->post('expiry_date');
 		$expirytm = strtotime($expiry_date);
 		if (empty($expiry_date) || ($expirytm < 1466555500) || ($expirytm < $effectivetm)) {
@@ -330,6 +333,13 @@ class Plan extends MY_Controller {
 			if (empty($this->input->post('stable_condition'))) {
 				$this->error['error_stable_condition'] = 'Please select pre-existion condition coverage';
 			}
+			if ($product_short == 'JFR') {
+				$years = $this->product_model->getYears($arrival_date, $effective_date);
+				if ($years >= 2) {
+					$this->error['error_effective_date'] = 'Effective Date must less than 2 Years for Arrival Date';
+				}
+			}
+				
 			$this->from_valid_family_member();
 		} else if (($product_short == 'JUS') || ($product_short == 'NUS')) {
 			if (empty($this->input->post('rate_options'))) {
@@ -814,26 +824,46 @@ class Plan extends MY_Controller {
 				'value' => $this->security->get_csrf_hash ()
 		);
 
-		if ($data['product_short'] == 'OPL') {
-			$data['insurable_options'] = $this->load->view('plan/form_opl', $data, TRUE);
-		} else if ($data['product_short'] == 'JFR') {
-			$data['insurable_options'] = $this->load->view('plan/form_opl', $data, TRUE);
-		} else if ($data['product_short'] == 'JUS') {
-			$data['insurable_options'] = $this->load->view('plan/form_jus', $data, TRUE);
-		} else if ($data['product_short'] == 'NUS') {
-			$data['insurable_options'] = $this->load->view('plan/form_jus', $data, TRUE);
-		} else if ($data['product_short'] == 'JES') {
-			$data['insurable_options'] = $this->load->view('plan/form_jes', $data, TRUE);
-		} else if ($data['product_short'] == 'JFC') {
-			$data['insurable_options'] = $this->load->view('plan/form_jfc', $data, TRUE);
+		if (!empty($plan) && !empty($plan['status_id']) && ($plan['status_id'] > 1) && ($beuser['user_group_id'] > 100)) {
+			if ($data['product_short'] == 'OPL') {
+				$data['insurable_options'] = $this->load->view('plan/form_opl_agent', $data, TRUE);
+			} else if ($data['product_short'] == 'JFR') {
+				$data['insurable_options'] = $this->load->view('plan/form_opl_agent', $data, TRUE);
+			} else if ($data['product_short'] == 'JUS') {
+				$data['insurable_options'] = $this->load->view('plan/form_jus_agent', $data, TRUE);
+			} else if ($data['product_short'] == 'NUS') {
+				$data['insurable_options'] = $this->load->view('plan/form_jus_agent', $data, TRUE);
+			} else if ($data['product_short'] == 'JES') {
+				$data['insurable_options'] = $this->load->view('plan/form_jes_agent', $data, TRUE);
+			} else if ($data['product_short'] == 'JFC') {
+				$data['insurable_options'] = $this->load->view('plan/form_jfc_agent', $data, TRUE);
+			} else {
+				$data['insurable_options'] = $this->load->view('plan/form_other_agent', $data, TRUE);
+			}
+			
+			$this->load->common('plan/form_agent', $data);
 		} else {
-			$data['insurable_options'] = $this->load->view('plan/form_other', $data, TRUE);
+			if ($data['product_short'] == 'OPL') {
+				$data['insurable_options'] = $this->load->view('plan/form_opl', $data, TRUE);
+			} else if ($data['product_short'] == 'JFR') {
+				$data['insurable_options'] = $this->load->view('plan/form_opl', $data, TRUE);
+			} else if ($data['product_short'] == 'JUS') {
+				$data['insurable_options'] = $this->load->view('plan/form_jus', $data, TRUE);
+			} else if ($data['product_short'] == 'NUS') {
+				$data['insurable_options'] = $this->load->view('plan/form_jus', $data, TRUE);
+			} else if ($data['product_short'] == 'JES') {
+				$data['insurable_options'] = $this->load->view('plan/form_jes', $data, TRUE);
+			} else if ($data['product_short'] == 'JFC') {
+				$data['insurable_options'] = $this->load->view('plan/form_jfc', $data, TRUE);
+			} else {
+				$data['insurable_options'] = $this->load->view('plan/form_other', $data, TRUE);
+			}
+	
+			$data['popRefund'] = $this->load->view('plan/refund_addr', $data, TRUE);
+			
+			//$this->load->common('plan/form', $data);
+			$this->load->common('plan/form', $data);
 		}
-
-		$data['popRefund'] = $this->load->view('plan/refund_addr', $data, TRUE);
-		
-		//$this->load->common('plan/form', $data);
-		$this->load->common('plan/form', $data);
 	}
 	
 	function add() {
@@ -1426,6 +1456,7 @@ class Plan extends MY_Controller {
 		$data['print_receipt_url'] = '';
 		$data['cancel_letter_url'] = '';
 		$data['refund_letter_url'] = '';
+		$data['plan_url'] = '';
 		if ($plan['status_id'] >= 2) {
 			if ($plan['status_id'] == 5) {
 				// Cancel
@@ -1436,6 +1467,13 @@ class Plan extends MY_Controller {
 			} else {
 				$data['print_card_url'] = base_url('plan/card/' . $plan['plan_id']);
 				$data['print_receipt_url'] = base_url('plan/receipt/' . $plan['plan_id']);
+				if ($beuser['user_group_id'] < 100) {
+					$data['plan_url'] = base_url('plan/edit/' . $plan['plan_id']);
+				}
+			}
+		} else {
+			if ($this->session->userdata ( 'user' )) {
+				$data['plan_url'] = base_url('plan/edit/' . $plan['plan_id']);
 			}
 		}
 		

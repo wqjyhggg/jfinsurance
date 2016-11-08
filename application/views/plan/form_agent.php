@@ -47,27 +47,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<input type='hidden' name='plan_id' value='<?php echo $plan_id; ?>'>
 						<input type='hidden' name='product_short' value='<?php echo $product_short; ?>'>
 						<input type='hidden' name='force_deductable' value=''>
-					<?php if (empty($plan_id) || empty($status_id)) { ?>
-						<?php /* it should be new plan */ ?>
-						<input type='hidden' name='status_id' value='0'>
-					<div class="row" style="margin-bottom:15px;">
-						<div class="form-group col-sm-3">
-							<label><span><?php echo $plan_full_name; ?></span></label>
-						</div>
-						<div class="form-group col-sm-3">
-							<label style="text-transform: capitalize;">By Agent<?php echo "[ AgentID:" . $policy_user['user_id'] . " ] "; ?>: <?php echo $policy_user['firstname'] . " " . $policy_user['lastname']; ?></label>
-						</div>
-					</div>
-					<?php } else { ?>
 					<div class="row" style="margin-bottom:15px;">
 						
 						<div class="col-sm-3 pull-right text-right">
-						<?php /* it should be created plan */ ?>
-						<?php if ($status_id == 1 && $user_group_id != 103) { /* qutoe */ ?>
-
-						<a href='<?php echo $pay_url; ?>'><span class="btn btn-info">Pay</span></a>
-						<?php } ?> 
-
 						<?php if($user_group_id != 3  && $user_group_id != 103){ ?>
 						<a href='<?php echo $copy_url; ?>'><span class="btn btn-info">Copy</span></a>
 						<?php } ?>
@@ -75,53 +57,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<?php 	if (($status_id == 2) || ($status_id == 3)) { ?>
 							<a href='<?php echo $sendpackage_url . $plan_id; ?>'><span class="btn btn-info">Send Package</span></a>
 						<?php 	} ?>
-						<?php if ((($status_id == 3) || ($status_id == 7)) && $user_group_id <= 100 ) { ?>
-						<?php if((time()-(60*60*24)) < strtotime($effective_date)){ ?>
-							<a href='<?php echo $cancel_url . $plan_id; ?>'><span class="btn btn-info">Cancel</span></a>
-							<?php }else{?>
-							<a href='<?php echo $refund_url . $plan_id; ?>'><span class="btn btn-info">Refund</span></a>
-							<?php } ?>
-						<?php } else if ($status_id == 6 && $user_group_id <= 100) { ?>
-							<!--a target='_blank' href='<?php echo $refundprint_url . $plan_id; ?>'><span class="btn btn-info">Refund Letter</span></a-->
-							<a id="popRefund"><span class="btn btn-info">Refund Letter</span></a>
-
-							
-
-						<?php } else if ($status_id == 5 && $user_group_id <= 100) { ?>
-							<a target='_blank' href='<?php echo $cancelprint_url . $plan_id; ?>'><span class="btn btn-info">Cancel Letter</span></a>
-						<?php } ?>
 						<?php } ?>
 
 						</div>
 						<div class="form-group col-sm-3">
 							<label><span><?php echo $plan_full_name; ?></span></label>
-							<label><?php if ($status_id < 2) { ?>Quote<?php } else {?>Policy<?php } ?> Number: <span><?php echo $policy; ?></span></label>
-							 
+							<label>Policy Number: <span><?php echo $policy; ?></span></label>
 						</div>
 						
 						<div class="form-group col-sm-3">
 							<label style="text-transform: capitalize;">By Agent<?php echo "[ AgentID:" . $policy_user['user_id'] . " ] "; ?>: <?php echo $policy_user['firstname'] . " " . $policy_user['lastname']; ?></label>
 						</div>
-						<?php if ($user_group_id != 1) { ?>
 							<?php /* it is school or brokerage or agent */ ?>
 							<div class="form-group col-sm-3">
 								<label style="font-size:16px;">Status: <?php echo $status_list[$status_id]['name']; ?> </label>
 							</div>
 							<input type='hidden' name='status_id' value='<?php echo $status_id; ?>' class="form-control">
-							<?php } else { ?>
-							<div class="form-group col-sm-3">
-							<label style="display:inline-block;vertical-align:middle;">Status:</label>
-							<div style="display:inline-block;vertical-align:middle;">
-							<select name='status_id' class="form-control">
-								<option value='0'> -- select policy status -- </option>
-								<?php foreach ($status_list as $key => $value) { ?>
-								<option value='<?php echo $key; ?>' <?php echo ($key == $status_id) ? 'selected' : ''; ?>><?php echo $value['name']; ?></option>
-								<?php } ?>
-							</select></div>
-							</div>
-							<?php } ?>
 					</div>
-					<?php } ?>
 
 					<div class="row">
 						
@@ -131,86 +83,45 @@ defined('BASEPATH') OR exit('No direct script access allowed');
    						 <div class="row">
 							<div class="form-group col-sm-3">
 								<label class="col-sm-12">Apply Date:</label>
-								<?php if ($user_group_id != 1) { ?>
 			                        <input type="hidden" name='apply_date' value='<?php echo $apply_date; ?>'>
-			                        <?php echo $apply_date; ?>
-								<?php } else { ?>
-								<div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
-			                        <input class="form-control" size="16" type="text" name='apply_date' value='<?php echo $apply_date; ?>'>
-			                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-			                    </div>
-								<?php } ?>
+			                        <div class='form_text_show'><?php echo $apply_date; ?></div>
 							</div>
 							<div class="form-group col-sm-3">
 								<label class="col-sm-12">Arrival Date: </label>
-								<div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd" id='arrival_date_div' >
-			                        <input class="form-control" size="16" type="text" name='arrival_date' id='arrival_date' value='<?php echo $arrival_date; ?>' data-date-format="yyyy-mm-dd" data-date-end-date="+0d" data-date-start-date="-1d">
-			                        
-			                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-			                    </div>
-			                    <?php if (!empty($error_arrival_date)) { ?>
-			                    <div class="alert-error"> 
-			                        <?php echo $error_arrival_date; ?>
-			                    </div>
-			                    <?php } ?>
-
+		                        <input class="form-control" size="16" type="hidden" name='arrival_date' id='arrival_date' value='<?php echo $arrival_date; ?>' data-date-format="yyyy-mm-dd" data-date-end-date="+0d" data-date-start-date="-1d">
+		                        <div class='form_text_show'><?php echo $arrival_date; ?></div>
 							</div>
 							<div class="form-group col-sm-3">
 								<label class="col-sm-12">Effective Date: </label>
-								<div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd" id='effective_date_div'>
-			                        <input class="setpremium form-control" size="16" type="text" name='effective_date' value='<?php echo $effective_date; ?>'>
-			                        
-			                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-			                    </div>
-			                    <?php if (!empty($error_effective_date)) { ?>
-			                    <div class="alert-error">
-			                    	<?php echo $error_effective_date; ?> 
-			                	</div>
-			                    <?php } ?>
+		                        <div class='form_text_show'><?php echo $effective_date; ?></div>
+								<input class="setpremium form-control" size="16" type="hidden" name='effective_date' value='<?php echo $effective_date; ?>'>
 							</div>
 							<div class="form-group col-sm-3">
 								<label class="col-sm-12">Expiry Date: </label>
-						  		<div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd" id='expiry_date_div'>
-									<input size="16" type='text' name='expiry_date' class='setpremium form-control' id='expiry_date' value='<?php echo $expiry_date; ?>'>
-									
-			                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-								</div>
-								<?php if (!empty($error_expiry_date)) { ?>
-								<div class="alert-error">
-									<?php echo $error_expiry_date;?> 															
-								</div>
-								<?php } ?>
+								<div class='form_text_show'><?php echo $expiry_date; ?></div>
+								<input size="16" type='hidden' name='expiry_date' class='setpremium form-control' id='expiry_date' value='<?php echo $expiry_date; ?>'>
 							</div>
 						</div>
 								<div class="row">
 									<div class="col-sm-3">
 										<label class="col-sm-12">Days: </label>
-										<div class="input-group col-sm-12">
-											<!-- div id='totaldays' class="div-box"></div -->
-											<input class="form-control" type='text' name='totaldays' id='totaldays' value='<?php echo $totaldays; ?>' >
-										</div>
+										<div class='form_text_show'><?php echo $totaldays; ?></div>
+										<input class="form-control" type='hidden' name='totaldays' id='totaldays' value='<?php echo $totaldays; ?>' >
 									</div>
 									<div class="col-sm-3">
 										<label class="col-sm-12">Daily Rate: </label>
-										<div class="input-group col-sm-12">
-											<input class="form-control" type='text' name='dailyrate' id='dailyrate' value='<?php echo $dailyrate; ?>' readonly >
-										</div>
+										<div class='form_text_show'><?php echo $dailyrate; ?></div>
+										<input class="form-control" type='hidden' name='dailyrate' id='dailyrate' value='<?php echo $dailyrate; ?>' readonly >
 									</div>
 									<div class="col-sm-3">
 										<label class="col-sm-12">Age: </label>
-										<div class="input-group col-sm-12">
-											<input class="form-control" type='text' name='totalyears' id='totalyears' value='<?php echo $totalyears; ?>' readonly >
-										</div>
+										<div class='form_text_show'><?php echo $totalyears; ?></div>
+										<input class="form-control" type='hidden' name='totalyears' id='totalyears' value='<?php echo $totalyears; ?>' readonly >
 									</div>
 									<div class="col-sm-3">
-										<label class="inline">Premium: </label>
-										<div class="input-group col-sm-12">
-											<?php if ($user_group_id < 100) { ?>
-											<input class="form-control" type='input' name='premium' id='premium' value='<?php echo $premium; ?>'>
-											<?php } else { ?>
-											<input class="form-control" type='hidden' name='premium' id='premium' value='<?php echo $premium; ?>'>	
-											<div id='premiumdisplay'><?php echo $premium; ?></div>	
-											<?php } ?>
+										<label class="col-sm-12">Premium: </label>
+										<input class="form-control" type='hidden' name='premium' id='premium' value='<?php echo $premium; ?>'>	
+										<div class="form_text_show" id='premiumdisplay'><?php echo $premium; ?></div>	
 										</div>
 									</div>
 								</div>
@@ -249,16 +160,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									</div>
 									<div class="col-sm-3">
 										<label class="col-sm-12">Birth Date:</label>
-										<div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd" data-date-end-date="0d" >
-					                        <input size="16" type="text" class='setpremium form-control' name='birthday' value='<?php echo !empty($birthday) ? $birthday : ''; ?>'>
-					                        
-					                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-					                    </div>
-					                   <?php if (!empty($error_birthday)) {?>
-										<div class="alert-error">
-											<?php echo $error_birthday; ?>
-										</div>
-										<?php } ?>
+										<div class='form_text_show'><?php echo !empty(${'birthday'}) ? ${'birthday'} : ''; ?></div>
+										<input type="hidden" name='birthday' id='birthday' value='<?php echo !empty(${'birthday'}) ? ${'birthday'} : ''; ?>'>
 									</div>
 									<div class="col-sm-3">
 										<div class="row">
@@ -273,11 +176,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 											</div>
 											<div class="col-sm-6">
 												<label class="col-sm-12">&nbsp;</label>
-												<div class="col-sm-12">
-													<?php if ((($status_id == 2) || ($status_id == 3) || ($status_id == 4)) && !empty($customer_id) && $user_group_id !=3 && $user_group_id != 103) {?>
-													<a class="btn btn-primary" href='<?php echo $claimurl . $customer_id; ?>'>Claim</a>
-													<?php } ?>
-												</div>
 											</div>
 										</div>
 									</div>
@@ -290,12 +188,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<input type='hidden' name='customer_id_<?php echo $i; ?>'  id='customer_id_<?php echo $i; ?>' value='<?php echo !empty(${'customer_id_'.$i}) ? ${'customer_id_'.$i} : 0; ?>'>
 									<hr />
 									<div class="col-sm-12">
-									<label>Family Member <?php echo $i; ?> </label><span> [ <input type='button' onclick='remove_member(<?php echo $i;?>)' value='Remove' data-toggle="tooltip" title="Remove Member!" class="btn btn-warn">]</span><br /> <span class="alert-error" id='errormessage_<?php echo $i;?>'></span>
+									<label>Family Member <?php echo $i; ?> </label><br /> <span class="alert-error" id='errormessage_<?php echo $i;?>'></span>
 									</div>
 									
 										<div class="col-sm-3">
 											<label class="col-sm-12">First Name: </label>
-											<div class="input-group col-sm-12">
+											<div class="input-group col-sm-12" >
 												<input class="form-control" type='text' name='firstname_<?php echo $i; ?>' id='firstname_<?php echo $i; ?>' value='<?php echo !empty(${'firstname_'.$i}) ? ${'firstname_'.$i} : ''; ?>'>
 											</div>
 										</div>
@@ -308,17 +206,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										</div>
 										<div class="col-sm-3">
 											<label class="col-sm-12">Birth Date: </label>
-											
-											<div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd" data-date-end-date="0d">
-					                        	<input size="16" type="text" class='setpremium form-control' name='birthday_<?php echo $i; ?>' id='birthday_<?php echo $i; ?>' value='<?php echo !empty(${'birthday_'.$i}) ? ${'birthday_'.$i} : ''; ?>'>
-					                        	
-					                        	<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-					                        </div>
-											<?php if (!empty(${'error_birthday_'.$i})) {?>
-											<div class="alert-error">
-												<?php echo ${'error_birthday_'.$i}; ?>
-											</div>
-											<?php } ?>
+											<div class='form_text_show'><?php echo !empty(${'birthday_'.$i}) ? ${'birthday_'.$i} : ''; ?></div>
+											<input type="hidden" name='birthday_<?php echo $i; ?>' id='birthday_<?php echo $i; ?>' value='<?php echo !empty(${'birthday_'.$i}) ? ${'birthday_'.$i} : ''; ?>'>
 										</div>
 										<div class="col-sm-3">
 											<div class="row">
@@ -333,22 +222,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 												</div>
 												<div class="col-sm-6">
 													<label class="col-sm-12">&nbsp;</label>
-													<div class="col-sm-12">
-														<?php if ((($status_id == 2) || ($status_id == 3) || ($status_id == 4)) && !empty($customer_id) && $user_group_id !=3 && $user_group_id != 103) {?>
-														<a class="btn btn-primary" href='<?php echo $claimurl . ${'customer_id_'.$i}; ?>'>Claim</a>
-														<?php } ?>
-													</div>
 												</div>
 											</div>
 										</div>
 									</div>
 									<?php } ?>
-									<br />
-									<div class="row">
-										<div class="col-sm-12">
-											<input class="btn btn-info" type='button'  id='addmorememberid' name='addmorememberid' value='Add More Member' onclick='addmoremember();'>
-										</div>
-									</div>
 								</div>
 							</fieldset>
 						</div>
@@ -479,29 +357,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						</div>
 					</div><br />	
 										
-					<div class="row" <?php if ($user_group_id > 100) { ?>style="display:none;"<?php } ?>>
-						<div class="col-sm-12">
-							<fieldset>
-								<legend>Special Note/Instructions</legend>
-								<div class="row" <?php if ($user_group_id > 100) { ?>style='display:none; '<?php } ?>>
-									<div class="col-sm-12">
-										<label class="col-sm-12">Notes: </label>
-										<div class="input-group col-sm-12">
-								 			<textarea class="form-control" name="note"><?php echo $note; ?></textarea>
-								 		</div>
-								 	</div>
-								</div>
-								
-							</fieldset>
-						</div>
-					</div><br />
+		 			<input type='hidden' name="note" value='<?php echo $note; ?>'>
 
-
-					<?php if(($user_group_id>100 && $status_id>1) || $user_group_id == 3 || $user_group_id == 103){ ?>
-					<div class="row" style="display:none;">
-					<?php }else{ ?>
 					<div class="row">
-					<?php } ?>	
 						<div class="col-sm-12" id='goto_next_page'>
 						<?php if (!empty($next_url)) { ?>
 						<a href='<?php echo $next_url; ?>'><span class="btn btn-info">No Change</span></a>
@@ -527,152 +385,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </div><!-- /x_panel end -->
               </div>
             </div><!-- End Form Section-->
-
-            <!-- Pop Section -->
-            	<div class="row">
-					<div class="popRefund" id="popRdiv" style="display:none;">
-						<span class="pop-close"><i class="fa fa-times"></i></span>
-						<?php echo $popRefund; ?>
-					</div>
-
-					<script>
-						$('#popRefund').click(function(){
-							$('.popRefund').removeAttr("class");
-							$('#popRdiv').attr('style','display:block;');
-							$('#popRdiv').attr('class','show-pop');
-										
-						});
-						$('.pop-close').click(function(){
-							$('#popRdiv').attr('style','display:none;');
-						});
-					</script>
-				</div>
-            <!-- Pop Section -->
-
-            <!-- New Section -->
-			<?php if ($show_history) { ?>
-            <div class="row">
-            	<div class="col-sm-12">
-            		<div class="x_panel">
-	                  <div class="x_title">
-	                    <h2>Policy History<small></small></h2>
-	                    <div class="clearfix"></div>
-	                  </div>
-	                  <div class="x_content">
-		                  <div class="row">
-							<?php 	if (!empty($payments) && is_array($payments) && (sizeof($payments > 0))) { ?>
-		                  	<div class="col-sm-12">
-			                  	<button type="button" class="btn btn-info" data-toggle="collapse" data-target="#history1">Payments <span class="fa fa-chevron-down"></span></button>
-			  			        <div id="history1" class="collapse">                	
-			                  	<form action='<?php echo $makepay_url; ?>' method='POST' class="form-horizontal">
-								<input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
-			                  		<div class="table-responsive">
-			                  			<table class="table table-hover table-bordered">
-				                      	<thead>
-											<tr>
-												<th>&nbsp;</th>
-												<th>Type</th>
-												<th>Pay Type</th>
-												<th>Amount</th>
-												<th>Rate</th>
-												<th>Pay Status</th>
-												<th>Date</th>
-												<th>Info</th>
-												<th>Notes</th>
-											</tr>
-										</thead>
-										<tbody>
-											<?php 
-											foreach ($payments as $p) {
-												$pay_str = '';
-												$sbstr = substr($p['pay_type'], 0, 6);
-												if ($p['ispaid']) {
-													if (($sbstr == 'refund') || ($sbstr == 'cancel')) {
-														$pay_str = 'N / A';
-													} else {
-														$pay_str = 'Paid';
-													}
-												} else {
-													if ($sbstr == 'refund') {
-														$pay_str = "<a href='" . $revert_url . $p['payment_id'] . "'>Revert Refund</a>";
-													} else if ($sbstr == 'cancel') {
-														$pay_str = "<a href='" . $revert_url . $p['payment_id'] . "'>Revert Cancel</a>";
-													} else {
-														$pay_str = '-';
-													}
-												}
-												$pay_info = '';
-												if (!empty($p['invoice_num'])) $pay_info .= "[".$p['invoice_num']."]";
-												if (!empty($p['bank_name'])) $pay_info .= "[".$p['bank_name']."]";
-												if (!empty($p['payor_name'])) $pay_info .= "[".$p['payor_name']."]";
-												if (!empty($p['cheque_number'])) $pay_info .= "[".$p['cheque_number']."]";
-												if (!empty($p['pay_to'])) $pay_info .= "[".$p['pay_to']."]";
-												if (!empty($p['name'])) $pay_info .= "[".$p['name']."]";
-												if (!empty($p['first5'])) $pay_info .= "[".$p['first5']."]";
-												if (!empty($p['last4'])) $pay_info .= "[".$p['last4']."]";
-												if (!empty($p['expiry_month'])) $pay_info .= "[".$p['expiry_month']."]";
-												if (!empty($p['expiry_year'])) $pay_info .= "[".$p['expiry_year']."]";
-												?>
-											<tr>
-												<td><?php if (empty($p['ispaid'])) { ?><input type='checkbox' name='payment[]' value='<?php echo $p['payment_id']; ?>'><?php } ?></td>
-												<td><?php echo $p['pay_type']; ?></td>
-												<td><?php echo $p['pay_mothed']; ?></td>
-												<td><?php echo $p['amount']; ?></td>
-												<td><?php echo $p['rate'] . "%"; ?></td>
-												<td><?php echo $pay_str; ?></td>
-												<td><?php echo $p['added']; ?></td>
-												<td><?php echo $pay_info; ?></td>
-												<td><?php echo (strlen($p['note']) > 60) ? (substr($p['note'], 0, 57) . "...") : $p['note']; ?></td>
-											</tr>
-											<?php 		} ?>
-										</tbody>
-										</table>
-			                  		</div>
-			                  		<div class="row"><div class="col-sm-12">
-			                  			<input type="submit" class="btn btn-primary" name='submit' value='Make Pay'>
-			                  		</div></div>
-			                  		</form>
-			                  		<hr />
-			                  	</div>
-			                  	
-		                  	</div>
-							<?php 	} ?>
-		                  </div>
-		                  <div class="row">
-							<?php 	if (!empty($activelogs) && is_array($activelogs) && (sizeof($activelogs > 0))) { ?>
-		                  	<div class="col-sm-12">
-			                  	<button type="button" class="btn btn-info" data-toggle="collapse" data-target="#history2">Changes <span class="fa fa-chevron-down"></span></button>
-			                  	<div id="history2" class="collapse">
-			                  		<div class="table-responsive">
-			                  			<table class="table table-hover table-bordered">
-				                      	<thead>
-											<tr>
-												<th>Username</th>
-												<th>Date Time</th>
-												<th>Message</th>
-											</tr>
-										</thead>
-										<tbody>
-										<?php foreach ($activelogs as $p) { ?>
-											<tr>
-												<td><?php echo $p['username']; ?></td>
-												<td><?php echo $p['tm']; ?></td>
-												<td><?php echo (strlen($p['message']) > 120) ? (substr($p['message'], 0, 117) . "...") : $p['message']; ?></td>
-											</tr>
-										<?php 		} ?>
-										</tbody>
-										</table>
-			                  		</div>
-			                  	</div>
-		                  	</div>
-							<?php 	} ?>
-		                  </div>
-
-	                  </div><!--/x_content end-->
-	              </div><!--x_panel-->
-            	</div>
-            </div>
-			<?php } ?>
 		  </div>
         </div>
         <!-- /page content -->
@@ -704,100 +416,21 @@ $( document ).ready(function() {
         	$('#country2_div').html(data);
     	},
 	});
-	if ( $( "#sum_insured_div" ).length ) {
-		$.ajax({
-			url: '<?php echo $sum_insured_url; ?>',
-			success: function(data, textStatus, jqXHR) {
-	        	$('#sum_insured_div').html(data);
-				get_premium();
-	    	},
-		});
-	}
-	if ( $( "#deductible_amount_div" ).length ) {
-		$.ajax({
-			url: '<?php echo $deductible_amount_url; ?>',
-			success: function(data, textStatus, jqXHR) {
-	        	$('#deductible_amount_div').html(data);
-				get_premium();
-	    	},
-		});
-	}
-	if ( $( "#isfamilyplan" ).length ) {
-		if ($('#isfamilyplan').get(0).checked) {
-			$('#family_member').show();
-			if ($('#spousediv').length) {
-				$('#spousediv').show();
-			}
-		}
-		$('#isfamilyplan').change(function() {
-	        if ($(this).get(0).checked) {
-	    		$('#family_member').show();
-				if ($('#spousediv').length) {
-					$('#spousediv').show();
-				}
-	        } else {
-	        	$('#family_member').hide();
-				if ($('#spousediv').length) {
-					$('#spousediv').hide();
-				}
-	        	$("input[name^='firstname_']").each(function() {
-	            	$(this).val('');
-	        	});
-	        	$("input[name^='lastname_']").each(function() {
-	            	$(this).val('');
-	        	});
-	        }
-	    });
-	}
 
-	$('.setpremium').change(get_premium); 
-	if ($('input[name="holiday_rate"]').length) {
-		$('input[name="holiday_rate"]').change(get_premium);
-	}
 	get_premium();
 	addmoremember();
 });
 
-function remove_member(i) {
-	if(confirm("Are you sure to delete this info?") == true){
-		var s, d;
-		for (j = i + 1 ; j < 8; j++) {
-			s = '#customer_id_' + j;
-			d = '#customer_id_' + i;
-			$(d).val($(s).val());
-			s = '#firstname_' + j;
-			d = '#firstname_' + i;
-			$(d).val($(s).val());
-			s = '#lastname_' + j;
-			d = '#lastname_' + i;
-			$(d).val($(s).val());
-			s = '#birthday_' + j;
-			d = '#birthday_' + i;
-			$(d).val($(s).val());
-			s = '#gender_' + j;
-			d = '#gender_' + i;
-			$(d).val($(s).val());
-			i++;
-		}
-		$('#customer_id_8').val(0);
-		$('#firstname_8').val('');
-		$('#lastname_8').val('');
-		$('#birthday_8').val('');
-		$('#gender_8').val('M');
-		get_premium();
-		addmoremember();
-	}
-}
-
 function addmoremember() {
 	for (i = 1; i < 9; i++) {
-		$('#customer_member_' + i).show();
 		$('#firstname_' + i).removeClass('alert-error-input');
 		$('#lastname_' + i).removeClass('alert-error-input');
 		$('#birthday_' + i).removeClass('alert-error-input');
 		if ( !$('#firstname_' + i).val() && !$('#lastname_' + i).val() && !$('#birthday_' + i).val()) {
 			break;
 		}
+		$('#customer_member_' + i).show();
+		$('#family_member').show();
 		if ( !$('#firstname_' + i).val() ) {
 			$('#firstname_' + i).addClass('alert-error-input');
 		}
@@ -832,29 +465,27 @@ function get_premium() {
 	var spouse = '';
 
 	if ( $( "#isfamilyplan" ).length ) {
-		if ($('input[name="isfamilyplan"]').is(':checked')) {
-			isfamilyplan = 1;	// checkbox
-		}
+		isfamilyplan = $('input[name="isfamilyplan"]').val();
 	}
 	var sum_insured = 0;
-	if ($('select[name="sum_insured"]').length) {
-		sum_insured = $('select[name="sum_insured"]').val();	// select
+	if ( $( "#sum_insured" ).length ) {
+		sum_insured = $('input[name="sum_insured"]').val();
 	}
 	var deductible_amount = 0;
-	if ($('select[name="deductible_amount"]').length) {
-		deductible_amount = $('select[name="deductible_amount"]').val();	// select
+	if ($('#deductible_amount').length) {
+		deductible_amount = $('input[name="deductible_amount"]').val();
 	}
 	var stable_condition = 0;
-	if ($('select[name="stable_condition"]').length) {
-		stable_condition = $('select[name="stable_condition"]').val();	// radio
+	if ($('#stable_condition').length) {
+		stable_condition = $('input[name="stable_condition"]').val();
 	}
 	var rate_options = 0;
-	if ($('select[name="rate_options"]').length) {
-		rate_options = $('select[name="rate_options"]').val();	// radio
+	if ($('#rate_options').length) {
+		rate_options = $('input[name="rate_options"]').val();
 	}
 	var holiday_rate = 0;
 	if ($('input[name="holiday_rate"]').length) {
-		holiday_rate = $('input[name="holiday_rate"]:checked').val();	// checkbox
+		holiday_rate = $('input[name="holiday_rate"]').val();	// checkbox
 	}
 	var birthday = $('input[name="birthday"]').val();	// 
 	var number_customer = 0;
