@@ -109,7 +109,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </div><!-- End Filter Section -->
           </div>
         </div>
-      </div>
       <!-- /page content -->
 <script type="text/javascript">
 <!--

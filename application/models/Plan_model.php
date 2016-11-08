@@ -512,6 +512,22 @@ class Plan_model extends CI_Model {
 	}
 	
 	/**
+	 * Get plan's commission
+	 * 
+	 * @param integer $plan_id
+	 * @return float 
+	 */
+	public function delete($plan_id) {
+		$plan = $this->get_plan_by_id($plan_id);
+		if ($plan) {
+			$this->load->model('customer_model');
+			$this->customer_model->delete($plan['customer_id']);
+			$this->customer_model->delete_by_parent_id($plan['customer_id']);
+			$this->db->delete('plan', array('plan_id' => $plan_id));
+		}
+	}
+	
+	/**
 	 * Search Plans (policies) by conditions
 	 * 
 	 * @param	array	$para		Search parameters

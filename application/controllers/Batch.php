@@ -41,6 +41,7 @@ class Batch extends MY_Controller {
 				$needShowBatch = 0;
 				$plancnt = 0;
 				$data = array ('errormsg' => '');
+				$planArr = array();
 				foreach ( $reader->getSheetIterator () as $sheet ) {
 					$i = 0;
 					foreach ( $sheet->getRowIterator () as $row ) {
@@ -50,7 +51,8 @@ class Batch extends MY_Controller {
 							continue;
 						} else if (sizeof ( $keyArr ) != sizeof ( $row )) {
 							$data ['errormsg'] .= "File data error at line " . $i . ": " . join ( "|", $row ) . "<br>\n";
-							continue;
+							$this->rollback($planArr);
+							break;
 						}
 						for($j = 0; $j < sizeof ( $keyArr ); $j ++) {
 							$data [$keyArr [$j]] = $row [$j];
@@ -67,28 +69,32 @@ class Batch extends MY_Controller {
 								$data ['product_short'] = $this->input->post ( 'product_short' );
 							} else {
 								$data ['errormsg'] .= "No product at line " . $i . ": " . @join ( "|", $row ) . "<br>\n";
-								continue;
+								$this->rollback($planArr);
+								break;
 							}
 						} else {
 							if ($this->input->post ( 'product_short' )) {
 								$product_short = $this->input->post ( 'product_short' );
 								if ($product_short != $data ['product_short']) {
 									$data ['errormsg'] .= "product_short wrong at line " . $i . " (should be " . $product_short . "): " . @join ( "|", $row ) . "<br>\n";
-									continue;
+									$this->rollback($planArr);
+									break;
 								}
 							}
 						}
 						
 						if ($beuser['region_id'] && isset($data['region_id']) && ($beuser['region_id'] != $data['region_id'])) {
 							$data ['errormsg'] .= "You need permission to upload at line " . $i . " (" . $beuser['region_id'] . "): " . @join ( "|", $row ) . "<br>\n";
-							continue;
+							$this->rollback($planArr);
+							break;
 						}
 						
 						$product_short = $data ['product_short'];
 						$p = $this->product_model->get_product($product_short);
 						if (empty($p)) {
 							$data ['errormsg'] .= "Unknown product_short at line " . $i . " (should be " . $product_short . "): " . @join ( "|", $row ) . "<br>\n";
-							continue;
+							$this->rollback($planArr);
+							break;
 						}
 						if (! in_array ( 'batch_number', $keyArr )) {
 							$data ['batch_number'] = $batch_number;
@@ -110,15 +116,19 @@ class Batch extends MY_Controller {
 							$this->log_model->activity ( 'plan', $para );
 						} else {
 							$data ['errormsg'] .= "Error happened (" . $this->batch_model->error . ") record at line " . $i . ": " . @join ( "|", $row ) . "<br>\n";
+							$this->rollback($planArr);
+							break;
 						}
 					}
 				}
 				
 				$reader->close ();
-				$data ['successmsg'] = "Processed upload file: " . $name;
-				$data ['successmsg'] .= "; Created plan (" . $plancnt . ")";
-				if ($needShowBatch) {
-					$data ['successmsg'] .= "<br>Batch Number is: " . $batch_number;
+				if (empty($data['errormsg'])) {
+					$data ['successmsg'] = "Processed upload file: " . $name;
+					$data ['successmsg'] .= "; Created plan (" . $plancnt . ")";
+					if ($needShowBatch) {
+						$data ['successmsg'] .= "<br>Batch Number is: " . $batch_number;
+					}
 				}
 			}
 		}
@@ -134,5 +144,11 @@ class Batch extends MY_Controller {
 		$data ['top_menu'] = $this->menu_model->load_top_menu ();
 		$data ['menu'] = $this->menu_model->load_meun ();
 		$this->load->common ( 'batch/import', $data );
+	}
+	
+	public function rollback($planArr) {
+		foreach ($planArr as $plan_id) {
+			$this->plan_model->delete($plan_id);
+		}
 	}
 }
