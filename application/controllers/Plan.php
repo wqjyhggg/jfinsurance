@@ -588,7 +588,11 @@ class Plan extends MY_Controller {
 		} else if (isset($plan['deductible_amount'])) {
 			$data['deductible_amount'] = $plan['deductible_amount'];
 		} else {
-			$data['deductible_amount'] = '';
+			if (($data['product_short'] == 'NUS') || ($data['product_short'] == 'JUS')) {
+				$data['deductible_amount'] = 100;
+			} else {
+				$data['deductible_amount'] = '';
+			}
 		}
 		if ($this->input->post('totaldays')) {
 			$data['totaldays'] = $this->input->post('totaldays'); 

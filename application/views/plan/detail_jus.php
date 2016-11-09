@@ -8,8 +8,12 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 									<span><?php echo $plan['beneficiary']; ?></span>
 								</div>
 								<div class="col-sm-3">
-									<label class="inline">Sum Insured (CAD):</label>
+									<label class="inline">Sum Insured (USD):</label>
 									<span>Unlimited</span>
+								</div>
+								<div class="col-sm-3">
+									<label class="inline">Deductible amount (USD):</label>
+									<span>$<?php echo number_format($plan['deductible_amount'], 2, '.', ','); ?></span>
 								</div>
 								<?php if ($plan['isfamilyplan']) { ?>
 								<div class="col-sm-3">

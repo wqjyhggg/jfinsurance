@@ -119,6 +119,9 @@ class Plan_model extends CI_Model {
 		if (empty($beuser)) {
 			return 0;
 		}
+		if ((($para['product_short'] == 'NUS') || ($para['product_short'] == 'JUS')) && isset($para['rate_options']) && ($para['rate_options'] == 2)) {
+			$para['deductible_amount'] = 50;
+		}
 		$isfamilyplan = empty($para['isfamilyplan']) ? 0 : 1;
 		$cpara = array(
 				'plan_id' => 0,

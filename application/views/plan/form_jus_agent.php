@@ -27,6 +27,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										</div>
 										 <input type='hidden' class='setpremium' name='spouse' id='spouse' value='<?php echo $spouse; ?>'>
 									</div>
+									<div class="form-group col-sm-3">
+										<label class="col-sm-12">Deductible amount (USD):</label>
+										<div class="form_text_show">
+											 <?php echo $deductible_amount; ?>
+										</div>
+										<input type='hidden' class='deductible_amount' name='deductible_amount' id='deductible_amount' value='<?php echo $deductible_amount; ?>'>
+									</div>
 								</div>
 								<div class="row">
 									<div class="col-sm-12">

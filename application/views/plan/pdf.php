@@ -20,6 +20,12 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 				<img class="img-responsive" style="width:80px;" src="<?php echo base_url();?>image/jf_logo.jpg" />
 			</div>
 			<div style="float:left;width:400px;">
+<?php if (($plan['product_short'] == 'NUS') || ($plan['product_short'] == 'JUS')) { ?>			
+				<p class="topp" style="font-weight:bold;"><span style="text-transform: capitalize;font-weight:bold;">HK Leung</span></p>
+				<p class="topp">JF Insurance Agency Group Inc.</p>
+				<p class="topp">939 Arcadia Ave, #R, Arcadia, CA91007</p>
+				<p class="topp">Tel: 1-877-832-5541</p>
+<?php } else { ?>			
 <?php if ($user['user_id'] > 100) { ?>			
 				<p class="topp" style="font-weight:bold;"> JF Agent - <span style="text-transform: capitalize;font-weight:bold;"><?php echo ($user) ? $user['firstname'] . " " . $user['lastname'] : ''; ?></span></p>
 				<p class="topp"><?php echo ($user)? $user['address'] . ', ' . $user['city'] . ' ' . $user['province2'] . ' ' . $user['postcode']: ''; ?></p>
@@ -28,6 +34,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 				<p class="topp" style="font-weight:bold;"> JF Agent - <span style="text-transform: capitalize;font-weight:bold;">Johnson Fu</span></p>
 				<p class="topp"><?php echo ($user)? $user['address'] . ', ' . $user['city'] . ' ' . $user['province2'] . ' ' . $user['postcode']: ''; ?></p>
 				<p class="topp"><?php echo ($user)? $user['business_phone'] : '' ; ?></p>
+<?php } ?>			
 <?php } ?>			
 			</div>
 <?php } ?>
@@ -70,10 +77,10 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 				<div class="row">
 					<div class="col-sm-6 nopadding">
 						<h4 style="margin-bottom:15px;"><u>Coverage Details</u></h4>
-						<h4>Insurance Plan: <span><?php echo $customer['firstname'] . " " . $customer['lastname'];?></span></h4>
+						<h4>Insurance Plan:<br />&nbsp;&nbsp;&nbsp;<span><?php echo $plan_full_name;?></span></h4>
 						<h4>Plan Type: <span><?php if($plan['isfamilyplan']==1){ echo "Family";}else{echo "Individual";} ?></sapn> </h4>
-						<h4>Sum Insured: <span><?php echo $plan['sum_insured']; ?></sapn> </h4>
-						<h4>Deductible: <span><?php echo $plan['deductible_amount'];?></sapn> </h4>
+						<?php if ($plan['sum_insured']) { ?><h4>Sum Insured: <span><?php echo number_format($plan['sum_insured'], 2); ?></sapn> </h4><?php } ?>
+						<?php if ($plan['deductible_amount']) { ?><h4>Deductible: <span>$<?php echo number_format($plan['deductible_amount'], 2);?></sapn> </h4><?php } ?>
 						<h4>Beneficiary: <span><?php echo $plan['beneficiary'];?></sapn> </h4>
 					</div>
 					<div class="col-sm-6 nopadding">

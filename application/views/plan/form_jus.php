@@ -39,6 +39,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 												<option value='1' <?php echo ($rate_options == 1) ? 'selected' : ''; ?>>Rate Options Plus</option>
 												<option value='2' <?php echo ($rate_options == 2) ? 'selected' : ''; ?>>Rate Options Preferred</option>
 											</select>
+											<input type='hidden' name='deductible_amount' value='<?php echo $deductible_amount; ?>'>
 										</div>
 										<?php if (!empty($error_rate_options)) {?>
 										<div class="alert-error">
