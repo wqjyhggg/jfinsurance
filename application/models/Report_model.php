@@ -644,6 +644,7 @@ class Report_model extends CI_Model
     public function get_commission_report($para)
     {
         $query = $this->get_commission_query($para);
+        //echo "<pre>"; echo "[".$this->db->last_query() . "]\n"; print_r($query); die("XXX");
         $results = $this->get_commission_result($query);
         $results['period']['from'] = $para['application_date_from'];
         $results['period']['to'] = $para['application_date_to'];
@@ -669,7 +670,6 @@ class Report_model extends CI_Model
             pl.effective_date,
             pl.expiry_date,
             datediff(pl.expiry_date, pl.effective_date) AS total_days,
-            pl.premium AS policy_premium,
             pr.commission AS pr_commission,
             up.commission AS up_commission,
             u.user_id,
@@ -681,7 +681,8 @@ class Report_model extends CI_Model
             u.pay_type,
             pl.status_id,
             pa2.added AS premium_pay_date,
-            pa.amount AS pa_commission,
+        	pa2.amount AS policy_premium,
+        	pa.amount AS pa_commission,
             pa.ispaid
         ');
     }
@@ -698,7 +699,6 @@ class Report_model extends CI_Model
     {
         $this->common_report_where($para);
         $this->db->where_in('pl.status_id', array(self::SOLD, self::PAID, self::CLAIMED));
-        $this->db->where('pa.amount >', 0);
         if (!empty($para['payment_update_date_from'])) {
             $this->db->where('pa.last_update >=', $para['payment_update_date_from']);
         }
@@ -745,7 +745,6 @@ class Report_model extends CI_Model
     {
         $query = $this->get_agent_commission_query($para);
         $results = $this->get_agent_commission_result($query);
-        // echo "<pre>"; echo "[".$this->db->last_query() . "]\n"; print_r($results); die("XXX");
         return $results;
     }
 
@@ -779,7 +778,7 @@ class Report_model extends CI_Model
     {
         $beuser = $this->session->beuser;
         $available_user_ids = array_keys($para['user_list']);
-        $this->db->where('pa.amount >', 0);
+        
         if (!empty($para['payment_update_date_from'])) {
             $this->db->where('pa.last_update >=', $para['payment_date_from']);
         }
@@ -800,7 +799,7 @@ class Report_model extends CI_Model
         if (!empty($para['region_id'])) {
             $this->db->where('u.region_id', $para['region_id']);
         }
-        if (!empty($para['paied'])) {
+        if (empty($para['paied'])) {
             $this->db->where('pa.ispaid', 0);
         } else {
         	$this->db->where('pa.ispaid', 1);
