@@ -70,9 +70,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                           <label class="inline">Gender:</label> <?php echo $claim['gender']; ?>
                         </div>
                         <!-- Claim Number input box end -->
-                        
+                        <!-- Claim Amount box -->
+                        <div class="form-group col-sm-3">
+                          <label class="inline">Total Claimed Amount:</label> $<?php echo number_format($claimed_amount); ?>
+                        </div>
+                        <!-- Claim Amount box end -->
+                      </div>
+                      <div class="row">
                         <!-- submit button -->
-                          <div class="col-sm-3 col-sm-offset-3">
+                          <div class="col-sm-8 col-sm-offset-3">
                             <button class="btn btn-primary pull-right">Add New Claim Item</button>
                           </div> 
                         <!-- submit button -->

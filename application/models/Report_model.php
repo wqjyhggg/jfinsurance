@@ -386,23 +386,15 @@ class Report_model extends CI_Model
             }
             
             if ($row['pay_type'] === 'premium') {
-                $premium_last_update = strtotime($row['last_update']);
-                $policy = $row['policy'];
-                $premium = $row['pa_amount'];
-                $results['data'][$row['user_id']]['agency']['outstanding'] += $premium;
-                $row['up_commission'] = empty($row['up_commission']) ? $row['pr_commission'] : $row['up_commission'];
-                $results['data'][$row['user_id']]['records'][] = $row;
-            } else {
-                if ($row['pay_type'] === 'commission') {
-                    if ($policy != $row['policy'] || abs($premium_last_update - strtotime($row['last_update'])) > 5) {
-                        continue;
-                    }
-                    $commission = $row['pa_amount'];
-                    $net_premium = $premium - $commission;
-
-                    $results['data'][$row['user_id']]['agency']['commission'] += $commission;
-                    $results['data'][$row['user_id']]['agency']['payable_to_jf'] += $net_premium;
+                $results['data'][$row['user_id']]['agency']['outstanding'] += $row['pa_amount'];
+                $results['data'][$row['user_id']]['agency']['commission'] += $row['commission_amount'];
+                $results['data'][$row['user_id']]['agency']['payable_to_jf'] += $row['net_premium'];
+                if ($row['pa_amount'] > 0) {
+                	$row['cal_comm_rate'] = sprintf('%2.1f', $row['commission_amount'] * 100.0 / $row['pa_amount']);
+                } else {
+                	$row['cal_comm_rate'] = 0;
                 }
+                $results['data'][$row['user_id']]['records'][] = $row;
             }
         }
         return $results;

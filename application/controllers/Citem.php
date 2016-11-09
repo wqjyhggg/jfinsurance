@@ -23,6 +23,8 @@ class Citem extends MY_Controller {
 			$data['error_message'] = $this->data['error_message'];
 		}
 		
+		$data['claimed_amount'] = $this->claim_model->getClaimTotal($claim_id);
+		
 		$data['claim'] = $this->claim_model->get_claim_by_id($claim_id);
 		$data['lists'] = $this->claim_model->get_item_list($claim_id);
 		$data['add_url'] = base_url('citem/add/'.$claim_id);
@@ -261,6 +263,13 @@ class Citem extends MY_Controller {
 			$this->data['eob_date'] = $citem['eob_date'];
 		} else {
 			$this->data['eob_date'] = '';
+		}
+		if ($this->input->post('invoice_number')) {
+			$this->data['invoice_number'] = $this->input->post('invoice_number'); 
+		} else if (isset($citem['invoice_number'])) {
+			$this->data['invoice_number'] = $citem['invoice_number'];
+		} else {
+			$this->data['invoice_number'] = '';
 		}
 		if ($this->input->post('received')) {
 			$this->data['received'] = $this->input->post('received'); 

@@ -181,6 +181,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         
                       </div>
                       <div class="row">
+                        <div class="form-group col-sm-3">
+                          <label >Invoice Number: </label>
+                          <div class="input-group col-sm-12">
+                            <input class="form-control" type='text' name='invoice_number' value='<?php echo $invoice_number; ?>'>
+                          </div>
+                        </div>
+                        
+                      </div>
+                      <div class="row">
                         <div class="form-group col-sm-12">
                           <label>Diagnosis: </label>
                           <div class="input-group col-sm-12">

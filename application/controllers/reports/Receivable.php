@@ -84,8 +84,11 @@ class Receivable extends MY_Controller
                 'effective_date' => 'Effective Date',
                 'expiry_date' => 'Expiry Date',
                 'total_days' => 'Trip Length',
-                'policy_premium' => 'Total Premium',
-                'pa_amount' => 'Outstanding Amount');
+                'policy_premium' => 'Premium',
+                'net_premium' => 'Net',
+        		'commission_amount' => 'Commission',
+        		'cal_comm_rate' => 'Ratio',
+        );
 
         $tmpfname = "/tmp/jf_test.xlsx";
         

@@ -81,7 +81,7 @@ class Claim_model extends CI_Model {
 		$this->db->insert('claim', $para);
 		$this->sqlstr = $this->db->last_query();
 		$claim_id = $this->db->insert_id();
-		$uarr = array('claim_number' => $para['policy_number'] . "CLM" . $claim_id);
+		$uarr = array('claim_number' => 600000 + $claim_id);
 		$this->update($claim_id, $uarr);
 		$this->logstr = "Add claim record (" . $claim_id . ") : " . join(',', $para);
 		return $claim_id;
@@ -332,6 +332,10 @@ class Claim_model extends CI_Model {
 			if (isset($para['eob_cheque_no']) && ($para['eob_cheque_no'] != $citem['eob_cheque_no'])) {
 				$data['eob_cheque_no'] = $para['eob_cheque_no'];
 				$this->logstr .= " eob_cheque_no " . $para['eob_cheque_no'] . "(" . $citem['eob_cheque_no'] . ")";
+			}
+			if (isset($para['invoice_number']) && ($para['invoice_number'] != $citem['invoice_number'])) {
+				$data['invoice_number'] = $para['invoice_number'];
+				$this->logstr .= " invoice_number " . $para['invoice_number'] . "(" . $citem['invoice_number'] . ")";
 			}
 			if (isset($para['address']) && ($para['address'] != $citem['address'])) {
 				$data['address'] = $para['address'];

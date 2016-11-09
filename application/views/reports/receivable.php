@@ -232,7 +232,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                       <table class="table table-hover table-bordered">
     <?php foreach ($report_data['data'] as $user_id => $data) :?>
                         <thead>
-                        <tr><td colspan=8>
+                        <tr><td colspan=10>
                           Bill to:
                           <?=$data['agency']['agent_name'] ?><br>
                           <?=$data['agency']['address'] ?><br>
@@ -250,9 +250,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <th>Effective Date</th>
                             <th>Expiry Date</th>
                             <th>Trip Length</th>
-                            <th>Total Premium</th>
-                            <th>Commission Ratio(Current)</th>
-                            <th>Outstanding Amount</th>
+                            <th>Premium</th>
+                            <th>Net</th>
+                            <th>Commission</th>
+                            <th>Ratio</th>
                           </tr>
 		<?php if (!empty($data['records'])) : ?>
         <?php foreach ($data['records'] as $record) : ?>
@@ -263,9 +264,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                               <td><?=$record['effective_date'] ?></td>
                               <td><?=$record['expiry_date'] ?></td>
                               <td><?=$record['total_days'] ?></td>
-                              <td>$<?=$record['policy_premium'] ?></td>
-                              <td><?=$record['up_commission'] ?>%</td>
-                              <td>$<?=$record['pa_amount'] ?></td>
+                              <td>$<?=number_format($record['pa_amount'],2) ?></td>
+                              <td>$<?=number_format($record['net_premium'],2) ?></td>
+                              <td>$<?=number_format($record['commission_amount'],2) ?></td>
+                              <td><?php printf("%2.1f", $record['cal_comm_rate']); ?>%</td>
                             </tr>
         <?php endforeach; ?>
 		<?php endif; ?>
