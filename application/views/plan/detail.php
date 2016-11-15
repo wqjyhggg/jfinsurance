@@ -44,6 +44,9 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 						
 					<?php } ?>
 					<?php if (($plan['status_id'] == 2) || ($plan['status_id'] == 3)) { ?>
+						<?php if (!empty($sendpackage_url)) { ?>
+						<a class="btn btn-info pull-right" target="_blank" href='<?php echo $sendpackage_url; ?>'>Send Package</a>
+						<?php } ?>
 						<?php if (!empty($print_card_url)) { ?>
 						<a class="btn btn-info pull-right" target="_blank" href='<?php echo $print_card_url; ?>'>Print Card</a>
 						<?php } ?>

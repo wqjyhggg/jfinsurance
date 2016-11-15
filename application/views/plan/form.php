@@ -1004,7 +1004,10 @@ $(document).ready(function(){
     $('#checkboxdays').change(function(){
         if (this.checked) {
         	var effective = $('#effective_date_div').datepicker('getDate');
-        	var myDate = new Date(new Date(new Date().setFullYear(new Date(effective).getFullYear() + 1)).getTime() - 86400000);
+        	var myDate1 = new Date(effective);
+        	myDate1.setFullYear(myDate1.getFullYear() + 1);
+        	var myDate3 = myDate1.getTime() - 86400000;
+        	var myDate = new Date(myDate3);
         	$('#expiry_date_div').datepicker('setDate', myDate);
         	get_premium();
         }

@@ -1483,6 +1483,7 @@ class Plan extends MY_Controller {
 		$data['cancel_letter_url'] = '';
 		$data['refund_letter_url'] = '';
 		$data['plan_url'] = '';
+		$data['sendpackage_url'] = '';
 		if ($plan['status_id'] >= 2) {
 			if ($plan['status_id'] == 5) {
 				// Cancel
@@ -1496,6 +1497,7 @@ class Plan extends MY_Controller {
 				if ($beuser['user_group_id'] < 100) {
 					$data['plan_url'] = base_url('plan/edit/' . $plan['plan_id']);
 				}
+				$data['sendpackage_url'] = base_url ( "plan/sendpackage/" . $plan['plan_id']);
 			}
 		} else {
 			if ($this->session->userdata ( 'user' )) {
