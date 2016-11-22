@@ -49,13 +49,9 @@ class Batch extends MY_Controller {
 						if (empty ( $keyArr )) {
 							$keyArr = $row;
 							continue;
-						} else if (sizeof ( $keyArr ) != sizeof ( $row )) {
-							$data ['errormsg'] .= "File data error at line " . $i . ": " . join ( "|", $row ) . "<br>\n";
-							$this->rollback($planArr);
-							break;
 						}
 						for($j = 0; $j < sizeof ( $keyArr ); $j ++) {
-							$data [$keyArr [$j]] = $row [$j];
+							$data [$keyArr [$j]] = isset($row [$j]) ? $row [$j] : '';
 						}
 						if (empty ( $data ['user_id'] )) {
 							if ($this->input->post ( 'user_id' )) {

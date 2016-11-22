@@ -200,6 +200,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                       <div class="row">
                         <div class="form-group col-sm-12">
                           <label>Internal Note: </label>
+                          <?php if (!empty($internal_note_pre)) { ?>
+                          <div class="input-group col-sm-12">  
+                            <?php echo str_replace("\n", "<br />", $internal_note_pre); ?>
+                          </div>
+                          <?php } ?>
                           <div class="input-group col-sm-12">  
                             <textarea class="form-control" rows="3" name='internal_note'><?php echo $internal_note; ?></textarea>
                           </div>

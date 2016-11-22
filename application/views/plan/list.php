@@ -343,7 +343,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<td><a style="color:#46b8da;" href='<?php echo $edit_url.$plan['plan_id']; ?>'><?php echo $plan['policy']?></a></td>
 							<td><?php echo $plan['batch_number'] ? $plan['batch_number'] : ''; ?></td>
 							<td><?php echo $plan['product_short']; ?></td>
-							<td><?php echo $status_list[$plan['status_id']]['name']; ?></td>
+							<td <?php if ($plan['status_id'] == '4') {?>style='color:red'<?php } ?>><?php echo $status_list[$plan['status_id']]['name']; ?></td>
 							<td><?php echo $plan['effective_date']; ?></td>
 							<td><?php echo $plan['firstname'] . " " . $plan['lastname']; ?></td>
 					<?php if ($beuser['user_group_id'] < 105) { ?>

@@ -94,6 +94,10 @@ class Claim_model extends CI_Model {
 	 * @return	array					user table search result
 	 */
 	public function additem($para) {
+		$user = $this->session->userdata('user');
+		if (!empty($para['internal_note'])) {
+			$para['internal_note'] = "--" . $user['username'] . "--" . date('Ymd His') . "--\n" . $para['internal_note'];
+		}
 		$this->db->insert('citem', $para);
 		$this->sqlstr = $this->db->last_query();
 		$citem_id = $this->db->insert_id();
@@ -361,9 +365,14 @@ class Claim_model extends CI_Model {
 				$data['diagnosis'] = $para['diagnosis'];
 				$this->logstr .= " diagnosis " . $para['diagnosis'] . "(" . $citem['diagnosis'] . ")";
 			}
-			if (isset($para['internal_note']) && ($para['internal_note'] != $citem['internal_note'])) {
-				$data['internal_note'] = $para['internal_note'];
-				$this->logstr .= " internal_note " . $para['internal_note'] . "(" . $citem['internal_note'] . ")";
+			if (!empty($para['internal_note'])) {
+				$user = $this->session->userdata('user');
+				if (!empty($citem['internal_note'])) {
+					$data['internal_note'] = $citem['internal_note'] . "\n--" . $user['username'] . "--" . date('Ymd His') . "--\n" . $para['internal_note'];
+				} else {
+					$data['internal_note'] = "--" . $user['username'] . "--" . date('Ymd His') . "--\n" . $para['internal_note'];
+				}
+				$this->logstr .= " internal_note " . $para['internal_note'];
 			}
 			if (isset($para['external_note']) && ($para['external_note'] != $citem['external_note'])) {
 				$data['external_note'] = $para['external_note'];

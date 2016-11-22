@@ -101,6 +101,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                       <table class="table table-hover table-bordered">
                         <thead>
                           <tr>
+                            <th>Action</th>
                             <th>First Name</th>
                             <th>Last Name</th>
                             <th>Gender</th>
@@ -111,12 +112,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <th>Pay To</th>
                             <th>Cheque Number</th>
                             <th>Recieved</th>
-                            <th>Action</th>
                           </tr>
                         </thead>
                         <tbody>
                         <?php foreach ($lists as $c) { ?>
                             <tr>
+                              <td rowspan='2' style='vertical-align: middle;'><a style="color:#46b8da;" href="<?php echo $edit_url."/".$c['citem_id']?>">Edit</a> | <a target="_blank" style="color:#46b8da;" href="<?php echo $letter_url."/".$c['citem_id']?>">Letter</a></td>
                               <td><?php echo $c['firstname']; ?></td>
                               <td><?php echo $c['lastname']; ?></td>
                               <td><?php echo $c['gender']; ?></td>
@@ -127,7 +128,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                               <td><?php echo $c['pay_to']; ?></td>
                               <td><?php echo $c['cheque_number']; ?></td>
                               <td><?php echo $c['received']; ?></td>
-                              <td><a style="color:#46b8da;" href="<?php echo $edit_url."/".$c['citem_id']?>">Edit</a> | <a target="_blank" style="color:#46b8da;" href="<?php echo $letter_url."/".$c['citem_id']?>">Letter</a></td>
+                            </tr>
+                            <tr>
+                              <td colspan='10'><?php echo str_replace("\n", "<br />", $c['internal_note']); ?></td>
                             </tr>
                         <?php } ?>    
                         </tbody>
