@@ -17,7 +17,8 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 
 		<div class="row">
 			<div class="col-sm-12 nopadding text-center">
-				<h2 style="margin:0 auto;"><?php echo $plan_full_name;?></h2>
+			<img class="img-responsive" style="max-width:390px;" src="<?php echo base_url();?>image/logo.png" />
+				<h3 style="margin:20px auto 0;"><?php echo $plan_full_name;?></h3>
 			</div>
 		</div>
 		<div class="row">
@@ -44,11 +45,13 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 				<h4>Application Date: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span><?php echo $plan['apply_date'];?></sapn> </h4>
 				<h4>Effective Date: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span><?php echo $plan['effective_date']; ?></sapn> </h4>
 				<h4>Expiry Date: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span><?php echo $plan['expiry_date']; ?></sapn> </h4>
+				<?php if($cardp != "jes" && $cardp !="jfc"){ ?>
 				<h4>Number of Days: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span><?php echo $plan['totaldays'];?></sapn> </h4>
+				<?php } ?>
 				
 			</div>
 		</div>
-		<div class="row">
+		<!--div class="row">
 			<div style="width:20%;float:left;">
 				<h4>Insured Name</h4>
 				<span><?php echo $customer['firstname'] . " " . $customer['lastname']; ?></span>
@@ -69,16 +72,62 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 				<h4>Trip Length</h4>
 				<span><?php echo $plan['totaldays']; ?></span>
 			</div>
+		</div-->
+		<div class="row">
+			<div class="col-sm-12 nopadding text-center">
+				<h4 style="margin-top:180px;"><span>Detach this card and carry it with you at all times</span></h4>
+				<hr style="border-style: dotted;">
+				
+			</div>
 		</div>
 		<div class="row">
-			<div class="jfcard" style="position:absolute;bottom:5px;left:5px;width:280px;margin-top:200px;">
+			<div class="jfcard" style="float: left;vertical-align:top;position:absolute;bottom:5px;left:5px;width:320px;margin-top: 30px;">
+				<?php if($cardp == "jes"){ ?>
+					<h4 class="text-center" style="background: #eee;"><span>JF Elite PLus Student Insurance</span></h4>
+				<?php }elseif ($cardp == "jfc") { ?>
+					<h4 class="text-center" style="background: #eee;"><span>JF Care Student Insurance</span></h4>
+				<?php }else{ ?>
+					<h4 class="text-center" style="background: #eee;"><span><?php echo $plan_full_name;?></span></h4>
+				<?php } ?>
 
-				<h4 class="pull-right text-right"><?php echo $plan_full_name;?></h4>
-				<h4> Insured Name:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span><?php echo $customer['firstname'] . " " . $customer['lastname']; ?></span></h4>
-				<h4><?php if ($plan['status_id'] < 2) { ?>Quote<?php } else {?>Policy<?php } ?> Number: &nbsp;&nbsp;&nbsp;&nbsp;<span><?php echo $plan['policy']; ?></span></h4>
-				<h4> Deductible: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span><?php echo $plan['deductible_amount']; ?></span></h4>
-				<h4>Effective Date: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span><?php echo $plan['effective_date']; ?></sapn> </h4>
-				<h4>Expiry Date: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span><?php echo $plan['expiry_date']; ?></sapn> </h4>
+				<div style="width: 260px; margin: 0 auto;">
+					<h4><span class="small"><?php if ($plan['status_id'] < 2) { ?>Quote<?php } else {?>Certificate<?php } ?> No.: &nbsp;&nbsp;</span><span class="small"><?php echo $plan['policy']; ?></span></h4>
+					<h4><span class="small"> Insured Name:&nbsp;&nbsp;&nbsp;</span><span class="small"><?php echo $customer['firstname'] . " " . $customer['lastname']; ?></span></h4>
+					<!--h4> Deductible: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span><?php echo $plan['deductible_amount']; ?></span></h4-->
+					<h4>
+						<span class="small pull-left">Effective Date: &nbsp;&nbsp;</span><span class="small"><?php echo $plan['effective_date']; ?></sapn>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<span class="small" style="text-align: right;">Expiry Date: &nbsp;&nbsp;</span><span class="small"><?php echo $plan['expiry_date']; ?></sapn>
+					</h4>
+					
+				</div>
+				<div class="row"><div class="col-sm-12 nopadding text-center">
+					<img class="img-responsive" style="max-width:170px;" src="<?php echo base_url();?>image/logo.png" />
+				</div></div>
+			</div>
+
+			<div class="jfcard" style="float: right;vertical-align:top;position:absolute;bottom:5px;left:5px;width:320px;margin-top: 0px;">
+
+				<?php if($cardp == "jes"){ ?>
+					<h4 class="text-center" style="background: #eee;"><span>JF Elite PLus Student Insurance</span></h4>
+				<?php }elseif ($cardp == "jfc") { ?>
+					<h4 class="text-center" style="background: #eee;"><span>JF Care Student Insurance</span></h4>
+				<?php }else{ ?>
+					<h4 class="text-center" style="background: #eee;"><span><?php echo $plan_full_name;?></span></h4>
+				<?php } ?>
+				
+				<div style="width: 260px; margin: 0 auto;">
+					<h4><span class="small"><?php if ($plan['status_id'] < 2) { ?>Quote<?php } else {?>Certificate<?php } ?> No.: &nbsp;&nbsp;</span><span class="small"><?php echo $plan['policy']; ?></span></h4>
+					<h4><span class="small"> Insured Name:&nbsp;&nbsp;&nbsp;</span><span class="small"><?php echo $customer['firstname'] . " " . $customer['lastname']; ?></span></h4>
+					<!--h4> Deductible: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span><?php echo $plan['deductible_amount']; ?></span></h4-->
+					<h4>
+						<span class="small pull-left">Effective Date: &nbsp;&nbsp;</span><span class="small"><?php echo $plan['effective_date']; ?></sapn>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<span class="small" style="text-align: right;">Expiry Date: &nbsp;&nbsp;</span><span class="small"><?php echo $plan['expiry_date']; ?></sapn>
+					</h4>
+					
+				</div>
+				<div class="row"><div class="col-sm-12 nopadding text-center">
+					<img class="img-responsive" style="max-width:170px;" src="<?php echo base_url();?>image/logo.png" />
+				</div></div>
 			</div>
 		</div>		
 	</div>
