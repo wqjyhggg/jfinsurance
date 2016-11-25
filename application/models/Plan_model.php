@@ -666,6 +666,10 @@ class Plan_model extends CI_Model {
 		}
 		if (!empty($where)) {
 			$sql .= " WHERE " . join(" AND ", $where);
+		} else {
+			if (empty($limit)) {
+				$limit = 200;
+			}
 		}
 		$sql .= " ORDER BY plan_id DESC";
 		if ($limit) {
