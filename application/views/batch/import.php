@@ -37,17 +37,11 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 					<div class="x_content">
 						<br />
 
-						<?php if (!empty($errormsg)) { ?>
-						<div class="alert-error">
-							<?php echo $errormsg; ?><br />
+						<div id='alert_message' class="alert-error">
+						<?php if (!empty($errormsg)) { echo $errormsg . "<br />"; } ?>
+						<?php if (!empty($successmsg)) { echo $successmsg . "<br />"; } ?>
 						</div>
-						<?php } ?>
-						<?php if (!empty($successmsg)) { ?>
-						<div class="alert-error">
-							<?php echo $successmsg; ?><br />
-						</div>
-						<?php } ?>
-          				<form action="<?php $action_url; ?>" method="post" enctype="multipart/form-data" class="form-horizontal form-label-left">
+          				<form action="<?php $action_url; ?>" id='uploadform' method="post" enctype="multipart/form-data" class="form-horizontal form-label-left">
 							<input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
 							<div class="row">
 								<div class="form-group col-sm-4">
@@ -72,17 +66,17 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 							<hr />
 							<div class="row">
 								<div class="form-group col-sm-8">
-									<input id="uploadFile" placeholder="Choose File" />
+									<input id="uploadFile" name="userfilename" value="" placeholder="Choose File" />
 									<div class="fileUpload btn btn-primary">
 										<span>Select File</span>
 										<input id="uploadBtn" type="file" class="upload" name="userfile" size="20"/>
 									</div>
-									<script>
-										document.getElementById("uploadBtn").onchange = function () {
-										document.getElementById("uploadFile").value = this.value;
-									};
-									</script>
-									<input style="display: inline-block; vertical-align: bottom;" class="btn btn-primary" type="submit" name='submit' value="Upload" />
+									<div id='submitbutton'>
+										<input style="display: inline-block; vertical-align: bottom;" class="btn btn-primary" type="submit" name='submit' value="Upload" />
+									</div>
+									<div id='loading'>
+										Processing......
+									</div>
 								</div>
 							</div>
 							
@@ -94,4 +88,52 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 
 	</div>
 </div>
+<script>
+$( document ).ready(function() {
+	$('#submitbutton').show();
+	$('#loading').hide();
+
+	document.getElementById("uploadBtn").onchange = function () {
+		$('#alert_message').html('');
+		document.getElementById("uploadFile").value = this.value;
+	};
+
+	$('#uploadform').submit( function(e) {
+		e.preventDefault();
+		$('#submitbutton').hide();
+		$('#loading').show();
+		$('#alert_message').html('');
+		var data = new FormData(this); // <-- 'this' is your form element
+		$.ajax({
+			url: '<?php echo $process_url; ?>',
+			data: data,
+			cache: false,
+			contentType: false,
+			processData: false,
+			timeout: 600000,	// 10 mintes 
+			type: 'POST',
+			//dataType: 'json',
+			error: function(jqXHR, textStatus, errorThrown) {
+				$('#submitbutton').show();
+				$('#loading').hide();
+				if(textStatus==="timeout") {
+					alert("File is too big to process. Please as admin for double check"); //Handle the timeout
+				} else {
+					alert("Somthing is wrong your file may cause some system error. Please contact admin"); //Handle other error type
+				}
+			},
+			success: function(rt) {
+				$('#submitbutton').show();
+				$('#loading').hide();
+				if (rt.errormsg) {
+					$('#alert_message').html(rt.errormsg);
+				} else if (rt.successmsg) {
+					$('#alert_message').html(rt.successmsg);
+				}
+				console.log(rt);
+			},
+		});
+	});
+});
+</script>
 <!-- /page content -->

@@ -193,7 +193,7 @@ class Plan_model extends CI_Model {
 		$this->sqlstr = $this->customer_model->sqlstr . "; ";
 		$this->logstr = $this->customer_model->logstr . "; ";
 		
-		if (empty($para['batch_number'])) {
+		if (empty($para['batch_number']) && empty($para['policy'])) {
 			$policy = $this->get_policy_number($plan_id);
 			$sql  = "UPDATE plan SET policy=" . $this->db->escape($policy) . " WHERE plan_id='" . (int)$plan_id . "'";
 			$this->db->query($sql);

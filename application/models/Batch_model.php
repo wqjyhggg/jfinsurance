@@ -5,6 +5,9 @@ if (!defined('BASEPATH'))
 
 class Batch_model extends CI_Model {
 	public $error;
+	const PROCESSING=0;
+	const FINISHED=1;
+	const ERROR=2;
 	
 	function unixstamp( $excelDateTime ) {
 		$excelDateTime =trim($excelDateTime);
@@ -280,6 +283,32 @@ class Batch_model extends CI_Model {
 		$this->db->insert('batch', $data);
 		$id = $this->db->insert_id();
 		return $id;
+	}
+	
+	/**
+	 * Get Batch Number Status
+	 * 
+	 * @param int	$batch_number	table id
+	 * @return int	batch status
+	 */
+	public function get_batch_status($batch_number) {
+		$this->db->where('batch_number', $batch_number);
+		return $this->db->get('batch')->row_array();
+	}
+	
+	/**
+	 * Set Batch Number Status
+	 * 
+	 * @param int	$batch_number	table id
+	 * @param int	$status			Job satus
+	 * @param string	$memo
+	 * @return int	batch status
+	 */
+	public function set_batch_status($batch_number, $status, $memo='') {
+		$this->db->set('status', $status);
+		if (!empty($memo)) $this->db->set('memo', $memo);
+		$this->db->where('batch_number', $batch_number);
+		$this->db->update('batch');
 	}
 	
 	/**
