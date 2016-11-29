@@ -61,7 +61,15 @@ class Batch extends MY_Controller {
 						}
 						if ($emptyline) continue;
 						
-						if (empty ( $data ['user_id'] )) {
+						if ($beuser['user_group_id'] > 100) {
+							if (!empty ( $data ['user_id'] )) {
+								$data ['errormsg'] .= "Can't assign user at line " . $i . ": " . @join ( "|", $row ) . "<br>\n";
+								$this->rollback($planArr);
+								break;
+							} else {
+								$data ['user_id'] = $beuser ['user_id'];
+							}
+						} else if (empty ( $data ['user_id'] )) {
 							if ($this->input->post ( 'user_id' )) {
 								$data ['user_id'] = $this->input->post ( 'user_id' );
 							} else {
