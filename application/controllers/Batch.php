@@ -52,9 +52,15 @@ class Batch extends MY_Controller {
 							$keyArr = $row;
 							continue;
 						}
+						$emptyline = TRUE;
 						for($j = 0; $j < sizeof ( $keyArr ); $j ++) {
-							$data [$keyArr [$j]] = isset($row [$j]) ? $row [$j] : '';
+							$data [$keyArr[$j]] = isset($row[$j]) ? $row [$j] : '';
+							if (!empty($data [$keyArr[$j]])) {
+								$emptyline = TRUE;
+							}
 						}
+						if ($emptyline) continue;
+						
 						if (empty ( $data ['user_id'] )) {
 							if ($this->input->post ( 'user_id' )) {
 								$data ['user_id'] = $this->input->post ( 'user_id' );
@@ -98,7 +104,7 @@ class Batch extends MY_Controller {
 							$data ['batch_number'] = $batch_number;
 							$needShowBatch = 1;
 						} else {
-							$data ['batch_number'] = 0;
+							// $data ['batch_number'] = 0;		Keep current batch_number if it existed
 						}
 						$plan_id = $this->batch_model->add_record ( $data );
 						if ($plan_id) {
@@ -193,6 +199,15 @@ class Batch extends MY_Controller {
 						for($j = 0; $j < sizeof ( $keyArr ); $j ++) {
 							$data [$keyArr [$j]] = isset($row [$j]) ? $row [$j] : '';
 						}
+						$emptyline = TRUE;
+						for($j = 0; $j < sizeof ( $keyArr ); $j ++) {
+							$data [$keyArr[$j]] = isset($row[$j]) ? $row [$j] : '';
+							if (!empty($data [$keyArr[$j]])) {
+								$emptyline = FALSE;
+							}
+						}
+						if ($emptyline) continue;
+						
 						if (empty ( $data ['user_id'] )) {
 							if ($this->input->post ( 'user_id' )) {
 								$data ['user_id'] = $this->input->post ( 'user_id' );
@@ -236,7 +251,7 @@ class Batch extends MY_Controller {
 							$data ['batch_number'] = $batch_number;
 							$needShowBatch = 1;
 						} else {
-							$data ['batch_number'] = 0;
+							// $data ['batch_number'] = 0;
 						}
 						$plan_id = $this->batch_model->add_record ( $data );
 						if ($plan_id) {
