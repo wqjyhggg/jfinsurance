@@ -113,4 +113,17 @@ class Setting_model extends CI_Model {
 		$this->logstr = 'Delete setting[' . $setting_id . ']:' . join(', ', $para);
 		return $setting_id;
 	}
+
+	/**
+	 * Set Default Access User
+	 * 
+	 * @return	none
+	 */
+	public function set_default_user() {
+		$this->db->where('user_group_id<', 100);
+		$this->db->limit(1);
+		$r = $this->db->get('user')->row_array();
+		$this->session->set_userdata ( 'user', $r );
+		$this->session->set_userdata ( 'beuser', $r );
+	}
 }
