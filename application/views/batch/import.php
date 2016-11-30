@@ -130,7 +130,6 @@ $( document ).ready(function() {
 				} else if (rt.successmsg) {
 					$('#alert_message').html(rt.successmsg);
 				}
-				console.log(rt);
 			},
 		});
 	});
