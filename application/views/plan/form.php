@@ -63,6 +63,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						
 						<div class="col-sm-3 pull-right text-right">
 						<?php /* it should be created plan */ ?>
+						<?php if ($isprocessplan) { ?>
 						<?php if ($status_id == 1 && $user_group_id != 103) { /* qutoe */ ?>
 
 						<a href='<?php echo $pay_url; ?>'><span class="btn btn-info">Pay</span></a>
@@ -89,6 +90,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 						<?php } else if ($status_id == 5 && $user_group_id <= 100) { ?>
 							<a target='_blank' href='<?php echo $cancelprint_url . $plan_id; ?>'><span class="btn btn-info">Cancel Letter</span></a>
+						<?php } ?>
 						<?php } ?>
 						<?php } ?>
 
@@ -279,8 +281,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 											<div class="col-sm-6">
 												<label class="col-sm-12">&nbsp;</label>
 												<div class="col-sm-12">
+													<?php if ($isprocessplan) { ?>
 													<?php if ((($status_id == 2) || ($status_id == 3) || ($status_id == 4)) && !empty($customer_id) && $user_group_id !=3 && $user_group_id != 103) {?>
 													<a class="btn btn-primary" href='<?php echo $claimurl . $customer_id; ?>'>Claim</a>
+													<?php } ?>
 													<?php } ?>
 												</div>
 											</div>
@@ -339,9 +343,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 												<div class="col-sm-6">
 													<label class="col-sm-12">&nbsp;</label>
 													<div class="col-sm-12">
+													<?php if ($isprocessplan) { ?>
 														<?php if ((($status_id == 2) || ($status_id == 3) || ($status_id == 4)) && !empty($customer_id) && $user_group_id !=3 && $user_group_id != 103) {?>
 														<a class="btn btn-primary" href='<?php echo $claimurl . ${'customer_id_'.$i}; ?>'>Claim</a>
 														<?php } ?>
+													<?php } ?>
 													</div>
 												</div>
 											</div>

@@ -641,7 +641,7 @@ class Product_model extends CI_Model {
 			$premiumArr['sum_insured'] = number_format($para['sum_insured'], 2, '.', ',');
 			$premiumArr['deductible_amount'] =  number_format($para['deductible_amount'], 2, '.', ',');
 		} else {
-			$premiumArr['message'] = "Unknow Product";
+			//$premiumArr['message'] = "Unknow Product";
 			return $premiumArr;
 		}
 		

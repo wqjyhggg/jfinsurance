@@ -850,6 +850,7 @@ class Plan extends MY_Controller {
 				'value' => $this->security->get_csrf_hash ()
 		);
 
+		$data['isprocessplan'] = 1;
 		if (!empty($plan) && !empty($plan['status_id']) && ($plan['status_id'] > 1) && ($beuser['user_group_id'] > 100)) {
 			if ($data['product_short'] == 'OPL') {
 				$data['insurable_options'] = $this->load->view('plan/form_opl_agent', $data, TRUE);
@@ -865,6 +866,7 @@ class Plan extends MY_Controller {
 				$data['insurable_options'] = $this->load->view('plan/form_jfc_agent', $data, TRUE);
 			} else {
 				$data['insurable_options'] = $this->load->view('plan/form_other_agent', $data, TRUE);
+				$data['isprocessplan'] = 0;
 			}
 			
 			$this->load->common('plan/form_agent', $data);
@@ -883,6 +885,7 @@ class Plan extends MY_Controller {
 				$data['insurable_options'] = $this->load->view('plan/form_jfc', $data, TRUE);
 			} else {
 				$data['insurable_options'] = $this->load->view('plan/form_other', $data, TRUE);
+				$data['isprocessplan'] = 0;
 			}
 	
 			$data['popRefund'] = $this->load->view('plan/refund_addr', $data, TRUE);
@@ -1517,6 +1520,7 @@ class Plan extends MY_Controller {
 		$data['export_logo_url'] = base_url('plan/exportlogo') . "/";
 		$data['export_price_url'] = base_url('plan/exportprice') . "/";
 		$data['export_logo_price_option'] = FALSE;
+		$data['isprocessplan'] = 1;
 		if ($data['plan']['product_short'] == 'OPL') {
 			$data['insurable_options'] = $this->load->view('plan/detail_opl', $data, TRUE);
 		} else if ($data['plan']['product_short'] == 'JFR') {
@@ -1533,6 +1537,7 @@ class Plan extends MY_Controller {
 			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
 		} else {
 			$data['insurable_options'] = $this->load->view('plan/detail_other', $data, TRUE);
+			$data['isprocessplan'] = 0;
 		}
 		
 		$this->session->set_userdata ( 'withlogo', 1);

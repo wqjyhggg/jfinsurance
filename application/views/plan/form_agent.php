@@ -50,6 +50,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<div class="row" style="margin-bottom:15px;">
 						
 						<div class="col-sm-3 pull-right text-right">
+						<?php if ($isprocessplan) { ?>
 						<?php if($user_group_id != 3  && $user_group_id != 103){ ?>
 						<a href='<?php echo $copy_url; ?>'><span class="btn btn-info">Copy</span></a>
 						<?php } ?>
@@ -57,6 +58,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<?php 	if (($status_id == 2) || ($status_id == 3)) { ?>
 							<a href='<?php echo $sendpackage_url . $plan_id; ?>'><span class="btn btn-info">Send Package</span></a>
 						<?php 	} ?>
+						<?php } ?>
 						<?php } ?>
 
 						</div>

@@ -43,6 +43,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 						<a class="btn btn-info pull-right" target="_blank" href='<?php echo $pdf_url; ?>'>Export PDF</a>
 						
 					<?php } ?>
+					<?php if ($isprocessplan) { ?>
 					<?php if (($plan['status_id'] == 2) || ($plan['status_id'] == 3)) { ?>
 						<?php if (!empty($sendpackage_url)) { ?>
 						<a class="btn btn-info pull-right" target="_blank" href='<?php echo $sendpackage_url; ?>'>Send Package</a>
@@ -59,6 +60,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 						<?php if (!empty($refund_letter_url)) { ?>
 						<a class="btn btn-info pull-right" target="_blank" href='<?php echo $refund_letter_url; ?>'>Refund letter</a>
 						<?php } ?>
+					<?php } ?>
 					<?php } ?>
 					<?php if (!empty($plan_url)) { ?>
 						<a class="btn btn-info pull-right" href='<?php echo $plan_url; ?>'>Edit</a>
