@@ -77,6 +77,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <input class="form-control" size="16" type="text" name='service_date' placeholder="Birthdate From" value='<?php echo $service_date; ?>' >
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
+                            <?php if (isset($error_service_date)) { ?>
+		 					<div class="alert-error">
+								<?php echo $error_service_date;?>
+							</div>
+                          <?php } ?>
                         </div>
                         <div class="form-group col-sm-3">
                           <label >Claim Amount: </label>

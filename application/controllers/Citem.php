@@ -118,9 +118,16 @@ class Citem extends MY_Controller {
 			$this->data['error_message'] = 'Unknown Policy Number';
 			$r = FALSE;
 		}
+		/*
 		$dt = date_create($this->input->post('birthday'));
-		if (empty($this->input->post('birthday')) && !$dt) {
+		if (empty($this->input->post('birthday')) || !$dt) {
 			$this->data['error_birthday'] = 'Birthday is Required';
+			$r = FALSE;
+		}
+		*/
+		$dt = date_create($this->input->post('service_date'));
+		if (empty($this->input->post('service_date')) || !$dt) {
+			$this->data['error_service_date'] = 'Claim date is Required';
 			$r = FALSE;
 		}
 		return $r;
@@ -135,6 +142,10 @@ class Citem extends MY_Controller {
 			$this->claim_model->updateitem($citem_id, $this->input->post());
 			$citem = $this->claim_model->get_claim_item_by_id($citem_id);
 			redirect('citem/itemlist/' . $citem['claim_id']);
+		}
+		
+		if (empty($this->data['button_text'])) {
+			$this->data['button_text'] = 'Update';
 		}
 		
 		if ($this->input->post('citem_id')) {
@@ -227,7 +238,7 @@ class Citem extends MY_Controller {
 		} else if (isset($citem['claim_date'])) {
 			$this->data['claim_date'] = $citem['claim_date'];
 		} else {
-			$this->data['claim_date'] = '';
+			$this->data['claim_date'] = date('Y-m-d');
 		}
 		if ($this->input->post('claimed')) {
 			$this->data['claimed'] = $this->input->post('claimed'); 
@@ -255,7 +266,7 @@ class Citem extends MY_Controller {
 		} else if (isset($citem['service_date'])) {
 			$this->data['service_date'] = $citem['service_date'];
 		} else {
-			$this->data['service_date'] = '';
+			$this->data['service_date'] = date('Y-m-d');
 		}
 		if ($this->input->post('eob_date')) {
 			$this->data['eob_date'] = $this->input->post('eob_date'); 
