@@ -199,7 +199,6 @@ class Plan_model extends CI_Model {
 		
 		if (empty($para['batch_number']) && empty($para['policy'])) {
 			$policy = $this->get_policy_number($plan_id);
-			die("NNNNN[".$policy."]"); //XXXXXXXXXXXXXXXXX
 			$sql  = "UPDATE plan SET policy=" . $this->db->escape($policy) . " WHERE plan_id='" . (int)$plan_id . "'";
 			$this->db->query($sql);
 		}
