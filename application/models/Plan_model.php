@@ -97,13 +97,17 @@ class Plan_model extends CI_Model {
 		$this->load->model('product_model');
 		$product = $this->product_model->get_product($product_short);
 		
-		if (empty($status)) {
-			$status = $plan['status_id'];
-		}
-		if ($status <= 1) {
-			return $product['qoute_pre'] . sprintf("%06d", $plan_id);
+		if ($product['calculate']) {
+			if (empty($status)) {
+				$status = $plan['status_id'];
+			}
+			if ($status <= 1) {
+				return $product['qoute_pre'] . sprintf("%06d", $plan_id);
+			} else {
+				return $product['plan_pre'] . sprintf("%06d", $plan_id);
+			}
 		} else {
-			return $product['plan_pre'] . sprintf("%06d", $plan_id);
+			return $plan['policy'];
 		}
 	}
 	
@@ -195,6 +199,7 @@ class Plan_model extends CI_Model {
 		
 		if (empty($para['batch_number']) && empty($para['policy'])) {
 			$policy = $this->get_policy_number($plan_id);
+			die("NNNNN[".$policy."]"); //XXXXXXXXXXXXXXXXX
 			$sql  = "UPDATE plan SET policy=" . $this->db->escape($policy) . " WHERE plan_id='" . (int)$plan_id . "'";
 			$this->db->query($sql);
 		}
