@@ -357,7 +357,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<br />
 									<div class="row">
 										<div class="col-sm-12">
+										<?php if ($isprocessplan && ($status_id != 5) && ($status_id != 6)) { ?>
 											<input class="btn btn-info" type='button'  id='addmorememberid' name='addmorememberid' value='Add More Member' onclick='addmoremember();'>
+										<?php } ?>
 										</div>
 									</div>
 								</div>
@@ -517,7 +519,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<?php if (!empty($next_url)) { ?>
 						<a href='<?php echo $next_url; ?>'><span class="btn btn-info">No Change</span></a>
 						<?php } ?>
+						<?php if (($user_group_id == 1) || ($isprocessplan && ($status_id != 5) && ($status_id != 6))) { ?>
 							<input class="btn btn-primary pull-right" type='submit' name='submit' value='<?php echo $submit; ?>' />		
+						<?php } ?>
 						</div>
 
 						<div class="col-sm-12 alert-error float-error" title="Click to Close the notice" style="display:none;" id='error_next_page'>
@@ -596,6 +600,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 											<?php 
 											foreach ($payments as $p) {
 												$pay_str = '';
+												if ($p['pay_type'] == 'up_commission') continue;
+												if ($p['pay_type'] == 'refund_up_commission') continue;
+												if ($p['pay_type'] == 'cancel_up_commission') continue;
+												
 												$sbstr = substr($p['pay_type'], 0, 6);
 												if ($p['ispaid']) {
 													if (($sbstr == 'refund') || ($sbstr == 'cancel')) {
