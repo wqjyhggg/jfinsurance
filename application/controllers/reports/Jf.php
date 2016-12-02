@@ -14,7 +14,6 @@ class Jf extends MY_Controller
         $data['beuser'] = $beuser;
         $this->load->model('region_model');
         $data['regions'] = $this->region_model->get_regions();
-        $this->load->common('reports/agent', $data);
         $this->load->common('reports/jf', $data);
     }
 
