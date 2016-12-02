@@ -34,6 +34,16 @@ class Claim_model extends CI_Model {
 		if (!empty($para['firstname'])) $this->db->like('firstname', $para['firstname']);
 		$this->db->order_by('claim_id', 'DESC');
 		$arr = $this->db->get('claim')->result_array();
+		foreach ($arr as $key => $val) {
+			$sql = "SELECT SUM(claimed) as claim_total, SUM(paid) as paid_total FROM citem WHERE claim_id='" . (int)$val['claim_id'] . "'";
+			$rt = $this->db->query($sql)->row_array();
+			$arr[$key]['claim_total'] = 0;
+			$arr[$key]['paid_total'] = 0;
+			if ($rt) {
+				$arr[$key]['claim_total'] = $rt['claim_total'];
+				$arr[$key]['paid_total'] = $rt['paid_total'];
+			}
+		}
 		return $arr;
 	}
 	
@@ -67,7 +77,7 @@ class Claim_model extends CI_Model {
 	 */
 	public function get_item_list($claim_id) {
 		$this->db->where('claim_id', $claim_id);
-		$this->db->order_by('citem_id', 'desc');
+		$this->db->order_by('citem_id', 'asc');
 		return $this->db->get('citem')->result_array();
 	}
 	
@@ -98,10 +108,109 @@ class Claim_model extends CI_Model {
 		if (!empty($para['internal_note'])) {
 			$para['internal_note'] = "--" . $user['username'] . "--" . date('Ymd His') . "--\n" . $para['internal_note'];
 		}
-		$this->db->insert('citem', $para);
+		$data = array();
+		if (!empty($para['claim_id'])) {
+			$data['claim_id'] = $para['claim_id'];
+		}
+		if (!empty($para['plan_id'])) {
+			$data['plan_id'] = $para['plan_id'];
+		}
+		if (!empty($para['user_id'])) {
+			$data['user_id'] = $para['user_id'];
+		}
+		if (!empty($para['customer_id']) && ($para['customer_id'] != $citem['customer_id'])) {
+			$data['customer_id'] = $para['customer_id'];
+		}
+		if (!empty($para['done'])) {
+			$data['done'] = $para['done'];
+		}
+		if (!empty($para['product_short'])) {
+			$data['product_short'] = $para['product_short'];
+		}
+		if (!empty($para['policy_number'])) {
+			$data['policy_number'] = $para['policy_number'];
+		}
+		if (!empty($para['claim_number'])) {
+			$data['claim_number'] = $para['claim_number'];
+		}
+		if (!empty($para['lastname'])) {
+			$data['lastname'] = $para['lastname'];
+		}
+		if (!empty($para['firstname'])) {
+			$data['firstname'] = $para['firstname'];
+		}
+		if (!empty($para['birthday'])) {
+			$data['birthday'] = $para['birthday'];
+		}
+		if (!empty($para['gender'])) {
+			$data['gender'] = $para['gender'];
+		}
+		if (!empty($para['claim_date'])) {
+			$data['claim_date'] = $para['claim_date'];
+		}
+		if (!empty($para['claimed'])) {
+			$data['claimed'] = $para['claimed'];
+		}
+		if (!empty($para['paid'])) {
+			$data['paid'] = $para['paid'];
+		}
+		if (!empty($para['pay_to'])) {
+			$data['pay_to'] = $para['pay_to'];
+		}
+		if (!empty($para['cheque_number'])) {
+			$data['cheque_number'] = $para['cheque_number'];
+		}
+		if (!empty($para['coverage_code_id'])) {
+			$data['coverage_code_id'] = $para['coverage_code_id'];
+		}
+		if (!empty($para['service_date'])) {
+			$data['service_date'] = $para['service_date'];
+		}
+		if (!empty($para['paid_date'])) {
+			$data['paid_date'] = $para['paid_date'];
+		}
+		if (!empty($para['eob_date'])) {
+			$data['eob_date'] = $para['eob_date'];
+		}
+		if (!empty($para['received'])) {
+			$data['received'] = $para['received'];
+		}
+		if (!empty($para['cashed_date'])) {
+			$data['cashed_date'] = $para['cashed_date'];
+		}
+		if (!empty($para['eob_cheque_no'])) {
+			$data['eob_cheque_no'] = $para['eob_cheque_no'];
+		}
+		if (!empty($para['invoice_number'])) {
+			$data['invoice_number'] = $para['invoice_number'];
+		}
+		if (!empty($para['address'])) {
+			$data['address'] = $para['address'];
+		}
+		if (!empty($para['city'])) {
+			$data['city'] = $para['city'];
+		}
+		if (!empty($para['province2'])) {
+			$data['province2'] = $para['province2'];
+		}
+		if (!empty($para['country2'])) {
+			$data['country2'] = $para['country2'];
+		}
+		if (!empty($para['postcode'])) {
+			$data['postcode'] = $para['postcode'];
+		}
+		if (!empty($para['diagnosis'])) {
+			$data['diagnosis'] = $para['diagnosis'];
+		}
+		$data['internal_note'] = $para['internal_note'];
+		if (!empty($para['external_note'])) {
+			$data['external_note'] = $para['external_note'];
+		}
+
+		$this->db->insert('citem', $data);
 		$this->sqlstr = $this->db->last_query();
 		$citem_id = $this->db->insert_id();
-		$this->logstr = "Add claim record (" . $citem_id . ") : " . join(',', $para);
+		$this->logstr = "Add claim record (" . $citem_id . ") : " . join(',', $data);
 		return $citem_id;
 	}
 	

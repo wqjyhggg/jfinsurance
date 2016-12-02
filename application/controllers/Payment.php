@@ -31,7 +31,7 @@ class Payment extends MY_Controller {
 				'cheque_number' => $this->input->post('cheque_number'),
 				'pay_to' => $this->input->post('pay_to'),
 				'ispaid' => 1,
-				'pay_mothed' => 'Checque',
+				'pay_mothed' => 'Cheque',
 				'pay_date' => date('Y-m-d'),
 			);
 			

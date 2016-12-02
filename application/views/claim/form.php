@@ -65,10 +65,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                       </div>
                       <div class="row">
                         <div class="form-group col-sm-2">
-                          <label class="inline">Insured : </label> <?php echo empty($plan['sum_insured']) ? 'N/A' : $plan['sum_insured']; ?>
+                          <label class="inline">Sum Insured : </label> <?php echo empty($plan['sum_insured']) ? 'N/A' : $plan['sum_insured']; ?>
                         </div>
                         <div class="form-group col-sm-2">
-                          <label class="inline">Deductible : </label> <?php echo empty($plan['deductible_amount']) ? 'N/A' : $plan['deductible_amount']; ?>
+                          <label class="inline">Deductible : </label> <?php echo empty($plan['deductible_amount']) ? '0' : $plan['deductible_amount']; ?>
                         </div>
                         <div class="form-group col-sm-3">
                           <label class="inline">Agent : </label> <?php echo $agent['firstname'] . " " . $agent['lastname']; ?>

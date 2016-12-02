@@ -1242,7 +1242,7 @@ class Plan extends MY_Controller {
 		$payinfo  = 'Invoice Number: ' . $this->input->post('invoice_num') . "; ";
 		$payinfo .= 'Bank Name: ' . $this->input->post('bank_name') . "; ";
 		$payinfo .= 'Payor Name: ' . $this->input->post('payor_name') . "; ";
-		$payinfo .= 'Checque#: ' . $this->input->post('cheque_number') . "; ";
+		$payinfo .= 'Cheque#: ' . $this->input->post('cheque_number') . "; ";
 		$payinfo .= 'Premium: $' . $this->input->post('premium') . "; ";
 
 		$plan = $this->plan_model->get_plan_by_id($plan_id);
@@ -1776,7 +1776,7 @@ class Plan extends MY_Controller {
 				$dt['plan_id'] = $plan_id;
 				$dt['admin_fee'] = $admin_fee;
 				$dt['currency'] = $product['currency'];
-				$dt['pay_mothed'] = 'Checque';
+				$dt['pay_mothed'] = 'Cheque';
 				$dt['added'] = date('c');
 				$dt['ispaid'] = 0;
 				$dt['note'] = "Cancel at " . $dt['added'] . " amount: " . $refund_amount . " admin fee: " . $admin_fee;
@@ -1913,7 +1913,7 @@ class Plan extends MY_Controller {
 				$dt['admin_fee'] = (float)$admin_fee;
 				$dt['pay_type'] = 'refund';
 				$dt['currency'] = $product['currency'];
-				$dt['pay_mothed'] = 'Checque';
+				$dt['pay_mothed'] = 'Cheque';
 				$dt['added'] = date('c');
 				$dt['ispaid'] = 0;
 				$dt['note'] = "Refund at " . $dt['added'] . " amount: " . $refund_amount . " admin fee: " . $admin_fee;
