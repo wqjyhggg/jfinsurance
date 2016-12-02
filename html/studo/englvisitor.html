@@ -1,0 +1,935 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <title>Premier Visitor</title>
+    <style>
+#sddm
+{ margin: 0;
+  padding: 0;
+  z-index: 30}
+
+#sddm li
+{ margin: 0;
+  padding: 0;
+  list-style: none;
+  float: left;
+  text-decoration: underline;
+  text-align: center;
+width: 100%; }
+
+#sddm li a
+{ display: block;
+  margin: 0 1px 0 0;
+  
+  width: 100%;
+  background: rgb(8, 62, 12);
+  color: rgb(255, 255, 255);
+  text-align: center;
+  text-decoration: none}
+
+#sddm li a:hover
+{ background: rgb(8, 62, 12)}
+
+#sddm div
+{ position: absolute;
+  visibility: hidden;
+  margin: 0;
+  padding: 0;
+  width: 16.3%;
+  background: rgb(8, 62, 12);
+  border: 1px solid rgb(8, 62, 12)}
+
+  #sddm div a
+  { position: relative;
+    display: block;
+    margin: 0;
+    padding: 5px 10px;
+    width: auto;
+    white-space: nowrap;
+    text-align: center;
+    text-decoration: none;
+    background: #EAEBD8;
+    color: #2875DE;
+    }
+
+  #sddm div a:hover
+  { background: rgb(8, 62, 12);
+    }
+</style>
+  <script>
+var timeout = 500;
+var closetimer  = 0;
+var ddmenuitem  = 0;
+
+// open hidden layer
+function mopen(id)
+{ 
+  // cancel close timer
+  mcancelclosetime();
+
+  // close old layer
+  if(ddmenuitem) ddmenuitem.style.visibility = 'hidden';
+
+  // get new layer and show it
+  ddmenuitem = document.getElementById(id);
+  ddmenuitem.style.visibility = 'visible';
+
+}
+// close showed layer
+function mclose()
+{
+  if(ddmenuitem) ddmenuitem.style.visibility = 'hidden';
+}
+
+// go close timer
+function mclosetime()
+{
+  closetimer = window.setTimeout(mclose, timeout);
+}
+
+// cancel close timer
+function mcancelclosetime()
+{
+  if(closetimer)
+  {
+    window.clearTimeout(closetimer);
+    closetimer = null;
+  }
+}
+
+// close layer when click-out
+document.onclick = mclose; 
+</script>
+</head>
+<style>
+	body	{width: 1300px; margin: 20px auto; /* center */ padding: 20px;
+		 border: 1px solid black;}
+</style>
+<body style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0); margin-top: 0px; height: 2850px; width: 1260px; " alink="#ee0000" link="#0000ee" vlink="#551a8b">
+<table style="text-align: center; background-color: rgb(255, 251, 203); width: 1260px; height: 2469px;" border="0" cellpadding="0" cellspacing="0">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top; width: 1260px; text-align: left;"><span style="font-family: &quot;Arial&quot;,&quot;sans-serif&quot;;"><span style="font-weight: bold;"><img style="height: 154px; width: 1260px;" alt="Header" src="images/header.jpg"></span></span>
+      <table style="width: 1260px; height: 30px;" border="0">
+        <tbody>
+          <tr>
+            <td style="height: 24px; text-align: center; background-color: rgb(8, 62, 12); width: 25%;"><span style="color: white;"><a style="color: rgb(255, 255, 255);" href="index.html">Home</a><br>
+            </span></td>
+            <td style="height: 24px; text-align: center; background-color: rgb(8, 62, 12); width: 25%;"><span style="color: white;"><a style="color: rgb(255, 255, 255);" href="Premier Visitor.html">Premier
+Vistor</a><br>
+            </span></td>
+            <td style="height: 24px; text-align: center; margin-left: -43px; background-color: rgb(8, 62, 12); width: 25%;"><a style="color: rgb(255, 255, 255);" href="englstudysafe.html"><span style="color: white;">Study
+Safe</span></a></td>
+            <td style="height: 24px; text-align: center; margin-left: -43px; background-color: rgb(8, 62, 12); width: 25%;">
+                  <ul id="sddm"; style="text-align: center;">
+                    <li><a href="englvisitor.html" 
+                        onmouseover="mopen('m1')" 
+                        onmouseout="mclosetime()">English</a>
+                        <div id="m1" 
+                            onmouseover="mcancelclosetime()" 
+                            onmouseout="mclosetime()">
+                        <a href="frenvisitor.html">French</a>
+                        <a href="spanvisitor.html">Spanish</a>
+                        <a href="portvisitor.html">Portuguese</a>
+                        </div>
+                      </li>
+                  </ul>
+                  </td>
+          </tr>
+        </tbody>
+      </table>
+      <p style="margin-top: 0px; height: 22px; width: 1220px;"></p>
+      <p style="margin-top: 0px; height: 22px; text-align: left;"><small><small><small><small><small><b><span style="font-size: 18pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; color: red;" lang="EN-CA">PREMIER VISITOR:</span></b><b style=""><span style="font-size: 24pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; color: red;"></span></b><span style="font-size: 24pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; color: rgb(51, 51, 51);" lang="EN-CA"><o:p></o:p></span><span style="font-size: 18pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; color: red;" lang="EN-CA">&nbsp;&nbsp;&nbsp; Emergency
+Medical Travel Insurance</span></small></small></small></small></small></p>
+      <p class="MsoNormal" style="background: rgb(255, 251, 203) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial; margin-bottom: 15pt; line-height: 20.25pt; text-align: left;"><b><i><span style="font-size: 13.5pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; color: navy;" lang="EN-CA">Reuniting has never been easier!</span></i></b><span style="font-size: 13.5pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; color: rgb(51, 51, 51);" lang="EN-CA"><o:p></o:p></span></p>
+      <p class="MsoNormal" style="background: rgb(255, 251, 203) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial; margin-bottom: 15pt; line-height: 15pt;"><i><span style="font-size: 10pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; color: blue;" lang="EN-CA">Our Visitors to Canada Emergency Medical Travel
+Insurance is designed to meet all Super Visa requirements.</span></i><span style="font-size: 10pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; color: rgb(116, 116, 116);" lang="EN-CA"><o:p></o:p></span></p>
+      <p class="MsoNormal" style="background: rgb(255, 251, 203) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial; margin-bottom: 15pt; line-height: 15pt;"><i><span style="font-size: 10pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; color: blue;" lang="EN-CA">This means that you can get excellent
+protection for everyone that&rsquo;s important to you and the
+reassurance of knowing that your coverage can stay with you for your
+entire time in Canada.</span></i><span style="font-size: 10pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; color: rgb(116, 116, 116);" lang="EN-CA"><o:p></o:p></span></p>
+      <p class="MsoNormal" style="background: rgb(255, 251, 203) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial; margin-bottom: 0.0001pt; line-height: 15pt;"><b><span style="font-size: 10pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; color: rgb(110, 154, 31); text-transform: uppercase;" lang="EN-CA"><a target="_blank" href="https://b2c.etfsinc.com/b2c/start.do?userID=jfub2c&amp;prodCode=VTC&amp;language=en">CLICK
+HERE FOR A FREE QUOTE OR TO BUY YOUR PREMIER VISITOR POLICY</a></span></b></p>
+      <p class="MsoNormal" style="background: rgb(255, 251, 203) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial; margin-bottom: 0.0001pt; line-height: 15pt;"><b><span style="font-size: 10pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; color: rgb(110, 154, 31); text-transform: uppercase;" lang="EN-CA"></span></b><span style="font-size: 10pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; color: rgb(116, 116, 116);" lang="EN-CA"><o:p></o:p></span></p>
+      <p class="MsoNormal" style="background: rgb(255, 251, 203) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial; margin-bottom: 15pt; line-height: 20.25pt;"><b><span style="font-size: 13.5pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; color: red;" lang="EN-CA">Plan Features</span></b><span style="font-size: 13.5pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; color: red;" lang="EN-CA">*</span><span style="font-size: 13.5pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; color: rgb(51, 51, 51);" lang="EN-CA"><o:p></o:p></span></p>
+      <ul style="background-color: rgb(255, 251, 203);" type="disc">
+        <li class="MsoNormal" style="background: rgb(255, 251, 203) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial; color: rgb(51, 51, 51); line-height: 18pt;"><span style="font-size: 12pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;;" lang="EN-CA">Choice of sum insured based on your needs:
+$10,000; $15,000; $25,000; $50,000; $100,000; or $150,000 (for clients
+age 69 or under)<o:p></o:p></span></li>
+        <li class="MsoNormal" style="background: rgb(255, 251, 203) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial; color: rgb(51, 51, 51); line-height: 18pt;"><span style="font-size: 12pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;;" lang="EN-CA">$0 <span class="SpellE">deductible</span>
+for applicants age 85 or younger (optional $100, $1000 or $3,000** CAD
+deductible available)<o:p></o:p></span></li>
+        <li class="MsoNormal" style="background: rgb(255, 251, 203) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial; color: rgb(51, 51, 51); line-height: 18pt;"><span style="font-size: 12pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;;" lang="EN-CA">$500 deductible for applicants age 86 or over<o:p></o:p></span></li>
+        <li class="MsoNormal" style="background: rgb(255, 251, 203) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial; color: rgb(51, 51, 51); line-height: 18pt;"><span style="font-size: 12pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;;" lang="EN-CA">Pre-existing medical conditions are eligible
+for coverage for applicants aged 79 or younger if stable in the 120
+days prior to the effective date<o:p></o:p></span></li>
+        <li class="MsoNormal" style="background: rgb(255, 251, 203) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial; color: rgb(51, 51, 51); line-height: 18pt;"><span style="font-size: 12pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;;" lang="EN-CA">Coverage is available to applicants aged 80 or
+older<o:p></o:p></span></li>
+        <li class="MsoNormal" style="background: rgb(255, 251, 203) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial; color: rgb(51, 51, 51); line-height: 18pt;"><span style="font-size: 12pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;;" lang="EN-CA">Covers temporary visits to other countries excluding your country of origin<o:p></o:p></span></li>
+      </ul>
+      <p class="MsoNormal" style="background: rgb(255, 251, 203) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial; margin-bottom: 15pt; line-height: 15pt;"><span style="font-size: 10pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; color: maroon;" lang="EN-CA">* Certain conditions, limitations and
+exclusions may apply.</span><span style="font-size: 10pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; color: rgb(116, 116, 116);" lang="EN-CA"><o:p></o:p></span></p>
+      <p class="MsoNormal" style="background: rgb(255, 251, 203) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial; margin-bottom: 15pt; line-height: 15pt;"><span style="font-size: 10pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; color: maroon;" lang="EN-CA">**$3,000 deductible option only available for
+$100<span class="GramE">,000</span> and $150,000 sum
+insured options.</span><span style="font-size: 10pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; color: rgb(116, 116, 116);" lang="EN-CA"><o:p></o:p></span></p>
+      <p class="MsoNormal" style="background: rgb(255, 251, 203) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial; line-height: 18pt;"><b><span style="font-size: 12pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; color: rgb(51, 51, 51);" lang="EN-CA">NOTE: Super Visa requires a minimum of $100,000
+sum insured</span></b><span style="font-size: 12pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; color: rgb(51, 51, 51);" lang="EN-CA"><o:p></o:p></span></p>
+      <p class="MsoNormal" style="background: rgb(255, 251, 203) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial; margin-bottom: 15pt; line-height: 20.25pt;"><b><span style="font-size: 13.5pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; color: red;" lang="EN-CA">Summary of Benefits</span></b><span style="font-size: 13.5pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; color: red;" lang="EN-CA">*</span><span style="font-size: 13.5pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; color: rgb(51, 51, 51);" lang="EN-CA"><o:p></o:p></span></p>
+      <ul style="background-color: rgb(255, 251, 203);" type="disc">
+        <li class="MsoNormal" style="background: rgb(255, 251, 203) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial; color: rgb(51, 51, 51); line-height: 18pt;"><b><span style="font-size: 12pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; color: navy;" lang="EN-CA">Hospital Accommodation:</span></b><span style="font-size: 12pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; color: navy;" lang="EN-CA">&nbsp;</span><span style="font-size: 12pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;;" lang="EN-CA">Reasonable and customary cost for inpatient and
+outpatient treatment<o:p></o:p></span></li>
+        <li class="MsoNormal" style="background: rgb(255, 251, 203) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial; color: rgb(51, 51, 51); line-height: 18pt;"><b><span style="font-size: 12pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; color: navy;" lang="EN-CA">Physician Charges</span></b><span style="font-size: 12pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;;" lang="EN-CA"><o:p></o:p></span></li>
+        <li class="MsoNormal" style="background: rgb(255, 251, 203) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial; color: rgb(51, 51, 51); line-height: 18pt;"><b><span style="font-size: 12pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; color: navy;" lang="EN-CA">Diagnostic Services:</span></b><span style="font-size: 12pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;;" lang="EN-CA">&nbsp;Laboratory tests and x-rays<o:p></o:p></span></li>
+        <li class="MsoNormal" style="background: rgb(255, 251, 203) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial; color: rgb(51, 51, 51); line-height: 18pt;"><b><span style="font-size: 12pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; color: navy;" lang="EN-CA">Private Duty Nursing during Hospitalization:</span></b><b><span style="font-size: 12pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;;" lang="EN-CA">&nbsp;</span></b><span style="font-size: 12pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;;" lang="EN-CA">Up to the sum insured<o:p></o:p></span></li>
+        <li class="MsoNormal" style="background: rgb(255, 251, 203) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial; color: rgb(51, 51, 51); line-height: 18pt;"><b><span style="font-size: 12pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; color: navy;" lang="EN-CA">Ambulance Services</span></b><span style="font-size: 12pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;;" lang="EN-CA"><o:p></o:p></span></li>
+        <li class="MsoNormal" style="background: rgb(255, 251, 203) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial; color: rgb(51, 51, 51); line-height: 18pt;"><b><span style="font-size: 12pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; color: navy;" lang="EN-CA">Prescription Drugs:</span></b><b><span style="font-size: 12pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;;" lang="EN-CA">&nbsp;</span></b><span style="font-size: 12pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;;" lang="EN-CA">Up to $500, limited to a 30-day supply per
+prescription<o:p></o:p></span></li>
+        <li class="MsoNormal" style="background: rgb(255, 251, 203) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial; color: rgb(51, 51, 51); line-height: 18pt;"><b><span style="font-size: 12pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; color: navy;" lang="EN-CA">Medical Appliances:</span></b><b><span style="font-size: 12pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;;" lang="EN-CA">&nbsp;</span></b><span style="font-size: 12pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;;" lang="EN-CA">&nbsp;Casts, splints, trusses, braces,
+crutches, rental of a wheelchair or other minor medical appliances<o:p></o:p></span></li>
+        <li class="MsoNormal" style="background: rgb(255, 251, 203) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial; color: rgb(51, 51, 51); line-height: 18pt;"><b><span style="font-size: 12pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; color: navy;" lang="EN-CA">Paramedical Services:</span></b><b><span style="font-size: 12pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;;" lang="EN-CA">&nbsp;</span></b><span style="font-size: 12pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;;" lang="EN-CA">Chiropodist, chiropractor, osteopath,
+physiotherapist or podiatrist, up to $500 per type of practitioner<o:p></o:p></span></li>
+        <li class="MsoNormal" style="background: rgb(255, 251, 203) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial; color: rgb(51, 51, 51); line-height: 18pt;"><b><span style="font-size: 12pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; color: navy;" lang="EN-CA">Acupuncture Treatment:</span></b><b><span style="font-size: 12pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;;" lang="EN-CA">&nbsp;</span></b><span style="font-size: 12pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;;" lang="EN-CA">Up to $500 with a 365-day policy<o:p></o:p></span></li>
+        <li class="MsoNormal" style="background: rgb(255, 251, 203) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial; color: rgb(51, 51, 51); line-height: 18pt;"><b><span style="font-size: 12pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; color: navy;" lang="EN-CA">Treatment of Dental Accident:</span></b><b><span style="font-size: 12pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;;" lang="EN-CA">&nbsp;</span></b><span style="font-size: 12pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;;" lang="EN-CA">&nbsp;Up to $3,000<o:p></o:p></span></li>
+        <li class="MsoNormal" style="background: rgb(255, 251, 203) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial; color: rgb(51, 51, 51); line-height: 18pt;"><b><span style="font-size: 12pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; color: navy;" lang="EN-CA">Emergency Relief of Dental Pain:</span></b><b><span style="font-size: 12pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;;" lang="EN-CA">&nbsp;</span></b><span style="font-size: 12pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;;" lang="EN-CA">&nbsp;Up to $500<o:p></o:p></span></li>
+        <li class="MsoNormal" style="background: rgb(255, 251, 203) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial; color: rgb(51, 51, 51); line-height: 18pt;"><b><span style="font-size: 12pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; color: navy;" lang="EN-CA">Air Flight Accident:</span></b><b><span style="font-size: 12pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;;" lang="EN-CA">&nbsp;</span></b><span style="font-size: 12pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;;" lang="EN-CA">Up to the sum insured<o:p></o:p></span></li>
+        <li class="MsoNormal" style="background: rgb(255, 251, 203) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial; color: rgb(51, 51, 51); line-height: 18pt;"><b><span style="font-size: 12pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; color: navy;" lang="EN-CA">Repatriation:</span></b><b><span style="font-size: 12pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;;" lang="EN-CA">&nbsp;</span></b><span style="font-size: 12pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;;" lang="EN-CA">When approved in advance by Global Excel<o:p></o:p></span></li>
+        <li class="MsoNormal" style="background: rgb(255, 251, 203) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial; color: rgb(51, 51, 51); line-height: 18pt;"><b><span style="font-size: 12pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; color: navy;" lang="EN-CA">Preparation and Return of Remains:</span></b><b><span style="font-size: 12pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;;" lang="EN-CA">&nbsp;</span></b><span style="font-size: 12pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;;" lang="EN-CA">Up to $10,000<o:p></o:p></span></li>
+      </ul>
+      <p class="MsoNormal" style="background: rgb(255, 251, 203) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial; margin-bottom: 15pt; line-height: 15pt;"><span style="font-size: 10pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; color: maroon;" lang="EN-CA">*Certain conditions, limitations and exclusions
+may apply.</span><span style="font-size: 10pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; color: rgb(116, 116, 116);" lang="EN-CA"><o:p></o:p></span></p>
+      <ul style="background-color: rgb(255, 251, 203);" type="disc">
+        <li class="MsoNormal" style="background: rgb(255, 251, 203) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial; color: rgb(116, 116, 116); line-height: 15pt;"><span style="font-size: 10pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; color: rgb(51, 51, 51);" lang="EN-CA">Minimum policy premium of $25.</span><span style="font-size: 10pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;;" lang="EN-CA"><o:p></o:p></span></li>
+        <li class="MsoNormal" style="background: rgb(255, 251, 203) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial; color: rgb(116, 116, 116); line-height: 15pt;"><span style="font-size: 10pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;;" lang="EN-CA">Maximum period of coverage is 365 days. A new policy may be applied for as long as you remain in Canada.<o:p></o:p></span></li>
+        <li class="MsoNormal" style="background: rgb(255, 251, 203) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial; color: rgb(116, 116, 116); line-height: 15pt; margin-left: 0px; width: 1147px;"><span style="font-size: 10pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;;" lang="EN-CA">Deductible: For applicants age 85 or younger, a
+deductible does not apply unless you select a CAD deductible of $100
+(5% savings), $1,000 (25% savings) or $3,000 (30% savings). <br>
+
+$3,000 deductible option only available for $100,000 and $150,000 Sum
+Insured Options. Deductible applies per person, per trip.<o:p></o:p></span></li>
+        <li class="MsoNormal" style="background: rgb(255, 251, 203) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial; color: rgb(116, 116, 116); line-height: 15pt; width: 1098px;"><span style="font-size: 10pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;;" lang="EN-CA">Family Rates are 2x the Daily Rates based on
+the eldest member of the family. Coverage dates must be the same for
+all family members and all family members must live at the same address
+while in Canada.<o:p></o:p></span></li>
+      </ul>
+      <p class="MsoNormal" style="background: rgb(255, 251, 203) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial; text-align: center; line-height: 18pt; width: 1148px;" align="center"><b><i><span style="font-size: 12pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; color: navy;" lang="EN-CA">Global Excel Management Inc. <span class="GramE"></span> provides assistance around the world, day and night</span></i></b><span style="font-size: 12pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; color: rgb(51, 51, 51);" lang="EN-CA"><o:p></o:p></span></p>
+      <p class="MsoNormal" style="background: rgb(255, 251, 203) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial; margin-bottom: 15pt; text-align: center; line-height: 15pt; width: 1148px;" align="center"><i><span style="font-size: 10pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; color: rgb(116, 116, 116);" lang="EN-CA">When it comes to an emergency, time is a
+critical factor. Global Excel&rsquo;s toll free number is the
+solution. Each caller is connected with a courteous and professional
+case coordinator who will answer questions and assist in obtaining
+medical care day or night, year round.</span></i><span style="font-size: 10pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; color: rgb(116, 116, 116);" lang="EN-CA"><o:p></o:p></span></p>
+      <ul style="background-color: rgb(255, 251, 203);" type="disc">
+        <li class="MsoNormal" style="background: rgb(255, 251, 203) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial; color: rgb(116, 116, 116); line-height: 15pt;"><i><span style="font-size: 10pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;;" lang="EN-CA">Benefit information</span></i><span style="font-size: 10pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;;" lang="EN-CA"><o:p></o:p></span></li>
+        <li class="MsoNormal" style="background: rgb(255, 251, 203) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial; color: rgb(116, 116, 116); line-height: 15pt;"><i><span style="font-size: 10pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;;" lang="EN-CA">Urgent message relay</span></i><span style="font-size: 10pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;;" lang="EN-CA"><o:p></o:p></span></li>
+        <li class="MsoNormal" style="background: rgb(255, 251, 203) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial; color: rgb(116, 116, 116); line-height: 15pt;"><i><span style="font-size: 10pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;;" lang="EN-CA">Claims information</span></i><span style="font-size: 10pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;;" lang="EN-CA"><o:p></o:p></span></li>
+        <li class="MsoNormal" style="background: rgb(255, 251, 203) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial; color: rgb(116, 116, 116); line-height: 15pt;"><i><span style="font-size: 10pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;;" lang="EN-CA">Personalized service</span></i><span style="font-size: 10pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;;" lang="EN-CA"><o:p></o:p></span></li>
+        <li class="MsoNormal" style="background: rgb(255, 251, 203) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial; color: rgb(116, 116, 116); line-height: 15pt;"><i><span style="font-size: 10pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;;" lang="EN-CA">Fewer forms to fill out</span></i><span style="font-size: 10pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;;" lang="EN-CA"><o:p></o:p></span></li>
+        <li class="MsoNormal" style="background: rgb(255, 251, 203) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial; color: rgb(116, 116, 116); line-height: 15pt;"><i><span style="font-size: 10pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;;" lang="EN-CA">Medical assistance</span></i><span style="font-size: 10pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;;" lang="EN-CA"><o:p></o:p></span></li>
+        <li class="MsoNormal" style="background: rgb(255, 251, 203) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial; color: rgb(116, 116, 116); line-height: 15pt;"><i><span style="font-size: 10pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;;" lang="EN-CA">Interpretation service</span></i><span style="font-size: 10pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;;" lang="EN-CA"><o:p></o:p></span></li>
+        <li class="MsoNormal" style="background: rgb(255, 251, 203) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial; color: rgb(116, 116, 116); line-height: 15pt;"><i><span style="font-size: 10pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;;" lang="EN-CA">Direct billing instructions</span></i><span style="font-size: 10pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;;" lang="EN-CA"><o:p></o:p></span></li>
+        <li class="MsoNormal" style="background: rgb(255, 251, 203) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial; color: rgb(116, 116, 116); line-height: 15pt;"><i><span style="font-size: 10pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;;" lang="EN-CA">Fast Payment of claims</span></i><span style="font-size: 10pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;;" lang="EN-CA"><o:p></o:p></span></li>
+        <li class="MsoNormal" style="background: rgb(255, 251, 203) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial; color: rgb(116, 116, 116); line-height: 15pt;"><i><span style="font-size: 10pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;;" lang="EN-CA">Quick answers to questions</span></i><span style="font-size: 10pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;;" lang="EN-CA"><o:p></o:p></span></li>
+      </ul>
+      <div class="MsoNormal" style="background: rgb(255, 251, 203) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial; margin-bottom: 0.0001pt; text-align: center; line-height: 15pt;" align="center"><span style="font-size: 10pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; color: rgb(116, 116, 116);" lang="EN-CA">
+      <hr align="center" size="2" width="100%"></span></div>
+      <p class="MsoNormal" style="background: rgb(255, 251, 203) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial; margin-bottom: 15pt; line-height: 15pt;"><span style="font-size: 10pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; color: rgb(116, 116, 116);" lang="EN-CA"><br>
+      </span><span style="font-size: 10pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; color: rgb(116, 116, 116);" lang="EN-CA"><o:p></o:p></span></p>
+      <p class="MsoNormal" style="background: rgb(255, 251, 203) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial; text-align: justify; line-height: 18pt;"><b><span style="font-size: 10pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; text-transform: uppercase;" lang="EN-CA"><a href="http://www.jfiginsgroup.com/Download/Visitor%20to%20Canada%20ETFS%20-%20Policy.pdf" target="_blank">CLICK HERE TO READ THE FULL PREMIER VISITOR POLICY</a></span></b><span class="MsoHyperlink"><span style="font-size: 12pt;" lang="EN-CA"><o:p></o:p></span></span></p>
+      <p class="MsoNormal" style="background: rgb(255, 251, 203) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial; margin-bottom: 15pt; line-height: 15pt;"><span style="font-size: 10pt; color: rgb(116, 116, 116);" lang="EN-CA"><o:p>&nbsp;</o:p></span></p>
+      <p class="MsoNormal" style="background: rgb(255, 251, 203) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial; margin-bottom: 15pt; text-align: center; line-height: 20.25pt;" align="center"><span style="font-size: 13.5pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; color: navy;" lang="EN-CA">&nbsp;<b>Rate Schedule #1</b>&nbsp;&ndash;
+Daily Rates</span><span style="font-size: 13.5pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; color: rgb(51, 51, 51);" lang="EN-CA"><o:p></o:p></span></p>
+      <p class="MsoNormal" style="background: rgb(255, 251, 203) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial; text-align: center; line-height: 18pt;" align="center"><i><span style="font-size: 12pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; color: navy;" lang="EN-CA">With stable pre-existing medical condition
+coverage option $0 Deductible</span></i><span style="font-size: 12pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; color: navy;" lang="EN-CA">&nbsp;</span><span style="font-size: 12pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; color: rgb(51, 51, 51);" lang="EN-CA"><o:p></o:p></span></p>
+      <p class="MsoNormal" style="background: rgb(255, 251, 203) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial; text-align: center; line-height: 18pt;" align="center"><b><u><span style="font-size: 12pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; color: maroon;" lang="EN-CA">Sum Insured Options</span></u></b><span style="font-size: 12pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; color: rgb(51, 51, 51);" lang="EN-CA"><o:p></o:p></span></p>
+      <div style="background-color: rgb(255, 251, 203);" align="center">
+      <table class="MsoNormalTable" style="width: 681.75pt; border-collapse: collapse;" border="0" cellpadding="0" cellspacing="0" width="909">
+        <tbody>
+          <tr style="">
+            <td style="padding: 0.75pt; width: 98.25pt;" width="131">
+            <p class="MsoNormal" style="text-align: center; line-height: 18pt;" align="center"><b><span style="font-size: 12pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; color: maroon;" lang="EN-CA">AGE</span></b><span style="font-size: 12pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; color: rgb(51, 51, 51);" lang="EN-CA"><o:p></o:p></span></p>
+            </td>
+            <td style="padding: 0.75pt; width: 98.25pt;" width="131">
+            <p class="MsoNormal" style="text-align: center; line-height: 18pt;" align="center"><b><span style="font-size: 12pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; color: maroon;" lang="EN-CA">$10,000</span></b><span style="font-size: 12pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; color: rgb(51, 51, 51);" lang="EN-CA"><o:p></o:p></span></p>
+            </td>
+            <td style="padding: 0.75pt; width: 99pt;" width="132">
+            <p class="MsoNormal" style="text-align: center; line-height: 18pt;" align="center"><b><span style="font-size: 12pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; color: maroon;" lang="EN-CA">$15,000</span></b><span style="font-size: 12pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; color: rgb(51, 51, 51);" lang="EN-CA"><o:p></o:p></span></p>
+            </td>
+            <td style="padding: 0.75pt; width: 97.5pt;" width="130">
+            <p class="MsoNormal" style="text-align: center; line-height: 18pt;" align="center"><b><span style="font-size: 12pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; color: maroon;" lang="EN-CA">$25,000</span></b><span style="font-size: 12pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; color: rgb(51, 51, 51);" lang="EN-CA"><o:p></o:p></span></p>
+            </td>
+          </tr>
+          <tr style="">
+            <td style="padding: 0.75pt;">
+            <p class="MsoNormal" style="margin-bottom: 0.0001pt; text-align: center; line-height: normal;" align="center"><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;,&quot;serif&quot;;" lang="EN-CA">0-25<o:p></o:p></span></p>
+            </td>
+            <td style="padding: 0.75pt;">
+            <p class="MsoNormal" style="margin-bottom: 0.0001pt; text-align: center; line-height: normal;" align="center"><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;,&quot;serif&quot;;" lang="EN-CA">$1.77<o:p></o:p></span></p>
+            </td>
+            <td style="padding: 0.75pt;">
+            <p class="MsoNormal" style="margin-bottom: 0.0001pt; text-align: center; line-height: normal;" align="center"><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;,&quot;serif&quot;;" lang="EN-CA">$2.11<o:p></o:p></span></p>
+            </td>
+            <td style="padding: 0.75pt;">
+            <p class="MsoNormal" style="margin-bottom: 0.0001pt; text-align: center; line-height: normal;" align="center"><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;,&quot;serif&quot;;" lang="EN-CA">$2.36<o:p></o:p></span></p>
+            </td>
+          </tr>
+          <tr style="">
+            <td style="padding: 0.75pt;">
+            <p class="MsoNormal" style="margin-bottom: 0.0001pt; text-align: center; line-height: normal;" align="center"><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;,&quot;serif&quot;;" lang="EN-CA">26-40<o:p></o:p></span></p>
+            </td>
+            <td style="padding: 0.75pt;">
+            <p class="MsoNormal" style="margin-bottom: 0.0001pt; text-align: center; line-height: normal;" align="center"><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;,&quot;serif&quot;;" lang="EN-CA">$1.93<o:p></o:p></span></p>
+            </td>
+            <td style="padding: 0.75pt;">
+            <p class="MsoNormal" style="margin-bottom: 0.0001pt; text-align: center; line-height: normal;" align="center"><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;,&quot;serif&quot;;" lang="EN-CA">$2.31<o:p></o:p></span></p>
+            </td>
+
+            <td style="padding: 0.75pt;">
+            <p class="MsoNormal" style="margin-bottom: 0.0001pt; text-align: center; line-height: normal;" align="center"><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;,&quot;serif&quot;;" lang="EN-CA">$2.59<o:p></o:p></span></p>
+
+            </td>
+
+          </tr>
+
+          <tr style="">
+
+            <td style="padding: 0.75pt;">
+            <p class="MsoNormal" style="margin-bottom: 0.0001pt; text-align: center; line-height: normal;" align="center"><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;,&quot;serif&quot;;" lang="EN-CA">41-60<o:p></o:p></span></p>
+
+            </td>
+
+            <td style="padding: 0.75pt;">
+            <p class="MsoNormal" style="margin-bottom: 0.0001pt; text-align: center; line-height: normal;" align="center"><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;,&quot;serif&quot;;" lang="EN-CA">$2.23<o:p></o:p></span></p>
+
+            </td>
+
+            <td style="padding: 0.75pt;">
+            <p class="MsoNormal" style="margin-bottom: 0.0001pt; text-align: center; line-height: normal;" align="center"><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;,&quot;serif&quot;;" lang="EN-CA">$2.65<o:p></o:p></span></p>
+
+            </td>
+
+            <td style="padding: 0.75pt;">
+            <p class="MsoNormal" style="margin-bottom: 0.0001pt; text-align: center; line-height: normal;" align="center"><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;,&quot;serif&quot;;" lang="EN-CA">$2.97<o:p></o:p></span></p>
+
+            </td>
+
+          </tr>
+
+          <tr style="">
+
+            <td style="padding: 0.75pt;">
+            <p class="MsoNormal" style="margin-bottom: 0.0001pt; text-align: center; line-height: normal;" align="center"><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;,&quot;serif&quot;;" lang="EN-CA">61-64<o:p></o:p></span></p>
+
+            </td>
+
+            <td style="padding: 0.75pt;">
+            <p class="MsoNormal" style="margin-bottom: 0.0001pt; text-align: center; line-height: normal;" align="center"><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;,&quot;serif&quot;;" lang="EN-CA">$2.56<o:p></o:p></span></p>
+
+            </td>
+
+            <td style="padding: 0.75pt;">
+            <p class="MsoNormal" style="margin-bottom: 0.0001pt; text-align: center; line-height: normal;" align="center"><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;,&quot;serif&quot;;" lang="EN-CA">$3.33<o:p></o:p></span></p>
+
+            </td>
+
+            <td style="padding: 0.75pt;">
+            <p class="MsoNormal" style="margin-bottom: 0.0001pt; text-align: center; line-height: normal;" align="center"><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;,&quot;serif&quot;;" lang="EN-CA">$3.99<o:p></o:p></span></p>
+
+            </td>
+
+          </tr>
+
+          <tr style="">
+
+            <td style="padding: 0.75pt;">
+            <p class="MsoNormal" style="margin-bottom: 0.0001pt; text-align: center; line-height: normal;" align="center"><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;,&quot;serif&quot;;" lang="EN-CA">65-69<o:p></o:p></span></p>
+
+            </td>
+
+            <td style="padding: 0.75pt;">
+            <p class="MsoNormal" style="margin-bottom: 0.0001pt; text-align: center; line-height: normal;" align="center"><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;,&quot;serif&quot;;" lang="EN-CA">$3.11<o:p></o:p></span></p>
+
+            </td>
+
+            <td style="padding: 0.75pt;">
+            <p class="MsoNormal" style="margin-bottom: 0.0001pt; text-align: center; line-height: normal;" align="center"><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;,&quot;serif&quot;;" lang="EN-CA">$4.07<o:p></o:p></span></p>
+
+            </td>
+
+            <td style="padding: 0.75pt;">
+            <p class="MsoNormal" style="margin-bottom: 0.0001pt; text-align: center; line-height: normal;" align="center"><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;,&quot;serif&quot;;" lang="EN-CA">$4.90<o:p></o:p></span></p>
+
+            </td>
+
+          </tr>
+
+          <tr style="">
+
+            <td style="padding: 0.75pt;">
+            <p class="MsoNormal" style="margin-bottom: 0.0001pt; text-align: center; line-height: normal;" align="center"><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;,&quot;serif&quot;;" lang="EN-CA">70-74<o:p></o:p></span></p>
+
+            </td>
+
+            <td style="padding: 0.75pt;">
+            <p class="MsoNormal" style="margin-bottom: 0.0001pt; text-align: center; line-height: normal;" align="center"><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;,&quot;serif&quot;;" lang="EN-CA">$5.46<o:p></o:p></span></p>
+
+            </td>
+
+            <td style="padding: 0.75pt;">
+            <p class="MsoNormal" style="margin-bottom: 0.0001pt; text-align: center; line-height: normal;" align="center"><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;,&quot;serif&quot;;" lang="EN-CA">$7.12<o:p></o:p></span></p>
+
+            </td>
+
+            <td style="padding: 0.75pt;">
+            <p class="MsoNormal" style="margin-bottom: 0.0001pt; text-align: center; line-height: normal;" align="center"><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;,&quot;serif&quot;;" lang="EN-CA">$8.56<o:p></o:p></span></p>
+
+            </td>
+
+          </tr>
+
+          <tr style="">
+
+            <td style="padding: 0.75pt;">
+            <p class="MsoNormal" style="margin-bottom: 0.0001pt; text-align: center; line-height: normal;" align="center"><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;,&quot;serif&quot;;" lang="EN-CA">75-79<o:p></o:p></span></p>
+
+            </td>
+
+            <td style="padding: 0.75pt;">
+            <p class="MsoNormal" style="margin-bottom: 0.0001pt; text-align: center; line-height: normal;" align="center"><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;,&quot;serif&quot;;" lang="EN-CA">$6.53<o:p></o:p></span></p>
+
+            </td>
+
+            <td style="padding: 0.75pt;">
+            <p class="MsoNormal" style="margin-bottom: 0.0001pt; text-align: center; line-height: normal;" align="center"><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;,&quot;serif&quot;;" lang="EN-CA">$8.50<o:p></o:p></span></p>
+
+            </td>
+
+            <td style="padding: 0.75pt;">
+            <p class="MsoNormal" style="margin-bottom: 0.0001pt; text-align: center; line-height: normal;" align="center"><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;,&quot;serif&quot;;" lang="EN-CA">$10.10<o:p></o:p></span></p>
+
+            </td>
+
+          </tr>
+
+        </tbody>
+      </table>
+
+      </div>
+
+      <p class="MsoNormal" style="background: rgb(255, 251, 203) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial; text-align: center; line-height: 18pt;" align="center"><b><u><span style="font-size: 12pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; color: maroon;" lang="EN-CA">Sum Insured Options</span></u></b><span style="font-size: 12pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; color: rgb(51, 51, 51);" lang="EN-CA"><o:p></o:p></span></p>
+
+      <div style="background-color: rgb(255, 251, 203);" align="center">
+      <table class="MsoNormalTable" style="width: 683.25pt; border-collapse: collapse;" border="0" cellpadding="0" cellspacing="0" width="911">
+
+        <tbody>
+
+          <tr style="">
+
+            <td style="padding: 0.75pt; width: 98.25pt;" width="131">
+            <p class="MsoNormal" style="text-align: center; line-height: 18pt;" align="center"><b><span style="font-size: 12pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; color: maroon;" lang="EN-CA">AGE</span></b><span style="font-size: 12pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; color: rgb(51, 51, 51);" lang="EN-CA"><o:p></o:p></span></p>
+
+            </td>
+
+            <td style="padding: 0.75pt; width: 98.25pt;" width="131">
+            <p class="MsoNormal" style="text-align: center; line-height: 18pt;" align="center"><b><span style="font-size: 12pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; color: maroon;" lang="EN-CA">$50,000</span></b><span style="font-size: 12pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; color: rgb(51, 51, 51);" lang="EN-CA"><o:p></o:p></span></p>
+
+            </td>
+
+            <td style="padding: 0.75pt; width: 99pt;" width="132">
+            <p class="MsoNormal" style="text-align: center; line-height: 18pt;" align="center"><b><span style="font-size: 12pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; color: maroon;" lang="EN-CA">$100,000</span></b><span style="font-size: 12pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; color: rgb(51, 51, 51);" lang="EN-CA"><o:p></o:p></span></p>
+
+            </td>
+
+            <td style="padding: 0.75pt; width: 97.5pt;" width="130">
+            <p class="MsoNormal" style="text-align: center; line-height: 18pt;" align="center"><b><span style="font-size: 12pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; color: maroon;" lang="EN-CA">$150,000</span></b><span style="font-size: 12pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; color: rgb(51, 51, 51);" lang="EN-CA"><o:p></o:p></span></p>
+
+            </td>
+
+          </tr>
+
+          <tr style="">
+
+            <td style="padding: 0.75pt;">
+            <p class="MsoNormal" style="margin-bottom: 0.0001pt; text-align: center; line-height: normal;" align="center"><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;,&quot;serif&quot;;" lang="EN-CA">0-25<o:p></o:p></span></p>
+
+            </td>
+
+            <td style="padding: 0.75pt;">
+            <p class="MsoNormal" style="margin-bottom: 0.0001pt; text-align: center; line-height: normal;" align="center"><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;,&quot;serif&quot;;" lang="EN-CA">$2.59<o:p></o:p></span></p>
+
+            </td>
+
+            <td style="padding: 0.75pt;">
+            <p class="MsoNormal" style="margin-bottom: 0.0001pt; text-align: center; line-height: normal;" align="center"><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;,&quot;serif&quot;;" lang="EN-CA">$3.73<o:p></o:p></span></p>
+
+            </td>
+
+            <td style="padding: 0.75pt;">
+            <p class="MsoNormal" style="margin-bottom: 0.0001pt; text-align: center; line-height: normal;" align="center"><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;,&quot;serif&quot;;" lang="EN-CA">$4.46<o:p></o:p></span></p>
+
+            </td>
+
+          </tr>
+
+          <tr style="">
+
+            <td style="padding: 0.75pt;">
+            <p class="MsoNormal" style="margin-bottom: 0.0001pt; text-align: center; line-height: normal;" align="center"><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;,&quot;serif&quot;;" lang="EN-CA">26-40<o:p></o:p></span></p>
+
+            </td>
+
+            <td style="padding: 0.75pt;">
+            <p class="MsoNormal" style="margin-bottom: 0.0001pt; text-align: center; line-height: normal;" align="center"><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;,&quot;serif&quot;;" lang="EN-CA">$2.85<o:p></o:p></span></p>
+
+            </td>
+
+            <td style="padding: 0.75pt;">
+            <p class="MsoNormal" style="margin-bottom: 0.0001pt; text-align: center; line-height: normal;" align="center"><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;,&quot;serif&quot;;" lang="EN-CA">$4.17<o:p></o:p></span></p>
+
+            </td>
+
+            <td style="padding: 0.75pt;">
+            <p class="MsoNormal" style="margin-bottom: 0.0001pt; text-align: center; line-height: normal;" align="center"><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;,&quot;serif&quot;;" lang="EN-CA">$4.84<o:p></o:p></span></p>
+
+            </td>
+
+          </tr>
+
+          <tr style="">
+
+            <td style="padding: 0.75pt;">
+            <p class="MsoNormal" style="margin-bottom: 0.0001pt; text-align: center; line-height: normal;" align="center"><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;,&quot;serif&quot;;" lang="EN-CA">41-60<o:p></o:p></span></p>
+
+            </td>
+
+            <td style="padding: 0.75pt;">
+            <p class="MsoNormal" style="margin-bottom: 0.0001pt; text-align: center; line-height: normal;" align="center"><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;,&quot;serif&quot;;" lang="EN-CA">$3.23<o:p></o:p></span></p>
+
+            </td>
+
+            <td style="padding: 0.75pt;">
+            <p class="MsoNormal" style="margin-bottom: 0.0001pt; text-align: center; line-height: normal;" align="center"><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;,&quot;serif&quot;;" lang="EN-CA">$5.39<o:p></o:p></span></p>
+
+            </td>
+
+            <td style="padding: 0.75pt;">
+            <p class="MsoNormal" style="margin-bottom: 0.0001pt; text-align: center; line-height: normal;" align="center"><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;,&quot;serif&quot;;" lang="EN-CA">$5.97<o:p></o:p></span></p>
+
+            </td>
+
+          </tr>
+
+          <tr style="">
+
+            <td style="padding: 0.75pt;">
+            <p class="MsoNormal" style="margin-bottom: 0.0001pt; text-align: center; line-height: normal;" align="center"><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;,&quot;serif&quot;;" lang="EN-CA">61-64<o:p></o:p></span></p>
+
+            </td>
+
+            <td style="padding: 0.75pt;">
+            <p class="MsoNormal" style="margin-bottom: 0.0001pt; text-align: center; line-height: normal;" align="center"><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;,&quot;serif&quot;;" lang="EN-CA">$4.30<o:p></o:p></span></p>
+
+            </td>
+
+            <td style="padding: 0.75pt;">
+            <p class="MsoNormal" style="margin-bottom: 0.0001pt; text-align: center; line-height: normal;" align="center"><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;,&quot;serif&quot;;" lang="EN-CA">$5.68<o:p></o:p></span></p>
+
+            </td>
+
+            <td style="padding: 0.75pt;">
+            <p class="MsoNormal" style="margin-bottom: 0.0001pt; text-align: center; line-height: normal;" align="center"><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;,&quot;serif&quot;;" lang="EN-CA">$6.59<o:p></o:p></span></p>
+
+            </td>
+
+          </tr>
+
+          <tr style="">
+
+            <td style="padding: 0.75pt;">
+            <p class="MsoNormal" style="margin-bottom: 0.0001pt; text-align: center; line-height: normal;" align="center"><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;,&quot;serif&quot;;" lang="EN-CA">65-69<o:p></o:p></span></p>
+
+            </td>
+
+            <td style="padding: 0.75pt;">
+            <p class="MsoNormal" style="margin-bottom: 0.0001pt; text-align: center; line-height: normal;" align="center"><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;,&quot;serif&quot;;" lang="EN-CA">$5.29<o:p></o:p></span></p>
+
+            </td>
+
+            <td style="padding: 0.75pt;">
+            <p class="MsoNormal" style="margin-bottom: 0.0001pt; text-align: center; line-height: normal;" align="center"><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;,&quot;serif&quot;;" lang="EN-CA">$6.17<o:p></o:p></span></p>
+
+            </td>
+
+            <td style="padding: 0.75pt;">
+            <p class="MsoNormal" style="margin-bottom: 0.0001pt; text-align: center; line-height: normal;" align="center"><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;,&quot;serif&quot;;" lang="EN-CA">$7.68<o:p></o:p></span></p>
+
+            </td>
+
+          </tr>
+
+          <tr style="">
+
+            <td style="padding: 0.75pt;">
+            <p class="MsoNormal" style="margin-bottom: 0.0001pt; text-align: center; line-height: normal;" align="center"><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;,&quot;serif&quot;;" lang="EN-CA">70-74<o:p></o:p></span></p>
+
+            </td>
+
+            <td style="padding: 0.75pt;">
+            <p class="MsoNormal" style="margin-bottom: 0.0001pt; text-align: center; line-height: normal;" align="center"><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;,&quot;serif&quot;;" lang="EN-CA">$9.41<o:p></o:p></span></p>
+
+            </td>
+
+            <td style="padding: 0.75pt;">
+            <p class="MsoNormal" style="margin-bottom: 0.0001pt; text-align: center; line-height: normal;" align="center"><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;,&quot;serif&quot;;" lang="EN-CA">$11.61<o:p></o:p></span></p>
+
+            </td>
+
+            <td style="padding: 0.75pt;">
+            <p class="MsoNormal" style="margin-bottom: 0.0001pt; text-align: center; line-height: normal;" align="center"><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;,&quot;serif&quot;;" lang="EN-CA">n/a<o:p></o:p></span></p>
+
+            </td>
+
+          </tr>
+
+          <tr style="">
+
+            <td style="padding: 0.75pt;">
+            <p class="MsoNormal" style="margin-bottom: 0.0001pt; text-align: center; line-height: normal;" align="center"><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;,&quot;serif&quot;;" lang="EN-CA">75-79<o:p></o:p></span></p>
+
+            </td>
+
+            <td style="padding: 0.75pt;">
+            <p class="MsoNormal" style="margin-bottom: 0.0001pt; text-align: center; line-height: normal;" align="center"><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;,&quot;serif&quot;;" lang="EN-CA">$11.14<o:p></o:p></span></p>
+
+            </td>
+
+            <td style="padding: 0.75pt;">
+            <p class="MsoNormal" style="margin-bottom: 0.0001pt; text-align: center; line-height: normal;" align="center"><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;,&quot;serif&quot;;" lang="EN-CA">$13.89<o:p></o:p></span></p>
+
+            </td>
+
+            <td style="padding: 0.75pt;">
+            <p class="MsoNormal" style="margin-bottom: 0.0001pt; text-align: center; line-height: normal;" align="center"><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;,&quot;serif&quot;;" lang="EN-CA">n/a<o:p></o:p></span></p>
+
+            </td>
+
+          </tr>
+
+        </tbody>
+      </table>
+
+      </div>
+
+      <div class="MsoNormal" style="background: rgb(255, 251, 203) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial; margin-bottom: 0.0001pt; text-align: center; line-height: 15pt;" align="center"><span style="font-size: 10pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; color: rgb(116, 116, 116);" lang="EN-CA">
+      <hr align="center" size="2" width="100%"></span></div>
+
+      <p class="MsoNormal" style="background: rgb(255, 251, 203) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial; margin-bottom: 15pt; text-align: center; line-height: 20.25pt;" align="center"><b><span style="font-size: 13.5pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; color: navy;" lang="EN-CA">Rate Schedule #2</span></b><span style="font-size: 13.5pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; color: navy;" lang="EN-CA">&nbsp;&ndash; Daily Rates</span><span style="font-size: 13.5pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; color: rgb(51, 51, 51);" lang="EN-CA"><o:p></o:p></span></p>
+
+      <p class="MsoNormal" style="background: rgb(255, 251, 203) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial; text-align: center; line-height: 18pt;" align="center"><i><span style="font-size: 12pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; color: navy;" lang="EN-CA">Without stable pre-existing medical condition
+coverage option up to age 85: $0 Deductible</span></i><span style="font-size: 12pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; color: rgb(51, 51, 51);" lang="EN-CA"><o:p></o:p></span></p>
+
+      <p class="MsoNormal" style="background: rgb(255, 251, 203) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial; text-align: center; line-height: 18pt;" align="center"><i><span style="font-size: 12pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; color: navy;" lang="EN-CA">Age 86 and older: $500 Deductible per person,
+per trip</span></i><span style="font-size: 12pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; color: rgb(51, 51, 51);" lang="EN-CA"><o:p></o:p></span></p>
+
+      <p class="MsoNormal" style="background: rgb(255, 251, 203) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial; text-align: center; line-height: 18pt;" align="center"><b><u><span style="font-size: 12pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; color: maroon;" lang="EN-CA">Sum Insured Options</span></u></b><span style="font-size: 12pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; color: rgb(51, 51, 51);" lang="EN-CA"><o:p></o:p></span></p>
+
+      <div style="background-color: rgb(255, 251, 203);" align="center">
+      <table class="MsoNormalTable" style="width: 715.15pt; border-collapse: collapse;" border="0" cellpadding="0" cellspacing="0" width="954">
+
+        <tbody>
+
+          <tr style="height: 22.05pt;">
+
+            <td style="padding: 0.75pt; width: 139.4pt; height: 22.05pt;" width="186">
+            <p class="MsoNormal" style="text-align: center; line-height: 18pt;" align="center"><b><span style="font-size: 12pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; color: maroon;" lang="EN-CA">AGE</span></b><span style="font-size: 12pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; color: rgb(51, 51, 51);" lang="EN-CA"><o:p></o:p></span></p>
+
+            </td>
+
+            <td style="padding: 0.75pt; width: 85.4pt; height: 22.05pt;" width="114">
+            <p class="MsoNormal" style="text-align: center; line-height: 18pt;" align="center"><b><span style="font-size: 12pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; color: maroon;" lang="EN-CA">$10,000</span></b><span style="font-size: 12pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; color: rgb(51, 51, 51);" lang="EN-CA"><o:p></o:p></span></p>
+
+            </td>
+
+            <td style="padding: 0.75pt; width: 144.15pt; height: 22.05pt;" width="192">
+            <p class="MsoNormal" style="text-align: center; line-height: 18pt;" align="center"><b><span style="font-size: 12pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; color: maroon;" lang="EN-CA">$15,000</span></b><span style="font-size: 12pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; color: rgb(51, 51, 51);" lang="EN-CA"><o:p></o:p></span></p>
+
+            </td>
+
+            <td style="padding: 0.75pt; width: 85.4pt; height: 22.05pt;" width="114">
+            <p class="MsoNormal" style="text-align: center; line-height: 18pt;" align="center"><b><span style="font-size: 12pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; color: maroon;" lang="EN-CA">$25,000</span></b><span style="font-size: 12pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; color: rgb(51, 51, 51);" lang="EN-CA"><o:p></o:p></span></p>
+
+            </td>
+
+            <td style="padding: 0.75pt; width: 162.55pt; height: 22.05pt;" width="217">
+            <p class="MsoNormal" style="text-align: center; line-height: 18pt;" align="center"><b><span style="font-size: 12pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; color: maroon;" lang="EN-CA">$50,000</span></b><span style="font-size: 12pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; color: rgb(51, 51, 51);" lang="EN-CA"><o:p></o:p></span></p>
+
+            </td>
+
+            <td style="padding: 0.75pt; width: 98.25pt; height: 22.05pt;" width="131">
+            <p class="MsoNormal" style="text-align: center; line-height: 18pt;" align="center"><b><span style="font-size: 12pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; color: maroon;" lang="EN-CA">$100,000</span></b><span style="font-size: 12pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; color: rgb(51, 51, 51);" lang="EN-CA"><o:p></o:p></span></p>
+
+            </td>
+
+          </tr>
+
+          <tr style="height: 17.65pt;">
+
+            <td style="padding: 0.75pt; width: 139.4pt; height: 17.65pt;" width="186">
+            <p class="MsoNormal" style="margin-bottom: 0.0001pt; text-align: center; line-height: normal;" align="center"><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;,&quot;serif&quot;;" lang="EN-CA">50-60<o:p></o:p></span></p>
+
+            </td>
+
+            <td style="padding: 0.75pt; width: 85.4pt; height: 17.65pt;" width="114">
+            <p class="MsoNormal" style="margin-bottom: 0.0001pt; text-align: center; line-height: normal;" align="center"><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;,&quot;serif&quot;;" lang="EN-CA">$2.11<o:p></o:p></span></p>
+
+            </td>
+
+            <td style="padding: 0.75pt; width: 144.15pt; height: 17.65pt;" width="192">
+            <p class="MsoNormal" style="margin-bottom: 0.0001pt; text-align: center; line-height: normal;" align="center"><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;,&quot;serif&quot;;" lang="EN-CA">$2.52<o:p></o:p></span></p>
+
+            </td>
+
+            <td style="padding: 0.75pt; width: 85.4pt; height: 17.65pt;" width="114">
+            <p class="MsoNormal" style="margin-bottom: 0.0001pt; text-align: center; line-height: normal;" align="center"><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;,&quot;serif&quot;;" lang="EN-CA">$2.83<o:p></o:p></span></p>
+
+            </td>
+
+            <td style="padding: 0.75pt; width: 162.55pt; height: 17.65pt;" width="217">
+            <p class="MsoNormal" style="margin-bottom: 0.0001pt; text-align: center; line-height: normal;" align="center"><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;,&quot;serif&quot;;" lang="EN-CA">$3.07<o:p></o:p></span></p>
+
+            </td>
+
+            <td style="padding: 0.75pt; width: 98.25pt; height: 17.65pt;" width="131">
+            <p class="MsoNormal" style="margin-bottom: 0.0001pt; text-align: center; line-height: normal;" align="center"><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;,&quot;serif&quot;;" lang="EN-CA">$5.12<o:p></o:p></span></p>
+
+            </td>
+
+          </tr>
+
+          <tr style="height: 17.65pt;">
+
+            <td style="padding: 0.75pt; width: 139.4pt; height: 17.65pt;" width="186">
+            <p class="MsoNormal" style="margin-bottom: 0.0001pt; text-align: center; line-height: normal;" align="center"><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;,&quot;serif&quot;;" lang="EN-CA">61-64<o:p></o:p></span></p>
+
+            </td>
+
+            <td style="padding: 0.75pt; width: 85.4pt; height: 17.65pt;" width="114">
+            <p class="MsoNormal" style="margin-bottom: 0.0001pt; text-align: center; line-height: normal;" align="center"><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;,&quot;serif&quot;;" lang="EN-CA">$2.38<o:p></o:p></span></p>
+
+            </td>
+
+            <td style="padding: 0.75pt; width: 144.15pt; height: 17.65pt;" width="192">
+            <p class="MsoNormal" style="margin-bottom: 0.0001pt; text-align: center; line-height: normal;" align="center"><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;,&quot;serif&quot;;" lang="EN-CA">$3.10<o:p></o:p></span></p>
+
+            </td>
+
+            <td style="padding: 0.75pt; width: 85.4pt; height: 17.65pt;" width="114">
+            <p class="MsoNormal" style="margin-bottom: 0.0001pt; text-align: center; line-height: normal;" align="center"><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;,&quot;serif&quot;;" lang="EN-CA">$3.71<o:p></o:p></span></p>
+
+            </td>
+
+            <td style="padding: 0.75pt; width: 162.55pt; height: 17.65pt;" width="217">
+            <p class="MsoNormal" style="margin-bottom: 0.0001pt; text-align: center; line-height: normal;" align="center"><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;,&quot;serif&quot;;" lang="EN-CA">$4.00<o:p></o:p></span></p>
+
+            </td>
+
+            <td style="padding: 0.75pt; width: 98.25pt; height: 17.65pt;" width="131">
+            <p class="MsoNormal" style="margin-bottom: 0.0001pt; text-align: center; line-height: normal;" align="center"><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;,&quot;serif&quot;;" lang="EN-CA">$5.28<o:p></o:p></span></p>
+
+            </td>
+
+          </tr>
+
+          <tr style="height: 17.65pt;">
+
+            <td style="padding: 0.75pt; width: 139.4pt; height: 17.65pt;" width="186">
+            <p class="MsoNormal" style="margin-bottom: 0.0001pt; text-align: center; line-height: normal;" align="center"><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;,&quot;serif&quot;;" lang="EN-CA">65-69<o:p></o:p></span></p>
+
+            </td>
+
+            <td style="padding: 0.75pt; width: 85.4pt; height: 17.65pt;" width="114">
+            <p class="MsoNormal" style="margin-bottom: 0.0001pt; text-align: center; line-height: normal;" align="center"><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;,&quot;serif&quot;;" lang="EN-CA">$2.80<o:p></o:p></span></p>
+
+            </td>
+
+            <td style="padding: 0.75pt; width: 144.15pt; height: 17.65pt;" width="192">
+            <p class="MsoNormal" style="margin-bottom: 0.0001pt; text-align: center; line-height: normal;" align="center"><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;,&quot;serif&quot;;" lang="EN-CA">$3.66<o:p></o:p></span></p>
+
+            </td>
+
+            <td style="padding: 0.75pt; width: 85.4pt; height: 17.65pt;" width="114">
+            <p class="MsoNormal" style="margin-bottom: 0.0001pt; text-align: center; line-height: normal;" align="center"><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;,&quot;serif&quot;;" lang="EN-CA">$4.41<o:p></o:p></span></p>
+
+            </td>
+
+            <td style="padding: 0.75pt; width: 162.55pt; height: 17.65pt;" width="217">
+            <p class="MsoNormal" style="margin-bottom: 0.0001pt; text-align: center; line-height: normal;" align="center"><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;,&quot;serif&quot;;" lang="EN-CA">$4.76<o:p></o:p></span></p>
+
+            </td>
+
+            <td style="padding: 0.75pt; width: 98.25pt; height: 17.65pt;" width="131">
+            <p class="MsoNormal" style="margin-bottom: 0.0001pt; text-align: center; line-height: normal;" align="center"><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;,&quot;serif&quot;;" lang="EN-CA">$5.55<o:p></o:p></span></p>
+
+            </td>
+
+          </tr>
+
+          <tr style="height: 17.65pt;">
+
+            <td style="padding: 0.75pt; width: 139.4pt; height: 17.65pt;" width="186">
+            <p class="MsoNormal" style="margin-bottom: 0.0001pt; text-align: center; line-height: normal;" align="center"><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;,&quot;serif&quot;;" lang="EN-CA">70-74<o:p></o:p></span></p>
+
+            </td>
+
+            <td style="padding: 0.75pt; width: 85.4pt; height: 17.65pt;" width="114">
+            <p class="MsoNormal" style="margin-bottom: 0.0001pt; text-align: center; line-height: normal;" align="center"><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;,&quot;serif&quot;;" lang="EN-CA">$3.97<o:p></o:p></span></p>
+
+            </td>
+
+            <td style="padding: 0.75pt; width: 144.15pt; height: 17.65pt;" width="192">
+            <p class="MsoNormal" style="margin-bottom: 0.0001pt; text-align: center; line-height: normal;" align="center"><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;,&quot;serif&quot;;" lang="EN-CA">$5.18<o:p></o:p></span></p>
+
+            </td>
+
+            <td style="padding: 0.75pt; width: 85.4pt; height: 17.65pt;" width="114">
+            <p class="MsoNormal" style="margin-bottom: 0.0001pt; text-align: center; line-height: normal;" align="center"><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;,&quot;serif&quot;;" lang="EN-CA">$6.23<o:p></o:p></span></p>
+
+            </td>
+
+            <td style="padding: 0.75pt; width: 162.55pt; height: 17.65pt;" width="217">
+            <p class="MsoNormal" style="margin-bottom: 0.0001pt; text-align: center; line-height: normal;" align="center"><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;,&quot;serif&quot;;" lang="EN-CA">$6.84<o:p></o:p></span></p>
+
+            </td>
+
+            <td style="padding: 0.75pt; width: 98.25pt; height: 17.65pt;" width="131">
+            <p class="MsoNormal" style="margin-bottom: 0.0001pt; text-align: center; line-height: normal;" align="center"><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;,&quot;serif&quot;;" lang="EN-CA">$8.44<o:p></o:p></span></p>
+
+            </td>
+
+          </tr>
+
+          <tr style="height: 17.65pt;">
+
+            <td style="padding: 0.75pt; width: 139.4pt; height: 17.65pt;" width="186">
+            <p class="MsoNormal" style="margin-bottom: 0.0001pt; text-align: center; line-height: normal;" align="center"><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;,&quot;serif&quot;;" lang="EN-CA">75-79<o:p></o:p></span></p>
+
+            </td>
+
+            <td style="padding: 0.75pt; width: 85.4pt; height: 17.65pt;" width="114">
+            <p class="MsoNormal" style="margin-bottom: 0.0001pt; text-align: center; line-height: normal;" align="center"><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;,&quot;serif&quot;;" lang="EN-CA">$5.23<o:p></o:p></span></p>
+
+            </td>
+
+            <td style="padding: 0.75pt; width: 144.15pt; height: 17.65pt;" width="192">
+            <p class="MsoNormal" style="margin-bottom: 0.0001pt; text-align: center; line-height: normal;" align="center"><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;,&quot;serif&quot;;" lang="EN-CA">$6.80<o:p></o:p></span></p>
+
+            </td>
+
+            <td style="padding: 0.75pt; width: 85.4pt; height: 17.65pt;" width="114">
+            <p class="MsoNormal" style="margin-bottom: 0.0001pt; text-align: center; line-height: normal;" align="center"><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;,&quot;serif&quot;;" lang="EN-CA">$8.08<o:p></o:p></span></p>
+
+            </td>
+
+            <td style="padding: 0.75pt; width: 162.55pt; height: 17.65pt;" width="217">
+            <p class="MsoNormal" style="margin-bottom: 0.0001pt; text-align: center; line-height: normal;" align="center"><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;,&quot;serif&quot;;" lang="EN-CA">$8.91<o:p></o:p></span></p>
+
+            </td>
+
+            <td style="padding: 0.75pt; width: 98.25pt; height: 17.65pt;" width="131">
+            <p class="MsoNormal" style="margin-bottom: 0.0001pt; text-align: center; line-height: normal;" align="center"><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;,&quot;serif&quot;;" lang="EN-CA">$11.12<o:p></o:p></span></p>
+
+            </td>
+
+          </tr>
+
+          <tr style="height: 17.65pt;">
+
+            <td style="padding: 0.75pt; width: 139.4pt; height: 17.65pt;" width="186">
+            <p class="MsoNormal" style="margin-bottom: 0.0001pt; text-align: center; line-height: normal;" align="center"><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;,&quot;serif&quot;;" lang="EN-CA">80-85<o:p></o:p></span></p>
+
+            </td>
+
+            <td style="padding: 0.75pt; width: 85.4pt; height: 17.65pt;" width="114">
+            <p class="MsoNormal" style="margin-bottom: 0.0001pt; text-align: center; line-height: normal;" align="center"><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;,&quot;serif&quot;;" lang="EN-CA">$7.09<o:p></o:p></span></p>
+
+            </td>
+
+            <td style="padding: 0.75pt; width: 144.15pt; height: 17.65pt;" width="192">
+            <p class="MsoNormal" style="margin-bottom: 0.0001pt; text-align: center; line-height: normal;" align="center"><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;,&quot;serif&quot;;" lang="EN-CA">$8.97<o:p></o:p></span></p>
+
+            </td>
+
+            <td style="padding: 0.75pt; width: 85.4pt; height: 17.65pt;" width="114">
+            <p class="MsoNormal" style="margin-bottom: 0.0001pt; text-align: center; line-height: normal;" align="center"><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;,&quot;serif&quot;;" lang="EN-CA">$11.03<o:p></o:p></span></p>
+
+            </td>
+
+            <td style="padding: 0.75pt; width: 162.55pt; height: 17.65pt;" width="217">
+            <p class="MsoNormal" style="margin-bottom: 0.0001pt; text-align: center; line-height: normal;" align="center"><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;,&quot;serif&quot;;" lang="EN-CA">$11.87<o:p></o:p></span></p>
+
+            </td>
+
+            <td style="padding: 0.75pt; width: 98.25pt; height: 17.65pt;" width="131">
+            <p class="MsoNormal" style="margin-bottom: 0.0001pt; text-align: center; line-height: normal;" align="center"><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;,&quot;serif&quot;;" lang="EN-CA">$15.06<o:p></o:p></span></p>
+
+            </td>
+
+          </tr>
+
+          <tr style="height: 17.65pt;">
+
+            <td style="padding: 0.75pt; width: 139.4pt; height: 17.65pt;" width="186">
+            <p class="MsoNormal" style="margin-bottom: 0.0001pt; text-align: center; line-height: normal;" align="center"><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;,&quot;serif&quot;;" lang="EN-CA">86+<o:p></o:p></span></p>
+
+            </td>
+
+            <td style="padding: 0.75pt; width: 85.4pt; height: 17.65pt;" width="114">
+            <p class="MsoNormal" style="margin-bottom: 0.0001pt; text-align: center; line-height: normal;" align="center"><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;,&quot;serif&quot;;" lang="EN-CA">$10.89<o:p></o:p></span></p>
+
+            </td>
+
+            <td style="padding: 0.75pt; width: 144.15pt; height: 17.65pt;" width="192">
+            <p class="MsoNormal" style="margin-bottom: 0.0001pt; text-align: center; line-height: normal;" align="center"><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;,&quot;serif&quot;;" lang="EN-CA">$14.08<o:p></o:p></span></p>
+
+            </td>
+
+            <td style="padding: 0.75pt; width: 85.4pt; height: 17.65pt;" width="114">
+            <p class="MsoNormal" style="margin-bottom: 0.0001pt; text-align: center; line-height: normal;" align="center"><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;,&quot;serif&quot;;" lang="EN-CA">$16.96<o:p></o:p></span></p>
+
+            </td>
+
+            <td style="padding: 0.75pt; width: 162.55pt; height: 17.65pt;" width="217">
+            <p class="MsoNormal" style="margin-bottom: 0.0001pt; text-align: center; line-height: normal;" align="center"><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;,&quot;serif&quot;;" lang="EN-CA">$18.52<o:p></o:p></span></p>
+
+            </td>
+
+            <td style="padding: 0.75pt; width: 98.25pt; height: 17.65pt;" width="131">
+            <p class="MsoNormal" style="margin-bottom: 0.0001pt; text-align: center; line-height: normal;" align="center"><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;,&quot;serif&quot;;" lang="EN-CA">$23.15<o:p></o:p></span></p>
+
+            </td>
+
+          </tr>
+
+        </tbody>
+      </table>
+
+      </div>
+
+      <div style="border-style: none none solid; border-color: -moz-use-text-color -moz-use-text-color windowtext; border-width: medium medium 1pt; padding: 0cm 0cm 1pt; background-color: rgb(255, 251, 203);">
+      <p class="MsoNormal" style="border: medium none ; padding: 0cm; margin-bottom: 0.0001pt; text-align: center; line-height: normal;" align="center">&nbsp;&nbsp;&nbsp;</p>
+
+      </div>
+
+      </td>
+
+    </tr>
+
+  </tbody>
+</table>
+<br></br>
+<div style="text-align: center;"><span style="color: rgb(0, 0, 0); font-family: Arial; font-size: 13px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; text-align: center; text-indent: 0px; text-transform: none; white-space: normal; word-spacing: 0px; display: inline ! important; float: none;">.</span><span id="ctl00_lblCopyright" style="margin: 0px; padding: 0px; color: rgb(0, 0, 0); font-family: Arial; font-size: 13px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; text-align: center; text-indent: 0px; text-transform: none; white-space: normal; word-spacing: 0px;">Copyright
+&copy; 2014 JF Insurance Agency Group Inc. All rights reserved</span>
+</div>
+
+<b style=""><span style="font-size: 24pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; color: red;"></span></b>
+</body>
+</html>
