@@ -67,7 +67,7 @@ class Claim_model extends CI_Model {
 	 */
 	public function get_item_list($claim_id) {
 		$this->db->where('claim_id', $claim_id);
-		$this->db->order_by('citem_id', 'desc');
+		$this->db->order_by('citem_id', 'asc');
 		return $this->db->get('citem')->result_array();
 	}
 	
