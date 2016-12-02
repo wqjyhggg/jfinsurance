@@ -34,6 +34,16 @@ class Claim_model extends CI_Model {
 		if (!empty($para['firstname'])) $this->db->like('firstname', $para['firstname']);
 		$this->db->order_by('claim_id', 'DESC');
 		$arr = $this->db->get('claim')->result_array();
+		foreach ($arr as $key => $val) {
+			$sql = "SELECT SUM(claimed) as claim_total, SUM(paid) as paid_total FROM citem WHERE claim_id='" . (int)$val['claim_id'] . "'";
+			$rt = $this->db->query($sql)->row_array();
+			$arr[$key]['claim_total'] = 0;
+			$arr[$key]['paid_total'] = 0;
+			if ($rt) {
+				$arr[$key]['claim_total'] = $rt['claim_total'];
+				$arr[$key]['paid_total'] = $rt['paid_total'];
+			}
+		}
 		return $arr;
 	}
 	
