@@ -90,7 +90,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							</div>
 							<div class="form-group col-sm-3">
 								<label class="col-sm-12">Arrival Date: </label>
-		                        <input class="form-control" size="16" type="hidden" name='arrival_date' id='arrival_date' value='<?php echo $arrival_date; ?>' data-date-format="yyyy-mm-dd" data-date-end-date="+0d" data-date-start-date="-1d">
+		                        <input class="form-control" size="16" type="hidden" name='arrival_date' id='arrival_date' value='<?php echo $arrival_date; ?>' data-date-format="yyyy-mm-dd">
 		                        <div class='form_text_show'><?php echo $arrival_date; ?></div>
 							</div>
 							<div class="form-group col-sm-3">

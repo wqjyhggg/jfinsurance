@@ -146,7 +146,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<div class="form-group col-sm-3">
 								<label class="col-sm-12">Arrival Date: </label>
 								<div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd" id='arrival_date_div' >
-			                        <input class="form-control" size="16" type="text" name='arrival_date' id='arrival_date' value='<?php echo $arrival_date; ?>' data-date-format="yyyy-mm-dd" data-date-end-date="+0d" data-date-start-date="-1d">
+			                        <input class="form-control" size="16" type="text" name='arrival_date' id='arrival_date' value='<?php echo $arrival_date; ?>' data-date-format="yyyy-mm-dd">
 			                        
 			                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
 			                    </div>
