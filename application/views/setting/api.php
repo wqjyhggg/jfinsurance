@@ -76,11 +76,14 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 $( document ).ready(function() {
 	$('.removekey').click( function(e) {
 		var setting_id = $(this).attr("data-id");
+		var data = {setting_id: setting_id};
 		csrfname = $('#csrfname').attr("name");
 		csrfval = $('#csrfname').val();
+		data[csrfname] = csrfval;
+		console.log(data);
 		$.ajax({
 			url: '<?php echo $delete_url; ?>',
-			data: {'setting_id': setting_id, csrfname: csrfval},
+			data: data,
 			type: 'POST',
 			dataType: 'json',
 			error: function(jqXHR, textStatus, errorThrown) {
@@ -99,7 +102,6 @@ $( document ).ready(function() {
 	$('#newkeyval').submit( function(e) {
 		e.preventDefault();
 		var data = $(this).serializeArray(); // <-- 'this' is your form element
-		console.log(data);
 		$('#newkeyval').hide();
 		$.ajax({
 			url: '<?php echo $add_url; ?>',
