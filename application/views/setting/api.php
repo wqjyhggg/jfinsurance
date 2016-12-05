@@ -59,7 +59,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
                         <?php } ?>    
                         </tbody>
 						</table>
-						<form id='newkeyval' action='<?php echo $action_url; ?>'>
+						<form id='newkeyval' action='<?php echo $add_url; ?>'>
 							<input type='hidden' name='type' value='api'>
 							IP Address: <input type='text' name='name' value='' maxlength='64'>
 							Key: <input type='text' name='value' value='' maxlength='128'>
