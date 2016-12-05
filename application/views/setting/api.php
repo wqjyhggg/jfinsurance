@@ -79,7 +79,7 @@ $( document ).ready(function() {
 			url: '<?php echo $delete_url; ?>',
 			data: {setting_id: setting_id},
 			type: 'POST',
-			//dataType: 'json',
+			dataType: 'json',
 			error: function(jqXHR, textStatus, errorThrown) {
 				location.reload();
 			},
@@ -95,17 +95,14 @@ $( document ).ready(function() {
 
 	$('#newkeyval').submit( function(e) {
 		e.preventDefault();
-		var data = new FormData(this); // <-- 'this' is your form element
+		var data = $(this).serializeArray(); // <-- 'this' is your form element
+		console.log(data);
 		$('#newkeyval').hide();
 		$.ajax({
 			url: '<?php echo $add_url; ?>',
 			data: data,
-			cache: false,
-			contentType: false,
-			processData: false,
-			timeout: 600000,	// 10 mintes 
 			type: 'POST',
-			//dataType: 'json',
+			dataType: 'json',
 			error: function(jqXHR, textStatus, errorThrown) {
 				$('#newkeyval').show();
 				if(textStatus==="timeout") {
