@@ -60,6 +60,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
                         </tbody>
 						</table>
 						<form id='newkeyval' action='<?php echo $add_url; ?>'>
+	                        <input type='hidden' id='csrfname' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
 							<input type='hidden' name='type' value='api'>
 							IP Address: <input type='text' name='name' value='' maxlength='64'>
 							Key: <input type='text' name='value' value='' maxlength='128'>
@@ -75,9 +76,11 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 $( document ).ready(function() {
 	$('.removekey').click( function(e) {
 		var setting_id = $(this).attr("data-id");
+		csrfname = $('#csrfname').attr("name");
+		csrfval = $('#csrfname').val();
 		$.ajax({
 			url: '<?php echo $delete_url; ?>',
-			data: {setting_id: setting_id},
+			data: {'setting_id': setting_id, csrfname: csrfval},
 			type: 'POST',
 			dataType: 'json',
 			error: function(jqXHR, textStatus, errorThrown) {
