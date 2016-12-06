@@ -116,6 +116,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                       <table class="table table-hover table-bordered">
                         <thead>
                           <tr>
+                            <th><a style="color:#46b8da;" id='print-items' href="<?php echo $letter_url; ?>">Print Letter</a></th>
                             <th>Action</th>
                             <th>Claim Date</th>
                             <th>Claim Amount</th>
@@ -130,7 +131,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <tbody>
                         <?php foreach ($lists as $c) { ?>
                             <tr>
-                              <td style='vertical-align: middle;'><a style="color:#46b8da;" href="<?php echo $edit_url."/".$c['citem_id']?>">Edit</a> | <a target="_blank" style="color:#46b8da;" href="<?php echo $letter_url."/".$c['citem_id']?>">Letter</a></td>
+                              <td><input class='item-print' type='checkbox' data-item-id='<?php echo $c['citem_id']; ?>'></td>
+                              <td style='vertical-align: middle;'><a style="color:#46b8da;" href="<?php echo $edit_url."/".$c['citem_id']?>">Edit</a></td>
                               <td><?php echo $c['claim_date']; ?></td>
                               <td><?php echo $c['claimed']; ?></td>
                               <td><?php echo $c['paid']; ?></td>
@@ -155,8 +157,31 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               </div>
             </div><!-- End List Section -->
 <?php } ?>
-
-          
+<script type="text/javascript">
+$( document ).ready(function() {
+	$("#print-items").on("click",function(e) {
+		e.preventDefault();
+		var href = $('#print-items').attr('href') + '?claim_id=' + '<?php echo $claim['claim_id']; ?>';
+		$('.item-print:checked').each(function() { href += '&citem_id[]=' + $(this).attr('data-item-id'); });
+		window.location.href = href; 
+	});
+	/*
+	$("#print-items").on("click",function(e) {
+		e.preventDefault();
+		var data = { 'claim_ids[]' : [] };
+		$('.item-print:checked').each(function() { data['claim_ids[]'].push($(this).attr('data-item-id')); });
+		$.ajax({
+			url: '<?php echo $deductible_amount_url; ?>',
+			type: 'POST',
+			data: data,
+			success: function(data, textStatus, jqXHR) {
+				$('#deductible_amount_div').html(data);
+			},
+		});
+	});
+	*/
+})
+</script>          
 <?php if (empty($combined)) { ?>
         </div>
         <!-- /page content -->
