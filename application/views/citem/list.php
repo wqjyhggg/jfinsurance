@@ -3,7 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 
 <!-- Plan page content -->
-
+<?php if (empty($combined)) { ?>
 	    <!-- Content top navigation -->
         <div class="top_nav">
           <div class="nav_menu">
@@ -89,6 +89,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </div>
               </div>
             </div>
+<?php } else { ?>
+            <div class="page-title">
+              <div class="title_left">
+                <h3>Claim Item List
+                <form method="post" action='<?php echo $add_url; ?>' style='display: initial;'>
+                  <input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
+                  <input type="hidden" name="claim_id" value='<?php echo $claim['claim_id']; ?>'>
+                  <button class="btn btn-primary pull-right">Add New Claim Item</button>
+                </form>
+                </h3>
+              </div>
+
+            </div>
+            <div class="clearfix"></div>
+<?php } ?>
 
 <?php if (!empty($lists)) { ?>
             <!-- List Section -->
@@ -142,6 +157,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <?php } ?>
 
           
+<?php if (empty($combined)) { ?>
         </div>
         <!-- /page content -->
-        
+<?php } ?>

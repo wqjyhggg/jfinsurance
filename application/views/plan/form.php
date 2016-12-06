@@ -574,11 +574,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	                    <div class="clearfix"></div>
 	                  </div>
 	                  <div class="x_content">
-		                  <div class="row">
+		                  <div class="row" id='payment_history'>
 							<?php 	if (!empty($payments) && is_array($payments) && (sizeof($payments > 0))) { ?>
 		                  	<div class="col-sm-12">
 			                  	<button type="button" class="btn btn-info" data-toggle="collapse" data-target="#history1">Payments <span class="fa fa-chevron-down"></span></button>
 			  			        <div id="history1" class="collapse">                	
+			                  	<button type="button" class="btn btn-payment-sort" data-type="date">Sort By Date</button>
+			                  	<button type="button" class="btn btn-payment-sort" data-type="type">Sort By Type</button>
 			                  	<form action='<?php echo $makepay_url; ?>' method='POST' class="form-horizontal">
 								<input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
 			                  		<div class="table-responsive">
@@ -653,7 +655,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			                  		</form>
 			                  		<hr />
 			                  	</div>
-			                  	
 		                  	</div>
 							<?php 	} ?>
 		                  </div>
@@ -775,7 +776,20 @@ $( document ).ready(function() {
 	}
 	get_premium();
 	addmoremember();
+
+	$( ".btn-payment-sort" ).click(sorting_payment);
 });
+
+function sorting_payment() {
+	var d = $(this).attr('data-type');
+	$.ajax({
+		url: '<?php echo $payhistory_url; ?>?s=' + d,
+		success: function(data, textStatus, jqXHR) {
+        	$('#payment_history').html(data);
+        	$( ".btn-payment-sort" ).click(sorting_payment);
+    	},
+	});
+}
 
 function remove_member(i) {
 	if(confirm("Are you sure to delete this info?") == true){

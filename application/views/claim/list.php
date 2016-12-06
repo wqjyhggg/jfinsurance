@@ -263,7 +263,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                       <table class="table table-hover table-bordered">
                         <thead>
                           <tr>
-                            <th>Detail</th>
+                            <!-- th>Detail</th -->
                             <th>Policy Number</th>
                             <th>Claim Number</th>
                             <th>First Name</th>
@@ -279,7 +279,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <tbody>
                         <?php foreach ($lists as $c) { ?>
                             <tr>
-                              <td><a style="color:#46b8da;" href="<?php echo $citem_url."/".$c['claim_id']; ?>"><?php echo $c['claim_id']; ?></a></td>
+                              <!-- td><a style="color:#46b8da;" href="<?php echo $citem_url."/".$c['claim_id']; ?>"><?php echo $c['claim_id']; ?></a></td -->
                               <td><?php echo $c['policy_number']; ?></td>
                               <td><?php echo $c['claim_number']; ?></td>
                               <td><?php echo $c['firstname']; ?></td>
@@ -289,7 +289,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                               <td><?php echo $c['claim_date']; ?></td>
                               <td><?php echo $c['claim_total']; ?></td>
                               <td><?php echo $c['paid_total']; ?></td>
-                              <td><?php if ($c['done'] == 1) { ?><a style="color:#46b8da;" href="<?php echo $edit_url."/".$c['claim_id']?>">Finished</a><?php } else { ?><a style="color:#46b8da;" href="<?php echo $edit_url."/".$c['claim_id']?>">Edit</a><?php } ?></td>
+                              <td><?php if ($c['done'] == 1) { ?><a style="color:#46b8da;" href="<?php echo $edit_url."/".$c['claim_id']?>">Finished</a><?php } else { ?><a style="color:#46b8da;" href="<?php echo $edit_url."/".$c['claim_id']?>">Detail</a><?php } ?></td>
                             </tr>
                         <?php } ?>    
                         </tbody>

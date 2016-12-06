@@ -154,6 +154,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </div>
               </div>
             </div><!-- End Filter Section -->
+<?php echo $items; ?>
         </div>
         <!-- /page content -->
         

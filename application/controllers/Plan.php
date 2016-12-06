@@ -798,6 +798,7 @@ class Plan extends MY_Controller {
 				$data['payments'] = $this->payment_model->get_payment_by_plan_id($data['plan_id']);
 			}
 		}
+		$data['payhistory_url'] = base_url ( "plan/payhistory/" . $data['plan_id'] );
 		$data['sum_insured_url'] = base_url ( "product/insured/" . $data['product_short'] );
 		if (!empty($data['sum_insured'])) $data['sum_insured_url'] .= "/" . $data['sum_insured']; 
 		$data['deductible_amount_url'] = base_url ( "product/deductible/" . $data['product_short'] );
@@ -893,6 +894,38 @@ class Plan extends MY_Controller {
 			//$this->load->common('plan/form', $data);
 			$this->load->common('plan/form', $data);
 		}
+	}
+	
+	function payhistory($plan_id) {
+		$beuser = $this->func_model->verify_login();
+	
+		$this->load->model('plan_model');
+		$this->load->model('payment_model');
+		$data['show_history'] = 1;
+		$sort = $this->input->get('s');
+		$data['payments'] = $this->payment_model->get_payment_by_plan_id($plan_id, $sort);
+		$data['total_payment'] = array();
+		if ($sort == 'type') {
+			foreach ($data['payments'] as $pay) {
+				if (isset($data['total_payment'][$pay['pay_type']])) {
+					$data['total_payment'][$pay['pay_type']] += $pay['amount'];
+				} else {
+					$data['total_payment'][$pay['pay_type']] = $pay['amount'];
+				}
+			}
+		}
+		
+		$data['payhistory_url'] = base_url ( "plan/payhistory/" . $plan_id );
+		$data['user_group_id'] = $beuser['user_group_id'];
+		$data['revert_url'] = base_url ( "payment/revert" ) . "/";
+		$data['makepay_url'] = base_url ( "payment/makepay" );
+	
+		$data['csrf'] = array (
+				'name' => $this->security->get_csrf_token_name (),
+				'value' => $this->security->get_csrf_hash ()
+		);
+	
+		$this->load->view('plan/form_payment', $data);
 	}
 	
 	function add() {

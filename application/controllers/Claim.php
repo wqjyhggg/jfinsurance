@@ -360,6 +360,20 @@ class Claim extends MY_Controller {
 				'name' => $this->security->get_csrf_token_name (),
 				'value' => $this->security->get_csrf_hash ()
 		);
+		
+		// for items
+		$this->load->model('claim_model');
+		$data['claimed_amount'] = $this->claim_model->getClaimTotal($this->data['claim_id']);
+		$data['claim'] = $this->claim_model->get_claim_by_id($this->data['claim_id']);
+		$data['lists'] = $this->claim_model->get_item_list($this->data['claim_id']);
+		$data['add_url'] = base_url('citem/add/'.$this->data['claim_id']);
+		$data['edit_url'] = base_url('citem/edit');
+		$data['letter_url'] = base_url('citem/letter');
+		$data['csrf'] = $this->data['csrf'];
+		$data['combined'] = 1;
+		
+		$this->data['items'] = $this->load->view('citem/list', $data, true);
+
 		$this->load->common('claim/form', $this->data);
 	}
 }
