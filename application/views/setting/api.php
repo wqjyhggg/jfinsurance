@@ -59,7 +59,8 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
                         <?php } ?>    
                         </tbody>
 						</table>
-						<form id='newkeyval' action='<?php echo $action_url; ?>'>
+						<form id='newkeyval' action='<?php echo $add_url; ?>'>
+	                        <input type='hidden' id='csrfname' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
 							<input type='hidden' name='type' value='api'>
 							IP Address: <input type='text' name='name' value='' maxlength='64'>
 							Key: <input type='text' name='value' value='' maxlength='128'>
@@ -75,11 +76,16 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 $( document ).ready(function() {
 	$('.removekey').click( function(e) {
 		var setting_id = $(this).attr("data-id");
+		var data = {setting_id: setting_id};
+		csrfname = $('#csrfname').attr("name");
+		csrfval = $('#csrfname').val();
+		data[csrfname] = csrfval;
+		console.log(data);
 		$.ajax({
 			url: '<?php echo $delete_url; ?>',
-			data: {setting_id: setting_id},
+			data: data,
 			type: 'POST',
-			//dataType: 'json',
+			dataType: 'json',
 			error: function(jqXHR, textStatus, errorThrown) {
 				location.reload();
 			},
@@ -95,17 +101,13 @@ $( document ).ready(function() {
 
 	$('#newkeyval').submit( function(e) {
 		e.preventDefault();
-		var data = new FormData(this); // <-- 'this' is your form element
+		var data = $(this).serializeArray(); // <-- 'this' is your form element
 		$('#newkeyval').hide();
 		$.ajax({
 			url: '<?php echo $add_url; ?>',
 			data: data,
-			cache: false,
-			contentType: false,
-			processData: false,
-			timeout: 600000,	// 10 mintes 
 			type: 'POST',
-			//dataType: 'json',
+			dataType: 'json',
 			error: function(jqXHR, textStatus, errorThrown) {
 				$('#newkeyval').show();
 				if(textStatus==="timeout") {

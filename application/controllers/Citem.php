@@ -429,10 +429,14 @@ class Citem extends MY_Controller {
 		$this->load->common('citem/form', $this->data);
 	}
 
-	public function letter($citem_id) {
+	public function letter() {
 		$beuser = $this->func_model->verify_login();
 		$this->load->model('claim_model');
 		
+		$claim_id = $this->input->get('claim_id');
+		$citem_ids = $this->input->get('citem_id[]');
+		print_r($citem_ids); //XXXXXXXXXXXXX
+		die("claim_id [" . $claim_id . "]"); //XXXXXXXXXXXXXXXXXX
 		$citem = $this->claim_model->get_claim_item_by_id($citem_id);
 		$this->data = $citem;
 		$this->data['title_txt'] = 'Claim Letter';
