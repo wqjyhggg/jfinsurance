@@ -232,8 +232,8 @@ class Claim extends MY_Controller {
 	public function form($claim=array()) {
 		$beuser = $this->func_model->verify_login();
 
+		$this->load->model('claim_model');
 		if (empty($claim) && $this->input->post() && $this->form_valid()) {
-			$this->load->model('claim_model');
 			$claim_id = $this->input->post('claim_id');
 			$this->claim_model->update($claim_id, $this->input->post());
 			$claim = $this->claim_model->get_claim_by_id($claim_id);
