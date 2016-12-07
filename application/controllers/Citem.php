@@ -450,8 +450,9 @@ class Citem extends MY_Controller {
 			$this->data['province2'] = $this->input->post('province2');
 			$this->data['country2'] = $this->input->post('country2');
 			$this->data['postcode'] = $this->input->post('postcode');
-			$this->data['cheque'] = $this->input->post('cheque');		//
-			
+			$pay_to = $this->input->post('pay_to');
+			$cheque_number = $this->input->post('cheque_number');
+				
 			$this->load->model('coverage_model');
 			$coverage_codes = $this->coverage_model->get_coverage_desc_by_code();
 				
@@ -459,6 +460,7 @@ class Citem extends MY_Controller {
 			foreach ($citem_ids as $citem_id) {
                 $citem = $this->claim_model->get_claim_item_by_id($citem_id);
                 if ($citem) {
+                	$this->claim_model->updateitem($citem_id, array('pay_to' => $pay_to, 'cheque_number' => $cheque_number));
 					$this->data['itemlist'][] = array(
 							'description' => $this->coverage_model->get_coverage_desc_by_code($citem['coverage_code_id']),
 							'service' => $citem['service_date'],

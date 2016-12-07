@@ -78,9 +78,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                       </div>
                       <div class="row">
                         <div class="form-group col-sm-3">
+                          <label >Pay To: </label>
+                          <div class="input-group col-sm-12">
+                            <input class="form-control" type='text' name='pay_to' value=''>
+                          </div>
+                        </div>
+                        <div class="form-group col-sm-3">
                           <label >Cheque Number: </label>
                           <div class="input-group col-sm-12">
-                            <input class="form-control" type='text' name='cheque' value=''>
+                            <input class="form-control" type='text' name='cheque_number' value=''>
                           </div>
                         </div>
                       </div>
