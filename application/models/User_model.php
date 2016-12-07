@@ -129,7 +129,7 @@ class User_model extends CI_Model {
         }
         if ($beuser['user_group_id'] == 104){
             $this->db->from('user u, user u2');
-            $this->db->where('u.parent_user_id = u2.user_id');
+            $this->db->where('u.parent_user_id = ' . ((int) $beuser['user_id']));
             $this->db->or_where('u.user_id= ' . ((int) $beuser['user_id']));
         } else {
             $this->db->from('user u');

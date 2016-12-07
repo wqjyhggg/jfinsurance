@@ -232,8 +232,8 @@ class Claim extends MY_Controller {
 	public function form($claim=array()) {
 		$beuser = $this->func_model->verify_login();
 
+		$this->load->model('claim_model');
 		if (empty($claim) && $this->input->post() && $this->form_valid()) {
-			$this->load->model('claim_model');
 			$claim_id = $this->input->post('claim_id');
 			$this->claim_model->update($claim_id, $this->input->post());
 			$claim = $this->claim_model->get_claim_by_id($claim_id);
@@ -362,7 +362,6 @@ class Claim extends MY_Controller {
 		);
 		
 		// for items
-		$this->load->model('claim_model');
 		$data['claimed_amount'] = $this->claim_model->getClaimTotal($this->data['claim_id']);
 		$data['claim'] = $this->claim_model->get_claim_by_id($this->data['claim_id']);
 		$data['lists'] = $this->claim_model->get_item_list($this->data['claim_id']);
