@@ -362,7 +362,6 @@ class Claim extends MY_Controller {
 		);
 		
 		// for items
-		$this->load->model('claim_model');
 		$data['claimed_amount'] = $this->claim_model->getClaimTotal($this->data['claim_id']);
 		$data['claim'] = $this->claim_model->get_claim_by_id($this->data['claim_id']);
 		$data['lists'] = $this->claim_model->get_item_list($this->data['claim_id']);
