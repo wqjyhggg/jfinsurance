@@ -435,22 +435,56 @@ class Citem extends MY_Controller {
 		
 		$claim_id = $this->input->get('claim_id');
 		$citem_ids = $this->input->get('citem_id[]');
-		print_r($citem_ids); //XXXXXXXXXXXXX
-		die("claim_id [" . $claim_id . "]"); //XXXXXXXXXXXXXXXXXX
-		$citem = $this->claim_model->get_claim_item_by_id($citem_id);
-		$this->data = $citem;
-		$this->data['title_txt'] = 'Claim Letter';
-		$this->load->model('coverage_model');
-		$this->data['coverage_codes'] = $this->coverage_model->get_coverage_codes();
-		$this->data['coverage_desc'] = 'Unknown'; 
-		foreach ($this->data['coverage_codes'] as $ccode) {
-			if ($ccode['coverage_code_id'] == $this->data['coverage_code_id']) { 
-				$this->data['coverage_desc'] = $ccode['name']; 
-			} 
+		$this->load->model('plan_model');
+
+		if ($this->input->post('submit')) {
+			$claim_id = $this->input->post('claim_id');
+			$citem_ids = $this->input->post('citem_id[]');
+			$this->data['claim_id'] = $claim_id;
+			$this->data['citem_ids'] = $citem_ids;
+			$this->data['fullname'] = $this->input->post('fullname');
+			$this->data['street_number'] = $this->input->post('street_number');
+			$this->data['street_name'] = $this->input->post('street_name');
+			$this->data['suite_number'] = $this->input->post('suite_number');
+			$this->data['city'] = $this->input->post('city');
+			$this->data['province2'] = $this->input->post('province2');
+			$this->data['country2'] = $this->input->post('country2');
+			$this->data['postcode'] = $this->input->post('postcode');
+			$this->data['cheque'] = $this->input->post('cheque');		//
+			
+			$this->load->model('coverage_model');
+			$coverage_codes = $this->coverage_model->get_coverage_desc_by_code();
+				
+			$this->data['itemlist'] = array();
+			foreach ($citem_ids as $citem_id) {
+                $citem = $this->claim_model->get_claim_item_by_id($citem_id);
+                if ($citem) {
+					$this->data['itemlist'][] = array(
+							'description' => $this->coverage_model->get_coverage_desc_by_code($citem['coverage_code_id']),
+							'service' => $citem['service_date'],
+							'claimed' => $citem['claimed'],
+							'paid' => $citem['paid'],
+							'note' => $citem['external_note'],
+					);
+                }
+			}
+			$this->data['title_txt'] = 'Claim Letter';
+			$html = $this->load->view('citem/letter', $this->data, TRUE);
+			$mpdf = new mPDF('c');
+			$mpdf->writeHTML($html);
+			$mpdf->Output();
+		} else {
+			// Show input form
+			$this->data['claim_id'] = $claim_id;
+			$this->data['citem_ids'] = $citem_ids;
+			$this->data['claim'] = $this->claim_model->get_claim_by_id($claim_id);
+			$this->data['plan'] = $this->plan_model->get_plan_by_id($this->data['claim']['plan_id']);
+			$this->data['active_url'] = current_url();
+			$this->data['csrf'] = array (
+					'name' => $this->security->get_csrf_token_name (),
+					'value' => $this->security->get_csrf_hash ()
+			);
+			$this->load->view('citem/letter_form', $this->data);
 		}
-		$html = $this->load->view('citem/letter', $this->data, TRUE);
-		$mpdf = new mPDF('c');
-		$mpdf->writeHTML($html);
-		$mpdf->Output();
 	}
 }

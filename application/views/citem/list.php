@@ -157,14 +157,25 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               </div>
             </div><!-- End List Section -->
 <?php } ?>
+<div id='claim-letter-popup'></div>
 <script type="text/javascript">
 $( document ).ready(function() {
 	$("#print-items").on("click",function(e) {
 		e.preventDefault();
 		var href = $('#print-items').attr('href') + '?claim_id=' + '<?php echo $claim['claim_id']; ?>';
 		$('.item-print:checked').each(function() { href += '&citem_id[]=' + $(this).attr('data-item-id'); });
-		window.location.href = href; 
+		//window.location.href = href; 
+		$.ajax({
+			url: href,
+			type: 'GET',
+			success: function(data, textStatus, jqXHR) {
+				$('#claim-letter-popup').html(data);
+				$('#claim-letter-popup').addClass('show-pop');
+				$('#claim-letter-popup').show();
+			},
+		});
 	});
+	$('#claim-letter-popup').hide();
 	/*
 	$("#print-items").on("click",function(e) {
 		e.preventDefault();
