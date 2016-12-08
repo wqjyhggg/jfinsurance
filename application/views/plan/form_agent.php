@@ -366,7 +366,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<?php if (!empty($next_url)) { ?>
 						<a href='<?php echo $next_url; ?>'><span class="btn btn-info">No Change</span></a>
 						<?php } ?>
+						<?php if ($isprocessplan && ($status_id != 5) && ($status_id != 6)) { ?>
 							<input class="btn btn-primary pull-right" type='submit' name='submit' value='<?php echo $submit; ?>' />		
+						<?php } ?>
 						</div>
 
 						<div class="col-sm-12 alert-error float-error" title="Click to Close the notice" style="display:none;" id='error_next_page'>
