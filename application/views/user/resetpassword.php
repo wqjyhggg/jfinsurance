@@ -18,6 +18,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				
 					<form action='<?php $action_url; ?>' method='POST'>
 						<div class="form-group row">
+							<label class="col-sm-3 form-control-label"></label>
+							<div class="col-sm-9">
+								Password must between 6 to 16 charactors
+							</div>
+						</div>
+						<div class="form-group row">
 							<input type='hidden'  name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
 							<label for="password" class="col-sm-3 form-control-label">Your New Password</label>
 							<div class="col-sm-9">
