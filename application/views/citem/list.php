@@ -116,7 +116,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                       <table class="table table-hover table-bordered">
                         <thead>
                           <tr>
-                            <th><a style="color:#46b8da;" id='print-items' href="<?php echo $letter_url; ?>">Print Letter</a></th>
+                            <th style='text-align:center'><button class="btn btn-primary" id='print-items'>Print</button></th>
                             <th>Action</th>
                             <th>Claim Date</th>
                             <th>Claim Amount</th>
@@ -131,7 +131,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <tbody>
                         <?php foreach ($lists as $c) { ?>
                             <tr>
-                              <td><input class='item-print' type='checkbox' data-item-id='<?php echo $c['citem_id']; ?>'></td>
+                              <td style='text-align:center'><input class='item-print' type='checkbox' data-item-id='<?php echo $c['citem_id']; ?>'></td>
                               <td style='vertical-align: middle;'><a style="color:#46b8da;" href="<?php echo $edit_url."/".$c['citem_id']?>">Edit</a></td>
                               <td><?php echo $c['claim_date']; ?></td>
                               <td><?php echo $c['claimed']; ?></td>
@@ -162,18 +162,27 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $( document ).ready(function() {
 	$("#print-items").on("click",function(e) {
 		e.preventDefault();
-		var href = $('#print-items').attr('href') + '?claim_id=' + '<?php echo $claim['claim_id']; ?>';
-		$('.item-print:checked').each(function() { href += '&citem_id[]=' + $(this).attr('data-item-id'); });
-		//window.location.href = href; 
-		$.ajax({
-			url: href,
-			type: 'GET',
-			success: function(data, textStatus, jqXHR) {
-				$('#claim-letter-popup').html(data);
-				$('#claim-letter-popup').addClass('show-pop');
-				$('#claim-letter-popup').show();
-			},
-		});
+		var href = '<?php echo $letter_url; ?>' + '?claim_id=' + '<?php echo $claim['claim_id']; ?>';
+		var ids = '';
+		$('.item-print:checked').each(function() { ids += '&citem_id[]=' + $(this).attr('data-item-id'); });
+		if (ids == '') {
+			alert('Please select item(s) to print');
+		} else {
+			//window.location.href = href; 
+			$.ajax({
+				url: href + ids,
+				type: 'GET',
+				success: function(data, textStatus, jqXHR) {
+					$('#claim-letter-popup').html(data);
+					$('#claim-letter-popup').addClass('show-pop');
+					$('#claim-letter-popup').show();
+					$('#claim-letter-close').on("click", function(e) {
+						e.preventDefault();
+						$('#claim-letter-popup').hide();
+					});
+				},
+			});
+		}
 	});
 	$('#claim-letter-popup').hide();
 	/*

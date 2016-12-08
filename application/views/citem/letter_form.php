@@ -3,11 +3,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 
         <!-- page content -->
-        <div class="right_col" role="main">
-          
             <div class="page-title">
               <div class="title_left">
-                <h3>Claim Letter</h3>
+                <h3 style='margin-left: 20px;'>Claim Letter</h3>
               </div>
 				
             </div>
@@ -83,7 +81,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <input class="form-control" type='text' name='pay_to' value=''>
                           </div>
                         </div>
-                        <div class="form-group col-sm-3">
+                        <div class="form-group col-sm-9">
                           <label >Cheque Number: </label>
                           <div class="input-group col-sm-12">
                             <input class="form-control" type='text' name='cheque_number' value=''>
@@ -91,7 +89,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         </div>
                       </div>
                       <div class="row">
-                        <div class="form-group col-sm-12 text-right">
+                        <div class="form-group col-sm-3">
+                          <button class="btn btn-primary" id="claim-letter-close">Close</button>
+                        </div>
+                        <div class="form-group col-sm-9 text-right">
                           <input class="btn btn-primary" type='submit' name='submit' value="Print">
                         </div>
                       </div>
@@ -102,5 +103,3 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </div>
               </div>
             </div><!-- End Filter Section -->
-        </div>
-        <!-- /page content -->

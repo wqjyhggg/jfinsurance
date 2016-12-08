@@ -432,16 +432,18 @@ class Citem extends MY_Controller {
 	public function letter() {
 		$beuser = $this->func_model->verify_login();
 		$this->load->model('claim_model');
+		$this->load->model('plan_model');
 		
 		$claim_id = $this->input->get('claim_id');
 		$citem_ids = $this->input->get('citem_id[]');
-		$this->load->model('plan_model');
 
 		if ($this->input->post('submit')) {
 			$claim_id = $this->input->post('claim_id');
 			$citem_ids = $this->input->post('citem_id[]');
 			$this->data['claim_id'] = $claim_id;
 			$this->data['citem_ids'] = $citem_ids;
+			$this->data['claim'] = $this->claim_model->get_claim_by_id($claim_id);
+			$this->data['plan'] = $this->plan_model->get_plan_by_id($this->data['claim']['plan_id']);
 			$this->data['fullname'] = $this->input->post('fullname');
 			$this->data['street_number'] = $this->input->post('street_number');
 			$this->data['street_name'] = $this->input->post('street_name');
@@ -454,9 +456,11 @@ class Citem extends MY_Controller {
 			$cheque_number = $this->input->post('cheque_number');
 				
 			$this->load->model('coverage_model');
-			$coverage_codes = $this->coverage_model->get_coverage_desc_by_code();
+			$coverage_codes = $this->coverage_model->get_coverage_codes();
 				
 			$this->data['itemlist'] = array();
+			$this->data['claimed_total'] = 0;
+			$this->data['claimed_paid'] = 0;
 			foreach ($citem_ids as $citem_id) {
                 $citem = $this->claim_model->get_claim_item_by_id($citem_id);
                 if ($citem) {
@@ -468,13 +472,19 @@ class Citem extends MY_Controller {
 							'paid' => $citem['paid'],
 							'note' => $citem['external_note'],
 					);
+					$this->data['claimed_total'] += $citem['claimed'];
+					$this->data['claimed_paid'] += $citem['paid'];
                 }
 			}
 			$this->data['title_txt'] = 'Claim Letter';
+			$this->data['style'] = $this->load->view('common/pdf_style',$this->data, TRUE);		
 			$html = $this->load->view('citem/letter', $this->data, TRUE);
+			//echo $html;
+			
 			$mpdf = new mPDF('c');
 			$mpdf->writeHTML($html);
 			$mpdf->Output();
+			
 		} else {
 			// Show input form
 			$this->data['claim_id'] = $claim_id;

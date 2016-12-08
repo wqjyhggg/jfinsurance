@@ -1,208 +1,122 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 ?>
-
-<!-- Plan page content -->
-
-	    <!-- Content top navigation -->
-        <div class="top_nav">
-          <div class="nav_menu">
-            <nav class="" role="navigation">
-              <div class="nav toggle">
-                <a id="menu_toggle"><i class="fa fa-bars"></i></a>
-              </div>
-
-            </nav>
-          </div>
-        </div>
-        <!-- Content top navigation End-->
-
-        <!-- page content -->
-        <div class="right_col" role="main">
-          
-            <div class="page-title">
-              <div class="title_left">
-                <h3>Claim Item Detail</h3>
-              </div>
-
-            </div>
-            <div class="clearfix"></div>
-           <!-- Filter Section -->
-            <div class="row">
-              <div class="col-md-12 col-sm-12 col-xs-12">
-                <div class="x_panel">
-                  <div class="x_content">
-                   
-                    <form method="post" class="form-horizontal" action='<?php echo $edit_url; ?>'>
-                      <input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
-                      <input type='hidden' name='citem_id' value='<?php echo $citem_id; ?>'>
-                      <input type='hidden' name='claim_id' value='<?php echo $claim_id; ?>'>
-                      <input type='hidden' name='plan_id' value='<?php echo $plan_id; ?>'>
-                      <input type='hidden' name='customer_id' value='<?php echo $customer_id; ?>'>
-                      <input type='hidden' name='product_short' value='<?php echo $product_short; ?>'>
-                      <input type='hidden' name='policy_number' value='<?php echo $policy_number; ?>'>
-                      <div class="row">
-                        <div class="form-group col-sm-3">
-                          <label class="inline">Claim No.: </label>
-                          <?php echo $claim_number; ?>
-                        </div>
-                        <div class="form-group col-sm-3">
-                          <label class="inline">Product: </label> <?php echo $product_short; ?>
-                        </div>
-                        <div class="form-group col-sm-3">
-                          <label class="inline">Policy Number: </label> <?php echo $policy_number; ?>
-                        </div>
-                        <div class="form-group col-sm-3">
-                          <label class="inline">Claim Date: </label> <?php echo $claim_date; ?>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="form-group col-sm-3">
-                          <label class="inline">Last Name: </label> <?php echo $lastname; ?>
-                        </div>
-                        <div class="form-group col-sm-3">
-                          <label class="inline">First Name: </label> <?php echo $firstname; ?>
-                        </div>
-                        <div class="form-group col-sm-3">
-                            <label class="inline">Birthdate From: </label> <?php echo $birthday; ?>
-                        </div>
-                        <div class="form-group col-sm-3">
-                          <label  class="inline">Gender: </label> <?php echo (empty($gender) || ($gender != 'F')) ? "Male" : "Female"; ?>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="form-group col-sm-3">
-                            <label>Service Date: </label>
-                            <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
-                                <input class="form-control" size="16" type="text" name='service_date' placeholder="Birthdate From" value='<?php echo $service_date; ?>' >
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                            </div>
-                        </div>
-                        <div class="form-group col-sm-3">
-                          <label >Claimed: </label>
-                          <div class="input-group col-sm-12">
-                            <input class="form-control" type='number' name='claimed' value='<?php echo $claimed; ?>'>
-                          </div>
-                        </div>
-                        <div class="form-group col-sm-3">
-                          <label>Paid: </label>
-                          <div class="input-group col-sm-12">
-                            <input class="form-control" type='number' name='paid' value='<?php echo $paid; ?>'>
-                          </div>
-                        </div>
-                        <div class="form-group col-sm-3">
-                          <label >Pay To: </label>
-                          <div class="input-group col-sm-12">
-                            <input class="form-control" type='text' name='pay_to' value='<?php echo $pay_to; ?>'>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="form-group col-sm-3">
-                            <label>Paid Date: </label>
-                            <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
-                                <input class="form-control" size="16" type="text" name='paid_date' placeholder="Birthdate From" value='<?php echo $paid_date; ?>' >
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                            </div>
-                        </div>
-                        <div class="form-group col-sm-3">
-                          <label >Coverage Code: </label><?php echo $coverage_desc; ?>
-                        </div>
-                        <div class="form-group col-sm-3">
-                          <label >Address: </label>
-                          <div class="input-group col-sm-12">
-                            <input class="form-control" type='text' name='address' value='<?php echo $address; ?>'>
-                          </div>
-                        </div>
-                        <div class="form-group col-sm-3">
-                          <label >City: </label>
-                          <div class="input-group col-sm-12">
-                            <input class="form-control" type='text' name='city' value='<?php echo $city; ?>'>
-                          </div>
-                        </div>
- 			            <div class="form-group col-sm-3">
-			                <label>Province:</label>
-			                <div class="input-group col-sm-12">
-			                	<div id='province2_div'></div>
-			                </div>
-			            </div>
-			            <div class="form-group col-sm-3">
-			                <label>Country:</label>
-			                <div class="input-group col-sm-12">
-			                	<div id='country2_div'></div>
-			                </div>
-			            </div>
-			            <div class="form-group col-sm-3">
-			                <label>Post Code:</label>
-			                <div class="col-sm-12 input-group">
-				                <input type='text' name='postcode' value='<?php echo $postcode; ?>' class="form-control">
-							</div>
-			            </div>
-                        <div class="form-group col-sm-3">
-                            <label>EOB Date: </label>
-                            <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
-                                <input class="form-control" size="16" type="text" name='eob_date' placeholder="Birthdate From" value='<?php echo $eob_date; ?>' >
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                            </div>
-                        </div>
-                      
-                        <div class="form-group col-sm-3">
-                          <label >Cheque Number: </label>
-                          <div class="input-group col-sm-12">
-                            <input class="form-control" type='text' name='cheque_number' value='<?php echo $cheque_number; ?>'>
-                          </div>
-                        </div>
-                      
-                        <div class="form-group col-sm-3">
-                          <label >Amount Received: </label>
-                          <div class="input-group col-sm-12">
-                            <input class="form-control" type='number' name='received' value='<?php echo $received; ?>'>
-                          </div>
-                        </div>
-                        <div class="form-group col-sm-3">
-                            <label>Cheque Cashed Date: </label>
-                            <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
-                                <input class="form-control" size="16" type="text" name='cashed_date' placeholder="Birthdate From" value='<?php echo $cashed_date; ?>' >
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                            </div>
-                        </div>
-                        <div class="form-group col-sm-3">
-                          <label >EOB Cheque No: </label>
-                          <div class="input-group col-sm-12">
-                            <input class="form-control" type='text' name='eob_cheque_no' value='<?php echo $eob_cheque_no; ?>'>
-                          </div>
-                        </div>
-                        
-                      </div>
-                      <div class="row">
-                        <div class="form-group col-sm-12">
-                          <label>Diagnosis: </label>
-                          <div class="input-group col-sm-12">
-                            <textarea class="form-control" rows="3" name='diagnosis'><?php echo $diagnosis; ?></textarea>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="form-group col-sm-12">
-                          <label>Internal Note: </label>
-                          <div class="input-group col-sm-12">  
-                            <textarea class="form-control" rows="3" name='internal_note'><?php echo $internal_note; ?></textarea>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="form-group col-sm-12">
-                          <label>External Note: </label>
-                          <div class="input-group col-sm-12">  
-                            <textarea class="form-control" rows="3" name='external_note'><?php echo $external_note; ?></textarea>
-                          </div>
-                        </div>
-                      </div>
-                    </form>
-
-                  </div>
-                </div>
-              </div>
-            </div><!-- End Filter Section -->
-        </div>
-        <!-- /page content -->
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>Claim Letter</title>
+	<?php echo $style;?>
+</head>
+<body>
+	<header>
+	</header>
+	<div class="container">
+		<div class="row">
+			<div width="100%" align="middle"><img class="img-responsive" src="<?php echo base_url();?>image/logo.jpg" /></div>
+		</div>
+		<div class="row" style="margin-top: -20px;">
+			<div>
+				<table border="0">
+					<tr><td style='padding-right: 30px;'>  To: </td><td><?php echo $fullname; ?></td></tr>
+					<tr><td style='padding-right: 30px;'>&nbsp;</td><td><?php echo $street_number . ' ' . $street_name . ', ' . $suite_number; ?></td></tr>
+					<tr><td style='padding-right: 30px;'>&nbsp;</td><td><?php echo $city . ', ' . $province2; ?></td></tr>
+					<tr><td style='padding-right: 30px;'>&nbsp;</td><td><?php echo $postcode; ?></td></tr>
+				</table>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-12"><?php echo date("M j, Y"); ?></div>
+		</div>
+		<div class="row">
+			<div class="col-sm-12 nopadding">To whom it may concern:</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-12 nopadding">Enclosed is the claim check for full settlement of the subject insured and policy.</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-12 nopadding">
+				<table>
+					<tr><td style='padding-left: 20px; padding-right: 30px;'><B>Policy Number:</B></td><td><?php echo $plan['policy']; ?></td></tr>
+					<tr><td style='padding-left: 20px; padding-right: 30px;'><B>Policy Holder:</B></td><td><?php echo $claim['lastname'] . ", " . $claim['firstname']; ?></td></tr>
+					<tr><td style='padding-left: 20px; padding-right: 30px;'><B>Coverage Period:</B></td><td><?php echo  $plan['effective_date'] . " To " . $plan['expiry_date']; ?></td></tr>
+				</table>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-12 nopadding">
+				<table class="bordered">
+					<thead>
+						<tr>
+							<th>Service</th>
+							<th>Date of Service</th>
+							<th>Claim Amount</th>
+							<th>Payable Amount</th>
+							<th>Claim Notes</th>
+						</tr>
+					</thead>
+					<tbody>
+					<?php foreach ($itemlist as $item) { ?>
+						<tr>
+							<td><?php echo $item['description']; ?></td>
+							<td><?php echo $item['service']; ?></td>
+							<td><?php echo '$ ' . number_format($item['claimed'], 2); ?></td>
+							<td><?php echo '$ ' . number_format($item['paid'], 2); ?></td>
+							<td><?php echo $item['note']; ?></td>
+						</tr>
+					<?php } ?>
+						<tr>
+							<td colspan='2'><h4>Total</h4></td>
+							<td><?php echo '$ ' . number_format($claimed_total, 2); ?></td>
+							<td><?php echo '$ ' . number_format($claimed_paid, 2); ?></td>
+							<td>&nbsp;</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-12">
+				<p style="margin-top: -10px;">If you have any questions, please contact me at 905-707-1512.<br /><br />Thank you,<br /><br />For an on behalf of</p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-12">
+				<p style="margin-top: -10px; border-bottom: solid; padding-bottom: 30px;display: inline-block; " width='250px'><b>JF Insurance Agency Group Inc.</b></p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-12" style='margin-top: -38px;'>Rene Ren</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-12">* This  claim  is  paid  on  a  “without  prejudice”  basis.  Additional  information  may  be  required  for further  claims.</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-12">
+				<hr>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-12">
+				<table cellpadding="5px" style="font-size: 10px; margin-top: -20px; line-height: 2px;">
+					<tbody>
+						<tr>
+							<td>15 Wertheim Court, Suite 501, Richmond Hill, ON, L4B 3H7</td>
+							<td>Tel: (905) 707-1512</td>
+							<td>Fax: (905) 707-1513</td>
+							<td>Toll Free Tel: 1-877-832-5541</td>
+						</tr>
+						<tr>
+							<td>128 - 6061 no. 3 road, Richmond, BC, V6Y 2B2</td>
+							<td>Tel: (604) 232-0896</td>
+							<td>Fax: (604) 232-0897</td>
+							<td>Toll Free Tel: 1-888-988-3268</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
