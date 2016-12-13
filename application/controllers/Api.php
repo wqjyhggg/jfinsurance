@@ -87,7 +87,7 @@ class Api extends MY_Controller {
 			// $data['product_short'] = $this->input->post('product_short');
 			// $data['province2'] = $this->input->post('province2');
 			// $data['country2'] = $this->input->post('country2');
-			if (empty($data())) {
+			if (empty($data)) {
 				$json['errormsg'] = 'Empty query condition';
 			} else {
 				$plan_list = $this->plan_model->plan_search($data);

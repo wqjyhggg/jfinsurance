@@ -42,6 +42,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                       <input type='hidden' name='product_short' value='<?php echo $product_short; ?>'>
                       <input type='hidden' name='policy_number' value='<?php echo $policy_number; ?>'>
                       <input type='hidden' name='claim_number' value='<?php echo $claim_number; ?>'>
+                      <input type="hidden" name='claim_date' value='<?php echo $claim_date; ?>'>
                       <div class="row">
                         <div class="form-group col-sm-3">
                           <label class="inline">Claim No.: </label> <?php echo $claim_number; ?>
@@ -74,7 +75,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <div class="form-group col-sm-3">
                             <label>Service Date: </label>
                             <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
-                                <input class="form-control" size="16" type="text" name='service_date' placeholder="Birthdate From" value='<?php echo $service_date; ?>' >
+                                <input class="form-control" size="16" type="text" name='service_date' placeholder="Service Date" value='<?php echo $service_date; ?>' >
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
                             <?php if (isset($error_service_date)) { ?>
@@ -111,7 +112,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <div class="form-group col-sm-3">
                             <label>Paid Date: </label>
                             <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
-                                <input class="form-control" size="16" type="text" name='paid_date' placeholder="Birthdate From" value='<?php echo $paid_date; ?>' >
+                                <input class="form-control" size="16" type="text" name='paid_date' placeholder="Paid Date" value='<?php echo $paid_date; ?>' >
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
                             <?php if (isset($error_paid_date)) { ?>
@@ -162,7 +163,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <div class="form-group col-sm-3">
                             <label>EOB Date: </label>
                             <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
-                                <input class="form-control" size="16" type="text" name='eob_date' placeholder="Birthdate From" value='<?php echo $eob_date; ?>' >
+                                <input class="form-control" size="16" type="text" name='eob_date' placeholder="EOB Date" value='<?php echo $eob_date; ?>' >
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
                         </div>
@@ -183,7 +184,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <div class="form-group col-sm-3">
                             <label>Cheque Cashed Date: </label>
                             <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
-                                <input class="form-control" size="16" type="text" name='cashed_date' placeholder="Birthdate From" value='<?php echo $cashed_date; ?>' >
+                                <input class="form-control" size="16" type="text" name='cashed_date' placeholder="Cheque Cashed Date" value='<?php echo $cashed_date; ?>' >
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
                         </div>
