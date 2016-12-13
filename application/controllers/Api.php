@@ -29,6 +29,29 @@ class Api extends MY_Controller {
 		echo json_encode($data);
 	}
 	
+	public function products() {
+		if ($this->valid()) {
+			$data['success'] = 'OK';
+			$this->load->model('product_model');
+			$plan = $this->porduct_model->product_list(1);
+			$data['plan'] = array();
+			foreach ($plan as $key => $p) {
+				$data['plan'][$key] = array(
+						'product_short' => $p['product_short'],
+						'min_premium' => $p['min_premium'],
+						'full_name' => $p['full_name'],
+						'up_insuer' => $p['up_insuer'],
+						'currency' => $p['currency'],
+				);
+			}
+		} else {
+			$data['errormsg'] = $this->error;
+		}
+		header('Content-Type: application/json');
+		header('Cache-Control: no-store, no-cache, must-revalidate');
+		echo json_encode($data);
+	}
+	
 	public function search() {
 		if ($this->valid()) {
 			$this->load->model('setting_model');
