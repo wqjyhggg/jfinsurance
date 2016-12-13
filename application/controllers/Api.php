@@ -8,7 +8,7 @@ class Api extends MY_Controller {
 		$this->error = '';
 
 		$ip = $this->input->ip_address();
-		$key = $this->input->get('key');
+		$key = $this->input->post('key');
 		$this->load->model('setting_model');
 
 		$st = $this->setting_model->get_setting_by_name('api', $ip);
@@ -37,14 +37,50 @@ class Api extends MY_Controller {
 
 			$this->setting_model->set_default_user();
 			$data = array();
+			if (!empty($this->input->post('plan_id'))) $data['plan_id'] = $this->input->post('plan_id');
 			if (!empty($this->input->post('firstname'))) $data['firstname'] = $this->input->post('firstname');
 			if (!empty($this->input->post('lastname'))) $data['lastname'] = $this->input->post('lastname');
-			if (!empty($this->input->post('birthday'))) $data['birthday2'] = $data['birthday'] = $this->input->post('birthday');
+			if (!empty($this->input->post('birthday'))) {
+				$data['birthday'] = $this->input->post('birthday');
+				if (!empty($this->input->post('birthday2'))) {
+					$data['birthday2'] = $this->input->post('birthday2');
+				} else {
+					$data['birthday2'] = $data['birthday'];
+				}
+			}
 			if (!empty($this->input->post('policy'))) $data['policy'] = $this->input->post('policy');
-			if (!empty($this->input->post('apply_date'))) $data['apply_date2'] = $data['apply_date'] = $this->input->post('apply_date');
-			if (!empty($this->input->post('arrival_date'))) $data['arrival_date2'] = $data['arrival_date'] = $this->input->post('arrival_date');
-			if (!empty($this->input->post('effective_date'))) $data['effective_date2'] = $data['effective_date'] = $this->input->post('effective_date');
-			if (!empty($this->input->post('expiry_date'))) $data['expiry_date2'] = $data['expiry_date'] = $this->input->post('expiry_date');
+			if (!empty($this->input->post('apply_date'))) {
+				$data['apply_date'] = $this->input->post('apply_date');
+				if (!empty($this->input->post('apply_date2'))) {
+					$data['apply_date2'] = $this->input->post('apply_date2');
+				} else {
+					$data['apply_date2'] = $data['apply_date'];
+				}
+			}
+			if (!empty($this->input->post('arrival_date'))) {
+				$data['arrival_date'] = $this->input->post('arrival_date');
+				if (!empty($this->input->post('arrival_date2'))) {
+					$data['arrival_date2'] = $this->input->post('arrival_date2');
+				} else {
+					$data['arrival_date2'] = $data['arrival_date'];
+				}
+			}
+			if (!empty($this->input->post('effective_date'))) {
+				$data['effective_date'] = $this->input->post('effective_date');
+				if (!empty($this->input->post('effective_date2'))) {
+					$data['effective_date2'] = $this->input->post('effective_date2');
+				} else {
+					$data['effective_date2'] = $data['effective_date'];
+				}
+			}
+			if (!empty($this->input->post('expiry_date'))) {
+				$data['expiry_date'] = $this->input->post('expiry_date');
+				if (!empty($this->input->post('expiry_date2'))) {
+					$data['expiry_date2'] = $this->input->post('expiry_date');
+				} else {
+					$data['expiry_date2'] = $data['expiry_date'];
+				}
+			}
 			// $data['uname'] = $this->input->post('uname'); // Agent 
 			// $data['batch_number'] = $this->input->post('batch_number');
 			// $data['status_id'] = $this->input->post('status_id');
