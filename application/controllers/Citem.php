@@ -127,6 +127,14 @@ class Citem extends MY_Controller {
 			$this->data['error_paid_date'] = 'paid date should not be earlier than service date';
 			$r = FALSE;
 		}
+		if (!empty($this->input->post('cashed_date')) && ($this->input->post('cashed_date') > '2010-01-01')) {
+			$dt2 = date_create($this->input->post('cashed_date'));
+			if ($dt1 && $dt2 && ($dt2 < $dt1)) {
+				$this->data['error_cashed_date'] = 'cached date should not be earlier than paid date';
+				$r = FALSE;
+			}
+		}
+
 		$claimed = $this->input->post('claimed');
 		$paid = $this->input->post('paid');
 		if ($paid > $claimed) {
@@ -282,6 +290,9 @@ class Citem extends MY_Controller {
 		} else {
 			$this->data['eob_date'] = '';
 		}
+		if ($this->data['eob_date'] <= '2010-01-01') {
+			$this->data['eob_date'] = '';
+		}
 		if ($this->input->post('invoice_number')) {
 			$this->data['invoice_number'] = $this->input->post('invoice_number'); 
 		} else if (isset($citem['invoice_number'])) {
@@ -303,6 +314,9 @@ class Citem extends MY_Controller {
 		} else {
 			$this->data['cashed_date'] = '';
 		}
+		if ($this->data['cashed_date'] <= '2010-01-01') {
+			$this->data['cashed_date'] = '';
+		}
 		if ($this->input->post('eob_cheque_no')) {
 			$this->data['eob_cheque_no'] = $this->input->post('eob_cheque_no'); 
 		} else if (isset($citem['eob_cheque_no'])) {
@@ -318,7 +332,7 @@ class Citem extends MY_Controller {
 			$this->data['address'] = '';
 		}
 		if ($this->input->post('city')) {
-			$this->data['invoice_num'] = $this->input->post('city'); 
+			$this->data['city'] = $this->input->post('city'); 
 		} else if (isset($citem['city'])) {
 			$this->data['city'] = $citem['city'];
 		} else {
@@ -375,11 +389,17 @@ class Citem extends MY_Controller {
 		} else {
 			$this->data['service_date'] = '';
 		}
+		if ($this->data['service_date'] <= '2010-01-01') {
+			$this->data['service_date'] = '';
+		}
 		if ($this->input->post('paid_date')) {
 			$this->data['paid_date'] = $this->input->post('paid_date'); 
 		} else if (isset($citem['paid_date'])) {
 			$this->data['paid_date'] = $citem['paid_date'];
 		} else {
+			$this->data['paid_date'] = '';
+		}
+		if ($this->data['paid_date'] <= '2010-01-01') {
 			$this->data['paid_date'] = '';
 		}
 		if ($this->input->post('diagnosis')) {

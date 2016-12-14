@@ -187,6 +187,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <input class="form-control" size="16" type="text" name='cashed_date' placeholder="Cheque Cashed Date" value='<?php echo $cashed_date; ?>' >
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
+                            <?php if (isset($error_cashed_date)) { ?>
+		 					<div class="alert-error">
+								<?php echo $error_cashed_date;?>
+							</div>
+                          	<?php } ?>
                         </div>
                         <div class="form-group col-sm-3">
                           <label >EOB Cheque No: </label>
