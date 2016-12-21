@@ -23,7 +23,7 @@ class MY_Controller extends CI_Controller {
 			$this->session->set_userdata('language', $language);
 		}
 
-		$currentUrl = $_SERVER['QUERY_STRING'] ? current_url() . '?' . $_SERVER['QUERY_STRING'] : current_url();
+		$currentUrl = empty($_SERVER['QUERY_STRING']) ? current_url() : current_url() . '?' . $_SERVER['QUERY_STRING'];
     	$this->session->set_userdata('curr_url', $currentUrl);
         $this->lang->load('message', $language);
 
