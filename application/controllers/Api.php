@@ -14,6 +14,8 @@ class Api extends MY_Controller {
 		$st = $this->setting_model->get_setting_by_name('api', $ip);
 		if (empty($st) || ($st['value'] != $key)) {
 			$this->error = "Can't access. Your IP is ". $ip;
+		} else {
+			$this->setting_model->set_default_user();
 		}
 		return empty($this->error);
 	}
@@ -33,7 +35,7 @@ class Api extends MY_Controller {
 		if ($this->valid()) {
 			$data['success'] = 'OK';
 			$this->load->model('product_model');
-			$plan = $this->porduct_model->product_list(1);
+			$plan = $this->product_model->product_list(1);
 			$data['plan'] = array();
 			foreach ($plan as $key => $p) {
 				$data['plan'][$key] = array(
@@ -58,7 +60,6 @@ class Api extends MY_Controller {
 			$this->load->model('status_model');
 			$this->load->model('plan_model');
 
-			$this->setting_model->set_default_user();
 			$data = array();
 			if (!empty($this->input->post('plan_id'))) $data['plan_id'] = $this->input->post('plan_id');
 			if (!empty($this->input->post('firstname'))) $data['firstname'] = $this->input->post('firstname');
