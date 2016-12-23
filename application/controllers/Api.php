@@ -59,7 +59,8 @@ class Api extends MY_Controller {
 			$this->load->model('setting_model');
 			$this->load->model('status_model');
 			$this->load->model('plan_model');
-
+			$this->load->model('customer_model');
+				
 			$data = array();
 			if (!empty($this->input->post('plan_id'))) $data['plan_id'] = $this->input->post('plan_id');
 			if (!empty($this->input->post('firstname'))) $data['firstname'] = $this->input->post('firstname');
@@ -156,6 +157,15 @@ class Api extends MY_Controller {
 					$p['birthday'] = $plan['birthday'];
 					$p['agent_firstname'] = $plan['agent_firstname'];
 					$p['agent_lastname'] = $plan['agent_lastname'];
+					$p['family'] = array();
+					if ($p['isfamilyplan']) {
+						$family = $this->customer_model->get_customer_by_parent_id($p['customer_id']);
+						if ($family) {
+							foreach ($family as $fm) {
+								$p['family'][] = array('firstname' => $fm['firstname'], 'lastname' => $fm['lastname'], 'birthday' => $fm['birthday'], 'gender' => $fm['gender'], );
+							}
+						}
+					}
 					$json['plan_list'][] = $p;
 				}
 	
