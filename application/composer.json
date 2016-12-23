@@ -1,5 +1,6 @@
 {
 	"require": {
+		"phpoffice/phpexcel": "*",
 		"beanstream/beanstream": "dev-master",
 		"mpdf/mpdf": "6.1.*",
 		"ext-zip": "*",
