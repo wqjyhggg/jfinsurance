@@ -154,7 +154,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </div>
               </div>
             </div><!-- End Filter Section -->
-<?php echo $items; ?>
+<?php if (!empty($claim_id)) { echo $items; } ?>
         </div>
         <!-- /page content -->
         
