@@ -91,8 +91,10 @@ class Claim_model extends CI_Model {
 		$this->db->insert('claim', $para);
 		$this->sqlstr = $this->db->last_query();
 		$claim_id = $this->db->insert_id();
-		$uarr = array('claim_number' => 600000 + $claim_id);
-		$this->update($claim_id, $uarr);
+		if (empty($para['claim_number'])) {
+			$uarr = array('claim_number' => 600000 + $claim_id);
+			$this->update($claim_id, $uarr);
+		}
 		$this->logstr = "Add claim record (" . $claim_id . ") : " . join(',', $para);
 		return $claim_id;
 	}
@@ -305,9 +307,9 @@ class Claim_model extends CI_Model {
 				$data['diagnosis'] = $para['diagnosis'];
 				$this->logstr .= " diagnosis " . $para['diagnosis'] . "(" . $claim['diagnosis'] . ")";
 			}
-			if (isset($para['memo']) && ($para['memo'] != $claim['memo'])) {
-				$data['memo'] = $para['memo'];
-				$this->logstr .= " memo " . $para['memo'] . "(" . $claim['memo'] . ")";
+			if (isset($para['note']) && ($para['note'] != $claim['note'])) {
+				$data['note'] = $para['note'];
+				$this->logstr .= " note " . $para['note'] . "(" . $claim['note'] . ")";
 			}
 			if (isset($para['decline_reason']) && ($para['decline_reason'] != $claim['decline_reason'])) {
 				$data['decline_reason'] = $para['decline_reason'];

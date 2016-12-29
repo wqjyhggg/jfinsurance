@@ -96,40 +96,18 @@ class Claim extends MY_Controller {
 				if ($customer) {
 					$plan = $this->plan_model->get_plan_by_id($customer['plan_id']);
 					if ($plan && ($plan['status_id'] >= 2)) {
-						$para = array();
-						$para['plan_id'] = $plan['plan_id'];
-						$para['user_id'] = $beuser['user_id'];
-						$para['customer_id'] = $customer['customer_id'];
-						$para['done'] = 2;
-						$para['product_short'] = $plan['product_short'];
-						$para['policy_number'] = $plan['policy'];
-						$para['lastname'] = $customer['lastname'];
-						$para['firstname'] = $customer['firstname'];
-						$para['birthday'] = $customer['birthday'];
-						$para['gender'] = $customer['gender'];
-						$para['claim_date'] = date('Y-m-d');
-						$claim_id = $this->claim_model->add($para);
-						$log = array(
-								'plan_id' => $plan['plan_id'], 
-								'customer_id' => $customer['customer_id'], 
-								'payment_id' => 0, 
-								'message' => $this->claim_model->logstr, 
-								'systemlog' => $this->claim_model->sqlstr
-						);
-						$this->log_model->activity('claim', $para);
-						$claim = $this->claim_model->get_claim_by_id($claim_id);
-						if ($claim) {
-							$para = array('status_id' => 4, 'note' => $plan['note'] . ";\n" . "Add Claim(" . $claim['claim_id'] .")");
-							$this->plan_model->update($plan['plan_id'], $para);
-							$log = array(
-									'plan_id' => $plan['plan_id'], 
-									'customer_id' => $customer['customer_id'], 
-									'payment_id' => 0, 
-									'message' => $this->claim_model->logstr, 
-									'systemlog' => $this->claim_model->sqlstr
-							);
-							$this->log_model->activity('plan', $para);
-						}
+						$claim = array();
+						$claim['plan_id'] = $plan['plan_id'];
+						$claim['user_id'] = $beuser['user_id'];
+						$claim['customer_id'] = $customer['customer_id'];
+						$claim['done'] = 2;
+						$claim['product_short'] = $plan['product_short'];
+						$claim['policy_number'] = $plan['policy'];
+						$claim['lastname'] = $customer['lastname'];
+						$claim['firstname'] = $customer['firstname'];
+						$claim['birthday'] = $customer['birthday'];
+						$claim['gender'] = $customer['gender'];
+						$claim['claim_date'] = date('Y-m-d');
 					} else {
 						$this->data['error_message'] = "Can't find customer";
 					}
@@ -207,8 +185,10 @@ class Claim extends MY_Controller {
 			$r = FALSE;
 		}
 		if (empty($this->input->post('claim_number'))) {
-			$this->data['error_claim_number'] = 'Claim Number is Required';
-			$r = FALSE;
+			if (!empty($this->input->post('claim_id'))) {
+				$this->data['error_claim_number'] = 'Claim Number is Required';
+				$r = FALSE;
+			}
 		}
 		if (empty($this->input->post('lastname'))) {
 			$this->data['error_lastname'] = 'Lastname is Required';
@@ -235,9 +215,65 @@ class Claim extends MY_Controller {
 		$this->load->model('claim_model');
 		if (empty($claim) && $this->input->post() && $this->form_valid()) {
 			$claim_id = $this->input->post('claim_id');
-			$this->claim_model->update($claim_id, $this->input->post());
-			$claim = $this->claim_model->get_claim_by_id($claim_id);
-			redirect('claim?lastname='.$this->input->post('lastname').'&firstname='.$this->input->post('firstname').'&policy_number='.$this->input->post('policy_number').'&claim_number='.$this->input->post('claim_number').'&product_short='.$this->input->post('product_short').'&claim_date=&claim_date2=');
+			if (empty($claim_id)) {
+				$customer_id = $this->input->post('customer_id');
+				if (!empty($customer_id)) {
+					$this->load->model('customer_model');
+					$customer = $this->customer_model->get_customer_by_id($customer_id);
+					if ($customer) {
+						$this->load->model('plan_model');
+						$plan = $this->plan_model->get_plan_by_id($customer['plan_id']);
+						if ($plan && ($plan['status_id'] >= 2)) {
+							$para = array();
+							$para['plan_id'] = $plan['plan_id'];
+							$para['user_id'] = $beuser['user_id'];
+							$para['customer_id'] = $customer['customer_id'];
+							$para['done'] = $this->input->post('done');
+							if (empty($para['done'])) $para['done'] = 2;
+							$para['product_short'] = $plan['product_short'];
+							$para['policy_number'] = $plan['policy'];
+							$para['lastname'] = $this->input->post('lastname');
+							$para['firstname'] = $this->input->post('firstname');
+							$para['birthday'] = $this->input->post('birthday');
+							$para['gender'] = $this->input->post('gender');
+							$para['claim_number'] = $this->input->post('claim_number');
+							$para['claim_date'] = $this->input->post('claim_date');
+							$para['note'] = $this->input->post('note');
+							$claim_id = $this->claim_model->add($para);
+							$log = array(
+									'plan_id' => $plan['plan_id'], 
+									'customer_id' => $customer['customer_id'], 
+									'payment_id' => 0, 
+									'message' => $this->claim_model->logstr, 
+									'systemlog' => $this->claim_model->sqlstr
+							);
+							$this->log_model->activity('claim', $para);
+							$claim = $this->claim_model->get_claim_by_id($claim_id);
+							if ($claim) {
+								$para = array('status_id' => 4, 'note' => $plan['note'] . ";\n" . "Add Claim(" . $claim['claim_id'] .")");
+								$this->plan_model->update($plan['plan_id'], $para);
+								$log = array(
+										'plan_id' => $plan['plan_id'], 
+										'customer_id' => $customer['customer_id'], 
+										'payment_id' => 0, 
+										'message' => $this->claim_model->logstr, 
+										'systemlog' => $this->claim_model->sqlstr
+								);
+								$this->log_model->activity('plan', $para);
+							}
+							redirect('claim?lastname='.$this->input->post('lastname').'&firstname='.$this->input->post('firstname').'&policy_number='.$this->input->post('policy_number').'&claim_number='.$this->input->post('claim_number').'&product_short='.$this->input->post('product_short').'&claim_date=&claim_date2=');
+						} else {
+							$this->data['error_message'] = "Can't find customer";
+						}
+					} else {
+						$this->data['error_message'] = "Can't find customer";
+					}
+				}
+			} else {
+				$this->claim_model->update($claim_id, $this->input->post());
+				$claim = $this->claim_model->get_claim_by_id($claim_id);
+				redirect('claim?lastname='.$this->input->post('lastname').'&firstname='.$this->input->post('firstname').'&policy_number='.$this->input->post('policy_number').'&claim_number='.$this->input->post('claim_number').'&product_short='.$this->input->post('product_short').'&claim_date=&claim_date2=');
+			}
 		}
 		if ($this->input->post('claim_id')) {
 			$this->data['claim_id'] = $this->input->post('claim_id'); 
