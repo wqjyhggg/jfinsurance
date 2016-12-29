@@ -27,10 +27,9 @@ class Cron extends MY_Controller {
 		}
 	}
 	
-	public function ftp($src, $dst) {
+	private function ftp($src, $dst) {
 		$this->valid();
-		$conn = ssh2_connect(self::FTP_HOST, self::FTP_PORT);
-		print_r($conn);
+		$conn = ssh2_connect(self::FTP_HOST, self::FTP_PORT) or die("Can't open connect to ". self::FTP_HOST . " prot " . self::FTP_PORT . "\n");
 		$login_result = ssh2_auth_password($conn, self::FTP_USER, self::FTP_PASS);
 		
 		if (!$login_result) {
@@ -41,9 +40,10 @@ class Cron extends MY_Controller {
 			$resFile = fopen("ssh2.sftp://{$resSFTP}/".$dst, 'w');
 			$srcFile = fopen($src, 'r');
 			$writtenBytes = stream_copy_to_stream($srcFile, $resFile);
+			echo "and send file: ".$dst." with ".$writtenBytes." bytes data\n";
 			fclose($resFile);
 			fclose($srcFile);
-			ssh2_exec($conn, 'exit');
+			//ssh2_exec($conn, 'exit');
 			unset($conn);
 		}
 	}
@@ -83,6 +83,7 @@ class Cron extends MY_Controller {
 		$rowData = $sheet->rangeToArray('A1:' . $highestColumn . '1', NULL, TRUE, FALSE);
 		print_r($rowData[0]);
 		$product_list = $this->product_model->product_list(1);
+		unset($product_list['JUS']);
 		/*  [0] => AgentID
             [1] => Active
             [2] => UserName
@@ -131,8 +132,9 @@ class Cron extends MY_Controller {
 			
 			$data = array();
 			if (empty($rowData[1])) {
-				echo "Dactive user, skip\n";
-				continue;
+				$data['status'] = '0';
+			} else {
+				$data['status'] = '1';
 			}
 			if ($this->user_model->check_username(0, $rowData[2])) {
 				echo "This user are existed in system\n";
@@ -141,11 +143,14 @@ class Cron extends MY_Controller {
 			$data['username'] = trim($rowData[2]);
 			$data['password'] = trim($rowData[3]);
 			switch(trim($rowData[4])) {
-				case 'F': $data['user_group_id'] = 1; break;	// System Admin
-				case 'J': $data['user_group_id'] = 2; break;	// Staff
-				case 'A': $data['user_group_id'] = 3; break;	// Accounting
+				case 'Y': $data['user_group_id'] = 1; break;	// System Admin
+				case 'Z': $data['user_group_id'] = 1; break;	// System Admin
+				case 'J': $data['user_group_id'] = 1; break;	// System Admin
+				case 'F': $data['user_group_id'] = 2; break;	// Staff
+				case 'A': $data['user_group_id'] = 104; break;	// Brokeage
 				case 'E': $data['user_group_id'] = 105; break;	// Agent
 				case 'S': $data['user_group_id'] = 103; break;	// School
+				case 'I': $data['user_group_id'] = 105; break;	// Agent
 				default:  $data['user_group_id'] = 0; break;		// Unknown
 			}
 			if (empty($data['user_group_id'])) {
@@ -159,8 +164,8 @@ class Cron extends MY_Controller {
 				default:  $data['region_id'] = -1; break;		// Unknown
 			}
 			if ($data['region_id'] < 0) {
-				echo "Unknown user region: ".$rowData[6]."\n";
-				exit;
+				echo "Unknown user region: ".$rowData[6]." skippid user " .$data['username']. "\n";
+				continue;
 			}
 			$data['business'] = trim($rowData[8]);
 
@@ -201,9 +206,13 @@ class Cron extends MY_Controller {
 			$data['fax_number'] = trim($rowData[20]);
 			$data['mobile_phone'] = trim($rowData[21]);
 			$data['toll_free'] = trim($rowData[22]);
+			$data['date_added'] = '';
+			/*
 			if (trim(strtoupper($rowData[27])) == 'Y') $data['paytype_list'] = array('Credit Card');
 			else                                       $data['paytype_list'] = array('Credit Card','Cash','Cheque');
-
+			*/
+			$data['paytype_list'] = array('Credit Card','Cash','Cheque');
+			/*
 			$RestrictedProductCode = trim($rowData[28]);
 			if (empty($RestrictedProductCode) || ($RestrictedProductCode == NULL)) $RestrictedProductCode = '';
 			
@@ -219,6 +228,9 @@ class Cron extends MY_Controller {
 				// Insert all products to user_product table
 				$data['product_list'] = array_keys($product_list);
 			}
+			*/
+			$data['product_list'] = array_keys($product_list);
+			
 			foreach($data['product_list'] as $p) {
 				$data['product_commission_'.$p] = $product_list[$p]['commission'];
 			}
@@ -233,8 +245,6 @@ class Cron extends MY_Controller {
 			$data['parent_user_id'] = 0;
 			$data['receive_type'] = 'Cheque';
 			$data['ip'] = '';
-			$data['status'] = '1';
-			$data['date_added'] = '';
 			$data['note'] = 'Imported User';
 			$user_id = $this->user_model->update(0, $data, 0);
 			echo "================================>>>>>>> " .$user_id. "\n";
@@ -249,33 +259,31 @@ class Cron extends MY_Controller {
 		$this->load->model ( 'batch_model' );
 		$this->load->model ( 'plan_model' );
 		$this->load->model ( 'status_model' );
+		$this->load->model ( 'customer_model' );
 		$outdir = '/tmp/';
 		
-		$filename = '/home/jackw/Downloads/OPL_Sales_Report.xls';
+		$filename = DOWNLOADDIR . 'OPL_Sales_Report.xls';
 		if (!file_exists($filename)) {
 			exit("Can't find file: ".$filename."\n");
 		}
 		
 		//$product_list = $this->product_model->product_list(1);
 		$outfile = $outdir . "OPL.xls";
-		
-		$fn = fopen($outfile, "w");
-		
-		if (!$fn) {
-			die("Can't open file: ".$outfile." for output!\n");
-		}
-
 		$objPHPExcel = PHPExcel_IOFactory::load($filename);
-		
-		$para = array();
-		$para['apply_date'] = '2016-01-01';
-		//$para['apply_date2'] = '2016-01-01';
-		$para['apply_date'] = '2016-01-01';
-		$para['product_short'] = 'OPL';
 		
 		$product_list = $this->product_model->product_list(1);
 		$status_list = $this->status_model->status_list();
-		$plans = $this->plan_model->plan_search($para, 3);
+		
+		$para = array();
+		$para['last_update'] = date('Y-m-d', time() - 86400) . " 00:00:00";
+		$para['last_update2'] = date('Y-m-d', time() - 86400) . " 23:59:59";
+		//$para['apply_date2'] = '2016-01-01';
+		$para['product_short'] = 'OPL';
+		$plansOPL = $this->plan_model->plan_search($para, 0);
+		$para['product_short'] = 'JFC';
+		$plansJFC = $this->plan_model->plan_search($para, 0);
+		
+		$plans = array_merge($plansOPL, $plansJFC);
 		$sz = sizeof($plans);
 
 		$sheet = $objPHPExcel->setActiveSheetIndex(0);
@@ -283,16 +291,24 @@ class Cron extends MY_Controller {
 //		die("XX"); //XXXXXXXXXXXXXXXXXXXXXXX
 		$row = 2;
 		foreach ($plans as $plan) {
+			if ($plan['status_id'] <= 1) continue;  // Skip Quote status
 			$sheet->setCellValue('A'.$row, $plan['policy']);
-			$sheet->setCellValue('B'.$row, $product_list[$plan['product_short']]['full_name']);
+			$b = '';
+			if ($plan['product_short'] == 'OPL') {
+				if ($plan['stable_condition'] == 1) $b = "With stable pre-existion condition coverage";
+				else if ($plan['stable_condition'] == 2) $b = "Without stable pre-existion condition coverage";
+			} else {
+				// $plan['product_short'] == 'JFC'
+			}
+			$sheet->setCellValue('B'.$row, $b);
 			$sheet->setCellValue('C'.$row, $status_list[$plan['status_id']]['name']);
-			//$sheet->setCellValue('D'.$row, $status_list[$plan['status']]['name']);
+			$sheet->setCellValue('D'.$row, $plan['isfamilyplan'] ? "Family" : "Single");
 			$sheet->setCellValue('E'.$row, $plan['firstname']);
 			$sheet->setCellValue('F'.$row, $plan['lastname']);
 			$sheet->setCellValue('G'.$row, $plan['gender']);
 			$sheet->setCellValue('H'.$row, $plan['birthday']);
-			$sheet->setCellValue('I'.$row, $plan['street_number'] . " " . $plan['street_name'] . ($plan['suite_number'] ? " Suite" . $plan['suite_number'] : "")); // Address1
-			$sheet->setCellValue('J'.$row, ""); // Address2
+			$sheet->setCellValue('I'.$row, $plan['street_number'] . " " . $plan['street_name']); // Address1
+			$sheet->setCellValue('J'.$row, ($plan['suite_number']) ? " Suite" . $plan['suite_number'] : ""); // Address2
 			$sheet->setCellValue('K'.$row, $plan['city']); // City
 			$sheet->setCellValue('L'.$row, $plan['province2']); // Provincec
 			$sheet->setCellValue('M'.$row, $plan['postcode']); // Postal Code
@@ -306,23 +322,67 @@ class Cron extends MY_Controller {
 			$sheet->setCellValue('U'.$row, $plan['totaldays']); // Trip  Length
 			$sheet->setCellValue('V'.$row, $plan['sum_insured']); // Sum  Insured
 			$sheet->setCellValue('W'.$row, $plan['deductible_amount']); // Deductible Amout
-			// $sheet->setCellValue('X'.$row, $plan['gender']); // Commission Rate
+			$sheet->setCellValue('X'.$row, empty($plan['premium']) ? 0 : $plan['commission_amount'] * 100 / $plan['premium']); // Commission Rate
 			$sheet->setCellValue('Y'.$row, $plan['commission_amount']); // Commission Amout
 			$sheet->setCellValue('Z'.$row, $plan['dailyrate']); // Daily Rate
 			$sheet->setCellValue('AA'.$row, $plan['premium']); // Gross Premium
-			// $sheet->setCellValue('AB'.$row, $plan['policy']); // Net Premium
-			// $sheet->setCellValue('AC'.$row, $plan['policy']); // Fee1
-			// $sheet->setCellValue('AD'.$row, $plan['policy']); // Fee2
-			// $sheet->setCellValue('AE'.$row, $plan['policy']); // Amount Due
+			$sheet->setCellValue('AB'.$row, $plan['premium']); // Net Premium
+			$sheet->setCellValue('AC'.$row, 0); // Fee1
+			$sheet->setCellValue('AD'.$row, 0); // Fee2
+			$sheet->setCellValue('AE'.$row, 0); // Amount Due
 			$sheet->setCellValue('AF'.$row, $plan['firstname']); // Insured First Name
 			$sheet->setCellValue('AG'.$row, $plan['lastname']); // Insured Last Name
 			$sheet->setCellValue('AH'.$row, $plan['birthday']); // Birthdate
 			$sheet->setCellValue('AI'.$row, $plan['last_update']); // Update Date
 			$row++;
+			if ($plan['isfamilyplan']) {
+				$customers = $this->customer_model->get_customer_by_parent_id($plan['customer_id']);
+				foreach ($customers as $c) {
+					$sheet->setCellValue('A'.$row, $plan['policy']);
+					$sheet->setCellValue('B'.$row, $b);
+					$sheet->setCellValue('C'.$row, $status_list[$plan['status_id']]['name']);
+					$sheet->setCellValue('D'.$row, "Family");
+					$sheet->setCellValue('E'.$row, $c['firstname']);
+					$sheet->setCellValue('F'.$row, $c['lastname']);
+					$sheet->setCellValue('G'.$row, $c['gender']);
+					$sheet->setCellValue('H'.$row, $c['birthday']);
+					$sheet->setCellValue('I'.$row, $plan['street_number'] . " " . $plan['street_name']); // Address1
+					$sheet->setCellValue('J'.$row, ($plan['suite_number']) ? " Suite" . $plan['suite_number'] : ""); // Address2
+					$sheet->setCellValue('K'.$row, $plan['city']); // City
+					$sheet->setCellValue('L'.$row, $plan['province2']); // Provincec
+					$sheet->setCellValue('M'.$row, $plan['postcode']); // Postal Code
+					$sheet->setCellValue('N'.$row, $plan['contact_phone']); // Contact Phone
+					$sheet->setCellValue('O'.$row, $plan['contact_email']); // Contact Email
+					$sheet->setCellValue('P'.$row, $plan['note']); // Notes
+					$sheet->setCellValue('Q'.$row, $plan['arrival_date']); // Arrival Date
+					$sheet->setCellValue('R'.$row, $plan['apply_date']); // Application Date
+					$sheet->setCellValue('S'.$row, $plan['effective_date']); // Effective Date
+					$sheet->setCellValue('T'.$row, $plan['expiry_date']); // Expiry Date
+					$sheet->setCellValue('U'.$row, $plan['totaldays']); // Trip  Length
+					$sheet->setCellValue('V'.$row, $plan['sum_insured']); // Sum  Insured
+					$sheet->setCellValue('W'.$row, $plan['deductible_amount']); // Deductible Amout
+					$sheet->setCellValue('X'.$row, empty($plan['premium']) ? 0 : $plan['commission_amount'] * 100 / $plan['premium']); // Commission Rate
+					$sheet->setCellValue('Y'.$row, $plan['commission_amount']); // Commission Amout
+					$sheet->setCellValue('Z'.$row, $plan['dailyrate']); // Daily Rate
+					$sheet->setCellValue('AA'.$row, $plan['premium']); // Gross Premium
+					$sheet->setCellValue('AB'.$row, $plan['premium']); // Net Premium
+					$sheet->setCellValue('AC'.$row, 0); // Fee1
+					$sheet->setCellValue('AD'.$row, 0); // Fee2
+					$sheet->setCellValue('AE'.$row, 0); // Amount Due
+					$sheet->setCellValue('AF'.$row, $c['firstname']); // Insured First Name
+					$sheet->setCellValue('AG'.$row, $c['lastname']); // Insured Last Name
+					$sheet->setCellValue('AH'.$row, $c['birthday']); // Birthdate
+					$sheet->setCellValue('AI'.$row, $plan['last_update']); // Update Date
+					$row++;
+				}
+			}
 		}
 		$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
 		$objWriter->save($outfile);
 		echo "Save to : " . $outfile . "\n";
+		$uploadFilename = 'OPL_Sales_Report_' . date('Y-m-d_H.i.s') . '.xls';
+		//XXXXXXX $this->ftp($outfile, $uploadFilename);
+		//XXXXXXX unlink($outfile);
 	}
 
 	public function test() {

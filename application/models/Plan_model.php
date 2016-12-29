@@ -671,6 +671,14 @@ class Plan_model extends CI_Model {
 				$where[] = "p.expiry_date >= " . $this->db->escape($para['expiry_date']);
 			}
 		}
+		if (!empty($para['last_update'])) {
+			if (!empty($para['last_update2'])) {
+				$where[] = "p.last_update >= " . $this->db->escape($para['last_update']);
+				$where[] = "p.last_update2 <= " . $this->db->escape($para['last_update2']);
+			} else {
+				$where[] = "p.last_update >= " . $this->db->escape($para['last_update']);
+			}
+		}
 		if (!empty($where)) {
 			$sql .= " WHERE " . join(" AND ", $where);
 		} else {
