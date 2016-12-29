@@ -29,8 +29,9 @@ class Cron extends MY_Controller {
 	
 	public function ftp() {
 		$this->valid();
-		$conn = ftp_connect(self::FTP_HOST, self::FTP_PORT) or die("Couldn't connect to " . self::FTP_HOST);
-		$login_result = ftp_login($conn, self::FTP_USER, self::FTP_PASS);
+		$conn = ssh2_connect(self::FTP_HOST, self::FTP_PORT);
+		print_r($conn);
+		$login_result = ssh2_auth_password($conn, self::FTP_USER, self::FTP_PASS);
 		
 		if (!$login_result) {
 			die("can't login");
@@ -317,5 +318,10 @@ class Cron extends MY_Controller {
 		$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
 		$objWriter->save($outfile);
 		echo "Save to : " . $outfile . "\n";
+	}
+
+	public function test() {
+		$this->load->model('mymail_model');
+		$this->mymail_model->send_mymail('wqjyhggg@gmail.com', 'Test', 'Real body');
 	}
 }
