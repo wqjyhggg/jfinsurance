@@ -27,7 +27,7 @@ class Cron extends MY_Controller {
 		}
 	}
 	
-	public function ftp() {
+	public function ftp($src, $dst) {
 		$this->valid();
 		$conn = ssh2_connect(self::FTP_HOST, self::FTP_PORT);
 		print_r($conn);
@@ -35,12 +35,17 @@ class Cron extends MY_Controller {
 		
 		if (!$login_result) {
 			die("can't login");
+		} else {
+			echo "connected";
+			$resSFTP = ssh2_sftp($conn);
+			$resFile = fopen("ssh2.sftp://{$resSFTP}/".$dst, 'w');
+			$srcFile = fopen($src, 'r');
+			$writtenBytes = stream_copy_to_stream($srcFile, $resFile);
+			fclose($resFile);
+			fclose($srcFile);
+			ssh2_exec($conn, 'exit');
+			unset($conn);
 		}
-		
-		echo ftp_pwd($conn); // /
-		
-		// close the ssl connection
-		ftp_close($conn);
 	}
 
 	public function import() {
