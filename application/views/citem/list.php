@@ -43,38 +43,59 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     	<input type="hidden" name="claim_id" value='<?php echo $claim['claim_id']; ?>'>
                       <!-- personal information search -->
                       <div class="row">
-                        <!-- claim_number box -->
-                        <div class="form-group col-sm-3">
-                           <label class="inline">Policy No.: </label> <?php echo $claim['policy_number']; ?>
+                        <div class="form-group col-sm-2">
+                           <label class="inline">Claim No.: </label> <?php echo $claim['claim_number']; ?>
                         </div>
-                        <!-- claim_number box end -->
-                        <!-- claim_number box -->
-                        <div class="form-group col-sm-3">
-                          <label class="inline">Claim No.: </label> <?php echo $claim['claim_number']; ?>
+                        <div class="form-group col-sm-2">
+                           <label class="inline">Product : </label> <?php echo $claim['product_short']; ?>
                         </div>
-                        <!-- claim_number box end -->
-                        <!-- First Name input box -->
                         <div class="form-group col-sm-3">
-                          <label class="inline">Name: </label> <?php echo $claim['firstname']; ?> <?php echo $claim['lastname']; ?>
+                          <label class="inline">Policy No.: </label> <?php echo $claim['policy_number']; ?>
                         </div>
-                        <!-- First Name input box end -->
+                        <div class="form-group col-sm-3">
+                          <label class="inline">Finish Claim: </label> <?php if ($claim['done'] == 1) { echo "Finished"; } else { echo "Processing"; } ?>
+                        </div>
                       </div>
                       <div class="row">
-                        <!-- Policy Number input box -->
-                        <div class="form-group col-sm-3">
-                          <label class="inline">Birthday: </label> <?php echo $claim['birthday']; ?>
+                        <div class="form-group col-sm-2">
+                           <label class="inline">Sum Insured : </label> <?php echo empty($plan['sum_insured']) ? 'N/A' : $plan['sum_insured']; ?>
                         </div>
-                        <!-- Policy Number input box end -->
-                        <!-- Claim Number input box -->
-                        <div class="form-group col-sm-3">
-                          <label class="inline">Gender:</label> <?php echo $claim['gender']; ?>
+                        <div class="form-group col-sm-2">
+                           <label class="inline">Deductible : </label> <?php echo empty($plan['deductible_amount']) ? '0' : $plan['deductible_amount']; ?>
                         </div>
-                        <!-- Claim Number input box end -->
-                        <!-- Claim Amount box -->
                         <div class="form-group col-sm-3">
+                          <label class="inline">Agent : </label> <?php echo $agent['firstname'] . " " . $agent['lastname']; ?>
+                        </div>
+                        <div class="form-group col-sm-3">
+                          <label class="inline">Agent Company : </label> <?php echo $agent['business']; ?>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="form-group col-sm-2">
+                           <label class="inline">Claim Date : </label> <?php echo $claim['claim_date']; ?>
+                        </div>
+                        <div class="form-group col-sm-2">
+                           <label class="inline">Last Name : </label> <?php echo $claim['lastname']; ?>
+                        </div>
+                        <div class="form-group col-sm-2">
+                          <label class="inline">First Name : </label> <?php echo $claim['firstname']; ?>
+                        </div>
+                        <div class="form-group col-sm-2">
+                          <label class="inline">Birthday : </label> <?php echo $claim['birthday']; ?>
+                        </div>
+                        <div class="form-group col-sm-2">
+                          <label class="inline">Gender : </label> <?php echo $claim['gender']; ?>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="form-group col-sm-10">
                           <label class="inline">Total Claimed Amount:</label> $<?php echo number_format($claimed_amount); ?>
                         </div>
-                        <!-- Claim Amount box end -->
+                      </div>
+                      <div class="row">
+                        <div class="form-group col-sm-10">
+                          <label class="inline">Note:</label> <?php echo $claim['note']; ?>
+                        </div>
                       </div>
                       <div class="row">
                         <!-- submit button -->

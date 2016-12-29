@@ -18,6 +18,7 @@ class Citem extends MY_Controller {
 	{
 		$beuser = $this->func_model->verify_login();
 		$this->load->model('claim_model');
+		$this->load->model('plan_model');
 		
 		if (isset($this->data) && !empty($this->data['error_message'])) {
 			$data['error_message'] = $this->data['error_message'];
@@ -26,7 +27,10 @@ class Citem extends MY_Controller {
 		$data['claimed_amount'] = $this->claim_model->getClaimTotal($claim_id);
 		
 		$data['claim'] = $this->claim_model->get_claim_by_id($claim_id);
+		$data['plan'] = $this->plan_model->plan_search(array('plan_id' => $data['claim']['plan_id']), 1);
+		$data['agent'] = $this->user_model->get_user_by_id($data['claim']['user_id']);
 		$data['lists'] = $this->claim_model->get_item_list($claim_id);
+		
 		$data['add_url'] = base_url('citem/add/'.$claim_id);
 		$data['edit_url'] = base_url('citem/edit');
 		$data['letter_url'] = base_url('citem/letter');
@@ -119,7 +123,7 @@ class Citem extends MY_Controller {
 		*/
 		$dt = date_create($this->input->post('service_date'));
 		if (empty($this->input->post('service_date')) || !$dt) {
-			$this->data['error_service_date'] = 'Claim date is Required';
+			$this->data['error_service_date'] = 'Service Date cannot be empty';
 			$r = FALSE;
 		}
 		$dt1 = date_create($this->input->post('paid_date'));
@@ -408,7 +412,7 @@ class Citem extends MY_Controller {
 			$this->data['diagnosis'] = $citem['diagnosis'];
 		} else {
 			$this->data['diagnosis'] = '';
-		}
+		}/*
 		if ($this->input->post('internal_note')) {
 			$this->data['internal_note'] = $this->input->post('internal_note'); 
 		} else {
@@ -418,6 +422,14 @@ class Citem extends MY_Controller {
 			$this->data['internal_note_pre'] = $citem['internal_note'];
 		} else {
 			$this->data['internal_note_pre'] = '';
+		}
+		*/
+		if ($this->input->post('internal_note')) {
+			$this->data['internal_note'] = $this->input->post('internal_note'); 
+		} else if (isset($citem['internal_note'])) {
+			$this->data['internal_note'] = $citem['internal_note'];
+		} else {
+			$this->data['internal_note'] = '';
 		}
 		if ($this->input->post('external_note')) {
 			$this->data['external_note'] = $this->input->post('external_note'); 
