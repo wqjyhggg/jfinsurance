@@ -572,6 +572,12 @@ class User_model extends CI_Model {
 				$para['note'] = trim($post['note']);
 			}
 		}
+		if (!empty($post['date_added'])) {
+			if ($this_user) {
+			} else {
+				$para['date_added'] = trim($post['date_added']);
+			}
+		}
 		if ($user_id) {
 			if (!empty($para)) {
 				$this->db->where('user_id', $user_id);

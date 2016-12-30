@@ -134,8 +134,10 @@ class Cron extends MY_Controller {
 			$Data = $sheet->rangeToArray('A' . $row . ':' . $highestColumn . $row, NULL, TRUE, FALSE);
 			//  Insert row data array into your database of choice here
 			$rowData = $Data[0];
-			print_r($rowData);
-			
+			//print_r($rowData);
+			$DateCreatedCell = $sheet->getCell('Y' . $row);
+			$DateCreated = PHPExcel_Style_NumberFormat::toFormattedString($DateCreatedCell->getCalculatedValue(), 'YYYY-MM-DD hh:mm:ss');
+
 			$data = array();
 			if (empty($rowData[1])) {
 				$data['status'] = '0';
@@ -143,7 +145,7 @@ class Cron extends MY_Controller {
 				$data['status'] = '1';
 			}
 			if ($this->user_model->check_username(0, $rowData[2])) {
-				echo "This user are existed in system\n";
+				echo "This user [" . $rowData[2] . "] is existed in system\n";
 				continue;
 			}
 			$data['username'] = trim($rowData[2]);
@@ -212,7 +214,7 @@ class Cron extends MY_Controller {
 			$data['fax_number'] = trim($rowData[20]);
 			$data['mobile_phone'] = trim($rowData[21]);
 			$data['toll_free'] = trim($rowData[22]);
-			$data['date_added'] = '';
+			$data['date_added'] = $DateCreated;
 			/*
 			if (trim(strtoupper($rowData[27])) == 'Y') $data['paytype_list'] = array('Credit Card');
 			else                                       $data['paytype_list'] = array('Credit Card','Cash','Cheque');
@@ -243,7 +245,7 @@ class Cron extends MY_Controller {
 			$data['licence_number'] = trim($rowData[29]);
 			$tm = trim($rowData[30]);
 			if (empty($tm) || ($tm == 'NULL')) {
-				$data['licence_expire'] = '2016-01-01';		// Expired
+				$data['licence_expire'] = '2017-02-15';		// 
 			} else {
 				$data['licence_expire'] = date("Y-m-d", $this->batch_model->unixstamp($tm));
 			}

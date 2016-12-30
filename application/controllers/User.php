@@ -34,7 +34,7 @@ class User extends MY_Controller {
 		}
 		
 		$pw = $this->input->post ( 'password' );
-		if (empty ( $pw ) || (strlen ( $pw ) < self::PASSWORD_MIN) || (strlen ( $pw ) > self::PASSWORD_MAX)) {
+		if (empty ( trim($pw) ) || (strlen ( $pw ) > self::PASSWORD_MAX)) {
 			$this->data ['password_error'] = $this->lang->line ( 'error_password_input' );
 			$rt = FALSE;
 		}
