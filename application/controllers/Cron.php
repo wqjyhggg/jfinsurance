@@ -268,7 +268,7 @@ class Cron extends MY_Controller {
 		}
 		
 		//$product_list = $this->product_model->product_list(1);
-		$outfile = $outdir . "OPL.xls";
+		$outfile = $outdir . "OPL_" . date('Y-m-d_H.i.s') . ".xls";
 		$objPHPExcel = PHPExcel_IOFactory::load($filename);
 		
 		$product_list = $this->product_model->product_list(1);
