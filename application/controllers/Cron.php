@@ -29,23 +29,29 @@ class Cron extends MY_Controller {
 	
 	private function ftp($src, $dst) {
 		$this->valid();
-		$conn = ssh2_connect(self::FTP_HOST, self::FTP_PORT) or die("Can't open connect to ". self::FTP_HOST . " prot " . self::FTP_PORT . "\n");
+		$conn = ssh2_connect(self::FTP_HOST, self::FTP_PORT);
+		if (!$conn) {
+			echo "Can't open connect to ". self::FTP_HOST . " prot " . self::FTP_PORT . " at time " .date('Ymd His') . "\n";
+			return FALSE;
+		}
 		$login_result = ssh2_auth_password($conn, self::FTP_USER, self::FTP_PASS);
 		
 		if (!$login_result) {
-			die("can't login");
+			echo "can't login at time " .date('Ymd His') . "\n";
+			return FALSE;
 		} else {
-			echo "connected";
+			echo "connected ";
 			$resSFTP = ssh2_sftp($conn);
 			$resFile = fopen("ssh2.sftp://{$resSFTP}/".$dst, 'w');
 			$srcFile = fopen($src, 'r');
 			$writtenBytes = stream_copy_to_stream($srcFile, $resFile);
-			echo "and send file: ".$dst." with ".$writtenBytes." bytes data\n";
+			echo " and send file: ".$dst." with ".$writtenBytes." bytes data at time " .date('Ymd His') . "\n";
 			fclose($resFile);
 			fclose($srcFile);
 			//ssh2_exec($conn, 'exit');
 			unset($conn);
 		}
+		return TRUE;
 	}
 
 	public function import($filename) {
@@ -290,10 +296,8 @@ class Cron extends MY_Controller {
 //		print_r(get_class_methods(get_class($objPHPExcel)));
 
 		$row = 2;
-		$needupload = 0;
 		foreach ($plans as $plan) {
 			if ($plan['status_id'] <= 1) continue;  // Skip Quote status
-			$needupload = 1;
 			$sheet->setCellValue('A'.$row, $plan['policy']);
 			$b = '';
 			if ($plan['product_short'] == 'OPL') {
@@ -383,8 +387,19 @@ class Cron extends MY_Controller {
 		$objWriter->save($outfile);
 		echo "Save to : " . $outfile . "\n";
 		$uploadFilename = 'test_OPL_Sales_Report_' . date('Y-m-d_H.i.s') . '.xls';
-		if ($needupload) $this->ftp($outfile, $uploadFilename);
-		//XXXXXXX unlink($outfile);
+		$uploaded = FALSE;
+		for ($i = 0; $i < 5; $i++) {
+			$uploaded = $this->ftp($outfile, $uploadFilename);
+			if ($uploaded) {
+				unlink($outfile);
+				break;
+			}
+			sleep(60); // wait 1 minute too retry
+		}
+		if (!$uploaded) {
+			$this->load->model("mymail_model");
+			$this->mymail_model->send_mymail('wqjyhggg@gmail.com', 'JF upload error', "Local file: " . $outfile ."\n remote file: " . $uploadFilename);
+		}
 	}
 
 	public function test() {
