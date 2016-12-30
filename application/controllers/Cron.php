@@ -399,6 +399,7 @@ class Cron extends MY_Controller {
 		if (!$uploaded) {
 			$this->load->model("mymail_model");
 			$this->mymail_model->send_mymail('wqjyhggg@gmail.com', 'JF upload error', "Local file: " . $outfile ."\n remote file: " . $uploadFilename);
+			$this->mymail_model->send_mymail('cosmo@jfgroup.ca', 'JF upload error', "Local file: " . $outfile ."\n remote file: " . $uploadFilename, array($outfile));
 		}
 	}
 
