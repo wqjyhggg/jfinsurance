@@ -48,10 +48,10 @@ class Cron extends MY_Controller {
 		}
 	}
 
-	public function import() {
+	public function import($filename) {
 		$this->valid();
 
-		$filename = '/home/jackw/Downloads/agent_2016_12_19.xls';
+		//$filename = '/home/jackw/Downloads/agent_2016_12_19.xls';
 		
 		$this->load->model ( 'product_model' );
 		$this->load->model ( 'user_model' );
@@ -288,10 +288,12 @@ class Cron extends MY_Controller {
 
 		$sheet = $objPHPExcel->setActiveSheetIndex(0);
 //		print_r(get_class_methods(get_class($objPHPExcel)));
-//		die("XX"); //XXXXXXXXXXXXXXXXXXXXXXX
+
 		$row = 2;
+		$needupload = 0;
 		foreach ($plans as $plan) {
 			if ($plan['status_id'] <= 1) continue;  // Skip Quote status
+			$needupload = 1;
 			$sheet->setCellValue('A'.$row, $plan['policy']);
 			$b = '';
 			if ($plan['product_short'] == 'OPL') {
@@ -380,8 +382,8 @@ class Cron extends MY_Controller {
 		$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
 		$objWriter->save($outfile);
 		echo "Save to : " . $outfile . "\n";
-		$uploadFilename = 'OPL_Sales_Report_' . date('Y-m-d_H.i.s') . '.xls';
-		//XXXXXXX $this->ftp($outfile, $uploadFilename);
+		$uploadFilename = 'test_OPL_Sales_Report_' . date('Y-m-d_H.i.s') . '.xls';
+		if ($needupload) $this->ftp($outfile, $uploadFilename);
 		//XXXXXXX unlink($outfile);
 	}
 
