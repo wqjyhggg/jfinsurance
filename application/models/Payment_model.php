@@ -81,6 +81,7 @@ class Payment_model extends CI_Model {
 		$this->db->select_sum('amount');
 		$this->db->where('plan_id', $plan_id);
 		$this->db->where('pay_type', $pay_type);
+		$this->db->where('ispaid', 1);
 		return $this->db->get('payment')->row()->amount;
 	}
 	
