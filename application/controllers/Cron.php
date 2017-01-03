@@ -309,7 +309,9 @@ class Cron extends MY_Controller {
 				// $plan['product_short'] == 'JFC'
 			}
 			$sheet->setCellValue('B'.$row, $b);
-			$sheet->setCellValue('C'.$row, $status_list[$plan['status_id']]['name']);
+			$status_str = $status_list[$plan['status_id']]['name'];
+			if ($plan['status_id'] == '2') $status_str = 'New';
+			$sheet->setCellValue('C'.$row, $status_str);
 			$sheet->setCellValue('D'.$row, $plan['isfamilyplan'] ? "Family" : "Single");
 			$sheet->setCellValue('E'.$row, $plan['firstname']);
 			$sheet->setCellValue('F'.$row, $plan['lastname']);
@@ -348,7 +350,7 @@ class Cron extends MY_Controller {
 				foreach ($customers as $c) {
 					$sheet->setCellValue('A'.$row, $plan['policy']);
 					$sheet->setCellValue('B'.$row, $b);
-					$sheet->setCellValue('C'.$row, $status_list[$plan['status_id']]['name']);
+					$sheet->setCellValue('C'.$row, $status_str);
 					$sheet->setCellValue('D'.$row, "Family");
 					$sheet->setCellValue('E'.$row, $c['firstname']);
 					$sheet->setCellValue('F'.$row, $c['lastname']);
