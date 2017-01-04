@@ -299,7 +299,7 @@ class Cron extends MY_Controller {
 
 		$row = 2;
 		foreach ($plans as $plan) {
-			if ($plan['status_id'] <= 1) continue;  // Skip Quote status
+			if ($plan['status_id'] <= Plan_model::QUOTE) continue;  // Skip Quote status
 			$sheet->setCellValue('A'.$row, $plan['policy']);
 			$b = '';
 			if ($plan['product_short'] == 'OPL') {
@@ -310,7 +310,8 @@ class Cron extends MY_Controller {
 			}
 			$sheet->setCellValue('B'.$row, $b);
 			$status_str = $status_list[$plan['status_id']]['name'];
-			if ($plan['status_id'] == '2') $status_str = 'New';
+			if ($plan['status_id'] == Plan_model::SOLD) $status_str = 'New';
+			if ($plan['status_id'] == Plan_model::REFUND) $status_str = 'Changed';
 			$sheet->setCellValue('C'.$row, $status_str);
 			$sheet->setCellValue('D'.$row, $plan['isfamilyplan'] ? "Family" : "Single");
 			$sheet->setCellValue('E'.$row, $plan['firstname']);

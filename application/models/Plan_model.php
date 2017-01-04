@@ -402,7 +402,7 @@ class Plan_model extends CI_Model {
 			if (($plan['status_id'] == 2) || ($plan['status_id'] == 3)) {
 				// Forced to changed status
 				$this->logstr .= " status_id 7(" . $plan['status_id'] . ")";
-				$sql .= " status_id='7', ";
+				$sql .= " status_id='" . self::CHANGED . "', ";
 			}
 		}
 		if (isset($para['commission_amount']) && ((float)$para['commission_amount'] != (float)$plan['commission_amount'])) {
