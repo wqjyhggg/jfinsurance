@@ -87,13 +87,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <div class="form-group col-sm-3">
                           <label >Claim Amount: </label>
                           <div class="input-group col-sm-12">
-                            <input class="form-control" type='number' name='claimed' value='<?php echo $claimed; ?>'>
+                            <input class="form-control" type='number' step="0.01" name='claimed' value='<?php echo $claimed; ?>'>
                           </div>
                         </div>
                         <div class="form-group col-sm-3">
                           <label>Paid: </label>
                           <div class="input-group col-sm-12">
-                            <input class="form-control" type='number' name='paid' value='<?php echo $paid; ?>'>
+                            <input class="form-control" type='number' step="0.01" name='paid' value='<?php echo $paid; ?>'>
                           </div>
                             <?php if (isset($error_paid)) { ?>
 		 					<div class="alert-error">
@@ -178,7 +178,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <div class="form-group col-sm-3">
                           <label >Amount Received: </label>
                           <div class="input-group col-sm-12">
-                            <input class="form-control" type='number' name='received' value='<?php echo $received; ?>'>
+                            <input class="form-control" type='number' step="0.01" name='received' value='<?php echo $received; ?>'>
                           </div>
                         </div>
                         <div class="form-group col-sm-3">
