@@ -2,6 +2,7 @@
 .project
 .settings/*
 user_guide/*
+agentinfo/*
 */config/development
 */logs/log-*.php
 !*/logs/index.html
@@ -9,10 +10,6 @@ user_guide/*
 */cache/*
 !*/cache/index.html
 !*/cache/.htaccess
-
-agentinfo/*
-!agentinfo/back_thumb.png
-!agentinfo/logo_thumb.png
 
 # Compiled source #
 ###################
@@ -51,3 +48,7 @@ agentinfo/*
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+.gitignore
+bugzilla/*
+html/favicon.ico

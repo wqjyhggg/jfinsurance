@@ -4,7 +4,6 @@ if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
 class Mymail_model extends CI_Model {
-	/*
 	public $config = Array(
 			'protocol' => 'smtp',
 			'smtp_host' => 'ssl://smtp.gmail.com',
@@ -15,18 +14,7 @@ class Mymail_model extends CI_Model {
 			'charset'   => 'UTF-8'
 			);
 	public $myemail = 'jackauroratd@gmail.com';
-	/**/
-	public $config = Array(
-			'protocol' => 'smtp',
-			'smtp_host' => 'tls://mail.auroratd.ca',
-			'smtp_port' => 587,
-			'smtp_user' => 'aurora1@auroratd.ca',
-			'smtp_pass' => 'aaaaaaaa',
-			'mailtype'  => 'html',
-			'charset'   => 'UTF-8'
-			);
-	public $myemail = 'aurora1@auroratd.ca';
-	/**/
+	
 	/**
 	 * Send email
 	 * 
