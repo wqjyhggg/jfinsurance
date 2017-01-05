@@ -102,7 +102,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                       </div>
                       <!-- Email input box -->
                       <div class="form-group col-sm-3">
-                        <label class="col-sm-12">E-amil:</label>
+                        <label class="col-sm-12">E-mail:</label>
                         <div class="input-group col-sm-12">
                           <input type='text' name='email' value='<?php echo $email; ?>' class="form-control">
                         </div>

@@ -14,9 +14,9 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 	</header>
 	<div class="container">
 		<div class="row">
-			<div width="100%" align="middle"><img class="img-responsive" src="<?php echo base_url();?>image/logo.jpg" /></div>
+			<div width="100%" align="middle"><img style="width:120px;" src="<?php echo base_url();?>image/otc_logo.jpg" /></div>
 		</div>
-		<div class="row" style="margin-top: -20px;">
+		<div class="row" style="margin-top: 20px;">
 			<div>
 				<table border="0">
 					<tr><td style='padding-right: 30px;'>  To: </td><td><?php echo $fullname; ?></td></tr>
