@@ -54,6 +54,7 @@ class Refund extends MY_Controller
         $data['report_data'] = empty($_POST) ? array() : $this->report_model->get_refund_report($data);
 
         $data['export_list'] = base_url ( "reports/refund/export_list" );
+        $data['export_form'] = $this->load->view ( 'reports/agent_export', $data, true);
         return $data;
 	}
 
