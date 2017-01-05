@@ -35,8 +35,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                   <div class="x_content">
                    
         					<?php if (!empty($error_message)) { echo $error_message . "<br>"; } ?>
-        					<form action='<?php $action_url; ?>' method='POST' class="form-horizontal">
-        					  <input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
+        					<form action='<?php $action_url; ?>' method='GET' class="form-horizontal">
+        					  <!-- input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>' -->
           					
                     <div class="row">
                     <?php if ($beuser_group_id > 100) { ?>
@@ -197,6 +197,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               </div>
             </div>
           </div>
+          <div class='pageination pull-right'><?php echo $pagination; ?></div>
 
         </div>
       </div>

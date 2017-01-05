@@ -3,6 +3,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 class User extends MY_Controller {
 	const PASSWORD_MIN = 6;
 	const PASSWORD_MAX = 16;
+	const PERPAGE = 15;
 	private $data;
 	
 	/**
@@ -172,8 +173,11 @@ class User extends MY_Controller {
 		//$data = $this->lang->language;
 		$this->load->model('user_group_model');
 		$this->load->model('region_model');
+		$this->load->library('pagination');
+		
 		$data['user_group_list'] = $this->user_group_model->get_user_group_list(1);	// Get full list
-		$data['user_list'] = $this->user_model->get_user_list($this->session->beuser['user_group_id'], $this->session->beuser['user_id'], $this->input->post());
+		$data['user_list'] = $this->user_model->get_user_list($this->session->beuser['user_group_id'], $this->session->beuser['user_id'], $this->input->get(), self::PERPAGE, ($this->input->get('per_page') * self::PERPAGE) );
+		$data['user_list_total'] = $this->user_model->get_user_list_total($this->session->beuser['user_group_id'], $this->session->beuser['user_id'], $this->input->get());
 		$data['action_url'] = current_url();
 		$data['edit_url'] = base_url('user/edit')."?user_id=";
 		$data['user_group_id'] = $this->input->post ( 'user_group_id' );
@@ -193,6 +197,26 @@ class User extends MY_Controller {
 		} else {
 			$data['behalf_url'] = '';
 		}
+		
+		$searchURL = current_url();
+		$para = $this->input->get();
+		if (!empty($para)) {
+			if (key_exists('per_page', $para)) {
+				unset($para['per_page']);
+			}
+			$searchURL .= "?" . http_build_query($para);
+		}
+		$pgArr = array(
+				'base_url' => $searchURL,
+				'total_rows' => $data['user_list_total'],
+				'per_page' => self::PERPAGE,
+				'page_query_string' => TRUE,
+				'use_page_numbers' => TRUE,
+				'uri_segment' => 3,
+		);
+		$this->pagination->initialize($pgArr);
+		
+		$data['pagination'] = $this->pagination->create_links();
 		
 		$data ['csrf'] = array (
 				'name' => $this->security->get_csrf_token_name (),

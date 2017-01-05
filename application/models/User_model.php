@@ -67,7 +67,7 @@ class User_model extends CI_Model {
 	 * @param	array	$para			search conditions
 	 * @return	array					user table search result
 	 */
-	public function get_user_list($user_group_id, $user_id, $para=array()) {
+	public function get_user_list($user_group_id, $user_id, $para=array(), $limit=0, $start=0) {
 		if ($user_group_id <= 1) {
 			// Admin
 			$sql = "SELECT * FROM user WHERE user_group_id >= '0'";
@@ -98,10 +98,58 @@ class User_model extends CI_Model {
 		if (!empty($para['business'])) {
 			$sql .= " AND business LIKE " . $this->db->escape($para['business'] . "%");
 		}
+		if (!empty((int)$limit)) {
+			if (empty((int)$start)) {
+				$sql .= " LIMIT " . (int)$limit;
+			} else {
+				$sql .= " LIMIT " . (int)$start .  "," . (int)$limit;
+			}
+		}
 		return $this->db->query($sql)->result_array();
 	}
 
-    /**
+	/**
+	 * Get user list Total
+	 * 
+	 * @param	integer	$user_group_id
+	 * @param	array	$para			search conditions
+	 * @return	array					user table search result
+	 */
+	public function get_user_list_total($user_group_id, $user_id, $para=array()) {
+		if ($user_group_id <= 1) {
+			// Admin
+			$sql = "SELECT * FROM user WHERE user_group_id >= '0'";
+		} else if ($user_group_id < 100) {
+			// Staff
+			$sql = "SELECT * FROM user WHERE user_group_id >= '100'";
+		} else {
+			$sql = "SELECT * FROM user WHERE parent_user_id = '" . (int)$user_id . "'";
+		}
+		if (!empty($para['user_group_id'])) {
+			$sql .= " AND user_group_id = '" . (int)$para['user_group_id'] . "'";
+		}
+		if (!empty($para['region_id'])) {
+			$sql .= " AND region_id = '" . (int)$para['region_id'] . "'";
+		}
+		if (!empty($para['username'])) {
+			$sql .= " AND username LIKE " . $this->db->escape($para['username'] . "%");
+		}
+		if (!empty($para['firstname'])) {
+			$sql .= " AND firstname LIKE " . $this->db->escape($para['firstname'] . "%");
+		}
+		if (!empty($para['lastname'])) {
+			$sql .= " AND lastname LIKE " . $this->db->escape($para['lastname'] . "%");
+		}
+		if (!empty($para['email'])) {
+			$sql .= " AND email LIKE " . $this->db->escape($para['email'] . "%");
+		}
+		if (!empty($para['business'])) {
+			$sql .= " AND business LIKE " . $this->db->escape($para['business'] . "%");
+		}
+		return $this->db->query($sql)->num_rows();
+	}
+
+	/**
      * Get Available user list of current user
      *
      * @return array available user list
