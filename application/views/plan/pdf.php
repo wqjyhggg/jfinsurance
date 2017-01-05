@@ -102,7 +102,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 				</div>
 					
 				<div class="row">
-					<?php for ($i = 0; $i < 9; $i++) { ?>
+					<?php for ($i = 0; $i < sizeof($customers); $i++) { ?>
 						<?php if (empty($customers[$i]['lastname']) && empty($customers[$i]['firstname'])) continue; ?>
 						<div class="col-sm-4" style="padding:0;">
 							<h4><span><?php echo $customers[$i]['firstname']  . " " . $customers[$i]['lastname']; ?></span>&nbsp;&nbsp;&nbsp;&nbsp;<span><?php echo $customers[$i]['birthday']; ?></span></h4>
