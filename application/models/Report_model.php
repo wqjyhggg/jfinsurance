@@ -541,7 +541,7 @@ class Report_model extends CI_Model
     {
         $this->db->from('payment pm');
         $this->db->join('plan pl', 'pm.plan_id = pl.plan_id');
-        $this->db->join('user u', 'pm.user_id = u.user_id');
+        $this->db->join('user u', 'pl.user_id = u.user_id');
         $this->db->join('customer c', 'pl.customer_id = c.customer_id');
     }
 

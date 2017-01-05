@@ -10,6 +10,10 @@ user_guide/*
 !*/cache/index.html
 !*/cache/.htaccess
 
+agentinfo/*
+!agentinfo/back_thumb.png
+!agentinfo/logo_thumb.png
+
 # Compiled source #
 ###################
 *.com
