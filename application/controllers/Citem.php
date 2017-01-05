@@ -412,7 +412,7 @@ class Citem extends MY_Controller {
 			$this->data['diagnosis'] = $citem['diagnosis'];
 		} else {
 			$this->data['diagnosis'] = '';
-		}/*
+		}
 		if ($this->input->post('internal_note')) {
 			$this->data['internal_note'] = $this->input->post('internal_note'); 
 		} else {
@@ -423,7 +423,7 @@ class Citem extends MY_Controller {
 		} else {
 			$this->data['internal_note_pre'] = '';
 		}
-		*/
+		/*
 		if ($this->input->post('internal_note')) {
 			$this->data['internal_note'] = $this->input->post('internal_note'); 
 		} else if (isset($citem['internal_note'])) {
@@ -431,6 +431,7 @@ class Citem extends MY_Controller {
 		} else {
 			$this->data['internal_note'] = '';
 		}
+		*/
 		if ($this->input->post('external_note')) {
 			$this->data['external_note'] = $this->input->post('external_note'); 
 		} else if (isset($citem['external_note'])) {
