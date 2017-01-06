@@ -87,7 +87,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-sm-12" style='margin-top: -38px;'>Rene Ren</div>
+			<div class="col-sm-12" style='margin-top: -38px;'><?php echo $claim['firstname'] . " " . $claim['lastname']; ?></div>
 		</div>
 		<div class="row">
 			<div class="col-sm-12">* This  claim  is  paid  on  a  “without  prejudice”  basis.  Additional  information  may  be  required  for further  claims.</div>
