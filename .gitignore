@@ -2,6 +2,7 @@
 .project
 .settings/*
 user_guide/*
+agentinfo/*
 */config/development
 */logs/log-*.php
 !*/logs/index.html
@@ -47,3 +48,7 @@ user_guide/*
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+.gitignore
+bugzilla/*
+html/favicon.ico

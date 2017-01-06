@@ -27,7 +27,8 @@ class Citem extends MY_Controller {
 		$data['claimed_amount'] = $this->claim_model->getClaimTotal($claim_id);
 		
 		$data['claim'] = $this->claim_model->get_claim_by_id($claim_id);
-		$data['plan'] = $this->plan_model->plan_search(array('plan_id' => $data['claim']['plan_id']), 1);
+		$plans = $this->plan_model->plan_search(array('plan_id' => $data['claim']['plan_id']), 1);
+		$data['plan'] = $plans[0];
 		$data['agent'] = $this->user_model->get_user_by_id($data['claim']['user_id']);
 		$data['lists'] = $this->claim_model->get_item_list($claim_id);
 		

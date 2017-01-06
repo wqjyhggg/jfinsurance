@@ -2018,6 +2018,8 @@ class Plan extends MY_Controller {
 		$data['action_url'] = base_url('plan/refund');
 		$data['refund_amount_url'] = base_url('plan/refund_amount')."/".$plan['plan_id'];
 		$data['plan_id'] = $plan['plan_id'];
+		$data['adminfee'] = 40;
+		if ($plan['product_short'] == 'JFC') $data['adminfee'] = 25; 
 		$data['url_back_to_policy'] = base_url('plan/');
 
 		$data['title_txt'] = 'Policy';

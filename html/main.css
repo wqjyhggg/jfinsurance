@@ -365,4 +365,14 @@ footer p{margin: 0;}
 	padding-left: 12px;
 }
 
+.pageination strong {
+	font-weight: bold;
+	padding-right: 12px;
+	padding-left: 12px;
+}
+.pageination a {
+	color:#46b8da;
+	padding-right: 3px;
+	padding-left: 3px;
+}
 /* Myhome */
