@@ -467,9 +467,11 @@ class Citem extends MY_Controller {
 		$beuser = $this->func_model->verify_login();
 		$this->load->model('claim_model');
 		$this->load->model('plan_model');
-		
+
 		$claim_id = $this->input->get('claim_id');
 		$citem_ids = $this->input->get('citem_id[]');
+
+		$this->data['logedUser'] = $beuser;
 
 		if ($this->input->post('submit')) {
 			$claim_id = $this->input->post('claim_id');
