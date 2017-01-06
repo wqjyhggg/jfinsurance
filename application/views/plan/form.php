@@ -608,11 +608,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 												
 												$sbstr = substr($p['pay_type'], 0, 6);
 												if ($p['ispaid']) {
-													if (($sbstr == 'refund') || ($sbstr == 'cancel')) {
-														$pay_str = 'N / A';
-													} else {
+													//if (($sbstr == 'refund') || ($sbstr == 'cancel')) {
+														//$pay_str = 'N / A';
+													//} else {
 														$pay_str = 'Paid';
-													}
+													//}
 												} else {
 													if ($sbstr == 'refund') {
 														$pay_str = "<a href='" . $revert_url . $p['payment_id'] . "'>Revert Refund</a>";

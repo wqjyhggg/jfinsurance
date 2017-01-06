@@ -80,10 +80,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                           <input type="number" step="any" name='refund_amount' id='refund_amount' value='' class="form-control" readonly />
                         </div>
                       </div>
-                      <div class="row">  
+                      <div class="row">
                         <div class="form-group col-sm-4 col-xs-12 pull-right">
                             <label class="radio-inline"><input type="radio" name="admin_fee" value="0" checked>$0 Adminstration Fee</label>
-                            <label class="radio-inline"><input type="radio" name="admin_fee" value="40">$40 Adminstration Fee</label>
+                            <label class="radio-inline"><input type="radio" name="admin_fee" value="<?php echo $adminfee; ?>">$<?php echo $adminfee; ?> Adminstration Fee</label>
                         </div>
                       </div>
                       <div class="row">
