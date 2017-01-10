@@ -34,7 +34,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                   </div>
                   <div class="x_content">
                   <?php $i =0; foreach ($filelist as $filename) { $i++; ?>
-                    <form action="<?php echo $upload_url; ?>" method="post" >
+                    <form action="<?php echo $upload_url; ?>" method="post"  enctype="multipart/form-data">
                       <input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
                     	<input type='hidden' name='lcfilename' value='<?php echo $filename; ?>'>
                    
