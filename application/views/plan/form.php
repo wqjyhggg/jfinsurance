@@ -132,7 +132,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
    						 <legend>Travel Dates</legend>
    						 <div class="row">
 							<div class="form-group col-sm-3">
-								<label class="col-sm-12">Apply Date (format:y-m-d):</label>
+								<label class="col-sm-12">Apply Date (YYYY-MM-DD):</label>
 								<?php if ($user_group_id != 1) { ?>
 			                        <input type="hidden" name='apply_date' value='<?php echo $apply_date; ?>'>
 			                        <?php echo $apply_date; ?>
@@ -144,7 +144,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<?php } ?>
 							</div>
 							<div class="form-group col-sm-3">
-								<label class="col-sm-12">Arrival Date (format:y-m-d): </label>
+								<label class="col-sm-12">Arrival Date (YYYY-MM-DD): </label>
 								<div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd" id='arrival_date_div' >
 			                        <input class="form-control" size="16" type="text" name='arrival_date' id='arrival_date' value='<?php echo $arrival_date; ?>' data-date-format="yyyy-mm-dd">
 			                        
@@ -158,7 +158,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 							</div>
 							<div class="form-group col-sm-3">
-								<label class="col-sm-12">Effective Date (format:y-m-d): </label>
+								<label class="col-sm-12">Effective Date (YYYY-MM-DD): </label>
 								<div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd" id='effective_date_div'>
 			                        <input class="setpremium form-control" size="16" type="text" name='effective_date' value='<?php echo $effective_date; ?>'>
 			                        
@@ -171,7 +171,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			                    <?php } ?>
 							</div>
 							<div class="form-group col-sm-3">
-								<label class="col-sm-12">Expiry Date (format:y-m-d): </label>
+								<label class="col-sm-12">Expiry Date (YYYY-MM-DD): </label>
 						  		<div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd" id='expiry_date_div'>
 									<input size="16" type='text' name='expiry_date' class='setpremium form-control' id='expiry_date' value='<?php echo $expiry_date; ?>'>
 									
@@ -255,7 +255,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										<?php } ?>
 									</div>
 									<div class="col-sm-3">
-										<label class="col-sm-12">Birth Date (format:y-m-d):</label>
+										<label class="col-sm-12">Birth Date (YYYY-MM-DD):</label>
 										<div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd" data-date-end-date="0d" >
 					                        <input size="16" type="text" class='setpremium form-control' name='birthday' value='<?php echo !empty($birthday) ? $birthday : ''; ?>'>
 					                        
