@@ -269,6 +269,7 @@ class Cron extends MY_Controller {
 		$this->load->model ( 'status_model' );
 		$this->load->model ( 'customer_model' );
 		$outdir = '/tmp/';
+		$pattern = "/^([_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,}))(.*)$/";
 		
 		$filename = DOWNLOADDIR . 'OPL_Sales_Report.xls';
 		if (!file_exists($filename)) {
@@ -324,7 +325,13 @@ class Cron extends MY_Controller {
 			$sheet->setCellValue('L'.$row, $plan['province2']); // Provincec
 			$sheet->setCellValue('M'.$row, $plan['postcode']); // Postal Code
 			$sheet->setCellValue('N'.$row, $plan['contact_phone']); // Contact Phone
-			$sheet->setCellValue('O'.$row, $plan['contact_email']); // Contact Email
+			$mlArr = array();
+			$mailaddr = '';
+			$r = preg_match($pattern, $plan['contact_email'], $$mlArr);
+			if ($r) {
+				$mailaddr = $mlArr[1];
+			}
+			$sheet->setCellValue('O'.$row, $mailaddr); // Contact Email
 			$sheet->setCellValue('P'.$row, $plan['note']); // Notes
 			$sheet->setCellValue('Q'.$row, $plan['arrival_date']); // Arrival Date
 			$sheet->setCellValue('R'.$row, $plan['apply_date']); // Application Date
@@ -391,7 +398,7 @@ class Cron extends MY_Controller {
 		$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
 		$objWriter->save($outfile);
 		echo "Save to : " . $outfile . "\n";
-		$uploadFilename = 'test_OPL_Sales_Report_' . date('Y-m-d_H.i.s') . '.xls';
+		$uploadFilename = 'OPL_Sales_Report_' . date('Y-m-d_H.i.s') . '.xls';
 		$uploaded = FALSE;
 		for ($i = 0; $i < 5; $i++) {
 			$uploaded = $this->ftp($outfile, $uploadFilename);
