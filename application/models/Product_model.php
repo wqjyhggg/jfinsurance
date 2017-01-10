@@ -134,7 +134,7 @@ class Product_model extends CI_Model {
 	
 	public function getDays($startday, $endday) {
 		$stm = strtotime($startday);
-		$etm = strtotime($endday);
+		$etm = strtotime($endday) + 7200;	// avoid sum time error
 		if (empty($stm) || empty($etm) || ($stm > $etm)) {
 			return 0;
 		}
