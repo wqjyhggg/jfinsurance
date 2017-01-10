@@ -47,7 +47,7 @@ class Pdf extends MY_Controller {
 				$type = $uf['type'];
 				$tmp_name = $uf['tmp_name'];
 				$size = $uf['size'];
-				if (empty($uf['error'])) {
+				if (!empty($uf['error'])) {
 					$data['errormsg'] .= sprintf($this->lang->line ( 'error_file_upload' ), $name) . "<br />";
 					continue;
 				}
