@@ -131,7 +131,7 @@ class User extends MY_Controller {
 		if (empty(trim($this->input->post('licence_expire'))) ) {
 			$this->data['error_licence_expire'] = $this->lang->line('error_licence_expire');
 			$rt = FALSE;
-		} else {
+		} else if ($this->session->beuser['user_group_id'] > 100) {
 			$tm = strtotime($this->input->post('licence_expire'));
 			if ($tm < time()) {
 				$this->data['error_licence_expire'] = $this->lang->line('error_licence_expire');

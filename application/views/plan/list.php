@@ -330,7 +330,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<th>Name</th>
 								<th>Status</th>
 								<th>Effect Date</th>
-								<th>User</th>
+								<th>Insured</th>
 						<?php if ($beuser['user_group_id'] < 105) { ?>
 								<th>Agent</th>
 						<?php } ?>
