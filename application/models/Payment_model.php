@@ -48,6 +48,7 @@ class Payment_model extends CI_Model {
 	 */
 	public function get_payment_by_plan_id($plan_id, $sort='') {
 		$this->db->where('plan_id', $plan_id);
+		$this->db->where('amount !=', 0);
 		if ($sort == 'type') {
 			$this->db->order_by('pay_type', 'asc');
 		} else {
