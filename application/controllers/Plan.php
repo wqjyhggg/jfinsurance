@@ -280,8 +280,10 @@ class Plan extends MY_Controller {
 		$nowtm = strtotime(date('Y-m-d'));
 		$arrival_date = $this->input->post('arrival_date');
 		$arrivaltm = strtotime($arrival_date);
-		if (empty($arrival_date) || ($arrivaltm < 1466555500)) {
+		if (empty($arrival_date)) {	// 2015-01-01
 			$this->error['error_arrival_date'] = 'Confirm Arrival Date';
+		} else if (($product_short == 'JFR') && ($arrivaltm < 1420070400)) {	// 2015-01-01
+			$this->error['error_arrival_date'] = "Arrival Date is too early";
 		}
 		$effective_date = $this->input->post('effective_date');
 		$effectivetm = strtotime($effective_date);
