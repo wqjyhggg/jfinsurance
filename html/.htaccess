@@ -1,7 +1,7 @@
-AuthType Basic
-AuthName "My Protected Area"
-AuthUserFile /var/www/.htpasswd
-Require valid-user
+#AuthType Basic
+#AuthName "My Protected Area"
+#AuthUserFile /var/www/.htpasswd
+#Require valid-user
 SetEnvIf Request_URI "^/image/" allow
 SetEnvIf Request_URI "^/js/" allow
 SetEnvIf Request_URI "^/stylesheet/" allow
