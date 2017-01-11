@@ -41,7 +41,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 		</div>
 		<div class="row">
 			<div class="col-sm-12 text-right">
-				<h2 style="margin:0;"><?php if ($plan['status_id'] < 2) { ?>Quote<?php } else {?>Confirmation<?php } ?> of Insurance</h2>
+				<h2 style="margin:-15px 0 0;"><?php if ($plan['status_id'] < 2) { ?>Quote<?php } else {?>Confirmation<?php } ?> of Insurance</h2>
 			</div>
 		</div>
 		
@@ -52,7 +52,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 		<!--div>
 			<div class="p-detail"-->
 				<!-- policy detail -->
-				<div class="row">
+				<div class="row" style="margin-top: -15px;">
 					<div class="col-sm-6 nopadding">
 						<h4 style="margin-bottom:15px;"><u>Policy Details</u></h4>
 						<h4>Policy Holder: <span><?php echo $customer['firstname'] . " " . $customer['lastname']; ?></span></h4>
