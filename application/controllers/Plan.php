@@ -1148,7 +1148,7 @@ class Plan extends MY_Controller {
 					$this->log_model->activity('payment', $para);
 					$commission_payment_id = $this->payment_model->update($commission_payment_id, $dt);
 					$up_commission_payment_id = $this->payment_model->update($up_commission_payment_id, $dt);
-					$this->error = 'Payment Failed. Please confirm card information.';
+					$this->error = 'Card payment failed. Incorrect card information or insufficient credit.';
 				}
 			} catch ( \Beanstream\Exception $e ) {
 				$payinfo = "Credit Card: " . substr($card_number, 0, 5) . "xxx" . substr($card_number, -4) . " " . $card_name .  " " . $expiry_month . "/" . $expiry_year;
@@ -1180,7 +1180,7 @@ class Plan extends MY_Controller {
 				$this->log_model->activity('payment', $para);
 				$commission_payment_id = $this->payment_model->update($commission_payment_id, $dt);
 				$up_commission_payment_id = $this->payment_model->update($up_commission_payment_id, $dt);
-				$this->error = 'Payment Failed. Please pay it later.';
+				$this->error = 'Card payment failed. Something wrong. Please contact support.';
 			}
 		}
 	}
