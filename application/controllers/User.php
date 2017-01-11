@@ -182,6 +182,7 @@ class User extends MY_Controller {
 		$data['edit_url'] = base_url('user/edit')."?user_id=";
 		$data['user_group_id'] = $this->input->post ( 'user_group_id' );
 		$data['region_id'] = $this->input->post ( 'region_id' );
+		$data['user_id'] = $this->input->post ( 'user_id' );
 		$data['username'] = $this->input->post ( 'username' );
 		$data['firstname'] = $this->input->post ( 'firstname' );
 		$data['lastname'] = $this->input->post ( 'lastname' );

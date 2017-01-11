@@ -77,6 +77,9 @@ class User_model extends CI_Model {
 		} else {
 			$sql = "SELECT * FROM user WHERE parent_user_id = '" . (int)$user_id . "'";
 		}
+		if (!empty($para['user_id'])) {
+			$sql .= " AND user_id = '" . (int)$para['user_id'] . "'";
+		}
 		if (!empty($para['user_group_id'])) {
 			$sql .= " AND user_group_id = '" . (int)$para['user_group_id'] . "'";
 		}
