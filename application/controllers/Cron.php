@@ -318,7 +318,7 @@ class Cron extends MY_Controller {
 			$sheet->setCellValue('E'.$row, $plan['firstname']);
 			$sheet->setCellValue('F'.$row, $plan['lastname']);
 			$sheet->setCellValue('G'.$row, $plan['gender']);
-			$sheet->setCellValue('H'.$row, $plan['birthday']);
+			$sheet->setCellValue('H'.$row, date('n/j/Y', strtotime($plan['birthday'])) . ' 12:00:00 AM');
 			$sheet->setCellValue('I'.$row, $plan['street_number'] . " " . $plan['street_name']); // Address1
 			$sheet->setCellValue('J'.$row, ($plan['suite_number']) ? " Suite" . $plan['suite_number'] : ""); // Address2
 			$sheet->setCellValue('K'.$row, $plan['city']); // City
@@ -333,25 +333,25 @@ class Cron extends MY_Controller {
 			}
 			$sheet->setCellValue('O'.$row, $mailaddr); // Contact Email
 			$sheet->setCellValue('P'.$row, $plan['note']); // Notes
-			$sheet->setCellValue('Q'.$row, $plan['arrival_date']); // Arrival Date
-			$sheet->setCellValue('R'.$row, $plan['apply_date']); // Application Date
-			$sheet->setCellValue('S'.$row, $plan['effective_date']); // Effective Date
-			$sheet->setCellValue('T'.$row, $plan['expiry_date']); // Expiry Date
+			$sheet->setCellValue('Q'.$row, date('n/j/Y', strtotime($plan['arrival_date'])) . ' 12:00:00 AM'); // Arrival Date
+			$sheet->setCellValue('R'.$row, date('n/j/Y', strtotime($plan['apply_date'])) . ' 12:00:00 AM'); // Application Date
+			$sheet->setCellValue('S'.$row, date('n/j/Y', strtotime($plan['effective_date'])) . ' 12:00:00 AM'); // Effective Date
+			$sheet->setCellValue('T'.$row, date('n/j/Y', strtotime($plan['expiry_date'])) . ' 12:00:00 AM'); // Expiry Date
 			$sheet->setCellValue('U'.$row, $plan['totaldays']); // Trip  Length
-			$sheet->setCellValue('V'.$row, $plan['sum_insured']); // Sum  Insured
-			$sheet->setCellValue('W'.$row, $plan['deductible_amount']); // Deductible Amout
-			$sheet->setCellValue('X'.$row, empty($plan['premium']) ? 0 : $plan['commission_amount'] * 100 / $plan['premium']); // Commission Rate
-			$sheet->setCellValue('Y'.$row, $plan['commission_amount']); // Commission Amout
-			$sheet->setCellValue('Z'.$row, $plan['dailyrate']); // Daily Rate
-			$sheet->setCellValue('AA'.$row, $plan['premium']); // Gross Premium
-			$sheet->setCellValue('AB'.$row, $plan['premium']); // Net Premium
+			$sheet->setCellValue('V'.$row, number_format($plan['sum_insured'], 2)); // Sum  Insured
+			$sheet->setCellValue('W'.$row, number_format($plan['deductible_amount'], 2)); // Deductible Amout
+			$sheet->setCellValue('X'.$row, empty($plan['premium']) ? 0 : number_format($plan['commission_amount'] * 100 / $plan['premium'], 2)); // Commission Rate
+			$sheet->setCellValue('Y'.$row, number_format($plan['commission_amount'], 2)); // Commission Amout
+			$sheet->setCellValue('Z'.$row, number_format($plan['dailyrate'], 2)); // Daily Rate
+			$sheet->setCellValue('AA'.$row, number_format($plan['premium'], 2)); // Gross Premium
+			$sheet->setCellValue('AB'.$row, number_format($plan['premium'], 2)); // Net Premium
 			$sheet->setCellValue('AC'.$row, 0); // Fee1
 			$sheet->setCellValue('AD'.$row, 0); // Fee2
 			$sheet->setCellValue('AE'.$row, 0); // Amount Due
 			$sheet->setCellValue('AF'.$row, $plan['firstname']); // Insured First Name
 			$sheet->setCellValue('AG'.$row, $plan['lastname']); // Insured Last Name
-			$sheet->setCellValue('AH'.$row, $plan['birthday']); // Birthdate
-			$sheet->setCellValue('AI'.$row, $plan['last_update']); // Update Date
+			$sheet->setCellValue('AH'.$row, date('n/j/Y', strtotime($plan['birthday'])) . ' 12:00:00 AM'); // Birthdate
+			$sheet->setCellValue('AI'.$row, date('n/j/Y', strtotime($plan['last_update'])) . ' 12:00:00 AM'); // Update Date
 			$row++;
 			if ($plan['isfamilyplan']) {
 				$customers = $this->customer_model->get_customer_by_parent_id($plan['customer_id']);
@@ -363,7 +363,7 @@ class Cron extends MY_Controller {
 					$sheet->setCellValue('E'.$row, $c['firstname']);
 					$sheet->setCellValue('F'.$row, $c['lastname']);
 					$sheet->setCellValue('G'.$row, $c['gender']);
-					$sheet->setCellValue('H'.$row, $c['birthday']);
+					$sheet->setCellValue('H'.$row, date('n/j/Y', strtotime($c['birthday'])) . ' 12:00:00 AM');
 					$sheet->setCellValue('I'.$row, $plan['street_number'] . " " . $plan['street_name']); // Address1
 					$sheet->setCellValue('J'.$row, ($plan['suite_number']) ? " Suite" . $plan['suite_number'] : ""); // Address2
 					$sheet->setCellValue('K'.$row, $plan['city']); // City
@@ -372,33 +372,33 @@ class Cron extends MY_Controller {
 					$sheet->setCellValue('N'.$row, $plan['contact_phone']); // Contact Phone
 					$sheet->setCellValue('O'.$row, $plan['contact_email']); // Contact Email
 					$sheet->setCellValue('P'.$row, $plan['note']); // Notes
-					$sheet->setCellValue('Q'.$row, $plan['arrival_date']); // Arrival Date
-					$sheet->setCellValue('R'.$row, $plan['apply_date']); // Application Date
-					$sheet->setCellValue('S'.$row, $plan['effective_date']); // Effective Date
-					$sheet->setCellValue('T'.$row, $plan['expiry_date']); // Expiry Date
+					$sheet->setCellValue('Q'.$row, date('n/j/Y', strtotime($plan['arrival_date'])) . ' 12:00:00 AM'); // Arrival Date
+					$sheet->setCellValue('R'.$row, date('n/j/Y', strtotime($plan['apply_date'])) . ' 12:00:00 AM'); // Application Date
+					$sheet->setCellValue('S'.$row, date('n/j/Y', strtotime($plan['effective_date'])) . ' 12:00:00 AM'); // Effective Date
+					$sheet->setCellValue('T'.$row, date('n/j/Y', strtotime($plan['expiry_date'])) . ' 12:00:00 AM'); // Expiry Date
 					$sheet->setCellValue('U'.$row, $plan['totaldays']); // Trip  Length
-					$sheet->setCellValue('V'.$row, $plan['sum_insured']); // Sum  Insured
-					$sheet->setCellValue('W'.$row, $plan['deductible_amount']); // Deductible Amout
-					$sheet->setCellValue('X'.$row, empty($plan['premium']) ? 0 : $plan['commission_amount'] * 100 / $plan['premium']); // Commission Rate
-					$sheet->setCellValue('Y'.$row, $plan['commission_amount']); // Commission Amout
+					$sheet->setCellValue('V'.$row, number_format($plan['sum_insured'], 2)); // Sum  Insured
+					$sheet->setCellValue('W'.$row, number_format($plan['deductible_amount'], 2)); // Deductible Amout
+					$sheet->setCellValue('X'.$row, empty($plan['premium']) ? 0 : number_format($plan['commission_amount'] * 100 / $plan['premium'], 2)); // Commission Rate
+					$sheet->setCellValue('Y'.$row, number_format($plan['commission_amount'], 2)); // Commission Amout
 					$sheet->setCellValue('Z'.$row, $plan['dailyrate']); // Daily Rate
-					$sheet->setCellValue('AA'.$row, $plan['premium']); // Gross Premium
-					$sheet->setCellValue('AB'.$row, $plan['premium']); // Net Premium
+					$sheet->setCellValue('AA'.$row, number_format($plan['premium'], 2)); // Gross Premium
+					$sheet->setCellValue('AB'.$row, number_format($plan['premium'], 2)); // Net Premium
 					$sheet->setCellValue('AC'.$row, 0); // Fee1
 					$sheet->setCellValue('AD'.$row, 0); // Fee2
 					$sheet->setCellValue('AE'.$row, 0); // Amount Due
 					$sheet->setCellValue('AF'.$row, $c['firstname']); // Insured First Name
 					$sheet->setCellValue('AG'.$row, $c['lastname']); // Insured Last Name
-					$sheet->setCellValue('AH'.$row, $c['birthday']); // Birthdate
-					$sheet->setCellValue('AI'.$row, $plan['last_update']); // Update Date
+					$sheet->setCellValue('AH'.$row, date('n/j/Y', strtotime($c['birthday'])) . ' 12:00:00 AM'); // Birthdate
+					$sheet->setCellValue('AI'.$row, date('n/j/Y', strtotime($plan['last_update'])) . ' 12:00:00 AM'); // Update Date
 					$row++;
 				}
 			}
 		}
 		$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
 		$objWriter->save($outfile);
-		echo "Save to : " . $outfile . "\n";
-		$uploadFilename = 'OPL_Sales_Report_' . date('Y-m-d_H.i.s') . '.xls';
+		$uploadFilename = 'OPL_Sales_Report_' . date('Y.m.d_H.i.s.B') . '.xls';
+		echo "Save to : " . $outfile . " Upload to : " . $uploadFilename . "\n";
 		$uploaded = FALSE;
 		for ($i = 0; $i < 5; $i++) {
 			$uploaded = $this->ftp($outfile, $uploadFilename);
