@@ -415,7 +415,7 @@ class Plan extends MY_Controller {
 					$this->log_model->activity('plan', $para);
 				}
 			} else {
-				$plan_id = $this->plan_model->update($plan_id, $this->input->post());
+				$plan_id = $this->plan_model->update($plan_id, $this->input->post(), array('isfamilyplan' => 1));
 				if ($plan_id) {
 					$plan = $this->plan_model->get_plan_by_id($plan_id);
 					$para = array(

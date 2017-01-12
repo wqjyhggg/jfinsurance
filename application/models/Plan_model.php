@@ -252,7 +252,7 @@ class Plan_model extends CI_Model {
 	 * @param	array	$para		Parameters
 	 * @return	array					user table search result
 	 */
-	public function update($plan_id, $para) {
+	public function update($plan_id, $para, $checkboxArr=array()) {
 		$this->logstr = '';
 		$this->sqlstr = '';
 		$this->load->model('customer_model');
@@ -268,7 +268,7 @@ class Plan_model extends CI_Model {
 		$plan_id = $plan['plan_id'];
 		$this->logstr .= "Change Plan (" . (int)$plan_id . "): ";
 		$isfamilyplan = empty($para['isfamilyplan']) ? 0 : 1;
-		
+	
 		if (!empty($para['gender']) && !empty($para['firstname']) && !empty($para['lastname']) && !empty($para['birthday'])) {
 			$cpara = array(
 					'gender' => $para['gender'],
@@ -327,7 +327,7 @@ class Plan_model extends CI_Model {
 			$this->logstr .= " batch_number " . $para['batch_number'] . "(" . $plan['batch_number'] . ")";
 			$sql .= " batch_number=" . $this->db->escape($para['batch_number']) . ", ";
 		}
-		if (isset($para['isfamilyplan']) && ($isfamilyplan != $plan['isfamilyplan'])) {
+		if (isset($checkboxArr['isfamilyplan']) && ($isfamilyplan != $plan['isfamilyplan'])) {
 			$this->logstr .= " isfamilyplan " . $isfamilyplan . "(" . $plan['isfamilyplan'] . ")";
 			$sql .= " isfamilyplan='" . (int)$isfamilyplan . "', ";
 		}
