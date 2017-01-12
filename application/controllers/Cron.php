@@ -327,7 +327,7 @@ class Cron extends MY_Controller {
 			$sheet->setCellValue('N'.$row, $plan['contact_phone']); // Contact Phone
 			$mlArr = array();
 			$mailaddr = '';
-			$r = preg_match($pattern, $plan['contact_email'], $$mlArr);
+			$r = preg_match($pattern, $plan['contact_email'], $mlArr);
 			if ($r) {
 				$mailaddr = $mlArr[1];
 			}
