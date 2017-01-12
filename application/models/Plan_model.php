@@ -268,6 +268,8 @@ class Plan_model extends CI_Model {
 		$plan_id = $plan['plan_id'];
 		$this->logstr .= "Change Plan (" . (int)$plan_id . "): ";
 		$isfamilyplan = empty($para['isfamilyplan']) ? 0 : 1;
+		$holiday_rate = empty($para['holiday_rate']) ? 0 : 1;
+		$spouse = empty($para['spouse']) ? 0 : 1;
 	
 		if (!empty($para['gender']) && !empty($para['firstname']) && !empty($para['lastname']) && !empty($para['birthday'])) {
 			$cpara = array(
@@ -361,13 +363,13 @@ class Plan_model extends CI_Model {
 			$this->logstr .= " rate_options " . $para['rate_options'] . "(" . $plan['rate_options'] . ")";
 			$sql .= " rate_options='" . (int)$para['rate_options'] . "', ";
 		}
-		if (isset($para['holiday_rate']) && ((int)$para['holiday_rate'] != (int)$plan['holiday_rate'])) {
-			$this->logstr .= " holiday_rate " . $para['holiday_rate'] . "(" . $plan['holiday_rate'] . ")";
-			$sql .= " holiday_rate='" . (int)$para['holiday_rate'] . "', ";
+		if (isset($checkboxArr['holiday_rate']) && ($holiday_rate != (int)$plan['holiday_rate'])) {
+			$this->logstr .= " holiday_rate " . $holiday_rate . "(" . $plan['holiday_rate'] . ")";
+			$sql .= " holiday_rate='" . $holiday_rate . "', ";
 		}
-		if (isset($para['spouse']) && ((int)$para['spouse'] != (int)$plan['spouse'])) {
-			$this->logstr .= " spouse " . $para['spouse'] . "(" . $plan['spouse'] . ")";
-			$sql .= " spouse='" . (int)$para['spouse'] . "', ";
+		if (isset($checkboxArr['spouse']) && ($spouse != (int)$plan['spouse'])) {
+			$this->logstr .= " spouse " . $spouse . "(" . $plan['spouse'] . ")";
+			$sql .= " spouse='" . (int)$spouse . "', ";
 		}
 		if (isset($para['sum_insured']) && ($para['sum_insured'] != $plan['sum_insured'])) {
 			$this->logstr .= " sum_insured " . $para['sum_insured'] . "(" . $plan['sum_insured'] . ")";

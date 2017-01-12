@@ -253,7 +253,7 @@ class User extends MY_Controller {
 			if ($this->user_model->check_username( $user_id, $this->input->post('username'))) {
 				$this->data['error_message'] = "username existed, please select other username";
 			} else {
-				$this->user_model->update ( $user_id, $this->input->post () );
+				$this->user_model->update ( $user_id, $this->input->post(), 1, array('product_list' => 1));
 				$this->log_model->activity('user', array('message' => $this->user_model->logstr, 'systemlog' => $this->user_model->sqlstr));
 				redirect ( base_url ('user') );
 			}
