@@ -43,8 +43,9 @@ class Payment extends MY_Controller {
 					$payarr['note'] = "Make pay by " . $this->session->userdata ( 'user' )['username'] . "; " . $pay['note'];
 					if ($pay_submit && !$pay['ispaid']) {
 						// Submit pay
-						$this->payment_model->update($payment_id, $payarr);
 						if ($pay['pay_type'] == 'premium') {
+							unset($payarr['pay_mothed']);
+							$this->payment_model->update($payment_id, $payarr);
 							$unpaied = $this->payment_model->get_payment($pay['plan_id'], 'premium', 0);
 							$plan = $this->plan_model->get_plan_by_id($pay['plan_id']);
 							if (empty($unpaied) && $plan && ($plan['status_id'] == 2)) {
@@ -66,7 +67,8 @@ class Payment extends MY_Controller {
 								}
 							}
 						} else {
-							
+							$payarr['pay_mothed'] = 'Cheque';
+							$this->payment_model->update($payment_id, $payarr);
 						}
 					} else {
 						$plan = $this->plan_model->get_plan_by_id($pay['plan_id']);

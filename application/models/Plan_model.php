@@ -594,17 +594,12 @@ class Plan_model extends CI_Model {
 				$users[] = $row['user_id'];
 			}
 		} else {
-			if (!empty($para['uname'])) {
-				$sql = "SELECT user_id FROM user WHERE user_id='".(int)$beuser['user_id']."' AND firstname LIKE " . $this->db->escape($para['uname'] . "%") . " OR lastname LIKE " . $this->db->escape($para['uname'] . "%");
-			} else {
-				$sql = "SELECT user_id FROM user WHERE user_id='".(int)$beuser['user_id']."'";
-			}
+			$sql = "SELECT user_id FROM user WHERE user_id='".(int)$beuser['user_id']."'";
 			$rows = $this->db->query($sql)->result_array();
 			foreach ($rows as $row) {
 				$users[] = $row['user_id'];
 			}
 		}
-				
 		$sql  = "SELECT p.*, c.firstname, c.lastname, c.gender, c.birthday, u.firstname AS agent_firstname, u.lastname AS agent_lastname, u.user_id AS agent_id FROM plan p";
 		$sql .= " INNER JOIN customer c ON (p.customer_id=c.customer_id)";
 		$sql .= " INNER JOIN user u ON (p.user_id=u.user_id)";

@@ -1478,10 +1478,12 @@ class Plan extends MY_Controller {
 		$data['status_list'] = $this->status_model->status_list();
 		$days = $this->product_model->getDays('today', $plan['effective_date']);
 		$data['payment_total'] = $plan['premium'] - $this->payment_model->get_total_paid($plan['plan_id'], 'premium');
+		/* Can't update status to PAID when payment ispaid = 0 !!!
 		if (empty($data['payment_total']) && ($plan['status_id'] == Plan_model::SOLD)) {
 			$this->plan_model->update($plan_id, array('status_id' => Plan_model::PAID));
 			$data['plan']['status_id'] = Plan_model::PAID;
 		}
+		*/
 		if (!empty($data['payment_total']) && ($days < 1) && ($beuser['user_group_id'] > 100)) {
 			$data['error_message'] = "You have to pay before Effective date.";
 			$data['payment_total'] = '';
