@@ -350,7 +350,8 @@ class Product_model extends CI_Model {
 			if ($para['isfamilyplan']) {
 				$rate *= 2;
 			}
-			$premium = $rate * $days * $discount;
+			$rate = $rate * $discount;
+			$premium = $rate * $days;
 			$message = "";
 			if ($years > 85) {
 				$premiumArr['message'] = "<p style='color:#2e6da4;'>Notice: Over 85 years old will have $500 Deductible</p>";
@@ -509,7 +510,8 @@ class Product_model extends CI_Model {
 			if ($para['isfamilyplan']) {
 				$rate *= 2;
 			}
-			$premium = $rate * $days * $discount;
+			$rate = $rate * $discount;
+			$premium = $rate * $days;
 			if ($years > 85) {
 				$premiumArr['message'] = "<p style='color:#2e6da4;'>Notice: Over 85 years old will have $500 Deductible</p>";
 			}
@@ -613,10 +615,11 @@ class Product_model extends CI_Model {
 			$rate = 1.6;
 			if ($para['holiday_rate'] && $para['holiday_rate']) $rate = 1.85; 
 			if ($number_customer == 2) {
-				$premium = $rate * $days * 2.5;
+				$rate = $rate * 2.5;
 			} else {
-				$premium = $rate * $days * $number_customer;
+				$rate = $rate * $number_customer;
 			}
+			$premium = $rate * $days;
 			$premiumArr['premium'] = $premium;
 			$premiumArr['totalyears'] = $years;
 			$premiumArr['totaldays'] = $days;

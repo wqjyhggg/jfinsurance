@@ -36,12 +36,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     				  <input type='hidden' name='plan_id' value='<?php echo $plan_id; ?>'>
 					  <div class="row">
                         <!-- Product select box -->
-                        <div class="form-group col-sm-5 col-xs-12">
+                        <div class="form-group col-sm-4 col-xs-12">
                           <label class="col-sm-12">Will Send Package To this Email address:</label>
                           <div class="input-group col-sm-12">
                             <input type="text" name='emailaddr' value='<?php echo $emailaddr; ?>' class="form-control"/>
                           </div>
                         </div>
+                        <div class="form-group col-sm-4 col-xs-12">
+                          <label class="col-sm-12">Export Option:</label>
+                          <div class="input-group col-sm-12">
+							<input type='checkbox' class='withlogobox' name='withlogo' checked> With Logo  &nbsp;&nbsp;<input type='checkbox' class='withpricebox' name='withprice' checked> With Price 
+                          </div>
+						</div>
                         <!-- Policy Number input box end -->
 			            <div class="form-group col-sm-4">
 			           	  <label class="col-sm-12">&nbsp;</label>

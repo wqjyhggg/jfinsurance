@@ -844,6 +844,23 @@ class Plan extends MY_Controller {
 		$data['refundprint_url'] = base_url ( "plan/refundprint" ) . "/" . (int)$data['plan_id'];
 		$data['revert_url'] = base_url ( "payment/revert" ) . "/";
 		$data['makepay_url'] = base_url ( "payment/makepay" );
+
+		$data['print_card_url'] = '';
+		$data['print_receipt_url'] = '';
+		$data['cancel_letter_url'] = '';
+		$data['refund_letter_url'] = '';
+		if (!empty($plan) && !empty($plan['status_id']) && !empty($plan['plan_id']) && ($plan['status_id'] >= 2)) {
+			if ($plan['status_id'] == 5) {
+				// Cancel
+				$data['cancel_letter_url'] = base_url('plan/cancelprint/' . $plan['plan_id']);
+			} else if ($plan['status_id'] == 6) {
+				// Refund
+				$data['refund_letter_url'] = base_url('plan/refundprint/' . $plan['plan_id']);
+			} else {
+				$data['print_card_url'] = base_url('plan/card/' . $plan['plan_id']);
+				$data['print_receipt_url'] = base_url('plan/receipt/' . $plan['plan_id']);
+			}
+		}
 		
 		$data['title_txt'] = 'Policy';
 		$data['top_menu'] = $this->menu_model->load_top_menu();
@@ -1607,6 +1624,8 @@ class Plan extends MY_Controller {
 		$data['emailaddr'] = $plan['contact_email'];
 		if ($this->input->post()) {
 			$emailaddr = $this->input->post('emailaddr');
+			$data['withlogo'] = $this->input->post('withlogo');
+			$data['withprice'] = $this->input->post('withprice');
 			if (!empty($emailaddr)) {
 				$data['emailaddr'] = $emailaddr;
 			}

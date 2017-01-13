@@ -31,6 +31,55 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <div class="x_panel">
                   <div class="x_title">
                     <h2>Policy Detail<small></small></h2>
+					<?php if (!empty($plan_id) && !empty($status_id)) { ?>
+						<div class="pull-right text-right">
+						<?php /* it should be created plan */ ?>
+						<?php if ($isprocessplan) { ?>
+						<?php if ($status_id == 1 && $user_group_id != 103) { /* qutoe */ ?>
+
+						<a href='<?php echo $pay_url; ?>'><span class="btn btn-info" style='color:#fff;'>Pay</span></a>
+						<?php } ?> 
+
+						<?php if($user_group_id != 3  && $user_group_id != 103){ ?>
+						<a href='<?php echo $copy_url; ?>'><span class="btn btn-info" style='color:#fff;'>Copy</span></a>
+						<?php } ?>
+						<?php if ($status_id > 1 && $user_group_id !=3) { ?>
+						<?php 	if ((($status_id == 2) || ($status_id == 3)) && ($product_short != 'NUS') && ($product_short != 'JUS')) { ?> 
+							<a href='<?php echo $sendpackage_url . $plan_id; ?>'><span class="btn btn-info"  style='color:#fff;'>Send Package</span></a>
+						<?php 	} ?>
+						<?php 	if (($status_id == 2) || ($status_id == 3)) { ?> 
+							<?php if (!empty($refund_letter_url)) { ?>
+							<a href='<?php echo $refund_letter_url; ?>' target="_blank"><span class="btn btn-info" style='color:#fff;'>Refund letter</span></a>
+							<?php } ?>
+							<?php if (!empty($cancel_letter_url)) { ?>
+							<a href='<?php echo $cancel_letter_url; ?>' target="_blank"><span class="btn btn-info" style='color:#fff;'>Cancel Letter</span></a>
+							<?php } ?>
+							<?php if (!empty($print_receipt_url)) { ?>
+							<a href='<?php echo $print_receipt_url; ?>' target="_blank"><span class="btn btn-info" style='color:#fff;'>Print Receipt</span></a>
+							<?php } ?>
+							<?php if (!empty($print_card_url)) { ?>
+							<a href='<?php echo $print_card_url; ?>' target="_blank"><span class="btn btn-info" style='color:#fff;'>Print Card</span></a>
+							<?php } ?>
+						<?php 	} ?>
+						<?php if ((($status_id == 3) || ($status_id == 7)) && $user_group_id <= 100 ) { ?>
+						<?php if((time()-(60*60*24)) < strtotime($effective_date)){ ?>
+							<a href='<?php echo $cancel_url . $plan_id; ?>'><span class="btn btn-info" style='color:#fff;'>Cancel</span></a>
+							<?php }else{?>
+							<a href='<?php echo $refund_url . $plan_id; ?>'><span class="btn btn-info" style='color:#fff;'>Refund</span></a>
+							<?php } ?>
+						<?php } else if ($status_id == 6 && $user_group_id <= 100) { ?>
+							<!--a target='_blank' href='<?php echo $refundprint_url . $plan_id; ?>'><span class="btn btn-info" style='color:#fff;'>Refund Letter</span></a-->
+							<a id="popRefund"><span class="btn btn-info" style='color:#fff;'>Refund Letter</span></a>
+
+							
+
+						<?php } else if ($status_id == 5 && $user_group_id <= 100) { ?>
+							<a target='_blank' href='<?php echo $cancelprint_url . $plan_id; ?>'><span class="btn btn-info" style='color:#fff;'>Cancel Letter</span></a>
+						<?php } ?>
+						<?php } ?>
+						<?php } ?>
+						</div>
+					<?php } ?>
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
@@ -61,40 +110,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<?php } else { ?>
 					<div class="row" style="margin-bottom:15px;">
 						
-						<div class="col-sm-3 pull-right text-right">
-						<?php /* it should be created plan */ ?>
-						<?php if ($isprocessplan) { ?>
-						<?php if ($status_id == 1 && $user_group_id != 103) { /* qutoe */ ?>
-
-						<a href='<?php echo $pay_url; ?>'><span class="btn btn-info">Pay</span></a>
-						<?php } ?> 
-
-						<?php if($user_group_id != 3  && $user_group_id != 103){ ?>
-						<a href='<?php echo $copy_url; ?>'><span class="btn btn-info">Copy</span></a>
-						<?php } ?>
-						<?php if ($status_id > 1 && $user_group_id !=3) { ?>
-						<?php 	if (($status_id == 2) || ($status_id == 3)) { ?>
-							<a href='<?php echo $sendpackage_url . $plan_id; ?>'><span class="btn btn-info">Send Package</span></a>
-						<?php 	} ?>
-						<?php if ((($status_id == 3) || ($status_id == 7)) && $user_group_id <= 100 ) { ?>
-						<?php if((time()-(60*60*24)) < strtotime($effective_date)){ ?>
-							<a href='<?php echo $cancel_url . $plan_id; ?>'><span class="btn btn-info">Cancel</span></a>
-							<?php }else{?>
-							<a href='<?php echo $refund_url . $plan_id; ?>'><span class="btn btn-info">Refund</span></a>
-							<?php } ?>
-						<?php } else if ($status_id == 6 && $user_group_id <= 100) { ?>
-							<!--a target='_blank' href='<?php echo $refundprint_url . $plan_id; ?>'><span class="btn btn-info">Refund Letter</span></a-->
-							<a id="popRefund"><span class="btn btn-info">Refund Letter</span></a>
-
-							
-
-						<?php } else if ($status_id == 5 && $user_group_id <= 100) { ?>
-							<a target='_blank' href='<?php echo $cancelprint_url . $plan_id; ?>'><span class="btn btn-info">Cancel Letter</span></a>
-						<?php } ?>
-						<?php } ?>
-						<?php } ?>
-
-						</div>
 						<div class="form-group col-sm-3">
 							<label><span><?php echo $plan_full_name; ?></span></label>
 							<label><?php if ($status_id < 2) { ?>Quote<?php } else {?>Policy<?php } ?> Number: <span><?php echo $policy; ?></span></label>
