@@ -197,6 +197,9 @@ class Batch_model extends CI_Model {
 		if (isset($para['rate_options'])) { $data['rate_options'] = $para['rate_options']; } else { ; }
 		if (isset($para['sum_insured'])) { $data['sum_insured'] = $para['sum_insured']; } else { ; }
 		if (isset($para['deductible_amount'])) { $data['deductible_amount'] = $para['deductible_amount']; } else { ; }
+		if (isset($para['dailyrate'])) { $data['dailyrate'] = $para['dailyrate']; } else { ; }
+		if (isset($para['totaldays'])) { $data['totaldays'] = $para['totaldays']; } else { ; }
+		if (isset($para['totalyears'])) { $data['premium'] = $para['totalyears']; } else { ; }
 		if (isset($para['premium'])) { $data['premium'] = $para['premium']; } else { ; }
 		if (isset($para['commission_amount'])) { $data['commission_amount'] = $para['commission_amount']; } else { ; }
 		if (isset($para['street_number'])) { $data['street_number'] = $para['street_number']; } else { ; }
