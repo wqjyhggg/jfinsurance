@@ -349,7 +349,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										</div>
 									</div>
 									<div class="col-sm-3">
-										<label class="col-sm-12">Residence: </label>
+										<label class="col-sm-12">Country of Origin: </label>
 										<div class="input-group col-sm-12">
 											<input class="form-control" type='text' name='residence' value='<?php echo $residence; ?>'>
 										</div>
