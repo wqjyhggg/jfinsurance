@@ -48,6 +48,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<a href='<?php echo $sendpackage_url . $plan_id; ?>'><span class="btn btn-info"  style='color:#fff;'>Send Package</span></a>
 						<?php 	} ?>
 						<?php 	if (($status_id == 2) || ($status_id == 3)) { ?> 
+							<?php if ($export_logo_price_option) { ?>
+							<div class='pull-right spdf-option'><input type='checkbox' class='withlogobox' checked> With Logo <br /><input type='checkbox' class='withpricebox' checked> With Price </div>
+							<?php } ?>
+							<a class="btn btn-info pull-right" target="_blank" href='<?php echo $pdf_url; ?>'>Export PDF</a>
 							<?php if (!empty($refund_letter_url)) { ?>
 							<a href='<?php echo $refund_letter_url; ?>' target="_blank"><span class="btn btn-info" style='color:#fff;'>Refund letter</span></a>
 							<?php } ?>
@@ -793,6 +797,40 @@ $( document ).ready(function() {
 	addmoremember();
 
 	$( ".btn-payment-sort" ).click(sorting_payment);
+
+	$('.withlogobox').change(function() {
+		var w = '0';
+		if ($(this).is(':checked')) {
+			$('.withlogobox').prop('checked', true);
+			w = '1';
+		} else {
+			$('.withlogobox').prop('checked', false);
+		}
+		$.ajax({
+			url: '<?php echo $export_logo_url; ?>' + w,
+			type: 'GET',
+			success: function(data, textStatus, jqXHR) {
+	        	//console.log(data);
+	    	},
+		});
+	});
+
+	$('.withpricebox').change(function() {
+		var w = '0';
+		if ($(this).is(':checked')) {
+			$('.withpricebox').prop('checked', true);
+			w = '1';
+		} else {
+			$('.withpricebox').prop('checked', false);
+		}
+		$.ajax({
+			url: '<?php echo $export_price_url; ?>' + w,
+			type: 'GET',
+			success: function(data, textStatus, jqXHR) {
+	        	//console.log(data);
+	    	},
+		});
+	});
 });
 
 function sorting_payment() {

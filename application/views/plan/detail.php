@@ -313,6 +313,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 									<input type='hidden' name='play_type' value='Credit Card'>
 									<input type='hidden' name='sekey' value='<?php echo $sekey; ?>'>
 									<input type='hidden' name='premium' value='<?php echo $payment_total; ?>'>
+								<?php if ($payment_total >= 0) { ?>
 								<?php if (empty($sekey)) { ?>
 									<div class="row">
 										<div class="col-sm-12">
@@ -394,6 +395,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 											</div>
 										</div>
 									</div>
+									<?php } ?>
 									<div class="row">
 										<div class="col-sm-12  text-right">
 											<label class="inline">Amount:</label><span> <b>$<?php echo number_format($payment_total, 2, '.', ','); ?></b></span>

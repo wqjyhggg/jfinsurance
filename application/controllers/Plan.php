@@ -849,6 +849,18 @@ class Plan extends MY_Controller {
 		$data['print_receipt_url'] = '';
 		$data['cancel_letter_url'] = '';
 		$data['refund_letter_url'] = '';
+		$data['pdf_url'] = base_url('plan/pdf/' . $plan['plan_id']);
+		$data['export_logo_url'] = base_url('plan/exportlogo') . "/";
+		$data['export_price_url'] = base_url('plan/exportprice') . "/";
+		$data['export_logo_price_option'] = FALSE;
+		if ($plan['product_short'] == 'JES') {
+			if ($beuser['user_group_id'] < 100) $data['export_logo_price_option'] = TRUE;
+		} else if ($plan['product_short'] == 'JFC') {
+			if ($beuser['user_group_id'] < 100) $data['export_logo_price_option'] = TRUE;
+		}
+		$this->session->set_userdata ( 'withlogo', 1);
+		$this->session->set_userdata ( 'withprice', 1);
+		
 		if (!empty($plan) && !empty($plan['status_id']) && !empty($plan['plan_id']) && ($plan['status_id'] >= 2)) {
 			if ($plan['status_id'] == 5) {
 				// Cancel
@@ -1009,13 +1021,101 @@ class Plan extends MY_Controller {
 		$this->load->common('plan/term', $data);
 	}
 
+	private function credit_card_negative() {
+		$this->load->model('plan_model');
+		$this->load->model('product_model');
+		$this->load->model('payment_model');
+		
+		$plan_id = $this->input->post('plan_id');
+		// $premium = preg_replace("/[^0-9\.-]/", "", $this->input->post('premium'));
+		$premium = (float)$this->input->post('premium');
+		
+		$plan = $this->plan_model->get_plan_by_id($plan_id);
+		$product = $this->product_model->get_product($plan['product_short']);
+		$dt = array();
+		$dt['plan_id'] = $plan_id;
+		$dt['currency'] = $product['currency'];
+		$dt['pay_mothed'] = 'Credit Card';
+		$dt['name'] = 'No Card Needs';
+		$dt['added'] = date('c');
+		$dt['first5'] = 'XXXXX';
+		$dt['last4'] = 'XXXX';
+		$dt['expiry_month'] = '01';
+		$dt['expiry_year'] = '01';
+		$dt['ispaid'] = 0;
+		$commission_rate = $this->product_model->get_commission_rate($plan['product_short'], $plan['user_id']);
+		$commission_amount = $premium * $commission_rate / 100.0;
+		$up_commission_rate = $this->product_model->get_up_commission_rate($plan['product_short']);
+		$up_commission_amount = $premium * $up_commission_rate / 100.0;
+				
+		$dt['amount'] = $premium;
+		$dt['rate'] = 100;
+		$dt['pay_type'] = 'premium';
+		$payment_id = $this->payment_model->add($dt);
+		$para = array(
+				'plan_id' => $plan_id,
+				'customer_id' => $plan['customer_id'],
+				'payment_id' => $payment_id,
+				'message' => $this->payment_model->logstr,
+				'systemlog' => $this->payment_model->sqlstr
+		);
+		$this->log_model->activity('payment', $para);
+
+		// upstream commission
+		$dt['amount'] = $up_commission_amount;
+		$dt['rate'] = $up_commission_rate;
+		$dt['pay_type'] = 'up_commission';
+		$up_commission_payment_id = $this->payment_model->add($dt);
+		$para = array(
+				'plan_id' => $plan_id,
+				'customer_id' => $plan['customer_id'],
+				'payment_id' => $up_commission_payment_id,
+				'message' => $this->payment_model->logstr,
+				'systemlog' => $this->payment_model->sqlstr
+		);
+		$this->log_model->activity('up_commission', $para);
+
+		// commission
+		$dt['amount'] = $commission_amount;
+		$dt['rate'] = $commission_rate;
+		$dt['pay_type'] = 'commission';
+		if (($plan['product_short'] == 'OPL') || ($plan['product_short'] == 'JFR') && ($premium > 100000)) {
+			$dt['added'] = $plan['effective_date'];
+		}
+		$commission_payment_id = $this->payment_model->add($dt);
+		$para = array(
+				'plan_id' => $plan_id,
+				'customer_id' => $plan['customer_id'],
+				'payment_id' => $commission_payment_id,
+				'message' => $this->payment_model->logstr,
+				'systemlog' => $this->payment_model->sqlstr
+		);
+		$this->log_model->activity('commission', $para);
+
+		$payinfo = "Credit Card: paymount is negative";
+		$para = array('payment_id' => $payment_id, 'payinfo' => $payinfo, 'commission_payment_id' => $commission_payment_id, 'status_id' => 2, 'policy' => $this->plan_model->get_policy_number($plan_id, 2));
+		$this->plan_model->update($plan_id, $para);
+		$para = array(
+				'plan_id' => $plan_id,
+				'customer_id' => $plan['customer_id'],
+				'payment_id' => $payment_id,
+				'message' => $this->plan_model->logstr,
+				'systemlog' => $this->plan_model->sqlstr
+		);
+		$this->log_model->activity('plan', $para);
+	}
+	
 	private function credit_card() {
 		$this->load->model('plan_model');
 		$this->load->model('product_model');
 		$this->load->model('payment_model');
 		
 		$plan_id = $this->input->post('plan_id');
-		$premium = preg_replace("/[^0-9\.-]/", "", $this->input->post('premium'));
+		// $premium = preg_replace("/[^0-9\.-]/", "", $this->input->post('premium'));
+		$premium = (float)$this->input->post('premium');
+		if ($premium < 0) {
+			return $this->credit_card_negative();
+		}
 		
 		if (empty( $this->input->post('card_number') ) ) {
 			$this->error = 'Please input Card Number.';
@@ -1026,7 +1126,7 @@ class Plan extends MY_Controller {
 		} else if (empty( $this->input->post('expiry_year') ) ) {
 			$this->error = 'Please select Expiry Year.';
 		} else if (empty( $this->input->post('card_cvv') ) ) {
-			$this->error = 'Please Card CVV';
+			$this->error = 'Please Input Card CVV';
 		} else {
 			$card_number = $this->input->post('card_number');
 			$card_name = $this->input->post('card_name');
