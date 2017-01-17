@@ -511,7 +511,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						</div>
 					</div><br />	
 										
-					<div class="row" <?php if ($user_group_id > 100) { ?>style="display:none;"<?php } ?>>
+					<div class="row">
 						<div class="col-sm-12">
 							<fieldset>
 								<legend>Special Note/Instructions</legend>

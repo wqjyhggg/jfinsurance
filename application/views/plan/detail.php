@@ -215,7 +215,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 									<span><?php echo $plan['contact_phone']; ?></span>
 								</div>
 								<div class="col-sm-3">
-									<label class="inline">Residence:</label>
+									<label class="inline">Country of Origin:</label>
 									<span><?php echo $plan['residence']; ?></span>
 								</div>
 							</div>

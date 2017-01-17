@@ -359,7 +359,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						</div>
 					</div><br />	
 										
-		 			<input type='hidden' name="note" value='<?php echo $note; ?>'>
+					<div class="row">
+						<div class="col-sm-12">
+							<fieldset>
+								<legend>Special Note/Instructions</legend>
+								<div class="row">
+									<div class="col-sm-12">
+										<label class="col-sm-12">Notes: </label>
+										<div class="input-group col-sm-12">
+								 			<textarea class="form-control" name="note"><?php echo $note; ?></textarea>
+								 		</div>
+								 	</div>
+								</div>
+								
+							</fieldset>
+						</div>
+					</div><br />
 
 					<div class="row">
 						<div class="col-sm-12" id='goto_next_page'>
