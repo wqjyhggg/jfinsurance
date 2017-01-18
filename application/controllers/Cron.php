@@ -320,7 +320,7 @@ class Cron extends MY_Controller {
 			$sheet->setCellValue('G'.$row, $plan['gender']);
 			$sheet->setCellValue('H'.$row, PHPExcel_Shared_Date::PHPToExcel(strtotime($plan['birthday'] . ' 00:00:00 UTC')));
 			//$sheet->getStyle('H'.$row)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_DATE_TIME2);
-			$sheet->getStyle('H'.$row)->getNumberFormat()->setFormatCode('d/m/yyyy h:mm:ss AM/PM');
+			$sheet->getStyle('H'.$row)->getNumberFormat()->setFormatCode('m/d/yyyy h:mm:ss AM/PM');
 			
 			$sheet->setCellValue('I'.$row, $plan['street_number'] . " " . $plan['street_name']); // Address1
 			$sheet->setCellValue('J'.$row, ($plan['suite_number']) ? " Suite" . $plan['suite_number'] : ""); // Address2
@@ -337,13 +337,13 @@ class Cron extends MY_Controller {
 			$sheet->setCellValue('O'.$row, $mailaddr); // Contact Email
 			$sheet->setCellValue('P'.$row, $plan['note']); // Notes
 			$sheet->setCellValue('Q'.$row, PHPExcel_Shared_Date::PHPToExcel(strtotime($plan['arrival_date'] . ' 00:00:00 UTC'))); // Arrival Date
-			$sheet->getStyle('Q'.$row)->getNumberFormat()->setFormatCode('d/m/yyyy h:mm:ss AM/PM');
+			$sheet->getStyle('Q'.$row)->getNumberFormat()->setFormatCode('m/d/yyyy h:mm:ss AM/PM');
 			$sheet->setCellValue('R'.$row, PHPExcel_Shared_Date::PHPToExcel(strtotime($plan['apply_date'] . ' 00:00:00 UTC'))); // Application Date
-			$sheet->getStyle('R'.$row)->getNumberFormat()->setFormatCode('d/m/yyyy h:mm:ss AM/PM');
+			$sheet->getStyle('R'.$row)->getNumberFormat()->setFormatCode('m/d/yyyy h:mm:ss AM/PM');
 			$sheet->setCellValue('S'.$row, PHPExcel_Shared_Date::PHPToExcel(strtotime($plan['effective_date'] . ' 00:00:00 UTC'))); // Effective Date
-			$sheet->getStyle('S'.$row)->getNumberFormat()->setFormatCode('d/m/yyyy h:mm:ss AM/PM');
+			$sheet->getStyle('S'.$row)->getNumberFormat()->setFormatCode('m/d/yyyy h:mm:ss AM/PM');
 			$sheet->setCellValue('T'.$row, PHPExcel_Shared_Date::PHPToExcel(strtotime($plan['expiry_date'] . ' 00:00:00 UTC'))); // Expiry Date
-			$sheet->getStyle('T'.$row)->getNumberFormat()->setFormatCode('d/m/yyyy h:mm:ss AM/PM');
+			$sheet->getStyle('T'.$row)->getNumberFormat()->setFormatCode('m/d/yyyy h:mm:ss AM/PM');
 			$sheet->setCellValue('U'.$row, $plan['totaldays']); // Trip  Length
 			$sheet->setCellValue('V'.$row, sprintf("%0.2f",$plan['sum_insured'])); // Sum  Insured
 			$sheet->getStyle('V'.$row)->getNumberFormat()->setFormatCode('#,##0.00');
@@ -364,9 +364,9 @@ class Cron extends MY_Controller {
 			$sheet->setCellValue('AF'.$row, $plan['firstname']); // Insured First Name
 			$sheet->setCellValue('AG'.$row, $plan['lastname']); // Insured Last Name
 			$sheet->setCellValue('AH'.$row, PHPExcel_Shared_Date::PHPToExcel(strtotime($plan['birthday'] . ' 00:00:00 UTC'))); // Birthdate
-			$sheet->getStyle('AH'.$row)->getNumberFormat()->setFormatCode('d/m/yyyy h:mm:ss AM/PM');
+			$sheet->getStyle('AH'.$row)->getNumberFormat()->setFormatCode('m/d/yyyy h:mm:ss AM/PM');
 			$sheet->setCellValue('AI'.$row, PHPExcel_Shared_Date::PHPToExcel(strtotime($plan['last_update'] . ' EST'))); // Update Date
-			$sheet->getStyle('AI'.$row)->getNumberFormat()->setFormatCode('d/m/yyyy h:mm:ss AM/PM');
+			$sheet->getStyle('AI'.$row)->getNumberFormat()->setFormatCode('m/d/yyyy h:mm:ss AM/PM');
 			$row++;
 			if ($plan['isfamilyplan']) {
 				$customers = $this->customer_model->get_customer_by_parent_id($plan['customer_id']);
@@ -379,7 +379,7 @@ class Cron extends MY_Controller {
 					$sheet->setCellValue('F'.$row, $c['lastname']);
 					$sheet->setCellValue('G'.$row, $c['gender']);
 					$sheet->setCellValue('H'.$row, PHPExcel_Shared_Date::PHPToExcel(strtotime($c['birthday'] . ' 00:00:00 UTC')));
-					$sheet->getStyle('H'.$row)->getNumberFormat()->setFormatCode('d/m/yyyy h:mm:ss AM/PM');
+					$sheet->getStyle('H'.$row)->getNumberFormat()->setFormatCode('m/d/yyyy h:mm:ss AM/PM');
 					$sheet->setCellValue('I'.$row, $plan['street_number'] . " " . $plan['street_name']); // Address1
 					$sheet->setCellValue('J'.$row, ($plan['suite_number']) ? " Suite" . $plan['suite_number'] : ""); // Address2
 					$sheet->setCellValue('K'.$row, $plan['city']); // City
@@ -389,13 +389,13 @@ class Cron extends MY_Controller {
 					$sheet->setCellValue('O'.$row, $plan['contact_email']); // Contact Email
 					$sheet->setCellValue('P'.$row, $plan['note']); // Notes
 					$sheet->setCellValue('Q'.$row, PHPExcel_Shared_Date::PHPToExcel(strtotime($plan['arrival_date'] . ' 00:00:00 UTC'))); // Arrival Date
-					$sheet->getStyle('Q'.$row)->getNumberFormat()->setFormatCode('d/m/yyyy h:mm:ss AM/PM');
+					$sheet->getStyle('Q'.$row)->getNumberFormat()->setFormatCode('m/d/yyyy h:mm:ss AM/PM');
 					$sheet->setCellValue('R'.$row, PHPExcel_Shared_Date::PHPToExcel(strtotime($plan['apply_date'] . ' 00:00:00 UTC'))); // Application Date
-					$sheet->getStyle('R'.$row)->getNumberFormat()->setFormatCode('d/m/yyyy h:mm:ss AM/PM');
+					$sheet->getStyle('R'.$row)->getNumberFormat()->setFormatCode('m/d/yyyy h:mm:ss AM/PM');
 					$sheet->setCellValue('S'.$row, PHPExcel_Shared_Date::PHPToExcel(strtotime($plan['effective_date'] . ' 00:00:00 UTC'))); // Effective Date
-					$sheet->getStyle('S'.$row)->getNumberFormat()->setFormatCode('d/m/yyyy h:mm:ss AM/PM');
+					$sheet->getStyle('S'.$row)->getNumberFormat()->setFormatCode('m/d/yyyy h:mm:ss AM/PM');
 					$sheet->setCellValue('T'.$row, PHPExcel_Shared_Date::PHPToExcel(strtotime($plan['expiry_date'] . ' 00:00:00 UTC'))); // Expiry Date
-					$sheet->getStyle('T'.$row)->getNumberFormat()->setFormatCode('d/m/yyyy h:mm:ss AM/PM');
+					$sheet->getStyle('T'.$row)->getNumberFormat()->setFormatCode('m/d/yyyy h:mm:ss AM/PM');
 					$sheet->setCellValue('U'.$row, $plan['totaldays']); // Trip  Length
 					$sheet->setCellValue('V'.$row, sprintf("%0.2f",$plan['sum_insured'])); // Sum  Insured
 					$sheet->getStyle('V'.$row)->getNumberFormat()->setFormatCode('#,##0.00');
@@ -416,9 +416,9 @@ class Cron extends MY_Controller {
 					$sheet->setCellValue('AF'.$row, $c['firstname']); // Insured First Name
 					$sheet->setCellValue('AG'.$row, $c['lastname']); // Insured Last Name
 					$sheet->setCellValue('AH'.$row, PHPExcel_Shared_Date::PHPToExcel(strtotime($c['birthday'] . ' 00:00:00 UTC'))); // Birthdate
-					$sheet->getStyle('AH'.$row)->getNumberFormat()->setFormatCode('d/m/yyyy h:mm:ss AM/PM');
+					$sheet->getStyle('AH'.$row)->getNumberFormat()->setFormatCode('m/d/yyyy h:mm:ss AM/PM');
 					$sheet->setCellValue('AI'.$row, PHPExcel_Shared_Date::PHPToExcel(strtotime($plan['last_update'] . ' EST'))); // Update Date
-					$sheet->getStyle('AI'.$row)->getNumberFormat()->setFormatCode('d/m/yyyy h:mm:ss AM/PM');
+					$sheet->getStyle('AI'.$row)->getNumberFormat()->setFormatCode('m/d/yyyy h:mm:ss AM/PM');
 					$row++;
 				}
 			}
