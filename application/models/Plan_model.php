@@ -387,9 +387,10 @@ class Plan_model extends CI_Model {
 			$this->logstr .= " totalyears " . $para['totalyears'] . "(" . $plan['totalyears'] . ")";
 			$sql .= " totalyears=" . $this->db->escape($para['totalyears']) . ", ";
 		}
-		if (isset($para['dailyrate']) && ((float)$para['dailyrate'] != (float)$plan['dailyrate'])) {
-			$this->logstr .= " dailyrate " . $para['dailyrate'] . "(" . $plan['dailyrate'] . ")";
-			$sql .= " dailyrate='" . (float) $para['dailyrate'] . "', ";
+		$dailyrate = round((float)$para['dailyrate'],2);
+		if (isset($para['dailyrate']) && ($dailyrate != (float)$plan['dailyrate'])) {
+			$this->logstr .= " dailyrate " . $dailyrate . "(" . $plan['dailyrate'] . ")";
+			$sql .= " dailyrate='" . $dailyrate . "', ";
 		}
 		$premiumchanged = 0;
 		$premium = round((float)$para['premium'],2);
@@ -408,9 +409,10 @@ class Plan_model extends CI_Model {
 				$sql .= " status_id='" . self::CHANGED . "', ";
 			}
 		}
-		if (isset($para['commission_amount']) && ((float)$para['commission_amount'] != (float)$plan['commission_amount'])) {
-			$this->logstr .= " commission_amount " . $para['commission_amount'] . "(" . $plan['commission_amount'] . ")";
-			$sql .= " commission_amount='" . (float) $para['commission_amount'] . "', ";
+		$commission_amount = round((float)$para['commission_amount'],2);
+		if (isset($para['commission_amount']) && ($commission_amount != (float)$plan['commission_amount'])) {
+			$this->logstr .= " commission_amount " . $commission_amount . "(" . $plan['commission_amount'] . ")";
+			$sql .= " commission_amount='" . $commission_amount . "', ";
 		}
 		if (isset($para['street_number']) && ($para['street_number'] != $plan['street_number'])) {
 			$this->logstr .= " street_number " . $para['street_number'] . "(" . $plan['street_number'] . ")";
