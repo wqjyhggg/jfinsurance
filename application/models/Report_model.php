@@ -50,9 +50,11 @@ class Report_model extends CI_Model
             CONCAT(c.lastname, ", ", c.firstname) AS insured_name,
             pl.effective_date,
             pl.expiry_date,
-            datediff(pl.expiry_date, pl.effective_date) AS total_days,
+            pl.totaldays AS total_days,
             pl.dailyrate AS daily_rate,
-            pl.premium AS policy_premium,
+            pl.status_id,
+            st.name AS status,
+        	pl.premium AS policy_premium,
             pr.commission AS pr_commission,
             up.commission AS up_commission,
             u.email AS agent_email,
@@ -69,6 +71,7 @@ class Report_model extends CI_Model
         $this->db->join('user_product up', 'u.user_id = up.user_id and pr.product_short = up.product_short', 'left');
         $this->db->join('payment pa', 'pa.payment_id=
             (SELECT MIN(payment_id) FROM payment pa2 WHERE pl.payment_id = pa2.payment_id AND pa2.pay_type = "premium" AND ispaid = 1)', 'left');
+        $this->db->join('status st', 'pl.status_id = st.status_id', 'left');
     }
 
     private function sales_report_agent_where($para)

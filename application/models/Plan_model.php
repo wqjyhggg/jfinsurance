@@ -392,9 +392,10 @@ class Plan_model extends CI_Model {
 			$sql .= " dailyrate='" . (float) $para['dailyrate'] . "', ";
 		}
 		$premiumchanged = 0;
-		if (isset($para['premium']) && ((float)$para['premium'] != (float)$plan['premium'])) {
-			$this->logstr .= " premium " . $para['premium'] . "(" . $plan['premium'] . ")";
-			$sql .= " premium='" . (float) $para['premium'] . "', ";
+		$premium = round((float)$para['premium'],2);
+		if (isset($para['premium']) && ($premium != (float)$plan['premium'])) {
+			$this->logstr .= " premium " . $premium . "(" . $plan['premium'] . ")";
+			$sql .= " premium='" . $premium . "', ";
 			$premiumchanged = 1;
 		}
 		if (isset($para['status_id']) && ((int)$para['status_id'] != (int)$plan['status_id'])) {
