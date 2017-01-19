@@ -387,17 +387,21 @@ class Plan_model extends CI_Model {
 			$this->logstr .= " totalyears " . $para['totalyears'] . "(" . $plan['totalyears'] . ")";
 			$sql .= " totalyears=" . $this->db->escape($para['totalyears']) . ", ";
 		}
-		$dailyrate = round((float)$para['dailyrate'],2);
-		if (isset($para['dailyrate']) && ($dailyrate != (float)$plan['dailyrate'])) {
-			$this->logstr .= " dailyrate " . $dailyrate . "(" . $plan['dailyrate'] . ")";
-			$sql .= " dailyrate='" . $dailyrate . "', ";
+		if (isset($para['dailyrate'])) {
+			$dailyrate = round((float)$para['dailyrate'],2);
+			if ($dailyrate != (float)$plan['dailyrate']) {
+				$this->logstr .= " dailyrate " . $dailyrate . "(" . $plan['dailyrate'] . ")";
+				$sql .= " dailyrate='" . $dailyrate . "', ";
+			}
 		}
 		$premiumchanged = 0;
-		$premium = round((float)$para['premium'],2);
-		if (isset($para['premium']) && ($premium != (float)$plan['premium'])) {
-			$this->logstr .= " premium " . $premium . "(" . $plan['premium'] . ")";
-			$sql .= " premium='" . $premium . "', ";
-			$premiumchanged = 1;
+		if (isset($para['premium'])) {
+			$premium = round((float)$para['premium'],2);
+			if ($premium != (float)$plan['premium']) {
+				$this->logstr .= " premium " . $premium . "(" . $plan['premium'] . ")";
+				$sql .= " premium='" . $premium . "', ";
+				$premiumchanged = 1;
+			}
 		}
 		if (isset($para['status_id']) && ((int)$para['status_id'] != (int)$plan['status_id'])) {
 			$this->logstr .= " status_id " . $para['status_id'] . "(" . $plan['status_id'] . ")";
@@ -409,10 +413,12 @@ class Plan_model extends CI_Model {
 				$sql .= " status_id='" . self::CHANGED . "', ";
 			}
 		}
-		$commission_amount = round((float)$para['commission_amount'],2);
-		if (isset($para['commission_amount']) && ($commission_amount != (float)$plan['commission_amount'])) {
-			$this->logstr .= " commission_amount " . $commission_amount . "(" . $plan['commission_amount'] . ")";
-			$sql .= " commission_amount='" . $commission_amount . "', ";
+		if (isset($para['commission_amount'])) {
+			$commission_amount = round((float)$para['commission_amount'],2);
+			if ($commission_amount != (float)$plan['commission_amount']) {
+				$this->logstr .= " commission_amount " . $commission_amount . "(" . $plan['commission_amount'] . ")";
+				$sql .= " commission_amount='" . $commission_amount . "', ";
+			}
 		}
 		if (isset($para['street_number']) && ($para['street_number'] != $plan['street_number'])) {
 			$this->logstr .= " street_number " . $para['street_number'] . "(" . $plan['street_number'] . ")";
