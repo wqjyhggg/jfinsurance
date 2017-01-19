@@ -90,6 +90,13 @@ class Plan extends MY_Controller {
 		$data['province_url'] = base_url ( "geo/province/" );
 		$data['country_url'] = base_url ( "geo/country/" );
 		$data['sendpackage_url'] = base_url ( "plan/sendpackage" ) . "/";
+		if (empty($data['province2'])) {
+			$data['province2'] = 'ON';
+			$data['country2'] = 'CA';
+		}
+		if (empty($data['country2'])) {
+			$data['country2'] = 'CA';
+		}
 		if (!empty($data['country2'])) {
 			$data['province_url'] .= "/" . $data['country2'];
 			$data['country_url'] .= "/" . $data['country2'];
@@ -729,6 +736,13 @@ class Plan extends MY_Controller {
 		} else if (isset($plan['country2'])) {
 			$data['country2'] = $plan['country2'];
 		} else {
+			$data['country2'] = 'CA';
+		}
+		if (empty($data['province2'])) {
+			$data['province2'] = 'ON';
+			$data['country2'] = 'CA';
+		}
+		if (empty($data['country2'])) {
 			$data['country2'] = 'CA';
 		}
 		if ($this->input->post('postcode')) {
