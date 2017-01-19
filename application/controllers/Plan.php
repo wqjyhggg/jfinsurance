@@ -870,7 +870,7 @@ class Plan extends MY_Controller {
 		$data['print_receipt_url'] = '';
 		$data['cancel_letter_url'] = '';
 		$data['refund_letter_url'] = '';
-		$data['pdf_url'] = base_url('plan/pdf/' . $plan['plan_id']);
+		$data['pdf_url'] = base_url('plan/pdf/' . (empty($plan['plan_id']) ? '' : $plan['plan_id']));
 		$data['export_logo_url'] = base_url('plan/exportlogo') . "/";
 		$data['export_price_url'] = base_url('plan/exportprice') . "/";
 		$data['export_logo_price_option'] = FALSE;

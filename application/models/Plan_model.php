@@ -257,13 +257,23 @@ class Plan_model extends CI_Model {
 		$this->sqlstr = '';
 		$this->load->model('customer_model');
 		$arr = array();
-		$beuser = $this->session->userdata ( 'beuser' );
-		if (empty($beuser)) {
-			return 0;
-		}
 		$plan = $this->get_plan_by_id($plan_id);
 		if (empty($plan)) {
+			$this->logstr = 'Can not find plan by id[' . $plan_id . ']';
+			$this->sqlstr = 'Can not find plan by id[' . $plan_id . ']';
 			return 0;
+		}
+		$beuser = $this->session->userdata ( 'beuser' );
+		if (empty($beuser)) {
+			$this->logstr = 'Can not find beuser;';
+			$this->sqlstr = 'Can not find beuser';
+			$this->load->model('user_model');
+			$beuser = $this->user_model->get_user_by_id($plan['user_id']);
+			if (empty($beuser)) {
+				$this->logstr = 'Can not find user by plan['.$plan_id.']['.$plan['user_id'].']';
+				$this->sqlstr = 'Can not find user by plan['.$plan_id.']['.$plan['user_id'].']';
+				return 0;
+			}
 		}
 		$plan_id = $plan['plan_id'];
 		$this->logstr .= "Change Plan (" . (int)$plan_id . "): ";
@@ -503,6 +513,10 @@ class Plan_model extends CI_Model {
 		if (isset($para['note']) && ($para['note'] != $plan['note'])) {
 			$this->logstr .= " note " . $para['note'] . "(" . $plan['note'] . ")";
 			$sql .= " note=" . $this->db->escape($para['note']) . ", ";
+		}
+		if ($sql == "UPDATE plan SET") {
+			// No change 
+			return $plan_id;
 		}
 		$sql .= " plan_id=plan_id ";
 		$sql .= " WHERE plan_id='" . (int)$plan_id . "'";
