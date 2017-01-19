@@ -513,6 +513,13 @@ class Plan extends MY_Controller {
 		} else {
 			$data['beneficiary'] = '';
 		}
+		if ($this->input->post('batch_number')) {
+			$data['batch_number'] = $this->input->post('batch_number'); 
+		} else if (isset($plan['batch_number'])) {
+			$data['batch_number'] = $plan['batch_number'];
+		} else {
+			$data['batch_number'] = 0;
+		}
 		if ($this->input->post('isfamilyplan')) {
 			$data['isfamilyplan'] = $this->input->post('isfamilyplan'); 
 		} else if (isset($plan['isfamilyplan'])) {

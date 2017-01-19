@@ -100,6 +100,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<input type='hidden' name='plan_id' value='<?php echo $plan_id; ?>'>
 						<input type='hidden' name='product_short' value='<?php echo $product_short; ?>'>
 						<input type='hidden' name='force_deductable' value=''>
+						<input type='hidden' name='batch_number' value='<?php echo $batch_number; ?>'>
 					<?php if (empty($plan_id) || empty($status_id)) { ?>
 						<?php /* it should be new plan */ ?>
 						<input type='hidden' name='status_id' value='0'>
@@ -203,6 +204,34 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<?php } ?>
 							</div>
 						</div>
+						<?php if ($batch_number ) { ?>
+								<div class="row">
+									<div class="col-sm-3">
+										<label class="col-sm-12">Days: </label>
+										<div class='form_text_show'>
+											<input class="form-control" type='number' name='totaldays' id='totaldays' value='<?php echo $totaldays; ?>' >
+										</div>
+									</div>
+									<div class="col-sm-3">
+										<label class="col-sm-12">Daily Rate: </label>
+										<div class='form_text_show'>
+											<input class="form-control" type='number' name='dailyrate' step='0.01' id='dailyrate' value='<?php echo $dailyrate; ?>'>
+										</div>
+									</div>
+									<div class="col-sm-3">
+										<label class="col-sm-12">Age: </label>
+										<div class='form_text_show'>
+											<input class="form-control" type='number' name='totalyears' id='totalyears' value='<?php echo $totalyears; ?>'>
+										</div>
+									</div>
+									<div class="col-sm-3">
+										<label class="col-sm-12">Premium: </label>
+										<div class="form_text_show" id='premiumdisplay'>
+											<input class="form-control" type='number' name='premium' step='0.01' id='premium' value='<?php echo $premium; ?>'>	
+										</div>
+									</div>
+								</div>
+						<?php } else { ?>
 								<div class="row">
 									<div class="col-sm-1">
 										<label class="col-sm-12">Days: </label>
@@ -240,6 +269,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										</div>
 									</div>
 								</div>
+						<?php } ?>
 					 	</fieldset>
 					 	</div>
 					</div><br />
@@ -910,6 +940,7 @@ function addmoremember() {
 }
 
 function get_premium() {
+<?php if (empty($batch_number)) { ?>
 	var product_short = $('input[name="product_short"]').val();
 	var apply_date = $('input[name="apply_date"]').val();
 	var effective_date = $('input[name="effective_date"]').val();
@@ -1067,6 +1098,7 @@ function get_premium() {
 	    	},
 		});
 	}
+<?php } ?>
 } 
 </script>
 <script type="text/javascript">
