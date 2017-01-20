@@ -66,7 +66,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<?php } ?>
 						<?php 	} ?>
 						<?php if ((($status_id == 3) || ($status_id == 7)) && $user_group_id <= 100 ) { ?>
-						<?php if((time()-(60*60*24)) < strtotime($effective_date)){ ?>
+						<?php if(time() < strtotime($effective_date)){ ?>
 							<a href='<?php echo $cancel_url . $plan_id; ?>'><span class="btn btn-info" style='color:#fff;'>Cancel</span></a>
 							<?php }else{?>
 							<a href='<?php echo $refund_url . $plan_id; ?>'><span class="btn btn-info" style='color:#fff;'>Refund</span></a>

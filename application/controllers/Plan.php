@@ -338,6 +338,9 @@ class Plan extends MY_Controller {
 		if (empty($this->input->post('contact_email'))) {
 			$this->error['error_contact_email'] = 'Contact email is Required';
 		}
+		if (!empty($this->input->post('isfamilyplan')) && (empty($this->input->post('birthday_1')) || empty($this->input->post('firstname_1')) || empty($this->input->post('lastname_1')))) {
+			$this->error['error_message'] = 'Please input family member information';
+		}
 		if (($product_short == 'OPL') || ($product_short == 'JFR')) {
 			if (empty($this->input->post('stable_condition'))) {
 				$this->error['error_stable_condition'] = 'Please select pre-existion condition coverage';
@@ -874,10 +877,12 @@ class Plan extends MY_Controller {
 		$data['export_logo_url'] = base_url('plan/exportlogo') . "/";
 		$data['export_price_url'] = base_url('plan/exportprice') . "/";
 		$data['export_logo_price_option'] = FALSE;
-		if ($plan['product_short'] == 'JES') {
-			if ($beuser['user_group_id'] < 100) $data['export_logo_price_option'] = TRUE;
-		} else if ($plan['product_short'] == 'JFC') {
-			if ($beuser['user_group_id'] < 100) $data['export_logo_price_option'] = TRUE;
+		if (isset($plan['product_short'])) {
+			if ($plan['product_short'] == 'JES') {
+				if ($beuser['user_group_id'] < 100) $data['export_logo_price_option'] = TRUE;
+			} else if ($plan['product_short'] == 'JFC') {
+				if ($beuser['user_group_id'] < 100) $data['export_logo_price_option'] = TRUE;
+			}
 		}
 		$this->session->set_userdata ( 'withlogo', 1);
 		$this->session->set_userdata ( 'withprice', 1);
