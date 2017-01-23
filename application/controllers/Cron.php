@@ -365,7 +365,7 @@ class Cron extends MY_Controller {
 			$sheet->setCellValue('AG'.$row, $plan['lastname']); // Insured Last Name
 			$sheet->setCellValue('AH'.$row, PHPExcel_Shared_Date::PHPToExcel(strtotime($plan['birthday'] . ' 00:00:00 UTC'))); // Birthdate
 			$sheet->getStyle('AH'.$row)->getNumberFormat()->setFormatCode('m/d/yyyy h:mm:ss AM/PM');
-			$sheet->setCellValue('AI'.$row, PHPExcel_Shared_Date::PHPToExcel(strtotime($plan['last_update'] . ' EST'))); // Update Date
+			$sheet->setCellValue('AI'.$row, PHPExcel_Shared_Date::PHPToExcel(strtotime($plan['last_update'] . ' UTC'))); // Update Date
 			$sheet->getStyle('AI'.$row)->getNumberFormat()->setFormatCode('m/d/yyyy h:mm:ss AM/PM');
 			$row++;
 			if ($plan['isfamilyplan']) {
@@ -417,7 +417,7 @@ class Cron extends MY_Controller {
 					$sheet->setCellValue('AG'.$row, $c['lastname']); // Insured Last Name
 					$sheet->setCellValue('AH'.$row, PHPExcel_Shared_Date::PHPToExcel(strtotime($c['birthday'] . ' 00:00:00 UTC'))); // Birthdate
 					$sheet->getStyle('AH'.$row)->getNumberFormat()->setFormatCode('m/d/yyyy h:mm:ss AM/PM');
-					$sheet->setCellValue('AI'.$row, PHPExcel_Shared_Date::PHPToExcel(strtotime($plan['last_update'] . ' EST'))); // Update Date
+					$sheet->setCellValue('AI'.$row, PHPExcel_Shared_Date::PHPToExcel(strtotime($plan['last_update'] . ' UTC'))); // Update Date
 					$sheet->getStyle('AI'.$row)->getNumberFormat()->setFormatCode('m/d/yyyy h:mm:ss AM/PM');
 					$row++;
 				}
