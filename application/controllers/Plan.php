@@ -2447,6 +2447,7 @@ class Plan extends MY_Controller {
 			unset($plan['payinfo']);
 			unset($plan['note']);
 			unset($plan['ip']);
+			$plan['apply_date'] = date('Y-m-d');
 		}
 		$this->form($plan);
 	}

@@ -637,7 +637,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				                      	<thead>
 											<tr>
 												<th>&nbsp;</th>
-												<th>Date</th>
+												<th>Last Update</th>
 												<th>Type</th>
 												<th>Pay Type</th>
 												<th>Amount</th>
@@ -685,7 +685,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 												?>
 											<tr>
 												<td><?php if (empty($p['ispaid'])) { ?><input type='checkbox' name='payment[]' value='<?php echo $p['payment_id']; ?>'><?php } ?></td>
-												<td><?php echo $p['added']; ?></td>
+												<td><?php echo $p['last_update']; ?></td>
 												<td><?php echo $p['pay_type']; ?></td>
 												<td><?php echo $p['pay_mothed']; ?></td>
 												<td><?php echo $p['amount']; ?></td>

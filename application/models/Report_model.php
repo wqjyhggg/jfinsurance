@@ -2,6 +2,7 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
+    
 class Report_model extends CI_Model
 {
     const QUOTE = 1;
@@ -79,10 +80,10 @@ class Report_model extends CI_Model
         $this->db->where_in('pl.status_id', array(self::SOLD, self::PAID, self::CLAIMED, self::CHANGED));
         $this->common_report_where($para);
         if (!empty($para['payment_date_from'])) {
-            $this->db->where('pa.last_update >=', $para['payment_date_from']);
+            $this->db->where('pa.last_update >=', $para['payment_date_from'] . " 00:00:00");
         }
         if (!empty($para['payment_date_to'])) {
-            $this->db->where('pa.last_update <=', $para['payment_date_to']);
+            $this->db->where('pa.last_update <=', $para['payment_date_to'] . " 23:59:59");
         }
     }
 
@@ -136,7 +137,8 @@ class Report_model extends CI_Model
             pl.apply_date AS order_date,
             pl.policy,
             pa.invoice_num,
-            pr.up_insuer AS insurerCoName,
+            pa.last_update,
+        	pr.up_insuer AS insurerCoName,
             pr.full_name AS product,
             CONCAT(c.lastname, ", ", c.firstname) AS insured,
             u.username AS agency,
@@ -167,10 +169,10 @@ class Report_model extends CI_Model
         $this->db->where_in('pl.status_id', array(self::SOLD, self::PAID, self::CLAIMED));
         $this->common_report_where($para);
         if (!empty($para['payment_date_from'])) {
-            $this->db->where('pa.last_update >=', $para['payment_date_from']);
+            $this->db->where('pa.last_update >=', $para['payment_date_from'] . " 00:00:00");
         }
         if (!empty($para['payment_date_to'])) {
-            $this->db->where('pa.last_update <=', $para['payment_date_to']);
+            $this->db->where('pa.last_update <=', $para['payment_date_to'] . " 23:59:59");
         }
     }
     private function get_sales_report_jf_result($query)
@@ -264,10 +266,10 @@ class Report_model extends CI_Model
         $this->db->where_in('pl.status_id', array(self::SOLD, self::PAID, self::CLAIMED));
         $this->common_report_where($para);
         if (!empty($para['payment_date_from'])) {
-            $this->db->where('pa.last_update >=', $para['payment_date_from']);
+            $this->db->where('pa.last_update >=', $para['payment_date_from'] . " 00:00:00");
         }
         if (!empty($para['payment_date_to'])) {
-            $this->db->where('pa.last_update <=', $para['payment_date_to']);
+            $this->db->where('pa.last_update <=', $para['payment_date_to'] . " 23:59:59");
         }
     }
 
@@ -363,10 +365,10 @@ class Report_model extends CI_Model
         }
         $this->db->where('pa.amount >', 0);
         if (!empty($para['payment_update_date_from'])) {
-            $this->db->where('pa.last_update >=', $para['payment_update_date_from']);
+            $this->db->where('pa.last_update >=', $para['payment_update_date_from'] . " 00:00:00");
         }
         if (!empty($para['payment_update_date_to'])) {
-            $this->db->where('pa.last_update <=', $para['payment_update_date_to']);
+            $this->db->where('pa.last_update <=', $para['payment_update_date_to'] . " 23:59:59");
         }
         $this->db->order_by('pl.policy, pa.payment_id');
     }
@@ -704,10 +706,10 @@ class Report_model extends CI_Model
         $this->common_report_where($para);
         $this->db->where_in('pl.status_id', array(self::SOLD, self::PAID, self::CLAIMED));
         if (!empty($para['payment_update_date_from'])) {
-            $this->db->where('pa.last_update >=', $para['payment_update_date_from']);
+            $this->db->where('pa.last_update >=', $para['payment_update_date_from'] . " 00:00:00");
         }
         if (!empty($para['payment_update_date_to'])) {
-            $this->db->where('pa.last_update <=', $para['payment_update_date_to']);
+            $this->db->where('pa.last_update <=', $para['payment_update_date_to'] . " 23:59:59");
         }
     }
 
@@ -784,10 +786,10 @@ class Report_model extends CI_Model
         $available_user_ids = array_keys($para['user_list']);
         
         if (!empty($para['payment_update_date_from'])) {
-            $this->db->where('pa.last_update >=', $para['payment_date_from']);
+            $this->db->where('pa.last_update >=', $para['payment_date_from'] . " 00:00:00");
         }
         if (!empty($para['payment_update_date_to'])) {
-            $this->db->where('pa.last_update <=', $para['payment_date_to']);
+            $this->db->where('pa.last_update <=', $para['payment_date_to'] . " 23:59:59");
         }
         if (!empty($para['agent_id'])) {
             if (!in_array($para['agent_id'], $available_user_ids)) {

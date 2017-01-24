@@ -214,7 +214,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                           <tr>
                             <th>Count</th>
                             <th>OrderID</th>
-                            <th>Order Date</th>
+                            <th>Apply Date</th>
+                            <th>Payment Date</th>
                             <th>Policy Num</th>
                             <th>Invoice Num</th>
                             <th>InsurerCoName</th>
@@ -237,6 +238,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <td><?=$cnt++ ?></td>
                             <td><?=$record['plan_id'] ?></td>
                             <td><?=$record['order_date'] ?></td>
+                            <td><?=substr($record['last_update'], 0, 10) ?></td>
                             <td><?=$record['policy'] ?></td>
                             <td><?=$record['invoice_num'] ?></td><!-- todo -->
                             <td><?=$record['insurerCoName'] ?></td>
