@@ -1754,7 +1754,12 @@ class Plan extends MY_Controller {
 				$this->load->model('product_model');
 				$this->load->model('paytype_model');
 				$this->load->model('status_model');
+				$this->load->model('payment_model');
 				$product = $this->product_model->get_product($plan['product_short']);
+				$data['payment'] = '';
+				if ($plan['payment_id']) {
+					$data['payment'] = $this->payment_model->get_payment_by_id($plan['payment_id']);
+				}
 				$data['plan_full_name'] = $product ? $product['full_name'] : '';
 				$data['customer'] = $this->customer_model->get_customer_by_id($data['plan']['customer_id']);
 				$data['customers'] = $this->customer_model->get_customer_by_parent_id($data['plan']['customer_id']);
