@@ -130,6 +130,9 @@ class Api extends MY_Controller {
 					$p['expiry_date'] = $plan['expiry_date'];
 					$p['beneficiary'] = $plan['beneficiary'];
 					$p['stable_condition'] = $plan['stable_condition'];
+					$p['rate_options'] = $plan['rate_options'];
+					$p['holiday_rate'] = $plan['holiday_rate'];
+					$p['premium'] = $plan['premium'];
 					$p['spouse'] = $plan['spouse'];
 					$p['sum_insured'] = $plan['sum_insured'];
 					$p['deductible_amount'] = $plan['deductible_amount'];
