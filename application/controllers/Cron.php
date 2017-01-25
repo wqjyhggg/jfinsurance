@@ -277,7 +277,7 @@ class Cron extends MY_Controller {
 		}
 		
 		//$product_list = $this->product_model->product_list(1);
-		$outfile = $outdir . "OPL_" . date('Y-m-d_H.i.s') . ".xls";
+		$outfile = $outdir . "OPL2_" . date('Y-m-d_H.i.s') . ".xls";
 		$objPHPExcel = PHPExcel_IOFactory::load($filename);
 		
 		$product_list = $this->product_model->product_list(1);
@@ -425,7 +425,7 @@ class Cron extends MY_Controller {
 		}
 		$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
 		$objWriter->save($outfile);
-		$uploadFilename = 'OPL_Sales_Report_' . date('Y.m.d_H.i.s.B') . '.xls';
+		$uploadFilename = 'OPL2_Sales_Report_' . date('Y.m.d_H.i.s.B') . '.xls';
 		echo "Save to : " . $outfile . " Upload to : " . $uploadFilename . "\n";
 		$uploaded = FALSE;
 		for ($i = 0; $i < 5; $i++) {

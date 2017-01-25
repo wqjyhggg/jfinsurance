@@ -355,7 +355,7 @@ class Plan extends MY_Controller {
 			$birthday = $this->input->post('birthday');
 			$years = $this->product_model->getYears($apply_date, $birthday);
 			if ($years > 69) {
-				$this->error['error_message'] = "Customer age must less 69 years old";
+				$this->error['error_message'] = "Customer age must be less than 69 years old";
 			} else {
 				for ($i = 1; $i < 9; $i++) {
 					$birthday = $this->input->post('birthday_'.$i);
@@ -374,15 +374,31 @@ class Plan extends MY_Controller {
 			$birthday = $this->input->post('birthday');
 			$years = $this->product_model->getYears($apply_date, $birthday);
 			if ($years > 69) {
-				$this->error['error_message'] = "Customer age must less 69 years old";
+				$this->error['error_message'] = "Customer age must be less than 69 years old";
 			} else {
 				for ($i = 1; $i < 9; $i++) {
 					$birthday = $this->input->post('birthday_'.$i);
 					if (empty($birthday)) break;
 					$years = $this->product_model->getYears($apply_date, $birthday);
 					if ($years > 69) {
-						$this->error['error_message'] = "Customer age must less 69 years old";
+						$this->error['error_message'] = "All sCustomer age must be less than  69 years old";
 						break;
+					}
+				}
+			}
+			$years = $this->product_model->getYears($apply_date, $this->input->post('birthday'));
+			if ($product_short == 'JES') {
+				if ($years < 4) {
+					$this->error['error_message'] = "Customer age must be older than 4 years old";
+				} else {
+					for ($i = 1; $i < 9; $i++) {
+						$birthday = $this->input->post('birthday_'.$i);
+						if (empty($birthday)) break;
+						$years = $this->product_model->getYears($apply_date, $birthday);
+						if ($years < 4) {
+							$this->error['error_message'] = "All Customer age must be older than 4 years old";
+							break;
+						}
 					}
 				}
 			}
@@ -1554,8 +1570,15 @@ class Plan extends MY_Controller {
 			if (($plan['status_id'] == 3) && empty($this->session->userdata ('user'))) {
 				// Paid Status and Paied from User
 				$this->load->model('mymail_model');
-				$body = "Hi; \r\nYour client " . $plan['firstname'] . " " . $plan['lastname'] . " has paied for Policy " . $plan['polcy'];
-				$this->mymail_model->send_mymail($beuser['email'], 'Your client paide', $body);
+				$body  = "Dear " . $beuser['firstname'] . ",\r\n\r\n";
+				$body .= "Your client has paid for the policy " . $plan['polcy'] . ". Please follow up with your client if necessary.\r\n\r\n";
+				$body .= "Best Regards,\r\n";
+				$body .= "JF Insurance Agency Group Inc.\r\n";
+				$body .= "15 Wertheim Court, Suite #501\r\n";
+				$body .= "Richmond Hill, ON L4B 3H7\r\n";
+				$body .= "Tel: 905-707-1512  Fax: 905-707-1513\r\n";
+				$body .= "Website: www.jfgroup.ca\r\n";
+				$this->mymail_model->send_mymail($beuser['email'], 'Your client has paid for the policy '.$plan['policy'], $body);
 			}
 		}
 		
@@ -1743,8 +1766,13 @@ class Plan extends MY_Controller {
 		$data['emailaddr'] = $plan['contact_email'];
 		if ($this->input->post()) {
 			$emailaddr = $this->input->post('emailaddr');
-			$data['withlogo'] = $this->input->post('withlogo');
-			$data['withprice'] = $this->input->post('withprice');
+			if ($beuser['user_group_id'] < 100) {
+				$data['withlogo'] = $this->input->post('withlogo');
+				$data['withprice'] = $this->input->post('withprice');
+			} else {
+				$data['withlogo'] = 1;
+				$data['withprice'] = 1;
+			}
 			if (!empty($emailaddr)) {
 				$data['emailaddr'] = $emailaddr;
 			}
