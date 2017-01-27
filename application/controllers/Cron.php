@@ -54,6 +54,100 @@ class Cron extends MY_Controller {
 		return TRUE;
 	}
 
+	public function add_premium_id() {
+		$this->valid();
+		
+		$this->db->where('pay_type', 'premium');
+		$rs = $this->db->get('payment')->result_array();
+		foreach ($rs as $r) {
+			echo "ID :" . $r['payment_id'] . "\n";
+			
+			$payment_id = $r['payment_id'] + 1;
+			$this->db->where('payment_id', $payment_id);
+			$this->db->where('pay_type', 'up_commission');
+			$row = $this->db->get('payment')->row_array();
+			if (empty($row)) {
+				die("ERROR: up_commission\n");
+			} else {
+				$this->db->set('premium_payment_id', $r['payment_id']);
+				$this->db->where('payment_id', $payment_id);
+				$this->db->update('payment');
+			}
+			
+			$payment_id = $r['payment_id'] + 2;
+			$this->db->where('payment_id', $payment_id);
+			$this->db->where('pay_type', 'commission');
+			$row = $this->db->get('payment')->row_array();
+			if (empty($row)) {
+				die("ERROR: commission\n");
+			} else {
+				$this->db->set('premium_payment_id', $r['payment_id']);
+				$this->db->where('payment_id', $payment_id);
+				$this->db->update('payment');
+			}
+		}
+			
+		$this->db->where('pay_type', 'refund');
+		$rs = $this->db->get('payment')->result_array();
+		foreach ($rs as $r) {
+			echo "ID :" . $r['payment_id'] . "\n";
+			
+			$payment_id = $r['payment_id'] + 2;
+			$this->db->where('payment_id', $payment_id);
+			$this->db->where('pay_type', 'refund_up_commission');
+			$row = $this->db->get('payment')->row_array();
+			if (empty($row)) {
+				die("ERROR: refund_up_commission\n");
+			} else {
+				$this->db->set('premium_payment_id', $r['payment_id']);
+				$this->db->where('payment_id', $payment_id);
+				$this->db->update('payment');
+			}
+			
+			$payment_id = $r['payment_id'] + 1;
+			$this->db->where('payment_id', $payment_id);
+			$this->db->where('pay_type', 'refund_commission');
+			$row = $this->db->get('payment')->row_array();
+			if (empty($row)) {
+				die("ERROR: refund_commission\n");
+			} else {
+				$this->db->set('premium_payment_id', $r['payment_id']);
+				$this->db->where('payment_id', $payment_id);
+				$this->db->update('payment');
+			}
+		}
+			
+		$this->db->where('pay_type', 'cancel');
+		$rs = $this->db->get('payment')->result_array();
+		foreach ($rs as $r) {
+			echo "ID :" . $r['payment_id'] . "\n";
+			
+			$payment_id = $r['payment_id'] + 2;
+			$this->db->where('payment_id', $payment_id);
+			$this->db->where('pay_type', 'cancel_up_commission');
+			$row = $this->db->get('payment')->row_array();
+			if (empty($row)) {
+				die("ERROR: cancel_up_commission\n");
+			} else {
+				$this->db->set('premium_payment_id', $r['payment_id']);
+				$this->db->where('payment_id', $payment_id);
+				$this->db->update('payment');
+			}
+			
+			$payment_id = $r['payment_id'] + 1;
+			$this->db->where('payment_id', $payment_id);
+			$this->db->where('pay_type', 'cancel_commission');
+			$row = $this->db->get('payment')->row_array();
+			if (empty($row)) {
+				die("ERROR: cancel_commission\n");
+			} else {
+				$this->db->set('premium_payment_id', $r['payment_id']);
+				$this->db->where('payment_id', $payment_id);
+				$this->db->update('payment');
+			}
+		}
+	}
+
 	public function import($filename) {
 		$this->valid();
 

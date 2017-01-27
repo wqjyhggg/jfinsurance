@@ -61,6 +61,7 @@ class Batch_model extends CI_Model {
 		$dt['amount'] = $premium;
 		$dt['rate'] = 100;
 		$dt['pay_type'] = 'premium';
+		$dt['premium_payment_id'] = 0;
 		$payment_id = $this->payment_model->add($dt);
 		$para = array(
 				'plan_id' => $plan_id,
@@ -76,6 +77,7 @@ class Batch_model extends CI_Model {
 		$dt['amount'] = $up_commission_amount - $paid_up_commission_amount;
 		$dt['rate'] = $up_commission_rate;
 		$dt['pay_type'] = 'up_commission';
+		$dt['premium_payment_id'] = $payment_id;
 		$up_commission_payment_id = $this->payment_model->add($dt);
 		$para = array(
 				'plan_id' => $plan_id,
@@ -90,6 +92,7 @@ class Batch_model extends CI_Model {
 		$dt['amount'] = $commission_amount - $paid_commission_amount;
 		$dt['rate'] = $commission_rate;
 		$dt['pay_type'] = 'commission';
+		$dt['premium_payment_id'] = $payment_id;
 		if (($plan['product_short'] == 'OPL') || ($plan['product_short'] == 'JFR') && ($premium > 100000)) {
 			$dt['added'] = $plan['effective_date'];
 		}

@@ -1086,6 +1086,7 @@ class Plan extends MY_Controller {
 		$dt['amount'] = $premium;
 		$dt['rate'] = 100;
 		$dt['pay_type'] = 'premium';
+		$dt['premium_payment_id'] = 0;
 		$payment_id = $this->payment_model->add($dt);
 		$para = array(
 				'plan_id' => $plan_id,
@@ -1100,6 +1101,7 @@ class Plan extends MY_Controller {
 		$dt['amount'] = $up_commission_amount;
 		$dt['rate'] = $up_commission_rate;
 		$dt['pay_type'] = 'up_commission';
+		$dt['premium_payment_id'] = $payment_id;
 		$up_commission_payment_id = $this->payment_model->add($dt);
 		$para = array(
 				'plan_id' => $plan_id,
@@ -1114,6 +1116,7 @@ class Plan extends MY_Controller {
 		$dt['amount'] = $commission_amount;
 		$dt['rate'] = $commission_rate;
 		$dt['pay_type'] = 'commission';
+		$dt['premium_payment_id'] = $payment_id;
 		if (($plan['product_short'] == 'OPL') || ($plan['product_short'] == 'JFR') && ($premium > 100000)) {
 			$dt['added'] = $plan['effective_date'];
 		}
@@ -1190,6 +1193,7 @@ class Plan extends MY_Controller {
 			$dt['amount'] = $premium;
 			$dt['rate'] = 100;
 			$dt['pay_type'] = 'premium';
+			$dt['premium_payment_id'] = 0;
 			$payment_id = $this->payment_model->add($dt);
 			$para = array(
 					'plan_id' => $plan_id,
@@ -1204,6 +1208,7 @@ class Plan extends MY_Controller {
 			$dt['amount'] = $up_commission_amount;
 			$dt['rate'] = $up_commission_rate;
 			$dt['pay_type'] = 'up_commission';
+			$dt['premium_payment_id'] = $payment_id;
 			$up_commission_payment_id = $this->payment_model->add($dt);
 			$para = array(
 					'plan_id' => $plan_id,
@@ -1218,6 +1223,7 @@ class Plan extends MY_Controller {
 			$dt['amount'] = $commission_amount;
 			$dt['rate'] = $commission_rate;
 			$dt['pay_type'] = 'commission';
+			$dt['premium_payment_id'] = $payment_id;
 			if (($plan['product_short'] == 'OPL') || ($plan['product_short'] == 'JFR') && ($premium > 100000)) {
 				$dt['added'] = $plan['effective_date'];
 			}
@@ -1366,6 +1372,7 @@ class Plan extends MY_Controller {
 		$dt['amount'] = $premium;
 		$dt['rate'] = 100;
 		$dt['pay_type'] = 'premium';
+		$dt['premium_payment_id'] = 0;
 		$payment_id = $this->payment_model->add($dt);
 		$para = array(
 				'plan_id' => $plan_id,
@@ -1380,6 +1387,7 @@ class Plan extends MY_Controller {
 		$dt['amount'] = $up_commission_amount;
 		$dt['rate'] = $up_commission_rate;
 		$dt['pay_type'] = 'up_commission';
+		$dt['premium_payment_id'] = $payment_id;
 		$up_commission_payment_id = $this->payment_model->add($dt);
 		$para = array(
 				'plan_id' => $plan_id,
@@ -1394,6 +1402,7 @@ class Plan extends MY_Controller {
 		$dt['amount'] = $commission_amount;
 		$dt['rate'] = $commission_rate;
 		$dt['pay_type'] = 'commission';
+		$dt['premium_payment_id'] = $payment_id;
 		if (($plan['product_short'] == 'OPL') || ($plan['product_short'] == 'JFR') && ($premium > 100000)) {
 			$dt['added'] = $plan['effective_date'];
 		}
@@ -1456,6 +1465,7 @@ class Plan extends MY_Controller {
 		$dt['amount'] = $premium;
 		$dt['rate'] = 100;
 		$dt['pay_type'] = 'premium';
+		$dt['premium_payment_id'] = 0;
 		$payment_id = $this->payment_model->add($dt);
 		$para = array(
 				'plan_id' => $plan_id,
@@ -1470,6 +1480,7 @@ class Plan extends MY_Controller {
 		$dt['amount'] = $up_commission_amount;
 		$dt['rate'] = $up_commission_rate;
 		$dt['pay_type'] = 'up_commission';
+		$dt['premium_payment_id'] = $payment_id;
 		$up_commission_payment_id = $this->payment_model->add($dt);
 		$para = array(
 				'plan_id' => $plan_id,
@@ -1484,6 +1495,7 @@ class Plan extends MY_Controller {
 		$dt['amount'] = $commission_amount;
 		$dt['rate'] = $commission_rate;
 		$dt['pay_type'] = 'commission';
+		$dt['premium_payment_id'] = $payment_id;
 		if (($plan['product_short'] == 'OPL') || ($plan['product_short'] == 'JFR') && ($premium > 100000)) {
 			$dt['added'] = $plan['effective_date'];
 		}
@@ -2010,6 +2022,7 @@ class Plan extends MY_Controller {
 				$dt['amount'] = $total_amount * (-1);
 				$dt['rate'] = 100;
 				$dt['pay_type'] = 'cancel';
+				$dt['premium_payment_id'] = 0;
 				$payment_id = $this->payment_model->add($dt);
 				$para = array(
 						'plan_id' => $plan_id,
@@ -2023,6 +2036,7 @@ class Plan extends MY_Controller {
 				$dt['pay_type'] = 'cancel_commission';
 				$dt['rate'] = $commission_rate;
 				$dt['amount'] = $commission_amount * (-1);
+				$dt['premium_payment_id'] = $payment_id;
 				$commission_payment_id = $this->payment_model->add($dt);
 				$para = array(
 						'plan_id' => $plan_id,
@@ -2036,6 +2050,7 @@ class Plan extends MY_Controller {
 				$dt['pay_type'] = 'cancel_up_commission';
 				$dt['rate'] = $up_commission_rate;
 				$dt['amount'] = $up_commission_amount * (-1);
+				$dt['premium_payment_id'] = $payment_id;
 				$up_commission_payment_id = $this->payment_model->add($dt);
 				$para = array(
 						'plan_id' => $plan_id,
@@ -2147,6 +2162,7 @@ class Plan extends MY_Controller {
 				$dt['amount'] = $total_amount * (-1);
 				$dt['rate'] = 100;
 				$dt['pay_type'] = 'refund';
+				$dt['premium_payment_id'] = 0;
 				$payment_id = $this->payment_model->add($dt);
 				$para = array(
 						'plan_id' => $plan_id,
@@ -2160,6 +2176,7 @@ class Plan extends MY_Controller {
 				$dt['pay_type'] = 'refund_commission';
 				$dt['rate'] = $commission_rate;
 				$dt['amount'] = $commission_amount * (-1);
+				$dt['premium_payment_id'] = $payment_id;
 				$commission_payment_id = $this->payment_model->add($dt);
 				$para = array(
 						'plan_id' => $plan_id,
@@ -2173,6 +2190,7 @@ class Plan extends MY_Controller {
 				$dt['pay_type'] = 'refund_up_commission';
 				$dt['rate'] = $up_commission_rate;
 				$dt['amount'] = $up_commission_amount * (-1);
+				$dt['premium_payment_id'] = $payment_id;
 				$up_commission_payment_id = $this->payment_model->add($dt);
 				$para = array(
 						'plan_id' => $plan_id,
