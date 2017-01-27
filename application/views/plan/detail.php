@@ -105,6 +105,22 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 									<span><?php echo $plan['expiry_date']; ?></span>
 								</div>
 							</div>
+							<?php if (!empty($plan_cancel_date)) {?>
+							<div class="row">
+								<div class="col-sm-3">
+									<label class="inline">Cancel Date:</label>
+									<span><?php echo $plan_cancel_date; ?></span>
+								</div>
+							</div>
+							<?php } ?>
+							<?php if (!empty($plan_refund_date)) {?>
+							<div class="row">
+								<div class="col-sm-3">
+									<label class="inline">Refund Date:</label>
+									<span><?php echo $plan_refund_date; ?></span>
+								</div>
+							</div>
+							<?php } ?>
 							<?php echo $insurable_options; ?>
 							<div class="row">
 								<div class="col-sm-12" style="background-color:#5bc0de; color:#fff;">

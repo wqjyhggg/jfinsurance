@@ -1617,6 +1617,15 @@ class Plan extends MY_Controller {
 			$data['apply_date'] = $plan['apply_date'];
 		}
 		$data['plan'] = $plan;
+		$data['plan_cancel_date'] = '';
+		$data['plan_refund_date'] = '';
+		$data['plan'] = $plan;
+		if ($plan['status_id'] == Plan_model::CANCEL) {
+			$data['plan_cancel_date'] = $this->payment_model->get_cancel_date($plan['plan_id']);
+		}
+		if ($plan['status_id'] == Plan_model::REFUND) {
+			$data['plan_refund_date'] = $this->payment_model->get_refund_date($plan['plan_id']);
+		}
 		$product = $this->product_model->get_product($plan['product_short']);
 		$data['plan_full_name'] = $product ? $product['full_name'] : '';
 		

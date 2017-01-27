@@ -87,6 +87,36 @@ class Payment_model extends CI_Model {
 	}
 	
 	/**
+	 * Get plan payment cancel date
+	 *
+	 * @param integer $plan_id
+	 * @return datetime string
+	 */
+	public function get_cancel_date($plan_id) {
+		$this->db->select('added');
+		$this->db->where('plan_id', $plan_id);
+		$this->db->where('pay_type', 'cancel');
+		$this->db->order_by('added', 'ASC');
+		$this->db->limit(1);
+		return $this->db->get('payment')->row()->added;
+	}
+	
+	/**
+	 * Get plan payment  refund date
+	 *
+	 * @param integer $plan_id
+	 * @return datetime string
+	 */
+	public function get_refund_date($plan_id) {
+		$this->db->select('added');
+		$this->db->where('plan_id', $plan_id);
+		$this->db->where('pay_type', 'refund');
+		$this->db->order_by('added', 'ASC');
+		$this->db->limit(1);
+		return $this->db->get('payment')->row()->added;
+	}
+	
+	/**
 	 * Add payment data
 	 * 
 	 * @param	array	$para	Add payment record
