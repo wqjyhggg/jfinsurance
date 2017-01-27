@@ -271,14 +271,53 @@ class Cron extends MY_Controller {
 		$outdir = '/tmp/';
 		$pattern = "/^([_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,}))(.*)$/";
 		
+		$outfile = $outdir . "OPL2_" . date('Y-m-d_H.i.s') . ".xls";
+		/*
 		$filename = DOWNLOADDIR . 'OPL_Sales_Report.xls';
 		if (!file_exists($filename)) {
 			exit("Can't find file: ".$filename."\n");
 		}
 		
 		//$product_list = $this->product_model->product_list(1);
-		$outfile = $outdir . "OPL2_" . date('Y-m-d_H.i.s') . ".xls";
 		$objPHPExcel = PHPExcel_IOFactory::load($filename);
+		*/
+		$objPHPExcel = new PHPExcel();
+		$sheet = $objPHPExcel->getActiveSheet();
+		$sheet->setCellValue('A1', 'Policy No');
+		$sheet->setCellValue('B1', 'Plan Name ');
+		$sheet->setCellValue('C1', 'Status');
+		$sheet->setCellValue('D1', 'Type');
+		$sheet->setCellValue('E1', 'First Name');
+		$sheet->setCellValue('F1', 'Last Name');
+		$sheet->setCellValue('G1', 'Gender');
+		$sheet->setCellValue('H1', 'Birth Date');
+		$sheet->setCellValue('I1', 'Address1');
+		$sheet->setCellValue('J1', 'Address2');
+		$sheet->setCellValue('K1', 'City');
+		$sheet->setCellValue('L1', 'Province');
+		$sheet->setCellValue('M1', 'Postal Code');
+		$sheet->setCellValue('N1', 'Contact Phone');
+		$sheet->setCellValue('O1', 'Contact Email');
+		$sheet->setCellValue('P1', 'Notes');
+		$sheet->setCellValue('Q1', 'Arrival Date');
+		$sheet->setCellValue('R1', 'Application Date');
+		$sheet->setCellValue('S1', 'Effective Date');
+		$sheet->setCellValue('T1', 'Expiry Date');
+		$sheet->setCellValue('U1', 'Trip  Length');
+		$sheet->setCellValue('V1', 'Sum  Insured');
+		$sheet->setCellValue('W1', 'Deductible Amout');
+		$sheet->setCellValue('X1', 'Commission Rate');
+		$sheet->setCellValue('Y1', 'Commission Amout');
+		$sheet->setCellValue('Z1', 'Daily Rate');
+		$sheet->setCellValue('AA1', 'Gross Premium');
+		$sheet->setCellValue('AB1', 'Net Premium');
+		$sheet->setCellValue('AC1', 'Fee1');
+		$sheet->setCellValue('AD1', 'Fee2');
+		$sheet->setCellValue('AE1', 'Amount Due');
+		$sheet->setCellValue('AF1', 'Insured First Name');
+		$sheet->setCellValue('AG1', 'Insured Last Name');
+		$sheet->setCellValue('AH1', 'Birthdate');
+		$sheet->setCellValue('AI1', 'Update Date');
 		
 		$product_list = $this->product_model->product_list(1);
 		$status_list = $this->status_model->status_list();
@@ -295,7 +334,7 @@ class Cron extends MY_Controller {
 		$plans = array_merge($plansOPL, $plansJFC);
 		$sz = sizeof($plans);
 		echo "Total Record: " . $sz . "; OPL: " . sizeof($plansOPL) . "; JFC: " . sizeof($plansJFC) . "; \n";
-		$sheet = $objPHPExcel->setActiveSheetIndex(0);
+		//$sheet = $objPHPExcel->setActiveSheetIndex(0);
 //		print_r(get_class_methods(get_class($objPHPExcel)));
 
 		$row = 2;
@@ -304,8 +343,8 @@ class Cron extends MY_Controller {
 			$sheet->setCellValue('A'.$row, $plan['policy']);
 			$b = '';
 			if ($plan['product_short'] == 'OPL') {
-				if ($plan['stable_condition'] == 1) $b = "With stable pre-existion condition coverage";
-				else if ($plan['stable_condition'] == 2) $b = "Without stable pre-existion condition coverage";
+				if ($plan['stable_condition'] == 1) $b = "With stable pre-existing condition coverage";
+				else if ($plan['stable_condition'] == 2) $b = "Without stable pre-existing condition coverage";
 			} else {
 				// $plan['product_short'] == 'JFC'
 			}

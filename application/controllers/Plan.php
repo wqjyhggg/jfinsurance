@@ -336,7 +336,7 @@ class Plan extends MY_Controller {
 		}
 		if (($product_short == 'OPL') || ($product_short == 'JFR')) {
 			if (empty($this->input->post('stable_condition'))) {
-				$this->error['error_stable_condition'] = 'Please select pre-existion condition coverage';
+				$this->error['error_stable_condition'] = 'Please select pre-existing condition coverage';
 			}
 			if ($product_short == 'JFR') {
 				$years = $this->product_model->getYears($arrival_date, $effective_date);

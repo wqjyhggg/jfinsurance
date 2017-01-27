@@ -320,7 +320,7 @@ class Product_model extends CI_Model {
 						return $premiumArr;
 				}
 			} else {
-				$premiumArr['message'] = "Please select pre-existion condition coverage";
+				$premiumArr['message'] = "Please select pre-existing condition coverage";
 				return $premiumArr;
 			}
 			$discount = 1;
@@ -480,7 +480,7 @@ class Product_model extends CI_Model {
 						return $premiumArr;
 				}
 			} else {
-				$premiumArr['message'] = "Please select pre-existion condition coverage";
+				$premiumArr['message'] = "Please select pre-existing condition coverage";
 				return $premiumArr;
 			}
 			$discount = 1;
