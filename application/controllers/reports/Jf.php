@@ -35,14 +35,8 @@ class Jf extends MY_Controller
         $data['agent_id'] = $this->input->post('agent_id');
         $data['region_id'] = empty($this->input->post('region_id')) ? $beuser['region_id'] : $this->input->post('region_id');
         $data['product_short'] = $this->input->post('product_short');
-        $data['application_date_from'] = $this->input->post('application_date_from');
-        $data['application_date_to'] = $this->input->post('application_date_to');
-        $data['arrival_date_from'] = $this->input->post('arrival_date_from');
-        $data['arrival_date_to'] = $this->input->post('arrival_date_to');
-        $data['effective_date_from'] = $this->input->post('effective_date_from');
-        $data['effective_date_to'] = $this->input->post('effective_date_to');
-        $data['expiry_date_from'] = $this->input->post('expiry_date_from');
-        $data['expiry_date_to'] = $this->input->post('expiry_date_to');
+        $data['payment_added_from'] = $this->input->post('payment_added_from');
+        $data['payment_added_to'] = $this->input->post('payment_added_to');
         $data['payment_date_from'] = $this->input->post('payment_date_from');
         $data['payment_date_to'] = $this->input->post('payment_date_to');
         
@@ -51,7 +45,6 @@ class Jf extends MY_Controller
         $data['report_data'] = empty($_POST) ? array() : $this->report_model->get_sales_report_jf($data);
 
         $data['export_list'] = base_url ( "reports/jf/export_list" );
-        $data['export_form'] = $this->load->view ( 'reports/agent_export', $data, true);
         return $data;
 	}
 
@@ -59,67 +52,78 @@ class Jf extends MY_Controller
         $beuser = $this->func_model->verify_login(); 
         $this->load->model('product_model');
         $this->load->model('report_model');
-        $data['agent_id'] = empty($this->input->get_post('agent_id')) ? 0 : (int)$this->input->get_post('agent_id');
-        $data['region_id'] = empty($this->input->post('region_id')) ? $beuser['region_id'] : $this->input->post('region_id');
+        
+        $data['agent_id'] = $this->input->get_post('agent_id');
+        $data['region_id'] = empty($this->input->get_post('region_id')) ? $beuser['region_id'] : $this->input->post('region_id');
         $data['product_short'] = $this->input->get_post('product_short');
-        $data['application_date_from'] = $this->input->get_post('application_date_from');
-        $data['application_date_to'] = $this->input->get_post('application_date_to');
-        $data['arrival_date_from'] = $this->input->get_post('arrival_date_from');
-        $data['arrival_date_to'] = $this->input->get_post('arrival_date_to');
-        $data['effective_date_from'] = $this->input->get_post('effective_date_from');
-        $data['effective_date_to'] = $this->input->get_post('effective_date_to');
-        $data['expiry_date_from'] = $this->input->get_post('expiry_date_from');
-        $data['expiry_date_to'] = $this->input->get_post('expiry_date_to');
-        $data['product_list'] = $this->product_model->get_available_product_list();
+        $data['payment_added_from'] = $this->input->get_post('payment_added_from');
+        $data['payment_added_to'] = $this->input->get_post('payment_added_to');
+        $data['payment_date_from'] = $this->input->get_post('payment_date_from');
+        $data['payment_date_to'] = $this->input->get_post('payment_date_to');
+        
         $data['user_list'] = $this->user_model->get_available_user_list();
         $data['report_data'] = $this->report_model->get_sales_report_jf($data);
 
         $w = WriterFactory::create(Type::XLSX); // for XLSX files
         $kArr = array(
-                'plan_id' => 'Order ID',
-                'order_date' => 'Order Date',
                 'policy' => 'Policy No.',
+        		'apply_date' => 'Apply Date',
+                'pay_date' => 'Pay Date',
                 'invoice_num' => 'Invoice Num',
-                'insurerCoName' => 'InsurerCoName',
-                'product' => 'Product',
+                'up_insuer' => 'InsurerCoName',
+                'product_short' => 'Product',
                 'insured' => 'Insured Name',
-                'agency' => 'Text177',
                 'effective_date' => 'Effective Date',
                 'expiry_date' => 'Expiry Date',
-                'total_days' => 'Number of Days',
-                'policy_premium' => 'Policy Premium',
-                'commission_rate' => 'Commission Rate',
-                'net_premium' => 'Net Premium',
-                'commission_amount' => 'Commission Amount');
-
+                'totaldays' => 'Number of Days',
+                'dailyrate' => 'Daily Rate',
+        		'premium' => 'Policy Premium',
+                'amount' => 'Pay Amount',
+                'ispaid' => 'Paied',
+        		'commission_rate' => 'Commission Rate',
+                'net_premium' => 'Net Amount',
+                'commission' => 'Commission Amount');
+                
         $tmpfname = "/tmp/jf_test.xlsx";
         
-        $w->openToBrowser("Sales_Report_to_JF_" . date('Ymd') . ".xlsx");
-        //$w->openToFile($tmpfname);
-        foreach ($data['report_data'] as $datas) {
-            $arr = array('Policy Premium: ', $datas['policy_premium'], '', 'Agent: ', $datas['agency_fname'] . ' ' . $datas['agency_lname']);
-            $w->addRow($arr);
-            $arr = array('');
-            $w->addRow($arr);
-
-            $arr = array();
-            foreach ($kArr as $k => $v) { $arr[] = $v; } 
-            $w->addRow($arr);
-            
-            foreach ($datas['data'] as $records) {
-                
-                foreach ($records['records'] as $record) {
+		if (!empty($data['report_data'])) {
+			$w->openToBrowser("Sales_Report_to_JF_" . date('Ymd') . ".xlsx");
+			$arr = array('Total Payment: $' . $data['report_data']['payment'] . '   Total Commission: $' . $data['report_data']['commission']);
+			unset($data['report_data']['payment']);
+			unset($data['report_data']['commission']);
+			$w->addRow($arr);
+			
+			//$w->openToFile($tmpfname);
+			foreach ($data['report_data'] as $datas) {
+				$arr = array('');
+				$w->addRow($arr);
+				$w->addRow(array_values($arr));
+				
+				foreach ($datas['results'] as $record) {
                     $arr = array();
-                    foreach ($kArr as $k => $v) { $arr[] = $record[$k]; } 
+                    foreach ($kArr as $k => $v) {
+                    	if ($k == 'ispaid') {
+                    		$arr[] = ($record[$k] == 1) ? 'Y' : '-';
+                    	} else if ($k == 'commission_rate') {
+                            if (abs($record['amount']) > 0.009) {
+                            	$arr[] = sprintf("%0.2f", $record['commission'] * 100 / $record['amount']);
+                            } else {
+                            	$arr[] = '';
+                            }
+                    	} else if ($k == 'net_premium') {
+                    		$arr[] = $record['amount'] - $record['commission'];
+                    	} else {
+                    		$arr[] = $record[$k];
+                    	}
+                    } 
                     $w->addRow($arr);
                 }
                 
-                $arr = array('Total Premium: $' . $records['policy_premium'],'','','Total Net Premium: $' . $records['net_premium'],'','','Total Commission: $', $records['commission']);
+                $arr = array('AgentID: ' . $datas['agent']['user_id'] . ' ( ' . $datas['agent']['lastname'] . ', ' . $datas['agent']['lastname'] . ' )   Total Payment: $' . $datas['payment'] . '   Total Net Payment: $' . ($datas['payment'] - $datas['commission']) . '   Total Commission: $' . $datas['commission']);
                 $w->addRow($arr);     
-           
             }
            
-            $arr = array('', '','','','','','','');
+            $arr = array('');
             $w->addRow($arr);
         }
         $w->close();

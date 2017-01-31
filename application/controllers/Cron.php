@@ -437,15 +437,16 @@ class Cron extends MY_Controller {
 			$sheet->setCellValue('A'.$row, $plan['policy']);
 			$b = '';
 			if ($plan['product_short'] == 'OPL') {
-				if ($plan['stable_condition'] == 1) $b = "With stable pre-existing condition coverage";
-				else if ($plan['stable_condition'] == 2) $b = "Without stable pre-existing condition coverage";
+				if ($plan['stable_condition'] == 1) $b = "With Stable Pre-existing Medical Condition Coverage";
+				else if ($plan['stable_condition'] == 2) $b = "Without Stable Pre-existing Medical Condition Coverage";
 			} else {
 				// $plan['product_short'] == 'JFC'
 			}
 			$sheet->setCellValue('B'.$row, $b);
 			$status_str = $status_list[$plan['status_id']]['name'];
 			if ($plan['status_id'] == Plan_model::SOLD) $status_str = 'New';
-			if ($plan['status_id'] == Plan_model::REFUND) $status_str = 'Changed';
+			if ($plan['status_id'] == Plan_model::REFUND) $status_str = 'Change';
+			if ($plan['status_id'] == Plan_model::CHANGED) $status_str = 'Change';
 			$sheet->setCellValue('C'.$row, $status_str);
 			$sheet->setCellValue('D'.$row, $plan['isfamilyplan'] ? "Family" : "Single");
 			$sheet->setCellValue('E'.$row, $plan['firstname']);

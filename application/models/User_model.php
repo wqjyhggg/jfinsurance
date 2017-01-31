@@ -188,6 +188,7 @@ class User_model extends CI_Model {
                 $this->db->where('u.user_group_id >= 2');
             }
         }
+        $this->db->order_by('u.username');
         $results = $this->db->get()->result_array();
         $records = array();
         foreach ($results as $row) {

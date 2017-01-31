@@ -35,7 +35,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
-                  <form method="post" action="<?=$action_url ?>" class="form-horizontal">
+                  <form method="post" action="<?php $action_url ?>" class="form-horizontal">
 						<input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
                       <div class="row">
                       <!-- Agent input box -->
@@ -46,11 +46,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <option value=0>Choose Agent</option>
 <?php foreach ($user_list as $agent) : ?>
     <?php if ($agent_id == $agent['user_id']) : ?>
-                                <option value="<?=$agent['user_id'] ?>"  selected>
+                                <option value="<?php echo $agent['user_id'] ?>"  selected>
     <?php else : ?>
-                                <option value="<?=$agent['user_id'] ?>" >
+                                <option value="<?php echo $agent['user_id'] ?>" >
     <?php endif; ?>
-                                    <?=$agent['full_name'] ?> (<?=$agent['username'] ?>)
+                                    <?php echo $agent['username'] . " - " . $agent['full_name'] ?>
                                 </option>
 <?php endforeach; ?>
                               </select>
@@ -66,11 +66,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <option value="">Choose Product</option>
 <?php foreach ($product_list as $product) : ?>
     <?php if ($product_short == $product['product_short']) : ?>
-                                <option value="<?=$product['product_short'] ?>"  selected>
+                                <option value="<?php echo $product['product_short']; ?>"  selected>
     <?php else : ?>
-                                <option value="<?=$product['product_short'] ?>" >
+                                <option value="<?php echo $product['product_short']; ?>" >
     <?php endif; ?>
-                                    <?=$product['full_name'] ?> (<?=$product['product_short'] ?>)
+                                    <?php echo $product['product_short'] . " - " . $product['full_name']; ?>
                                 </option>
 <?php endforeach; ?>
                               </select>
@@ -98,72 +98,32 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                       </div>
 
                       <div class="row">
-                        <!-- Application Date -->
-                        <div class="form-group col-sm-3">
-                          <!-- Application Date from -->
-                            <label for="application_date_from" class="col-sm-12">Application Date From</label>
+                        <!-- Payment Added Date-->
+                        <div class="form-group col-sm-4">
+                            <!-- Payment Added Date From-->
+                            <label for="payment_added_from" class="col-sm-12">Payment Added Date From</label>
                             <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
-                            <input name="application_date_from" class="form-control" size="16" type="text" value="<?=$application_date_from ?>" >
+                            <input name="payment_added_from" class="form-control" size="16" type="text" value="<?php $payment_added_from ?>" >
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
-                            <input type="hidden" id="application_date_from" value="" />
-                            <!-- Application Date from End-->
-                            <!-- Application Date to -->
-                            <label for="application_date_to" class="col-sm-12">Application Date To</label>
+                            <input type="hidden" id="payment_added_from" value="" />
+                            <!-- Payment Added Date From End-->
+                            <!-- Payment Added Date to -->
+                            <label for="payment_added_to" class="col-sm-12">Payment Added Date To</label>
                             <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
-                            <input name="application_date_to" class="form-control" size="16" type="text" value="<?=$application_date_to ?>" >
+                                <input name="payment_added_to" class="form-control" size="16" type="text" value="<?php $payment_added_to ?>" >
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
-                            <input type="hidden" id="application_date_to" value="" /><br/>
-                            <!-- Application Date to End -->
+                            <input type="hidden" id="payment_added_to" value="" /><br/>
+                            <!-- Payment Update Date to End -->
                         </div>
-                        <!-- Application Date End-->
-                        <!-- Create Date-->
-                        <div class="form-group col-sm-3">
-                            <!-- Arrival Date From-->
-                            <label for="arrival_date_from" class="col-sm-12">Arrival Date From</label>
-                            <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
-                            <input name="arrival_date_from" class="form-control" size="16" type="text" value="<?=$arrival_date_from ?>" >
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                            </div>
-                            <input type="hidden" id="arrival_date_from" value="" />
-                            <!-- Arrival Date From End-->
-                            <!-- Create Date to -->
-                            <label for="arrival_date_to" class="col-sm-12">Arrival Date To</label>
-                            <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
-                                <input name="arrival_date_to" class="form-control" size="16" type="text" value="<?=$arrival_date_to ?>" >
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                            </div>
-                            <input type="hidden" id="arrival_date_to" value="" /><br/>
-                            <!-- Create Date to End -->
-                        </div>
-                        <!-- Create Date End -->
-                        <!-- Effective Date-->
-                        <div class="form-group col-sm-3">
-                            <!-- Effective Date From-->
-                            <label for="effective_date_from" class="col-sm-12">Effective Date From</label>
-                            <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
-                                <input name="effective_date_from" class="form-control" size="16" type="text" value="<?=$effective_date_from ?>" >
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                            </div>
-                            <input type="hidden" id="effective_date_from" value="" />
-                            <!-- Effective Date From End-->
-                            <!-- Effective Date to -->
-                            <label for="effective_date_to" class="col-sm-12">Effective Date To</label>
-                            <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
-                                <input name="effective_date_to" class="form-control" size="16" type="text" value="<?=$effective_date_to ?>" >
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                            </div>
-                            <input type="hidden" id="effective_date_to" value="" /><br/>
-                            <!-- Effective Date to End -->
-                        </div>
-                        <!-- Effective Date End -->
+                        <!-- Payment Added Date End -->
                         <!-- Payment Update Date-->
-                        <div class="form-group col-sm-3">
+                        <div class="form-group col-sm-4">
                             <!-- Payment Update Date From-->
                             <label for="payment_date_from" class="col-sm-12">Payment Update Date From</label>
                             <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
-                            <input name="payment_date_from" class="form-control" size="16" type="text" value="<?=$payment_date_from ?>" >
+                            <input name="payment_date_from" class="form-control" size="16" type="text" value="<?php $payment_date_from ?>" >
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
                             <input type="hidden" id="payment_date_from" value="" />
@@ -171,7 +131,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <!-- Payment Update Date to -->
                             <label for="payment_date_to" class="col-sm-12">Payment Update Date To</label>
                             <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
-                                <input name="payment_date_to" class="form-control" size="16" type="text" value="<?=$payment_date_to ?>" >
+                                <input name="payment_date_to" class="form-control" size="16" type="text" value="<?php $payment_date_to ?>" >
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
                             <input type="hidden" id="payment_date_to" value="" /><br/>
@@ -197,79 +157,96 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Search Result <span class="inline-m"><?php echo $export_form; ?> </span></h2>
+                    <h2>Search Result 
+                    	<span class="inline-m">
+	                    	<form method="get" action="<?php echo $export_list; ?>" class="form-horizontal">
+	                    		<input type='hidden' name="agent_id" value="<?php echo $agent_id; ?>">
+	                    		<input type='hidden' name="product_short" value="<?php echo $product_short; ?>">
+	                    		<input type='hidden' name="region_id" value="<?php echo $region_id; ?>">
+	                    		<input type='hidden' name="payment_added_from" value="<?php echo $payment_added_from; ?>">
+	                    		<input type='hidden' name="payment_added_to" value="<?php echo $payment_added_to; ?>">
+	                    		<input type='hidden' name="payment_date_from" value="<?php echo $payment_date_from; ?>">
+	                    		<input type='hidden' name="payment_date_to" value="<?php echo $payment_date_to; ?>">
+			                    <div class="row">
+			                        <!-- submit button -->
+			                        <div class="col-sm-12">
+			                            <button class="btn btn-primary pull-right">Display Sales Report</button>
+			                        </div>
+			                        <!-- submit button -->
+			                    </div>
+			                </form>
+						</span>
+					</h2>
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
                     <div class="table-responsive">
+<?php if (!empty($report_data)) :?>
                       <table class="table table-hover table-bordered">
-<?php $cnt = 1; ?>
-<?php foreach ($report_data as $user_id => $data) :?>
                           <tr>
-                              <td><?='$' . $data['policy_premium'] ?></td>
-                              <td><?=$user_id ?></td>
-                              <td><?=$data['agency_lname'].','.$data['agency_fname'] ?></td>
-                              <td colspan=14>&nbsp;</td>
+                              <td colspan='18'>&nbsp;<?php 
+                              	echo 'Total Payment: $' . $report_data['payment'] . '   Total Commission: $' . $report_data['commission']; 
+                              	unset($report_data['payment']);
+                              	unset($report_data['commission']); ?></td>
                           </tr>
+<?php foreach ($report_data as $user_id => $data) :?>
+<?php $cnt = 1; ?>
                           <tr>
                             <th>Count</th>
-                            <th>OrderID</th>
+                            <th>Policy</th>
                             <th>Apply Date</th>
                             <th>Payment Date</th>
-                            <th>Policy Num</th>
                             <th>Invoice Num</th>
                             <th>InsurerCoName</th>
                             <th>Product</th>
                             <th>Insured Name</th>
-                            <th>Text177</th>
                             <th>Effective Date</th>
                             <th>Expiry Date</th>
                             <th>Number of Days</th>
-                            <!--th>Daily Rate</th-->
-                            <th>Policy Premium</th>
+                            <th>Daily Rate</th>
+                            <th>Premium</th>
+                            <th>Pay Amount</th>
+                            <th>Paid</th>
                             <th>Commission Rate</th>
-                            <th>Net Premium</th>
+                            <th>Net Amount</th>
                             <th>Commission Amount</th>
-                            <th>&nbsp;</th>
                           </tr>
-    <?php foreach ($data['data'] as $date => $info) :?>
-        <?php foreach ($info['records'] as $record) :?>
+    <?php foreach ($data['results'] as $record) :?>
                           <tr>
-                            <td><?=$cnt++ ?></td>
-                            <td><?=$record['plan_id'] ?></td>
-                            <td><?=$record['order_date'] ?></td>
-                            <td><?=substr($record['last_update'], 0, 10) ?></td>
-                            <td><?=$record['policy'] ?></td>
-                            <td><?=$record['invoice_num'] ?></td><!-- todo -->
-                            <td><?=$record['insurerCoName'] ?></td>
-                            <td><?=$record['product'] ?></td>
-                            <td><?=$record['insured'] ?></td>
-                            <td><?=$record['agency'] ?></td>
-                            <td><?=$record['effective_date'] ?></td>
-                            <td><?=$record['expiry_date'] ?></td>
-                            <td><?=$record['total_days'] ?></td>
-                            <!--td>$<?=$record['daily_rate'] ?></td-->
-                            <td>$<?=$record['policy_premium'] ?></td>
-                            <td><?=$record['commission_rate'] ?></td>
-                            <td>$<?=$record['net_premium'] ?></td>
-                            <td>$<?=$record['commission_amount'] ?></td>
+                            <td><?php echo $cnt++; ?></td>
+                            <td><?php echo $record['policy']; ?></td>
+                            <td><?php echo $record['apply_date']; ?></td>
+                            <td><?php echo $record['pay_date']; ?></td>
+                            <td><?php echo $record['invoice_num']; ?></td>
+                            <td><?php echo $record['up_insuer']; ?></td>
+                            <td><?php echo $record['product_short']; ?></td>
+                            <td><?php echo $record['insured']; ?></td>
+                            <td><?php echo $record['effective_date']; ?></td>
+                            <td><?php echo $record['expiry_date']; ?></td>
+                            <td><?php echo $record['totaldays']; ?></td>
+                            <td>$<?php echo $record['dailyrate']; ?></td>
+                            <td>$<?php echo $record['premium']; ?></td>
+                            <td>$<?php echo $record['amount']; ?></td>
+                            <td><?php echo (($record['ispaid'] == 1) ? 'Y' : '-'); ?></td>
+                            <?php if (abs($record['amount']) > 0.009) { ?>
+                            <td><?php printf("%0.2f", $record['commission'] * 100 / $record['amount']); ?></td>
+                            <?php } else { ?>
                             <td>&nbsp;</td>
+                            <?php } ?>
+                            <td>$<?php echo ($record['amount'] - $record['commission']); ?></td>
+                            <td>$<?php echo $record['commission']; ?></td>
                           </tr>
         <?php endforeach; ?>
                           <tr>
-                              <td>&nbsp;</td>
-                              <td><?=$info['cnt'] ?></td>
-                              <td colspan=8>&nbsp;<td>
-                              <td>Total Premium</td>
-                              <td><?=$info['policy_premium'] ?></td>
-                              <td>Total Net Premium</td>
-                              <td><?=$info['net_premium'] ?></td>
-                              <td>Total Commission</td>
-                              <td><?=$info['commission'] ?></td>
+                              <td colspan='18'>
+                              	AgentID: <?php echo $data['agent']['user_id']; ?> ( <?php echo $data['agent']['lastname']; ?>, <?php echo $data['agent']['lastname']; ?> )&nbsp;&nbsp;&nbsp;
+								Total Payment: $<?php echo $data['payment']; ?>&nbsp;&nbsp;&nbsp;
+                              	Total Net Payment: $<?php echo ($data['payment'] - $data['commission']); ?>&nbsp;&nbsp;&nbsp;
+                              	Total Commission: $<?php echo $data['commission']; ?></td>
                           </tr>
-    <?php endforeach; ?>
 <?php endforeach; ?>
                       </table>
+<?php endif; ?>
                     </div>
                   </div>
                 </div>
