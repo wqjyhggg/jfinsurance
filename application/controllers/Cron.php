@@ -365,7 +365,7 @@ class Cron extends MY_Controller {
 		$outdir = '/tmp/';
 		$pattern = "/^([_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,}))(.*)$/";
 		
-		$outfile = $outdir . "OPL2_" . date('Y-m-d_H.i.s') . ".xls";
+		$outfile = $outdir . 'OPL2_Sales_Report_' . date('Y.m.d_H.i.s.B') . '.xls';
 		/*
 		$filename = DOWNLOADDIR . 'OPL_Sales_Report.xls';
 		if (!file_exists($filename)) {
@@ -377,6 +377,7 @@ class Cron extends MY_Controller {
 		*/
 		$objPHPExcel = new PHPExcel();
 		$sheet = $objPHPExcel->getActiveSheet();
+		$sheet->setTitle('Sheet1');
 		$sheet->setCellValue('A1', 'Policy No');
 		$sheet->setCellValue('B1', 'Plan Name ');
 		$sheet->setCellValue('C1', 'Status');

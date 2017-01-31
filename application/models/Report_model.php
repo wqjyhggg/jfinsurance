@@ -141,10 +141,10 @@ class Report_model extends CI_Model
     	$sql .= "		pr.up_insuer,";
     	$sql .= "		CONCAT(cu.firstname, ' ', cu.lastname) as insured";
     	$sql .= " FROM payment pa";
-    	$sql .= " LEFT JOIN plan pl ON (pa.plan_id=pl.plan_id)";
-    	$sql .= " LEFT JOIN product pr ON (pl.product_short=pr.product_short)";
-    	$sql .= " LEFT JOIN customer cu ON (pl.customer_id=cu.customer_id)";
-    	$sql .= " LEFT JOIN payment pa2 ON (pa2.premium_payment_id=pa.payment_id AND pa2.pay_type='commission')";
+    	$sql .= " JOIN plan pl ON (pa.plan_id=pl.plan_id)";
+    	$sql .= " JOIN product pr ON (pl.product_short=pr.product_short)";
+    	$sql .= " JOIN customer cu ON (pl.customer_id=cu.customer_id)";
+    	$sql .= " LEFT JOIN payment pa2 ON (pa.plan_id=pa2.plan_id AND pa.payment_id=pa2.premium_payment_id AND pa2.pay_type='commission')";
     	$sql .= " WHERE pa.pay_type='premium' AND ABS(pa.amount)>=0.10";
         if (!empty($para['payment_added_from'])) {
     		$sql .= " AND pa.added >= " . $this->db->escape($para['payment_added_from'] . " 00:00:00");
@@ -318,7 +318,7 @@ class Report_model extends CI_Model
             (datediff(pl.expiry_date, pl.effective_date) + 1) AS total_days,
             pl.dailyrate AS daily_rate,
             pl.premium AS policy_premium,
-            pr.commission AS pr_commission,
+        	pr.commission AS pr_commission,
             up.commission AS up_commission,
             u.user_id,
             CONCAT(u.firstname," ", u.lastname) AS agent_name,
@@ -327,9 +327,11 @@ class Report_model extends CI_Model
             u.postcode,
             pl.status_id,
             pa.amount AS pa_amount,
+        	pa.added AS pa_added,
             pa.pay_type,
             pa.currency,
-            pa.last_update
+            pa.last_update,
+            pa2.amount AS commission_amount
         ');
     }
 
@@ -337,7 +339,8 @@ class Report_model extends CI_Model
     {
         $this->common_from();
         $this->db->join('user_product up', 'u.user_id = up.user_id and pr.product_short = up.product_short', 'left');
-        $this->db->join('payment pa', 'pl.plan_id = pa.plan_id AND pa.ispaid = 0');
+        $this->db->join("payment pa", "pl.plan_id = pa.plan_id AND pa.pay_type = 'premium' AND pa.ispaid = 0");
+        $this->db->join("payment pa2", "pa.plan_id = pa2.plan_id AND pa2.pay_type = 'commission' AND pa.payment_id = pa2.premium_payment_id", 'left');
     }
 
     private function receivable_where($para)
@@ -364,7 +367,9 @@ class Report_model extends CI_Model
         $policy = '';
         $premium_last_update = 0;
         foreach ($query as $row) {
-            $row = $this->common_set_row($row);
+            $row['commission_rate'] = $row['pr_commission'];
+            $row['net_premium'] = sprintf("%01.2f", ($row['pa_amount'] - $row['commission_amount']));
+            
             $results['data'][$row['user_id']]['agency']['agent_name'] = $row['agent_name'];
             $results['data'][$row['user_id']]['agency']['address'] = $row['address'];
             $results['data'][$row['user_id']]['agency']['province'] = $row['province'];
@@ -375,17 +380,15 @@ class Report_model extends CI_Model
             	$results['data'][$row['user_id']]['agency']['payable_to_jf'] = 0;
             }
             
-            if ($row['pay_type'] === 'premium') {
-                $results['data'][$row['user_id']]['agency']['outstanding'] += $row['pa_amount'];
-                $results['data'][$row['user_id']]['agency']['commission'] += $row['commission_amount'];
-                $results['data'][$row['user_id']]['agency']['payable_to_jf'] += $row['net_premium'];
-                if ($row['pa_amount'] > 0) {
-                	$row['cal_comm_rate'] = sprintf('%2.1f', $row['commission_amount'] * 100.0 / $row['pa_amount']);
-                } else {
-                	$row['cal_comm_rate'] = 0;
-                }
-                $results['data'][$row['user_id']]['records'][] = $row;
+			$results['data'][$row['user_id']]['agency']['outstanding'] += $row['pa_amount'];
+            $results['data'][$row['user_id']]['agency']['commission'] += $row['commission_amount'];
+            $results['data'][$row['user_id']]['agency']['payable_to_jf'] += $row['pa_amount'] - $row['commission_amount'];
+            if (abs($row['pa_amount']) > 0.005) {
+              	$row['cal_comm_rate'] = sprintf('%2.1f', $row['commission_amount'] * 100.0 / $row['pa_amount']);
+            } else {
+	           	$row['cal_comm_rate'] = 0;
             }
+            $results['data'][$row['user_id']]['records'][] = $row;
         }
         return $results;
     }

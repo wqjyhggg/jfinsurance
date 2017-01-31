@@ -264,8 +264,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                               <td><?=$record['effective_date'] ?></td>
                               <td><?=$record['expiry_date'] ?></td>
                               <td><?=$record['total_days'] ?></td>
+                              <td>$<?=number_format($record['policy_premium'],2) ?></td>
                               <td>$<?=number_format($record['pa_amount'],2) ?></td>
-                              <td>$<?=number_format($record['net_premium'],2) ?></td>
                               <td>$<?=number_format($record['commission_amount'],2) ?></td>
                               <td><?php printf("%2.1f", $record['cal_comm_rate']); ?>%</td>
                             </tr>
