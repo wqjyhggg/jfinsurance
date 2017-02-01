@@ -68,7 +68,7 @@ class Jf extends MY_Controller
         $kArr = array(
                 'policy' => 'Policy No.',
         		'apply_date' => 'Apply Date',
-                'pay_date' => 'Pay Date',
+                'added' => 'Pay Date',
                 'invoice_num' => 'Invoice Num',
                 'up_insuer' => 'InsurerCoName',
                 'product_short' => 'Product',
@@ -80,6 +80,7 @@ class Jf extends MY_Controller
         		'premium' => 'Policy Premium',
                 'amount' => 'Pay Amount',
                 'ispaid' => 'Paied',
+                'pay_type' => 'Type',
         		'commission_rate' => 'Commission Rate',
                 'net_premium' => 'Net Amount',
                 'commission' => 'Commission Amount');
@@ -97,7 +98,7 @@ class Jf extends MY_Controller
 			foreach ($data['report_data'] as $datas) {
 				$arr = array('');
 				$w->addRow($arr);
-				$w->addRow(array_values($arr));
+				$w->addRow(array_values($kArr));
 				
 				foreach ($datas['results'] as $record) {
                     $arr = array();
@@ -112,6 +113,8 @@ class Jf extends MY_Controller
                             }
                     	} else if ($k == 'net_premium') {
                     		$arr[] = $record['amount'] - $record['commission'];
+                    	} else if ($k == 'added') {
+                    		$arr[] = substr($record[$k], 0, 10);
                     	} else {
                     		$arr[] = $record[$k];
                     	}

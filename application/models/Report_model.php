@@ -124,6 +124,7 @@ class Report_model extends CI_Model
     	$sql .= "		pa.ispaid,";
     	$sql .= "		pa.pay_date,";
     	$sql .= "		pa.added,";
+    	$sql .= "		pa.pay_type,";
     	$sql .= "		pa.last_update,";
     	$sql .= "		pl.plan_id,";
     	$sql .= "		pl.user_id,";
@@ -144,8 +145,8 @@ class Report_model extends CI_Model
     	$sql .= " JOIN plan pl ON (pa.plan_id=pl.plan_id)";
     	$sql .= " JOIN product pr ON (pl.product_short=pr.product_short)";
     	$sql .= " JOIN customer cu ON (pl.customer_id=cu.customer_id)";
-    	$sql .= " LEFT JOIN payment pa2 ON (pa.plan_id=pa2.plan_id AND pa.payment_id=pa2.premium_payment_id AND pa2.pay_type='commission')";
-    	$sql .= " WHERE pa.pay_type='premium' AND ABS(pa.amount)>=0.10";
+    	$sql .= " LEFT JOIN payment pa2 ON (pa.plan_id=pa2.plan_id AND pa.payment_id=pa2.premium_payment_id AND pa2.pay_type IN ('commission','cancel_commission','refund_commission'))";
+    	$sql .= " WHERE pa.pay_type IN ('premium','cancel','refund') AND ABS(pa.amount)>=0.10";
         if (!empty($para['payment_added_from'])) {
     		$sql .= " AND pa.added >= " . $this->db->escape($para['payment_added_from'] . " 00:00:00");
         }

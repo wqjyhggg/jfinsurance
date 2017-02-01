@@ -184,7 +184,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <?php if (!empty($report_data)) :?>
                       <table class="table table-hover table-bordered">
                           <tr>
-                              <td colspan='18'>&nbsp;<?php 
+                              <td colspan='19'>&nbsp;<?php 
                               	echo 'Total Payment: $' . $report_data['payment'] . '   Total Commission: $' . $report_data['commission']; 
                               	unset($report_data['payment']);
                               	unset($report_data['commission']); ?></td>
@@ -207,6 +207,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <th>Premium</th>
                             <th>Pay Amount</th>
                             <th>Paid</th>
+                            <th>Type</th>
                             <th>Commission Rate</th>
                             <th>Net Amount</th>
                             <th>Commission Amount</th>
@@ -216,7 +217,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <td><?php echo $cnt++; ?></td>
                             <td><?php echo $record['policy']; ?></td>
                             <td><?php echo $record['apply_date']; ?></td>
-                            <td><?php echo $record['pay_date']; ?></td>
+                            <td><?php echo substr($record['added'],0,10); ?></td>
                             <td><?php echo $record['invoice_num']; ?></td>
                             <td><?php echo $record['up_insuer']; ?></td>
                             <td><?php echo $record['product_short']; ?></td>
@@ -228,6 +229,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <td>$<?php echo $record['premium']; ?></td>
                             <td>$<?php echo $record['amount']; ?></td>
                             <td><?php echo (($record['ispaid'] == 1) ? 'Y' : '-'); ?></td>
+                            <td><?php echo $record['pay_type']; ?></td>
                             <?php if (abs($record['amount']) > 0.009) { ?>
                             <td><?php printf("%0.2f", $record['commission'] * 100 / $record['amount']); ?></td>
                             <?php } else { ?>
@@ -238,7 +240,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                           </tr>
         <?php endforeach; ?>
                           <tr>
-                              <td colspan='18'>
+                              <td colspan='19'>
                               	AgentID: <?php echo $data['agent']['user_id']; ?> ( <?php echo $data['agent']['lastname']; ?>, <?php echo $data['agent']['lastname']; ?> )&nbsp;&nbsp;&nbsp;
 								Total Payment: $<?php echo $data['payment']; ?>&nbsp;&nbsp;&nbsp;
                               	Total Net Payment: $<?php echo ($data['payment'] - $data['commission']); ?>&nbsp;&nbsp;&nbsp;
