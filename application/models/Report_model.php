@@ -637,7 +637,6 @@ class Report_model extends CI_Model
     public function get_commission_report($para)
     {
         $query = $this->get_commission_query($para);
-        //echo "<pre>"; echo "[".$this->db->last_query() . "]\n"; print_r($query); die("XXX");
         $results = $this->get_commission_result($query);
         $results['period']['from'] = $para['application_date_from'];
         $results['period']['to'] = $para['application_date_to'];
