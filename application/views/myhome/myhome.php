@@ -48,7 +48,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 							<input type='hidden' name='myname' value='<?php echo $myname; ?>'>
 							<div class="row">
 								<div class="form-group col-sm-3">
-									<label class="col-sm-12">Firstname:</label>
+									<label class="col-sm-12">First Name:</label>
 									<div class="input-group col-sm-12">
 										<input type='text' name='firstname' value='<?php echo $firstname; ?>' class="form-control">
 					                	<?php if (!empty($error_firstname)){ ?>
@@ -59,7 +59,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 					                </div>
 								</div>
 								<div class="form-group col-sm-3">
-									<label class="col-sm-12">Lastname:</label>
+									<label class="col-sm-12">Last Name:</label>
 									<div class="input-group col-sm-12">
 										<input type='text' name='lastname' value='<?php echo $lastname; ?>' class="form-control" class="form-control">
 					                	<?php if (!empty($error_lastname)){ ?>
@@ -73,160 +73,172 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 									<label class="col-sm-12">Url:</label>
 									<div id='showmyname' class="input-group col-sm-12"></div>
 								</div>
+								<div class="col-sm-12"><hr></div>
 							</div>
 
 							<div class="row">
-								<div class="form-group col-sm-3">
-									<label class="col-sm-12">Top Title:</label>
-									<div class="input-group col-sm-12">
-										<input type='text' name='top_title' value='<?php echo $top_title; ?>' class="form-control">
-					                	<?php if (!empty($error_top_title)) { ?>
-										<div class="alert-error">	
-											<?php echo $error_top_title; ?>
-										</div>
-										<?php } ?>
-					                </div>
-								</div>
-								<div class="form-group col-sm-9">
-									<label class="col-sm-12">Description:</label>
-									<div class="input-group col-sm-12">
-										<textarea rows='8' type='text' name='top_desc' class="form-control"><?php echo $top_desc; ?></textarea> 
-					                	<?php if (!empty($error_top_desc)){ ?>
-										<div class="alert-error">	
-											<?php echo $error_top_desc; ?>
-										</div>
-										<?php } ?>
-					                </div>
-								</div>
-							</div>
-							<div class="row">
-								<div class="form-group col-sm-3">
-									<label class="col-sm-12">Foot Title:</label>
-									<div class="input-group col-sm-12">
-										<input type='text' name='foot_title' value='<?php echo $foot_title; ?>' class="form-control">
-					                	<?php if (!empty($error_foot_title)){ ?>
-										<div class="alert-error">	
-											<?php echo $error_foot_title; ?>
-										</div>
-										<?php } ?>
-					                </div>
-								</div>
-								<div class="form-group col-sm-3">
-									<label class="col-sm-12">Address Row:</label>
-									<div class="input-group col-sm-12">
-										<input type='text' name='address' value='<?php echo $address; ?>' class="form-control">
-					                	<?php if (!empty($error_address)){ ?>
-										<div class="alert-error">	
-											<?php echo $error_address; ?>
-										</div>
-										<?php } ?>
-					                </div>
-								</div>
-								<div class="form-group col-sm-3">
-									<label class="col-sm-12">City Row:</label>
-									<div class="input-group col-sm-12">
-										<input type='text' name='city_province' value='<?php echo $city_province; ?>' class="form-control">
-					                	<?php if (!empty($error_city_province)){ ?>
-										<div class="alert-error">	
-											<?php echo $error_city_province; ?>
-										</div>
-										<?php } ?>
-					                </div>
-								</div>
-								<div class="form-group col-sm-3">
-									<label class="col-sm-12">Post Code Row:</label>
-									<div class="input-group col-sm-12">
-										<input type='text' name='post_code' value='<?php echo $post_code; ?>' class="form-control">
-					                	<?php if (!empty($error_post_code)){ ?>
-										<div class="alert-error">	
-											<?php echo $error_post_code; ?>
-										</div>
-										<?php } ?>
-					                </div>
-								</div>
-							</div>
-							<div class="row">
-								<div class="form-group col-sm-3">
-									<label class="col-sm-12">Phone Row:</label>
-									<div class="input-group col-sm-12">
-										<input type='text' name='phone' value='<?php echo $phone; ?>' class="form-control">
-					                	<?php if (!empty($error_phone)){ ?>
-										<div class="alert-error">	
-											<?php echo $error_phone; ?>
-										</div>
-										<?php } ?>
-					                </div>
-								</div>
-								<div class="form-group col-sm-3">
-									<label class="col-sm-12">Fax Row:</label>
-									<div class="input-group col-sm-12">
-										<input type='text' name='fax' value='<?php echo $fax; ?>' class="form-control">
-					                	<?php if (!empty($error_fax)){ ?>
-										<div class="alert-error">	
-											<?php echo $error_fax; ?>
-										</div>
-										<?php } ?>
-					                </div>
-								</div>
-								<div class="form-group col-sm-3">
-									<label class="col-sm-12">Toll Free Row:</label>
-									<div class="input-group col-sm-12">
-										<input type='text' name='toll_free' value='<?php echo $toll_free; ?>' class="form-control">
-					                	<?php if (!empty($error_toll_free)){ ?>
-										<div class="alert-error">	
-											<?php echo $error_toll_free; ?>
-										</div>
-										<?php } ?>
-					                </div>
-								</div>
-								<div class="form-group col-sm-3">
-									<label class="col-sm-12">Email Row:</label>
-									<div class="input-group col-sm-12">
-										<input type='text' name='email' value='<?php echo $email; ?>' class="form-control">
-					                	<?php if (!empty($error_email)){ ?>
-										<div class="alert-error">	
-											<?php echo $error_email; ?>
-										</div>
-										<?php } ?>
-					                </div>
-								</div>
-							</div>
-							<div class="row">
-								<div class="form-group col-sm-3">
-									<label class="col-sm-12">Logo:</label>
-									<div class="input-group col-sm-12">
+								<div class="col-sm-6">
+									<div class="row">
+										<div class="form-group col-sm-12">
+											<h2 class="edit-title">Change Logo</h2>
 										
-										<!--div class="custom-file-upload">
-										    <!--<label for="file">File: </label>--> 
-										    <!--input type="file" id="file" name="myfiles[]" multiple />
-										</div-->
+											<div class="input-group col-sm-12">
+												
+												<!--div class="custom-file-upload">
+												    <!--<label for="file">File: </label>--> 
+												    <!--input type="file" id="file" name="myfiles[]" multiple />
+												</div-->
 
 
 
-										<input type='file' name='logo_img' value='' class="form-control">
-					                	<?php if (!empty($error_myname_logo)){ ?>
-										<div class="alert-error">	
-											<?php echo $error_myname_logo; ?>
+												<input type='file' name='logo_img' value='' class="form-control">
+							                	<?php if (!empty($error_myname_logo)){ ?>
+												<div class="alert-error">	
+													<?php echo $error_myname_logo; ?>
+												</div>
+												<?php } ?>
+												<br />
+												<img class="img-responsive logo-img" src='<?php echo $logo_src; ?>'>
+							               
+											</div>
 										</div>
-										<?php } ?>
-										<br />
-										<img class="img-responsive logo-img" src='<?php echo $logo_src; ?>'>
-					                </div>
+									</div>
+									<div class="row">
+										<div class="form-group col-sm-12">
+											<h2 class="edit-title">Part 1</h2>
+
+											<label class="col-sm-12">Background Image:(suggest image size: 1700px * 440px)</label>
+											<div class="input-group col-sm-12">
+												<input type='file' name='image_img' value='' class="form-control">
+							                	<?php if (!empty($error_myname_image)){ ?>
+												<div class="alert-error">	
+													<?php echo $error_myname_image; ?>
+												</div>
+												<?php } ?>
+												<br />
+												<img class="img-responsive bg-img" src='<?php echo $image_src; ?>'>
+							                </div>
+										</div>
+										<div class="form-group col-sm-12">
+											<label class="col-sm-12">Top Title:</label>
+											<div class="input-group col-sm-12">
+												<input type='text' name='top_title' value='<?php echo $top_title; ?>' class="form-control">
+							                	<?php if (!empty($error_top_title)) { ?>
+												<div class="alert-error">	
+													<?php echo $error_top_title; ?>
+												</div>
+												<?php } ?>
+							                </div>
+										</div>
+										<div class="form-group col-sm-12">
+											<label class="col-sm-12">Description(around 520 characters):</label>
+											<div class="input-group col-sm-12">
+												<textarea rows='8' type='text' name='top_desc' class="form-control"><?php echo $top_desc; ?></textarea> 
+							                	<?php if (!empty($error_top_desc)){ ?>
+												<div class="alert-error">	
+													<?php echo $error_top_desc; ?>
+												</div>
+												<?php } ?>
+							                </div>
+										</div>
+										<hr>
+									</div>
+									<div class="row">	
+										<div class="col-sm-12">
+											<h2 class="edit-title">Part 2</h2>
+										</div>
+										<div class="form-group col-sm-6">
+											
+											<label class="col-sm-12">Title:</label>
+											<div class="input-group col-sm-12">
+												<input type='text' name='p2_title' value='<?php echo "$p2_title"; ?>' class="form-control">
+							                	
+							                </div>
+										</div>
+										<div class="form-group col-sm-6">
+											<label class="col-sm-12">Short Description:</label>
+											<div class="input-group col-sm-12">
+												<input type='text' name='p2_short_desc' value='<?php echo "$p2_short_desc"; ?>' class="form-control">
+							                	
+							                </div>
+										</div>
+										<div class="form-group col-sm-12">
+											<label class="col-sm-12">Description(around 340 characters):</label>
+											<div class="input-group col-sm-12">
+												<textarea rows='8' type='text' name='top_desc' class="form-control"><?php echo '$p2_desc'; ?></textarea> 
+							                	
+							                </div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-sm-12">
+											<h2 class="edit-title">Part 3 (Page bottom information)</h2>
+										</div>
+										<div class="form-group col-sm-12">
+											<label class="col-sm-12">Foot Title:</label>
+											<div class="input-group col-sm-12">
+												<input type='text' name='foot_title' value='<?php echo $foot_title; ?>' class="form-control">
+							                	<?php if (!empty($error_foot_title)){ ?>
+												<div class="alert-error">	
+													<?php echo $error_foot_title; ?>
+												</div>
+												<?php } ?>
+							                </div>
+										</div>
+										<div class="form-group col-sm-12">
+											<label class="col-sm-12">Text 1:</label>
+											<div class="input-group col-sm-12">
+												<input type='text' name='address' value='<?php echo $address; ?>' class="form-control">
+							                	<?php if (!empty($error_address)){ ?>
+												<div class="alert-error">	
+													<?php echo $error_address; ?>
+												</div>
+												<?php } ?>
+							                </div>
+										</div>
+										<div class="form-group col-sm-12">
+											<label class="col-sm-12">Text 2:</label>
+											<div class="input-group col-sm-12">
+												<input type='text' name='city_province' value='<?php echo $city_province; ?>' class="form-control">
+							                	<?php if (!empty($error_city_province)){ ?>
+												<div class="alert-error">	
+													<?php echo $error_city_province; ?>
+												</div>
+												<?php } ?>
+							                </div>
+										</div>
+										
+									</div>
+									<div class="row">
+										<div class="form-group col-sm-12">
+											<h2 class="edit-title">QR Code Image</h2>
+
+											<div class="input-group col-sm-12">
+													
+													<!--div class="custom-file-upload">
+													    <!--<label for="file">File: </label>--> 
+													    <!--input type="file" id="file" name="myfiles[]" multiple />
+													</div-->
+
+
+
+												<input type='file' name='qr_img' value='' class="form-control">
+								               
+												<br />
+												<img class="img-responsive qr-img" src='#'>
+								            </div>
+										</div>
+									</div>
+									
 								</div>
-								<div class="form-group col-sm-9">
-									<label class="col-sm-12">Background Image:(suggest image size: 1700px * 440px)</label>
-									<div class="input-group col-sm-12">
-										<input type='file' name='image_img' value='' class="form-control">
-					                	<?php if (!empty($error_myname_image)){ ?>
-										<div class="alert-error">	
-											<?php echo $error_myname_image; ?>
-										</div>
-										<?php } ?>
-										<br />
-										<img class="img-responsive bg-img" src='<?php echo $image_src; ?>'>
-					                </div>
+
+								<div class="col-sm-6">
+									<h2 class="edit-title">Page Template (Click on image get large view)</h2>
+									<a target="_blank" href="<?php echo base_url();?>image/jf-agent.png"><img class="template-page" src="<?php echo base_url();?>image/jf-agent.png" alt="template page">
+									</a>
 								</div>
 							</div>
+							
 
 							<div class="row" style="margin-bottom: 200px;">
 								<!-- submit button -->
