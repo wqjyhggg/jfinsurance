@@ -219,9 +219,10 @@ foreach ($report_data as $data) :?>
                             <th>Number of Days</th>
                             <th>Daily Rate</th>
                             <th>Policy Premium</th>
-                            <th>Commission Rate</th>
+                            <!-- th>Commission Rate</th -->
                             <th>Net Premium</th>
-                            <th>Commission Amount</th>
+                            <!-- th>Commission Amount</th -->
+                            <th>Status</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -239,9 +240,10 @@ foreach ($report_data as $data) :?>
                               <td><?=$record['total_days'] ?></td>
                               <td>$<?=$record['daily_rate'] ?></td>
                               <td>$<?=$record['policy_premium'] ?></td>
-                              <td><?=$record['commission_rate'] ?></td>
+                              <!-- td><?=$record['commission_rate'] ?></td -->
                               <td>$<?=$record['net_premium'] ?></td>
-                              <td>$<?=$record['commission_amount'] ?></td>
+                              <!-- td>$<?=$record['commission_amount'] ?></td -->
+                              <td><?=$record['status'] ?></td>
                             </tr>
     <?php endforeach; ?>
                             <tr><td colspan=14>

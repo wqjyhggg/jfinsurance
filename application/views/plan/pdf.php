@@ -27,7 +27,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 				<p class="topp">Tel: 1-877-832-5541</p>
 <?php } else { ?>			
 <?php if ($user['user_id'] > 100) { ?>			
-				<p class="topp" style="font-weight:bold;"> JF Agent - <span style="text-transform: capitalize;font-weight:bold;"><?php echo ($user) ? $user['firstname'] . " " . $user['lastname'] : ''; ?></span></p>
+				<p class="topp" style="font-weight:bold;"><?php echo empty($user['business']) ? 'JF Agent' : $user['business']; ?> - <span style="text-transform: capitalize;font-weight:bold;"><?php echo ($user) ? $user['firstname'] . " " . $user['lastname'] : ''; ?></span></p>
 				<p class="topp"><?php echo ($user)? $user['address'] . ', ' . $user['city'] . ' ' . $user['province2'] . ' ' . $user['postcode']: ''; ?></p>
 				<p class="topp"><?php echo ($user)? $user['business_phone'] : '' ; ?></p>
 <?php } else { ?>			

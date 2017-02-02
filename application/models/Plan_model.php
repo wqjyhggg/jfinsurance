@@ -252,23 +252,35 @@ class Plan_model extends CI_Model {
 	 * @param	array	$para		Parameters
 	 * @return	array					user table search result
 	 */
-	public function update($plan_id, $para) {
+	public function update($plan_id, $para, $checkboxArr=array()) {
 		$this->logstr = '';
 		$this->sqlstr = '';
 		$this->load->model('customer_model');
 		$arr = array();
-		$beuser = $this->session->userdata ( 'beuser' );
-		if (empty($beuser)) {
-			return 0;
-		}
 		$plan = $this->get_plan_by_id($plan_id);
 		if (empty($plan)) {
+			$this->logstr = 'Can not find plan by id[' . $plan_id . ']';
+			$this->sqlstr = 'Can not find plan by id[' . $plan_id . ']';
 			return 0;
+		}
+		$beuser = $this->session->userdata ( 'beuser' );
+		if (empty($beuser)) {
+			$this->logstr = 'Can not find beuser;';
+			$this->sqlstr = 'Can not find beuser';
+			$this->load->model('user_model');
+			$beuser = $this->user_model->get_user_by_id($plan['user_id']);
+			if (empty($beuser)) {
+				$this->logstr = 'Can not find user by plan['.$plan_id.']['.$plan['user_id'].']';
+				$this->sqlstr = 'Can not find user by plan['.$plan_id.']['.$plan['user_id'].']';
+				return 0;
+			}
 		}
 		$plan_id = $plan['plan_id'];
 		$this->logstr .= "Change Plan (" . (int)$plan_id . "): ";
 		$isfamilyplan = empty($para['isfamilyplan']) ? 0 : 1;
-		
+		$holiday_rate = empty($para['holiday_rate']) ? 0 : 1;
+		$spouse = empty($para['spouse']) ? 0 : 1;
+	
 		if (!empty($para['gender']) && !empty($para['firstname']) && !empty($para['lastname']) && !empty($para['birthday'])) {
 			$cpara = array(
 					'gender' => $para['gender'],
@@ -327,7 +339,7 @@ class Plan_model extends CI_Model {
 			$this->logstr .= " batch_number " . $para['batch_number'] . "(" . $plan['batch_number'] . ")";
 			$sql .= " batch_number=" . $this->db->escape($para['batch_number']) . ", ";
 		}
-		if (isset($para['isfamilyplan']) && ($isfamilyplan != $plan['isfamilyplan'])) {
+		if (isset($checkboxArr['isfamilyplan']) && ($isfamilyplan != $plan['isfamilyplan'])) {
 			$this->logstr .= " isfamilyplan " . $isfamilyplan . "(" . $plan['isfamilyplan'] . ")";
 			$sql .= " isfamilyplan='" . (int)$isfamilyplan . "', ";
 		}
@@ -361,13 +373,13 @@ class Plan_model extends CI_Model {
 			$this->logstr .= " rate_options " . $para['rate_options'] . "(" . $plan['rate_options'] . ")";
 			$sql .= " rate_options='" . (int)$para['rate_options'] . "', ";
 		}
-		if (isset($para['holiday_rate']) && ((int)$para['holiday_rate'] != (int)$plan['holiday_rate'])) {
-			$this->logstr .= " holiday_rate " . $para['holiday_rate'] . "(" . $plan['holiday_rate'] . ")";
-			$sql .= " holiday_rate='" . (int)$para['holiday_rate'] . "', ";
+		if (isset($checkboxArr['holiday_rate']) && ($holiday_rate != (int)$plan['holiday_rate'])) {
+			$this->logstr .= " holiday_rate " . $holiday_rate . "(" . $plan['holiday_rate'] . ")";
+			$sql .= " holiday_rate='" . $holiday_rate . "', ";
 		}
-		if (isset($para['spouse']) && ((int)$para['spouse'] != (int)$plan['spouse'])) {
-			$this->logstr .= " spouse " . $para['spouse'] . "(" . $plan['spouse'] . ")";
-			$sql .= " spouse='" . (int)$para['spouse'] . "', ";
+		if (isset($checkboxArr['spouse']) && ($spouse != (int)$plan['spouse'])) {
+			$this->logstr .= " spouse " . $spouse . "(" . $plan['spouse'] . ")";
+			$sql .= " spouse='" . (int)$spouse . "', ";
 		}
 		if (isset($para['sum_insured']) && ($para['sum_insured'] != $plan['sum_insured'])) {
 			$this->logstr .= " sum_insured " . $para['sum_insured'] . "(" . $plan['sum_insured'] . ")";
@@ -385,15 +397,21 @@ class Plan_model extends CI_Model {
 			$this->logstr .= " totalyears " . $para['totalyears'] . "(" . $plan['totalyears'] . ")";
 			$sql .= " totalyears=" . $this->db->escape($para['totalyears']) . ", ";
 		}
-		if (isset($para['dailyrate']) && ((float)$para['dailyrate'] != (float)$plan['dailyrate'])) {
-			$this->logstr .= " dailyrate " . $para['dailyrate'] . "(" . $plan['dailyrate'] . ")";
-			$sql .= " dailyrate='" . (float) $para['dailyrate'] . "', ";
+		if (isset($para['dailyrate'])) {
+			$dailyrate = round((float)$para['dailyrate'],2);
+			if ($dailyrate != (float)$plan['dailyrate']) {
+				$this->logstr .= " dailyrate " . $dailyrate . "(" . $plan['dailyrate'] . ")";
+				$sql .= " dailyrate='" . $dailyrate . "', ";
+			}
 		}
 		$premiumchanged = 0;
-		if (isset($para['premium']) && ((float)$para['premium'] != (float)$plan['premium'])) {
-			$this->logstr .= " premium " . $para['premium'] . "(" . $plan['premium'] . ")";
-			$sql .= " premium='" . (float) $para['premium'] . "', ";
-			$premiumchanged = 1;
+		if (isset($para['premium'])) {
+			$premium = round((float)$para['premium'],2);
+			if ($premium != (float)$plan['premium']) {
+				$this->logstr .= " premium " . $premium . "(" . $plan['premium'] . ")";
+				$sql .= " premium='" . $premium . "', ";
+				$premiumchanged = 1;
+			}
 		}
 		if (isset($para['status_id']) && ((int)$para['status_id'] != (int)$plan['status_id'])) {
 			$this->logstr .= " status_id " . $para['status_id'] . "(" . $plan['status_id'] . ")";
@@ -405,9 +423,12 @@ class Plan_model extends CI_Model {
 				$sql .= " status_id='" . self::CHANGED . "', ";
 			}
 		}
-		if (isset($para['commission_amount']) && ((float)$para['commission_amount'] != (float)$plan['commission_amount'])) {
-			$this->logstr .= " commission_amount " . $para['commission_amount'] . "(" . $plan['commission_amount'] . ")";
-			$sql .= " commission_amount='" . (float) $para['commission_amount'] . "', ";
+		if (isset($para['commission_amount'])) {
+			$commission_amount = round((float)$para['commission_amount'],2);
+			if ($commission_amount != (float)$plan['commission_amount']) {
+				$this->logstr .= " commission_amount " . $commission_amount . "(" . $plan['commission_amount'] . ")";
+				$sql .= " commission_amount='" . $commission_amount . "', ";
+			}
 		}
 		if (isset($para['street_number']) && ($para['street_number'] != $plan['street_number'])) {
 			$this->logstr .= " street_number " . $para['street_number'] . "(" . $plan['street_number'] . ")";
@@ -492,6 +513,10 @@ class Plan_model extends CI_Model {
 		if (isset($para['note']) && ($para['note'] != $plan['note'])) {
 			$this->logstr .= " note " . $para['note'] . "(" . $plan['note'] . ")";
 			$sql .= " note=" . $this->db->escape($para['note']) . ", ";
+		}
+		if ($sql == "UPDATE plan SET") {
+			// No change 
+			return $plan_id;
 		}
 		$sql .= " plan_id=plan_id ";
 		$sql .= " WHERE plan_id='" . (int)$plan_id . "'";
@@ -594,17 +619,12 @@ class Plan_model extends CI_Model {
 				$users[] = $row['user_id'];
 			}
 		} else {
-			if (!empty($para['uname'])) {
-				$sql = "SELECT user_id FROM user WHERE user_id='".(int)$beuser['user_id']."' AND firstname LIKE " . $this->db->escape($para['uname'] . "%") . " OR lastname LIKE " . $this->db->escape($para['uname'] . "%");
-			} else {
-				$sql = "SELECT user_id FROM user WHERE user_id='".(int)$beuser['user_id']."'";
-			}
+			$sql = "SELECT user_id FROM user WHERE user_id='".(int)$beuser['user_id']."'";
 			$rows = $this->db->query($sql)->result_array();
 			foreach ($rows as $row) {
 				$users[] = $row['user_id'];
 			}
 		}
-				
 		$sql  = "SELECT p.*, c.firstname, c.lastname, c.gender, c.birthday, u.firstname AS agent_firstname, u.lastname AS agent_lastname, u.user_id AS agent_id FROM plan p";
 		$sql .= " INNER JOIN customer c ON (p.customer_id=c.customer_id)";
 		$sql .= " INNER JOIN user u ON (p.user_id=u.user_id)";

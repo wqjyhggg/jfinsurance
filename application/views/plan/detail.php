@@ -105,6 +105,22 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 									<span><?php echo $plan['expiry_date']; ?></span>
 								</div>
 							</div>
+							<?php if (!empty($plan_cancel_date)) {?>
+							<div class="row">
+								<div class="col-sm-3">
+									<label class="inline">Cancel Date:</label>
+									<span><?php echo $plan_cancel_date; ?></span>
+								</div>
+							</div>
+							<?php } ?>
+							<?php if (!empty($plan_refund_date)) {?>
+							<div class="row">
+								<div class="col-sm-3">
+									<label class="inline">Refund Date:</label>
+									<span><?php echo $plan_refund_date; ?></span>
+								</div>
+							</div>
+							<?php } ?>
 							<?php echo $insurable_options; ?>
 							<div class="row">
 								<div class="col-sm-12" style="background-color:#5bc0de; color:#fff;">
@@ -215,7 +231,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 									<span><?php echo $plan['contact_phone']; ?></span>
 								</div>
 								<div class="col-sm-3">
-									<label class="inline">Residence:</label>
+									<label class="inline">Country of Origin:</label>
 									<span><?php echo $plan['residence']; ?></span>
 								</div>
 							</div>
@@ -313,6 +329,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 									<input type='hidden' name='play_type' value='Credit Card'>
 									<input type='hidden' name='sekey' value='<?php echo $sekey; ?>'>
 									<input type='hidden' name='premium' value='<?php echo $payment_total; ?>'>
+								<?php if ($payment_total >= 0) { ?>
 								<?php if (empty($sekey)) { ?>
 									<div class="row">
 										<div class="col-sm-12">
@@ -394,6 +411,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 											</div>
 										</div>
 									</div>
+									<?php } ?>
 									<div class="row">
 										<div class="col-sm-12  text-right">
 											<label class="inline">Amount:</label><span> <b>$<?php echo number_format($payment_total, 2, '.', ','); ?></b></span>

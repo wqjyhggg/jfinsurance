@@ -54,6 +54,100 @@ class Cron extends MY_Controller {
 		return TRUE;
 	}
 
+	public function add_premium_id() {
+		$this->valid();
+		
+		$this->db->where('pay_type', 'premium');
+		$rs = $this->db->get('payment')->result_array();
+		foreach ($rs as $r) {
+			echo "ID :" . $r['payment_id'] . "\n";
+			
+			$payment_id = $r['payment_id'] + 1;
+			$this->db->where('payment_id', $payment_id);
+			$this->db->where('pay_type', 'up_commission');
+			$row = $this->db->get('payment')->row_array();
+			if (empty($row)) {
+				die("ERROR: up_commission\n");
+			} else {
+				$this->db->set('premium_payment_id', $r['payment_id']);
+				$this->db->where('payment_id', $payment_id);
+				$this->db->update('payment');
+			}
+			
+			$payment_id = $r['payment_id'] + 2;
+			$this->db->where('payment_id', $payment_id);
+			$this->db->where('pay_type', 'commission');
+			$row = $this->db->get('payment')->row_array();
+			if (empty($row)) {
+				die("ERROR: commission\n");
+			} else {
+				$this->db->set('premium_payment_id', $r['payment_id']);
+				$this->db->where('payment_id', $payment_id);
+				$this->db->update('payment');
+			}
+		}
+			
+		$this->db->where('pay_type', 'refund');
+		$rs = $this->db->get('payment')->result_array();
+		foreach ($rs as $r) {
+			echo "ID :" . $r['payment_id'] . "\n";
+			
+			$payment_id = $r['payment_id'] + 2;
+			$this->db->where('payment_id', $payment_id);
+			$this->db->where('pay_type', 'refund_up_commission');
+			$row = $this->db->get('payment')->row_array();
+			if (empty($row)) {
+				die("ERROR: refund_up_commission\n");
+			} else {
+				$this->db->set('premium_payment_id', $r['payment_id']);
+				$this->db->where('payment_id', $payment_id);
+				$this->db->update('payment');
+			}
+			
+			$payment_id = $r['payment_id'] + 1;
+			$this->db->where('payment_id', $payment_id);
+			$this->db->where('pay_type', 'refund_commission');
+			$row = $this->db->get('payment')->row_array();
+			if (empty($row)) {
+				die("ERROR: refund_commission\n");
+			} else {
+				$this->db->set('premium_payment_id', $r['payment_id']);
+				$this->db->where('payment_id', $payment_id);
+				$this->db->update('payment');
+			}
+		}
+			
+		$this->db->where('pay_type', 'cancel');
+		$rs = $this->db->get('payment')->result_array();
+		foreach ($rs as $r) {
+			echo "ID :" . $r['payment_id'] . "\n";
+			
+			$payment_id = $r['payment_id'] + 2;
+			$this->db->where('payment_id', $payment_id);
+			$this->db->where('pay_type', 'cancel_up_commission');
+			$row = $this->db->get('payment')->row_array();
+			if (empty($row)) {
+				die("ERROR: cancel_up_commission\n");
+			} else {
+				$this->db->set('premium_payment_id', $r['payment_id']);
+				$this->db->where('payment_id', $payment_id);
+				$this->db->update('payment');
+			}
+			
+			$payment_id = $r['payment_id'] + 1;
+			$this->db->where('payment_id', $payment_id);
+			$this->db->where('pay_type', 'cancel_commission');
+			$row = $this->db->get('payment')->row_array();
+			if (empty($row)) {
+				die("ERROR: cancel_commission\n");
+			} else {
+				$this->db->set('premium_payment_id', $r['payment_id']);
+				$this->db->where('payment_id', $payment_id);
+				$this->db->update('payment');
+			}
+		}
+	}
+
 	public function import($filename) {
 		$this->valid();
 
@@ -271,14 +365,54 @@ class Cron extends MY_Controller {
 		$outdir = '/tmp/';
 		$pattern = "/^([_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,}))(.*)$/";
 		
+		$outfile = $outdir . 'OPL2_Sales_Report_' . date('Y.m.d_H.i.s.B') . '.xls';
+		/*
 		$filename = DOWNLOADDIR . 'OPL_Sales_Report.xls';
 		if (!file_exists($filename)) {
 			exit("Can't find file: ".$filename."\n");
 		}
 		
 		//$product_list = $this->product_model->product_list(1);
-		$outfile = $outdir . "OPL_" . date('Y-m-d_H.i.s') . ".xls";
 		$objPHPExcel = PHPExcel_IOFactory::load($filename);
+		*/
+		$objPHPExcel = new PHPExcel();
+		$sheet = $objPHPExcel->getActiveSheet();
+		$sheet->setTitle('Sheet1');
+		$sheet->setCellValue('A1', 'Policy No');
+		$sheet->setCellValue('B1', 'Plan Name ');
+		$sheet->setCellValue('C1', 'Status');
+		$sheet->setCellValue('D1', 'Type');
+		$sheet->setCellValue('E1', 'First Name');
+		$sheet->setCellValue('F1', 'Last Name');
+		$sheet->setCellValue('G1', 'Gender');
+		$sheet->setCellValue('H1', 'Birth Date');
+		$sheet->setCellValue('I1', 'Address1');
+		$sheet->setCellValue('J1', 'Address2');
+		$sheet->setCellValue('K1', 'City');
+		$sheet->setCellValue('L1', 'Province');
+		$sheet->setCellValue('M1', 'Postal Code');
+		$sheet->setCellValue('N1', 'Contact Phone');
+		$sheet->setCellValue('O1', 'Contact Email');
+		$sheet->setCellValue('P1', 'Notes');
+		$sheet->setCellValue('Q1', 'Arrival Date');
+		$sheet->setCellValue('R1', 'Application Date');
+		$sheet->setCellValue('S1', 'Effective Date');
+		$sheet->setCellValue('T1', 'Expiry Date');
+		$sheet->setCellValue('U1', 'Trip  Length');
+		$sheet->setCellValue('V1', 'Sum  Insured');
+		$sheet->setCellValue('W1', 'Deductible Amout');
+		$sheet->setCellValue('X1', 'Commission Rate');
+		$sheet->setCellValue('Y1', 'Commission Amout');
+		$sheet->setCellValue('Z1', 'Daily Rate');
+		$sheet->setCellValue('AA1', 'Gross Premium');
+		$sheet->setCellValue('AB1', 'Net Premium');
+		$sheet->setCellValue('AC1', 'Fee1');
+		$sheet->setCellValue('AD1', 'Fee2');
+		$sheet->setCellValue('AE1', 'Amount Due');
+		$sheet->setCellValue('AF1', 'Insured First Name');
+		$sheet->setCellValue('AG1', 'Insured Last Name');
+		$sheet->setCellValue('AH1', 'Birthdate');
+		$sheet->setCellValue('AI1', 'Update Date');
 		
 		$product_list = $this->product_model->product_list(1);
 		$status_list = $this->status_model->status_list();
@@ -294,8 +428,8 @@ class Cron extends MY_Controller {
 		
 		$plans = array_merge($plansOPL, $plansJFC);
 		$sz = sizeof($plans);
-
-		$sheet = $objPHPExcel->setActiveSheetIndex(0);
+		echo "Total Record: " . $sz . "; OPL: " . sizeof($plansOPL) . "; JFC: " . sizeof($plansJFC) . "; \n";
+		//$sheet = $objPHPExcel->setActiveSheetIndex(0);
 //		print_r(get_class_methods(get_class($objPHPExcel)));
 
 		$row = 2;
@@ -304,21 +438,25 @@ class Cron extends MY_Controller {
 			$sheet->setCellValue('A'.$row, $plan['policy']);
 			$b = '';
 			if ($plan['product_short'] == 'OPL') {
-				if ($plan['stable_condition'] == 1) $b = "With stable pre-existion condition coverage";
-				else if ($plan['stable_condition'] == 2) $b = "Without stable pre-existion condition coverage";
+				if ($plan['stable_condition'] == 1) $b = "With Stable Pre-existing Medical Condition Coverage";
+				else if ($plan['stable_condition'] == 2) $b = "Without Stable Pre-existing Medical Condition Coverage";
 			} else {
 				// $plan['product_short'] == 'JFC'
 			}
 			$sheet->setCellValue('B'.$row, $b);
 			$status_str = $status_list[$plan['status_id']]['name'];
 			if ($plan['status_id'] == Plan_model::SOLD) $status_str = 'New';
-			if ($plan['status_id'] == Plan_model::REFUND) $status_str = 'Changed';
+			if ($plan['status_id'] == Plan_model::REFUND) $status_str = 'Change';
+			if ($plan['status_id'] == Plan_model::CHANGED) $status_str = 'Change';
 			$sheet->setCellValue('C'.$row, $status_str);
 			$sheet->setCellValue('D'.$row, $plan['isfamilyplan'] ? "Family" : "Single");
 			$sheet->setCellValue('E'.$row, $plan['firstname']);
 			$sheet->setCellValue('F'.$row, $plan['lastname']);
 			$sheet->setCellValue('G'.$row, $plan['gender']);
-			$sheet->setCellValue('H'.$row, $plan['birthday']);
+			$sheet->setCellValue('H'.$row, PHPExcel_Shared_Date::PHPToExcel(strtotime($plan['birthday'] . ' 00:00:00 UTC')));
+			//$sheet->getStyle('H'.$row)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_DATE_TIME2);
+			$sheet->getStyle('H'.$row)->getNumberFormat()->setFormatCode('m/d/yyyy h:mm:ss AM/PM');
+			
 			$sheet->setCellValue('I'.$row, $plan['street_number'] . " " . $plan['street_name']); // Address1
 			$sheet->setCellValue('J'.$row, ($plan['suite_number']) ? " Suite" . $plan['suite_number'] : ""); // Address2
 			$sheet->setCellValue('K'.$row, $plan['city']); // City
@@ -327,31 +465,43 @@ class Cron extends MY_Controller {
 			$sheet->setCellValue('N'.$row, $plan['contact_phone']); // Contact Phone
 			$mlArr = array();
 			$mailaddr = '';
-			$r = preg_match($pattern, $plan['contact_email'], $$mlArr);
+			$r = preg_match($pattern, $plan['contact_email'], $mlArr);
 			if ($r) {
 				$mailaddr = $mlArr[1];
 			}
 			$sheet->setCellValue('O'.$row, $mailaddr); // Contact Email
 			$sheet->setCellValue('P'.$row, $plan['note']); // Notes
-			$sheet->setCellValue('Q'.$row, $plan['arrival_date']); // Arrival Date
-			$sheet->setCellValue('R'.$row, $plan['apply_date']); // Application Date
-			$sheet->setCellValue('S'.$row, $plan['effective_date']); // Effective Date
-			$sheet->setCellValue('T'.$row, $plan['expiry_date']); // Expiry Date
+			$sheet->setCellValue('Q'.$row, PHPExcel_Shared_Date::PHPToExcel(strtotime($plan['arrival_date'] . ' 00:00:00 UTC'))); // Arrival Date
+			$sheet->getStyle('Q'.$row)->getNumberFormat()->setFormatCode('m/d/yyyy h:mm:ss AM/PM');
+			$sheet->setCellValue('R'.$row, PHPExcel_Shared_Date::PHPToExcel(strtotime($plan['apply_date'] . ' 00:00:00 UTC'))); // Application Date
+			$sheet->getStyle('R'.$row)->getNumberFormat()->setFormatCode('m/d/yyyy h:mm:ss AM/PM');
+			$sheet->setCellValue('S'.$row, PHPExcel_Shared_Date::PHPToExcel(strtotime($plan['effective_date'] . ' 00:00:00 UTC'))); // Effective Date
+			$sheet->getStyle('S'.$row)->getNumberFormat()->setFormatCode('m/d/yyyy h:mm:ss AM/PM');
+			$sheet->setCellValue('T'.$row, PHPExcel_Shared_Date::PHPToExcel(strtotime($plan['expiry_date'] . ' 00:00:00 UTC'))); // Expiry Date
+			$sheet->getStyle('T'.$row)->getNumberFormat()->setFormatCode('m/d/yyyy h:mm:ss AM/PM');
 			$sheet->setCellValue('U'.$row, $plan['totaldays']); // Trip  Length
-			$sheet->setCellValue('V'.$row, $plan['sum_insured']); // Sum  Insured
-			$sheet->setCellValue('W'.$row, $plan['deductible_amount']); // Deductible Amout
-			$sheet->setCellValue('X'.$row, empty($plan['premium']) ? 0 : $plan['commission_amount'] * 100 / $plan['premium']); // Commission Rate
-			$sheet->setCellValue('Y'.$row, $plan['commission_amount']); // Commission Amout
-			$sheet->setCellValue('Z'.$row, $plan['dailyrate']); // Daily Rate
-			$sheet->setCellValue('AA'.$row, $plan['premium']); // Gross Premium
-			$sheet->setCellValue('AB'.$row, $plan['premium']); // Net Premium
+			$sheet->setCellValue('V'.$row, sprintf("%0.2f",$plan['sum_insured'])); // Sum  Insured
+			$sheet->getStyle('V'.$row)->getNumberFormat()->setFormatCode('#,##0.00');
+			$sheet->setCellValue('W'.$row, sprintf("%0.2f",$plan['deductible_amount'])); // Deductible Amout
+			$sheet->getStyle('W'.$row)->getNumberFormat()->setFormatCode('#,##0.00');
+			$sheet->setCellValue('X'.$row, (empty($plan['premium']) || ($plan['premium'] == 0)) ? 0 : (float)($plan['commission_amount'] * 100 / $plan['premium'])); // Commission Rate
+			$sheet->setCellValue('Y'.$row, sprintf("%0.2f",$plan['commission_amount'])); // Commission Amout
+			$sheet->getStyle('Y'.$row)->getNumberFormat()->setFormatCode('#,##0.00');
+			$sheet->setCellValue('Z'.$row, sprintf("%0.2f",$plan['dailyrate'])); // Daily Rate
+			$sheet->getStyle('Z'.$row)->getNumberFormat()->setFormatCode('#,##0.00');
+			$sheet->setCellValue('AA'.$row, sprintf("%0.2f",$plan['premium'])); // Gross Premium
+			$sheet->getStyle('AA'.$row)->getNumberFormat()->setFormatCode('#,##0.00');
+			$sheet->setCellValue('AB'.$row, sprintf("%0.2f",$plan['premium'])); // Net Premium
+			$sheet->getStyle('AB'.$row)->getNumberFormat()->setFormatCode('#,##0.00');
 			$sheet->setCellValue('AC'.$row, 0); // Fee1
 			$sheet->setCellValue('AD'.$row, 0); // Fee2
 			$sheet->setCellValue('AE'.$row, 0); // Amount Due
 			$sheet->setCellValue('AF'.$row, $plan['firstname']); // Insured First Name
 			$sheet->setCellValue('AG'.$row, $plan['lastname']); // Insured Last Name
-			$sheet->setCellValue('AH'.$row, $plan['birthday']); // Birthdate
-			$sheet->setCellValue('AI'.$row, $plan['last_update']); // Update Date
+			$sheet->setCellValue('AH'.$row, PHPExcel_Shared_Date::PHPToExcel(strtotime($plan['birthday'] . ' 00:00:00 UTC'))); // Birthdate
+			$sheet->getStyle('AH'.$row)->getNumberFormat()->setFormatCode('m/d/yyyy h:mm:ss AM/PM');
+			$sheet->setCellValue('AI'.$row, PHPExcel_Shared_Date::PHPToExcel(strtotime($plan['last_update'] . ' UTC'))); // Update Date
+			$sheet->getStyle('AI'.$row)->getNumberFormat()->setFormatCode('m/d/yyyy h:mm:ss AM/PM');
 			$row++;
 			if ($plan['isfamilyplan']) {
 				$customers = $this->customer_model->get_customer_by_parent_id($plan['customer_id']);
@@ -363,7 +513,8 @@ class Cron extends MY_Controller {
 					$sheet->setCellValue('E'.$row, $c['firstname']);
 					$sheet->setCellValue('F'.$row, $c['lastname']);
 					$sheet->setCellValue('G'.$row, $c['gender']);
-					$sheet->setCellValue('H'.$row, $c['birthday']);
+					$sheet->setCellValue('H'.$row, PHPExcel_Shared_Date::PHPToExcel(strtotime($c['birthday'] . ' 00:00:00 UTC')));
+					$sheet->getStyle('H'.$row)->getNumberFormat()->setFormatCode('m/d/yyyy h:mm:ss AM/PM');
 					$sheet->setCellValue('I'.$row, $plan['street_number'] . " " . $plan['street_name']); // Address1
 					$sheet->setCellValue('J'.$row, ($plan['suite_number']) ? " Suite" . $plan['suite_number'] : ""); // Address2
 					$sheet->setCellValue('K'.$row, $plan['city']); // City
@@ -372,33 +523,45 @@ class Cron extends MY_Controller {
 					$sheet->setCellValue('N'.$row, $plan['contact_phone']); // Contact Phone
 					$sheet->setCellValue('O'.$row, $plan['contact_email']); // Contact Email
 					$sheet->setCellValue('P'.$row, $plan['note']); // Notes
-					$sheet->setCellValue('Q'.$row, $plan['arrival_date']); // Arrival Date
-					$sheet->setCellValue('R'.$row, $plan['apply_date']); // Application Date
-					$sheet->setCellValue('S'.$row, $plan['effective_date']); // Effective Date
-					$sheet->setCellValue('T'.$row, $plan['expiry_date']); // Expiry Date
+					$sheet->setCellValue('Q'.$row, PHPExcel_Shared_Date::PHPToExcel(strtotime($plan['arrival_date'] . ' 00:00:00 UTC'))); // Arrival Date
+					$sheet->getStyle('Q'.$row)->getNumberFormat()->setFormatCode('m/d/yyyy h:mm:ss AM/PM');
+					$sheet->setCellValue('R'.$row, PHPExcel_Shared_Date::PHPToExcel(strtotime($plan['apply_date'] . ' 00:00:00 UTC'))); // Application Date
+					$sheet->getStyle('R'.$row)->getNumberFormat()->setFormatCode('m/d/yyyy h:mm:ss AM/PM');
+					$sheet->setCellValue('S'.$row, PHPExcel_Shared_Date::PHPToExcel(strtotime($plan['effective_date'] . ' 00:00:00 UTC'))); // Effective Date
+					$sheet->getStyle('S'.$row)->getNumberFormat()->setFormatCode('m/d/yyyy h:mm:ss AM/PM');
+					$sheet->setCellValue('T'.$row, PHPExcel_Shared_Date::PHPToExcel(strtotime($plan['expiry_date'] . ' 00:00:00 UTC'))); // Expiry Date
+					$sheet->getStyle('T'.$row)->getNumberFormat()->setFormatCode('m/d/yyyy h:mm:ss AM/PM');
 					$sheet->setCellValue('U'.$row, $plan['totaldays']); // Trip  Length
-					$sheet->setCellValue('V'.$row, $plan['sum_insured']); // Sum  Insured
-					$sheet->setCellValue('W'.$row, $plan['deductible_amount']); // Deductible Amout
-					$sheet->setCellValue('X'.$row, empty($plan['premium']) ? 0 : $plan['commission_amount'] * 100 / $plan['premium']); // Commission Rate
-					$sheet->setCellValue('Y'.$row, $plan['commission_amount']); // Commission Amout
+					$sheet->setCellValue('V'.$row, sprintf("%0.2f",$plan['sum_insured'])); // Sum  Insured
+					$sheet->getStyle('V'.$row)->getNumberFormat()->setFormatCode('#,##0.00');
+					$sheet->setCellValue('W'.$row, sprintf("%0.2f",$plan['deductible_amount'])); // Deductible Amout
+					$sheet->getStyle('W'.$row)->getNumberFormat()->setFormatCode('#,##0.00');
+					$sheet->setCellValue('X'.$row, empty($plan['premium']) ? 0 : sprintf("%0.2f",$plan['commission_amount'] * 100 / $plan['premium'])); // Commission Rate
+					$sheet->getStyle('X'.$row)->getNumberFormat()->setFormatCode('#,##0.00');
+					$sheet->setCellValue('Y'.$row, sprintf("%0.2f",$plan['commission_amount'])); // Commission Amout
+					$sheet->getStyle('Y'.$row)->getNumberFormat()->setFormatCode('#,##0.00');
 					$sheet->setCellValue('Z'.$row, $plan['dailyrate']); // Daily Rate
-					$sheet->setCellValue('AA'.$row, $plan['premium']); // Gross Premium
-					$sheet->setCellValue('AB'.$row, $plan['premium']); // Net Premium
+					$sheet->setCellValue('AA'.$row, sprintf("%0.2f",$plan['premium'])); // Gross Premium
+					$sheet->getStyle('AA'.$row)->getNumberFormat()->setFormatCode('#,##0.00');
+					$sheet->setCellValue('AB'.$row, sprintf("%0.2f",$plan['premium'])); // Net Premium
+					$sheet->getStyle('AB'.$row)->getNumberFormat()->setFormatCode('#,##0.00');
 					$sheet->setCellValue('AC'.$row, 0); // Fee1
 					$sheet->setCellValue('AD'.$row, 0); // Fee2
 					$sheet->setCellValue('AE'.$row, 0); // Amount Due
 					$sheet->setCellValue('AF'.$row, $c['firstname']); // Insured First Name
 					$sheet->setCellValue('AG'.$row, $c['lastname']); // Insured Last Name
-					$sheet->setCellValue('AH'.$row, $c['birthday']); // Birthdate
-					$sheet->setCellValue('AI'.$row, $plan['last_update']); // Update Date
+					$sheet->setCellValue('AH'.$row, PHPExcel_Shared_Date::PHPToExcel(strtotime($c['birthday'] . ' 00:00:00 UTC'))); // Birthdate
+					$sheet->getStyle('AH'.$row)->getNumberFormat()->setFormatCode('m/d/yyyy h:mm:ss AM/PM');
+					$sheet->setCellValue('AI'.$row, PHPExcel_Shared_Date::PHPToExcel(strtotime($plan['last_update'] . ' UTC'))); // Update Date
+					$sheet->getStyle('AI'.$row)->getNumberFormat()->setFormatCode('m/d/yyyy h:mm:ss AM/PM');
 					$row++;
 				}
 			}
 		}
 		$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
 		$objWriter->save($outfile);
-		echo "Save to : " . $outfile . "\n";
-		$uploadFilename = 'OPL_Sales_Report_' . date('Y-m-d_H.i.s') . '.xls';
+		$uploadFilename = 'OPL2_Sales_Report_' . date('Y.m.d_H.i.s.B') . '.xls';
+		echo "Save to : " . $outfile . " Upload to : " . $uploadFilename . "\n";
 		$uploaded = FALSE;
 		for ($i = 0; $i < 5; $i++) {
 			$uploaded = $this->ftp($outfile, $uploadFilename);

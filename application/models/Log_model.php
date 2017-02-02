@@ -16,7 +16,16 @@ class Log_model extends CI_Model {
 	public function activity($type, $para) {
 		$user = $this->session->userdata ( 'user' );
 		if (! $user) {
-			return;
+			$user = $this->session->userdata ( 'beuser' );
+			if (! $user) {
+				$user = array('user_id' => 0);
+			} else {
+				if (isset($para['systemlog'])) {
+					$para['systemlog'] = "No user use beuser; " . $para['systemlog'];
+				} else {
+					$para['systemlog'] = "No user use beuser";
+				}
+			}
 		}
 		
 		$log = array (

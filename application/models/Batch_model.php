@@ -61,6 +61,7 @@ class Batch_model extends CI_Model {
 		$dt['amount'] = $premium;
 		$dt['rate'] = 100;
 		$dt['pay_type'] = 'premium';
+		$dt['premium_payment_id'] = 0;
 		$payment_id = $this->payment_model->add($dt);
 		$para = array(
 				'plan_id' => $plan_id,
@@ -76,6 +77,7 @@ class Batch_model extends CI_Model {
 		$dt['amount'] = $up_commission_amount - $paid_up_commission_amount;
 		$dt['rate'] = $up_commission_rate;
 		$dt['pay_type'] = 'up_commission';
+		$dt['premium_payment_id'] = $payment_id;
 		$up_commission_payment_id = $this->payment_model->add($dt);
 		$para = array(
 				'plan_id' => $plan_id,
@@ -90,6 +92,7 @@ class Batch_model extends CI_Model {
 		$dt['amount'] = $commission_amount - $paid_commission_amount;
 		$dt['rate'] = $commission_rate;
 		$dt['pay_type'] = 'commission';
+		$dt['premium_payment_id'] = $payment_id;
 		if (($plan['product_short'] == 'OPL') || ($plan['product_short'] == 'JFR') && ($premium > 100000)) {
 			$dt['added'] = $plan['effective_date'];
 		}
@@ -197,6 +200,9 @@ class Batch_model extends CI_Model {
 		if (isset($para['rate_options'])) { $data['rate_options'] = $para['rate_options']; } else { ; }
 		if (isset($para['sum_insured'])) { $data['sum_insured'] = $para['sum_insured']; } else { ; }
 		if (isset($para['deductible_amount'])) { $data['deductible_amount'] = $para['deductible_amount']; } else { ; }
+		if (isset($para['dailyrate'])) { $data['dailyrate'] = $para['dailyrate']; } else { ; }
+		if (isset($para['totaldays'])) { $data['totaldays'] = $para['totaldays']; } else { ; }
+		if (isset($para['totalyears'])) { $data['premium'] = $para['totalyears']; } else { ; }
 		if (isset($para['premium'])) { $data['premium'] = $para['premium']; } else { ; }
 		if (isset($para['commission_amount'])) { $data['commission_amount'] = $para['commission_amount']; } else { ; }
 		if (isset($para['street_number'])) { $data['street_number'] = $para['street_number']; } else { ; }

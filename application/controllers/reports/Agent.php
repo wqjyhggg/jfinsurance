@@ -91,9 +91,11 @@ class Agent extends MY_Controller
                 'total_days' => 'Number of Days',
                 'daily_rate' => 'Daily Rate',
                 'policy_premium' => 'Policy Premium',
-                'commission_rate' => 'Commission Rate',
+//                'commission_rate' => 'Commission Rate',
                 'net_premium' => 'Net Premium',
-                'commission_amount' => 'Commission Amount');
+//                'commission_amount' => 'Commission Amount',
+        		'status' => 'Status',
+        );
 
         $tmpfname = "/tmp/jf_test.xlsx";
         
@@ -108,7 +110,7 @@ class Agent extends MY_Controller
 				foreach ($kArr as $k => $v) { $arr[] = $record[$k]; } 
             	$w->addRow($arr);
             }
-            $arr = array('Total Premium: $' . $data['data']['policy_premium'], '','','','','','','Total Net Premium: $' . $data['data']['net_premium']);
+            $arr = array('Total Premium: $' . $data['data']['policy_premium'], '','','Total Net Premium: $' . $data['data']['net_premium'],'','','Username:' . $data['data']['agent_username'] . ' Email: ' . $data['data']['agent_email']);
             $w->addRow($arr);
             $arr = array('', '','','','','','','');
             $w->addRow($arr);

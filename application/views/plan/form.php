@@ -31,6 +31,59 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <div class="x_panel">
                   <div class="x_title">
                     <h2>Policy Detail<small></small></h2>
+					<?php if (!empty($plan_id) && !empty($status_id)) { ?>
+						<div class="pull-right text-right">
+						<?php /* it should be created plan */ ?>
+						<?php if ($isprocessplan) { ?>
+						<?php if ($status_id == 1 && $user_group_id != 103) { /* qutoe */ ?>
+
+						<a href='<?php echo $pay_url; ?>'><span class="btn btn-info" style='color:#fff;'>Pay</span></a>
+						<?php } ?> 
+
+						<?php if($user_group_id != 3  && $user_group_id != 103){ ?>
+						<a href='<?php echo $copy_url; ?>'><span class="btn btn-info" style='color:#fff;'>Copy</span></a>
+						<?php } ?>
+						<?php if ($status_id > 1 && $user_group_id !=3) { ?>
+						<?php 	if ((($status_id == 2) || ($status_id == 3)) && ($product_short != 'NUS') && ($product_short != 'JUS')) { ?> 
+							<a href='<?php echo $sendpackage_url . $plan_id; ?>'><span class="btn btn-info"  style='color:#fff;'>Send Package</span></a>
+						<?php 	} ?>
+						<?php 	if (($status_id == 2) || ($status_id == 3)) { ?> 
+							<?php if ($export_logo_price_option) { ?>
+							<div class='pull-right spdf-option'><input type='checkbox' class='withlogobox' checked> With Logo <br /><input type='checkbox' class='withpricebox' checked> With Price </div>
+							<?php } ?>
+							<a class="btn btn-info pull-right" target="_blank" href='<?php echo $pdf_url; ?>'>Export PDF</a>
+							<?php if (!empty($refund_letter_url)) { ?>
+							<a href='<?php echo $refund_letter_url; ?>' target="_blank"><span class="btn btn-info" style='color:#fff;'>Refund letter</span></a>
+							<?php } ?>
+							<?php if (!empty($cancel_letter_url)) { ?>
+							<a href='<?php echo $cancel_letter_url; ?>' target="_blank"><span class="btn btn-info" style='color:#fff;'>Cancel Letter</span></a>
+							<?php } ?>
+							<?php if (!empty($print_receipt_url)) { ?>
+							<a href='<?php echo $print_receipt_url; ?>' target="_blank"><span class="btn btn-info" style='color:#fff;'>Print Receipt</span></a>
+							<?php } ?>
+							<?php if (!empty($print_card_url)) { ?>
+							<a href='<?php echo $print_card_url; ?>' target="_blank"><span class="btn btn-info" style='color:#fff;'>Print Card</span></a>
+							<?php } ?>
+						<?php 	} ?>
+						<?php if ((($status_id == 3) || ($status_id == 7)) && $user_group_id <= 100 ) { ?>
+						<?php if(time() < strtotime($effective_date)){ ?>
+							<a href='<?php echo $cancel_url . $plan_id; ?>'><span class="btn btn-info" style='color:#fff;'>Cancel</span></a>
+							<?php }else{?>
+							<a href='<?php echo $refund_url . $plan_id; ?>'><span class="btn btn-info" style='color:#fff;'>Refund</span></a>
+							<?php } ?>
+						<?php } else if ($status_id == 6 && $user_group_id <= 100) { ?>
+							<!--a target='_blank' href='<?php echo $refundprint_url . $plan_id; ?>'><span class="btn btn-info" style='color:#fff;'>Refund Letter</span></a-->
+							<a id="popRefund"><span class="btn btn-info" style='color:#fff;'>Refund Letter</span></a>
+
+							
+
+						<?php } else if ($status_id == 5 && $user_group_id <= 100) { ?>
+							<a target='_blank' href='<?php echo $cancelprint_url . $plan_id; ?>'><span class="btn btn-info" style='color:#fff;'>Cancel Letter</span></a>
+						<?php } ?>
+						<?php } ?>
+						<?php } ?>
+						</div>
+					<?php } ?>
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
@@ -47,6 +100,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<input type='hidden' name='plan_id' value='<?php echo $plan_id; ?>'>
 						<input type='hidden' name='product_short' value='<?php echo $product_short; ?>'>
 						<input type='hidden' name='force_deductable' value=''>
+						<input type='hidden' name='batch_number' value='<?php echo $batch_number; ?>'>
 					<?php if (empty($plan_id) || empty($status_id)) { ?>
 						<?php /* it should be new plan */ ?>
 						<input type='hidden' name='status_id' value='0'>
@@ -61,40 +115,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<?php } else { ?>
 					<div class="row" style="margin-bottom:15px;">
 						
-						<div class="col-sm-3 pull-right text-right">
-						<?php /* it should be created plan */ ?>
-						<?php if ($isprocessplan) { ?>
-						<?php if ($status_id == 1 && $user_group_id != 103) { /* qutoe */ ?>
-
-						<a href='<?php echo $pay_url; ?>'><span class="btn btn-info">Pay</span></a>
-						<?php } ?> 
-
-						<?php if($user_group_id != 3  && $user_group_id != 103){ ?>
-						<a href='<?php echo $copy_url; ?>'><span class="btn btn-info">Copy</span></a>
-						<?php } ?>
-						<?php if ($status_id > 1 && $user_group_id !=3) { ?>
-						<?php 	if (($status_id == 2) || ($status_id == 3)) { ?>
-							<a href='<?php echo $sendpackage_url . $plan_id; ?>'><span class="btn btn-info">Send Package</span></a>
-						<?php 	} ?>
-						<?php if ((($status_id == 3) || ($status_id == 7)) && $user_group_id <= 100 ) { ?>
-						<?php if((time()-(60*60*24)) < strtotime($effective_date)){ ?>
-							<a href='<?php echo $cancel_url . $plan_id; ?>'><span class="btn btn-info">Cancel</span></a>
-							<?php }else{?>
-							<a href='<?php echo $refund_url . $plan_id; ?>'><span class="btn btn-info">Refund</span></a>
-							<?php } ?>
-						<?php } else if ($status_id == 6 && $user_group_id <= 100) { ?>
-							<!--a target='_blank' href='<?php echo $refundprint_url . $plan_id; ?>'><span class="btn btn-info">Refund Letter</span></a-->
-							<a id="popRefund"><span class="btn btn-info">Refund Letter</span></a>
-
-							
-
-						<?php } else if ($status_id == 5 && $user_group_id <= 100) { ?>
-							<a target='_blank' href='<?php echo $cancelprint_url . $plan_id; ?>'><span class="btn btn-info">Cancel Letter</span></a>
-						<?php } ?>
-						<?php } ?>
-						<?php } ?>
-
-						</div>
 						<div class="form-group col-sm-3">
 							<label><span><?php echo $plan_full_name; ?></span></label>
 							<label><?php if ($status_id < 2) { ?>Quote<?php } else {?>Policy<?php } ?> Number: <span><?php echo $policy; ?></span></label>
@@ -184,6 +204,34 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<?php } ?>
 							</div>
 						</div>
+						<?php if ($batch_number ) { ?>
+								<div class="row">
+									<div class="col-sm-3">
+										<label class="col-sm-12">Days: </label>
+										<div class='form_text_show'>
+											<input class="form-control" type='number' name='totaldays' id='totaldays' value='<?php echo $totaldays; ?>' >
+										</div>
+									</div>
+									<div class="col-sm-3">
+										<label class="col-sm-12">Daily Rate: </label>
+										<div class='form_text_show'>
+											<input class="form-control" type='number' name='dailyrate' step='0.01' id='dailyrate' value='<?php echo $dailyrate; ?>'>
+										</div>
+									</div>
+									<div class="col-sm-3">
+										<label class="col-sm-12">Age: </label>
+										<div class='form_text_show'>
+											<input class="form-control" type='number' name='totalyears' id='totalyears' value='<?php echo $totalyears; ?>'>
+										</div>
+									</div>
+									<div class="col-sm-3">
+										<label class="col-sm-12">Premium: </label>
+										<div class="form_text_show" id='premiumdisplay'>
+											<input class="form-control" type='number' name='premium' step='0.01' id='premium' value='<?php echo $premium; ?>'>	
+										</div>
+									</div>
+								</div>
+						<?php } else { ?>
 								<div class="row">
 									<div class="col-sm-1">
 										<label class="col-sm-12">Days: </label>
@@ -221,6 +269,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										</div>
 									</div>
 								</div>
+						<?php } ?>
 					 	</fieldset>
 					 	</div>
 					</div><br />
@@ -482,7 +531,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										</div>
 									</div>
 									<div class="col-sm-3">
-										<label class="col-sm-12">Residence: </label>
+										<label class="col-sm-12">Country of Origin: </label>
 										<div class="input-group col-sm-12">
 											<input class="form-control" type='text' name='residence' value='<?php echo $residence; ?>'>
 										</div>
@@ -492,7 +541,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						</div>
 					</div><br />	
 										
-					<div class="row" <?php if ($user_group_id > 100) { ?>style="display:none;"<?php } ?>>
+					<div class="row">
 						<div class="col-sm-12">
 							<fieldset>
 								<legend>Special Note/Instructions</legend>
@@ -588,7 +637,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				                      	<thead>
 											<tr>
 												<th>&nbsp;</th>
-												<th>Date</th>
+												<th>Last Update</th>
 												<th>Type</th>
 												<th>Pay Type</th>
 												<th>Amount</th>
@@ -636,7 +685,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 												?>
 											<tr>
 												<td><?php if (empty($p['ispaid'])) { ?><input type='checkbox' name='payment[]' value='<?php echo $p['payment_id']; ?>'><?php } ?></td>
-												<td><?php echo $p['added']; ?></td>
+												<td><?php echo $p['last_update']; ?></td>
 												<td><?php echo $p['pay_type']; ?></td>
 												<td><?php echo $p['pay_mothed']; ?></td>
 												<td><?php echo $p['amount']; ?></td>
@@ -778,6 +827,40 @@ $( document ).ready(function() {
 	addmoremember();
 
 	$( ".btn-payment-sort" ).click(sorting_payment);
+
+	$('.withlogobox').change(function() {
+		var w = '0';
+		if ($(this).is(':checked')) {
+			$('.withlogobox').prop('checked', true);
+			w = '1';
+		} else {
+			$('.withlogobox').prop('checked', false);
+		}
+		$.ajax({
+			url: '<?php echo $export_logo_url; ?>' + w,
+			type: 'GET',
+			success: function(data, textStatus, jqXHR) {
+	        	//console.log(data);
+	    	},
+		});
+	});
+
+	$('.withpricebox').change(function() {
+		var w = '0';
+		if ($(this).is(':checked')) {
+			$('.withpricebox').prop('checked', true);
+			w = '1';
+		} else {
+			$('.withpricebox').prop('checked', false);
+		}
+		$.ajax({
+			url: '<?php echo $export_price_url; ?>' + w,
+			type: 'GET',
+			success: function(data, textStatus, jqXHR) {
+	        	//console.log(data);
+	    	},
+		});
+	});
 });
 
 function sorting_payment() {
@@ -857,6 +940,7 @@ function addmoremember() {
 }
 
 function get_premium() {
+<?php if (empty($batch_number)) { ?>
 	var product_short = $('input[name="product_short"]').val();
 	var apply_date = $('input[name="apply_date"]').val();
 	var effective_date = $('input[name="effective_date"]').val();
@@ -1014,6 +1098,7 @@ function get_premium() {
 	    	},
 		});
 	}
+<?php } ?>
 } 
 </script>
 <script type="text/javascript">

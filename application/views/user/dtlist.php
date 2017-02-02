@@ -75,6 +75,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                           <input type='text' name='business' value='<?php echo $business; ?>' class="form-control">
                         </div>
                       </div>
+                      <div class="form-group col-sm-3">
+                        <label class="col-sm-12">ID:</label>
+                        <div class="input-group col-sm-12">
+                          <input type='text' name='user_id' value='<?php echo $user_id; ?>' class="form-control">
+                        </div>
+                      </div>
                     </div>
                     <div class="row">
                       <!-- Last Name input box -->

@@ -77,6 +77,9 @@ class User_model extends CI_Model {
 		} else {
 			$sql = "SELECT * FROM user WHERE parent_user_id = '" . (int)$user_id . "'";
 		}
+		if (!empty($para['user_id'])) {
+			$sql .= " AND user_id = '" . (int)$para['user_id'] . "'";
+		}
 		if (!empty($para['user_group_id'])) {
 			$sql .= " AND user_group_id = '" . (int)$para['user_group_id'] . "'";
 		}
@@ -185,6 +188,7 @@ class User_model extends CI_Model {
                 $this->db->where('u.user_group_id >= 2');
             }
         }
+        $this->db->order_by('u.username');
         $results = $this->db->get()->result_array();
         $records = array();
         foreach ($results as $row) {
@@ -270,7 +274,7 @@ class User_model extends CI_Model {
 	 * @para	array	$post			post input
 	 * @return	integer user_id
 	 */
-	public function update($user_id, $post, $forcepw=1) {
+	public function update($user_id, $post, $forcepw=1, $checkboxArr=array()) {
 		$this_user = array();
 		$this->logstr = '';
 		$this->sqlstr = '';
@@ -639,37 +643,40 @@ class User_model extends CI_Model {
 			$this->logstr = "Add user(" . $user_id . "): " . $this->logstr;
 			$this->sqlstr = $this->db->last_query();
 		}
+		
+		if (isset($checkboxArr['product_list'])) {
 		// user_product
-		$this->db->where('user_id', $user_id);
-		$rt = $this->db->get('user_product');
-		$user_products = $rt->result_array();
-		$now_array = array();
-		$now_prods = '';
-		$new_array = array();
-		$new_prods = '';
-		$prchg = '';
-		foreach ($user_products as $p) {
-			$now_prods .= ' ' . $p['product_short'];
-			$now_array[$p['product_short']] = $p;
-		}
-		foreach ($post['product_list'] as $p) {
-			$new_prods .= ' ' . $p;
-			if (array_key_exists($p, $now_array)) {
-				if ((float)$now_array[$p]['commission'] != (float)$post['product_commission_'.$p]) {
-					$prchg .= $p . "[" . $now_array[$p]['commission'] . "]=>[" . $post['product_commission_'.$p] . "]";
-				}
-			} else {
-				$prchg .= $p . "[add:" . $post['product_commission_'.$p] . "]";
+			$this->db->where('user_id', $user_id);
+			$rt = $this->db->get('user_product');
+			$user_products = $rt->result_array();
+			$now_array = array();
+			$now_prods = '';
+			$new_array = array();
+			$new_prods = '';
+			$prchg = '';
+			foreach ($user_products as $p) {
+				$now_prods .= ' ' . $p['product_short'];
+				$now_array[$p['product_short']] = $p;
 			}
-			$new_array[] = array('user_id' => $user_id, 'product_short' => $p, 'commission' => $post['product_commission_'.$p]);
-		}
-		if (($now_prods != $new_prods) || $prchg) {
-			$this->logstr .= "; user products: " . $now_prods . " => " . $new_prods . "; " . $prchg;
-			$this->db->delete('user_product', array('user_id' => $user_id));
-			$this->sqlstr .= "; " . $this->db->last_query();
-			foreach ($new_array as $up) {
-				$this->db->insert('user_product', $up);
+			foreach ($post['product_list'] as $p) {
+				$new_prods .= ' ' . $p;
+				if (array_key_exists($p, $now_array)) {
+					if ((float)$now_array[$p]['commission'] != (float)$post['product_commission_'.$p]) {
+						$prchg .= $p . "[" . $now_array[$p]['commission'] . "]=>[" . $post['product_commission_'.$p] . "]";
+					}
+				} else {
+					$prchg .= $p . "[add:" . $post['product_commission_'.$p] . "]";
+				}
+				$new_array[] = array('user_id' => $user_id, 'product_short' => $p, 'commission' => $post['product_commission_'.$p]);
+			}
+			if (($now_prods != $new_prods) || $prchg) {
+				$this->logstr .= "; user products: " . $now_prods . " => " . $new_prods . "; " . $prchg;
+				$this->db->delete('user_product', array('user_id' => $user_id));
 				$this->sqlstr .= "; " . $this->db->last_query();
+				foreach ($new_array as $up) {
+					$this->db->insert('user_product', $up);
+					$this->sqlstr .= "; " . $this->db->last_query();
+				}
 			}
 		}
 		

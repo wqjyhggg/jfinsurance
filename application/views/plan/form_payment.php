@@ -60,7 +60,7 @@ foreach ( $payments as $p ) {
 ?>
 						<tr>
 							<td><?php if (empty($p['ispaid'])) { ?><input type='checkbox' name='payment[]' value='<?php echo $p['payment_id']; ?>'><?php } ?></td>
-							<td><?php echo $p['added']; ?></td>
+							<td><?php echo $p['last_update']; ?></td>
 							<td><?php echo $p['pay_type']; ?></td>
 							<td><?php echo $p['pay_mothed']; ?></td>
 							<td><?php echo $p['amount']; ?></td>
@@ -79,7 +79,7 @@ foreach ( $payments as $p ) {
 						<tr>
 							<td>&nbsp;</td>
 							<td><?php echo $k; ?></td>
-							<td colspan='6'><?php echo number_format($t, 2); ?></td>
+							<td colspan='7'><?php echo number_format($t, 2); ?></td>
 						</tr>
 <?php    } ?>
 <?php } ?>

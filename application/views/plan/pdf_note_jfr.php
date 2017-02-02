@@ -3,7 +3,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 	<div class="row">
 		<div class="col-sm-12 nopm">
+			<?php if ($plan['stable_condition'] == 1 ) { ?>
 			<p class="small" style="margin-top:2px;"><b>With Stable Pre-existing Medical Condition Coverage.</b></p>
+			<?php } else if ($plan['stable_condition'] == 2 ) { ?>
+			<p class="small" style="margin-top:2px;"><b>Without Stable Pre-existing Medical Condition Coverage.</b></p>
+			<?php } ?>
 			<p class="small" style="margin-top:2px;"><b>Waiting Period</b> - When coverage is purchased any time after your arrival in Canada:<br />
 			a. If you are age 86 or older, then in respect of any sickness, you will not be entitled to receive reimbursement for sickness or symptoms which manifested or were contracted or treated within 15 days following the effective date of this policy. 
 			<br />b. If you are age 85 or under, then in respect of any sickness, you will not be entitled to receive reimbursement for sickness or symptoms which manifested or were contracted or treated within 48 hours following the effective date of this policy. 

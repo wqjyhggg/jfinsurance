@@ -331,9 +331,12 @@ class Plan extends MY_Controller {
 		if (empty($this->input->post('contact_email'))) {
 			$this->error['error_contact_email'] = 'Contact email is Required';
 		}
+		if (!empty($this->input->post('isfamilyplan')) && (empty($this->input->post('birthday_1')) || empty($this->input->post('firstname_1')) || empty($this->input->post('lastname_1')))) {
+			$this->error['error_message'] = 'Please input family member information';
+		}
 		if (($product_short == 'OPL') || ($product_short == 'JFR')) {
 			if (empty($this->input->post('stable_condition'))) {
-				$this->error['error_stable_condition'] = 'Please select pre-existion condition coverage';
+				$this->error['error_stable_condition'] = 'Please select pre-existing condition coverage';
 			}
 			if ($product_short == 'JFR') {
 				$years = $this->product_model->getYears($arrival_date, $effective_date);
@@ -352,7 +355,7 @@ class Plan extends MY_Controller {
 			$birthday = $this->input->post('birthday');
 			$years = $this->product_model->getYears($apply_date, $birthday);
 			if ($years > 69) {
-				$this->error['error_message'] = "Customer age must less 69 years old";
+				$this->error['error_message'] = "Customer age must be less than 69 years old";
 			} else {
 				for ($i = 1; $i < 9; $i++) {
 					$birthday = $this->input->post('birthday_'.$i);
@@ -371,15 +374,31 @@ class Plan extends MY_Controller {
 			$birthday = $this->input->post('birthday');
 			$years = $this->product_model->getYears($apply_date, $birthday);
 			if ($years > 69) {
-				$this->error['error_message'] = "Customer age must less 69 years old";
+				$this->error['error_message'] = "Customer age must be less than 69 years old";
 			} else {
 				for ($i = 1; $i < 9; $i++) {
 					$birthday = $this->input->post('birthday_'.$i);
 					if (empty($birthday)) break;
 					$years = $this->product_model->getYears($apply_date, $birthday);
 					if ($years > 69) {
-						$this->error['error_message'] = "Customer age must less 69 years old";
+						$this->error['error_message'] = "All sCustomer age must be less than  69 years old";
 						break;
+					}
+				}
+			}
+			$years = $this->product_model->getYears($apply_date, $this->input->post('birthday'));
+			if ($product_short == 'JES') {
+				if ($years < 4) {
+					$this->error['error_message'] = "Customer age must be older than 4 years old";
+				} else {
+					for ($i = 1; $i < 9; $i++) {
+						$birthday = $this->input->post('birthday_'.$i);
+						if (empty($birthday)) break;
+						$years = $this->product_model->getYears($apply_date, $birthday);
+						if ($years < 4) {
+							$this->error['error_message'] = "All Customer age must be older than 4 years old";
+							break;
+						}
 					}
 				}
 			}
@@ -415,7 +434,7 @@ class Plan extends MY_Controller {
 					$this->log_model->activity('plan', $para);
 				}
 			} else {
-				$plan_id = $this->plan_model->update($plan_id, $this->input->post());
+				$plan_id = $this->plan_model->update($plan_id, $this->input->post(), array('isfamilyplan' => 1, 'holiday_rate' => 1, 'spouse' => 1));
 				if ($plan_id) {
 					$plan = $this->plan_model->get_plan_by_id($plan_id);
 					$para = array(
@@ -505,6 +524,13 @@ class Plan extends MY_Controller {
 			$data['beneficiary'] = $plan['beneficiary'];
 		} else {
 			$data['beneficiary'] = '';
+		}
+		if ($this->input->post('batch_number')) {
+			$data['batch_number'] = $this->input->post('batch_number'); 
+		} else if (isset($plan['batch_number'])) {
+			$data['batch_number'] = $plan['batch_number'];
+		} else {
+			$data['batch_number'] = 0;
 		}
 		if ($this->input->post('isfamilyplan')) {
 			$data['isfamilyplan'] = $this->input->post('isfamilyplan'); 
@@ -731,6 +757,13 @@ class Plan extends MY_Controller {
 		} else {
 			$data['country2'] = 'CA';
 		}
+		if (empty($data['province2'])) {
+			$data['province2'] = 'ON';
+			$data['country2'] = 'CA';
+		}
+		if (empty($data['country2'])) {
+			$data['country2'] = 'CA';
+		}
 		if ($this->input->post('postcode')) {
 			$data['postcode'] = $this->input->post('postcode');
 		} else if (isset($plan['postcode'])) {
@@ -844,6 +877,37 @@ class Plan extends MY_Controller {
 		$data['refundprint_url'] = base_url ( "plan/refundprint" ) . "/" . (int)$data['plan_id'];
 		$data['revert_url'] = base_url ( "payment/revert" ) . "/";
 		$data['makepay_url'] = base_url ( "payment/makepay" );
+
+		$data['print_card_url'] = '';
+		$data['print_receipt_url'] = '';
+		$data['cancel_letter_url'] = '';
+		$data['refund_letter_url'] = '';
+		$data['pdf_url'] = base_url('plan/pdf/' . (empty($plan['plan_id']) ? '' : $plan['plan_id']));
+		$data['export_logo_url'] = base_url('plan/exportlogo') . "/";
+		$data['export_price_url'] = base_url('plan/exportprice') . "/";
+		$data['export_logo_price_option'] = FALSE;
+		if (isset($plan['product_short'])) {
+			if ($plan['product_short'] == 'JES') {
+				if ($beuser['user_group_id'] < 100) $data['export_logo_price_option'] = TRUE;
+			} else if ($plan['product_short'] == 'JFC') {
+				if ($beuser['user_group_id'] < 100) $data['export_logo_price_option'] = TRUE;
+			}
+		}
+		$this->session->set_userdata ( 'withlogo', 1);
+		$this->session->set_userdata ( 'withprice', 1);
+		
+		if (!empty($plan) && !empty($plan['status_id']) && !empty($plan['plan_id']) && ($plan['status_id'] >= 2)) {
+			if ($plan['status_id'] == 5) {
+				// Cancel
+				$data['cancel_letter_url'] = base_url('plan/cancelprint/' . $plan['plan_id']);
+			} else if ($plan['status_id'] == 6) {
+				// Refund
+				$data['refund_letter_url'] = base_url('plan/refundprint/' . $plan['plan_id']);
+			} else {
+				$data['print_card_url'] = base_url('plan/card/' . $plan['plan_id']);
+				$data['print_receipt_url'] = base_url('plan/receipt/' . $plan['plan_id']);
+			}
+		}
 		
 		$data['title_txt'] = 'Policy';
 		$data['top_menu'] = $this->menu_model->load_top_menu();
@@ -992,13 +1056,104 @@ class Plan extends MY_Controller {
 		$this->load->common('plan/term', $data);
 	}
 
+	private function credit_card_negative() {
+		$this->load->model('plan_model');
+		$this->load->model('product_model');
+		$this->load->model('payment_model');
+		
+		$plan_id = $this->input->post('plan_id');
+		// $premium = preg_replace("/[^0-9\.-]/", "", $this->input->post('premium'));
+		$premium = (float)$this->input->post('premium');
+		
+		$plan = $this->plan_model->get_plan_by_id($plan_id);
+		$product = $this->product_model->get_product($plan['product_short']);
+		$dt = array();
+		$dt['plan_id'] = $plan_id;
+		$dt['currency'] = $product['currency'];
+		$dt['pay_mothed'] = 'Credit Card';
+		$dt['name'] = 'No Card Needs';
+		$dt['added'] = date('c');
+		$dt['first5'] = 'XXXXX';
+		$dt['last4'] = 'XXXX';
+		$dt['expiry_month'] = '01';
+		$dt['expiry_year'] = '01';
+		$dt['ispaid'] = 0;
+		$commission_rate = $this->product_model->get_commission_rate($plan['product_short'], $plan['user_id']);
+		$commission_amount = $premium * $commission_rate / 100.0;
+		$up_commission_rate = $this->product_model->get_up_commission_rate($plan['product_short']);
+		$up_commission_amount = $premium * $up_commission_rate / 100.0;
+				
+		$dt['amount'] = $premium;
+		$dt['rate'] = 100;
+		$dt['pay_type'] = 'premium';
+		$dt['premium_payment_id'] = 0;
+		$payment_id = $this->payment_model->add($dt);
+		$para = array(
+				'plan_id' => $plan_id,
+				'customer_id' => $plan['customer_id'],
+				'payment_id' => $payment_id,
+				'message' => $this->payment_model->logstr,
+				'systemlog' => $this->payment_model->sqlstr
+		);
+		$this->log_model->activity('payment', $para);
+
+		// upstream commission
+		$dt['amount'] = $up_commission_amount;
+		$dt['rate'] = $up_commission_rate;
+		$dt['pay_type'] = 'up_commission';
+		$dt['premium_payment_id'] = $payment_id;
+		$up_commission_payment_id = $this->payment_model->add($dt);
+		$para = array(
+				'plan_id' => $plan_id,
+				'customer_id' => $plan['customer_id'],
+				'payment_id' => $up_commission_payment_id,
+				'message' => $this->payment_model->logstr,
+				'systemlog' => $this->payment_model->sqlstr
+		);
+		$this->log_model->activity('up_commission', $para);
+
+		// commission
+		$dt['amount'] = $commission_amount;
+		$dt['rate'] = $commission_rate;
+		$dt['pay_type'] = 'commission';
+		$dt['premium_payment_id'] = $payment_id;
+		if (($plan['product_short'] == 'OPL') || ($plan['product_short'] == 'JFR') && ($premium > 100000)) {
+			$dt['added'] = $plan['effective_date'];
+		}
+		$commission_payment_id = $this->payment_model->add($dt);
+		$para = array(
+				'plan_id' => $plan_id,
+				'customer_id' => $plan['customer_id'],
+				'payment_id' => $commission_payment_id,
+				'message' => $this->payment_model->logstr,
+				'systemlog' => $this->payment_model->sqlstr
+		);
+		$this->log_model->activity('commission', $para);
+
+		$payinfo = "Credit Card: paymount is negative";
+		$para = array('payment_id' => $payment_id, 'payinfo' => $payinfo, 'commission_payment_id' => $commission_payment_id, 'status_id' => 2, 'policy' => $this->plan_model->get_policy_number($plan_id, 2));
+		$this->plan_model->update($plan_id, $para);
+		$para = array(
+				'plan_id' => $plan_id,
+				'customer_id' => $plan['customer_id'],
+				'payment_id' => $payment_id,
+				'message' => $this->plan_model->logstr,
+				'systemlog' => $this->plan_model->sqlstr
+		);
+		$this->log_model->activity('plan', $para);
+	}
+	
 	private function credit_card() {
 		$this->load->model('plan_model');
 		$this->load->model('product_model');
 		$this->load->model('payment_model');
 		
 		$plan_id = $this->input->post('plan_id');
-		$premium = preg_replace("/[^0-9\.-]/", "", $this->input->post('premium'));
+		// $premium = preg_replace("/[^0-9\.-]/", "", $this->input->post('premium'));
+		$premium = (float)$this->input->post('premium');
+		if ($premium < 0) {
+			return $this->credit_card_negative();
+		}
 		
 		if (empty( $this->input->post('card_number') ) ) {
 			$this->error = 'Please input Card Number.';
@@ -1009,7 +1164,7 @@ class Plan extends MY_Controller {
 		} else if (empty( $this->input->post('expiry_year') ) ) {
 			$this->error = 'Please select Expiry Year.';
 		} else if (empty( $this->input->post('card_cvv') ) ) {
-			$this->error = 'Please Card CVV';
+			$this->error = 'Please Input Card CVV';
 		} else {
 			$card_number = $this->input->post('card_number');
 			$card_name = $this->input->post('card_name');
@@ -1038,6 +1193,7 @@ class Plan extends MY_Controller {
 			$dt['amount'] = $premium;
 			$dt['rate'] = 100;
 			$dt['pay_type'] = 'premium';
+			$dt['premium_payment_id'] = 0;
 			$payment_id = $this->payment_model->add($dt);
 			$para = array(
 					'plan_id' => $plan_id,
@@ -1052,6 +1208,7 @@ class Plan extends MY_Controller {
 			$dt['amount'] = $up_commission_amount;
 			$dt['rate'] = $up_commission_rate;
 			$dt['pay_type'] = 'up_commission';
+			$dt['premium_payment_id'] = $payment_id;
 			$up_commission_payment_id = $this->payment_model->add($dt);
 			$para = array(
 					'plan_id' => $plan_id,
@@ -1066,6 +1223,7 @@ class Plan extends MY_Controller {
 			$dt['amount'] = $commission_amount;
 			$dt['rate'] = $commission_rate;
 			$dt['pay_type'] = 'commission';
+			$dt['premium_payment_id'] = $payment_id;
 			if (($plan['product_short'] == 'OPL') || ($plan['product_short'] == 'JFR') && ($premium > 100000)) {
 				$dt['added'] = $plan['effective_date'];
 			}
@@ -1148,7 +1306,7 @@ class Plan extends MY_Controller {
 					$this->log_model->activity('payment', $para);
 					$commission_payment_id = $this->payment_model->update($commission_payment_id, $dt);
 					$up_commission_payment_id = $this->payment_model->update($up_commission_payment_id, $dt);
-					$this->error = 'Payment Failed. Please confirm card information.';
+					$this->error = 'Card payment failed. Incorrect card information or insufficient credit.';
 				}
 			} catch ( \Beanstream\Exception $e ) {
 				$payinfo = "Credit Card: " . substr($card_number, 0, 5) . "xxx" . substr($card_number, -4) . " " . $card_name .  " " . $expiry_month . "/" . $expiry_year;
@@ -1180,7 +1338,7 @@ class Plan extends MY_Controller {
 				$this->log_model->activity('payment', $para);
 				$commission_payment_id = $this->payment_model->update($commission_payment_id, $dt);
 				$up_commission_payment_id = $this->payment_model->update($up_commission_payment_id, $dt);
-				$this->error = 'Payment Failed. Please pay it later.';
+				$this->error = 'Card payment failed. Something wrong. Please contact support.';
 			}
 		}
 	}
@@ -1214,6 +1372,7 @@ class Plan extends MY_Controller {
 		$dt['amount'] = $premium;
 		$dt['rate'] = 100;
 		$dt['pay_type'] = 'premium';
+		$dt['premium_payment_id'] = 0;
 		$payment_id = $this->payment_model->add($dt);
 		$para = array(
 				'plan_id' => $plan_id,
@@ -1228,6 +1387,7 @@ class Plan extends MY_Controller {
 		$dt['amount'] = $up_commission_amount;
 		$dt['rate'] = $up_commission_rate;
 		$dt['pay_type'] = 'up_commission';
+		$dt['premium_payment_id'] = $payment_id;
 		$up_commission_payment_id = $this->payment_model->add($dt);
 		$para = array(
 				'plan_id' => $plan_id,
@@ -1242,6 +1402,7 @@ class Plan extends MY_Controller {
 		$dt['amount'] = $commission_amount;
 		$dt['rate'] = $commission_rate;
 		$dt['pay_type'] = 'commission';
+		$dt['premium_payment_id'] = $payment_id;
 		if (($plan['product_short'] == 'OPL') || ($plan['product_short'] == 'JFR') && ($premium > 100000)) {
 			$dt['added'] = $plan['effective_date'];
 		}
@@ -1304,6 +1465,7 @@ class Plan extends MY_Controller {
 		$dt['amount'] = $premium;
 		$dt['rate'] = 100;
 		$dt['pay_type'] = 'premium';
+		$dt['premium_payment_id'] = 0;
 		$payment_id = $this->payment_model->add($dt);
 		$para = array(
 				'plan_id' => $plan_id,
@@ -1318,6 +1480,7 @@ class Plan extends MY_Controller {
 		$dt['amount'] = $up_commission_amount;
 		$dt['rate'] = $up_commission_rate;
 		$dt['pay_type'] = 'up_commission';
+		$dt['premium_payment_id'] = $payment_id;
 		$up_commission_payment_id = $this->payment_model->add($dt);
 		$para = array(
 				'plan_id' => $plan_id,
@@ -1332,6 +1495,7 @@ class Plan extends MY_Controller {
 		$dt['amount'] = $commission_amount;
 		$dt['rate'] = $commission_rate;
 		$dt['pay_type'] = 'commission';
+		$dt['premium_payment_id'] = $payment_id;
 		if (($plan['product_short'] == 'OPL') || ($plan['product_short'] == 'JFR') && ($premium > 100000)) {
 			$dt['added'] = $plan['effective_date'];
 		}
@@ -1418,8 +1582,15 @@ class Plan extends MY_Controller {
 			if (($plan['status_id'] == 3) && empty($this->session->userdata ('user'))) {
 				// Paid Status and Paied from User
 				$this->load->model('mymail_model');
-				$body = "Hi; \r\nYour client " . $plan['firstname'] . " " . $plan['lastname'] . " has paied for Policy " . $plan['polcy'];
-				$this->mymail_model->send_mymail($beuser['email'], 'Your client paide', $body);
+				$body  = "Dear " . $beuser['firstname'] . ",\r\n\r\n";
+				$body .= "Your client has paid for the policy " . $plan['polcy'] . ". Please follow up with your client if necessary.\r\n\r\n";
+				$body .= "Best Regards,\r\n";
+				$body .= "JF Insurance Agency Group Inc.\r\n";
+				$body .= "15 Wertheim Court, Suite #501\r\n";
+				$body .= "Richmond Hill, ON L4B 3H7\r\n";
+				$body .= "Tel: 905-707-1512  Fax: 905-707-1513\r\n";
+				$body .= "Website: www.jfgroup.ca\r\n";
+				$this->mymail_model->send_mymail($beuser['email'], 'Your client has paid for the policy '.$plan['policy'], $body);
 			}
 		}
 		
@@ -1458,6 +1629,15 @@ class Plan extends MY_Controller {
 			$data['apply_date'] = $plan['apply_date'];
 		}
 		$data['plan'] = $plan;
+		$data['plan_cancel_date'] = '';
+		$data['plan_refund_date'] = '';
+		$data['plan'] = $plan;
+		if ($plan['status_id'] == Plan_model::CANCEL) {
+			$data['plan_cancel_date'] = $this->payment_model->get_cancel_date($plan['plan_id']);
+		}
+		if ($plan['status_id'] == Plan_model::REFUND) {
+			$data['plan_refund_date'] = $this->payment_model->get_refund_date($plan['plan_id']);
+		}
 		$product = $this->product_model->get_product($plan['product_short']);
 		$data['plan_full_name'] = $product ? $product['full_name'] : '';
 		
@@ -1478,10 +1658,12 @@ class Plan extends MY_Controller {
 		$data['status_list'] = $this->status_model->status_list();
 		$days = $this->product_model->getDays('today', $plan['effective_date']);
 		$data['payment_total'] = $plan['premium'] - $this->payment_model->get_total_paid($plan['plan_id'], 'premium');
+		/* Can't update status to PAID when payment ispaid = 0 !!!
 		if (empty($data['payment_total']) && ($plan['status_id'] == Plan_model::SOLD)) {
 			$this->plan_model->update($plan_id, array('status_id' => Plan_model::PAID));
 			$data['plan']['status_id'] = Plan_model::PAID;
 		}
+		*/
 		if (!empty($data['payment_total']) && ($days < 1) && ($beuser['user_group_id'] > 100)) {
 			$data['error_message'] = "You have to pay before Effective date.";
 			$data['payment_total'] = '';
@@ -1605,6 +1787,13 @@ class Plan extends MY_Controller {
 		$data['emailaddr'] = $plan['contact_email'];
 		if ($this->input->post()) {
 			$emailaddr = $this->input->post('emailaddr');
+			if ($beuser['user_group_id'] < 100) {
+				$data['withlogo'] = $this->input->post('withlogo');
+				$data['withprice'] = $this->input->post('withprice');
+			} else {
+				$data['withlogo'] = 1;
+				$data['withprice'] = 1;
+			}
 			if (!empty($emailaddr)) {
 				$data['emailaddr'] = $emailaddr;
 			}
@@ -1614,7 +1803,12 @@ class Plan extends MY_Controller {
 				$this->load->model('product_model');
 				$this->load->model('paytype_model');
 				$this->load->model('status_model');
+				$this->load->model('payment_model');
 				$product = $this->product_model->get_product($plan['product_short']);
+				$data['payment'] = '';
+				if ($plan['payment_id']) {
+					$data['payment'] = $this->payment_model->get_payment_by_id($plan['payment_id']);
+				}
 				$data['plan_full_name'] = $product ? $product['full_name'] : '';
 				$data['customer'] = $this->customer_model->get_customer_by_id($data['plan']['customer_id']);
 				$data['customers'] = $this->customer_model->get_customer_by_parent_id($data['plan']['customer_id']);
@@ -1828,6 +2022,7 @@ class Plan extends MY_Controller {
 				$dt['amount'] = $total_amount * (-1);
 				$dt['rate'] = 100;
 				$dt['pay_type'] = 'cancel';
+				$dt['premium_payment_id'] = 0;
 				$payment_id = $this->payment_model->add($dt);
 				$para = array(
 						'plan_id' => $plan_id,
@@ -1841,6 +2036,7 @@ class Plan extends MY_Controller {
 				$dt['pay_type'] = 'cancel_commission';
 				$dt['rate'] = $commission_rate;
 				$dt['amount'] = $commission_amount * (-1);
+				$dt['premium_payment_id'] = $payment_id;
 				$commission_payment_id = $this->payment_model->add($dt);
 				$para = array(
 						'plan_id' => $plan_id,
@@ -1854,6 +2050,7 @@ class Plan extends MY_Controller {
 				$dt['pay_type'] = 'cancel_up_commission';
 				$dt['rate'] = $up_commission_rate;
 				$dt['amount'] = $up_commission_amount * (-1);
+				$dt['premium_payment_id'] = $payment_id;
 				$up_commission_payment_id = $this->payment_model->add($dt);
 				$para = array(
 						'plan_id' => $plan_id,
@@ -1965,6 +2162,7 @@ class Plan extends MY_Controller {
 				$dt['amount'] = $total_amount * (-1);
 				$dt['rate'] = 100;
 				$dt['pay_type'] = 'refund';
+				$dt['premium_payment_id'] = 0;
 				$payment_id = $this->payment_model->add($dt);
 				$para = array(
 						'plan_id' => $plan_id,
@@ -1978,6 +2176,7 @@ class Plan extends MY_Controller {
 				$dt['pay_type'] = 'refund_commission';
 				$dt['rate'] = $commission_rate;
 				$dt['amount'] = $commission_amount * (-1);
+				$dt['premium_payment_id'] = $payment_id;
 				$commission_payment_id = $this->payment_model->add($dt);
 				$para = array(
 						'plan_id' => $plan_id,
@@ -1991,6 +2190,7 @@ class Plan extends MY_Controller {
 				$dt['pay_type'] = 'refund_up_commission';
 				$dt['rate'] = $up_commission_rate;
 				$dt['amount'] = $up_commission_amount * (-1);
+				$dt['premium_payment_id'] = $payment_id;
 				$up_commission_payment_id = $this->payment_model->add($dt);
 				$para = array(
 						'plan_id' => $plan_id,
@@ -2302,6 +2502,7 @@ class Plan extends MY_Controller {
 			unset($plan['payinfo']);
 			unset($plan['note']);
 			unset($plan['ip']);
+			$plan['apply_date'] = date('Y-m-d');
 		}
 		$this->form($plan);
 	}
