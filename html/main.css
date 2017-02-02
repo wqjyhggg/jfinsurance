@@ -376,3 +376,11 @@ footer p{margin: 0;}
 	padding-left: 3px;
 }
 /* Myhome */
+
+.edit-title{
+    background: #ddd;
+    padding: 5px;6
+}
+.template-page{
+    max-width: 100%;
+}
