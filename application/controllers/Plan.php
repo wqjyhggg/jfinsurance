@@ -69,10 +69,14 @@ class Plan extends MY_Controller {
 		$data['product_list_a'] = $prod2;
 		$data['status_list'] = $this->status_model->status_list();
 
-		if ($this->input->post('search')) {
+		if ($this->input->get_post('search')) {
 			/* plan_id, policy, batch_number, full_name, status_id, effective_date, firstname(customer), lastname(customer), agent_firstname, agent_lastname */
-			$data['plan_list'] = $this->plan_model->plan_search($this->input->post());
-			$this->session->set_userdata('policy_search', json_encode($this->input->post()));
+			$sArr = $this->input->post();
+			if (empty($sArr)) {
+				$sArr = $this->input->get();
+			}
+			$data['plan_list'] = $this->plan_model->plan_search($sArr);
+			$this->session->set_userdata('policy_search', json_encode($sArr));
 		} else if ($this->input->get('q')) {
 			$para = array('policy' => $this->input->get('q'));
 			$data['plan_list'] = $this->plan_model->plan_search($para);
