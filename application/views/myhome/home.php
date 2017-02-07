@@ -41,10 +41,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  		<div class="hlogo">
  		<div style='padding-left: 230px;'>
 			<img style='margin-left: -195px; max-width: 390px; width: auto; max-height: 70px; position: relative; left: 50%;' id='logo_image_life' src="<?php echo base_url('agent/img') . '/' . $logo_src; ?>" alt="JF Insurance">
-			<img style='margin: 15px auto; max-width: 70px; width: auto; max-height: 70px; position: absolute; right: 20px;' id='qr_image_life' src="<?php echo base_url('agent/img') . '/' . $qr_src; ?>" alt="JF Insurance">
 			</br>
 			<input style='margin-left: -195px; max-width: 390px; width: auto; max-height: 70px; position: relative; left: 50%;' id='logo_image' type='file' name='logo_src'>
-			<input style='margin: 15px auto; max-width: 70px; width: auto; max-height: 70px; position: relative; right: -580px; top: -40px;' id='qr_image' type='file' name='qr_src'>
  		</div>
 		</div>
 		<div class="top_nav">
@@ -166,7 +164,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                               </div>
                             </div>
                             <div class="row h-contact">
-                              <div class="col-sm-6 contact-left">
+                              <div class="col-sm-2 contact-left">
+								<img style='margin: 15px auto; max-width: 70px; width: auto; max-height: 70px; position: absolute; right: 20px;' id='qr_image_life' src="<?php echo base_url('agent/img') . '/' . $qr_src; ?>" alt="JF Insurance">
+								<input style='margin: 15px auto; max-width: 70px; width: auto; max-height: 70px; position: relative; right: -580px; top: -40px;' id='qr_image' type='file' name='qr_src'>
+                                <h5><input name='qr_desc' value='<?php echo $qr_desc; ?>'></h5>
+                              </div>
+                              <div class="col-sm-4 contact-left">
                                 <h3><input name='foot_title' value='<?php echo $foot_title; ?>'></h3><br />
                                 <h5><input name='address' value='<?php echo $address; ?>'></h5>
                                 <h5><input name='city_province' value='<?php echo $city_province; ?>'></h5>

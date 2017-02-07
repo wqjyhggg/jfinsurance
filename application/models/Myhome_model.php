@@ -137,6 +137,10 @@ class Myhome_model extends CI_Model {
 			$sql .= ", qr=" . $this->db->escape($para['qr']);
 			$this->logstr .= 'qr=>'.$para['qr']."; ";
 		}
+		if (!empty($para['qr_desc']) && !($my && ($my['qr_desc'] == $para['qr_desc']))) {
+			$sql .= ", qr_desc=" . $this->db->escape($para['qr_desc']);
+			$this->logstr .= 'qr_desc=>'.$para['qr_desc']."; ";
+		}
 		if (!empty($para['top_title']) && !($my && ($my['top_title'] == $para['top_title']))) {
 			$sql .= ", top_title=" . $this->db->escape($para['top_title']);
 			$this->logstr .= 'top_title=>'.$para['top_title']."; ";

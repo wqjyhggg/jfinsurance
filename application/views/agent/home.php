@@ -37,7 +37,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<div class="container" style="padding:0;">
 		<div class="hlogo">
 			<img class="img-responsive" src="<?php echo base_url('agent/img') . '/' . $logo; ?>" alt="JF Insurance">
-			<img style='margin: 15px auto; max-width: 70px; width: auto; max-height: 70px; position: absolute; right: 40px; top: 10px;' id='qr_image_life' src="<?php echo base_url('agent/img') . '/' . $qr; ?>" alt="JF Insurance">
 		</div>
 		<nav class="navbar navbar-default">
 		</nav>
@@ -130,7 +129,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </div>
               </div>
               <div class="row h-contact">
-                <div class="col-sm-6 contact-left">
+                <div class="col-sm-2 contact-left">
+					<img style='margin: 15px auto; max-width: 70px; width: auto; max-height: 70px; position: absolute; right: 40px; top: 10px;' id='qr_image_life' src="<?php echo base_url('agent/img') . '/' . $qr; ?>" alt="JF Insurance">
+                  <h3><?php echo $qr_desc; ?></h3><br />
+                </div>
+                <div class="col-sm-4 contact-left">
                   <h3><?php echo $foot_title; ?></h3><br />
                   <h5><?php echo $address; ?></h5>
                   <h5><?php echo $city_province; ?></h5>

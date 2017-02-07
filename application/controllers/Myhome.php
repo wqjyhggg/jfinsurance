@@ -188,7 +188,6 @@ class Myhome extends MY_Controller {
 			$this->data['myname'] = $myhome['myname'];
 			$mynameArr = preg_split('/_/', $myhome['myname']);
 		}
-		echo "<pre>"; print_r($this->qrfile); die("XX"); //XXXXXXXXXXXXXXXXXXXXXXXX
 		
 		$this->data['user_id'] = $beuser['user_id'];
 		if ($this->input->post('firstname')) {
@@ -228,6 +227,13 @@ class Myhome extends MY_Controller {
 			$this->data['image_src'] = 'homepic.png';
 		}
 		
+		if ($this->input->post('qr_desc')) {
+			$this->data['qr_desc'] = $this->input->post('qr_desc');
+		} else if ($myhome) {
+			$this->data['qr_desc'] = $myhome['qr_desc'];
+		} else {
+			$this->data['qr_desc'] = '';
+		}
 		if ($this->input->post('top_title')) {
 			$this->data['top_title'] = $this->input->post('top_title');
 		} else if ($myhome) {
