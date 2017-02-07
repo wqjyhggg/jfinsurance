@@ -122,7 +122,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <div class="form-group col-sm-12">
                           <label class="col-sm-12">Address:</label>
                           <div class="input-group col-sm-12">
-                              <input type="text" name="gender" value="<?php if(!empty($plan['suite_number'])){echo  $plan['suite_number'] . "- ";} ?><?php echo $plan['street_number'] . ' ' . $plan['street_name'] . ' ' . $plan['city'] . ', ' . $plan['province2'] . ', ' . $plan['postcode']; ?>" class="form-control" disabled />
+                              <input type="text" name="full_address" value="<?php if(!empty($plan['suite_number'])){echo  $plan['suite_number'] . "- ";} ?><?php echo $plan['street_number'] . ' ' . $plan['street_name'] . ' ' . $plan['city'] . ', ' . $plan['province2'] . ', ' . $plan['postcode']; ?>" class="form-control" disabled />
                           </div>
                         </div>
                         

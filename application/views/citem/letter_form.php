@@ -26,25 +26,25 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <div class="form-group col-sm-3">
                           <label >Full Name: </label>
                           <div class="input-group col-sm-12">
-                            <input class="form-control" type='text' name='fullname' value='<?php echo $claim['firstname'] . " " . $claim['lastname']; ?>'>
+                            <input class="form-control" type='text' name='fullname' value='<?php echo addslashes($claim['firstname'] . " " . $claim['lastname']); ?>'>
                           </div>
                         </div>
                         <div class="form-group col-sm-3">
                           <label >Number: </label>
                           <div class="input-group col-sm-12">
-                            <input class="form-control" type='text' name='street_number' value='<?php echo $plan['street_number']; ?>'>
+                            <input class="form-control" type='text' name='street_number' value='<?php echo addslashes($plan['street_number']); ?>'>
                           </div>
                         </div>
                         <div class="form-group col-sm-3">
                           <label >Street: </label>
                           <div class="input-group col-sm-12">
-                            <input class="form-control" type='text' name='street_name' value='<?php echo $plan['street_name']; ?>'>
+                            <input class="form-control" type='text' name='street_name' value='<?php echo addslashes($plan['street_name']); ?>'>
                           </div>
                         </div>
                         <div class="form-group col-sm-3">
                           <label >Suite Number: </label>
                           <div class="input-group col-sm-12">
-                            <input class="form-control" type='text' name='suite_number' value='<?php echo $plan['suite_number']; ?>'>
+                            <input class="form-control" type='text' name='suite_number' value='<?php echo addslashes($plan['suite_number']); ?>'>
                           </div>
                         </div>
                       </div>
@@ -52,7 +52,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <div class="form-group col-sm-3">
                           <label >City: </label>
                           <div class="input-group col-sm-12">
-                            <input class="form-control" type='text' name='city' value='<?php echo $plan['city']; ?>'>
+                            <input class="form-control" type='text' name='city' value='<?php echo addslashes($plan['city']); ?>'>
                           </div>
                         </div>
                         <div class="form-group col-sm-3">
