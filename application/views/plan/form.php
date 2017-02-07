@@ -953,23 +953,23 @@ function get_premium() {
 			isfamilyplan = 1;	// checkbox
 		}
 	}
-	var sum_insured = 0;
+	var sum_insured = -1;
 	if ($('select[name="sum_insured"]').length) {
 		sum_insured = $('select[name="sum_insured"]').val();	// select
 	}
-	var deductible_amount = 0;
+	var deductible_amount = -1;
 	if ($('select[name="deductible_amount"]').length) {
 		deductible_amount = $('select[name="deductible_amount"]').val();	// select
 	}
-	var stable_condition = 0;
+	var stable_condition = -1;
 	if ($('select[name="stable_condition"]').length) {
 		stable_condition = $('select[name="stable_condition"]').val();	// radio
 	}
-	var rate_options = 0;
+	var rate_options = -1;
 	if ($('select[name="rate_options"]').length) {
 		rate_options = $('select[name="rate_options"]').val();	// radio
 	}
-	var holiday_rate = 0;
+	var holiday_rate = -1;
 	if ($('input[name="holiday_rate"]').length) {
 		holiday_rate = $('input[name="holiday_rate"]:checked').val();	// checkbox
 	}

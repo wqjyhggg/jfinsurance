@@ -337,6 +337,8 @@ class Product_model extends CI_Model {
 							$discount = 0.7;
 						} else if ($para['sum_insured'] == 50000) {
 							$discount = 0.75;
+						} else if ($para['sum_insured'] < 0) {
+							return FALSE;
 						} else {
 							$premiumArr['message'] = "$25,000 deductible amount isn't available";
 							return $premiumArr;
@@ -346,6 +348,9 @@ class Product_model extends CI_Model {
 						$discount = 0.7;
 						break;
 				}
+			}
+			if (($para['sum_insured'] < 0) || ($para['deductible_amount'] < 0)) {
+				return FALSE;
 			}
 			if ($para['isfamilyplan']) {
 				$rate *= 2;
@@ -432,6 +437,9 @@ class Product_model extends CI_Model {
 						elseif ($years <= 85) 	{ $premiumArr['message'] = "Over 80 years old $150,000 option isn't available"; return $premiumArr; }
 						else				  	{ $premiumArr['message'] = "Over 80 years old $150,000 option isn't available"; return $premiumArr; }
 						break;
+					case -1:
+						return FALSE;
+						break;
 					default:
 						return $premiumArr;
 				}
@@ -474,6 +482,9 @@ class Product_model extends CI_Model {
 						elseif ($years <= 85) 	$rate = 13.94;
 						else				  	$rate = 22.30;
 						break;
+					case -1:
+						return FALSE;
+						break;
 					case 150000:
 					default:
 						$premiumArr['message'] = "$150,000 option isn't available";
@@ -497,6 +508,8 @@ class Product_model extends CI_Model {
 							$discount = 0.7;
 						} else if ($para['sum_insured'] == 50000)	{
 							$discount = 0.75;
+						} else if ($para['sum_insured'] < 0)	{
+							return FALSE;
 						} else {
 							$premiumArr['message'] = "$25,000 deductible amount isn't available";
 							return $premiumArr;
@@ -506,6 +519,9 @@ class Product_model extends CI_Model {
 						$discount = 0.7;
 						break;
 				}
+			}
+			if (($para['sum_insured'] < 0) || ($para['deductible_amount'] < 0)) {
+				return FALSE;
 			}
 			if ($para['isfamilyplan']) {
 				$rate *= 2;
@@ -618,6 +634,9 @@ class Product_model extends CI_Model {
 				$rate = $rate * 2.5;
 			} else {
 				$rate = $rate * $number_customer;
+			}
+			if ($para['holiday_rate'] < 0) {
+				return FALSE;
 			}
 			$premium = $rate * $days;
 			$premiumArr['premium'] = $premium;
