@@ -1877,7 +1877,7 @@ class Plan extends MY_Controller {
 				$this->load->model('mymail_model');
 				$body = $this->load->view('mail/package',$data, TRUE);
 				
-				$files['policy.pdf'] = $policy_file;
+				$files['policy_confirmation.pdf'] = $policy_file;
 				$sendok = $this->mymail_model->send_mymail($emailaddr, 'Insurance Packages', $body, $files, $from='Support');
 				unlink($policy_file);
 				if ($sendok) {

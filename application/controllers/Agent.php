@@ -25,21 +25,46 @@ class Agent extends MY_Controller {
 		// echo $this->uri->segment(1); echo $this->uri->segment(2);
 		$data['title_txt'] = 'Welcome';
 		$myhome = $this->myhome_model->get_myhome_by_name($name);
-		if ($myhome) {
-			$this->load->model('user_model');
-			$beuser = $this->user_model->get_user_by_id($myhome['user_id']);
-			if ($beuser && ($beuser['status'] == 1)) {
-				$this->session->set_userdata('beuser', $beuser);
-				$data['title_txt'] = 'Agent ' . $beuser['firstname'] . ' ' . $beuser['lastname'];
-				$data['myhome'] = $myhome;
-				$data['myhomelogo'] = empty($myhome['logo']) ? '' : base_url('agent/img') . "/" . $myhome['logo'];
-				$data['myhomeimage'] = empty($myhome['image']) ? '' : base_url('agent/img') . "/" . $myhome['image'];
+		if (empty($myhome)) {
+			redirect("/");
+		}
+		if (empty($myhome['logo'])) {
+			$myhome['logo'] = 'logo_thumb.png';
+		}
+		
+		if (empty($myhome['qr'])) {
+			$myhome['qr'] = 'noqr.png';
+		}
+		
+		if (empty($myhome['image'])) {
+			$myhome['image'] = 'homepic.png';
+		}
+		
+		$this->load->model('product_model');
+		
+		$downloads_url = base_url('pdf/download') . "/";
+		$file_url = array();
+		$product_list = $this->product_model->product_list(1);
+		ksort($product_list);
+		$fileName = array('_Brochure', '_Benefit_Summary', '_Claim_Form', '_Claim_Procedure', '_Consent_Form', '_Policy');
+		
+		foreach ($product_list as $product_short => $p) {
+			$file_url[$product_short] = array('fullname' => $p['full_name'], 'files' => array());
+			foreach ($fileName as $fn) {
+				$name = str_replace('_', ' ', $fn);
+				$fname = $product_short . $fn . ".pdf";
+				if (file_exists(DOWNLOADDIR . $fname)) {
+					$file_url[$product_short]['files'][] = array('url' => $downloads_url . $fname, 'name' => $name);
+				}
 			}
 		}
+		
+		$myhome['file_url'] = $file_url;
+		
 
 		$data['top_menu'] = $this->menu_model->load_top_menu();
 		$data['menu'] = $this->menu_model->load_meun();
-		$this->load->common('home', $data);
+		$this->load->view('agent/home', $myhome);
 	}
 
 	public function img($filename='') {

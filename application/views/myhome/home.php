@@ -1,0 +1,257 @@
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+?>
+
+<!-- Content with left menu -->
+<form action='<?php echo $action_url; ?>' method='POST' class="form-horizontal" enctype="multipart/form-data">
+        <input style='margin-left: 250px;' type='submit' value='update'>
+		<input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
+		<input type='hidden' name='user_id' value='<?php echo $user_id; ?>'>
+		<input type='hidden' name='myname' value='<?php echo $myname; ?>'>
+		<div style='padding-left: 230px;' class="row">
+			<div class="form-group col-sm-3">
+				<label class="col-sm-12">First Name:</label>
+				<div class="input-group col-sm-12">
+					<input type='text' name='firstname' value='<?php echo $firstname; ?>' class="form-control">
+	                	<?php if (!empty($error_firstname)){ ?>
+					<div class="alert-error">	
+						<?php echo $error_firstname; ?>
+					</div>
+					<?php } ?>			                	
+	                </div>
+				</div>
+				<div class="form-group col-sm-3">
+					<label class="col-sm-12">Last Name:</label>
+					<div class="input-group col-sm-12">
+						<input type='text' name='lastname' value='<?php echo $lastname; ?>' class="form-control" class="form-control">
+	                	<?php if (!empty($error_lastname)){ ?>
+					<div class="alert-error">	
+						<?php echo $error_lastname; ?>
+					</div>
+					<?php } ?>			                	
+	                </div>
+				</div>
+				<div class="form-group col-sm-6">
+					<label class="col-sm-12">Url:</label>
+					<div id='showmyname' class="input-group col-sm-12"></div>
+				</div>
+				<div class="col-sm-12"><hr>
+			</div>
+		</div>
+ 		<div class="hlogo">
+ 		<div style='padding-left: 230px;'>
+			<img style='margin-left: -195px; max-width: 390px; width: auto; max-height: 70px; position: relative; left: 50%;' id='logo_image_life' src="<?php echo base_url('agent/img') . '/' . $logo_src; ?>" alt="JF Insurance">
+			<img style='margin: 15px auto; max-width: 70px; width: auto; max-height: 70px; position: absolute; right: 20px;' id='qr_image_life' src="<?php echo base_url('agent/img') . '/' . $qr_src; ?>" alt="JF Insurance">
+			</br>
+			<input style='margin-left: -195px; max-width: 390px; width: auto; max-height: 70px; position: relative; left: 50%;' id='logo_image' type='file' name='logo_src'>
+			<input style='margin: 15px auto; max-width: 70px; width: auto; max-height: 70px; position: relative; right: -580px; top: -40px;' id='qr_image' type='file' name='qr_src'>
+ 		</div>
+		</div>
+		<div class="top_nav">
+          <div class="nav_menu">
+            <nav class="" role="navigation">
+              <div class="nav toggle">
+                <a id="menu_toggle"><i class="fa fa-bars"></i></a>
+              </div>
+            </nav>
+          </div>
+        </div>
+        <!-- Content top navigation End-->
+
+        <!-- page content -->
+        <div class="right_col" role="main">
+          <div class="main-div">
+            <div class="page-title">
+              <div class="title_left">
+              </div>
+
+            </div>
+            <div class="clearfix"></div>
+            <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <!--div class="x_title">
+                    
+                  </div-->
+                  <div class="x_content">
+                    <br />
+                    <div class="main" style="min-height:800px;">
+        
+                      <div class="lh-topdiv">
+                        <img id='big_image_life' class="img-responsive" src="<?php echo base_url('agent/img') . '/' . $image_src; ?>" alt="JF Insurance">
+                        <input type='file' id='big_image' name='image_src' value='' style='position: absolute; top: 25px; left: 20px;'>
+                        <div class="lh-top" >
+                              <h1><input type='text' name='top_title' value='<?php echo $top_title; ?>' class="form-control"></h1>
+                              <textarea name='top_desc'><?php echo $top_desc; ?></textarea>
+                            </div>
+                      </div>
+                      <div class="row" style="margin:40px 0;">
+                        <div class="col-sm-12 text-center">
+                          <h3><input type='text' name='about_title' value='<?php echo $about_title; ?>' class="form-control"></h3>
+                          <h4><input type='text' name='about_short' value='<?php echo $about_short; ?>' class="form-control"></h4>
+                          <hr style="border-bottom:2px solid; width:50px; margin:0 auto 20px;" />
+                          <textarea name='about_desc'><?php echo $about_desc; ?></textarea>
+                        </div>
+                      </div>
+ 
+                      <div class="row" style="margin-right:0;margin-left:0;">
+                        <div class="col-sm-12" style="padding-right:0;padding-left:0;">
+                          <div style="background-color:#f6f6f6; padding:15px;margin:20px auto;">
+                            <div class="row">
+			                  <div class="x_title">
+			                    <h2>Our Plans<small></small></h2>
+			                    <div class="clearfix"></div>
+			                  </div>
+			                  <div class="x_content">
+			<?php foreach ($file_url as $product_short => $farr) { ?>                    
+			                    <div class="row dfile-list">
+			                      <div class="col-sm-12">
+			                        <br />
+			                        <label><?php echo $product_short; ?> --- <?php echo $farr['fullname']; ?></label>
+			                      </div>
+			                      <div class="col-sm-12">
+			<?php 	foreach ($farr['files'] as $rc) { ?>                      
+			                        <a class="d_brochure" target="_blank" href="<?php echo $rc['url']; ?>"><?php echo $rc['name']; ?></a>
+			<?php 	} ?>                    
+			                      </div>
+			                    </div>
+			<?php } ?>                    
+			                  </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="row" style="margin:40px 0;">
+                        <div class="col-sm-12 col-md-12 text-center">
+                          <h3>WE OFFER</h3>
+                          <h4>we take care of you</h4>
+                          <hr style="border-bottom:2px solid; width:50px; margin:0 auto 20px;" />
+
+                        </div>
+
+                            <div class="col-sm-12" style="padding-right:0;padding-left:0;">
+                              <div style="padding:15px;margin:20px auto;">
+                                <div class="row">
+                                  <div class="col-sm-4" style="padding:15px 5%;">
+                                    <img class="img-responsive img-title" src="<?php echo base_url();?>image/t1.jpg" alt="Emergency Hospital Insurance" />
+                                    <h2>Visitor to Canada</h2>
+                                    <hr style="border-bottom:2px solid #ddd; width:50px; margin:0 0 15px;"/>
+                                    <p>Health care costs in Canada can be expensive if you’re not covered by a Canadian government health insurance plan. Therefore, be sure to carry visitor insurance to protect your finances and enjoy a secured stay while you are away from your home country.</p>
+                                  </div>
+                                  <div class="col-sm-4" style="padding:15px 5%;">
+                                    <img class="img-responsive img-title" src="<?php echo base_url();?>image/t2.jpg" alt="Emergency Hospital Insurance" />
+                                    <h2>International Student to Canada</h2>
+                                    <hr style="border-bottom:2px solid #ddd; width:50px; margin:0 0 15px;"/>
+                                    <p>Studying aboard is exciting and adventurous. Make sure you have the right insurance coverage for your journey while in Canada.</p>
+                                  </div>
+                                  <div class="col-sm-4" style="padding:15px 5%;">
+                                    <img class="img-responsive img-title" src="<?php echo base_url();?>image/t3.jpg" alt="Emergency Hospital Insurance" />
+                                    <h2>Canadian Travel Out</h2>
+                                    <hr style="border-bottom:2px solid #ddd; width:50px; margin:0 0 15px;"/>
+                                    <p>Your provincial health plan only covers a part of your health care costs incurred outside of Canada and limits coverage when travelling to another province.</p>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                         
+                      </div>
+                      <div class="row" style="margin-right:0;margin-left:0;">
+                        <div class="col-sm-12" style="padding-right:0;padding-left:0;">
+                          <div style="background-color:#f6f6f6; padding:15px;margin:20px auto;">
+                            <div class="row" style="margin:40px 0 20px;">
+                              <div class="col-sm-12 text-center">
+                                <h3>CONTACT US</h3>
+                                <hr style="border-bottom:2px solid; width:50px; margin:0 auto 20px;" />
+                              </div>
+                            </div>
+                            <div class="row h-contact">
+                              <div class="col-sm-6 contact-left">
+                                <h3><input name='foot_title' value='<?php echo $foot_title; ?>'></h3><br />
+                                <h5><input name='address' value='<?php echo $address; ?>'></h5>
+                                <h5><input name='city_province' value='<?php echo $city_province; ?>'></h5>
+                                <h5><input name='post_code' value='<?php echo $post_code; ?>'></h5><br />
+                                <h5><input name='phone' value='<?php echo $phone; ?>'></h5>
+                                <h5><input name='fax' value='<?php echo $fax; ?>'></h5>
+                                <h5><input name='toll_free' value='<?php echo $toll_free; ?>'></h5>
+                                <h5><input name='toll_free_fax' value='<?php echo $toll_free_fax; ?>'></h5><br />
+                                <h5><input name='email' value='<?php echo $email; ?>'></h5>
+
+                              </div>
+                              <div class="col-sm-6 contact-right">
+                                <h3>Toronto Office</h3><br />
+                                <h5>15 Wertheim Court, Suite 501</h5>
+                                <h5>Richmond Hill, ON</h5>
+                                <h5>L4B 3H7 CANADA</h5><br />
+                                <h5>Phone: 905-707-1512</h5>
+                                <h5>Fax: 905-707-1513</h5>
+                                <h5>Toll Free: 1-877-832-5541</h5>
+                                <h5>Toll Free Fax: 1-888-988-3268</h5><br />
+                                <h5>E-mail: info@jfgroup.ca</h5>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                              <input type='submit' value='update'>
+                      
+                    </div>
+                    
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <!-- /page content -->
+</form>
+<script type="text/javascript">
+function showImage(src,target) {
+	var fr=new FileReader();
+
+	// when image is loaded, set the src of the image where you want to display it
+	fr.onload = function(e) { target.src = this.result; };
+	src.addEventListener("change",function() {
+		// fill fr with image data
+		fr.readAsDataURL(src.files[0]);
+	});
+}
+
+var logo_image = document.getElementById("logo_image");
+var logo_image_life = document.getElementById("logo_image_life");
+var qr_image = document.getElementById("qr_image");
+var qr_image_life = document.getElementById("qr_image_life");
+var big_image = document.getElementById("big_image");
+var big_image_life = document.getElementById("big_image_life");
+
+showImage(logo_image,logo_image_life);
+showImage(qr_image,qr_image_life);
+showImage(big_image,big_image_life);
+//showImage($('#big_image'),$('#big_image_life'));
+</script>
+<script>
+function load_myname() {
+
+	$.ajax({
+		url: '<?php echo $myname_url; ?>',
+		type: 'GET',
+		data: { firstname : $("input[name='firstname']").val(), lastname : $("input[name='lastname']").val(), },
+		success: function(data, textStatus, jqXHR) {
+			if (data.status == 1) {
+	        	$('#showmyname').html('<?php echo $myhome_url; ?>' + '/' + data.name);
+	        	$("input[name='myname']").val(data.name);
+			} else {
+	        	$('#showmyname').html(data.message);
+			}
+    	},
+	});
+}
+$( document ).ready(function() {
+	$("input[name='firstname'], input[name='lastname']").change(function() {
+		load_myname();
+	});
+	load_myname();
+});
+</script>

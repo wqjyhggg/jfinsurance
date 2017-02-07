@@ -133,6 +133,10 @@ class Myhome_model extends CI_Model {
 			$sql .= ", image=" . $this->db->escape($para['image']);
 			$this->logstr .= 'image=>'.$para['image']."; ";
 		}
+		if (!empty($para['qr']) && !($my && ($my['qr'] == $para['qr']))) {
+			$sql .= ", qr=" . $this->db->escape($para['qr']);
+			$this->logstr .= 'qr=>'.$para['qr']."; ";
+		}
 		if (!empty($para['top_title']) && !($my && ($my['top_title'] == $para['top_title']))) {
 			$sql .= ", top_title=" . $this->db->escape($para['top_title']);
 			$this->logstr .= 'top_title=>'.$para['top_title']."; ";
@@ -140,6 +144,18 @@ class Myhome_model extends CI_Model {
 		if (!empty($para['top_desc']) && !($my && ($my['top_desc'] == $para['top_desc']))) {
 			$sql .= ", top_desc=" . $this->db->escape($para['top_desc']);
 			$this->logstr .= 'top_desc=>'.$para['top_desc']."; ";
+		}
+		if (!empty($para['about_title']) && !($my && ($my['about_title'] == $para['about_title']))) {
+			$sql .= ", about_title=" . $this->db->escape($para['about_title']);
+			$this->logstr .= 'about_title=>'.$para['about_title']."; ";
+		}
+		if (!empty($para['about_short']) && !($my && ($my['about_short'] == $para['about_short']))) {
+			$sql .= ", about_short=" . $this->db->escape($para['about_short']);
+			$this->logstr .= 'about_short=>'.$para['about_short']."; ";
+		}
+		if (!empty($para['about_desc']) && !($my && ($my['about_desc'] == $para['about_desc']))) {
+			$sql .= ", about_desc=" . $this->db->escape($para['about_desc']);
+			$this->logstr .= 'about_desc=>'.$para['about_desc']."; ";
 		}
 		if (!empty($para['foot_title']) && !($my && ($my['foot_title'] == $para['foot_title']))) {
 			$sql .= ", foot_title=" . $this->db->escape($para['foot_title']);
@@ -168,6 +184,10 @@ class Myhome_model extends CI_Model {
 		if (!empty($para['toll_free']) && !($my && ($my['toll_free'] == $para['toll_free']))) {
 			$sql .= ", toll_free=" . $this->db->escape($para['toll_free']);
 			$this->logstr .= 'toll_free=>'.$para['toll_free']."; ";
+		}
+		if (!empty($para['toll_free_fax']) && !($my && ($my['toll_free_fax'] == $para['toll_free_fax']))) {
+			$sql .= ", toll_free_fax=" . $this->db->escape($para['toll_free_fax']);
+			$this->logstr .= 'toll_free_fax=>'.$para['toll_free_fax']."; ";
 		}
 		if (!empty($para['email']) && !($my && ($my['email'] == $para['email']))) {
 			$sql .= ", email=" . $this->db->escape($para['email']);

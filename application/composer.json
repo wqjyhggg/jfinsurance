@@ -6,6 +6,7 @@
 		"ext-zip": "*",
 		"ext-xmlreader": "*",
 		"ext-simplexml": "*",
+		"endroid/qrcode": "*",
 		"box/spout": "2.4.*"
 	}
 }

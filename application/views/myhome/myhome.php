@@ -264,14 +264,17 @@ function load_myname() {
 		type: 'GET',
 		data: { firstname : $("input[name='firstname']").val(), lastname : $("input[name='lastname']").val(), },
 		success: function(data, textStatus, jqXHR) {
-        	$('#showmyname').html('<?php echo $myhome_url; ?>' + '/' + data);
-        	$("input[name='myname']").val(data);
+			if (data.status == 1) {
+	        	$('#showmyname').html('<?php echo $myhome_url; ?>' + '/' + data.name);
+	        	$("input[name='myname']").val(data);
+			} else {
+	        	$('#showmyname').html(data.message);
+			}
     	},
 	});
 }
 $( document ).ready(function() {
 	$("input[name='firstname'], input[name='lastname']").change(function() {
-		console.log("SSS");  //XXXXXXXXX
 		load_myname();
 	});
 	load_myname();
