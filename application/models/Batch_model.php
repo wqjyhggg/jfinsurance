@@ -24,7 +24,7 @@ class Batch_model extends CI_Model {
 	 * Add trasaction records base on plan and product data
 	 * 
 	 */
-	private function add_payment($plan_id) {
+	private function add_payment($plan_id, $changeval = 0) {
 		$this->load->model('plan_model');
 		$this->load->model('product_model');
 		$this->load->model('payment_model');
@@ -39,11 +39,15 @@ class Batch_model extends CI_Model {
 		if (empty($product)) {
 			return FALSE;
 		}
-		$premium = $plan['premium'];
+		if (empty($changeval)) {
+			$premium = $plan['premium'];
+		} else {
+			$premium = $changeval;
+		}
 		
 		$dt = array();
 		$dt['plan_id'] = $plan_id;
-		$dt['amount'] = $plan['premium'];
+		$dt['amount'] = $premium;
 		$dt['pay_type'] = 'premium';
 		$dt['currency'] = $product['currency'];
 		$dt['pay_mothed'] = 'Cash';
@@ -53,10 +57,8 @@ class Batch_model extends CI_Model {
 		
 		$commission_rate = $this->product_model->get_commission_rate($plan['product_short'], $plan['user_id']);
 		$commission_amount = $premium * $commission_rate / 100.0;
-		$paid_commission_amount = $this->payment_model->get_total_paid($plan_id, 'commission');
 		$up_commission_rate = $this->product_model->get_up_commission_rate($plan['product_short']);
 		$up_commission_amount = $premium * $up_commission_rate / 100.0;
-		$paid_up_commission_amount = $this->payment_model->get_total_paid($plan_id, 'up_commission');
 		
 		$dt['amount'] = $premium;
 		$dt['rate'] = 100;
@@ -74,7 +76,7 @@ class Batch_model extends CI_Model {
 		$premium = $dt['amount'];	// Adjust amount if it was paid
 		
 		// up commission
-		$dt['amount'] = $up_commission_amount - $paid_up_commission_amount;
+		$dt['amount'] = $up_commission_amount;
 		$dt['rate'] = $up_commission_rate;
 		$dt['pay_type'] = 'up_commission';
 		$dt['premium_payment_id'] = $payment_id;
@@ -89,7 +91,7 @@ class Batch_model extends CI_Model {
 		$this->log_model->activity('up_commission', $para);
 		
 		// commission
-		$dt['amount'] = $commission_amount - $paid_commission_amount;
+		$dt['amount'] = $commission_amount;
 		$dt['rate'] = $commission_rate;
 		$dt['pay_type'] = 'commission';
 		$dt['premium_payment_id'] = $payment_id;
@@ -270,6 +272,9 @@ class Batch_model extends CI_Model {
 			$this->add_payment($plan_id);
 		} else {
 			$plan_id = $this->plan_model->update($para['plan_id'], $data);
+			if ($data['premium'] != $plan['premium']) {
+				$this->add_payment($plan_id, (float)$data['premium'] - (float)$plan['premium']);
+			}
 		}
 		return $plan_id;
 	}
