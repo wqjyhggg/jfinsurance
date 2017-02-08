@@ -89,14 +89,12 @@ class Jf extends MY_Controller
         
 		if (!empty($data['report_data'])) {
 			$w->openToBrowser("Sales_Report_to_JF_" . date('Ymd') . ".xlsx");
-			$arr = array('Total Payment: $' . $data['report_data']['payment'] . '   Total Commission: $' . $data['report_data']['commission']);
-			unset($data['report_data']['payment']);
-			unset($data['report_data']['commission']);
-			$w->addRow($arr);
 			
 			//$w->openToFile($tmpfname);
 			foreach ($data['report_data'] as $datas) {
 				$arr = array('');
+				$w->addRow($arr);
+				$arr = array($datas['full_name']);
 				$w->addRow($arr);
 				$w->addRow(array_values($kArr));
 				
@@ -122,7 +120,7 @@ class Jf extends MY_Controller
                     $w->addRow($arr);
                 }
                 
-                $arr = array('AgentID: ' . $datas['agent']['user_id'] . ' ( ' . $datas['agent']['lastname'] . ', ' . $datas['agent']['lastname'] . ' )   Total Payment: $' . $datas['payment'] . '   Total Net Payment: $' . ($datas['payment'] - $datas['commission']) . '   Total Commission: $' . $datas['commission']);
+                $arr = array('', '', '', '', '', '', '', '', '', '', '', '', $datas['amount'], '', '', '', $datas['amount'] - $datas['commission'], $datas['commission']);
                 $w->addRow($arr);     
             }
            

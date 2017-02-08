@@ -183,14 +183,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="table-responsive">
 <?php if (!empty($report_data)) :?>
                       <table class="table table-hover table-bordered">
-                          <tr>
-                              <td colspan='19'>&nbsp;<?php 
-                              	echo 'Total Payment: $' . $report_data['payment'] . '   Total Commission: $' . $report_data['commission']; 
-                              	unset($report_data['payment']);
-                              	unset($report_data['commission']); ?></td>
-                          </tr>
-<?php foreach ($report_data as $user_id => $data) :?>
+<?php foreach ($report_data as $short => $data) :?>
 <?php $cnt = 1; ?>
+                          <tr>
+                              <td colspan='19'>&nbsp;<?php 	echo $data['full_name']; ?></td>
+                          </tr>
                           <tr>
                             <th>Count</th>
                             <th>Policy</th>
@@ -240,11 +237,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                           </tr>
         <?php endforeach; ?>
                           <tr>
-                              <td colspan='19'>
-                              	AgentID: <?php echo $data['agent']['user_id']; ?> ( <?php echo $data['agent']['lastname']; ?>, <?php echo $data['agent']['lastname']; ?> )&nbsp;&nbsp;&nbsp;
-								Total Payment: $<?php echo $data['payment']; ?>&nbsp;&nbsp;&nbsp;
-                              	Total Net Payment: $<?php echo ($data['payment'] - $data['commission']); ?>&nbsp;&nbsp;&nbsp;
-                              	Total Commission: $<?php echo $data['commission']; ?></td>
+                            <td colspan='13'>&nbsp;</td>
+                            <td>$<?php echo $data['amount']; ?></td>
+                            <td colspan='3'>&nbsp;</td>
+                            <td>$<?php echo ($data['amount'] - $data['commission']); ?></td>
+                            <td>$<?php echo $data['commission']; ?></td>
                           </tr>
 <?php endforeach; ?>
                       </table>

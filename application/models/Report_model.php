@@ -28,96 +28,16 @@ class Report_model extends CI_Model
      */
     public function get_sales_report_agent($para)
     {
-        $query = $this->get_sales_report_agent_query($para);
-        $results = $this->get_sales_report_agent_result($query);
-        return $results;
-    }
-
-    private function get_sales_report_agent_query($para)
-    {
-        $this->sales_report_agent_fields();
-        $this->sales_report_agent_from();
-        $this->sales_report_agent_where($para);
-        return $this->db->get()->result_array();
-    }
-
-    private function sales_report_agent_fields()
-    {
-        $this->db->select('
-            pl.apply_date AS order_date,
-            pl.policy,
-            pr.up_insuer AS insurer,
-            pr.full_name AS product,
-            CONCAT(c.lastname, ", ", c.firstname) AS insured_name,
-            pl.effective_date,
-            pl.expiry_date,
-            pl.totaldays AS total_days,
-            pl.dailyrate AS daily_rate,
-            pl.status_id,
-            st.name AS status,
-        	pl.premium AS policy_premium,
-            pr.commission AS pr_commission,
-            up.commission AS up_commission,
-            u.email AS agent_email,
-            u.username AS agent_username,
-        	u.firstname AS agent_firstname,
-            u.lastname AS agent_lastname,
-        	u.user_id
-        ');
-    }
-
-    private function sales_report_agent_from()
-    {
-        $this->common_from();
-        $this->db->join('user_product up', 'u.user_id = up.user_id and pr.product_short = up.product_short', 'left');
-        $this->db->join('payment pa', 'pa.payment_id=
-            (SELECT MIN(payment_id) FROM payment pa2 WHERE pl.payment_id = pa2.payment_id AND pa2.pay_type = "premium" AND ispaid = 1)', 'left');
-        $this->db->join('status st', 'pl.status_id = st.status_id', 'left');
-    }
-
-    private function sales_report_agent_where($para)
-    {
-        $this->db->where_in('pl.status_id', array(self::SOLD, self::PAID, self::CLAIMED, self::CHANGED));
-        $this->common_report_where($para);
-        if (!empty($para['payment_date_from'])) {
-            $this->db->where('pa.last_update >=', $para['payment_date_from'] . " 00:00:00");
+        if (empty($para['user_list'])) {
+        	// Agent report must have user_list
+        	return NULL;
         }
-        if (!empty($para['payment_date_to'])) {
-            $this->db->where('pa.last_update <=', $para['payment_date_to'] . " 23:59:59");
+        $uArr = array();
+        foreach ($para['user_list'] as $u) {
+        	$uArr[] = $u['user_id'];
         }
-    }
-
-    private function get_sales_report_agent_result($query)
-    {
-        $results = array();
-        foreach ($query as $row) {
-            $row = $this->common_set_row($row);
-
-            $results[$row['user_id']]['data']['agent_username'] = $row['agent_username'];
-            $results[$row['user_id']]['data']['agent_email'] = $row['agent_email'];
-            $results[$row['user_id']]['data']['agent_firstname'] = $row['agent_firstname'];
-            $results[$row['user_id']]['data']['agent_lastname'] = $row['agent_lastname'];
-            $results[$row['user_id']]['data']['policy_premium'] = (
-                empty($results[$row['user_id']]['data']['policy_premium']) ?
-                $row['policy_premium'] : $results[$row['user_id']]['data']['policy_premium'] + $row['policy_premium']);
-            $results[$row['user_id']]['data']['net_premium'] = (
-                empty($results[$row['user_id']]['data']['net_premium']) ?
-                $row['net_premium'] : $results[$row['user_id']]['data']['net_premium'] + $row['net_premium']);
-
-            $results[$row['user_id']]['records'][] = $row;
-        }
-        return $results;
-    }
-
-    /**
-     * Get sales report to JF data
-     *
-     * @param array $para Parameter array
-     * @return array sales report to agent data
-     */
-    public function get_sales_report_jf($para)
-    {
-    	$sql  = "SELECT pa.amount,";
+    	
+        $sql  = "SELECT pa.amount,";
     	$sql .= "		pa2.amount as commission,";
     	$sql .= "		pa.payment_id,";
     	$sql .= "		pa.invoice_num,";
@@ -162,7 +82,8 @@ class Report_model extends CI_Model
         if (!empty($para['agent_id'])) {
     		$sql .= " AND pl.user_id='" . (int)$para['agent_id'] . "'";
     	}
-        if (!empty($para['product_short'])) {
+    	$sql .= " AND pl.user_id IN ('" . join("','", $uArr) . "')";
+    	if (!empty($para['product_short'])) {
     		$sql .= " AND pl.product_short=" . $this->db->escape($para['product_short']);
     	}
         if (!empty($para['region_id'])) {
@@ -172,21 +93,107 @@ class Report_model extends CI_Model
     	$query = $this->db->query($sql)->result_array();
     	
         $results = array();
-        $payment = 0;
+        foreach ($query as $row) {
+        	if (empty($results[$row['user_id']])) {
+        		$agent = $this->db->query("SELECT * from user WHERE user_id='" . (int)$row['user_id'] . "'")->row_array();
+        		$results[$row['user_id']] = array(
+        				'data' => array(
+        						'agent_username' => $agent['username'],
+        						'agent_email' => $agent['email'],
+        						'agent_firstname' => $agent['firstname'],
+        						'agent_lastname' => $agent['lastname'],
+        						'policy_premium' => 0,
+        						'net_premium' => 0,
+        				),
+        				'results' => array(), 
+        				'payment' => 0, 
+        				'commission' => 0);
+        	}
+        	 
+        	$results[$row['user_id']]['data']['policy_premium'] += $row['amount'];
+        	$results[$row['user_id']]['data']['net_premium'] += $row['amount'] - $row['commission'];
+        
+        	$results[$row['user_id']]['records'][] = $row;
+        }
+        return $results;
+    }
+
+    /**
+     * Get sales report to JF data
+     *
+     * @param array $para Parameter array
+     * @return array sales report to agent data
+     */
+    public function get_sales_report_jf($para)
+    {
+    	$sql  = "SELECT pa.amount,";
+    	$sql .= "		pa2.amount as commission,";
+    	$sql .= "		pa.payment_id,";
+    	$sql .= "		pa.invoice_num,";
+    	$sql .= "		pa.ispaid,";
+    	$sql .= "		pa.pay_date,";
+    	$sql .= "		pa.added,";
+    	$sql .= "		pa.pay_type,";
+    	$sql .= "		pa.last_update,";
+    	$sql .= "		pl.plan_id,";
+    	$sql .= "		pl.user_id,";
+    	$sql .= "		pl.status_id,";
+    	$sql .= "		pl.region_id,";
+    	$sql .= "		pl.policy,";
+    	$sql .= "		pl.product_short,";
+    	$sql .= "		pl.apply_date,";
+    	$sql .= "		pl.effective_date,";
+    	$sql .= "		pl.expiry_date,";
+    	$sql .= "		pl.dailyrate,";
+    	$sql .= "		pl.totaldays,";
+    	$sql .= "		pl.premium,";
+    	$sql .= "		pr.full_name,";
+    	$sql .= "		pr.up_insuer,";
+    	$sql .= "		CONCAT(cu.firstname, ' ', cu.lastname) as insured";
+    	$sql .= " FROM payment pa";
+    	$sql .= " JOIN plan pl ON (pa.plan_id=pl.plan_id)";
+    	$sql .= " JOIN product pr ON (pl.product_short=pr.product_short)";
+    	$sql .= " JOIN customer cu ON (pl.customer_id=cu.customer_id)";
+    	$sql .= " LEFT JOIN payment pa2 ON (pa.plan_id=pa2.plan_id AND pa.payment_id=pa2.premium_payment_id AND pa2.pay_type IN ('commission','cancel_commission','refund_commission'))";
+    	$sql .= " WHERE pa.pay_type IN ('premium','cancel','refund') AND ABS(pa.amount)>=0.01";
+        if (!empty($para['payment_added_from'])) {
+    		$sql .= " AND pa.added >= " . $this->db->escape($para['payment_added_from'] . " 00:00:00");
+        }
+        if (!empty($para['payment_added_to'])) {
+    		$sql .= " AND pa.added <= " . $this->db->escape($para['payment_added_to'] . " 23:59:59");
+        }
+        if (!empty($para['payment_date_from'])) {
+    		$sql .= " AND pa.last_update >= " . $this->db->escape($para['payment_date_from'] . " 00:00:00");
+        }
+        if (!empty($para['payment_date_to'])) {
+    		$sql .= " AND pa.last_update <= " . $this->db->escape($para['payment_date_to'] . " 23:59:59");
+        }
+        if (!empty($para['agent_id'])) {
+    		$sql .= " AND pl.user_id='" . (int)$para['agent_id'] . "'";
+    	}
+        if (!empty($para['product_short'])) {
+    		$sql .= " AND pl.product_short=" . $this->db->escape($para['product_short']);
+    	}
+        if (!empty($para['region_id'])) {
+    		$sql .= " AND pl.region_id='" . (int)$para['region_id'] . "'";
+    	}
+    	$sql .= " ORDER BY pl.user_id ASC, pl.apply_date";
+    	$query = $this->db->query($sql)->result_array();
+        $results = array();
+        $amount = 0;
        	$commission = 0;
         foreach ($query as $rc) {
-        	if (empty($results[$rc['user_id']])) {
-        		$agent = $this->db->query("SELECT * from user WHERE user_id='" . (int)$rc['user_id'] . "'")->row_array();
-        		$results[$rc['user_id']] = array('agent' => $agent, 'results' => array(), 'payment' => 0, 'commission' => 0);
+        	if (empty($results[$rc['product_short']])) {
+        		$results[$rc['product_short']] = array('full_name' => $rc['full_name'], 'results' => array(), 'amount' => 0, 'commission' => 0);
         	}
-        	$results[$rc['user_id']]['results'][] = $rc;
-        	$results[$rc['user_id']]['payment'] += $rc['amount'];
-        	$results[$rc['user_id']]['commission'] += $rc['commission'];
-        	$payment += $rc['amount'];
+        	$results[$rc['product_short']]['results'][] = $rc;
+        	$results[$rc['product_short']]['amount'] += $rc['amount'];
+        	$results[$rc['product_short']]['commission'] += $rc['commission'];
+        	$amount += $rc['amount'];
        		$commission += $rc['commission'];
         }
-        $results['payment'] = $payment;
-        $results['commission'] = $commission;
+        //$results['amount'] = $amount;
+        //$results['commission'] = $commission;
         return $results;
     }
 
@@ -199,88 +206,80 @@ class Report_model extends CI_Model
      */
     public function get_sales_report_insurer($para)
     {
-        $query = $this->get_sales_report_insurer_query($para);
-        $results = $this->get_sales_report_insurer_result($query);
-        return $results;
-    }
-
-    private function get_sales_report_insurer_query($para)
-    {
-        $this->sales_report_insurer_fields();
-        $this->sales_report_insurer_from();
-        $this->sales_report_insurer_where($para);
-        return $this->db->get()->result_array();
-    }
-
-    private function sales_report_insurer_fields()
-    {
-        $this->db->select('
-            pl.policy,
-            c.firstname,
-            c.lastname,
-            c.gender,
-            c.birthday,
-            CONCAT(pl.street_number, " ", pl.street_name) AS address,
-            pl.suite_number,
-            pl.city,
-            pl.province2 AS province,
-            pl.postcode,
-            pl.effective_date,
-            pl.expiry_date,
-            datediff(pl.expiry_date, pl.effective_date) AS total_days,
-            pl.sum_insured,
-            pl.deductible_amount,
-            pl.premium AS policy_premium,
-            (100 - pr.up_pay_rate) AS commission_rate_jf,
-            pr.commission AS pr_commission,
-            up.commission AS up_commission,
-            "2.5" AS merchant_fee_per,
-            "5" AS claims_handling_fee_per
-        ');
-    }
-
-    private function sales_report_insurer_from()
-    {
-        $this->common_from();
-        $this->db->join('user_product up', 'u.user_id = up.user_id and pr.product_short = up.product_short', 'left');
-        $this->db->join('payment pa', 'pa.payment_id=
-            (SELECT MIN(payment_id) FROM payment pa2 WHERE pl.payment_id = pa2.payment_id AND pa2.pay_type = "premium" AND ispaid = 1)', 'left');
-    }
-
-    private function sales_report_insurer_where($para)
-    {
-        $this->db->where_in('pl.status_id', array(self::SOLD, self::PAID, self::CLAIMED));
-        $this->common_report_where($para);
+    	$sql  = "SELECT"; 
+    	$sql .= "	pl.policy,"; 
+    	$sql .= "	c.firstname,"; 
+    	$sql .= "	c.lastname, ";
+    	$sql .= "	c.gender, ";
+    	$sql .= "	c.birthday, ";
+    	$sql .= "	CONCAT(pl.street_number, ' ', pl.street_name) AS address,"; 
+    	$sql .= "	pl.suite_number,";
+    	$sql .= "	pl.city,";
+    	$sql .= "	pl.province2 AS province,";
+    	$sql .= "	pl.postcode,";
+    	$sql .= "	pl.effective_date,";
+    	$sql .= "	pl.expiry_date,";
+    	$sql .= "	pl.totaldays AS total_days,";
+    	$sql .= "	pl.sum_insured,";
+    	$sql .= "	pl.deductible_amount,";
+    	$sql .= "	pa.amount AS policy_premium,";
+    	$sql .= "	(100 - pr.up_pay_rate) AS commission_rate_jf,";
+    	$sql .= "	pa2.amount AS pr_commission,";
+    	$sql .= "	pa3.amount AS up_commission,";
+    	$sql .= "	'2.5' AS merchant_fee_per, ";
+    	$sql .= "	'5' AS claims_handling_fee_per"; 
+    	$sql .= " FROM payment pa"; 
+    	$sql .= " JOIN plan pl ON pa.plan_id = pl.plan_id"; 
+    	$sql .= " JOIN customer c ON pl.customer_id = c.customer_id"; 
+    	$sql .= " JOIN product pr ON pl.product_short = pr.product_short"; 
+    	$sql .= " JOIN user u ON pl.user_id = u.user_id ";
+    	$sql .= " LEFT JOIN user_product up ON u.user_id = up.user_id and pr.product_short = up.product_short"; 
+    	$sql .= " LEFT JOIN payment pa2 ON (pa.plan_id=pa2.plan_id AND pa.payment_id=pa2.premium_payment_id AND pa2.pay_type IN ('commission','cancel_commission','refund_commission'))";
+    	$sql .= " LEFT JOIN payment pa3 ON (pa.plan_id=pa3.plan_id AND pa.payment_id=pa3.premium_payment_id AND pa3.pay_type IN ('up_commission','cancel_up_commission','refund_up_commission'))";
+    	$sql .= " WHERE pa.pay_type IN ('premium','cancel','refund') AND ABS(pa.amount)>=0.01";
+    	if (!empty($para['payment_added_from'])) {
+    		$sql .= " AND pa.added >= " . $this->db->escape($para['payment_added_from'] . " 00:00:00");
+        }
+        if (!empty($para['payment_added_to'])) {
+    		$sql .= " AND pa.added <= " . $this->db->escape($para['payment_added_to'] . " 23:59:59");
+        }
         if (!empty($para['payment_date_from'])) {
-            $this->db->where('pa.last_update >=', $para['payment_date_from'] . " 00:00:00");
+    		$sql .= " AND pa.last_update >= " . $this->db->escape($para['payment_date_from'] . " 00:00:00");
         }
         if (!empty($para['payment_date_to'])) {
-            $this->db->where('pa.last_update <=', $para['payment_date_to'] . " 23:59:59");
+    		$sql .= " AND pa.last_update <= " . $this->db->escape($para['payment_date_to'] . " 23:59:59");
         }
-    }
+        if (!empty($para['agent_id'])) {
+    		$sql .= " AND pl.user_id='" . (int)$para['agent_id'] . "'";
+    	}
+        if (!empty($para['product_short'])) {
+    		$sql .= " AND pl.product_short=" . $this->db->escape($para['product_short']);
+    	}
+        if (!empty($para['region_id'])) {
+    		$sql .= " AND pl.region_id='" . (int)$para['region_id'] . "'";
+    	}
 
-    private function get_sales_report_insurer_result($query)
-    {
-        $results = array();
-        foreach ($query as $row) {
-            $row['commission_amount'] =  sprintf("%01.2f",
-                ($row['policy_premium'] * $row['commission_rate_jf'] / 100));
-            $row['merchant_fee'] =  sprintf("%01.2f",
-                ($row['policy_premium'] * $row['merchant_fee_per'] / 100));
-            $row['claims_handling_fee'] =  sprintf("%01.2f",
-                ($row['policy_premium'] * $row['claims_handling_fee_per'] / 100));
-
-            $row['total_compensation'] = $row['commission_amount'] + $row['merchant_fee'] + $row['claims_handling_fee'];
-            $row['net_premium'] = sprintf("%01.2f", ($row['policy_premium'] - $row['total_compensation']));
-            $row['total_compensation_per'] = $row['commission_rate_jf'] + $row['merchant_fee_per'] + $row['claims_handling_fee_per'];
-            if ($row['total_days'] <= 0) {
-                $row['daily_rate'] = 0;
-            } else {
-                $row['daily_rate'] = sprintf("%01.2f", ($row['policy_premium'] / $row['total_days']));
-            }
-            $results[] = $row;
-        }
-        return $results;
+    	$query = $this->db->query($sql)->result_array();
+    	$results = array();
+    	foreach ($query as $row) {
+    		$row['commission_amount'] =  sprintf("%01.2f",
+    				($row['policy_premium'] * $row['commission_rate_jf'] / 100));
+    		$row['merchant_fee'] =  sprintf("%01.2f",
+    				($row['policy_premium'] * $row['merchant_fee_per'] / 100));
+    		$row['claims_handling_fee'] =  sprintf("%01.2f",
+    				($row['policy_premium'] * $row['claims_handling_fee_per'] / 100));
+    	
+    		$row['total_compensation'] = $row['commission_amount'] + $row['merchant_fee'] + $row['claims_handling_fee'];
+    		$row['net_premium'] = sprintf("%01.2f", ($row['policy_premium'] - $row['total_compensation']));
+    		$row['total_compensation_per'] = $row['commission_rate_jf'] + $row['merchant_fee_per'] + $row['claims_handling_fee_per'];
+    		if ($row['total_days'] <= 0) {
+    			$row['daily_rate'] = 0;
+    		} else {
+    			$row['daily_rate'] = sprintf("%01.2f", ($row['policy_premium'] / $row['total_days']));
+    		}
+    		$results[] = $row;
+    	}
+    	return $results;
     }
 
     /**

@@ -37,14 +37,8 @@ class Agent extends MY_Controller
         $data['agent_id'] = empty($this->input->post('agent_id')) ? 0 : (int)$this->input->post('agent_id');
         $data['region_id'] = empty($this->input->post('region_id')) ? $beuser['region_id'] : $this->input->post('region_id');
         $data['product_short'] = $this->input->post('product_short');
-        $data['application_date_from'] = $this->input->post('application_date_from');
-        $data['application_date_to'] = $this->input->post('application_date_to');
-        $data['arrival_date_from'] = $this->input->post('arrival_date_from');
-        $data['arrival_date_to'] = $this->input->post('arrival_date_to');
-        $data['effective_date_from'] = $this->input->post('effective_date_from');
-        $data['effective_date_to'] = $this->input->post('effective_date_to');
-        $data['expiry_date_from'] = $this->input->post('expiry_date_from');
-        $data['expiry_date_to'] = $this->input->post('expiry_date_to');
+        $data['payment_added_from'] = $this->input->post('payment_added_from');
+        $data['payment_added_to'] = $this->input->post('payment_added_to');
         $data['payment_date_from'] = $this->input->post('payment_date_from');
         $data['payment_date_to'] = $this->input->post('payment_date_to');
         
@@ -52,7 +46,6 @@ class Agent extends MY_Controller
         $data['user_list'] = $this->user_model->get_available_user_list();
         $data['report_data'] = empty($_POST) ? array() : $this->report_model->get_sales_report_agent($data);
         $data['export_list'] = base_url ( "reports/agent/export_list" );
-        $data['export_form'] = $this->load->view ( 'reports/agent_export', $data, true);
         return $data;
     }
 
@@ -64,14 +57,13 @@ class Agent extends MY_Controller
 
         $data['product_short'] = $this->input->get_post('product_short');
         $data['region_id'] = empty($this->input->post('region_id')) ? $beuser['region_id'] : $this->input->post('region_id');
-        $data['application_date_from'] = $this->input->get_post('application_date_from');
-        $data['application_date_to'] = $this->input->get_post('application_date_to');
-        $data['arrival_date_from'] = $this->input->get_post('arrival_date_from');
-        $data['arrival_date_to'] = $this->input->get_post('arrival_date_to');
-        $data['effective_date_from'] = $this->input->get_post('effective_date_from');
-        $data['effective_date_to'] = $this->input->get_post('effective_date_to');
-        $data['expiry_date_from'] = $this->input->get_post('expiry_date_from');
-        $data['expiry_date_to'] = $this->input->get_post('expiry_date_to');
+
+        $data['product_short'] = $this->input->get_post('product_short');
+        $data['payment_added_from'] = $this->input->get_post('payment_added_from');
+        $data['payment_added_to'] = $this->input->get_post('payment_added_to');
+        $data['payment_date_from'] = $this->input->get_post('payment_date_from');
+        $data['payment_date_to'] = $this->input->get_post('payment_date_to');
+        
         $data['product_list'] = $this->product_model->get_available_product_list();
         $data['user_list'] = $this->user_model->get_available_user_list();
         $data['report_data'] = $this->report_model->get_sales_report_agent($data);
@@ -81,20 +73,20 @@ class Agent extends MY_Controller
 
         $w = WriterFactory::create(Type::XLSX); // for XLSX files
         $kArr = array(
-                'order_date' => 'Order Date',
+                'added' => 'Payment Date',
                 'policy' => 'Policy No.',
-                'insurer' => 'Insurer',
-                'product' => 'Product',
-                'insured_name' => 'Insured Name',
+                'up_insuer' => 'Insurer',
+                'full_name' => 'Product',
+                'insured' => 'Insured Name',
                 'effective_date' => 'Effective Date',
                 'expiry_date' => 'Expiry Date',
-                'total_days' => 'Number of Days',
-                'daily_rate' => 'Daily Rate',
-                'policy_premium' => 'Policy Premium',
+                'totaldays' => 'Number of Days',
+                'dailyrate' => 'Daily Rate',
+                'amount' => 'Policy Premium',
 //                'commission_rate' => 'Commission Rate',
                 'net_premium' => 'Net Premium',
 //                'commission_amount' => 'Commission Amount',
-        		'status' => 'Status',
+//        		'status' => 'Status',
         );
 
         $tmpfname = "/tmp/jf_test.xlsx";
@@ -107,7 +99,15 @@ class Agent extends MY_Controller
             $w->addRow($arr);
             foreach ($data['records'] as $record) {
             	$arr = array();
-				foreach ($kArr as $k => $v) { $arr[] = $record[$k]; } 
+				foreach ($kArr as $k => $v) {
+					if ($k == 'added') {
+						$arr[] = substr($record[$k], 0, 10);
+					} else if ($k == 'net_premium') {
+						$arr[] = $record['amount'] - $record['commission'];
+					} else {
+						$arr[] = $record[$k];
+					}
+				} 
             	$w->addRow($arr);
             }
             $arr = array('Total Premium: $' . $data['data']['policy_premium'], '','','Total Net Premium: $' . $data['data']['net_premium'],'','','Username:' . $data['data']['agent_username'] . ' Email: ' . $data['data']['agent_email']);

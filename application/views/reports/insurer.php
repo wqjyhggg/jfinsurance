@@ -98,72 +98,32 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                       </div>
 
                       <div class="row">
-                        <!-- Application Date -->
-                        <div class="form-group col-sm-3">
-                          <!-- Application Date from -->
-                            <label for="application_date_from" class="col-sm-12">Application Date From</label>
+                        <!-- Payment Added Date-->
+                        <div class="form-group col-sm-4">
+                            <!-- Payment Added Date From-->
+                            <label for="payment_added_from" class="col-sm-12">Payment Added Date From</label>
                             <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
-                            <input name="application_date_from" class="form-control" size="16" type="text" value="<?=$application_date_from ?>" >
+                            <input name="payment_added_from" class="form-control" size="16" type="text" value="<?php $payment_added_from ?>" >
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
-                            <input type="hidden" id="application_date_from" value="" />
-                            <!-- Application Date from End-->
-                            <!-- Application Date to -->
-                            <label for="application_date_to" class="col-sm-12">Application Date To</label>
+                            <input type="hidden" id="payment_added_from" value="" />
+                            <!-- Payment Added Date From End-->
+                            <!-- Payment Added Date to -->
+                            <label for="payment_added_to" class="col-sm-12">Payment Added Date To</label>
                             <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
-                            <input name="application_date_to" class="form-control" size="16" type="text" value="<?=$application_date_to ?>" >
+                                <input name="payment_added_to" class="form-control" size="16" type="text" value="<?php $payment_added_to ?>" >
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
-                            <input type="hidden" id="application_date_to" value="" /><br/>
-                            <!-- Application Date to End -->
+                            <input type="hidden" id="payment_added_to" value="" /><br/>
+                            <!-- Payment Update Date to End -->
                         </div>
-                        <!-- Application Date End-->
-                        <!-- Create Date-->
-                        <div class="form-group col-sm-3">
-                            <!-- Arrival Date From-->
-                            <label for="arrival_date_from" class="col-sm-12">Arrival Date From</label>
-                            <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
-                            <input name="arrival_date_from" class="form-control" size="16" type="text" value="<?=$arrival_date_from ?>" >
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                            </div>
-                            <input type="hidden" id="arrival_date_from" value="" />
-                            <!-- Arrival Date From End-->
-                            <!-- Create Date to -->
-                            <label for="arrival_date_to" class="col-sm-12">Arrival Date To</label>
-                            <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
-                                <input name="arrival_date_to" class="form-control" size="16" type="text" value="<?=$arrival_date_to ?>" >
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                            </div>
-                            <input type="hidden" id="arrival_date_to" value="" /><br/>
-                            <!-- Create Date to End -->
-                        </div>
-                        <!-- Create Date End -->
-                        <!-- Effective Date-->
-                        <div class="form-group col-sm-3">
-                            <!-- Effective Date From-->
-                            <label for="effective_date_from" class="col-sm-12">Effective Date From</label>
-                            <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
-                                <input name="effective_date_from" class="form-control" size="16" type="text" value="<?=$effective_date_from ?>" >
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                            </div>
-                            <input type="hidden" id="effective_date_from" value="" />
-                            <!-- Effective Date From End-->
-                            <!-- Effective Date to -->
-                            <label for="effective_date_to" class="col-sm-12">Effective Date To</label>
-                            <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
-                                <input name="effective_date_to" class="form-control" size="16" type="text" value="<?=$effective_date_to ?>" >
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                            </div>
-                            <input type="hidden" id="effective_date_to" value="" /><br/>
-                            <!-- Effective Date to End -->
-                        </div>
-                        <!-- Effective Date End -->
+                        <!-- Payment Added Date End -->
                         <!-- Payment Update Date-->
-                        <div class="form-group col-sm-3">
+                        <div class="form-group col-sm-4">
                             <!-- Payment Update Date From-->
                             <label for="payment_date_from" class="col-sm-12">Payment Update Date From</label>
                             <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
-                            <input name="payment_date_from" class="form-control" size="16" type="text" value="<?=$payment_date_from ?>" >
+                            <input name="payment_date_from" class="form-control" size="16" type="text" value="<?php $payment_date_from ?>" >
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
                             <input type="hidden" id="payment_date_from" value="" />
@@ -171,7 +131,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <!-- Payment Update Date to -->
                             <label for="payment_date_to" class="col-sm-12">Payment Update Date To</label>
                             <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
-                                <input name="payment_date_to" class="form-control" size="16" type="text" value="<?=$payment_date_to ?>" >
+                                <input name="payment_date_to" class="form-control" size="16" type="text" value="<?php $payment_date_to ?>" >
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
                             <input type="hidden" id="payment_date_to" value="" /><br/>
@@ -197,7 +157,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Search Result <span class="inline-m"><?php echo $export_form; ?> </span></h2>
+                    <h2>Search Result <span class="inline-m">
+	                    	<form method="get" action="<?php echo $export_list; ?>" class="form-horizontal">
+	                    		<input type='hidden' name="agent_id" value="<?php echo $agent_id; ?>">
+	                    		<input type='hidden' name="product_short" value="<?php echo $product_short; ?>">
+	                    		<input type='hidden' name="region_id" value="<?php echo $region_id; ?>">
+	                    		<input type='hidden' name="payment_added_from" value="<?php echo $payment_added_from; ?>">
+	                    		<input type='hidden' name="payment_added_to" value="<?php echo $payment_added_to; ?>">
+	                    		<input type='hidden' name="payment_date_from" value="<?php echo $payment_date_from; ?>">
+	                    		<input type='hidden' name="payment_date_to" value="<?php echo $payment_date_to; ?>">
+			                    <div class="row">
+			                        <!-- submit button -->
+			                        <div class="col-sm-12">
+			                            <button class="btn btn-primary pull-right">Display Sales Report</button>
+			                        </div>
+			                        <!-- submit button -->
+			                    </div>
+			                </form>
+					</span></h2>
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
