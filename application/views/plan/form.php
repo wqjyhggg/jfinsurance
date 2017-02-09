@@ -971,7 +971,11 @@ function get_premium() {
 	}
 	var holiday_rate = -1;
 	if ($('input[name="holiday_rate"]').length) {
-		holiday_rate = $('input[name="holiday_rate"]:checked').val();	// checkbox
+		if ($('input[name="holiday_rate"]').is(':checked')) {
+			holiday_rate = 1;	// checkbox
+		} else {
+			holiday_rate = 0;	// checkbox
+		}
 	}
 	var birthday = $('input[name="birthday"]').val();	// 
 	var number_customer = 0;

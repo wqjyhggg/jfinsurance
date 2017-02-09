@@ -635,6 +635,9 @@ class Product_model extends CI_Model {
 			} else {
 				$rate = $rate * $number_customer;
 			}
+			if ($para['holiday_rate'] < 0) {
+				return FALSE;
+			}
 			$premium = $rate * $days;
 			$premiumArr['premium'] = $premium;
 			$premiumArr['totalyears'] = $years;
