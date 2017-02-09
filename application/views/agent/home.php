@@ -159,7 +159,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                   <h5>E-mail: info@jfgroup.ca</h5>
                 </div>
               </div>
-              <?php if($qr){ ?>
+              <?php if($qr !== "noqr.png"){ ?>
               <div class="row">
                  <div class="col-sm-2 text-center"><div class="floatqr">
                   <img style='margin: 15px auto;width: 100%;' id='qr_image_life' src="<?php echo base_url('agent/img') . '/' . $qr; ?>" alt="JF Insurance">
