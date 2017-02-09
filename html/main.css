@@ -384,3 +384,43 @@ footer p{margin: 0;}
 .template-page{
     max-width: 100%;
 }
+
+@media(min-width: 1250px){
+    .mypbg-label{
+        position: absolute;
+        top: 50px;
+        color: #333;
+        left: 15px;
+        background: #fff;
+        padding:0 15px;
+    }
+    .mypbg-img{
+        position: absolute;
+        top:25px;
+        color: #333;
+        left: 15px;
+        background: #fff;
+    }
+}
+.agentmyhome a{
+    color: #73879c !important;
+}
+.agentmyhome a:hover{
+    color: #04c !important;
+}
+.floatqr{
+    position: absolute;
+    bottom: 10px;
+    width: 100px;
+}
+
+.agentmypl{position:relative;padding-left: 5px;}
+.agentmypl:before{
+    content: "";
+    height: 12px;
+    display: block;
+    border-left: 3px solid #73879C;
+    position: absolute;
+    left: 0;
+    top: 3px
+}

@@ -29,7 +29,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                   </div-->
                   <div class="x_content">
                     <br />
-                    <div class="main" style="min-height:800px;">
+                    <div class="main" style="min-height:800px;padding-bottom:50px;" >
 
                   <!-- Content with left menu -->
                   <form action='<?php echo $action_url; ?>' method='POST' class="form-horizontal" enctype="multipart/form-data">
