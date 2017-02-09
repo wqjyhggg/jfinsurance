@@ -1,51 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
-
-<!-- Content with left menu -->
-<form action='<?php echo $action_url; ?>' method='POST' class="form-horizontal" enctype="multipart/form-data">
-        <input style='margin-left: 250px;' type='submit' value='update'>
-		<input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
-		<input type='hidden' name='user_id' value='<?php echo $user_id; ?>'>
-		<input type='hidden' name='myname' value='<?php echo $myname; ?>'>
-		<div style='padding-left: 230px;' class="row">
-			<div class="form-group col-sm-3">
-				<label class="col-sm-12">First Name:</label>
-				<div class="input-group col-sm-12">
-					<input type='text' name='firstname' value='<?php echo $firstname; ?>' class="form-control">
-	                	<?php if (!empty($error_firstname)){ ?>
-					<div class="alert-error">	
-						<?php echo $error_firstname; ?>
-					</div>
-					<?php } ?>			                	
-	                </div>
-				</div>
-				<div class="form-group col-sm-3">
-					<label class="col-sm-12">Last Name:</label>
-					<div class="input-group col-sm-12">
-						<input type='text' name='lastname' value='<?php echo $lastname; ?>' class="form-control" class="form-control">
-	                	<?php if (!empty($error_lastname)){ ?>
-					<div class="alert-error">	
-						<?php echo $error_lastname; ?>
-					</div>
-					<?php } ?>			                	
-	                </div>
-				</div>
-				<div class="form-group col-sm-6">
-					<label class="col-sm-12">Url:</label>
-					<div id='showmyname' class="input-group col-sm-12"></div>
-				</div>
-				<div class="col-sm-12"><hr>
-			</div>
-		</div>
- 		<div class="hlogo">
- 		<div style='padding-left: 230px;'>
-			<img style='margin-left: -195px; max-width: 390px; width: auto; max-height: 70px; position: relative; left: 50%;' id='logo_image_life' src="<?php echo base_url('agent/img') . '/' . $logo_src; ?>" alt="JF Insurance">
-			</br>
-			<input style='margin-left: -195px; max-width: 390px; width: auto; max-height: 70px; position: relative; left: 50%;' id='logo_image' type='file' name='logo_src'>
- 		</div>
-		</div>
-		<div class="top_nav">
+        <div class="top_nav">
           <div class="nav_menu">
             <nav class="" role="navigation">
               <div class="nav toggle">
@@ -58,7 +14,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
         <!-- page content -->
         <div class="right_col" role="main">
-          <div class="main-div">
+          <div class="">
             <div class="page-title">
               <div class="title_left">
               </div>
@@ -74,21 +30,73 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                   <div class="x_content">
                     <br />
                     <div class="main" style="min-height:800px;">
-        
-                      <div class="lh-topdiv">
+
+                  <!-- Content with left menu -->
+                  <form action='<?php echo $action_url; ?>' method='POST' class="form-horizontal" enctype="multipart/form-data">
+                    <div class="row"><div class="col-sm-12 text-right">
+                      <input  class="btn btn-primary" type='submit' value='update'><hr />
+                    </div></div>  
+                  		<input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
+                  		<input type='hidden' name='user_id' value='<?php echo $user_id; ?>'>
+                  		<input type='hidden' name='myname' value='<?php echo $myname; ?>'>
+                  		<div class="row">
+                  			<div class="form-group col-sm-3">
+                  				<label class="col-sm-12">First Name:</label>
+                  				<div class="input-group col-sm-12">
+                  					<input type='text' name='firstname' value='<?php echo $firstname; ?>' class="form-control">
+                  	                	<?php if (!empty($error_firstname)){ ?>
+                  					<div class="alert-error">	
+                  						<?php echo $error_firstname; ?>
+                  					</div>
+                  					<?php } ?>			                	
+                  	                </div>
+                  				</div>
+                  				<div class="form-group col-sm-3">
+                  					<label class="col-sm-12">Last Name:</label>
+                  					<div class="input-group col-sm-12">
+                  						<input type='text' name='lastname' value='<?php echo $lastname; ?>' class="form-control" class="form-control">
+                  	                	<?php if (!empty($error_lastname)){ ?>
+                  					<div class="alert-error">	
+                  						<?php echo $error_lastname; ?>
+                  					</div>
+                  					<?php } ?>			                	
+                  	                </div>
+                  				</div>
+                  				<div class="form-group col-sm-6">
+                  					<label class="col-sm-12">Url:</label>
+                  					<div id='showmyname' class="input-group col-sm-12"></div>
+                  				</div>
+                  				<div class="col-sm-12"><hr>
+                  			</div>
+                  		</div>
+                   		<div class="hlogo">
+                     		<div style="text-align: center;">
+                    			<img style='max-width: 390px; width: auto; max-height: 70px; position: relative;' id='logo_image_life' src="<?php echo base_url('agent/img') . '/' . $logo_src; ?>" alt="JF Insurance">
+                    			<br />
+                    			<input style='border:1px solid #ddd;max-width: 390px; width: auto; max-height: 70px; position: relative; display: inline-block;' id='logo_image' type='file' name='logo_src'> Modify Logo Image
+                     		</div>
+                  		</div>
+		                  <br />
+                      <hr />
+                      <div class="lh-topdiv" style="min-height: 200px;border:1px dashed #ddd;">
                         <img id='big_image_life' class="img-responsive" src="<?php echo base_url('agent/img') . '/' . $image_src; ?>" alt="JF Insurance">
-                        <input type='file' id='big_image' name='image_src' value='' style='position: absolute; top: 25px; left: 20px;'>
+                        <input class="mypbg-img" type='file' id='big_image' name='image_src' value='' style='border:1px solid #ddd;'>
+                        <p  class="mypbg-label" >Modify Background Image</p>
                         <div class="lh-top" >
                               <h1><input type='text' name='top_title' value='<?php echo $top_title; ?>' class="form-control"></h1>
-                              <textarea name='top_desc'><?php echo $top_desc; ?></textarea>
+                              <textarea style="width: 100%;color: #333;" rows='5' name='top_desc'><?php echo $top_desc; ?></textarea>
                             </div>
                       </div>
                       <div class="row" style="margin:40px 0;">
-                        <div class="col-sm-12 text-center">
+                        <div class="col-sm-4 col-sm-offset-4 text-center">
                           <h3><input type='text' name='about_title' value='<?php echo $about_title; ?>' class="form-control"></h3>
                           <h4><input type='text' name='about_short' value='<?php echo $about_short; ?>' class="form-control"></h4>
                           <hr style="border-bottom:2px solid; width:50px; margin:0 auto 20px;" />
-                          <textarea name='about_desc'><?php echo $about_desc; ?></textarea>
+                        </div>
+                      </div>
+                      <div class="row" style="margin:0 0 40px;">
+                        <div class="col-sm-8 col-sm-offset-2">    
+                          <textarea style="width: 100%;" rows='4' name='about_desc'><?php echo $about_desc; ?></textarea>
                         </div>
                       </div>
  
@@ -96,25 +104,25 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <div class="col-sm-12" style="padding-right:0;padding-left:0;">
                           <div style="background-color:#f6f6f6; padding:15px;margin:20px auto;">
                             <div class="row">
-			                  <div class="x_title">
-			                    <h2>Our Plans<small></small></h2>
-			                    <div class="clearfix"></div>
-			                  </div>
-			                  <div class="x_content">
-			<?php foreach ($file_url as $product_short => $farr) { ?>                    
-			                    <div class="row dfile-list">
-			                      <div class="col-sm-12">
-			                        <br />
-			                        <label><?php echo $product_short; ?> --- <?php echo $farr['fullname']; ?></label>
-			                      </div>
-			                      <div class="col-sm-12">
-			<?php 	foreach ($farr['files'] as $rc) { ?>                      
-			                        <a class="d_brochure" target="_blank" href="<?php echo $rc['url']; ?>"><?php echo $rc['name']; ?></a>
-			<?php 	} ?>                    
-			                      </div>
-			                    </div>
-			<?php } ?>                    
-			                  </div>
+      			                  <div class="x_title">
+      			                    <h2>Our Plans<small></small></h2>
+      			                    <div class="clearfix"></div>
+      			                  </div>
+      			                  <div class="x_content">
+      			<?php foreach ($file_url as $product_short => $farr) { ?>                    
+      			                    <div class="row dfile-list">
+      			                      <div class="col-sm-12">
+      			                        <br />
+      			                        <label><?php echo $product_short; ?> --- <?php echo $farr['fullname']; ?></label>
+      			                      </div>
+      			                      <div class="col-sm-12">
+      			<?php 	foreach ($farr['files'] as $rc) { ?>                      
+      			                        <a class="d_brochure" target="_blank" href="<?php echo $rc['url']; ?>"><?php echo $rc['name']; ?></a>
+      			<?php 	} ?>                    
+      			                      </div>
+      			                    </div>
+      			<?php } ?>                    
+      			                  </div>
                             </div>
                           </div>
                         </div>
@@ -164,12 +172,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                               </div>
                             </div>
                             <div class="row h-contact">
-                              <div class="col-sm-2 contact-left">
-								<img style='margin: 15px auto; max-width: 70px; width: auto; max-height: 70px; position: absolute; right: 20px;' id='qr_image_life' src="<?php echo base_url('agent/img') . '/' . $qr_src; ?>" alt="JF Insurance">
-								<input style='margin: 15px auto; max-width: 70px; width: auto; max-height: 70px; position: relative; right: -580px; top: -40px;' id='qr_image' type='file' name='qr_src'>
-                                <h5><input name='qr_desc' value='<?php echo $qr_desc; ?>'></h5>
-                              </div>
-                              <div class="col-sm-4 contact-left">
+                              
+                              <div class="col-sm-6 contact-left">
                                 <h3><input name='foot_title' value='<?php echo $foot_title; ?>'></h3><br />
                                 <h5><input name='address' value='<?php echo $address; ?>'></h5>
                                 <h5><input name='city_province' value='<?php echo $city_province; ?>'></h5>
@@ -193,11 +197,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <h5>E-mail: info@jfgroup.ca</h5>
                               </div>
                             </div>
+                            <div class="row">    
+                              <div class="col-sm-12"><hr /></div>
+                              <div class="col-sm-4">
+                                <p>Upload Your QR Code</p>
+                                <div style="">
+                                <?php if ($qr_src !== 'noqr.png'){?>
+                                  <img style="width: 100%;max-width: 100px;" id='qr_image_life' src="<?php echo base_url('agent/img') . '/' . $qr_src; ?>" alt="JF Insurance">
+                                <?php } ?>  
+                                  <input id='qr_image' type='file' name='qr_src'>
+                                  <h5><input name='qr_desc' value='<?php echo $qr_desc; ?>'></h5>
+                                </div>
+                              </div>
+                            </div>
                           </div>
                         </div>
                       </div>
 
-                              <input type='submit' value='update'>
+                        <input class="btn btn-primary" type='submit' value='update'>
                       
                     </div>
                     
@@ -209,7 +226,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           </div>
         </div>
         <!-- /page content -->
-</form>
+      </form>
 <script type="text/javascript">
 function showImage(src,target) {
 	var fr=new FileReader();
