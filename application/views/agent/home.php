@@ -38,13 +38,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<div class="hlogo">
 			<img class="img-responsive" src="<?php echo base_url('agent/img') . '/' . $logo; ?>" alt="JF Insurance">
 		</div>
-		<nav class="navbar navbar-default">
+		<nav class="navbar navbar-default" style="display: none;">
 		</nav>
 	</div>
 </header>
 <!-- Content without left menu -->
 		<div class="container" style="padding:0 0 40px 0;">	
-			<div class="main" style="min-height:800px;">
+			<div class="main agentmyhome" style="min-height:800px;">
         
         <div class="h-topdiv">
 			<img class="img-responsive" src="<?php echo base_url('agent/img') . '/' . $image; ?>">
@@ -66,20 +66,25 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<div class="col-sm-12" style="padding-right:0;padding-left:0;">
 						<div style="background-color:#f6f6f6; padding:15px;margin:20px auto;">
 							<div class="row">
-							Our Productions<br />
+                <div class="col-sm-12">
+							    <h3 style="text-align: center;">Our Productions</h3>
+                  <hr style="border-bottom:2px solid; width:50px; margin:0 auto 20px;">
+                  <div class="row dfile-list">
 			<?php foreach ($file_url as $product_short => $farr) { ?>                    
-			                    <div class="row dfile-list">
-			                      <div class="col-sm-12">
-			                        <br />
-			                        <label><?php echo $product_short; ?> --- <?php echo $farr['fullname']; ?></label>
-			                      </div>
-			                      <div class="col-sm-12">
+			                    
+			              <div class="col-sm-4" style="padding-right: 5%;padding-left: 5%;margin-bottom: 15px;">
+			                 <div class="onetypep" style="padding:15px;min-height: 115px">          
+			                   <label class="agentmypl"><?php echo $farr['fullname']; ?></label>
+			                   <br />
 			<?php 	foreach ($farr['files'] as $rc) { ?>                      
-			                        <a class="d_brochure" target="_blank" href="<?php echo $rc['url']; ?>"><?php echo $rc['name']; ?></a>
-			<?php 	} ?>                    
-			                      </div>
-			                    </div>
-			<?php } ?>                    
+			                   <a class="d_brochure" target="_blank" href="<?php echo $rc['url']; ?>"><?php echo $rc['name']; ?></a><br />
+			<?php 	} ?>       
+                      </div>             
+			              </div>
+			                    
+			<?php } ?>   
+                  </div>  
+              </div>               
 						</div>
 					</div>
 				</div>
@@ -129,11 +134,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </div>
               </div>
               <div class="row h-contact">
-                <div class="col-sm-2 contact-left">
-					<img style='margin: 15px auto; max-width: 70px; width: auto; max-height: 70px; position: absolute; right: 40px; top: 10px;' id='qr_image_life' src="<?php echo base_url('agent/img') . '/' . $qr; ?>" alt="JF Insurance">
-                  <h3><?php echo $qr_desc; ?></h3><br />
-                </div>
-                <div class="col-sm-4 contact-left">
+               
+                <div class="col-sm-6 contact-left">
                   <h3><?php echo $foot_title; ?></h3><br />
                   <h5><?php echo $address; ?></h5>
                   <h5><?php echo $city_province; ?></h5>
@@ -156,6 +158,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                   <h5>Toll Free Fax: 1-888-988-3268</h5><br />
                   <h5>E-mail: info@jfgroup.ca</h5>
                 </div>
+              </div>
+              <?php if($qr !== "noqr.png"){ ?>
+              <div class="row">
+                 <div class="col-sm-2 text-center"><div class="floatqr">
+                  <img style='margin: 15px auto;width: 100%;' id='qr_image_life' src="<?php echo base_url('agent/img') . '/' . $qr; ?>" alt="JF Insurance">
+                  <p><?php echo $qr_desc; ?></p>
+                  </div>
+                </div></div>
+              <?php } ?>  
               </div>
             </div>
           </div>
