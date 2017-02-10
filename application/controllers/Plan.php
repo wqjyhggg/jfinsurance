@@ -1551,6 +1551,7 @@ class Plan extends MY_Controller {
 				$this->cheque();
 				$defaultpay_type = 'Cheque';
 			}
+			redirect(base_url('plan/detail/' . $plan_id));
 		}
 		if (empty($plan_id)) {
 			redirect(base_url('production'));

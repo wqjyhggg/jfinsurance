@@ -415,7 +415,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 									<div class="row">
 										<div class="col-sm-12  text-right">
 											<label class="inline">Amount:</label><span> <b>$<?php echo number_format($payment_total, 2, '.', ','); ?></b></span>
-											<input class="btn btn-primary" type='submit' name='submit' value='Pay Now'>
+											<input class="btn btn-primary paysubmit" type='submit' name='submit' value='Pay Now'>
 										</div>
 									</div>
 									
@@ -513,7 +513,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 									<div class="row" style="padding:10px;">
 										<div class="col-sm-12 text-right">
 											<label class="inline">Amount:</label><span><b> $<?php echo number_format($payment_total, 2, '.', ','); ?></b></span>
-											<input class="btn btn-primary" type='submit' name='submit' value='Pay Now'>
+											<input class="btn btn-primary paysubmit" type='submit' name='submit' value='Pay Now'>
 										</div>
 									</div>
 									 
@@ -551,7 +551,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 								<div class="row" style="padding:10px;">
 									<div class="col-sm-12">
 										<label class="inline">Amount:</label><span><b> $<?php echo number_format($payment_total, 2, '.', ','); ?></b></span>
-										<input class="btn btn-primary" type='submit' name='submit' value='Pay Now'>
+										<input class="btn btn-primary paysubmit" type='submit' name='submit' value='Pay Now'>
 									</div>
 								</div>
 								
@@ -605,6 +605,10 @@ $(document).ready(function() {
 	        	//console.log(data);
 	    	},
 		});
+	});
+
+	$('.paysubmit').click(function() {
+		$('.paysubmit').hide();
 	});
 });
 <?php } ?>
