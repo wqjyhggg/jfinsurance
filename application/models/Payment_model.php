@@ -154,4 +154,42 @@ class Payment_model extends CI_Model {
 		$this->logstr = 'Update payment[' . $payment_id . ']:' . join(', ', $para);
 		return $payment_id;
 	}
+	
+	/**
+	 * adjust commission added date
+	 * 
+	 * @para plan_id
+	 * @para date
+	 * @return effect rows
+	 */
+	public function adjust_commission_added_date($plan_id, $date) {
+		$this->logstr = '';
+		if (strlen($date) <= 10) {
+			$date .= ' 00:00:00';
+		}
+		$this->db->where('plan_id', $plan_id);
+		$this->db->where('pay_type', 'commission');
+		$this->db->where('ispaid', '0');
+		$this->db->set('added', $date);
+		$this->db->set('last_update', 'last_update', FALSE);
+		$this->db->update('payment');
+		$this->sqlstr = $this->db->last_query();
+		$this->logstr = 'Adjust Commission Added[' . $plan_id . '][' . $date . ']';
+		return $this->db->affected_rows() > 0;
+	}
+	
+	/**
+	 * adjust commission added date
+	 * 
+	 * @para plan_id
+	 * @para date
+	 * @return effect rows
+	 */
+	public function get_last_payment($plan_id) {
+		$this->db->where('plan_id', $plan_id);
+		$this->db->where('pay_type', 'premium');
+		$this->db->order_by('payment_id', 'DESC');
+		$this->db->limit(1);
+		return $this->db->get('payment')->row_array();
+	}
 }

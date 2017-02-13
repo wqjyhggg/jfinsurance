@@ -922,6 +922,16 @@ class Plan extends MY_Controller {
 		);
 
 		$data['isprocessplan'] = 1;
+		$data['plan_cancel_date'] = '';
+		$data['plan_refund_date'] = '';
+		if (!empty($plan) && !empty($plan['status_id'])) {
+			if ($plan['status_id'] == Plan_model::CANCEL) {
+				$data['plan_cancel_date'] = $this->payment_model->get_cancel_date($plan['plan_id']);
+			}
+			if ($plan['status_id'] == Plan_model::REFUND) {
+				$data['plan_refund_date'] = $this->payment_model->get_refund_date($plan['plan_id']);
+			}
+		}
 		if (!empty($plan) && !empty($plan['status_id']) && ($plan['status_id'] > 1) && ($beuser['user_group_id'] > 100)) {
 			if ($data['product_short'] == 'OPL') {
 				$data['insurable_options'] = $this->load->view('plan/form_opl_agent', $data, TRUE);
@@ -1121,8 +1131,35 @@ class Plan extends MY_Controller {
 		$dt['rate'] = $commission_rate;
 		$dt['pay_type'] = 'commission';
 		$dt['premium_payment_id'] = $payment_id;
-		if (($plan['product_short'] == 'OPL') || ($plan['product_short'] == 'JFR') && ($premium > 100000)) {
-			$dt['added'] = $plan['effective_date'];
+		if (($plan['product_short'] == 'OPL') || ($plan['product_short'] == 'JFR')) {
+			$nowtm = time();
+			$efftm = strtotime($plan['effective_date']);
+			if ($nowtm <= $efftm) {
+				if (($plan['sum_insured'] >= 100000) && ($plan['totaldays'] >= 365)) {
+					if ($this->payment_model->adjust_commission_added_date($plan_id, $plan['effective_date'])) {
+						$para = array(
+								'plan_id' => $plan_id,
+								'customer_id' => $plan['customer_id'],
+								'payment_id' => 0,
+								'message' => 'adjust apply time to effective date : ' . $plan_id . ' [ ' . $plan['effective_date'] . ' ]',
+								'systemlog' => $this->payment_model->sqlstr
+						);
+						$this->log_model->activity('commission', $para);
+					}
+					$dt['added'] = $plan['effective_date'];
+				} else {
+					if ($this->payment_model->adjust_commission_added_date($plan_id, date('Y-m-d'))) {
+						$para = array(
+								'plan_id' => $plan_id,
+								'customer_id' => $plan['customer_id'],
+								'payment_id' => 0,
+								'message' => 'adjust apply time to today : ' . $plan_id . ' [ ' . date('Y-m-d') . ' ]',
+								'systemlog' => $this->payment_model->sqlstr
+						);
+						$this->log_model->activity('commission', $para);
+					}
+				}
+			}
 		}
 		$commission_payment_id = $this->payment_model->add($dt);
 		$para = array(
@@ -1228,8 +1265,35 @@ class Plan extends MY_Controller {
 			$dt['rate'] = $commission_rate;
 			$dt['pay_type'] = 'commission';
 			$dt['premium_payment_id'] = $payment_id;
-			if (($plan['product_short'] == 'OPL') || ($plan['product_short'] == 'JFR') && ($premium > 100000)) {
-				$dt['added'] = $plan['effective_date'];
+			if (($plan['product_short'] == 'OPL') || ($plan['product_short'] == 'JFR')) {
+				$nowtm = time();
+				$efftm = strtotime($plan['effective_date']);
+				if ($nowtm <= $efftm) {
+					if (($plan['sum_insured'] >= 100000) && ($plan['totaldays'] >= 365)) {
+						if ($this->payment_model->adjust_commission_added_date($plan_id, $plan['effective_date'])) {
+							$para = array(
+									'plan_id' => $plan_id,
+									'customer_id' => $plan['customer_id'],
+									'payment_id' => 0,
+									'message' => 'adjust apply time to effective date : ' . $plan_id . ' [ ' . $plan['effective_date'] . ' ]',
+									'systemlog' => $this->payment_model->sqlstr
+							);
+							$this->log_model->activity('commission', $para);
+						}
+						$dt['added'] = $plan['effective_date'];
+					} else {
+						if ($this->payment_model->adjust_commission_added_date($plan_id, date('Y-m-d'))) {
+							$para = array(
+									'plan_id' => $plan_id,
+									'customer_id' => $plan['customer_id'],
+									'payment_id' => 0,
+									'message' => 'adjust apply time to today : ' . $plan_id . ' [ ' . date('Y-m-d') . ' ]',
+									'systemlog' => $this->payment_model->sqlstr
+							);
+							$this->log_model->activity('commission', $para);
+						}
+					}
+				}
 			}
 			$commission_payment_id = $this->payment_model->add($dt);
 			$para = array(
@@ -1407,8 +1471,35 @@ class Plan extends MY_Controller {
 		$dt['rate'] = $commission_rate;
 		$dt['pay_type'] = 'commission';
 		$dt['premium_payment_id'] = $payment_id;
-		if (($plan['product_short'] == 'OPL') || ($plan['product_short'] == 'JFR') && ($premium > 100000)) {
-			$dt['added'] = $plan['effective_date'];
+		if (($plan['product_short'] == 'OPL') || ($plan['product_short'] == 'JFR')) {
+			$nowtm = time();
+			$efftm = strtotime($plan['effective_date']);
+			if ($nowtm <= $efftm) {
+				if (($plan['sum_insured'] >= 100000) && ($plan['totaldays'] >= 365)) {
+					if ($this->payment_model->adjust_commission_added_date($plan_id, $plan['effective_date'])) {
+						$para = array(
+								'plan_id' => $plan_id,
+								'customer_id' => $plan['customer_id'],
+								'payment_id' => 0,
+								'message' => 'adjust apply time to effective date : ' . $plan_id . ' [ ' . $plan['effective_date'] . ' ]',
+								'systemlog' => $this->payment_model->sqlstr
+						);
+						$this->log_model->activity('commission', $para);
+					}
+					$dt['added'] = $plan['effective_date'];
+				} else {
+					if ($this->payment_model->adjust_commission_added_date($plan_id, date('Y-m-d'))) {
+						$para = array(
+								'plan_id' => $plan_id,
+								'customer_id' => $plan['customer_id'],
+								'payment_id' => 0,
+								'message' => 'adjust apply time to today : ' . $plan_id . ' [ ' . date('Y-m-d') . ' ]',
+								'systemlog' => $this->payment_model->sqlstr
+						);
+						$this->log_model->activity('commission', $para);
+					}
+				}
+			}
 		}
 		$commission_payment_id = $this->payment_model->add($dt);
 		$para = array(
@@ -1500,8 +1591,35 @@ class Plan extends MY_Controller {
 		$dt['rate'] = $commission_rate;
 		$dt['pay_type'] = 'commission';
 		$dt['premium_payment_id'] = $payment_id;
-		if (($plan['product_short'] == 'OPL') || ($plan['product_short'] == 'JFR') && ($premium > 100000)) {
-			$dt['added'] = $plan['effective_date'];
+		if (($plan['product_short'] == 'OPL') || ($plan['product_short'] == 'JFR')) {
+			$nowtm = time();
+			$efftm = strtotime($plan['effective_date']);
+			if ($nowtm <= $efftm) {
+				if (($plan['sum_insured'] >= 100000) && ($plan['totaldays'] >= 365)) {
+					if ($this->payment_model->adjust_commission_added_date($plan_id, $plan['effective_date'])) {
+						$para = array(
+								'plan_id' => $plan_id,
+								'customer_id' => $plan['customer_id'],
+								'payment_id' => 0,
+								'message' => 'adjust apply time to effective date : ' . $plan_id . ' [ ' . $plan['effective_date'] . ' ]',
+								'systemlog' => $this->payment_model->sqlstr
+						);
+						$this->log_model->activity('commission', $para);
+					}
+					$dt['added'] = $plan['effective_date'];
+				} else {
+					if ($this->payment_model->adjust_commission_added_date($plan_id, date('Y-m-d'))) {
+						$para = array(
+								'plan_id' => $plan_id,
+								'customer_id' => $plan['customer_id'],
+								'payment_id' => 0,
+								'message' => 'adjust apply time to today : ' . $plan_id . ' [ ' . date('Y-m-d') . ' ]',
+								'systemlog' => $this->payment_model->sqlstr
+						);
+						$this->log_model->activity('commission', $para);
+					}
+				}
+			}
 		}
 		$commission_payment_id = $this->payment_model->add($dt);
 		$para = array(

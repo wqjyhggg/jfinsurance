@@ -204,6 +204,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<?php } ?>
 							</div>
 						</div>
+						<?php if (!empty($plan_cancel_date)) {?>
+						<div class="row">
+							<div class="col-sm-3">
+								<label class="inline">Cancel Date:</label>
+								<span><?php echo $plan_cancel_date; ?></span>
+							</div>
+						</div>
+						<?php } ?>
+						<?php if (!empty($plan_refund_date)) {?>
+						<div class="row">
+							<div class="col-sm-3">
+								<label class="inline">Refund Date:</label>
+								<span><?php echo $plan_refund_date; ?></span>
+							</div>
+						</div>
+						<?php } ?>
 						<?php if ($batch_number ) { ?>
 								<div class="row">
 									<div class="col-sm-3">

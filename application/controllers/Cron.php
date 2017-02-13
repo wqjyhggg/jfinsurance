@@ -360,6 +360,7 @@ class Cron extends MY_Controller {
 		$this->load->model ( 'user_model' );
 		$this->load->model ( 'batch_model' );
 		$this->load->model ( 'plan_model' );
+		$this->load->model ( 'payment_model' );
 		$this->load->model ( 'status_model' );
 		$this->load->model ( 'customer_model' );
 		$outdir = '/tmp/';
@@ -448,6 +449,13 @@ class Cron extends MY_Controller {
 			if ($plan['status_id'] == Plan_model::SOLD) $status_str = 'New';
 			if ($plan['status_id'] == Plan_model::REFUND) $status_str = 'Change';
 			if ($plan['status_id'] == Plan_model::CHANGED) $status_str = 'Change';
+			if ($plan['status_id'] == Plan_model::CLAIMED) {
+				$status_str = 'Paid';
+				$row = $this->payment_model->get_last_payment($plan['plan_id']);
+				if ($row && empty($row['ispaid'])) {
+					$status_str = 'Sold';
+				}
+			}
 			$sheet->setCellValue('C'.$row, $status_str);
 			$sheet->setCellValue('D'.$row, $plan['isfamilyplan'] ? "Family" : "Single");
 			$sheet->setCellValue('E'.$row, $plan['firstname']);
