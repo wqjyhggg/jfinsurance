@@ -136,7 +136,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                   <div class="x_content">
                     <div class="table-responsive">
 <?php if (!empty($report_data)) :?>
-					<div class="x_title">
+					<div class="x_title" style="border:none;">
 						<h2>Search Result<span class="inline-m">
 							<form method="get" action="<?php echo $export_list ?>" class="form-horizontal">
 								<input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>

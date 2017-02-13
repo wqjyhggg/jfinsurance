@@ -424,3 +424,4 @@ footer p{margin: 0;}
     left: 0;
     top: 3px
 }
+.main-div{position: inherit !important;}
