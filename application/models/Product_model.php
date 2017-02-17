@@ -185,7 +185,7 @@ class Product_model extends CI_Model {
 		$d1 = new \DateTime("now");
 		$d2 = new \DateTime($para['birthday']);
 		$df = $d2->diff($d1);
-		if (($df->invert) || ($df->days <= 15)) {
+		if (($df->invert) || ($df->days < 15)) {
 			$premiumArr['message'] = "Check birthday";
 			return $premiumArr;
 		}

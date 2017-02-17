@@ -254,12 +254,18 @@ class Plan extends MY_Controller {
 	}
 	
 	function from_valid_family_member() {
+		$apply_date = $this->input->post('apply_date');
 		$older_than_21 = 0;
 		$today = date("Y-m-d");
 		for ($i = 1 ; $i < 9; $i++) {
 			if (empty($this->input->post('gender_' . $i)) || empty($this->input->post('firstname_' . $i)) || empty($this->input->post('lastname_' . $i)) || empty($this->input->post('birthday_' . $i))) {
 				continue;
 			}
+			$days = $this->product_model->getDays($this->input->post('birthday_' . $i), $apply_date);
+			if ($days < 15) {
+				$this->error['error_birthday_' . $i] = "Customer age must be old than 15 days";
+			}
+			
 			$years = $this->product_model->getYears($today, $this->input->post('birthday_' . $i));
 			if ($years > 61) {
 				$this->error['error_birthday_' . $i] = 'Member older than 61';
@@ -339,6 +345,12 @@ class Plan extends MY_Controller {
 			$this->error['error_message'] = 'Please input family member information';
 		}
 		if (($product_short == 'OPL') || ($product_short == 'JFR')) {
+			$apply_date = $this->input->post('apply_date');
+			$birthday = $this->input->post('birthday');
+			$days = $this->product_model->getDays($birthday, $apply_date);
+			if ($days < 15) {
+				$this->error['error_message'] = "Customer age must be old than 15 days ".$days . "[".$birthday."][".$apply_date."]";
+			}
 			if (empty($this->input->post('stable_condition'))) {
 				$this->error['error_stable_condition'] = 'Please select pre-existing condition coverage';
 			}
@@ -385,7 +397,7 @@ class Plan extends MY_Controller {
 					if (empty($birthday)) break;
 					$years = $this->product_model->getYears($apply_date, $birthday);
 					if ($years > 69) {
-						$this->error['error_message'] = "All sCustomer age must be less than  69 years old";
+						$this->error['error_message'] = "All Customer age must be less than  69 years old";
 						break;
 					}
 				}
