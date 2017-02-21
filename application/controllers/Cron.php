@@ -377,6 +377,7 @@ class Cron extends MY_Controller {
 		$objPHPExcel = PHPExcel_IOFactory::load($filename);
 		*/
 		$objPHPExcel = new PHPExcel();
+		$objPHPExcel->getDefaultStyle()->getFont()->setName('Arial')->setSize(10);
 		$sheet = $objPHPExcel->getActiveSheet();
 		$sheet->setTitle('Sheet1');
 		$sheet->setCellValue('A1', 'Policy No');
@@ -566,6 +567,7 @@ class Cron extends MY_Controller {
 				}
 			}
 		}
+		$objPHPExcel->setActiveSheetIndex(0);
 		$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
 		$objWriter->save($outfile);
 		$uploadFilename = 'OPL2_Sales_Report_' . date('Y.m.d_H.i.s.B') . '.xls';
