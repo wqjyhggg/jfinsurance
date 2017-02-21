@@ -447,7 +447,7 @@ class Cron extends MY_Controller {
 			$sheet->setCellValue('B'.$row, $b);
 			$status_str = $status_list[$plan['status_id']]['name'];
 			if ($plan['status_id'] == Plan_model::SOLD) $status_str = 'New';
-			if ($plan['status_id'] == Plan_model::REFUND) $status_str = 'Change';
+			//if ($plan['status_id'] == Plan_model::REFUND) $status_str = 'Change';
 			if ($plan['status_id'] == Plan_model::CHANGED) $status_str = 'Change';
 			if ($plan['status_id'] == Plan_model::CLAIMED) {
 				$status_str = 'Paid';
