@@ -296,7 +296,6 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 						<div class="clearfix"></div>
 					</div>
 					<div class="x_content">
-
 						<?php if (!empty($errormsg)) { ?>
 						<div class="alert-error" style="margin-bottom:15px;">
 							<?php echo $errormsg; ?>
@@ -355,7 +354,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 										<div class="col-sm-12">
 											<label  class="inline" style="margin-bottom:0;">Card Number:</label>
 											<div class="col-sm-12 input-group">
-												<input type='text' name='card_number' value='' class="form-control">
+												<input type='text' name='card_number' value='<?php echo $card_number; ?>' class="form-control">
 											</div>
 										</div>
 									</div>
@@ -363,7 +362,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 										<div class="col-sm-12">
 											<label  class="inline" style="margin-bottom:0;">Card Holder's Name:</label>
 											<div class="col-sm-12 input-group">
-												<input type='text' name='card_name' value='' class="form-control">
+												<input type='text' name='card_name' value='<?php echo $card_name; ?>' class="form-control">
 											</div>
 										</div>
 									</div>
@@ -372,18 +371,18 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 											<div style="width:100px;" class="inline">
 												<label class="inline">Expiry Month: </label>
 												<select name='expiry_month' class="form-control" style="width:100px;text-align:center;">
-													<option value='01'>01</option>
-													<option value='02'>02</option>
-													<option value='03'>03</option>
-													<option value='04'>04</option>
-													<option value='05'>05</option>
-													<option value='06'>06</option>
-													<option value='07'>07</option>
-													<option value='08'>08</option>
-													<option value='09'>09</option>
-													<option value='10'>10</option>
-													<option value='11'>11</option>
-													<option value='12'>12</option>
+													<option value='01' <?php echo (($expiry_month == 1) ? 'selected' : ''); ?>>01</option>
+													<option value='02' <?php echo (($expiry_month == 2) ? 'selected' : ''); ?>>02</option>
+													<option value='03' <?php echo (($expiry_month == 3) ? 'selected' : ''); ?>>03</option>
+													<option value='04' <?php echo (($expiry_month == 4) ? 'selected' : ''); ?>>04</option>
+													<option value='05' <?php echo (($expiry_month == 5) ? 'selected' : ''); ?>>05</option>
+													<option value='06' <?php echo (($expiry_month == 6) ? 'selected' : ''); ?>>06</option>
+													<option value='07' <?php echo (($expiry_month == 7) ? 'selected' : ''); ?>>07</option>
+													<option value='08' <?php echo (($expiry_month == 8) ? 'selected' : ''); ?>>08</option>
+													<option value='09' <?php echo (($expiry_month == 9) ? 'selected' : ''); ?>>09</option>
+													<option value='10' <?php echo (($expiry_month == 10) ? 'selected' : ''); ?>>10</option>
+													<option value='11' <?php echo (($expiry_month == 11) ? 'selected' : ''); ?>>11</option>
+													<option value='12' <?php echo (($expiry_month == 12) ? 'selected' : ''); ?>>12</option>
 												</select> 
 											</div>
 											<div style="width:100px;" class="inline">
@@ -407,7 +406,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 										<div class="col-sm-12" style="padding:10px;">
 											<label class="inline" style="margin-bottom:0;">Card CVV:</label>
 											<div style="display:inline-block;vertical-align:middle;" >
-												<input type='text' name='card_cvv' value='' class="form-control" style="width:137px;">
+												<input type='text' name='card_cvv' value='<?php echo $card_cvv; ?>' class="form-control" style="width:137px;">
 											</div>
 										</div>
 									</div>

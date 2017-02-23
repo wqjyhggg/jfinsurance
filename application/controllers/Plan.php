@@ -1225,6 +1225,17 @@ class Plan extends MY_Controller {
 			$expiry_year = $this->input->post('expiry_year');
 			$card_cvv = $this->input->post('card_cvv');
 
+			$card_number = preg_replace('#[^0-9]#', '', $card_number);
+			$card_cvv = preg_replace('#[^0-9]#', '', $card_cvv);
+			$card_number_len = strlen($card_number);
+			$card_cvv_len = strlen($card_cvv);
+			
+			if (($card_number_len < 13) || ($card_number_len > 16)) {
+				$this->error = 'Invalid Card Number';
+			} else if (($card_cvv_len < 3) || ($card_cvv_len > 4)) {
+				$this->error = 'Invalid Card Number CVV';
+			} else {
+				
 			$plan = $this->plan_model->get_plan_by_id($plan_id);
 			$product = $this->product_model->get_product($plan['product_short']);
 			$dt = array();
@@ -1420,6 +1431,7 @@ class Plan extends MY_Controller {
 				$up_commission_payment_id = $this->payment_model->update($up_commission_payment_id, $dt);
 				$this->error = 'Card payment failed. Something wrong. Please contact support.';
 			}
+			} // number length check
 		}
 	}
 
@@ -1681,7 +1693,9 @@ class Plan extends MY_Controller {
 				$this->cheque();
 				$defaultpay_type = 'Cheque';
 			}
-			redirect(base_url('plan/detail/' . $plan_id));
+			if (empty($this->error)) {
+				redirect(base_url('plan/detail/' . $plan_id));
+			}
 		}
 		if (empty($plan_id)) {
 			redirect(base_url('production'));
@@ -1895,6 +1909,12 @@ class Plan extends MY_Controller {
 			$data['insurable_options'] = $this->load->view('plan/detail_other', $data, TRUE);
 			$data['isprocessplan'] = 0;
 		}
+		
+		$data['card_number'] = $this->input->post('card_number');
+		$data['card_name'] = $this->input->post('card_name');
+		$data['expiry_month'] = $this->input->post('expiry_month');
+		$data['expiry_year'] = $this->input->post('expiry_year');
+		$data['card_cvv'] = $this->input->post('card_cvv');
 		
 		$this->session->set_userdata ( 'withlogo', 1);
 		$this->session->set_userdata ( 'withprice', 1);
