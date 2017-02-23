@@ -56,7 +56,7 @@ class Agent extends MY_Controller
         $data['agent_id'] = empty($this->input->get_post('agent_id')) ? 0 : (int)$this->input->get_post('agent_id');
 
         $data['product_short'] = $this->input->get_post('product_short');
-        $data['region_id'] = empty($this->input->post('region_id')) ? $beuser['region_id'] : $this->input->post('region_id');
+        $data['region_id'] = empty($this->input->get_post('region_id')) ? $beuser['region_id'] : $this->input->get_post('region_id');
 
         $data['product_short'] = $this->input->get_post('product_short');
         $data['payment_added_from'] = $this->input->get_post('payment_added_from');

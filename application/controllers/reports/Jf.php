@@ -54,7 +54,7 @@ class Jf extends MY_Controller
         $this->load->model('report_model');
         
         $data['agent_id'] = $this->input->get_post('agent_id');
-        $data['region_id'] = empty($this->input->get_post('region_id')) ? $beuser['region_id'] : $this->input->post('region_id');
+        $data['region_id'] = empty($this->input->get_post('region_id')) ? $beuser['region_id'] : $this->input->get_post('region_id');
         $data['product_short'] = $this->input->get_post('product_short');
         $data['payment_added_from'] = $this->input->get_post('payment_added_from');
         $data['payment_added_to'] = $this->input->get_post('payment_added_to');

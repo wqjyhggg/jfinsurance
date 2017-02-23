@@ -636,96 +636,65 @@ class Report_model extends CI_Model
      */
     public function get_commission_report($para)
     {
-        $query = $this->get_commission_query($para);
-        $results = $this->get_commission_result($query);
-        $results['period']['from'] = $para['application_date_from'];
-        $results['period']['to'] = $para['application_date_to'];
-        return $results;
-    }
-
-    private function get_commission_query($para)
-    {
-        $this->commission_fields();
-        $this->commission_from();
-        $this->commission_where($para);
-        return $this->db->get()->result_array();
-    }
-
-    private function commission_fields()
-    {
-        $this->db->select('
-            pl.apply_date,
-            pl.policy,
-            pr.full_name AS product,
-            pr.up_insuer AS insurerCoName,
-            CONCAT(c.lastname, ", ", c.firstname) AS insured_name,
-            pl.effective_date,
-            pl.expiry_date,
-            datediff(pl.expiry_date, pl.effective_date) AS total_days,
-            pr.commission AS pr_commission,
-            up.commission AS up_commission,
-            u.user_id,
-            CONCAT(u.firstname," ", u.lastname) AS agent_name,
-            CONCAT(u.address, " ", u.city) AS address,
-            u.province2 AS province,
-            u.postcode,
-            u.note AS cheque_title,
-            u.pay_type,
-            pl.status_id,
-            pa2.added AS premium_pay_date,
-        	pa2.amount AS policy_premium,
-        	pa.amount AS pa_commission,
-            pa.ispaid
-        ');
-    }
-
-    private function commission_from()
-    {
-        $this->common_from();
-        $this->db->join('user_product up', 'u.user_id = up.user_id and pr.product_short = up.product_short', 'left');
-        $this->db->join('payment pa', 'pl.plan_id = pa.plan_id AND pa.pay_type = "commission"');
-        $this->db->join('payment pa2', 'pa.plan_id = pa2.plan_id AND pa2.pay_type = "premium" AND ABS(pa2.payment_id - pa.payment_id) <3');
-//        $this->db->join('payment pa2', 'pa.plan_id = pa2.plan_id AND pa2.pay_type = "premium" AND ABS(TIMESTAMPDIFF(SECOND, pa2.added, pa.added)) <5');
-    }
-
-    private function commission_where($para)
-    {
-        $this->common_report_where($para);
-        $this->db->where_in('pl.status_id', array(self::SOLD, self::PAID, self::CLAIMED));
-        if (!empty($para['payment_update_date_from'])) {
-            $this->db->where('pa.last_update >=', $para['payment_update_date_from'] . " 00:00:00");
+    	$sql  = "SELECT"; 
+    	$sql .= "	pa.payment_id,"; 
+    	$sql .= "	pa.user_id,"; 
+    	$sql .= "	pa.plan_id,"; 
+    	$sql .= "	pa.premium_payment_id,"; 
+    	$sql .= "	pa.last_update,"; 
+    	$sql .= "	pa.added,";		//  Payment Date
+    	$sql .= "	pl.policy,"; 
+    	$sql .= "	st.name AS status,"; 
+    	$sql .= "	pr.up_insuer,";
+    	$sql .= "	CONCAT(c.firstname, ' ', c.lastname) AS customer_name,"; 
+    	$sql .= "	pl.effective_date,";
+    	$sql .= "	pl.expiry_date,";
+    	$sql .= "	pl.totaldays AS total_days,";
+    	$sql .= "	pa2.amount AS premium,";
+    	$sql .= "	pa2.ispaid AS premiumispaid,";
+    	$sql .= "	pa.rate,";
+    	$sql .= "	pa.amount,";
+    	$sql .= "	pa.ispaid ";
+    	$sql .= " FROM payment pa"; 
+    	$sql .= " JOIN plan pl ON pa.plan_id = pl.plan_id"; 
+    	$sql .= " JOIN customer c ON pl.customer_id = c.customer_id"; 
+    	$sql .= " JOIN product pr ON pl.product_short = pr.product_short"; 
+    	$sql .= " JOIN status st ON pl.status_id = st.status_id ";
+    	$sql .= " LEFT JOIN payment pa2 ON (pa.premium_payment_id=pa2.payment_id)";
+    	$sql .= " WHERE pa.pay_type IN ('commission','cancel_commission','refund_commission') AND ABS(pa.amount)>=0.01";
+    	if (!empty($para['payment_added_from'])) {
+    		$sql .= " AND pa.added >= " . $this->db->escape($para['payment_added_from'] . " 00:00:00");
         }
-        if (!empty($para['payment_update_date_to'])) {
-            $this->db->where('pa.last_update <=', $para['payment_update_date_to'] . " 23:59:59");
+        if (!empty($para['payment_added_to'])) {
+    		$sql .= " AND pa.added <= " . $this->db->escape($para['payment_added_to'] . " 23:59:59");
         }
-    }
-
-    private function get_commission_result($query)
-    {
-        $results = array();
-        foreach ($query as $row) {
-            $row = $this->common_set_row($row);
-            $row['paid_status'] = $this->get_status($row['status_id']);
-            if ($row['ispaid'] == 1) {
-                $premium_pay_date = empty($row['premium_pay_date']) ? '' : $row['premium_pay_date'];
-                $row['commission_status'] = 'Paid';
-                $row['payment_status'] = 'Paid on ' . $premium_pay_date;
-            } else {
-                $row['commission_status'] = 'Unpaid';
-                $row['payment_status'] = '';
-            }
-            $row['commission_amount'] = (empty($row['pa_commission'])) ? $row['commission_amount'] : $row['pa_commission'];
-
-            $results['data'][$row['user_id']]['agency']['agent_name'] = $row['agent_name'];
-            $results['data'][$row['user_id']]['agency']['address'] = $row['address'];
-            $results['data'][$row['user_id']]['agency']['province'] = $row['province'];
-            $results['data'][$row['user_id']]['agency']['postal_code'] = $row['postcode'];
-            $results['data'][$row['user_id']]['agency']['payment_method'] = $row['pay_type'];
-            $results['data'][$row['user_id']]['agency']['cheque_title'] = $row['cheque_title'];
-
-            $results['data'][$row['user_id']]['records'][] = $row;
+        if (!empty($para['payment_date_from'])) {
+    		$sql .= " AND pa.last_update >= " . $this->db->escape($para['payment_date_from'] . " 00:00:00");
         }
-        return $results;
+        if (!empty($para['payment_date_to'])) {
+    		$sql .= " AND pa.last_update <= " . $this->db->escape($para['payment_date_to'] . " 23:59:59");
+        }
+        if (!empty($para['agent_id'])) {
+    		$sql .= " AND pl.user_id='" . (int)$para['agent_id'] . "'";
+    	}
+        if (!empty($para['product_short'])) {
+    		$sql .= " AND pl.product_short=" . $this->db->escape($para['product_short']);
+    	}
+        if (!empty($para['region_id'])) {
+    		$sql .= " AND pl.region_id='" . (int)$para['region_id'] . "'";
+    	}
+    	$sql .= " ORDER BY user_id ASC, added ASC";
+
+    	$query = $this->db->query($sql)->result_array();
+    	$results = array();
+    	foreach ($query as $row) {
+    		if (empty($results[$row['user_id']])) {
+    			$agent = $this->db->query("SELECT * FROM user WHERE user_id='" . (int)$row['user_id'] . "'")->row_array();
+    			$results[$row['user_id']] = array('agent' => $agent, 'data' => array());
+    		}
+    		$results[$row['user_id']]['data'][] = $row;
+    	}
+    	return $results;
     }
 
     /**

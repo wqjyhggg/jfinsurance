@@ -53,12 +53,12 @@ class Insurer extends MY_Controller
         $this->load->model('product_model');
         $this->load->model('report_model');
         $data['agent_id'] = empty($this->input->get_post('agent_id')) ? 0 : (int)$this->input->get_post('agent_id');
-        $data['region_id'] = empty($this->input->post('region_id')) ? $beuser['region_id'] : $this->input->post('region_id');
-        $data['product_short'] = $this->input->post('product_short');
-        $data['payment_added_from'] = $this->input->post('payment_added_from');
-        $data['payment_added_to'] = $this->input->post('payment_added_to');
-        $data['payment_date_from'] = $this->input->post('payment_date_from');
-        $data['payment_date_to'] = $this->input->post('payment_date_to');
+        $data['region_id'] = empty($this->input->get_post('region_id')) ? $beuser['region_id'] : $this->input->get_post('region_id');
+        $data['product_short'] = $this->input->get_post('product_short');
+        $data['payment_added_from'] = $this->input->get_post('payment_added_from');
+        $data['payment_added_to'] = $this->input->get_post('payment_added_to');
+        $data['payment_date_from'] = $this->input->get_post('payment_date_from');
+        $data['payment_date_to'] = $this->input->get_post('payment_date_to');
         
         $data['product_list'] = $this->product_model->get_available_product_list();
         $data['user_list'] = $this->user_model->get_available_user_list();

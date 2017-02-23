@@ -44,15 +44,11 @@ class Commission extends MY_Controller
         $data['agent_id'] = $this->input->post('agent_id');
         $data['region_id'] = empty($this->input->post('region_id')) ? $beuser['region_id'] : $this->input->post('region_id');
         $data['product_short'] = $this->input->post('product_short');
-        $data['application_date_from'] = $this->input->post('application_date_from', true);
-        $data['application_date_to'] = $this->input->post('application_date_to', true);
-        $data['arrival_date_from'] = $this->input->post('arrival_date_from');
-        $data['arrival_date_to'] = $this->input->post('arrival_date_to');
-        $data['effective_date_from'] = $this->input->post('effective_date_from');
-        $data['effective_date_to'] = $this->input->post('effective_date_to');
-        $data['expiry_date_from'] = $this->input->post('expiry_date_from');
-        $data['expiry_date_to'] = $this->input->post('expiry_date_to');
-
+        $data['payment_added_from'] = $this->input->post('payment_added_from');
+        $data['payment_added_to'] = $this->input->post('payment_added_to');
+        $data['payment_date_from'] = $this->input->post('payment_date_from');
+        $data['payment_date_to'] = $this->input->post('payment_date_to');
+        
         $data['product_list'] = $this->product_model->get_available_product_list();
         $data['user_list'] = $this->user_model->get_available_user_list();
         $data['report_data'] = empty($_POST) ? array() : $this->report_model->get_commission_report($data);
@@ -67,16 +63,13 @@ class Commission extends MY_Controller
         $this->load->model('product_model');
         $this->load->model('report_model');
         $data['agent_id'] = empty($this->input->get_post('agent_id')) ? 0 : (int)$this->input->get_post('agent_id');
-        $data['region_id'] = empty($this->input->post('region_id')) ? $beuser['region_id'] : $this->input->post('region_id');
+        $data['region_id'] = empty($this->input->get_post('region_id')) ? $beuser['region_id'] : $this->input->get_post('region_id');
         $data['product_short'] = $this->input->get_post('product_short');
-        $data['application_date_from'] = $this->input->get_post('application_date_from');
-        $data['application_date_to'] = $this->input->get_post('application_date_to');
-        $data['arrival_date_from'] = $this->input->get_post('arrival_date_from');
-        $data['arrival_date_to'] = $this->input->get_post('arrival_date_to');
-        $data['effective_date_from'] = $this->input->get_post('effective_date_from');
-        $data['effective_date_to'] = $this->input->get_post('effective_date_to');
-        $data['expiry_date_from'] = $this->input->get_post('expiry_date_from');
-        $data['expiry_date_to'] = $this->input->get_post('expiry_date_to');
+        $data['payment_added_from'] = $this->input->get_post('payment_added_from');
+        $data['payment_added_to'] = $this->input->get_post('payment_added_to');
+        $data['payment_date_from'] = $this->input->get_post('payment_date_from');
+        $data['payment_date_to'] = $this->input->get_post('payment_date_to');
+        
         $data['product_list'] = $this->product_model->get_available_product_list();
         $data['user_list'] = $this->user_model->get_available_user_list();
         $data['report_data'] = $this->report_model->get_commission_report($data);
@@ -86,36 +79,33 @@ class Commission extends MY_Controller
 
         $w = WriterFactory::create(Type::XLSX); // for XLSX files
         $kArr = array(
-                'apply_date' => 'Payment Date',
+                'added' => 'Payment Date',
                 'policy' => 'Policy Number',
-                'paid_status' => 'Paid Status',
-                'insurerCoName' => 'Insurer',
-                'insured_name' => 'Customer Name',
+                'status' => 'Paid Status',
+                'up_insuer' => 'Insurer',
+                'customer_name' => 'Customer Name',
                 'effective_date' => 'Effective Date',
                 'expiry_date' => 'Expiry Date',
                 'total_days' => 'Trip Length',
-                'policy_premium' => 'Total Premium',
-                'payment_status' => 'Payment Status',
-                'commission_rate' => 'Commission Rate(%)',
-                'commission_amount' => 'Commission Amount',
-                'commission_status' => 'Commission Status');
+                'premium' => 'Total Premium',
+                'premiumispaid' => 'Payment Status',
+                'rate' => 'Commission Rate(%)',
+                'amount' => 'Commission Amount',
+                'ispaid' => 'Commission Status');
 
         $tmpfname = "/tmp/jf_test.xlsx";
         
         $w->openToBrowser("Commission_Report_" . date('Ymd') . ".xlsx");
         //$w->openToFile($tmpfname);
         
-        $date_from = $data['report_data']['period']['from'];
-        $date_to = $data['report_data']['period']['to'];
-
-        foreach ($data['report_data']['data'] as $datas) {
-            $arr = array('Agent Name:' , $datas['agency']['agent_name'], '','', 'Payment Method: ', $datas['agency']['payment_method']);
+        foreach ($data['report_data'] as $datas) {
+            $arr = array('Agent Name:' , $datas['agent']['firstname'] . ' ' . $datas['agent']['lastname'], '','', 'Payment Method: ', $datas['agent']['receive_type']);
             $w->addRow($arr);
 
-            $arr = array('','','','','Mailling Addrerss: ', $datas['agency']['address'] . ',' . $datas['agency']['province'] . ',' . $datas['agency']['postal_code']);
+            $arr = array('','','','','Mailling Addrerss: ', $datas['agent']['mail_address'] . ' ' . $datas['agent']['mail_city'] . ',' . $datas['agent']['mail_province2'] . ',' . $datas['agent']['mail_postcode']);
             $w->addRow($arr);
            
-            $arr = array('Commission Cheque Title: ', $datas['agency']['cheque_title']);
+            $arr = array('Commission Cheque Title: ', $datas['agent']['note']);
             $w->addRow($arr);
 
             $arr = array('', '');
@@ -125,7 +115,7 @@ class Commission extends MY_Controller
             foreach ($kArr as $k => $v) { $arr[] = $v; } 
             $w->addRow($arr);
 
-            foreach ($datas['records'] as $record) {
+            foreach ($datas['data'] as $record) {
                 $arr = array();
                 foreach ($kArr as $k => $v) { $arr[] = $record[$k]; } 
                 $w->addRow($arr);
