@@ -215,8 +215,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <th>Commission Amount</th>
                             <th>Commission Status</th>
                           </tr>
-        <?php foreach ($data['data'] as $record) : ?>
         <?php $cnt = 1; ?>
+        <?php foreach ($data['data'] as $record) : ?>
                             <tr>
                               <td><?php echo $cnt++; ?></td>
                               <td><?php echo substr($record['added'], 0, 10); ?></td>
