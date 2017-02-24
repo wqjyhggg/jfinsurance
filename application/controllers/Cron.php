@@ -366,7 +366,8 @@ class Cron extends MY_Controller {
 		$outdir = '/tmp/';
 		$pattern = "/^([_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,}))(.*)$/";
 		
-		$outfile = $outdir . 'OPL2_Sales_Report_' . date('Y.m.d_H.i.s.B') . '.xls';
+		$uploadFilename = 'OPL2_Sales_Report_' . date('Y.m.d_H.i.s.B') . '.xls';
+		$outfile = $outdir . $uploadFilename;
 		/*
 		$filename = DOWNLOADDIR . 'OPL_Sales_Report.xls';
 		if (!file_exists($filename)) {
@@ -378,6 +379,20 @@ class Cron extends MY_Controller {
 		*/
 		$objPHPExcel = new PHPExcel();
 		$objPHPExcel->getDefaultStyle()->getFont()->setName('Arial')->setSize(10);
+
+		// Set document properties
+		$objPHPExcel->getProperties()->setCreator("AuroraTech Inc.")
+			->setLastModifiedBy("Jack Wu")
+			->setTitle("Office Document")
+			->setSubject("Office Document")
+			->setDescription("Generated using PHP classes.")
+			->setKeywords("php")
+			->setCategory("result file");
+		
+		
+		// Add some data
+		$objPHPExcel->setActiveSheetIndex(0);
+
 		$sheet = $objPHPExcel->getActiveSheet();
 		$sheet->setTitle('Sheet1');
 		$sheet->setCellValue('A1', 'Policy No');
@@ -452,8 +467,8 @@ class Cron extends MY_Controller {
 			if ($plan['status_id'] == Plan_model::CHANGED) $status_str = 'Change';
 			if ($plan['status_id'] == Plan_model::CLAIMED) {
 				$status_str = 'Paid';
-				$row = $this->payment_model->get_last_payment($plan['plan_id']);
-				if ($row && empty($row['ispaid'])) {
+				$payrow = $this->payment_model->get_last_payment($plan['plan_id']);
+				if ($payrow && empty($payrow['ispaid'])) {
 					$status_str = 'Sold';
 				}
 			}
@@ -570,8 +585,7 @@ class Cron extends MY_Controller {
 		$objPHPExcel->setActiveSheetIndex(0);
 		$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
 		$objWriter->save($outfile);
-		$uploadFilename = 'OPL2_Sales_Report_' . date('Y.m.d_H.i.s.B') . '.xls';
-		echo "Save to : " . $outfile . " Upload to : " . $uploadFilename . "\n";
+		echo "Save to : " . $outfile . "\n";
 		$uploaded = FALSE;
 		for ($i = 0; $i < 5; $i++) {
 			$uploaded = $this->ftp($outfile, $uploadFilename);
@@ -583,8 +597,8 @@ class Cron extends MY_Controller {
 		}
 		if (!$uploaded) {
 			$this->load->model("mymail_model");
-			$this->mymail_model->send_mymail('wqjyhggg@gmail.com', 'JF upload error', "Local file: " . $outfile ."\n remote file: " . $uploadFilename);
-			$this->mymail_model->send_mymail('cosmo@jfgroup.ca', 'JF upload error', "Local file: " . $outfile ."\n remote file: " . $uploadFilename, array($outfile));
+			$this->mymail_model->send_mymail('wqjyhggg@gmail.com', 'JF upload error', "File: " . $outfile);
+			$this->mymail_model->send_mymail('cosmo@jfgroup.ca', 'JF upload error', "File: " . $outfile, array($outfile));
 		}
 	}
 
