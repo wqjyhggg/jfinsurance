@@ -9,6 +9,8 @@ class Myhome_model extends CI_Model {
 	public $error;
 	public $logo_width = 390;
 	public $image_width = 1500;
+	public $pdf_logo_width = 80;
+	public $pdf_qr_width = 60;
 	
 	/**
 	 * Get myhome record by user_id
@@ -71,6 +73,27 @@ class Myhome_model extends CI_Model {
 	}
 
 	/**
+	 * Return log name
+	 *
+	 * @return string
+	 */
+	public function get_pdf_logo_filename() {
+		$beuser = $this->session->userdata('beuser');
+		return md5($beuser['user_id']) . 'pdflogo';
+	}
+
+	/**
+	 * Return image name
+	 *
+	 * @param integer $plan_id
+	 * @return array
+	 */
+	public function get_pdf_qr_filename() {
+		$beuser = $this->session->userdata('beuser');
+		return md5($beuser['user_id']) . 'pdfqr';
+	}
+
+	/**
 	 * Return log width
 	 *
 	 * @return integer
@@ -86,6 +109,24 @@ class Myhome_model extends CI_Model {
 	 */
 	public function get_image_width() {
 		return $this->image_width;
+	}
+
+	/**
+	 * Return log width
+	 *
+	 * @return integer
+	 */
+	public function get_pdf_logo_width() {
+		return $this->pdf_logo_width;
+	}
+
+	/**
+	 * Return image width
+	 *
+	 * @return integer
+	 */
+	public function get_pdf_qr_width() {
+		return $this->pdf_qr_width;
 	}
 
 	/**

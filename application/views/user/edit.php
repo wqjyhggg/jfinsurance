@@ -41,7 +41,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<br />
 					</div>
 					<?php } ?>
-					<form action='<?php echo $action_url; ?>' method='POST' class="form-horizontal">
+					<form action='<?php echo $action_url; ?>' method='POST' class="form-horizontal" enctype="multipart/form-data">
 
 					<input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
 					<input type='hidden' name='user_id' value='<?php echo $user_id; ?>'>
@@ -408,9 +408,28 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								</select>
 							</div>
 					    </div>
+					</div><br />
 
+					<div class="row">
+						<label class="form-group col-sm-12">Customize PDF:</label>
+			            <div class="form-group col-sm-12">
+				            <div class="form-group col-sm-4">
+				            	<input type='checkbox' name='enable_pdf' <?php echo empty($enable_pdf) ? '' : 'checked'; ?>> Enable Customize PDF
+				            </div>
+				            <div class="form-group col-sm-4">
+				            	<input type='file' name='logo_src'  accept="image/*"> Logo (best 80 pixel)
+								<?php if (!empty($pdf_logo)) { ?>
+									<img class="img-responsive" style="width:80px;" src="<?php echo base_url('agent/img') . '/' . $pdf_logo; ?>" />
+								<?php } ?>
+				            </div>
+				            <div class="form-group col-sm-4">
+				            	<input type='file' name='qr_src'  accept="image/*"> QR (best 60 pixel)
+								<?php if (!empty($pdf_qr)) { ?>
+									<img class="img-responsive" style="width:60px;" src="<?php echo base_url('agent/img') . '/' . $pdf_qr; ?>" />
+								<?php } ?>
+				            </div>
+			            </div>
 					</div>
-
 					
 					<div class="row">
 						<label class="col-sm-12">Notes:</label>

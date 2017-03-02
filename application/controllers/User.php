@@ -53,6 +53,100 @@ class User extends MY_Controller {
 	 */
 	private function verify() {
 		$rt = TRUE;
+		
+		if (!empty($_FILES)) {
+			$this->load->library('upload');
+			$this->load->library('image_lib');
+			$this->load->model('myhome_model');
+			if (!empty($_FILES['logo_src']) && !empty($_FILES['logo_src']['tmp_name'])) {
+				$logo = $this->myhome_model->get_pdf_logo_filename();
+				foreach (glob(AGENTINFODIR . $logo ."*") as $filename) {
+					unlink($filename);
+				}
+			
+				$para = array(
+						'allowed_types' => 'gif|jpg|png', 
+						'file_name' => $logo,
+						'upload_path' => AGENTINFODIR,
+						'file_ext_tolower' => TRUE
+				);
+				$this->upload->initialize($para);
+				if ( ! $this->upload->do_upload('logo_src')) {
+					$this->data['error_myname_logo'] = $this->lang->line ( 'error_myname_logo' );
+					$rt = FALSE;
+				} else {
+					$filedata = $this->upload->data();
+					/*
+					[file_name] => logeccbc87e4b5ce2fe28308fd9f2a7baf33.png
+					[file_type] => image/png
+					[file_path] => /home/jackw/Public/jfgroup/agentinfo/
+					[full_path] => /home/jackw/Public/jfgroup/agentinfo/logeccbc87e4b5ce2fe28308fd9f2a7baf33.png
+					[raw_name] => logeccbc87e4b5ce2fe28308fd9f2a7baf33
+					[orig_name] => logeccbc87e4b5ce2fe28308fd9f2a7baf3.png
+					[client_name] => 2.PNG
+					[file_ext] => .png
+					[file_size] => 296.71
+					[is_image] => 1
+					[image_width] => 1409
+					[image_height] => 974
+					[image_type] => png
+					[image_size_str] => width="1409" height="974"
+					*/	
+					$disfile = $filedata['raw_name'] . "_thumb" . $filedata['file_ext'];
+					if (file_exists($disfile)) {
+						unlink($disfile);
+					}
+					$imgpara = array(
+							'image_library' => 'gd2',
+							'source_image' => $filedata['full_path'],
+							'maintain_ratio' => TRUE,
+							'create_thumb' => TRUE,
+							'width' => $this->myhome_model->get_pdf_logo_width(),
+					);
+					$this->image_lib->initialize($imgpara);
+					$this->image_lib->resize();
+					$this->image_lib->clear();
+					$this->data['pdf_logo'] = $disfile;
+				}
+			}
+				
+			if (!empty($_FILES['qr_src']) && !empty($_FILES['qr_src']['tmp_name'])) {
+				$image = $this->myhome_model->get_pdf_qr_filename();
+				foreach (glob(AGENTINFODIR . $image ."*") as $filename) {
+					unlink($filename);
+				}
+				
+				$para = array(
+						'allowed_types' => 'gif|jpg|png', 
+						'file_name' => $image,
+						'upload_path' => AGENTINFODIR,
+						'file_ext_tolower' => TRUE
+				);
+				$this->upload->initialize($para);
+				if ( ! $this->upload->do_upload('qr_src')) {
+					$this->data['error_myname_image'] = $this->lang->line ( 'error_myname_image' );
+					$rt = FALSE;
+				} else {
+					$filedata = $this->upload->data();
+					$disfile = $filedata['raw_name'] . "_thumb" . $filedata['file_ext'];
+					if (file_exists($disfile)) {
+						unlink($disfile);
+					}
+					$imgpara = array(
+							'image_library' => 'gd2',
+							'source_image' => $filedata['full_path'],
+							'maintain_ratio' => TRUE,
+							'create_thumb' => TRUE,
+							'width' => $this->myhome_model->get_pdf_qr_width(),
+					);
+					$this->image_lib->initialize($imgpara);
+					$this->image_lib->resize();
+					$this->image_lib->clear();
+					$this->data['pdf_qr'] = $disfile;
+				}
+			}
+		}
+		
 		$group_id = (int)$this->input->post('user_group_id');
 		if ($group_id < 1) {
 			$this->data['error_user_group'] = $this->lang->line('error_user_group');
@@ -253,7 +347,10 @@ class User extends MY_Controller {
 			if ($this->user_model->check_username( $user_id, $this->input->post('username'))) {
 				$this->data['error_message'] = "username existed, please select other username";
 			} else {
-				$this->user_model->update ( $user_id, $this->input->post(), 1, array('product_list' => 1));
+				$post = $this->input->post();
+				if (!empty($this->data['pdf_logo'])) $post['pdf_logo'] = $this->data['pdf_logo'];
+				if (!empty($this->data['pdf_qr'])) $post['pdf_qr'] = $this->data['pdf_qr'];
+				$this->user_model->update ( $user_id, $post, 1, array('product_list' => 1));
 				$this->log_model->activity('user', array('message' => $this->user_model->logstr, 'systemlog' => $this->user_model->sqlstr));
 				redirect ( base_url ('user') );
 			}
@@ -297,7 +394,9 @@ class User extends MY_Controller {
 		$this->data['ip'] = '';
 		$this->data['status'] = '';
 		$this->data['date_added'] = '';
-		$this->data['note'] = '';
+		$this->data['enable_pdf'] = 0;
+		$this->data['pdf_logo'] = '';
+		$this->data['pdf_qr'] = '';
 
 		$product_list = $this->product_model->product_list(1);
 		$plist = array();

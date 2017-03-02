@@ -624,6 +624,37 @@ class User_model extends CI_Model {
 				$para['note'] = trim($post['note']);
 			}
 		}
+		$enable_pdf = 0;
+		if (!empty($post['enable_pdf'])) $enable_pdf = 1;
+
+		if ($this_user) {
+			if ($this_user['enable_pdf'] != $enable_pdf) {
+				$this->logstr .= "enable_pdf[".$this_user['enable_pdf']."]=>[".$enable_pdf."],";
+				$para['enable_pdf'] = $enable_pdf;
+			}
+		} else {
+			$para['enable_pdf'] = $enable_pdf;
+		}
+		if (!empty($post['pdf_logo'])) {
+			if ($this_user) {
+				if ($this_user['pdf_logo'] != $post['pdf_logo']) {
+					$this->logstr .= "pdf_logo[".$this_user['note']."]=>[".$post['pdf_logo']."],";
+					$para['pdf_logo'] = trim($post['pdf_logo']);
+				}
+			} else {
+				$para['pdf_logo'] = trim($post['pdf_logo']);
+			}
+		}
+		if (!empty($post['pdf_qr'])) {
+			if ($this_user) {
+				if ($this_user['pdf_qr'] != $post['pdf_qr']) {
+					$this->logstr .= "pdf_qr[".$this_user['pdf_qr']."]=>[".$post['pdf_qr']."],";
+					$para['pdf_qr'] = trim($post['pdf_qr']);
+				}
+			} else {
+				$para['pdf_qr'] = trim($post['pdf_qr']);
+			}
+		}
 		if (!empty($post['date_added'])) {
 			if ($this_user) {
 			} else {
