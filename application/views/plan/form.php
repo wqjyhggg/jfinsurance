@@ -995,7 +995,7 @@ function get_premium() {
 	}
 	var birthday = $('input[name="birthday"]').val();	// 
 	var number_customer = 0;
-	if ((product_short != 'NUS') && (product_short != 'JUS')) {
+	if (isfamilyplan && (product_short != 'NUS') && (product_short != 'JUS')) {
 		if (new Date(birthday) > new Date($('input[name="birthday_1"]').val())) {
 			birthday = $('input[name="birthday_1"]').val();
 		} 
