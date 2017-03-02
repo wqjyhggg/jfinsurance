@@ -92,7 +92,16 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 
 				<div style="width: 260px; margin: 0 auto;">
 					<h4><span class="small"><?php if ($plan['status_id'] < 2) { ?>Quote<?php } else {?>Certificate<?php } ?> No.: &nbsp;&nbsp;</span><span class="small"><?php echo $plan['policy']; ?></span></h4>
-					<h4><span class="small"> Insured Name:&nbsp;&nbsp;&nbsp;</span><span class="small"><?php echo $customer['firstname'] . " " . $customer['lastname']; ?></span></h4>
+					<h4><span class="small"> Insured Name:&nbsp;&nbsp;&nbsp;</span><span class="small">
+					<?php
+					echo $customer['firstname'] . " " . $customer['lastname'];
+					if (!empty($customers)) {
+						foreach ($customers as $c) {
+							echo ", " . $c['firstname'] . " " . $c['lastname'];
+						}
+					}
+					?>
+					</span></h4>
 					<!--h4> Deductible: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span><?php echo $plan['deductible_amount']; ?></span></h4-->
 					<h4>
 						<span class="small pull-left">Effective Date: &nbsp;&nbsp;</span><span class="small"><?php echo $plan['effective_date']; ?></sapn>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -117,7 +126,16 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 				
 				<div style="width: 260px; margin: 0 auto;">
 					<h4><span class="small"><?php if ($plan['status_id'] < 2) { ?>Quote<?php } else {?>Certificate<?php } ?> No.: &nbsp;&nbsp;</span><span class="small"><?php echo $plan['policy']; ?></span></h4>
-					<h4><span class="small"> Insured Name:&nbsp;&nbsp;&nbsp;</span><span class="small"><?php echo $customer['firstname'] . " " . $customer['lastname']; ?></span></h4>
+					<h4><span class="small"> Insured Name:&nbsp;&nbsp;&nbsp;</span><span class="small">
+					<?php 
+					echo $customer['firstname'] . " " . $customer['lastname'];
+					if (!empty($customers)) {
+						foreach ($customers as $c) {
+							echo ", " . $c['firstname'] . " " . $c['lastname'];
+						}
+					}
+					?>
+					</span></h4>
 					<!--h4> Deductible: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span><?php echo $plan['deductible_amount']; ?></span></h4-->
 					<h4>
 						<span class="small pull-left">Effective Date: &nbsp;&nbsp;</span><span class="small"><?php echo $plan['effective_date']; ?></sapn>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;

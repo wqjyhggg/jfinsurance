@@ -2295,6 +2295,7 @@ class Plan extends MY_Controller {
 			$refund_amount = (float)$this->input->post('refund_amount');
 			$admin_fee = (float)$this->input->post('admin_fee');
 			$total_amount = (float)$this->input->post('total_refund');
+			$refund_date = $this->input->post('refund_date');
 			//die($refund_amount . '==' . $admin_fee . '++' . $total_amount);
 			if ($total_amount > 0) {
 				$this->load->model('payment_model');
@@ -2357,7 +2358,7 @@ class Plan extends MY_Controller {
 				$this->log_model->activity('up_commission', $para);
 	
 				$note = "Refund at " . $dt['added'] . " amount: " . $refund_amount . " admin fee: " . $admin_fee . "; " . $plan['note'];
-				$para = array('status_id' => 6, 'payment_id' => $payment_id, 'commission_payment_id' => $commission_payment_id, 'note' => $note );  // Change status to refund
+				$para = array('status_id' => 6, 'payment_id' => $payment_id, 'commission_payment_id' => $commission_payment_id, 'refund_date' => $refund_date, 'note' => $note );  // Change status to refund
 				$this->plan_model->update($plan_id, $para);
 				$para = array(
 						'plan_id' => $plan_id,

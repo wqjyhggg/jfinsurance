@@ -116,8 +116,12 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 							<?php if (!empty($plan_refund_date)) {?>
 							<div class="row">
 								<div class="col-sm-3">
+									<label class="inline">Refund Porcess Date:</label>
+									<span><?php echo substr($plan_refund_date, 0, 10); ?></span>
+								</div>
+								<div class="col-sm-3">
 									<label class="inline">Refund Date:</label>
-									<span><?php echo $plan_refund_date; ?></span>
+									<span><?php echo $plan['refund_date']; ?></span>
 								</div>
 							</div>
 							<?php } ?>

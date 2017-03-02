@@ -514,6 +514,10 @@ class Plan_model extends CI_Model {
 			$this->logstr .= " note " . $para['note'] . "(" . $plan['note'] . ")";
 			$sql .= " note=" . $this->db->escape($para['note']) . ", ";
 		}
+		if (isset($para['refund_date']) && ($para['refund_date'] != $plan['refund_date'])) {
+			$this->logstr .= " refund_date " . $para['refund_date'] . "(" . $plan['refund_date'] . ")";
+			$sql .= " refund_date=" . $this->db->escape($para['refund_date']) . ", ";
+		}
 		if ($sql == "UPDATE plan SET") {
 			// No change 
 			return $plan_id;
