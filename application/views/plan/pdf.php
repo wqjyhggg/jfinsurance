@@ -90,8 +90,8 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 						<h4 style="margin-bottom:15px;"><u>Coverage Details</u></h4>
 						<h4>Insurance Plan:<br />&nbsp;&nbsp;&nbsp;<span><?php echo $plan_full_name;?></span></h4>
 						<h4>Plan Type: <span><?php if($plan['isfamilyplan']==1){ echo "Family";}else{echo "Individual";} ?></sapn> </h4>
-						<?php if ($plan['sum_insured']) { ?><h4>Sum Insured: <span><?php echo number_format($plan['sum_insured'], 2); ?></sapn> </h4><?php } ?>
-						<?php if ($plan['deductible_amount']) { ?><h4>Deductible: <span>$<?php echo number_format($plan['deductible_amount'], 2);?></sapn> </h4><?php } ?>
+						<?php if ($plan['sum_insured']) { ?><h4>Sum Insured: <span>$<?php echo number_format($plan['sum_insured'], 2); ?></sapn> </h4><?php } ?>
+						<?php if ($plan['deductible_amount'] || ($plan['product_short'] == 'OPL') || ($plan['product_short'] == 'JFR')) { ?><h4>Deductible: <span>$<?php echo number_format($plan['deductible_amount'], 2);?></sapn> </h4><?php } ?>
 						<h4>Beneficiary: <span><?php echo $plan['beneficiary'];?></sapn> </h4>
 					</div>
 					<div class="col-sm-6 nopadding">
