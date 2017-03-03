@@ -39,8 +39,8 @@ class Claimreport extends MY_Controller
         $data['product_short'] = $this->input->post('product_short');
         $data['application_date_from'] = $this->input->post('application_date_from');
         $data['application_date_to'] = $this->input->post('application_date_to');
-        $data['create_date_from'] = empty($this->input->post('create_date_from')) ? date('Y-m-01') : $this->input->post('create_date_from', true);
-        $data['create_date_to'] = empty($this->input->post('create_date_to')) ? date("Y-m-d") : $this->input->post('create_date_to', true);
+        $data['create_date_from'] = $this->input->post('create_date_from');
+        $data['create_date_to'] = $this->input->post('create_date_to');
         $data['effective_date_from'] = $this->input->post('effective_date_from');
         $data['effective_date_to'] = $this->input->post('effective_date_to');
         $data['payment_update_date_from'] = $this->input->post('payment_update_date_from');
@@ -48,7 +48,7 @@ class Claimreport extends MY_Controller
 
         $data['product_list'] = $this->product_model->get_available_product_list();
         $data['user_list'] = $this->user_model->get_available_user_list();
-        $data['report_data'] = empty($_POST) ? array() : $this->report_model->get_claim_report($data);
+        $data['report_data'] = ($this->input->server('REQUEST_METHOD') != 'POST') ? array() : $this->report_model->get_claim_report($data);
         
         $data['export_list'] = base_url ( "reports/claimreport/export_list" );
         $data['export_form'] = $this->load->view ( 'reports/agent_export', $data, true);
@@ -60,12 +60,12 @@ class Claimreport extends MY_Controller
         $this->load->model('product_model');
         $this->load->model('report_model');
         $data['agent_id'] = empty($this->input->get_post('agent_id')) ? 0 : (int)$this->input->get_post('agent_id');
-        $data['region_id'] = empty($this->input->post('region_id')) ? $beuser['region_id'] : $this->input->post('region_id');
+        $data['region_id'] = empty($this->input->get_post('region_id')) ? $beuser['region_id'] : $this->input->get_post('region_id');
         $data['product_short'] = $this->input->get_post('product_short');
         $data['application_date_from'] = $this->input->get_post('application_date_from');
         $data['application_date_to'] = $this->input->get_post('application_date_to');
-        $data['create_date_from'] = empty($this->input->get_post('create_date_from')) ? date('Y-m-01') : $this->input->get_post('create_date_from', true);
-        $data['create_date_to'] = empty($this->input->get_post('create_date_to')) ? date("Y-m-d") : $this->input->get_post('create_date_to', true);
+        $data['create_date_from'] = $this->input->get_post('create_date_from');
+        $data['create_date_to'] = $this->input->get_post('create_date_to');
         $data['effective_date_from'] = $this->input->get_post('effective_date_from');
         $data['effective_date_to'] = $this->input->get_post('effective_date_to');
         $data['payment_update_date_from'] = $this->input->get_post('payment_update_date_from');
@@ -74,7 +74,7 @@ class Claimreport extends MY_Controller
         $data['user_list'] = $this->user_model->get_available_user_list();
         $data['report_data'] = $this->report_model->get_claim_report($data);
         
-        if (empty($data['report_data']) || empty($data['report_data']['data'])) {
+        if (empty($data['report_data'])) {
         	redirect('reports/claimreport') ;
         }
         
@@ -83,21 +83,22 @@ class Claimreport extends MY_Controller
 
         $w = WriterFactory::create(Type::XLSX); // for XLSX files
         $kArr = array(
-                'policy_number' => 'Policy Number',
-                'deductible_amount' => 'Deductible',
+                'claim_number' => 'Claim Number',
+        		'policy' => 'Policy Number',
+                'agent_name' => 'Agent Name',
+                'staff_name' => 'Enter User',
+        		'deductible_amount' => 'Deductible',
                 'customer_name' => 'Customer Name',
                 'birthday' => 'Date of Birth',
                 'address' => 'Address',
                 'city' => 'City',
-                'province' => 'Province',
+                'province2' => 'Province',
                 'postcode' => 'Postal Code',
                 'gender' => 'Gender',
-                'agent_name' => 'Agent Name',
-                'claim_number' => 'Claim Number',
                 'claim_date' => 'Claim Date',
                 'service_date' => 'Service Date',
                 'diagnosis' => 'Diagnosis',
-                'name' => 'Coverage Code',
+                'coverage_code_id' => 'Coverage Code',
                 'claimed' => 'Claim Amount',
                 'paid' => 'Amount Paid',
                 'amount_received' => 'Amount Received',
@@ -110,27 +111,19 @@ class Claimreport extends MY_Controller
         
         $w->openToBrowser("Claim_Report_" . date('Ymd') . ".xlsx");
         //$w->openToFile($tmpfname);
-
+        $arr = array();
+        foreach ($kArr as $k => $v) { $arr[] = $v; } 
+        $w->addRow($arr);
         
-        $date_from = $data['report_data']['period']['from'];
-        $date_to = $data['report_data']['period']['to'];
-
-        foreach ($data['report_data']['data'] as $datas) {
-            $arr = array('Date From: ', $date_from, 'To: ', $date_to);
-            $w->addRow($arr);
-            $arr = array('Agent: ', $datas['agency']);
-            $w->addRow($arr);
-            $arr = array('','');
-            $w->addRow($arr);
+        foreach ($data['report_data'] as $data) {
             $arr = array();
-            foreach ($kArr as $k => $v) { $arr[] = $v; } 
-            $w->addRow($arr);
-            foreach ($datas['records'] as $data) {
-                $w->addRow($data);
-            }
-            $arr = array('','');
-            $w->addRow($arr);
+        	foreach ($kArr as $k => $v) { $arr[] = $data[$k]; } 
+        	$w->addRow($arr);
         }
+
+        $arr = array('');
+        $w->addRow($arr);
+        
         $w->close();
         /*
         header('Content-type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');

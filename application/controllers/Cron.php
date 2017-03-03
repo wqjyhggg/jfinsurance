@@ -472,6 +472,9 @@ class Cron extends MY_Controller {
 					$status_str = 'Sold';
 				}
 			}
+			if (empty($plan['firstname'])) $plan['firstname'] = '.';
+			if (empty($plan['lastname'])) $plan['lastname'] = '.';
+			if (empty($plan['gender'])) $plan['gender'] = '.';
 			$sheet->setCellValue('C'.$row, $status_str);
 			$sheet->setCellValue('D'.$row, $plan['isfamilyplan'] ? "Family" : "Single");
 			$sheet->setCellValue('E'.$row, $plan['firstname']);

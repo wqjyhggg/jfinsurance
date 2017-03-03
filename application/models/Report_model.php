@@ -401,88 +401,37 @@ class Report_model extends CI_Model
      */
     public function get_claim_report($para)
     {
-        $query = $this->get_claim_report_query($para);
-        $results = $this->get_claim_report_result($query);
-        $results['period']['from'] = $para['create_date_from'];
-        $results['period']['to'] = $para['create_date_to'];
-        return $results;
-    }
+    	$sql  = "SELECT pl.policy, pl.deductible_amount, CONCAT(pl.street_number, ' ', pl.street_name) AS address, pl.suite_number, pl.city, pl.province2, pl.postcode,";
+    	$sql .= "       CONCAT(cl.firstname, ' ', cl.lastname) AS customer_name, cl.birthday,cl.gender, cl.claim_number, cl.claim_date,";
+    	$sql .= "       ci.service_date, ci.diagnosis, ci.coverage_code_id, ci.claimed, ci.paid, ci.received AS amount_received, ci.cheque_number, ci.cashed_date, ci.pay_to, ci.external_note,";
+    	$sql .= "       u.username AS agent_name,";
+    	$sql .= "       u2.username staff_name";
+    	$sql .= " FROM plan as pl";
+    	$sql .= " JOIN claim as cl ON (pl.plan_id=cl.plan_id)";
+    	$sql .= " JOIN citem as ci ON (cl.claim_id=ci.claim_id)";
+    	$sql .= " JOIN user as u ON (pl.user_id=u.user_id)";
+    	$sql .= " JOIN user as u2 ON (cl.user_id=u2.user_id)";
+    	
+    	$where = array();
+    	if (!empty($para['application_date_from'])) $where[] = "pl.apply_date >= " . $this->db->escape($para['application_date_from']);
+    	if (!empty($para['application_date_to'])) $where[] = "pl.apply_date <= " . $this->db->escape($para['application_date_to']);
+    	if (!empty($para['effective_date_from'])) $where[] = "pl.effective_date >= " . $this->db->escape($para['effective_date_from']);
+    	if (!empty($para['effective_date_to'])) $where[] = "pl.effective_date <= " . $this->db->escape($para['effective_date_to']);
+    	if (!empty($para['agent_id'])) $where[] = "pl.user_id='" . (int)$para['agent_id'] . "'";
+    	if (!empty($para['region_id'])) $where[] = "pl.region_id='" . (int)$para['region_id'] . "'";
+    	if (!empty($para['product_short'])) $where[] = "pl.product_short=" . $this->db->escape($para['product_short']);
+    	$where[] = "pl.status_id = '4'";
+    	if (!empty($para['create_date_from'])) $where[] = "cl.claim_date >= " . $this->db->escape($para['create_date_from']);
+    	if (!empty($para['create_date_to'])) $where[] = "cl.claim_date <= " . $this->db->escape($para['create_date_to']);
+    	if (!empty($para['payment_update_date_from'])) $where[] = "ci.paid_date >= " . $this->db->escape($para['payment_update_date_from']);
+    	if (!empty($para['payment_update_date_to'])) $where[] = "ci.paid_date <= " . $this->db->escape($para['payment_update_date_to']);
+    	
+        if (!empty($where)) {
+    		$sql .= " WHERE " . join(" AND ", $where);
+    	}
 
-    private function get_claim_report_query($para)
-    {
-        $this->claim_report_fields();
-        $this->claim_report_from();
-        $this->claim_report_where($para);
-        $this->db->order_by('cl.plan_id');
-        return $this->db->get()->result_array();
-    }
-
-    private function claim_report_fields()
-    {
-        $this->db->select('
-            cl.policy_number,
-            pl.deductible_amount,
-            CONCAT(cl.firstname, " ", cl.lastname) AS customer_name,
-            cl.birthday,
-            CONCAT(pl.street_number, " ", pl.street_name) AS address,
-            pl.suite_number,
-            pl.city,
-            pl.province2 AS province,
-            pl.postcode,
-            cl.gender,
-            CONCAT(u.firstname, " ", u.lastname) AS agent_name,
-            cl.claim_number,
-            cl.claim_date,
-            ci.service_date,
-            ci.diagnosis,
-            cc.name,
-            ci.claimed,
-            ci.paid,
-            ci.received AS amount_received,
-            ci.cheque_number,
-            ci.cashed_date,
-            ci.pay_to,
-            ci.external_note,
-            u.user_id
-        ');
-    }
-
-    private function claim_report_from()
-    {
-        $this->db->from('claim cl');
-        $this->db->join('citem ci', 'cl.claim_id = ci.claim_id');
-        $this->db->join('plan pl', 'cl.plan_id = pl.plan_id');
-        $this->db->join('customer c', 'cl.customer_id = c.customer_id');
-        $this->db->join('product pr', 'cl.product_short = pr.product_short');
-        $this->db->join('user u', 'cl.user_id = u.user_id');
-        $this->db->join('coverage_code cc', 'ci.coverage_code_id = cc.coverage_code_id');
-    }
-
-    private function claim_report_where($para)
-    {
-        $this->common_report_where($para);
-        if (!empty($para['create_date_from'])) {
-            $this->db->where('cl.claim_date >=', $para['create_date_from']);
-        }
-        if (!empty($para['create_date_to'])) {
-            $this->db->where('cl.claim_date <=', $para['create_date_to']);
-        }
-        $this->db->where_in('pl.status_id', array(self::SOLD, self::PAID, self::CLAIMED));
-        if (!empty($para['region_id'])) {
-            $this->db->where('pl.region_id', $para['region_id']);
-        }
-    }
-
-    private function get_claim_report_result($query)
-    {
-        $results = array();
-        foreach ($query as $row) {
-            $results['data'][$row['user_id']]['agency'] = $row['agent_name'];
-            if (!empty($row['suite_number'])) {
-                $row['address'] .= ', ' . $row['suite_number'];
-            }
-            $results['data'][$row['user_id']]['records'][] = $row;
-        }
+    	$sql .= " ORDER BY pl.product_short ASC, pl.apply_date";
+    	$results = $this->db->query($sql)->result_array();
         return $results;
     }
 
