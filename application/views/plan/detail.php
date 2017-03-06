@@ -123,6 +123,14 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 									<label class="inline">Refund Date:</label>
 									<span><?php echo $plan['refund_date']; ?></span>
 								</div>
+								<div class="col-sm-3">
+									<label class="inline">Total Days:</label>
+									<span><?php echo $plan['totaldays']; ?></span>
+								</div>
+								<div class="col-sm-3">
+									<label class="inline">Used Days:</label>
+									<span><?php echo $used_days; ?></span>
+								</div>
 							</div>
 							<?php } ?>
 							<?php echo $insurable_options; ?>

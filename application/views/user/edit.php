@@ -413,22 +413,28 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<div class="row">
 						<label class="form-group col-sm-12">Customize PDF:</label>
 			            <div class="form-group col-sm-12">
-				            <div class="form-group col-sm-4">
-				            	<input type='checkbox' name='enable_pdf' <?php echo empty($enable_pdf) ? '' : 'checked'; ?>> Enable Customize PDF
-				            </div>
-				            <div class="form-group col-sm-4">
+				            <div class="form-group col-sm-6">
 				            	<input type='file' name='logo_src'  accept="image/*"> Logo (best 80 pixel)
 								<?php if (!empty($pdf_logo)) { ?>
 									<img class="img-responsive" style="width:80px;" src="<?php echo base_url('agent/img') . '/' . $pdf_logo; ?>" />
 								<?php } ?>
 				            </div>
-				            <div class="form-group col-sm-4">
+				            <div class="form-group col-sm-6">
 				            	<input type='file' name='qr_src'  accept="image/*"> QR (best 60 pixel)
 								<?php if (!empty($pdf_qr)) { ?>
 									<img class="img-responsive" style="width:60px;" src="<?php echo base_url('agent/img') . '/' . $pdf_qr; ?>" />
 								<?php } ?>
 				            </div>
 			            </div>
+					</div>
+					<div class="row">
+						<div class="form-group col-sm-12">
+							<?php foreach ($pdf_product_list as $key => $pd) { ?>
+							<div class="col-sm-6">
+							<input  type='checkbox' name='pdf_product_list[]' value='<?php echo $key; ?>' <?php echo $pd; ?>> Enable <?php echo $key . " Customize PDF"; ?><br>
+							</div>
+							<?php } ?>
+						</div>
 					</div>
 					
 					<div class="row">

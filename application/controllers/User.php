@@ -400,14 +400,17 @@ class User extends MY_Controller {
 
 		$product_list = $this->product_model->product_list(1);
 		$plist = array();
+		$pdf_plist = array();
 		foreach ($product_list as $p) {
 			$p['checked'] = '';
 			if (empty($user_id) && ($p['product_short'] != 'JFC')) {
 				$p['checked'] = 'checked';
 			} 
 			$plist[$p['product_short']] = $p;
+			$pdf_plist[$p['product_short']] = '';
 		}
 		$this->data['product_list'] = $plist;
+		$this->data['pdf_product_list'] = $pdf_plist;
 		$this->data['paytype_list'] = $this->paytype_model->paytype_list();
 		
 		if ($this->input->post()) {
@@ -448,6 +451,11 @@ class User extends MY_Controller {
 				}
 				$this->data['product_list'][$k]['commission'] = $this->input->post('product_commission_'.$k);
 			}
+			foreach ($this->data['pdf_product_list'] as $k => $p) {
+				if (in_array($k, $_POST['pdf_product_list'])) {
+					$this->data['pdf_product_list'][$k] = 'checked';
+				}
+			}
 			$pt = ' ';
 			foreach ($this->data['paytype_list'] as $k => $p) {
 				if (isset($_POST['paytype_list']) && in_array($p, $_POST['paytype_list'])) {
@@ -459,6 +467,13 @@ class User extends MY_Controller {
 		} else if ($user_id) {
 			$user = $this->user_model->get_user_by_id($user_id);
 			$user_product_list = $this->user_model->get_user_product_list($user_id);
+			$user_pdf_list = array();
+			if (!empty($user['pdf_product'])) $user_pdf_list = json_decode($user['pdf_product']);
+			foreach ($this->data['pdf_product_list'] as $k => $p) {
+				if (in_array($k, $user_pdf_list)) {
+					$this->data['pdf_product_list'][$k] = 'checked';
+				}
+			}
 			if ($user && empty($this->input->post())) {
 				$this->data = array_merge($this->data, $user);
 			}

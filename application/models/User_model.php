@@ -624,9 +624,22 @@ class User_model extends CI_Model {
 				$para['note'] = trim($post['note']);
 			}
 		}
+
 		$enable_pdf = 0;
 		if (!empty($post['enable_pdf'])) $enable_pdf = 1;
-
+		
+		$pdf_product_arr = array();
+		if (isset($post['pdf_product_list'])) $pdf_product_arr = $post['pdf_product_list']; 
+		$pdf_product = json_encode($pdf_product_arr);
+		if ($this_user) {
+			if ($this_user['pdf_product'] != $pdf_product) {
+				$this->logstr .= "pdf_product[".$this_user['pdf_product']."]=>[".$pdf_product."],";
+				$para['pdf_product'] = $pdf_product;
+			}
+		} else {
+			$para['pdf_product'] = $pdf_product;
+		}
+		
 		if ($this_user) {
 			if ($this_user['enable_pdf'] != $enable_pdf) {
 				$this->logstr .= "enable_pdf[".$this_user['enable_pdf']."]=>[".$enable_pdf."],";

@@ -16,7 +16,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 	<div class="container">	
 		<div class="row">
 <?php if ($withlogo) { ?>
-			<?php if (empty($user['pdf_logo'])) { ?>
+			<?php if (empty($user['pdf_logo']) || !in_array($plan['product_short'], $pdf_enable)) { ?>
 			<div style="float:left;width:90px;">
 				<img class="img-responsive" style="width:80px;" src="<?php echo base_url();?>image/jf_logo.jpg" />
 			</div>
@@ -25,7 +25,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 				<img class="img-responsive" style="width:80px;" src="<?php echo base_url('agent/img') . '/' . $user['pdf_logo']; ?>" />
 			</div>
 			<?php } ?>
-			<?php if (!empty($user['pdf_qr'])) { ?>
+			<?php if (!empty($user['pdf_qr']) && in_array($plan['product_short'], $pdf_enable)) { ?>
 			<div style="float:right;width:100px;">
 				<img class="img-responsive" style="width:60px;" src="<?php echo base_url('agent/img') . '/' . $user['pdf_qr']; ?>" />
 			</div>

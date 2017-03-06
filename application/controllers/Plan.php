@@ -1849,6 +1849,12 @@ class Plan extends MY_Controller {
 			}
 		}
 		
+		// Refund special
+		$data['used_days'] = 0;
+		if ($data['plan']['status_id'] == 6) {
+			$data['used_days'] = $this->product_model->getDays($data['plan']['effective_date'],$data['plan']['refund_date']);
+		}
+		
 		$data['policy_user'] = $this->user_model->get_user_by_id($plan['user_id']);
 		$data['pdf_url'] = base_url('plan/pdf/' . $plan['plan_id']);
 		$data['print_card_url'] = '';
@@ -2075,6 +2081,7 @@ class Plan extends MY_Controller {
 		
 		$data['beuser'] = $beuser;
 		$data['plan'] = $plan;
+		$data['pdf_enable'] = empty($beuser['pdf_product']) ? array() : json_decode($beuser['pdf_product']);
 		$data['payment'] = '';
 		if ($plan['payment_id']) {
 			$data['payment'] = $this->payment_model->get_payment_by_id($plan['payment_id']);
