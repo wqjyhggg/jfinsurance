@@ -127,7 +127,7 @@ class Myhome extends MY_Controller {
 			}
 						
 			if (!empty($_FILES['qr_src']) && !empty($_FILES['qr_src']['tmp_name'])) {
-				$image = $this->myhome_model->get_image_filename();
+				$image = $this->myhome_model->get_qr_filename();
 				foreach (glob(AGENTINFODIR . $image ."*") as $filename) {
 					unlink($filename);
 				}
