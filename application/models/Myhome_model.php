@@ -73,6 +73,17 @@ class Myhome_model extends CI_Model {
 	}
 
 	/**
+	 * Return qr name
+	 *
+	 * @param integer $plan_id
+	 * @return array
+	 */
+	public function get_qr_filename() {
+		$beuser = $this->session->userdata('beuser');
+		return md5($beuser['user_id']) . 'qr';
+	}
+
+	/**
 	 * Return log name
 	 *
 	 * @return string
