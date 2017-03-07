@@ -79,6 +79,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<?php 	foreach ($farr['files'] as $rc) { ?>                      
 			                   <a class="d_brochure" target="_blank" href="<?php echo $rc['url']; ?>"><?php echo $rc['name']; ?></a><br />
 			<?php 	} ?>       
+			                   <a class="d_brochure" href="<?php echo $buy_url . $product_short; ?>">Buy Production</a><br />
                       </div>             
 			              </div>
 			                    

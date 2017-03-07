@@ -41,6 +41,11 @@ class Agent extends MY_Controller {
 		}
 		
 		$this->load->model('product_model');
+		$this->load->model('user_model');
+		$user = $this->user_model->get_user_by_id($myhome['user_id']);
+		if ($user) {
+			$this->session->set_userdata ( 'vsuser', $user );
+		}
 		
 		$downloads_url = base_url('pdf/download') . "/";
 		$file_url = array();
@@ -60,7 +65,7 @@ class Agent extends MY_Controller {
 		}
 		
 		$myhome['file_url'] = $file_url;
-		
+		$myhome['buy_url'] = base_url('plan/add?product_short=');
 
 		$data['top_menu'] = $this->menu_model->load_top_menu();
 		$data['menu'] = $this->menu_model->load_meun();

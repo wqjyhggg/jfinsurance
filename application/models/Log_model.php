@@ -18,7 +18,16 @@ class Log_model extends CI_Model {
 		if (! $user) {
 			$user = $this->session->userdata ( 'beuser' );
 			if (! $user) {
-				$user = array('user_id' => 0);
+				$user = $this->session->userdata ( 'vsuser' );
+				if (! $user) {
+					$user = array('user_id' => 0);
+				} else {
+					if (isset($para['systemlog'])) {
+						$para['systemlog'] = "No user use vsuser; " . $para['systemlog'];
+					} else {
+						$para['systemlog'] = "No user use vsuser";
+					}
+				}
 			} else {
 				if (isset($para['systemlog'])) {
 					$para['systemlog'] = "No user use beuser; " . $para['systemlog'];

@@ -3,6 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 
 <!-- Plan page content -->
+<?php if (isset($menu) && is_array($menu) && (sizeof($menu)>0)) { ?>
 
 	    <!-- Content top navigation -->
         <div class="top_nav">
@@ -15,9 +16,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           </div>
         </div>
         <!-- Content top navigation End-->
-
-        <!-- page content -->
         <div class="right_col" role="main" style="padding-bottom:60px;">
+<?php } else { ?>
+        <!-- page content -->
+        <div role="main" style="padding-left:28px;padding-bottom:60px;">
+<?php } ?>
           <div class="main-div">
             <div class="page-title">
               <div class="title_left">
@@ -557,11 +560,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						</div>
 					</div><br />	
 										
-					<div class="row">
+					<div class="row" <?php if ($user_group_id > 100) { ?>style='display:none; '<?php } ?>>
 						<div class="col-sm-12">
 							<fieldset>
 								<legend>Special Note/Instructions</legend>
-								<div class="row" <?php if ($user_group_id > 100) { ?>style='display:none; '<?php } ?>>
+								<div class="row" >
 									<div class="col-sm-12">
 										<label class="col-sm-12">Notes: </label>
 										<div class="input-group col-sm-12">

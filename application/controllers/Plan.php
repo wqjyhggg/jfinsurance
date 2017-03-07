@@ -424,7 +424,7 @@ class Plan extends MY_Controller {
 	}
 	
 	function form($plan=array()) {
-		$beuser = $this->func_model->verify_login();
+		$beuser = $this->func_model->verify_login(TRUE, TRUE);
 		$this->load->model('customer_model');
 		
 		$this->load->model('status_model');
@@ -432,7 +432,7 @@ class Plan extends MY_Controller {
 		$this->load->model('plan_model');
 
 		$this->error = array();
-	
+
 		if ($this->input->post('submit') && $this->form_valid()) {
 			$plan_id = $this->input->post('plan_id');
 		
@@ -481,7 +481,6 @@ class Plan extends MY_Controller {
 			$plan_id = 0;
 		}
 		$data = $this->error;
-		
 		if ($this->input->post('plan_id')) {
 			$data['plan_id'] = $this->input->post('plan_id'); 
 		} else if (isset($plan['plan_id'])) {
@@ -491,6 +490,11 @@ class Plan extends MY_Controller {
 		}
 		if (empty($plan) && $data['plan_id']) {
 			$plan = $this->plan_model->get_plan_by_id($data['plan_id']);
+		}
+		
+		if ($plan && isset($plan['status_id']) && ($plan['status_id'] > 1) && $this->session->userdata('vsuser')) {
+			// user can't change anything after sold
+			redirect('plan/detail/'.$plan['plan_id']);
 		}
 		if ($this->input->post('product_short')) {
 			$data['product_short'] = $this->input->post('product_short'); 
@@ -926,8 +930,23 @@ class Plan extends MY_Controller {
 		}
 		
 		$data['title_txt'] = 'Policy';
-		$data['top_menu'] = $this->menu_model->load_top_menu();
-		$data['menu'] = $this->menu_model->load_meun();
+		if ($vsuser = $this->session->userdata('vsuser')) {
+			$this->load->model('myhome_model');
+			$myhome = $this->myhome_model->get_myhome($vsuser['user_id']);
+			if (!empty($myhome['logo'])) {
+				$data['myhomelogo'] = base_url('agent/img') . '/' . $myhome['logo'];
+			}
+			
+			if (!empty($myhome['qr'])) {
+				$data['myqr'] = base_url('agent/img') . '/' . $myhome['qr'];
+			}
+				
+			$data['top_menu'] = '';
+			$data['menu'] = '';
+		} else {
+			$data['top_menu'] = $this->menu_model->load_top_menu();
+			$data['menu'] = $this->menu_model->load_meun();
+		}
 		$data['csrf'] = array (
 				'name' => $this->security->get_csrf_token_name (),
 				'value' => $this->security->get_csrf_hash ()
@@ -1021,7 +1040,7 @@ class Plan extends MY_Controller {
 	}
 	
 	function add() {
-		$beuser = $this->func_model->verify_login(); 
+		$beuser = $this->func_model->verify_login(TRUE, TRUE);
 		$product_short = $this->input->post_get('product_short');
 		if (empty($product_short)) {
 			redirect(base_url('production'));
@@ -1031,7 +1050,7 @@ class Plan extends MY_Controller {
 	}
 
 	function term($plan_id=0) {
-		$beuser = $this->func_model->verify_login(TRUE); 
+		$beuser = $this->func_model->verify_login(TRUE, TRUE); 
 		$this->load->model('plan_model');
 		if (empty($plan_id)) {
 			$plan_id = $this->input->post('plan_id');
@@ -1072,8 +1091,23 @@ class Plan extends MY_Controller {
 		
 		$data['action_url'] = base_url('plan/term');
 		$data['title_txt'] = 'Policy';
-		$data['top_menu'] = $this->menu_model->load_top_menu();
-		$data['menu'] = $this->menu_model->load_meun();
+		if ($vsuser = $this->session->userdata('vsuser')) {
+			$this->load->model('myhome_model');
+			$myhome = $this->myhome_model->get_myhome($vsuser['user_id']);
+			if (!empty($myhome['logo'])) {
+				$data['myhomelogo'] = base_url('agent/img') . '/' . $myhome['logo'];
+			}
+			
+			if (!empty($myhome['qr'])) {
+				$data['myqr'] = base_url('agent/img') . '/' . $myhome['qr'];
+			}
+				
+			$data['top_menu'] = '';
+			$data['menu'] = '';
+		} else {
+			$data['top_menu'] = $this->menu_model->load_top_menu();
+			$data['menu'] = $this->menu_model->load_meun();
+		}
 		$data['csrf'] = array (
 				'name' => $this->security->get_csrf_token_name (),
 				'value' => $this->security->get_csrf_hash ()
@@ -1712,7 +1746,7 @@ class Plan extends MY_Controller {
 			redirect('user/login');
 		}
 		if (empty($sekey)) {
-			$beuser = $this->func_model->verify_login();
+			$beuser = $this->func_model->verify_login(TRUE, TRUE);
 		} else {
 			$beuser = $this->user_model->get_user_by_id($plan['user_id']);
 			$key = $this->plan_model->get_plan_key($plan_id);
@@ -1885,8 +1919,27 @@ class Plan extends MY_Controller {
 		}
 		
 		$data['title_txt'] = 'Policy';
-		$data['top_menu'] = $this->menu_model->load_top_menu();
-		$data['menu'] = $this->menu_model->load_meun();
+		$data['isvsuser'] = 0;
+		if ($vsuser = $this->session->userdata('vsuser')) {
+			$this->load->model('myhome_model');
+			$myhome = $this->myhome_model->get_myhome($vsuser['user_id']);
+			if (!empty($myhome['logo'])) {
+				$data['myhomelogo'] = base_url('agent/img') . '/' . $myhome['logo'];
+			}
+			
+			if (!empty($myhome['qr'])) {
+				$data['myqr'] = base_url('agent/img') . '/' . $myhome['qr'];
+			}
+			
+			$data['paytype_list'] = $this->paytype_model->paytype_default();
+			$data['isvsuser'] = 1;
+				
+			$data['top_menu'] = '';
+			$data['menu'] = '';
+		} else {
+			$data['top_menu'] = $this->menu_model->load_top_menu();
+			$data['menu'] = $this->menu_model->load_meun();
+		}
 		$data['csrf'] = array (
 				'name' => $this->security->get_csrf_token_name (),
 				'value' => $this->security->get_csrf_hash ()
