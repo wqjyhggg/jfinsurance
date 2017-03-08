@@ -2120,7 +2120,7 @@ class Plan extends MY_Controller {
 
 	public function pdf($plan_id)
 	{
-		$beuser = $this->func_model->verify_login(TRUE);
+		$beuser = $this->func_model->verify_login(TRUE, TRUE);
 		$this->load->model('customer_model');
 		$this->load->model('plan_model');
 		$this->load->model('product_model');
