@@ -632,7 +632,7 @@ class Report_model extends CI_Model
         if (!empty($para['region_id'])) {
     		$sql .= " AND pl.region_id='" . (int)$para['region_id'] . "'";
     	}
-    	$sql .= " ORDER BY user_id ASC, added ASC";
+    	$sql .= " ORDER BY pl.policy ASC, user_id ASC, added ASC";
 
     	$query = $this->db->query($sql)->result_array();
     	$results = array();
