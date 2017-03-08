@@ -79,7 +79,7 @@ class Commission extends MY_Controller
 
         $w = WriterFactory::create(Type::XLSX); // for XLSX files
         $kArr = array(
-                'added' => 'Payment Date',
+                'added' => 'Date',
                 'policy' => 'Policy Number',
                 'status' => 'Policy Status',
                 'up_insuer' => 'Insurer',

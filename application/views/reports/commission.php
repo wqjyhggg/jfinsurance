@@ -201,7 +201,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                           <tr><td colspan=14>&nbsp;</td></tr>
                           <tr>
                             <th>Count</th>
-                            <th>Payment Date</th>
+                            <th>Date</th>
                             <th>Policy Number</th>
                             <th>Policy Status</th>
                             <th>Insurer</th>
