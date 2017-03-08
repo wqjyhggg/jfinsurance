@@ -421,6 +421,7 @@ class Report_model extends CI_Model
     	if (!empty($para['region_id'])) $where[] = "pl.region_id='" . (int)$para['region_id'] . "'";
     	if (!empty($para['product_short'])) $where[] = "pl.product_short=" . $this->db->escape($para['product_short']);
     	$where[] = "pl.status_id = '4'";
+    	$where[] = "ci.claimed > '0'";
     	if (!empty($para['create_date_from'])) $where[] = "cl.claim_date >= " . $this->db->escape($para['create_date_from']);
     	if (!empty($para['create_date_to'])) $where[] = "cl.claim_date <= " . $this->db->escape($para['create_date_to']);
     	if (!empty($para['payment_update_date_from'])) $where[] = "ci.paid_date >= " . $this->db->escape($para['payment_update_date_from']);
