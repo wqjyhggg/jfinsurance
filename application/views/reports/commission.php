@@ -201,22 +201,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                           <tr><td colspan=14>&nbsp;</td></tr>
                           <tr>
                             <th>Count</th>
-                            <th>Payment Date</th>
+                            <th>Date</th>
                             <th>Policy Number</th>
-                            <th>Paid Status</th>
+                            <th>Policy Status</th>
                             <th>Insurer</th>
                             <th>Customer Name</th>
                             <th>Effective Date</th>
                             <th>Expiry Date</th>
                             <th>Trip Length</th>
-                            <th>Total Premium</th>
-                            <th>Payment Status</th>
-                            <th>Commission Rate(%)</th>
+                            <th>Premium Amount</th>
+                            <th>Premium Pay Status</th>
+                            <th>Commission Rate</th>
                             <th>Commission Amount</th>
-                            <th>Commission Status</th>
+                            <th>Commission Pay Status</th>
                           </tr>
-        <?php $cnt = 1; ?>
+        <?php $cnt = 1; $total_premium = 0; $total_commission = 0; ?>
         <?php foreach ($data['data'] as $record) : ?>
+        <?php $total_premium += $record['premium']; $total_commission += $record['amount']; ?>
                             <tr>
                               <td><?php echo $cnt++; ?></td>
                               <td><?php echo substr($record['added'], 0, 10); ?></td>
@@ -229,11 +230,27 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                               <td><?php echo $record['total_days']; ?></td>
                               <td>$<?php echo $record['premium']; ?></td>
                               <td><?php echo ($record['premiumispaid']) ? "Paid" : '-'; ?></td>
-                              <td><?php echo $record['rate']; ?></td>
+                              <td><?php echo $record['rate']; ?>%</td>
                               <td>$<?php echo $record['amount']; ?></td>
                               <td><?php echo ($record['ispaid']) ? "Paid" : '-'; ?></td>
                             </tr>
         <?php endforeach; ?>
+                            <tr>
+                              <td><B>TOTAL</B></td>
+                              <td>&nbsp;</td>
+                              <td>&nbsp;</td>
+                              <td>&nbsp;</td>
+                              <td>&nbsp;</td>
+                              <td>&nbsp;</td>
+                              <td>&nbsp;</td>
+                              <td>&nbsp;</td>
+                              <td>&nbsp;</td>
+                              <td>$<?php echo $total_premium; ?></td>
+                              <td>&nbsp;</td>
+                              <td>&nbsp;</td>
+                              <td>$<?php echo $total_commission; ?></td>
+                              <td>&nbsp;</td>
+                            </tr>
                             <tr style="background:#eee;"><td colspan=14></td></tr>
                         </tbody>
     <?php endforeach; ?>

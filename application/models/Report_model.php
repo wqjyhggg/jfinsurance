@@ -421,6 +421,7 @@ class Report_model extends CI_Model
     	if (!empty($para['region_id'])) $where[] = "pl.region_id='" . (int)$para['region_id'] . "'";
     	if (!empty($para['product_short'])) $where[] = "pl.product_short=" . $this->db->escape($para['product_short']);
     	$where[] = "pl.status_id = '4'";
+    	$where[] = "ci.claimed > '0'";
     	if (!empty($para['create_date_from'])) $where[] = "cl.claim_date >= " . $this->db->escape($para['create_date_from']);
     	if (!empty($para['create_date_to'])) $where[] = "cl.claim_date <= " . $this->db->escape($para['create_date_to']);
     	if (!empty($para['payment_update_date_from'])) $where[] = "ci.paid_date >= " . $this->db->escape($para['payment_update_date_from']);
@@ -587,11 +588,11 @@ class Report_model extends CI_Model
     {
     	$sql  = "SELECT"; 
     	$sql .= "	pa.payment_id,"; 
-    	$sql .= "	pa.user_id,"; 
     	$sql .= "	pa.plan_id,"; 
     	$sql .= "	pa.premium_payment_id,"; 
     	$sql .= "	pa.last_update,"; 
     	$sql .= "	pa.added,";		//  Payment Date
+    	$sql .= "	pl.user_id,"; 
     	$sql .= "	pl.policy,"; 
     	$sql .= "	st.name AS status,"; 
     	$sql .= "	pr.up_insuer,";
@@ -632,7 +633,7 @@ class Report_model extends CI_Model
         if (!empty($para['region_id'])) {
     		$sql .= " AND pl.region_id='" . (int)$para['region_id'] . "'";
     	}
-    	$sql .= " ORDER BY user_id ASC, added ASC";
+    	$sql .= " ORDER BY pl.policy ASC, user_id ASC, added ASC";
 
     	$query = $this->db->query($sql)->result_array();
     	$results = array();

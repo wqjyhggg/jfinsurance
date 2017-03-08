@@ -224,7 +224,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <th>Policy Number</th>
                             <th>Agent Name</th>
                             <th>Enter User</th>
-                            <th>Deductible</th>
                             <th>Customer Name</th>
                             <th>Date of Birth</th>
                             <th>Address</th>
@@ -236,6 +235,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <th>Service Date</th>
                             <th>Diagnosis</th>
                             <th>Coverage Code</th>
+                            <th>Deductible</th>
                             <th>Claim Amount</th>
                             <th>Amount Paid</th>
                             <th>Amount Received</th>
@@ -252,7 +252,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                               <td><?php echo $record['policy']; ?></td>
                               <td><?php echo $record['agent_name']; ?></td>
                               <td><?php echo $record['staff_name']; ?></td>
-                              <td><?php echo $record['deductible_amount']; ?></td>
                               <td><?php echo $record['customer_name']; ?></td>
                               <td><?php echo $record['birthday']; ?></td>
                               <td><?php echo $record['address']; ?></td>
@@ -264,6 +263,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                               <td><?php echo $record['service_date']; ?></td>
                               <td><?php echo $record['diagnosis']; ?></td>
                               <td><?php echo $record['coverage_code_id']; ?></td>
+                              <td><?php echo $record['deductible_amount']; ?></td>
                               <td>$<?php echo $record['claimed']; ?></td>
                               <td>$<?php echo $record['paid']; ?></td>
                               <td>$<?php echo $record['amount_received']; ?></td>
