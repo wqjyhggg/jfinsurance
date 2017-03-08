@@ -48,11 +48,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <option value=0>Choose Agent</option>
 <?php foreach ($user_list as $agent) : ?>
     <?php if ($agent_id == $agent['user_id']) : ?>
-                                <option value="<?=$agent['user_id'] ?>"  selected>
+                                <option value="<?php echo $agent['user_id']; ?>"  selected>
     <?php else : ?>
-                                <option value="<?=$agent['user_id'] ?>" >
+                                <option value="<?php echo $agent['user_id']; ?>" >
     <?php endif; ?>
-                                    <?=$agent['full_name'] ?> (<?=$agent['username'] ?>)
+                                    <?php echo $agent['username'] . " ( ". $agent['full_name'] . " )"; ?>
                                 </option>
 <?php endforeach; ?>
                               </select>
