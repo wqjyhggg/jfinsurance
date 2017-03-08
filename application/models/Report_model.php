@@ -587,11 +587,11 @@ class Report_model extends CI_Model
     {
     	$sql  = "SELECT"; 
     	$sql .= "	pa.payment_id,"; 
-    	$sql .= "	pa.user_id,"; 
     	$sql .= "	pa.plan_id,"; 
     	$sql .= "	pa.premium_payment_id,"; 
     	$sql .= "	pa.last_update,"; 
     	$sql .= "	pa.added,";		//  Payment Date
+    	$sql .= "	pl.user_id,"; 
     	$sql .= "	pl.policy,"; 
     	$sql .= "	st.name AS status,"; 
     	$sql .= "	pr.up_insuer,";

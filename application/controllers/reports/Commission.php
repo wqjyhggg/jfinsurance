@@ -74,66 +74,121 @@ class Commission extends MY_Controller
         $data['user_list'] = $this->user_model->get_available_user_list();
         $data['report_data'] = $this->report_model->get_commission_report($data);
         
-        //echo "<pre>";
-        //print_r($data['report_data']);die('============');
+        // echo "<pre>";
+        // print_r($data['report_data']);die('============');
 
         $w = WriterFactory::create(Type::XLSX); // for XLSX files
         $kArr = array(
                 'added' => 'Payment Date',
                 'policy' => 'Policy Number',
-                'status' => 'Paid Status',
+                'status' => 'Policy Status',
                 'up_insuer' => 'Insurer',
                 'customer_name' => 'Customer Name',
                 'effective_date' => 'Effective Date',
                 'expiry_date' => 'Expiry Date',
                 'total_days' => 'Trip Length',
-                'premium' => 'Total Premium',
-                'premiumispaid' => 'Payment Status',
-                'rate' => 'Commission Rate(%)',
+                'premium' => 'Premium Amount',
+                'premiumispaid' => 'Premium Pay Status',
+                'rate' => 'Commission Rate',
                 'amount' => 'Commission Amount',
-                'ispaid' => 'Commission Status');
+                'ispaid' => 'Commission Pay Status');
 
-        $tmpfname = "/tmp/jf_test.xlsx";
+        $objPHPExcel = new PHPExcel();
+        $objPHPExcel->getDefaultStyle()->getFont()->setName('Arial')->setSize(10);
         
-        $w->openToBrowser("Commission_Report_" . date('Ymd') . ".xlsx");
-        //$w->openToFile($tmpfname);
+        // Add some data
+        $objPHPExcel->setActiveSheetIndex(0);
         
+        $sheet = $objPHPExcel->getActiveSheet();
+        $sheet->setTitle('Sheet1');
+        
+        $col = 'A';
+        $row = 1;
         foreach ($data['report_data'] as $datas) {
-            $arr = array('Agent Name:' , $datas['agent']['firstname'] . ' ' . $datas['agent']['lastname'], '','', 'Payment Method: ', $datas['agent']['receive_type']);
-            $w->addRow($arr);
-
-            $arr = array('','','','','Mailling Addrerss: ', $datas['agent']['mail_address'] . ' ' . $datas['agent']['mail_city'] . ',' . $datas['agent']['mail_province2'] . ',' . $datas['agent']['mail_postcode']);
-            $w->addRow($arr);
-           
-            $arr = array('Commission Cheque Title: ', $datas['agent']['note']);
-            $w->addRow($arr);
-
-            $arr = array('', '');
-            $w->addRow($arr);
-
-            $arr = array();
-            foreach ($kArr as $k => $v) { $arr[] = $v; } 
-            $w->addRow($arr);
-
-            foreach ($datas['data'] as $record) {
-                $arr = array();
-                foreach ($kArr as $k => $v) { $arr[] = $record[$k]; } 
-                $w->addRow($arr);
+        	$sheet->setCellValue($col.$row, 'Agent Name:'); $col++;
+        	$sheet->setCellValue($col.$row, $datas['agent']['firstname'] . ' ' . $datas['agent']['lastname']); $col++;
+        	$col++;
+        	$col++;
+        	$sheet->setCellValue($col.$row, 'Payment Method:'); $col++;
+        	$sheet->setCellValue($col.$row, $datas['agent']['receive_type']); $col++;
+        	 
+        	$row++; $col = 'A';
+        	$col++;
+        	$col++;
+        	$col++;
+        	$col++;
+        	$sheet->setCellValue($col.$row, 'Mailling Addrerss: ' . ' ' . $datas['agent']['mail_city'] . ',' . $datas['agent']['mail_province2'] . ',' . $datas['agent']['mail_postcode']); $col++;
+        	 
+        	$row++; $col = 'A';
+        	$sheet->setCellValue($col.$row, 'Commission Cheque Title: '); $col++;
+        	$sheet->setCellValue($col.$row, $datas['agent']['note']); $col++;
+        	 
+        	$row++; $col = 'A';
+        	
+        	$row++; $col = 'A';
+            foreach ($kArr as $k => $v) {
+        		$sheet->setCellValue($col.$row, $v); $col++;
             }
+        	
+            $total_premium = 0; $total_commission = 0;
+        	foreach ($datas['data'] as $record) {
+        		$total_premium += $record['premium']; $total_commission += $record['amount'];
+        		$row++; $col = 'A';
+                
+        		$sheet->setCellValue($col.$row, PHPExcel_Shared_Date::PHPToExcel(strtotime($record['added'] . ' EST')));
+                $sheet->getStyle($col.$row)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_DATE_YYYYMMDD2);
+        		$col++;
+        		
+                $sheet->setCellValue($col.$row, $record['policy']); $col++;
+                $sheet->setCellValue($col.$row, $record['status']); $col++;
+                $sheet->setCellValue($col.$row, $record['up_insuer']); $col++;
+                $sheet->setCellValue($col.$row, $record['customer_name']); $col++;
+                $sheet->setCellValue($col.$row, PHPExcel_Shared_Date::PHPToExcel(strtotime($record['effective_date'] . ' 00:00:00 EST'))); $col++;
+                $sheet->setCellValue($col.$row, PHPExcel_Shared_Date::PHPToExcel(strtotime($record['expiry_date'] . ' 00:00:00 EST'))); $col++;
+                $sheet->setCellValue($col.$row, $record['total_days']); $col++;
 
-            $w->addRow($arr);
-            $arr = array('', '','','','','','','');
-            $w->addRow($arr);
+                $sheet->setCellValue($col.$row, $record['premium']); 
+                $sheet->getStyle($col.$row)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
+                $col++;
+                
+                $sheet->setCellValue($col.$row, $record['premiumispaid'] ? 'Paid' : '-'); $col++;
+
+                $sheet->setCellValue($col.$row, $record['rate'] / 100.0);
+                $sheet->getStyle($col.$row)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
+                $col++;
+                
+                $sheet->setCellValue($col.$row, $record['amount']);
+                $sheet->getStyle($col.$row)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
+                $col++;
+                
+                $sheet->setCellValue($col.$row, $record['ispaid'] ? 'Paid' : '-'); $col++;
+        	}
+        	
+        	$row++;
+        	$sheet->setCellValue('A'.$row, 'TOTAL');
+        	$sheet->setCellValue('I'.$row, $total_premium);
+        	$sheet->getStyle($col.$row)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
+
+        	$sheet->setCellValue('L'.$row, $total_commission);
+        	$sheet->getStyle($col.$row)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
+        	
+        	$col = 'A';
+        	for($i = 0; $i < $col; $i++) {
+        		$sheet->getColumnDimension($col++)->setAutoSize(true);
+        	}
         }
-        $w->close();
-        /*
-        header('Content-type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        header('Content-Disposition: attachment; filename="Policy' . date('Ymd') . '.xlsx"');
-        header('Content-Transfer-Encoding: binary');
-        header('Expires: 0');
-        header('Pragma: no-cache');
-        readfile($tmpfname);
-        */
-        //unlink($tmpfname);
+        
+        $objPHPExcel->setActiveSheetIndex(0);
+        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+        $outfile = 'Commission_Report_' . date('Ymd') . '.xlsx';
+        if (0) {
+        	$objWriter->save($outfile);
+        } else {
+	        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+	        header('Content-Disposition: attachment;filename="' . $outfile . '"');
+	        header('Cache-Control: max-age=0');
+	        
+	        $objWriter->save('php://output');
+        }
     }
 }
