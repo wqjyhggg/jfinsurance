@@ -85,7 +85,22 @@ class Payment_model extends CI_Model {
 		// $this->db->where('ispaid', 1);
 		return $this->db->get('payment')->row()->amount;
 	}
-	
+
+	/**
+	 * Check plan payment period
+	 *
+	 * @param integer $plan_id
+	 * @return datetime string
+	 */
+	public function check_payment_period($plan_id, $starttm, $endtm) {
+		$sql = "SELECT * FROM payment WHERE plan_id='" . (int)$plan_id ."' AND (added<" .$this->db->escape($starttm). " OR added>" .$this->db->escape($endtm). ")";
+		$rows = $this->db->query($sql)->result_array();
+		if ($rows) {
+			return FALSE;
+		}
+		return TRUE;
+	}
+
 	/**
 	 * Get plan payment cancel date
 	 *

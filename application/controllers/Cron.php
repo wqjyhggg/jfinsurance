@@ -452,6 +452,11 @@ class Cron extends MY_Controller {
 		$row = 2;
 		foreach ($plans as $plan) {
 			if ($plan['status_id'] <= Plan_model::QUOTE) continue;  // Skip Quote status
+			if ($plan['status_id'] == Plan_model::CANCEL) {
+				if ($this->payment_model->check_payment_period($plan['plan_id'], $para['last_update'], $para['last_update2'])) {
+					continue;
+				}
+			}
 			$sheet->setCellValue('A'.$row, $plan['policy']);
 			$b = '';
 			if ($plan['product_short'] == 'OPL') {
@@ -463,7 +468,6 @@ class Cron extends MY_Controller {
 			$sheet->setCellValue('B'.$row, $b);
 			$status_str = $status_list[$plan['status_id']]['name'];
 			if ($plan['status_id'] == Plan_model::SOLD) $status_str = 'New';
-			//if ($plan['status_id'] == Plan_model::REFUND) $status_str = 'Change';
 			if ($plan['status_id'] == Plan_model::CHANGED) $status_str = 'Change';
 			if ($plan['status_id'] == Plan_model::CLAIMED) {
 				$status_str = 'Paid';
