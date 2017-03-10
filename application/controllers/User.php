@@ -109,15 +109,15 @@ class User extends MY_Controller {
 					$this->data['pdf_logo'] = $disfile;
 				}
 			}
-				
+
 			if (!empty($_FILES['qr_src']) && !empty($_FILES['qr_src']['tmp_name'])) {
-				$image = $this->myhome_model->get_pdf_qr_filename();
+				$image = $this->myhome_model->get_pdf_filename('qr');
 				foreach (glob(AGENTINFODIR . $image ."*") as $filename) {
 					unlink($filename);
 				}
-				
+			
 				$para = array(
-						'allowed_types' => 'gif|jpg|png', 
+						'allowed_types' => 'gif|jpg|png',
 						'file_name' => $image,
 						'upload_path' => AGENTINFODIR,
 						'file_ext_tolower' => TRUE
@@ -137,12 +137,48 @@ class User extends MY_Controller {
 							'source_image' => $filedata['full_path'],
 							'maintain_ratio' => TRUE,
 							'create_thumb' => TRUE,
-							'width' => $this->myhome_model->get_pdf_qr_width(),
+							'width' => $this->myhome_model->get_pdf_width('qr'),
 					);
 					$this->image_lib->initialize($imgpara);
 					$this->image_lib->resize();
 					$this->image_lib->clear();
 					$this->data['pdf_qr'] = $disfile;
+				}
+			}
+				
+			if (!empty($_FILES['qr2_src']) && !empty($_FILES['qr2_src']['tmp_name'])) {
+				$image = $this->myhome_model->get_pdf_filename('qr2');
+				foreach (glob(AGENTINFODIR . $image ."*") as $filename) {
+					unlink($filename);
+				}
+				
+				$para = array(
+						'allowed_types' => 'gif|jpg|png', 
+						'file_name' => $image,
+						'upload_path' => AGENTINFODIR,
+						'file_ext_tolower' => TRUE
+				);
+				$this->upload->initialize($para);
+				if ( ! $this->upload->do_upload('qr2_src')) {
+					$this->data['error_myname_image'] = $this->lang->line ( 'error_myname_image' );
+					$rt = FALSE;
+				} else {
+					$filedata = $this->upload->data();
+					$disfile = $filedata['raw_name'] . "_thumb" . $filedata['file_ext'];
+					if (file_exists($disfile)) {
+						unlink($disfile);
+					}
+					$imgpara = array(
+							'image_library' => 'gd2',
+							'source_image' => $filedata['full_path'],
+							'maintain_ratio' => TRUE,
+							'create_thumb' => TRUE,
+							'width' => $this->myhome_model->get_pdf_width('qr2'),
+					);
+					$this->image_lib->initialize($imgpara);
+					$this->image_lib->resize();
+					$this->image_lib->clear();
+					$this->data['pdf_qr2'] = $disfile;
 				}
 			}
 		}
@@ -350,6 +386,7 @@ class User extends MY_Controller {
 				$post = $this->input->post();
 				if (!empty($this->data['pdf_logo'])) $post['pdf_logo'] = $this->data['pdf_logo'];
 				if (!empty($this->data['pdf_qr'])) $post['pdf_qr'] = $this->data['pdf_qr'];
+				if (!empty($this->data['pdf_qr2'])) $post['pdf_qr2'] = $this->data['pdf_qr2'];
 				$this->user_model->update ( $user_id, $post, 1, array('product_list' => 1));
 				$this->log_model->activity('user', array('message' => $this->user_model->logstr, 'systemlog' => $this->user_model->sqlstr));
 				redirect ( base_url ('user') );
@@ -397,7 +434,20 @@ class User extends MY_Controller {
 		$this->data['enable_pdf'] = 0;
 		$this->data['pdf_logo'] = '';
 		$this->data['pdf_qr'] = '';
-
+		$this->data['pdf_qr2'] = '';
+		$this->data['pdf_f_left1'] = '';
+		$this->data['pdf_f_left2'] = '';
+		$this->data['pdf_f_left3'] = '';
+		$this->data['pdf_f_left4'] = '';
+		$this->data['pdf_f_left5'] = '';
+		$this->data['pdf_f_left6'] = '';
+		$this->data['pdf_f_right1'] = '';
+		$this->data['pdf_f_right2'] = '';
+		$this->data['pdf_f_right3'] = '';
+		$this->data['pdf_f_right4'] = '';
+		$this->data['pdf_f_right5'] = '';
+		$this->data['pdf_f_right6'] = '';
+		
 		$product_list = $this->product_model->product_list(1);
 		$plist = array();
 		$pdf_plist = array();
@@ -445,6 +495,18 @@ class User extends MY_Controller {
 			$this->data['status'] = $this->input->post('status');
 			$this->data['date_added'] = $this->input->post('date_added');
 			$this->data['note'] = $this->input->post('note');
+			$this->data['pdf_f_left1'] = $this->input->post('pdf_f_left1');
+			$this->data['pdf_f_left2'] = $this->input->post('pdf_f_left2');
+			$this->data['pdf_f_left3'] = $this->input->post('pdf_f_left3');
+			$this->data['pdf_f_left4'] = $this->input->post('pdf_f_left4');
+			$this->data['pdf_f_left5'] = $this->input->post('pdf_f_left5');
+			$this->data['pdf_f_left6'] = $this->input->post('pdf_f_left6');
+			$this->data['pdf_f_right1'] = $this->input->post('pdf_f_right1');
+			$this->data['pdf_f_right2'] = $this->input->post('pdf_f_right2');
+			$this->data['pdf_f_right3'] = $this->input->post('pdf_f_right3');
+			$this->data['pdf_f_right4'] = $this->input->post('pdf_f_right4');
+			$this->data['pdf_f_right5'] = $this->input->post('pdf_f_right5');
+			$this->data['pdf_f_right6'] = $this->input->post('pdf_f_right6');
 			foreach ($this->data['product_list'] as $k => $p) {
 				if (isset($_POST['product_list'][$k])) {
 					$this->data['product_list'][$k]['checked'] = 'checked';

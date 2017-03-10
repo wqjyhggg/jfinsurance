@@ -1429,7 +1429,7 @@ class Plan extends MY_Controller {
 				$this->log_model->activity('payment', $para);
 				$commission_payment_id = $this->payment_model->update($commission_payment_id, $dt);
 				$up_commission_payment_id = $this->payment_model->update($up_commission_payment_id, $dt);
-				$this->error = 'Card payment failed. Something wrong. Please contact support.';
+				$this->error = 'Payment failed. Please verify your credit card info.';
 			}
 			} // number length check
 		}

@@ -668,6 +668,31 @@ class User_model extends CI_Model {
 				$para['pdf_qr'] = trim($post['pdf_qr']);
 			}
 		}
+		if (!empty($post['pdf_qr2'])) {
+			if ($this_user) {
+				if ($this_user['pdf_qr2'] != $post['pdf_qr2']) {
+					$this->logstr .= "pdf_qr2[".$this_user['pdf_qr2']."]=>[".$post['pdf_qr2']."],";
+					$para['pdf_qr2'] = trim($post['pdf_qr2']);
+				}
+			} else {
+				$para['pdf_qr2'] = trim($post['pdf_qr2']);
+			}
+		}
+		foreach (array('left', 'right') as $str) {
+			for ($i = 1; $i < 7; $i++) {
+				$thename = 'pdf_f_' . $str . $i;
+				if (!empty($post[$thename])) {
+					if ($this_user) {
+						if ($this_user[$thename] != $post[$thename]) {
+							$this->logstr .= $thename . "[".$this_user[$thename]."]=>[".$post[$thename]."],";
+							$para[$thename] = trim($post[$thename]);
+						}
+					} else {
+						$para[$thename] = trim($post[$thename]);
+					}
+				}
+			}
+		} 
 		if (!empty($post['date_added'])) {
 			if ($this_user) {
 			} else {

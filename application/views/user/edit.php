@@ -412,22 +412,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 					<div class="row">
 						<label class="form-group col-sm-12">Customize PDF:</label>
-			            <div class="form-group col-sm-12">
-				            <div class="form-group col-sm-6">
-				            	<input type='file' name='logo_src'  accept="image/*"> Logo (best 80 pixel)
-								<?php if (!empty($pdf_logo)) { ?>
-									<img class="img-responsive" style="width:80px;" src="<?php echo base_url('agent/img') . '/' . $pdf_logo; ?>" />
-								<?php } ?>
-				            </div>
-				            <div class="form-group col-sm-6">
-				            	<input type='file' name='qr_src'  accept="image/*"> QR (best 60 pixel)
-								<?php if (!empty($pdf_qr)) { ?>
-									<img class="img-responsive" style="width:60px;" src="<?php echo base_url('agent/img') . '/' . $pdf_qr; ?>" />
-								<?php } ?>
-				            </div>
-			            </div>
-					</div>
-					<div class="row">
 						<div class="form-group col-sm-12">
 							<?php foreach ($pdf_product_list as $key => $pd) { ?>
 							<div class="col-sm-6">
@@ -437,6 +421,50 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						</div>
 					</div>
 					
+					<div class="row">
+			            <div class="form-group col-sm-12">
+				            <div class="form-group col-sm-6">
+				            	<input type='file' name='logo_src'  accept="image/*"> Logo (best 80 pixel)
+								<?php if (!empty($pdf_logo)) { ?>
+									<img class="img-responsive" style="width:80px;" src="<?php echo base_url('agent/img') . '/' . $pdf_logo; ?>" />
+								<?php } ?>
+				            </div>
+			            </div>
+					</div>
+
+					<div class="row">
+			            <div class="form-group col-sm-12">
+				            <div class="form-group col-sm-3">
+				            	Footer Left1: <input type='text' name='pdf_f_left1' value='<?php echo $pdf_f_left1; ?>'>
+				            	Footer Left2: <input type='text' name='pdf_f_left2' value='<?php echo $pdf_f_left2; ?>'>
+				            	Footer Left3: <input type='text' name='pdf_f_left3' value='<?php echo $pdf_f_left3; ?>'>
+				            	Footer Left4: <input type='text' name='pdf_f_left4' value='<?php echo $pdf_f_left4; ?>'>
+				            	Footer Left5: <input type='text' name='pdf_f_left5' value='<?php echo $pdf_f_left5; ?>'>
+				            	Footer Left6: <input type='text' name='pdf_f_left6' value='<?php echo $pdf_f_left6; ?>'>
+				            </div>
+				            <div class="form-group col-sm-3">
+				            	<input type='file' name='qr_src'  accept="image/*"> QR (best 60 pixel)
+								<?php if (!empty($pdf_qr)) { ?>
+									<img class="img-responsive" style="width:60px;" src="<?php echo base_url('agent/img') . '/' . $pdf_qr; ?>" />
+								<?php } ?>
+				            </div>
+				            <div class="form-group col-sm-3">
+				            	Footer Right1: <input type='text' name='pdf_f_right1' value='<?php echo $pdf_f_right1; ?>'>
+				            	Footer Right2: <input type='text' name='pdf_f_right2' value='<?php echo $pdf_f_right2; ?>'>
+				            	Footer Right3: <input type='text' name='pdf_f_right3' value='<?php echo $pdf_f_right3; ?>'>
+				            	Footer Right4: <input type='text' name='pdf_f_right4' value='<?php echo $pdf_f_right4; ?>'>
+				            	Footer Right5: <input type='text' name='pdf_f_right5' value='<?php echo $pdf_f_right5; ?>'>
+				            	Footer Right6: <input type='text' name='pdf_f_right6' value='<?php echo $pdf_f_right6; ?>'>
+				            </div>
+				            <div class="form-group col-sm-3">
+				            	<input type='file' name='qr2_src'  accept="image/*"> QR (best 60 pixel)
+								<?php if (!empty($pdf_qr2)) { ?>
+									<img class="img-responsive" style="width:60px;" src="<?php echo base_url('agent/img') . '/' . $pdf_qr2; ?>" />
+								<?php } ?>
+				            </div>
+			            </div>
+					</div>
+
 					<div class="row">
 						<label class="col-sm-12">Notes:</label>
 			            <div class="col-sm-12 input-group">

@@ -25,11 +25,6 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 				<img class="img-responsive" style="width:80px;" src="<?php echo base_url('agent/img') . '/' . $user['pdf_logo']; ?>" />
 			</div>
 			<?php } ?>
-			<?php if (!empty($user['pdf_qr']) && in_array($plan['product_short'], $pdf_enable)) { ?>
-			<div style="float:right;width:100px;">
-				<img class="img-responsive" style="width:60px;" src="<?php echo base_url('agent/img') . '/' . $user['pdf_qr']; ?>" />
-			</div>
-			<?php } ?>
 			<div style="float:left;width:400px;">
 <?php if (($plan['product_short'] == 'NUS') || ($plan['product_short'] == 'JUS')) { ?>			
 				<p class="topp" style="font-weight:bold;"><span style="text-transform: capitalize;font-weight:bold;">HK Leung</span></p>
@@ -137,17 +132,49 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 			<div class="col-sm-12 nopm">
 				<p class="small">If you notice any errors in the above information or have any questions, please contact JF Insurance Agency Group Inc.</p>
 			</div>
-			<div class="col-sm-6 nopm">
+			<div class="col-sm-4 nopm">
+			<?php if (in_array($plan['product_short'], $pdf_enable)) { ?>
+				<p class="small">
+				<?php echo $user['pdf_f_left1']; ?><br />
+				<?php echo $user['pdf_f_left2']; ?><br />
+				<?php echo $user['pdf_f_left3']; ?><br />
+				<?php echo $user['pdf_f_left4']; ?><br />
+				<?php echo $user['pdf_f_left5']; ?><br />
+				<?php echo $user['pdf_f_left6']; ?><br />
+				</p>
+			<?php } else { ?>
 				<p class="small">Ontario:<br />
 				15 Wertheim Court, Suite 501,<br />
 				Richmond Hill, ON, Canada L4B 3H7<br />
 				Phone: 905-707-1512 Or 1-877-832-5541</p>
+			<?php } ?>
 			</div>
-			<div class="col-sm-6 nopm">
+			<div class="col-sm-2 nopm">
+			<?php if (!empty($user['pdf_qr']) && in_array($plan['product_short'], $pdf_enable)) { ?>
+				<img class="img-responsive" style="width:60px;padding-top:10px;" src="<?php echo base_url('agent/img') . '/' . $user['pdf_qr']; ?>" />
+			<?php } ?>
+			</div>
+			<div class="col-sm-4 nopm">
+			<?php if (in_array($plan['product_short'], $pdf_enable)) { ?>
+				<p class="small">
+				<?php echo $user['pdf_f_right1']; ?><br />
+				<?php echo $user['pdf_f_right2']; ?><br />
+				<?php echo $user['pdf_f_right3']; ?><br />
+				<?php echo $user['pdf_f_right4']; ?><br />
+				<?php echo $user['pdf_f_right5']; ?><br />
+				<?php echo $user['pdf_f_right6']; ?><br />
+				</p>
+			<?php } else { ?>
 				<p class="small">British Columbia:<br />
 				128 - 6061 No. 3 Road<br />
 				Richmond, BC, Canadian V6Y 282<br />
 				Phone: 604-232-0896 Or 1-877-232-0896</p>
+			<?php } ?>
+			</div>
+			<div class="col-sm-2 nopm">
+			<?php if (!empty($user['pdf_qr2']) && in_array($plan['product_short'], $pdf_enable)) { ?>
+				<img class="img-responsive" style="width:60px;padding-top:10px;" src="<?php echo base_url('agent/img') . '/' . $user['pdf_qr2']; ?>" />
+			<?php } ?>
 			</div>
 		</div>
 	</div><!-- End Container -->

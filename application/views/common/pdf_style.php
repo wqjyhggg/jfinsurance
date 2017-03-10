@@ -37,6 +37,10 @@ span{font-weight: normal;}
 	width: 23.3%;
 	float: left;
 }
+.col-sm-2{
+	width: 16%;
+	float: left;
+}
 .p-detail [class*="col-"] {
     border: 1px solid #fff;
 }
