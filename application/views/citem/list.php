@@ -140,6 +140,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <th style='text-align:center'><button class="btn btn-primary" id='print-items'>Print</button></th>
                             <th>Action</th>
                             <th>Claim Date</th>
+                            <th>Diagnosis</th>
                             <th>Claim Amount</th>
                             <th>Paid</th>
                             <th>Pay To</th>
@@ -155,6 +156,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                               <td style='text-align:center'><input class='item-print' type='checkbox' data-item-id='<?php echo $c['citem_id']; ?>'></td>
                               <td style='vertical-align: middle;'><a style="color:#46b8da;" href="<?php echo $edit_url."/".$c['citem_id']?>">Edit</a></td>
                               <td><?php echo $c['claim_date']; ?></td>
+                              <td><?php echo $c['diagnosis']; ?></td>
                               <td><?php echo $c['claimed']; ?></td>
                               <td><?php echo $c['paid']; ?></td>
                               <td><?php echo $c['pay_to']; ?></td>

@@ -8,8 +8,38 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>Claim Letter</title>
 	<?php echo $style;?>
+<style>
+.footer-line {position: absolute; bottom: 30px;}
+.footer-div {position: absolute; bottom: 20px;}
+</style>
 </head>
 <body>
+<!--mpdf
+<htmlpagefooter name="myfooter">
+<div style="border-top: 1px solid #000000; font-size: 9pt; text-align: center; padding-top: 3mm; ">
+<div class="col-sm-12">
+	<table cellpadding="5px" style="font-size: 10px; margin-top: -10px; line-height: 2px;">
+		<tbody>
+			<tr>
+				<td>15 Wertheim Court, Suite 501, Richmond Hill, ON, L4B 3H7</td>
+				<td>Tel: (905) 707-1512</td>
+				<td>Fax: (905) 707-1513</td>
+				<td>Toll Free Tel: 1-877-832-5541</td>
+			</tr>
+			<tr>
+				<td>128 - 6061 no. 3 road, Richmond, BC, V6Y 2B2</td>
+				<td>Tel: (604) 232-0896</td>
+				<td>Fax: (604) 232-0897</td>
+				<td>Toll Free Tel: 1-888-988-3268</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+</div>
+</htmlpagefooter>
+<sethtmlpagefooter name="myfooter" value="on" show-this-page="1" />
+mpdf-->
+
 	<header>
 	</header>
 	<div class="container">
@@ -19,7 +49,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 		<div class="row" style="margin-top: 20px;">
 			<div>
 				<table border="0">
-					<tr><td style='padding-right: 30px;'>  To: </td><td><?php echo $fullname; ?></td></tr>
+					<tr><td style='padding-right: 30px;'>  To: </td><td><?php echo $pay_to; ?></td></tr>
 					<tr><td style='padding-right: 30px;'>&nbsp;</td><td><?php echo $street_number . ' ' . $street_name . ', ' . $suite_number; ?></td></tr>
 					<tr><td style='padding-right: 30px;'>&nbsp;</td><td><?php echo $city . ', ' . $province2; ?></td></tr>
 					<tr><td style='padding-right: 30px;'>&nbsp;</td><td><?php echo $postcode; ?></td></tr>
@@ -83,7 +113,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 		</div>
 		<div class="row">
 			<div class="col-sm-12">
-				<p style="margin-top: -10px; border-bottom: solid; padding-bottom: 30px;display: inline-block; " width='250px'><b>JF Insurance Agency Group Inc.</b></p>
+				<p style="margin-top: -10px; border-bottom: solid; padding-bottom: 30px;display: inline-block; " width='250px'><b>Ontime Care Worldwide Inc.</b></p>
 			</div>
 		</div>
 		<div class="row">
@@ -91,31 +121,6 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 		</div>
 		<div class="row">
 			<div class="col-sm-12">* This  claim  is  paid  on  a  “without  prejudice”  basis.  Additional  information  may  be  required  for further  claims.</div>
-		</div>
-		<div class="row">
-			<div class="col-sm-12">
-				<hr>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-sm-12">
-				<table cellpadding="5px" style="font-size: 10px; margin-top: -20px; line-height: 2px;">
-					<tbody>
-						<tr>
-							<td>15 Wertheim Court, Suite 501, Richmond Hill, ON, L4B 3H7</td>
-							<td>Tel: (905) 707-1512</td>
-							<td>Fax: (905) 707-1513</td>
-							<td>Toll Free Tel: 1-877-832-5541</td>
-						</tr>
-						<tr>
-							<td>128 - 6061 no. 3 road, Richmond, BC, V6Y 2B2</td>
-							<td>Tel: (604) 232-0896</td>
-							<td>Fax: (604) 232-0897</td>
-							<td>Toll Free Tel: 1-888-988-3268</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
 		</div>
 	</div>
 </body>

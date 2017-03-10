@@ -273,6 +273,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <th>Claim Date</th>
                             <th>Claim Amount</th>
                             <th>Paid Amount</th>
+                            <th>Note</th>
                             <th>&nbsp;</th>
                           </tr>
                         </thead>
@@ -289,6 +290,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                               <td><?php echo $c['claim_date']; ?></td>
                               <td><?php echo $c['claim_total']; ?></td>
                               <td><?php echo $c['paid_total']; ?></td>
+                              <td><?php echo $c['note']; ?></td>
                               <td><?php if ($c['done'] == 1) { ?><a style="color:#46b8da;" href="<?php echo $edit_url."/".$c['claim_id']?>">Finished</a><?php } else { ?><a style="color:#46b8da;" href="<?php echo $edit_url."/".$c['claim_id']?>">Detail</a><?php } ?></td>
                             </tr>
                         <?php } ?>    
