@@ -50,8 +50,9 @@ class Refund extends MY_Controller
         $data['create_date_to'] = (empty($_POST) && empty($this->input->post('create_date_to'))) ? date("Y-m-d") : $this->input->post('create_date_to', true);
 
         $data['product_list'] = $this->product_model->get_available_product_list();
-        $data['user_list'] = $this->user_model->get_available_user_list();
+        // $data['user_list'] = $this->user_model->get_available_user_list();
         $data['report_data'] = empty($_POST) ? array() : $this->report_model->get_refund_report($data);
+        //echo "<pre>"; print_r($data['report_data']);
 
         $data['export_list'] = base_url ( "reports/refund/export_list" );
         $data['export_form'] = $this->load->view ( 'reports/agent_export', $data, true);
@@ -62,42 +63,35 @@ class Refund extends MY_Controller
         $beuser = $this->func_model->verify_login(); 
         $this->load->model('product_model');
         $this->load->model('report_model');
-        $data['ispaid'] = $this->input->post('ispaid', true);
-        $data['region_id'] = empty($this->input->post('region_id')) ? $beuser['region_id'] : $this->input->post('region_id');
-        $data['product_short'] = $this->input->post('product_short', true);
-        $data['pay_date_from'] = $this->input->post('pay_date_from', true);
-        $data['pay_date_to'] = $this->input->post('pay_date_to', true);
-        $data['create_date_from'] = $this->input->post('create_date_from', true);
-        $data['create_date_to'] = $this->input->post('create_date_to', true);
+        $data['ispaid'] = $this->input->get_post('ispaid', true);
+        $data['region_id'] = empty($this->input->get_post('region_id')) ? $beuser['region_id'] : $this->input->get_post('region_id');
+        $data['product_short'] = $this->input->get_post('product_short', true);
+        $data['pay_date_from'] = $this->input->get_post('pay_date_from', true);
+        $data['pay_date_to'] = $this->input->get_post('pay_date_to', true);
+        $data['create_date_from'] = $this->input->get_post('create_date_from', true);
+        $data['create_date_to'] = $this->input->get_post('create_date_to', true);
         
         $data['product_list'] = $this->product_model->get_available_product_list();
-        $data['user_list'] = $this->user_model->get_available_user_list();
+        // $data['user_list'] = $this->user_model->get_available_user_list();
         $data['report_data'] = $this->report_model->get_refund_report($data);
 
         $w = WriterFactory::create(Type::XLSX); // for XLSX files
         $kArr = array(
-                'policy' => 'Policy Number',
-                'deductible_amount' => 'Deductible',
+                'policy' => 'Policy #',
                 'customer_name' => 'Customer Name',
-                'birthday' => 'Date of Birth',
-        		'address' => 'Address',
-                'city' => 'City',
-                'province' => 'Province',
-                'postcode' => 'Postal Code',
+                'birthday' => 'DOB',
+        		'refund_date' => 'Refund Date',
         		'agent_name' => 'Agent Name',
-                'amount' => 'Refund Amount',
+                'premium' => 'Original Premium',
+                'commission' => 'Original Net Premium',
+        		'net_amount' => 'Refund Amount',
                 'admin_fee' => 'Admin Fee<',
-                'added' => 'Add Date'
-                );
-        if ($data['ispaid'] == 1) {
-        	$kArr['pay_date'] = 'Pay Date';
-        	$kArr['pay_to'] = 'Pay To';
-        }
+                'amount' => 'Total Refund',
+        		'added' => 'Refund Process Date'
+        );
 
-        $tmpfname = "/tmp/jf_test.xlsx";
-        
         $w->openToBrowser("refund_Report_" . date('Ymd') . ".xlsx");
-        //$w->openToFile($tmpfname);
+        //$w->openToFile("/tmp/jf_test.xlsx");
 
         foreach ($kArr as $k => $v) { $arr[] = $v; } 
         $w->addRow($arr);
@@ -106,11 +100,27 @@ class Refund extends MY_Controller
         foreach ($data['report_data'] as $record) {
         	$arr = array();
         	$total += $record['amount'];
-            foreach ($kArr as $k => $v) { $arr[] = $record[$k]; } 
+            foreach ($kArr as $k => $v) {
+            	if ($k == 'commission') {
+            		$arr[] = (double)($record['premium'] - $record['commission']);
+            	} else if ($k == 'premium') {
+            		$arr[] = (double)$record['premium'];
+            	} else if ($k == 'net_amount') {
+            		$arr[] = (double)$record['net_amount'];
+            	} else if ($k == 'admin_fee') {
+            		$arr[] = (double)$record['admin_fee'];
+            	} else if ($k == 'amount') {
+            		$arr[] = (double)$record['amount'];
+            	} else if ($k == 'added') {
+            		$arr[] = substr($record['added'], 0 , 10);
+            	} else {
+            		$arr[] = $record[$k];
+            	}
+			} 
             $w->addRow($arr);
         }
             
-        $arr = array('', 'Total: '. $total);
+        $arr = array('Total', '', '', '', '', '', '', '', '', $total);
         $w->addRow($arr);
 
         $arr = array('','');

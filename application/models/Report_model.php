@@ -444,72 +444,41 @@ class Report_model extends CI_Model
      */
     public function get_refund_report($para)
     {
-        $query = $this->get_refund_report_query($para);
-        return $query;
-    }
-
-    private function get_refund_report_query($para)
-    {
-        $this->refund_report_fields();
-        $this->refund_report_from();
-        $this->refund_report_where($para);
-        $this->db->order_by('pm.plan_id', 'ASC');
-        $this->db->order_by('pm.payment_id', 'ASC');
-        return $this->db->get()->result_array();
-    }
-
-    private function refund_report_fields()
-    {
-        $this->db->select('
-            pl.policy,
-            pl.deductible_amount,
-            CONCAT(c.firstname, " ", c.lastname) AS customer_name,
-            c.birthday,
-            CONCAT(pl.street_number, " ", pl.street_name) AS address,
-            pl.suite_number,
-            pl.city,
-            pl.province2 AS province,
-            pl.postcode,
-            CONCAT(u.firstname, " ", u.lastname) AS agent_name,
-            pm.amount,
-            pm.admin_fee,
-            pm.ispaid,
-        	pm.added,
-        	pm.pay_date,
-        	pm.pay_to
-        ');
-    }
-
-    private function refund_report_from()
-    {
-        $this->db->from('payment pm');
-        $this->db->join('plan pl', 'pm.plan_id = pl.plan_id');
-        $this->db->join('user u', 'pl.user_id = u.user_id');
-        $this->db->join('customer c', 'pl.customer_id = c.customer_id');
-    }
-
-    private function refund_report_where($para)
-    {
-        if (!empty($para['product_short'])) {
-            $this->db->where('pl.product_short', $para['product_short']);
-        }
-        if (!empty($para['region_id'])) {
-            $this->db->where('pl.region_id', $para['region_id']);
-        }
-        $this->db->where('pm.pay_type =', 'refund');
-    	$this->db->where('pm.ispaid =', (int)$para['ispaid']);
+		$sql = "SELECT
+					pl.policy, pl.refund_date, CONCAT(pl.street_number, ' ', pl.street_name) AS address, pl.suite_number, pl.city, pl.province2 AS province, pl.postcode,
+					(SELECT sum(amount) FROM payment pm1 WHERE pm1.plan_id=pl.plan_id AND pay_type='premium') as premium,
+					(SELECT sum(amount) FROM payment pm1 WHERE pm1.plan_id=pl.plan_id AND pay_type='commission') as commission,
+					CONCAT(c.firstname, ' ', c.lastname) AS customer_name, c.birthday,
+					CONCAT(u.firstname, ' ', u.lastname) AS agent_name,
+					pm.amount, pm.admin_fee, (pm.amount + pm.admin_fee) AS net_amount, pm.ispaid, pm.added, pm.pay_date, pm.pay_to
+				FROM payment pm
+				JOIN plan pl ON pm.plan_id = pl.plan_id
+				JOIN user u ON pl.user_id = u.user_id
+				JOIN customer c ON pl.customer_id = c.customer_id
+				WHERE pm.pay_type='refund'";
+		$sql .= " AND pm.ispaid = '" . (int)$para['ispaid'] . "'";
+		if (!empty($para['pay_date_from'])) {
+			$sql .= " AND pm.pay_date >= " . $this->db->escape($para['pay_date_from']);
+		}
+		if (!empty($para['pay_date_to'])) {
+			$sql .= " AND pm.pay_date <= " . $this->db->escape($para['pay_date_to']);
+		}
     	if (!empty($para['create_date_from'])) {
-            $this->db->where('pm.added >=', $para['create_date_from']);
-        }
-        if (!empty($para['create_date_to'])) {
-            $this->db->where('pm.added <=', $para['create_date_to']);
-        }
-        if (!empty($para['pay_date_from'])) {
-            $this->db->where('pm.pay_date >=', $para['pay_date_from']);
-        }
-        if (!empty($para['pay_date_to'])) {
-            $this->db->where('pm.pay_date <=', $para['pay_date_to']);
-        }
+			$sql .= " AND pm.added >= " . $this->db->escape($para['create_date_from']);
+		}
+    	if (!empty($para['create_date_to'])) {
+			$sql .= " AND pm.added <= " . $this->db->escape($para['create_date_to']);
+		}
+		if (!empty($para['region_id'])) {
+			$sql .= " AND pl.region_id = '" . (int)$para['region_id'] . "'";
+		}
+		if (!empty($para['product_short'])) {
+			$sql .= " AND pl.product_short = " . $this->db->escape($para['product_short']);
+		}
+		$sql .= " ORDER BY pm.plan_id ASC, pm.payment_id ASC";
+        $query = $this->db->query($sql)->result_array();
+        //die($this->db->last_query());
+        return $query;
     }
 
     /**

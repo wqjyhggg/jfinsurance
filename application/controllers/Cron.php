@@ -594,6 +594,210 @@ class Cron extends MY_Controller {
 		$objWriter->save($outfile);
 		echo "Save to : " . $outfile . "\n";
 		$uploaded = FALSE;
+		/*
+		for ($i = 0; $i < 5; $i++) {
+			$uploaded = $this->ftp($outfile, $uploadFilename);
+			if ($uploaded) {
+				unlink($outfile);
+				break;
+			}
+			sleep(60); // wait 1 minute too retry
+		}
+		*/
+		if (!$uploaded) {
+			$this->load->model("mymail_model");
+			$this->mymail_model->send_mymail('wqjyhggg@gmail.com', 'JF upload error', "File: " . $outfile);
+			$this->mymail_model->send_mymail('cosmo@jfgroup.ca', 'JF upload error', "File: " . $outfile, array($outfile));
+		}
+	}
+
+	public function export2() {
+		$this->valid();
+		set_time_limit(0);
+		$this->load->model ( 'product_model' );
+		$this->load->model ( 'user_model' );
+		$this->load->model ( 'batch_model' );
+		$this->load->model ( 'plan_model' );
+		$this->load->model ( 'payment_model' );
+		$this->load->model ( 'status_model' );
+		$this->load->model ( 'customer_model' );
+		$this->load->model("mymail_model");
+		$outdir = '/tmp/';
+		$pattern = "/^([_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,}))(.*)$/";
+	
+		$uploadFilename = 'OPL2_Sales_Report_' . date('Y.m.d_H.i.s.B') . '.xls';
+		$outfile = $outdir . $uploadFilename;
+
+		$fn = fopen($outfile, 'w+');
+		if (!$fn) {
+			$this->mymail_model->send_mymail('wqjyhggg@gmail.com', 'JF upload error', "File: " . $outfile);
+		}
+		fwrite($fn, "Policy No\t");
+		fwrite($fn, "Plan Name \t");
+		fwrite($fn, "Status\t");
+		fwrite($fn, "Type\t");
+		fwrite($fn, "First Name\t");
+		fwrite($fn, "Last Name\t");
+		fwrite($fn, "Gender\t");
+		fwrite($fn, "Birth Date\t");
+		fwrite($fn, "Address1\t");
+		fwrite($fn, "Address2\t");
+		fwrite($fn, "City\t");
+		fwrite($fn, "Province\t");
+		fwrite($fn, "Postal Code\t");
+		fwrite($fn, "Contact Phone\t");
+		fwrite($fn, "Contact Email\t");
+		fwrite($fn, "Notes\t");
+		fwrite($fn, "Arrival Date\t");
+		fwrite($fn, "Application Date\t");
+		fwrite($fn, "Effective Date\t");
+		fwrite($fn, "Expiry Date\t");
+		fwrite($fn, "Trip  Length\t");
+		fwrite($fn, "Sum  Insured\t");
+		fwrite($fn, "Deductible Amout\t");
+		fwrite($fn, "Commission Rate\t");
+		fwrite($fn, "Commission Amout\t");
+		fwrite($fn, "Daily Rate\t");
+		fwrite($fn, "Gross Premium\t");
+		fwrite($fn, "Net Premium\t");
+		fwrite($fn, "Fee1\t");
+		fwrite($fn, "Fee2\t");
+		fwrite($fn, "Amount Due\t");
+		fwrite($fn, "Insured First Name\t");
+		fwrite($fn, "Insured Last Name\t");
+		fwrite($fn, "Birthdate\t");
+		fwrite($fn, "Update Date\n");
+	
+		$product_list = $this->product_model->product_list(1);
+		$status_list = $this->status_model->status_list();
+	
+		$para = array();
+		$para['last_update'] = date('Y-m-d', time() - 86400) . " 00:00:00";
+		$para['last_update2'] = date('Y-m-d', time() - 86400) . " 23:59:59";
+		//$para['apply_date2'] = '2016-01-01';
+		$para['last_update'] = "2017-02-01 00:00:00";
+		$para['product_short'] = 'OPL';
+		$plansOPL = $this->plan_model->plan_search($para, 0);
+		$para['product_short'] = 'JFC';
+		$plansJFC = $this->plan_model->plan_search($para, 0);
+	
+		$plans = array_merge($plansOPL, $plansJFC);
+		$sz = sizeof($plans);
+		echo "Total Record: " . $sz . "; OPL: " . sizeof($plansOPL) . "; JFC: " . sizeof($plansJFC) . "; \n";
+
+		foreach ($plans as $plan) {
+			if ($plan['status_id'] <= Plan_model::QUOTE) continue;  // Skip Quote status
+			if ($plan['status_id'] == Plan_model::CANCEL) {
+				if ($this->payment_model->check_payment_period($plan['plan_id'], $para['last_update'], $para['last_update2'])) {
+					continue;
+				}
+			}
+			fwrite($fn, $plan['policy']."\t");
+			$b = '';
+			if ($plan['product_short'] == 'OPL') {
+				if ($plan['stable_condition'] == 1) $b = "With Stable Pre-existing Medical Condition Coverage";
+				else if ($plan['stable_condition'] == 2) $b = "Without Stable Pre-existing Medical Condition Coverage";
+			} else {
+				// $plan['product_short'] == 'JFC'
+			}
+			fwrite($fn, $b."\t");
+			$status_str = $status_list[$plan['status_id']]['name'];
+			if ($plan['status_id'] == Plan_model::SOLD) $status_str = 'New';
+			if ($plan['status_id'] == Plan_model::CHANGED) $status_str = 'Change';
+			if ($plan['status_id'] == Plan_model::CLAIMED) {
+				$status_str = 'Paid';
+				$payrow = $this->payment_model->get_last_payment($plan['plan_id']);
+				if ($payrow && empty($payrow['ispaid'])) {
+					$status_str = 'Sold';
+				}
+			}
+			if (empty($plan['firstname'])) $plan['firstname'] = '.';
+			if (empty($plan['lastname'])) $plan['lastname'] = '.';
+			if (empty($plan['gender'])) $plan['gender'] = '.';
+			fwrite($fn, $status_str."\t");
+			fwrite($fn, $plan['isfamilyplan'] ? "Family\t" : "Single\t");
+			fwrite($fn, $plan['firstname']."\t");
+			fwrite($fn, $plan['lastname']."\t");
+			fwrite($fn, $plan['gender']."\t");
+			fwrite($fn, date("n/j/Y g:i:s A", strtotime($plan['birthday'] . ' 00:00:00 EST'))."\t");
+			fwrite($fn, $plan['street_number'] . " " . $plan['street_name'] . "\t"); // Address1
+			fwrite($fn, ($plan['suite_number']) ? " Suite" . $plan['suite_number'] . "\t" : "\t"); // Address2
+			fwrite($fn, $plan['city']."\t"); // City
+			fwrite($fn, $plan['province2']."\t"); // Provincec
+			fwrite($fn, $plan['postcode']."\t"); // Postal Code
+			fwrite($fn, $plan['contact_phone']."\t"); // Contact Phone
+			$mlArr = array();
+			$mailaddr = '';
+			$r = preg_match($pattern, $plan['contact_email'], $mlArr);
+			if ($r) {
+				$mailaddr = $mlArr[1];
+			}
+			fwrite($fn, $mailaddr."\t"); // Contact Email
+			fwrite($fn, $plan['note']."\t"); // Notes
+			fwrite($fn, date("n/j/Y g:i:s A", strtotime($plan['arrival_date'] . ' 00:00:00 EST'))."\t"); // Arrival Date
+			fwrite($fn, date("n/j/Y g:i:s A", strtotime($plan['apply_date'] . ' 00:00:00 EST'))."\t"); // Application Date
+			fwrite($fn, date("n/j/Y g:i:s A", strtotime($plan['effective_date'] . ' 00:00:00 EST'))."\t"); // Effective Date
+			fwrite($fn, date("n/j/Y g:i:s A", strtotime($plan['expiry_date'] . ' 00:00:00 EST'))."\t"); // Expiry Date
+			fwrite($fn, $plan['totaldays']."\t"); // Trip  Length
+			fwrite($fn, number_format($plan['sum_insured'],2)."\t"); // Sum  Insured
+			fwrite($fn, number_format($plan['deductible_amount'],2)."\t"); // Deductible Amout
+			fwrite($fn, number_format((($plan['premium'] == 0) ? 0 : (float)($plan['commission_amount'] * 100 / $plan['premium'])),2)."\t"); // Commission Rate
+			fwrite($fn, number_format($plan['commission_amount'],2)."\t"); // Commission Amout
+			fwrite($fn, number_format($plan['dailyrate'],2)."\t"); // Daily Rate
+			fwrite($fn, number_format($plan['premium'],2)."\t"); // Gross Premium
+			fwrite($fn, number_format($plan['premium'],2)."\t"); // Net Premium
+			fwrite($fn, "0\t"); // Fee1
+			fwrite($fn, "0\t"); // Fee2
+			fwrite($fn, "0\t"); // Amount Due
+			fwrite($fn, $plan['firstname']."\t"); // Insured First Name
+			fwrite($fn, $plan['lastname']."\t"); // Insured Last Name
+			fwrite($fn, date("n/j/Y g:i:s A", strtotime($plan['birthday'] . ' 00:00:00 EST'))."\t"); // Birthdate
+			fwrite($fn, date("n/j/Y g:i:s A", strtotime($plan['last_update'] . ' EST'))."\n"); // Update Date
+			if ($plan['isfamilyplan']) {
+				$customers = $this->customer_model->get_customer_by_parent_id($plan['customer_id']);
+				foreach ($customers as $c) {
+					fwrite($fn, $plan['policy']."\t");
+					fwrite($fn, $b."\t");
+					fwrite($fn, $status_str."\t");
+					fwrite($fn, $plan['isfamilyplan'] ? "Family\t" : "Single\t");
+					fwrite($fn, $c['firstname']."\t");
+					fwrite($fn, $c['lastname']."\t");
+					fwrite($fn, $c['gender']."\t");
+					fwrite($fn, date("n/j/Y g:i:s A", strtotime($c['birthday'] . ' 00:00:00 EST'))."\t");
+					fwrite($fn, $plan['street_number'] . " " . $plan['street_name'] . "\t"); // Address1
+					fwrite($fn, ($plan['suite_number']) ? " Suite" . $plan['suite_number'] . "\t" : "\t"); // Address2
+					fwrite($fn, $plan['city']."\t"); // City
+					fwrite($fn, $plan['province2']."\t"); // Provincec
+					fwrite($fn, $plan['postcode']."\t"); // Postal Code
+					fwrite($fn, $plan['contact_phone']."\t"); // Contact Phone
+					fwrite($fn, $mailaddr."\t"); // Contact Email
+					fwrite($fn, $plan['note']."\t"); // Notes
+					fwrite($fn, date("n/j/Y g:i:s A", strtotime($plan['arrival_date'] . ' 00:00:00 EST'))."\t"); // Arrival Date
+					fwrite($fn, date("n/j/Y g:i:s A", strtotime($plan['apply_date'] . ' 00:00:00 EST'))."\t"); // Application Date
+					fwrite($fn, date("n/j/Y g:i:s A", strtotime($plan['effective_date'] . ' 00:00:00 EST'))."\t"); // Effective Date
+					fwrite($fn, date("n/j/Y g:i:s A", strtotime($plan['expiry_date'] . ' 00:00:00 EST'))."\t"); // Expiry Date
+					fwrite($fn, $plan['totaldays']."\t"); // Trip  Length
+					fwrite($fn, number_format($plan['sum_insured'],2)."\t"); // Sum  Insured
+					fwrite($fn, number_format($plan['deductible_amount'],2)."\t"); // Deductible Amout
+					fwrite($fn, number_format((($plan['premium'] == 0) ? 0 : (float)($plan['commission_amount'] * 100 / $plan['premium'])),2)."\t"); // Commission Rate
+					fwrite($fn, number_format($plan['commission_amount'],2)."\t"); // Commission Amout
+					fwrite($fn, number_format($plan['dailyrate'],2)."\t"); // Daily Rate
+					fwrite($fn, number_format($plan['premium'],2)."\t"); // Gross Premium
+					fwrite($fn, number_format($plan['premium'],2)."\t"); // Net Premium
+					fwrite($fn, "0\t"); // Fee1
+					fwrite($fn, "0\t"); // Fee2
+					fwrite($fn, "0\t"); // Amount Due
+					fwrite($fn, $c['firstname']."\t"); // Insured First Name
+					fwrite($fn, $c['lastname']."\t"); // Insured Last Name
+					fwrite($fn, date("n/j/Y g:i:s A", strtotime($plan['birthday'] . ' 00:00:00 EST'))."\t"); // Birthdate
+					fwrite($fn, date("n/j/Y g:i:s A", strtotime($plan['last_update'] . ' EST'))."\n"); // Update Date
+				}
+			}
+		}
+		fclose($fn);
+		echo "Save to : " . $outfile . "\n";
+		$uploaded = FALSE;
+		/*
 		for ($i = 0; $i < 5; $i++) {
 			$uploaded = $this->ftp($outfile, $uploadFilename);
 			if ($uploaded) {
@@ -607,8 +811,9 @@ class Cron extends MY_Controller {
 			$this->mymail_model->send_mymail('wqjyhggg@gmail.com', 'JF upload error', "File: " . $outfile);
 			$this->mymail_model->send_mymail('cosmo@jfgroup.ca', 'JF upload error', "File: " . $outfile, array($outfile));
 		}
+		*/
 	}
-
+	
 	public function test() {
 		$this->load->model('mymail_model');
 		$this->mymail_model->send_mymail('wqjyhggg@gmail.com', 'Test', 'Real body');

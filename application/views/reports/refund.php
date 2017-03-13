@@ -153,22 +153,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                       <table class="table table-hover table-bordered">
                         <thead>
                           <tr>
-                            <th>Policy Number</th>
-                            <th>Deductible</th>
+                            <th>Policy #</th>
                             <th>Customer Name</th>
-                            <th>Date of Birth</th>
-                            <th>Address</th>
-                            <th>City</th>
-                            <th>Province</th>
-                            <th>Postal Code</th>
+                            <th>DOB</th>
+                            <th>Refund Date</th>
                             <th>Agent Name</th>
+                            <th>Original Premium</th>
+                            <th>Original Net Premium</th>
                             <th>Refund Amount</th>
                             <th>Admin Fee</th>
-                            <th>Add Date</th>
-    <?php if ($ispaid == 1) : ?>
-                            <th>Pay Date</th>
-                            <th>Pay To</th>
-    <?php endif; ?>
+                            <th>Total Refund</th>
+                            <th>Refund Process Date</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -176,27 +171,34 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <?php foreach ($report_data as $record) :?>
     <?php $total += $record['amount']; ?>
                             <tr>
-                              <td><?=$record['policy'] ?></td>
-                              <td><?=$record['deductible_amount'] ?></td>
-                              <td><?=$record['customer_name'] ?></td>
-                              <td><?=$record['birthday'] ?></td>
-                              <td><?=$record['address'] ?></td>
-                              <td><?=$record['city'] ?></td>
-                              <td><?=$record['province'] ?></td>
-                              <td><?=$record['postcode'] ?></td>
-                              <td><?=$record['agent_name'] ?></td>
-                              <td><?=$record['amount'] ?></td>
-                              <td><?=$record['admin_fee'] ?></td>
-                              <td><?=$record['added'] ?></td>
-    <?php if ($ispaid == 1) : ?>
-                              <td><?=$record['pay_date'] ?></td>
-                              <td><?=$record['pay_to'] ?></td>
-    <?php endif; ?>
+                              <td><?php echo $record['policy']; ?></td>
+                              <td><?php echo $record['customer_name']; ?></td>
+                              <td><?php echo $record['birthday']; ?></td>
+                              <td><?php echo $record['refund_date']; ?></td>
+                              <td><?php echo $record['agent_name']; ?></td>
+                              <td><?php echo number_format($record['premium'], 2); ?></td>
+                              <td><?php echo number_format($record['premium'] - $record['commission'], 2); ?></td>
+                              <td><?php echo number_format($record['net_amount'], 2); ?></td>
+                              <td><?php echo number_format($record['admin_fee'], 2); ?></td>
+                              <td><?php echo number_format($record['amount'], 2); ?></td>
+                              <td><?php echo substr($record['added'], 0 , 10); ?></td>
                             </tr>
         <?php endforeach; ?>
+                            <tr>
+                              <td><b>Total</b></td>
+                              <td>&nbsp;</td>
+                              <td>&nbsp;</td>
+                              <td>&nbsp;</td>
+                              <td>&nbsp;</td>
+                              <td>&nbsp;</td>
+                              <td>&nbsp;</td>
+                              <td>&nbsp;</td>
+                              <td>&nbsp;</td>
+                              <td><?php echo number_format($total, 2); ?></td>
+                              <td>&nbsp;</td>
+                            </tr>
                         </tbody>
                       </table>
-                      Total: <?php echo $total; ?>
 <?php endif; ?>                      
                     </div>
                   </div>
