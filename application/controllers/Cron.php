@@ -625,7 +625,7 @@ class Cron extends MY_Controller {
 		$outdir = '/tmp/';
 		$pattern = "/^([_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,}))(.*)$/";
 	
-		$uploadFilename = 'OPL2_Sales_Report_' . date('Y.m.d_H.i.s.B') . '.xls';
+		$uploadFilename = 'OPL2_Sales_Report_' . date('Y.m.d_H.i.s.B') . '.txt';
 		$outfile = $outdir . $uploadFilename;
 
 		$fn = fopen($outfile, 'w+');
