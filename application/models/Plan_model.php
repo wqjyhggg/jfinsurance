@@ -559,6 +559,10 @@ class Plan_model extends CI_Model {
 			$this->load->model('customer_model');
 			$this->customer_model->delete($plan['customer_id']);
 			$this->customer_model->delete_by_parent_id($plan['customer_id']);
+
+			$this->load->model('payment_model');
+			$this->payment_model->delete_plan($plan_id);
+
 			$this->db->delete('plan', array('plan_id' => $plan_id));
 		}
 	}
@@ -721,10 +725,10 @@ class Plan_model extends CI_Model {
 	 * Search Plans (policies) by conditions for export
 	 * 
 	 * @param	array	$para		Search parameters
-	 * @param	int		$limit		limit
+	 * @param	int		$payment		need payment
 	 * @return	array					user table search result
 	 */
-	public function plan_export_search($para) {
+	public function plan_export_search($para, $payment=0) {
 		$beuser = $this->session->userdata('beuser');
 		if (empty($beuser)) {
 			return array();
@@ -742,6 +746,18 @@ class Plan_model extends CI_Model {
 					$rArr[$i]['firstname_'.$m] = $cArr[$j]['firstname'];
 					$rArr[$i]['lastname_'.$m] = $cArr[$j]['lastname'];
 					$rArr[$i]['birthday_'.$m] = $cArr[$j]['birthday'];
+				}
+			}
+			if ($payment) {
+				$nameArr = $this->db->list_fields('payment');
+				$this->db->where('plan_id', $rArr[$i]['plan_id']);
+				// $this->db->where_in('pay_type', array('premium','refund');
+				$this->db->where('amount>', 0.001);
+				$pArr = $this->db->get('payment')->result_array();
+				for ($j = 0; $j < sizeof($pArr); $j++) {
+					foreach ($nameArr as $name) {
+						$rArr[$i][$name . '_' . $j] = $pArr[$j][$name];
+					}
 				}
 			}
 		}

@@ -11,10 +11,13 @@ class Batch_model extends CI_Model {
 	
 	function unixstamp( $excelDateTime ) {
 		$excelDateTime =trim($excelDateTime);
-		if (ctype_digit($excelDateTime)) {
-			$d = floor( $excelDateTime ); // seconds since 1900
-			$t = $excelDateTime - $d + 1;
-			return ($d > 0) ? ( $d - 25569 ) * 86400 + $t * 86400 : $t * 86400;
+		if (is_numeric($excelDateTime)) {
+			$t = $excelDateTime - 25569; // seconds since 1900
+			if ($t > 0) {
+				return round($t * 86400);
+			} else {
+				return 0;
+			}
 		} else {
 			return strtotime($excelDateTime);
 		}

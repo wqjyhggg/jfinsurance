@@ -14,7 +14,7 @@ class Payment_model extends CI_Model {
 	 * @param	string	$str	String for format
 	 * @return	string				permitied string
 	 */
-	private function pay_type($str) {
+	public function pay_type($str) {
 		switch ($str) {
 			case 'premium': return 'premium';
 			case 'refund': return 'refund';
@@ -167,6 +167,21 @@ class Payment_model extends CI_Model {
 		$this->db->update('payment', $para);
 		$this->sqlstr = $this->db->last_query();
 		$this->logstr = 'Update payment[' . $payment_id . ']:' . join(', ', $para);
+		return $payment_id;
+	}
+	
+	/**
+	 * Update payment data
+	 * 
+	 * @param	plan_id	$plan_id	
+	 * @return	none
+	 */
+	public function delete_plan($plan_id) {
+		$this->logstr = '';
+		$this->db->where('plan_id', $plan_id);
+		$this->db->delete('payment');
+		$this->sqlstr = $this->db->last_query();
+		$this->logstr = 'remove payments by plan[' . $plan_id . ']';
 		return $payment_id;
 	}
 	

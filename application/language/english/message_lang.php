@@ -31,6 +31,7 @@ $lang['text_report'] = "Report";
 $lang['text_search'] = "Search";
 $lang['text_unbehalf'] = "Unbehalf";
 $lang['text_upload_policy'] = "Upload Policy";
+$lang['text_other_policy'] = "Other Policy";
 
 /* Left menu - submenu */
 $lang['text_report_to_agent'] = "Sales report to agent";
