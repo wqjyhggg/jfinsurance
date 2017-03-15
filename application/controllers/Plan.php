@@ -78,7 +78,7 @@ class Plan extends MY_Controller {
 			$data['plan_list'] = $this->plan_model->plan_search($sArr);
 			$this->session->set_userdata('policy_search', json_encode($sArr));
 		} else if ($this->input->get('q')) {
-			$para = array('policy' => $this->input->get('q'));
+			$para = array('policy_match' => $this->input->get('q'));
 			$data['plan_list'] = $this->plan_model->plan_search($para);
 			$this->session->set_userdata('policy_search', json_encode($para));
 		} else {

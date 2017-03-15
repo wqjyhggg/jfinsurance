@@ -642,6 +642,8 @@ class Plan_model extends CI_Model {
 		}
 		if (!empty($para['policy'])) {
 			$where[] = "p.policy=" . $this->db->escape($para['policy']);
+		} else if (!empty($para['policy_match'])) {
+			$where[] = "p.policy LIKE " . $this->db->escape('%'.$para['policy_match'].'%');
 		}
 		if (!empty($para['batch_number'])) {
 			$where[] = "p.batch_number=" . $this->db->escape($para['batch_number']);
