@@ -234,7 +234,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	              	<div class="row">
 	              		<div class="form-group col-sm-3">
 			                <label>Mail is same:</label>
-		                	<input type='checkbox' name='issame' id='issame' value='1' checked>
+		                	<input type='checkbox' name='issame' id='issame' value='1' <?php echo ($user_id) ? "" : "checked"; ?>>
 			            </div>
 			            <div class="form-group col-sm-9 mailaddr">
 			                <label class="col-sm-12">Mail Address:</label>
@@ -543,8 +543,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							}
 						});
 						$('#issame').change(issamecheck);
-
-						issamecheck();
 					});
 					function issamecheck() {
 						if ($('#issame').is(':checked')) {
