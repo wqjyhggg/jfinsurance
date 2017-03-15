@@ -440,7 +440,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<div class="form-group col-sm-3">
 										<label class="col-sm-12">Street No: </label>
 										<div class="input-group col-sm-12">
-											<input class="form-control" type='text' name='street_number' value='<?php echo $street_number; ?>'>
+											<input class="form-control" type='text' name='street_number' value="<?php echo $street_number; ?>">
 										</div>
 										<?php if (!empty($error_street_number)) {?>
 										<div class="alert-error">
@@ -451,7 +451,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<div class="form-group col-sm-3">
 										<label class="col-sm-12">Street Name: </label>
 										<div class="input-group col-sm-12">
-											<input class="form-control" type='text' name='street_name' value='<?php echo addslashes($street_name); ?>'>
+											<input class="form-control" type='text' name='street_name' value="<?php echo str_replace("\"", "'", $street_name); ?>">
 										</div>
 										<?php if (!empty($error_street_name)) {?>
 										<div class="alert-error">
@@ -462,13 +462,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<div class="form-group col-sm-3">
 										<label class="col-sm-12">Suite No.: </label>
 										<div class="input-group col-sm-12">
-											<input class="form-control" type='text' name='suite_number' value='<?php echo addslashes($suite_number); ?>'>
+											<input class="form-control" type='text' name='suite_number' value="<?php echo $suite_number; ?>">
 										</div>
 									</div>
 									<div class="form-group col-sm-3">
 										<label class="col-sm-12">City: </label>
 										<div class="input-group col-sm-12">
-											<input class="form-control" type='text' name='city' value='<?php echo addslashes($city); ?>'>
+											<input class="form-control" type='text' name='city' value="<?php echo $city; ?>">
 										</div>
 										<?php if (!empty($error_city)) {?>
 										<div class="alert-error">
