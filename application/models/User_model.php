@@ -239,6 +239,21 @@ class User_model extends CI_Model {
 	}
 	
 	/**
+	 * Get all agent list
+	 *
+	 * @return	array					user table search result
+	 */
+	public function get_all_agent_list() {
+		$sql = "SELECT user_id,concat(username, ' - ', firstname, ' ', lastname) as full_name FROM user WHERE user_group_id > '100' ORDER BY username ASC";
+		$rt = $this->db->query($sql)->result_array();
+		$rtArr = array();
+		foreach ($rt as $rc) {
+			$rtArr[$rc['user_id']] = $rc['full_name'];
+		}
+		return $rtArr;
+	}
+	
+	/**
 	 * Get brokerage user list
 	 * 
 	 * @return	array					user table search result

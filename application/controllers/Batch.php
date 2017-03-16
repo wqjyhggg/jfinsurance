@@ -367,10 +367,7 @@ class Batch extends MY_Controller {
 		if ($user ['user_group_id'] > 103) {
 			$data ['errormsg'] = $this->lang->line ( "error_no_permission" );
 		}
-		$data ['user_id'] = $this->input->post ( 'user_id' );
-		$data ['product_id'] = $this->input->post ( 'product_id' );
-		$data ['schools'] = $this->user_model->get_school_id_list ();
-		$data ['products'] = $this->product_model->product_list ();
+		$data ['agents'] = $this->user_model->get_all_agent_list ();
 		$data ['action_url'] = current_url ();
 		$data ['process_url'] = base_url('batch/loadother');
 		$data ['download_url'] = base_url('batch/downloadothers');
@@ -470,6 +467,12 @@ class Batch extends MY_Controller {
 			$data ['errormsg'] = "Please select upload file";
 		}
 		if (empty ( $data ['errormsg'] )) {
+			$user_id = $this->input->post( 'user_id' );
+			if (empty($user_id)) $user_id = $beuser['user_id'];
+			$fakebeuser = $this->user_model->get_user_by_id($user_id);
+			if ($fakebeuser) {
+				$this->session->set_userdata ( 'beuser',  $fakebeuser);
+			}
 			$uf = array_shift ( $_FILES );
 			$name = $uf ['name'];
 			$type = $uf ['type'];
@@ -484,7 +487,7 @@ class Batch extends MY_Controller {
 				set_time_limit(600); // Max run time 10 minutes
 				$batch_number = $this->batch_model->get_batch_number ( $name, "Upload file by (" . $user ['user_id'] . "): " . $user ['firstname'] . " " . $user ['lastname'] );
 
-				$this->planArr['user_id'] = $beuser['user_id'];
+				$this->planArr['user_id'] = $user_id;
 				$this->planArr['status_id'] = Plan_model::SOLD;
 				$this->planArr['batch_number'] = $batch_number;
 				$this->planArr['payinfo'] = 'Batch Upload Other';
@@ -629,8 +632,8 @@ class Batch extends MY_Controller {
 							}
 						} else {
 							// New Plan
-							$data['user_id'] = $beuser['user_id'];
-							$data['status_id'] = Plan_model::SOLD;
+							$data['user_id'] = $user_id;
+							$data['status_id'] = empty($data['ispaid']) ? Plan_model::SOLD : Plan_model::PAID;
 							$data['batch_number'] = $batch_number;
 							$data['note'] = isset($data['note']) ? $data['note'] . '; Batch Upload Add' : 'Batch Upload Add';
 							$plan_id = $this->plan_model->add($data);
@@ -691,6 +694,7 @@ class Batch extends MY_Controller {
 				}
 			}
 		}
+		$this->session->set_userdata ( 'beuser',  $beuser);
 		header('Content-Type: application/json');
 		header('Cache-Control: no-store, no-cache, must-revalidate');
 		echo json_encode($data);
