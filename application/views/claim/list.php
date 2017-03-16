@@ -212,7 +212,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <!-- Claim Date -->
                         <div class="form-group col-sm-3">
                           <!-- Claim Date from -->
-                            <label for="claim_date_from" class="col-sm-12">Claim Date From</label>
+                            <label for="claim_date_from" class="col-sm-12">Case Date From</label>
                             <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
                                 <input class="form-control" size="16" type="text" name='claim_date' value="<?php echo $claim_date; ?>" >
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
@@ -221,7 +221,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         </div>    
                         <div class="form-group col-sm-3">    
                             <!-- Claim Date to -->
-                            <label for="claim_date_to" class="col-sm-12">Claim Date To</label>
+                            <label for="claim_date_to" class="col-sm-12">Case Date To</label>
                             <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
                                 <input class="form-control" size="16" type="text" name='claim_date2' value="<?php echo $claim_date2; ?>" >
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
@@ -270,7 +270,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <th>Last Name</th>
                             <th>Gender</th>
                             <th>Birth Date</th>
-                            <th>Claim Date</th>
+                            <th>Case Date</th>
                             <th>Claim Amount</th>
                             <th>Paid Amount</th>
                             <th>Note</th>

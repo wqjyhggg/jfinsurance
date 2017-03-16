@@ -79,7 +79,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                       </div>
                       <div class="row">
                         <div class="form-group col-sm-2">
-                          <label >Claim Date: </label>
+                          <label >Case Date: </label>
                           <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
                               <input class="form-control" size="16" type="text" id="claim_date" name="claim_date" placeholder="Claim Date" value="<?php echo $claim_date; ?>" >
                               <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>

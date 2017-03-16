@@ -42,7 +42,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                       <input type='hidden' name='product_short' value='<?php echo $product_short; ?>'>
                       <input type='hidden' name='policy_number' value='<?php echo $policy_number; ?>'>
                       <input type='hidden' name='claim_number' value='<?php echo $claim_number; ?>'>
-                      <input type="hidden" name='claim_date' value='<?php echo $claim_date; ?>'>
                       <input type="hidden" name='lastname' value='<?php echo $lastname; ?>'>
                       <input type="hidden" name='firstname' value='<?php echo $firstname; ?>'>
                       <input type="hidden" name='birthday' value='<?php echo $birthday; ?>'>
@@ -56,9 +55,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         </div>
                         <div class="form-group col-sm-3">
                           <label class="inline">Policy Number: </label> <?php echo $policy_number; ?>
-                        </div>
-                        <div class="form-group col-sm-3">
-                          <label class="inline">Claim Date: </label> <?php echo $claim_date; ?>
                         </div>
                       </div>
                       <div class="row">
@@ -137,13 +133,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <div class="form-group col-sm-3">
                           <label >Address: </label>
                           <div class="input-group col-sm-12">
-                            <input class="form-control" type='text' name='address' value='<?php echo $address; ?>'>
+                            <input class="form-control" type='text' name='address' value="<?php echo $address; ?>">
                           </div>
                         </div>
                         <div class="form-group col-sm-3">
                           <label >City: </label>
                           <div class="input-group col-sm-12">
-                            <input class="form-control" type='text' name='city' value='<?php echo $city; ?>'>
+                            <input class="form-control" type='text' name='city' value="<?php echo $city; ?>">
                           </div>
                         </div>
  			            <div class="form-group col-sm-3">
@@ -211,6 +207,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                           <div class="input-group col-sm-12">
                             <input class="form-control" type='text' name='invoice_number' value='<?php echo $invoice_number; ?>'>
                           </div>
+                        </div>
+                        <div class="form-group col-sm-3">
+                            <label>Claim Date: </label>
+                            <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
+                                <input class="form-control" size="16" type="text" name='claim_date' placeholder="Claim Date" value='<?php echo $claim_date; ?>' >
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                            </div>
                         </div>
                         
                       </div>
