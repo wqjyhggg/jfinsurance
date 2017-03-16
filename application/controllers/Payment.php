@@ -30,6 +30,7 @@ class Payment extends MY_Controller {
 				'payor_name' => $this->input->post('payor_name'),
 				'cheque_number' => $this->input->post('cheque_number'),
 				'pay_to' => $this->input->post('pay_to'),
+				'note' => $this->input->post('note'),
 				'ispaid' => 1,
 				'pay_mothed' => 'Cheque',
 				'pay_date' => date('Y-m-d'),
@@ -40,7 +41,7 @@ class Payment extends MY_Controller {
 				$pay = $this->payment_model->get_payment_by_id($payment_id);
 				if ($pay) {
 					$redirect_plan_id = empty($pay['plan_id']) ? 0 : $pay['plan_id'];
-					$payarr['note'] = "Make pay by " . $this->session->userdata ( 'user' )['username'] . "; " . $pay['note'];
+					$payarr['note'] .= " Make pay by " . $this->session->userdata ( 'user' )['username'] . "; " . $pay['note'];
 					if ($pay_submit && !$pay['ispaid']) {
 						// Submit pay
 						if ($pay['pay_type'] == 'premium') {

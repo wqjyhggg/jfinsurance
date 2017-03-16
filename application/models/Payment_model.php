@@ -67,6 +67,7 @@ class Payment_model extends CI_Model {
 		$this->db->where('plan_id', $plan_id);
 		$this->db->where('pay_type', $pay_type);
 		$this->db->where('ispaid', $ispaid);
+		$this->db->where('amount>', 0);
 		$this->db->order_by('payment_id', 'DESC');
 		$this->db->limit(1);
 		return $this->db->get('payment')->row_array();
