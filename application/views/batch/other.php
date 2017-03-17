@@ -77,7 +77,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 				<div class="x_panel">
 					<div class="x_title">
 						<h2>
-							Down Load<small></small>
+							Download<small></small>
 						</h2>
 						<div class="clearfix"></div>
 					</div>

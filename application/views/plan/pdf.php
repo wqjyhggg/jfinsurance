@@ -32,10 +32,13 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 				<p class="topp">939 Arcadia Ave, #R, Arcadia, CA91007</p>
 				<p class="topp">Tel: 1-877-832-5541</p>
 <?php } else { ?>			
-<?php if ($user['user_id'] > 100) { ?>			
+<?php if ($user['user_group_id'] > 100) { ?>			
 				<p class="topp" style="font-weight:bold;"><?php echo empty($user['business']) ? 'JF Agent' : $user['business']; ?> - <span style="text-transform: capitalize;font-weight:bold;"><?php echo ($user) ? $user['firstname'] . " " . $user['lastname'] : ''; ?></span></p>
 				<p class="topp"><?php echo ($user)? $user['address'] . ', ' . $user['city'] . ' ' . $user['province2'] . ' ' . $user['postcode']: ''; ?></p>
 				<p class="topp"><?php echo ($user)? $user['business_phone'] : '' ; ?></p>
+				<?php if (!empty($user['website'])) { ?>
+				<p class="topp"><?php echo $user['website']; ?></p>
+				<?php } ?>
 <?php } else { ?>			
 				<p class="topp" style="font-weight:bold;"> JF Agent - <span style="text-transform: capitalize;font-weight:bold;">Johnson Fu</span></p>
 				<p class="topp"><?php echo ($user)? $user['address'] . ', ' . $user['city'] . ' ' . $user['province2'] . ' ' . $user['postcode']: ''; ?></p>
@@ -130,7 +133,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 		<!--/div--><!-- x_content -->
 		<div class="row">
 			<div class="col-sm-12 nopm">
-				<p class="small">If you notice any errors in the above information or have any questions, please contact JF Insurance Agency Group Inc.</p>
+				<p class="small">If you notice any errors in the above information or have any questions, please contact <?php if (in_array($plan['product_short'], $pdf_enable) && !empty($user['business'])) { echo $user['business']; } else { ?>JF Insurance Agency Group Inc<?php } ?>.</p>
 			</div>
 			<div class="col-sm-4 nopm">
 			<?php if (in_array($plan['product_short'], $pdf_enable)) { ?>
