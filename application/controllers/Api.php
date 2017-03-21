@@ -43,6 +43,7 @@ class Api extends MY_Controller {
 						'min_premium' => $p['min_premium'],
 						'full_name' => $p['full_name'],
 						'up_insuer' => $p['up_insuer'],
+						'prepare_rate' => $p['prepare_rate'],
 						'currency' => $p['currency'],
 				);
 			}
