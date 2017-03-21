@@ -366,7 +366,7 @@ class Cron extends MY_Controller {
 		$outdir = '/tmp/';
 		$pattern = "/^([_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,}))(.*)$/";
 		
-		$uploadFilename = 'OPL2_Sales_Report_' . date('Y.m.d_H.i.s.B') . '.xls';
+		$uploadFilename = 'OPL2_Sales_Report_' . date('Y.m.d_H.i.s.B') . '.xlsx';
 		$outfile = $outdir . $uploadFilename;
 		/*
 		$filename = DOWNLOADDIR . 'OPL_Sales_Report.xls';
@@ -590,20 +590,18 @@ class Cron extends MY_Controller {
 			}
 		}
 		$objPHPExcel->setActiveSheetIndex(0);
-		$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
+		$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
 		$objWriter->save($outfile);
 		echo "Save to : " . $outfile . "\n";
 		$uploaded = FALSE;
-		/*
 		for ($i = 0; $i < 5; $i++) {
 			$uploaded = $this->ftp($outfile, $uploadFilename);
 			if ($uploaded) {
-				unlink($outfile);
+				// unlink($outfile);
 				break;
 			}
 			sleep(60); // wait 1 minute too retry
 		}
-		*/
 		if (!$uploaded) {
 			$this->load->model("mymail_model");
 			$this->mymail_model->send_mymail('wqjyhggg@gmail.com', 'JF upload error', "File: " . $outfile);

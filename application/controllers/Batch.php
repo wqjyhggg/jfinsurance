@@ -367,7 +367,7 @@ class Batch extends MY_Controller {
 		if ($user ['user_group_id'] > 103) {
 			$data ['errormsg'] = $this->lang->line ( "error_no_permission" );
 		}
-		$data ['agents'] = $this->user_model->get_all_agent_list ();
+		// $data ['agents'] = $this->user_model->get_all_agent_list ();
 		$data ['action_url'] = current_url ();
 		$data ['process_url'] = base_url('batch/loadother');
 		$data ['download_url'] = base_url('batch/downloadothers');
@@ -467,12 +467,6 @@ class Batch extends MY_Controller {
 			$data ['errormsg'] = "Please select upload file";
 		}
 		if (empty ( $data ['errormsg'] )) {
-			$user_id = $this->input->post( 'user_id' );
-			if (empty($user_id)) $user_id = $beuser['user_id'];
-			$fakebeuser = $this->user_model->get_user_by_id($user_id);
-			if ($fakebeuser) {
-				$this->session->set_userdata ( 'beuser',  $fakebeuser);
-			}
 			$uf = array_shift ( $_FILES );
 			$name = $uf ['name'];
 			$type = $uf ['type'];
@@ -487,7 +481,6 @@ class Batch extends MY_Controller {
 				set_time_limit(600); // Max run time 10 minutes
 				$batch_number = $this->batch_model->get_batch_number ( $name, "Upload file by (" . $user ['user_id'] . "): " . $user ['firstname'] . " " . $user ['lastname'] );
 
-				$this->planArr['user_id'] = $user_id;
 				$this->planArr['status_id'] = Plan_model::SOLD;
 				$this->planArr['batch_number'] = $batch_number;
 				$this->planArr['payinfo'] = 'Batch Upload Other';
@@ -510,6 +503,10 @@ class Batch extends MY_Controller {
 						$i ++;
 						if (empty ( $keyArr )) {
 							$keyArr = $row;
+							if (!in_array('user_id', $keyArr)) {
+								$data ['errormsg'] .= "Must has user_id column for upload<br>\n";
+								break 2;
+							}
 							continue;
 						}
 						for($j = 0; $j < sizeof ( $keyArr ); $j ++) {
@@ -536,6 +533,12 @@ class Batch extends MY_Controller {
 								$this->rollback($planArr);
 								break;
 							}
+						}
+						$fakebeuser = $this->user_model->get_user_by_id($data['user_id']);
+						if (empty($fakebeuser)) {
+							$data ['errormsg'] .= "Can't find user (agent) at line " . $i . ": " . @join ( "|", $row ) . "<br>\n";
+							$this->rollback($planArr);
+							break;
 						}
 						
 						if (isset($data['apply_date'])) $data['apply_date'] = date('Y-m-d', $this->batch_model->unixstamp($data['apply_date']));
@@ -632,7 +635,6 @@ class Batch extends MY_Controller {
 							}
 						} else {
 							// New Plan
-							$data['user_id'] = $user_id;
 							$data['status_id'] = empty($data['ispaid']) ? Plan_model::SOLD : Plan_model::PAID;
 							$data['batch_number'] = $batch_number;
 							$data['note'] = isset($data['note']) ? $data['note'] . '; Batch Upload Add' : 'Batch Upload Add';

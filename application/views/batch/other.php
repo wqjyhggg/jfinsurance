@@ -42,15 +42,6 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 							<input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
 							<div class="row">
 								<div class="form-group col-sm-4">
-									<label class="col-sm-12" style='padding-bottom: 4px;'>Agent</label>
-									<select class="form-control" name='user_id'>
-										<option value=''>-- Choose Agents --</option>
-										<?php foreach ($agents as $key => $value) { ?>                            
-		                            	<option value='<?php echo $key?>'><?php echo $value; ?></option>
-										<?php } ?>
-		                          	</select>
-								</div>
-								<div class="form-group col-sm-4">
 									<label class="col-sm-12">Uplod File</label>
 									<input id="uploadFile" name="userfilename" value="" placeholder="Choose File" />
 									<div class="fileUpload btn btn-primary">
