@@ -580,7 +580,7 @@ class Report_model extends CI_Model
     	$sql .= " JOIN product pr ON pl.product_short = pr.product_short"; 
     	$sql .= " JOIN status st ON pl.status_id = st.status_id ";
     	$sql .= " LEFT JOIN payment pa2 ON (pa.premium_payment_id=pa2.payment_id)";
-    	$sql .= " WHERE pa.pay_type IN ('commission','cancel_commission','refund_commission') AND ABS(pa.amount)>=0.01";
+    	$sql .= " WHERE pa.pay_type IN ('commission','cancel_commission','refund_commission') AND ABS(pa.amount)>=0.01 AND pa.ispaid=0";
     	if (!empty($para['payment_added_from'])) {
     		$sql .= " AND pa.added >= " . $this->db->escape($para['payment_added_from'] . " 00:00:00");
         }

@@ -102,7 +102,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <!-- Payment Added Date From-->
                             <label for="payment_added_from" class="col-sm-12">Payment Added Date From</label>
                             <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
-                            <input name="payment_added_from" class="form-control" size="16" type="text" value="<?php $payment_added_from ?>" >
+                            <input name="payment_added_from" class="form-control" size="16" type="text" value="<?php echo $payment_added_from ?>" >
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
                             <input type="hidden" id="payment_added_from" value="" />
@@ -110,7 +110,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <!-- Payment Added Date to -->
                             <label for="payment_added_to" class="col-sm-12">Payment Added Date To</label>
                             <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
-                                <input name="payment_added_to" class="form-control" size="16" type="text" value="<?php $payment_added_to ?>" >
+                                <input name="payment_added_to" class="form-control" size="16" type="text" value="<?php echo $payment_added_to ?>" >
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
                             <input type="hidden" id="payment_added_to" value="" /><br/>
@@ -122,7 +122,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <!-- Payment Update Date From-->
                             <label for="payment_date_from" class="col-sm-12">Payment Update Date From</label>
                             <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
-                            <input name="payment_date_from" class="form-control" size="16" type="text" value="<?php $payment_date_from ?>" >
+                            <input name="payment_date_from" class="form-control" size="16" type="text" value="<?php echo $payment_date_from ?>" >
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
                             <input type="hidden" id="payment_date_from" value="" />
@@ -130,7 +130,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <!-- Payment Update Date to -->
                             <label for="payment_date_to" class="col-sm-12">Payment Update Date To</label>
                             <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
-                                <input name="payment_date_to" class="form-control" size="16" type="text" value="<?php $payment_date_to ?>" >
+                                <input name="payment_date_to" class="form-control" size="16" type="text" value="<?php echo $payment_date_to ?>" >
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
                             <input type="hidden" id="payment_date_to" value="" /><br/>
@@ -157,82 +157,88 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Search Result <span class="inline-m">
-                    	<form method="get" action="<?php echo $export_list; ?>" class="form-horizontal">
-                    		<input type='hidden' name="agent_id" value="<?php echo $agent_id; ?>">
-                    		<input type='hidden' name="product_short" value="<?php echo $product_short; ?>">
-                    		<input type='hidden' name="region_id" value="<?php echo $region_id; ?>">
-                    		<input type='hidden' name="payment_added_from" value="<?php echo $payment_added_from; ?>">
-                    		<input type='hidden' name="payment_added_to" value="<?php echo $payment_added_to; ?>">
-                    		<input type='hidden' name="payment_date_from" value="<?php echo $payment_date_from; ?>">
-                    		<input type='hidden' name="payment_date_to" value="<?php echo $payment_date_to; ?>">
-		                    <div class="row">
-		                        <!-- submit button -->
-		                        <div class="col-sm-12">
-		                            <button class="btn btn-primary pull-right">Export Commission Report</button>
-		                        </div>
-		                        <!-- submit button -->
-		                    </div>
-		                </form>
-					</span></h2>
+                    <h2>Search Result
+						<span class="inline-m" style="padding-left: 20px;">
+							<div class="row">
+	                          <div class="col-sm-6">
+		                    	<form method="get" action="<?php echo $export_list; ?>" class="form-horizontal">
+		                    		<input type='hidden' name="agent_id" value="<?php echo $agent_id; ?>">
+		                    		<input type='hidden' name="product_short" value="<?php echo $product_short; ?>">
+		                    		<input type='hidden' name="region_id" value="<?php echo $region_id; ?>">
+		                    		<input type='hidden' name="payment_added_from" value="<?php echo $payment_added_from; ?>">
+		                    		<input type='hidden' name="payment_added_to" value="<?php echo $payment_added_to; ?>">
+		                    		<input type='hidden' name="payment_date_from" value="<?php echo $payment_date_from; ?>">
+		                    		<input type='hidden' name="payment_date_to" value="<?php echo $payment_date_to; ?>">
+		                            <button class="btn btn-primary">Export xlsx</button>
+				                </form>
+				              </div>
+	                          <div class="col-sm-6">
+		                    	<form method="get" action="<?php echo $export_pdf; ?>" class="form-horizontal">
+		                    		<input type='hidden' name="agent_id" value="<?php echo $agent_id; ?>">
+		                    		<input type='hidden' name="product_short" value="<?php echo $product_short; ?>">
+		                    		<input type='hidden' name="region_id" value="<?php echo $region_id; ?>">
+		                    		<input type='hidden' name="payment_added_from" value="<?php echo $payment_added_from; ?>">
+		                    		<input type='hidden' name="payment_added_to" value="<?php echo $payment_added_to; ?>">
+		                    		<input type='hidden' name="payment_date_from" value="<?php echo $payment_date_from; ?>">
+		                    		<input type='hidden' name="payment_date_to" value="<?php echo $payment_date_to; ?>">
+		                            <button class="btn btn-primary">Export PDF</button>
+				                </form>
+				              </div>
+							</div>
+						</span>
+					  </h2>
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
 <?php if (!empty($report_data)) : ?>
                     <div class="table-responsive">
-                      <table class="table table-hover table-bordered">
-
     <?php foreach ($report_data as $user_id => $data) :?>
+                      <table class="table table-hover table-bordered">
                         <tbody>
-                          <tr><td colspan=2>Agent Name: </td>
-                            <td colspan=8><?php echo $data['agent']['firstname'] . " " . $data['agent']['lastname']; ?></td>
-                            <td colspan=2>Payment Method: </td>
-                            <td colspan=2><?php echo $data['agent']['receive_type']; ?></td>
+                          <tr>
+                          	<td colspan='6'>
+                          		Agent Name: <?php echo $data['agent']['firstname'] . " " . $data['agent']['lastname']; ?><br />
+                          		Payment Method: <?php echo $data['agent']['receive_type']; ?><br />
+								<?php
+									if ($data['agent']['receive_type'] == 'Deposit') {
+										echo "Pay to: " . $data['agent']['note'] . "<br />";
+										echo "Mailing Address: " . $data['agent']['mail_address'] . " " . $data['agent']['mail_city'] . "," . $data['agent']['mail_province2'] . " " . $data['agent']['mail_postcode'];
+									} else if ($data['agent']['receive_type'] == 'Cheque') {
+										echo "Pay to: " . $data['agent']['note'] . "<br />";
+									} else { // Cash
+									}
+								?>                          		  
+                          	</td>
+                          	<td colspan='4'>
+                          		Payment Period: <?php echo $payment_added_from . " - " . $payment_added_to; ?>
+                          	</td>
                           </tr>
                           <tr>
-                            <td colspan=10></td>
-                            <td colspan=2>Mailing Address: </td>
-                            <td colspan=2><?php echo $data['agent']['mail_address'] . " " . $data['agent']['mail_city'] . "," . $data['agent']['mail_province2'] . " " . $data['agent']['mail_postcode']; ?></td>
-                          </tr>
-                          <tr>
-                            <td colspan=2>Commission Cheque Title: </td>
-                            <td colspan=12><?php echo $data['agent']['note']; ?></td>
-                          </tr>
-                          <tr><td colspan=14>&nbsp;</td></tr>
-                          <tr>
-                            <th>Count</th>
-                            <th>Date</th>
+                            <th>Payment Date</th>
                             <th>Policy Number</th>
-                            <th>Policy Status</th>
-                            <th>Insurer</th>
                             <th>Customer Name</th>
                             <th>Effective Date</th>
                             <th>Expiry Date</th>
                             <th>Trip Length</th>
                             <th>Premium Amount</th>
-                            <th>Premium Pay Status</th>
+                            <th>Premium Payment</th>
                             <th>Commission Rate</th>
                             <th>Commission Amount</th>
-                            <th>Commission Pay Status</th>
                           </tr>
         <?php $cnt = 1; $total_premium = 0; $total_commission = 0; ?>
         <?php foreach ($data['data'] as $record) : ?>
         <?php $total_premium += $record['premium']; $total_commission += $record['amount']; ?>
                             <tr>
-                              <td><?php echo $cnt++; ?></td>
                               <td><?php echo substr($record['added'], 0, 10); ?></td>
                               <td><?php echo $record['policy']; ?></td>
-                              <td><?php echo $record['status']; ?></td>
-                              <td><?php echo $record['up_insuer']; ?></td>
                               <td><?php echo $record['customer_name']; ?></td>
                               <td><?php echo $record['effective_date']; ?></td>
                               <td><?php echo $record['expiry_date']; ?></td>
                               <td><?php echo $record['total_days']; ?></td>
-                              <td>$<?php echo $record['premium']; ?></td>
+                              <td>$<?php echo number_format($record['premium'], 2); ?></td>
                               <td><?php echo ($record['premiumispaid']) ? "Paid" : '-'; ?></td>
                               <td><?php echo $record['rate']; ?>%</td>
-                              <td>$<?php echo $record['amount']; ?></td>
-                              <td><?php echo ($record['ispaid']) ? "Paid" : '-'; ?></td>
+                              <td>$<?php echo number_format($record['amount'], 2); ?></td>
                             </tr>
         <?php endforeach; ?>
                             <tr>
@@ -242,19 +248,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                               <td>&nbsp;</td>
                               <td>&nbsp;</td>
                               <td>&nbsp;</td>
+                              <td>$<?php echo number_format($total_premium, 2); ?></td>
                               <td>&nbsp;</td>
                               <td>&nbsp;</td>
-                              <td>&nbsp;</td>
-                              <td>$<?php echo $total_premium; ?></td>
-                              <td>&nbsp;</td>
-                              <td>&nbsp;</td>
-                              <td>$<?php echo $total_commission; ?></td>
-                              <td>&nbsp;</td>
+                              <td>$<?php echo number_format($total_commission, 2); ?></td>
                             </tr>
-                            <tr style="background:#eee;"><td colspan=14></td></tr>
+                            <tr style="background:#eee;"><td colspan='10'></td></tr>
                         </tbody>
-    <?php endforeach; ?>
                       </table>
+    <?php endforeach; ?>
                     </div>
 <?php endif; ?>
                   </div>
