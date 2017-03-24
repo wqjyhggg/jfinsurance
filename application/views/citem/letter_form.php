@@ -26,25 +26,25 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <div class="form-group col-sm-3">
                           <label >Full Name: </label>
                           <div class="input-group col-sm-12">
-                            <input class="form-control" type='text' name='fullname' value="<?php echo str_replace("\"", "'", $claim['firstname'] . " " . $claim['lastname']); ?>">
+                            <input class="form-control" type='text' name='fullname' value="<?php echo str_replace("\"", "'", $print_name); ?>">
                           </div>
                         </div>
                         <div class="form-group col-sm-3">
                           <label >Number: </label>
                           <div class="input-group col-sm-12">
-                            <input class="form-control" type='text' name='street_number' value="<?php echo str_replace("\"", "'", $plan['street_number']); ?>">
+                            <input class="form-control" type='text' name='street_number' value="<?php echo str_replace("\"", "'", $print_street_number); ?>">
                           </div>
                         </div>
                         <div class="form-group col-sm-3">
                           <label >Street: </label>
                           <div class="input-group col-sm-12">
-                            <input class="form-control" type='text' name='street_name' value="<?php echo str_replace("\"", "'", $plan['street_name']); ?>">
+                            <input class="form-control" type='text' name='street_name' value="<?php echo str_replace("\"", "'", $print_street_name); ?>">
                           </div>
                         </div>
                         <div class="form-group col-sm-3">
                           <label >Suite Number: </label>
                           <div class="input-group col-sm-12">
-                            <input class="form-control" type='text' name='suite_number' value="<?php echo str_replace("\"", "'", $plan['suite_number']); ?>">
+                            <input class="form-control" type='text' name='suite_number' value="<?php echo str_replace("\"", "'", $print_suite_number); ?>">
                           </div>
                         </div>
                       </div>
@@ -52,25 +52,25 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <div class="form-group col-sm-3">
                           <label >City: </label>
                           <div class="input-group col-sm-12">
-                            <input class="form-control" type='text' name='city' value="<?php echo str_replace("\"", "'", $plan['city']); ?>">
+                            <input class="form-control" type='text' name='city' value="<?php echo str_replace("\"", "'", $print_city); ?>">
                           </div>
                         </div>
                         <div class="form-group col-sm-3">
                           <label >Province: </label>
                           <div class="input-group col-sm-12">
-                            <input class="form-control" type='text' name='province2' value='<?php echo $plan['province2']; ?>'>
+                            <input class="form-control" type='text' name='province2' value='<?php echo $print_province2; ?>'>
                           </div>
                         </div>
                         <div class="form-group col-sm-3">
                           <label >Country2: </label>
                           <div class="input-group col-sm-12">
-                            <input class="form-control" type='text' name='country2' value='<?php echo $plan['country2']; ?>'>
+                            <input class="form-control" type='text' name='country2' value='<?php echo $print_country2; ?>'>
                           </div>
                         </div>
                         <div class="form-group col-sm-3">
                           <label >Postcode: </label>
                           <div class="input-group col-sm-12">
-                            <input class="form-control" type='text' name='postcode' value='<?php echo $plan['postcode']; ?>'>
+                            <input class="form-control" type='text' name='postcode' value='<?php echo $print_postcode; ?>'>
                           </div>
                         </div>
                       </div>
@@ -78,13 +78,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <div class="form-group col-sm-3">
                           <label >Pay To: </label>
                           <div class="input-group col-sm-12">
-                            <input class="form-control" type='text' name='pay_to' value=''>
+                            <input class="form-control" type='text' name='pay_to' value='<?php echo $print_pay_to; ?>'>
                           </div>
                         </div>
                         <div class="form-group col-sm-9">
                           <label >Cheque Number: </label>
                           <div class="input-group col-sm-12">
-                            <input class="form-control" type='text' name='cheque_number' value=''>
+                            <input class="form-control" type='text' name='cheque_number' value='<?php echo $print_cheque_number; ?>'>
                           </div>
                         </div>
                       </div>

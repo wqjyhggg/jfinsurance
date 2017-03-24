@@ -500,7 +500,18 @@ class Citem extends MY_Controller {
 			foreach ($citem_ids as $citem_id) {
                 $citem = $this->claim_model->get_claim_item_by_id($citem_id);
                 if ($citem) {
-                	$this->claim_model->updateitem($citem_id, array('pay_to' => $this->data['pay_to'], 'cheque_number' => $cheque_number));
+                	$uarr = array('pay_to' => $this->data['pay_to'], 'cheque_number' => $cheque_number);
+					if (empty($citem['address'])) {
+						$addr  = empty($this->data['suite_number']) ? '' : $this->data['suite_number'] . " - ";
+						$addr .= empty($this->data['street_number']) ? '' : $this->data['street_number'] . " "; 
+						$addr .= $this->data['street_name'];
+						$uarr['address'] = $addr;
+						$uarr['city'] = $this->data['city'];
+						$uarr['province2'] = $this->data['province2'];
+						$uarr['country2'] = $this->data['country2'];
+						$uarr['postcode'] = $this->data['postcode'];
+					}
+                	$this->claim_model->updateitem($citem_id, $uarr);
 					$this->data['itemlist'][] = array(
 							'description' => $this->coverage_model->get_coverage_desc_by_code($citem['coverage_code_id']),
 							'service' => $citem['service_date'],
@@ -525,6 +536,34 @@ class Citem extends MY_Controller {
 			$this->data['citem_ids'] = $citem_ids;
 			$this->data['claim'] = $this->claim_model->get_claim_by_id($claim_id);
 			$this->data['plan'] = $this->plan_model->get_plan_by_id($this->data['claim']['plan_id']);
+			$this->data['print_name'] = '';
+			$this->data['print_street_number'] = $this->data['plan']['street_number'];
+			$this->data['print_street_name'] = $this->data['plan']['street_name'];
+			$this->data['print_suite_number'] = $this->data['plan']['suite_number'];
+			$this->data['print_city'] = $this->data['plan']['city'];
+			$this->data['print_province2'] = $this->data['plan']['province2'];
+			$this->data['print_country2'] = $this->data['plan']['country2'];
+			$this->data['print_postcode'] = $this->data['plan']['postcode'];
+			$this->data['print_pay_to'] = '';
+			$this->data['print_cheque_number'] = '';
+				
+			foreach ($citem_ids as $citem_id) {
+				$cit = $this->claim_model->get_claim_item_by_id($citem_id);
+				if (!empty($cit['address'])) {
+					$this->data['print_name'] = $cit['firstname'] . ' ' . $cit['lastname'];
+					$this->data['print_street_number'] = '';
+					$this->data['print_street_name'] = $cit['address'];
+					$this->data['print_suite_number'] = '';
+					$this->data['print_city'] = $cit['city'];
+					$this->data['print_province2'] = $cit['province2'];
+					$this->data['print_country2'] = $cit['country2'];
+					$this->data['print_postcode'] = $cit['postcode'];
+					$this->data['print_pay_to'] = $cit['pay_to'];
+					$this->data['print_cheque_number'] = $cit['cheque_number'];
+					break;
+				}
+			}
+			
 			$this->data['active_url'] = current_url();
 			$this->data['csrf'] = array (
 					'name' => $this->security->get_csrf_token_name (),
