@@ -215,7 +215,7 @@ class Product_model extends CI_Model {
 						elseif ($years <= 74) 	$rate = 4.85;
 						elseif ($years <= 79) 	$rate = 5.8;
 						elseif ($years <= 85) 	$rate = 11.48;
-						else				  	{ $premiumArr['message'] = "Over 85 years old must select without stable pre-existing condition coverage option"; return $premiumArr; }
+						else				  	{ $premiumArr['message'] = "Over 85 years old must select excluding stable pre-existing condition coverage option"; return $premiumArr; }
 						break;
 					case 15000:
 						if ($years <= 25) 		$rate = 2.04;
@@ -237,7 +237,7 @@ class Product_model extends CI_Model {
 						elseif ($years <= 74) 	$rate = 7.6;
 						elseif ($years <= 79) 	$rate = 8.96;
 						elseif ($years <= 85) 	$rate = 17.76;
-						else				  	{ $premiumArr['message'] = "Over 85 years old must select without stable pre-existing condition coverage option"; return $premiumArr; }
+						else				  	{ $premiumArr['message'] = "Over 85 years old must select excluding stable pre-existing condition coverage option"; return $premiumArr; }
 						break;
 					case 50000:
 						if ($years <= 25) 		$rate = 2.49;
@@ -248,7 +248,7 @@ class Product_model extends CI_Model {
 						elseif ($years <= 74) 	$rate = 8.35;
 						elseif ($years <= 79) 	$rate = 9.88;
 						elseif ($years <= 85) 	$rate = 19.58;
-						else				  	{ $premiumArr['message'] = "Over 85 years old must select without stable pre-existing condition coverage option"; return $premiumArr; }
+						else				  	{ $premiumArr['message'] = "Over 85 years old must select excluding stable pre-existing condition coverage option"; return $premiumArr; }
 						break;
 					case 100000:
 						if ($years <= 25) 		$rate = 3.59;
@@ -259,7 +259,7 @@ class Product_model extends CI_Model {
 						elseif ($years <= 74) 	$rate = 9.79;
 						elseif ($years <= 79) 	$rate = 11.59;
 						elseif ($years <= 85) 	$rate = 22.95;
-						else				  	{ $premiumArr['message'] = "Over 85 years old must select without stable pre-existing condition coverage option"; return $premiumArr; }
+						else				  	{ $premiumArr['message'] = "Over 85 years old must select excluding stable pre-existing condition coverage option"; return $premiumArr; }
 						break;
 					case 150000:
 						if ($years <= 25) 		$rate = 4.3;
@@ -280,35 +280,35 @@ class Product_model extends CI_Model {
 				// With stable pre-existing conditions coverage option
 				switch ($para['sum_insured']) {
 					case 10000:
-						if ($years <= 69) 		{ $premiumArr['message'] = "Under 70 years old must select with stable pre-existing condition coverage option"; return $premiumArr; }
+						if ($years <= 69) 		{ $premiumArr['message'] = "Under 70 years old must select including stable pre-existing condition coverage option"; return $premiumArr; }
 						elseif ($years <= 74) 	$rate = 3.82;
 						elseif ($years <= 79) 	$rate = 4.59;
 						elseif ($years <= 85) 	$rate = 6.23;
 						else				  	$rate = 9.57;
 						break;
 					case 15000:
-						if ($years <= 69) 		{ $premiumArr['message'] = "Under 70 years old must select with stable pre-existing condition coverage option"; return $premiumArr; }
+						if ($years <= 69) 		{ $premiumArr['message'] = "Under 70 years old must select including stable pre-existing condition coverage option"; return $premiumArr; }
 						elseif ($years <= 74) 	$rate = 4.99;
 						elseif ($years <= 79) 	$rate = 5.98;
 						elseif ($years <= 85) 	$rate = 7.88;
 						else				  	$rate = 12.37;
 						break;
 					case 25000:
-						if ($years <= 69) 		{ $premiumArr['message'] = "Under 70 years old must select with stable pre-existing condition coverage option"; return $premiumArr; }
+						if ($years <= 69) 		{ $premiumArr['message'] = "Under 70 years old must select including stable pre-existing condition coverage option"; return $premiumArr; }
 						elseif ($years <= 74) 	$rate = 5.99;
 						elseif ($years <= 79) 	$rate = 7.11;
 						elseif ($years <= 85) 	$rate = 9.69;
 						else				  	$rate = 14.9;
 						break;
 					case 50000:
-						if ($years <= 69) 		{ $premiumArr['message'] = "Under 70 years old must select with stable pre-existing condition coverage option"; return $premiumArr; }
+						if ($years <= 69) 		{ $premiumArr['message'] = "Under 70 years old must select including stable pre-existing condition coverage option"; return $premiumArr; }
 						elseif ($years <= 74) 	$rate = 6.59;
 						elseif ($years <= 79) 	$rate = 7.83;
 						elseif ($years <= 85) 	$rate = 10.43;
 						else				  	$rate = 16.4;
 						break;
 					case 100000:
-						if ($years <= 69) 		{ $premiumArr['message'] = "Under 70 years old must select with stable pre-existing condition coverage option"; return $premiumArr; }
+						if ($years <= 69) 		{ $premiumArr['message'] = "Under 70 years old must select including stable pre-existing condition coverage option"; return $premiumArr; }
 						elseif ($years <= 74) 	$rate = 8.12;
 						elseif ($years <= 79) 	$rate = 10.32;
 						elseif ($years <= 85) 	$rate = 13.94;
@@ -380,7 +380,7 @@ class Product_model extends CI_Model {
 						elseif ($years <= 74) 	$rate = 4.85;
 						elseif ($years <= 79) 	$rate = 5.8;
 						elseif ($years <= 85) 	$rate = 11.48;
-						else				  	{ $premiumArr['message'] = "Please check <b>Insurable Options</b>. Over 85 years old must select <b>without stable pre-existing condition coverage</b> option"; return $premiumArr; }
+						else				  	{ $premiumArr['message'] = "Please check <b>Insurable Options</b>. Over 85 years old must select <b>excluding stable pre-existing condition coverage</b> option"; return $premiumArr; }
 						break;
 					case 15000:
 						if ($years <= 25) 		$rate = 2.04;
@@ -402,7 +402,7 @@ class Product_model extends CI_Model {
 						elseif ($years <= 74) 	$rate = 7.6;
 						elseif ($years <= 79) 	$rate = 8.96;
 						elseif ($years <= 85) 	$rate = 17.76;
-						else				  	{ $premiumArr['message'] = "Please check <b>Insurable Options</b>. Over 85 years old must select <b>without stable pre-existing condition coverage</b> option"; return $premiumArr; }
+						else				  	{ $premiumArr['message'] = "Please check <b>Insurable Options</b>. Over 85 years old must select <b>excluding stable pre-existing condition coverage</b> option"; return $premiumArr; }
 						break;
 					case 50000:
 						if ($years <= 25) 		$rate = 2.49;
@@ -413,7 +413,7 @@ class Product_model extends CI_Model {
 						elseif ($years <= 74) 	$rate = 8.35;
 						elseif ($years <= 79) 	$rate = 9.88;
 						elseif ($years <= 85) 	$rate = 19.58;
-						else				  	{ $premiumArr['message'] = "Over 85 years old must select without stable pre-existing condition coverage option"; return $premiumArr; }
+						else				  	{ $premiumArr['message'] = "Over 85 years old must select excluding stable pre-existing condition coverage option"; return $premiumArr; }
 						break;
 					case 100000:
 						if ($years <= 25) 		$rate = 3.59;
@@ -424,7 +424,7 @@ class Product_model extends CI_Model {
 						elseif ($years <= 74) 	$rate = 9.79;
 						elseif ($years <= 79) 	$rate = 11.59;
 						elseif ($years <= 85) 	$rate = 22.95;
-						else				  	{ $premiumArr['message'] = "Over 85 years old must select without stable pre-existing condition coverage option"; return $premiumArr; }
+						else				  	{ $premiumArr['message'] = "Over 85 years old must select excluding stable pre-existing condition coverage option"; return $premiumArr; }
 						break;
 					case 150000:
 						if ($years <= 25) 		$rate = 4.3;
@@ -448,35 +448,35 @@ class Product_model extends CI_Model {
 				// With stable pre-existing conditions coverage option
 				switch ($para['sum_insured']) {
 					case 10000:
-						if ($years <= 69) 		{ $premiumArr['message'] = "Under 70 years old must select with stable pre-existing condition coverage option"; return $premiumArr; }
+						if ($years <= 69) 		{ $premiumArr['message'] = "Under 70 years old must select including stable pre-existing condition coverage option"; return $premiumArr; }
 						elseif ($years <= 74) 	$rate = 3.82;
 						elseif ($years <= 79) 	$rate = 4.59;
 						elseif ($years <= 85) 	$rate = 6.23;
 						else				  	$rate = 9.57;
 						break;
 					case 15000:
-						if ($years <= 69) 		{ $premiumArr['message'] = "Under 70 years old must select with stable pre-existing condition coverage option"; return $premiumArr; }
+						if ($years <= 69) 		{ $premiumArr['message'] = "Under 70 years old must select including stable pre-existing condition coverage option"; return $premiumArr; }
 						elseif ($years <= 74) 	$rate = 4.99;
 						elseif ($years <= 79) 	$rate = 5.98;
 						elseif ($years <= 85) 	$rate = 7.88;
 						else				  	$rate = 12.37;
 						break;
 					case 25000:
-						if ($years <= 69) 		{ $premiumArr['message'] = "Under 70 years old must select with stable pre-existing condition coverage option"; return $premiumArr; }
+						if ($years <= 69) 		{ $premiumArr['message'] = "Under 70 years old must select including stable pre-existing condition coverage option"; return $premiumArr; }
 						elseif ($years <= 74) 	$rate = 5.99;
 						elseif ($years <= 79) 	$rate = 7.11;
 						elseif ($years <= 85) 	$rate = 9.69;
 						else				  	$rate = 14.9;
 						break;
 					case 50000:
-						if ($years <= 69) 		{ $premiumArr['message'] = "Under 70 years old must select with stable pre-existing condition coverage option"; return $premiumArr; }
+						if ($years <= 69) 		{ $premiumArr['message'] = "Under 70 years old must select including stable pre-existing condition coverage option"; return $premiumArr; }
 						elseif ($years <= 74) 	$rate = 6.59;
 						elseif ($years <= 79) 	$rate = 7.83;
 						elseif ($years <= 85) 	$rate = 10.43;
 						else				  	$rate = 16.4;
 						break;
 					case 100000:
-						if ($years <= 69) 		{ $premiumArr['message'] = "Under 70 years old must select with stable pre-existing condition coverage option"; return $premiumArr; }
+						if ($years <= 69) 		{ $premiumArr['message'] = "Under 70 years old must select including stable pre-existing condition coverage option"; return $premiumArr; }
 						elseif ($years <= 74) 	$rate = 8.12;
 						elseif ($years <= 79) 	$rate = 10.32;
 						elseif ($years <= 85) 	$rate = 13.94;

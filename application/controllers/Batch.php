@@ -642,6 +642,7 @@ class Batch extends MY_Controller {
 							if ($plan_id) {
 								// add payment
 								unset($this->paymentArr['payment_id']);
+								$para = array();
 								foreach ($this->paymentArr as $k => $v) {
 									if (isset($data[$k])) {
 										$para[$k] = $data[$k];
