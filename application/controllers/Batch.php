@@ -540,6 +540,7 @@ class Batch extends MY_Controller {
 							$this->rollback($planArr);
 							break;
 						}
+						$this->session->set_userdata ( 'beuser',  $fakebeuser);
 						
 						if (isset($data['apply_date'])) $data['apply_date'] = date('Y-m-d', $this->batch_model->unixstamp($data['apply_date']));
 						if (isset($data['arrival_date'])) $data['arrival_date'] = date('Y-m-d', $this->batch_model->unixstamp($data['arrival_date']));
