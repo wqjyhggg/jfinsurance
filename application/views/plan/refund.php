@@ -78,7 +78,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 			<div class="col-sm-12 nopadding">
 			<p>
 				Please find enclosed a cheque with the amount stated for "Total Refund".<br />
-				By accepting this refund, <b>JF Insurance Agency Group Inc. and Allianz Travel Insurance Coordinators Ltd</b> will no longer be liable for any claims on this policy.
+				By accepting this refund, <b>JF Insurance Agency Group Inc. and <?php echo $insure_co; ?></b> will no longer be liable for any claims on this policy.
 			</p>
 		</div>
 		<br />

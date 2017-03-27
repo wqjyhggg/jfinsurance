@@ -6,7 +6,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 			<div class="col-sm-8 col-sm-offset-2">
 				<h2 class="text-center">Edit Information</h2>
 				<div class="popForm">
-					<form id="popRform" target="_blank" action='<?php echo $refundprint_url?>' method='post'>
+					<form id="popRform" target="_blank" action='<?php echo $refund_letter_url; ?>' method='post'>
 						<input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
 					<div class="row">
 						<div class="col-sm-12">

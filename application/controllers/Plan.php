@@ -889,8 +889,6 @@ class Plan extends MY_Controller {
 		$data['sendpackage_url'] = base_url ( "plan/sendpackage" ) . "/";
 		$data['cancel_url'] = base_url ( "plan/cancel" ) . "/";
 		$data['refund_url'] = base_url ( "plan/refund" ) . "/";
-		$data['cancelprint_url'] = base_url ( "plan/cancelprint" ) . "/";
-		$data['refundprint_url'] = base_url ( "plan/refundprint" ) . "/" . (int)$data['plan_id'];
 		$data['revert_url'] = base_url ( "payment/revert" ) . "/";
 		$data['makepay_url'] = base_url ( "payment/makepay" );
 
@@ -915,10 +913,14 @@ class Plan extends MY_Controller {
 		if (!empty($plan) && !empty($plan['status_id']) && !empty($plan['plan_id']) && ($plan['status_id'] >= 2)) {
 			if ($plan['status_id'] == 5) {
 				// Cancel
-				$data['cancel_letter_url'] = base_url('plan/cancelprint/' . $plan['plan_id']);
+				if (($plan['product_short'] != 'JUS') && ($plan['product_short'] != 'NUS')) {
+					$data['cancel_letter_url'] = base_url('plan/cancelprint/' . $plan['plan_id']);
+				}
 			} else if ($plan['status_id'] == 6) {
 				// Refund
-				$data['refund_letter_url'] = base_url('plan/refundprint/' . $plan['plan_id']);
+				if (($plan['product_short'] != 'JUS') && ($plan['product_short'] != 'NUS')) {
+					$data['refund_letter_url'] = base_url('plan/refundprint/' . $plan['plan_id']);
+				}
 			} else {
 				$data['print_card_url'] = base_url('plan/card/' . $plan['plan_id']);
 				$data['print_receipt_url'] = base_url('plan/receipt/' . $plan['plan_id']);
@@ -1866,10 +1868,14 @@ class Plan extends MY_Controller {
 		if ($plan['status_id'] >= 2) {
 			if ($plan['status_id'] == 5) {
 				// Cancel
-				$data['cancel_letter_url'] = base_url('plan/cancelprint/' . $plan['plan_id']);
+				if (($plan['product_short'] != 'JUS') && ($plan['product_short'] != 'NUS')) {
+					$data['cancel_letter_url'] = base_url('plan/cancelprint/' . $plan['plan_id']);
+				}
 			} else if ($plan['status_id'] == 6) {
 				// Refund
-				$data['refund_letter_url'] = base_url('plan/refundprint/' . $plan['plan_id']);
+				if (($plan['product_short'] != 'JUS') && ($plan['product_short'] != 'NUS')) {
+					$data['refund_letter_url'] = base_url('plan/refundprint/' . $plan['plan_id']);
+				}
 			} else {
 				$data['print_card_url'] = base_url('plan/card/' . $plan['plan_id']);
 				$data['print_receipt_url'] = base_url('plan/receipt/' . $plan['plan_id']);
@@ -2454,6 +2460,10 @@ class Plan extends MY_Controller {
 			$data['insurable_options'] = $this->load->view('plan/detail_other', $data, TRUE);
 		}
 
+		$data['insure_co'] = 'Allianz Travel Insurance Coordinators Ltd';
+		if (($plan['product_short'] == 'JFR') || ($plan['product_short'] == 'JES')) {
+			$data['insure_co'] = "Berkley Canada";
+		}
 		$data['style'] = $this->load->view('common/pdf_style',$data, TRUE);
 		$html = $this->load->view('plan/cancel', $data, TRUE);
 		$mpdf = new mPDF('c');
@@ -2520,7 +2530,10 @@ class Plan extends MY_Controller {
 		//print_r($this->input->post());die('====');
 
 		if ($this->input->post('customer_full_name')) {
-
+			$data['insure_co'] = 'Allianz Travel Insurance Coordinators Ltd';
+			if (($plan['product_short'] == 'JFR') || ($plan['product_short'] == 'JES')) {
+				$data['insure_co'] = "Berkley Canada";
+			}
 			$data['customer_full_name'] = $this->input->post('customer_full_name');
 			$data['full_address'] = $this->input->post('full_address');
 			$data['city'] = $this->input->post('city');

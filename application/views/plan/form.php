@@ -52,12 +52,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<div class='pull-right spdf-option'><input type='checkbox' class='withlogobox' checked> With Logo <br /><input type='checkbox' class='withpricebox' checked> With Price </div>
 							<?php } ?>
 							<a class="btn btn-info pull-right" target="_blank" href='<?php echo $pdf_url; ?>'>Export PDF</a>
-							<?php if (!empty($refund_letter_url)) { ?>
-							<a href='<?php echo $refund_letter_url; ?>' target="_blank"><span class="btn btn-info" style='color:#fff;'>Refund letter</span></a>
-							<?php } ?>
-							<?php if (!empty($cancel_letter_url)) { ?>
-							<a href='<?php echo $cancel_letter_url; ?>' target="_blank"><span class="btn btn-info" style='color:#fff;'>Cancel Letter</span></a>
-							<?php } ?>
 							<?php if (!empty($print_receipt_url)) { ?>
 							<a href='<?php echo $print_receipt_url; ?>' target="_blank"><span class="btn btn-info" style='color:#fff;'>Print Receipt</span></a>
 							<?php } ?>
@@ -71,14 +65,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<?php }else{?>
 							<a href='<?php echo $refund_url . $plan_id; ?>'><span class="btn btn-info" style='color:#fff;'>Refund</span></a>
 							<?php } ?>
-						<?php } else if ($status_id == 6 && $user_group_id <= 100) { ?>
-							<!--a target='_blank' href='<?php echo $refundprint_url . $plan_id; ?>'><span class="btn btn-info" style='color:#fff;'>Refund Letter</span></a-->
+						<?php } else if (($status_id == 6) && ($user_group_id <= 100) && !empty($refund_letter_url)) { ?>
 							<a id="popRefund"><span class="btn btn-info" style='color:#fff;'>Refund Letter</span></a>
-
-							
-
-						<?php } else if ($status_id == 5 && $user_group_id <= 100) { ?>
-							<a target='_blank' href='<?php echo $cancelprint_url . $plan_id; ?>'><span class="btn btn-info" style='color:#fff;'>Cancel Letter</span></a>
+						<?php } else if (($status_id == 5) && ($user_group_id <= 100) && !empty($cancel_letter_url)) { ?>
+							<a target='_blank' href='<?php echo $cancel_letter_url; ?>'><span class="btn btn-info" style='color:#fff;'>Cancel Letter</span></a>
 						<?php } ?>
 						<?php } ?>
 						<?php } ?>
@@ -612,7 +602,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             	<div class="row">
 					<div class="popRefund" id="popRdiv" style="display:none;">
 						<span class="pop-close"><i class="fa fa-times"></i></span>
-						<?php echo $popRefund; ?>
+						<?php if (!empty($refund_letter_url)) echo $popRefund; ?>
 					</div>
 
 					<script>

@@ -54,12 +54,6 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 						<?php if (!empty($print_receipt_url)) { ?>
 						<a class="btn btn-info pull-right" target="_blank" href='<?php echo $print_receipt_url; ?>'>Print Receipt</a>
 						<?php } ?>
-						<?php if (!empty($cancel_letter_url)) { ?>
-						<a class="btn btn-info pull-right" target="_blank" href='<?php echo $cancel_letter_url; ?>'>Cancel Letter</a>
-						<?php } ?>
-						<?php if (!empty($refund_letter_url)) { ?>
-						<a class="btn btn-info pull-right" target="_blank" href='<?php echo $refund_letter_url; ?>'>Refund letter</a>
-						<?php } ?>
 					<?php } ?>
 					<?php } ?>
 					<?php if (!empty($plan_url)) { ?>
