@@ -7,7 +7,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 					<td width='10%'>
 						<img style="width: 80px;" src="<?php echo base_url();?>image/jf_logo.jpg" />
 					</td>
-					<td width='55%'>
+					<td width='40%'>
 						Agent Name: <?php echo $data['agent']['firstname'] . " " . $data['agent']['lastname']; ?><br />
 						Payment Method: <?php echo $data['agent']['receive_type']; ?><br />
 						<?php
@@ -20,9 +20,9 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 							}
 						?>
 					</td>
-					<td width='35%'>
-						<H2>Commission Report</H2><br />
-						For Period: <?php echo $payment_added_from . " - " . $payment_added_to; ?>
+					<td width='50%' align='right'>
+						<H1 style="font-size: 36px;">Commission Report</H1><br />
+						<div>For Period: <?php echo $payment_added_from . " - " . $payment_added_to; ?>&nbsp;&nbsp;&nbsp;</div>
 					</td>
 				</tr>
 			</tbody>
@@ -45,29 +45,29 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 				<?php foreach ($data['data'] as $record) : ?>
 				<?php     $total_premium += $record['premium']; $total_commission += $record['amount']; ?>
 				<tr>
-					<td style="border: 1px solid black;"><?php echo substr($record['added'], 0, 10); ?></td>
-					<td><?php echo $record['policy']; ?></td>
-					<td><?php echo $record['customer_name']; ?></td>
-					<td><?php echo $record['effective_date']; ?></td>
-					<td><?php echo $record['expiry_date']; ?></td>
-					<td><?php echo $record['total_days']; ?></td>
-					<td>$<?php echo number_format($record['premium'], 2); ?></td>
-					<td><?php echo ($record['premiumispaid']) ? "Paid" : '-'; ?></td>
-					<td><?php echo $record['rate']; ?>%</td>
-					<td>$<?php echo number_format($record['amount'], 2); ?></td>
+					<td style="padding-top: 6px;"><?php echo substr($record['added'], 0, 10); ?></td>
+					<td style="padding-top: 6px;"><?php echo $record['policy']; ?></td>
+					<td style="padding-top: 6px;"><?php echo $record['customer_name']; ?></td>
+					<td style="padding-top: 6px;"><?php echo $record['effective_date']; ?></td>
+					<td style="padding-top: 6px;"><?php echo $record['expiry_date']; ?></td>
+					<td style="padding-top: 6px;"><?php echo $record['total_days']; ?></td>
+					<td style="padding-top: 6px;">$<?php echo number_format($record['premium'], 2); ?></td>
+					<td style="padding-top: 6px;"><?php echo ($record['premiumispaid']) ? "Paid" : '-'; ?></td>
+					<td style="padding-top: 6px;"><?php echo $record['rate']; ?>%</td>
+					<td style="padding-top: 6px;">$<?php echo number_format($record['amount'], 2); ?></td>
 				</tr>
 				<?php endforeach; ?>
 				<tr>
-					<td><B>TOTAL</B></td>
-					<td>&nbsp;</td>
-					<td>&nbsp;</td>
-					<td>&nbsp;</td>
-					<td>&nbsp;</td>
-					<td>&nbsp;</td>
-					<td>$<?php echo number_format($total_premium, 2); ?></td>
-					<td>&nbsp;</td>
-					<td>&nbsp;</td>
-					<td>$<?php echo number_format($total_commission, 2); ?></td>
+					<td style="padding-top: 10px;"><B>TOTAL</B></td>
+					<td style="padding-top: 10px;">&nbsp;</td>
+					<td style="padding-top: 10px;">&nbsp;</td>
+					<td style="padding-top: 10px;">&nbsp;</td>
+					<td style="padding-top: 10px;">&nbsp;</td>
+					<td style="padding-top: 10px;">&nbsp;</td>
+					<td style="padding-top: 10px;">$<?php echo number_format($total_premium, 2); ?></td>
+					<td style="padding-top: 10px;">&nbsp;</td>
+					<td style="padding-top: 10px;">&nbsp;</td>
+					<td style="padding-top: 10px;">$<?php echo number_format($total_commission, 2); ?></td>
 				</tr>
 			</tbody>
 		</table>
