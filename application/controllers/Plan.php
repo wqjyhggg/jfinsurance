@@ -939,6 +939,7 @@ class Plan extends MY_Controller {
 		$data['plan_cancel_date'] = '';
 		$data['plan_refund_date'] = '';
 		if (!empty($plan) && !empty($plan['status_id'])) {
+			$this->load->model('payment_model');
 			if ($plan['status_id'] == Plan_model::CANCEL) {
 				$data['plan_cancel_date'] = $this->payment_model->get_cancel_date($plan['plan_id']);
 			}

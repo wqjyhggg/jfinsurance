@@ -114,7 +114,13 @@ class Payment_model extends CI_Model {
 		$this->db->where('pay_type', 'cancel');
 		$this->db->order_by('added', 'ASC');
 		$this->db->limit(1);
-		return $this->db->get('payment')->row()->added;
+		$row = $this->db->get('payment')->row();
+		if ($row) {
+			return $row->added;
+		}
+		$this->db->select('last_update');
+		$this->db->where('plan_id', $plan_id);
+		return $this->db->get('plan')->row()->last_update;
 	}
 	
 	/**
@@ -129,7 +135,13 @@ class Payment_model extends CI_Model {
 		$this->db->where('pay_type', 'refund');
 		$this->db->order_by('added', 'ASC');
 		$this->db->limit(1);
-		return $this->db->get('payment')->row()->added;
+		$row = $this->db->get('payment')->row();
+		if ($row) {
+			return $row->added;
+		}
+		$this->db->select('last_update');
+		$this->db->where('plan_id', $plan_id);
+		return $this->db->get('plan')->row()->last_update;
 	}
 	
 	/**
