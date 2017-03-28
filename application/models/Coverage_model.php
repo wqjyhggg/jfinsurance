@@ -13,6 +13,7 @@ class Coverage_model extends CI_Model {
 	 * @return array
 	 */
 	public function get_coverage_codes() {
+		$this->db->order_by('coverage_code_id', 'ASC');
 		return $this->db->get('coverage_code')->result_array();
 	}
 
