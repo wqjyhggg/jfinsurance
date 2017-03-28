@@ -449,6 +449,8 @@ $config['csrf_regenerate'] = TRUE;
 $config['csrf_exclude_uris'] = array(
 'plan',
 'api/search',
+'api/products',
+'batch/loadother',
 );
 
 /*
