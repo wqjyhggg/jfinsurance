@@ -195,7 +195,7 @@ class Payment_model extends CI_Model {
 		$this->db->delete('payment');
 		$this->sqlstr = $this->db->last_query();
 		$this->logstr = 'remove payments by plan[' . $plan_id . ']';
-		return $payment_id;
+		return $plan_id;
 	}
 	
 	/**

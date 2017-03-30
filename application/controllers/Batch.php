@@ -687,6 +687,7 @@ class Batch extends MY_Controller {
 							break;
 						}
 					}
+					break;
 				}
 				
 				$reader->close ();
