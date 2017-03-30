@@ -30,7 +30,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 		<div class="row">
 			<div class="col-sm-12 nopadding">
 				<p>Dear <?php echo $customer['firstname'] . " " . $customer['lastname']; ?>,</p>
-				<p>Thank you for choosing to insure with Johnson Fu Insurance Agency Inc . Please review your policy declaration below and the enclosed policy wording carefully; your coverage and premium are based on the information you provided. If the policy declaration information is incorrect, you must inform us immediately at 1-877-832-5541. </p>
+				<p>Thank you for choosing to insure with JF Insurance Agency Inc . Please review your policy declaration below and the enclosed policy wording carefully; your coverage and premium are based on the information you provided. If the policy declaration information is incorrect, you must inform us immediately at 1-877-832-5541. </p>
 			</div>
 		</div>
 		<div class="row">
