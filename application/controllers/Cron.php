@@ -460,8 +460,8 @@ class Cron extends MY_Controller {
 			$sheet->setCellValue('A'.$row, $plan['policy']);
 			$b = '';
 			if ($plan['product_short'] == 'OPL') {
-				if ($plan['stable_condition'] == 1) $b = "Including Stable Pre-existing Medical Condition Coverage";
-				else if ($plan['stable_condition'] == 2) $b = "Excluding Stable Pre-existing Medical Condition Coverage";
+				if ($plan['stable_condition'] == 1) $b = "With Stable Pre-existing Medical Condition Coverage";
+				else if ($plan['stable_condition'] == 2) $b = "Without Stable Pre-existing Medical Condition Coverage";
 			} else {
 				// $plan['product_short'] == 'JFC'
 			}
