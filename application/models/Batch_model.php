@@ -10,6 +10,13 @@ class Batch_model extends CI_Model {
 	const ERROR=2;
 	
 	function unixstamp( $excelDateTime ) {
+		if (!is_string($excelDateTime)) {
+			if (get_class($excelDateTime) == 'DateTime') {
+				return $excelDateTime->getTimestamp();
+			} else {
+				return 0;
+			}
+		}
 		$excelDateTime =trim($excelDateTime);
 		if (is_numeric($excelDateTime)) {
 			$t = $excelDateTime - 25569; // seconds since 1900
