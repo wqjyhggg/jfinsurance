@@ -501,17 +501,17 @@ class Citem extends MY_Controller {
                 $citem = $this->claim_model->get_claim_item_by_id($citem_id);
                 if ($citem) {
                 	$uarr = array('pay_to' => $this->data['pay_to'], 'cheque_number' => $cheque_number);
-					if (empty($citem['address'])) {
-						$addr  = empty($this->data['suite_number']) ? '' : $this->data['suite_number'] . " - ";
-						$addr .= empty($this->data['street_number']) ? '' : $this->data['street_number'] . " "; 
-						$addr .= $this->data['street_name'];
-						$uarr['address'] = $addr;
-						$uarr['city'] = $this->data['city'];
-						$uarr['province2'] = $this->data['province2'];
-						$uarr['country2'] = $this->data['country2'];
-						$uarr['postcode'] = $this->data['postcode'];
-					}
-                	$this->claim_model->updateitem($citem_id, $uarr);
+					
+                	$addr  = empty($this->data['suite_number']) ? '' : $this->data['suite_number'] . " - ";
+					$addr .= empty($this->data['street_number']) ? '' : $this->data['street_number'] . " "; 
+					$addr .= $this->data['street_name'];
+					$uarr['address'] = $addr;
+					$uarr['city'] = $this->data['city'];
+					$uarr['province2'] = $this->data['province2'];
+					$uarr['country2'] = $this->data['country2'];
+					$uarr['postcode'] = $this->data['postcode'];
+
+					$this->claim_model->updateitem($citem_id, $uarr);
 					$this->data['itemlist'][] = array(
 							'description' => $this->coverage_model->get_coverage_desc_by_code($citem['coverage_code_id']),
 							'service' => $citem['service_date'],
