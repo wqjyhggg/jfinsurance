@@ -31,6 +31,26 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <div class="x_panel">
                   <div class="x_title">
                     <h2>Policy Detail<small></small></h2>
+					<div class="pull-right text-right">
+					<?php if ($isprocessplan) { ?>
+					<?php if($user_group_id != 3  && $user_group_id != 103){ ?>
+					<a href='<?php echo $copy_url; ?>'><span class="btn btn-info" style='color:#fff;'>Copy</span></a>
+					<?php } ?>
+					<?php if ($status_id > 1 && $user_group_id !=3) { ?>
+					<?php 	if (($status_id == 2) || ($status_id == 3)) { ?>
+						<a href='<?php echo $sendpackage_url . $plan_id; ?>'><span class="btn btn-info" style='color:#fff;'>Send Package</span></a>
+						<a class="btn btn-info pull-right" target="_blank" href='<?php echo $pdf_url; ?>'>Export PDF</a>
+						<?php if (!empty($print_receipt_url)) { ?>
+						<a href='<?php echo $print_receipt_url; ?>' target="_blank"><span class="btn btn-info" style='color:#fff;'>Print Receipt</span></a>
+						<?php } ?>
+						<?php if (!empty($print_card_url)) { ?>
+						<a href='<?php echo $print_card_url; ?>' target="_blank"><span class="btn btn-info" style='color:#fff;'>Print Card</span></a>
+						<?php } ?>
+					<?php 	} ?>
+					<?php } ?>
+					<?php } ?>
+
+					</div>
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
@@ -50,19 +70,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<input type='hidden' name='batch_number' value='<?php echo $batch_number; ?>'>
 					<div class="row" style="margin-bottom:15px;">
 						
-						<div class="col-sm-3 pull-right text-right">
-						<?php if ($isprocessplan) { ?>
-						<?php if($user_group_id != 3  && $user_group_id != 103){ ?>
-						<a href='<?php echo $copy_url; ?>'><span class="btn btn-info">Copy</span></a>
-						<?php } ?>
-						<?php if ($status_id > 1 && $user_group_id !=3) { ?>
-						<?php 	if (($status_id == 2) || ($status_id == 3)) { ?>
-							<a href='<?php echo $sendpackage_url . $plan_id; ?>'><span class="btn btn-info">Send Package</span></a>
-						<?php 	} ?>
-						<?php } ?>
-						<?php } ?>
-
-						</div>
 						<div class="form-group col-sm-3">
 							<label><span><?php echo $plan_full_name; ?></span></label>
 							<label>Policy Number: <span><?php echo $policy; ?></span></label>
