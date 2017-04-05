@@ -389,6 +389,7 @@ class User extends MY_Controller {
 				if (!empty($this->data['pdf_qr2'])) $post['pdf_qr2'] = $this->data['pdf_qr2'];
 				$this->user_model->update ( $user_id, $post, 1, array('product_list' => 1));
 				$this->log_model->activity('user', array('message' => $this->user_model->logstr, 'systemlog' => $this->user_model->sqlstr));
+				$this->product_model->set_product_customize($user_id, $this->input->post('product_customize'));
 				redirect ( base_url ('user') );
 			}
 		}
@@ -451,6 +452,7 @@ class User extends MY_Controller {
 		$product_list = $this->product_model->product_list(1);
 		$plist = array();
 		$pdf_plist = array();
+		$product_customize = array();
 		foreach ($product_list as $p) {
 			$p['checked'] = '';
 			if (empty($user_id) && ($p['product_short'] != 'JFC')) {
@@ -458,9 +460,11 @@ class User extends MY_Controller {
 			} 
 			$plist[$p['product_short']] = $p;
 			$pdf_plist[$p['product_short']] = '';
+			$product_customize[$p['product_short']] = '';
 		}
 		$this->data['product_list'] = $plist;
 		$this->data['pdf_product_list'] = $pdf_plist;
+		$this->data['product_customize'] = $product_customize;
 		$this->data['paytype_list'] = $this->paytype_model->paytype_list();
 		
 		if ($this->input->post()) {
@@ -524,6 +528,7 @@ class User extends MY_Controller {
 					$pt .= "," . $p;
 				}
 			}
+			$this->data['product_customize'] = $this->input->post('product_customize');
 			$this->data['pay_type'] = $pt;
 			$this->data['receive_type'] = $this->input->post('receive_type');
 		} else if ($user_id) {
@@ -547,6 +552,11 @@ class User extends MY_Controller {
 					}
 				}
 				$this->data['product_list'][$k] = $p;
+			}
+			
+			$product_customize = $this->product_model->get_product_customize($user_id);
+			foreach ($product_customize as $pdc) {
+				$this->data['product_customize'][$pdc['product_short']] = $pdc['name'];
 			}
 		}
 		if (empty($this->data['province2'])) $this->data['province2'] = 'ON';

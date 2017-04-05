@@ -86,7 +86,11 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 				<div class="row">
 					<div class="col-sm-6 nopadding">
 						<h4 style="margin-bottom:15px;"><u>Coverage Details</u></h4>
+<?php if (in_array($plan['product_short'], $pdf_enable) && !empty($customer_product_name)) { ?>
+						<h4>Insurance Plan:<br />&nbsp;&nbsp;&nbsp;<span><?php echo $customer_product_name;?></span></h4>
+<?php } else { ?>
 						<h4>Insurance Plan:<br />&nbsp;&nbsp;&nbsp;<span><?php echo $plan_full_name;?></span></h4>
+<?php } ?>
 						<h4>Plan Type: <span><?php if($plan['isfamilyplan']==1){ echo "Family";}else{echo "Individual";} ?></sapn> </h4>
 						<?php if ($plan['sum_insured']) { ?><h4>Sum Insured: <span>$<?php echo number_format($plan['sum_insured'], 2); ?></sapn> </h4><?php } ?>
 						<?php if ($plan['deductible_amount'] || ($plan['product_short'] == 'OPL') || ($plan['product_short'] == 'JFR')) { ?><h4>Deductible: <span>$<?php echo number_format($plan['deductible_amount'], 2);?></sapn> </h4><?php } ?>

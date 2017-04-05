@@ -2130,6 +2130,7 @@ class Plan extends MY_Controller {
 		}
 		
 		$data['title_txt'] = 'Policy';
+		$data['customer_product_name'] = $this->product_model->get_product_customize_name($beuser['user_id'], $data['plan']['product_short']);
 		$data['style'] = $this->load->view('common/pdf_style',$data, TRUE);		
 		$mpdf = new mPDF('c');
 		if ($plan['status_id'] < 2) {

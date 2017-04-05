@@ -683,8 +683,7 @@ class Product_model extends CI_Model {
      *
      * @return array product list
      */
-    public function get_available_product_list()
-    {
+    public function get_available_product_list() {
     	$userArr = array();
         $beuser = $this->session->beuser;
     	if ($beuser['user_group_id'] > 100) {
@@ -705,5 +704,50 @@ class Product_model extends CI_Model {
 	        $this->db->where_in('up.user_id', $userArr);
         }
         return $this->db->get()->result_array();
+    }
+    
+    /**
+     * Get all customized plan_name
+     * 
+     * @param int $user_id
+     * @return array product name array
+     */
+    public function get_product_customize($user_id) {
+    	$this->db->where('user_id', $user_id);
+    	return $this->db->get('product_customize')->result_array();
+    }
+    
+    /**
+     * Get all customized plan_name
+     * 
+     * @param int $user_id
+     * @param string $product_short
+     * @return array product name array
+     */
+    public function get_product_customize_name($user_id, $product_short) {
+    	$this->db->where('user_id', $user_id);
+    	$this->db->where('product_short', $product_short);
+    	$pd = $this->db->get('product_customize')->row_array();
+    	if ($pd) {
+    		return $pd['name'];
+    	}
+    	return '';
+    }
+    
+    /**
+     * Update all customized plan_name
+     * 
+     * @param int $user_id
+     * @param array $names		indexed name array
+     * @return array product name array
+     */
+    public function set_product_customize($user_id, $names) {
+    	$this->db->delete('product_customize', array('user_id' => $user_id));
+    	
+    	foreach ($names as $product_short => $name) {
+    		if (empty($name)) continue;
+    		$this->db->set(array('user_id' => $user_id, 'product_short' => $product_short, 'name' => $name));
+			$this->db->insert('product_customize');
+    	}
     }
 }

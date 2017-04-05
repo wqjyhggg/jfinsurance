@@ -367,6 +367,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<div class="col-sm-6">
 							<input  type='checkbox' name='product_list[]' value='<?php echo $key; ?>' <?php echo $pd['checked']; ?>> <?php echo $pd['product_short'] . " - " . $pd['full_name']; ?><br>
 							<?php echo $pd['product_short']; ?> Commission (%): <input type='text' name='product_commission_<?php echo $key; ?>' value='<?php echo $pd['commission']; ?>'><br>
+							Customize Product Name: <input  type='text' name='product_customize[<?php echo $pd['product_short']; ?>]' value='<?php echo $product_customize[$pd['product_short']]; ?>'><br>
 							<br />
 							</div>
 							<?php } ?>
