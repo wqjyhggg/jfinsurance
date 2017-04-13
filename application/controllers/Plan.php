@@ -1051,19 +1051,21 @@ class Plan extends MY_Controller {
 		if ($this->input->post('submit')) {
 			$agree = $this->input->post('agree');
 			if ($agree) {
-				$this->load->model('product_model');
-				
-				$para = array('agree' => 1);
-				$this->plan_model->update($plan_id, $para);
-				$plan = $this->plan_model->get_plan_by_id($plan_id);
-				$para = array(
-						'plan_id' => $plan_id, 
-						'customer_id' => $plan['customer_id'], 
-						'payment_id' => 0, 
-						'message' => $this->plan_model->logstr, 
-						'systemlog' => $this->plan_model->sqlstr
-				);
-				$this->log_model->activity('plan', $para);
+				if (empty($plan['agree'])) {
+					$this->load->model('product_model');
+					
+					$para = array('agree' => 1);
+					$this->plan_model->update($plan_id, $para);
+					$plan = $this->plan_model->get_plan_by_id($plan_id);
+					$para = array(
+							'plan_id' => $plan_id, 
+							'customer_id' => $plan['customer_id'], 
+							'payment_id' => 0, 
+							'message' => $this->plan_model->logstr, 
+							'systemlog' => $this->plan_model->sqlstr
+					);
+					$this->log_model->activity('plan', $para);
+				}
 				
 				redirect('plan/detail/'.$plan_id);
 			} else {

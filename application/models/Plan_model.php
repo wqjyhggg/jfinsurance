@@ -194,8 +194,8 @@ class Plan_model extends CI_Model {
 		
 		$cpara = array('plan_id' => $plan_id);
 		$this->customer_model->update($customer_id, $cpara);
-		$this->sqlstr = $this->customer_model->sqlstr . "; ";
-		$this->logstr = $this->customer_model->logstr . "; ";
+		$this->sqlstr .= $this->customer_model->sqlstr . "; ";
+		$this->logstr .= $this->customer_model->logstr . "; ";
 		
 		if (empty($para['batch_number']) && empty($para['policy'])) {
 			$policy = $this->get_policy_number($plan_id);
