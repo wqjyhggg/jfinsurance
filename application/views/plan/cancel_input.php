@@ -30,11 +30,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_content">
-                  <?php if (!empty($error_message)) {?>
+                  <?php if (!empty($error_message)) { ?>
                   <div class="alert-error">
                     <?php echo $error_message . "<br>";?>
                   </div>
                   <?php } ?>
+                  <?php if ($plan['premium'] <= $admin_fee) { ?>
+                  <div class="alert-error">
+                    Premium is less than Admin Fee. Can't cancel
+                  </div>
+                  <?php } else { ?>
                     <form action='<?php echo $action_url; ?>' method='POST'  class="form-horizontal">
             				  <input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
             				  <input type='hidden' name='plan_id' value='<?php echo $plan_id; ?>'>
@@ -49,7 +54,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <div class="form-group col-sm-5 col-xs-12" style="display:none;">
                           <label class="col-sm-12">Admin Fee:</label>
                           <div class="input-group col-sm-12">
-                            <input type="number" step="any" name='admin_fee' value='' class="form-control"/>
+                            <input type="number" step="any" name='admin_fee' value='<?php echo $admin_fee; ?>' class="form-control"/>
                           </div>
                         </div>
                         
@@ -62,6 +67,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         </div>  
                       </div>
 			              </form>
+                  <?php } ?>
 				          </div>
                 </div>
               </div>

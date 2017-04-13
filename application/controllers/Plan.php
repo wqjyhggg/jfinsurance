@@ -2252,6 +2252,10 @@ class Plan extends MY_Controller {
 		}
 		$data['action_url'] = base_url('plan/cancel');
 		$data['plan_id'] = $plan['plan_id'];
+		$data['admin_fee'] = 0;
+		if ($plan['product_short'] == 'JFC') {
+			$data['admin_fee'] = 40;
+		}
 		$data['url_back_to_policy'] = base_url('plan/');
 		$data['title_txt'] = 'Policy';
 		$data['top_menu'] = $this->menu_model->load_top_menu();
