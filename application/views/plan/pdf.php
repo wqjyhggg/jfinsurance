@@ -89,7 +89,11 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 <?php if (in_array($plan['product_short'], $pdf_enable) && !empty($customer_product_name)) { ?>
 						<h4>Insurance Plan:<br />&nbsp;&nbsp;&nbsp;<span><?php echo $customer_product_name;?></span></h4>
 <?php } else { ?>
+<?php if (($plan['product_short'] == 'JES') && $plan['holiday_rate']) { ?>
+						<h4>Insurance Plan:<br />&nbsp;&nbsp;&nbsp;<span>JF Elite Plus to Canada</span></h4>
+<?php } else { ?>
 						<h4>Insurance Plan:<br />&nbsp;&nbsp;&nbsp;<span><?php echo $plan_full_name;?></span></h4>
+<?php } ?>
 <?php } ?>
 						<h4>Plan Type: <span><?php if($plan['isfamilyplan']==1){ echo "Family";}else{echo "Individual";} ?></sapn> </h4>
 						<?php if ($plan['sum_insured']) { ?><h4>Sum Insured: <span>$<?php echo number_format($plan['sum_insured'], 2); ?></sapn> </h4><?php } ?>
