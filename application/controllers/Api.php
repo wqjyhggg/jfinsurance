@@ -75,6 +75,7 @@ class Api extends MY_Controller {
 				}
 			}
 			if (!empty($this->input->post('policy'))) $data['policy'] = $this->input->post('policy');
+			else if (!empty($this->input->post('policy_match'))) $data['policy_match'] = $this->input->post('policy_match');
 			if (!empty($this->input->post('apply_date'))) {
 				$data['apply_date'] = $this->input->post('apply_date');
 				if (!empty($this->input->post('apply_date2'))) {
