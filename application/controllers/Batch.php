@@ -425,7 +425,7 @@ class Batch extends MY_Controller {
             // for payment more than 6 record
             $i = 6;
             while (isset($data['payment_id_'.$i])) {
-            	foreach ($paymentArr as $k => $v) {
+            	foreach ($this->paymentArr as $k => $v) {
             		$key = $k . "_" . $i;
             		if (isset($data[$key])) {
             			$arr[] = $data[$key];
@@ -569,6 +569,9 @@ class Batch extends MY_Controller {
 								foreach ($this->paymentArr as $k => $v) {
 									if (isset($data[$k])) {
 										$para[$k] = $data[$k];
+										if ($k == 'added') {
+											$para['last_update'] = $data[$k];
+										}
 									}
 								}
 								$para['note'] = isset($para['note']) ? $para['note'] . '; Batch updated' : 'Batch updated';
@@ -583,6 +586,9 @@ class Batch extends MY_Controller {
 								foreach ($this->paymentArr as $k => $v) {
 									if (isset($data[$k])) {
 										$para[$k] = $data[$k];
+										if ($k == 'added') {
+											$para['last_update'] = $data[$k];
+										}
 									}
 								}
 								$para['user_id'] = $beuser['user_id'];
@@ -647,6 +653,9 @@ class Batch extends MY_Controller {
 								foreach ($this->paymentArr as $k => $v) {
 									if (isset($data[$k])) {
 										$para[$k] = $data[$k];
+										if ($k == 'added') {
+											$para['last_update'] = $data[$k];
+										}
 									}
 								}
 								$para['user_id'] = $beuser['user_id'];
