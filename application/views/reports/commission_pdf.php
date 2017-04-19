@@ -8,12 +8,25 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 						<img style="width: 80px;" src="<?php echo base_url();?>image/jf_logo.jpg" />
 					</td>
 					<td width='40%'>
+						<?php if ($data ['agent'] ['receive_type'] == 'Cheque') { ?>
+						<table>
+							<tr>
+								<td valign='top'>To:</td>
+								<td>
+									<?php echo $data['agent']['firstname'] . " " . $data['agent']['lastname']; ?><br />
+									<?php echo $data['agent']['mail_address']; ?><br>
+									<?php echo $data ['agent'] ['mail_city'] . "," . $data ['agent'] ['mail_province2']; ?><br>
+									<?php echo $data ['agent'] ['mail_postcode']; ?><br>
+								</td>
+							</tr>
+						</table>
+						<?php } ?>
 						Agent Name: <?php echo $data['agent']['firstname'] . " " . $data['agent']['lastname']; ?><br />
 						Payment Method: <?php echo $data['agent']['receive_type']; ?><br />
 						<?php
 							if ($data ['agent'] ['receive_type'] == 'Deposit') {
 								echo "Pay to: " . $data ['agent'] ['note'] . "<br />";
-								echo "Mailing Address: " . $data ['agent'] ['mail_address'] . " " . $data ['agent'] ['mail_city'] . "," . $data ['agent'] ['mail_province2'] . " " . $data ['agent'] ['mail_postcode'];
+								echo "E-Mail Address: " . $data ['agent'] ['email'];
 							} else if ($data ['agent'] ['receive_type'] == 'Cheque') {
 								echo "Pay to: " . $data ['agent'] ['note'] . "<br />";
 							} else { // Cash
@@ -30,6 +43,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 		<table style="font-family: serif; font-size: 10pt; border-spacing: 0;" border='1'>
 			<tbody>
 				<tr>
+					<th style="border: 1px solid black;">&nbsp;</th>
 					<th style="border: 1px solid black;">Payment Date</th>
 					<th>Policy Number</th>
 					<th>Customer Name</th>
@@ -41,10 +55,11 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 					<th>Commission Rate</th>
 					<th>Commission Amount</th>
 				</tr>
-				<?php $cnt = 1; $total_premium = 0; $total_commission = 0; ?>
+				<?php $cnt = 1; $total_premium = 0; $total_commission = 0; $unpaid_premium = 0; ?>
 				<?php foreach ($data['data'] as $record) : ?>
-				<?php     $total_premium += $record['premium']; $total_commission += $record['amount']; ?>
+				<?php     $total_premium += $record['premium']; $total_commission += $record['amount']; $unpaid_premium += ($record['premiumispaid']) ? 0 : $record['premium']; ?>
 				<tr>
+					<td style="padding-top: 6px;"><?php echo $cnt++; ?></td>
 					<td style="padding-top: 6px;"><?php echo substr($record['added'], 0, 10); ?></td>
 					<td style="padding-top: 6px;"><?php echo $record['policy']; ?></td>
 					<td style="padding-top: 6px;"><?php echo $record['customer_name']; ?></td>
@@ -58,7 +73,21 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 				</tr>
 				<?php endforeach; ?>
 				<tr>
+					<td style="padding-top: 10px;"><B>Unpaid Premium</B></td>
+					<td style="padding-top: 10px;">&nbsp;</td>
+					<td style="padding-top: 10px;">&nbsp;</td>
+					<td style="padding-top: 10px;">&nbsp;</td>
+					<td style="padding-top: 10px;">&nbsp;</td>
+					<td style="padding-top: 10px;">&nbsp;</td>
+					<td style="padding-top: 10px;">&nbsp;</td>
+					<td style="padding-top: 10px;">$<?php echo number_format($unpaid_premium, 2); ?></td>
+					<td style="padding-top: 10px;">&nbsp;</td>
+					<td style="padding-top: 10px;">&nbsp;</td>
+					<td style="padding-top: 10px;">$<?php echo number_format($total_commission, 2); ?> - $<?php echo number_format($unpaid_premium, 2); ?></td>
+				</tr>
+				<tr>
 					<td style="padding-top: 10px;"><B>TOTAL</B></td>
+					<td style="padding-top: 10px;">&nbsp;</td>
 					<td style="padding-top: 10px;">&nbsp;</td>
 					<td style="padding-top: 10px;">&nbsp;</td>
 					<td style="padding-top: 10px;">&nbsp;</td>
@@ -67,7 +96,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 					<td style="padding-top: 10px;">$<?php echo number_format($total_premium, 2); ?></td>
 					<td style="padding-top: 10px;">&nbsp;</td>
 					<td style="padding-top: 10px;">&nbsp;</td>
-					<td style="padding-top: 10px;">$<?php echo number_format($total_commission, 2); ?></td>
+					<td style="padding-top: 10px;">$<?php echo number_format($total_commission - $unpaid_premium, 2); ?></td>
 				</tr>
 			</tbody>
 		</table>

@@ -624,85 +624,86 @@ class Report_model extends CI_Model
      */
     public function get_agent_commission_report($para)
     {
-        $query = $this->get_agent_commission_query($para);
-        $results = $this->get_agent_commission_result($query);
-        return $results;
-    }
-
-    private function get_agent_commission_query($para)
-    {
-        $this->agent_commission_fields();
-        $this->agent_commission_from();
-        $this->agent_commission_where($para);
-        return $this->db->get()->result_array();
-    }
-
-    private function agent_commission_fields()
-    {
-        $this->db->select('
-            CONCAT(u.firstname," ", u.lastname) AS agent_name,
-            SUM(amount) AS total_balance,
-            u.pay_type AS payment_method,
-        	u.receive_type,
-        	u.note,
-        	u.user_id AS agent_id
-        ');
-    }
-
-    private function agent_commission_from()
-    {
-        $this->db->from('user u');
-        $this->db->join('payment pa', 'u.user_id = pa.user_id AND pa.pay_type = "commission"');
-    }
-
-    private function agent_commission_where($para)
-    {
         $beuser = $this->session->beuser;
         $available_user_ids = array_keys($para['user_list']);
-        
+    	
+        $sql  = "SELECT SUM(amount) as total_balance, SUM(IF(ispaid=0, amount,0)) as unpaid_balance, user_id FROM payment WHERE pay_type='commission'";
+        if (empty($para['paied'])) {
+        	$sql .= " AND ispaid=0";
+        } else {
+        	$sql .= " AND ispaid=1";
+        }
+        if (!empty($para['pay_mothed'])) {
+        	$sql .= " AND pay_mothed =" . $this->db->escape($para['pay_mothed']);
+        }
         if (!empty($para['payment_update_date_from'])) {
-            $this->db->where('pa.last_update >=', $para['payment_date_from'] . " 00:00:00");
+        	$sql .= " AND last_update >=" . $this->db->escape($para['payment_date_from'] . " 00:00:00");
         }
         if (!empty($para['payment_update_date_to'])) {
-            $this->db->where('pa.last_update <=', $para['payment_date_to'] . " 23:59:59");
+        	$sql .= " AND last_update <=" . $this->db->escape($para['payment_date_to'] . " 23:59:59");
         }
+        
         if (!empty($para['agent_id'])) {
-            if (!in_array($para['agent_id'], $available_user_ids)) {
-                $this->db->where('u.user_id', $beuser['user_id']);
-            } else {
-                $this->db->where('u.user_id', $para['agent_id']);
-            }
+        	if (!in_array($para['agent_id'], $available_user_ids)) {
+        		$sql .= " AND user_id ='" . (int)$beuser['user_id'] . "'";
+        	} else {
+        		$sql .= " AND user_id ='" . (int)$para['agent_id'] . "'";
+        	}
         } else {
-            if ($beuser['user_group_id'] > self::STAFF) {
-                $this->db->where_in('u.user_id', $available_user_ids);
-            }
+        	if ($beuser['user_group_id'] > self::STAFF) {
+        		$sql .= " AND user_id IN (" . join(",", $available_user_ids) . ")";
+        	}
         }
-        if (!empty($para['region_id'])) {
-            $this->db->where('u.region_id', $para['region_id']);
-        }
-        if (empty($para['paied'])) {
-            $this->db->where('pa.ispaid', 0);
-        } else {
-        	$this->db->where('pa.ispaid', 1);
-        }
-        if (!empty($para['payment_method'])) {
-            $this->db->like('u.pay_type', $para['payment_method']);
-        }
-        $this->db->group_by('agent_id');
+        
+        $sql .= " GROUP BY user_id";
+        
         if (!empty($para['minvalue'])) {
-        	$this->db->having('total_balance >', (int)$para['minvalue']);
+        	$sql .= " HAVING total_balance > " . (int)$para['minvalue'];
         } else {
-        	$this->db->having('total_balance >', 0);
+        	$sql .= " HAVING total_balance > 0";
         }
-    }
-
-    private function get_agent_commission_result($query)
-    {
-        $results = array();
-        foreach ($query as $row) {
-            $results['data']['records'][] = $row;
+        
+        $sql .= " ORDER BY user_id ASC";
+        $part = $this->db->query($sql)->result_array();
+        
+        if (empty($part)) {
+        	return array();
         }
-        return $results;
+        
+        $rt = array();
+        foreach ($part as $parc) {
+        	$sql  = "SELECT SUM(amount) as unpaid_premium FROM payment WHERE user_id=" . (int)$parc['user_id'] . " AND pay_type='premium' AND ispaid=0";
+        	if (!empty($para['pay_mothed'])) {
+        		$sql .= " AND pay_mothed =" . $this->db->escape($para['pay_mothed']);
+        	}
+        	if (!empty($para['payment_update_date_from'])) {
+        		$sql .= " AND last_update >=" . $this->db->escape($para['payment_date_from'] . " 00:00:00");
+        	}
+        	if (!empty($para['payment_update_date_to'])) {
+        		$sql .= " AND last_update <=" . $this->db->escape($para['payment_date_to'] . " 23:59:59");
+        	}
+        	$unpay = 0;
+        	if ($unpayrow = $this->db->query($sql)->row_array()) {
+        		$unpay = $unpayrow['unpaid_premium'];
+        	}
+        	 
+        	$sql  = "SELECT ";
+	        $sql .= "  CONCAT(u.firstname, ' ', u.lastname) AS agent_name,";
+	        $sql .= "  (SELECT MAX(pa1.last_update) FROM payment pa1 WHERE pa1.user_id=u.user_id AND pa1.ispaid=1) AS last_paid,";
+	        $sql .= "  u.* ";
+	        $sql .= " FROM user u";
+	        $sql .= " WHERE u.user_id=" . (int)$parc['user_id'];
+	        if (!empty($para['region_id'])) {
+	        	$sql .= " AND u.region_id ='" . (int)$para['region_id'] . "'";
+	        }
+	        $row = $this->db->query($sql)->row_array();
+	        if ($row) {
+	        	$row['total_balance'] = $parc['total_balance'];
+	        	$row['unpaid_premium'] = $unpay;
+	        	$rt[] = $row;
+	        }
+        }
+        return $rt;
     }
 
     private function get_status($status_id)

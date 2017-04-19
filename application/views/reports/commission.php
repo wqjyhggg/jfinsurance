@@ -173,7 +173,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				                </form>
 				              </div>
 	                          <div class="col-sm-6">
-		                    	<form method="get" action="<?php echo $export_pdf; ?>" class="form-horizontal">
+		                    	<form method="get" action="<?php echo $export_pdf; ?>" class="form-horizontal" target="_blank">
 		                    		<input type='hidden' name="agent_id" value="<?php echo $agent_id; ?>">
 		                    		<input type='hidden' name="product_short" value="<?php echo $product_short; ?>">
 		                    		<input type='hidden' name="region_id" value="<?php echo $region_id; ?>">
@@ -196,13 +196,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                       <table class="table table-hover table-bordered">
                         <tbody>
                           <tr>
-                          	<td colspan='6'>
+                          	<td colspan='7'>
+								<?php if ($data ['agent'] ['receive_type'] == 'Cheque') { ?>
+								<div>
+									<div style='display: inline-flex;'>To:</div>
+									<div style='display: inline-flex; padding-left: 12px;'>
+										<?php echo $data['agent']['firstname'] . " " . $data['agent']['lastname']; ?><br />
+										<?php echo $data['agent']['mail_address']; ?><br>
+										<?php echo $data ['agent'] ['mail_city'] . "," . $data ['agent'] ['mail_province2']; ?><br>
+										<?php echo $data ['agent'] ['mail_postcode']; ?><br><br>
+									</div>
+								</div>
+								<?php } ?>
                           		Agent Name: <?php echo $data['agent']['firstname'] . " " . $data['agent']['lastname']; ?><br />
                           		Payment Method: <?php echo $data['agent']['receive_type']; ?><br />
 								<?php
 									if ($data['agent']['receive_type'] == 'Deposit') {
 										echo "Pay to: " . $data['agent']['note'] . "<br />";
-										echo "Mailing Address: " . $data['agent']['mail_address'] . " " . $data['agent']['mail_city'] . "," . $data['agent']['mail_province2'] . " " . $data['agent']['mail_postcode'];
+										echo "E-Mail Address: " . $data['agent']['email'];
 									} else if ($data['agent']['receive_type'] == 'Cheque') {
 										echo "Pay to: " . $data['agent']['note'] . "<br />";
 									} else { // Cash
@@ -214,6 +225,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                           	</td>
                           </tr>
                           <tr>
+                            <th>&nbsp;</th>
                             <th>Payment Date</th>
                             <th>Policy Number</th>
                             <th>Customer Name</th>
@@ -225,10 +237,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <th>Commission Rate</th>
                             <th>Commission Amount</th>
                           </tr>
-        <?php $cnt = 1; $total_premium = 0; $total_commission = 0; ?>
+        <?php $cnt = 1; $total_premium = 0; $total_commission = 0; $unpaid_premium = 0; ?>
         <?php foreach ($data['data'] as $record) : ?>
-        <?php $total_premium += $record['premium']; $total_commission += $record['amount']; ?>
+        <?php $total_premium += $record['premium']; $total_commission += $record['amount']; $unpaid_premium += ($record['premiumispaid']) ? 0 : $record['premium']; ?>
                             <tr>
+                              <td><?php echo $cnt++; ?></td>
                               <td><?php echo substr($record['added'], 0, 10); ?></td>
                               <td><?php echo $record['policy']; ?></td>
                               <td><?php echo $record['customer_name']; ?></td>
@@ -242,7 +255,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             </tr>
         <?php endforeach; ?>
                             <tr>
+                              <td><B>Unpaid Premium</B></td>
+                              <td>&nbsp;</td>
+                              <td>&nbsp;</td>
+                              <td>&nbsp;</td>
+                              <td>&nbsp;</td>
+                              <td>&nbsp;</td>
+                              <td>&nbsp;</td>
+                              <td>$<?php echo number_format($unpaid_premium, 2); ?></td>
+                              <td>&nbsp;</td>
+                              <td>&nbsp;</td>
+                              <td>$<?php echo number_format($total_commission, 2); ?> - $<?php echo number_format($unpaid_premium, 2); ?></td>
+                            </tr>
+                            <tr>
                               <td><B>TOTAL</B></td>
+                              <td>&nbsp;</td>
                               <td>&nbsp;</td>
                               <td>&nbsp;</td>
                               <td>&nbsp;</td>
@@ -251,9 +278,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                               <td>$<?php echo number_format($total_premium, 2); ?></td>
                               <td>&nbsp;</td>
                               <td>&nbsp;</td>
-                              <td>$<?php echo number_format($total_commission, 2); ?></td>
+                              <td>$<?php echo number_format($total_commission - $unpaid_premium, 2); ?></td>
                             </tr>
-                            <tr style="background:#eee;"><td colspan='10'></td></tr>
+                            <tr style="background:#eee;"><td colspan='11'></td></tr>
                         </tbody>
                       </table>
     <?php endforeach; ?>

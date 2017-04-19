@@ -74,8 +74,7 @@ class Commission extends MY_Controller
 		$data['user_list'] = $this->user_model->get_available_user_list();
 		$data['report_data'] = $this->report_model->get_commission_report($data);
 	
-		// echo "<pre>";
-		// print_r($data['report_data']);die('============');
+		// echo "<pre>"; print_r($data['report_data']);die('============');
 	
 		$w = WriterFactory::create(Type::XLSX); // for XLSX files
 		$kArr = array(
@@ -102,15 +101,28 @@ class Commission extends MY_Controller
 		$row = 0;
 		foreach ($data['report_data'] as $datas) {
 			$row++; $col = 'A';
-			$ainfo  = "Agent Name: " . $datas['agent']['firstname'] . " " . $datas['agent']['lastname'] . "\n";
-			$ainfo .= "Payment Method: " . $datas['agent']['receive_type'] . "\n";
+			$col++;
+			$col++;
+			$col++;
+			$col++;
+			$col++;
+			$col++;
+			$sheet->setCellValue($col.$row, "Payment Period: " . $data['payment_added_from'] . " - " . $data['payment_added_to']); $col++; $row--;
+			if ($datas['agent']['receive_type'] == 'Cheque') {
+				$row++;
+				$sheet->setCellValue('A'.$row, "To: ");
+				$sheet->setCellValue('B'.$row, $datas['agent']['firstname'] . " " . $datas['agent']['lastname']);
+				$row++;
+				$sheet->setCellValue('B'.$row, $datas['agent']['mail_address']);
+				$row++;
+				$sheet->setCellValue('B'.$row, $datas['agent']['mail_city'] . "," . $datas['agent']['mail_province2']);
+				$row++;
+				$sheet->setCellValue('B'.$row, $datas['agent']['mail_postcode']);
+				$row++;
+			}
+			$row++; $col = 'A';
+				
 			$sheet->setCellValue($col.$row, "Agent Name: " . $datas['agent']['firstname'] . " " . $datas['agent']['lastname']); $col++;
-			$col++;
-			$col++;
-			$col++;
-			$col++;
-			$col++;
-			$sheet->setCellValue($col.$row, "Payment Period: " . $data['payment_added_from'] . " - " . $data['payment_added_to']); $col++;
 	
 			$row++; $col = 'A';
 			$sheet->setCellValue($col.$row, "Payment Method: " . $datas['agent']['receive_type']); $col++;
@@ -118,7 +130,7 @@ class Commission extends MY_Controller
 				$row++; $col = 'A';
 				$sheet->setCellValue($col.$row, "Pay to: " . $datas['agent']['note']);
 				$row++; $col = 'A';
-				$sheet->setCellValue($col.$row, "Mailing Address: " . $datas['agent']['mail_address'] . " " . $datas['agent']['mail_city'] . "," . $datas['agent']['mail_province2'] . " " . $datas['agent']['mail_postcode']);
+				$sheet->setCellValue($col.$row, "E-Mail Address: " . $datas['agent']['email']);
 			} else if ($datas['agent']['receive_type'] == 'Cheque') {
 				$row++; $col = 'A';
 				$sheet->setCellValue($col.$row, "Pay to: " . $datas['agent']['note']);
@@ -129,9 +141,9 @@ class Commission extends MY_Controller
 				$sheet->setCellValue($col.$row, $v); $col++;
 			}
 			 
-			$total_premium = 0; $total_commission = 0;
+			$total_premium = 0; $total_commission = 0; $unpaid_premium = 0;
 			foreach ($datas['data'] as $record) {
-				$total_premium += $record['premium']; $total_commission += $record['amount'];
+				$total_premium += $record['premium']; $total_commission += $record['amount']; $unpaid_premium += ($record['premiumispaid']) ? 0 : $record['premium'];
 				$row++; $col = 'A';
 	
 				$sheet->setCellValue($col.$row, PHPExcel_Shared_Date::PHPToExcel(strtotime($record['added'] . ' EST')));
@@ -160,14 +172,21 @@ class Commission extends MY_Controller
 			}
 			 
 			$row++;
+			$sheet->setCellValue('A'.$row, 'Unpaid Premium');
+			$sheet->setCellValue('G'.$row, $unpaid_premium);
+			$sheet->getStyle($col.$row)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
+	
+			$sheet->setCellValue('J'.$row, '$' . number_format($total_commission, 2) . ' - $'. number_format($unpaid_premium, 2));
+			 
+			$row++;
 			$sheet->setCellValue('A'.$row, 'TOTAL');
 			$sheet->setCellValue('G'.$row, $total_premium);
 			$sheet->getStyle($col.$row)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
 	
-			$sheet->setCellValue('J'.$row, $total_commission);
+			$sheet->setCellValue('J'.$row, $total_commission - $unpaid_premium);
 			$sheet->getStyle($col.$row)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
 			 
-			$row++; $col = 'A';
+			$row++; $row++; $row++; $col = 'A';
 		}
 	
 		$objPHPExcel->setActiveSheetIndex(0);
