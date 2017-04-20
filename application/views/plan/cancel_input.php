@@ -35,7 +35,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <?php echo $error_message . "<br>";?>
                   </div>
                   <?php } ?>
-                  <?php if ($plan['premium'] <= $admin_fee) { ?>
+                  <?php if ($plan['premium'] < $admin_fee) { ?>
                   <div class="alert-error">
                     Premium is less than Admin Fee. Can't cancel
                   </div>
