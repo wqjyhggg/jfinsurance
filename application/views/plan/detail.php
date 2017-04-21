@@ -335,10 +335,10 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 									<input type='hidden' name='sekey' value='<?php echo $sekey; ?>'>
 									<input type='hidden' name='premium' value='<?php echo $payment_total; ?>'>
 								<?php if ($payment_total >= 0) { ?>
-								<?php if (empty($sekey)) { ?>
+								<?php if (empty($sekey) && ((time() - strtotime($plan['last_update'])) < (48 * 3600)) && ($plan['effective_date'] > date("Y-m-d"))) { ?>
 									<div class="row">
 										<div class="col-sm-12">
-											<label class="inline" style="margin-bottom:0;">Pay url send to user by Email:</label>
+											<label class="inline" style="margin-bottom:0;">Pay url to user by Email (Valid before <?php echo $payurltm; ?>):</label>
 										</div><br />
 									</div>
 									<div class="row">

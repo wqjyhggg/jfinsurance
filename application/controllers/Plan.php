@@ -1447,6 +1447,7 @@ class Plan extends MY_Controller {
 		
 		$plan_id = $this->input->post('plan_id');
 		$premium = preg_replace("/[^0-9\.-]/", "", $this->input->post('premium'));
+		$premium = (float)$premium;
 		$payinfo = "Pay Cash: " . 'Premium: $' . $premium . "; ";
 		
 		$plan = $this->plan_model->get_plan_by_id($plan_id);
@@ -1559,6 +1560,7 @@ class Plan extends MY_Controller {
 		
 		$plan_id = $this->input->post('plan_id');
 		$premium = preg_replace("/[^0-9\.-]/", "", $this->input->post('premium'));
+		$premium = (float)$premium;
 		$payinfo  = 'Invoice Number: ' . $this->input->post('invoice_num') . "; ";
 		$payinfo .= 'Bank Name: ' . $this->input->post('bank_name') . "; ";
 		$payinfo .= 'Payor Name: ' . $this->input->post('payor_name') . "; ";
@@ -1688,19 +1690,6 @@ class Plan extends MY_Controller {
 		if ($play_type = $this->input->post('play_type')) {
 			$plan_id = $this->input->post('plan_id');
 			$sekey = $this->input->post('sekey');
-			if ($play_type == 'Credit Card') {
-				$this->credit_card();
-				$defaultpay_type = 'Credit Card';
-			} else if ($play_type == 'Cash') {
-				$this->cash();
-				$defaultpay_type = 'Cash';
-			} else if ($play_type == 'Cheque') {
-				$this->cheque();
-				$defaultpay_type = 'Cheque';
-			}
-			if (empty($this->error)) {
-				redirect(base_url('plan/detail/' . $plan_id));
-			}
 		}
 		if (empty($plan_id)) {
 			redirect(base_url('production'));
@@ -1716,6 +1705,27 @@ class Plan extends MY_Controller {
 		if (empty($plan)) {
 			redirect('user/login');
 		}
+		
+		if ($play_type = $this->input->post('play_type')) {
+			$totalpaid = $this->payment_model->get_total_paid($plan_id, $pay_type='premium');
+			$premium = preg_replace("/[^0-9\.-]/", "", $this->input->post('premium'));
+			$premium = $totalpaid + (float)$premium;
+			if ($premium != (float)$plan['premium']) {
+				$this->error = "Pay amount has problem plase try again.";
+			} else if ($play_type == 'Credit Card') {
+				$this->credit_card();
+				$defaultpay_type = 'Credit Card';
+			} else if ($play_type == 'Cash') {
+				$this->cash();
+				$defaultpay_type = 'Cash';
+			} else if ($play_type == 'Cheque') {
+				$this->cheque();
+				$defaultpay_type = 'Cheque';
+			}
+			if (empty($this->error)) {
+				redirect(base_url('plan/detail/' . $plan_id));
+			}
+		}
 		if (empty($sekey)) {
 			$beuser = $this->func_model->verify_login();
 		} else {
@@ -1724,6 +1734,10 @@ class Plan extends MY_Controller {
 			if ($key != $sekey) {
 				redirect('user/login');
 			}
+			if (((time() - strtotime($plan['last_update'])) > (48 * 3600)) || ($plan['effective_date'] <= date("Y-m-d"))) {
+				show_error("This pay link is expired. Please contact your agent to Pay");
+			}
+			
 			$this->session->set_userdata ( 'beuser',  $beuser);
 		}
 		
@@ -1808,6 +1822,7 @@ class Plan extends MY_Controller {
 			$data['paytype_list'] = $this->paytype_model->paytype_default();
 		}
 		$data['payurl'] = base_url('plan/detail/' . $plan_id . '/' . $this->plan_model->get_plan_key($plan_id));
+		$data['payurltm'] = date("Y-m-d H:i", strtotime($plan['last_update']) + 48 * 3600);
 		$data['active_url'] = current_url();
 		$data['status_list'] = $this->status_model->status_list();
 		$days = $this->product_model->getDays('today', $plan['effective_date']);
