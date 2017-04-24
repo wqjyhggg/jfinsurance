@@ -1746,8 +1746,10 @@ class Plan extends MY_Controller {
 			if ($key != $sekey) {
 				redirect('user/login');
 			}
-			if (((time() - strtotime($plan['last_update'])) > (48 * 3600)) || ($plan['effective_date'] <= date("Y-m-d"))) {
-				show_error("This pay link is expired. Please contact your agent to Pay");
+			if ($plan['status_id'] != Plan_model::CHANGED) {
+				if (((time() - strtotime($plan['last_update'])) > (48 * 3600)) || ($plan['effective_date'] <= date("Y-m-d"))) {
+					show_error("This pay link is expired. Please contact your agent to Pay");
+				}
 			}
 			
 			$this->session->set_userdata ( 'beuser',  $beuser);
