@@ -450,6 +450,14 @@ class Plan extends MY_Controller {
 					$this->log_model->activity('plan', $para);
 				}
 			} else {
+				$plan = $this->plan_model->get_plan_by_id($plan_id);
+				$post_ef_date = 0;
+				if (($plan['product_short'] == 'OPL') || ($plan['product_short'] == 'JFR') && ($plan['sum_insured'] >= 100000) && ($plan['totaldays'] >= 365)) {
+					$post_ef_date = $this->input->post('effective_date');
+					if ($post_ef_date == $plan['effective_date']) {
+						$post_ef_date = 0;
+					}
+				}
 				$plan_id = $this->plan_model->update($plan_id, $this->input->post(), array('isfamilyplan' => 1, 'holiday_rate' => 1, 'spouse' => 1));
 				if ($plan_id) {
 					$plan = $this->plan_model->get_plan_by_id($plan_id);
@@ -461,6 +469,10 @@ class Plan extends MY_Controller {
 							'systemlog' => $this->plan_model->sqlstr
 					);
 					$this->log_model->activity('plan', $para);
+					if ($post_ef_date) {	// Super visa changed effective date
+						$this->load->model('payment_model');
+						$this->payment_model->adjust_commission_added_date($plan_id, $post_ef_date, FALSE);
+					}
 				}
 			}
 			if ($plan_id) {

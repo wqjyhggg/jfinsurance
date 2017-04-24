@@ -205,7 +205,7 @@ class Payment_model extends CI_Model {
 	 * @para date
 	 * @return effect rows
 	 */
-	public function adjust_commission_added_date($plan_id, $date) {
+	public function adjust_commission_added_date($plan_id, $date, $change_last_update=TRUE) {
 		$this->logstr = '';
 		if (strlen($date) <= 10) {
 			$date .= ' 00:00:00';
@@ -214,7 +214,7 @@ class Payment_model extends CI_Model {
 		$this->db->where('pay_type', 'commission');
 		$this->db->where('ispaid', '0');
 		$this->db->set('added', $date);
-		$this->db->set('last_update', 'last_update', FALSE);
+		if ($change_last_update) $this->db->set('last_update', 'last_update', FALSE);
 		$this->db->update('payment');
 		$this->sqlstr = $this->db->last_query();
 		$this->logstr = 'Adjust Commission Added[' . $plan_id . '][' . $date . ']';
