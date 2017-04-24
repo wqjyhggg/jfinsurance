@@ -2,7 +2,7 @@
 defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 ?>
 <?php if ($data ['agent'] ['receive_type'] == 'Cheque') { ?>
-		<table width='100%' style="display: block; font-family: serif; font-size: 12pt; padding: 40mm 0mm 25mm 10mm;">
+		<table width='100%' style="display: block; font-family: serif; font-size: 12pt; padding: 40mm 0mm 20mm 10mm;">
 			<tbody>
 				<tr>
 					<td>
