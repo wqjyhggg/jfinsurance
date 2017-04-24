@@ -1,6 +1,26 @@
 <?php
 defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 ?>
+<?php if ($data ['agent'] ['receive_type'] == 'Cheque') { ?>
+		<table width='100%' style="display: block; font-family: serif; font-size: 10pt; padding: 40mm 0mm 25mm 10mm;">
+			<tbody>
+				<tr>
+					<td>
+						<table>
+							<tr>
+								<td valign='top'>To:</td>
+								<td>
+									<?php echo $data['agent']['firstname'] . " " . $data['agent']['lastname']; ?><br />
+									<?php echo $data['agent']['mail_address']; ?><br>
+									<?php echo $data ['agent'] ['mail_city'] . "," . $data ['agent'] ['mail_province2'] . " " . $data ['agent'] ['mail_postcode']; ?><br>
+								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+<?php } ?>
 		<table width='100%' style="display: block; font-family: serif; font-size: 10pt;">
 			<tbody>
 				<tr>
@@ -8,19 +28,6 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 						<img style="width: 80px;" src="<?php echo base_url();?>image/jf_logo.jpg" />
 					</td>
 					<td width='40%'>
-						<?php if ($data ['agent'] ['receive_type'] == 'Cheque') { ?>
-						<table>
-							<tr>
-								<td valign='top'>To:</td>
-								<td>
-									<?php echo $data['agent']['firstname'] . " " . $data['agent']['lastname']; ?><br />
-									<?php echo $data['agent']['mail_address']; ?><br>
-									<?php echo $data ['agent'] ['mail_city'] . "," . $data ['agent'] ['mail_province2']; ?><br>
-									<?php echo $data ['agent'] ['mail_postcode']; ?><br>
-								</td>
-							</tr>
-						</table>
-						<?php } ?>
 						Agent Name: <?php echo $data['agent']['firstname'] . " " . $data['agent']['lastname']; ?><br />
 						Payment Method: <?php echo $data['agent']['receive_type']; ?><br />
 						<?php
