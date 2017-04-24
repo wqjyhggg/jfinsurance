@@ -172,20 +172,21 @@ class Commission extends MY_Controller
 			}
 			 
 			$row++;
-			$sheet->setCellValue('A'.$row, 'Unpaid Premium');
-			$sheet->setCellValue('G'.$row, $unpaid_premium);
-			$sheet->getStyle($col.$row)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
-	
-			$sheet->setCellValue('J'.$row, '$' . number_format($total_commission, 2) . ' - $'. number_format($unpaid_premium, 2));
-			 
-			$row++;
 			$sheet->setCellValue('A'.$row, 'TOTAL');
 			$sheet->setCellValue('G'.$row, $total_premium);
-			$sheet->getStyle($col.$row)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
+			$sheet->getStyle('G'.$row)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
 	
-			$sheet->setCellValue('J'.$row, $total_commission - $unpaid_premium);
-			$sheet->getStyle($col.$row)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
-			 
+			$sheet->setCellValue('J'.$row, $total_commission);
+			$sheet->getStyle('J'.$row)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
+
+			$row++;
+			$sheet->setCellValue('E'.$row, 'Unpaid Premium');
+			$sheet->setCellValue('G'.$row, -$unpaid_premium);
+			$sheet->getStyle('G'.$row)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
+			
+			$sheet->setCellValue('J'.$row, number_format($total_commission - $unpaid_premium, 2));
+			$sheet->getStyle('J'.$row)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
+				
 			$row++; $row++; $row++; $col = 'A';
 		}
 	

@@ -255,19 +255,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             </tr>
         <?php endforeach; ?>
                             <tr>
-                              <td><B>Unpaid Premium</B></td>
-                              <td>&nbsp;</td>
-                              <td>&nbsp;</td>
-                              <td>&nbsp;</td>
-                              <td>&nbsp;</td>
-                              <td>&nbsp;</td>
-                              <td>&nbsp;</td>
-                              <td>$<?php echo number_format($unpaid_premium, 2); ?></td>
-                              <td>&nbsp;</td>
-                              <td>&nbsp;</td>
-                              <td>$<?php echo number_format($total_commission, 2); ?> - $<?php echo number_format($unpaid_premium, 2); ?></td>
-                            </tr>
-                            <tr>
                               <td><B>TOTAL</B></td>
                               <td>&nbsp;</td>
                               <td>&nbsp;</td>
@@ -278,9 +265,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                               <td>$<?php echo number_format($total_premium, 2); ?></td>
                               <td>&nbsp;</td>
                               <td>&nbsp;</td>
+                              <td>$<?php echo number_format($total_commission, 2); ?></td>
+                            </tr>
+                            <tr style='background:#eee;'>
+                              <td>&nbsp;</td>
+                              <td>&nbsp;</td>
+                              <td>&nbsp;</td>
+                              <td>&nbsp;</td>
+                              <td>&nbsp;</td>
+                              <td colspan='2'><B>Unpaid Premium</B></td>
+                              <td>- $<?php echo number_format($unpaid_premium, 2); ?></td>
+                              <td>&nbsp;</td>
+                              <td><B>Balance</B></td>
                               <td>$<?php echo number_format($total_commission - $unpaid_premium, 2); ?></td>
                             </tr>
-                            <tr style="background:#eee;"><td colspan='11'></td></tr>
+                            <tr><td colspan='11'></td></tr>
                         </tbody>
                       </table>
     <?php endforeach; ?>
