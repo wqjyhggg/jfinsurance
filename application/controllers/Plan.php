@@ -1722,7 +1722,7 @@ class Plan extends MY_Controller {
 			$totalpaid = $this->payment_model->get_total_paid($plan_id, $pay_type='premium');
 			$premium = preg_replace("/[^0-9\.-]/", "", $this->input->post('premium'));
 			$premium = $totalpaid + (float)$premium;
-			if ($premium != (float)$plan['premium']) {
+			if (($premium - (float)$plan['premium']) > 0.001) {
 				$this->error = "Pay amount has problem plase try again.";
 			} else if ($play_type == 'Credit Card') {
 				$this->credit_card();
@@ -1959,6 +1959,16 @@ class Plan extends MY_Controller {
 		$data['expiry_month'] = $this->input->post('expiry_month');
 		$data['expiry_year'] = $this->input->post('expiry_year');
 		$data['card_cvv'] = $this->input->post('card_cvv');
+		
+		$data['show_history'] = 0;
+		if ($beuser['user_group_id'] < 100) {
+			$this->load->model('payment_model');
+			$data['show_history'] = 1;
+//			$data['activelogs'] = $this->log_model->get_activity_by_plan_id($plan['plan_id']);
+			$data['payments'] = $this->payment_model->get_payment_by_plan_id($plan['plan_id']);
+		}
+		$data['payhistory_url'] = base_url ( "plan/payhistory/" . $plan['plan_id'] );
+		$data['makepay_url'] = base_url ( "payment/makepay" );
 		
 		$this->session->set_userdata ( 'withlogo', 1);
 		$this->session->set_userdata ( 'withprice', 1);

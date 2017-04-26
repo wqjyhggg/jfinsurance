@@ -192,7 +192,7 @@ class Report_model extends CI_Model
         	$amount += $rc['amount'];
        		$commission += $rc['commission'];
         }
-        //$results['amount'] = $amount;
+        $results['amount'] = $amount;
         //$results['commission'] = $commission;
         return $results;
     }

@@ -170,7 +170,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			                    <div class="row">
 			                        <!-- submit button -->
 			                        <div class="col-sm-12">
-			                            <button class="btn btn-primary pull-right">Display Sales Report</button>
+			                            <button class="btn btn-primary pull-right">Export Sales Report</button>
 			                        </div>
 			                        <!-- submit button -->
 			                    </div>
@@ -182,6 +182,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                   <div class="x_content">
                     <div class="table-responsive">
 <?php if (!empty($report_data)) :?>
+		              <div class="col-md-12 col-sm-12 col-xs-12">
+		              <B>Total Pay Amount : $<?php echo number_format($report_data['amount'],2); unset($report_data['amount']);?></B>
+		              </div>
                       <table class="table table-hover table-bordered">
 <?php foreach ($report_data as $short => $data) :?>
 <?php $cnt = 1; ?>

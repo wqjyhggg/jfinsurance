@@ -63,6 +63,7 @@ class Jf extends MY_Controller
         
         $data['user_list'] = $this->user_model->get_available_user_list();
         $data['report_data'] = $this->report_model->get_sales_report_jf($data);
+        unset($data['report_data']['amount']);
 
         $w = WriterFactory::create(Type::XLSX); // for XLSX files
         $kArr = array(
