@@ -94,16 +94,16 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 					<td style="padding-top: 10px;">$<?php echo number_format($total_commission, 2); ?></td>
 				</tr>
 				<tr>
-					<td style="padding-top: 10px;">&nbsp;</td>
-					<td style="padding-top: 10px;">&nbsp;</td>
-					<td style="padding-top: 10px;">&nbsp;</td>
-					<td style="padding-top: 10px;">&nbsp;</td>
-					<td style="padding-top: 10px;">&nbsp;</td>
+					<td style="padding-top: 10px;" colspan='2'><B>Total Commission for Above</B></td>
+					<td style="padding-top: 10px;" colspan='9'>$<?php echo number_format($total_commission, 2); ?></td>
+				</tr>
+				<tr>
 					<td style="padding-top: 10px;" colspan='2'><B>Unpaid Premium</B></td>
-					<td style="padding-top: 10px;">- $<?php echo number_format($unpaid_premium, 2); ?></td>
-					<td style="padding-top: 10px;">&nbsp;</td>
-					<td style="padding-top: 10px;"><B>Balance</B></td>
-					<td style="padding-top: 10px;">$<?php echo number_format($total_commission - $unpaid_premium, 2); ?></td>
+					<td style="padding-top: 10px;" colspan='9'>$<?php echo number_format($unpaid_premium, 2); ?></td>
+				</tr>
+				<tr>
+					<td style="padding-top: 10px;" colspan='2'><B>Balance</B></td>
+					<td style="padding-top: 10px;" colspan='9'>$<?php echo number_format($total_commission - $unpaid_premium, 2); ?></td>
 				</tr>
 			</tbody>
 		</table>
