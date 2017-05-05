@@ -25,6 +25,11 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 				<img class="img-responsive" style="width:80px;" src="<?php echo base_url('agent/img') . '/' . $user['pdf_logo']; ?>" />
 			</div>
 			<?php } ?>
+<?php if ($plan['product_short'] == 'JFR') { ?>			
+			<div style="float:right;width:200px;">
+				<img class="img-responsive" style="width:80px;padding-bottom:-30px;" src="<?php echo base_url();?>image/Berkley.png" />
+			</div>
+<?php } ?>
 			<div style="float:left;width:400px;">
 <?php if (($plan['product_short'] == 'NUS') || ($plan['product_short'] == 'JUS')) { ?>			
 				<p class="topp" style="font-weight:bold;"><span style="text-transform: capitalize;font-weight:bold;">HK Leung</span></p>

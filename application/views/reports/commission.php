@@ -311,7 +311,6 @@ $( document ).ready(function() {
 	$(".makepay").on('click', function() {
 		$("#searchform").submit(function(e) {
 			$('input[name="payment_id[]"]:checked').each(function() {
-				console.log($(this).attr('data-id'));
 				$('<input />').attr('type', 'hidden').attr('name', "payment_id[]").attr('value', $(this).attr('data-id')).appendTo('#searchform');
 			})
 			$('<input />').attr('type', 'hidden').attr('name', "makepay").attr('value', "1").appendTo('#searchform');
