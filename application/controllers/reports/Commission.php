@@ -152,8 +152,12 @@ class Commission extends MY_Controller
 	
 				$sheet->setCellValue($col.$row, $record['policy']); $col++;
 				$sheet->setCellValue($col.$row, $record['customer_name']); $col++;
-				$sheet->setCellValue($col.$row, PHPExcel_Shared_Date::PHPToExcel(strtotime($record['effective_date'] . ' 00:00:00 EST'))); $col++;
-				$sheet->setCellValue($col.$row, PHPExcel_Shared_Date::PHPToExcel(strtotime($record['expiry_date'] . ' 00:00:00 EST'))); $col++;
+				$sheet->setCellValue($col.$row, PHPExcel_Shared_Date::PHPToExcel(strtotime($record['effective_date'] . ' 00:00:00 EST')));
+				$sheet->getStyle($col.$row)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_DATE_YYYYMMDD2);
+				$col++;
+				$sheet->setCellValue($col.$row, PHPExcel_Shared_Date::PHPToExcel(strtotime($record['expiry_date'] . ' 00:00:00 EST')));
+				$sheet->getStyle($col.$row)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_DATE_YYYYMMDD2);
+				$col++;
 				$sheet->setCellValue($col.$row, $record['total_days']); $col++;
 	
 				$sheet->setCellValue($col.$row, $record['premium']);
