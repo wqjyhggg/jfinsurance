@@ -10,6 +10,29 @@ class Commission extends MY_Controller
 	public function index()
 	{
         $beuser = $this->func_model->verify_login();
+        if ($this->input->post('makepay')) {
+        	$paymentArr = $this->input->post('payment_id');
+        	if (is_array($paymentArr) && (sizeof($paymentArr) > 0)) {
+        		$this->load->model('payment_model');
+        		$type = $this->payment_model->pay_type('commission');
+        		foreach ($paymentArr as $payment_id) {
+        			$payment = $this->payment_model->get_payment_by_id($payment_id);
+        			if ($payment && ($payment['pay_type'] == $type)) {
+        				$this->payment_model->update($payment_id, array('ispaid' => 1));
+		        		$para = array(
+		        				'plan_id' => $payment['plan_id'],
+		        				'customer_id' => 0,
+		        				'payment_id' => $payment_id,
+		        				'message' => $this->payment_model->logstr,
+		        				'systemlog' => $this->payment_model->sqlstr
+		        		);
+		        		$this->log_model->activity('payment', $para);
+        			}
+        		}
+        		
+        	}
+        }
+        
         $data = $this->set_data();
         $data['beuser'] = $beuser;
         $this->load->model('region_model');
@@ -98,7 +121,8 @@ class Commission extends MY_Controller
 		$sheet = $objPHPExcel->getActiveSheet();
 		$sheet->setTitle('Sheet1');
 	
-		$row = 0;
+		$sheet->setCellValue('A1', "JF INSURANCE AGENCY GROUP INC - COMMISSION REPORT");
+		$row = 2;
 		foreach ($data['report_data'] as $datas) {
 			$row++; $col = 'A';
 			$col++;

@@ -37,7 +37,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                   </div>
                   <div class="x_content">
 
-                    <form method="post" action="<?=$action_url ?>" class="form-horizontal">
+                    <form method="post" action="<?=$action_url ?>" class="form-horizontal" id='searchform'>
                       <input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
                       <div class="row">
                       <!-- Agent select box -->
@@ -102,18 +102,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <!-- Payment Added Date From-->
                             <label for="payment_added_from" class="col-sm-12">Payment Added Date From</label>
                             <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
-                            <input name="payment_added_from" class="form-control" size="16" type="text" value="<?php echo $payment_added_from ?>" >
+                            <input name="payment_added_from" id="payment_added_from" class="form-control" size="16" type="text" value="<?php echo $payment_added_from ?>" >
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
-                            <input type="hidden" id="payment_added_from" value="" />
                             <!-- Payment Added Date From End-->
                             <!-- Payment Added Date to -->
                             <label for="payment_added_to" class="col-sm-12">Payment Added Date To</label>
                             <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
-                                <input name="payment_added_to" class="form-control" size="16" type="text" value="<?php echo $payment_added_to ?>" >
+                                <input name="payment_added_to" id="payment_added_to" class="form-control" size="16" type="text" value="<?php echo $payment_added_to ?>" >
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
-                            <input type="hidden" id="payment_added_to" value="" /><br/>
                             <!-- Payment Update Date to End -->
                         </div>
                         <!-- Payment Added Date End -->
@@ -122,18 +120,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <!-- Payment Update Date From-->
                             <label for="payment_date_from" class="col-sm-12">Payment Update Date From</label>
                             <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
-                            <input name="payment_date_from" class="form-control" size="16" type="text" value="<?php echo $payment_date_from ?>" >
+                            <input name="payment_date_from" id="payment_date_from" class="form-control" size="16" type="text" value="<?php echo $payment_date_from ?>" >
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
-                            <input type="hidden" id="payment_date_from" value="" />
                             <!-- Payment Update Date From End-->
                             <!-- Payment Update Date to -->
                             <label for="payment_date_to" class="col-sm-12">Payment Update Date To</label>
                             <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
-                                <input name="payment_date_to" class="form-control" size="16" type="text" value="<?php echo $payment_date_to ?>" >
+                                <input name="payment_date_to" id="payment_date_to" class="form-control" size="16" type="text" value="<?php echo $payment_date_to ?>" >
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
-                            <input type="hidden" id="payment_date_to" value="" /><br/>
                             <!-- Payment Update Date to End -->
                         </div>
                         <!-- Payment Update Date End -->
@@ -188,15 +184,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						</span>
 					  </h2>
                     <div class="clearfix"></div>
+                    <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
 <?php if (!empty($report_data)) : ?>
+					<input type='checkbox' name='payment_all'> Check All
+		            <button class="btn btn-primary btn-xs makepay">Makepay Commission</button>
                     <div class="table-responsive">
     <?php foreach ($report_data as $user_id => $data) :?>
                       <table class="table table-hover table-bordered">
                         <tbody>
                           <tr>
-                          	<td colspan='7'>
+                          	<td colspan='8'>
 								<?php if ($data ['agent'] ['receive_type'] == 'Cheque') { ?>
 								<div>
 									<div style='display: inline-flex;'>To:</div>
@@ -226,6 +225,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                           </tr>
                           <tr>
                             <th>&nbsp;</th>
+                            <th>&nbsp;</th>
                             <th>Payment Date</th>
                             <th>Policy Number</th>
                             <th>Customer Name</th>
@@ -241,6 +241,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <?php foreach ($data['data'] as $record) : ?>
         <?php $total_premium += $record['premium']; $total_commission += $record['amount']; $unpaid_premium += ($record['premiumispaid']) ? 0 : $record['premium']; ?>
                             <tr>
+                              <td><input type='checkbox' name='payment_id[]' data-id='<?php echo $record['payment_id']; ?>'></td>
                               <td><?php echo $cnt++; ?></td>
                               <td><?php echo substr($record['added'], 0, 10); ?></td>
                               <td><?php echo $record['policy']; ?></td>
@@ -255,6 +256,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             </tr>
         <?php endforeach; ?>
                             <tr>
+                              <td>&nbsp;</td>
                               <td><B>TOTAL</B></td>
                               <td>&nbsp;</td>
                               <td>&nbsp;</td>
@@ -268,14 +270,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                               <td>$<?php echo number_format($total_commission, 2); ?></td>
                             </tr>
                             <tr style='background:#eee;'>
+                              <td>&nbsp;</td>
                               <td colspan='2'><B>Total Commission for Above</B></td>
                               <td colspan='9'>$<?php echo number_format($total_commission, 2); ?><</td>
                             </tr>
                             <tr style='background:#eee;'>
+                              <td>&nbsp;</td>
                               <td colspan='2'><B>Unpaid Premium</B></td>
                               <td colspan='9'>$<?php echo number_format($unpaid_premium, 2); ?></td>
                             </tr>
                             <tr style='background:#eee;'>
+                              <td>&nbsp;</td>
                               <td colspan='2'><B>Balance</B></td>
                               <td colspan='9'>$<?php echo number_format($total_commission - $unpaid_premium, 2); ?></td>
                             </tr>
@@ -293,3 +298,27 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           </div>
         </div>
         <!-- /page content -->
+<script>
+$( document ).ready(function() {
+	$("input[name='payment_all']").change(function() {
+		if ( $('input[name="payment_all"]').is(':checked') ) {
+			$('input[name="payment_id[]"]').prop('checked', true);
+		} else {
+			$('input[name="payment_id[]"]').prop('checked', false);
+		}
+	});
+
+	$(".makepay").on('click', function() {
+		$("#searchform").submit(function(e) {
+			$('input[name="payment_id[]"]:checked').each(function() {
+				console.log($(this).attr('data-id'));
+				$('<input />').attr('type', 'hidden').attr('name', "payment_id[]").attr('value', $(this).attr('data-id')).appendTo('#searchform');
+			})
+			$('<input />').attr('type', 'hidden').attr('name', "makepay").attr('value', "1").appendTo('#searchform');
+			return true;
+		});
+
+		$("#searchform").submit();
+	});
+})
+</script>
