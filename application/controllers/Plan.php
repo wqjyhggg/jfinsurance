@@ -430,7 +430,8 @@ class Plan extends MY_Controller {
 		$this->load->model('status_model');
 		$this->load->model('product_model');
 		$this->load->model('plan_model');
-
+		$this->load->model('payment_model');
+		
 		$this->error = array();
 	
 		if ($this->input->post('submit') && $this->form_valid()) {
@@ -450,14 +451,7 @@ class Plan extends MY_Controller {
 					$this->log_model->activity('plan', $para);
 				}
 			} else {
-				$plan = $this->plan_model->get_plan_by_id($plan_id);
-				$post_ef_date = 0;
-				if (($plan['product_short'] == 'OPL') || ($plan['product_short'] == 'JFR') && ($plan['sum_insured'] >= 100000) && ($plan['totaldays'] >= 365)) {
-					$post_ef_date = $this->input->post('effective_date');
-					if ($post_ef_date == $plan['effective_date']) {
-						$post_ef_date = 0;
-					}
-				}
+				$planold = $this->plan_model->get_plan_by_id($plan_id);
 				$plan_id = $this->plan_model->update($plan_id, $this->input->post(), array('isfamilyplan' => 1, 'holiday_rate' => 1, 'spouse' => 1));
 				if ($plan_id) {
 					$plan = $this->plan_model->get_plan_by_id($plan_id);
@@ -469,9 +463,32 @@ class Plan extends MY_Controller {
 							'systemlog' => $this->plan_model->sqlstr
 					);
 					$this->log_model->activity('plan', $para);
-					if ($post_ef_date) {	// Super visa changed effective date
-						$this->load->model('payment_model');
-						$this->payment_model->adjust_commission_added_date($plan_id, $post_ef_date, FALSE);
+					if (($planold['product_short'] == 'OPL') || ($planold['product_short'] == 'JFR') && ((($planold['sum_insured'] >= 100000) && ($planold['totaldays'] >= 365)) || (($plan['sum_insured'] >= 100000) && ($plan['totaldays'] >= 365)))) {
+						if (($plan['sum_insured'] >= 100000) && ($plan['totaldays'] >= 365)) {
+							if ($planold['effective_date'] != $plan['effective_date']) {
+								// Super visa changed effective date
+								$this->payment_model->adjust_commission_added_date($plan_id, $plan['effective_date'], FALSE);
+								$para = array(
+										'plan_id' => $plan_id, 
+										'customer_id' => $plan['customer_id'], 
+										'payment_id' => $plan['commission_payment_id'], 
+										'message' => $this->payment_model->logstr, 
+										'systemlog' => $this->payment_model->sqlstr
+								);
+								$this->log_model->activity('plan', $para);
+							}
+						} else {
+							// No more super visa, change payment data to today
+							$this->payment_model->adjust_commission_added_date($plan_id, date('Y-m-d'), FALSE);
+							$para = array(
+									'plan_id' => $plan_id, 
+									'customer_id' => $plan['customer_id'], 
+									'payment_id' => $plan['commission_payment_id'], 
+									'message' => $this->payment_model->logstr, 
+									'systemlog' => $this->payment_model->sqlstr
+							);
+							$this->log_model->activity('plan', $para);
+						}
 					}
 				}
 			}
@@ -2283,6 +2300,22 @@ class Plan extends MY_Controller {
 						'systemlog' => $this->plan_model->sqlstr
 				);
 				$this->log_model->activity('plan', $para);
+
+				if (($plan['product_short'] == 'OPL') || ($plan['product_short'] == 'JFR') && ($plan['sum_insured'] >= 100000) && ($plan['totaldays'] >= 365)) {
+					$payment = $this->payment_model->get_payment_by_id($plan['payment_id']);
+					if ($payment) {
+						// No more super visa, change payment data to today
+						$this->payment_model->adjust_commission_added_date($plan_id, $payment['added'], FALSE);
+						$para = array(
+								'plan_id' => $plan_id,
+								'customer_id' => $plan['customer_id'],
+								'payment_id' => $plan['commission_payment_id'],
+								'message' => $this->payment_model->logstr,
+								'systemlog' => $this->payment_model->sqlstr
+						);
+						$this->log_model->activity('plan', $para);
+					}
+				}
 				
 				redirect('plan/detail/'.$plan_id);
 			} else {
@@ -2342,6 +2375,9 @@ class Plan extends MY_Controller {
 		$plan = $this->plan_model->get_plan_by_id($plan_id);
 		if (empty($plan)) {
 			redirect('user/login');
+		}
+		if ($plan['status_id'] != Plan_model::PAID) {
+			redirect('plan/detail/'.$plan_id);
 		}
 		$this->load->model('product_model');
 		$product = $this->product_model->get_product($plan['product_short']);
