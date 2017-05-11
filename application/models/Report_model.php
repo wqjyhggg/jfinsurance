@@ -581,6 +581,11 @@ class Report_model extends CI_Model
     	$sql .= " JOIN status st ON pl.status_id = st.status_id ";
     	$sql .= " LEFT JOIN payment pa2 ON (pa.premium_payment_id=pa2.payment_id)";
     	$sql .= " WHERE pa.pay_type IN ('commission','cancel_commission','refund_commission') AND ABS(pa.amount)>=0.01 AND pa.ispaid=0";
+        if (empty($para['ispaid'])) {
+    		$sql .= " AND pa.ispaid = 0";
+        } else {
+        	$sql .= " AND pa.ispaid = 1";
+        }
     	if (!empty($para['payment_added_from'])) {
     		$sql .= " AND pa.added >= " . $this->db->escape($para['payment_added_from'] . " 00:00:00");
         }
@@ -594,7 +599,11 @@ class Report_model extends CI_Model
     		$sql .= " AND pa.last_update <= " . $this->db->escape($para['payment_date_to'] . " 23:59:59");
         }
         if (!empty($para['agent_id'])) {
-    		$sql .= " AND pl.user_id='" . (int)$para['agent_id'] . "'";
+            if (!empty($para['asbroker'])) {
+    			$sql .= " AND pl.user_id IN (SELECT u.user_id FROM user u WHERE u.user_id='" . (int)$para['agent_id'] . "' OR u.parent_user_id='" . (int)$para['agent_id'] . "')";
+        	} else {
+        		$sql .= " AND pl.user_id='" . (int)$para['agent_id'] . "'";
+        	}
     	}
         if (!empty($para['product_short'])) {
     		$sql .= " AND pl.product_short=" . $this->db->escape($para['product_short']);

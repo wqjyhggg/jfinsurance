@@ -71,6 +71,8 @@ class Commission extends MY_Controller
         $data['payment_added_to'] = $this->input->post('payment_added_to');
         $data['payment_date_from'] = $this->input->post('payment_date_from');
         $data['payment_date_to'] = $this->input->post('payment_date_to');
+        $data['asbroker'] = $this->input->post('asbroker');
+        $data['ispaid'] = $this->input->post('ispaid');
         
         $data['product_list'] = $this->product_model->get_available_product_list();
         $data['user_list'] = $this->user_model->get_available_user_list();
@@ -92,7 +94,9 @@ class Commission extends MY_Controller
 		$data['payment_added_to'] = $this->input->get_post('payment_added_to');
 		$data['payment_date_from'] = $this->input->get_post('payment_date_from');
 		$data['payment_date_to'] = $this->input->get_post('payment_date_to');
-	
+		$data['asbroker'] = $this->input->get_post('asbroker');
+		$data['ispaid'] = $this->input->get_post('ispaid');
+		
 		$data['product_list'] = $this->product_model->get_available_product_list();
 		$data['user_list'] = $this->user_model->get_available_user_list();
 		$data['report_data'] = $this->report_model->get_commission_report($data);
@@ -250,6 +254,8 @@ class Commission extends MY_Controller
         $data['payment_added_to'] = $this->input->get_post('payment_added_to');
         $data['payment_date_from'] = $this->input->get_post('payment_date_from');
         $data['payment_date_to'] = $this->input->get_post('payment_date_to');
+        $data['asbroker'] = $this->input->get_post('asbroker');
+        $data['ispaid'] = $this->input->get_post('ispaid');
         
         $data['product_list'] = $this->product_model->get_available_product_list();
         $data['user_list'] = $this->user_model->get_available_user_list();

@@ -2082,6 +2082,7 @@ class Plan extends MY_Controller {
 					$files = array(
 					'JES_Policy.pdf' => DOWNLOADDIR . 'JES_Policy.pdf',
 					'JES_Claim_Form.pdf' => DOWNLOADDIR . 'JES_Claim_Form.pdf',
+					'JES_Clinic_Map.pdf' => DOWNLOADDIR . 'JES_Clinic_Map.pdf',
 					'JES_Brochure.pdf' => DOWNLOADDIR . 'JES_Brochure.pdf'
 					);
 				} else if ($data['plan']['product_short'] == 'JFC') {

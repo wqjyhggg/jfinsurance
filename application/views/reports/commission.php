@@ -56,6 +56,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 </option>
 <?php endforeach; ?>
                               </select>
+                              <input type='checkbox' name='asbroker' value='1' <?php echo ($asbroker ? 'checked' : ''); ?>> As brokerage
                           </div>
                         </div>
                         <!-- Agent select box end -->
@@ -97,6 +98,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <?php } ?>
                       </div>
 
+                      <div class="row">
                         <!-- Payment Added Date-->
                         <div class="form-group col-sm-4">
                             <!-- Payment Added Date From-->
@@ -133,6 +135,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <!-- Payment Update Date to End -->
                         </div>
                         <!-- Payment Update Date End -->
+                        <div class="form-group col-sm-4">
+                            <label for="ispaid" class="col-sm-12">&nbsp;</label>
+                            <span class='col-sm-12 text-center'><input type='checkbox' name='ispaid' value='1' <?php echo ($ispaid ? 'checked' : ''); ?>> Is paid</span>
+                        </div>
+                      </div>
 
                       <div class="row">
                         <!-- submit button -->
