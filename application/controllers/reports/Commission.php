@@ -14,10 +14,10 @@ class Commission extends MY_Controller
         	$paymentArr = $this->input->post('payment_id');
         	if (is_array($paymentArr) && (sizeof($paymentArr) > 0)) {
         		$this->load->model('payment_model');
-        		$type = $this->payment_model->pay_type('commission');
+        		$typeArr = array($this->payment_model->pay_type('commission'),$this->payment_model->pay_type('cancel_commission'),$this->payment_model->pay_type('refund_commission'));
         		foreach ($paymentArr as $payment_id) {
         			$payment = $this->payment_model->get_payment_by_id($payment_id);
-        			if ($payment && ($payment['pay_type'] == $type)) {
+        			if ($payment && in_array($payment['pay_type'], $typeArr)) {
         				$this->payment_model->update($payment_id, array('ispaid' => 1));
 		        		$para = array(
 		        				'plan_id' => $payment['plan_id'],

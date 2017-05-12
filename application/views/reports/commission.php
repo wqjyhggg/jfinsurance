@@ -279,7 +279,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <tr style='background:#eee;'>
                               <td>&nbsp;</td>
                               <td colspan='2'><B>Total Commission for Above</B></td>
-                              <td colspan='9'>$<?php echo number_format($total_commission, 2); ?><</td>
+                              <td colspan='9'>$<?php echo number_format($total_commission, 2); ?></td>
                             </tr>
                             <tr style='background:#eee;'>
                               <td>&nbsp;</td>
