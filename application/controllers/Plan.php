@@ -1986,6 +1986,7 @@ class Plan extends MY_Controller {
 		}
 		$data['payhistory_url'] = base_url ( "plan/payhistory/" . $plan['plan_id'] );
 		$data['makepay_url'] = base_url ( "payment/makepay" );
+		$data['revert_url'] = base_url ( "payment/revert" ) . "/";
 		
 		$this->session->set_userdata ( 'withlogo', 1);
 		$this->session->set_userdata ( 'withprice', 1);
