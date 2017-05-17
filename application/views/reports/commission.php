@@ -198,6 +198,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<input type='checkbox' name='payment_all'> Check All
 		            <button class="btn btn-primary btn-xs makepay">Makepay Commission</button>
                     <div class="table-responsive">
+    <?php $total_a_premium = 0; $total_a_commission = 0; $unpaid_a_premium = 0; ?>
     <?php foreach ($report_data as $user_id => $data) :?>
                       <table class="table table-hover table-bordered">
                         <tbody>
@@ -246,6 +247,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                           </tr>
         <?php $cnt = 1; $total_premium = 0; $total_commission = 0; $unpaid_premium = 0; ?>
         <?php foreach ($data['data'] as $record) : ?>
+        <?php $total_a_premium += $record['premium']; $total_a_commission += $record['amount']; $unpaid_a_premium += ($record['premiumispaid']) ? 0 : $record['premium']; ?>
         <?php $total_premium += $record['premium']; $total_commission += $record['amount']; $unpaid_premium += ($record['premiumispaid']) ? 0 : $record['premium']; ?>
                             <tr>
                               <td><input type='checkbox' name='payment_id[]' data-id='<?php echo $record['payment_id']; ?>'></td>
@@ -276,6 +278,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                               <td>&nbsp;</td>
                               <td>$<?php echo number_format($total_commission, 2); ?></td>
                             </tr>
+        <?php if (empty($asbroker)) : ?>
                             <tr style='background:#eee;'>
                               <td>&nbsp;</td>
                               <td colspan='2'><B>Total Commission for Above</B></td>
@@ -292,10 +295,27 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                               <td colspan='9'>$<?php echo number_format($total_commission - $unpaid_premium, 2); ?></td>
                             </tr>
                             <tr><td colspan='11'></td></tr>
+        <?php endif; ?>
                         </tbody>
                       </table>
     <?php endforeach; ?>
                     </div>
+    <?php if (!empty($asbroker)) : ?>
+                    <div class="table-responsive">
+                    	<div class="row">
+                    		<div class="col-sm-2 text-right"><B>Total Commission for Above : </B></div>
+                            <div class="col-sm-10">$<?php echo number_format($total_commission, 2); ?></div>
+                        </div>
+                    	<div class="row">
+                    		<div class="col-sm-2 text-right"><B>Unpaid Premium : </B></div>
+                            <div class="col-sm-10">$<?php echo number_format($unpaid_premium, 2); ?></div>
+                        </div>
+                    	<div class="row">
+                    		<div class="col-sm-2 text-right"><B>Balance : </B></div>
+                            <div class="col-sm-10">$<?php echo number_format($total_commission - $unpaid_premium, 2); ?></div>
+                        </div>
+                    </div>
+    <?php endif; ?>
 <?php endif; ?>
                   </div>
                 </div>
