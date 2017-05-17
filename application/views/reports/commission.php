@@ -202,6 +202,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <?php foreach ($report_data as $user_id => $data) :?>
                       <table class="table table-hover table-bordered">
                         <tbody>
+        <?php if (empty($asbroker)) : ?>
                           <tr>
                           	<td colspan='8'>
 								<?php if ($data ['agent'] ['receive_type'] == 'Cheque') { ?>
@@ -231,6 +232,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                           		Payment Period: <?php echo $payment_added_from . " - " . $payment_added_to; ?>
                           	</td>
                           </tr>
+        <?php endif; ?>
                           <tr>
                             <th>&nbsp;</th>
                             <th>&nbsp;</th>
@@ -264,6 +266,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                               <td>$<?php echo number_format($record['amount'], 2); ?></td>
                             </tr>
         <?php endforeach; ?>
+        <?php if (empty($asbroker)) : ?>
                             <tr>
                               <td>&nbsp;</td>
                               <td><B>TOTAL</B></td>
@@ -278,7 +281,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                               <td>&nbsp;</td>
                               <td>$<?php echo number_format($total_commission, 2); ?></td>
                             </tr>
-        <?php if (empty($asbroker)) : ?>
                             <tr style='background:#eee;'>
                               <td>&nbsp;</td>
                               <td colspan='2'><B>Total Commission for Above</B></td>
