@@ -611,7 +611,8 @@ class Report_model extends CI_Model
         if (!empty($para['region_id'])) {
     		$sql .= " AND pl.region_id='" . (int)$para['region_id'] . "'";
     	}
-    	$sql .= " ORDER BY pl.policy ASC, user_id ASC, added ASC";
+    	
+   		$sql .= " ORDER BY pl.policy ASC, user_id ASC, added ASC";
 
     	$query = $this->db->query($sql)->result_array();
     	$results = array();
@@ -619,6 +620,9 @@ class Report_model extends CI_Model
     		if (empty($results[$row['user_id']])) {
     			$agent = $this->db->query("SELECT * FROM user WHERE user_id='" . (int)$row['user_id'] . "'")->row_array();
     			$results[$row['user_id']] = array('agent' => $agent, 'data' => array());
+    			if (!empty($para['asbroker']) && ($row['user_id'] == $para['agent_id'])) {
+    				$results['asbroker'] = $agent;
+    			}
     		}
     		$results[$row['user_id']]['data'][] = $row;
     	}

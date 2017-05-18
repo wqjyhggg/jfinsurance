@@ -467,6 +467,7 @@ class Cron extends MY_Controller {
 			}
 			$sheet->setCellValue('B'.$row, $b);
 			$status_str = $status_list[$plan['status_id']]['name'];
+			$premium = $plan['premium'];
 			if ($plan['status_id'] == Plan_model::SOLD) $status_str = 'New';
 			if ($plan['status_id'] == Plan_model::CHANGED) $status_str = 'Change';
 			if ($plan['status_id'] == Plan_model::CLAIMED) {
@@ -474,6 +475,14 @@ class Cron extends MY_Controller {
 				$payrow = $this->payment_model->get_last_payment($plan['plan_id']);
 				if ($payrow && empty($payrow['ispaid'])) {
 					$status_str = 'Sold';
+				}
+			}
+			if (($plan['status_id'] == Plan_model::CANCEL) || ($plan['status_id'] == Plan_model::REFUND)) {
+				$payment = $this->payment_model->get_payment_by_id($plan['payment_id']);
+				if ($payment) {
+					$premium = $payment['amount'] - $payment['admin_fee'];
+				} else {
+					$premium = (-1) * $premium;
 				}
 			}
 			if (empty($plan['firstname'])) $plan['firstname'] = '.';
@@ -515,14 +524,14 @@ class Cron extends MY_Controller {
 			$sheet->getStyle('V'.$row)->getNumberFormat()->setFormatCode('#,##0.00');
 			$sheet->setCellValue('W'.$row, sprintf("%0.2f",$plan['deductible_amount'])); // Deductible Amout
 			$sheet->getStyle('W'.$row)->getNumberFormat()->setFormatCode('#,##0.00');
-			$sheet->setCellValue('X'.$row, (empty($plan['premium']) || ($plan['premium'] == 0)) ? 0 : (float)($plan['commission_amount'] * 100 / $plan['premium'])); // Commission Rate
+			$sheet->setCellValue('X'.$row, (empty($premium) || ($premium == 0)) ? 0 : (float)($plan['commission_amount'] * 100 / $premium)); // Commission Rate
 			$sheet->setCellValue('Y'.$row, sprintf("%0.2f",$plan['commission_amount'])); // Commission Amout
 			$sheet->getStyle('Y'.$row)->getNumberFormat()->setFormatCode('#,##0.00');
 			$sheet->setCellValue('Z'.$row, sprintf("%0.2f",$plan['dailyrate'])); // Daily Rate
 			$sheet->getStyle('Z'.$row)->getNumberFormat()->setFormatCode('#,##0.00');
-			$sheet->setCellValue('AA'.$row, sprintf("%0.2f",$plan['premium'])); // Gross Premium
+			$sheet->setCellValue('AA'.$row, sprintf("%0.2f",$premium)); // Gross Premium
 			$sheet->getStyle('AA'.$row)->getNumberFormat()->setFormatCode('#,##0.00');
-			$sheet->setCellValue('AB'.$row, sprintf("%0.2f",$plan['premium'])); // Net Premium
+			$sheet->setCellValue('AB'.$row, sprintf("%0.2f",$premium)); // Net Premium
 			$sheet->getStyle('AB'.$row)->getNumberFormat()->setFormatCode('#,##0.00');
 			$sheet->setCellValue('AC'.$row, 0); // Fee1
 			$sheet->setCellValue('AD'.$row, 0); // Fee2
@@ -567,14 +576,14 @@ class Cron extends MY_Controller {
 					$sheet->getStyle('V'.$row)->getNumberFormat()->setFormatCode('#,##0.00');
 					$sheet->setCellValue('W'.$row, sprintf("%0.2f",$plan['deductible_amount'])); // Deductible Amout
 					$sheet->getStyle('W'.$row)->getNumberFormat()->setFormatCode('#,##0.00');
-					$sheet->setCellValue('X'.$row, empty($plan['premium']) ? 0 : sprintf("%0.2f",$plan['commission_amount'] * 100 / $plan['premium'])); // Commission Rate
+					$sheet->setCellValue('X'.$row, empty($premium) ? 0 : sprintf("%0.2f",$plan['commission_amount'] * 100 / $premium)); // Commission Rate
 					$sheet->getStyle('X'.$row)->getNumberFormat()->setFormatCode('#,##0.00');
 					$sheet->setCellValue('Y'.$row, sprintf("%0.2f",$plan['commission_amount'])); // Commission Amout
 					$sheet->getStyle('Y'.$row)->getNumberFormat()->setFormatCode('#,##0.00');
 					$sheet->setCellValue('Z'.$row, $plan['dailyrate']); // Daily Rate
-					$sheet->setCellValue('AA'.$row, sprintf("%0.2f",$plan['premium'])); // Gross Premium
+					$sheet->setCellValue('AA'.$row, sprintf("%0.2f",$premium)); // Gross Premium
 					$sheet->getStyle('AA'.$row)->getNumberFormat()->setFormatCode('#,##0.00');
-					$sheet->setCellValue('AB'.$row, sprintf("%0.2f",$plan['premium'])); // Net Premium
+					$sheet->setCellValue('AB'.$row, sprintf("%0.2f",$premium)); // Net Premium
 					$sheet->getStyle('AB'.$row)->getNumberFormat()->setFormatCode('#,##0.00');
 					$sheet->setCellValue('AC'.$row, 0); // Fee1
 					$sheet->setCellValue('AD'.$row, 0); // Fee2

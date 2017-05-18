@@ -232,6 +232,44 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                           		Payment Period: <?php echo $payment_added_from . " - " . $payment_added_to; ?>
                           	</td>
                           </tr>
+        <?php else : ?>
+        <?php    if (isset($report_data['asbroker'])) : ?>
+                          <tr>
+                          	<td colspan='8'>
+								<?php if ($report_data['asbroker']['receive_type'] == 'Cheque') { ?>
+								<div>
+									<div style='display: inline-flex;'>To:</div>
+									<div style='display: inline-flex; padding-left: 12px;'>
+										<?php echo $report_data['asbroker']['firstname'] . " " . $report_data['asbroker']['lastname']; ?><br />
+										<?php echo $report_data['asbroker']['mail_address']; ?><br>
+										<?php echo $report_data['asbroker']['mail_city'] . "," . $report_data['asbroker']['mail_province2']; ?><br>
+										<?php echo $report_data['asbroker']['mail_postcode']; ?><br><br>
+									</div>
+								</div>
+								<?php } ?>
+                          		Brokerage Name: <?php echo $report_data['asbroker']['firstname'] . " " . $report_data['asbroker']['lastname']; ?><br />
+                          		Payment Method: <?php echo $report_data['asbroker']['receive_type']; ?><br />
+								<?php
+									if ($report_data['asbroker']['receive_type'] == 'Deposit') {
+										echo "Pay to: " . $report_data['asbroker']['note'] . "<br />";
+										echo "E-Mail Address: " . $report_data['asbroker']['email'];
+									} else if ($report_data['asbroker']['receive_type'] == 'Cheque') {
+										echo "Pay to: " . $report_data['asbroker']['note'] . "<br />";
+									} else { // Cash
+									}
+								?>                          		  
+                          	</td>
+                          	<td colspan='4'>
+                          		Payment Period: <?php echo $payment_added_from . " - " . $payment_added_to; ?>
+                          	</td>
+                          </tr>
+        <?php        unset($report_data['asbroker']); ?>
+        <?php    endif; ?>
+                          <tr>
+                          	<td colspan='12'>
+                          		Agent Name: <?php echo $data['agent']['firstname'] . " " . $data['agent']['lastname']; ?><br />
+                          	</td>
+                          </tr>
         <?php endif; ?>
                           <tr>
                             <th>&nbsp;</th>
@@ -305,7 +343,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <?php if (!empty($asbroker)) : ?>
                     <div class="table-responsive">
                     	<div class="row">
-                    		<div class="col-sm-2 text-right"><B>Total Commission for Above : </B></div>
+                    		<div class="col-sm-2 text-right"><B>Total Commission : </B></div>
                             <div class="col-sm-10">$<?php echo number_format($total_commission, 2); ?></div>
                         </div>
                     	<div class="row">

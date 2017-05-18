@@ -100,6 +100,7 @@ class Commission extends MY_Controller
 		$data['product_list'] = $this->product_model->get_available_product_list();
 		$data['user_list'] = $this->user_model->get_available_user_list();
 		$data['report_data'] = $this->report_model->get_commission_report($data);
+		unset($data['report_data']['asbroker']);
 	
 		// echo "<pre>"; print_r($data['report_data']);die('============');
 	
@@ -260,6 +261,7 @@ class Commission extends MY_Controller
         $data['product_list'] = $this->product_model->get_available_product_list();
         $data['user_list'] = $this->user_model->get_available_user_list();
         $report_data = $this->report_model->get_commission_report($data);
+        unset($report_data['asbroker']);
         
         if (empty($report_data)) {
         	die("No data");
