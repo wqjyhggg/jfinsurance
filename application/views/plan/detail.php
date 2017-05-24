@@ -4,6 +4,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 
 <!-- Plan page content -->
 
+<?php if (isset($menu) && is_array($menu) && (sizeof($menu)>0)) { ?>
 <!-- Content top navigation -->
 <div class="top_nav">
 	<div class="nav_menu">
@@ -18,7 +19,10 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 
 <!-- page content -->
 <div class="right_col" role="main">
-	<div class="main-div" style="padding-bottom:50px;">
+<?php } else { ?>
+<div role="main" style="padding-left:28px">
+<?php } ?>
+ 	<div class="main-div" style="padding-bottom:50px;">
 		<div class="page-title">
 			<div class="title_left">
 				<h3>Policy</h3>
@@ -335,7 +339,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 									<input type='hidden' name='sekey' value='<?php echo $sekey; ?>'>
 									<input type='hidden' name='premium' value='<?php echo $payment_total; ?>'>
 								<?php if ($payment_total >= 0) { ?>
-								<?php if (empty($sekey) && ((((time() - strtotime($plan['last_update'])) < (48 * 3600)) && ($plan['effective_date'] > date("Y-m-d"))) || ($plan['status_id'] == Plan_model::CHANGED))) { ?>
+								<?php if (empty($sekey) && empty($isvsuser) && ((((time() - strtotime($plan['last_update'])) < (48 * 3600)) && ($plan['effective_date'] > date("Y-m-d"))) || ($plan['status_id'] == Plan_model::CHANGED))) { ?>
 									<div class="row">
 										<div class="col-sm-12">
 											<label class="inline" style="margin-bottom:0;">Pay url to user by Email (Valid before <?php echo $payurltm; ?>):</label>

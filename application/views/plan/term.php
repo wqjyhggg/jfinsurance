@@ -4,6 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 <!-- Plan page content -->
 
+<?php if (isset($menu) && is_array($menu) && (sizeof($menu)>0)) { ?>
 	    <!-- Content top navigation -->
         <div class="top_nav">
           <div class="nav_menu">
@@ -18,6 +19,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
         <!-- page content -->
         <div class="right_col" role="main" style="margin-bottom:40px;">
+<?php } else { ?>
+        <!-- page content -->
+        <div role="main" style="padding-left:28px;padding-bottom:40px;">
+<?php } ?>
           <div class="main-div">
             <div class="page-title">
               <div class="title_left">

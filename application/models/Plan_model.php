@@ -120,8 +120,13 @@ class Plan_model extends CI_Model {
 	public function add($para) {
 		$this->load->model('customer_model');
 		$beuser = $this->session->userdata ( 'beuser' );
+		$isvsuser = 0;
 		if (empty($beuser)) {
-			return 0;
+			$beuser = $this->session->userdata ( 'vsuser' );
+			$isvsuser = 1;
+			if (empty($beuser)) {
+				return 0;
+			}
 		}
 		if ((($para['product_short'] == 'NUS') || ($para['product_short'] == 'JUS')) && isset($para['rate_options']) && ($para['rate_options'] == 2)) {
 			$para['deductible_amount'] = 50;
@@ -190,7 +195,7 @@ class Plan_model extends CI_Model {
 		$this->db->query($sql);
 		$plan_id = $this->db->insert_id();
 		$this->sqlstr .= $this->db->last_query() . "; ";
-		$this->logstr .= "Add Plan (" . (int)$plan_id . "): " . $para['product_short'];
+		$this->logstr .= "Add Plan (" . (int)$plan_id . "): " . $para['product_short'] . ($isvsuser ? ' by customer' : '');
 		
 		$cpara = array('plan_id' => $plan_id);
 		$this->customer_model->update($customer_id, $cpara);
@@ -264,9 +269,17 @@ class Plan_model extends CI_Model {
 			return 0;
 		}
 		$beuser = $this->session->userdata ( 'beuser' );
+		$isvsuser = 0;
 		if (empty($beuser)) {
-			$this->logstr = 'Can not find beuser;';
-			$this->sqlstr = 'Can not find beuser';
+			$beuser = $this->session->userdata ( 'vsuser' );
+			$isvsuser = 1;
+			if (empty($beuser)) {
+				$this->logstr = 'Can not find beuser;';
+				$this->sqlstr = 'Can not find beuser';
+				return 0;
+			}
+		}
+		if (empty($beuser)) {
 			$this->load->model('user_model');
 			$beuser = $this->user_model->get_user_by_id($plan['user_id']);
 			if (empty($beuser)) {
@@ -276,7 +289,7 @@ class Plan_model extends CI_Model {
 			}
 		}
 		$plan_id = $plan['plan_id'];
-		$this->logstr .= "Change Plan (" . (int)$plan_id . "): ";
+		$this->logstr .= "Change Plan (" . (int)$plan_id . "): " . ($isvsuser ? ' by customer ' : ' ');
 		$isfamilyplan = empty($para['isfamilyplan']) ? 0 : 1;
 		$holiday_rate = empty($para['holiday_rate']) ? 0 : 1;
 		$spouse = empty($para['spouse']) ? 0 : 1;

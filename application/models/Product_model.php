@@ -63,7 +63,10 @@ class Product_model extends CI_Model {
 	public function product_array($processonly=0) {
 		$beuser = $this->session->userdata ( 'beuser' );
 		if (empty($beuser)) {
-			return array();
+			$beuser = $this->session->userdata ( 'vsuser' );
+			if (empty($beuser)) {
+				return array();
+			}
 		}
 		$sql = "SELECT p.* FROM product p ";
 		if ($beuser['user_group_id'] > 100) {

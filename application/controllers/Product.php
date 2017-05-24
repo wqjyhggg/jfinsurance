@@ -89,7 +89,7 @@ class Product extends MY_Controller {
 	}
 	
 	function getpremium() {
-		$beuser = $this->func_model->verify_login(); 
+		$beuser = $this->func_model->verify_login(TRUE, TRUE); 
 		$this->load->model('product_model');
 		$para = array(
 			'product_short' => $this->input->post_get('product_short'),
