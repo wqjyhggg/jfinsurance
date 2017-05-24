@@ -126,7 +126,7 @@ class Report_model extends CI_Model
      */
     public function get_sales_report_jf($para)
     {
-    	$sql  = "SELECT (pa.amount + pa.admin_fee) as amount,";
+    	$sql  = "SELECT (pa.amount - pa.admin_fee) as amount,";
     	$sql .= "		pa2.amount as commission,";
     	$sql .= "		pa.payment_id,";
     	$sql .= "		pa.invoice_num,";
@@ -569,7 +569,7 @@ class Report_model extends CI_Model
     	$sql .= "	pl.effective_date,";
     	$sql .= "	pl.expiry_date,";
     	$sql .= "	pl.totaldays AS total_days,";
-    	$sql .= "	(pa2.amount + pa2.admin_fee) AS premium,";
+    	$sql .= "	(pa2.amount - pa2.admin_fee) AS premium,";
     	$sql .= "	pa2.ispaid AS premiumispaid,";
     	$sql .= "	pa.rate,";
     	$sql .= "	pa.amount,";
