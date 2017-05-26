@@ -50,7 +50,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <?php else : ?>
                                 <option value="<?=$agent['user_id'] ?>" >
     <?php endif; ?>
-                                    <?=$agent['full_name'] ?> (<?=$agent['username'] ?>)
+                                    <?php echo $agent['username'] . " ( ". $agent['full_name'] . " )"; ?>
                                 </option>
 <?php endforeach; ?>
                               </select>
@@ -70,7 +70,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <?php else : ?>
                                 <option value="<?=$product['product_short'] ?>" >
     <?php endif; ?>
-                                    <?php echo $agent['username'] . " ( ". $agent['full_name'] . " )"; ?>
+                                    <?=$product['full_name'] ?> (<?=$product['product_short'] ?>)
                                 </option>
 <?php endforeach; ?>
                               </select>
