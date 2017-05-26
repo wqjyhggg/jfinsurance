@@ -66,7 +66,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <?php else : ?>
                                 <option value="<?=$product['product_short'] ?>" >
     <?php endif; ?>
-                                    <?=$product['full_name'] ?> (<?=$product['product_short'] ?>)
+                                    <?php echo $agent['username'] . " ( ". $agent['full_name'] . " )"; ?>
                                 </option>
 <?php endforeach; ?>
                               </select>

@@ -52,7 +52,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <?php else : ?>
                                 <option value="<?=$agent['user_id'] ?>" >
     <?php endif; ?>
-                                    <?php echo $agent['username'] . " - " . $agent['full_name']; ?>
+                                    <?php echo $agent['username'] . " ( ". $agent['full_name'] . " )"; ?>
                                 </option>
 <?php endforeach; ?>
                               </select>
