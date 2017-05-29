@@ -173,7 +173,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             </div>
                             <div class="row h-contact">
                               
-                              <div class="col-sm-6 contact-left">
+                              <div class="col-sm-12 contact-left">
                                 <h3><input name='foot_title' value='<?php echo $foot_title; ?>'></h3><br />
                                 <h5><input name='address' value='<?php echo $address; ?>'></h5>
                                 <h5><input name='city_province' value='<?php echo $city_province; ?>'></h5>
@@ -185,7 +185,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <h5><input name='email' value='<?php echo $email; ?>'></h5>
 
                               </div>
-                              <div class="col-sm-6 contact-right">
+                              <!-- <div class="col-sm-6 contact-right">
                                 <h3>Toronto Office</h3><br />
                                 <h5>15 Wertheim Court, Suite 501</h5>
                                 <h5>Richmond Hill, ON</h5>
@@ -195,7 +195,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <h5>Toll Free: 1-877-832-5541</h5>
                                 <h5>Toll Free Fax: 1-888-988-3268</h5><br />
                                 <h5>E-mail: info@jfgroup.ca</h5>
-                              </div>
+                              </div> -->
                             </div>
                             <div class="row">    
                               <div class="col-sm-12"><hr /></div>
