@@ -133,7 +133,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                   <h3>CONTACT US</h3>
                   <hr style="border-bottom:2px solid; width:50px; margin:0 auto 20px;" />
                   <h3><?php echo $foot_title; ?></h3><br />
-                  <h5><?php echo $email; ?></h5>
+                  
                   <?php if($qr !== "noqr.png"){ ?>
               <div>
                  <div class="text-center"><div class="floatqr">
@@ -150,6 +150,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                   <h5><?php echo $address; ?></h5>
                   <h5><?php echo $city_province; ?></h5>
                   <h5><?php echo $post_code; ?></h5><br />
+                  <h5><?php echo $email; ?></h5>
                 </div>
                 <div class="col-sm-6 contact-right">
                   <h5><?php echo $phone; ?></h5>

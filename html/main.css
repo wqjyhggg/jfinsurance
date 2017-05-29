@@ -409,9 +409,11 @@ footer p{margin: 0;}
     color: #04c !important;
 }
 .floatqr{
-    position: absolute;
-    bottom: 10px;
+    /*position: absolute;
+    bottom: 10px;*/
     width: 100px;
+    text-align: center;
+    margin: 0 auto;
 }
 
 .agentmypl{position:relative;padding-left: 5px;}
