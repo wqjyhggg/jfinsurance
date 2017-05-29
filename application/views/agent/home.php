@@ -149,14 +149,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                   
                   <h5><?php echo $address; ?></h5>
                   <h5><?php echo $city_province; ?></h5>
-                  <h5><?php echo $post_code; ?></h5><br />
+                  <h5><?php echo $post_code; ?></h5>
                   <h5><?php echo $email; ?></h5>
                 </div>
                 <div class="col-sm-6 contact-right">
                   <h5><?php echo $phone; ?></h5>
                   <h5><?php echo $fax; ?></h5>
                   <h5><?php echo $toll_free; ?></h5>
-                  <h5><?php echo $toll_free_fax; ?></h5><br />
+                  <h5><?php echo $toll_free_fax; ?></h5>
                 </div>
                   
 
