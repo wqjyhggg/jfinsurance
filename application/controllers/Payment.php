@@ -24,6 +24,8 @@ class Payment extends MY_Controller {
 		if ($this->input->post() && !empty($payment) && is_array($payment)) {
 			$this->load->model('payment_model');
 			$this->load->model('plan_model');
+			$this->load->model('batch_model');
+			
 			$payarr = array(
 				'invoice_num' => $this->input->post('invoice_num'),
 				'bank_name' => $this->input->post('bank_name'),
@@ -35,7 +37,7 @@ class Payment extends MY_Controller {
 				'pay_mothed' => 'Cheque',
 				'pay_date' => date('Y-m-d'),
 			);
-			
+					
 			$redirect_plan_id = 0;
 			foreach ($payment as $payment_id) {
 				$pay = $this->payment_model->get_payment_by_id($payment_id);
@@ -46,12 +48,17 @@ class Payment extends MY_Controller {
 						// Submit pay
 						if ($pay['pay_type'] == 'premium') {
 							unset($payarr['pay_mothed']);
-							$this->payment_model->update($payment_id, $payarr);
+						} else {
+							$payarr['pay_mothed'] = 'Cheque';
+						}
+						$this->payment_model->update($payment_id, $payarr);
+						$plan = $this->plan_model->get_plan_by_id($pay['plan_id']);
+
+						if ($pay['pay_type'] == 'premium') {
 							$unpaied = $this->payment_model->get_payment($pay['plan_id'], 'premium', 0);
-							$plan = $this->plan_model->get_plan_by_id($pay['plan_id']);
-							if (empty($unpaied) && $plan && ($plan['status_id'] == 2)) {
+							if (empty($unpaied) && $plan && ($plan['status_id'] == Plan_model::SOLD)) {
 								$note = 'Mark pay by: ' . $beuser['username'] . "; " . $plan['note'];
-								$para = array('note' => $note, 'status_id' => 3);
+								$para = array('note' => $note, 'status_id' => Plan_model::PAID);
 								$this->plan_model->update($plan['plan_id'], $para);
 								$para = array(
 										'plan_id' => $plan['plan_id'],
@@ -60,23 +67,17 @@ class Payment extends MY_Controller {
 										'message' => $this->plan_model->logstr,
 										'systemlog' => $this->plan_model->sqlstr
 								);
-								$this->log_model->activity('plan', $para);
-								if (!empty($plan['batch_number']) && !empty($this->input->post('batchpay_'.$payment_id))) {
-									// Batch Upadte
-									$this->load->model('batch_model');
-									$this->batch_model->batch_pay($plan['batch_number'], $payarr);
-								}
 							}
-						} else {
-							$payarr['pay_mothed'] = 'Cheque';
-							$this->payment_model->update($payment_id, $payarr);
+							$this->log_model->activity('plan', $para);
+						}
+						if (!empty($plan['batch_number']) && !empty($this->input->post('batchpay_'.$payment_id))) {
+							// Batch Upadte
+							$this->batch_model->batch_pay($plan['batch_number'], $payarr, $pay['pay_type']);
 						}
 					} else {
 						$plan = $this->plan_model->get_plan_by_id($pay['plan_id']);
 						if ($plan) {
-							if ($pay['pay_type'] == 'premium') {
-								$pay['batch_number'] = empty($plan['batch_number']) ? '' : $plan['batch_number'];
-							}
+							$pay['batch_number'] = empty($plan['batch_number']) ? '' : $plan['batch_number'];
 							$pay['policy'] = $plan['policy'];
 						} else {
 							$pay['policy'] = "Unknown";
