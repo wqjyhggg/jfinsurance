@@ -222,7 +222,7 @@ class Report_model extends CI_Model
     	$sql .= "	pl.totaldays AS total_days,";
     	$sql .= "	pl.sum_insured,";
     	$sql .= "	pl.deductible_amount,";
-    	$sql .= "	pa.amount AS policy_premium,";
+    	$sql .= "	(pa.amount - pa.admin_fee) AS policy_premium,";
     	$sql .= "	(100 - pr.up_pay_rate) AS commission_rate_jf,";
     	$sql .= "	pa2.amount AS pr_commission,";
     	$sql .= "	pa3.amount AS up_commission,";

@@ -761,7 +761,11 @@ function sorting_payment() {
     	},
 	});
 }
-
+</script>
 <?php } ?>
+<script type="text/javascript">
+$(document).ready(function() {
+	setTimeout(function(){ window.location.replace("/"); }, 900000);
+});
 </script>
 <!-- /page content -->
