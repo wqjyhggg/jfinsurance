@@ -727,7 +727,13 @@ class Plan extends MY_Controller {
 		} else {
 			$data['gender'] = 'M';
 		}
-		for ($i = 1; $i < 9; $i++) {
+		if ($data['product_short'] == 'TOP') {
+			$max_member = 25;
+		} else {
+			$max_member = 9;
+		}
+		$data['max_member'] = $max_member;
+		for ($i = 1; $i < $max_member; $i++) {
 			if ($this->input->post('customer_id_'.$i)) {
 				$data['customer_id_'.$i] = $this->input->post('customer_id_'.$i);
 			} else if (isset($customers[$i - 1]) && isset($customers[$i - 1]['customer_id'])) {
@@ -870,8 +876,8 @@ class Plan extends MY_Controller {
 		
 		$data['show_history'] = 0;
 		if (empty($data['plan_id'])) {
-			$data['submit'] = 'Add New Policy';
-			$data['p_header'] = 'Create Policy';
+			$data['submit'] = 'Next';
+			$data['p_header'] = 'New Policy';
 		} else {
 			$data['p_header'] = 'Edit Policy';
 			$data['submit'] = 'Update Policy';
@@ -995,48 +1001,63 @@ class Plan extends MY_Controller {
 				$data['plan_refund_date'] = $this->payment_model->get_refund_date($plan['plan_id']);
 			}
 		}
-		if (!empty($plan) && !empty($plan['status_id']) && ($plan['status_id'] > 1) && ($beuser['user_group_id'] > 100)) {
-			if ($data['product_short'] == 'OPL') {
-				$data['insurable_options'] = $this->load->view('plan/form_opl_agent', $data, TRUE);
-			} else if ($data['product_short'] == 'JFR') {
-				$data['insurable_options'] = $this->load->view('plan/form_opl_agent', $data, TRUE);
-			} else if ($data['product_short'] == 'JUS') {
-				$data['insurable_options'] = $this->load->view('plan/form_jus_agent', $data, TRUE);
-			} else if ($data['product_short'] == 'NUS') {
-				$data['insurable_options'] = $this->load->view('plan/form_jus_agent', $data, TRUE);
-			} else if ($data['product_short'] == 'JES') {
-				$data['insurable_options'] = $this->load->view('plan/form_jes_agent', $data, TRUE);
-			} else if ($data['product_short'] == 'JFC') {
-				$data['insurable_options'] = $this->load->view('plan/form_jfc_agent', $data, TRUE);
-			} else {
-				$data['insurable_options'] = $this->load->view('plan/form_other_agent', $data, TRUE);
-				$data['isprocessplan'] = 0;
-			}
-			
-			$this->load->common('plan/form_agent', $data);
+		if ($data['product_short'] == 'TOP') {
+			$data['premium_url'] = base_url ( "plan/gettoppremium" );
+			$this->load->common('plan/top/form', $data);
 		} else {
-			if ($data['product_short'] == 'OPL') {
-				$data['insurable_options'] = $this->load->view('plan/form_opl', $data, TRUE);
-			} else if ($data['product_short'] == 'JFR') {
-				$data['insurable_options'] = $this->load->view('plan/form_opl', $data, TRUE);
-			} else if ($data['product_short'] == 'JUS') {
-				$data['insurable_options'] = $this->load->view('plan/form_jus', $data, TRUE);
-			} else if ($data['product_short'] == 'NUS') {
-				$data['insurable_options'] = $this->load->view('plan/form_jus', $data, TRUE);
-			} else if ($data['product_short'] == 'JES') {
-				$data['insurable_options'] = $this->load->view('plan/form_jes', $data, TRUE);
-			} else if ($data['product_short'] == 'JFC') {
-				$data['insurable_options'] = $this->load->view('plan/form_jfc', $data, TRUE);
+			if (!empty($plan) && !empty($plan['status_id']) && ($plan['status_id'] > 1) && ($beuser['user_group_id'] > 100)) {
+				if ($data['product_short'] == 'OPL') {
+					$data['insurable_options'] = $this->load->view('plan/form_opl_agent', $data, TRUE);
+				} else if ($data['product_short'] == 'JFR') {
+					$data['insurable_options'] = $this->load->view('plan/form_opl_agent', $data, TRUE);
+				} else if ($data['product_short'] == 'JUS') {
+					$data['insurable_options'] = $this->load->view('plan/form_jus_agent', $data, TRUE);
+				} else if ($data['product_short'] == 'NUS') {
+					$data['insurable_options'] = $this->load->view('plan/form_jus_agent', $data, TRUE);
+				} else if ($data['product_short'] == 'JES') {
+					$data['insurable_options'] = $this->load->view('plan/form_jes_agent', $data, TRUE);
+				} else if ($data['product_short'] == 'JFC') {
+					$data['insurable_options'] = $this->load->view('plan/form_jfc_agent', $data, TRUE);
+				} else {
+					$data['insurable_options'] = $this->load->view('plan/form_other_agent', $data, TRUE);
+					$data['isprocessplan'] = 0;
+				}
+				
+				$this->load->common('plan/form_agent', $data);
 			} else {
-				$data['insurable_options'] = $this->load->view('plan/form_other', $data, TRUE);
-				$data['isprocessplan'] = 0;
+				if ($data['product_short'] == 'OPL') {
+					$data['insurable_options'] = $this->load->view('plan/form_opl', $data, TRUE);
+				} else if ($data['product_short'] == 'JFR') {
+					$data['insurable_options'] = $this->load->view('plan/form_opl', $data, TRUE);
+				} else if ($data['product_short'] == 'JUS') {
+					$data['insurable_options'] = $this->load->view('plan/form_jus', $data, TRUE);
+				} else if ($data['product_short'] == 'NUS') {
+					$data['insurable_options'] = $this->load->view('plan/form_jus', $data, TRUE);
+				} else if ($data['product_short'] == 'JES') {
+					$data['insurable_options'] = $this->load->view('plan/form_jes', $data, TRUE);
+				} else if ($data['product_short'] == 'JFC') {
+					$data['insurable_options'] = $this->load->view('plan/form_jfc', $data, TRUE);
+				} else {
+					$data['insurable_options'] = $this->load->view('plan/form_other', $data, TRUE);
+					$data['isprocessplan'] = 0;
+				}
+		
+				$data['popRefund'] = $this->load->view('plan/refund_addr', $data, TRUE);
+				
+				//$this->load->common('plan/form', $data);
+				$this->load->common('plan/form', $data);
 			}
-	
-			$data['popRefund'] = $this->load->view('plan/refund_addr', $data, TRUE);
-			
-			//$this->load->common('plan/form', $data);
-			$this->load->common('plan/form', $data);
 		}
+	}
+	
+	function gettoppremium() {
+		$beuser = $this->func_model->verify_login();
+		$this->load->model('product_model');
+		
+		$data = $this->product_model->get_top_premium($this->input->post());
+		
+		header('Content-Type: application/json');
+		echo json_encode($data);
 	}
 	
 	function payhistory($plan_id) {

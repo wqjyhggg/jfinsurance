@@ -157,6 +157,39 @@ class Product_model extends CI_Model {
 		return $a->diff($b)->days;
 	}
 	
+	public function get_top_premium($para) {
+		// get number of plan members, oldest years and check member conditions
+		$r = array('status' => 'Fail', 'message' => '');
+		
+		$number = 1;
+		$birthday = $para['birthday'];
+		$effective_date = $para['effective_date'];
+		$oldyears = $this->getYears($effective_date, $birthday);
+		if (empty($oldyears)) {
+			$days = $this->getDays($birthday, $effective_date);
+			if ($days < 15) {
+				$r['message'] = $r['error_birthday'] = "Must older then 15 days";
+			}
+		}
+		
+		for ($i = 1; $i < 1000; $i++) {
+			if (empty($para['birthday_'.$i])) break;
+			$number++;
+			$birthday = $para['birthday_'.$i];
+			$years = $this->getYears($effective_date, $birthday);
+			if (empty($years)) {
+				$days = $this->getDays($birthday, $effective_date);
+				if ($days < 15) {
+					$r['message'] = $r['error_birthday_'.$i] = "Must older then 15 days";
+				}
+			}
+		}
+		
+		if ($r['message']) return $r;
+
+		
+	}
+	
 	/**
 	 * Get Product premium
 	 * 
