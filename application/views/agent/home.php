@@ -132,23 +132,36 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <div class="col-sm-12 text-center">
                   <h3>CONTACT US</h3>
                   <hr style="border-bottom:2px solid; width:50px; margin:0 auto 20px;" />
+                  <h3><?php echo $foot_title; ?></h3><br />
+                  
+                  <?php if($qr !== "noqr.png"){ ?>
+              <div>
+                 <div class="text-center"><div class="floatqr">
+                  <img style='margin: 15px auto;width: 100%;' id='qr_image_life' src="<?php echo base_url('agent/img') . '/' . $qr; ?>" alt="JF Insurance">
+                  <p><?php echo $qr_desc; ?></p>
+                  </div>
+                </div></div>
+              <?php } ?>  
                 </div>
               </div>
               <div class="row h-contact">
-               
                 <div class="col-sm-6 contact-left">
-                  <h3><?php echo $foot_title; ?></h3><br />
+                  
                   <h5><?php echo $address; ?></h5>
                   <h5><?php echo $city_province; ?></h5>
-                  <h5><?php echo $post_code; ?></h5><br />
+                  <h5><?php echo $post_code; ?></h5>
+                  <h5><?php echo $email; ?></h5>
+                </div>
+                <div class="col-sm-6 contact-right">
                   <h5><?php echo $phone; ?></h5>
                   <h5><?php echo $fax; ?></h5>
                   <h5><?php echo $toll_free; ?></h5>
-                  <h5><?php echo $toll_free_fax; ?></h5><br />
-                  <h5><?php echo $email; ?></h5>
+                  <h5><?php echo $toll_free_fax; ?></h5>
+                </div>
+                  
 
                 </div>
-                <div class="col-sm-6 contact-right">
+                <!-- <div class="col-sm-6 contact-right">
                   <h3>Toronto Office</h3><br />
                   <h5>15 Wertheim Court, Suite 501</h5>
                   <h5>Richmond Hill, ON</h5>
@@ -158,16 +171,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                   <h5>Toll Free: 1-877-832-5541</h5>
                   <h5>Toll Free Fax: 1-888-988-3268</h5><br />
                   <h5>E-mail: info@jfgroup.ca</h5>
-                </div>
+                </div> -->
               </div>
-              <?php if($qr !== "noqr.png"){ ?>
-              <div class="row">
-                 <div class="col-sm-2 text-center"><div class="floatqr">
-                  <img style='margin: 15px auto;width: 100%;' id='qr_image_life' src="<?php echo base_url('agent/img') . '/' . $qr; ?>" alt="JF Insurance">
-                  <p><?php echo $qr_desc; ?></p>
-                  </div>
-                </div></div>
-              <?php } ?>  
+              
               </div>
             </div>
           </div>
