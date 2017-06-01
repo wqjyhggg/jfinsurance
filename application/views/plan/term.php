@@ -19,10 +19,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
         <!-- page content -->
         <div class="right_col" role="main" style="margin-bottom:40px;">
-<?php } else { ?>
-        <!-- page content -->
-        <div role="main" style="padding-left:28px;padding-bottom:40px;">
-<?php } ?>
           <div class="main-div">
             <div class="page-title">
               <div class="title_left">
@@ -56,6 +52,35 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </ul>
                   </p>
                   <br />
+<?php } else { ?>
+        <!-- page content -->
+        <div role="main" style="padding-left:28px;padding-bottom:40px;">
+          <div class="main-div">
+            <div class="page-title">
+              <div class="title_left">
+                <h3>Travel Insurance Disclaimer</h3>
+              </div>
+            </div>
+            <div class="clearfix"></div>
+           <!-- Term Section -->
+            <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2><small></small></h2>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+   					<p><b>Eligibility</b></p>
+   					<p>My insurance representative has reviewed the Visitors/International students to Canada Insurance Policy (‘Policy’) Eligibility criteria with me. I understand that coverage is not available for purchase if I have (or the person I am purchasing coverage for has) any of the excluded conditions listed under the Eligibility section of the Policy. </p>
+                  <hr />
+                  <p><b>Policy Benefits and Exclusions</b></p>
+                  <p>My insurance representative has reviewed the Policy benefits, definitions and exclusions with me. I understand that if I have (or the person I am purchasing coverage for has) any pre-existing conditions, I (or the person I am purchasing coverage for) must disclose these to my insurance representative prior to purchasing coverage to allow for an informed assessment of the type of insurance coverage that is best suited to protect me (or the person I am purchasing coverage for).</p>
+                  <hr />
+                  <p><b>Confirmation</b></p>
+                  <p> understand that I need to contact with my insurance representative to get confirmation package after I completed the application.</p>
+                  <br />
+<?php } ?>
                   <p>
                     IN THE EVENT OF A MEDICAL EMERGENCY OR A CLAIM THAT MAY REQUIRE OR RESULT IN HOSPITALIZATION, CALL TIC IMMEDIATELY.
                   </p>
@@ -100,7 +125,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                       <p>For All Members</p>
                     </div>
                     <div class="col-sm-6 text-right">
-        					   I Agree: <input type='checkbox' name='agree' id='agree' <?php echo $agree ? 'checked' : ''; ?>>
+        					   By checking the box, I agree to the above term.: <input type='checkbox' name='agree' id='agree' <?php echo $agree ? 'checked' : ''; ?>>
         					   <input class="btn btn-primary" type='submit' name='submit' value='Agree'><br>
         					  </div>
                   </div>

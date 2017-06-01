@@ -174,6 +174,24 @@ class Myhome extends MY_Controller {
 			redirect ( base_url ( 'user' ) );
 		}
 		
+		$this->data = array();
+
+		$this->data['no_url'] = base_url();
+		$this->data['yes_url'] = base_url('myhome/edit');
+		
+		$this->data['top_menu'] = $this->menu_model->load_top_menu();
+		$this->data['menu'] = $this->menu_model->load_meun();
+		$this->load->common ( 'myhome/term', $this->data );
+	}
+	
+	/**
+	 * default for this controller. it is login page.
+	 */
+	public function edit() {
+		if (! $this->func_model->verify_login()) {
+			redirect ( base_url ( 'user' ) );
+		}
+		
 		$this->load->model('myhome_model');
 		$this->data = array();
 		if ($this->input->post() && $this->verify()) {
