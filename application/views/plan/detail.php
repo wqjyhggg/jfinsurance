@@ -5,6 +5,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 <!-- Plan page content -->
 
 <?php if (isset($menu) && is_array($menu) && (sizeof($menu)>0)) { ?>
+<?php $noagent = 0; ?>
 <!-- Content top navigation -->
 <div class="top_nav">
 	<div class="nav_menu">
@@ -20,6 +21,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 <!-- page content -->
 <div class="right_col" role="main">
 <?php } else { ?>
+<?php $noagent = 1; ?>
 <div role="main" style="padding-left:28px">
 <?php } ?>
  	<div class="main-div" style="padding-bottom:50px;">
@@ -30,6 +32,9 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 		</div>
 		<div class="clearfix"></div>
 		<!-- Form Section -->
+		<?php if ($noagent && (($plan['status_id'] == 2) || ($plan['status_id'] == 3))) { ?>
+			<div class="alert alert-danger" style='font-size: 24px;'>Please contact your agent to get your policy details and the insurance package.</div>
+		<?php } ?>
 		<div class="row">
 			<div class="col-md-12 col-sm-12 col-xs-12">
 				<div class="x_panel">
