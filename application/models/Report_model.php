@@ -529,7 +529,7 @@ class Report_model extends CI_Model
 
     private function renewal_report_where($para)
     {
-    	$this->db->where('pl.status_id > ', self::QUOTE);
+    	$this->db->where_in('pl.status_id', array(self::SOLD, self::PAID, self::CLAIMED, self::CHANGED));
     	$this->common_report_where($para);
     }
 
