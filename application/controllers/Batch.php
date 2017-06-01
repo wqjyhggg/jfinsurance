@@ -596,7 +596,8 @@ class Batch extends MY_Controller {
 								$para['note'] = isset($para['note']) ? $para['note'] . '; Batch added' : 'Batch added';
 								$pay_type = $this->payment_model->pay_type($data['pay_type']);
 								if ($pay_type == 'premium') {
-									$this->payment_model->add($para); // 'premium';
+									$payment_id = $this->payment_model->add($para); // 'premium';
+									$para['premium_payment_id'] = $payment_id;
 									if (!empty($data['commission_rate'])) {
 										$para['pay_type'] = 'commission';
 										$para['rate'] = $data['commission_rate'];
@@ -611,7 +612,8 @@ class Batch extends MY_Controller {
 										$this->payment_model->add($para);
 									}
 								} else if ($pay_type == 'refund') {
-									$this->payment_model->add($para); // 'premium';
+									$payment_id = $this->payment_model->add($para); // 'premium';
+									$para['premium_payment_id'] = $payment_id;
 									if (!empty($data['commission_rate'])) {
 										$para['pay_type'] = 'refund_commission';
 										$para['rate'] = $data['commission_rate'];
@@ -625,7 +627,8 @@ class Batch extends MY_Controller {
 										$this->payment_model->add($para);
 									}
 								} else if ($pay_type == 'cancel') {
-									$this->payment_model->add($para); // 'premium';
+									$payment_id = $this->payment_model->add($para); // 'premium';
+									$para['premium_payment_id'] = $payment_id;
 									if (!empty($data['commission_rate'])) {
 										$para['pay_type'] = 'cancel_commission';
 										$para['rate'] = $data['commission_rate'];
@@ -663,7 +666,8 @@ class Batch extends MY_Controller {
 								$para['note'] = isset($para['note']) ? $para['note'] . '; Batch added' : 'Batch added';
 								
 								$para['pay_type'] = 'premium';
-								$this->payment_model->add($para); // 'premium';
+								$payment_id = $this->payment_model->add($para); // 'premium';
+								$para['premium_payment_id'] = $payment_id;
 								if (!empty($data['commission_rate'])) {
 									$para['pay_type'] = 'commission';
 									$para['rate'] = $data['commission_rate'];
