@@ -344,15 +344,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="table-responsive">
                     	<div class="row">
                     		<div class="col-sm-2 text-right"><B>Total Commission : </B></div>
-                            <div class="col-sm-10">$<?php echo number_format($total_commission, 2); ?></div>
+                            <div class="col-sm-10">$<?php echo number_format($total_a_commission, 2); ?></div>
                         </div>
                     	<div class="row">
                     		<div class="col-sm-2 text-right"><B>Unpaid Premium : </B></div>
-                            <div class="col-sm-10">$<?php echo number_format($unpaid_premium, 2); ?></div>
+                            <div class="col-sm-10">$<?php echo number_format($unpaid_a_premium, 2); ?></div>
                         </div>
                     	<div class="row">
                     		<div class="col-sm-2 text-right"><B>Balance : </B></div>
-                            <div class="col-sm-10">$<?php echo number_format($total_commission - $unpaid_premium, 2); ?></div>
+                            <div class="col-sm-10">$<?php echo number_format($total_a_commission - $unpaid_premium, 2); ?></div>
                         </div>
                     </div>
     <?php endif; ?>

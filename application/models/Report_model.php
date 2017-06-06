@@ -580,7 +580,7 @@ class Report_model extends CI_Model
     	$sql .= " JOIN product pr ON pl.product_short = pr.product_short"; 
     	$sql .= " JOIN status st ON pl.status_id = st.status_id ";
     	$sql .= " LEFT JOIN payment pa2 ON (pa.premium_payment_id=pa2.payment_id)";
-    	$sql .= " WHERE pa.pay_type IN ('commission','cancel_commission','refund_commission') AND ABS(pa.amount)>=0.01 AND pa.ispaid=0";
+    	$sql .= " WHERE pa.pay_type IN ('commission','cancel_commission','refund_commission') AND ABS(pa.amount)>=0.01 ";
         if (empty($para['ispaid'])) {
     		$sql .= " AND pa.ispaid = 0";
         } else {
@@ -612,7 +612,7 @@ class Report_model extends CI_Model
     		$sql .= " AND pl.region_id='" . (int)$para['region_id'] . "'";
     	}
     	
-   		$sql .= " ORDER BY pl.policy ASC, user_id ASC, added ASC";
+   		$sql .= " ORDER BY user_id ASC, pl.plan_id ASC, added ASC";
 
     	$query = $this->db->query($sql)->result_array();
     	$results = array();
