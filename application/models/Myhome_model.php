@@ -156,6 +156,18 @@ class Myhome_model extends CI_Model {
 	}
 
 	/**
+	 * Get user by name
+	 *
+	 * @param string $name
+	 * @return array
+	 */
+	public function get_user_by_name($name) {
+		$sql = "SELECT * FROM user WHERE CONCAT(LOWER(firstname), '_', LOWER(lastname))=". $this->db->escape($name);
+		$query = $this->db->query($sql);
+		return $query->row_array();
+	}
+
+	/**
 	 * Insert / Upload Record
 	 * 
 	 * @param array input array
