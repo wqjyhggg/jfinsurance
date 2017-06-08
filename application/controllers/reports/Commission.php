@@ -100,7 +100,8 @@ class Commission extends MY_Controller
 		$data['product_list'] = $this->product_model->get_available_product_list();
 		$data['user_list'] = $this->user_model->get_available_user_list();
 		$data['report_data'] = $this->report_model->get_commission_report($data);
-		unset($data['report_data']['asbroker']);
+		$asbroker = $data['asbroker'];
+		//unset($data['report_data']['asbroker']);
 	
 		// echo "<pre>"; print_r($data['report_data']);die('============');
 	
@@ -128,7 +129,8 @@ class Commission extends MY_Controller
 	
 		$sheet->setCellValue('A1', "JF INSURANCE AGENCY GROUP INC - COMMISSION REPORT");
 		$row = 2;
-		foreach ($data['report_data'] as $datas) {
+		$total_a_premium = 0; $total_a_commission = 0; $unpaid_a_premium = 0;
+		foreach ($data['report_data'] as $user_id => $datas) {
 			$row++; $col = 'A';
 			$col++;
 			$col++;
@@ -136,33 +138,70 @@ class Commission extends MY_Controller
 			$col++;
 			$col++;
 			$col++;
-			$sheet->setCellValue($col.$row, "Payment Period: " . $data['payment_added_from'] . " - " . $data['payment_added_to']); $col++; $row--;
-			if ($datas['agent']['receive_type'] == 'Cheque') {
-				$row++;
-				$sheet->setCellValue('A'.$row, "To: ");
-				$sheet->setCellValue('B'.$row, $datas['agent']['firstname'] . " " . $datas['agent']['lastname']);
-				$row++;
-				$sheet->setCellValue('B'.$row, $datas['agent']['mail_address']);
-				$row++;
-				$sheet->setCellValue('B'.$row, $datas['agent']['mail_city'] . "," . $datas['agent']['mail_province2']);
-				$row++;
-				$sheet->setCellValue('B'.$row, $datas['agent']['mail_postcode']);
-				$row++;
-			}
-			$row++; $col = 'A';
+			if ($user_id != 'asbroker') $sheet->setCellValue($col.$row, "Payment Period: " . $data['payment_added_from'] . " - " . $data['payment_added_to']); $col++; $row--;
+			if (empty($asbroker)) {
+				if ($datas['agent']['receive_type'] == 'Cheque') {
+					$row++;
+					$sheet->setCellValue('A'.$row, "To: ");
+					$sheet->setCellValue('B'.$row, $datas['agent']['firstname'] . " " . $datas['agent']['lastname']);
+					$row++;
+					$sheet->setCellValue('B'.$row, $datas['agent']['mail_address']);
+					$row++;
+					$sheet->setCellValue('B'.$row, $datas['agent']['mail_city'] . "," . $datas['agent']['mail_province2']);
+					$row++;
+					$sheet->setCellValue('B'.$row, $datas['agent']['mail_postcode']);
+					$row++;
+				}
+				$row++; $col = 'A';
+					
+				$sheet->setCellValue($col.$row, "Agent Name: " . $datas['agent']['firstname'] . " " . $datas['agent']['lastname']); $col++;
+		
+				$row++; $col = 'A';
+				$sheet->setCellValue($col.$row, "Payment Method: " . $datas['agent']['receive_type']); $col++;
+				if ($datas['agent']['receive_type'] == 'Deposit') {
+					$row++; $col = 'A';
+					$sheet->setCellValue($col.$row, "Pay to: " . $datas['agent']['note']);
+					$row++; $col = 'A';
+					$sheet->setCellValue($col.$row, "E-Mail Address: " . $datas['agent']['email']);
+				} else if ($datas['agent']['receive_type'] == 'Cheque') {
+					$row++; $col = 'A';
+					$sheet->setCellValue($col.$row, "Pay to: " . $datas['agent']['note']);
+				}
+			} else {
+				if (isset($report_data['asbroker'])) {
+					if ($report_data['asbroker']['receive_type'] == 'Cheque') {
+						$row++;
+						$sheet->setCellValue('A'.$row, "To: ");
+						$sheet->setCellValue('B'.$row, $report_data['asbroker']['firstname'] . " " . $report_data['asbroker']['lastname']);
+						$row++;
+						$sheet->setCellValue('B'.$row, $report_data['asbroker']['mail_address']);
+						$row++;
+						$sheet->setCellValue('B'.$row, $report_data['asbroker']['mail_city'] . "," . $report_data['asbroker']['mail_province2']);
+						$row++;
+						$sheet->setCellValue('B'.$row, $report_data['asbroker']['mail_postcode']);
+						$row++;
+					}
+					$row++; $col = 'A';
+						
+					$sheet->setCellValue($col.$row, "Agent Name: " . $report_data['asbroker']['firstname'] . " " . $report_data['asbroker']['lastname']); $col++;
+					
+					$row++; $col = 'A';
+					$sheet->setCellValue($col.$row, "Payment Method: " . $report_data['asbroker']['receive_type']); $col++;
+					if ($report_data['asbroker']['receive_type'] == 'Deposit') {
+						$row++; $col = 'A';
+						$sheet->setCellValue($col.$row, "Pay to: " . $report_data['asbroker']['note']);
+						$row++; $col = 'A';
+						$sheet->setCellValue($col.$row, "E-Mail Address: " . $report_data['asbroker']['email']);
+					} else if ($report_data['asbroker']['receive_type'] == 'Cheque') {
+						$row++; $col = 'A';
+						$sheet->setCellValue($col.$row, "Pay to: " . $report_data['asbroker']['note']);
+					}
+					unset($report_data['asbroker']);
+				}
+				$row++; $col = 'A';
+				if ($user_id == 'asbroker') continue;
 				
-			$sheet->setCellValue($col.$row, "Agent Name: " . $datas['agent']['firstname'] . " " . $datas['agent']['lastname']); $col++;
-	
-			$row++; $col = 'A';
-			$sheet->setCellValue($col.$row, "Payment Method: " . $datas['agent']['receive_type']); $col++;
-			if ($datas['agent']['receive_type'] == 'Deposit') {
-				$row++; $col = 'A';
-				$sheet->setCellValue($col.$row, "Pay to: " . $datas['agent']['note']);
-				$row++; $col = 'A';
-				$sheet->setCellValue($col.$row, "E-Mail Address: " . $datas['agent']['email']);
-			} else if ($datas['agent']['receive_type'] == 'Cheque') {
-				$row++; $col = 'A';
-				$sheet->setCellValue($col.$row, "Pay to: " . $datas['agent']['note']);
+				$sheet->setCellValue($col.$row, "Agent Name: " . $datas['agent']['firstname'] . " " . $datas['agent']['lastname']); $col++;
 			}
 	
 			$row++; $col = 'A';
@@ -172,6 +211,7 @@ class Commission extends MY_Controller
 			 
 			$total_premium = 0; $total_commission = 0; $unpaid_premium = 0;
 			foreach ($datas['data'] as $record) {
+				$total_a_premium += $record['premium']; $total_a_commission += $record['amount']; $unpaid_a_premium += ($record['premiumispaid']) ? 0 : $record['premium'];
 				$total_premium += $record['premium']; $total_commission += $record['amount']; $unpaid_premium += ($record['premiumispaid']) ? 0 : $record['premium'];
 				$row++; $col = 'A';
 	
@@ -204,32 +244,53 @@ class Commission extends MY_Controller
 				$col++;
 			}
 			 
-			$row++;
-			$sheet->setCellValue('A'.$row, 'TOTAL');
-			$sheet->setCellValue('G'.$row, $total_premium);
-			$sheet->getStyle('G'.$row)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
+			if (empty($asbroker)) {
+				$row++;
+				$sheet->setCellValue('A'.$row, 'TOTAL');
+				$sheet->setCellValue('G'.$row, $total_premium);
+				$sheet->getStyle('G'.$row)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
+		
+				$sheet->setCellValue('J'.$row, $total_commission);
+				$sheet->getStyle('J'.$row)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
 	
-			$sheet->setCellValue('J'.$row, $total_commission);
-			$sheet->getStyle('J'.$row)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
+				$row++;
+				$sheet->setCellValue('A'.$row, 'Total Commission for Above');
+				$sheet->setCellValue('C'.$row, $total_commission);
+				$sheet->getStyle('C'.$row)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
+	
+				$row++;
+				$sheet->setCellValue('A'.$row, 'Unpaid Premium');
+				$sheet->setCellValue('C'.$row, $unpaid_premium);
+				$sheet->getStyle('C'.$row)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
+					
+				$row++;
+				$sheet->setCellValue('A'.$row, 'Balance');
+				$sheet->setCellValue('C'.$row, $total_commission - $unpaid_premium);
+				$sheet->getStyle('C'.$row)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
+					
+				$row++; $row++; $row++; $col = 'A';
+			}
+		}
 
+		if ($asbroker) {
 			$row++;
-			$sheet->setCellValue('A'.$row, 'Total Commission for Above');
-			$sheet->setCellValue('C'.$row, $total_commission);
+			$sheet->setCellValue('A'.$row, 'Total Commission');
+			$sheet->setCellValue('C'.$row, $total_a_commission);
 			$sheet->getStyle('C'.$row)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
-
+		
 			$row++;
 			$sheet->setCellValue('A'.$row, 'Unpaid Premium');
-			$sheet->setCellValue('C'.$row, $unpaid_premium);
+			$sheet->setCellValue('C'.$row, $unpaid_a_premium);
 			$sheet->getStyle('C'.$row)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
 				
 			$row++;
 			$sheet->setCellValue('A'.$row, 'Balance');
-			$sheet->setCellValue('C'.$row, $total_commission - $unpaid_premium);
+			$sheet->setCellValue('C'.$row, $total_a_commission - $unpaid_a_premium);
 			$sheet->getStyle('C'.$row)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
 				
 			$row++; $row++; $row++; $col = 'A';
 		}
-	
+		
 		$objPHPExcel->setActiveSheetIndex(0);
 		$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
 		$outfile = 'Commission_Report_' . date('Ymd') . '.xlsx';
@@ -260,20 +321,16 @@ class Commission extends MY_Controller
         
         $data['product_list'] = $this->product_model->get_available_product_list();
         $data['user_list'] = $this->user_model->get_available_user_list();
-        $report_data = $this->report_model->get_commission_report($data);
-        unset($report_data['asbroker']);
+        $data['report_data'] = $this->report_model->get_commission_report($data);
         
-        if (empty($report_data)) {
+        if (empty($data['report_data'])) {
         	die("No data");
         }
 		$mpdf = new mPDF('c');
 		$mpdf->shrink_tables_to_fit=1;
-		foreach ($report_data as $adata) {
-			$mpdf->AddPage();
-			$data['data'] = $adata;
-			$html = $this->load->view('reports/commission_pdf', $data, TRUE);
-			$mpdf->writeHTML($html);
-		}
+		$mpdf->AddPage();
+		$html = $this->load->view('reports/commission_pdf', $data, TRUE);
+		$mpdf->writeHTML($html);
 		$mpdf->Output();
     }
 }

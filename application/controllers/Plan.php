@@ -2356,20 +2356,17 @@ class Plan extends MY_Controller {
 				);
 				$this->log_model->activity('plan', $para);
 
-				if (($plan['product_short'] == 'OPL') || ($plan['product_short'] == 'JFR') && ($plan['sum_insured'] >= 100000) && ($plan['totaldays'] >= 365)) {
-					$payment = $this->payment_model->get_payment_by_id($plan['payment_id']);
-					if ($payment) {
-						// No more super visa, change payment data to today
-						$this->payment_model->adjust_commission_added_date($plan_id, $payment['added'], FALSE);
-						$para = array(
-								'plan_id' => $plan_id,
-								'customer_id' => $plan['customer_id'],
-								'payment_id' => $plan['commission_payment_id'],
-								'message' => $this->payment_model->logstr,
-								'systemlog' => $this->payment_model->sqlstr
-						);
-						$this->log_model->activity('plan', $para);
-					}
+				if ((($plan['product_short'] == 'OPL') || ($plan['product_short'] == 'JFR')) && ($plan['sum_insured'] >= 100000) && ($plan['totaldays'] >= 365)) {
+					// No more super visa, change payment data to today
+					$this->payment_model->adjust_commission_added_date($plan_id, $payment['added'], FALSE);
+					$para = array(
+							'plan_id' => $plan_id,
+							'customer_id' => $plan['customer_id'],
+							'payment_id' => $plan['commission_payment_id'],
+							'message' => $this->payment_model->logstr,
+							'systemlog' => $this->payment_model->sqlstr
+					);
+					$this->log_model->activity('plan', $para);
 				}
 				
 				redirect('plan/detail/'.$plan_id);

@@ -1,7 +1,12 @@
 <?php
 defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
+
+
+$total_a_premium = 0; $total_a_commission = 0; $unpaid_a_premium = 0;
+foreach ($report_data as $user_id => $data) {
+	if (empty($asbroker)) {
+		if ($data ['agent'] ['receive_type'] == 'Cheque') { 
 ?>
-<?php if ($data ['agent'] ['receive_type'] == 'Cheque') { ?>
 		<table width='100%' style="display: block; font-family: serif; font-size: 12pt; padding: 40mm 0mm 20mm 10mm;">
 			<tbody>
 				<tr>
@@ -21,7 +26,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 			</tbody>
 		</table>
 		<hr />
-<?php } ?>
+<?php 	} ?>
 		<table width='100%' style="display: block; font-family: serif; font-size: 10pt;">
 			<tbody>
 				<tr>
@@ -48,6 +53,62 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 				</tr>
 			</tbody>
 		</table>
+<?php
+	} else {
+		if ($user_id == 'asbroker') continue;
+		if (isset($report_data['asbroker'])) {
+			if ($data ['agent'] ['receive_type'] == 'Cheque') { 
+?>
+		<table width='100%' style="display: block; font-family: serif; font-size: 12pt; padding: 40mm 0mm 20mm 10mm;">
+			<tbody>
+				<tr>
+					<td>
+						<table>
+							<tr>
+								<td valign='top'>To:</td>
+								<td>
+									<?php echo $report_data['asbroker']['firstname'] . " " . $report_data['asbroker']['lastname']; ?><br />
+									<?php echo $report_data['asbroker']['mail_address']; ?><br>
+									<?php echo $report_data['asbroker']['mail_city'] . "," . $report_data['asbroker']['mail_province2'] . " " . $report_data['asbroker']['mail_postcode']; ?><br>
+								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<hr />
+<?php 		} ?>
+		<table width='100%' style="display: block; font-family: serif; font-size: 10pt;">
+			<tbody>
+				<tr>
+					<td width='10%'>
+						<img style="width: 80px;" src="<?php echo base_url();?>image/jf_logo.jpg" />
+					</td>
+					<td width='40%'>
+						Brokerage Name: <?php echo $report_data['asbroker']['firstname'] . " " . $report_data['asbroker']['lastname']; ?><br />
+						Payment Method: <?php echo $report_data['asbroker']['receive_type']; ?><br />
+						<?php
+							if ($report_data['asbroker']['receive_type'] == 'Deposit') {
+								echo "Pay to: " . $report_data['asbroker']['note'] . "<br />";
+								echo "E-Mail Address: " . $report_data['asbroker']['email'];
+							} else if ($report_data['asbroker']['receive_type'] == 'Cheque') {
+								echo "Pay to: " . $report_data['asbroker']['note'] . "<br />";
+							} else { // Cash
+							}
+						?>
+					</td>
+					<td width='50%' align='right'>
+						<H1 style="font-size: 36px;">Commission Report</H1><br />
+						<div>For Period: <?php echo $payment_added_from . " - " . $payment_added_to; ?>&nbsp;&nbsp;&nbsp;</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+<?php
+		}
+	}
+?>
 		<table style="font-family: serif; font-size: 10pt; border-spacing: 0;" border='1'>
 			<tbody>
 				<tr>
@@ -65,6 +126,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 				</tr>
 				<?php $cnt = 1; $total_premium = 0; $total_commission = 0; $unpaid_premium = 0; ?>
 				<?php foreach ($data['data'] as $record) : ?>
+				<?php     $total_a_premium += $record['premium']; $total_a_commission += $record['amount']; $unpaid_a_premium += ($record['premiumispaid']) ? 0 : $record['premium']; ?>
 				<?php     $total_premium += $record['premium']; $total_commission += $record['amount']; $unpaid_premium += ($record['premiumispaid']) ? 0 : $record['premium']; ?>
 				<tr>
 					<td style="padding-top: 6px;"><?php echo $cnt++; ?></td>
@@ -80,6 +142,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 					<td style="padding-top: 6px;">$<?php echo number_format($record['amount'], 2); ?></td>
 				</tr>
 				<?php endforeach; ?>
+				<?php if (empty($asbroker)) : ?>
 				<tr>
 					<td style="padding-top: 10px;"><B>TOTAL</B></td>
 					<td style="padding-top: 10px;">&nbsp;</td>
@@ -105,5 +168,30 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 					<td style="padding-top: 10px;" colspan='2'><B>Balance</B></td>
 					<td style="padding-top: 10px;" colspan='9'>$<?php echo number_format($total_commission - $unpaid_premium, 2); ?></td>
 				</tr>
+				<?php endif; ?>
 			</tbody>
 		</table>
+<?php
+}
+if (!empty($asbroker)) {
+?>
+		<table style="font-family: serif; font-size: 10pt; border-spacing: 0;" border='1'>
+			<tbody>
+				<tr>
+					<td style="padding-top: 10px;" colspan='2'><B>Total Commission</B></td>
+					<td style="padding-top: 10px;" colspan='9'>$<?php echo number_format($total_a_commission, 2); ?></td>
+				</tr>
+				<tr>
+					<td style="padding-top: 10px;" colspan='2'><B>Unpaid Premium</B></td>
+					<td style="padding-top: 10px;" colspan='9'>$<?php echo number_format($unpaid_a_premium, 2); ?></td>
+				</tr>
+				<tr>
+					<td style="padding-top: 10px;" colspan='2'><B>Balance</B></td>
+					<td style="padding-top: 10px;" colspan='9'>$<?php echo number_format($total_a_commission - $unpaid_a_premium, 2); ?></td>
+				</tr>
+			</tbody>
+		</table>
+<?php
+}
+?>
+
