@@ -166,28 +166,35 @@ class Product_model extends CI_Model {
 		$effective_date = $para['effective_date'];
 		$oldyears = $this->getYears($effective_date, $birthday);
 		if (empty($oldyears)) {
-			$days = $this->getDays($birthday, $effective_date);
-			if ($days < 15) {
+			$mindays = $this->getDays($birthday, $effective_date);
+			if ($mindays < 15) {
 				$r['message'] = $r['error_birthday'] = "Must older then 15 days";
 			}
 		}
 		
-		for ($i = 1; $i < 1000; $i++) {
+		for ($i = 1; $i < 100; $i++) {
 			if (empty($para['birthday_'.$i])) break;
 			$number++;
 			$birthday = $para['birthday_'.$i];
 			$years = $this->getYears($effective_date, $birthday);
 			if (empty($years)) {
-				$days = $this->getDays($birthday, $effective_date);
-				if ($days < 15) {
+				$mindays = $this->getDays($birthday, $effective_date);
+				if ($mindays < 15) {
 					$r['message'] = $r['error_birthday_'.$i] = "Must older then 15 days";
+					break;
 				}
+			} else if ($years > $oldyears) {
+				$oldyears = $years;
 			}
 		}
 		
 		if ($r['message']) return $r;
 
+		// Get All needs parameter
 		
+		$this->load->model('top_model');
+
+		return $this->top_model->get_premium($para['package'], $para['totaldays'], $para['sum_insured'], $oldyears, $para['free_cancel'], $para['questionnaire'], $para['stable_condition']);		
 	}
 	
 	/**

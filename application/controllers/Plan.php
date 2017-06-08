@@ -463,7 +463,7 @@ class Plan extends MY_Controller {
 							'systemlog' => $this->plan_model->sqlstr
 					);
 					$this->log_model->activity('plan', $para);
-					if (($planold['product_short'] == 'OPL') || ($planold['product_short'] == 'JFR') && ((($planold['sum_insured'] >= 100000) && ($planold['totaldays'] >= 365)) || (($plan['sum_insured'] >= 100000) && ($plan['totaldays'] >= 365)))) {
+					if ((($planold['product_short'] == 'OPL') || ($planold['product_short'] == 'JFR')) && ((($planold['sum_insured'] >= 100000) && ($planold['totaldays'] >= 365)) || (($plan['sum_insured'] >= 100000) && ($plan['totaldays'] >= 365)))) {
 						if (($plan['sum_insured'] >= 100000) && ($plan['totaldays'] >= 365)) {
 							if ($planold['effective_date'] != $plan['effective_date']) {
 								// Super visa changed effective date
@@ -868,6 +868,13 @@ class Plan extends MY_Controller {
 		} else {
 			$data['note'] = '';
 		}
+		if (isset($plan['free_cancel'])) {
+			$data['free_cancel'] = $plan['free_cancel'];
+		} else {
+			$data['free_cancel'] = '';
+		}
+		
+		// For TOP plan
 		if (isset($plan['policy'])) {
 			$data['policy'] = $plan['policy'];
 		} else {

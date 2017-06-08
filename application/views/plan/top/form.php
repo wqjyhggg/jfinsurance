@@ -43,7 +43,7 @@
 				<ul class="nav nav-tabs" id="top-nav-tabs">
 					<li class="active"><a data-toggle="tab" id="date_members_tab" href="#date_members">Date / Members</a></li>
 					<li ><a data-toggle="tab" id="packages_tab" href="#packages">Packages</a></li>
-					<li ><a data-toggle="tab" id="questionnaire_tab" href="#questionnaire" style="display:none;">Questionnaire</a></li>
+					<li ><a data-toggle="tab" id="questionnaire_tab" href="#questionnaire">Questionnaire</a></li>
 					<?php if (!empty($plan_id) && !empty($status_id)) { ?>
 						<?php if ($status_id == 1 && $user_group_id != 103) { /* qutoe */ ?>
 							<li style="float: right;"><a href="<?php echo $pay_url; ?>"><span class="btn btn-info" style='color: #fff;'>Pay</span></a></li>
@@ -119,7 +119,7 @@
 									</div>
 									<div class="clearfix"></div>
 
-									<div class="col-sm-12 blcok-space">
+									<div class="col-sm-12 block-space">
 										<fieldset>
 											<legend>Travel Dates</legend>
 											<input type="hidden" name='arrival_date' id='arrival_date' value='<?php echo $arrival_date; ?>' data-date-format="yyyy-mm-dd">
@@ -431,23 +431,227 @@
 						</div>
 						<div id="packages" class="tab-pane fade">
 							<!-- Start packages -->
-							<h3>Packages</h3>
-							<p>Some content in menu 1.</p>
+							<div class="x_panel">
+								<div class="x_content">
+									<div class="form-group col-sm-6"><h2><label><span>Packages</span></label></h2></div>
+									<div class="clearfix"></div>
+									<div class="col-sm-12 block-space">
+										<fieldset>
+											<legend>Select Package</legend>
+											<div class="row">
+												<div class="col-sm-4">
+													<input type="radio" name="package" value="all_inclusive"> All Inclusive
+												</div>
+												<div class="col-sm-4">
+													<input type="radio" name="package" value="out_province"> Out of Province
+												</div>
+											</div>
+										</fieldset>
+									</div>
+									<div class="col-sm-12 block-space " id='conditions' style="display:none;">
+										<fieldset>
+											<legend>Conditions</legend>
+											<div class="row">
+												<div class="col-sm-4">
+													<label class="col-sm-12">Sum Insured</label>
+													<input type="number" name="sum_insured" min="0" max="15000" step="100" value="<?php echo $sum_insured; ?>"> ( 0 - 15,000 )
+												</div>
+												<div class="col-sm-4">
+													<label class="col-sm-12">&nbsp;</label>
+													<input type="checkbox" name="free_cancel" value="<?php echo $free_cancel; ?>"> Free Cancellation
+												</div>
+											</div>
+										</fieldset>
+									</div>
+									<div class="col-sm-12 block-space" id='all_inclusive_para' style="display:none;">
+										<fieldset>
+											<legend>Pre-existing conditons</legend>
+											<div class="row">
+												<label class="inline">Select pre-existing condition coverage</label>
+												<div class="inline">
+													<select name='stable_condition' class="form-control setpremium" id='stable_condition_select'>
+														<option value='0'> -- select condition -- </option>
+														<option value='1' <?php echo ($stable_condition == 1) ? 'selected' : ''; ?>>Including stable pre-existing condition coverage</option>
+														<option value='2' <?php echo ($stable_condition == 2) ? 'selected' : ''; ?>>Excluding stable pre-existing condition coverage</option>
+													</select>
+												</div>
+												<?php if (!empty($error_stable_condition)) {?>
+												<div class="alert-error">
+													<?php echo $error_stable_condition;?>
+												</div>	
+												<?php } ?>
+											</div>
+										</fieldset>
+									</div>
+								</div>
+							</div>
 							<!-- End packages -->
 						</div>
 						<div id="questionnaire" class="tab-pane fade">
 							<!-- Start questionnaire -->
-							<h3>More Packages</h3>
-							<p>Some content in menu 2.</p>
+							<div class="x_panel">
+								<div class="x_content">
+									<div class="form-group col-sm-6"><h2><label><span>Questionnaire</span></label></h2></div>
+									<input type="hidden" name="questionnaire" value="">
+									<div class="clearfix"></div>
+									<div class="col-sm-12 block-space">
+										<fieldset>
+											<legend>To be eligible for coverage under this plan, the applicant must:</legend>
+											<div class="row">
+												<div class="col-sm-12">
+													<ol>
+														<li type="a">be at least 15 days old and not more than 84 years old; and</li>
+														<li type="a">be insured under a government health insurance plan; and</li>
+														<li type="a">be in good health at the time you purchase your policy and on the date you exit your province or territory of residence, and know of no reason to seek medical consultation during the coverage period.</li>
+													</ol>
+												</div>
+											</div>
+										</fieldset>
+									</div>
+									<div class="col-sm-12 block-space">
+										<fieldset>
+											<legend>Applicants over 60 years of age must not: </legend>
+											<div class="row">
+												<div class="col-sm-12">
+													<ol>
+														<li>Has your doctor advised you not to travel?</li>
+														<li>Do you suffer from a terminal illness?</li>
+														<li>Do you suffer from kidney disease treated through dialysis?</li>
+														<li>In the past 5 years, have you been diagnosed with or treated for stage III or IV cancer or cancer that has metastasized?</li>
+														<li>In the past 12 months, have you been prescribed or have you used oxygen at home?</li>
+														<li>Do you require the assist with activities of daily living?</li>
+													</ol>
+												</div>
+												<div class="col-sm-12 text-danger">
+													If Yes to any of the above you do not qualify for this plan
+												</div>
+											</div>
+										</fieldset>
+									</div>
+									<div class="col-sm-12 block-space">
+										<fieldset>
+											<div class="row">
+												<div class="col-sm-12">
+													<H4>At the time of application, how many medications* in total do you take or have you been ordered to take by a physician, to treat one or more of the following medical conditions:</H4>
+												</div>
+												<div class="col-sm-12">
+													<ul>
+														<li>Lung conditions/disease (include asthma)</li>
+														<li>Diabetes</li>
+														<li>Heart conditions/disease (do not include aspirin, hypertension (high blood pressure) or high cholesterol medications)</li>
+													</ul>
+												</div>
+												<div class="col-sm-3">
+													<input type="radio" name="question1" value="3"> 3 or more medications
+												</div>
+												<div class="col-sm-3">
+													<input type="radio" name="question1" value="2"> 2 medications
+												</div>
+												<div class="col-sm-3">
+													<input type="radio" name="question1" value="1"> 1 medication
+												</div>
+												<div class="col-sm-3">
+													<input type="radio" name="question1" value="0"> none
+												</div>
+											</div>
+										</fieldset>
+									</div>
+									<div class="col-sm-12 block-space" style="display: none;" id="questionnaire_q2">
+										<fieldset>
+											<div class="row">
+												<div class="col-sm-12">
+													<H4>Within the 24 months prior to the date of application, have you had a heart attack, stroke and/or transient ischemic attack (mini-stroke, TIA)?</H4>
+												</div>
+												<div class="col-sm-3">
+													<input type="radio" name="question2" value="1"> Yes
+												</div>
+												<div class="col-sm-3">
+													<input type="radio" name="question2" value="0"> No
+												</div>
+											</div>
+										</fieldset>
+									</div>
+									<div class="col-sm-12 block-space" style="display: none;" id="questionnaire_q3">
+										<fieldset>
+											<div class="row">
+												<div class="col-sm-12">
+													<H4>At the time of application, how many of the following medical conditions are you receiving treatment for? <br>Treatment includes medication* that you take or have been ordered to take by a physician.</H4>
+												</div>
+												<div class="col-sm-12">
+													<ul>
+														<li>Heart conditions/disease (include aspirin)</li>
+														<li>Lung conditions/disease (include asthma)</li>
+														<li>Diabetes (controlled by medication or diet)</li>	
+														<li>Hypertension</li>
+														<li>Diverticulitis/Diverticulosis</li>
+														<li>Bowel obstruction including bleeding and inflammation</li>
+														<li>Peptic ulcer</li>
+														<li>GERD (gastro-esophageal reflux disease)</li>
+														<li>Kidney disease</li>
+														<li>Cancer</li>
+													</ul>
+												</div>
+												<div class="col-sm-3">
+													<input type="radio" name="question3" value="2"> 2 or more medical conditions
+												</div>
+												<div class="col-sm-3">
+													<input type="radio" name="question3" value="1"> 1 medical condition
+												</div>
+												<div class="col-sm-3">
+													<input type="radio" name="question3" value="0"> none
+												</div>
+											</div>
+										</fieldset>
+									</div>
+									<div class="col-sm-12 block-space" style="display: none;" id="questionnaire_q4">
+										<fieldset>
+											<div class="row">
+												<div class="col-sm-12">
+													<H4>At the time of application, do you have any medical conditions that were not listed in the previous questions for which you are currently receiving treatment?</H4>
+													Treatment includes medication* that you take or have been ordered to take by a physician, not including a minor ailment. Minor ailment means a condition which does not require:
+												</div>
+												<div class="col-sm-12">
+													<ol>
+														<li type='a'>Treatment for a period of greater than 30 consecutive days; or,</li>
+														<li type='a'>More than one follow-up visit or referral visit to a physician or other registered medical practitioner; or,</li>
+														<li type='a'>Hospitalization or surgical intervention.</li>
+													</ol>
+												</div>
+												<div class="col-sm-3">
+													<input type="radio" name="question4" value="1"> Yes
+												</div>
+												<div class="col-sm-3">
+													<input type="radio" name="question4" value="0"> No
+												</div>
+											</div>
+										</fieldset>
+									</div>
+									<div class="col-sm-12 block-space" style="display: none;" id="questionnaire_q5">
+										<fieldset>
+											<div class="row">
+												<div class="col-sm-12">
+													<H4>Have you used any tobacco products in the past 24 months?</H4>
+												</div>
+												<div class="col-sm-3">
+													<input type="radio" name="question5" value="1"> Yes
+												</div>
+												<div class="col-sm-3">
+													<input type="radio" name="question5" value="0"> No
+												</div>
+											</div>
+										</fieldset>
+									</div>
+								</div>
+							</div>
 							<!-- End questionnaire -->
 						</div>
 					</div>
 					<div class="row">
 						<div class="col-sm-4 text-center">
-							<buttom type='button' id='page-prev' class='btn btn-info disabled'>Prev</buttom>
+							<buttom type='button' id='page-prev' class='btn btn-info' style="display:none;">Prev</buttom>
 						</div>
 						<div class="col-sm-4 text-center">
-							<buttom type='button' id='page-submit' class='btn btn-info'>Submit</buttom>
+							<buttom type='button' id='page-submit' class='btn btn-info' style="display:none;">Submit</buttom>
 						</div>
 						<div class="col-sm-4 text-center">
 							<buttom type='button' id='page-next' class='btn btn-info'>Next</buttom>
@@ -591,23 +795,91 @@
 <script>
 var need_questionnaire = 0;
 var cur_max_member = 0;
+var answer;
+
+$('input[name=question1]').on('change', function (e) {
+	var q = $('input[name=question1]:checked').val();
+	$('#questionnaire_q3').css('display','none');
+	$('#questionnaire_q4').css('display','none');
+	$('#questionnaire_q5').css('display','none');
+	if (q == 3) {
+		$('#questionnaire_q2').css('display','none');
+		$('input[name=questionnaire]').val(6);
+	} else if (q == 2) {
+		$('#questionnaire_q2').css('display','none');
+		$('input[name=questionnaire]').val(5);
+	} else {
+		$('#questionnaire_q2').css('display','block');
+	}
+});
+
+$('input[name=question2]').on('change', function (e) {
+	var q = $('input[name=question2]:checked').val();
+	$('#questionnaire_q4').css('display','none');
+	$('#questionnaire_q5').css('display','none');
+	if (q == 1) {
+		$('#questionnaire_q3').css('display','none');
+		$('input[name=questionnaire]').val(5);
+	} else {
+		$('#questionnaire_q3').css('display','block');
+	}
+});
+
+$('input[name=question3]').on('change', function (e) {
+	var q = $('input[name=question3]:checked').val();
+	$('#questionnaire_q5').css('display','none');
+	if (q == 1) {
+		$('#questionnaire_q4').css('display','none');
+		$('input[name=questionnaire]').val(3);
+	} else if (q == 2) {
+		$('#questionnaire_q4').css('display','none');
+		$('input[name=questionnaire]').val(4);
+	} else {
+		$('#questionnaire_q4').css('display','block');
+	}
+});
+
+$('input[name=question4]').on('change', function (e) {
+	var q = $('input[name=question4]:checked').val();
+	if (q == 1) {
+		$('#questionnaire_q5').css('display','none');
+		$('input[name=questionnaire]').val(2);
+	} else {
+		$('#questionnaire_q5').css('display','block');
+	}
+});
+
+$('input[name=question5]').on('change', function (e) {
+	var q = $('input[name=question5]:checked').val();
+	if (q == 1) {
+		$('input[name=questionnaire]').val(2);
+	} else {
+		$('input[name=questionnaire]').val(1);
+	}
+});
 
 $('a[data-toggle="tab"]').on('click', function (e) {
 	var id = $(this).attr('id');
 
 	if (id == 'date_members_tab') {
-		$('#page-prev').addClass('disabled');
-		$('#page-next').removeClass('disabled');
+		$('#page-prev').css('display','none');
+		$('#page-next').css('display','');
 	} else if (id == 'packages_tab') {
-		$('#page-prev').removeClass('disabled');
+		$('#page-prev').css('display','');
 		if (need_questionnaire) {
-			$('#page-next').removeClass('disabled');
+			$('#page-next').css('display','');
 		} else {
-			$('#page-next').addClass('disabled');
+			$('#page-next').css('display','none');
 		}
 	} else if (id == 'questionnaire_tab') {
-		$('#page-prev').removeClass('disabled');
-		$('#page-next').addClass('disabled');
+		$('#page-prev').css('display','');
+		$('#page-next').css('display','none');
+
+		$('input[name=questionnaire]').val(0);
+		$('#questionnaire_q2').css('display','none');
+		$('#questionnaire_q3').css('display','none');
+		$('#questionnaire_q4').css('display','none');
+		$('#questionnaire_q5').css('display','none');
 	} 
 })
 
@@ -623,15 +895,6 @@ $('#page-next').on('click', function(e) {
 	$("ul#top-nav-tabs li.active").next('li').find('a').trigger("click");
 });
 
-/*
-<ul class="nav nav-tabs" id="top-nav-tabs">
-<li class="active"><a data-toggle="tab" id="date_members_tab" href="#date_members">Date / Members</a></li>
-<li ><a data-toggle="tab" id="packages_tab" href="#packages">Packages</a></li>
-<li ><a data-toggle="tab" id="questionnaire_tab" href="#questionnaire">Questionnaire</a></li>
-	$('#error_next_page').click(function(){
-		$('#error_next_page').css('display','none');
-	});
-	*/
 </script>
 
 <script>
