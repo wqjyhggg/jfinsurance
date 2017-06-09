@@ -2358,7 +2358,7 @@ class Plan extends MY_Controller {
 
 				if ((($plan['product_short'] == 'OPL') || ($plan['product_short'] == 'JFR')) && ($plan['sum_insured'] >= 100000) && ($plan['totaldays'] >= 365)) {
 					// No more super visa, change payment data to today
-					$this->payment_model->adjust_commission_added_date($plan_id, $payment['added'], FALSE);
+					$this->payment_model->adjust_commission_added_date($plan_id, $dt['added'], FALSE);
 					$para = array(
 							'plan_id' => $plan_id,
 							'customer_id' => $plan['customer_id'],
