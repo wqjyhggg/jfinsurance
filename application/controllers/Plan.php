@@ -1060,8 +1060,12 @@ class Plan extends MY_Controller {
 	function gettoppremium() {
 		$beuser = $this->func_model->verify_login();
 		$this->load->model('product_model');
-		
-		$data = $this->product_model->get_top_premium($this->input->post());
+		$data = array('status' => 'Fail', 'message' => '');
+		if ($this->input->post()) {
+			if ($this->form_valid()) {
+				$data = $this->product_model->get_top_premium($this->input->post());
+			}
+		}
 		
 		header('Content-Type: application/json');
 		echo json_encode($data);

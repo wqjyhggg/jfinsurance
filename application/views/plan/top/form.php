@@ -80,7 +80,7 @@
 					<?php } ?>
 				</ul>
 				<div class="clearfix"></div>
-				<form action='<?php echo $action_url; ?>' method='POST' id='plan_edit_form' class="form-horizontal" id="plan_form">
+				<form action='<?php echo $action_url; ?>' method='POST' class="form-horizontal" id="plan_form">
 					<div class="tab-content">
 						<div id="date_members" class="tab-pane fade in active">
 							<!-- Start data members -->
@@ -112,11 +112,6 @@
 										<label class="inline">Refund Date: ( <?php echo $plan_refund_date; ?> )</label>
 									</div>
 									<?php } ?>
-									<div class="form-group col-sm-3">
-										<label class="col-sm-12">Premium: </label>
-										<div class="form_text_show" id='premiumdisplay' style="display: inline-block;">
-										</div>
-									</div>
 									<div class="clearfix"></div>
 
 									<div class="col-sm-12 block-space">
@@ -1082,41 +1077,38 @@ function addmoremember(addnumber) {
 }
 
 function get_premium() {
-	console.log('get_premium'); //XXXXXXXXXXXXXXXXXXXXXXXXXX
-<?php if (0 && empty($batch_number)) { ?>
+<?php if (empty($batch_number)) { ?>
+console.log('get_premium: <?php echo $premium_url; ?>'); //XXXXXXXXXXXXXXXXXXXXXXXXXX
+console.log($('#plan_form').serialize()); //XXXXXXXXXXXXXXXXXXXXXXXXXX
 	$.ajax({
 		url: '<?php echo $premium_url; ?>',
-		type: 'get',
+		type: 'post',
 		data: $('#plan_form').serialize(),
 		success: function(data, textStatus, jqXHR) {
 			answer = data;
+			if (data['stable_condition']) {
+				$('#stable_conditions_div').show();
+			} else {
+				$('#stable_conditions_div').hide();
+				$('#stable_condition_select').val(0);
+			}
+
+			need_questionnaire = data['questionnaire'];
+			if (data['questionnaire']) {
+				$('#questionnaire_tab').show();
+			} else {
+				$('#questionnaire_tab').hide();
+			}
+
+			if (data['totaldays'] > 0) {
+				$('#totaldays').val(data['totaldays']);
+			}
+
 			if (data['status'] == 'OK') {
         		$('input[name="premium"]').val(data['premium']);
-				$('#premiumdisplay').html(data['premium']);
+				$('#premium_value').html(data['premium']);
 				$('#page-submit').show();
 
-				if (data['questionnaire']) {
-					$('#questionnaire_tab').show();
-					//XXXXXXXXXXX
-					// questionnaire init
-				} else {
-					$('#questionnaire_tab').hide();
-					//XXXXXXXXXXX
-					// questionnaire clean
-				}
-
-				if (data['stable_condition']) {
-					$('#stable_conditions_div').show();
-				} else {
-					$('#stable_conditions_div').hide();
-					$('#stable_condition_select').val(0);
-				}
-				
-				
-				$('#premium_value').html(data['premium']);
-				$('#totalyears').val(data['totalyears']);
-				$('#totaldays').val(data['totaldays']);
-				$('#dailyrate').val(data['dailyrate']);
 				if (data['message']) {
 					$('#error_message_ajax').html(data['premiumarr']['message']);
 					$('#error_message_ajax').css('display','block');
@@ -1124,40 +1116,6 @@ function get_premium() {
 					$('#error_message_ajax').html('');
 					$('#error_message_ajax').css('display','none');
 				}
-				if (data['premiumarr']['force_deductable']) {
-	        		$('input[name="force_deductable"]').val(data['premiumarr']['force_deductable']);
-				} else {
-	        		$('input[name="force_deductable"]').val(0);
-				}
-
-				if (age85 && (data['premiumarr']['totalyears'] <= 85)) {
-					if ( $( "#deductible_amount_div" ).length ) {
-						$.ajax({
-							url: '<?php echo $deductible_amount_url; ?>',
-							success: function(data, textStatus, jqXHR) {
-					        	$('#deductible_amount_div').html(data);
-								get_premium();
-					    	},
-						});
-					}
-					age85 = 0;
-				} else if (!age85 && (data['premiumarr']['totalyears'] > 85)) {
-					if ( $( "#deductible_amount_div" ).length ) {
-						$.ajax({
-							url: '<?php echo $deductible_amount_url; ?>/500',
-							success: function(data, textStatus, jqXHR) {
-					        	$('#deductible_amount_div').html(data);
-								get_premium();
-					    	},
-						});
-					}
-					age85 = 1;
-				}
-				//if (data['premiumarr']['premium']) {
-				//	$('#goto_next_page').show();
-				//} else {
-				//	$('#goto_next_page').hide();
-				//}
 			} else {
 				$('#page-submit').show();
 				// $('#goto_next_page').hide();
