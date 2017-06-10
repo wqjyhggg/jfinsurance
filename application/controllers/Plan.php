@@ -537,7 +537,7 @@ class Plan extends MY_Controller {
 		} else if (isset($plan['status_id'])) {
 			$data['status_id'] = $plan['status_id'];
 		} else {
-			$data['status_id'] = 0;
+			$data['status_id'] = 1;
 		}
 		if ($this->input->post('apply_date')) {
 			$data['apply_date'] = $this->input->post('apply_date'); 

@@ -9,8 +9,8 @@
 .btn {
   margin: -15px -12px;
 }
-.blcok-space {
-  margin-bottom: 20px;
+.block-space {
+  margin-top: 20px;
 }
 </style><!-- Plan page content -->
 <?php if (isset($menu) && is_array($menu) && (sizeof($menu)>0)) { ?>
@@ -43,7 +43,7 @@
 				<ul class="nav nav-tabs" id="top-nav-tabs">
 					<li class="active"><a data-toggle="tab" id="date_members_tab" href="#date_members">Date / Members</a></li>
 					<li ><a data-toggle="tab" id="packages_tab" href="#packages">Packages</a></li>
-					<li ><a data-toggle="tab" id="questionnaire_tab" href="#questionnaire">Questionnaire</a></li>
+					<li ><a data-toggle="tab" id="questionnaire_tab" href="#questionnaire" style='display: none'>Questionnaire</a></li>
 					<?php if (!empty($plan_id) && !empty($status_id)) { ?>
 						<?php if ($status_id == 1 && $user_group_id != 103) { /* qutoe */ ?>
 							<li style="float: right;"><a href="<?php echo $pay_url; ?>"><span class="btn btn-info" style='color: #fff;'>Pay</span></a></li>
@@ -122,11 +122,11 @@
 									<div class="col-sm-12 block-space">
 										<fieldset>
 											<legend>Travel Dates</legend>
-											<input type="hidden" name='arrival_date' id='arrival_date' value='<?php echo $arrival_date; ?>' data-date-format="yyyy-mm-dd">
 											<input type='hidden' name='dailyrate' step='0.01' id='dailyrate' value='<?php echo $dailyrate; ?>'>
 											<input type='hidden' name='totalyears' id='totalyears' value='<?php echo $totalyears; ?>'>
 											<input type='hidden' name='premium' step='0.01' id='premium' value='<?php echo $premium; ?>'>
-											<input type='hidden' name='isfamilyplan' value='1'>
+											<input type='hidden' name='isfamilyplan' id='isfamilyplan' value='0'>
+
 											<div class="row">
 												<div class="form-group col-sm-3">
 													<label class="col-sm-12">Apply Date (YYYY-MM-DD):</label>
@@ -143,7 +143,7 @@
 												<div class="form-group col-sm-3">
 													<label class="col-sm-12">Effective Date (YYYY-MM-DD): </label>
 													<div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd" id='effective_date_div'>
-														<input class="setpremium form-control" size="16" type="text" name='effective_date' value='<?php echo $effective_date; ?>'>
+														<input class="check_premium form-control" size="16" type="text" name='effective_date' value='<?php echo $effective_date; ?>'>
 														<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
 													</div>
 													<?php if (!empty($error_effective_date)) { ?>
@@ -153,17 +153,27 @@
 												<div class="form-group col-sm-3">
 													<label class="col-sm-12">Expiry Date (YYYY-MM-DD): </label>
 													<div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd" id='expiry_date_div'>
-														<input size="16" type='text' name='expiry_date' class='setpremium form-control' id='expiry_date' value='<?php echo $expiry_date; ?>'>
+														<input size="16" type='text' name='expiry_date' class='check_premium form-control' id='expiry_date' value='<?php echo $expiry_date; ?>'>
 														<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
 													</div>
 													<?php if (!empty($error_expiry_date)) { ?>
 													<div class="alert-error"><?php echo $error_expiry_date;?></div>
 													<?php } ?>
 												</div>
+												<div class="form-group col-sm-3">
+													<label class="col-sm-12">Departure Date (YYYY-MM-DD): </label>
+													<div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd" id='arrival_date_div'>
+														<input class="check_premium form-control" size="16" type="text" name='arrival_date' value='<?php echo $arrival_date; ?>'>
+														<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+													</div>
+													<?php if (!empty($arrival_date_date)) { ?>
+													<div class="alert-error"><?php echo $arrival_date_date; ?></div>
+													<?php } ?>
+												</div>
 												<div class="form-group col-sm-2">
 													<label class="col-sm-12">Days: </label>
 													<div class='form_text_show'>
-														<input class="form-control" type='number' name='totaldays' id='totaldays' value='<?php echo $totaldays; ?>'>
+														<input class="form-control check_premium" type='number' name='totaldays' id='totaldays' value='<?php echo $totaldays; ?>'>
 													</div>
 												</div>
 											</div>
@@ -197,7 +207,7 @@
 												<div class="col-sm-3">
 													<label class="col-sm-12">Birth Date (YYYY-MM-DD):</label>
 													<div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd" data-date-end-date="0d">
-														<input size="16" type="text" class='setpremium form-control' name='birthday' value='<?php echo !empty($birthday) ? $birthday : ''; ?>'>
+														<input size="16" type="text" class='check_premium form-control' name='birthday' value='<?php echo !empty($birthday) ? $birthday : ''; ?>'>
 														<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
 													</div>
 													<?php if (!empty($error_birthday)) {?>
@@ -251,7 +261,7 @@
 													<div class="col-sm-3">
 														<label class="col-sm-12">Birth Date: </label>
 														<div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd" data-date-end-date="0d">
-															<input size="16" type="text" class='setpremium form-control' name='birthday_<?php echo $i; ?>' id='birthday_<?php echo $i; ?>' value='<?php echo !empty(${'birthday_'.$i}) ? ${'birthday_'.$i} : ''; ?>'>
+															<input size="16" type="text" class='check_premium form-control' name='birthday_<?php echo $i; ?>' id='birthday_<?php echo $i; ?>' value='<?php echo !empty(${'birthday_'.$i}) ? ${'birthday_'.$i} : ''; ?>'>
 															<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
 														</div>
 														<?php if (!empty(${'error_birthday_'.$i})) {?>
@@ -448,28 +458,53 @@
 											</div>
 										</fieldset>
 									</div>
-									<div class="col-sm-12 block-space " id='conditions' style="display:none;">
+									<div class="col-sm-12 block-space " id='all_inclusive_div' style="display:none;">
 										<fieldset>
 											<legend>Conditions</legend>
 											<div class="row">
 												<div class="col-sm-4">
 													<label class="col-sm-12">Sum Insured</label>
-													<input type="number" name="sum_insured" min="0" max="15000" step="100" value="<?php echo $sum_insured; ?>"> ( 0 - 15,000 )
+													<input type="number" name="sum_insured" class='check_premium' min="0" max="15000" step="100" value="<?php echo $sum_insured; ?>"> ( 0 - 15,000 )
 												</div>
 												<div class="col-sm-4">
 													<label class="col-sm-12">&nbsp;</label>
-													<input type="checkbox" name="free_cancel" value="<?php echo $free_cancel; ?>"> Free Cancellation
+													<input type="checkbox" name="free_cancel" class='check_premium' value="<?php echo $free_cancel; ?>"> Free Cancellation
 												</div>
 											</div>
 										</fieldset>
 									</div>
-									<div class="col-sm-12 block-space" id='all_inclusive_para' style="display:none;">
+									<div class="col-sm-12 block-space " id='out_province_div' style="display:none;">
+										<fieldset>
+											<legend>Optional Plans</legend>
+											<div class="row panel-group">
+												<div class="panel panel-default">
+													<div class="panel-heading"><input type="checkbox" name="ad_and_d" class='check_premium' value="1">  AD & D</div>
+													<div class="panel-body">
+														AD & D description
+													</div>
+												</div>
+												<div class="panel panel-default">
+													<div class="panel-heading"><input type="checkbox" name="flight_ccident" class='check_premium' value="1">  Flight Accident</div>
+													<div class="panel-body">
+														Flight Accident description
+													</div>
+												</div>
+												<div class="panel panel-default">
+													<div class="panel-heading"><input type="checkbox" name="trip_cancellation" class='check_premium' value="1">  Trip Cancellation</div>
+													<div class="panel-body">
+														Trip Cancellation description
+													</div>
+												</div>
+											</div>
+										</fieldset>
+									</div>
+									<div class="col-sm-12 block-space" id='stable_conditions_div' style="display:none;">
 										<fieldset>
 											<legend>Pre-existing conditons</legend>
 											<div class="row">
 												<label class="inline">Select pre-existing condition coverage</label>
 												<div class="inline">
-													<select name='stable_condition' class="form-control setpremium" id='stable_condition_select'>
+													<select name='stable_condition' class="form-control check_premium" id='stable_condition_select'>
 														<option value='0'> -- select condition -- </option>
 														<option value='1' <?php echo ($stable_condition == 1) ? 'selected' : ''; ?>>Including stable pre-existing condition coverage</option>
 														<option value='2' <?php echo ($stable_condition == 2) ? 'selected' : ''; ?>>Excluding stable pre-existing condition coverage</option>
@@ -492,7 +527,7 @@
 							<div class="x_panel">
 								<div class="x_content">
 									<div class="form-group col-sm-6"><h2><label><span>Questionnaire</span></label></h2></div>
-									<input type="hidden" name="questionnaire" value="">
+									<input type="hidden" name="questionnaire" value="" class="check_premium">
 									<div class="clearfix"></div>
 									<div class="col-sm-12 block-space">
 										<fieldset>
@@ -656,6 +691,8 @@
 						<div class="col-sm-4 text-center">
 							<buttom type='button' id='page-next' class='btn btn-info'>Next</buttom>
 						</div>
+						<div class="col-sm-12 alert-error float-error" title="Click to Close the notice" style="display:none;" id='error_page_message'>
+						</div>
 					</div>
 				</form>
 			</div>
@@ -796,6 +833,16 @@
 var need_questionnaire = 0;
 var cur_max_member = 0;
 var answer;
+$('input[name="package"]').on('change', function (e) {
+	var q = $('input[name=package]:checked').val();
+	if (q == 'all_inclusive') {
+		$('#all_inclusive_div').show();
+		$('#out_province_div').hide();
+	} else {	// out_province
+		$('#all_inclusive_div').hide();
+		$('#out_province_div').show();
+	}
+});
 
 $('input[name=question1]').on('change', function (e) {
 	var q = $('input[name=question1]:checked').val();
@@ -914,9 +961,6 @@ $( document ).ready(function() {
     	},
 	});
 
-	$('.setpremium').change(get_premium); 
-
-	get_premium();
 	addmoremember(0);
 
 	$( ".btn-payment-sort" ).click(sorting_payment);
@@ -994,7 +1038,6 @@ function remove_member(i) {
 		$('#birthday_' + cur_max_member).val('');
 		$('#gender_' + cur_max_member).val('M');
 		$('#customer_member_' + cur_max_member).hide();
-		get_premium();
 		cur_max_member--;
 	}
 }
@@ -1039,15 +1082,38 @@ function addmoremember(addnumber) {
 }
 
 function get_premium() {
-<?php if (empty($batch_number)) { ?>
+	console.log('get_premium'); //XXXXXXXXXXXXXXXXXXXXXXXXXX
+<?php if (0 && empty($batch_number)) { ?>
 	$.ajax({
 		url: '<?php echo $premium_url; ?>',
 		type: 'get',
 		data: $('#plan_form').serialize(),
 		success: function(data, textStatus, jqXHR) {
+			answer = data;
 			if (data['status'] == 'OK') {
         		$('input[name="premium"]').val(data['premium']);
-				$('#premium_value').html(['premium']);
+				$('#premiumdisplay').html(data['premium']);
+				$('#page-submit').show();
+
+				if (data['questionnaire']) {
+					$('#questionnaire_tab').show();
+					//XXXXXXXXXXX
+					// questionnaire init
+				} else {
+					$('#questionnaire_tab').hide();
+					//XXXXXXXXXXX
+					// questionnaire clean
+				}
+
+				if (data['stable_condition']) {
+					$('#stable_conditions_div').show();
+				} else {
+					$('#stable_conditions_div').hide();
+					$('#stable_condition_select').val(0);
+				}
+				
+				
+				$('#premium_value').html(data['premium']);
 				$('#totalyears').val(data['totalyears']);
 				$('#totaldays').val(data['totaldays']);
 				$('#dailyrate').val(data['dailyrate']);
@@ -1092,12 +1158,14 @@ function get_premium() {
 				//} else {
 				//	$('#goto_next_page').hide();
 				//}
-			} else if (data['status'] == 'Days') {
-				$('#totaldays').val(data['days']);
 			} else {
+				$('#page-submit').show();
 				// $('#goto_next_page').hide();
 				if (data['message']) {
-					$('#error_next_page').html(data['message']);
+					var submitcss = $('#page-submit').css('display');
+					if (submitcss != 'none') {
+						$('#error_page_message').html(data['message']);
+					}
 					$('input[name="premium"]').val(0);
 				}
 			}
@@ -1127,7 +1195,6 @@ $(document).ready(function(){
         	var myDate3 = myDate1.getTime() - 86400000;
         	var myDate = new Date(myDate3);
         	$('#expiry_date_div').datepicker('setDate', myDate);
-        	get_premium();
         }
     });
     $('#totaldays').change(function(){
@@ -1138,7 +1205,10 @@ $(document).ready(function(){
         var tm = myDate.getTime() + (days * 86400000) + 43200000;
         myDate.setTime(tm);
         $('#expiry_date_div').datepicker('setDate', myDate);
-        get_premium();
+    });
+
+    $('body').on('change', '.check_premium', function() {
+    	get_premium();
     });
 });
 </script>
