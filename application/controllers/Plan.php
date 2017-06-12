@@ -593,7 +593,7 @@ class Plan extends MY_Controller {
 		} else if (isset($plan['sum_insured'])) {
 			$data['sum_insured'] = $plan['sum_insured'];
 		} else {
-			$data['sum_insured'] = '';
+			$data['sum_insured'] = 0;
 		}
 		if ($this->input->post('premium')) {
 			$data['premium'] = $this->input->post('premium'); 
@@ -1062,9 +1062,15 @@ class Plan extends MY_Controller {
 		$this->load->model('product_model');
 		$data = array('status' => 'Fail', 'message' => '');
 		if ($this->input->post()) {
+			$data = $this->product_model->get_top_premium($this->input->post());
+			/*
 			if ($this->form_valid()) {
 				$data = $this->product_model->get_top_premium($this->input->post());
+			} else {
+				$data['message'] = "Please fill in required data"; 
+				$data['error'] = $this->error;
 			}
+			*/
 		}
 		
 		header('Content-Type: application/json');

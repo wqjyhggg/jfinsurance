@@ -162,8 +162,12 @@ class Product_model extends CI_Model {
 		$r = array('status' => 'Fail', 'message' => '');
 		
 		$number = 1;
-		$birthday = $para['birthday'];
-		$effective_date = $para['effective_date'];
+		$birthday = isset($para['birthday']) ? $para['birthday'] : '';
+		$effective_date = isset($para['effective_date']) ? $para['effective_date'] : '';
+		$expiry_date = isset($para['expiry_date']) ? $para['expiry_date'] : '';
+		
+		$r['totaldays'] = $para['totaldays'] = $this->getDays($effective_date, $expiry_date);
+		
 		$oldyears = $this->getYears($effective_date, $birthday);
 		if (empty($oldyears)) {
 			$mindays = $this->getDays($birthday, $effective_date);
@@ -172,6 +176,7 @@ class Product_model extends CI_Model {
 			}
 		}
 		
+		$people_number = 1;
 		for ($i = 1; $i < 100; $i++) {
 			if (empty($para['birthday_'.$i])) break;
 			$number++;
@@ -186,6 +191,7 @@ class Product_model extends CI_Model {
 			} else if ($years > $oldyears) {
 				$oldyears = $years;
 			}
+			$people_number++;
 		}
 		
 		if ($r['message']) return $r;
@@ -194,7 +200,14 @@ class Product_model extends CI_Model {
 		
 		$this->load->model('top_model');
 
-		return $this->top_model->get_premium($para['package'], $para['totaldays'], $para['sum_insured'], $oldyears, $para['free_cancel'], $para['questionnaire'], $para['stable_condition']);		
+		$package = isset($para['package']) ? $para['package'] : '';
+		$totaldays = isset($para['totaldays']) ? $para['totaldays'] : 0;
+		$sum_insured = isset($para['sum_insured']) ? $para['sum_insured'] : 0;
+		$free_cancel = isset($para['free_cancel']) ? $para['free_cancel'] : '';
+		$questionnaire = isset($para['questionnaire']) ? $para['questionnaire'] : 0;
+		$stable_condition = isset($para['stable_condition']) ? $para['stable_condition'] : 0;
+		
+		return $this->top_model->get_premium($package, $totaldays, $sum_insured, $oldyears, $free_cancel, $questionnaire, $stable_condition, $people_number);		
 	}
 	
 	/**

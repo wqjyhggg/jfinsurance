@@ -33,7 +33,7 @@
 	<div class="main-div">
 		<div class="page-title">
 			<div class="col-sm-6"><h3><?php echo $plan_full_name; ?></h3></div>
-			<div class="col-sm-6"><h2>Premium: <span id='premium_value'></span></h2></div>
+			<div class="col-sm-6"><h2>Premium: $<span id='premium_value'></span></h2></div>
 		</div>
 		<div class="clearfix"></div>
 		<!-- Form Section -->
@@ -41,9 +41,9 @@
 			<div class="col-md-12 col-sm-12 col-xs-12">
 				<div class="alert-error"><?php echo empty($error_message) ? '' : $error_message . "<br>";?></div>
 				<ul class="nav nav-tabs" id="top-nav-tabs">
-					<li class="active"><a data-toggle="tab" id="date_members_tab" href="#date_members">Date / Members</a></li>
-					<li ><a data-toggle="tab" id="packages_tab" href="#packages">Packages</a></li>
-					<li ><a data-toggle="tab" id="questionnaire_tab" href="#questionnaire" style='display: none'>Questionnaire</a></li>
+					<li id='date_members_li' class="active"><a data-toggle="tab" id="date_members_tab" href="#date_members">Date / Members</a></li>
+					<li id='packages_li' ><a data-toggle="tab" id="packages_tab" href="#packages">Packages</a></li>
+					<li id='questionnaire_li' ><a data-toggle="tab" id="questionnaire_tab" href="#questionnaire" style='display: none'>Questionnaire</a></li>
 					<?php if (!empty($plan_id) && !empty($status_id)) { ?>
 						<?php if ($status_id == 1 && $user_group_id != 103) { /* qutoe */ ?>
 							<li style="float: right;"><a href="<?php echo $pay_url; ?>"><span class="btn btn-info" style='color: #fff;'>Pay</span></a></li>
@@ -81,6 +81,11 @@
 				</ul>
 				<div class="clearfix"></div>
 				<form action='<?php echo $action_url; ?>' method='POST' class="form-horizontal" id="plan_form">
+					<input type='hidden' name='dailyrate' step='0.01' id='dailyrate' value='<?php echo $dailyrate; ?>'>
+					<input type='hidden' name='totalyears' id='totalyears' value='<?php echo $totalyears; ?>'>
+					<input type='hidden' name='premium' step='0.01' id='premium' value='<?php echo $premium; ?>'>
+					<input type='hidden' name=product_short id='product_short' value='<?php echo $product_short; ?>'>
+					<input type='hidden' name='isfamilyplan' id='isfamilyplan' value='0'>
 					<div class="tab-content">
 						<div id="date_members" class="tab-pane fade in active">
 							<!-- Start data members -->
@@ -117,11 +122,6 @@
 									<div class="col-sm-12 block-space">
 										<fieldset>
 											<legend>Travel Dates</legend>
-											<input type='hidden' name='dailyrate' step='0.01' id='dailyrate' value='<?php echo $dailyrate; ?>'>
-											<input type='hidden' name='totalyears' id='totalyears' value='<?php echo $totalyears; ?>'>
-											<input type='hidden' name='premium' step='0.01' id='premium' value='<?php echo $premium; ?>'>
-											<input type='hidden' name='isfamilyplan' id='isfamilyplan' value='0'>
-
 											<div class="row">
 												<div class="form-group col-sm-3">
 													<label class="col-sm-12">Apply Date (YYYY-MM-DD):</label>
@@ -158,7 +158,7 @@
 												<div class="form-group col-sm-3">
 													<label class="col-sm-12">Departure Date (YYYY-MM-DD): </label>
 													<div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd" id='arrival_date_div'>
-														<input class="check_premium form-control" size="16" type="text" name='arrival_date' value='<?php echo $arrival_date; ?>'>
+														<input class="form-control" size="16" type="text" name='arrival_date' value='<?php echo $arrival_date; ?>'>
 														<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
 													</div>
 													<?php if (!empty($arrival_date_date)) { ?>
@@ -445,10 +445,10 @@
 											<legend>Select Package</legend>
 											<div class="row">
 												<div class="col-sm-4">
-													<input type="radio" name="package" value="all_inclusive"> All Inclusive
+													<input type="radio" name="package" class='check_premium' value="all_inclusive"> All Inclusive
 												</div>
 												<div class="col-sm-4">
-													<input type="radio" name="package" value="out_province"> Out of Province
+													<input type="radio" name="package" class='check_premium' value="out_province"> Out of Province
 												</div>
 											</div>
 										</fieldset>
@@ -686,8 +686,7 @@
 						<div class="col-sm-4 text-center">
 							<buttom type='button' id='page-next' class='btn btn-info'>Next</buttom>
 						</div>
-						<div class="col-sm-12 alert-error float-error" title="Click to Close the notice" style="display:none;" id='error_page_message'>
-						</div>
+						<div class="col-sm-12 alert-error float-error" title="Click to Close the notice" style="display:none;" id='error_page_message'></div>
 					</div>
 				</form>
 			</div>
@@ -818,9 +817,6 @@
 			</div>
 		</div>
 		<?php } /* history */ ?>
-		<div class="row">
-			<div class="col-sm-12 alert-error float-error" title="Click to Close the notice" id='error_message_ajax' style="display: none;"></div>
-		</div>
 	</div>
 </div>
 <!-- /page content -->
@@ -922,6 +918,12 @@ $('a[data-toggle="tab"]').on('click', function (e) {
 		$('#questionnaire_q3').css('display','none');
 		$('#questionnaire_q4').css('display','none');
 		$('#questionnaire_q5').css('display','none');
+
+		$('#page-submit').hide();
+		$('#error_page_message').hide();
+		$('#error_page_message').html('');
+		$('input[name="premium"]').val(0);
+		$('#premium_value').html('');
 	} 
 })
 
@@ -1078,8 +1080,7 @@ function addmoremember(addnumber) {
 
 function get_premium() {
 <?php if (empty($batch_number)) { ?>
-console.log('get_premium: <?php echo $premium_url; ?>'); //XXXXXXXXXXXXXXXXXXXXXXXXXX
-console.log($('#plan_form').serialize()); //XXXXXXXXXXXXXXXXXXXXXXXXXX
+console.log('get_premium'); //XXXXXXXXXXXXXXXXXXXXXXXXXX
 	$.ajax({
 		url: '<?php echo $premium_url; ?>',
 		type: 'post',
@@ -1094,10 +1095,18 @@ console.log($('#plan_form').serialize()); //XXXXXXXXXXXXXXXXXXXXXXXXXX
 			}
 
 			need_questionnaire = data['questionnaire'];
+			var tab_id = $('.nav-tabs .active').attr('id');
+
 			if (data['questionnaire']) {
 				$('#questionnaire_tab').show();
+				if (tab_id == 'packages_li') {
+					$('#page-next').css('display','');
+				}
 			} else {
 				$('#questionnaire_tab').hide();
+				if (tab_id == 'packages_li') {
+					$('#page-next').css('display','none');
+				}
 			}
 
 			if (data['totaldays'] > 0) {
@@ -1110,22 +1119,23 @@ console.log($('#plan_form').serialize()); //XXXXXXXXXXXXXXXXXXXXXXXXXX
 				$('#page-submit').show();
 
 				if (data['message']) {
-					$('#error_message_ajax').html(data['premiumarr']['message']);
-					$('#error_message_ajax').css('display','block');
+					$('#error_page_message').html(data['premiumarr']['message']);
+					$('#error_page_message').show();
 				} else {
-					$('#error_message_ajax').html('');
-					$('#error_message_ajax').css('display','none');
+					$('#error_page_message').html('');
+					$('#error_page_message').hide();
 				}
 			} else {
-				$('#page-submit').show();
-				// $('#goto_next_page').hide();
+				$('#page-submit').hide();
 				if (data['message']) {
 					var submitcss = $('#page-submit').css('display');
 					if (submitcss != 'none') {
 						$('#error_page_message').html(data['message']);
+						$('#error_page_message').show();
 					}
-					$('input[name="premium"]').val(0);
 				}
+				$('#premium_value').html('');
+				$('input[name="premium"]').val(0);
 			}
     	},
 	});

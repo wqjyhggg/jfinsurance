@@ -9916,7 +9916,7 @@ class Top_model extends CI_Model  {
 			}
 			$arr .= '_c'.$stable_condition;
 		} else {
-			$this->premiumArr['message'] = 'Age must less than 75.';
+			$this->premiumArr['message'] = 'Age must less than 85.';
 			return;
 		}
 		
@@ -10019,7 +10019,7 @@ class Top_model extends CI_Model  {
 			}
 			$arr .= '_c'.$stable_condition;
 		} else {
-			$this->premiumArr['message'] = 'Age must less than 75.';
+			$this->premiumArr['message'] = 'Age must less than 85.';
 			return;
 		}
 		
@@ -10059,8 +10059,7 @@ class Top_model extends CI_Model  {
 		}
 	}
 	
-	public function get_premium($package, $days, $sum_insured, $age, $cancel, $questionnaire, $stable_condition) {
-		// $this->premiumArr = array('status' => 'Fail', 'message' => '');
+	public function get_premium($package, $days, $sum_insured, $age, $cancel, $questionnaire, $stable_condition, $people_number) {
 		$this->premiumArr['status'] = 'Fail';
 		$this->premiumArr['message'] = '';
 		$this->premiumArr['questionnaire'] = 0;
@@ -10070,10 +10069,13 @@ class Top_model extends CI_Model  {
 		$this->premiumArr['totaldays'] = $days;
 		$this->premiumArr['sum_insured'] = $sum_insured;
 		$this->premiumArr['deductible_amount'] =  0;
+		$this->premiumArr['from_top'] =  1;
 		
 		if (method_exists($this, $package)) {
-			$this->$package($days, $sum_insured, $age);
+			$this->$package($days, $sum_insured, $age, $cancel, $questionnaire, $stable_condition);
 		}
+		
+		$this->premiumArr['premium'] *= $people_number; 
 		return $this->premiumArr;
 	}
 }
@@ -10083,5 +10085,3 @@ $b = $a->get_premium('all_inclusive',$days=10, $sum_insured=15100, $age=20);
 
 print_r($b);
 */
-
-
