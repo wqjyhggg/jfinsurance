@@ -823,6 +823,7 @@
 <script>
 var need_questionnaire = 0;
 var cur_max_member = 0;
+var show_ajax_message = 0;
 var answer;
 $('input[name="package"]').on('change', function (e) {
 	var q = $('input[name=package]:checked').val();
@@ -1137,11 +1138,13 @@ console.log('get_premium'); //XXXXXXXXXXXXXXXXXXXXXXXXXX
 					$('#error_page_message').html('');
 					$('#error_page_message').hide();
 				}
+				show_ajax_message = 1;
 			} else {
 				$('#page-submit').hide();
 				if (data['message']) {
-					var submitcss = $('#page-submit').css('display');
-					if (submitcss != 'none') {
+					// var submitcss = $('#page-submit').css('display');
+					//if (submitcss != 'none')
+					if (show_ajax_message) {
 						$('#error_page_message').html(data['message']);
 						$('#error_page_message').show();
 					}

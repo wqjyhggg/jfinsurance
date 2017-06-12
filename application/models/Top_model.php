@@ -9944,15 +9944,15 @@ class Top_model extends CI_Model  {
 		
 		if ($this->premiumArr['premium'] > 0) {
 			$this->premiumArr['status'] = 'OK';
-			if (isset($data['ad_and_d'])) {
+			if ($data['ad_and_d']) {
 				$this->premiumArr['ad_and_d'] = 1;
 				$this->premiumArr['premium'] += 100;
 			}
-			if (isset($data['flight_ccident'])) {
+			if ($data['flight_ccident']) {
 				$this->premiumArr['flight_ccident'] = 1;
 				$this->premiumArr['premium'] += 200;
 			}
-			if (isset($data['trip_cancellation'])) {
+			if ($data['trip_cancellation']) {
 				$this->premiumArr['trip_cancellation'] = 1;
 				$this->premiumArr['premium'] += 400;
 			}
