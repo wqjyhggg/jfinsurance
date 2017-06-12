@@ -1,0 +1,2 @@
+INSERT INTO `product` (`product_short`, `calculate`, `commission`, `min_premium`, `full_name`, `commission_max_limit`, `commission_max_days`, `qoute_pre`, `plan_pre`, `up_insuer`, `up_pay_rate`, `prepare_rate`, `merchent_id`, `apikey`, `currency`) VALUES('TOP', 1, '35.00', '0.00', 'JF Canadian Travel Insurance', 100000, 3650, 'QTOP', 'TOP', 'Blue Cross', '40.000', '50.00', '300203256', '634E4AFd7Eda4dcEaA2976207A7C92bb', 'CAD');
+
