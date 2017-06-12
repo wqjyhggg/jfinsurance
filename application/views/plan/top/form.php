@@ -86,6 +86,7 @@
 					<input type='hidden' name='premium' step='0.01' id='premium' value='<?php echo $premium; ?>'>
 					<input type='hidden' name=product_short id='product_short' value='<?php echo $product_short; ?>'>
 					<input type='hidden' name='isfamilyplan' id='isfamilyplan' value='0'>
+					<input type="hidden" name="questionnaire" id='questionnaire_input' value="">
 					<div class="tab-content">
 						<div id="date_members" class="tab-pane fade in active">
 							<!-- Start data members -->
@@ -463,7 +464,7 @@
 												</div>
 												<div class="col-sm-4">
 													<label class="col-sm-12">&nbsp;</label>
-													<input type="checkbox" name="free_cancel" class='check_premium' value="<?php echo $free_cancel; ?>"> Free Cancellation
+													<input type="checkbox" name="free_cancel" class='check_premium' value="1" <?php echo ($free_cancel ? 'checked' : ''); ?>> Free Cancellation
 												</div>
 											</div>
 										</fieldset>
@@ -522,7 +523,6 @@
 							<div class="x_panel">
 								<div class="x_content">
 									<div class="form-group col-sm-6"><h2><label><span>Questionnaire</span></label></h2></div>
-									<input type="hidden" name="questionnaire" value="" class="check_premium">
 									<div class="clearfix"></div>
 									<div class="col-sm-12 block-space">
 										<fieldset>
@@ -843,9 +843,11 @@ $('input[name=question1]').on('change', function (e) {
 	if (q == 3) {
 		$('#questionnaire_q2').css('display','none');
 		$('input[name=questionnaire]').val(6);
+		get_premium();
 	} else if (q == 2) {
 		$('#questionnaire_q2').css('display','none');
 		$('input[name=questionnaire]').val(5);
+		get_premium();
 	} else {
 		$('#questionnaire_q2').css('display','block');
 	}
@@ -858,6 +860,7 @@ $('input[name=question2]').on('change', function (e) {
 	if (q == 1) {
 		$('#questionnaire_q3').css('display','none');
 		$('input[name=questionnaire]').val(5);
+		get_premium();
 	} else {
 		$('#questionnaire_q3').css('display','block');
 	}
@@ -869,9 +872,11 @@ $('input[name=question3]').on('change', function (e) {
 	if (q == 1) {
 		$('#questionnaire_q4').css('display','none');
 		$('input[name=questionnaire]').val(3);
+		get_premium();
 	} else if (q == 2) {
 		$('#questionnaire_q4').css('display','none');
 		$('input[name=questionnaire]').val(4);
+		get_premium();
 	} else {
 		$('#questionnaire_q4').css('display','block');
 	}
@@ -882,6 +887,7 @@ $('input[name=question4]').on('change', function (e) {
 	if (q == 1) {
 		$('#questionnaire_q5').css('display','none');
 		$('input[name=questionnaire]').val(2);
+		get_premium();
 	} else {
 		$('#questionnaire_q5').css('display','block');
 	}
@@ -894,6 +900,7 @@ $('input[name=question5]').on('change', function (e) {
 	} else {
 		$('input[name=questionnaire]').val(1);
 	}
+	get_premium();
 });
 
 $('a[data-toggle="tab"]').on('click', function (e) {
@@ -914,6 +921,12 @@ $('a[data-toggle="tab"]').on('click', function (e) {
 		$('#page-next').css('display','none');
 
 		$('input[name=questionnaire]').val(0);
+		$('#questionnaire_q1').val(0);
+		$('#questionnaire_q2').val(0);
+		$('#questionnaire_q3').val(0);
+		$('#questionnaire_q4').val(0);
+		$('#questionnaire_q5').val(0);
+
 		$('#questionnaire_q2').css('display','none');
 		$('#questionnaire_q3').css('display','none');
 		$('#questionnaire_q4').css('display','none');
@@ -1091,7 +1104,6 @@ console.log('get_premium'); //XXXXXXXXXXXXXXXXXXXXXXXXXX
 				$('#stable_conditions_div').show();
 			} else {
 				$('#stable_conditions_div').hide();
-				$('#stable_condition_select').val(0);
 			}
 
 			need_questionnaire = data['questionnaire'];

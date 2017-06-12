@@ -9851,205 +9851,212 @@ class Top_model extends CI_Model  {
 		6864.00,
 	);
 	
-	private function out_province($days, $sum_insured, $age, $cancel, $questionnaire, $stable_condition) {
+	private function out_province($data) {
 		$arr = 'out_of_province';
 		$mindays = 1;
 		$maxdays = 120;
-		if ($age < 30) {
+		if ($data['age'] < 30) {
 			$arr = 'out_of_province_0_29';
-		} else if ($age < 55) {
+		} else if ($data['age'] < 55) {
 			$arr = 'out_of_province_30_54';
-		} else if ($age < 60) {
+		} else if ($data['age'] < 60) {
 			$arr = 'out_of_province_55_59';
-		} else if ($age < 65) {
+		} else if ($data['age'] < 65) {
 			$arr = 'out_of_province_60_64';
-			if ($days > 60) {
+			if ($data['totaldays'] > 60) {
 				$mindays = 61;
 				$this->premiumArr['questionnaire'] = 1;
-				if (empty($questionnaire)) {
+				if (empty($data['questionnaire'])) {
 					$this->premiumArr['message'] = 'Please fill in questionnaire.';
 					return;
 				}
 			}
-		} else if ($age < 70) {
+		} else if ($data['age'] < 70) {
 			$arr = 'out_of_province_65_69';
-			if ($days > 60) {
+			if ($data['totaldays'] > 60) {
 				$this->premiumArr['questionnaire'] = 1;
 				$mindays = 61;
-				if (empty($questionnaire)) {
+				if (empty($data['questionnaire'])) {
 					$this->premiumArr['message'] = 'Please fill in questionnaire.';
 					return;
 				}
 			}
-		} else if ($age < 75) {
+		} else if ($data['age'] < 75) {
 			$arr = 'out_of_province_70_74';
-			if ($days > 60) {
+			if ($data['totaldays'] > 60) {
 				$this->premiumArr['questionnaire'] = 1;
 				$mindays = 61;
-				if (empty($questionnaire)) {
+				if (empty($data['questionnaire'])) {
 					$this->premiumArr['message'] = 'Please fill in questionnaire.';
 					return;
 				}
 			}
-		} else if ($age < 80) {
+		} else if ($data['age'] < 80) {
 			$arr = 'out_of_province_75_79';
 			$this->premiumArr['questionnaire'] = 1;
 			$this->premiumArr['stable_condition'] = 1;
-			if (empty($questionnaire)) {
+			if (empty($data['questionnaire'])) {
 				$this->premiumArr['message'] = 'Please fill in questionnaire.';
 				return;
-			} else if (empty($stable_condition)) {
+			} else if (empty($data['stable_condition'])) {
 				$this->premiumArr['message'] = 'Please select including stable pre-existing conditons';
 				return;
 			}
-			$arr .= '_c'.$stable_condition;
-		} else if ($age < 85) {
+			$arr .= '_c'.$data['stable_condition'];
+		} else if ($data['age'] < 85) {
 			$arr = 'out_of_province_80_84';
 			$this->premiumArr['questionnaire'] = 1;
 			$this->premiumArr['stable_condition'] = 1;
-			if (empty($questionnaire)) {
+			if (empty($data['questionnaire'])) {
 				$this->premiumArr['message'] = 'Please fill in questionnaire.';
 				return;
-			} else if (empty($stable_condition)) {
+			} else if (empty($data['stable_condition'])) {
 				$this->premiumArr['message'] = 'Please select including stable pre-existing conditons';
 				return;
 			}
-			$arr .= '_c'.$stable_condition;
+			$arr .= '_c'.$data['stable_condition'];
 		} else {
 			$this->premiumArr['message'] = 'Age must less than 85.';
 			return;
 		}
 		
-		if ($questionnaire) {
-			$arr .= "_t".$questionnaire;
+		if ($data['questionnaire']) {
+			$arr .= "_t".$data['questionnaire'];
 		}
 		
-		if (($sum_insured < 0) || ($sum_insured > 15000)) {
+		if (($data['sum_insured'] < 0) || ($data['sum_insured'] > 15000)) {
 			$this->premiumArr['message'] = 'Out of insured amount.';
 			return;
 		}
 			
-		if (($days < $mindays) || ($days > $maxdays)) {
+		if (($data['totaldays'] < $mindays) || ($data['totaldays'] > $maxdays)) {
 			$this->premiumArr['message'] = 'Out of day range.';
 			return;
 		}
 		
-		$days -= $mindays;	// change to index
-		$sum_idx = $sum_insured / 100;
+		$data['totaldays'] -= $mindays;	// change to index
 		
-		if (!isset($this->{$arr}) || !is_array($this->{$arr}) || !isset($this->{$arr}[$days][$sum_idx])) {
+		if (!isset($this->{$arr}) || !is_array($this->{$arr}) || !isset($this->{$arr}[$data['totaldays']])) {
 			$this->premiumArr['message'] = 'Out of condition range.';
 			return;
 		}
-		if ($sum_idx > 25) {
-			$this->premiumArr['premium'] = $this->{$arr}[$days][26] * ($sum_idx - 25) + $this->{$arr}[$days][25];
-		} else {
-			$this->premiumArr['premium'] = $this->{$arr}[$days][$sum_idx];
-		}
+		$this->premiumArr['premium'] = $this->{$arr}[$data['totaldays']];
 		
 		if ($this->premiumArr['premium'] > 0) {
 			$this->premiumArr['status'] = 'OK';
+			if (isset($data['ad_and_d'])) {
+				$this->premiumArr['ad_and_d'] = 1;
+				$this->premiumArr['premium'] += 100;
+			}
+			if (isset($data['flight_ccident'])) {
+				$this->premiumArr['flight_ccident'] = 1;
+				$this->premiumArr['premium'] += 200;
+			}
+			if (isset($data['trip_cancellation'])) {
+				$this->premiumArr['trip_cancellation'] = 1;
+				$this->premiumArr['premium'] += 400;
+			}
 		} else {
 			$this->premiumArr['message'] = 'Not available.';
 		}
 	}
 	
-	private function all_inclusive($days, $sum_insured, $age, $cancel, $questionnaire, $stable_condition) {
+	private function all_inclusive($data) {
 		$arr = 'all_inclusive';
 		$mindays = 1;
 		$maxdays = 120;
-		if ($age < 30) {
+		if ($data['age'] < 30) {
 			$arr = 'all_inclusive_0_29';
-		} else if ($age < 55) {
+		} else if ($data['age'] < 55) {
 			$arr = 'all_inclusive_30_54';
-		} else if ($age < 60) {
+		} else if ($data['age'] < 60) {
 			$arr = 'all_inclusive_55_59';
-		} else if ($age < 65) {
+		} else if ($data['age'] < 65) {
 			$arr = 'all_inclusive_60_64';
-			if ($days > 60) {
+			if ($data['totaldays'] > 60) {
 				$mindays = 61;
 				$this->premiumArr['questionnaire'] = 1;
-				if (empty($questionnaire)) {
+				if (empty($data['questionnaire'])) {
 					$this->premiumArr['message'] = 'Please fill in questionnaire.';
 					return;
 				}
 			}
-		} else if ($age < 70) {
+		} else if ($data['age'] < 70) {
 			$arr = 'all_inclusive_65_69';
-			if ($days > 60) {
+			if ($data['totaldays'] > 60) {
 				$this->premiumArr['questionnaire'] = 1;
 				$mindays = 61;
-				if (empty($questionnaire)) {
+				if (empty($data['questionnaire'])) {
 					$this->premiumArr['message'] = 'Please fill in questionnaire.';
 					return;
 				}
 			}
-		} else if ($age < 75) {
+		} else if ($data['age'] < 75) {
 			$arr = 'all_inclusive_70_74';
-			if ($days > 60) {
+			if ($data['totaldays'] > 60) {
 				$this->premiumArr['questionnaire'] = 1;
 				$mindays = 61;
-				if (empty($questionnaire)) {
+				if (empty($data['questionnaire'])) {
 					$this->premiumArr['message'] = 'Please fill in questionnaire.';
 					return;
 				}
 			}
-		} else if ($age < 80) {
+		} else if ($data['age'] < 80) {
 			$arr = 'all_inclusive_75_79';
 			$this->premiumArr['questionnaire'] = 1;
 			$this->premiumArr['stable_condition'] = 1;
-			if (empty($questionnaire)) {
+			if (empty($data['questionnaire'])) {
 				$this->premiumArr['message'] = 'Please fill in questionnaire.';
 				return;
-			} else if (empty($stable_condition)) {
+			} else if (empty($data['stable_condition'])) {
 				$this->premiumArr['message'] = 'Please select including stable pre-existing conditons';
 				return;
 			}
-			$arr .= '_c'.$stable_condition;
-		} else if ($age < 85) {
+			$arr .= '_c'.$data['stable_condition'];
+		} else if ($data['age'] < 85) {
 			$arr = 'all_inclusive_80_84';
 			$this->premiumArr['questionnaire'] = 1;
 			$this->premiumArr['stable_condition'] = 1;
-			if (empty($questionnaire)) {
+			if (empty($data['questionnaire'])) {
 				$this->premiumArr['message'] = 'Please fill in questionnaire.';
 				return;
-			} else if (empty($stable_condition)) {
+			} else if (empty($data['stable_condition'])) {
 				$this->premiumArr['message'] = 'Please select including stable pre-existing conditons';
 				return;
 			}
-			$arr .= '_c'.$stable_condition;
+			$arr .= '_c'.$data['stable_condition'];
 		} else {
 			$this->premiumArr['message'] = 'Age must less than 85.';
 			return;
 		}
 		
-		if ($cancel) {
+		if ($data['free_cancel']) {
 			$arr .= "_cancel";
-		} else if ($questionnaire) {
-			$arr .= "_t".$questionnaire;
+		} else if ($data['questionnaire']) {
+			$arr .= "_t".$data['questionnaire'];
 		}
 		
-		if (($sum_insured < 0) || ($sum_insured > 15000)) {
+		if (($data['sum_insured'] < 0) || ($data['sum_insured'] > 15000)) {
 			$this->premiumArr['message'] = 'Out of insured amount.';
 			return;
 		}
 			
-		if (($days < $mindays) || ($days > $maxdays)) {
+		if (($data['totaldays'] < $mindays) || ($data['totaldays'] > $maxdays)) {
 			$this->premiumArr['message'] = 'Out of day range.';
 			return;
 		}
 		
-		$days -= $mindays;	// change to index
-		$sum_idx = $sum_insured / 100;
+		$data['totaldays'] -= $mindays;	// change to index
+		$sum_idx = $data['sum_insured'] / 100;
 		
-		if (!isset($this->{$arr}) || !is_array($this->{$arr}) || !isset($this->{$arr}[$days][$sum_idx])) {
+		if (!isset($this->{$arr}) || !is_array($this->{$arr}) || !isset($this->{$arr}[$data['totaldays']][$sum_idx])) {
 			$this->premiumArr['message'] = 'Out of condition range.';
 			return;
 		}
 		if ($sum_idx > 25) {
-			$this->premiumArr['premium'] = $this->{$arr}[$days][26] * ($sum_idx - 25) + $this->{$arr}[$days][25];
+			$this->premiumArr['premium'] = $this->{$arr}[$data['totaldays']][26] * ($sum_idx - 25) + $this->{$arr}[$data['totaldays']][25];
 		} else {
-			$this->premiumArr['premium'] = $this->{$arr}[$days][$sum_idx];
+			$this->premiumArr['premium'] = $this->{$arr}[$data['totaldays']][$sum_idx];
 		}
 		
 		if ($this->premiumArr['premium'] > 0) {
@@ -10059,23 +10066,24 @@ class Top_model extends CI_Model  {
 		}
 	}
 	
-	public function get_premium($package, $days, $sum_insured, $age, $cancel, $questionnaire, $stable_condition, $people_number) {
+	public function get_premium($passdata) {
 		$this->premiumArr['status'] = 'Fail';
 		$this->premiumArr['message'] = '';
 		$this->premiumArr['questionnaire'] = 0;
 		$this->premiumArr['stable_condition'] = 0;
 		$this->premiumArr['premium'] = 0;
-		$this->premiumArr['totalyears'] = $age;
-		$this->premiumArr['totaldays'] = $days;
-		$this->premiumArr['sum_insured'] = $sum_insured;
+		$this->premiumArr['totalyears'] = $passdata['age'];
+		$this->premiumArr['totaldays'] = $passdata['totaldays'];
+		$this->premiumArr['sum_insured'] = $passdata['sum_insured'];
 		$this->premiumArr['deductible_amount'] =  0;
 		$this->premiumArr['from_top'] =  1;
-		
+
+		$package = $passdata['package'];
 		if (method_exists($this, $package)) {
-			$this->$package($days, $sum_insured, $age, $cancel, $questionnaire, $stable_condition);
+			$this->$package($passdata);
 		}
 		
-		$this->premiumArr['premium'] *= $people_number; 
+		$this->premiumArr['premium'] *= $passdata['people_number']; 
 		return $this->premiumArr;
 	}
 }

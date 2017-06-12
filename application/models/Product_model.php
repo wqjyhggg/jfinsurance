@@ -200,14 +200,19 @@ class Product_model extends CI_Model {
 		
 		$this->load->model('top_model');
 
-		$package = isset($para['package']) ? $para['package'] : '';
-		$totaldays = isset($para['totaldays']) ? $para['totaldays'] : 0;
-		$sum_insured = isset($para['sum_insured']) ? $para['sum_insured'] : 0;
-		$free_cancel = isset($para['free_cancel']) ? $para['free_cancel'] : '';
-		$questionnaire = isset($para['questionnaire']) ? $para['questionnaire'] : 0;
-		$stable_condition = isset($para['stable_condition']) ? $para['stable_condition'] : 0;
+		$para['package'] = isset($para['package']) ? $para['package'] : '';
+		$para['totaldays'] = isset($para['totaldays']) ? $para['totaldays'] : 0;
+		$para['sum_insured'] = isset($para['sum_insured']) ? $para['sum_insured'] : 0;
+		$para['free_cancel'] = isset($para['free_cancel']) ? $para['free_cancel'] : '';
+		$para['age'] = $oldyears;
+		$para['questionnaire'] = isset($para['questionnaire']) ? $para['questionnaire'] : 0;
+		$para['stable_condition'] = isset($para['stable_condition']) ? $para['stable_condition'] : 0;
+		$para['people_number'] = $people_number;
+		$para['ad_and_d'] = isset($para['ad_and_d']) ? $para['ad_and_d'] : '';
+		$para['flight_ccident'] = isset($para['flight_ccident']) ? $para['flight_ccident'] : '';
+		$para['trip_cancellation'] = isset($para['trip_cancellation']) ? $para['trip_cancellation'] : '';
 		
-		return $this->top_model->get_premium($package, $totaldays, $sum_insured, $oldyears, $free_cancel, $questionnaire, $stable_condition, $people_number);		
+		return $this->top_model->get_premium($para);		
 	}
 	
 	/**
