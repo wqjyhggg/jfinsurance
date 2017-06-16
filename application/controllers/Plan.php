@@ -2142,6 +2142,11 @@ class Plan extends MY_Controller {
 				} else if ($data['plan']['product_short'] == 'JFC') {
 					$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
 					$data['special_note'] = $this->load->view('plan/pdf_note_jfc',$data, TRUE);
+					$files = array(
+					'JFC_Policy.pdf' => DOWNLOADDIR . 'JFC_Policy.pdf',
+					'JFC_Claim_Form.pdf' => DOWNLOADDIR . 'JFC_Claim_Form.pdf',
+					'JFC_Brochure.pdf' => DOWNLOADDIR . 'JFC_Brochure.pdf'
+					);
 					
 				} else {
 					$data['insurable_options'] = $this->load->view('plan/detail_other', $data, TRUE);
