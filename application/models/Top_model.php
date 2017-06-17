@@ -5207,7 +5207,7 @@ class Top_model extends CI_Model  {
 		array(6911,	6949,	6953,	6958,	6962,	6967,	6971,	6977,	6983,	6988,	6995,	7002,	7010,	7018,	7026,	7036,	7046,	7056,	7067,	7076,	7086,	7098,	7109,	7120,	7131,	7142,	8.00),
 	);
 
-	private $out_of_province_0_29 = array(
+	private $single_medical_0_29 = array(
 		30.00,
 		30.00,
 		30.00,
@@ -5330,7 +5330,7 @@ class Top_model extends CI_Model  {
 		378.00,
 	);
 
-	private $out_of_province_30_54 = array(
+	private $single_medical_30_54 = array(
 		31.00,
 		31.00,
 		31.00,
@@ -5453,7 +5453,7 @@ class Top_model extends CI_Model  {
 		518.00,
 	);
 
-	private $out_of_province_55_59 = array(
+	private $single_medical_55_59 = array(
 		32.00,
 		32.00,
 		32.00,
@@ -5576,7 +5576,7 @@ class Top_model extends CI_Model  {
 		521.00,
 	);
 
-	private $out_of_province_60_64 = array(
+	private $single_medical_60_64 = array(
 		31.00,
 		31.00,
 		31.00,
@@ -5639,7 +5639,7 @@ class Top_model extends CI_Model  {
 		306.00,
 	);
 
-	private $out_of_province_65_69 = array(
+	private $single_medical_65_69 = array(
 		32.00,
 		32.00,
 		33.00,
@@ -5702,7 +5702,7 @@ class Top_model extends CI_Model  {
 		385.00,
 	);
 
-	private $out_of_province_70_74 = array(
+	private $single_medical_70_74 = array(
 		48.00,
 		48.00,
 		51.00,
@@ -5765,7 +5765,7 @@ class Top_model extends CI_Model  {
 		623.00,
 	);
 	
-	private $out_of_province_60_64_t1 = array(
+	private $single_medical_60_64_t1 = array(
 		294.00,
 		299.00,
 		304.00,
@@ -5828,7 +5828,7 @@ class Top_model extends CI_Model  {
 		578.00,
 	);
 
-	private $out_of_province_60_64_t2 = array(
+	private $single_medical_60_64_t2 = array(
 		307.00,
 		312.00,
 		318.00,
@@ -5891,7 +5891,7 @@ class Top_model extends CI_Model  {
 		605.00,
 	);
 
-	private $out_of_province_60_64_t3 = array(
+	private $single_medical_60_64_t3 = array(
 		487.00,
 		495.00,
 		503.00,
@@ -5954,7 +5954,7 @@ class Top_model extends CI_Model  {
 		959.00,
 	);
 
-	private $out_of_province_60_64_t4 = array(
+	private $single_medical_60_64_t4 = array(
 		579.00,
 		588.00,
 		598.00,
@@ -6017,7 +6017,7 @@ class Top_model extends CI_Model  {
 		1139.00,
 	);
 
-	private $out_of_province_60_64_t5 = array(
+	private $single_medical_60_64_t5 = array(
 		756.00,
 		768.00,
 		781.00,
@@ -6080,7 +6080,7 @@ class Top_model extends CI_Model  {
 		1487.00,
 	);
 
-	private $out_of_province_60_64_t6 = array(
+	private $single_medical_60_64_t6 = array(
 		1335.00,
 		1357.00,
 		1379.00,
@@ -6143,7 +6143,7 @@ class Top_model extends CI_Model  {
 		2627.00,
 	);
 
-	private $out_of_province_65_69_t1 = array(
+	private $single_medical_65_69_t1 = array(
 		347.00,
 		353.00,
 		358.00,
@@ -6206,7 +6206,7 @@ class Top_model extends CI_Model  {
 		683.00,
 	);
 
-	private $out_of_province_65_69_t2 = array(
+	private $single_medical_65_69_t2 = array(
 		369.00,
 		375.00,
 		381.00,
@@ -6269,7 +6269,7 @@ class Top_model extends CI_Model  {
 		726.00,
 	);
 
-	private $out_of_province_65_69_t3 = array(
+	private $single_medical_65_69_t3 = array(
 		564.00,
 		574.00,
 		583.00,
@@ -6332,7 +6332,7 @@ class Top_model extends CI_Model  {
 		1110.00,
 	);
 
-	private $out_of_province_65_69_t4 = array(
+	private $single_medical_65_69_t4 = array(
 		711.00,
 		723.00,
 		735.00,
@@ -6395,7 +6395,7 @@ class Top_model extends CI_Model  {
 		1399.00,
 	);
 
-	private $out_of_province_65_69_t5 = array(
+	private $single_medical_65_69_t5 = array(
 		1044.00,
 		1061.00,
 		1079.00,
@@ -6458,7 +6458,7 @@ class Top_model extends CI_Model  {
 		2054.00,
 	);
 
-	private $out_of_province_65_69_t6 = array(
+	private $single_medical_65_69_t6 = array(
 		1851.00,
 		1882.00,
 		1912.00,
@@ -6521,7 +6521,7 @@ class Top_model extends CI_Model  {
 		3642.00,
 	);
 
-	private $out_of_province_70_74_t1 = array(
+	private $single_medical_70_74_t1 = array(
 		531.00,
 		540.00,
 		549.00,
@@ -6584,7 +6584,7 @@ class Top_model extends CI_Model  {
 		1045.00,
 	);
 	
-	private $out_of_province_70_74_t2 = array(
+	private $single_medical_70_74_t2 = array(
 		546.00,
 		555.00,
 		564.00,
@@ -6647,7 +6647,7 @@ class Top_model extends CI_Model  {
 		1074.00,
 	);
 	
-	private $out_of_province_70_74_t3 = array(
+	private $single_medical_70_74_t3 = array(
 		786.00,
 		799.00,
 		812.00,
@@ -6710,7 +6710,7 @@ class Top_model extends CI_Model  {
 		1547.00,
 	);
 	
-	private $out_of_province_70_74_t4 = array(
+	private $single_medical_70_74_t4 = array(
 		988.00,
 		1004.00,
 		1021.00,
@@ -6773,7 +6773,7 @@ class Top_model extends CI_Model  {
 		1944.00,
 	);
 	
-	private $out_of_province_70_74_t5 = array(
+	private $single_medical_70_74_t5 = array(
 		1407.00,
 		1430.00,
 		1453.00,
@@ -6836,7 +6836,7 @@ class Top_model extends CI_Model  {
 		2768.00,
 	);
 	
-	private $out_of_province_70_74_t6 = array(
+	private $single_medical_70_74_t6 = array(
 		2496.00,
 		2536.00,
 		2577.00,
@@ -6899,7 +6899,7 @@ class Top_model extends CI_Model  {
 		4909.00,
 	);
 	
-	private $out_of_province_75_79_c1_t1 = array(
+	private $single_medical_75_79_c1_t1 = array(
 		58.00,
 		58.00,
 		62.00,
@@ -7022,7 +7022,7 @@ class Top_model extends CI_Model  {
 		1475.00,
 	);
 
-	private $out_of_province_75_79_c1_t2 = array(
+	private $single_medical_75_79_c1_t2 = array(
 		68.00,
 		68.00,
 		72.00,
@@ -7145,7 +7145,7 @@ class Top_model extends CI_Model  {
 		1633.00,
 	);
 
-	private $out_of_province_75_79_c1_t3 = array(
+	private $single_medical_75_79_c1_t3 = array(
 		88.00,
 		88.00,
 		94.00,
@@ -7268,7 +7268,7 @@ class Top_model extends CI_Model  {
 		2320.00,
 	);
 
-	private $out_of_province_75_79_c1_t4 = array(
+	private $single_medical_75_79_c1_t4 = array(
 		124.00,
 		124.00,
 		132.00,
@@ -7391,7 +7391,7 @@ class Top_model extends CI_Model  {
 		3134.00,
 	);
 
-	private $out_of_province_75_79_c1_t5 = array(
+	private $single_medical_75_79_c1_t5 = array(
 		174.00,
 		174.00,
 		185.00,
@@ -7514,7 +7514,7 @@ class Top_model extends CI_Model  {
 		4428.00,
 	);
 
-	private $out_of_province_75_79_c1_t6 = array(
+	private $single_medical_75_79_c1_t6 = array(
 		310.00,
 		310.00,
 		329.00,
@@ -7637,7 +7637,7 @@ class Top_model extends CI_Model  {
 		7254.00,
 	);
 
-	private $out_of_province_75_79_c2_t1 = array(
+	private $single_medical_75_79_c2_t1 = array(
 		-1,
 		-1,
 		-1,
@@ -7760,7 +7760,7 @@ class Top_model extends CI_Model  {
 		-1,
 	);
 
-	private $out_of_province_75_79_c2_t2 = array(
+	private $single_medical_75_79_c2_t2 = array(
 		-1,
 		-1,
 		-1,
@@ -7883,7 +7883,7 @@ class Top_model extends CI_Model  {
 		-1,
 	);
 
-	private $out_of_province_75_79_c2_t3 = array(
+	private $single_medical_75_79_c2_t3 = array(
 		79.00,
 		79.00,
 		85.00,
@@ -8006,7 +8006,7 @@ class Top_model extends CI_Model  {
 		2088.00,
 	);
 
-	private $out_of_province_75_79_c2_t4 = array(
+	private $single_medical_75_79_c2_t4 = array(
 		99.00,
 		99.00,
 		106.00,
@@ -8129,7 +8129,7 @@ class Top_model extends CI_Model  {
 		2507.00,
 	);
 
-	private $out_of_province_75_79_c2_t5 = array(
+	private $single_medical_75_79_c2_t5 = array(
 		122.00,
 		122.00,
 		130.00,
@@ -8252,7 +8252,7 @@ class Top_model extends CI_Model  {
 		3100.00,
 	);
 
-	private $out_of_province_75_79_c2_t6 = array(
+	private $single_medical_75_79_c2_t6 = array(
 		186.00,
 		186.00,
 		197.00,
@@ -8375,7 +8375,7 @@ class Top_model extends CI_Model  {
 		4352.00,
 	);
 	
-	private $out_of_province_80_84_c1_t1 = array(
+	private $single_medical_80_84_c1_t1 = array(
 		95.00,
 		95.00,
 		101.00,
@@ -8498,7 +8498,7 @@ class Top_model extends CI_Model  {
 		2323.00,
 	);
 	
-	private $out_of_province_80_84_c1_t2 = array(
+	private $single_medical_80_84_c1_t2 = array(
 		111.00,
 		111.00,
 		118.00,
@@ -8621,7 +8621,7 @@ class Top_model extends CI_Model  {
 		2626.00,
 	);
 	
-	private $out_of_province_80_84_c1_t3 = array(
+	private $single_medical_80_84_c1_t3 = array(
 		157.00,
 		157.00,
 		166.00,
@@ -8744,7 +8744,7 @@ class Top_model extends CI_Model  {
 		3782.00,
 	);
 	
-	private $out_of_province_80_84_c1_t4 = array(
+	private $single_medical_80_84_c1_t4 = array(
 		203.00,
 		203.00,
 		216.00,
@@ -8867,7 +8867,7 @@ class Top_model extends CI_Model  {
 		5388.00,
 	);
 	
-	private $out_of_province_80_84_c1_t5 = array(
+	private $single_medical_80_84_c1_t5 = array(
 		256.00,
 		256.00,
 		272.00,
@@ -8990,7 +8990,7 @@ class Top_model extends CI_Model  {
 		6427.00,
 	);
 	
-	private $out_of_province_80_84_c1_t6 = array(
+	private $single_medical_80_84_c1_t6 = array(
 		456.00,
 		456.00,
 		485.00,
@@ -9113,7 +9113,7 @@ class Top_model extends CI_Model  {
 		11440.00,
 	);
 	
-	private $out_of_province_80_84_c2_t1 = array(
+	private $single_medical_80_84_c2_t1 = array(
 		-1,
 		-1,
 		-1,
@@ -9236,7 +9236,7 @@ class Top_model extends CI_Model  {
 		-1,
 	);
 	
-	private $out_of_province_80_84_c2_t2 = array(
+	private $single_medical_80_84_c2_t2 = array(
 		-1,
 		-1,
 		-1,
@@ -9359,7 +9359,7 @@ class Top_model extends CI_Model  {
 		-1,
 	);
 	
-	private $out_of_province_80_84_c2_t3 = array(
+	private $single_medical_80_84_c2_t3 = array(
 		141.00,
 		141.00,
 		149.00,
@@ -9482,7 +9482,7 @@ class Top_model extends CI_Model  {
 		3404.00,
 	);
 	
-	private $out_of_province_80_84_c2_t4 = array(
+	private $single_medical_80_84_c2_t4 = array(
 		162.00,
 		162.00,
 		173.00,
@@ -9605,7 +9605,7 @@ class Top_model extends CI_Model  {
 		4310.00,
 	);
 	
-	private $out_of_province_80_84_c2_t5 = array(
+	private $single_medical_80_84_c2_t5 = array(
 		179.00,
 		179.00,
 		190.00,
@@ -9728,7 +9728,7 @@ class Top_model extends CI_Model  {
 		4499.00,
 	);
 	
-	private $out_of_province_80_84_c2_t6 = array(
+	private $single_medical_80_84_c2_t6 = array(
 		274.00,
 		274.00,
 		291.00,
@@ -9851,73 +9851,352 @@ class Top_model extends CI_Model  {
 		6864.00,
 	);
 	
-	private function out_province($data) {
-		$arr = 'out_of_province';
+	private $trip_cancellation_0_59 = array(
+			'42.00',
+			'59.00',
+			'65.00',
+			'67.00',
+			'69.00',
+			'71.00',
+			'74.00',
+			'80.00',
+			'86.00',
+			'91.00',
+			'95.00',
+			'101.00',
+			'105.00',
+			'111.00',
+			'118.00',
+			'121.00',
+			'127.00',
+			'131.00',
+			'140.00',
+			'145.00',
+			'151.00',
+			'156.00',
+			'163.00',
+			'170.00',
+			'176.00',
+			'184.00',
+			'4.25',
+	);
+	
+	private $trip_cancellation_60_64 = array(
+			'54.00',
+			'67.00',
+			'69.00',
+			'71.00',
+			'73.00',
+			'76.00',
+			'82.00',
+			'90.00',
+			'95.00',
+			'102.00',
+			'105.00',
+			'111.00',
+			'118.00',
+			'125.00',
+			'129.00',
+			'137.00',
+			'142.00',
+			'147.00',
+			'154.00',
+			'160.00',
+			'165.00',
+			'172.00',
+			'179.00',
+			'188.00',
+			'197.00',
+			'206.00',
+			'5.30',
+	);
+
+	private $trip_cancellation_65_69 = array(
+			'65.00',
+			'74.00',
+			'76.00',
+			'80.00',
+			'82.00',
+			'86.00',
+			'92.00',
+			'95.00',
+			'104.00',
+			'110.00',
+			'116.00',
+			'119.00',
+			'126.00',
+			'131.00',
+			'138.00',
+			'146.00',
+			'151.00',
+			'156.00',
+			'162.00',
+			'170.00',
+			'175.00',
+			'184.00',
+			'195.00',
+			'202.00',
+			'212.00',
+			'223.00',
+			'6.40',
+	);
+
+	private $trip_cancellation_70_74 = array(
+			'88.00',
+			'90.00',
+			'92.00',
+			'94.00',
+			'98.00',
+			'101.00',
+			'105.00',
+			'111.00',
+			'119.00',
+			'125.00',
+			'129.00',
+			'134.00',
+			'141.00',
+			'147.00',
+			'154.00',
+			'161.00',
+			'170.00',
+			'176.00',
+			'183.00',
+			'192.00',
+			'199.00',
+			'208.00',
+			'220.00',
+			'231.00',
+			'243.00',
+			'254.00',
+			'7.50',
+	);
+	
+	private $annual = array(
+			// 4 days
+			array(
+					'41.00',
+					'51.00',
+					'61.00',
+					'69.00',
+					'83.00',
+					'115.00',
+			),
+			// 9 days
+			array(
+					'56.00',
+					'71.00',
+					'73.00',
+					'83.00',
+					'142.00',
+					'109.00',
+			),
+			// 17 days
+			array(
+					'78.00',
+					'93.00',
+					'97.00',
+					'141.00',
+					'180.00',
+					'236.00',
+			),
+			// 30 days
+			array(
+					'105.00',
+					'145.00',
+					'174.00',
+					'232.00',
+					'285.00',
+					'372.00',
+			),
+			// 60 days
+			array(
+					'230.00',
+					'326.00',
+					'331.00',
+					'555.00',
+					'725.00',
+					'939.00',
+			),
+	);
+	
+	private function annual_plan($data, $ischeck) {
+		if ($data['age'] < 30) {
+			$idx1 = 0;
+		} else if ($data['age'] < 55) {
+			$idx1 = 1;
+		} else if ($data['age'] < 60) {
+			$idx1 = 2;
+		} else if ($data['age'] < 65) {
+			$idx1 = 3;
+		} else if ($data['age'] < 70) {
+			$idx1 = 4;
+		} else if ($data['age'] < 75) {
+			$idx1 = 5;
+		} else {
+			$this->premiumArr['message'] = 'Age must less than 75.';
+			return 0;
+		}
+		
+		if ($ischeck) {
+			return 1;
+		}
+		
+		if ($data['annual_plan_days'] == 4) {
+			$idx2 = 0;
+		} else if ($data['annual_plan_days'] == 9) {
+			$idx2 = 1;
+		} else if ($data['annual_plan_days'] == 17) {
+			$idx2 = 2;
+		} else if ($data['annual_plan_days'] == 30) {
+			$idx2 = 3;
+		} else if ($data['annual_plan_days'] == 60) {
+			$idx2 = 4;
+		} else {
+			$this->premiumArr['message'] = 'Unknow days.';
+			return 1;
+		}
+		
+		$this->premiumArr['premium'] = $this->annual[$idx1][$idx2];
+
+		if ($data['isfamilyplan'] == 1) {
+			$this->premiumArr['premium'] *= 2.25;
+		} else if ($data['isfamilyplan'] == 2) {
+			$this->premiumArr['premium'] *= $data['people_number'];
+		}
+		
+		if ($this->premiumArr['premium'] > 0) {
+			$this->premiumArr['status'] = 'OK';
+		}
+		return 1;
+	}
+	
+	private function optional_plan($data, $ischeck) {
+		$this->premiumArr['trip_cancellation'] = 1;
+		if ($ischeck) {
+			if ($data['age'] >= 75) {
+				$this->premiumArr['trip_cancellation'] = 0;
+			}
+			return 1;
+		}
+
+		if (isset($data['ad_and_d_ck'])) {
+			$rate = 0.1;
+			if ($data['ad_and_d_insuerd'] == 50000) $rate = 0.2;
+			if ($data['ad_and_d_insuerd'] == 75000) $rate = 0.3;
+			if ($data['ad_and_d_insuerd'] == 50000) $rate = 0.4;
+				
+			$this->premiumArr['premium'] += $rate * $data['totaldays'] * $data['people_number'];
+		}
+			
+		if (isset($data['flight_accident_ck'])) {
+			$rate = 0.8;
+			if ($data['flight_accident_insuerd'] == 50000) $rate = 0.2;
+			if ($data['flight_accident_insuerd'] == 75000) $rate = 0.3;
+			if ($data['flight_accident_insuerd'] == 50000) $rate = 0.4;
+				
+			$this->premiumArr['premium'] += $rate * $data['people_number'];
+		}
+		
+		if (isset($data['trip_cancellation_ck'])) {
+			$arr = 'trip_cancellation';
+			if ($data['age'] < 60) {
+				$arr = 'trip_cancellation_0_59';
+			} else if ($data['age'] < 65) {
+				$arr = 'trip_cancellation_60_64';
+			} else if ($data['age'] < 70) {
+				$arr = 'trip_cancellation_65_69';
+			} else if ($data['age'] < 75) {
+				$arr = 'trip_cancellation_70_74';
+			}
+			if (!isset($this->{$arr}) || !is_array($this->{$arr})) {
+				$this->premiumArr['message'] = 'Age must less than 75 for Trip Cancellation plan.';
+				$this->premiumArr['premium'] = 0;
+				return 1;
+			}
+				
+			$idx = $data['trip_cancellation_insured'] / 100;
+			if ($idx < 26) {
+				$base = $this->{$arr}[$idx];
+			} else {
+				$base = $this->{$arr}[25] + (($idx - 26) * $this->{$arr}[26]);
+			}
+			$this->premiumArr['premium'] += $base * $data['people_number'];
+		}
+		
+		if ($this->premiumArr['premium'] > 0) {
+			$this->premiumArr['status'] = 'OK';
+		}
+
+		return 1;
+	}
+	
+	private function single_medical_plan($data, $ischeck) {
+		$arr = 'single_medical';
 		$mindays = 1;
 		$maxdays = 120;
 		if ($data['age'] < 30) {
-			$arr = 'out_of_province_0_29';
+			$arr = 'single_medical_0_29';
 		} else if ($data['age'] < 55) {
-			$arr = 'out_of_province_30_54';
+			$arr = 'single_medical_30_54';
 		} else if ($data['age'] < 60) {
-			$arr = 'out_of_province_55_59';
+			$arr = 'single_medical_55_59';
 		} else if ($data['age'] < 65) {
-			$arr = 'out_of_province_60_64';
+			$arr = 'single_medical_60_64';
 			if ($data['totaldays'] > 60) {
 				$mindays = 61;
 				$this->premiumArr['questionnaire'] = 1;
 				if (empty($data['questionnaire'])) {
 					$this->premiumArr['message'] = 'Please fill in questionnaire.';
-					return;
+					return 1;
 				}
 			}
 		} else if ($data['age'] < 70) {
-			$arr = 'out_of_province_65_69';
+			$arr = 'single_medical_65_69';
 			if ($data['totaldays'] > 60) {
 				$this->premiumArr['questionnaire'] = 1;
 				$mindays = 61;
 				if (empty($data['questionnaire'])) {
 					$this->premiumArr['message'] = 'Please fill in questionnaire.';
-					return;
+					return 1;
 				}
 			}
 		} else if ($data['age'] < 75) {
-			$arr = 'out_of_province_70_74';
+			$arr = 'single_medical_70_74';
 			if ($data['totaldays'] > 60) {
 				$this->premiumArr['questionnaire'] = 1;
 				$mindays = 61;
 				if (empty($data['questionnaire'])) {
 					$this->premiumArr['message'] = 'Please fill in questionnaire.';
-					return;
+					return 1;
 				}
 			}
 		} else if ($data['age'] < 80) {
-			$arr = 'out_of_province_75_79';
+			$arr = 'single_medical_75_79';
 			$this->premiumArr['questionnaire'] = 1;
 			$this->premiumArr['stable_condition'] = 1;
 			if (empty($data['questionnaire'])) {
 				$this->premiumArr['message'] = 'Please fill in questionnaire.';
-				return;
+				return 1;
 			} else if (empty($data['stable_condition'])) {
 				$this->premiumArr['message'] = 'Please select including stable pre-existing conditons';
-				return;
+				return 1;
 			}
 			$arr .= '_c'.$data['stable_condition'];
 		} else if ($data['age'] < 85) {
-			$arr = 'out_of_province_80_84';
+			$arr = 'single_medical_80_84';
 			$this->premiumArr['questionnaire'] = 1;
 			$this->premiumArr['stable_condition'] = 1;
 			if (empty($data['questionnaire'])) {
 				$this->premiumArr['message'] = 'Please fill in questionnaire.';
-				return;
+				return 1;
 			} else if (empty($data['stable_condition'])) {
 				$this->premiumArr['message'] = 'Please select including stable pre-existing conditons';
-				return;
+				return 1;
 			}
 			$arr .= '_c'.$data['stable_condition'];
 		} else {
 			$this->premiumArr['message'] = 'Age must less than 85.';
-			return;
+			return 0;
 		}
 		
 		if ($data['questionnaire']) {
@@ -9926,42 +10205,38 @@ class Top_model extends CI_Model  {
 		
 		if (($data['sum_insured'] < 0) || ($data['sum_insured'] > 15000)) {
 			$this->premiumArr['message'] = 'Out of insured amount.';
-			return;
+			return 1;
 		}
 			
 		if (($data['totaldays'] < $mindays) || ($data['totaldays'] > $maxdays)) {
 			$this->premiumArr['message'] = 'Out of day range.';
-			return;
+			return 1;
 		}
 		
 		$data['totaldays'] -= $mindays;	// change to index
 		
 		if (!isset($this->{$arr}) || !is_array($this->{$arr}) || !isset($this->{$arr}[$data['totaldays']])) {
 			$this->premiumArr['message'] = 'Out of condition range.';
-			return;
+			return 0;
 		}
+		
+		if ($ischeck) {
+			return 1;
+		}
+		
 		$this->premiumArr['premium'] = $this->{$arr}[$data['totaldays']];
+		$this->premiumArr['premium'] += 40;			// $40 administration fee will apply to all single medical plan
 		
 		if ($this->premiumArr['premium'] > 0) {
-			$this->premiumArr['status'] = 'OK';
-			if ($data['ad_and_d']) {
-				$this->premiumArr['ad_and_d'] = 1;
-				$this->premiumArr['premium'] += 100;
-			}
-			if ($data['flight_ccident']) {
-				$this->premiumArr['flight_ccident'] = 1;
-				$this->premiumArr['premium'] += 200;
-			}
-			if ($data['trip_cancellation']) {
-				$this->premiumArr['trip_cancellation'] = 1;
-				$this->premiumArr['premium'] += 400;
-			}
+			return $this->optional_plan($data, 0);
 		} else {
 			$this->premiumArr['message'] = 'Not available.';
 		}
+		
+		return 1;
 	}
 	
-	private function all_inclusive($data) {
+	private function all_inclusive($data, $ischeck) {
 		$arr = 'all_inclusive';
 		$mindays = 1;
 		$maxdays = 120;
@@ -9976,9 +10251,13 @@ class Top_model extends CI_Model  {
 			if ($data['totaldays'] > 60) {
 				$mindays = 61;
 				$this->premiumArr['questionnaire'] = 1;
+				if ($data['isfamilyplan']) {
+					$this->premiumArr['message'] = "The age is out of plan range.";
+					return 0;
+				}
 				if (empty($data['questionnaire'])) {
 					$this->premiumArr['message'] = 'Please fill in questionnaire.';
-					return;
+					return 1;
 				}
 			}
 		} else if ($data['age'] < 70) {
@@ -9986,9 +10265,13 @@ class Top_model extends CI_Model  {
 			if ($data['totaldays'] > 60) {
 				$this->premiumArr['questionnaire'] = 1;
 				$mindays = 61;
+				if ($data['isfamilyplan']) {
+					$this->premiumArr['message'] = "The age is out of plan range.";
+					return 0;
+				}
 				if (empty($data['questionnaire'])) {
 					$this->premiumArr['message'] = 'Please fill in questionnaire.';
-					return;
+					return 1;
 				}
 			}
 		} else if ($data['age'] < 75) {
@@ -9996,38 +10279,62 @@ class Top_model extends CI_Model  {
 			if ($data['totaldays'] > 60) {
 				$this->premiumArr['questionnaire'] = 1;
 				$mindays = 61;
+				if ($data['isfamilyplan']) {
+					$this->premiumArr['message'] = "The age is out of plan range.";
+					return 0;
+				}
 				if (empty($data['questionnaire'])) {
 					$this->premiumArr['message'] = 'Please fill in questionnaire.';
-					return;
+					return 1;
 				}
 			}
 		} else if ($data['age'] < 80) {
 			$arr = 'all_inclusive_75_79';
 			$this->premiumArr['questionnaire'] = 1;
 			$this->premiumArr['stable_condition'] = 1;
+			if ($data['free_cancel']) {
+				$this->premiumArr['message'] = "Age over 80 can't select free cancel plan.";
+				return 1;
+			}
+			if ($data['isfamilyplan']) {
+				$this->premiumArr['message'] = "The age is out of plan range.";
+				return 0;
+			}
 			if (empty($data['questionnaire'])) {
 				$this->premiumArr['message'] = 'Please fill in questionnaire.';
-				return;
+				return 1;
 			} else if (empty($data['stable_condition'])) {
 				$this->premiumArr['message'] = 'Please select including stable pre-existing conditons';
-				return;
+				return 1;
 			}
 			$arr .= '_c'.$data['stable_condition'];
 		} else if ($data['age'] < 85) {
 			$arr = 'all_inclusive_80_84';
 			$this->premiumArr['questionnaire'] = 1;
 			$this->premiumArr['stable_condition'] = 1;
+			if ($data['free_cancel']) {
+				$this->premiumArr['message'] = "Age over 80 can't select free cancel plan.";
+				return 1;
+			}
+			if ($data['isfamilyplan']) {
+				$this->premiumArr['message'] = "The age is out of plan range.";
+				return 0;
+			}
 			if (empty($data['questionnaire'])) {
 				$this->premiumArr['message'] = 'Please fill in questionnaire.';
-				return;
+				return 1;
 			} else if (empty($data['stable_condition'])) {
 				$this->premiumArr['message'] = 'Please select including stable pre-existing conditons';
-				return;
+				return 1;
 			}
 			$arr .= '_c'.$data['stable_condition'];
 		} else {
 			$this->premiumArr['message'] = 'Age must less than 85.';
-			return;
+			return 0;
+		}
+		
+		if ($ischeck) {
+			return 1;
 		}
 		
 		if ($data['free_cancel']) {
@@ -10038,12 +10345,12 @@ class Top_model extends CI_Model  {
 		
 		if (($data['sum_insured'] < 0) || ($data['sum_insured'] > 15000)) {
 			$this->premiumArr['message'] = 'Out of insured amount.';
-			return;
+			return 1;
 		}
 			
 		if (($data['totaldays'] < $mindays) || ($data['totaldays'] > $maxdays)) {
-			$this->premiumArr['message'] = 'Out of day range.';
-			return;
+			$this->premiumArr['message'] = 'Out of days range.';
+			return 1;
 		}
 		
 		$data['totaldays'] -= $mindays;	// change to index
@@ -10051,7 +10358,7 @@ class Top_model extends CI_Model  {
 		
 		if (!isset($this->{$arr}) || !is_array($this->{$arr}) || !isset($this->{$arr}[$data['totaldays']][$sum_idx])) {
 			$this->premiumArr['message'] = 'Out of condition range.';
-			return;
+			return 1;
 		}
 		if ($sum_idx > 25) {
 			$this->premiumArr['premium'] = $this->{$arr}[$data['totaldays']][26] * ($sum_idx - 25) + $this->{$arr}[$data['totaldays']][25];
@@ -10064,11 +10371,24 @@ class Top_model extends CI_Model  {
 		} else {
 			$this->premiumArr['message'] = 'Not available.';
 		}
+		
+		if ($data['isfamilyplan'] == 1) {
+			$this->premiumArr['premium'] *= 2.25;		// single premium times 2.25
+		} else if ($data['isfamilyplan'] == 2) {
+			$this->premiumArr['premium'] *= $data['people_number'];
+			if ($data['people_number'] > 9) {
+				$this->premiumArr['premium'] *= 0.9;	// 10% discount apply if number of members is 10 or more
+			}
+		}
+		
+		return 1;
 	}
 	
 	public function get_premium($passdata) {
-		$this->premiumArr['status'] = 'Fail';
-		$this->premiumArr['message'] = '';
+		$this->premiumArr['all_inclusive'] = $this->all_inclusive($passdata, 1);
+		$this->premiumArr['single_medical_plan'] = $this->single_medical_plan($passdata, 1);
+		$this->premiumArr['annual_plan'] = $this->annual_plan($passdata, 1);
+		$this->premiumArr['optional_plan'] = $this->optional_plan($passdata, 1);
 		$this->premiumArr['questionnaire'] = 0;
 		$this->premiumArr['stable_condition'] = 0;
 		$this->premiumArr['premium'] = 0;
@@ -10077,10 +10397,12 @@ class Top_model extends CI_Model  {
 		$this->premiumArr['sum_insured'] = $passdata['sum_insured'];
 		$this->premiumArr['deductible_amount'] =  0;
 		$this->premiumArr['from_top'] =  1;
-
+		$this->premiumArr['status'] = 'Fail';
+		$this->premiumArr['message'] = '';
+		
 		$package = $passdata['package'];
 		if (method_exists($this, $package)) {
-			$this->$package($passdata);
+			$this->$package($passdata, 0);
 		}
 		
 		$this->premiumArr['premium'] *= $passdata['people_number']; 

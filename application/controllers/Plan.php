@@ -875,10 +875,86 @@ class Plan extends MY_Controller {
 		}
 		
 		// For TOP plan
-		if (isset($plan['policy'])) {
-			$data['policy'] = $plan['policy'];
+		if ($this->input->post('ad_and_d_ck')) {
+			$data['ad_and_d_insuerd'] = $this->input->post('ad_and_d_insuerd');
+		} else if (isset($plan['ad_and_d_insuerd'])) {
+			$data['ad_and_d_insuerd'] = $plan['ad_and_d_insuerd'];
 		} else {
-			$data['policy'] = '';
+			$data['ad_and_d_insuerd'] = 0;
+		}
+		if ($this->input->post('flight_accident_ck')) {
+			$data['flight_accident_insuerd'] = $this->input->post('flight_accident_insuerd');
+		} else if (isset($plan['flight_accident_insuerd'])) {
+			$data['flight_accident_insuerd'] = $plan['flight_accident_insuerd'];
+		} else {
+			$data['flight_accident_insuerd'] = 0;
+		}
+		if ($this->input->post('trip_cancellation_ck')) {
+			$data['trip_cancellation_insured'] = $this->input->post('trip_cancellation_insured');
+		} else if (isset($plan['trip_cancellation_insured'])) {
+			$data['trip_cancellation_insured'] = $plan['trip_cancellation_insured'];
+		} else {
+			$data['trip_cancellation_insured'] = '0';
+		}
+		if ($this->input->post('package') == 'annual_plan') {
+			$data['annual_plan_days'] = $this->input->post('annual_plan_days');
+		} else if (isset($plan['annual_plan_days'])) {
+			$data['annual_plan_days'] = $plan['annual_plan_days'];
+		} else {
+			$data['annual_plan_days'] = '0';
+		}
+		if ($this->input->post('trip_cancellation_ck')) {
+			$data['trip_cancellation_insured'] = $this->input->post('trip_cancellation_insured');
+		} else if (isset($plan['trip_cancellation_insured'])) {
+			$data['trip_cancellation_insured'] = $plan['trip_cancellation_insured'];
+		} else {
+			$data['trip_cancellation_insured'] = '0';
+		}
+		$data['questionnaire'] = 0;
+		if ($this->input->post('question1')) {
+			$data['question1'] = $this->input->post('question1');
+			$data['questionnaire'] = 1;
+		} else if (isset($plan['question1'])) {
+			$data['question1'] = $plan['question1'];
+			$data['questionnaire'] = 1;
+		} else {
+			$data['question1'] = '0';
+		}
+		if ($this->input->post('question2')) {
+			$data['question2'] = $this->input->post('question2');
+			$data['questionnaire'] = 1;
+		} else if (isset($plan['question2'])) {
+			$data['question2'] = $plan['question2'];
+			$data['questionnaire'] = 1;
+		} else {
+			$data['question2'] = '0';
+		}
+		if ($this->input->post('question3')) {
+			$data['question3'] = $this->input->post('question3');
+			$data['questionnaire'] = 1;
+		} else if (isset($plan['question3'])) {
+			$data['question3'] = $plan['question3'];
+			$data['questionnaire'] = 1;
+		} else {
+			$data['question3'] = '0';
+		}
+		if ($this->input->post('question4')) {
+			$data['question4'] = $this->input->post('question4');
+			$data['questionnaire'] = 1;
+		} else if (isset($plan['question4'])) {
+			$data['question4'] = $plan['question4'];
+			$data['questionnaire'] = 1;
+		} else {
+			$data['question4'] = '0';
+		}
+		if ($this->input->post('question5')) {
+			$data['question5'] = $this->input->post('question5');
+			$data['questionnaire'] = 1;
+		} else if (isset($plan['question5'])) {
+			$data['question5'] = $plan['question5'];
+			$data['questionnaire'] = 1;
+		} else {
+			$data['question5'] = '0';
 		}
 		
 		$data['show_history'] = 0;

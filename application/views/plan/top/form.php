@@ -166,10 +166,20 @@
 													<div class="alert-error"><?php echo $arrival_date_date; ?></div>
 													<?php } ?>
 												</div>
-												<div class="form-group col-sm-2">
+												<div class="form-group col-sm-3">
 													<label class="col-sm-12">Days: </label>
 													<div class='form_text_show'>
 														<input class="form-control check_premium" type='number' name='totaldays' id='totaldays' value='<?php echo $totaldays; ?>'>
+													</div>
+												</div>
+												<div class="form-group col-sm-3">
+													<label class="col-sm-12">Family / Group: </label>
+													<div class='form_text_show'>
+														<select name='isfamilyplan' class="form-control" style="padding: 6px 2px;">
+															<option value='0' <?php echo (($isfamilyplan != 1) && ($isfamilyplan != 2)) ? "" : "selected"; ?>>Single</option>
+															<option value='1' <?php echo ($isfamilyplan == 1) ? "selected" : ""; ?>>Family</option>
+															<option value='2' <?php echo ($isfamilyplan == 2) ? "selected" : ""; ?>>Group</option>
+														</select>
 													</div>
 												</div>
 											</div>
@@ -445,11 +455,29 @@
 										<fieldset>
 											<legend>Select Package</legend>
 											<div class="row">
-												<div class="col-sm-4">
-													<input type="radio" name="package" class='check_premium' value="all_inclusive"> All Inclusive
+												<div class="col-sm-3">
+													<input type="radio" name="package" class='check_premium' value="all_inclusive">
+													<a href="#" data-toggle="popover" data-trigger="hover" title="All Inclusive" data-content="Explaination for All Inclusive">
+														All Inclusive plan <span class="glyphicon glyphicon-question-sign"></span>
+													</a>
 												</div>
-												<div class="col-sm-4">
-													<input type="radio" name="package" class='check_premium' value="out_province"> Out of Province
+												<div class="col-sm-3">
+													<input type="radio" name="package" class='check_premium' value="single_medical_plan">
+													<a href="#" data-toggle="popover" data-trigger="hover" title="Out of Province" data-content="Explaination for Out of Province">
+														Single medical plan <span class="glyphicon glyphicon-question-sign"></span>
+													</a>
+												</div>
+												<div class="col-sm-3">
+													<input type="radio" name="package" class='check_premium' value="annual_plan">
+													<a href="#" data-toggle="popover" data-trigger="hover" title="Annual Plan" data-content="Explaination for Annual Plan">
+														Annual Plan <span class="glyphicon glyphicon-question-sign"></span>
+													</a>
+												</div>
+												<div class="col-sm-3">
+													<input type="radio" name="package" class='check_premium' value="optional_plan">
+													<a href="#" data-toggle="popover" data-trigger="hover" title="Optional Plan" data-content="Explaination for Optional Plan">
+														Optional Plan <span class="glyphicon glyphicon-question-sign"></span>
+													</a>
 												</div>
 											</div>
 										</fieldset>
@@ -460,7 +488,7 @@
 											<div class="row">
 												<div class="col-sm-4">
 													<label class="col-sm-12">Sum Insured</label>
-													<input type="number" name="sum_insured" class='check_premium' min="0" max="15000" step="100" value="<?php echo $sum_insured; ?>"> ( 0 - 15,000 )
+													<input type="number" name="sum_insured" class='check_premium' min="0" max="15000" step="100" value="<?php echo $sum_insured; ?>"> ( 0 - 15,000 every 100s)
 												</div>
 												<div class="col-sm-4">
 													<label class="col-sm-12">&nbsp;</label>
@@ -469,26 +497,73 @@
 											</div>
 										</fieldset>
 									</div>
-									<div class="col-sm-12 block-space " id='out_province_div' style="display:none;">
+									<div class="col-sm-12 block-space " id='annual_plan_div' style="display:none;">
+										<fieldset>
+											<legend>Days</legend>
+											<div class="row">
+												<div class="col-sm-2 text-right">
+													<label class="col-sm-12">Select Days : </label>
+												</div>
+												<div class="col-sm-10">
+													<label class="col-sm-12">Select Days</label>
+													<select name='annual_plan_days' class="check_premium" style="padding: 6px 2px;">
+														<option value='4' <?php echo ($annual_plan_days == 4) ? "selected" : ""; ?>>4 Days</option>
+														<option value='9' <?php echo ($annual_plan_days == 9) ? "selected" : ""; ?>>9 Days</option>
+														<option value='17' <?php echo ($annual_plan_days == 17) ? "selected" : ""; ?>>17 Days</option>
+														<option value='30' <?php echo ($annual_plan_days == 30) ? "selected" : ""; ?>>30 Days</option>
+														<option value='60' <?php echo ($annual_plan_days == 60) ? "selected" : ""; ?>>60 Days</option>
+													</select>
+												</div>
+											</div>
+										</fieldset>
+									</div>
+									<div class="col-sm-12 block-space " id='optional_plan_div' style="display:none;">
 										<fieldset>
 											<legend>Optional Plans</legend>
 											<div class="row panel-group">
 												<div class="panel panel-default">
-													<div class="panel-heading"><input type="checkbox" name="ad_and_d" class='check_premium' value="1">  AD & D</div>
+													<div class="panel-heading"><input type="checkbox" name="ad_and_d_ck" class='check_premium' value="1" <?php echo $ad_and_d_insuerd ? 'checked' : ''; ?>>  AD & D</div>
 													<div class="panel-body">
 														AD & D description
+														<div class='row'>
+															<div class="col-sm-2 text-right"><label>Insured Amount : </label></div>
+															<div class="col-sm-10">
+																<select name='ad_and_d_insuerd' class="check_premium" style="padding: 6px 2px;">
+																	<option value='25000' <?php echo ($ad_and_d_insuerd == 25000) ? "selected" : ""; ?>>25,000</option>
+																	<option value='50000' <?php echo ($ad_and_d_insuerd == 50000) ? "selected" : ""; ?>>50,000</option>
+																	<option value='75000' <?php echo ($ad_and_d_insuerd == 75000) ? "selected" : ""; ?>>75,000</option>
+																	<option value='100000' <?php echo ($ad_and_d_insuerd == 100000) ? "selected" : ""; ?>>100,000</option>
+																</select>
+															</div>
+														</div>
 													</div>
 												</div>
 												<div class="panel panel-default">
-													<div class="panel-heading"><input type="checkbox" name="flight_ccident" class='check_premium' value="1">  Flight Accident</div>
+													<div class="panel-heading"><input type="checkbox" name="flight_accident_ck" class='check_premium' value="1" <?php echo $flight_accident_insuerd ? 'checked' : ''; ?>>  Flight Accident</div>
 													<div class="panel-body">
 														Flight Accident description
+														<div class='row'>
+															<div class="col-sm-2 text-right"><label>Insured Amount : </label></div>
+															<div class="col-sm-10">
+																<select name='flight_accident_insuerd' class="check_premium" style="padding: 6px 2px;">
+																	<option value='100000' <?php echo ($flight_accident_insuerd == 100000) ? "selected" : ""; ?>>100,000</option>
+																	<option value='200000' <?php echo ($flight_accident_insuerd == 200000) ? "selected" : ""; ?>>200,000</option>
+																	<option value='300000' <?php echo ($flight_accident_insuerd == 300000) ? "selected" : ""; ?>>300,000</option>
+																</select>
+															</div>
+														</div>
 													</div>
 												</div>
 												<div class="panel panel-default">
-													<div class="panel-heading"><input type="checkbox" name="trip_cancellation" class='check_premium' value="1">  Trip Cancellation</div>
+													<div class="panel-heading"><input type="checkbox" name="trip_cancellation_ck" class='check_premium' value="1" <?php echo $flight_accident_insuerd ? 'checked' : ''; ?>>  Trip Cancellation</div>
 													<div class="panel-body">
 														Trip Cancellation description
+														<div class='row'>
+															<div class="col-sm-2 text-right"><label>Insured Amount : </label></div>
+															<div class="col-sm-10">
+																<input type="number" name="trip_cancellation_insured" class='check_premium' min="0" max="15000" step="100" value="<?php echo $trip_cancellation_insured; ?>"> ( every 100s )
+															</div>
+														</div>
 													</div>
 												</div>
 											</div>
@@ -572,36 +647,36 @@
 													</ul>
 												</div>
 												<div class="col-sm-3">
-													<input type="radio" name="question1" value="3"> 3 or more medications
+													<input type="radio" name="question1" value="4" <?php if ($question1 == 4) { echo "checked"; } ?>> 3 or more medications
 												</div>
 												<div class="col-sm-3">
-													<input type="radio" name="question1" value="2"> 2 medications
+													<input type="radio" name="question1" value="3" <?php if ($question1 == 3) { echo "checked"; } ?>> 2 medications
 												</div>
 												<div class="col-sm-3">
-													<input type="radio" name="question1" value="1"> 1 medication
+													<input type="radio" name="question1" value="2" <?php if ($question1 == 2) { echo "checked"; } ?>> 1 medication
 												</div>
 												<div class="col-sm-3">
-													<input type="radio" name="question1" value="0"> none
+													<input type="radio" name="question1" value="1" <?php if ($question1 == 1) { echo "checked"; } ?>> none
 												</div>
 											</div>
 										</fieldset>
 									</div>
-									<div class="col-sm-12 block-space" style="display: none;" id="questionnaire_q2">
+									<div class="col-sm-12 block-space" id="questionnaire_q2">
 										<fieldset>
 											<div class="row">
 												<div class="col-sm-12">
 													<H4>Within the 24 months prior to the date of application, have you had a heart attack, stroke and/or transient ischemic attack (mini-stroke, TIA)?</H4>
 												</div>
 												<div class="col-sm-3">
-													<input type="radio" name="question2" value="1"> Yes
+													<input type="radio" name="question2" value="2" <?php if ($question2 == 2) { echo "checked"; } ?>> Yes
 												</div>
 												<div class="col-sm-3">
-													<input type="radio" name="question2" value="0"> No
+													<input type="radio" name="question2" value="1" <?php if ($question2 == 1) { echo "checked"; } ?>> No
 												</div>
 											</div>
 										</fieldset>
 									</div>
-									<div class="col-sm-12 block-space" style="display: none;" id="questionnaire_q3">
+									<div class="col-sm-12 block-space" id="questionnaire_q3">
 										<fieldset>
 											<div class="row">
 												<div class="col-sm-12">
@@ -622,13 +697,13 @@
 													</ul>
 												</div>
 												<div class="col-sm-3">
-													<input type="radio" name="question3" value="2"> 2 or more medical conditions
+													<input type="radio" name="question3" value="3" <?php if ($question3 == 3) { echo "checked"; } ?>> 2 or more medical conditions
 												</div>
 												<div class="col-sm-3">
-													<input type="radio" name="question3" value="1"> 1 medical condition
+													<input type="radio" name="question3" value="2" <?php if ($question3 == 2) { echo "checked"; } ?>> 1 medical condition
 												</div>
 												<div class="col-sm-3">
-													<input type="radio" name="question3" value="0"> none
+													<input type="radio" name="question3" value="1" <?php if ($question3 == 1) { echo "checked"; } ?>> none
 												</div>
 											</div>
 										</fieldset>
@@ -648,10 +723,10 @@
 													</ol>
 												</div>
 												<div class="col-sm-3">
-													<input type="radio" name="question4" value="1"> Yes
+													<input type="radio" name="question4" value="2" <?php if ($question4 == 2) { echo "checked"; } ?>> Yes
 												</div>
 												<div class="col-sm-3">
-													<input type="radio" name="question4" value="0"> No
+													<input type="radio" name="question4" value="1" <?php if ($question4 == 1) { echo "checked"; } ?>> No
 												</div>
 											</div>
 										</fieldset>
@@ -663,10 +738,10 @@
 													<H4>Have you used any tobacco products in the past 24 months?</H4>
 												</div>
 												<div class="col-sm-3">
-													<input type="radio" name="question5" value="1"> Yes
+													<input type="radio" name="question5" value="2" <?php if ($question5 == 1) { echo "checked"; } ?>> Yes
 												</div>
 												<div class="col-sm-3">
-													<input type="radio" name="question5" value="0"> No
+													<input type="radio" name="question5" value="1" <?php if ($question5 == 1) { echo "checked"; } ?>> No
 												</div>
 											</div>
 										</fieldset>
@@ -827,78 +902,91 @@ var show_ajax_message = 0;
 var answer;
 $('input[name="package"]').on('change', function (e) {
 	var q = $('input[name=package]:checked').val();
+	$('#all_inclusive_div').hide();
+	$('#annual_plan_div').hide();
+	$('#optional_plan_div').hide();
 	if (q == 'all_inclusive') {
 		$('#all_inclusive_div').show();
-		$('#out_province_div').hide();
-	} else {	// out_province
-		$('#all_inclusive_div').hide();
-		$('#out_province_div').show();
+	} else if (q == 'annual_plan') {
+		$('#annual_plan_div').show();
+	} else {	// single_medical_plan, optional_plan
+		$('#optional_plan_div').show();
 	}
 });
 
 $('input[name=question1]').on('change', function (e) {
 	var q = $('input[name=question1]:checked').val();
+	$('#questionnaire_q2').prop('checked', false);
+	$('#questionnaire_q3').prop('checked', false);
+	$('#questionnaire_q4').prop('checked', false);
+	$('#questionnaire_q5').prop('checked', false);
 	$('#questionnaire_q3').css('display','none');
 	$('#questionnaire_q4').css('display','none');
 	$('#questionnaire_q5').css('display','none');
-	if (q == 3) {
+	if (q == 4) {
 		$('#questionnaire_q2').css('display','none');
 		$('input[name=questionnaire]').val(6);
 		get_premium();
-	} else if (q == 2) {
+	} else if (q == 3) {
 		$('#questionnaire_q2').css('display','none');
 		$('input[name=questionnaire]').val(5);
 		get_premium();
-	} else {
+	} else if ((q == 2) || (q == 1)) {
 		$('#questionnaire_q2').css('display','block');
 	}
 });
 
 $('input[name=question2]').on('change', function (e) {
 	var q = $('input[name=question2]:checked').val();
+	$('#questionnaire_q3').prop('checked', false);
+	$('#questionnaire_q4').prop('checked', false);
+	$('#questionnaire_q5').prop('checked', false);
 	$('#questionnaire_q4').css('display','none');
 	$('#questionnaire_q5').css('display','none');
-	if (q == 1) {
+	if (q == 2) {
 		$('#questionnaire_q3').css('display','none');
 		$('input[name=questionnaire]').val(5);
 		get_premium();
-	} else {
+	} else if (q == 1) {
 		$('#questionnaire_q3').css('display','block');
 	}
 });
 
 $('input[name=question3]').on('change', function (e) {
 	var q = $('input[name=question3]:checked').val();
+	$('#questionnaire_q4').prop('checked', false);
+	$('#questionnaire_q5').prop('checked', false);
 	$('#questionnaire_q5').css('display','none');
-	if (q == 1) {
-		$('#questionnaire_q4').css('display','none');
-		$('input[name=questionnaire]').val(3);
-		get_premium();
-	} else if (q == 2) {
+	if (q == 3) {
 		$('#questionnaire_q4').css('display','none');
 		$('input[name=questionnaire]').val(4);
 		get_premium();
-	} else {
+	} else if (q == 2) {
+		$('#questionnaire_q4').css('display','none');
+		$('input[name=questionnaire]').val(3);
+		get_premium();
+	} else if (q == 1) {
 		$('#questionnaire_q4').css('display','block');
 	}
 });
 
 $('input[name=question4]').on('change', function (e) {
 	var q = $('input[name=question4]:checked').val();
-	if (q == 1) {
+	$('#questionnaire_q5').prop('checked', false);
+	if (q == 2) {
 		$('#questionnaire_q5').css('display','none');
 		$('input[name=questionnaire]').val(2);
 		get_premium();
-	} else {
+	} else if (q == 1) {
 		$('#questionnaire_q5').css('display','block');
 	}
 });
 
 $('input[name=question5]').on('change', function (e) {
 	var q = $('input[name=question5]:checked').val();
-	if (q == 1) {
+	if (q == 2) {
 		$('input[name=questionnaire]').val(2);
-	} else {
+	} else if (q == 1) {
 		$('input[name=questionnaire]').val(1);
 	}
 	get_premium();
@@ -1009,6 +1097,20 @@ $( document ).ready(function() {
 	    	},
 		});
 	});
+
+	$('input[step]').change(function() {
+		var step = $(this).attr('step');
+		if (step > 10) {
+			var v = $(this).val();
+			var v = v - (v % step);
+			$(this).val(v);
+		}
+	});
+
+	$('#page-submit').on('click', function (e) {
+		$('#page-submit').hide();
+		$('#plan_form').submit();
+	});
 });
 
 function sorting_payment() {
@@ -1094,13 +1196,35 @@ function addmoremember(addnumber) {
 
 function get_premium() {
 <?php if (empty($batch_number)) { ?>
-console.log('get_premium'); //XXXXXXXXXXXXXXXXXXXXXXXXXX
 	$.ajax({
 		url: '<?php echo $premium_url; ?>',
 		type: 'post',
 		data: $('#plan_form').serialize(),
 		success: function(data, textStatus, jqXHR) {
 			answer = data;
+
+			if (data['all_inclusive']) {
+				$('input[name=package][value=all_inclusive]').prop("disabled", false);
+			} else {
+				$('input[name=package][value=all_inclusive]').prop("disabled", true);
+			}
+			if (data['single_medical_plan']) {
+				$('input[name=package][value=single_medical_plan]').prop("disabled", false);
+			} else {
+				$('input[name=package][value=single_medical_plan]').prop("disabled", true);
+			}
+			if (data['annual_plan']) {
+				$('input[name=package][value=annual_plan]').prop("disabled", false);
+			} else {
+				$('input[name=package][value=annual_plan]').prop("disabled", true);
+			}
+			if (data['optional_plan']) {
+				$('input[name=package][value=optional_plan]').prop("disabled", false);
+			} else {
+				$('input[name=package][value=optional_plan]').prop("disabled", true);
+			}
+
+
 			if (data['stable_condition']) {
 				$('#stable_conditions_div').show();
 			} else {
@@ -1120,6 +1244,7 @@ console.log('get_premium'); //XXXXXXXXXXXXXXXXXXXXXXXXXX
 				if (tab_id == 'packages_li') {
 					$('#page-next').css('display','none');
 				}
+				$('input[name=questionnaire]').val(0);
 			}
 
 			if (data['totaldays'] > 0) {
@@ -1132,7 +1257,7 @@ console.log('get_premium'); //XXXXXXXXXXXXXXXXXXXXXXXXXX
 				$('#page-submit').show();
 
 				if (data['message']) {
-					$('#error_page_message').html(data['premiumarr']['message']);
+					$('#error_page_message').html(data['message']);
 					$('#error_page_message').show();
 				} else {
 					$('#error_page_message').html('');
@@ -1159,6 +1284,8 @@ console.log('get_premium'); //XXXXXXXXXXXXXXXXXXXXXXXXXX
 </script>
 	<script type="text/javascript">
 $(document).ready(function(){
+	$('[data-toggle="popover"]').popover();
+	
 	$('#formid').on('keyup keypress', function(e) {
 		var keyCode = e.keyCode || e.which;
 		if (keyCode === 13) {
