@@ -33,7 +33,7 @@
 	<div class="main-div">
 		<div class="page-title">
 			<div class="col-sm-6"><h3><?php echo $plan_full_name; ?></h3></div>
-			<div class="col-sm-6"><h2>Premium: $<span id='premium_value'></span></h2></div>
+			<div class="col-sm-6"><h2>Premium: $<span id='premium_value'><?php echo $premium; ?></span></h2></div>
 		</div>
 		<div class="clearfix"></div>
 		<!-- Form Section -->
@@ -43,7 +43,7 @@
 				<ul class="nav nav-tabs" id="top-nav-tabs">
 					<li id='date_members_li' class="active"><a data-toggle="tab" id="date_members_tab" href="#date_members">Date / Members</a></li>
 					<li id='packages_li' ><a data-toggle="tab" id="packages_tab" href="#packages">Packages</a></li>
-					<li id='questionnaire_li' ><a data-toggle="tab" id="questionnaire_tab" href="#questionnaire" style='display: none'>Questionnaire</a></li>
+					<li id='questionnaire_li' ><a data-toggle="tab" id="questionnaire_tab" href="#questionnaire" <?php if (empty($questionnaire)) { ?>style='display: none'<?php } ?>>Questionnaire</a></li>
 					<?php if (!empty($plan_id) && !empty($status_id)) { ?>
 						<?php if ($status_id == 1 && $user_group_id != 103) { /* qutoe */ ?>
 							<li style="float: right;"><a href="<?php echo $pay_url; ?>"><span class="btn btn-info" style='color: #fff;'>Pay</span></a></li>
@@ -85,8 +85,8 @@
 					<input type='hidden' name='totalyears' id='totalyears' value='<?php echo $totalyears; ?>'>
 					<input type='hidden' name='premium' step='0.01' id='premium' value='<?php echo $premium; ?>'>
 					<input type='hidden' name=product_short id='product_short' value='<?php echo $product_short; ?>'>
-					<input type='hidden' name='isfamilyplan' id='isfamilyplan' value='0'>
-					<input type="hidden" name="questionnaire" id='questionnaire_input' value="">
+					<input type='hidden' name='isfamilyplan' id='isfamilyplan' value='<?php echo $isfamilyplan; ?>'>
+					<input type="hidden" name="questionnaire" id='questionnaire_input' value="<?php echo $questionnaire; ?>">
 					<div class="tab-content">
 						<div id="date_members" class="tab-pane fade in active">
 							<!-- Start data members -->
@@ -181,6 +181,15 @@
 															<option value='2' <?php echo ($isfamilyplan == 2) ? "selected" : ""; ?>>Group</option>
 														</select>
 													</div>
+												</div>
+												<div class="form-group col-sm-3">
+													<label class="col-sm-12">Beneficiary</label>
+													<div class="input-group col-sm-12">
+														<input type='text' name='beneficiary' value='<?php echo $beneficiary; ?>' class="form-control">
+													</div>
+													<?php if (!empty($error_beneficiary)) {?>
+													<div class="alert-error"><?php echo $error_beneficiary;?></div>
+													<?php } ?>
 												</div>
 											</div>
 										</fieldset>
@@ -456,33 +465,33 @@
 											<legend>Select Package</legend>
 											<div class="row">
 												<div class="col-sm-3">
-													<input type="radio" name="package" class='check_premium' value="all_inclusive">
+													<input type="radio" name="package" class='check_premium' value="all_inclusive" <?php if ($package == 'all_inclusive') { echo 'checked'; } ?>>
 													<a href="#" data-toggle="popover" data-trigger="hover" title="All Inclusive" data-content="Explaination for All Inclusive">
-														All Inclusive plan <span class="glyphicon glyphicon-question-sign"></span>
+														<?php echo $toppackagename['all_inclusive']; ?> <span class="glyphicon glyphicon-question-sign"></span>
 													</a>
 												</div>
 												<div class="col-sm-3">
-													<input type="radio" name="package" class='check_premium' value="single_medical_plan">
+													<input type="radio" name="package" class='check_premium' value="single_medical_plan" <?php if ($package == 'single_medical_plan') { echo 'checked'; } ?>>
 													<a href="#" data-toggle="popover" data-trigger="hover" title="Out of Province" data-content="Explaination for Out of Province">
-														Single medical plan <span class="glyphicon glyphicon-question-sign"></span>
+														<?php echo $toppackagename['single_medical_plan']; ?> <span class="glyphicon glyphicon-question-sign"></span>
 													</a>
 												</div>
 												<div class="col-sm-3">
-													<input type="radio" name="package" class='check_premium' value="annual_plan">
+													<input type="radio" name="package" class='check_premium' value="annual_plan" <?php if ($package == 'annual_plan') { echo 'checked'; } ?>>
 													<a href="#" data-toggle="popover" data-trigger="hover" title="Annual Plan" data-content="Explaination for Annual Plan">
-														Annual Plan <span class="glyphicon glyphicon-question-sign"></span>
+														<?php echo $toppackagename['annual_plan']; ?> <span class="glyphicon glyphicon-question-sign"></span>
 													</a>
 												</div>
 												<div class="col-sm-3">
-													<input type="radio" name="package" class='check_premium' value="optional_plan">
+													<input type="radio" name="package" class='check_premium' value="optional_plan" <?php if ($package == 'optional_plan') { echo 'checked'; } ?>>
 													<a href="#" data-toggle="popover" data-trigger="hover" title="Optional Plan" data-content="Explaination for Optional Plan">
-														Optional Plan <span class="glyphicon glyphicon-question-sign"></span>
+														<?php echo $toppackagename['optional_plan']; ?> <span class="glyphicon glyphicon-question-sign"></span>
 													</a>
 												</div>
 											</div>
 										</fieldset>
 									</div>
-									<div class="col-sm-12 block-space " id='all_inclusive_div' style="display:none;">
+									<div class="col-sm-12 block-space " id='all_inclusive_div' <?php if ($package != 'all_inclusive') { ?>style="display:none;"<?php } ?>>
 										<fieldset>
 											<legend>Conditions</legend>
 											<div class="row">
@@ -497,7 +506,7 @@
 											</div>
 										</fieldset>
 									</div>
-									<div class="col-sm-12 block-space " id='annual_plan_div' style="display:none;">
+									<div class="col-sm-12 block-space " id='annual_plan_div' <?php if ($package != 'annual_plan') { ?>style="display:none;"<?php } ?>>
 										<fieldset>
 											<legend>Days</legend>
 											<div class="row">
@@ -517,45 +526,45 @@
 											</div>
 										</fieldset>
 									</div>
-									<div class="col-sm-12 block-space " id='optional_plan_div' style="display:none;">
+									<div class="col-sm-12 block-space " id='optional_plan_div' <?php if (($package != 'single_medical_plan') && ($package != 'annual_plan')) { ?>style="display:none;"<?php } ?>>
 										<fieldset>
 											<legend>Optional Plans</legend>
 											<div class="row panel-group">
 												<div class="panel panel-default">
-													<div class="panel-heading"><input type="checkbox" name="ad_and_d_ck" class='check_premium' value="1" <?php echo $ad_and_d_insuerd ? 'checked' : ''; ?>>  AD & D</div>
+													<div class="panel-heading"><input type="checkbox" name="ad_and_d_ck" class='check_premium' value="1" <?php echo $ad_and_d_insured ? 'checked' : ''; ?>>  AD & D</div>
 													<div class="panel-body">
 														AD & D description
 														<div class='row'>
 															<div class="col-sm-2 text-right"><label>Insured Amount : </label></div>
 															<div class="col-sm-10">
-																<select name='ad_and_d_insuerd' class="check_premium" style="padding: 6px 2px;">
-																	<option value='25000' <?php echo ($ad_and_d_insuerd == 25000) ? "selected" : ""; ?>>25,000</option>
-																	<option value='50000' <?php echo ($ad_and_d_insuerd == 50000) ? "selected" : ""; ?>>50,000</option>
-																	<option value='75000' <?php echo ($ad_and_d_insuerd == 75000) ? "selected" : ""; ?>>75,000</option>
-																	<option value='100000' <?php echo ($ad_and_d_insuerd == 100000) ? "selected" : ""; ?>>100,000</option>
+																<select name='ad_and_d_insured' class="check_premium" style="padding: 6px 2px;">
+																	<option value='25000' <?php echo ($ad_and_d_insured == 25000) ? "selected" : ""; ?>>25,000</option>
+																	<option value='50000' <?php echo ($ad_and_d_insured == 50000) ? "selected" : ""; ?>>50,000</option>
+																	<option value='75000' <?php echo ($ad_and_d_insured == 75000) ? "selected" : ""; ?>>75,000</option>
+																	<option value='100000' <?php echo ($ad_and_d_insured == 100000) ? "selected" : ""; ?>>100,000</option>
 																</select>
 															</div>
 														</div>
 													</div>
 												</div>
 												<div class="panel panel-default">
-													<div class="panel-heading"><input type="checkbox" name="flight_accident_ck" class='check_premium' value="1" <?php echo $flight_accident_insuerd ? 'checked' : ''; ?>>  Flight Accident</div>
+													<div class="panel-heading"><input type="checkbox" name="flight_accident_ck" class='check_premium' value="1" <?php echo $flight_accident_insured ? 'checked' : ''; ?>>  Flight Accident</div>
 													<div class="panel-body">
 														Flight Accident description
 														<div class='row'>
 															<div class="col-sm-2 text-right"><label>Insured Amount : </label></div>
 															<div class="col-sm-10">
-																<select name='flight_accident_insuerd' class="check_premium" style="padding: 6px 2px;">
-																	<option value='100000' <?php echo ($flight_accident_insuerd == 100000) ? "selected" : ""; ?>>100,000</option>
-																	<option value='200000' <?php echo ($flight_accident_insuerd == 200000) ? "selected" : ""; ?>>200,000</option>
-																	<option value='300000' <?php echo ($flight_accident_insuerd == 300000) ? "selected" : ""; ?>>300,000</option>
+																<select name='flight_accident_insured' class="check_premium" style="padding: 6px 2px;">
+																	<option value='100000' <?php echo ($flight_accident_insured == 100000) ? "selected" : ""; ?>>100,000</option>
+																	<option value='200000' <?php echo ($flight_accident_insured == 200000) ? "selected" : ""; ?>>200,000</option>
+																	<option value='300000' <?php echo ($flight_accident_insured == 300000) ? "selected" : ""; ?>>300,000</option>
 																</select>
 															</div>
 														</div>
 													</div>
 												</div>
 												<div class="panel panel-default">
-													<div class="panel-heading"><input type="checkbox" name="trip_cancellation_ck" class='check_premium' value="1" <?php echo $flight_accident_insuerd ? 'checked' : ''; ?>>  Trip Cancellation</div>
+													<div class="panel-heading"><input type="checkbox" name="trip_cancellation_ck" class='check_premium' value="1" <?php echo $flight_accident_insured ? 'checked' : ''; ?>>  Trip Cancellation</div>
 													<div class="panel-body">
 														Trip Cancellation description
 														<div class='row'>
@@ -569,7 +578,7 @@
 											</div>
 										</fieldset>
 									</div>
-									<div class="col-sm-12 block-space" id='stable_conditions_div' style="display:none;">
+									<div class="col-sm-12 block-space" id='stable_conditions_div' <?php if (empty($stable_condition)) { ?>style="display:none;"<?php } ?>>
 										<fieldset>
 											<legend>Pre-existing conditons</legend>
 											<div class="row">
@@ -661,7 +670,7 @@
 											</div>
 										</fieldset>
 									</div>
-									<div class="col-sm-12 block-space" id="questionnaire_q2">
+									<div class="col-sm-12 block-space" id="questionnaire_q2" <?php if (empty($question2)) { ?>style="display:none;"<?php } ?>>
 										<fieldset>
 											<div class="row">
 												<div class="col-sm-12">
@@ -676,7 +685,7 @@
 											</div>
 										</fieldset>
 									</div>
-									<div class="col-sm-12 block-space" id="questionnaire_q3">
+									<div class="col-sm-12 block-space" id="questionnaire_q3" <?php if (empty($question3)) { ?>style="display:none;"<?php } ?>>
 										<fieldset>
 											<div class="row">
 												<div class="col-sm-12">
@@ -708,7 +717,7 @@
 											</div>
 										</fieldset>
 									</div>
-									<div class="col-sm-12 block-space" style="display: none;" id="questionnaire_q4">
+									<div class="col-sm-12 block-space" id="questionnaire_q4" <?php if (empty($question4)) { ?>style="display:none;"<?php } ?>>
 										<fieldset>
 											<div class="row">
 												<div class="col-sm-12">
@@ -731,7 +740,7 @@
 											</div>
 										</fieldset>
 									</div>
-									<div class="col-sm-12 block-space" style="display: none;" id="questionnaire_q5">
+									<div class="col-sm-12 block-space" id="questionnaire_q5" <?php if (empty($question5)) { ?>style="display:none;"<?php } ?>>
 										<fieldset>
 											<div class="row">
 												<div class="col-sm-12">
@@ -751,12 +760,12 @@
 							<!-- End questionnaire -->
 						</div>
 					</div>
-					<div class="row">
+					<div class="row  blcok-space">
 						<div class="col-sm-4 text-center">
 							<buttom type='button' id='page-prev' class='btn btn-info' style="display:none;">Prev</buttom>
 						</div>
 						<div class="col-sm-4 text-center">
-							<buttom type='button' id='page-submit' class='btn btn-info' style="display:none;">Submit</buttom>
+							<input type='submit' id='page-submit' class='btn btn-info' name='submit' value='Submit' style="display:none;" />
 						</div>
 						<div class="col-sm-4 text-center">
 							<buttom type='button' id='page-next' class='btn btn-info'>Next</buttom>
@@ -896,7 +905,7 @@
 </div>
 <!-- /page content -->
 <script>
-var need_questionnaire = 0;
+var need_questionnaire = <?php printf("%d", $questionnaire); ?>;
 var cur_max_member = 0;
 var show_ajax_message = 0;
 var answer;
@@ -912,14 +921,15 @@ $('input[name="package"]').on('change', function (e) {
 	} else {	// single_medical_plan, optional_plan
 		$('#optional_plan_div').show();
 	}
+	show_ajax_message = 1;
 });
 
 $('input[name=question1]').on('change', function (e) {
 	var q = $('input[name=question1]:checked').val();
-	$('#questionnaire_q2').prop('checked', false);
-	$('#questionnaire_q3').prop('checked', false);
-	$('#questionnaire_q4').prop('checked', false);
-	$('#questionnaire_q5').prop('checked', false);
+	$('#question2').prop('checked', false);
+	$('#question3').prop('checked', false);
+	$('#question4').prop('checked', false);
+	$('#question5').prop('checked', false);
 	$('#questionnaire_q3').css('display','none');
 	$('#questionnaire_q4').css('display','none');
 	$('#questionnaire_q5').css('display','none');
@@ -938,9 +948,9 @@ $('input[name=question1]').on('change', function (e) {
 
 $('input[name=question2]').on('change', function (e) {
 	var q = $('input[name=question2]:checked').val();
-	$('#questionnaire_q3').prop('checked', false);
-	$('#questionnaire_q4').prop('checked', false);
-	$('#questionnaire_q5').prop('checked', false);
+	$('#question3').prop('checked', false);
+	$('#question4').prop('checked', false);
+	$('#question5').prop('checked', false);
 	$('#questionnaire_q4').css('display','none');
 	$('#questionnaire_q5').css('display','none');
 	if (q == 2) {
@@ -954,8 +964,8 @@ $('input[name=question2]').on('change', function (e) {
 
 $('input[name=question3]').on('change', function (e) {
 	var q = $('input[name=question3]:checked').val();
-	$('#questionnaire_q4').prop('checked', false);
-	$('#questionnaire_q5').prop('checked', false);
+	$('#question4').prop('checked', false);
+	$('#question5').prop('checked', false);
 	$('#questionnaire_q5').css('display','none');
 	if (q == 3) {
 		$('#questionnaire_q4').css('display','none');
@@ -972,7 +982,7 @@ $('input[name=question3]').on('change', function (e) {
 
 $('input[name=question4]').on('change', function (e) {
 	var q = $('input[name=question4]:checked').val();
-	$('#questionnaire_q5').prop('checked', false);
+	$('#question5').prop('checked', false);
 	if (q == 2) {
 		$('#questionnaire_q5').css('display','none');
 		$('input[name=questionnaire]').val(2);
@@ -1010,11 +1020,11 @@ $('a[data-toggle="tab"]').on('click', function (e) {
 		$('#page-next').css('display','none');
 
 		$('input[name=questionnaire]').val(0);
-		$('#questionnaire_q1').val(0);
-		$('#questionnaire_q2').val(0);
-		$('#questionnaire_q3').val(0);
-		$('#questionnaire_q4').val(0);
-		$('#questionnaire_q5').val(0);
+		$('#question1').val(0);
+		$('#question2').val(0);
+		$('#question3').val(0);
+		$('#question4').val(0);
+		$('#question5').val(0);
 
 		$('#questionnaire_q2').css('display','none');
 		$('#questionnaire_q3').css('display','none');
@@ -1109,7 +1119,6 @@ $( document ).ready(function() {
 
 	$('#page-submit').on('click', function (e) {
 		$('#page-submit').hide();
-		$('#plan_form').submit();
 	});
 });
 
@@ -1245,10 +1254,18 @@ function get_premium() {
 					$('#page-next').css('display','none');
 				}
 				$('input[name=questionnaire]').val(0);
+				$('#question1').prop('checked', false);
+				$('#question2').prop('checked', false);
+				$('#question3').prop('checked', false);
+				$('#question4').prop('checked', false);
+				$('#question5').prop('checked', false);
 			}
 
 			if (data['totaldays'] > 0) {
 				$('#totaldays').val(data['totaldays']);
+			}
+			if (data['totalyears'] > 0) {
+				$('#totalyears').val(data['totalyears']);
 			}
 
 			if (data['status'] == 'OK') {
@@ -1320,5 +1337,11 @@ $(document).ready(function(){
     $('body').on('change', '.check_premium', function() {
     	get_premium();
     });
+
+
+    var premium = $('input[name="premium"]').val();
+    if (premium <= 0) {
+    	get_premium();
+    }
 });
 </script>

@@ -10081,18 +10081,18 @@ class Top_model extends CI_Model  {
 
 		if (isset($data['ad_and_d_ck'])) {
 			$rate = 0.1;
-			if ($data['ad_and_d_insuerd'] == 50000) $rate = 0.2;
-			if ($data['ad_and_d_insuerd'] == 75000) $rate = 0.3;
-			if ($data['ad_and_d_insuerd'] == 50000) $rate = 0.4;
+			if ($data['ad_and_d_insured'] == 50000) $rate = 0.2;
+			if ($data['ad_and_d_insured'] == 75000) $rate = 0.3;
+			if ($data['ad_and_d_insured'] == 50000) $rate = 0.4;
 				
 			$this->premiumArr['premium'] += $rate * $data['totaldays'] * $data['people_number'];
 		}
 			
 		if (isset($data['flight_accident_ck'])) {
 			$rate = 0.8;
-			if ($data['flight_accident_insuerd'] == 50000) $rate = 0.2;
-			if ($data['flight_accident_insuerd'] == 75000) $rate = 0.3;
-			if ($data['flight_accident_insuerd'] == 50000) $rate = 0.4;
+			if ($data['flight_accident_insured'] == 50000) $rate = 0.2;
+			if ($data['flight_accident_insured'] == 75000) $rate = 0.3;
+			if ($data['flight_accident_insured'] == 50000) $rate = 0.4;
 				
 			$this->premiumArr['premium'] += $rate * $data['people_number'];
 		}

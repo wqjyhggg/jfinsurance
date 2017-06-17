@@ -8,6 +8,13 @@ class Plan extends MY_Controller {
 	private $merchentID = "300203256";
 	private $apikey = "634E4AFd7Eda4dcEaA2976207A7C92bb";
 	public $error;
+	public $toppackagename = array(
+			'all_inclusive' => "All Inclusive plan",
+			'single_medical_plan' => "Single medical plan",
+			'annual_plan' => "Annual plan",
+			'optional_plan' => "Optional plan",
+	);
+	
 	
 	/**
 	 * Index Page for this controller.
@@ -876,83 +883,107 @@ class Plan extends MY_Controller {
 		
 		// For TOP plan
 		if ($this->input->post('ad_and_d_ck')) {
-			$data['ad_and_d_insuerd'] = $this->input->post('ad_and_d_insuerd');
-		} else if (isset($plan['ad_and_d_insuerd'])) {
-			$data['ad_and_d_insuerd'] = $plan['ad_and_d_insuerd'];
+			$data['ad_and_d_ck'] = 1;
+		} else if (isset($plan['ad_and_d_ck'])) {
+			$data['ad_and_d_ck'] = $plan['ad_and_d_ck'];
 		} else {
-			$data['ad_and_d_insuerd'] = 0;
+			$data['ad_and_d_ck'] = 0;
+		}
+		if ($this->input->post('ad_and_d_insured')) {
+			$data['ad_and_d_insured'] = $this->input->post('ad_and_d_insured');
+		} else if (isset($plan['ad_and_d_insured'])) {
+			$data['ad_and_d_insured'] = $plan['ad_and_d_insured'];
+		} else {
+			$data['ad_and_d_insured'] = 0;
 		}
 		if ($this->input->post('flight_accident_ck')) {
-			$data['flight_accident_insuerd'] = $this->input->post('flight_accident_insuerd');
-		} else if (isset($plan['flight_accident_insuerd'])) {
-			$data['flight_accident_insuerd'] = $plan['flight_accident_insuerd'];
+			$data['flight_accident_ck'] = 1;
+		} else if (isset($plan['flight_accident_ck'])) {
+			$data['flight_accident_ck'] = $plan['flight_accident_ck'];
 		} else {
-			$data['flight_accident_insuerd'] = 0;
+			$data['flight_accident_ck'] = 0;
+		}
+		if ($this->input->post('flight_accident_insured')) {
+			$data['flight_accident_insured'] = $this->input->post('flight_accident_insured');
+		} else if (isset($plan['flight_accident_insured'])) {
+			$data['flight_accident_insured'] = $plan['flight_accident_insured'];
+		} else {
+			$data['flight_accident_insured'] = 0;
 		}
 		if ($this->input->post('trip_cancellation_ck')) {
+			$data['trip_cancellation_ck'] = 1;
+		} else if (isset($plan['trip_cancellation_ck'])) {
+			$data['trip_cancellation_ck'] = $plan['trip_cancellation_ck'];
+		} else {
+			$data['trip_cancellation_ck'] = 0;
+		}
+		if ($this->input->post('trip_cancellation_insured')) {
 			$data['trip_cancellation_insured'] = $this->input->post('trip_cancellation_insured');
 		} else if (isset($plan['trip_cancellation_insured'])) {
 			$data['trip_cancellation_insured'] = $plan['trip_cancellation_insured'];
 		} else {
 			$data['trip_cancellation_insured'] = '0';
 		}
-		if ($this->input->post('package') == 'annual_plan') {
+		if ($this->input->post('package')) {
+			$data['package'] = $this->input->post('package');
+		} else if (isset($plan['package'])) {
+			$data['package'] = $plan['package'];
+		} else {
+			$data['package'] = '';
+		}
+		if ($this->input->post('annual_plan_days')) {
 			$data['annual_plan_days'] = $this->input->post('annual_plan_days');
 		} else if (isset($plan['annual_plan_days'])) {
 			$data['annual_plan_days'] = $plan['annual_plan_days'];
 		} else {
 			$data['annual_plan_days'] = '0';
 		}
-		if ($this->input->post('trip_cancellation_ck')) {
-			$data['trip_cancellation_insured'] = $this->input->post('trip_cancellation_insured');
-		} else if (isset($plan['trip_cancellation_insured'])) {
-			$data['trip_cancellation_insured'] = $plan['trip_cancellation_insured'];
+		if ($this->input->post('free_cancel')) {
+			$data['free_cancel'] = 1;
+		} else if (isset($plan['free_cancel'])) {
+			$data['free_cancel'] = $plan['free_cancel'];
 		} else {
-			$data['trip_cancellation_insured'] = '0';
+			$data['free_cancel'] = 0;
 		}
-		$data['questionnaire'] = 0;
+		if ($this->input->post('questionnaire')) {
+			$data['questionnaire'] = $this->input->post('questionnaire');
+		} else if (isset($plan['questionnaire'])) {
+			$data['questionnaire'] = $plan['questionnaire'];
+		} else {
+			$data['questionnaire'] = '0';
+		}
 		if ($this->input->post('question1')) {
 			$data['question1'] = $this->input->post('question1');
-			$data['questionnaire'] = 1;
 		} else if (isset($plan['question1'])) {
 			$data['question1'] = $plan['question1'];
-			$data['questionnaire'] = 1;
 		} else {
 			$data['question1'] = '0';
 		}
 		if ($this->input->post('question2')) {
 			$data['question2'] = $this->input->post('question2');
-			$data['questionnaire'] = 1;
 		} else if (isset($plan['question2'])) {
 			$data['question2'] = $plan['question2'];
-			$data['questionnaire'] = 1;
 		} else {
 			$data['question2'] = '0';
 		}
 		if ($this->input->post('question3')) {
 			$data['question3'] = $this->input->post('question3');
-			$data['questionnaire'] = 1;
 		} else if (isset($plan['question3'])) {
 			$data['question3'] = $plan['question3'];
-			$data['questionnaire'] = 1;
 		} else {
 			$data['question3'] = '0';
 		}
 		if ($this->input->post('question4')) {
 			$data['question4'] = $this->input->post('question4');
-			$data['questionnaire'] = 1;
 		} else if (isset($plan['question4'])) {
 			$data['question4'] = $plan['question4'];
-			$data['questionnaire'] = 1;
 		} else {
 			$data['question4'] = '0';
 		}
 		if ($this->input->post('question5')) {
 			$data['question5'] = $this->input->post('question5');
-			$data['questionnaire'] = 1;
 		} else if (isset($plan['question5'])) {
 			$data['question5'] = $plan['question5'];
-			$data['questionnaire'] = 1;
 		} else {
 			$data['question5'] = '0';
 		}
@@ -1085,6 +1116,7 @@ class Plan extends MY_Controller {
 			}
 		}
 		if ($data['product_short'] == 'TOP') {
+			$data['toppackagename'] = $this->toppackagename;
 			$data['premium_url'] = base_url ( "plan/gettoppremium" );
 			$this->load->common('plan/top/form', $data);
 		} else {
@@ -2158,7 +2190,12 @@ class Plan extends MY_Controller {
 		$this->session->set_userdata ( 'withlogo', 1);
 		$this->session->set_userdata ( 'withprice', 1);
 		
-		$this->load->common('plan/detail', $data);
+		if ($data['plan']['product_short'] == 'TOP') {
+			$data['toppackagename'] = $this->toppackagename;
+			$this->load->common('plan/top/detail', $data);
+		} else {
+			$this->load->common('plan/detail', $data);
+		}
 	}
 
 	public function sendpackage($plan_id=0)
