@@ -176,6 +176,8 @@ class Product_model extends CI_Model {
 			}
 		}
 		
+		$people_order_19 = 0;
+		if ($oldyears > 19) $people_order_19++;
 		$people_number = 1;
 		for ($i = 1; $i < 100; $i++) {
 			if (empty($para['birthday_'.$i])) break;
@@ -191,7 +193,16 @@ class Product_model extends CI_Model {
 			} else if ($years > $oldyears) {
 				$oldyears = $years;
 			}
+			if ($years > 19) $people_order_19++;
 			$people_number++;
+		}
+		
+		if ($para['isfamilyplan'] == 1) {
+			if ($people_order_19 > 3) {
+				$r['message'] = 'Family Plan only allow 3 children';
+			} else if ($people_number > 5) {
+				$r['message'] = 'Family Plan must less than 6 people';
+			}
 		}
 		
 		if ($r['message']) return $r;
