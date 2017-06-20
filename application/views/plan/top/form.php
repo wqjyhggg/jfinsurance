@@ -68,9 +68,9 @@
 						<?php } ?>
 						<?php if ((($status_id == 3) || ($status_id == 7)) && $user_group_id <= 100 ) { ?>
 						<?php   if(time() < strtotime($effective_date)){ ?>
-							<li style="float: right;"><a href="<?php echo $cancel_url; ?>" target="_blank"><span class="btn btn-info" style='color: #fff;'>Cancel</span></a></li>
+							<li style="float: right;"><a href="<?php echo $cancel_url . $plan_id; ?>" target="_blank"><span class="btn btn-info" style='color: #fff;'>Cancel</span></a></li>
 						<?php   }else{?>
-							<li style="float: right;"><a href="<?php echo $refund_url; ?>" target="_blank"><span class="btn btn-info" style='color: #fff;'>Refund</span></a></li>
+							<li style="float: right;"><a href="<?php echo $refund_url . $plan_id; ?>" target="_blank"><span class="btn btn-info" style='color: #fff;'>Refund</span></a></li>
 						<?php   } ?>
 						<?php } else if (($status_id == 6) && ($user_group_id <= 100) && !empty($refund_letter_url)) { ?>
 							<li style="float: right;"><a id="popRefund"><span class="btn btn-info" style='color: #fff;'>Refund Letter</span></a></li>
@@ -86,7 +86,8 @@
 					<input type='hidden' name='premium' step='0.01' id='premium' value='<?php echo $premium; ?>'>
 					<input type='hidden' name=product_short id='product_short' value='<?php echo $product_short; ?>'>
 					<input type='hidden' name='isfamilyplan' id='isfamilyplan' value='<?php echo $isfamilyplan; ?>'>
-					<input type="hidden" name="questionnaire" id='questionnaire_input' value="<?php echo $questionnaire; ?>">
+					<input type="hidden" name="questionnaire" value="<?php echo $questionnaire; ?>">
+					<input type="hidden" name="country2" id='country2' value="CA">
 					<div class="tab-content">
 						<div id="date_members" class="tab-pane fade in active">
 							<!-- Start data members -->
@@ -175,7 +176,7 @@
 												<div class="form-group col-sm-3">
 													<label class="col-sm-12">Family / Group: </label>
 													<div class='form_text_show'>
-														<select name='isfamilyplan' class="form-control" style="padding: 6px 2px;">
+														<select name='isfamilyplan' class="form-control check_premium" style="padding: 6px 2px;">
 															<option value='0' <?php echo (($isfamilyplan != 1) && ($isfamilyplan != 2)) ? "" : "selected"; ?>>Single</option>
 															<option value='1' <?php echo ($isfamilyplan == 1) ? "selected" : ""; ?>>Family</option>
 															<option value='2' <?php echo ($isfamilyplan == 2) ? "selected" : ""; ?>>Group</option>
@@ -314,9 +315,11 @@
 												<?php } ?>
 												<br />
 												<div class="row">
-													<div class="col-sm-12">
+													<div class="col-sm-1">
+													</div>
+													<div class="col-sm-11">
 														<?php if ($isprocessplan && ($status_id != 5) && ($status_id != 6)) { ?>
-														<input class="btn btn-info" type='button' id='addmorememberid' name='addmorememberid' value='Add More Member' onclick='addmoremember(1);'>
+														<input class="btn btn-info btn-sm" type='button' id='addmorememberid' name='addmorememberid' value='Add More Member' onclick='addmoremember(1);'>
 														<?php } ?>
 													</div>
 												</div>
@@ -373,7 +376,7 @@
 												<div class="form-group col-sm-3">
 													<label class="col-sm-12">Country: </label>
 													<div class="input-group col-sm-12">
-														<div id='country2_div'></div>
+														<div id='country2_div'>Canada</div>
 													</div>
 												</div>
 												<div class="form-group col-sm-3">
@@ -776,7 +779,7 @@
 			</div>
 		</div>
 		<?php if ($show_history) { ?>
-		<div class="row">
+		<div class="row block-space">
 			<div class="col-sm-12">
 				<div class="x_panel">
 					<div class="x_title">
@@ -790,7 +793,7 @@
 							<?php if (!empty($payments) && is_array($payments) && (sizeof($payments > 0))) { ?>
 		                  	<div class="col-sm-12">
 		                  		<button type="button" class="btn btn-info" data-toggle="collapse" data-target="#history1">Payments <span class="fa fa-chevron-down"></span></button>
-		                  		<div id="history1" class="collapse">
+		                  		<div id="history1" class="collapse block-space">
 									<button type="button" class="btn btn-payment-sort" data-type="date">Sort By Date</button>
 									<button type="button" class="btn btn-payment-sort" data-type="type">Sort By Type</button>
 									<form action='<?php echo $makepay_url; ?>' method='POST' class="form-horizontal">
@@ -867,9 +870,9 @@
 						</div>
 						<div class="row">
 							<?php 	if (!empty($activelogs) && is_array($activelogs) && (sizeof($activelogs > 0))) { ?>
-							<div class="col-sm-12">
+							<div class="col-sm-12 block-space">
 								<button type="button" class="btn btn-info" data-toggle="collapse" data-target="#history2"> Changes <span class="fa fa-chevron-down"></span></button>
-								<div id="history2" class="collapse">
+								<div id="history2" class="collapse block-space">
 									<div class="table-responsive">
 										<table class="table table-hover table-bordered">
 											<thead>
@@ -1062,6 +1065,7 @@ $( document ).ready(function() {
         	$('#province2_div').html(data);
     	},
 	});
+	/*
 	$.ajax({
 		url: '<?php echo $country_url; ?>',
 		type: 'GET',
@@ -1069,6 +1073,7 @@ $( document ).ready(function() {
         	$('#country2_div').html(data);
     	},
 	});
+	*/
 
 	addmoremember(0);
 
@@ -1161,6 +1166,7 @@ function remove_member(i) {
 		$('#gender_' + cur_max_member).val('M');
 		$('#customer_member_' + cur_max_member).hide();
 		cur_max_member--;
+		get_premium();
 	}
 }
 

@@ -10037,6 +10037,11 @@ class Top_model extends CI_Model  {
 			return 0;
 		}
 		
+		if ($data['isfamilyplan']) {
+			$this->premiumArr['message'] = 'Not avaliable for family or group.';
+			return 0;
+		}
+		
 		if ($ischeck) {
 			return 1;
 		}
@@ -10056,14 +10061,8 @@ class Top_model extends CI_Model  {
 			return 1;
 		}
 		
-		$this->premiumArr['premium'] = $this->annual[$idx1][$idx2];
+		$this->premiumArr['premium'] = $this->annual[$idx2][$idx1];
 
-		if ($data['isfamilyplan'] == 1) {
-			$this->premiumArr['premium'] *= 2.25;
-		} else if ($data['isfamilyplan'] == 2) {
-			$this->premiumArr['premium'] *= $data['people_number'];
-		}
-		
 		if ($this->premiumArr['premium'] > 0) {
 			$this->premiumArr['status'] = 'OK';
 		}
@@ -10076,6 +10075,10 @@ class Top_model extends CI_Model  {
 			if ($data['age'] >= 75) {
 				$this->premiumArr['trip_cancellation'] = 0;
 			}
+			if (($data['package'] == 'optional_plan') && $data['isfamilyplan']) {
+				$this->premiumArr['message'] = 'Not avaliable for family or group.';
+				return 0;
+			}
 			return 1;
 		}
 
@@ -10083,18 +10086,29 @@ class Top_model extends CI_Model  {
 			$rate = 0.1;
 			if ($data['ad_and_d_insured'] == 50000) $rate = 0.2;
 			if ($data['ad_and_d_insured'] == 75000) $rate = 0.3;
-			if ($data['ad_and_d_insured'] == 50000) $rate = 0.4;
-				
-			$this->premiumArr['premium'] += $rate * $data['totaldays'] * $data['people_number'];
+			if ($data['ad_and_d_insured'] == 100000) $rate = 0.4;
+
+			if ($data['isfamilyplan'] == 1) {
+				$rate *= 2.25;
+			} else if ($data['isfamilyplan'] == 2) {
+				$rate *= $data['people_number'];
+			}
+			
+			$this->premiumArr['premium'] += $rate * $data['totaldays'];
 		}
 			
 		if (isset($data['flight_accident_ck'])) {
 			$rate = 0.8;
-			if ($data['flight_accident_insured'] == 50000) $rate = 0.2;
-			if ($data['flight_accident_insured'] == 75000) $rate = 0.3;
-			if ($data['flight_accident_insured'] == 50000) $rate = 0.4;
+			if ($data['flight_accident_insured'] == 200000) $rate = 1.6;
+			if ($data['flight_accident_insured'] == 300000) $rate = 2.4;
 				
-			$this->premiumArr['premium'] += $rate * $data['people_number'];
+			if ($data['isfamilyplan'] == 1) {
+				$rate *= 2.25;
+			} else if ($data['isfamilyplan'] == 2) {
+				$rate *= $data['people_number'];
+			}
+			
+			$this->premiumArr['premium'] += $rate;
 		}
 		
 		if (isset($data['trip_cancellation_ck'])) {
@@ -10120,7 +10134,23 @@ class Top_model extends CI_Model  {
 			} else {
 				$base = $this->{$arr}[25] + (($idx - 26) * $this->{$arr}[26]);
 			}
-			$this->premiumArr['premium'] += $base * $data['people_number'];
+			
+			if ($data['isfamilyplan'] == 1) {
+				$base *= 2.25;
+			} else if ($data['isfamilyplan'] == 2) {
+				$base *= $data['people_number'];
+			}
+				
+			// Add TAX if needs
+			if (($data['province2'] == 'MB') || ($data['province2'] == 'ON')) {
+				// 8% TAX
+				$base *= 1.08;
+			} else if ($data['province2'] == 'QC') {
+				// 9% TAX
+				$base *= 1.09;
+			}
+
+			$this->premiumArr['premium'] += $base;
 		}
 		
 		if ($this->premiumArr['premium'] > 0) {
@@ -10213,9 +10243,9 @@ class Top_model extends CI_Model  {
 			return 1;
 		}
 		
-		$data['totaldays'] -= $mindays;	// change to index
+		$dayidx = $data['totaldays'] - $mindays;	// change to index
 		
-		if (!isset($this->{$arr}) || !is_array($this->{$arr}) || !isset($this->{$arr}[$data['totaldays']])) {
+		if (!isset($this->{$arr}) || !is_array($this->{$arr}) || !isset($this->{$arr}[$dayidx])) {
 			$this->premiumArr['message'] = 'Out of condition range.';
 			return 0;
 		}
@@ -10224,13 +10254,21 @@ class Top_model extends CI_Model  {
 			return 1;
 		}
 		
-		$this->premiumArr['premium'] = $this->{$arr}[$data['totaldays']];
-		$this->premiumArr['premium'] += 40;			// $40 administration fee will apply to all single medical plan
+		$this->premiumArr['premium'] = $this->{$arr}[$dayidx];
 		
 		if ($this->premiumArr['premium'] > 0) {
 			return $this->optional_plan($data, 0);
 		} else {
 			$this->premiumArr['message'] = 'Not available.';
+		}
+
+		if ($data['isfamilyplan'] == 1) {
+			$this->premiumArr['premium'] *= 2.25;		// single premium times 2.25
+		} else if ($data['isfamilyplan'] == 2) {
+			$this->premiumArr['premium'] *= $data['people_number'];
+			if ($data['people_number'] > 9) {
+				$this->premiumArr['premium'] *= 0.9;	// 10% discount apply if number of members is 10 or more
+			}
 		}
 		
 		return 1;
@@ -10353,21 +10391,29 @@ class Top_model extends CI_Model  {
 			return 1;
 		}
 		
-		$data['totaldays'] -= $mindays;	// change to index
+		$dayidx = $data['totaldays'] - $mindays;	// change to index
 		$sum_idx = $data['sum_insured'] / 100;
 		
-		if (!isset($this->{$arr}) || !is_array($this->{$arr}) || !isset($this->{$arr}[$data['totaldays']][$sum_idx])) {
+		if (!isset($this->{$arr}) || !is_array($this->{$arr}) || !isset($this->{$arr}[$dayidx][$sum_idx])) {
 			$this->premiumArr['message'] = 'Out of condition range.';
 			return 1;
 		}
 		if ($sum_idx > 25) {
-			$this->premiumArr['premium'] = $this->{$arr}[$data['totaldays']][26] * ($sum_idx - 25) + $this->{$arr}[$data['totaldays']][25];
+			$this->premiumArr['premium'] = $this->{$arr}[$dayidx][26] * ($sum_idx - 25) + $this->{$arr}[$dayidx][25];
 		} else {
-			$this->premiumArr['premium'] = $this->{$arr}[$data['totaldays']][$sum_idx];
+			$this->premiumArr['premium'] = $this->{$arr}[$dayidx][$sum_idx];
 		}
 		
 		if ($this->premiumArr['premium'] > 0) {
 			$this->premiumArr['status'] = 'OK';
+			// Add TAX if needs
+			if (($data['province2'] == 'MB') || ($data['province2'] == 'ON')) {
+				// 8% TAX
+				$this->premiumArr['premium'] *= 1.08;
+			} else if ($data['province2'] == 'QC') {
+				// 9% TAX
+				$this->premiumArr['premium'] *= 1.09;
+			}
 		} else {
 			$this->premiumArr['message'] = 'Not available.';
 		}
@@ -10405,7 +10451,9 @@ class Top_model extends CI_Model  {
 			$this->$package($passdata, 0);
 		}
 		
-		$this->premiumArr['premium'] *= $passdata['people_number']; 
+		if (($this->premiumArr['premium'] > 0) && ($this->premiumArr['premium'] < 25)) {
+			$this->premiumArr['premium'] = 25;
+		}
 		return $this->premiumArr;
 	}
 }

@@ -1319,6 +1319,13 @@ class Plan extends MY_Controller {
 		$dt['expiry_year'] = '01';
 		$dt['ispaid'] = 0;
 		$commission_rate = $this->product_model->get_commission_rate($plan['product_short'], $plan['user_id']);
+		if (($plan['product_short'] == 'TOP') && $plan['questionnaire']) {
+			if ($commission_rate > 0.15) {
+				$commission_rate -= 0.15;
+			} else {
+				$commission_rate = 0;
+			}
+		}
 		$commission_amount = $premium * $commission_rate / 100.0;
 		$up_commission_rate = $this->product_model->get_up_commission_rate($plan['product_short']);
 		$up_commission_amount = $premium * $up_commission_rate / 100.0;
@@ -1374,7 +1381,7 @@ class Plan extends MY_Controller {
 					}
 					$dt['added'] = $plan['effective_date'];
 				} else {
-					if ($this->payment_model->adjust_commission_added_date($plan_id, date('Y-m-d'))) {
+					if ($this->payment_model->adjust_commission_added_back_date($plan_id, date('Y-m-d'))) {
 						$para = array(
 								'plan_id' => $plan_id,
 								'customer_id' => $plan['customer_id'],
@@ -1464,6 +1471,13 @@ class Plan extends MY_Controller {
 			$dt['expiry_year'] = $expiry_year;
 			$dt['ispaid'] = 0;
 			$commission_rate = $this->product_model->get_commission_rate($plan['product_short'], $plan['user_id']);
+			if (($plan['product_short'] == 'TOP') && $plan['questionnaire']) {
+				if ($commission_rate > 0.15) {
+					$commission_rate -= 0.15;
+				} else {
+					$commission_rate = 0;
+				}
+			}
 			$commission_amount = $premium * $commission_rate / 100.0;
 			$up_commission_rate = $this->product_model->get_up_commission_rate($plan['product_short']);
 			$up_commission_amount = $premium * $up_commission_rate / 100.0;
@@ -1519,7 +1533,7 @@ class Plan extends MY_Controller {
 						}
 						$dt['added'] = $plan['effective_date'];
 					} else {
-						if ($this->payment_model->adjust_commission_added_date($plan_id, date('Y-m-d'))) {
+						if ($this->payment_model->adjust_commission_added_back_date($plan_id, date('Y-m-d'))) {
 							$para = array(
 									'plan_id' => $plan_id,
 									'customer_id' => $plan['customer_id'],
@@ -1672,6 +1686,13 @@ class Plan extends MY_Controller {
 		$dt['ispaid'] = 0;
 
 		$commission_rate = $this->product_model->get_commission_rate($plan['product_short'], $plan['user_id']);
+		if (($plan['product_short'] == 'TOP') && $plan['questionnaire']) {
+			if ($commission_rate > 0.15) {
+				$commission_rate -= 0.15;
+			} else {
+				$commission_rate = 0;
+			}
+		}
 		$commission_amount = $premium * $commission_rate / 100.0;
 		$up_commission_rate = $this->product_model->get_up_commission_rate($plan['product_short']);
 		$up_commission_amount = $premium * $up_commission_rate / 100.0;
@@ -1727,7 +1748,7 @@ class Plan extends MY_Controller {
 					}
 					$dt['added'] = $plan['effective_date'];
 				} else {
-					if ($this->payment_model->adjust_commission_added_date($plan_id, date('Y-m-d'))) {
+					if ($this->payment_model->adjust_commission_added_back_date($plan_id, date('Y-m-d'))) {
 						$para = array(
 								'plan_id' => $plan_id,
 								'customer_id' => $plan['customer_id'],
@@ -1793,6 +1814,13 @@ class Plan extends MY_Controller {
 		$dt['ispaid'] = 0;
 
 		$commission_rate = $this->product_model->get_commission_rate($plan['product_short'], $plan['user_id']);
+		if (($plan['product_short'] == 'TOP') && $plan['questionnaire']) {
+			if ($commission_rate > 0.15) {
+				$commission_rate -= 0.15;
+			} else {
+				$commission_rate = 0;
+			}
+		}
 		$commission_amount = $premium * $commission_rate / 100.0;
 		$up_commission_rate = $this->product_model->get_up_commission_rate($plan['product_short']);
 		$up_commission_amount = $premium * $up_commission_rate / 100.0;
@@ -1848,7 +1876,7 @@ class Plan extends MY_Controller {
 					}
 					$dt['added'] = $plan['effective_date'];
 				} else {
-					if ($this->payment_model->adjust_commission_added_date($plan_id, date('Y-m-d'))) {
+					if ($this->payment_model->adjust_commission_added_back_date($plan_id, date('Y-m-d'))) {
 						$para = array(
 								'plan_id' => $plan_id,
 								'customer_id' => $plan['customer_id'],
