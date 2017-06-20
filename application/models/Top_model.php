@@ -10394,7 +10394,9 @@ class Top_model extends CI_Model  {
 		$dayidx = $data['totaldays'] - $mindays;	// change to index
 		$sum_idx = $data['sum_insured'] / 100;
 		
-		if (!isset($this->{$arr}) || !is_array($this->{$arr}) || !isset($this->{$arr}[$dayidx][$sum_idx])) {
+		$this->premiumArr['arr'] = $arr;
+		
+		if (!isset($this->{$arr}) || !is_array($this->{$arr}) || !isset($this->{$arr}[$dayidx][10])) {
 			$this->premiumArr['message'] = 'Out of condition range.';
 			return 1;
 		}
