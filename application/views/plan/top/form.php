@@ -1126,6 +1126,11 @@ $( document ).ready(function() {
 	$('#page-submit').on('click', function (e) {
 		$('#page-submit').hide();
 	});
+
+	var premium = $('input[name="premium"]').val();
+	if (premium > 0) {
+		$('#page-submit').show();
+	}
 });
 
 function sorting_payment() {
