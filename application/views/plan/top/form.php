@@ -81,6 +81,7 @@
 				</ul>
 				<div class="clearfix"></div>
 				<form action='<?php echo $action_url; ?>' method='POST' class="form-horizontal" id="plan_form">
+					<input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
 					<input type='hidden' name='dailyrate' step='0.01' id='dailyrate' value='<?php echo $dailyrate; ?>'>
 					<input type='hidden' name='totalyears' id='totalyears' value='<?php echo $totalyears; ?>'>
 					<input type='hidden' name='premium' step='0.01' id='premium' value='<?php echo $premium; ?>'>
