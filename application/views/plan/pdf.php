@@ -25,7 +25,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 				<img class="img-responsive" style="width:80px;" src="<?php echo base_url('agent/img') . '/' . $user['pdf_logo']; ?>" />
 			</div>
 			<?php } ?>
-<?php if ($plan['product_short'] == 'JFR') { ?>			
+<?php if (($plan['product_short'] == 'JFR') || ($plan['product_short'] == 'TOP')) { ?>			
 			<div style="float:right;width:200px;">
 				<img class="img-responsive" style="width:80px;padding-bottom:-30px;" src="<?php echo base_url();?>image/Berkley.png" />
 			</div>
@@ -91,6 +91,73 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 				<div class="row">
 					<div class="col-sm-6 nopadding">
 						<h4 style="margin-bottom:15px;"><u>Coverage Details</u></h4>
+<?php if ($plan['product_short'] == 'TOP') { ?>
+						<h4>
+							Insurance Plan:
+							<br />&nbsp;&nbsp;&nbsp;<span><?php echo $toppackagename[$plan['package']]; ?></span>
+							<?php if ($plan['package'] == 'all_inclusive') { ?>
+							<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Sum Insured: $<?php echo number_format($plan['sum_insured'], 2); ?></span>
+							<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span><?php echo $plan['free_cancel'] ? ' With ' : ' Without '; ?> Free cancellation</span>
+							<?php } else if (($plan['package'] == 'single_medical_plan') || ($plan['package'] == 'optional_plan')) { ?>
+							<?php     if ($plan['ad_and_d_ck']) { ?>
+							<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>AD & D : $<?php echo number_format($plan['ad_and_d_insured'], 2); ?></span>
+							<?php     } ?>
+							<?php     if ($plan['flight_accident_ck']) { ?>
+							<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Flight Accident : $<?php echo number_format($plan['flight_accident_insured'], 2); ?></span>
+							<?php     } ?>
+							<?php     if ($plan['trip_cancellation_ck']) { ?>
+							<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Trip Cancellation : $<?php echo number_format($plan['trip_cancellation_insured'], 2); ?></span>
+							<?php     } ?>
+							<?php } else if ($plan['package'] == 'annual_plan') { ?>
+							<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Selected days : <?php echo $plan['annual_plan_days']; ?></span>
+							<?php } ?>
+							<?php if ($plan['stable_condition']) { ?>
+							<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span><?php echo ($plan['stable_condition'] == 1) ? 'Including' : 'Excluding'; ?> stable pre-existing condition coverage</span>
+							<?php } ?>
+							<?php if ($plan['questionnaire']) { ?>
+							<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>With Questionnaire answers</span> 
+							<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Question 1 : 
+								<?php if ($plan['question1'] == 4) { ?> 3 or more medications
+								<?php } else if ($plan['question1'] == 3) { ?> 2 medications
+								<?php } else if ($plan['question1'] == 2) { ?> 1 medication
+								<?php } else  { ?> none <?php } ?>
+								</span>
+							<?php if ($plan['question2']) { ?>
+							<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Question 2 : 
+								<?php if ($plan['question2']) { ?>
+								<?php     if ($plan['question2'] == 2) { ?> Yes
+								<?php     } else  { ?> No <?php } ?> 
+								<?php } ?>
+								</span>
+							<?php if ($plan['question3']) { ?>
+							<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Question 3 : 
+								<?php if ($plan['question3']) { ?>
+								<?php     if ($plan['question3'] == 3) { ?> 2 or more medical conditions
+								<?php     } else if ($plan['question3'] == 2) { ?> 1 medical condition
+								<?php     } else  { ?> none <?php } ?> 
+								<?php } ?>
+								</span>
+							<?php if ($plan['question4']) { ?>
+							<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Question 4 : 
+								<?php if ($plan['question4']) { ?>
+								<?php     if ($plan['question4'] == 2) { ?> Yes
+								<?php     } else  { ?> No <?php } ?> 
+								<?php } ?>
+								</span>
+							<?php if ($plan['question5']) { ?>
+							<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Question 4 : 
+								<?php if ($plan['question5']) { ?>
+								<?php     if ($plan['question2'] == 2) { ?> Yes
+								<?php     } else  { ?> No <?php } ?> 
+								<?php } ?>
+								</span>
+							<?php } // question5 ?>
+							<?php } // question4 ?>
+							<?php } // question3 ?>
+							<?php } // question2 ?>
+							<?php } // questionnaire ?>
+						</h4>
+<?php } else { // else TOP ?>
 <?php if (in_array($plan['product_short'], $pdf_enable) && !empty($customer_product_name)) { ?>
 						<h4>Insurance Plan:<br />&nbsp;&nbsp;&nbsp;<span><?php echo $customer_product_name;?></span></h4>
 <?php } else { ?>
@@ -104,6 +171,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 						<?php if ($plan['sum_insured']) { ?><h4>Sum Insured: <span>$<?php echo number_format($plan['sum_insured'], 2); ?></sapn> </h4><?php } ?>
 						<?php if ($plan['deductible_amount'] || ($plan['product_short'] == 'OPL') || ($plan['product_short'] == 'JFR')) { ?><h4>Deductible: <span>$<?php echo number_format($plan['deductible_amount'], 2);?></sapn> </h4><?php } ?>
 						<h4>Beneficiary: <span><?php echo $plan['beneficiary'];?></sapn> </h4>
+<?php } // end if TOP ?>
 					</div>
 					<div class="col-sm-6 nopadding">
 <?php if ($withprice) { ?>
@@ -116,10 +184,10 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 					</div>
 				</div>
 
-				<?php if($plan['isfamilyplan']==1){ ?>
+				<?php if ($plan['isfamilyplan']) { ?>
 				<div class="row">
 					<div class="col-sm-12" style="padding:0;">	
-						<p><u>Family Members</u></p>
+						<p><u><?php echo ($plan['isfamilyplan'] == 1) ? 'Family' : 'Group'; ?>Members</u></p>
 					</div>
 				</div>
 					
@@ -133,7 +201,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 					<?php } ?>
 				</div>
 					
-		<?php } ?>
+				<?php } ?>
 				<!-- End Family Member -->
 		<div class="row">
 			<div class="col-sm-12 nopm special-note">

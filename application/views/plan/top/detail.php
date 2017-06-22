@@ -158,27 +158,27 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 								<?php } else if ($plan['question1'] == 3) { ?> 2 medications
 								<?php } else if ($plan['question1'] == 2) { ?> 1 medication
 								<?php } else  { ?> none <?php } ?>
-								<br />Question 2 : 
 								<?php if ($plan['question2']) { ?>
+								<br />Question 2 : 
 								<?php     if ($plan['question2'] == 2) { ?> Yes
 								<?php     } else  { ?> No <?php } ?> 
-								<?php } ?>
-								<br />Question 3 : 
 								<?php if ($plan['question3']) { ?>
+								<br />Question 3 : 
 								<?php     if ($plan['question3'] == 3) { ?> 2 or more medical conditions
 								<?php     } else if ($plan['question3'] == 2) { ?> 1 medical condition
 								<?php     } else  { ?> none <?php } ?> 
-								<?php } ?>
-								<br />Question 4 : 
 								<?php if ($plan['question4']) { ?>
+								<br />Question 4 : 
 								<?php     if ($plan['question4'] == 2) { ?> Yes
 								<?php     } else  { ?> No <?php } ?> 
-								<?php } ?>
-								<br />Question 5 : 
 								<?php if ($plan['question5']) { ?>
+								<br />Question 5 : 
 								<?php     if ($plan['question2'] == 2) { ?> Yes
 								<?php     } else  { ?> No <?php } ?> 
-								<?php } ?>
+								<?php } // question5 ?>
+								<?php } // question4 ?>
+								<?php } // question3 ?>
+								<?php } // question2 ?>
 								</span>
 							</div>
 							<?php } ?>
