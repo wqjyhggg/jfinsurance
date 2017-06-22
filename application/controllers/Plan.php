@@ -286,6 +286,77 @@ class Plan extends MY_Controller {
 		}
 	}
 	
+	function top_update_valid($plan) {
+		if ($plan['status_id'] < 2) {
+			// not available yet
+			return ;
+		}
+		$nowtm = strtotime(date('Y-m-d'));
+		$effective_date = $this->input->post('effective_date');
+		$effectivetm = strtotime($effective_date);
+		if ($effective_date < $nowtm) {
+			$this->error['error_effective_date'] = "Can't back Effective Date befort today";
+			return ;
+		}
+		if ($plan['effective_date'] <= $nowtm) {
+			// After effective
+			$expiry_date = $this->input->post('expiry_date');
+			if ($expiry_date != $plan['expiry_date']) {
+				if ($plan['package'] == 'single_medical_plan') {
+					if ($expiry_date < $plan['expiry_date']) {
+						$this->error['error_expiry_date'] = "Expiry Date can't be back after plan effected";
+					}
+				} else {
+					$this->error['error_expiry_date'] = "Expiry Date can't be changed";
+				}
+			}
+			if ($this->input->post('stable_condition') != $plan['stable_condition']) {
+				$this->error['error_stable_condition'] = "Stable Condition can't be changed after plan effective";
+			}
+			if ($this->input->post('package') != $plan['package']) {
+				$this->error['error_message'] = "Package can't be changed after plan effective";
+			}
+
+			$ad_and_d_ck = isset($this->input->post('ad_and_d_ck')) ? 1 : 0;
+			$flight_accident_ck = isset($this->input->post('flight_accident_ck')) ? 1 : 0;
+			if (($this->input->post('free_cancel') != $plan['free_cancel']) ||
+				($this->input->post('annual_plan_days') != $plan['annual_plan_days']) ||
+				($ad_and_d_ck != $plan['ad_and_d_ck']) ||
+				($this->input->post('ad_and_d_insured') != $plan['ad_and_d_insured']) ||
+				($flight_accident_ck != $plan['flight_accident_ck']) ||
+				($this->input->post('flight_accident_insured') != $plan['flight_accident_insured']) ||
+				($this->input->post('trip_cancellation_ck') != $plan['trip_cancellation_ck	']) ||
+				($this->input->post('trip_cancellation_insured') != $plan['trip_cancellation_insured']) ||
+				($this->input->post('questionnaire') != $plan['questionnaire']) ||
+				($this->input->post('question1') != $plan['question1']) ||
+				($this->input->post('question2') != $plan['question2']) ||
+				($this->input->post('question3') != $plan['question3']) ||
+				($this->input->post('question4') != $plan['question4']) ||
+				($this->input->post('question5') != $plan['question5']) ) {
+				$this->error['error_message'] = "Plan can't be changed after plan effective";
+			}
+		} else {
+			// before 
+			$ad_and_d_ck = isset($this->input->post('ad_and_d_ck')) ? 1 : 0;
+			if ($plan['ad_and_d_ck'] && (($ad_and_d_ck != $plan['ad_and_d_ck']) || ($this->input->post('ad_and_d_insured') < $plan['ad_and_d_insured']))) {
+				$this->error['error_message'] = "AD & D Plan only be changed to add sum inusured";
+			}
+			
+			$flight_accident_ck = isset($this->input->post('flight_accident_ck')) ? 1 : 0;
+			if ($plan['flight_accident_ck'] && (($flight_accident_ck != $plan['flight_accident_ck']) || ($this->input->post('flight_accident_insured') < $plan['flight_accident_insured']))) {
+				$this->error['error_message'] = "Flight Accident Plan only be changed to add sum inusured";
+			}
+
+			if ($plan['trip_cancellation_ck'] && (($this->input->post('trip_cancellation_ck') != $plan['trip_cancellation_ck']) || ($this->input->post('trip_cancellation_insured') < $plan['trip_cancellation_insured']))) {
+				$this->error['error_message'] = "Trip Cancellation Plan only be changed to add sum inusured";
+			}
+
+			if (($plan['package'] == 'annual_plan') && ($this->input->post('annual_plan_days') < $plan['annual_plan_days'])) {
+				$this->error['error_message'] = "Annual Plan can't be changed to add more days";
+			}
+		}
+	}
+	
 	function form_valid() {
 		$this->error = array();
 
@@ -459,22 +530,39 @@ class Plan extends MY_Controller {
 				}
 			} else {
 				$planold = $this->plan_model->get_plan_by_id($plan_id);
-				$plan_id = $this->plan_model->update($plan_id, $this->input->post(), array('isfamilyplan' => 1, 'holiday_rate' => 1, 'spouse' => 1));
-				if ($plan_id) {
-					$plan = $this->plan_model->get_plan_by_id($plan_id);
-					$para = array(
-							'plan_id' => $plan_id, 
-							'customer_id' => $plan['customer_id'], 
-							'payment_id' => 0, 
-							'message' => $this->plan_model->logstr, 
-							'systemlog' => $this->plan_model->sqlstr
-					);
-					$this->log_model->activity('plan', $para);
-					if ((($planold['product_short'] == 'OPL') || ($planold['product_short'] == 'JFR')) && ((($planold['sum_insured'] >= 100000) && ($planold['totaldays'] >= 365)) || (($plan['sum_insured'] >= 100000) && ($plan['totaldays'] >= 365)))) {
-						if (($plan['sum_insured'] >= 100000) && ($plan['totaldays'] >= 365)) {
-							if ($planold['effective_date'] != $plan['effective_date']) {
-								// Super visa changed effective date
-								$this->payment_model->adjust_commission_added_date($plan_id, $plan['effective_date'], FALSE);
+				if ($planold['product_short'] == 'JFR') {
+					$plan_id = 0;
+					$this->top_update_valid($planold);
+				}
+				if (empty($this->error)) {
+					$plan_id = $this->plan_model->update($plan_id, $this->input->post(), array('isfamilyplan' => 1, 'holiday_rate' => 1, 'spouse' => 1));
+					if ($plan_id) {
+						$plan = $this->plan_model->get_plan_by_id($plan_id);
+						$para = array(
+								'plan_id' => $plan_id, 
+								'customer_id' => $plan['customer_id'], 
+								'payment_id' => 0, 
+								'message' => $this->plan_model->logstr, 
+								'systemlog' => $this->plan_model->sqlstr
+						);
+						$this->log_model->activity('plan', $para);
+						if ((($planold['product_short'] == 'OPL') || ($planold['product_short'] == 'JFR')) && ((($planold['sum_insured'] >= 100000) && ($planold['totaldays'] >= 365)) || (($plan['sum_insured'] >= 100000) && ($plan['totaldays'] >= 365)))) {
+							if (($plan['sum_insured'] >= 100000) && ($plan['totaldays'] >= 365)) {
+								if ($planold['effective_date'] != $plan['effective_date']) {
+									// Super visa changed effective date
+									$this->payment_model->adjust_commission_added_date($plan_id, $plan['effective_date'], FALSE);
+									$para = array(
+											'plan_id' => $plan_id, 
+											'customer_id' => $plan['customer_id'], 
+											'payment_id' => $plan['commission_payment_id'], 
+											'message' => $this->payment_model->logstr, 
+											'systemlog' => $this->payment_model->sqlstr
+									);
+									$this->log_model->activity('plan', $para);
+								}
+							} else {
+								// No more super visa, change payment data to today
+								$this->payment_model->adjust_commission_added_date($plan_id, date('Y-m-d'), FALSE);
 								$para = array(
 										'plan_id' => $plan_id, 
 										'customer_id' => $plan['customer_id'], 
@@ -484,17 +572,6 @@ class Plan extends MY_Controller {
 								);
 								$this->log_model->activity('plan', $para);
 							}
-						} else {
-							// No more super visa, change payment data to today
-							$this->payment_model->adjust_commission_added_date($plan_id, date('Y-m-d'), FALSE);
-							$para = array(
-									'plan_id' => $plan_id, 
-									'customer_id' => $plan['customer_id'], 
-									'payment_id' => $plan['commission_payment_id'], 
-									'message' => $this->payment_model->logstr, 
-									'systemlog' => $this->payment_model->sqlstr
-							);
-							$this->log_model->activity('plan', $para);
 						}
 					}
 				}
