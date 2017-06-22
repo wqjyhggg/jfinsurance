@@ -317,8 +317,10 @@ class Plan extends MY_Controller {
 				$this->error['error_message'] = "Package can't be changed after plan effective";
 			}
 
-			$ad_and_d_ck = isset($this->input->post('ad_and_d_ck')) ? 1 : 0;
-			$flight_accident_ck = isset($this->input->post('flight_accident_ck')) ? 1 : 0;
+			$ad_and_d_ck = $this->input->post('ad_and_d_ck');
+			if ($ad_and_d_ck) $ad_and_d_ck = 1;
+			$flight_accident_ck = $this->input->post('flight_accident_ck');
+			if ($flight_accident_ck) $flight_accident_ck = 1;
 			if (($this->input->post('free_cancel') != $plan['free_cancel']) ||
 				($this->input->post('annual_plan_days') != $plan['annual_plan_days']) ||
 				($ad_and_d_ck != $plan['ad_and_d_ck']) ||
@@ -337,12 +339,14 @@ class Plan extends MY_Controller {
 			}
 		} else {
 			// before 
-			$ad_and_d_ck = isset($this->input->post('ad_and_d_ck')) ? 1 : 0;
+			$ad_and_d_ck = $this->input->post('ad_and_d_ck');
+			if ($ad_and_d_ck) $ad_and_d_ck = 1;
 			if ($plan['ad_and_d_ck'] && (($ad_and_d_ck != $plan['ad_and_d_ck']) || ($this->input->post('ad_and_d_insured') < $plan['ad_and_d_insured']))) {
 				$this->error['error_message'] = "AD & D Plan only be changed to add sum inusured";
 			}
 			
-			$flight_accident_ck = isset($this->input->post('flight_accident_ck')) ? 1 : 0;
+			$flight_accident_ck = $this->input->post('flight_accident_ck');
+			if ($flight_accident_ck) $flight_accident_ck = 1;
 			if ($plan['flight_accident_ck'] && (($flight_accident_ck != $plan['flight_accident_ck']) || ($this->input->post('flight_accident_insured') < $plan['flight_accident_insured']))) {
 				$this->error['error_message'] = "Flight Accident Plan only be changed to add sum inusured";
 			}
