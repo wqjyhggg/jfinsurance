@@ -125,12 +125,12 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 							<?php if (($plan['package'] == 'single_medical_plan') || ($plan['package'] == 'optional_plan')) { ?>
 							<?php     if ($plan['ad_and_d_ck']) { ?>
 							<div class="col-sm-3">
-								<label class="inline">AD & D insured amount :</label> <span><?php echo $plan['ad_and_d_insuerd']; ?></span>
+								<label class="inline">AD & D insured amount :</label> <span><?php echo $plan['ad_and_d_insured']; ?></span>
 							</div>
 							<?php     } ?>
 							<?php     if ($plan['flight_accident_ck']) { ?>
 							<div class="col-sm-3">
-								<label class="inline">Flight Accident insured amount :</label> <span><?php echo $plan['flight_accident_insuerd']; ?></span>
+								<label class="inline">Flight Accident insured amount :</label> <span><?php echo $plan['flight_accident_insured']; ?></span>
 							</div>
 							<?php     } ?>
 							<?php     if ($plan['trip_cancellation_ck']) { ?>
@@ -150,27 +150,31 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 							</div>
 							<?php } ?>
 							<?php if ($plan['questionnaire']) { ?>
-							<div class="col-sm-3">
+							<div class="col-sm-6">
 								<label class="inline">Your answered questionnaire with :</label>
 								<span>
-								Question 1 : 
+								<br />Question 1 : 
 								<?php if ($plan['question1'] == 4) { ?> 3 or more medications
 								<?php } else if ($plan['question1'] == 3) { ?> 2 medications
 								<?php } else if ($plan['question1'] == 2) { ?> 1 medication
 								<?php } else  { ?> none <?php } ?>
+								<br />Question 2 : 
 								<?php if ($plan['question2']) { ?>
 								<?php     if ($plan['question2'] == 2) { ?> Yes
 								<?php     } else  { ?> No <?php } ?> 
 								<?php } ?>
+								<br />Question 3 : 
 								<?php if ($plan['question3']) { ?>
 								<?php     if ($plan['question3'] == 3) { ?> 2 or more medical conditions
 								<?php     } else if ($plan['question3'] == 2) { ?> 1 medical condition
 								<?php     } else  { ?> none <?php } ?> 
 								<?php } ?>
+								<br />Question 4 : 
 								<?php if ($plan['question4']) { ?>
 								<?php     if ($plan['question4'] == 2) { ?> Yes
 								<?php     } else  { ?> No <?php } ?> 
 								<?php } ?>
+								<br />Question 5 : 
 								<?php if ($plan['question5']) { ?>
 								<?php     if ($plan['question2'] == 2) { ?> Yes
 								<?php     } else  { ?> No <?php } ?> 
@@ -203,7 +207,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 						<?php if ($plan['isfamilyplan']) { ?>
 						<div class="row">
 							<div class="col-sm-12" style="background-color: #5bc0de; color: #fff;">
-								<label class="inline">Family Member Information</label>
+								<label class="inline">Family/Group Member Information</label>
 							</div>
 							<?php for ($i = 0; $i < 25; $i++) { ?>
 							<?php     if (empty($customers[$i]['lastname']) && empty($customers[$i]['firstname'])) continue; ?>

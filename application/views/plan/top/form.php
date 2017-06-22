@@ -139,6 +139,16 @@
 													<?php } ?>
 												</div>
 												<div class="form-group col-sm-3">
+													<label class="col-sm-12">Departure Date (YYYY-MM-DD): </label>
+													<div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd" id='arrival_date_div'>
+														<input class="form-control" size="16" type="text" name='arrival_date' value='<?php echo $arrival_date; ?>'>
+														<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+													</div>
+													<?php if (!empty($arrival_date_date)) { ?>
+													<div class="alert-error"><?php echo $arrival_date_date; ?></div>
+													<?php } ?>
+												</div>
+												<div class="form-group col-sm-3">
 													<label class="col-sm-12">Effective Date (YYYY-MM-DD): </label>
 													<div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd" id='effective_date_div'>
 														<input class="check_premium form-control" size="16" type="text" name='effective_date' value='<?php echo $effective_date; ?>'>
@@ -156,16 +166,6 @@
 													</div>
 													<?php if (!empty($error_expiry_date)) { ?>
 													<div class="alert-error"><?php echo $error_expiry_date;?></div>
-													<?php } ?>
-												</div>
-												<div class="form-group col-sm-3">
-													<label class="col-sm-12">Departure Date (YYYY-MM-DD): </label>
-													<div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd" id='arrival_date_div'>
-														<input class="form-control" size="16" type="text" name='arrival_date' value='<?php echo $arrival_date; ?>'>
-														<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-													</div>
-													<?php if (!empty($arrival_date_date)) { ?>
-													<div class="alert-error"><?php echo $arrival_date_date; ?></div>
 													<?php } ?>
 												</div>
 												<div class="form-group col-sm-3">
@@ -256,7 +256,7 @@
 
 											<div id='family_member'>
 												<?php for ($i = 1; $i <= $max_member; $i++) { ?>
-												<div class="row" id='customer_member_<?php echo $i; ?>' style='display: none'>
+												<div class="row" id='customer_member_<?php echo $i; ?>' <?php if (empty(${'birthday_'.$i})) { ?>style='display: none'<?php } ?>>
 													<input type='hidden' name='customer_id_<?php echo $i; ?>' id='customer_id_<?php echo $i; ?>' value='<?php echo !empty(${'customer_id_'.$i}) ? ${'customer_id_'.$i} : 0; ?>'>
 													<hr />
 													<div class="col-sm-12">
@@ -568,7 +568,11 @@
 													</div>
 												</div>
 												<div class="panel panel-default">
-													<div class="panel-heading"><input type="checkbox" name="trip_cancellation_ck" class='check_premium' value="1" <?php echo $flight_accident_insured ? 'checked' : ''; ?>>  Trip Cancellation</div>
+													<div class="panel-heading">
+														<input type="hidden" name="trip_cancellation_ck" value="<?php echo $trip_cancellation_ck; ?>">
+														<input type="checkbox" name="trip_cancellation_ckbox" class='check_premium' value="1" <?php echo $trip_cancellation_ck ? 'checked' : ''; ?>>
+														Trip Cancellation
+													</div>
 													<div class="panel-body">
 														Trip Cancellation description
 														<div class='row'>
@@ -751,7 +755,7 @@
 													<H4>Have you used any tobacco products in the past 24 months?</H4>
 												</div>
 												<div class="col-sm-3">
-													<input type="radio" name="question5" value="2" <?php if ($question5 == 1) { echo "checked"; } ?>> Yes
+													<input type="radio" name="question5" value="2" <?php if ($question5 == 2) { echo "checked"; } ?>> Yes
 												</div>
 												<div class="col-sm-3">
 													<input type="radio" name="question5" value="1" <?php if ($question5 == 1) { echo "checked"; } ?>> No
@@ -910,7 +914,7 @@
 <!-- /page content -->
 <script>
 var need_questionnaire = <?php printf("%d", $questionnaire); ?>;
-var cur_max_member = 0;
+var cur_max_member = <?php printf("%d", $cur_max_member); ?>;
 var show_ajax_message = 0;
 var answer;
 $('input[name="package"]').on('change', function (e) {
@@ -925,7 +929,15 @@ $('input[name="package"]').on('change', function (e) {
 	} else {	// single_medical_plan, optional_plan
 		$('#optional_plan_div').show();
 	}
-	show_ajax_message = 1;
+	//show_ajax_message = 1;
+});
+
+$('input[name="trip_cancellation_ckbox"]').on('change', function (e) {
+	if ($('input[name="trip_cancellation_ckbox"]').is(':checked')) {
+		$('input[name="trip_cancellation_ck"]').val(1);
+	} else {
+		$('input[name="trip_cancellation_ck"]').val(0);
+	}
 });
 
 $('input[name=question1]').on('change', function (e) {
@@ -1023,23 +1035,26 @@ $('a[data-toggle="tab"]').on('click', function (e) {
 		$('#page-prev').css('display','');
 		$('#page-next').css('display','none');
 
-		$('input[name=questionnaire]').val(0);
-		$('#question1').val(0);
-		$('#question2').val(0);
-		$('#question3').val(0);
-		$('#question4').val(0);
-		$('#question5').val(0);
+		var q = $('input[name=questionnaire]').val();
+		if (q == 0) {
+			$('input[name=questionnaire]').val(0);
+			$('#question1').val(0);
+			$('#question2').val(0);
+			$('#question3').val(0);
+			$('#question4').val(0);
+			$('#question5').val(0);
+	
+			$('#questionnaire_q2').css('display','none');
+			$('#questionnaire_q3').css('display','none');
+			$('#questionnaire_q4').css('display','none');
+			$('#questionnaire_q5').css('display','none');
 
-		$('#questionnaire_q2').css('display','none');
-		$('#questionnaire_q3').css('display','none');
-		$('#questionnaire_q4').css('display','none');
-		$('#questionnaire_q5').css('display','none');
-
-		$('#page-submit').hide();
+			$('#page-submit').hide();
+			$('input[name="premium"]').val(0);
+			$('#premium_value').html('');
+		}
 		$('#error_page_message').hide();
 		$('#error_page_message').html('');
-		$('input[name="premium"]').val(0);
-		$('#premium_value').html('');
 	} 
 })
 
@@ -1301,6 +1316,9 @@ function get_premium() {
 					if (show_ajax_message) {
 						$('#error_page_message').html(data['message']);
 						$('#error_page_message').show();
+						if (data['active_tab'] != "undefined") {
+							$('#' + data['active_tab']).trigger("click");
+						}
 					}
 				}
 				$('#premium_value').html('');

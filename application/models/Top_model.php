@@ -10019,6 +10019,19 @@ class Top_model extends CI_Model  {
 			),
 	);
 	
+	private $ad_and_d = array(
+			'25000' => 0.1,
+			'50000' => 0.2,
+			'75000' => 0.3,
+			'100000' => 0.4,
+	);
+
+	private $flight_accident = array(
+			'100000' => 0.8,
+			'200000' => 1.6,
+			'300000' => 2.4,
+	);
+	
 	private function annual_plan($data, $ischeck) {
 		if ($data['age'] < 30) {
 			$idx1 = 0;
@@ -10033,12 +10046,20 @@ class Top_model extends CI_Model  {
 		} else if ($data['age'] < 75) {
 			$idx1 = 5;
 		} else {
-			$this->premiumArr['message'] = 'Age must less than 75.';
+			$this->premiumArr['message'] = 'Annual plan, age must less than 75.';
+			$this->premiumArr['active_tab'] = 'date_members_tab';
+			return 0;
+		}
+		
+		if (($data['totaldays'] != 365) && ($data['totaldays'] != 366)) {
+			$this->premiumArr['message'] = 'Annual plan, the days must be a year long.';
+			$this->premiumArr['active_tab'] = 'date_members_tab';
 			return 0;
 		}
 		
 		if ($data['isfamilyplan']) {
-			$this->premiumArr['message'] = 'Not avaliable for family or group.';
+			$this->premiumArr['message'] = "Annual plan isn't avaliable for family or group.";
+			$this->premiumArr['active_tab'] = 'date_members_tab';
 			return 0;
 		}
 		
@@ -10057,7 +10078,8 @@ class Top_model extends CI_Model  {
 		} else if ($data['annual_plan_days'] == 60) {
 			$idx2 = 4;
 		} else {
-			$this->premiumArr['message'] = 'Unknow days.';
+			$this->premiumArr['message'] = 'Unknow selected days. Please select plan days.';
+			$this->premiumArr['active_tab'] = 'packages_tab';
 			return 1;
 		}
 		
@@ -10076,17 +10098,22 @@ class Top_model extends CI_Model  {
 				$this->premiumArr['trip_cancellation'] = 0;
 			}
 			if (($data['package'] == 'optional_plan') && $data['isfamilyplan']) {
-				$this->premiumArr['message'] = 'Not avaliable for family or group.';
+				$this->premiumArr['message'] = "Trip cancellation is't avaliable for family or group.";
+				$this->premiumArr['active_tab'] = 'packages_tab';
+				$this->premiumArr['premium'] = 0;
 				return 0;
 			}
 			return 1;
 		}
 
 		if (isset($data['ad_and_d_ck'])) {
-			$rate = 0.1;
-			if ($data['ad_and_d_insured'] == 50000) $rate = 0.2;
-			if ($data['ad_and_d_insured'] == 75000) $rate = 0.3;
-			if ($data['ad_and_d_insured'] == 100000) $rate = 0.4;
+			$rate = isset($this->ad_and_d[$data['ad_and_d_insured']]) ? $this->ad_and_d[$data['ad_and_d_insured']] : 0;
+			if (empty($rate)) {
+				$this->premiumArr['message'] = "Unknown AD & D insured amount. Please select insured amount";
+				$this->premiumArr['active_tab'] = 'packages_tab';
+				$this->premiumArr['premium'] = 0;
+				return 0;
+			}
 
 			if ($data['isfamilyplan'] == 1) {
 				$rate *= 2.25;
@@ -10098,9 +10125,13 @@ class Top_model extends CI_Model  {
 		}
 			
 		if (isset($data['flight_accident_ck'])) {
-			$rate = 0.8;
-			if ($data['flight_accident_insured'] == 200000) $rate = 1.6;
-			if ($data['flight_accident_insured'] == 300000) $rate = 2.4;
+			$rate = isset($this->flight_accident[$data['flight_accident_insured']]) ? $this->flight_accident[$data['flight_accident_insured']] : 0;
+			if (empty($rate)) {
+				$this->premiumArr['message'] = "Unknown flight accident insured amount. Please select insured amount";
+				$this->premiumArr['active_tab'] = 'packages_tab';
+				$this->premiumArr['premium'] = 0;
+				return 0;
+			}
 				
 			if ($data['isfamilyplan'] == 1) {
 				$rate *= 2.25;
@@ -10124,6 +10155,7 @@ class Top_model extends CI_Model  {
 			}
 			if (!isset($this->{$arr}) || !is_array($this->{$arr})) {
 				$this->premiumArr['message'] = 'Age must less than 75 for Trip Cancellation plan.';
+				$this->premiumArr['active_tab'] = 'packages_tab';
 				$this->premiumArr['premium'] = 0;
 				return 1;
 			}
@@ -10177,6 +10209,7 @@ class Top_model extends CI_Model  {
 				$this->premiumArr['questionnaire'] = 1;
 				if (empty($data['questionnaire'])) {
 					$this->premiumArr['message'] = 'Please fill in questionnaire.';
+					$this->premiumArr['active_tab'] = 'questionnaire_tab';
 					return 1;
 				}
 			}
@@ -10187,6 +10220,7 @@ class Top_model extends CI_Model  {
 				$mindays = 61;
 				if (empty($data['questionnaire'])) {
 					$this->premiumArr['message'] = 'Please fill in questionnaire.';
+					$this->premiumArr['active_tab'] = 'questionnaire_tab';
 					return 1;
 				}
 			}
@@ -10197,6 +10231,7 @@ class Top_model extends CI_Model  {
 				$mindays = 61;
 				if (empty($data['questionnaire'])) {
 					$this->premiumArr['message'] = 'Please fill in questionnaire.';
+					$this->premiumArr['active_tab'] = 'questionnaire_tab';
 					return 1;
 				}
 			}
@@ -10204,11 +10239,13 @@ class Top_model extends CI_Model  {
 			$arr = 'single_medical_75_79';
 			$this->premiumArr['questionnaire'] = 1;
 			$this->premiumArr['stable_condition'] = 1;
-			if (empty($data['questionnaire'])) {
-				$this->premiumArr['message'] = 'Please fill in questionnaire.';
+			if (empty($data['stable_condition'])) {
+				$this->premiumArr['message'] = 'Please select pre-existing condition coverage';
+				$this->premiumArr['active_tab'] = 'packages_tab';
 				return 1;
-			} else if (empty($data['stable_condition'])) {
-				$this->premiumArr['message'] = 'Please select including stable pre-existing conditons';
+			} else if (empty($data['questionnaire'])) {
+				$this->premiumArr['message'] = 'Please fill in questionnaire.';
+				$this->premiumArr['active_tab'] = 'questionnaire_tab';
 				return 1;
 			}
 			$arr .= '_c'.$data['stable_condition'];
@@ -10216,16 +10253,19 @@ class Top_model extends CI_Model  {
 			$arr = 'single_medical_80_84';
 			$this->premiumArr['questionnaire'] = 1;
 			$this->premiumArr['stable_condition'] = 1;
-			if (empty($data['questionnaire'])) {
-				$this->premiumArr['message'] = 'Please fill in questionnaire.';
+			if (empty($data['stable_condition'])) {
+				$this->premiumArr['message'] = 'Please select pre-existing condition coverage';
+				$this->premiumArr['active_tab'] = 'packages_tab';
 				return 1;
-			} else if (empty($data['stable_condition'])) {
-				$this->premiumArr['message'] = 'Please select including stable pre-existing conditons';
+			} else if (empty($data['questionnaire'])) {
+				$this->premiumArr['message'] = 'Please fill in questionnaire.';
+				$this->premiumArr['active_tab'] = 'questionnaire_tab';
 				return 1;
 			}
 			$arr .= '_c'.$data['stable_condition'];
 		} else {
 			$this->premiumArr['message'] = 'Age must less than 85.';
+			$this->premiumArr['active_tab'] = 'date_members_tab';
 			return 0;
 		}
 		
@@ -10235,18 +10275,20 @@ class Top_model extends CI_Model  {
 		
 		if (($data['sum_insured'] < 0) || ($data['sum_insured'] > 15000)) {
 			$this->premiumArr['message'] = 'Out of insured amount.';
+			$this->premiumArr['active_tab'] = 'packages_tab';
 			return 1;
 		}
 			
 		if (($data['totaldays'] < $mindays) || ($data['totaldays'] > $maxdays)) {
-			$this->premiumArr['message'] = 'Out of day range.';
+			$this->premiumArr['message'] = 'Please select days less than 120.';
+			$this->premiumArr['active_tab'] = 'date_members_tab';
 			return 1;
 		}
 		
 		$dayidx = $data['totaldays'] - $mindays;	// change to index
 		
 		if (!isset($this->{$arr}) || !is_array($this->{$arr}) || !isset($this->{$arr}[$dayidx])) {
-			$this->premiumArr['message'] = 'Out of condition range.';
+			$this->premiumArr['message'] = 'Out of condition range. Please change days or other conditions';
 			return 0;
 		}
 		
@@ -10259,7 +10301,7 @@ class Top_model extends CI_Model  {
 		if ($this->premiumArr['premium'] > 0) {
 			return $this->optional_plan($data, 0);
 		} else {
-			$this->premiumArr['message'] = 'Not available.';
+			$this->premiumArr['message'] = 'Not available. Please change days or insure amount';
 		}
 
 		if ($data['isfamilyplan'] == 1) {
@@ -10290,11 +10332,13 @@ class Top_model extends CI_Model  {
 				$mindays = 61;
 				$this->premiumArr['questionnaire'] = 1;
 				if ($data['isfamilyplan']) {
-					$this->premiumArr['message'] = "The age is out of plan range.";
+					$this->premiumArr['message'] = "Over 60 years old and more than 60 days can't select group plan.";
+					$this->premiumArr['active_tab'] = 'date_members_tab';
 					return 0;
 				}
 				if (empty($data['questionnaire'])) {
 					$this->premiumArr['message'] = 'Please fill in questionnaire.';
+					$this->premiumArr['active_tab'] = 'questionnaire_tab';
 					return 1;
 				}
 			}
@@ -10304,11 +10348,13 @@ class Top_model extends CI_Model  {
 				$this->premiumArr['questionnaire'] = 1;
 				$mindays = 61;
 				if ($data['isfamilyplan']) {
-					$this->premiumArr['message'] = "The age is out of plan range.";
+					$this->premiumArr['message'] = "Over 60 years old and more than 60 days can't select group plan.";
+					$this->premiumArr['active_tab'] = 'date_members_tab';
 					return 0;
 				}
 				if (empty($data['questionnaire'])) {
 					$this->premiumArr['message'] = 'Please fill in questionnaire.';
+					$this->premiumArr['active_tab'] = 'questionnaire_tab';
 					return 1;
 				}
 			}
@@ -10318,11 +10364,13 @@ class Top_model extends CI_Model  {
 				$this->premiumArr['questionnaire'] = 1;
 				$mindays = 61;
 				if ($data['isfamilyplan']) {
-					$this->premiumArr['message'] = "The age is out of plan range.";
+					$this->premiumArr['message'] = "Over 60 years old and more than 60 days can't select group plan.";
+					$this->premiumArr['active_tab'] = 'date_members_tab';
 					return 0;
 				}
 				if (empty($data['questionnaire'])) {
 					$this->premiumArr['message'] = 'Please fill in questionnaire.';
+					$this->premiumArr['active_tab'] = 'questionnaire_tab';
 					return 1;
 				}
 			}
@@ -10331,18 +10379,22 @@ class Top_model extends CI_Model  {
 			$this->premiumArr['questionnaire'] = 1;
 			$this->premiumArr['stable_condition'] = 1;
 			if ($data['free_cancel']) {
-				$this->premiumArr['message'] = "Age over 80 can't select free cancel plan.";
+				$this->premiumArr['message'] = "Age over 75 can't select free cancel plan.";
+				$this->premiumArr['active_tab'] = 'packages_tab';
 				return 1;
 			}
 			if ($data['isfamilyplan']) {
-				$this->premiumArr['message'] = "The age is out of plan range.";
+				$this->premiumArr['message'] = "Over 75 can't select family or group plan.";
+				$this->premiumArr['active_tab'] = 'date_members_tab';
 				return 0;
 			}
 			if (empty($data['questionnaire'])) {
 				$this->premiumArr['message'] = 'Please fill in questionnaire.';
+				$this->premiumArr['active_tab'] = 'questionnaire_tab';
 				return 1;
 			} else if (empty($data['stable_condition'])) {
-				$this->premiumArr['message'] = 'Please select including stable pre-existing conditons';
+				$this->premiumArr['message'] = 'Please select pre-existing condition coverage';
+				$this->premiumArr['active_tab'] = 'packages_tab';
 				return 1;
 			}
 			$arr .= '_c'.$data['stable_condition'];
@@ -10351,23 +10403,28 @@ class Top_model extends CI_Model  {
 			$this->premiumArr['questionnaire'] = 1;
 			$this->premiumArr['stable_condition'] = 1;
 			if ($data['free_cancel']) {
-				$this->premiumArr['message'] = "Age over 80 can't select free cancel plan.";
+				$this->premiumArr['message'] = "Age over 75 can't select free cancel plan.";
+				$this->premiumArr['active_tab'] = 'packages_tab';
 				return 1;
 			}
 			if ($data['isfamilyplan']) {
-				$this->premiumArr['message'] = "The age is out of plan range.";
+				$this->premiumArr['message'] = "Over 75 can't select family or group plan.";
+				$this->premiumArr['active_tab'] = 'date_members_tab';
 				return 0;
 			}
 			if (empty($data['questionnaire'])) {
 				$this->premiumArr['message'] = 'Please fill in questionnaire.';
+				$this->premiumArr['active_tab'] = 'questionnaire_tab';
 				return 1;
 			} else if (empty($data['stable_condition'])) {
-				$this->premiumArr['message'] = 'Please select including stable pre-existing conditons';
+				$this->premiumArr['message'] = 'Please select pre-existing condition coverage';
+				$this->premiumArr['active_tab'] = 'packages_tab';
 				return 1;
 			}
 			$arr .= '_c'.$data['stable_condition'];
 		} else {
 			$this->premiumArr['message'] = 'Age must less than 85.';
+			$this->premiumArr['active_tab'] = 'date_members_tab';
 			return 0;
 		}
 		
@@ -10380,14 +10437,16 @@ class Top_model extends CI_Model  {
 		} else if ($data['questionnaire']) {
 			$arr .= "_t".$data['questionnaire'];
 		}
-		
+
 		if (($data['sum_insured'] < 0) || ($data['sum_insured'] > 15000)) {
-			$this->premiumArr['message'] = 'Out of insured amount.';
+			$this->premiumArr['message'] = 'Out of insured amount. Amount must less 15,000';
+			$this->premiumArr['active_tab'] = 'packages_tab';
 			return 1;
 		}
 			
 		if (($data['totaldays'] < $mindays) || ($data['totaldays'] > $maxdays)) {
-			$this->premiumArr['message'] = 'Out of days range.';
+			$this->premiumArr['message'] = 'Out of days range. Days must less than 60';
+			$this->premiumArr['active_tab'] = 'date_members_tab';
 			return 1;
 		}
 		
@@ -10397,7 +10456,7 @@ class Top_model extends CI_Model  {
 		$this->premiumArr['arr'] = $arr;
 		
 		if (!isset($this->{$arr}) || !is_array($this->{$arr}) || !isset($this->{$arr}[$dayidx][10])) {
-			$this->premiumArr['message'] = 'Out of condition range.';
+			$this->premiumArr['message'] = 'Out of condition range. Please check Days, insured amount and other conditions.';
 			return 1;
 		}
 		if ($sum_idx > 25) {
@@ -10417,7 +10476,7 @@ class Top_model extends CI_Model  {
 				$this->premiumArr['premium'] *= 1.09;
 			}
 		} else {
-			$this->premiumArr['message'] = 'Not available.';
+			$this->premiumArr['message'] = 'Not available. Please adjust insured amount or days';
 		}
 		
 		if ($data['isfamilyplan'] == 1) {
@@ -10447,14 +10506,20 @@ class Top_model extends CI_Model  {
 		$this->premiumArr['from_top'] =  1;
 		$this->premiumArr['status'] = 'Fail';
 		$this->premiumArr['message'] = '';
+		$this->premiumArr['active_tab'] = '';
 		
-		$package = $passdata['package'];
-		if (method_exists($this, $package)) {
-			$this->$package($passdata, 0);
-		}
-		
-		if (($this->premiumArr['premium'] > 0) && ($this->premiumArr['premium'] < 25)) {
-			$this->premiumArr['premium'] = 25;
+		if (($passdata['people_number'] > 1) && empty($passdata['isfamilyplan'])) {
+			$this->premiumArr['message'] = 'Please select family or group for more than one member';
+			$this->premiumArr['active_tab'] = 'date_members_tab';
+		} else {
+			$package = $passdata['package'];
+			if (method_exists($this, $package)) {
+				$this->$package($passdata, 0);
+			}
+			
+			if (($this->premiumArr['premium'] > 0) && ($this->premiumArr['premium'] < 25)) {
+				$this->premiumArr['premium'] = 25;
+			}
 		}
 		return $this->premiumArr;
 	}

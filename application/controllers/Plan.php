@@ -740,6 +740,7 @@ class Plan extends MY_Controller {
 			$max_member = 9;
 		}
 		$data['max_member'] = $max_member;
+		$data['cur_max_member'] = 0;
 		for ($i = 1; $i < $max_member; $i++) {
 			if ($this->input->post('customer_id_'.$i)) {
 				$data['customer_id_'.$i] = $this->input->post('customer_id_'.$i);
@@ -768,6 +769,9 @@ class Plan extends MY_Controller {
 				$data['birthday_'.$i] = $customers[$i - 1]['birthday'];
 			} else {
 				$data['birthday_'.$i] = '';
+			}
+			if (!empty($data['birthday_'.$i])) {
+				$data['cur_max_member'] += 1;
 			}
 			if ($this->input->post('gender_'.$i)) {
 				$data['gender_'.$i] = $this->input->post('gender_'.$i);
