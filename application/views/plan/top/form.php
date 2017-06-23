@@ -942,10 +942,10 @@ $('input[name="trip_cancellation_ckbox"]').on('change', function (e) {
 
 $('input[name=question1]').on('change', function (e) {
 	var q = $('input[name=question1]:checked').val();
-	$('#question2').prop('checked', false);
-	$('#question3').prop('checked', false);
-	$('#question4').prop('checked', false);
-	$('#question5').prop('checked', false);
+	$('input[name=question2]').prop('checked', false);
+	$('input[name=question3]').prop('checked', false);
+	$('input[name=question4]').prop('checked', false);
+	$('input[name=question5]').prop('checked', false);
 	$('#questionnaire_q3').css('display','none');
 	$('#questionnaire_q4').css('display','none');
 	$('#questionnaire_q5').css('display','none');
@@ -964,9 +964,9 @@ $('input[name=question1]').on('change', function (e) {
 
 $('input[name=question2]').on('change', function (e) {
 	var q = $('input[name=question2]:checked').val();
-	$('#question3').prop('checked', false);
-	$('#question4').prop('checked', false);
-	$('#question5').prop('checked', false);
+	$('input[name=question3]').prop('checked', false);
+	$('input[name=question4]').prop('checked', false);
+	$('input[name=question5]').prop('checked', false);
 	$('#questionnaire_q4').css('display','none');
 	$('#questionnaire_q5').css('display','none');
 	if (q == 2) {
@@ -980,8 +980,8 @@ $('input[name=question2]').on('change', function (e) {
 
 $('input[name=question3]').on('change', function (e) {
 	var q = $('input[name=question3]:checked').val();
-	$('#question4').prop('checked', false);
-	$('#question5').prop('checked', false);
+	$('input[name=question4]').prop('checked', false);
+	$('input[name=question5]').prop('checked', false);
 	$('#questionnaire_q5').css('display','none');
 	if (q == 3) {
 		$('#questionnaire_q4').css('display','none');
@@ -998,7 +998,7 @@ $('input[name=question3]').on('change', function (e) {
 
 $('input[name=question4]').on('change', function (e) {
 	var q = $('input[name=question4]:checked').val();
-	$('#question5').prop('checked', false);
+	$('input[name=question5]').prop('checked', false);
 	if (q == 2) {
 		$('#questionnaire_q5').css('display','none');
 		$('input[name=questionnaire]').val(2);
@@ -1038,11 +1038,11 @@ $('a[data-toggle="tab"]').on('click', function (e) {
 		var q = $('input[name=questionnaire]').val();
 		if (q == 0) {
 			$('input[name=questionnaire]').val(0);
-			$('#question1').val(0);
-			$('#question2').val(0);
-			$('#question3').val(0);
-			$('#question4').val(0);
-			$('#question5').val(0);
+			$('input[name=question1]').prop('checked', false);
+			$('input[name=question2]').prop('checked', false);
+			$('input[name=question3]').prop('checked', false);
+			$('input[name=question4]').prop('checked', false);
+			$('input[name=question5]').prop('checked', false);
 	
 			$('#questionnaire_q2').css('display','none');
 			$('#questionnaire_q3').css('display','none');
@@ -1283,11 +1283,11 @@ function get_premium() {
 					$('#page-next').css('display','none');
 				}
 				$('input[name=questionnaire]').val(0);
-				$('#question1').prop('checked', false);
-				$('#question2').prop('checked', false);
-				$('#question3').prop('checked', false);
-				$('#question4').prop('checked', false);
-				$('#question5').prop('checked', false);
+				$('input[name=question1]').prop('checked', false);
+				$('input[name=question2]').prop('checked', false);
+				$('input[name=question3]').prop('checked', false);
+				$('input[name=question4]').prop('checked', false);
+				$('input[name=question5]').prop('checked', false);
 			}
 
 			if (data['totaldays'] > 0) {
