@@ -42,37 +42,22 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 		<div class="row">
 			<div class="col-sm-12 nopadding">
 				<h4><?php if ($plan['status_id'] < 2) { ?>Quote<?php } else {?>Policy<?php } ?> Number: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span><?php echo $plan['policy']; ?></span></h4>
-				<h4>Application Date: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span><?php echo $plan['apply_date'];?></sapn> </h4>
+				<h4>
+				<?php if ($plan['product_short'] == 'TOP') { ?>
+					Departure Date:
+				<?php } else { ?>
+					Application Date:
+				<?php } ?>
+				 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span><?php echo $plan['apply_date'];?></sapn>
+				</h4>
 				<h4>Effective Date: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span><?php echo $plan['effective_date']; ?></sapn> </h4>
 				<h4>Expiry Date: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span><?php echo $plan['expiry_date']; ?></sapn> </h4>
-				<?php if($cardp != "jes" && $cardp !="jfc"){ ?>
+				<?php if (($plan['product_short'] != "JES") && ($plan['product_short'] !="JFC") && ($plan['product_short'] !="TOP")) { ?>
 				<h4>Number of Days: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span><?php echo $plan['totaldays'];?></sapn> </h4>
 				<?php } ?>
 				
 			</div>
 		</div>
-		<!--div class="row">
-			<div style="width:20%;float:left;">
-				<h4>Insured Name</h4>
-				<span><?php echo $customer['firstname'] . " " . $customer['lastname']; ?></span>
-			</div>
-			<div style="width:20%;float:left;">
-				<h4>Birth Date(Age)</h4>
-				<span><?php echo $customer['birthday']; ?></span>
-			</div>
-			<div style="width:20%;float:left;">
-				<h4>Sum Insured</h4>
-				<span><?php echo $plan['sum_insured']; ?></span>
-			</div>
-			<div style="width:20%;float:left;">
-				<h4>Deductible</h4>
-				<span><?php echo $plan['deductible_amount']; ?></span>
-			</div>
-			<div style="width:20%;float:left;">
-				<h4>Trip Length</h4>
-				<span><?php echo $plan['totaldays']; ?></span>
-			</div>
-		</div-->
 		<div class="row">
 			<div class="col-sm-12 nopadding text-center">
 				<h4 style="margin-top:180px;"><span>Detach this card and carry it with you at all times</span></h4>
@@ -82,9 +67,9 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 		</div>
 		<div class="row">
 			<div class="jfcard" style="float: left;vertical-align:top;position:absolute;bottom:5px;left:5px;width:320px;margin-top: 30px;">
-				<?php if($cardp == "jes"){ ?>
+				<?php if($plan['product_short'] == "JES"){ ?>
 					<h4 class="text-center" style="background: #eee;"><span>JF Elite PLus Student Insurance</span></h4>
-				<?php }elseif ($cardp == "jfc") { ?>
+				<?php }elseif ($plan['product_short'] == "JFC") { ?>
 					<h4 class="text-center" style="background: #eee;"><span>JF Care Student Insurance</span></h4>
 				<?php }else{ ?>
 					<h4 class="text-center" style="background: #eee;"><span><?php echo $plan_full_name;?></span></h4>
@@ -116,9 +101,9 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 
 			<div class="jfcard" style="float: right;vertical-align:top;position:absolute;bottom:5px;left:5px;width:320px;margin-top: 0px;">
 
-				<?php if($cardp == "jes"){ ?>
+				<?php if($plan['product_short'] == "JES"){ ?>
 					<h4 class="text-center" style="background: #eee;"><span>JF Elite PLus Student Insurance</span></h4>
-				<?php }elseif ($cardp == "jfc") { ?>
+				<?php }elseif ($plan['product_short'] == "JFC") { ?>
 					<h4 class="text-center" style="background: #eee;"><span>JF Care Student Insurance</span></h4>
 				<?php }else{ ?>
 					<h4 class="text-center" style="background: #eee;"><span><?php echo $plan_full_name;?></span></h4>

@@ -34,7 +34,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 				<h4>PREMIUM PAID: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>$<?php echo number_format($plan['premium'], 2, '.', ',');?></span> </h4>
 				<h4>SALES AGENT: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span><?php echo '...';?></span> </h4>
 				<h4>PRODUCT: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span><?php echo $plan_full_name;?></span> </h4>
-				<h4>TYPE: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span><?php if($plan['isfamilyplan']==1){ echo "Family";}else{echo "Individual";} ?></sapn> </h4>
+				<h4>TYPE: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span><?php if($plan['isfamilyplan']==1){ echo "Family";} else if ($plan['isfamilyplan']==2){ echo "Group";}else{echo "Individual";} ?></sapn> </h4>
 				
 			</div>
 		</div>
@@ -61,7 +61,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 				<h4>NAME: <span><?php echo $customer['firstname'] . " " . $customer['lastname']; ?></span></h4>
 				<h4>ADDRESS: <span><?php if(!empty($plan['suite_number'])){echo  $plan['suite_number'] . "- ";} ?><?php echo $plan['street_number'] . ' ' . $plan['street_name'] . ' ' . $plan['city'] . ', ' . $plan['province2'] . ' ' . $plan['postcode']; ?></sapn> </h4>
 				<h4><?php if ($plan['status_id'] < 2) { ?>QUOTE<?php } else {?>POLICY<?php } ?>: <span><?php echo $plan['policy']; ?></span></h4>
-				<h4>FOR: <span><?php if($plan['isfamilyplan']==1){ echo "Family";}else{echo "Individual";} ?></sapn> </h4>
+				<h4>FOR: <span><?php if($plan['isfamilyplan']==1){ echo "Family";}elseif($plan['isfamilyplan']==2){ echo "Group";}else{echo "Individual";} ?></sapn> </h4>
 			</div>
 			<div class="col-sm-6 nopadding receipt-info">
 				<h4>INSURANCE PREMIUM: <span>$<?php echo number_format($plan['premium'], 2, '.', ',');?></sapn> </h4>
@@ -92,7 +92,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 				<h4>NAME: <span><?php echo $customer['firstname'] . " " . $customer['lastname']; ?></span></h4>
 				<h4>ADDRESS: <span><?php if(!empty($plan['suite_number'])){echo  $plan['suite_number'] . "- ";} ?><?php echo $plan['street_number'] . ' ' . $plan['street_name'] . ' ' . $plan['city'] . ', ' . $plan['province2'] . ' ' . $plan['postcode']; ?></sapn> </h4>
 				<h4><?php if ($plan['status_id'] < 2) { ?>QUOTE<?php } else {?>POLICY<?php } ?>: <span><?php echo $plan['policy']; ?></span></h4>
-				<h4>FOR: <span><?php if($plan['isfamilyplan']==1){ echo "Family";}else{echo "Individual";} ?></sapn> </h4>
+				<h4>FOR: <span><?php if($plan['isfamilyplan']==1){ echo "Family";}elseif($plan['isfamilyplan']==2){ echo "Group";}else{echo "Individual";} ?></sapn> </h4>
 			</div>
 			<div class="col-sm-6 nopadding receipt-info">
 				<h4>INSURANCE PREMIUM: <span>$<?php echo number_format($plan['premium'], 2, '.', ',');?></sapn> </h4>

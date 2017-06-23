@@ -10180,6 +10180,9 @@ class Top_model extends CI_Model  {
 			} else if ($data['province2'] == 'QC') {
 				// 9% TAX
 				$base *= 1.09;
+			} else if ($data['province2'] == 'SK') {
+				// 6% TAX
+				$base *= 1.06;
 			}
 
 			$this->premiumArr['premium'] += $base;
@@ -10474,6 +10477,9 @@ class Top_model extends CI_Model  {
 			} else if ($data['province2'] == 'QC') {
 				// 9% TAX
 				$this->premiumArr['premium'] *= 1.09;
+			} else if ($data['province2'] == 'SK') {
+				// 6% TAX
+				$this->premiumArr['premium'] *= 1.06;
 			}
 		} else {
 			$this->premiumArr['message'] = 'Not available. Please adjust insured amount or days';
