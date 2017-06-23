@@ -929,7 +929,7 @@ $('input[name="package"]').on('change', function (e) {
 	} else {	// single_medical_plan, optional_plan
 		$('#optional_plan_div').show();
 	}
-	//show_ajax_message = 1;
+	show_ajax_message = 1;
 });
 
 $('input[name="trip_cancellation_ckbox"]').on('change', function (e) {
@@ -1239,6 +1239,7 @@ function get_premium() {
 		success: function(data, textStatus, jqXHR) {
 			answer = data;
 
+			/*
 			if (data['all_inclusive']) {
 				$('input[name=package][value=all_inclusive]').prop("disabled", false);
 			} else {
@@ -1259,6 +1260,7 @@ function get_premium() {
 			} else {
 				$('input[name=package][value=optional_plan]').prop("disabled", true);
 			}
+			*/
 
 
 			if (data['stable_condition']) {
