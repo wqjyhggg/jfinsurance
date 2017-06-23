@@ -10276,12 +10276,6 @@ class Top_model extends CI_Model  {
 			$arr .= "_t".$data['questionnaire'];
 		}
 		
-		if (($data['sum_insured'] < 0) || ($data['sum_insured'] > 15000)) {
-			$this->premiumArr['message'] = 'Out of insured amount.';
-			$this->premiumArr['active_tab'] = 'packages_tab';
-			return 1;
-		}
-			
 		if (($data['totaldays'] < $mindays) || ($data['totaldays'] > $maxdays)) {
 			$this->premiumArr['message'] = 'Please select days less than 120.';
 			$this->premiumArr['active_tab'] = 'date_members_tab';
@@ -10528,6 +10522,34 @@ class Top_model extends CI_Model  {
 			}
 		}
 		return $this->premiumArr;
+	}
+	
+	public function refund_amount($plan, $days) {
+		if (empty($plan) || ($plan['totaldays'] <= $days)) {
+			return 0;
+		}
+		if ($plan['package'] == 'single_medical_plan') {
+			$para = array();
+			$para['age'] = $plan['totalyears'];
+			$para['totaldays'] = 120;
+			$para['questionnaire'] = $plan['questionnaire'];
+			$para['stable_condition'] = $plan['stable_condition'];
+			$para['isfamilyplan'] = $plan['isfamilyplan'];
+			$para['people_number'] = 1;
+			if ($para['isfamilyplan'] == 2) {
+				// Group plan
+				$this->load->model('customer_model');
+				$para['people_number'] = $this->customer_model->get_number_customer($plan['customer_id'], $plan['isfamilyplan']);
+			}
+			$this->single_medical_plan($para, 0);
+			if ($this->premiumArr['status'] == 'OK') {
+				$refund = $this->premiumArr['premium'] / 120 * ($plan['totaldays'] - $days);
+				if ($refund > 0) {
+					return $refund;
+				}
+			}
+		}
+		return 0;
 	}
 }
 /*

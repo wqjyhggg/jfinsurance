@@ -87,10 +87,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	                        <?php } ?>
                         </div>
                         <?php if ($refund_enable) { ?>
+                        <?php if ($plan['product_short'] == 'TOP') { ?>
+                        <div class="form-group col-sm-4 col-xs-12">
+                            <label class="radio-inline">Adminstration Fee : $40</label>
+                            <input type="hidden" name="admin_fee" value="40">
+                        </div>
+                        <?php } else { ?>
                         <div class="form-group col-sm-4 col-xs-12">
                             <label class="radio-inline"><input type="radio" name="admin_fee" value="0" checked>$0 Adminstration Fee</label>
                             <label class="radio-inline"><input type="radio" name="admin_fee" value="<?php echo $adminfee; ?>">$<?php echo $adminfee; ?> Adminstration Fee</label>
                         </div>
+                        <?php } ?>
                         <?php } ?>
                       </div>
                       <?php if ($refund_enable) { ?>
@@ -140,7 +147,11 @@ function get_refund_amount() {
             //$('#refund_amount').text(data['refund_amount']);
             $('#used_amount').text(data['used_amount']);
             $('#used_days').html('(used days: ' + data['refund_days'] + ')');
+            <?php if ($plan['product_short'] == 'TOP') { ?>
+            var adminfee = $('input[name="admin_fee"]').val();
+            <?php } else { ?>
             var adminfee = $('input[name="admin_fee"]:checked').val();
+            <?php } ?>
             var total_refund = parseFloat(data['refund_amount'] - adminfee).toFixed(2);
     		$('input[name="total_refund"]').val(total_refund);
 			}
