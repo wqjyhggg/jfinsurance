@@ -81,11 +81,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         </div>
                       </div>
                       <div class="row">
-                        <div class="form-group col-sm-4 col-xs-12 pull-right">
+                        <div class="form-group col-sm-8 col-xs-12">
+	                        <?php if ($plan['product_short'] == 'TOP') { ?>
+                            <label class="center-block"><?php echo $top_refund_notes; ?></label>
+	                        <?php } ?>
+                        </div>
+                        <?php if ($refund_enable) { ?>
+                        <div class="form-group col-sm-4 col-xs-12">
                             <label class="radio-inline"><input type="radio" name="admin_fee" value="0" checked>$0 Adminstration Fee</label>
                             <label class="radio-inline"><input type="radio" name="admin_fee" value="<?php echo $adminfee; ?>">$<?php echo $adminfee; ?> Adminstration Fee</label>
                         </div>
+                        <?php } ?>
                       </div>
+                      <?php if ($refund_enable) { ?>
                       <div class="row">
                         <div class="form-group col-sm-8 col-xs-12"></div>       
                         <div class="form-group col-sm-4 col-xs-12">
@@ -102,6 +110,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                          <a class="btn btn-default inline" href="<?php echo $url_back_to_policy;?>">NO</a>
                         </div>  
                       </div>
+                      <?php } ?>
 			        </form>
 				  </div>
                 </div>

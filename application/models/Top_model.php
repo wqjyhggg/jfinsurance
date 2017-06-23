@@ -10106,7 +10106,7 @@ class Top_model extends CI_Model  {
 			return 1;
 		}
 
-		if (isset($data['ad_and_d_ck'])) {
+		if (!empty($data['ad_and_d_ck'])) {
 			$rate = isset($this->ad_and_d[$data['ad_and_d_insured']]) ? $this->ad_and_d[$data['ad_and_d_insured']] : 0;
 			if (empty($rate)) {
 				$this->premiumArr['message'] = "Unknown AD & D insured amount. Please select insured amount";
@@ -10124,7 +10124,7 @@ class Top_model extends CI_Model  {
 			$this->premiumArr['premium'] += $rate * $data['totaldays'];
 		}
 			
-		if (isset($data['flight_accident_ck'])) {
+		if (!empty($data['flight_accident_ck'])) {
 			$rate = isset($this->flight_accident[$data['flight_accident_insured']]) ? $this->flight_accident[$data['flight_accident_insured']] : 0;
 			if (empty($rate)) {
 				$this->premiumArr['message'] = "Unknown flight accident insured amount. Please select insured amount";
@@ -10142,7 +10142,7 @@ class Top_model extends CI_Model  {
 			$this->premiumArr['premium'] += $rate;
 		}
 		
-		if (isset($data['trip_cancellation_ck'])) {
+		if (!empty($data['trip_cancellation_ck'])) {
 			$arr = 'trip_cancellation';
 			if ($data['age'] < 60) {
 				$arr = 'trip_cancellation_0_59';
@@ -10300,12 +10300,6 @@ class Top_model extends CI_Model  {
 		}
 		
 		$this->premiumArr['premium'] = $this->{$arr}[$dayidx];
-		
-		if ($this->premiumArr['premium'] > 0) {
-			return $this->optional_plan($data, 0);
-		} else {
-			$this->premiumArr['message'] = 'Not available. Please change days or insure amount';
-		}
 
 		if ($data['isfamilyplan'] == 1) {
 			$this->premiumArr['premium'] *= 2.25;		// single premium times 2.25
@@ -10316,6 +10310,12 @@ class Top_model extends CI_Model  {
 			}
 		}
 		
+		if ($this->premiumArr['premium'] > 0) {
+			return $this->optional_plan($data, 0);
+		} else {
+			$this->premiumArr['message'] = 'Not available. Please change days or insure amount';
+		}
+
 		return 1;
 	}
 	
