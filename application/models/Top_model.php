@@ -10207,6 +10207,11 @@ class Top_model extends CI_Model  {
 			$arr = 'single_medical_55_59';
 		} else if ($data['age'] < 65) {
 			$arr = 'single_medical_60_64';
+			if ($data['isfamilyplan'] || ($data['people_number'] > 1)) {
+				$this->premiumArr['message'] = "Single Medical Plan can't include members over 60";
+				$this->premiumArr['active_tab'] = 'date_members_tab';
+				return 1;
+			}
 			if ($data['totaldays'] > 60) {
 				$mindays = 61;
 				$this->premiumArr['questionnaire'] = 1;
@@ -10218,6 +10223,11 @@ class Top_model extends CI_Model  {
 			}
 		} else if ($data['age'] < 70) {
 			$arr = 'single_medical_65_69';
+			if ($data['isfamilyplan'] || ($data['people_number'] > 1)) {
+				$this->premiumArr['message'] = "Single Medical Plan can't include members over 60";
+				$this->premiumArr['active_tab'] = 'date_members_tab';
+				return 1;
+			}
 			if ($data['totaldays'] > 60) {
 				$this->premiumArr['questionnaire'] = 1;
 				$mindays = 61;
@@ -10229,6 +10239,11 @@ class Top_model extends CI_Model  {
 			}
 		} else if ($data['age'] < 75) {
 			$arr = 'single_medical_70_74';
+			if ($data['isfamilyplan'] || ($data['people_number'] > 1)) {
+				$this->premiumArr['message'] = "Single Medical Plan can't include members over 60";
+				$this->premiumArr['active_tab'] = 'date_members_tab';
+				return 1;
+			}
 			if ($data['totaldays'] > 60) {
 				$this->premiumArr['questionnaire'] = 1;
 				$mindays = 61;
@@ -10240,6 +10255,11 @@ class Top_model extends CI_Model  {
 			}
 		} else if ($data['age'] < 80) {
 			$arr = 'single_medical_75_79';
+			if ($data['isfamilyplan'] || ($data['people_number'] > 1)) {
+				$this->premiumArr['message'] = "Single Medical Plan can't include members over 60";
+				$this->premiumArr['active_tab'] = 'date_members_tab';
+				return 1;
+			}
 			$this->premiumArr['questionnaire'] = 1;
 			$this->premiumArr['stable_condition'] = 1;
 			if (empty($data['stable_condition'])) {
@@ -10254,6 +10274,11 @@ class Top_model extends CI_Model  {
 			$arr .= '_c'.$data['stable_condition'];
 		} else if ($data['age'] < 85) {
 			$arr = 'single_medical_80_84';
+			if ($data['isfamilyplan'] || ($data['people_number'] > 1)) {
+				$this->premiumArr['message'] = "Single Medical Plan can't include members over 60";
+				$this->premiumArr['active_tab'] = 'date_members_tab';
+				return 1;
+			}
 			$this->premiumArr['questionnaire'] = 1;
 			$this->premiumArr['stable_condition'] = 1;
 			if (empty($data['stable_condition'])) {
@@ -10294,7 +10319,7 @@ class Top_model extends CI_Model  {
 		}
 		
 		$this->premiumArr['premium'] = $this->{$arr}[$dayidx];
-
+		
 		if ($data['isfamilyplan'] == 1) {
 			$this->premiumArr['premium'] *= 2.25;		// single premium times 2.25
 		} else if ($data['isfamilyplan'] == 2) {
@@ -10516,7 +10541,32 @@ class Top_model extends CI_Model  {
 			if (method_exists($this, $package)) {
 				$this->$package($passdata, 0);
 			}
-			
+			if (($passdata['isfamilyplan'] == 2) && $passdata['questionnaire']) {
+				$this->premiumArr['questionnaire'] = 0;
+				$this->premiumArr['premium'] = 0;
+				$this->premiumArr['status'] = 'Fail';
+				$this->premiumArr['message'] = "The oldest age people is over group member conditions";
+				$this->premiumArr['active_tab'] = 'date_members_tab';
+			}
+
+			if (($this->premiumArr['status'] == 'OK') && ($passdata['isfamilyplan'] == 2)) {
+				// Passed check, re-calculate premium
+				$premium = 0;
+				$people_number = $passdata['people_number'];
+				$passdata['people_number'] = 1;
+				$passdata['isfamilyplan'] = 0;
+				foreach ($passdata['agearr'] as $age) {
+					$passdata['age'] = $age;
+					$this->premiumArr['premium'] = 0;
+					$this->$package($passdata, 0);
+					$premium += $this->premiumArr['premium'];
+				}
+				if ($people_number > 9) {
+					$premium *= 0.9;	// 10% discount apply if number of members is 10 or more
+				}
+				$this->premiumArr['premium'] = $premium; 
+			}
+				
 			if (($this->premiumArr['premium'] > 0) && ($this->premiumArr['premium'] < 25)) {
 				$this->premiumArr['premium'] = 25;
 			}
@@ -10539,9 +10589,25 @@ class Top_model extends CI_Model  {
 			if ($para['isfamilyplan'] == 2) {
 				// Group plan
 				$this->load->model('customer_model');
-				$para['people_number'] = $this->customer_model->get_number_customer($plan['customer_id'], $plan['isfamilyplan']);
+				$this->load->model('product_model');
+				
+				$para['isfamilyplan'] = 0;
+				
+				$customer = $this->customer_model->get_customer_by_id($plan['customer_id']);
+				$para['age'] = $this->product_model->getYears($plan['effective_date'], $customer['birthday']);
+				$this->single_medical_plan($para, 0);
+				$premium = $this->premiumArr['premium'];
+				
+				$customers = $this->customer_model->get_customer_by_parent_id($plan['customer_id']);
+				foreach ($customers as $customer) {
+					$para['age'] = $this->product_model->getYears($plan['effective_date'], $customer['birthday']);
+					$this->single_medical_plan($para, 0);
+					$premium += $this->premiumArr['premium'];
+				}
+				$this->premiumArr['premium'] = $premium;
+			} else {
+				$this->single_medical_plan($para, 0);
 			}
-			$this->single_medical_plan($para, 0);
 			if ($this->premiumArr['status'] == 'OK') {
 				$refund = $this->premiumArr['premium'] / 120 * ($plan['totaldays'] - $days);
 				if ($refund > 0) {

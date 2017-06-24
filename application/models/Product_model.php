@@ -169,6 +169,7 @@ class Product_model extends CI_Model {
 		$r['totaldays'] = $para['totaldays'] = $this->getDays($effective_date, $expiry_date);
 		
 		$oldyears = $this->getYears($effective_date, $birthday);
+		$ageArr = array($oldyears);
 		if (empty($oldyears)) {
 			$mindays = $this->getDays($birthday, $effective_date);
 			if ($mindays < 15) {
@@ -193,6 +194,7 @@ class Product_model extends CI_Model {
 			} else if ($years > $oldyears) {
 				$oldyears = $years;
 			}
+			$ageArr[] = $years;
 			if ($years > 19) $people_order_19++;
 			$people_number++;
 		}
@@ -200,7 +202,7 @@ class Product_model extends CI_Model {
 		if ($para['isfamilyplan'] == 1) {
 			if ($people_order_19 > 3) {
 				$r['message'] = 'Family Plan only allow 3 children';
-			} else if ($people_number > 5) {
+			} else if ($people_number > 6) {
 				$r['message'] = 'Family Plan must less than 6 people';
 			}
 		}
@@ -222,6 +224,7 @@ class Product_model extends CI_Model {
 		$para['ad_and_d'] = isset($para['ad_and_d']) ? $para['ad_and_d'] : '';
 		$para['flight_ccident'] = isset($para['flight_ccident']) ? $para['flight_ccident'] : '';
 		$para['trip_cancellation'] = isset($para['trip_cancellation']) ? $para['trip_cancellation'] : '';
+		$para['agearr'] = $ageArr;
 		
 		return $this->top_model->get_premium($para);		
 	}
