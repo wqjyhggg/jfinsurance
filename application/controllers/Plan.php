@@ -372,7 +372,7 @@ class Plan extends MY_Controller {
 		$nowtm = strtotime(date('Y-m-d'));
 		$arrival_date = $this->input->post('arrival_date');
 		$arrivaltm = strtotime($arrival_date);
-		if (empty($arrival_date)) {	// 2015-01-01
+		if (($product_short != 'TOP') && empty($arrival_date)) {	// 2015-01-01
 			$this->error['error_arrival_date'] = 'Confirm Arrival Date';
 		} else if (($product_short == 'JFR') && ($arrivaltm < 1420070400)) {	// 2015-01-01
 			$this->error['error_arrival_date'] = "Arrival Date is too early";
@@ -382,7 +382,8 @@ class Plan extends MY_Controller {
 		if (empty($effective_date) || ($effectivetm < 1466555500)) {
 			$this->error['error_effective_date'] = 'Confirm Effective Date';
 		}
-		if ($arrivaltm > $effectivetm) {
+		
+		if (($product_short != 'TOP') && ($arrivaltm > $effectivetm)) {
 			$this->error['error_effective_date'] = 'Arrival Date cannot be later than Effective Date';
 		}
 		$expiry_date = $this->input->post('expiry_date');
@@ -424,7 +425,7 @@ class Plan extends MY_Controller {
 			$this->error['error_contact_email'] = 'Contact email is Required';
 		}
 		if (!empty($this->input->post('isfamilyplan')) && (empty($this->input->post('birthday_1')) || empty($this->input->post('firstname_1')) || empty($this->input->post('lastname_1')))) {
-			$this->error['error_message'] = 'Please input family member information';
+			$this->error['error_message'] = 'Please input family / group member information';
 		}
 		if (($product_short == 'OPL') || ($product_short == 'JFR')) {
 			$apply_date = $this->input->post('apply_date');
