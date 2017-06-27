@@ -1412,7 +1412,11 @@ class Plan extends MY_Controller {
 				$commission_rate = 0;
 			}
 		}
-		$commission_amount = $premium * $commission_rate / 100.0;
+		if ($plan['product_short'] == 'TOP') {
+			$commission_amount = ($premium - ($plan['tax'] * $premium / $plan['premium'])) * $commission_rate / 100.0;
+		} else {
+			$commission_amount = $premium * $commission_rate / 100.0;
+		}
 		$up_commission_rate = $this->product_model->get_up_commission_rate($plan['product_short']);
 		$up_commission_amount = $premium * $up_commission_rate / 100.0;
 				
@@ -1564,7 +1568,11 @@ class Plan extends MY_Controller {
 					$commission_rate = 0;
 				}
 			}
-			$commission_amount = $premium * $commission_rate / 100.0;
+			if ($plan['product_short'] == 'TOP') {
+				$commission_amount = ($premium - ($plan['tax'] * $premium / $plan['premium'])) * $commission_rate / 100.0;
+			} else {
+				$commission_amount = $premium * $commission_rate / 100.0;
+			}
 			$up_commission_rate = $this->product_model->get_up_commission_rate($plan['product_short']);
 			$up_commission_amount = $premium * $up_commission_rate / 100.0;
 					
@@ -1779,7 +1787,11 @@ class Plan extends MY_Controller {
 				$commission_rate = 0;
 			}
 		}
-		$commission_amount = $premium * $commission_rate / 100.0;
+		if ($plan['product_short'] == 'TOP') {
+			$commission_amount = ($premium - ($plan['tax'] * $premium / $plan['premium'])) * $commission_rate / 100.0;
+		} else {
+			$commission_amount = $premium * $commission_rate / 100.0;
+		}
 		$up_commission_rate = $this->product_model->get_up_commission_rate($plan['product_short']);
 		$up_commission_amount = $premium * $up_commission_rate / 100.0;
 		
@@ -1907,7 +1919,11 @@ class Plan extends MY_Controller {
 				$commission_rate = 0;
 			}
 		}
-		$commission_amount = $premium * $commission_rate / 100.0;
+		if ($plan['product_short'] == 'TOP') {
+			$commission_amount = ($premium - ($plan['tax'] * $premium / $plan['premium'])) * $commission_rate / 100.0;
+		} else {
+			$commission_amount = $premium * $commission_rate / 100.0;
+		}
 		$up_commission_rate = $this->product_model->get_up_commission_rate($plan['product_short']);
 		$up_commission_amount = $premium * $up_commission_rate / 100.0;
 		

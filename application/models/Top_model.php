@@ -10173,19 +10173,22 @@ class Top_model extends CI_Model  {
 				$base *= $data['people_number'];
 			}
 				
+			$this->premiumArr['premium'] += $base;
+			
 			// Add TAX if needs
 			if (($data['province2'] == 'MB') || ($data['province2'] == 'ON')) {
 				// 8% TAX
-				$base *= 1.08;
+				$this->premiumArr['tax'] += $base * 0.08;
+				$this->premiumArr['premium'] += $base * 0.08;
 			} else if ($data['province2'] == 'QC') {
 				// 9% TAX
-				$base *= 1.09;
+				$this->premiumArr['tax'] += $base * 0.09;
+				$this->premiumArr['premium'] += $base * 0.09;
 			} else if ($data['province2'] == 'SK') {
 				// 6% TAX
-				$base *= 1.06;
+				$this->premiumArr['tax'] += $base * 0.06;
+				$this->premiumArr['premium'] += $base * 0.06;
 			}
-
-			$this->premiumArr['premium'] += $base;
 		}
 		
 		if ($this->premiumArr['premium'] > 0) {
@@ -10467,7 +10470,7 @@ class Top_model extends CI_Model  {
 		}
 			
 		if (($data['totaldays'] < $mindays) || ($data['totaldays'] > $maxdays)) {
-			$this->premiumArr['message'] = 'Out of days range. Days must less than 60';
+			$this->premiumArr['message'] = 'Out of days range. Please check effective date and expiry date';
 			$this->premiumArr['active_tab'] = 'date_members_tab';
 			return 1;
 		}
@@ -10489,28 +10492,32 @@ class Top_model extends CI_Model  {
 		
 		if ($this->premiumArr['premium'] > 0) {
 			$this->premiumArr['status'] = 'OK';
+			if ($data['isfamilyplan'] == 1) {
+				$this->premiumArr['premium'] *= 2.25;		// single premium times 2.25
+			} else if ($data['isfamilyplan'] == 2) {
+				$this->premiumArr['premium'] *= $data['people_number'];
+				if ($data['people_number'] > 9) {
+					$this->premiumArr['premium'] *= 0.9;	// 10% discount apply if number of members is 10 or more
+				}
+			}
+		
+			$this->premiumArr['premium_org'] = $this->premiumArr['premium'];
 			// Add TAX if needs
 			if (($data['province2'] == 'MB') || ($data['province2'] == 'ON')) {
 				// 8% TAX
-				$this->premiumArr['premium'] *= 1.08;
+				$this->premiumArr['tax'] = $this->premiumArr['premium'] * 0.08;
+				$this->premiumArr['premium'] += $this->premiumArr['tax'];
 			} else if ($data['province2'] == 'QC') {
 				// 9% TAX
-				$this->premiumArr['premium'] *= 1.09;
+				$this->premiumArr['tax'] = $this->premiumArr['premium'] * 0.09;
+				$this->premiumArr['premium'] += $this->premiumArr['tax'];
 			} else if ($data['province2'] == 'SK') {
 				// 6% TAX
-				$this->premiumArr['premium'] *= 1.06;
+				$this->premiumArr['tax'] = $this->premiumArr['premium'] * 0.06;
+				$this->premiumArr['premium'] += $this->premiumArr['tax'];
 			}
 		} else {
 			$this->premiumArr['message'] = 'Not available. Please adjust insured amount or days';
-		}
-		
-		if ($data['isfamilyplan'] == 1) {
-			$this->premiumArr['premium'] *= 2.25;		// single premium times 2.25
-		} else if ($data['isfamilyplan'] == 2) {
-			$this->premiumArr['premium'] *= $data['people_number'];
-			if ($data['people_number'] > 9) {
-				$this->premiumArr['premium'] *= 0.9;	// 10% discount apply if number of members is 10 or more
-			}
 		}
 		
 		return 1;
@@ -10524,6 +10531,7 @@ class Top_model extends CI_Model  {
 		$this->premiumArr['questionnaire'] = 0;
 		$this->premiumArr['stable_condition'] = 0;
 		$this->premiumArr['premium'] = 0;
+		$this->premiumArr['tax'] = 0;
 		$this->premiumArr['totalyears'] = $passdata['age'];
 		$this->premiumArr['totaldays'] = $passdata['totaldays'];
 		$this->premiumArr['sum_insured'] = $passdata['sum_insured'];
@@ -10552,19 +10560,24 @@ class Top_model extends CI_Model  {
 			if (($this->premiumArr['status'] == 'OK') && ($passdata['isfamilyplan'] == 2)) {
 				// Passed check, re-calculate premium
 				$premium = 0;
+				$tax = 0;
 				$people_number = $passdata['people_number'];
 				$passdata['people_number'] = 1;
 				$passdata['isfamilyplan'] = 0;
 				foreach ($passdata['agearr'] as $age) {
 					$passdata['age'] = $age;
 					$this->premiumArr['premium'] = 0;
+					$this->premiumArr['tax'] = 0;
 					$this->$package($passdata, 0);
 					$premium += $this->premiumArr['premium'];
+					$tax += $this->premiumArr['tax'];
 				}
 				if ($people_number > 9) {
 					$premium *= 0.9;	// 10% discount apply if number of members is 10 or more
+					$tax *= 0.9;	// 10% discount apply if number of members is 10 or more
 				}
 				$this->premiumArr['premium'] = $premium; 
+				$this->premiumArr['tax'] = $tax; 
 			}
 				
 			if (($this->premiumArr['premium'] > 0) && ($this->premiumArr['premium'] < 25)) {
@@ -10597,14 +10610,17 @@ class Top_model extends CI_Model  {
 				$para['age'] = $this->product_model->getYears($plan['effective_date'], $customer['birthday']);
 				$this->single_medical_plan($para, 0);
 				$premium = $this->premiumArr['premium'];
+				$tax = $this->premiumArr['tax'];
 				
 				$customers = $this->customer_model->get_customer_by_parent_id($plan['customer_id']);
 				foreach ($customers as $customer) {
 					$para['age'] = $this->product_model->getYears($plan['effective_date'], $customer['birthday']);
 					$this->single_medical_plan($para, 0);
 					$premium += $this->premiumArr['premium'];
+					$tax += $this->premiumArr['tax'];
 				}
 				$this->premiumArr['premium'] = $premium;
+				$this->premiumArr['tax'] = $tax;
 			} else {
 				$this->single_medical_plan($para, 0);
 			}

@@ -169,6 +169,7 @@ class Plan_model extends CI_Model {
 		if (isset($para['totalyears'])) $sql .= " totalyears='" . (int)$para['totalyears'] . "', ";
 		if (isset($para['dailyrate']))  $sql .= " dailyrate='" . (float) $para['dailyrate'] . "', ";
 		if (isset($para['premium']))  $sql .= " premium='" . (float) $para['premium'] . "', ";
+		if (isset($para['tax']))  $sql .= " tax='" . (float) $para['tax'] . "', ";
 		if (isset($para['street_number'])) $sql .= " street_number=" . $this->db->escape(trim($para['street_number'])) . ", ";
 		if (isset($para['street_name'])) $sql .= " street_name=" . $this->db->escape(trim($para['street_name'])) . ", ";
 		if (isset($para['suite_number'])) $sql .= " suite_number=" . $this->db->escape(trim($para['suite_number'])) . ", ";
@@ -449,6 +450,13 @@ class Plan_model extends CI_Model {
 				$this->logstr .= " premium " . $premium . "(" . $plan['premium'] . ")";
 				$sql .= " premium='" . $premium . "', ";
 				$premiumchanged = 1;
+			}
+		}
+		if (isset($para['tax'])) {
+			$tax = round((float)$para['tax'],2);
+			if ($tax != (float)$plan['tax']) {
+				$this->logstr .= " tax " . $tax . "(" . $plan['tax'] . ")";
+				$sql .= " tax='" . $tax . "', ";
 			}
 		}
 		if (isset($para['status_id']) && ((int)$para['status_id'] != (int)$plan['status_id'])) {

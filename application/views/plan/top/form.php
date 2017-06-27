@@ -85,6 +85,7 @@
 					<input type='hidden' name='dailyrate' step='0.01' id='dailyrate' value='<?php echo $dailyrate; ?>'>
 					<input type='hidden' name='totalyears' id='totalyears' value='<?php echo $totalyears; ?>'>
 					<input type='hidden' name='premium' step='0.01' id='premium' value='<?php echo $premium; ?>'>
+					<input type='hidden' name='tax' step='0.01' id='tax' value='<?php echo $tax; ?>'>
 					<input type='hidden' name=product_short id='product_short' value='<?php echo $product_short; ?>'>
 					<input type='hidden' name='isfamilyplan' id='isfamilyplan' value='<?php echo $isfamilyplan; ?>'>
 					<input type="hidden" name="questionnaire" value="<?php echo $questionnaire; ?>">
@@ -1299,6 +1300,7 @@ function get_premium() {
 
 			if (data['status'] == 'OK') {
         		$('input[name="premium"]').val(data['premium']);
+        		$('input[name="tax"]').val(data['tax']);
 				$('#premium_value').html(data['premium']);
 				$('#page-submit').show();
 
