@@ -637,12 +637,12 @@
 											<div class="row">
 												<div class="col-sm-12">
 													<ol>
-														<li>Has your doctor advised you not to travel?</li>
-														<li>Do you suffer from a terminal illness?</li>
-														<li>Do you suffer from kidney disease treated through dialysis?</li>
-														<li>In the past 5 years, have you been diagnosed with or treated for stage III or IV cancer or cancer that has metastasized?</li>
-														<li>In the past 12 months, have you been prescribed or have you used oxygen at home?</li>
-														<li>Do you require the assist with activities of daily living?</li>
+														<li>Not travel against the advice of the physician ?</li>
+														<li>Not suffer from a terminal illness ?</li>
+														<li>Not suffer from kidney disease treated through dialysis ?</li>
+														<li>In the past 5 years, have not been diagnosed with or treated for stage III or IV cancer ?</li>
+														<li>In the past 12 months, have not been prescribed or have used oxygen at home ?</li>
+														<li>Do not require the assistance with activities of daily living?</li>
 													</ol>
 												</div>
 												<div class="col-sm-12 text-danger">
