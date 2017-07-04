@@ -535,9 +535,13 @@ class Plan extends MY_Controller {
 				}
 			} else {
 				$planold = $this->plan_model->get_plan_by_id($plan_id);
-				if ($planold['product_short'] == 'JFR') {
-					$plan_id = 0;
-					$this->top_update_valid($planold);
+				if ($planold['product_short'] == 'TOP') {
+					if (!empty($planold) && ($planold['status_id'] >= 2) && ($beuser['user_group_id'] > 100)) {
+						redirect("plan/term/" . $plan_id);
+					} else {
+						$plan_id = 0;
+						$this->top_update_valid($planold);
+					}
 				}
 				if (empty($this->error)) {
 					$plan_id = $this->plan_model->update($plan_id, $this->input->post(), array('isfamilyplan' => 1, 'holiday_rate' => 1, 'spouse' => 1));
@@ -691,7 +695,14 @@ class Plan extends MY_Controller {
 		} else {
 			$data['premium'] = 0;
 		}
-
+		if ($this->input->post('tax')) {
+			$data['tax'] = $this->input->post('tax');
+		} else if (isset($plan['tax'])) {
+			$data['tax'] = $plan['tax'];
+		} else {
+			$data['tax'] = 0;
+		}
+		
 		if ($this->input->post('student_id')) {
 			$data['student_id'] = $this->input->post('student_id');
 		} else if (isset($plan['student_id'])) {
@@ -1204,6 +1215,10 @@ class Plan extends MY_Controller {
 		if ($data['product_short'] == 'TOP') {
 			$data['toppackagename'] = $this->toppackagename;
 			$data['premium_url'] = base_url ( "plan/gettoppremium" );
+			$data['no_change'] = 0;
+			if (!empty($plan) && !empty($plan['status_id']) && !empty($plan['plan_id']) && ($plan['status_id'] >= 2) && ($data['user_group_id'] > 100)) {
+				$data['no_change'] = 1;
+			}
 			$this->load->common('plan/top/form', $data);
 		} else {
 			if (!empty($plan) && !empty($plan['status_id']) && ($plan['status_id'] > 1) && ($beuser['user_group_id'] > 100)) {

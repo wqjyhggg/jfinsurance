@@ -93,7 +93,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 						<h4 style="margin-bottom:15px;"><u>Coverage Details</u></h4>
 <?php if ($plan['product_short'] == 'TOP') { ?>
 						<h4>
-							Insurance Plan:
+							JF Canadian Travel Out Plan:
 							<br />&nbsp;&nbsp;&nbsp;<span><?php echo $toppackagename[$plan['package']]; ?></span>
 							<?php if ($plan['package'] == 'all_inclusive') { ?>
 							<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Sum Insured: $<?php echo number_format($plan['sum_insured'], 2); ?></span>

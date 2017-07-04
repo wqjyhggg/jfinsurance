@@ -83,6 +83,7 @@
 				<form action='<?php echo $action_url; ?>' method='POST' class="form-horizontal" id="plan_form">
 					<input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
 					<input type='hidden' name='dailyrate' step='0.01' id='dailyrate' value='<?php echo $dailyrate; ?>'>
+					<input type='hidden' name='plan_id' value='<?php echo $plan_id; ?>'>
 					<input type='hidden' name='totalyears' id='totalyears' value='<?php echo $totalyears; ?>'>
 					<input type='hidden' name='premium' step='0.01' id='premium' value='<?php echo $premium; ?>'>
 					<input type='hidden' name='tax' step='0.01' id='tax' value='<?php echo $tax; ?>'>
@@ -141,6 +142,10 @@
 												</div>
 												<div class="form-group col-sm-3">
 													<label class="col-sm-12">Departure Date (YYYY-MM-DD): </label>
+													<?php if ($no_change) { ?>
+													<input type="hidden" name='arrival_date' value='<?php echo $arrival_date; ?>'>
+													<?php echo $arrival_date; ?>
+													<?php } else { ?>
 													<div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd" id='arrival_date_div'>
 														<input class="form-control" size="16" type="text" name='arrival_date' value='<?php echo $arrival_date; ?>'>
 														<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
@@ -148,9 +153,14 @@
 													<?php if (!empty($arrival_date_date)) { ?>
 													<div class="alert-error"><?php echo $arrival_date_date; ?></div>
 													<?php } ?>
+													<?php } ?>
 												</div>
 												<div class="form-group col-sm-3">
 													<label class="col-sm-12">Effective Date (YYYY-MM-DD): </label>
+													<?php if ($no_change) { ?>
+													<input type="hidden" name='effective_date' value='<?php echo $effective_date; ?>'>
+													<?php echo $effective_date; ?>
+													<?php } else { ?>
 													<div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd" id='effective_date_div'>
 														<input class="check_premium form-control" size="16" type="text" name='effective_date' value='<?php echo $effective_date; ?>'>
 														<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
@@ -158,9 +168,14 @@
 													<?php if (!empty($error_effective_date)) { ?>
 													<div class="alert-error"><?php echo $error_effective_date; ?></div>
 													<?php } ?>
+													<?php } ?>
 												</div>
 												<div class="form-group col-sm-3">
 													<label class="col-sm-12">Expiry Date (YYYY-MM-DD): </label>
+													<?php if ($no_change) { ?>
+													<input type="hidden" name='expiry_date' value='<?php echo $expiry_date; ?>'>
+													<?php echo $expiry_date; ?>
+													<?php } else { ?>
 													<div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd" id='expiry_date_div'>
 														<input size="16" type='text' name='expiry_date' class='check_premium form-control' id='expiry_date' value='<?php echo $expiry_date; ?>'>
 														<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
@@ -168,15 +183,25 @@
 													<?php if (!empty($error_expiry_date)) { ?>
 													<div class="alert-error"><?php echo $error_expiry_date;?></div>
 													<?php } ?>
+													<?php } ?>
 												</div>
 												<div class="form-group col-sm-3">
 													<label class="col-sm-12">Days: </label>
+													<?php if ($no_change) { ?>
+													<input type="hidden" name='totaldays' value='<?php echo $totaldays; ?>'>
+													<?php echo $totaldays; ?>
+													<?php } else { ?>
 													<div class='form_text_show'>
 														<input class="form-control check_premium" type='number' name='totaldays' id='totaldays' value='<?php echo $totaldays; ?>'>
 													</div>
+													<?php } ?>
 												</div>
 												<div class="form-group col-sm-3">
 													<label class="col-sm-12">Family / Group: </label>
+													<?php if ($no_change) { ?>
+													<input type="hidden" name='isfamilyplan' value='<?php echo $isfamilyplan; ?>'>
+													<?php echo ($isfamilyplan == 1) ? 'Family' : (($isfamilyplan == 2) ? 'Group' : 'Single'); ?>
+													<?php } else { ?>
 													<div class='form_text_show'>
 														<select name='isfamilyplan' class="form-control check_premium" style="padding: 6px 2px;">
 															<option value='0' <?php echo (($isfamilyplan != 1) && ($isfamilyplan != 2)) ? "" : "selected"; ?>>Single</option>
@@ -184,6 +209,7 @@
 															<option value='2' <?php echo ($isfamilyplan == 2) ? "selected" : ""; ?>>Group</option>
 														</select>
 													</div>
+													<?php } ?>
 												</div>
 												<div class="form-group col-sm-3">
 													<label class="col-sm-12">Beneficiary</label>
@@ -246,7 +272,7 @@
 														<div class="col-sm-6">
 															<label class="col-sm-12">&nbsp;</label>
 															<div class="col-sm-12">
-															<?php if ((($status_id == 2) || ($status_id == 3) || ($status_id == 4)) && !empty($customer_id) && $user_group_id !=3 && $user_group_id != 103) { ?>
+															<?php if ((($status_id == 2) || ($status_id == 3) || ($status_id == 4)) && !empty($customer_id) && $user_group_id !=3 && ($user_group_id < 100)) { ?>
 																<a class="btn btn-primary" href='<?php echo $claimurl . $customer_id; ?>'>Claim</a>
 															<?php } ?>
 															</div>
@@ -309,7 +335,9 @@
 															</div>
 															<div class="col-sm-4">
 																<label class="col-sm-12">&nbsp;</label>
+																<?php if (empty($no_change)) { ?>
 																<input type='button' onclick='remove_member(<?php echo $i;?>)' value='Remove' data-toggle="tooltip" title="Remove Memeber" class="btn btn-info">
+																<?php } ?>
 															</div>
 														</div>
 													</div>
@@ -320,8 +348,10 @@
 													<div class="col-sm-1">
 													</div>
 													<div class="col-sm-11">
+														<?php if (empty($no_change)) { ?>
 														<?php if ($isprocessplan && ($status_id != 5) && ($status_id != 6)) { ?>
 														<input class="btn btn-info btn-sm" type='button' id='addmorememberid' name='addmorememberid' value='Add More Member' onclick='addmoremember(1);'>
+														<?php } ?>
 														<?php } ?>
 													</div>
 												</div>
@@ -469,30 +499,58 @@
 										<fieldset>
 											<legend>Select Package</legend>
 											<div class="row">
+											<?php if ($no_change) { ?>
+												<input type="hidden" name="package" value="<?php echo $package; ?>">
 												<div class="col-sm-3">
-													<input type="radio" name="package" class='check_premium' value="all_inclusive" <?php if ($package == 'all_inclusive') { echo 'checked'; } ?>>
+													<?php if ($package == 'all_inclusive') { echo '<span class="glyphicon glyphicon-ok"></span>'; } ?>
 													<a href="#" data-toggle="popover" data-trigger="hover" title="All Inclusive" data-content="Explaination for All Inclusive">
 														<?php echo $toppackagename['all_inclusive']; ?> <span class="glyphicon glyphicon-question-sign"></span>
 													</a>
 												</div>
 												<div class="col-sm-3">
-													<input type="radio" name="package" class='check_premium' value="single_medical_plan" <?php if ($package == 'single_medical_plan') { echo 'checked'; } ?>>
+													<?php if ($package == 'single_medical_plan') { echo '<span class="glyphicon glyphicon-ok"></span>'; } ?>
 													<a href="#" data-toggle="popover" data-trigger="hover" title="Out of Province" data-content="Explaination for Out of Province">
 														<?php echo $toppackagename['single_medical_plan']; ?> <span class="glyphicon glyphicon-question-sign"></span>
 													</a>
 												</div>
 												<div class="col-sm-3">
-													<input type="radio" name="package" class='check_premium' value="annual_plan" <?php if ($package == 'annual_plan') { echo 'checked'; } ?>>
+													<?php if ($package == 'annual_plan') { echo '<span class="glyphicon glyphicon-ok"></span>'; } ?>
 													<a href="#" data-toggle="popover" data-trigger="hover" title="Annual Plan" data-content="Explaination for Annual Plan">
 														<?php echo $toppackagename['annual_plan']; ?> <span class="glyphicon glyphicon-question-sign"></span>
 													</a>
 												</div>
 												<div class="col-sm-3">
-													<input type="radio" name="package" class='check_premium' value="optional_plan" <?php if ($package == 'optional_plan') { echo 'checked'; } ?>>
+													<?php if ($package == 'optional_plan') { echo '<span class="glyphicon glyphicon-ok"></span>'; } ?>
 													<a href="#" data-toggle="popover" data-trigger="hover" title="Optional Plan" data-content="Explaination for Optional Plan">
 														<?php echo $toppackagename['optional_plan']; ?> <span class="glyphicon glyphicon-question-sign"></span>
 													</a>
 												</div>
+											<?php } else { ?>
+												<div class="col-sm-3">
+													<input <?php echo ($no_change) ? 'disable="disable"' : ''; ?> type="radio" name="package" class='check_premium' value="all_inclusive" <?php if ($package == 'all_inclusive') { echo 'checked'; } ?>>
+													<a href="#" data-toggle="popover" data-trigger="hover" title="All Inclusive" data-content="Explaination for All Inclusive">
+														<?php echo $toppackagename['all_inclusive']; ?> <span class="glyphicon glyphicon-question-sign"></span>
+													</a>
+												</div>
+												<div class="col-sm-3">
+													<input <?php echo ($no_change) ? 'disable="disable"' : ''; ?> type="radio" name="package" class='check_premium' value="single_medical_plan" <?php if ($package == 'single_medical_plan') { echo 'checked'; } ?>>
+													<a href="#" data-toggle="popover" data-trigger="hover" title="Out of Province" data-content="Explaination for Out of Province">
+														<?php echo $toppackagename['single_medical_plan']; ?> <span class="glyphicon glyphicon-question-sign"></span>
+													</a>
+												</div>
+												<div class="col-sm-3">
+													<input <?php echo ($no_change) ? 'disable="disable"' : ''; ?> type="radio" name="package" class='check_premium' value="annual_plan" <?php if ($package == 'annual_plan') { echo 'checked'; } ?>>
+													<a href="#" data-toggle="popover" data-trigger="hover" title="Annual Plan" data-content="Explaination for Annual Plan">
+														<?php echo $toppackagename['annual_plan']; ?> <span class="glyphicon glyphicon-question-sign"></span>
+													</a>
+												</div>
+												<div class="col-sm-3">
+													<input <?php echo ($no_change) ? 'disable="disable"' : ''; ?> type="radio" name="package" class='check_premium' value="optional_plan" <?php if ($package == 'optional_plan') { echo 'checked'; } ?>>
+													<a href="#" data-toggle="popover" data-trigger="hover" title="Optional Plan" data-content="Explaination for Optional Plan">
+														<?php echo $toppackagename['optional_plan']; ?> <span class="glyphicon glyphicon-question-sign"></span>
+													</a>
+												</div>
+											<?php } // no_change ?>
 											</div>
 										</fieldset>
 									</div>
@@ -502,11 +560,20 @@
 											<div class="row">
 												<div class="col-sm-4">
 													<label class="col-sm-12">Sum Insured</label>
+													<?php if ($no_change) { ?>
+													<input type="hidden" name="sum_insured" value="<?php echo $sum_insured; ?>">$<?php echo number_format($sum_insured, 2); ?>
+													<?php } else { ?>
 													<input type="number" name="sum_insured" class='check_premium' min="0" max="15000" step="100" value="<?php echo $sum_insured; ?>"> ( 0 - 15,000 every 100s)
+													<?php } ?>
 												</div>
 												<div class="col-sm-4">
 													<label class="col-sm-12">&nbsp;</label>
+													<?php if ($no_change) { ?>
+													<input type="hidden" name="free_cancel" value="<?php echo $free_cancel ? 1 : 0; ?>">
+													<?php if ($free_cancel) { echo '<span class="glyphicon glyphicon-ok"></span>'; } ?> Free Cancellation
+													<?php } else { ?>
 													<input type="checkbox" name="free_cancel" class='check_premium' value="1" <?php echo ($free_cancel ? 'checked' : ''); ?>> Free Cancellation
+													<?php } ?>
 												</div>
 											</div>
 										</fieldset>
@@ -520,6 +587,9 @@
 												</div>
 												<div class="col-sm-10">
 													<label class="col-sm-12">Select Days</label>
+													<?php if ($no_change) { ?>
+													<input type="hidden" name="annual_plan_days" value="<?php echo $annual_plan_days; ?>"><?php echo $annual_plan_days; ?> Days
+													<?php } else { ?>
 													<select name='annual_plan_days' class="check_premium" style="padding: 6px 2px;">
 														<option value='4' <?php echo ($annual_plan_days == 4) ? "selected" : ""; ?>>4 Days</option>
 														<option value='9' <?php echo ($annual_plan_days == 9) ? "selected" : ""; ?>>9 Days</option>
@@ -527,6 +597,7 @@
 														<option value='30' <?php echo ($annual_plan_days == 30) ? "selected" : ""; ?>>30 Days</option>
 														<option value='60' <?php echo ($annual_plan_days == 60) ? "selected" : ""; ?>>60 Days</option>
 													</select>
+													<?php } ?>
 												</div>
 											</div>
 										</fieldset>
@@ -536,34 +607,56 @@
 											<legend>Optional Plans</legend>
 											<div class="row panel-group">
 												<div class="panel panel-default">
-													<div class="panel-heading"><input type="checkbox" name="ad_and_d_ck" class='check_premium' value="1" <?php echo $ad_and_d_insured ? 'checked' : ''; ?>>  AD & D</div>
+													<div class="panel-heading">
+														<?php if ($no_change) { ?>
+														<input type="hidden" name="ad_and_d_insured" value="<?php echo $ad_and_d_insured ? 1 : 0; ?>">
+														<?php if ($ad_and_d_insured) { echo '<span class="glyphicon glyphicon-ok"></span>'; } ?> AD & D
+														<?php } else { ?>
+														<input type="checkbox" name="ad_and_d_ck" class='check_premium' value="1" <?php echo $ad_and_d_insured ? 'checked' : ''; ?>>  AD & D
+														<?php } ?>
+													</div>
 													<div class="panel-body">
 														AD & D description
 														<div class='row'>
 															<div class="col-sm-2 text-right"><label>Insured Amount : </label></div>
 															<div class="col-sm-10">
+																<?php if ($no_change) { ?>
+																<input type="hidden" name="ad_and_d_insured" value="<?php echo $ad_and_d_insured; ?>">$<?php echo number_format($ad_and_d_insured); ?>
+																<?php } else { ?>
 																<select name='ad_and_d_insured' class="check_premium" style="padding: 6px 2px;">
 																	<option value='25000' <?php echo ($ad_and_d_insured == 25000) ? "selected" : ""; ?>>25,000</option>
 																	<option value='50000' <?php echo ($ad_and_d_insured == 50000) ? "selected" : ""; ?>>50,000</option>
 																	<option value='75000' <?php echo ($ad_and_d_insured == 75000) ? "selected" : ""; ?>>75,000</option>
 																	<option value='100000' <?php echo ($ad_and_d_insured == 100000) ? "selected" : ""; ?>>100,000</option>
 																</select>
+																<?php } ?>
 															</div>
 														</div>
 													</div>
 												</div>
 												<div class="panel panel-default">
-													<div class="panel-heading"><input type="checkbox" name="flight_accident_ck" class='check_premium' value="1" <?php echo $flight_accident_insured ? 'checked' : ''; ?>>  Flight Accident</div>
+													<div class="panel-heading">
+														<?php if ($no_change) { ?>
+														<input type="hidden" name="flight_accident_ck" value="<?php echo $flight_accident_insured ? 1 : 0; ?>">
+														<?php if ($flight_accident_insured) { echo '<span class="glyphicon glyphicon-ok"></span>'; } ?>  Flight Accident
+														<?php } else { ?>
+														<input type="checkbox" name="flight_accident_ck" class='check_premium' value="1" <?php echo $flight_accident_insured ? 'checked' : ''; ?>>  Flight Accident
+														<?php } ?>
+													</div>
 													<div class="panel-body">
 														Flight Accident description
 														<div class='row'>
 															<div class="col-sm-2 text-right"><label>Insured Amount : </label></div>
 															<div class="col-sm-10">
+																<?php if ($no_change) { ?>
+																<input type="hidden" name="flight_accident_insured" value="<?php echo $flight_accident_insured; ?>">$<?php echo number_format($flight_accident_insured); ?>
+																<?php } else { ?>
 																<select name='flight_accident_insured' class="check_premium" style="padding: 6px 2px;">
 																	<option value='100000' <?php echo ($flight_accident_insured == 100000) ? "selected" : ""; ?>>100,000</option>
 																	<option value='200000' <?php echo ($flight_accident_insured == 200000) ? "selected" : ""; ?>>200,000</option>
 																	<option value='300000' <?php echo ($flight_accident_insured == 300000) ? "selected" : ""; ?>>300,000</option>
 																</select>
+																<?php } ?>
 															</div>
 														</div>
 													</div>
@@ -571,7 +664,11 @@
 												<div class="panel panel-default">
 													<div class="panel-heading">
 														<input type="hidden" name="trip_cancellation_ck" value="<?php echo $trip_cancellation_ck; ?>">
+														<?php if ($no_change) { ?>
+														<?php if ($trip_cancellation_ck) { echo '<span class="glyphicon glyphicon-ok"></span>'; } ?>
+														<?php } else { ?>
 														<input type="checkbox" name="trip_cancellation_ckbox" class='check_premium' value="1" <?php echo $trip_cancellation_ck ? 'checked' : ''; ?>>
+														<?php } ?>
 														Trip Cancellation
 													</div>
 													<div class="panel-body">
@@ -579,7 +676,11 @@
 														<div class='row'>
 															<div class="col-sm-2 text-right"><label>Insured Amount : </label></div>
 															<div class="col-sm-10">
+																<?php if ($no_change) { ?>
+																<input type="hidden" name="trip_cancellation_insured" value="<?php echo $trip_cancellation_insured; ?>">$<?php echo number_format($trip_cancellation_insured); ?>
+																<?php } else { ?>
 																<input type="number" name="trip_cancellation_insured" class='check_premium' min="0" max="15000" step="100" value="<?php echo $trip_cancellation_insured; ?>"> ( every 100s )
+																<?php } ?>
 															</div>
 														</div>
 													</div>
@@ -593,11 +694,15 @@
 											<div class="row">
 												<label class="inline">Select pre-existing condition coverage</label>
 												<div class="inline">
+													<?php if ($no_change) { ?>
+														<?php echo ($stable_condition == 1) ? 'Including' : 'Excluding'; ?> stable pre-existing condition coverage
+													<?php } else { ?>
 													<select name='stable_condition' class="form-control check_premium" id='stable_condition_select'>
 														<option value='0'> -- select condition -- </option>
 														<option value='1' <?php echo ($stable_condition == 1) ? 'selected' : ''; ?>>Including stable pre-existing condition coverage</option>
 														<option value='2' <?php echo ($stable_condition == 2) ? 'selected' : ''; ?>>Excluding stable pre-existing condition coverage</option>
 													</select>
+													<?php } ?>
 												</div>
 												<?php if (!empty($error_stable_condition)) {?>
 												<div class="alert-error">
@@ -664,6 +769,21 @@
 														<li>Heart conditions/disease (do not include aspirin, hypertension (high blood pressure) or high cholesterol medications)</li>
 													</ul>
 												</div>
+												<?php if ($no_change) { ?>
+												<input type="hidden" name="question1" value="<?php echo $question1; ?>">
+												<div class="col-sm-3">
+													<?php if ($question1 == 4) { echo '<span class="glyphicon glyphicon-ok"></span>'; } ?> 3 or more medications
+												</div>
+												<div class="col-sm-3">
+													<?php if ($question1 == 3) { echo '<span class="glyphicon glyphicon-ok"></span>'; } ?> 2 medications
+												</div>
+												<div class="col-sm-3">
+													<?php if ($question1 == 2) { echo '<span class="glyphicon glyphicon-ok"></span>'; } ?> 1 medication
+												</div>
+												<div class="col-sm-3">
+													<?php if ($question1 == 1) { echo '<span class="glyphicon glyphicon-ok"></span>'; } ?> none
+												</div>
+												<?php } else { ?>
 												<div class="col-sm-3">
 													<input type="radio" name="question1" value="4" <?php if ($question1 == 4) { echo "checked"; } ?>> 3 or more medications
 												</div>
@@ -676,6 +796,7 @@
 												<div class="col-sm-3">
 													<input type="radio" name="question1" value="1" <?php if ($question1 == 1) { echo "checked"; } ?>> none
 												</div>
+												<?php } ?>
 											</div>
 										</fieldset>
 									</div>
@@ -685,12 +806,22 @@
 												<div class="col-sm-12">
 													<H4>Within the 24 months prior to the date of application, have you had a heart attack, stroke and/or transient ischemic attack (mini-stroke, TIA)?</H4>
 												</div>
+												<?php if ($no_change) { ?>
+												<input type="hidden" name="question2" value="<?php echo $question2; ?>">
+												<div class="col-sm-3">
+													<?php if ($question2 == 2) { echo '<span class="glyphicon glyphicon-ok"></span>'; } ?> Yes
+												</div>
+												<div class="col-sm-3">
+													<?php if ($question2 == 1) { echo '<span class="glyphicon glyphicon-ok"></span>'; } ?> No
+												</div>
+												<?php } else { ?>
 												<div class="col-sm-3">
 													<input type="radio" name="question2" value="2" <?php if ($question2 == 2) { echo "checked"; } ?>> Yes
 												</div>
 												<div class="col-sm-3">
 													<input type="radio" name="question2" value="1" <?php if ($question2 == 1) { echo "checked"; } ?>> No
 												</div>
+												<?php } ?>
 											</div>
 										</fieldset>
 									</div>
@@ -714,6 +845,18 @@
 														<li>Cancer</li>
 													</ul>
 												</div>
+												<?php if ($no_change) { ?>
+												<input type="hidden" name="question3" value="<?php echo $question3; ?>">
+												<div class="col-sm-3">
+													<?php if ($question3 == 3) { echo '<span class="glyphicon glyphicon-ok"></span>'; } ?> 2 or more medical conditions
+												</div>
+												<div class="col-sm-3">
+													<?php if ($question3 == 2) { echo '<span class="glyphicon glyphicon-ok"></span>'; } ?> 1 medical condition
+												</div>
+												<div class="col-sm-3">
+													<?php if ($question3 == 1) { echo '<span class="glyphicon glyphicon-ok"></span>'; } ?> none
+												</div>
+												<?php } else { ?>
 												<div class="col-sm-3">
 													<input type="radio" name="question3" value="3" <?php if ($question3 == 3) { echo "checked"; } ?>> 2 or more medical conditions
 												</div>
@@ -723,6 +866,7 @@
 												<div class="col-sm-3">
 													<input type="radio" name="question3" value="1" <?php if ($question3 == 1) { echo "checked"; } ?>> none
 												</div>
+												<?php } ?>
 											</div>
 										</fieldset>
 									</div>
@@ -740,12 +884,22 @@
 														<li type='a'>Hospitalization or surgical intervention.</li>
 													</ol>
 												</div>
+												<?php if ($no_change) { ?>
+												<input type="hidden" name="question4" value="<?php echo $question4; ?>">
+												<div class="col-sm-3">
+													<?php if ($question4 == 2) { echo '<span class="glyphicon glyphicon-ok"></span>'; } ?> Yes
+												</div>
+												<div class="col-sm-3">
+													<?php if ($question4 == 1) { echo '<span class="glyphicon glyphicon-ok"></span>'; } ?> No
+												</div>
+												<?php } else { ?>
 												<div class="col-sm-3">
 													<input type="radio" name="question4" value="2" <?php if ($question4 == 2) { echo "checked"; } ?>> Yes
 												</div>
 												<div class="col-sm-3">
 													<input type="radio" name="question4" value="1" <?php if ($question4 == 1) { echo "checked"; } ?>> No
 												</div>
+												<?php } ?>
 											</div>
 										</fieldset>
 									</div>
@@ -755,12 +909,22 @@
 												<div class="col-sm-12">
 													<H4>Have you used any tobacco products in the past 24 months?</H4>
 												</div>
+												<?php if ($no_change) { ?>
+												<input type="hidden" name="question4" value="<?php echo $question4; ?>">
+												<div class="col-sm-3">
+													<?php if ($question5 == 2) { echo'<span class="glyphicon glyphicon-ok"></span>'; } ?> Yes
+												</div>
+												<div class="col-sm-3">
+													<?php if ($question5 == 1) { echo '<span class="glyphicon glyphicon-ok"></span>'; } ?> No
+												</div>
+												<?php } else { ?>
 												<div class="col-sm-3">
 													<input type="radio" name="question5" value="2" <?php if ($question5 == 2) { echo "checked"; } ?>> Yes
 												</div>
 												<div class="col-sm-3">
 													<input type="radio" name="question5" value="1" <?php if ($question5 == 1) { echo "checked"; } ?>> No
 												</div>
+												<?php } ?>
 											</div>
 										</fieldset>
 									</div>
@@ -918,6 +1082,8 @@ var need_questionnaire = <?php printf("%d", $questionnaire); ?>;
 var cur_max_member = <?php printf("%d", $cur_max_member); ?>;
 var show_ajax_message = 0;
 var answer;
+<?php if ($no_change) { ?>
+<?php } else { ?>
 $('input[name="package"]').on('change', function (e) {
 	var q = $('input[name=package]:checked').val();
 	$('#all_inclusive_div').hide();
@@ -1018,6 +1184,7 @@ $('input[name=question5]').on('change', function (e) {
 	}
 	get_premium();
 });
+<?php } ?>
 
 $('a[data-toggle="tab"]').on('click', function (e) {
 	var id = $(this).attr('id');
