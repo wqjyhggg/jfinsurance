@@ -14,6 +14,7 @@ ALTER TABLE `plan` ADD `question2` TINYINT NOT NULL COMMENT 'For TOP plan';
 ALTER TABLE `plan` ADD `question3` TINYINT NOT NULL COMMENT 'For TOP plan';
 ALTER TABLE `plan` ADD `question4` TINYINT NOT NULL COMMENT 'For TOP plan';
 ALTER TABLE `plan` ADD `question5` TINYINT NOT NULL COMMENT 'For TOP plan';
+ALTER TABLE `plan` ADD `tax` DECIMAL(10,2) NOT NULL AFTER `premium`;
 
 
 
