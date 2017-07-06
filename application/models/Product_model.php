@@ -157,6 +157,78 @@ class Product_model extends CI_Model {
 		return $a->diff($b)->days;
 	}
 	
+	public function get_top_premium($para) {
+		// get number of plan members, oldest years and check member conditions
+		$r = array('status' => 'Fail', 'message' => '');
+		
+		$number = 1;
+		$birthday = isset($para['birthday']) ? $para['birthday'] : '';
+		$effective_date = isset($para['effective_date']) ? $para['effective_date'] : '';
+		$expiry_date = isset($para['expiry_date']) ? $para['expiry_date'] : '';
+		
+		$r['totaldays'] = $para['totaldays'] = $this->getDays($effective_date, $expiry_date);
+		
+		$oldyears = $this->getYears($effective_date, $birthday);
+		$ageArr = array($oldyears);
+		if (empty($oldyears)) {
+			$mindays = $this->getDays($birthday, $effective_date);
+			if ($mindays < 15) {
+				$r['message'] = $r['error_birthday'] = "Must older then 15 days";
+			}
+		}
+		
+		$people_order_19 = 0;
+		if ($oldyears > 19) $people_order_19++;
+		$people_number = 1;
+		for ($i = 1; $i < 100; $i++) {
+			if (empty($para['birthday_'.$i])) break;
+			$number++;
+			$birthday = $para['birthday_'.$i];
+			$years = $this->getYears($effective_date, $birthday);
+			if (empty($years)) {
+				$mindays = $this->getDays($birthday, $effective_date);
+				if ($mindays < 15) {
+					$r['message'] = $r['error_birthday_'.$i] = "Must older then 15 days";
+					break;
+				}
+			} else if ($years > $oldyears) {
+				$oldyears = $years;
+			}
+			$ageArr[] = $years;
+			if ($years > 19) $people_order_19++;
+			$people_number++;
+		}
+		
+		if ($para['isfamilyplan'] == 1) {
+			if ($people_order_19 > 3) {
+				$r['message'] = 'Family Plan only allow 3 children';
+			} else if ($people_number > 6) {
+				$r['message'] = 'Family Plan must less than 6 people';
+			}
+		}
+		
+		if ($r['message']) return $r;
+
+		// Get All needs parameter
+		
+		$this->load->model('top_model');
+
+		$para['package'] = isset($para['package']) ? $para['package'] : '';
+		$para['totaldays'] = isset($para['totaldays']) ? $para['totaldays'] : 0;
+		$para['sum_insured'] = isset($para['sum_insured']) ? $para['sum_insured'] : 0;
+		$para['free_cancel'] = isset($para['free_cancel']) ? $para['free_cancel'] : '';
+		$para['age'] = $oldyears;
+		$para['questionnaire'] = isset($para['questionnaire']) ? $para['questionnaire'] : 0;
+		$para['stable_condition'] = isset($para['stable_condition']) ? $para['stable_condition'] : 0;
+		$para['people_number'] = $people_number;
+		$para['ad_and_d'] = isset($para['ad_and_d']) ? $para['ad_and_d'] : '';
+		$para['flight_ccident'] = isset($para['flight_ccident']) ? $para['flight_ccident'] : '';
+		$para['trip_cancellation'] = isset($para['trip_cancellation']) ? $para['trip_cancellation'] : '';
+		$para['agearr'] = $ageArr;
+		
+		return $this->top_model->get_premium($para);		
+	}
+	
 	/**
 	 * Get Product premium
 	 * 

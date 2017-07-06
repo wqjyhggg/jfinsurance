@@ -8,6 +8,13 @@ class Plan extends MY_Controller {
 	private $merchentID = "300203256";
 	private $apikey = "634E4AFd7Eda4dcEaA2976207A7C92bb";
 	public $error;
+	public $toppackagename = array(
+			'all_inclusive' => "All Inclusive plan",
+			'single_medical_plan' => "Single medical plan",
+			'annual_plan' => "Annual plan",
+			'optional_plan' => "Optional plan",
+	);
+	
 	
 	/**
 	 * Index Page for this controller.
@@ -279,6 +286,81 @@ class Plan extends MY_Controller {
 		}
 	}
 	
+	function top_update_valid($plan) {
+		if ($plan['status_id'] < 2) {
+			// not available yet
+			return ;
+		}
+		$nowtm = strtotime(date('Y-m-d'));
+		$effective_date = $this->input->post('effective_date');
+		$effectivetm = strtotime($effective_date);
+		if ($effective_date < $nowtm) {
+			$this->error['error_effective_date'] = "Can't back Effective Date befort today";
+			return ;
+		}
+		if ($plan['effective_date'] <= $nowtm) {
+			// After effective
+			$expiry_date = $this->input->post('expiry_date');
+			if ($expiry_date != $plan['expiry_date']) {
+				if ($plan['package'] == 'single_medical_plan') {
+					if ($expiry_date < $plan['expiry_date']) {
+						$this->error['error_expiry_date'] = "Expiry Date can't be back after plan effected";
+					}
+				} else {
+					$this->error['error_expiry_date'] = "Expiry Date can't be changed";
+				}
+			}
+			if ($this->input->post('stable_condition') != $plan['stable_condition']) {
+				$this->error['error_stable_condition'] = "Stable Condition can't be changed after plan effective";
+			}
+			if ($this->input->post('package') != $plan['package']) {
+				$this->error['error_message'] = "Package can't be changed after plan effective";
+			}
+
+			$ad_and_d_ck = $this->input->post('ad_and_d_ck');
+			if ($ad_and_d_ck) $ad_and_d_ck = 1;
+			$flight_accident_ck = $this->input->post('flight_accident_ck');
+			if ($flight_accident_ck) $flight_accident_ck = 1;
+			if (($this->input->post('free_cancel') != $plan['free_cancel']) ||
+				($this->input->post('annual_plan_days') != $plan['annual_plan_days']) ||
+				($ad_and_d_ck != $plan['ad_and_d_ck']) ||
+				($this->input->post('ad_and_d_insured') != $plan['ad_and_d_insured']) ||
+				($flight_accident_ck != $plan['flight_accident_ck']) ||
+				($this->input->post('flight_accident_insured') != $plan['flight_accident_insured']) ||
+				($this->input->post('trip_cancellation_ck') != $plan['trip_cancellation_ck	']) ||
+				($this->input->post('trip_cancellation_insured') != $plan['trip_cancellation_insured']) ||
+				($this->input->post('questionnaire') != $plan['questionnaire']) ||
+				($this->input->post('question1') != $plan['question1']) ||
+				($this->input->post('question2') != $plan['question2']) ||
+				($this->input->post('question3') != $plan['question3']) ||
+				($this->input->post('question4') != $plan['question4']) ||
+				($this->input->post('question5') != $plan['question5']) ) {
+				$this->error['error_message'] = "Plan can't be changed after plan effective";
+			}
+		} else {
+			// before 
+			$ad_and_d_ck = $this->input->post('ad_and_d_ck');
+			if ($ad_and_d_ck) $ad_and_d_ck = 1;
+			if ($plan['ad_and_d_ck'] && (($ad_and_d_ck != $plan['ad_and_d_ck']) || ($this->input->post('ad_and_d_insured') < $plan['ad_and_d_insured']))) {
+				$this->error['error_message'] = "AD & D Plan only be changed to add sum inusured";
+			}
+			
+			$flight_accident_ck = $this->input->post('flight_accident_ck');
+			if ($flight_accident_ck) $flight_accident_ck = 1;
+			if ($plan['flight_accident_ck'] && (($flight_accident_ck != $plan['flight_accident_ck']) || ($this->input->post('flight_accident_insured') < $plan['flight_accident_insured']))) {
+				$this->error['error_message'] = "Flight Accident Plan only be changed to add sum inusured";
+			}
+
+			if ($plan['trip_cancellation_ck'] && (($this->input->post('trip_cancellation_ck') != $plan['trip_cancellation_ck']) || ($this->input->post('trip_cancellation_insured') < $plan['trip_cancellation_insured']))) {
+				$this->error['error_message'] = "Trip Cancellation Plan only be changed to add sum inusured";
+			}
+
+			if (($plan['package'] == 'annual_plan') && ($this->input->post('annual_plan_days') < $plan['annual_plan_days'])) {
+				$this->error['error_message'] = "Annual Plan can't be changed to add more days";
+			}
+		}
+	}
+	
 	function form_valid() {
 		$this->error = array();
 
@@ -290,7 +372,7 @@ class Plan extends MY_Controller {
 		$nowtm = strtotime(date('Y-m-d'));
 		$arrival_date = $this->input->post('arrival_date');
 		$arrivaltm = strtotime($arrival_date);
-		if (empty($arrival_date)) {	// 2015-01-01
+		if (($product_short != 'TOP') && empty($arrival_date)) {	// 2015-01-01
 			$this->error['error_arrival_date'] = 'Confirm Arrival Date';
 		} else if (($product_short == 'JFR') && ($arrivaltm < 1420070400)) {	// 2015-01-01
 			$this->error['error_arrival_date'] = "Arrival Date is too early";
@@ -300,7 +382,8 @@ class Plan extends MY_Controller {
 		if (empty($effective_date) || ($effectivetm < 1466555500)) {
 			$this->error['error_effective_date'] = 'Confirm Effective Date';
 		}
-		if ($arrivaltm > $effectivetm) {
+		
+		if (($product_short != 'TOP') && ($arrivaltm > $effectivetm)) {
 			$this->error['error_effective_date'] = 'Arrival Date cannot be later than Effective Date';
 		}
 		$expiry_date = $this->input->post('expiry_date');
@@ -342,7 +425,7 @@ class Plan extends MY_Controller {
 			$this->error['error_contact_email'] = 'Contact email is Required';
 		}
 		if (!empty($this->input->post('isfamilyplan')) && (empty($this->input->post('birthday_1')) || empty($this->input->post('firstname_1')) || empty($this->input->post('lastname_1')))) {
-			$this->error['error_message'] = 'Please input family member information';
+			$this->error['error_message'] = 'Please input family / group member information';
 		}
 		if (($product_short == 'OPL') || ($product_short == 'JFR')) {
 			$apply_date = $this->input->post('apply_date');
@@ -452,22 +535,43 @@ class Plan extends MY_Controller {
 				}
 			} else {
 				$planold = $this->plan_model->get_plan_by_id($plan_id);
-				$plan_id = $this->plan_model->update($plan_id, $this->input->post(), array('isfamilyplan' => 1, 'holiday_rate' => 1, 'spouse' => 1));
-				if ($plan_id) {
-					$plan = $this->plan_model->get_plan_by_id($plan_id);
-					$para = array(
-							'plan_id' => $plan_id, 
-							'customer_id' => $plan['customer_id'], 
-							'payment_id' => 0, 
-							'message' => $this->plan_model->logstr, 
-							'systemlog' => $this->plan_model->sqlstr
-					);
-					$this->log_model->activity('plan', $para);
-					if ((($planold['product_short'] == 'OPL') || ($planold['product_short'] == 'JFR')) && ((($planold['sum_insured'] >= 100000) && ($planold['totaldays'] >= 365)) || (($plan['sum_insured'] >= 100000) && ($plan['totaldays'] >= 365)))) {
-						if (($plan['sum_insured'] >= 100000) && ($plan['totaldays'] >= 365)) {
-							if ($planold['effective_date'] != $plan['effective_date']) {
-								// Super visa changed effective date
-								$this->payment_model->adjust_commission_added_date($plan_id, $plan['effective_date'], FALSE);
+				if ($planold['product_short'] == 'TOP') {
+					if (!empty($planold) && ($planold['status_id'] >= 2) && ($beuser['user_group_id'] > 100)) {
+						redirect("plan/term/" . $plan_id);
+					} else {
+						$plan_id = 0;
+						$this->top_update_valid($planold);
+					}
+				}
+				if (empty($this->error)) {
+					$plan_id = $this->plan_model->update($plan_id, $this->input->post(), array('isfamilyplan' => 1, 'holiday_rate' => 1, 'spouse' => 1));
+					if ($plan_id) {
+						$plan = $this->plan_model->get_plan_by_id($plan_id);
+						$para = array(
+								'plan_id' => $plan_id, 
+								'customer_id' => $plan['customer_id'], 
+								'payment_id' => 0, 
+								'message' => $this->plan_model->logstr, 
+								'systemlog' => $this->plan_model->sqlstr
+						);
+						$this->log_model->activity('plan', $para);
+						if ((($planold['product_short'] == 'OPL') || ($planold['product_short'] == 'JFR')) && ((($planold['sum_insured'] >= 100000) && ($planold['totaldays'] >= 365)) || (($plan['sum_insured'] >= 100000) && ($plan['totaldays'] >= 365)))) {
+							if (($plan['sum_insured'] >= 100000) && ($plan['totaldays'] >= 365)) {
+								if ($planold['effective_date'] != $plan['effective_date']) {
+									// Super visa changed effective date
+									$this->payment_model->adjust_commission_added_date($plan_id, $plan['effective_date'], FALSE);
+									$para = array(
+											'plan_id' => $plan_id, 
+											'customer_id' => $plan['customer_id'], 
+											'payment_id' => $plan['commission_payment_id'], 
+											'message' => $this->payment_model->logstr, 
+											'systemlog' => $this->payment_model->sqlstr
+									);
+									$this->log_model->activity('plan', $para);
+								}
+							} else {
+								// No more super visa, change payment data to today
+								$this->payment_model->adjust_commission_added_date($plan_id, date('Y-m-d'), FALSE);
 								$para = array(
 										'plan_id' => $plan_id, 
 										'customer_id' => $plan['customer_id'], 
@@ -477,17 +581,6 @@ class Plan extends MY_Controller {
 								);
 								$this->log_model->activity('plan', $para);
 							}
-						} else {
-							// No more super visa, change payment data to today
-							$this->payment_model->adjust_commission_added_date($plan_id, date('Y-m-d'), FALSE);
-							$para = array(
-									'plan_id' => $plan_id, 
-									'customer_id' => $plan['customer_id'], 
-									'payment_id' => $plan['commission_payment_id'], 
-									'message' => $this->payment_model->logstr, 
-									'systemlog' => $this->payment_model->sqlstr
-							);
-							$this->log_model->activity('plan', $para);
 						}
 					}
 				}
@@ -537,7 +630,7 @@ class Plan extends MY_Controller {
 		} else if (isset($plan['status_id'])) {
 			$data['status_id'] = $plan['status_id'];
 		} else {
-			$data['status_id'] = 0;
+			$data['status_id'] = 1;
 		}
 		if ($this->input->post('apply_date')) {
 			$data['apply_date'] = $this->input->post('apply_date'); 
@@ -593,7 +686,7 @@ class Plan extends MY_Controller {
 		} else if (isset($plan['sum_insured'])) {
 			$data['sum_insured'] = $plan['sum_insured'];
 		} else {
-			$data['sum_insured'] = '';
+			$data['sum_insured'] = 0;
 		}
 		if ($this->input->post('premium')) {
 			$data['premium'] = $this->input->post('premium'); 
@@ -602,7 +695,14 @@ class Plan extends MY_Controller {
 		} else {
 			$data['premium'] = 0;
 		}
-
+		if ($this->input->post('tax')) {
+			$data['tax'] = $this->input->post('tax');
+		} else if (isset($plan['tax'])) {
+			$data['tax'] = $plan['tax'];
+		} else {
+			$data['tax'] = 0;
+		}
+		
 		if ($this->input->post('student_id')) {
 			$data['student_id'] = $this->input->post('student_id');
 		} else if (isset($plan['student_id'])) {
@@ -727,7 +827,14 @@ class Plan extends MY_Controller {
 		} else {
 			$data['gender'] = 'M';
 		}
-		for ($i = 1; $i < 9; $i++) {
+		if ($data['product_short'] == 'TOP') {
+			$max_member = 25;
+		} else {
+			$max_member = 9;
+		}
+		$data['max_member'] = $max_member;
+		$data['cur_max_member'] = 0;
+		for ($i = 1; $i < $max_member; $i++) {
 			if ($this->input->post('customer_id_'.$i)) {
 				$data['customer_id_'.$i] = $this->input->post('customer_id_'.$i);
 			} else if (isset($customers[$i - 1]) && isset($customers[$i - 1]['customer_id'])) {
@@ -755,6 +862,9 @@ class Plan extends MY_Controller {
 				$data['birthday_'.$i] = $customers[$i - 1]['birthday'];
 			} else {
 				$data['birthday_'.$i] = '';
+			}
+			if (!empty($data['birthday_'.$i])) {
+				$data['cur_max_member'] += 1;
 			}
 			if ($this->input->post('gender_'.$i)) {
 				$data['gender_'.$i] = $this->input->post('gender_'.$i);
@@ -862,10 +972,117 @@ class Plan extends MY_Controller {
 		} else {
 			$data['note'] = '';
 		}
-		if (isset($plan['policy'])) {
-			$data['policy'] = $plan['policy'];
+		if (isset($plan['free_cancel'])) {
+			$data['free_cancel'] = $plan['free_cancel'];
 		} else {
-			$data['policy'] = '';
+			$data['free_cancel'] = '';
+		}
+		
+		// For TOP plan
+		if ($this->input->post('ad_and_d_ck')) {
+			$data['ad_and_d_ck'] = 1;
+		} else if (isset($plan['ad_and_d_ck'])) {
+			$data['ad_and_d_ck'] = $plan['ad_and_d_ck'];
+		} else {
+			$data['ad_and_d_ck'] = 0;
+		}
+		if ($this->input->post('ad_and_d_insured')) {
+			$data['ad_and_d_insured'] = $this->input->post('ad_and_d_insured');
+		} else if (isset($plan['ad_and_d_insured'])) {
+			$data['ad_and_d_insured'] = $plan['ad_and_d_insured'];
+		} else {
+			$data['ad_and_d_insured'] = 0;
+		}
+		if ($this->input->post('flight_accident_ck')) {
+			$data['flight_accident_ck'] = 1;
+		} else if (isset($plan['flight_accident_ck'])) {
+			$data['flight_accident_ck'] = $plan['flight_accident_ck'];
+		} else {
+			$data['flight_accident_ck'] = 0;
+		}
+		if ($this->input->post('flight_accident_insured')) {
+			$data['flight_accident_insured'] = $this->input->post('flight_accident_insured');
+		} else if (isset($plan['flight_accident_insured'])) {
+			$data['flight_accident_insured'] = $plan['flight_accident_insured'];
+		} else {
+			$data['flight_accident_insured'] = 0;
+		}
+		if ($this->input->post('trip_cancellation_ck')) {
+			$data['trip_cancellation_ck'] = 1;
+		} else if (isset($plan['trip_cancellation_ck'])) {
+			$data['trip_cancellation_ck'] = $plan['trip_cancellation_ck'];
+		} else {
+			$data['trip_cancellation_ck'] = 0;
+		}
+		if ($this->input->post('trip_cancellation_insured')) {
+			$data['trip_cancellation_insured'] = $this->input->post('trip_cancellation_insured');
+		} else if (isset($plan['trip_cancellation_insured'])) {
+			$data['trip_cancellation_insured'] = $plan['trip_cancellation_insured'];
+		} else {
+			$data['trip_cancellation_insured'] = '0';
+		}
+		if ($this->input->post('package')) {
+			$data['package'] = $this->input->post('package');
+		} else if (isset($plan['package'])) {
+			$data['package'] = $plan['package'];
+		} else {
+			$data['package'] = '';
+		}
+		if ($this->input->post('annual_plan_days')) {
+			$data['annual_plan_days'] = $this->input->post('annual_plan_days');
+		} else if (isset($plan['annual_plan_days'])) {
+			$data['annual_plan_days'] = $plan['annual_plan_days'];
+		} else {
+			$data['annual_plan_days'] = '0';
+		}
+		if ($this->input->post('free_cancel')) {
+			$data['free_cancel'] = 1;
+		} else if (isset($plan['free_cancel'])) {
+			$data['free_cancel'] = $plan['free_cancel'];
+		} else {
+			$data['free_cancel'] = 0;
+		}
+		if ($this->input->post('questionnaire')) {
+			$data['questionnaire'] = $this->input->post('questionnaire');
+		} else if (isset($plan['questionnaire'])) {
+			$data['questionnaire'] = $plan['questionnaire'];
+		} else {
+			$data['questionnaire'] = '0';
+		}
+		if ($this->input->post('question1')) {
+			$data['question1'] = $this->input->post('question1');
+		} else if (isset($plan['question1'])) {
+			$data['question1'] = $plan['question1'];
+		} else {
+			$data['question1'] = '0';
+		}
+		if ($this->input->post('question2')) {
+			$data['question2'] = $this->input->post('question2');
+		} else if (isset($plan['question2'])) {
+			$data['question2'] = $plan['question2'];
+		} else {
+			$data['question2'] = '0';
+		}
+		if ($this->input->post('question3')) {
+			$data['question3'] = $this->input->post('question3');
+		} else if (isset($plan['question3'])) {
+			$data['question3'] = $plan['question3'];
+		} else {
+			$data['question3'] = '0';
+		}
+		if ($this->input->post('question4')) {
+			$data['question4'] = $this->input->post('question4');
+		} else if (isset($plan['question4'])) {
+			$data['question4'] = $plan['question4'];
+		} else {
+			$data['question4'] = '0';
+		}
+		if ($this->input->post('question5')) {
+			$data['question5'] = $this->input->post('question5');
+		} else if (isset($plan['question5'])) {
+			$data['question5'] = $plan['question5'];
+		} else {
+			$data['question5'] = '0';
 		}
 		
 		$data['show_history'] = 0;
@@ -995,48 +1212,78 @@ class Plan extends MY_Controller {
 				$data['plan_refund_date'] = $this->payment_model->get_refund_date($plan['plan_id']);
 			}
 		}
-		if (!empty($plan) && !empty($plan['status_id']) && ($plan['status_id'] > 1) && ($beuser['user_group_id'] > 100)) {
-			if ($data['product_short'] == 'OPL') {
-				$data['insurable_options'] = $this->load->view('plan/form_opl_agent', $data, TRUE);
-			} else if ($data['product_short'] == 'JFR') {
-				$data['insurable_options'] = $this->load->view('plan/form_opl_agent', $data, TRUE);
-			} else if ($data['product_short'] == 'JUS') {
-				$data['insurable_options'] = $this->load->view('plan/form_jus_agent', $data, TRUE);
-			} else if ($data['product_short'] == 'NUS') {
-				$data['insurable_options'] = $this->load->view('plan/form_jus_agent', $data, TRUE);
-			} else if ($data['product_short'] == 'JES') {
-				$data['insurable_options'] = $this->load->view('plan/form_jes_agent', $data, TRUE);
-			} else if ($data['product_short'] == 'JFC') {
-				$data['insurable_options'] = $this->load->view('plan/form_jfc_agent', $data, TRUE);
-			} else {
-				$data['insurable_options'] = $this->load->view('plan/form_other_agent', $data, TRUE);
-				$data['isprocessplan'] = 0;
+		if ($data['product_short'] == 'TOP') {
+			$data['toppackagename'] = $this->toppackagename;
+			$data['premium_url'] = base_url ( "plan/gettoppremium" );
+			$data['no_change'] = 0;
+			if (!empty($plan) && !empty($plan['status_id']) && !empty($plan['plan_id']) && ($plan['status_id'] >= 2) && ($data['user_group_id'] > 100)) {
+				$data['no_change'] = 1;
 			}
-			
-			$this->load->common('plan/form_agent', $data);
+			$this->load->common('plan/top/form', $data);
 		} else {
-			if ($data['product_short'] == 'OPL') {
-				$data['insurable_options'] = $this->load->view('plan/form_opl', $data, TRUE);
-			} else if ($data['product_short'] == 'JFR') {
-				$data['insurable_options'] = $this->load->view('plan/form_opl', $data, TRUE);
-			} else if ($data['product_short'] == 'JUS') {
-				$data['insurable_options'] = $this->load->view('plan/form_jus', $data, TRUE);
-			} else if ($data['product_short'] == 'NUS') {
-				$data['insurable_options'] = $this->load->view('plan/form_jus', $data, TRUE);
-			} else if ($data['product_short'] == 'JES') {
-				$data['insurable_options'] = $this->load->view('plan/form_jes', $data, TRUE);
-			} else if ($data['product_short'] == 'JFC') {
-				$data['insurable_options'] = $this->load->view('plan/form_jfc', $data, TRUE);
+			if (!empty($plan) && !empty($plan['status_id']) && ($plan['status_id'] > 1) && ($beuser['user_group_id'] > 100)) {
+				if ($data['product_short'] == 'OPL') {
+					$data['insurable_options'] = $this->load->view('plan/form_opl_agent', $data, TRUE);
+				} else if ($data['product_short'] == 'JFR') {
+					$data['insurable_options'] = $this->load->view('plan/form_opl_agent', $data, TRUE);
+				} else if ($data['product_short'] == 'JUS') {
+					$data['insurable_options'] = $this->load->view('plan/form_jus_agent', $data, TRUE);
+				} else if ($data['product_short'] == 'NUS') {
+					$data['insurable_options'] = $this->load->view('plan/form_jus_agent', $data, TRUE);
+				} else if ($data['product_short'] == 'JES') {
+					$data['insurable_options'] = $this->load->view('plan/form_jes_agent', $data, TRUE);
+				} else if ($data['product_short'] == 'JFC') {
+					$data['insurable_options'] = $this->load->view('plan/form_jfc_agent', $data, TRUE);
+				} else {
+					$data['insurable_options'] = $this->load->view('plan/form_other_agent', $data, TRUE);
+					$data['isprocessplan'] = 0;
+				}
+				
+				$this->load->common('plan/form_agent', $data);
 			} else {
-				$data['insurable_options'] = $this->load->view('plan/form_other', $data, TRUE);
-				$data['isprocessplan'] = 0;
+				if ($data['product_short'] == 'OPL') {
+					$data['insurable_options'] = $this->load->view('plan/form_opl', $data, TRUE);
+				} else if ($data['product_short'] == 'JFR') {
+					$data['insurable_options'] = $this->load->view('plan/form_opl', $data, TRUE);
+				} else if ($data['product_short'] == 'JUS') {
+					$data['insurable_options'] = $this->load->view('plan/form_jus', $data, TRUE);
+				} else if ($data['product_short'] == 'NUS') {
+					$data['insurable_options'] = $this->load->view('plan/form_jus', $data, TRUE);
+				} else if ($data['product_short'] == 'JES') {
+					$data['insurable_options'] = $this->load->view('plan/form_jes', $data, TRUE);
+				} else if ($data['product_short'] == 'JFC') {
+					$data['insurable_options'] = $this->load->view('plan/form_jfc', $data, TRUE);
+				} else {
+					$data['insurable_options'] = $this->load->view('plan/form_other', $data, TRUE);
+					$data['isprocessplan'] = 0;
+				}
+		
+				$data['popRefund'] = $this->load->view('plan/refund_addr', $data, TRUE);
+				
+				//$this->load->common('plan/form', $data);
+				$this->load->common('plan/form', $data);
 			}
-	
-			$data['popRefund'] = $this->load->view('plan/refund_addr', $data, TRUE);
-			
-			//$this->load->common('plan/form', $data);
-			$this->load->common('plan/form', $data);
 		}
+	}
+	
+	function gettoppremium() {
+		$beuser = $this->func_model->verify_login();
+		$this->load->model('product_model');
+		$data = array('status' => 'Fail', 'message' => '');
+		if ($this->input->post()) {
+			$data = $this->product_model->get_top_premium($this->input->post());
+			/*
+			if ($this->form_valid()) {
+				$data = $this->product_model->get_top_premium($this->input->post());
+			} else {
+				$data['message'] = "Please fill in required data"; 
+				$data['error'] = $this->error;
+			}
+			*/
+		}
+		
+		header('Content-Type: application/json');
+		echo json_encode($data);
 	}
 	
 	function payhistory($plan_id) {
@@ -1173,7 +1420,18 @@ class Plan extends MY_Controller {
 		$dt['expiry_year'] = '01';
 		$dt['ispaid'] = 0;
 		$commission_rate = $this->product_model->get_commission_rate($plan['product_short'], $plan['user_id']);
-		$commission_amount = $premium * $commission_rate / 100.0;
+		if (($plan['product_short'] == 'TOP') && $plan['questionnaire']) {
+			if ($commission_rate > 0.15) {
+				$commission_rate -= 0.15;
+			} else {
+				$commission_rate = 0;
+			}
+		}
+		if ($plan['product_short'] == 'TOP') {
+			$commission_amount = ($premium - ($plan['tax'] * $premium / $plan['premium'])) * $commission_rate / 100.0;
+		} else {
+			$commission_amount = $premium * $commission_rate / 100.0;
+		}
 		$up_commission_rate = $this->product_model->get_up_commission_rate($plan['product_short']);
 		$up_commission_amount = $premium * $up_commission_rate / 100.0;
 				
@@ -1228,7 +1486,7 @@ class Plan extends MY_Controller {
 					}
 					$dt['added'] = $plan['effective_date'];
 				} else {
-					if ($this->payment_model->adjust_commission_added_date($plan_id, date('Y-m-d'))) {
+					if ($this->payment_model->adjust_commission_added_back_date($plan_id, date('Y-m-d'))) {
 						$para = array(
 								'plan_id' => $plan_id,
 								'customer_id' => $plan['customer_id'],
@@ -1318,7 +1576,18 @@ class Plan extends MY_Controller {
 			$dt['expiry_year'] = $expiry_year;
 			$dt['ispaid'] = 0;
 			$commission_rate = $this->product_model->get_commission_rate($plan['product_short'], $plan['user_id']);
-			$commission_amount = $premium * $commission_rate / 100.0;
+			if (($plan['product_short'] == 'TOP') && $plan['questionnaire']) {
+				if ($commission_rate > 0.15) {
+					$commission_rate -= 0.15;
+				} else {
+					$commission_rate = 0;
+				}
+			}
+			if ($plan['product_short'] == 'TOP') {
+				$commission_amount = ($premium - ($plan['tax'] * $premium / $plan['premium'])) * $commission_rate / 100.0;
+			} else {
+				$commission_amount = $premium * $commission_rate / 100.0;
+			}
 			$up_commission_rate = $this->product_model->get_up_commission_rate($plan['product_short']);
 			$up_commission_amount = $premium * $up_commission_rate / 100.0;
 					
@@ -1373,7 +1642,7 @@ class Plan extends MY_Controller {
 						}
 						$dt['added'] = $plan['effective_date'];
 					} else {
-						if ($this->payment_model->adjust_commission_added_date($plan_id, date('Y-m-d'))) {
+						if ($this->payment_model->adjust_commission_added_back_date($plan_id, date('Y-m-d'))) {
 							$para = array(
 									'plan_id' => $plan_id,
 									'customer_id' => $plan['customer_id'],
@@ -1526,7 +1795,18 @@ class Plan extends MY_Controller {
 		$dt['ispaid'] = 0;
 
 		$commission_rate = $this->product_model->get_commission_rate($plan['product_short'], $plan['user_id']);
-		$commission_amount = $premium * $commission_rate / 100.0;
+		if (($plan['product_short'] == 'TOP') && $plan['questionnaire']) {
+			if ($commission_rate > 0.15) {
+				$commission_rate -= 0.15;
+			} else {
+				$commission_rate = 0;
+			}
+		}
+		if ($plan['product_short'] == 'TOP') {
+			$commission_amount = ($premium - ($plan['tax'] * $premium / $plan['premium'])) * $commission_rate / 100.0;
+		} else {
+			$commission_amount = $premium * $commission_rate / 100.0;
+		}
 		$up_commission_rate = $this->product_model->get_up_commission_rate($plan['product_short']);
 		$up_commission_amount = $premium * $up_commission_rate / 100.0;
 		
@@ -1581,7 +1861,7 @@ class Plan extends MY_Controller {
 					}
 					$dt['added'] = $plan['effective_date'];
 				} else {
-					if ($this->payment_model->adjust_commission_added_date($plan_id, date('Y-m-d'))) {
+					if ($this->payment_model->adjust_commission_added_back_date($plan_id, date('Y-m-d'))) {
 						$para = array(
 								'plan_id' => $plan_id,
 								'customer_id' => $plan['customer_id'],
@@ -1647,7 +1927,18 @@ class Plan extends MY_Controller {
 		$dt['ispaid'] = 0;
 
 		$commission_rate = $this->product_model->get_commission_rate($plan['product_short'], $plan['user_id']);
-		$commission_amount = $premium * $commission_rate / 100.0;
+		if (($plan['product_short'] == 'TOP') && $plan['questionnaire']) {
+			if ($commission_rate > 0.15) {
+				$commission_rate -= 0.15;
+			} else {
+				$commission_rate = 0;
+			}
+		}
+		if ($plan['product_short'] == 'TOP') {
+			$commission_amount = ($premium - ($plan['tax'] * $premium / $plan['premium'])) * $commission_rate / 100.0;
+		} else {
+			$commission_amount = $premium * $commission_rate / 100.0;
+		}
 		$up_commission_rate = $this->product_model->get_up_commission_rate($plan['product_short']);
 		$up_commission_amount = $premium * $up_commission_rate / 100.0;
 		
@@ -1702,7 +1993,7 @@ class Plan extends MY_Controller {
 					}
 					$dt['added'] = $plan['effective_date'];
 				} else {
-					if ($this->payment_model->adjust_commission_added_date($plan_id, date('Y-m-d'))) {
+					if ($this->payment_model->adjust_commission_added_back_date($plan_id, date('Y-m-d'))) {
 						$para = array(
 								'plan_id' => $plan_id,
 								'customer_id' => $plan['customer_id'],
@@ -2044,7 +2335,12 @@ class Plan extends MY_Controller {
 		$this->session->set_userdata ( 'withlogo', 1);
 		$this->session->set_userdata ( 'withprice', 1);
 		
-		$this->load->common('plan/detail', $data);
+		if ($data['plan']['product_short'] == 'TOP') {
+			$data['toppackagename'] = $this->toppackagename;
+			$this->load->common('plan/top/detail', $data);
+		} else {
+			$this->load->common('plan/detail', $data);
+		}
 	}
 
 	public function sendpackage($plan_id=0)
@@ -2064,6 +2360,7 @@ class Plan extends MY_Controller {
 		
 		$data['beuser'] = $beuser;
 		$data['plan'] = $plan;
+		$data['pdf_enable'] = empty($beuser['pdf_product']) ? array() : json_decode($beuser['pdf_product']);
 		$data['emailaddr'] = $plan['contact_email'];
 		if ($this->input->post()) {
 			$emailaddr = $this->input->post('emailaddr');
@@ -2143,6 +2440,9 @@ class Plan extends MY_Controller {
 					$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
 					$data['special_note'] = $this->load->view('plan/pdf_note_jfc',$data, TRUE);
 					
+				} else if ($data['plan']['product_short'] == 'TOP') {
+					$data['insurable_options'] = '';
+					$data['special_note'] = $this->load->view('plan/top/pdf_note_top',$data, TRUE);
 				} else {
 					$data['insurable_options'] = $this->load->view('plan/detail_other', $data, TRUE);
 				}
@@ -2237,6 +2537,10 @@ class Plan extends MY_Controller {
 		} else if ($data['plan']['product_short'] == 'JFC') {
 			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
 			$data['special_note'] = $this->load->view('plan/pdf_note_jfc',$data, TRUE);
+		} else if ($data['plan']['product_short'] == 'TOP') {
+			$data['insurable_options'] = '';
+			$data['toppackagename'] = $this->toppackagename;
+			$data['special_note'] = $this->load->view('plan/top/pdf_note_top',$data, TRUE);
 		} else {
 			$data['insurable_options'] = $this->load->view('plan/detail_other', $data, TRUE);
 			$data['special_note'] = " ";
@@ -2403,8 +2707,13 @@ class Plan extends MY_Controller {
 		//print_r($plan);die('==');
 		$data['total_premium'] = $plan['premium'];
 		$data['status'] = 'OK';
-		$data['refund_amount'] = $this->plan_model->refund_amount($plan_id, $this->input->get('refund_date'));
 		$data['refund_days'] = $this->product_model->getDays($plan['effective_date'], $this->input->get('refund_date'));
+		if ($plan['product_short'] == 'TOP') {
+			$this->load->model('top_model');
+			$data['refund_amount'] = $this->top_model->refund_amount($plan, $data['refund_days']);
+		} else {
+			$data['refund_amount'] = $this->plan_model->refund_amount($plan_id, $this->input->get('refund_date'));
+		}
 		$data['used_amount'] = $plan['premium'] - $data['refund_amount']; 
 		header('Content-Type: application/json');
 		echo json_encode($data);
@@ -2522,6 +2831,14 @@ class Plan extends MY_Controller {
 		$data['refund_amount_url'] = base_url('plan/refund_amount')."/".$plan['plan_id'];
 		$data['plan_id'] = $plan['plan_id'];
 		$data['adminfee'] = 40;
+		$data['refund_enable'] = 1;
+		if ($plan['product_short'] == 'TOP') {
+			$data['top_refund_notes'] = "Only Single Medical Plan can do refund.";
+			if ($plan['package'] != 'single_medical_plan') {
+				$data['top_refund_notes'] .= " This plan can't be refunded.";
+				$data['refund_enable'] = 0;
+			}
+		}
 		// if ($plan['product_short'] == 'JFC') $data['adminfee'] = 25; 
 		$data['url_back_to_policy'] = base_url('plan/');
 
@@ -2724,6 +3041,9 @@ class Plan extends MY_Controller {
 		} else if ($data['plan']['product_short'] == 'JFC') {
 			$data['cardp'] = "jfc";
 			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
+		} else if ($data['plan']['product_short'] == 'TOP') {
+			$data['cardp'] = "top";
+			$data['insurable_options'] = $this->load->view('plan/top/card', $data, TRUE);
 		} else {
 			$data['cardp'] = "";
 			$data['insurable_options'] = $this->load->view('plan/detail_other', $data, TRUE);
@@ -2770,6 +3090,8 @@ class Plan extends MY_Controller {
 			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
 		} else if ($data['plan']['product_short'] == 'JFC') {
 			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
+		} else if ($data['plan']['product_short'] == 'TOP') {
+			$data['insurable_options'] = $this->load->view('plan/top/card', $data, TRUE);
 		} else {
 			$data['insurable_options'] = $this->load->view('plan/detail_other', $data, TRUE);
 		}

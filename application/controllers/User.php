@@ -518,7 +518,7 @@ class User extends MY_Controller {
 				$this->data['product_list'][$k]['commission'] = $this->input->post('product_commission_'.$k);
 			}
 			foreach ($this->data['pdf_product_list'] as $k => $p) {
-				if (in_array($k, $_POST['pdf_product_list'])) {
+				if (isset($_POST['pdf_product_list']) && in_array($k, $_POST['pdf_product_list'])) {
 					$this->data['pdf_product_list'][$k] = 'checked';
 				}
 			}
