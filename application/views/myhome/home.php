@@ -40,31 +40,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                   		<input type='hidden' name='user_id' value='<?php echo $user_id; ?>'>
                   		<input type='hidden' name='myname' value='<?php echo $myname; ?>'>
                   		<div class="row">
-                  			<div class="form-group col-sm-3">
-                  				<label class="col-sm-12">First Name:</label>
-                  				<div class="input-group col-sm-12">
-                  					<input type='text' name='firstname' value='<?php echo $firstname; ?>' class="form-control">
-                  	                	<?php if (!empty($error_firstname)){ ?>
-                  					<div class="alert-error">	
-                  						<?php echo $error_firstname; ?>
-                  					</div>
-                  					<?php } ?>			                	
-                  	                </div>
+                  				<div class="form-group col-sm-2">
                   				</div>
-                  				<div class="form-group col-sm-3">
-                  					<label class="col-sm-12">Last Name:</label>
-                  					<div class="input-group col-sm-12">
-                  						<input type='text' name='lastname' value='<?php echo $lastname; ?>' class="form-control" class="form-control">
-                  	                	<?php if (!empty($error_lastname)){ ?>
-                  					<div class="alert-error">	
-                  						<?php echo $error_lastname; ?>
-                  					</div>
-                  					<?php } ?>			                	
-                  	                </div>
-                  				</div>
-                  				<div class="form-group col-sm-6">
-                  					<label class="col-sm-12">Url:</label>
-                  					<div id='showmyname' class="input-group col-sm-12"></div>
+                  				<div class="form-group col-sm-10">
+                  					<B>Your Url:</B> <?php echo $myhome_url . "/" . $myname; ?>
                   				</div>
                   				<div class="col-sm-12"><hr>
                   			</div>
@@ -251,6 +230,7 @@ showImage(qr_image,qr_image_life);
 showImage(big_image,big_image_life);
 //showImage($('#big_image'),$('#big_image_life'));
 </script>
+<?php if (0) { ?>
 <script>
 function load_myname() {
 
@@ -275,3 +255,4 @@ $( document ).ready(function() {
 	load_myname();
 });
 </script>
+<?php } ?>

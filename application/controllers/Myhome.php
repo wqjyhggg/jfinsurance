@@ -23,11 +23,12 @@ class Myhome extends MY_Controller {
 		if (empty($this->input->post('myname'))) {
 			$this->data['error_myname'] = $this->lang->line ( 'error_myname_empty' );
 			$rt = FALSE;
+		/*
 		} else if (!preg_match('/^([a-z0-9]+)_([a-z0-9])*$/', $this->input->post('myname'))) {
 			$this->data['error_myname'] = $this->lang->line ( 'error_myname_rule' );
 			$rt = FALSE;
+		*/
 		}
-		
 		if (!empty($this->input->post('email')) && filter_var($this->input->post('email'), FILTER_VALIDATE_EMAIL)) {
 			$this->data['error_myname'] = $this->lang->line ( 'error_myname_email' );
 			$rt = FALSE;
@@ -205,9 +206,12 @@ class Myhome extends MY_Controller {
 		if ($myhome) {
 			$this->data['myname'] = $myhome['myname'];
 			$mynameArr = preg_split('/_/', $myhome['myname']);
+		} else {
+			$this->data['myname'] = $beuser['user_id'];
 		}
 		
 		$this->data['user_id'] = $beuser['user_id'];
+		/*
 		if ($this->input->post('firstname')) {
 			$this->data['firstname'] = $this->input->post('firstname');
 		} else if ($myhome) {
@@ -222,6 +226,7 @@ class Myhome extends MY_Controller {
 		} else {
 			$this->data['lastname'] = $beuser['lastname'];
 		}
+		*/
 		
 		if ($this->input->post('logo_src')) {
 			$this->data['logo_src'] = $this->input->post('logo_src');
