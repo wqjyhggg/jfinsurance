@@ -119,6 +119,9 @@ class Menu_model extends CI_Model {
     		}
     	}
     	$menu = $meunArr[$group];
+    	if ($user && ($user['user_id'] == 2202)) {
+    		unset($menu[1]);
+    	}
     	if ($user && ($user['user_group_id'] != 105) && ($user['user_group_id'] != 103) && ($user['user_group_id'] != 3 )) {
 			if ($onbehalf) {
 				array_push($menu, $unbehalf);
