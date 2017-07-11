@@ -3,6 +3,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 
 
 $total_a_premium = 0; $total_a_commission = 0; $unpaid_a_premium = 0;
+$once = 1;
 foreach ($report_data as $user_id => $data) {
 	if (empty($asbroker)) {
 		if ($data ['agent'] ['receive_type'] == 'Cheque') { 
@@ -56,7 +57,8 @@ foreach ($report_data as $user_id => $data) {
 <?php
 	} else {
 		if ($user_id == 'asbroker') continue;
-		if (isset($report_data['asbroker'])) {
+		if (isset($report_data['asbroker']) && $once) {
+			$once = 0;
 			if ($data ['agent'] ['receive_type'] == 'Cheque') { 
 ?>
 		<table width='100%' style="display: block; font-family: serif; font-size: 12pt; padding: 40mm 0mm 20mm 10mm;">
@@ -105,8 +107,23 @@ foreach ($report_data as $user_id => $data) {
 				</tr>
 			</tbody>
 		</table>
-<?php
-		}
+<?php	} else { ?>
+		<table width='100%' style="display: block; font-family: serif; font-size: 10pt;">
+			<tbody>
+				<tr>
+					<td width='10%'>
+						<img style="width: 80px;" src="<?php echo base_url();?>image/jf_logo.jpg" />
+					</td>
+					<td width='40%'>
+						Agent Name: <?php echo $data['agent']['firstname'] . " " . $data['agent']['lastname']; ?><br />
+					</td>
+					<td width='50%' align='right'>
+						<div>For Period: <?php echo $payment_added_from . " - " . $payment_added_to; ?>&nbsp;&nbsp;&nbsp;</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+<?php 	}
 	}
 ?>
 		<table style="font-family: serif; font-size: 10pt; border-spacing: 0;" border='1'>
@@ -177,6 +194,10 @@ if (!empty($asbroker)) {
 ?>
 		<table style="font-family: serif; font-size: 10pt; border-spacing: 0;" border='1'>
 			<tbody>
+				<tr>
+					<td style="padding-top: 10px;" colspan='2'><B>Total Premium</B></td>
+					<td style="padding-top: 10px;" colspan='9'>$<?php echo number_format($total_a_premium, 2); ?></td>
+				</tr>
 				<tr>
 					<td style="padding-top: 10px;" colspan='2'><B>Total Commission</B></td>
 					<td style="padding-top: 10px;" colspan='9'>$<?php echo number_format($total_a_commission, 2); ?></td>

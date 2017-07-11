@@ -349,7 +349,7 @@ class Report_model extends CI_Model
         if (!empty($para['policy_status']) && in_array($para['policy_status'], array(self::QUOTE, self::SOLD))) {
             $this->db->where('pl.status_id', $para['policy_status']);
         } else {
-            $this->db->where('pl.status_id', self::SOLD);
+            $this->db->where('pl.status_id>=', self::SOLD);
         }
         $this->db->where('pa.amount >', 0);
         if (!empty($para['payment_update_date_from'])) {
