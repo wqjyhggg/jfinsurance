@@ -519,7 +519,7 @@ class Plan extends MY_Controller {
 
 		if ($this->input->post('submit') && $this->form_valid()) {
 			$plan_id = $this->input->post('plan_id');
-		
+					
 			if (empty($plan_id)) {
 				$plan_id = $this->plan_model->add($this->input->post());
 				if ($plan_id) {
@@ -539,7 +539,6 @@ class Plan extends MY_Controller {
 					if (!empty($planold) && ($planold['status_id'] >= 2) && ($beuser['user_group_id'] > 100)) {
 						redirect("plan/term/" . $plan_id);
 					} else {
-						$plan_id = 0;
 						$this->top_update_valid($planold);
 					}
 				}
@@ -585,8 +584,10 @@ class Plan extends MY_Controller {
 					}
 				}
 			}
-			if ($plan_id) {
-				redirect("plan/term/" . $plan_id);
+			if (empty($this->error)) {
+				if ($plan_id) {
+					redirect("plan/term/" . $plan_id);
+				}
 			}
 		} else if (isset($plan['plan_id'])) {
 			$plan_id = $plan['plan_id'];
@@ -610,6 +611,7 @@ class Plan extends MY_Controller {
 		} else {
 			$data['plan_id'] = 0;
 		}
+		$data['policy'] = '';
 		if (empty($plan) && $data['plan_id']) {
 			$plan = $this->plan_model->get_plan_by_id($data['plan_id']);
 		}
@@ -618,6 +620,11 @@ class Plan extends MY_Controller {
 			// user can't change anything after sold
 			redirect('plan/detail/'.$plan['plan_id']);
 		}
+		
+		if ($plan && isset($plan['policy'])) {
+			$data['policy'] = $plan['policy']; 
+		}
+		
 		if ($this->input->post('product_short')) {
 			$data['product_short'] = $this->input->post('product_short'); 
 		} else if (isset($plan['product_short'])) {
