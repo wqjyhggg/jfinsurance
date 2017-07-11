@@ -2448,6 +2448,10 @@ class Plan extends MY_Controller {
 				} else if ($data['plan']['product_short'] == 'TOP') {
 					$data['insurable_options'] = '';
 					$data['special_note'] = $this->load->view('plan/top/pdf_note_top',$data, TRUE);
+					$files = array(
+					'TOP_Policy.pdf' => DOWNLOADDIR . 'TOP_Policy.pdf',
+					'TOP_Benefit_Summary.pdf' => DOWNLOADDIR . 'TOP_Benefit_Summary.pdf'
+					);
 				} else {
 					$data['insurable_options'] = $this->load->view('plan/detail_other', $data, TRUE);
 				}
