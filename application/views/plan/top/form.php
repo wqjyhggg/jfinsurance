@@ -609,10 +609,10 @@
 												<div class="panel panel-default">
 													<div class="panel-heading">
 														<?php if ($no_change) { ?>
-														<input type="hidden" name="ad_and_d_insured" value="<?php echo $ad_and_d_insured ? 1 : 0; ?>">
-														<?php if ($ad_and_d_insured) { echo '<span class="glyphicon glyphicon-ok"></span>'; } ?> AD & D
+														<input type="hidden" name="ad_and_d_ck" value="<?php echo $ad_and_d_ck ? 1 : 0; ?>">
+														<?php if ($ad_and_d_ck) { echo '<span class="glyphicon glyphicon-ok"></span>'; } ?> AD & D
 														<?php } else { ?>
-														<input type="checkbox" name="ad_and_d_ck" class='check_premium' value="1" <?php echo $ad_and_d_insured ? 'checked' : ''; ?>>  AD & D
+														<input type="checkbox" name="ad_and_d_ck" class='check_premium' value="1" <?php echo $ad_and_d_ck ? 'checked' : ''; ?>>  AD & D
 														<?php } ?>
 													</div>
 													<div class="panel-body">
@@ -637,10 +637,10 @@
 												<div class="panel panel-default">
 													<div class="panel-heading">
 														<?php if ($no_change) { ?>
-														<input type="hidden" name="flight_accident_ck" value="<?php echo $flight_accident_insured ? 1 : 0; ?>">
-														<?php if ($flight_accident_insured) { echo '<span class="glyphicon glyphicon-ok"></span>'; } ?>  Flight Accident
+														<input type="hidden" name="flight_accident_ck" value="<?php echo $flight_accident_ck ? 1 : 0; ?>">
+														<?php if ($flight_accident_ck) { echo '<span class="glyphicon glyphicon-ok"></span>'; } ?>  Flight Accident
 														<?php } else { ?>
-														<input type="checkbox" name="flight_accident_ck" class='check_premium' value="1" <?php echo $flight_accident_insured ? 'checked' : ''; ?>>  Flight Accident
+														<input type="checkbox" name="flight_accident_ck" class='check_premium' value="1" <?php echo $flight_accident_ck ? 'checked' : ''; ?>>  Flight Accident
 														<?php } ?>
 													</div>
 													<div class="panel-body">
