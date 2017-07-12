@@ -3,10 +3,16 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 
 class Cron extends MY_Controller {
 	public $error;
+	/*
 	const FTP_HOST="72.142.65.148";
 	const FTP_PORT=7790;
 	const FTP_USER='jfu';
 	const FTP_PASS='!Tgu7oPb';
+	*/
+	const FTP_HOST="filetransfer.allianz-assistance.ca";
+	const FTP_PORT=7790;
+	const FTP_USER='JFUTEST';
+	const FTP_PASS='T$sting!23';
 	
 	private function valid() {
 		$this->error = '';
@@ -470,6 +476,7 @@ class Cron extends MY_Controller {
 			$premium = $plan['premium'];
 			if ($plan['status_id'] == Plan_model::SOLD) $status_str = 'New';
 			if ($plan['status_id'] == Plan_model::CHANGED) $status_str = 'Change';
+			if ($plan['status_id'] == Plan_model::REFUND) $status_str = 'Change';
 			if ($plan['status_id'] == Plan_model::CLAIMED) {
 				$status_str = 'Paid';
 				$payrow = $this->payment_model->get_last_payment($plan['plan_id']);
@@ -497,7 +504,9 @@ class Cron extends MY_Controller {
 			//$sheet->getStyle('H'.$row)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_DATE_TIME2);
 			$sheet->getStyle('H'.$row)->getNumberFormat()->setFormatCode('m/d/yyyy h:mm:ss AM/PM');
 			
-			$sheet->setCellValue('I'.$row, $plan['street_number'] . " " . $plan['street_name']); // Address1
+			$address1 = $plan['street_number'] . " " . $plan['street_name']; // [Address1] field text must be 50 characters maximum
+			if (strlen($address1) > 49) $address1 = substr($address1, 0, 49);
+			$sheet->setCellValue('I'.$row, $address1); // Address1
 			$sheet->setCellValue('J'.$row, ($plan['suite_number']) ? " Suite" . $plan['suite_number'] : ""); // Address2
 			$sheet->setCellValue('K'.$row, $plan['city']); // City
 			$sheet->setCellValue('L'.$row, $plan['province2']); // Provincec
@@ -510,7 +519,9 @@ class Cron extends MY_Controller {
 				$mailaddr = $mlArr[1];
 			}
 			$sheet->setCellValue('O'.$row, $mailaddr); // Contact Email
-			$sheet->setCellValue('P'.$row, $plan['note']); // Notes
+			$note = $plan['note'];		// [Notes] field text should be 255 characters maximum
+			if (strlen($note) > 255) $note = substr($note, 0, 254);
+			$sheet->setCellValue('P'.$row, $note); // Notes
 			$sheet->setCellValue('Q'.$row, PHPExcel_Shared_Date::PHPToExcel(strtotime($plan['arrival_date'] . ' 00:00:00 UTC'))); // Arrival Date
 			$sheet->getStyle('Q'.$row)->getNumberFormat()->setFormatCode('m/d/yyyy h:mm:ss AM/PM');
 			$sheet->setCellValue('R'.$row, PHPExcel_Shared_Date::PHPToExcel(strtotime($plan['apply_date'] . ' 00:00:00 UTC'))); // Application Date
@@ -555,14 +566,14 @@ class Cron extends MY_Controller {
 					$sheet->setCellValue('G'.$row, $c['gender']);
 					$sheet->setCellValue('H'.$row, PHPExcel_Shared_Date::PHPToExcel(strtotime($c['birthday'] . ' 00:00:00 UTC')));
 					$sheet->getStyle('H'.$row)->getNumberFormat()->setFormatCode('m/d/yyyy h:mm:ss AM/PM');
-					$sheet->setCellValue('I'.$row, $plan['street_number'] . " " . $plan['street_name']); // Address1
+					$sheet->setCellValue('I'.$row, $address1); // Address1
 					$sheet->setCellValue('J'.$row, ($plan['suite_number']) ? " Suite" . $plan['suite_number'] : ""); // Address2
 					$sheet->setCellValue('K'.$row, $plan['city']); // City
 					$sheet->setCellValue('L'.$row, $plan['province2']); // Provincec
 					$sheet->setCellValue('M'.$row, $plan['postcode']); // Postal Code
 					$sheet->setCellValue('N'.$row, $plan['contact_phone']); // Contact Phone
 					$sheet->setCellValue('O'.$row, $plan['contact_email']); // Contact Email
-					$sheet->setCellValue('P'.$row, $plan['note']); // Notes
+					$sheet->setCellValue('P'.$row, $note); // Notes
 					$sheet->setCellValue('Q'.$row, PHPExcel_Shared_Date::PHPToExcel(strtotime($plan['arrival_date'] . ' 00:00:00 UTC'))); // Arrival Date
 					$sheet->getStyle('Q'.$row)->getNumberFormat()->setFormatCode('m/d/yyyy h:mm:ss AM/PM');
 					$sheet->setCellValue('R'.$row, PHPExcel_Shared_Date::PHPToExcel(strtotime($plan['apply_date'] . ' 00:00:00 UTC'))); // Application Date
