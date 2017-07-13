@@ -241,7 +241,7 @@ class Payment_model extends CI_Model {
 		if ($change_last_update) $this->db->set('last_update', 'last_update', FALSE);
 		$this->db->update('payment');
 		$this->sqlstr = $this->db->last_query();
-		$this->logstr = 'Adjust Commission date[' . $plan_id . '][' . $date . ']';
+		$this->logstr = 'Adjust Commission Back date[' . $plan_id . '][' . $date . ']';
 		return $this->db->affected_rows() > 0;
 	}
 	

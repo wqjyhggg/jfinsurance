@@ -556,7 +556,7 @@ class Plan extends MY_Controller {
 						$this->log_model->activity('plan', $para);
 						if ((($planold['product_short'] == 'OPL') || ($planold['product_short'] == 'JFR')) && ((($planold['sum_insured'] >= 100000) && ($planold['totaldays'] >= 365)) || (($plan['sum_insured'] >= 100000) && ($plan['totaldays'] >= 365)))) {
 							if (($plan['sum_insured'] >= 100000) && ($plan['totaldays'] >= 365)) {
-								if ($planold['effective_date'] != $plan['effective_date']) {
+								if (($planold['effective_date'] != $plan['effective_date']) || ($planold['totaldays'] != $plan['totaldays']) || ($planold['premium'] != $plan['premium']) || ($planold['expiry_date'] != $plan['expiry_date']) ) {
 									// Super visa changed effective date
 									$this->payment_model->adjust_commission_added_date($plan_id, $plan['effective_date'], FALSE);
 									$para = array(
@@ -1492,6 +1492,7 @@ class Plan extends MY_Controller {
 						$this->log_model->activity('commission', $para);
 					}
 					$dt['added'] = $plan['effective_date'];
+				/* cause bug	
 				} else {
 					if ($this->payment_model->adjust_commission_added_back_date($plan_id, date('Y-m-d'))) {
 						$para = array(
@@ -1503,6 +1504,7 @@ class Plan extends MY_Controller {
 						);
 						$this->log_model->activity('commission', $para);
 					}
+				*/
 				}
 			}
 		}
