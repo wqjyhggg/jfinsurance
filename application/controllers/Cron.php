@@ -484,12 +484,10 @@ class Cron extends MY_Controller {
 					$status_str = 'Sold';
 				}
 			}
-			if (($plan['status_id'] == Plan_model::CANCEL) || ($plan['status_id'] == Plan_model::REFUND)) {
+			if ($plan['status_id'] == Plan_model::REFUND) {
 				$payment = $this->payment_model->get_payment_by_id($plan['payment_id']);
 				if ($payment) {
-					$premium = $payment['amount'] - $payment['admin_fee'];
-				} else {
-					$premium = (-1) * $premium;
+					$premium -= $payment['amount'] - $payment['admin_fee'];
 				}
 			}
 			if (empty($plan['firstname'])) $plan['firstname'] = '.';
