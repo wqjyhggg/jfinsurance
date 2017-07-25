@@ -298,7 +298,8 @@ class Plan extends MY_Controller {
 			$this->error['error_effective_date'] = "Can't back Effective Date befort today";
 			return ;
 		}
-		if ($plan['effective_date'] <= $nowtm) {
+		$nowdate = date('Y-m-d');
+		if ($plan['effective_date'] <= $nowdate) {
 			// After effective
 			$expiry_date = $this->input->post('expiry_date');
 			if ($expiry_date != $plan['expiry_date']) {
