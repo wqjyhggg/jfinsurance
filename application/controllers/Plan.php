@@ -1217,7 +1217,7 @@ class Plan extends MY_Controller {
 				$data['plan_cancel_date'] = $this->payment_model->get_cancel_date($plan['plan_id']);
 			}
 			if ($plan['status_id'] == Plan_model::REFUND) {
-				$data['plan_refund_date'] = $this->payment_model->get_refund_date($plan['plan_id']);
+				$data['plan_refund_date'] = $plan['refund_date'];
 			}
 		}
 		if ($data['product_short'] == 'TOP') {
