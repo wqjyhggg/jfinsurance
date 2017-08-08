@@ -2087,7 +2087,7 @@ class Plan extends MY_Controller {
 		$para['AcquirerCode'] = $this->input->get('AcquirerCode');
 		$para['CustomerIssLang'] = $this->input->get('CustomerIssLang');
 		$para['TransType'] = $this->input->get('TransType');
-		$para['rowdata'] = $this->input->get();
+		$para['rowdata'] = json_encode($this->input->get());
 		
 		$this->psigate_model->add($para);
 		
