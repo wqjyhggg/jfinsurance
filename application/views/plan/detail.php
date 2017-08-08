@@ -337,12 +337,16 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 								</script>
 
 								<div id='credit_card' <?php if (empty($credit_dis)) { ?> style='display: none;' <?php } ?>>
-								<form action='<?php echo $active_url; ?>' method='POST'>
-									<input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
-									<input type='hidden' name='plan_id' value='<?php echo $plan['plan_id']; ?>'>
-									<input type='hidden' name='play_type' value='Credit Card'>
-									<input type='hidden' name='sekey' value='<?php echo $sekey; ?>'>
-									<input type='hidden' name='premium' value='<?php echo $payment_total; ?>'>
+								<form action='<?php echo $psi_active_url; ?>' method='POST'>
+									<input type='hidden' name='CustomerRefNo' value='<?php echo $plan['plan_id']; ?>'>
+									<input type='hidden' name='StoreKey' value='<?php echo $StoreKey; ?>'>
+									<input type='hidden' name='SubTotal' value='<?php echo $payment_total; ?>'>
+									<input type='hidden' name='ResponseFormat' value='HTML'>
+									<input type='hidden' name='ThanksURL' vaule='<?php echo $psi_thanks_url;?>'>
+									<input type='hidden' name='NoThanksURL' vaule='<?php echo $psi_nothanks_url;?>'>
+									<input type='hidden' name='CustomerIP' vaule='<?php echo $CustomerIP;?>'>
+									<input type='hidden' name='PaymentType' vaule=''>
+									<input type='hidden' name='CardAction' value='0'>
 								<?php if ($payment_total >= 0) { ?>
 								<?php if (empty($sekey) && empty($isvsuser) && ((((time() - strtotime($plan['last_update'])) < (48 * 3600)) && ($plan['effective_date'] > date("Y-m-d"))) || ($plan['status_id'] == Plan_model::CHANGED))) { ?>
 									<div class="row">
@@ -369,15 +373,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 										<div class="col-sm-12">
 											<label  class="inline" style="margin-bottom:0;">Card Number:</label>
 											<div class="col-sm-12 input-group">
-												<input type='text' name='card_number' value='<?php echo $card_number; ?>' class="form-control">
-											</div>
-										</div>
-									</div>
-									<div class="row">
-										<div class="col-sm-12">
-											<label  class="inline" style="margin-bottom:0;">Card Holder's Name:</label>
-											<div class="col-sm-12 input-group">
-												<input type='text' name='card_name' value='<?php echo $card_name; ?>' class="form-control">
+												<input type='text' name='CardNumber' value='' class="form-control">
 											</div>
 										</div>
 									</div>
@@ -385,7 +381,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 										<div class="col-sm-12">
 											<div style="width:100px;" class="inline">
 												<label class="inline">Expiry Month: </label>
-												<select name='expiry_month' class="form-control" style="width:100px;text-align:center;">
+												<select name='CardExpMonth' class="form-control" style="width:100px;text-align:center;">
 													<option value='01' <?php echo (($expiry_month == 1) ? 'selected' : ''); ?>>01</option>
 													<option value='02' <?php echo (($expiry_month == 2) ? 'selected' : ''); ?>>02</option>
 													<option value='03' <?php echo (($expiry_month == 3) ? 'selected' : ''); ?>>03</option>
@@ -402,7 +398,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 											</div>
 											<div style="width:100px;" class="inline">
 												<label class="inline">Expiry Year: </label>
-												<select name='expiry_year' class="form-control" style="width:100px;text-align:center;">
+												<select name='CardExpYear' class="form-control" style="width:100px;text-align:center;">
 													<option value='<?php echo date('y'); ?>'> <?php echo date('y'); ?> </option>
 													<option value='<?php echo date('y',strtotime('+1 years')); ?>'> <?php echo date('y',strtotime('+1 years')); ?> </option>
 													<option value='<?php echo date('y',strtotime('+2 years')); ?>'> <?php echo date('y',strtotime('+2 years')); ?> </option>
@@ -421,7 +417,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 										<div class="col-sm-12" style="padding:10px;">
 											<label class="inline" style="margin-bottom:0;">Card CVV:</label>
 											<div style="display:inline-block;vertical-align:middle;" >
-												<input type='text' name='card_cvv' value='<?php echo $card_cvv; ?>' class="form-control" style="width:137px;">
+												<input type='text' name='CardIDNumber' value='' class="form-control" style="width:137px;">
 											</div>
 										</div>
 									</div>
