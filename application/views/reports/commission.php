@@ -173,6 +173,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		                    		<input type='hidden' name="payment_added_to" value="<?php echo $payment_added_to; ?>">
 		                    		<input type='hidden' name="payment_date_from" value="<?php echo $payment_date_from; ?>">
 		                    		<input type='hidden' name="payment_date_to" value="<?php echo $payment_date_to; ?>">
+		                    		<input type='hidden' name="ispaid" value="<?php echo $ispaid; ?>">
 		                            <button class="btn btn-primary">Export xlsx</button>
 				                </form>
 				              </div>
@@ -186,6 +187,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		                    		<input type='hidden' name="payment_added_to" value="<?php echo $payment_added_to; ?>">
 		                    		<input type='hidden' name="payment_date_from" value="<?php echo $payment_date_from; ?>">
 		                    		<input type='hidden' name="payment_date_to" value="<?php echo $payment_date_to; ?>">
+		                    		<input type='hidden' name="ispaid" value="<?php echo $ispaid; ?>">
 		                            <button class="btn btn-primary">Export PDF</button>
 				                </form>
 				              </div>
