@@ -341,10 +341,10 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 									<input type='hidden' name='StoreKey' value='<?php echo $StoreKey; ?>'>
 									<input type='hidden' name='SubTotal' value='<?php echo $payment_total; ?>'>
 									<input type='hidden' name='ResponseFormat' value='HTML'>
-									<input type='hidden' name='ThanksURL' vaule='<?php echo $psi_thanks_url;?>'>
-									<input type='hidden' name='NoThanksURL' vaule='<?php echo $psi_nothanks_url;?>'>
-									<input type='hidden' name='CustomerIP' vaule='<?php echo $CustomerIP;?>'>
-									<input type='hidden' name='PaymentType' vaule=''>
+									<input type='hidden' name='ThanksURL' value='<?php echo $psi_thanks_url;?>'>
+									<input type='hidden' name='NoThanksURL' value='<?php echo $psi_nothanks_url;?>'>
+									<input type='hidden' name='CustomerIP' value='<?php echo $CustomerIP;?>'>
+									<input type='hidden' name='PaymentType' value=''>
 									<input type='hidden' name='CardAction' value='0'>
 									<?php if ($payment_total >= 0) { ?>
 									<?php     if (empty($sekey) && empty($isvsuser) && ((((time() - strtotime($plan['last_update'])) < (48 * 3600)) && ($plan['effective_date'] > date("Y-m-d"))) || ($plan['status_id'] == Plan_model::CHANGED))) { ?>
