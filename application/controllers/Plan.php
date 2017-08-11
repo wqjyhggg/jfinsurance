@@ -2089,7 +2089,7 @@ class Plan extends MY_Controller {
 		$para['TransType'] = $this->input->get('TransType') ? $this->input->get('TransType') : '';
 		$para['rowdata'] = json_encode($this->input->get());
 		
-		$this->psigate_model->add($para);
+		$para['psigate_id'] = $this->psigate_model->add($para);
 		
 		return $para;
 	}
@@ -2109,7 +2109,7 @@ class Plan extends MY_Controller {
 		$dt['pay_mothed'] = 'Credit Card';
 		$dt['name'] = ‘’;
 		$dt['added'] = date('c');
-		$dt['first5'] = substr($para['CardNumber'], 0, 5);
+		$dt['first5'] = '';
 		$dt['last4'] = substr($para['CardNumber'], -4);
 		$dt['expiry_month'] = $para['CardExpMonth'];
 		$dt['expiry_year'] = $para['CardExpYear'];
@@ -2187,6 +2187,19 @@ class Plan extends MY_Controller {
 				'systemlog' => $this->payment_model->sqlstr
 		);
 		$this->log_model->activity('commission', $para);
+
+		$payinfo = "PSiGate Card: (" . $para['psigate_id'] . ") " . $para['CardNumber'] . " " . $para['CardExpMonth'] . "/" . $para['CardExpYear'];
+		$para = array('payment_id' => $payment_id, 'payinfo' => $payinfo, 'commission_payment_id' => $commission_payment_id, 'status_id' => Plan_model::PAID, 'policy' => $this->plan_model->get_policy_number($plan_id, 2));
+		$this->plan_model->update($plan_id, $para);
+		$para = array(
+				'plan_id' => $plan_id,
+				'customer_id' => $plan['customer_id'],
+				'payment_id' => $payment_id,
+				'commission_payment_id' => $commission_payment_id,
+				'message' => $this->plan_model->logstr,
+				'systemlog' => $this->plan_model->sqlstr
+		);
+		$this->log_model->activity('plan', $para);
 	}
 
 	function psifail($plan_id=0) {
@@ -2194,14 +2207,17 @@ class Plan extends MY_Controller {
 		$this->load->model('product_model');
 		$this->load->model('payment_model');
 		
-		$para = array(
-				'plan_id' => $plan_id,
-				'customer_id' => $plan['customer_id'],
-				'payment_id' => $payment_id,
-				'message' => 'payment fail',
-				'systemlog' => json_encode($para)
-		);
-		$this->log_model->activity('payment', $para);
+		$plan = $this->plan_model->get_plan_by_id($plan_id);
+		if ($plan) {
+			$para = array(
+					'plan_id' => $plan_id,
+					'customer_id' => $plan['customer_id'],
+					'payment_id' => 0,
+					'message' => 'payment fail',
+					'systemlog' => json_encode($para)
+			);
+			$this->log_model->activity('payment', $para);
+		}
 	}
 	
 	function detail($plan_id=0, $sekey='') {
