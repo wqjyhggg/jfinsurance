@@ -2095,11 +2095,11 @@ class Plan extends MY_Controller {
 	}
 
 	function psiok($plan_id=0) {
-		$para = $this->psireturncommon($plan_id);
+		$psipara = $this->psireturncommon($plan_id);
 		$this->load->model('product_model');
 		$this->load->model('payment_model');
 		
-		$premium = (float)$para['FullTotal'];
+		$premium = (float)$psipara['FullTotal'];
 		
 		$plan = $this->plan_model->get_plan_by_id($plan_id);
 		$product = $this->product_model->get_product($plan['product_short']);
@@ -2110,9 +2110,9 @@ class Plan extends MY_Controller {
 		$dt['name'] = '';
 		$dt['added'] = date('c');
 		$dt['first5'] = '';
-		$dt['last4'] = substr($para['CardNumber'], -4);
-		$dt['expiry_month'] = $para['CardExpMonth'];
-		$dt['expiry_year'] = $para['CardExpYear'];
+		$dt['last4'] = substr($psipara['CardNumber'], -4);
+		$dt['expiry_month'] = $psipara['CardExpMonth'];
+		$dt['expiry_year'] = $psipara['CardExpYear'];
 		$dt['ispaid'] = 1;
 		$commission_rate = $this->product_model->get_commission_rate($plan['product_short'], $plan['user_id']);
 		if (($plan['product_short'] == 'TOP') && $plan['questionnaire']) {
@@ -2188,7 +2188,7 @@ class Plan extends MY_Controller {
 		);
 		$this->log_model->activity('commission', $para);
 
-		$payinfo = "PSiGate Card: (" . $para['psigate_id'] . ") " . $para['CardNumber'] . " " . $para['CardExpMonth'] . "/" . $para['CardExpYear'];
+		$payinfo = "PSiGate Card: (" . $para['psigate_id'] . ") " . $psipara['CardNumber'] . " " . $psipara['CardExpMonth'] . "/" . $psipara['CardExpYear'];
 		$para = array('payment_id' => $payment_id, 'payinfo' => $payinfo, 'commission_payment_id' => $commission_payment_id, 'status_id' => Plan_model::PAID, 'policy' => $this->plan_model->get_policy_number($plan_id, 2));
 		$this->plan_model->update($plan_id, $para);
 		$para = array(
