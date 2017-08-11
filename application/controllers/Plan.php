@@ -2107,7 +2107,7 @@ class Plan extends MY_Controller {
 		$dt['plan_id'] = $plan_id;
 		$dt['currency'] = $product['currency'];
 		$dt['pay_mothed'] = 'Credit Card';
-		$dt['name'] = ‘’;
+		$dt['name'] = '';
 		$dt['added'] = date('c');
 		$dt['first5'] = '';
 		$dt['last4'] = substr($para['CardNumber'], -4);
@@ -2200,6 +2200,7 @@ class Plan extends MY_Controller {
 				'systemlog' => $this->plan_model->sqlstr
 		);
 		$this->log_model->activity('plan', $para);
+		return $this->detail($plan_id);
 	}
 
 	function psifail($plan_id=0) {
@@ -2218,6 +2219,7 @@ class Plan extends MY_Controller {
 			);
 			$this->log_model->activity('payment', $para);
 		}
+		return $this->detail($plan_id);
 	}
 	
 	function detail($plan_id=0, $sekey='') {
