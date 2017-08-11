@@ -2188,7 +2188,7 @@ class Plan extends MY_Controller {
 		);
 		$this->log_model->activity('commission', $para);
 
-		$payinfo = "PSiGate Card: (" . $para['psigate_id'] . ") " . $psipara['CardNumber'] . " " . $psipara['CardExpMonth'] . "/" . $psipara['CardExpYear'];
+		$payinfo = "PSiGate Card: (" . $psipara['psigate_id'] . ") " . $psipara['CardNumber'] . " " . $psipara['CardExpMonth'] . "/" . $psipara['CardExpYear'];
 		$para = array('payment_id' => $payment_id, 'payinfo' => $payinfo, 'commission_payment_id' => $commission_payment_id, 'status_id' => Plan_model::PAID, 'policy' => $this->plan_model->get_policy_number($plan_id, 2));
 		$this->plan_model->update($plan_id, $para);
 		$para = array(
@@ -2200,7 +2200,7 @@ class Plan extends MY_Controller {
 				'systemlog' => $this->plan_model->sqlstr
 		);
 		$this->log_model->activity('plan', $para);
-		return $this->detail($plan_id);
+		redirect(base_url('detail/'.$plan_id));
 	}
 
 	function psifail($plan_id=0) {
@@ -2219,10 +2219,10 @@ class Plan extends MY_Controller {
 			);
 			$this->log_model->activity('payment', $para);
 		}
-		return $this->detail($plan_id);
+		return $this->detail($plan_id, '', 'Payment Failed');
 	}
 	
-	function detail($plan_id=0, $sekey='') {
+	function detail($plan_id=0, $sekey='', $passerr='') {
 		$this->error = '';
 		$defaultpay_type = '';
 		if ($play_type = $this->input->post('play_type')) {
@@ -2281,7 +2281,11 @@ class Plan extends MY_Controller {
 			$this->session->set_userdata ( 'beuser',  $beuser);
 		}
 		
-		$data['errormsg'] = $this->error;
+		if (empty($passerr)) {
+			$data['errormsg'] = $this->error;
+		} else {
+			$data['errormsg'] = $passerr;
+		}
 		$data['beuser'] = $beuser;
 		$data['sekey'] = $sekey;
 		$data['apply_date'] = date('Y-m-d');
