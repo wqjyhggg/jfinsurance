@@ -2200,7 +2200,7 @@ class Plan extends MY_Controller {
 				'systemlog' => $this->plan_model->sqlstr
 		);
 		$this->log_model->activity('plan', $para);
-		redirect(base_url('detail/'.$plan_id));
+		redirect(base_url('plan/detail/'.$plan_id));
 	}
 
 	function psifail($plan_id=0) {
