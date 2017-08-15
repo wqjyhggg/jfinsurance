@@ -2371,7 +2371,7 @@ class Plan extends MY_Controller {
 		$data['psi_active_url'] = 'https://stagingcheckout.psigate.com/HTMLPost/HTMLMessenger';
 		$data['psi_thanks_url'] = base_url('plan/psiok/' . $plan_id);
 		$data['psi_nothanks_url'] = base_url('plan/psifail/' . $plan_id);
-		$data['StoreKey'] = 'merchantcardcapture200024';
+		$data['StoreKey'] = 'JohnsonFuIns201708'; //  'merchantcardcapture200024';
 		$data['CustomerIP'] = $this->input->ip_address();
 		
 		$data['status_list'] = $this->status_model->status_list();
