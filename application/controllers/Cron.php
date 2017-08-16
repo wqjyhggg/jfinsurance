@@ -476,7 +476,6 @@ class Cron extends MY_Controller {
 			$premium = $plan['premium'];
 			if ($plan['status_id'] == Plan_model::SOLD) $status_str = 'New';
 			if ($plan['status_id'] == Plan_model::CHANGED) $status_str = 'Change';
-			if ($plan['status_id'] == Plan_model::REFUND) $status_str = 'Refund';
 			if ($plan['status_id'] == Plan_model::CLAIMED) {
 				$status_str = 'Paid';
 				$payrow = $this->payment_model->get_last_payment($plan['plan_id']);
@@ -485,10 +484,14 @@ class Cron extends MY_Controller {
 				}
 			}
 			if ($plan['status_id'] == Plan_model::REFUND) {
+				//$status_str = 'Refund';
+				$status_str = 'Change';
 				$payment = $this->payment_model->get_payment_by_id($plan['payment_id']);
 				if ($payment) {
 					$premium += $payment['amount'] - $payment['admin_fee'];
 				}
+				$plan['expiry_date'] = $plan['refund_date'];
+				$plan['totaldays'] = 1 + (strtotime($plan['refund_date']) - strtotime($plan['effective_date'])) / 86400;
 			}
 			if (empty($plan['firstname'])) $plan['firstname'] = '.';
 			if (empty($plan['lastname'])) $plan['lastname'] = '.';
