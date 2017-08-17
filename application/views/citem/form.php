@@ -126,7 +126,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <select name='coverage_code_id' class="form-control">
                             <option value='' <?php echo (empty($coverage_code_id)) ? "selected" : ""; ?>> -- select code --</option>
                             <?php foreach ($coverage_codes as $ccode) { ?>
-                            <option value='<?php echo $ccode['coverage_code_id']?>' <?php echo ($coverage_code_id == $ccode['coverage_code_id']) ? "selected" : ""; ?>><?php echo $ccode['name']; ?></option>
+                            <option value='<?php echo $ccode['coverage_code_id']?>' <?php echo ($coverage_code_id === $ccode['coverage_code_id']) ? "selected" : ""; ?>><?php echo $ccode['name']; ?></option>
                             <?php } ?>
                             </select>
                         </div>

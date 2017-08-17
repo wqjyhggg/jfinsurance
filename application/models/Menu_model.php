@@ -69,12 +69,14 @@ class Menu_model extends CI_Model {
 			103 =>array(
 					"<a href='" . base_url('plan') . "' class='leftmeun'><i class='fa fa-file-text-o'></i>" . $this->lang->line ( 'text_policy' ) . "</a>",
 					"<a href='" . base_url('batch/import') . "' class='leftmeun'><i class='fa fa-upload'></i>" . $this->lang->line ( 'text_upload_policy' ) . "</a>",
+/*
 					array(
 							"<a class='leftmeun'><i class='fa fa-file-excel-o'></i>" . $this->lang->line ( 'text_report' ) . "<span class='fa fa-chevron-down'></span></a>",
 							"<a href='" . base_url('reports/agent') . "' class='leftmeun'>" . $this->lang->line ( 'text_report_to_agent' ) . "</a>",
 							"<a href='" . base_url('reports/receivable') . "' class='leftmeun'>" . $this->lang->line ( 'text_receivable_report' ) . "</a>",
 							"<a href='" . base_url('reports/renewal') . "' class='leftmeun'>" . $this->lang->line ( 'text_renewal_report' ) . "</a>",
 						),
+*/
 					"<a href='" . base_url('product') . "' class='leftmeun'><i class='fa fa-shield'></i>" . $this->lang->line ( 'text_our_products' ) . "</a>",
 					"<a href='" . base_url('user/logout') . "' class='leftmeun'><i class='fa fa-power-off'></i>" . $this->lang->line ( 'text_logout' ) . "</a>",
 				),
