@@ -339,7 +339,7 @@ class Report_model extends CI_Model
     {
         $this->common_from();
         $this->db->join('user_product up', 'u.user_id = up.user_id and pr.product_short = up.product_short', 'left');
-        $this->db->join("payment pa", "pl.plan_id = pa.plan_id AND pa.pay_type = 'premium' AND pa.ispaid = 0");
+        $this->db->join("payment pa", "pl.plan_id = pa.plan_id AND pa.pay_type in ('premium','refund','cancel') AND pa.ispaid = 0");
         $this->db->join("payment pa2", "pa.plan_id = pa2.plan_id AND pa2.pay_type = 'commission' AND pa.payment_id = pa2.premium_payment_id", 'left');
     }
 
