@@ -351,7 +351,7 @@ class Report_model extends CI_Model
         } else {
             $this->db->where('pl.status_id>=', self::SOLD);
         }
-        $this->db->where('pa.amount >', 0);
+        $this->db->where('pa.amount !=', 0);
         if (!empty($para['payment_update_date_from'])) {
             $this->db->where('pa.last_update >=', $para['payment_update_date_from'] . " 00:00:00");
         }
