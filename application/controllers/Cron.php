@@ -50,7 +50,7 @@ class Cron extends MY_Controller {
 		} else {
 			echo "connected ";
 			$resSFTP = ssh2_sftp($conn);
-			$resFile = fopen("ssh2.sftp://{$resSFTP}/".$dst, 'w');
+			$resFile = fopen("ssh2.sftp://".intval($resSFTP)."/".$dst, 'w');
 			$srcFile = fopen($src, 'r');
 			$writtenBytes = stream_copy_to_stream($srcFile, $resFile);
 			echo " and send file: ".$dst." with ".$writtenBytes." bytes data at time " .date('Ymd His') . "\n";
@@ -375,6 +375,7 @@ class Cron extends MY_Controller {
 		$pattern = "/^([_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,}))(.*)$/";
 		
 		$uploadFilename = 'OPL2_Sales_Report_' . date('Y.m.d_H.i.s.B') . '.xlsx';
+		//$uploadFilename = 'OPL2_Sales_Report_2017.08.28_03.00.00.111.xlsx';
 		$outfile = $outdir . $uploadFilename;
 		/*
 		$filename = DOWNLOADDIR . 'OPL_Sales_Report.xls';
@@ -445,7 +446,8 @@ class Cron extends MY_Controller {
 		$para = array();
 		$para['last_update'] = date('Y-m-d', time() - 86400) . " 00:00:00";
 		$para['last_update2'] = date('Y-m-d', time() - 86400) . " 23:59:59";
-		//$para['apply_date2'] = '2016-01-01';
+		//$para['last_update'] =  "2017-08-27 00:00:00";
+		//$para['last_update2'] = "2017-08-27 23:59:59";
 		$para['product_short'] = 'OPL';
 		$plansOPL = $this->plan_model->plan_search($para, 0);
 		$para['product_short'] = 'JFC';
