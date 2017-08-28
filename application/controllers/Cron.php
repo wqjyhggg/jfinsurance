@@ -3,16 +3,18 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 
 class Cron extends MY_Controller {
 	public $error;
-	/*
+
 	const FTP_HOST="72.142.65.148";
 	const FTP_PORT=7790;
 	const FTP_USER='jfu';
 	const FTP_PASS='!Tgu7oPb';
-	*/
+
+/*
 	const FTP_HOST="filetransfer.allianz-assistance.ca";
 	const FTP_PORT=7790;
 	const FTP_USER='JFUTEST';
 	const FTP_PASS='T$sting!23';
+*/
 	
 	private function valid() {
 		$this->error = '';
