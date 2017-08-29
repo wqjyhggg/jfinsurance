@@ -385,7 +385,7 @@ class Citem extends MY_Controller {
 		} else if (isset($citem['coverage_code_id'])) {
 			$this->data['coverage_code_id'] = $citem['coverage_code_id'];
 		} else {
-			$this->data['coverage_code_id'] = 0;
+			$this->data['coverage_code_id'] = 'V01A';
 		}
 		if ($this->input->post('service_date')) {
 			$this->data['service_date'] = $this->input->post('service_date'); 
