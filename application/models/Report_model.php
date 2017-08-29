@@ -290,75 +290,76 @@ class Report_model extends CI_Model
      */
     public function get_receivable($para)
     {
-        $query = $this->get_receivable_query($para);
-        $results = $this->get_receivable_result($query);
-        $results['period']['from'] = $para['application_date_from'];
-        $results['period']['to'] = $para['application_date_to'];
-        return $results;
-    }
-
-    private function get_receivable_query($para)
-    {
-        $this->receivable_fields();
-        $this->receivable_from();
-        $this->receivable_where($para);
-        return $this->db->get()->result_array();
-    }
-
-    private function receivable_fields()
-    {
-        $this->db->select('
-            pl.apply_date AS order_date,
-            pl.policy,
-            u.username AS insurer,
-            pr.full_name AS product,
-            CONCAT(c.lastname, ", ", c.firstname) AS insured_name,
-            pl.effective_date,
-            pl.expiry_date,
-            (datediff(pl.expiry_date, pl.effective_date) + 1) AS total_days,
-            pl.dailyrate AS daily_rate,
-            pl.premium AS policy_premium,
-        	pr.commission AS pr_commission,
-            up.commission AS up_commission,
-            u.user_id,
-            CONCAT(u.firstname," ", u.lastname) AS agent_name,
-            CONCAT(u.address, " ", u.city) AS address,
-            u.province2 AS province,
-            u.postcode,
-            pl.status_id,
-            pa.amount AS pa_amount,
-        	pa.added AS pa_added,
-            pa.pay_type,
-            pa.currency,
-            pa.last_update,
-            pa2.amount AS commission_amount
-        ');
-    }
-
-    private function receivable_from()
-    {
-        $this->common_from();
-        $this->db->join('user_product up', 'u.user_id = up.user_id and pr.product_short = up.product_short', 'left');
-        $this->db->join("payment pa", "pl.plan_id = pa.plan_id AND pa.pay_type in ('premium','refund','cancel') AND pa.ispaid = 0");
-        $this->db->join("payment pa2", "pa.plan_id = pa2.plan_id AND pa2.pay_type = 'commission' AND pa.payment_id = pa2.premium_payment_id", 'left');
-    }
-
-    private function receivable_where($para)
-    {
-        $this->common_report_where($para);
-        if (!empty($para['policy_status']) && in_array($para['policy_status'], array(self::QUOTE, self::SOLD))) {
-            $this->db->where('pl.status_id', $para['policy_status']);
+    	$sql  = "SELECT";
+    	$sql .= " `pl`.`apply_date` AS `order_date`,";
+    	$sql .= " `pl`.`policy`,";
+    	$sql .= " `u`.`username` AS `insurer`,";
+    	$sql .= " `pr`.`full_name` AS `product`,";
+    	$sql .= " CONCAT(c.lastname, \", \", c.firstname) AS insured_name,";
+    	$sql .= " `pl`.`effective_date`,";
+    	$sql .= " `pl`.`expiry_date`,";
+    	$sql .= " pl.totaldays AS total_days,";
+    	$sql .= " `pl`.`dailyrate` AS `daily_rate`,";
+    	$sql .= " `pl`.`premium` AS `policy_premium`,";
+    	$sql .= " `pr`.`commission` AS `pr_commission`,";
+    	$sql .= " `up`.`commission` AS `up_commission`,";
+    	$sql .= " `u`.`user_id`, CONCAT(u.firstname, \" \", u.lastname) AS agent_name,";
+    	$sql .= " CONCAT(u.address, \" \", u.city) AS address,";
+    	$sql .= " `u`.`province2` AS `province`,";
+    	$sql .= " `u`.`postcode`,";
+    	$sql .= " `pl`.`status_id`,";
+    	$sql .= " `pa`.`amount` AS `pa_amount`,";
+    	$sql .= " `pa`.`added` AS `pa_added`,";
+    	$sql .= " `pa`.`pay_type`,";
+    	$sql .= " `pa`.`currency`,";
+    	$sql .= " `pa`.`last_update`,";
+    	$sql .= " `pa2`.`amount` AS `commission_amount`";
+    	$sql .= " FROM `plan` `pl`";
+    	$sql .= " JOIN `customer` `c` ON `pl`.`customer_id` = `c`.`customer_id`";
+    	$sql .= " JOIN `product` `pr` ON `pl`.`product_short` = `pr`.`product_short`";
+    	$sql .= " JOIN `user` `u` ON `pl`.`user_id` = `u`.`user_id`";
+    	$sql .= " LEFT JOIN `user_product` `up` ON `u`.`user_id` = `up`.`user_id` and `pr`.`product_short` = `up`.`product_short`";
+    	$sql .= " JOIN `payment` `pa` ON `pl`.`plan_id` = `pa`.`plan_id` AND `pa`.`pay_type` in ('premium','refund','cancel') AND `pa`.`ispaid` = 0";
+    	$sql .= " LEFT JOIN `payment` `pa2` ON `pa`.`plan_id` = `pa2`.`plan_id` AND `pa2`.`pay_type` = 'commission' AND `pa`.`payment_id` = `pa2`.`premium_payment_id`";
+    	$sql .= " WHERE `pa`.`amount` !=0";
+    	
+        if (empty($para['policy_status'])) {
+    		$sql .= " AND `pl`.`status_id` >= 2";
         } else {
-            $this->db->where('pl.status_id>=', self::SOLD);
+        	$sql .= " AND `pl`.`status_id` = " . (int)$para['policy_status'];
         }
-        $this->db->where('pa.amount !=', 0);
-        if (!empty($para['payment_update_date_from'])) {
-            $this->db->where('pa.last_update >=', $para['payment_update_date_from'] . " 00:00:00");
+    	if (!empty($para['payment_added_from'])) {
+    		$sql .= " AND pa.added >= " . $this->db->escape($para['payment_added_from'] . " 00:00:00");
         }
-        if (!empty($para['payment_update_date_to'])) {
-            $this->db->where('pa.last_update <=', $para['payment_update_date_to'] . " 23:59:59");
+        if (!empty($para['payment_added_to'])) {
+    		$sql .= " AND pa.added <= " . $this->db->escape($para['payment_added_to'] . " 23:59:59");
         }
-        $this->db->order_by('pl.policy, pa.payment_id');
+        if (!empty($para['payment_date_from'])) {
+    		$sql .= " AND pa.last_update >= " . $this->db->escape($para['payment_date_from'] . " 00:00:00");
+        }
+        if (!empty($para['payment_date_to'])) {
+    		$sql .= " AND pa.last_update <= " . $this->db->escape($para['payment_date_to'] . " 23:59:59");
+        }
+        if (!empty($para['agent_id'])) {
+    		$sql .= " AND pl.user_id='" . (int)$para['agent_id'] . "'";
+    	}
+        if (!empty($para['product_short'])) {
+    		$sql .= " AND pl.product_short=" . $this->db->escape($para['product_short']);
+    	}
+        if (!empty($para['region_id'])) {
+    		$sql .= " AND pl.region_id='" . (int)$para['region_id'] . "'";
+    	}
+    	$sql .= " ORDER BY `pl`.`policy`, `pa`.`payment_id`";
+    	 
+    	$query = $this->db->query($sql)->result_array();
+        $results = $this->get_receivable_result($query);
+        $results['period']['from'] = $para['payment_added_from'];
+        $results['period']['to'] = $para['payment_added_to'];
+        if (empty($results['period']['from']) && empty($results['period']['to'])) {
+        	$results['period']['from'] = $para['payment_date_from'];
+        	$results['period']['to'] = $para['payment_date_to'];
+        }
+        return $results;
     }
 
     private function get_receivable_result($query)
