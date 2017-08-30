@@ -1307,6 +1307,7 @@ $( document ).ready(function() {
 	});
 
 	$('#page-submit').on('click', function (e) {
+		get_premium();	// Last confirm the changes
 		$('#page-submit').hide();
 	});
 
