@@ -204,7 +204,7 @@
 													<?php } else { ?>
 													<div class='form_text_show'>
 														<select name='isfamilyplan' class="form-control check_premium" style="padding: 6px 2px;">
-															<option value='0' <?php echo (($isfamilyplan != 1) && ($isfamilyplan != 2)) ? "" : "selected"; ?>>Single</option>
+															<option value='0' <?php echo (($isfamilyplan != 1) && ($isfamilyplan != 2)) ? "selected" : ""; ?>>Single</option>
 															<option value='1' <?php echo ($isfamilyplan == 1) ? "selected" : ""; ?>>Family</option>
 															<option value='2' <?php echo ($isfamilyplan == 2) ? "selected" : ""; ?>>Group</option>
 														</select>
@@ -1358,10 +1358,12 @@ function remove_member(i) {
 		cur_max_member--;
 		get_premium();
 	}
+	show_ajax_message = 1;
 }
 
 function addmoremember(addnumber) {
 	// Remove all error message
+	show_ajax_message = 1;
 	for (i = 1; i <= <?php echo $max_member; ?>; i++) {
 		$('#firstname_' + i).removeClass('alert-error-input');
 		$('#lastname_' + i).removeClass('alert-error-input');
