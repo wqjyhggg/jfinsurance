@@ -536,6 +536,11 @@ class Plan extends MY_Controller {
 				}
 			} else {
 				$planold = $this->plan_model->get_plan_by_id($plan_id);
+				$new_status_id = $this->input->post('status_id');
+				if (($planold['status_id'] >= 2) && ($new_status_id < 2)) {
+					// This is second tab or windows, no change
+					redirect("plan/term/" . $plan_id);
+				}
 				if ($planold['product_short'] == 'TOP') {
 					if (!empty($planold) && ($planold['status_id'] >= 2) && ($beuser['user_group_id'] > 100)) {
 						redirect("plan/term/" . $plan_id);
