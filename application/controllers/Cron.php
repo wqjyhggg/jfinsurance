@@ -478,6 +478,9 @@ class Cron extends MY_Controller {
 			$sheet->setCellValue('B'.$row, $b);
 			$status_str = $status_list[$plan['status_id']]['name'];
 			$premium = $plan['premium'];
+			if (($plan['product_short'] == 'JFC') && ($premium > 470)) {
+				$premium = 470;
+			}
 			if ($plan['status_id'] == Plan_model::SOLD) $status_str = 'New';
 			if ($plan['status_id'] == Plan_model::CHANGED) $status_str = 'Change';
 			if ($plan['status_id'] == Plan_model::CLAIMED) {
