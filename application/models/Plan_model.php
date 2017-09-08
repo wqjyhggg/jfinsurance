@@ -335,7 +335,7 @@ class Plan_model extends CI_Model {
 		}
 		$customer_id = $plan['customer_id'];
 		
-		if (isset($para['isfamilyplan']) && isset($para['gender_1']) && isset($para['firstname_1']) && isset($para['lastname_1']) && isset($para['birthday_1'])) {
+		if (isset($para['gender_1']) && isset($para['firstname_1']) && isset($para['lastname_1']) && isset($para['birthday_1'])) {
 			$this->customer_model->delete_by_parent_id($customer_id);
 		}
 		if ($isfamilyplan && !empty($para['gender_1']) && !empty($para['firstname_1']) && !empty($para['lastname_1']) && !empty($para['birthday_1'])) {
