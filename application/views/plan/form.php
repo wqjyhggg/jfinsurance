@@ -1016,7 +1016,7 @@ function get_premium() {
 	}
 	
 	if ($('input[name="firstname"]').val() && $('input[name="lastname"]').val()) number_customer++;
-	if (isfamilyplan > 1) {
+	if (isfamilyplan >= 1) {
 	if ($('input[name="firstname_1"]').val() && $('input[name="lastname_1"]').val()) number_customer++;
 	if ($('input[name="firstname_2"]').val() && $('input[name="lastname_2"]').val()) number_customer++;
 	if ($('input[name="firstname_3"]').val() && $('input[name="lastname_3"]').val()) number_customer++;
