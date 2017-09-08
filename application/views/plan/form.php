@@ -1016,6 +1016,7 @@ function get_premium() {
 	}
 	
 	if ($('input[name="firstname"]').val() && $('input[name="lastname"]').val()) number_customer++;
+	if (isfamilyplan > 1) {
 	if ($('input[name="firstname_1"]').val() && $('input[name="lastname_1"]').val()) number_customer++;
 	if ($('input[name="firstname_2"]').val() && $('input[name="lastname_2"]').val()) number_customer++;
 	if ($('input[name="firstname_3"]').val() && $('input[name="lastname_3"]').val()) number_customer++;
@@ -1024,6 +1025,7 @@ function get_premium() {
 	if ($('input[name="firstname_6"]').val() && $('input[name="lastname_6"]').val()) number_customer++;
 	if ($('input[name="firstname_7"]').val() && $('input[name="lastname_7"]').val()) number_customer++;
 	if ($('input[name="firstname_8"]').val() && $('input[name="lastname_8"]').val()) number_customer++;
+	}
 
 	if ($('#spousediv').length) {
 		if ($('#spouse').get(0).checked) {

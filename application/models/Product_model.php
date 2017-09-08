@@ -704,11 +704,13 @@ class Product_model extends CI_Model {
 			}
 			$number_customer = (int)$para['number_customer'];
 			$rate = 1.6;
-			if ($para['holiday_rate'] && $para['holiday_rate']) $rate = 1.85; 
-			if ($number_customer == 2) {
-				$rate = $rate * 2.5;
-			} else {
-				$rate = $rate * $number_customer;
+			if ($para['holiday_rate'] && $para['holiday_rate']) $rate = 1.85;
+			if ($para['isfamilyplan']) {
+				if ($number_customer == 2) {
+					$rate = $rate * 2.5;
+				} else {
+					$rate = $rate * $number_customer;
+				}
 			}
 			if ($para['holiday_rate'] < 0) {
 				return FALSE;
