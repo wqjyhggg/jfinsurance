@@ -1434,8 +1434,8 @@ class Plan extends MY_Controller {
 		$dt['ispaid'] = 0;
 		$commission_rate = $this->product_model->get_commission_rate($plan['product_short'], $plan['user_id']);
 		if (($plan['product_short'] == 'TOP') && ($plan['totalyears'] > 60)) {
-			if ($commission_rate > 0.15) {
-				$commission_rate -= 0.15;
+			if ($commission_rate > 15) {
+				$commission_rate -= 15;
 			} else {
 				$commission_rate = 0;
 			}
@@ -1592,8 +1592,8 @@ class Plan extends MY_Controller {
 			$dt['ispaid'] = 0;
 			$commission_rate = $this->product_model->get_commission_rate($plan['product_short'], $plan['user_id']);
 			if (($plan['product_short'] == 'TOP') && ($plan['totalyears'] > 60)) {
-				if ($commission_rate > 0.15) {
-					$commission_rate -= 0.15;
+				if ($commission_rate > 15) {
+					$commission_rate -= 15;
 				} else {
 					$commission_rate = 0;
 				}
@@ -1811,8 +1811,8 @@ class Plan extends MY_Controller {
 
 		$commission_rate = $this->product_model->get_commission_rate($plan['product_short'], $plan['user_id']);
 		if (($plan['product_short'] == 'TOP') && ($plan['totalyears'] > 60)) {
-			if ($commission_rate > 0.15) {
-				$commission_rate -= 0.15;
+			if ($commission_rate > 15) {
+				$commission_rate -= 15;
 			} else {
 				$commission_rate = 0;
 			}
@@ -1943,8 +1943,8 @@ class Plan extends MY_Controller {
 
 		$commission_rate = $this->product_model->get_commission_rate($plan['product_short'], $plan['user_id']);
 		if (($plan['product_short'] == 'TOP') && ($plan['totalyears'] > 60)) {
-			if ($commission_rate > 0.15) {
-				$commission_rate -= 0.15;
+			if ($commission_rate > 15) {
+				$commission_rate -= 15;
 			} else {
 				$commission_rate = 0;
 			}
