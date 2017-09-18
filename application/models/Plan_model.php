@@ -316,7 +316,14 @@ class Plan_model extends CI_Model {
 		}
 		$plan_id = $plan['plan_id'];
 		$this->logstr .= "Change Plan (" . (int)$plan_id . "): " . ($isvsuser ? ' by customer ' : ' ');
-		$isfamilyplan = isset($para['isfamilyplan']) ? ((((int)$para['isfamilyplan']) > 1) ? (int)$para['isfamilyplan'] : 1) : 0;
+		$isfamilyplan = 0;
+		if (isset($para['isfamilyplan'])) {
+			if ((int)$para['isfamilyplan'] >= 1) {
+				$isfamilyplan = (int)$para['isfamilyplan'];
+			} else if (!empty($para['isfamilyplan'])) {
+				$isfamilyplan = 1;
+			}
+		}
 		$holiday_rate = empty($para['holiday_rate']) ? 0 : 1;
 		$spouse = empty($para['spouse']) ? 0 : 1;
 	
@@ -335,7 +342,7 @@ class Plan_model extends CI_Model {
 		}
 		$customer_id = $plan['customer_id'];
 		
-		if (isset($para['isfamilyplan']) && isset($para['gender_1']) && isset($para['firstname_1']) && isset($para['lastname_1']) && isset($para['birthday_1'])) {
+		if (isset($para['gender_1']) && isset($para['firstname_1']) && isset($para['lastname_1']) && isset($para['birthday_1'])) {
 			$this->customer_model->delete_by_parent_id($customer_id);
 		}
 		if ($isfamilyplan && !empty($para['gender_1']) && !empty($para['firstname_1']) && !empty($para['lastname_1']) && !empty($para['birthday_1'])) {
