@@ -502,6 +502,11 @@ class Plan extends MY_Controller {
 					}
 				}
 			}
+		} else if ($product_short == 'TOP') {
+			$tdata = $this->product_model->get_top_premium($this->input->post());
+			if (empty($tdata['status']) || ($tdata['status'] != 'OK') || ($this->input->post('premium') != $tdata['premium'])) {
+				$this->error['error_message'] = "Please verify your input";
+			}
 		}
 		
 		return empty($this->error);
@@ -517,7 +522,6 @@ class Plan extends MY_Controller {
 		$this->load->model('payment_model');
 		
 		$this->error = array();
-
 		if ($this->input->post('submit') && $this->form_valid()) {
 			$plan_id = $this->input->post('plan_id');
 					

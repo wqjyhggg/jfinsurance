@@ -1363,7 +1363,7 @@ function remove_member(i) {
 
 function addmoremember(addnumber) {
 	// Remove all error message
-	show_ajax_message = 1;
+	if (addnumber) show_ajax_message = 1;
 	for (i = 1; i <= <?php echo $max_member; ?>; i++) {
 		$('#firstname_' + i).removeClass('alert-error-input');
 		$('#lastname_' + i).removeClass('alert-error-input');
