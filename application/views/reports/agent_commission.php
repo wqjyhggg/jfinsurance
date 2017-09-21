@@ -59,10 +59,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <div class="form-group col-sm-3">
                           <label class="col-sm-12">Pay Mothed:</label>
                             <div class="input-group col-sm-12">
-                            <select name='pay_mothed' class="form-control">
+                            <select name='receive_type' class="form-control">
                               <option value='0'> -- Select Mothed -- </option>
                               <?php foreach ($paytype_list as $name) { ?>
-                              <option value='<?php echo $name; ?>' <?php echo ($pay_mothed == $name) ? 'selected' : ''; ?>><?php echo $name; ?></option>
+                              <option value='<?php echo $name; ?>' <?php echo ($receive_type == $name) ? 'selected' : ''; ?>><?php echo $name; ?></option>
                               <?php } ?>
                             </select>
                           </div>
@@ -99,7 +99,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                           </div>
                         </div>
                         <div class="form-group col-sm-3">
-                          <label class="col-sm-12">Paied:</label>
+                          <label class="col-sm-12">Paid:</label>
                           <div class="input-group col-sm-12">
                               <input type='checkbox' name="paied" <?php echo ($paied) ? "checked" : ''; ?>> check for paied report
                           </div>
@@ -147,7 +147,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     	<input type='hidden' name="payment_date_to" value="<?php echo $payment_date_to; ?>" />
                     	<input type='hidden' name="minvalue" value="<?php echo $minvalue; ?>" />
                     	<input type='hidden' name="paied" value="<?php echo $paied; ?>" />
-                    	<input type='hidden' name="pay_mothed" value="<?php echo $pay_mothed; ?>" />
+                    	<input type='hidden' name="receive_type" value="<?php echo $receive_type; ?>" />
                     	<input type='hidden' name='region_id' value='<?php echo $region_id; ?>'>
 						<input class="btn btn-info" type='submit' value="Export Xlsx" />
 					</form>

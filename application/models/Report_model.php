@@ -641,31 +641,38 @@ class Report_model extends CI_Model
         $beuser = $this->session->beuser;
         $available_user_ids = array_keys($para['user_list']);
     	
-        $sql  = "SELECT SUM(amount) as total_balance, SUM(IF(ispaid=0, amount,0)) as unpaid_balance, user_id FROM payment WHERE pay_type='commission'";
+        $sql  = "SELECT SUM(payment.amount) as total_balance, SUM(IF(payment.ispaid=0, payment.amount, 0)) as unpaid_balance, payment.user_id FROM payment";
+        if (!empty($para['receive_type'])) {
+        	$sql .= " JOIN user ON (payment.user_id=user.user_id)";
+        }
+        $sql .= " WHERE payment.pay_type='commission'";
         if (empty($para['paied'])) {
-        	$sql .= " AND ispaid=0";
+        	$sql .= " AND payment.ispaid=0";
         } else {
-        	$sql .= " AND ispaid=1";
+        	$sql .= " AND payment.ispaid=1";
+        }
+        if (!empty($para['receive_type'])) {
+        	$sql .= " AND user.receive_type =" . $this->db->escape($para['receive_type']);
         }
         if (!empty($para['pay_mothed'])) {
-        	$sql .= " AND pay_mothed =" . $this->db->escape($para['pay_mothed']);
+        	$sql .= " AND payment.pay_mothed =" . $this->db->escape($para['pay_mothed']);
         }
         if (!empty($para['payment_update_date_from'])) {
-        	$sql .= " AND last_update >=" . $this->db->escape($para['payment_date_from'] . " 00:00:00");
+        	$sql .= " AND payment.last_update >=" . $this->db->escape($para['payment_date_from'] . " 00:00:00");
         }
         if (!empty($para['payment_update_date_to'])) {
-        	$sql .= " AND last_update <=" . $this->db->escape($para['payment_date_to'] . " 23:59:59");
+        	$sql .= " AND payment.last_update <=" . $this->db->escape($para['payment_date_to'] . " 23:59:59");
         }
         
         if (!empty($para['agent_id'])) {
         	if (!in_array($para['agent_id'], $available_user_ids)) {
-        		$sql .= " AND user_id ='" . (int)$beuser['user_id'] . "'";
+        		$sql .= " AND payment.user_id ='" . (int)$beuser['user_id'] . "'";
         	} else {
-        		$sql .= " AND user_id ='" . (int)$para['agent_id'] . "'";
+        		$sql .= " AND payment.user_id ='" . (int)$para['agent_id'] . "'";
         	}
         } else {
         	if ($beuser['user_group_id'] > self::STAFF) {
-        		$sql .= " AND user_id IN (" . join(",", $available_user_ids) . ")";
+        		$sql .= " AND payment.user_id IN (" . join(",", $available_user_ids) . ")";
         	}
         }
         

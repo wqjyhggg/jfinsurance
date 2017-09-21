@@ -505,7 +505,7 @@ class Plan extends MY_Controller {
 		} else if ($product_short == 'TOP') {
 			$tdata = $this->product_model->get_top_premium($this->input->post());
 			if (empty($tdata['status']) || ($tdata['status'] != 'OK') || ($this->input->post('premium') != $tdata['premium'])) {
-				$this->error['error_message'] = "Please verify your input";
+				$this->error['error_message'] = "Peimum has been changed, Please confirm and submit again";
 			}
 		}
 		
@@ -707,6 +707,12 @@ class Plan extends MY_Controller {
 		}
 		if ($this->input->post('premium')) {
 			$data['premium'] = $this->input->post('premium'); 
+			if ($data['product_short'] == 'TOP') {
+				$tdata = $this->product_model->get_top_premium($this->input->post());
+				if (empty($tdata['status']) || ($tdata['status'] != 'OK')) {
+					$data['premium'] = $tdata['premium'];
+				}
+			}
 		} else if (isset($plan['premium'])) {
 			$data['premium'] = $plan['premium'];
 		} else {

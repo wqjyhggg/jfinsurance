@@ -50,7 +50,7 @@ class Agent_Commission extends MY_Controller
         $data['payment_date_to'] = $this->input->post('payment_date_to');
         $data['paied'] = $this->input->post('paied');
         $data['minvalue'] = $this->input->post('minvalue');
-        $data['pay_mothed'] = $this->input->post('pay_mothed');
+        $data['receive_type'] = $this->input->post('receive_type');
         
         $data['user_list'] = $this->user_model->get_available_user_list();
         $data['paytype_list'] = $this->paytype_model->paytype_list();
@@ -70,7 +70,7 @@ class Agent_Commission extends MY_Controller
         $data['payment_date_to'] = $this->input->get_post('payment_date_to');
         $data['paied'] = $this->input->get_post('paied');
         $data['minvalue'] = $this->input->get_post('minvalue');
-        $data['pay_mothed'] = $this->input->get_post('pay_mothed');
+        $data['receive_type'] = $this->input->get_post('receive_type');
         
         $data['user_list'] = $this->user_model->get_available_user_list();
         $data['report_data'] = $this->report_model->get_agent_commission_report($data);
