@@ -208,6 +208,7 @@ class Report_model extends CI_Model
     {
     	$sql  = "SELECT"; 
     	$sql .= "	pl.policy,"; 
+    	$sql .= "	pl.product_short,"; 
     	$sql .= "	c.firstname,"; 
     	$sql .= "	c.lastname, ";
     	$sql .= "	c.gender, ";
@@ -221,6 +222,15 @@ class Report_model extends CI_Model
     	$sql .= "	pl.expiry_date,";
     	$sql .= "	pl.totaldays AS total_days,";
     	$sql .= "	pl.sum_insured,";
+    	$sql .= "	pl.package,";
+    	$sql .= "	pl.free_cancel,";
+    	$sql .= "	pl.annual_plan_days,";
+    	$sql .= "	pl.ad_and_d_ck,";
+    	$sql .= "	pl.ad_and_d_insured,";
+    	$sql .= "	pl.flight_accident_ck,";
+    	$sql .= "	pl.flight_accident_insured,";
+    	$sql .= "	pl.trip_cancellation_ck,";
+    	$sql .= "	pl.trip_cancellation_insured,";
     	$sql .= "	pl.deductible_amount,";
     	$sql .= "	(pa.amount - pa.admin_fee) AS policy_premium,";
     	$sql .= "	(100 - pr.up_pay_rate) AS commission_rate_jf,";
@@ -261,6 +271,15 @@ class Report_model extends CI_Model
 
     	$query = $this->db->query($sql)->result_array();
     	$results = array();
+
+		// From Plan controll should change to plan model. do it later if have time.
+		$toppackagename = array(
+				'all_inclusive' => "All Inclusive plan",
+				'single_medical_plan' => "Single medical plan",
+				'annual_plan' => "Annual plan",
+				'optional_plan' => "Optional plan",
+		);
+		
     	foreach ($query as $row) {
     		$row['commission_amount'] =  sprintf("%01.2f",
     				($row['policy_premium'] * $row['commission_rate_jf'] / 100));
@@ -276,6 +295,31 @@ class Report_model extends CI_Model
     			$row['daily_rate'] = 0;
     		} else {
     			$row['daily_rate'] = sprintf("%01.2f", ($row['policy_premium'] / $row['total_days']));
+    		}
+    		$row['coverage'] = '';
+    		if ($row['product_short'] == 'TOP') {
+    			if (isset($toppackagename[$row['package']])) $row['coverage'] = $toppackagename[$row['package']] . " -";
+    			switch($row['package']) {
+    				case 'all_inclusive':
+    					if ($row['free_cancel']) {
+    						$row['coverage'] .= " with Free cancel;";
+    					}
+    					break;
+    				case 'single_medical_plan':
+    				case 'optional_plan':
+    			    	if ($row['ad_and_d_ck']) {
+    						$row['coverage'] .= " AD&D;";
+    					}
+    			    	if ($row['flight_accident_ck']) {
+    						$row['coverage'] .= " Flight Accident;";
+    					}
+    			    	if ($row['trip_cancellation_ck']) {
+    						$row['coverage'] .= " Trip Cancellation;";
+    					}
+    					break;
+    				case 'annual_plan':
+    					break;
+    			}
     		}
     		$results[] = $row;
     	}

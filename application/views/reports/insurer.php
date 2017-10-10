@@ -208,6 +208,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <th>Net Premium</th>
                             <th>Total Compensation Rate(%)</th>
                             <th>Total Compensation Amount</th>
+                            <th>Coverage</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -240,6 +241,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <td>$<?=$record['net_premium'] ?></td>
                             <td><?=$record['total_compensation_per'] ?>%</td>
                             <td>$<?=$record['total_compensation'] ?></td>
+                            <td><?=$record['coverage'] ?></td>
                             </tr>
     <?php endforeach; ?>
                         </tbody>

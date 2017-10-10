@@ -93,7 +93,9 @@ class Insurer extends MY_Controller
                 'claims_handling_fee' => 'Claims Handling Fee',
                 'net_premium' => 'Net Premium',
                 'total_compensation_per' => 'Total Compensation Rate(%)',
-                'total_compensation' => 'Total Compensation Amount');
+                'total_compensation' => 'Total Compensation Amount',
+        		'coverage' => 'Coverage',
+        );
 
         $tmpfname = "/tmp/jf_test.xlsx";
         

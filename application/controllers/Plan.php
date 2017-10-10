@@ -116,7 +116,11 @@ class Plan extends MY_Controller {
 		if ($beuser['user_group_id'] < 100) $data['export_logo_price_option'] = TRUE;
 			
 		$this->session->set_userdata ( 'withlogo', 1);
-		$this->session->set_userdata ( 'withprice', 1);
+		if ($beuser['user_group_id'] != 103) {
+			$this->session->set_userdata ( 'withprice', 1);
+		} else {
+			$this->session->set_userdata ( 'withprice', 0);
+		}
 
 
 		$data['title_txt'] = 'Policy';
@@ -480,9 +484,16 @@ class Plan extends MY_Controller {
 					$birthday = $this->input->post('birthday_'.$i);
 					if (empty($birthday)) break;
 					$years = $this->product_model->getYears($apply_date, $birthday);
-					if ($years > 69) {
-						$this->error['error_message'] = "All Customer age must be less than  69 years old";
-						break;
+					if ($product_short == 'JES') {
+						if ($years > 59) {
+							$this->error['error_message'] = "All Customer age must be less than  59 years old";
+							break;
+						}
+					} else {
+						if ($years > 69) {
+							$this->error['error_message'] = "All Customer age must be less than  69 years old";
+							break;
+						}
 					}
 				}
 			}
@@ -1181,7 +1192,11 @@ class Plan extends MY_Controller {
 			}
 		}
 		$this->session->set_userdata ( 'withlogo', 1);
-		$this->session->set_userdata ( 'withprice', 1);
+		if ($beuser['user_group_id'] != 103) {
+			$this->session->set_userdata ( 'withprice', 1);
+		} else {
+			$this->session->set_userdata ( 'withprice', 0);
+		}
 		
 		if (!empty($plan) && !empty($plan['status_id']) && !empty($plan['plan_id']) && ($plan['status_id'] >= 2)) {
 			if ($plan['status_id'] == 5) {
@@ -2358,7 +2373,11 @@ class Plan extends MY_Controller {
 		$data['revert_url'] = base_url ( "payment/revert" ) . "/";
 		
 		$this->session->set_userdata ( 'withlogo', 1);
-		$this->session->set_userdata ( 'withprice', 1);
+		if ($beuser['user_group_id'] != 103) {
+			$this->session->set_userdata ( 'withprice', 1);
+		} else {
+			$this->session->set_userdata ( 'withprice', 0);
+		}
 		
 		if ($data['plan']['product_short'] == 'TOP') {
 			$data['toppackagename'] = $this->toppackagename;
@@ -2394,7 +2413,11 @@ class Plan extends MY_Controller {
 				$data['withprice'] = $this->input->post('withprice');
 			} else {
 				$data['withlogo'] = 1;
-				$data['withprice'] = 1;
+				if ($beuser['user_group_id'] != 103) {
+					$data['withprice'] = 1;
+				} else {
+					$data['withprice'] = 0;
+				}
 			}
 			if (!empty($emailaddr)) {
 				$data['emailaddr'] = $emailaddr;
@@ -2611,6 +2634,9 @@ class Plan extends MY_Controller {
 		if (empty($plan)) {
 			redirect('user/login');
 		}
+		if (($plan['status_id'] != Plan_model::SOLD) && ($plan['status_id'] != Plan_model::PAID)) {
+			redirect('plan/detail/'.$plan_id);
+		}
 		$this->load->model('product_model');
 		$product = $this->product_model->get_product($plan['product_short']);
 		
@@ -2771,7 +2797,7 @@ class Plan extends MY_Controller {
 		if (empty($plan)) {
 			redirect('user/login');
 		}
-		if ($plan['status_id'] != Plan_model::PAID) {
+		if (($plan['status_id'] != Plan_model::SOLD) && ($plan['status_id'] != Plan_model::PAID)) {
 			redirect('plan/detail/'.$plan_id);
 		}
 		$this->load->model('product_model');
