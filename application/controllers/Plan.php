@@ -2077,8 +2077,182 @@ class Plan extends MY_Controller {
 		$this->session->set_userdata ( 'withprice',  $withprice);
 		echo $withprice ? 'With Price' : 'No Price';
 	}
+	
+	private function psireturncommon($plan_id) {
+		$this->load->model('psigate_model');
+		$this->load->model('plan_model');
+		if (!$plan_id) {
+			die("Unknown");
+		}
+		$plan = $this->plan_model->get_plan_by_id($plan_id);
+		if (!$plan) {
+			die("Unknown data");
+		}
 
-	function detail($plan_id=0, $sekey='') {
+		$para = array();
+		$para['plan_id'] = $plan_id;
+		$para['TransTime'] = $this->input->get('TransTime') ? $this->input->get('TransTime') : '';
+		$para['OrderID'] = $this->input->get('OrderID') ? $this->input->get('OrderID') : '';
+		$para['Approved'] = $this->input->get('Approved') ? $this->input->get('Approved') : '';
+		$para['ReturnCode'] = $this->input->get('ReturnCode') ? $this->input->get('ReturnCode') : '';
+		$para['ErrMsg'] = $this->input->get('ErrMsg') ? $this->input->get('ErrMsg') : '';
+		$para['TaxTotal'] = $this->input->get('TaxTotal') ? $this->input->get('TaxTotal') : 0;
+		$para['ShipTotal'] = $this->input->get('ShipTotal') ? $this->input->get('ShipTotal') : 0;
+		$para['SubTotal'] = $this->input->get('SubTotal') ? $this->input->get('SubTotal') : 0;
+		$para['FullTotal'] = $this->input->get('FullTotal') ? $this->input->get('FullTotal') : 0;
+		$para['PaymentType'] = $this->input->get('PaymentType') ? $this->input->get('PaymentType') : '';
+		$para['DebitType'] = $this->input->get('DebitType') ? $this->input->get('DebitType') : '';
+		$para['CardNumber'] = $this->input->get('CardNumber') ? $this->input->get('CardNumber') : '';
+		$para['CardExpMonth'] = $this->input->get('CardExpMonth') ? $this->input->get('CardExpMonth') : '';
+		$para['CardExpYear'] = $this->input->get('CardExpYear') ? $this->input->get('CardExpYear') : '';
+		$para['TransRefNumber'] = $this->input->get('TransRefNumber') ? $this->input->get('TransRefNumber') : '';
+		$para['CardIDResult'] = $this->input->get('CardIDResult') ? $this->input->get('CardIDResult') : '';
+		$para['IPResult'] = $this->input->get('IPResult') ? $this->input->get('IPResult') : '';
+		$para['IPCity'] = $this->input->get('IPCity') ? $this->input->get('IPCity') : '';
+		$para['IPRegion'] = $this->input->get('IPRegion') ? $this->input->get('IPRegion') : '';
+		$para['IPCountry'] = $this->input->get('IPCountry') ? $this->input->get('IPCountry') : '';
+		$para['AVSResult'] = $this->input->get('AVSResult') ? $this->input->get('AVSResult') : '';
+		$para['IssuerName'] = $this->input->get('IssuerName') ? $this->input->get('IssuerName') : '';
+		$para['IssuerConfCode'] = $this->input->get('IssuerConfCode') ? $this->input->get('IssuerConfCode') : '';
+		$para['AcquirerCode'] = $this->input->get('AcquirerCode') ? $this->input->get('AcquirerCode') : '';
+		$para['CustomerIssLang'] = $this->input->get('CustomerIssLang') ? $this->input->get('CustomerIssLang') : '';
+		$para['TransType'] = $this->input->get('TransType') ? $this->input->get('TransType') : '';
+		$para['rowdata'] = json_encode($this->input->get());
+		
+		$para['psigate_id'] = $this->psigate_model->add($para);
+		
+		return $para;
+	}
+
+	function psiok($plan_id=0) {
+		$psipara = $this->psireturncommon($plan_id);
+		$this->load->model('product_model');
+		$this->load->model('payment_model');
+		
+		$premium = (float)$psipara['FullTotal'];
+		
+		$plan = $this->plan_model->get_plan_by_id($plan_id);
+		$product = $this->product_model->get_product($plan['product_short']);
+		$dt = array();
+		$dt['plan_id'] = $plan_id;
+		$dt['currency'] = $product['currency'];
+		$dt['pay_mothed'] = 'Credit Card';
+		$dt['name'] = '';
+		$dt['added'] = date('c');
+		$dt['first5'] = '';
+		$dt['last4'] = substr($psipara['CardNumber'], -4);
+		$dt['expiry_month'] = $psipara['CardExpMonth'];
+		$dt['expiry_year'] = $psipara['CardExpYear'];
+		$dt['ispaid'] = 1;
+		$commission_rate = $this->product_model->get_commission_rate($plan['product_short'], $plan['user_id']);
+		if (($plan['product_short'] == 'TOP') && $plan['questionnaire']) {
+			if ($commission_rate > 0.15) {
+				$commission_rate -= 0.15;
+			} else {
+				$commission_rate = 0;
+			}
+		}
+		if ($plan['product_short'] == 'TOP') {
+			$commission_amount = ($premium - ($plan['tax'] * $premium / $plan['premium'])) * $commission_rate / 100.0;
+		} else {
+			$commission_amount = $premium * $commission_rate / 100.0;
+		}
+					
+		$dt['amount'] = $premium;
+		$dt['rate'] = 100;
+		$dt['pay_type'] = 'premium';
+		$dt['premium_payment_id'] = 0;
+		$payment_id = $this->payment_model->add($dt);
+		$para = array(
+				'plan_id' => $plan_id,
+				'customer_id' => $plan['customer_id'],
+				'payment_id' => $payment_id,
+				'message' => $this->payment_model->logstr,
+				'systemlog' => $this->payment_model->sqlstr
+		);
+		$this->log_model->activity('payment', $para);
+
+		// commission
+		$dt['amount'] = $commission_amount;
+		$dt['rate'] = $commission_rate;
+		$dt['pay_type'] = 'commission';
+		$dt['ispaid'] = 0;
+		$dt['premium_payment_id'] = $payment_id;
+		if (($plan['product_short'] == 'OPL') || ($plan['product_short'] == 'JFR')) {
+			$nowtm = time();
+			$efftm = strtotime($plan['effective_date']);
+			if ($nowtm <= $efftm) {
+				if (($plan['sum_insured'] >= 100000) && ($plan['totaldays'] >= 365)) {
+					if ($this->payment_model->adjust_commission_added_date($plan_id, $plan['effective_date'])) {
+						$para = array(
+								'plan_id' => $plan_id,
+								'customer_id' => $plan['customer_id'],
+								'payment_id' => 0,
+								'message' => 'adjust apply time to effective date : ' . $plan_id . ' [ ' . $plan['effective_date'] . ' ]',
+								'systemlog' => $this->payment_model->sqlstr
+						);
+						$this->log_model->activity('commission', $para);
+					}
+					$dt['added'] = $plan['effective_date'];
+				} else {
+					if ($this->payment_model->adjust_commission_added_back_date($plan_id, date('Y-m-d'))) {
+						$para = array(
+								'plan_id' => $plan_id,
+								'customer_id' => $plan['customer_id'],
+								'payment_id' => 0,
+								'message' => 'adjust apply time to today : ' . $plan_id . ' [ ' . date('Y-m-d') . ' ]',
+								'systemlog' => $this->payment_model->sqlstr
+						);
+						$this->log_model->activity('commission', $para);
+					}
+				}
+			}
+		}
+		$commission_payment_id = $this->payment_model->add($dt);
+		$para = array(
+				'plan_id' => $plan_id,
+				'customer_id' => $plan['customer_id'],
+				'payment_id' => $commission_payment_id,
+				'message' => $this->payment_model->logstr,
+				'systemlog' => $this->payment_model->sqlstr
+		);
+		$this->log_model->activity('commission', $para);
+
+		$payinfo = "PSiGate Card: (" . $psipara['psigate_id'] . ") " . $psipara['CardNumber'] . " " . $psipara['CardExpMonth'] . "/" . $psipara['CardExpYear'];
+		$para = array('payment_id' => $payment_id, 'payinfo' => $payinfo, 'commission_payment_id' => $commission_payment_id, 'status_id' => Plan_model::PAID, 'policy' => $this->plan_model->get_policy_number($plan_id, 2));
+		$this->plan_model->update($plan_id, $para);
+		$para = array(
+				'plan_id' => $plan_id,
+				'customer_id' => $plan['customer_id'],
+				'payment_id' => $payment_id,
+				'commission_payment_id' => $commission_payment_id,
+				'message' => $this->plan_model->logstr,
+				'systemlog' => $this->plan_model->sqlstr
+		);
+		$this->log_model->activity('plan', $para);
+		redirect(base_url('plan/detail/'.$plan_id));
+	}
+
+	function psifail($plan_id=0) {
+		$para = $this->psireturncommon($plan_id);
+		$this->load->model('product_model');
+		$this->load->model('payment_model');
+		
+		$plan = $this->plan_model->get_plan_by_id($plan_id);
+		if ($plan) {
+			$para = array(
+					'plan_id' => $plan_id,
+					'customer_id' => $plan['customer_id'],
+					'payment_id' => 0,
+					'message' => 'payment fail',
+					'systemlog' => json_encode($para)
+			);
+			$this->log_model->activity('payment', $para);
+		}
+		return $this->detail($plan_id, '', 'Payment Failed');
+	}
+	
+	function detail($plan_id=0, $sekey='', $passerr='') {
 		$this->error = '';
 		$defaultpay_type = '';
 		if ($play_type = $this->input->post('play_type')) {
@@ -2137,7 +2311,11 @@ class Plan extends MY_Controller {
 			$this->session->set_userdata ( 'beuser',  $beuser);
 		}
 		
-		$data['errormsg'] = $this->error;
+		if (empty($passerr)) {
+			$data['errormsg'] = $this->error;
+		} else {
+			$data['errormsg'] = $passerr;
+		}
 		$data['beuser'] = $beuser;
 		$data['sekey'] = $sekey;
 		$data['apply_date'] = date('Y-m-d');
@@ -2220,6 +2398,13 @@ class Plan extends MY_Controller {
 		$data['payurl'] = base_url('plan/detail/' . $plan_id . '/' . $this->plan_model->get_plan_key($plan_id));
 		$data['payurltm'] = date("Y-m-d H:i", strtotime($plan['last_update']) + 48 * 3600);
 		$data['active_url'] = current_url();
+		//$data['psi_active_url'] = 'https://stagingcheckout.psigate.com/HTMLPost/HTMLMessenger';
+		$data['psi_active_url'] = 'https://checkout.psigate.com/HTMLPost/HTMLMessenger';
+		$data['psi_thanks_url'] = base_url('plan/psiok/' . $plan_id);
+		$data['psi_nothanks_url'] = base_url('plan/psifail/' . $plan_id);
+		$data['StoreKey'] = 'JohnsonFuIns201708'; //  'merchantcardcapture200024';
+		$data['CustomerIP'] = $this->input->ip_address();
+		
 		$data['status_list'] = $this->status_model->status_list();
 		$days = $this->product_model->getDays('today', $plan['effective_date']);
 		$data['payment_total'] = $plan['premium'] - $this->payment_model->get_total_paid($plan['plan_id'], 'premium');
