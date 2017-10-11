@@ -10084,7 +10084,12 @@ class Top_model extends CI_Model  {
 		}
 		
 		$this->premiumArr['premium'] = $this->annual[$idx2][$idx1];
-
+		if ($data['province2'] == 'SK') {
+			// 6% TAX
+			$this->premiumArr['tax'] += $this->annual[$idx2][$idx1] * 0.06;
+			$this->premiumArr['premium'] += $this->annual[$idx2][$idx1] * 0.06;
+		}
+		
 		if ($this->premiumArr['premium'] > 0) {
 			$this->premiumArr['status'] = 'OK';
 		}
@@ -10122,6 +10127,11 @@ class Top_model extends CI_Model  {
 			}
 			
 			$this->premiumArr['premium'] += $rate * $data['totaldays'];
+			if ($data['province2'] == 'SK') {
+				// 6% TAX
+				$this->premiumArr['tax'] += $rate * $data['totaldays'] * 0.06;
+				$this->premiumArr['premium'] += $rate * $data['totaldays'] * 0.06;
+			}
 		}
 			
 		if (!empty($data['flight_accident_ck'])) {
@@ -10140,6 +10150,11 @@ class Top_model extends CI_Model  {
 			}
 			
 			$this->premiumArr['premium'] += $rate;
+			if ($data['province2'] == 'SK') {
+				// 6% TAX
+				$this->premiumArr['tax'] += $rate * 0.06;
+				$this->premiumArr['premium'] += $rate * 0.06;
+			}
 		}
 		
 		if (!empty($data['trip_cancellation_ck'])) {
@@ -10333,6 +10348,11 @@ class Top_model extends CI_Model  {
 		}
 		
 		if ($this->premiumArr['premium'] > 0) {
+			if ($data['province2'] == 'SK') {
+				// 6% TAX
+				$this->premiumArr['tax'] += $this->premiumArr['premium'] * 0.06;
+				$this->premiumArr['premium'] += $this->premiumArr['premium'] * 0.06;
+			}
 			return $this->optional_plan($data, 0);
 		} else {
 			$this->premiumArr['message'] = 'Not available. Please change days or insure amount';
