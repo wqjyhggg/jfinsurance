@@ -308,13 +308,13 @@ class Report_model extends CI_Model
     				case 'single_medical_plan':
     				case 'optional_plan':
     			    	if ($row['ad_and_d_ck']) {
-    						$row['coverage'] .= " AD&D;";
+    						$row['coverage'] .= " AD&D(".$row['ad_and_d_insured'].");";
     					}
     			    	if ($row['flight_accident_ck']) {
-    						$row['coverage'] .= " Flight Accident;";
+    						$row['coverage'] .= " Flight Accident(".$row['flight_accident_insured'].");";
     					}
     			    	if ($row['trip_cancellation_ck']) {
-    						$row['coverage'] .= " Trip Cancellation;";
+    						$row['coverage'] .= " Trip Cancellation(".$row['trip_cancellation_insured'].");";
     					}
     					break;
     				case 'annual_plan':

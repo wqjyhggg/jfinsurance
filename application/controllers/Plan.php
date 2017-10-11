@@ -486,12 +486,12 @@ class Plan extends MY_Controller {
 					$years = $this->product_model->getYears($apply_date, $birthday);
 					if ($product_short == 'JES') {
 						if ($years > 59) {
-							$this->error['error_message'] = "All Customer age must be less than  59 years old";
+							$this->error['error_message'] = "All family member’s age must be less than  59 years old";
 							break;
 						}
 					} else {
 						if ($years > 69) {
-							$this->error['error_message'] = "All Customer age must be less than  69 years old";
+							$this->error['error_message'] = "All family member’s age must be less than  69 years old";
 							break;
 						}
 					}
@@ -507,7 +507,7 @@ class Plan extends MY_Controller {
 						if (empty($birthday)) break;
 						$years = $this->product_model->getYears($apply_date, $birthday);
 						if ($years < 4) {
-							$this->error['error_message'] = "All Customer age must be older than 4 years old";
+							$this->error['error_message'] = "All family member’s age must be older than 4 years old";
 							break;
 						}
 					}
