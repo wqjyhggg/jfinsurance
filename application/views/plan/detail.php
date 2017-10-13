@@ -339,6 +339,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 								<div id='credit_card' <?php if (empty($credit_dis)) { ?> style='display: none;' <?php } ?>>
 								<form action='<?php echo $psi_active_url; ?>' method='POST'>
 									<input type='hidden' name='CustomerRefNo' value='<?php echo $plan['plan_id']; ?>'>
+									<input type='hidden' name='Bname' value='<?php echo $plan['plan_id']; ?>'>
 									<input type='hidden' name='StoreKey' value='<?php echo $StoreKey; ?>'>
 									<input type='hidden' name='SubTotal' value='<?php echo $payment_total; ?>'>
 									<input type='hidden' name='ResponseFormat' value='HTML'>
