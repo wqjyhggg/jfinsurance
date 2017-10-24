@@ -277,7 +277,7 @@ class Plan extends MY_Controller {
 				$this->error['error_birthday_' . $i] = "Customer age must be old than 15 days";
 			}
 			
-			$years = $this->product_model->getYears($today, $this->input->post('birthday_' . $i));
+			$years = $this->product_model->getYears($apply_date, $this->input->post('birthday_' . $i));
 			if ($years > 61) {
 				$this->error['error_birthday_' . $i] = 'Member older than 61';
 			}
