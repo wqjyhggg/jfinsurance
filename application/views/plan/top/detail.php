@@ -354,7 +354,7 @@ $usepsi = false;
 									<input type='hidden' name='plan_id' value='<?php echo $plan['plan_id']; ?>'>
 									<input type='hidden' name='play_type' value='Credit Card'>
 									<input type='hidden' name='sekey' value='<?php echo $sekey; ?>'>
-									<input type='hidden' name='premium' value='<?php echo $payment_total; ?>'>									<?php } ?>
+									<input type='hidden' name='premium' value='<?php echo $payment_total; ?>'>
 									<?php } ?>
 									<?php if ($payment_total >= 0) { ?>
 									<?php     if (empty($sekey) && empty($isvsuser) && ((((time() - strtotime($plan['last_update'])) < (48 * 3600)) && ($plan['effective_date'] > date("Y-m-d"))) || ($plan['status_id'] == Plan_model::CHANGED))) { ?>
