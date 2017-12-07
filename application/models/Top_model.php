@@ -10169,7 +10169,7 @@ class Top_model extends CI_Model  {
 				$arr = 'trip_cancellation_70_74';
 			}
 			if (!isset($this->{$arr}) || !is_array($this->{$arr})) {
-				$this->premiumArr['message'] = 'Age must less than 75 for Trip Cancellation plan.';
+				$this->premiumArr['message'] = 'Age must be equal or less than than 74 for Trip Cancellation plan.';
 				$this->premiumArr['active_tab'] = 'packages_tab';
 				$this->premiumArr['premium'] = 0;
 				return 1;
@@ -10310,7 +10310,7 @@ class Top_model extends CI_Model  {
 			}
 			$arr .= '_c'.$data['stable_condition'];
 		} else {
-			$this->premiumArr['message'] = 'Age must less than 85.';
+			$this->premiumArr['message'] = 'Age must be equal or less than 84.';
 			$this->premiumArr['active_tab'] = 'date_members_tab';
 			return 0;
 		}
@@ -10468,7 +10468,7 @@ class Top_model extends CI_Model  {
 			}
 			$arr .= '_c'.$data['stable_condition'];
 		} else {
-			$this->premiumArr['message'] = 'Age must less than 85.';
+			$this->premiumArr['message'] = 'Age must be equal or less than 84.';
 			$this->premiumArr['active_tab'] = 'date_members_tab';
 			return 0;
 		}
