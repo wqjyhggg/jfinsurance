@@ -161,6 +161,7 @@ class Api extends MY_Controller {
 					$p['lastname'] = $plan['lastname'];
 					$p['gender'] = $plan['gender'];
 					$p['birthday'] = $plan['birthday'];
+					$p['agent_id'] = $plan['user_id'];
 					$p['agent_firstname'] = $plan['agent_firstname'];
 					$p['agent_lastname'] = $plan['agent_lastname'];
 					$p['family'] = array();
