@@ -193,10 +193,11 @@ class Api extends MY_Controller {
 			$this->load->model('plan_model');
 				
 			$data = array();
-			if (!empty($this->input->post('policies'))) $data['policies'] = $this->input->post('policies');
-			if (!empty($this->input->post('stime'))) $data['stime'] = $this->input->post('stime');
-			if (!empty($this->input->post('etime'))) $data['etime'] = $this->input->post('etime');
-			if (empty($data['policies']) || empty($data['stime']) || empty($data['etime'])) {
+			if (!empty($this->input->post('start_dt'))) $data['start_dt'] = $this->input->post('start_dt');
+			if (!empty($this->input->post('end_dt'))) $data['end_dt'] = $this->input->post('end_dt');
+			if (!empty($this->input->post('product_short'))) $data['product_short'] = $this->input->post('product_short');
+			if (!empty($this->input->post('agent_id'))) $data['agent_id'] = $this->input->post('agent_id');
+			if (empty($data['policies']) || empty($data['start_dt']) || empty($data['end_dt'])) {
 				$json['errormsg'] = "Parameter has something wrong";
 			} else {
 				$json['data'] = $this->plan_model->claim_summary($data);

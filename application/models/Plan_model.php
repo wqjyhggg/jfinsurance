@@ -926,15 +926,60 @@ class Plan_model extends CI_Model {
 	 * @return array 
 	 */
 	public function claim_summary($data) {
-		$plans = preg_split("/,/", $data['policies']);
-		$planstr = '';
-		foreach ($plans as $p) {
-			$planstr .= $this->db->escape($p) . ",";
+		$st = new DateTime($data['start_dt']);
+		$et = new DateTime($data['end_dt']);
+		$interval = new DateInterval('P1M');
+		
+		$rt = array();
+		while ($st <= $et) {
+			$monthstr = $st->format("Y-m");
+			$ststr = $st->format("Y-m-01 00:00:00");
+			$edstr = $et->format("Y-m-t 23:59:59");
+			$st->add($interval);
+			
+			$rt[$monthstr] = array('writen' => 0, 'earned' => 0, 'billed' => 0, 'paid' => 0, 'recovery' => 0);
+
+			$sql  = "SELECT SUM(premium) as writen FROM plan WHERE status_id IN (".SELF::CHANGED.",".SELF::PAID.",".SELF::SOLD.",".SELF::CLAIMED.")";
+			if (isset($data['agent_id'])) {
+				$sql .= " AND user_id=".$this->db->escape($data['agent_id']);
+			}
+			if (isset($data['product_short'])) {
+				$sql .= " AND product_short=".$this->db->escape($data['product_short']);
+			}
+			$sql .= " AND effective_date<=".$this->db->escape($edstr)." AND effective_date>=".$this->db->escape($ststr);
+			if ($mrt = $this->db->query($sql)->result_array()) {
+				$rt[$monthstr]['writen'] = $mrt['writen'];
+			}
+
+			$sql  = "SELECT SUM(premium * (DATEDIFF(IF(expiry_date>".$this->db->escape($edstr).",".$this->db->escape($edstr).",expiry_date),IF(effective_date<".$this->db->escape($ststr).",".$this->db->escape($ststr).",effective_date))) / DATEDIFF(expiry_date, effective_date)) as earned";
+			$sql .= " FROM plan WHERE status_id IN (".SELF::CHANGED.",".SELF::PAID.",".SELF::SOLD.",".SELF::CLAIMED.")";
+			if (isset($data['agent_id'])) {
+				$sql .= " AND user_id=".$this->db->escape($data['agent_id']);
+			}
+			if (isset($data['product_short'])) {
+				$sql .= " AND product_short=".$this->db->escape($data['product_short']);
+			}
+			$sql .= " AND effective_date<=".$this->db->escape($edstr)." AND expiry_date>=".$this->db->escape($ststr);
+			if ($mrt = $this->db->query($sql)->result_array()) {
+				$rt[$monthstr]['earned'] = $mrt['earned'];
+			}
 		}
-		if ($planstr) $planstr = substr($planstr, 0, -1);
-		$sql  = "SELECT SUM(premium) as writen, SUM(premium * (DATEDIFF(IF(expiry_date>".$this->db->escape($data['etime']).",".$this->db->escape($data['etime']).",expiry_date),IF(effective_date<".$this->db->escape($data['stime']).",".$this->db->escape($data['stime']).",effective_date))) / DATEDIFF(expiry_date, effective_date)) as earned";
-		$sql .= " FROM plan WHERE status_id IN (".SELF::CHANGED.",".SELF::PAID.",".SELF::SOLD.",".SELF::CLAIMED.")";
-		$sql .= " AND policy IN (".$planstr.") AND statuseffective_date<=".$this->db->escape($data['etime'])." AND expiry_date>=".$this->db->escape($data['stime']);
-		return $this->db->query($sql)->result_array();
+				
+		$ps = array();
+		if (isset($data['agent_id']) || isset($data['product_short'])) {
+			$sql  = "SELECT policy FROM plan WHERE status_id IN (".SELF::CHANGED.",".SELF::PAID.",".SELF::SOLD.",".SELF::CLAIMED.")";
+			if (isset($data['agent_id'])) {
+				$sql .= " AND user_id=".$this->db->escape($data['agent_id']);
+			}
+			if (isset($data['product_short'])) {
+				$sql .= " AND product_short=".$this->db->escape($data['product_short']);
+			}
+			$sql .= " AND effective_date<=".$this->db->escape($edstr)." AND expiry_date>=".$this->db->escape($ststr);
+			$policies = $this->db->query($sql)->result_array();
+			foreach ($policies as $p) {
+				$ps[] = $p['policy'];
+			}
+		}
+		return array('summary' => $rt, 'policies' => $ps);
 	}
 }
