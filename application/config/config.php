@@ -451,6 +451,7 @@ $config['csrf_exclude_uris'] = array(
 'plan/gettoppremium',
 'api/search',
 'api/products',
+'api/claim_summary',
 'batch/loadother',
 );
 
