@@ -187,4 +187,26 @@ class Api extends MY_Controller {
 		header('Cache-Control: no-store, no-cache, must-revalidate');
 		echo json_encode($json);
 	}
+
+	public function claim_summary() {
+		if ($this->valid()) {
+			$this->load->model('plan_model');
+				
+			$data = array();
+			if (!empty($this->input->post('policies'))) $data['policies'] = $this->input->post('policies');
+			if (!empty($this->input->post('stime'))) $data['stime'] = $this->input->post('stime');
+			if (!empty($this->input->post('etime'))) $data['etime'] = $this->input->post('etime');
+			if (empty($data['policies']) || empty($data['stime']) || empty($data['etime'])) {
+				$json['errormsg'] = "Parameter has something wrong";
+			} else {
+				$json['data'] = $this->plan_model->claim_summary($data);
+				$json['success'] = 'OK';
+			}
+		} else {
+			$json['errormsg'] = $this->error;
+		}
+		header('Content-Type: application/json');
+		header('Cache-Control: no-store, no-cache, must-revalidate');
+		echo json_encode($json);
+	}
 }

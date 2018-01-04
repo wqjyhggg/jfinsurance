@@ -918,4 +918,23 @@ class Plan_model extends CI_Model {
 		}
 		return $commission;
 	}
+	
+	/**
+	 * Get summary for claim system
+	 * 
+	 * @param array	input parameter
+	 * @return array 
+	 */
+	public function claim_summary($data) {
+		$plans = preg_split("/,/", $data['policies']);
+		$planstr = '';
+		foreach ($plans as $p) {
+			$planstr .= $this->db->escape($p) . ",";
+		}
+		if ($planstr) $planstr = substr($planstr, 0, -1);
+		$sql  = "SELECT SUM(premium) as writen, SUM(premium * (DATEDIFF(IF(expiry_date>".$this->db->escape($data['etime']).",".$this->db->escape($data['etime']).",expiry_date),IF(effective_date<".$this->db->escape($data['stime']).",".$this->db->escape($data['stime']).",effective_date))) / DATEDIFF(expiry_date, effective_date)) as earned";
+		$sql .= " FROM plan WHERE status_id IN (".SELF::CHANGED.",".SELF::PAID.",".SELF::SOLD.",".SELF::CLAIMED.")";
+		$sql .= " AND policy IN (".$planstr.") AND statuseffective_date<=".$this->db->escape($data['etime'])." AND expiry_date>=".$this->db->escape($data['stime']);
+		return $this->db->query($sql)->result_array();
+	}
 }
