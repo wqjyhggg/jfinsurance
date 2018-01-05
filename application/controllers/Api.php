@@ -197,7 +197,7 @@ class Api extends MY_Controller {
 			if (!empty($this->input->post('end_dt'))) $data['end_dt'] = $this->input->post('end_dt');
 			if (!empty($this->input->post('product_short'))) $data['product_short'] = $this->input->post('product_short');
 			if (!empty($this->input->post('agent_id'))) $data['agent_id'] = $this->input->post('agent_id');
-			if (empty($data['policies']) || empty($data['start_dt']) || empty($data['end_dt'])) {
+			if (empty($data['start_dt']) || empty($data['end_dt'])) {
 				$json['errormsg'] = "Parameter has something wrong";
 			} else {
 				$json['data'] = $this->plan_model->claim_summary($data);
