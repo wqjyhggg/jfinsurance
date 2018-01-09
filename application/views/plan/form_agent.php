@@ -404,7 +404,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<div class="col-sm-12">
 										<label class="col-sm-12">Notes: </label>
 										<div class="input-group col-sm-12">
-								 			<textarea class="form-control" name="note"><?php echo $note; ?></textarea>
+								 			<input type='hidden' name="note" value='<?php echo $note; ?>'>
+								 			<?php echo $note; ?>
 								 		</div>
 								 	</div>
 								</div>
