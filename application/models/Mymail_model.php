@@ -6,10 +6,10 @@ if (!defined('BASEPATH'))
 class Mymail_model extends CI_Model {
 	public $config = Array(
 			'protocol' => 'smtp',
-			'smtp_host' => 'ssl://mail.johnsonfu.com',
+			'smtp_host' => 'ssl://smtp.gmail.com',	// 'smtp_host' => 'ssl://mail.johnsonfu.com',
 			'smtp_port' => 465,
-			'smtp_user' => 'confirmation@johnsonfu.com',
-			'smtp_pass' => 'Confirmation@5792',
+			'smtp_user' => 'confirmation@jfgroup.info',	// 'smtp_user' => 'confirmation@johnsonfu.com',
+			'smtp_pass' => 'Johnson2014',				// 'smtp_pass' => 'Confirmation@5792',
 			'mailtype'  => 'html',
 			'charset'   => 'UTF-8'
 			);
