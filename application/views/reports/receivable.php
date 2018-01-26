@@ -40,6 +40,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <form method="post" action="<?=$action_url ?>" class="form-horizontal">
                       <input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
                       <div class="row">
+<?php if (is_array($user_list) && (sizeof($user_list) == 1)) { $agent = array_shift($user_list); ?>
+						<input type='hidden' name="agent_id" value="<?php echo $agent['user_id']; ?>">
+<?php } else { ?>                      
                       <!-- Agent select box -->
                         <div class="form-group col-sm-3">
                           <label class="col-sm-12">Agent:</label>
@@ -59,6 +62,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                           </div>
                         </div>
                         <!-- Agent select box end -->
+<?php } ?>                      
 
                         <!-- Product select box -->
                         <div class="form-group col-sm-3">

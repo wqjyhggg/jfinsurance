@@ -46,7 +46,10 @@ class Receivable extends MY_Controller
         $data['product_list'] = $this->product_model->get_available_product_list();
         $data['user_list'] = $this->user_model->get_available_user_list();
         $data['report_data'] = empty($_POST) ? array() : $this->report_model->get_receivable($data);
-
+        if (($beuser['user_group_id'] > 100) && ($beuser['user_group_id'] != 104) && empty($data['agent_id'])) {
+        	$data['report_data'] = array();
+        }
+        
         $data['export_list'] = base_url ( "reports/receivable/export_list" );
         $data['export_form'] = $this->load->view ( 'reports/agent_export', $data, true);
         return $data;
@@ -68,7 +71,9 @@ class Receivable extends MY_Controller
         $data['product_list'] = $this->product_model->get_available_product_list();
         $data['user_list'] = $this->user_model->get_available_user_list();
         $data['report_data'] = $this->report_model->get_receivable($data);
-        
+        if (($beuser['user_group_id'] > 100) && ($beuser['user_group_id'] != 104) && empty($data['agent_id'])) {
+        	$data['report_data'] = array();
+        }
 
         $w = WriterFactory::create(Type::XLSX); // for XLSX files
         $kArr = array(
