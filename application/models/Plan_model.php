@@ -11,7 +11,9 @@ class Plan_model extends CI_Model {
     const CANCEL = 5;
     const REFUND = 6;
     const CHANGED = 7;
-	
+
+    const MAX_PLANS = 200;
+
     public $logstr;
 	public $sqlstr;
 	
@@ -845,6 +847,8 @@ class Plan_model extends CI_Model {
 		$sql .= " ORDER BY plan_id DESC";
 		if ($limit) {
 			$sql .= " LIMIT " . $limit;
+		} else {
+			$sql .= " LIMIT " . self::MAX_PLANS;
 		}
 		return $this->db->query($sql)->result_array();
 	}
