@@ -13,7 +13,7 @@ class Mymail_model extends CI_Model {
 			'mailtype'  => 'html',
 			'charset'   => 'UTF-8'
 			);
-	public $myemail = 'confirmation@johnsonfu.com';
+	public $myemails = array('confirmation@jfgroup.info','confirmation2@jfgroup.info','confirmation3@jfgroup.info');
 
 	/**
 	 * Send email
@@ -26,12 +26,16 @@ class Mymail_model extends CI_Model {
 	 * @return	boolean
 	 */
 	public function send_mymail($to, $subject, $body, $attach=array(), $from='') {
+		shuffle($this->myemails);
+		$email = array_shift($this->myemails);
+		$this->config['smtp_user'] = $email;
+		
 		$this->load->library('email', $this->config);
 		$this->email->set_newline("\r\n");
 		if (empty($from)) {
-			$this->email->from($this->myemail, 'Support');
+			$this->email->from($email, 'Support');
 		} else {
-			$this->email->from($this->myemail, $from);
+			$this->email->from($email, $from);
 		}
 		$this->email->to($to);
 		$this->email->subject($subject);
