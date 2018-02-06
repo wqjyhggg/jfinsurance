@@ -119,7 +119,7 @@ class Api extends MY_Controller {
 			} else {
 				$plan_list = $this->plan_model->plan_search($data);
 				foreach ($plan_list as $plan) {
-					if ($plan['status_id'] > Plan_model::QUOTE) continue;
+					if ($plan['status_id'] <= Plan_model::QUOTE) continue;
 					
 					$p = array();
 					$p['plan_id'] = $plan['plan_id'];
