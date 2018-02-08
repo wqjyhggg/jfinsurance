@@ -671,6 +671,9 @@ class Report_model extends CI_Model
     		}
     		$results[$row['user_id']]['data'][] = $row;
     	}
+    	if (empty($results['asbroker'])) {
+    		$results['asbroker'] = $this->db->query("SELECT * FROM user WHERE user_id='" . (int)$para['agent_id'] . "'")->row_array();
+    	}
     	return $results;
     }
 
