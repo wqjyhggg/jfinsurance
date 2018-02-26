@@ -5,6 +5,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 $total_a_premium = 0; $total_a_commission = 0; $unpaid_a_premium = 0;
 $once = 1;
 foreach ($report_data as $user_id => $data) {
+	if (empty($data['data'])) continue;
 	if (empty($asbroker)) {
 		if ($data ['agent'] ['receive_type'] == 'Cheque') { 
 ?>

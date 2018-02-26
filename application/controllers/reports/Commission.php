@@ -131,6 +131,7 @@ class Commission extends MY_Controller
 		$row = 2;
 		$total_a_premium = 0; $total_a_commission = 0; $unpaid_a_premium = 0;
 		foreach ($data['report_data'] as $user_id => $datas) {
+			if (empty($datas['data'])) continue;
 			$row++; $col = 'A';
 			$col++;
 			$col++;

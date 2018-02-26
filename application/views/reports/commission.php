@@ -204,6 +204,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="table-responsive">
     <?php $total_a_premium = 0; $total_a_commission = 0; $unpaid_a_premium = 0; ?>
     <?php foreach ($report_data as $user_id => $data) :?>
+        <?php if (empty($data['data'])) continue; ?>
                       <table class="table table-hover table-bordered">
                         <tbody>
         <?php if (empty($asbroker)) : ?>
