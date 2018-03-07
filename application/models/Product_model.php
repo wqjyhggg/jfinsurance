@@ -157,6 +157,40 @@ class Product_model extends CI_Model {
 		return $a->diff($b)->days;
 	}
 	
+	public function get_top_quote($para) {
+		$r = array('status' => 'Fail', 'message' => '');
+		
+		if ($para['isfamilyplan'] == 1) {
+			if ($para['adult'] > 3) {
+				$r['message'] = 'Family Plan only allow 3 children';
+			} else if ($para['number_customer'] > 6) {
+				$r['message'] = 'Family Plan must less than 6 people';
+			}
+		}
+		
+		if ($r['message']) return $r;
+
+		// Get All needs parameter
+		
+		$this->load->model('top_model');
+
+		$para['package'] = isset($para['package']) ? $para['package'] : '';
+		$para['totaldays'] = isset($para['totaldays']) ? $para['totaldays'] : 0;
+		$para['sum_insured'] = isset($para['sum_insured']) ? $para['sum_insured'] : 0;
+		$para['free_cancel'] = isset($para['free_cancel']) ? $para['free_cancel'] : '';
+		$para['age'] = $para['totalyears'];
+		$para['questionnaire'] = isset($para['questionnaire']) ? $para['questionnaire'] : 0;
+		$para['stable_condition'] = isset($para['stable_condition']) ? $para['stable_condition'] : 0;
+		$para['people_number'] = $para['number_customer'];
+		$para['ad_and_d'] = isset($para['ad_and_d']) ? $para['ad_and_d'] : '';
+		$para['flight_ccident'] = isset($para['flight_ccident']) ? $para['flight_ccident'] : '';
+		$para['trip_cancellation'] = isset($para['trip_cancellation']) ? $para['trip_cancellation'] : '';
+		$para['agearr'] = array();
+		
+		return $this->top_model->get_premium($para);		
+	}
+	
+	
 	public function get_top_premium($para) {
 		// get number of plan members, oldest years and check member conditions
 		$r = array('status' => 'Fail', 'message' => '');
@@ -237,7 +271,6 @@ class Product_model extends CI_Model {
 	 */
 	public function get_premium($para) {
 		$premiumArr = array('premium' => 0, 'totalyears' => 0, 'totaldays' => 0, 'dailyrate' => 0, 'message' => 0, 'force_deductable' => 0, 'sum_insured' => 0, 'deductible_amount' => 0);
-		
 		if (empty($para['effective_date']) || empty($para['expiry_date'])) {
 			return FALSE;
 		}
@@ -253,6 +286,8 @@ class Product_model extends CI_Model {
 			return FALSE;
 		}
 
+		$para['total_days'] = $days;
+		
 		if (empty($para['birthday'])) {
 			return FALSE;
 		}
@@ -264,6 +299,7 @@ class Product_model extends CI_Model {
 			$premiumArr['message'] = "Check birthday";
 			return $premiumArr;
 		}
+		$para['totalyears'] = $years;
 		if (($para['product_short'] == 'JUS') || ($para['product_short'] == 'NUS')) {
 			if ($days < 90) {
 				$premiumArr['message'] = "Minimum length of policy is 90 days";
@@ -276,6 +312,23 @@ class Product_model extends CI_Model {
 				$premiumArr['message'] = "Expiry Date must before Sep 30, 2017";
 				return $premiumArr;
 			}
+		}
+		return $this->get_premium_sub($para);
+	}
+
+	/**
+	 * Get Product premium
+	 * 
+	 * @param array $para	parameter array 'product_short', 'apply_date', 'effective_date', 'expiry_date', 'isfamilyplan', 'number_customer', 'sum_insured', 'deductible_amount', 'stable_condition', 'birthday'
+	 * @return array.
+	 */
+	public function get_premium_sub($para) {
+		$premiumArr = array('premium' => 0, 'totalyears' => 0, 'totaldays' => 0, 'dailyrate' => 0, 'message' => 0, 'force_deductable' => 0, 'sum_insured' => 0, 'deductible_amount' => 0);
+		
+		$days = $para['total_days'];
+		$years = $para['totalyears'];
+		if (empty($days)) {
+			return FALSE;
 		}
 		if ($para['product_short'] == 'OPL') {
 			if ($para['stable_condition'] == 1) {
@@ -755,7 +808,7 @@ class Product_model extends CI_Model {
 		return $premiumArr;
 	}
 
-    /**
+	/**
      * Get available product list
      *
      * @return array product list

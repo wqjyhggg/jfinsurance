@@ -31,6 +31,62 @@ class Api extends MY_Controller {
 		echo json_encode($data);
 	}
 	
+	public function premium() {
+		if ($this->valid()) {
+			$post = $this->input->post();
+			$data['errormsg'] = 'Unknown Remote Server Error';
+			$data['success'] = 'Fail';
+			$this->load->model('product_model');
+			if ($post['product_short'] == 'TOP') {
+				$post['totaldays'] = $post['total_days'];
+				if ($premium = $this->product_model->get_top_quote($post)) {
+					$data['success'] = 'OK';
+					$data['premiumArr'] = $premium;
+					$data['errormsg'] = '';
+				}
+			} else {
+				if ($premium = $this->product_model->get_premium_sub($post)) {
+					$data['success'] = 'OK';
+					$data['premiumArr'] = $premium;
+					$data['errormsg'] = '';
+				}
+			}
+		} else {
+			$data['errormsg'] = $this->error;
+		}
+		header('Content-Type: application/json');
+		header('Cache-Control: no-store, no-cache, must-revalidate');
+		echo json_encode($data);
+	}
+	
+	public function agent($agent_id=0) {
+		if ($this->valid()) {
+			$data['errormsg'] = 'Unknown agent';
+			$data['success'] = 'OK';
+			$this->load->model('user_model');
+			if ($agent = $this->user_model->get_user_by_id($agent_id)) {
+				$data['agent']['agent_id'] = $agent['user_id'];
+				$data['agent']['group_id'] = $agent['user_group_id'];
+				$data['agent']['username'] = $agent['username'];
+				$data['agent']['firstname'] = $agent['firstname'];
+				$data['agent']['lastname'] = $agent['lastname'];
+				$data['agent']['email'] = $agent['email'];
+				$data['agent']['mobile_phone'] = $agent['mobile_phone'];
+				$products = $this->user_model->get_user_product_list($agent_id);
+				$data['agent']['products'] = array();
+				foreach ($products as $p) {
+					$data['agent']['products'][] = $p['product_short'];
+				}
+				$data['errormsg'] = '';
+			}
+		} else {
+			$data['errormsg'] = $this->error;
+		}
+		header('Content-Type: application/json');
+		header('Cache-Control: no-store, no-cache, must-revalidate');
+		echo json_encode($data);
+	}
+	
 	public function products() {
 		if ($this->valid()) {
 			$data['success'] = 'OK';
