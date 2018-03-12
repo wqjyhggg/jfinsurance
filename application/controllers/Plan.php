@@ -3350,6 +3350,7 @@ class Plan extends MY_Controller {
 
 		$product = $this->product_model->get_product($plan['product_short']);
 		$data['plan_full_name'] = $product ? $product['full_name'] : '';
+		$data['agent'] = $this->user_model->get_user_by_id($plan['user_id']);
 		
 		$mpdf = new mPDF('c');
 		$data['title_txt'] = 'Receipt';

@@ -32,7 +32,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 				<h4>EFFECTIVE DATE: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span><?php echo $plan['effective_date']; ?></sapn> </h4>
 				<h4>EXPIRATION DATE: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span><?php echo $plan['expiry_date']; ?></sapn> </h4>
 				<h4>PREMIUM PAID: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>$<?php echo number_format($plan['premium'], 2, '.', ',');?></span> </h4>
-				<h4>SALES AGENT: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span><?php echo '...';?></span> </h4>
+				<h4>SALES AGENT: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span><?php echo $agent['firstname'] . " " . $agent['lastname'];?></span> </h4>
 				<h4>PRODUCT: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span><?php echo $plan_full_name;?></span> </h4>
 				<h4>TYPE: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span><?php if($plan['isfamilyplan']==1){ echo "Family";} else if ($plan['isfamilyplan']==2){ echo "Group";}else{echo "Individual";} ?></sapn> </h4>
 				
