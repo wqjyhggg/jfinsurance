@@ -208,6 +208,7 @@ class Api extends MY_Controller {
 					$p['phone1'] = $plan['phone1'];
 					$p['phone2'] = $plan['phone2'];
 					$p['institution'] = $plan['institution'];
+					$p['note'] = $plan['note'];
 					$p['institution_addr'] = $plan['institution_addr'];
 					$p['student_id'] = $plan['student_id'];
 					$p['institution_phone'] = $plan['institution_phone'];
