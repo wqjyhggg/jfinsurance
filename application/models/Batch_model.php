@@ -170,7 +170,17 @@ class Batch_model extends CI_Model {
 		}
 		$data['batch_number'] = $para['batch_number'];
 		if (empty($para['isfamilyplan'])) { $data['isfamilyplan'] = 0; } else { $data['isfamilyplan'] = $para['isfamilyplan']; }
-		if (empty($para['apply_date'])) { $data['apply_date'] = date('Y-m-d'); } else { $data['apply_date'] = $para['apply_date']; }
+		if (empty($para['apply_date'])) {
+			$data['apply_date'] = date('Y-m-d');
+		} else {
+			$dt = $this->unixstamp($para['apply_date']);
+			if (empty($dt)) {
+				$this->error = 'Unknown apply_date';
+				return 0;
+			} else {
+				$data['apply_date'] = date('Y-m-d', $dt);
+			}
+		}
 		if (empty($para['arrival_date'])) {
 			$this->error = 'Need Arrival Date.';
 			return 0;
