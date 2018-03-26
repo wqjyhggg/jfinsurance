@@ -471,7 +471,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			            <div class="col-sm-12 input-group">
 			            	<textarea name='note' class="form-control"><?php echo $note; ?></textarea>
 			            </div>
-					</div><br />
+					</div>
+					<div class="row">
+						<label class="col-sm-12">Notes2:</label>
+			            <div class="col-sm-12 input-group">
+			            	<textarea name='note2' class="form-control"><?php echo $note2; ?></textarea>
+			            </div>
+					</div>
+					<br />
 <?php } ?>
 
 					<div class="row" style="margin-bottom:200px;">

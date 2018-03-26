@@ -10119,7 +10119,13 @@ class Top_model extends CI_Model  {
 				$this->premiumArr['premium'] = 0;
 				return 0;
 			}
-
+			if ($data['age'] >= 85) {
+				$this->premiumArr['message'] = 'Age must be equal or less than 84 for AD & D insured plan.';
+				$this->premiumArr['active_tab'] = 'packages_tab';
+				$this->premiumArr['premium'] = 0;
+				return 0;
+			}
+			
 			if ($data['isfamilyplan'] == 1) {
 				$rate *= 2.25;
 			} else if ($data['isfamilyplan'] == 2) {
@@ -10142,7 +10148,13 @@ class Top_model extends CI_Model  {
 				$this->premiumArr['premium'] = 0;
 				return 0;
 			}
-				
+			if ($data['age'] >= 85) {
+				$this->premiumArr['message'] = 'Age must be equal or less than 84 for Flight Accident insured plan.';
+				$this->premiumArr['active_tab'] = 'packages_tab';
+				$this->premiumArr['premium'] = 0;
+				return 0;
+			}
+
 			if ($data['isfamilyplan'] == 1) {
 				$rate *= 2.25;
 			} else if ($data['isfamilyplan'] == 2) {
@@ -10169,7 +10181,7 @@ class Top_model extends CI_Model  {
 				$arr = 'trip_cancellation_70_74';
 			}
 			if (!isset($this->{$arr}) || !is_array($this->{$arr})) {
-				$this->premiumArr['message'] = 'Age must be equal or less than than 74 for Trip Cancellation plan.';
+				$this->premiumArr['message'] = 'Age must be equal or less than 74 for Trip Cancellation plan.';
 				$this->premiumArr['active_tab'] = 'packages_tab';
 				$this->premiumArr['premium'] = 0;
 				return 1;

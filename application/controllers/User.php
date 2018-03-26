@@ -432,6 +432,9 @@ class User extends MY_Controller {
 		$this->data['ip'] = '';
 		$this->data['status'] = '';
 		$this->data['date_added'] = '';
+		$this->data['note'] = '';
+		$this->data['note2'] = '';
+		$this->data['date_added'] = '';
 		$this->data['enable_pdf'] = 0;
 		$this->data['pdf_logo'] = '';
 		$this->data['pdf_qr'] = '';
@@ -499,6 +502,7 @@ class User extends MY_Controller {
 			$this->data['status'] = $this->input->post('status');
 			$this->data['date_added'] = $this->input->post('date_added');
 			$this->data['note'] = $this->input->post('note');
+			$this->data['note2'] = $this->input->post('note2');
 			$this->data['pdf_f_left1'] = $this->input->post('pdf_f_left1');
 			$this->data['pdf_f_left2'] = $this->input->post('pdf_f_left2');
 			$this->data['pdf_f_left3'] = $this->input->post('pdf_f_left3');

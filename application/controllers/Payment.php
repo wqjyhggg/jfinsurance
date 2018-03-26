@@ -116,6 +116,60 @@ class Payment extends MY_Controller {
 	 *
 	 * @param integer $plan_id
 	 */
+	public function admin() {
+		$beuser = $this->func_model->verify_login();
+		if (($beuser['user_id'] != 1) && ($beuser['user_id'] != 2762)) {
+			show_error("You can't access this page");
+		}
+		
+		$this->load->model('payment_model');
+
+		$plan_id = $this->input->post('plan_id');
+		$payment_id = $this->input->post('payment_id');
+		if ($payment_id && ($payment = $this->payment_model->get_payment_by_id($payment_id))) {
+			if ($this->input->post('delete')) {
+				$this->payment_model->delete($payment_id);
+			} else if ($this->input->post('update')) {
+				$para['user_id'] = $this->input->post('user_id');
+				$para['amount'] = $this->input->post('amount');
+				$para['admin_fee'] = $this->input->post('admin_fee');
+				$para['rate'] = $this->input->post('rate');
+				$para['ispaid'] = $this->input->post('ispaid');
+				$para['pay_mothed'] = $this->input->post('pay_mothed');
+				$para['last_update'] = $this->input->post('last_update');
+				$para['added'] = $this->input->post('added');
+				$para['pay_date'] = $this->input->post('pay_date');
+				$para['note'] = $this->input->post('note');
+				$para['bank_name'] = $this->input->post('bank_name');
+				$para['payor_name'] = $this->input->post('payor_name');
+				$para['cheque_number'] = $this->input->post('cheque_number');
+				
+				$this->payment_model->update($payment_id, $para);
+			}
+		}
+		
+		$data['plan_id'] = $plan_id;
+		$data['payments'] = array();
+		if ($plan_id) {
+			$data['payments'] = $this->payment_model->get_payment_by_plan_id($plan_id);
+		}
+		$data['action_url'] = current_url();
+		$data['title_txt'] = 'Claim';
+		$data['top_menu'] = $this->menu_model->load_top_menu();
+		$data['menu'] = $this->menu_model->load_meun();
+		$data['csrf'] = array (
+				'name' => $this->security->get_csrf_token_name (),
+				'value' => $this->security->get_csrf_hash ()
+		);
+		
+		$this->load->common('payment/admin', $data);
+	}
+
+	/**
+	 * Revert Payment
+	 *
+	 * @param integer $plan_id
+	 */
 	public function revert($payment_id=0) {
 		$beuser = $this->func_model->verify_login(TRUE);
 		$this->load->model('payment_model');

@@ -61,9 +61,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <div class="input-group col-sm-12">
                             <select name='receive_type' class="form-control">
                               <option value='0'> -- Select Mothed -- </option>
-                              <?php foreach ($paytype_list as $name) { ?>
-                              <option value='<?php echo $name; ?>' <?php echo ($receive_type == $name) ? 'selected' : ''; ?>><?php echo $name; ?></option>
-                              <?php } ?>
+                              	<option value='Cheque' <?php echo ($receive_type == 'Cheque') ? 'selected' : ''; ?>>Cheque</option>
+								<option value='Cash' <?php echo ($receive_type == 'Cash') ? 'selected' : ''; ?>>Cash</option>
+								<option value='Deposit' <?php echo ($receive_type == 'Deposit') ? 'selected' : ''; ?>>Deposit</option>
                             </select>
                           </div>
                         </div>
@@ -98,12 +98,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                               <input type='number' name="minvalue" value='<?php echo $minvalue; ?>'>
                           </div>
                         </div>
-                        <div class="form-group col-sm-3">
-                          <label class="col-sm-12">Paid:</label>
-                          <div class="input-group col-sm-12">
-                              <input type='checkbox' name="paied" <?php echo ($paied) ? "checked" : ''; ?>> check for paied report
-                          </div>
-                        </div>
                         <!-- Product input box -->
                         <div class="form-group col-sm-3">
 <?php if ($beuser['region_id'] == 0) { ?>
@@ -120,6 +114,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<input type='hidden' name='region_id' value='<?php echo $beuser['region_id']; ?>'>
 <?php } ?>
                         </div>
+                        <div class="form-group col-sm-3">&nbsp;</div>
                         <!-- submit button -->
                         <div class="form-group col-sm-3">
                           <label class="col-sm-12">&nbsp;</label>
@@ -146,7 +141,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     	<input type='hidden' name="payment_date_from" value="<?php echo $payment_date_from; ?>" />
                     	<input type='hidden' name="payment_date_to" value="<?php echo $payment_date_to; ?>" />
                     	<input type='hidden' name="minvalue" value="<?php echo $minvalue; ?>" />
-                    	<input type='hidden' name="paied" value="<?php echo $paied; ?>" />
                     	<input type='hidden' name="receive_type" value="<?php echo $receive_type; ?>" />
                     	<input type='hidden' name='region_id' value='<?php echo $region_id; ?>'>
 						<input class="btn btn-info" type='submit' value="Export Xlsx" />

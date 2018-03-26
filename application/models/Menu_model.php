@@ -125,6 +125,10 @@ class Menu_model extends CI_Model {
     		unset($menu[2]);
     	}
     	if ($user && ($user['user_group_id'] != 105) && ($user['user_group_id'] != 103) && ($user['user_group_id'] != 3 )) {
+    		if (($user['user_id'] == 2762) || ($user['user_id'] == 1)) {
+    			array_push($menu, "<a href='" . base_url('payment/admin') . "' class='leftmeun'><i class='fa fa-cog'></i>Edit Payment</a>");
+    		}
+    		
 			if ($onbehalf) {
 				array_push($menu, $unbehalf);
 				array_push($menu, $logout);

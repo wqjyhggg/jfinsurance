@@ -186,6 +186,21 @@ class Payment_model extends CI_Model {
 	/**
 	 * Update payment data
 	 * 
+	 * @param	array	$para	Add payment record
+	 * @return	integer	record ID
+	 */
+	public function delete($payment_id) {
+		$this->logstr = '';
+		$this->db->where('payment_id', $payment_id);
+		$this->db->delete('payment');
+		$this->sqlstr = $this->db->last_query();
+		$this->logstr = 'Delete payment[' . $payment_id . ']';
+		return $payment_id;
+	}
+	
+	/**
+	 * Update payment data
+	 * 
 	 * @param	plan_id	$plan_id	
 	 * @return	none
 	 */

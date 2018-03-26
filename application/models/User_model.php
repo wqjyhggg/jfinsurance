@@ -639,7 +639,17 @@ class User_model extends CI_Model {
 				$para['note'] = trim($post['note']);
 			}
 		}
-
+		if (!empty($post['note2'])) {
+			if ($this_user) {
+				if ($this_user['note2'] != $post['note2']) {
+					$this->logstr .= "note2[".$this_user['note2']."]=>[".$post['note2']."],";
+					$para['note2'] = trim($post['note2']);
+				}
+			} else {
+				$para['note2'] = trim($post['note2']);
+			}
+		}
+		
 		$enable_pdf = 0;
 		if (!empty($post['enable_pdf'])) $enable_pdf = 1;
 		
