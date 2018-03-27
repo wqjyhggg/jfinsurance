@@ -29,6 +29,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 				<div class="x_panel">
 					<div class="x_content">
 						<form method="post" action="<?php echo $action_url ?>" class="form-horizontal">
+							<input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
 							<div class="row">
 								<div class="col-sm-3">
 									<label>Plan ID:</label>
@@ -78,6 +79,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 <?php foreach ($payments as $pay) : ?>
 <?php if (preg_match('/up_/', $pay['pay_type'])) continue; ?>
 								<form method="post" action="<?php echo $action_url ?>" class="form-horizontal">
+									<input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
 									<input type="hidden" name="plan_id" value="<?php echo $plan_id; ?>"></td>
 									<input type="hidden" name="payment_id" value="<?php echo $pay['payment_id']; ?>"></td>
 									<tr>
