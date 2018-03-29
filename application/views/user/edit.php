@@ -236,7 +236,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			                <label>Mail is same:</label>
 		                	<input type='checkbox' name='issame' id='issame' value='1' <?php echo ($user_id) ? "" : "checked"; ?>>
 			            </div>
-			            <div class="form-group col-sm-9 mailaddr">
+			            <div class="form-group col-sm-3 mailaddr">
+			                <label class="col-sm-12">Mail Name:</label>
+			                <div class="input-group col-sm-12">
+			                	<input type='text' name='mail_name' value='<?php echo $mail_name; ?>' class="form-control">
+			                	<?php if (!empty($error_mail_name)){ ?>
+								<div class="alert-error">	
+									<?php echo $error_mail_name; ?>
+								</div>
+								<?php } ?>
+			                </div>
+			            </div>
+			            <div class="form-group col-sm-6 mailaddr">
 			                <label class="col-sm-12">Mail Address:</label>
 			                <div class="input-group col-sm-12">
 			                	<input type='text' name='mail_address' value='<?php echo $mail_address; ?>' class="form-control">
@@ -535,6 +546,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					    	},
 						});
 
+						$("input[name='firstname'],input[name='lastname']").change(function() {
+							if ($('#issame').is(':checked')) {
+								$("input[name='mail_name']").val($("input[name='firstname']").val() + ' ' + $("input[name='lastname']").val());
+							}
+						});
 						$("input[name='address']").change(function() {
 							if ($('#issame').is(':checked')) {
 								$("input[name='mail_address']").val($("input[name='address']").val());
@@ -556,6 +572,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						if ($('#issame').is(':checked')) {
 							$(".mailaddr").hide();
 						} else {
+							$("input[name='mail_name']").val($("input[name='firstname']").val() + ' ' + $("input[name='lastname']").val());
 							$("input[name='mail_address']").val($("input[name='address']").val());
 							$("input[name='mail_city']").val($("input[name='city']").val());
 							$("input[name='mail_postcode']").val($("input[name='postcode']").val());

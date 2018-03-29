@@ -347,7 +347,7 @@ class Report_model extends CI_Model
     	$sql .= " `pl`.`premium` AS `policy_premium`,";
     	$sql .= " `pr`.`commission` AS `pr_commission`,";
     	$sql .= " `up`.`commission` AS `up_commission`,";
-    	$sql .= " `u`.`user_id`, CONCAT(u.firstname, \" \", u.lastname) AS agent_name,";
+    	$sql .= " `u`.`user_id`, u.mail_name AS agent_name,";
     	$sql .= " CONCAT(u.address, \" \", u.city) AS address,";
     	$sql .= " `u`.`province2` AS `province`,";
     	$sql .= " `u`.`postcode`,";

@@ -415,6 +415,7 @@ class User extends MY_Controller {
 		$this->data['province2'] = 'ON';
 		$this->data['country2'] = 'CA';
 		$this->data['postcode'] = '';
+		$this->data['mail_name'] = '';
 		$this->data['mail_address'] = '';
 		$this->data['mail_city'] = '';
 		$this->data['mail_province2'] = 'ON';
@@ -486,6 +487,7 @@ class User extends MY_Controller {
 			$this->data['province2'] = $this->input->post('province2');
 			$this->data['country2'] = $this->input->post('country2');
 			$this->data['postcode'] = $this->input->post('postcode');
+			$this->data['mail_name'] = $this->input->post('mail_name');
 			$this->data['mail_address'] = $this->input->post('mail_address');
 			$this->data['mail_city'] = $this->input->post('mail_city');
 			$this->data['mail_province2'] = $this->input->post('mail_province2');

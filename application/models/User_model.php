@@ -467,6 +467,16 @@ class User_model extends CI_Model {
 				$para['postcode'] = trim(strtoupper($post['postcode']));
 			}
 		}
+		if (!empty($post['mail_name'])) {
+			if ($this_user) {
+				if ($this_user['mail_name'] != $post['mail_name']) {
+					$this->logstr .= "mail_name[".$this_user['mail_name']."]=>[".$post['mail_name']."],";
+					$para['mail_name'] = trim($post['mail_name']);
+				}
+			} else {
+				$para['mail_name'] = trim($post['mail_name']);
+			}
+		}
 		if (!empty($post['mail_address'])) {
 			if ($this_user) {
 				if ($this_user['mail_address'] != $post['mail_address']) {

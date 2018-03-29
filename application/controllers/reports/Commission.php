@@ -144,7 +144,7 @@ class Commission extends MY_Controller
 				if ($datas['agent']['receive_type'] == 'Cheque') {
 					$row++;
 					$sheet->setCellValue('A'.$row, "To: ");
-					$sheet->setCellValue('B'.$row, $datas['agent']['firstname'] . " " . $datas['agent']['lastname']);
+					$sheet->setCellValue('B'.$row, $datas['agent']['mail_name']);
 					$row++;
 					$sheet->setCellValue('B'.$row, $datas['agent']['mail_address']);
 					$row++;
@@ -155,7 +155,7 @@ class Commission extends MY_Controller
 				}
 				$row++; $col = 'A';
 					
-				$sheet->setCellValue($col.$row, "Agent Name: " . $datas['agent']['firstname'] . " " . $datas['agent']['lastname']); $col++;
+				$sheet->setCellValue($col.$row, "Agent Name: " . $datas['agent']['mail_name']); $col++;
 		
 				$row++; $col = 'A';
 				$sheet->setCellValue($col.$row, "Payment Method: " . $datas['agent']['receive_type']); $col++;
@@ -173,7 +173,7 @@ class Commission extends MY_Controller
 					if ($report_data['asbroker']['receive_type'] == 'Cheque') {
 						$row++;
 						$sheet->setCellValue('A'.$row, "To: ");
-						$sheet->setCellValue('B'.$row, $report_data['asbroker']['firstname'] . " " . $report_data['asbroker']['lastname']);
+						$sheet->setCellValue('B'.$row, $report_data['asbroker']['mail_name']);
 						$row++;
 						$sheet->setCellValue('B'.$row, $report_data['asbroker']['mail_address']);
 						$row++;
@@ -184,7 +184,7 @@ class Commission extends MY_Controller
 					}
 					$row++; $col = 'A';
 						
-					$sheet->setCellValue($col.$row, "Agent Name: " . $report_data['asbroker']['firstname'] . " " . $report_data['asbroker']['lastname']); $col++;
+					$sheet->setCellValue($col.$row, "Agent Name: " . $report_data['asbroker']['mail_name']); $col++;
 					
 					$row++; $col = 'A';
 					$sheet->setCellValue($col.$row, "Payment Method: " . $report_data['asbroker']['receive_type']); $col++;
@@ -202,7 +202,7 @@ class Commission extends MY_Controller
 				$row++; $col = 'A';
 				if ($user_id == 'asbroker') continue;
 				
-				$sheet->setCellValue($col.$row, "Agent Name: " . $datas['agent']['firstname'] . " " . $datas['agent']['lastname']); $col++;
+				$sheet->setCellValue($col.$row, "Agent Name: " . $datas['agent']['mail_name']); $col++;
 			}
 	
 			$row++; $col = 'A';

@@ -214,14 +214,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<div>
 									<div style='display: inline-flex;'>To:</div>
 									<div style='display: inline-flex; padding-left: 12px;'>
-										<?php echo $data['agent']['firstname'] . " " . $data['agent']['lastname']; ?><br />
+										<?php echo $data['agent']['mail_name']; ?><br />
 										<?php echo $data['agent']['mail_address']; ?><br>
 										<?php echo $data ['agent'] ['mail_city'] . "," . $data ['agent'] ['mail_province2']; ?><br>
 										<?php echo $data ['agent'] ['mail_postcode']; ?><br><br>
 									</div>
 								</div>
 								<?php } ?>
-                          		Agent Name: <?php echo $data['agent']['firstname'] . " " . $data['agent']['lastname']; ?><br />
+                          		Agent Name: <?php echo $data['agent']['mail_name']; ?><br />
                           		Payment Method: <?php echo $data['agent']['receive_type']; ?><br />
 								<?php
 									if ($data['agent']['receive_type'] == 'Deposit') {
@@ -245,7 +245,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<div>
 									<div style='display: inline-flex;'>To:</div>
 									<div style='display: inline-flex; padding-left: 12px;'>
-										<?php echo $report_data['asbroker']['firstname'] . " " . $report_data['asbroker']['lastname']; ?><br />
+										<?php echo $report_data['asbroker']['mail_name']; ?><br />
 										<?php echo $report_data['asbroker']['mail_address']; ?><br>
 										<?php echo $report_data['asbroker']['mail_city'] . "," . $report_data['asbroker']['mail_province2']; ?><br>
 										<?php echo $report_data['asbroker']['mail_postcode']; ?><br><br>
@@ -273,7 +273,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <?php if ($user_id == 'asbroker') continue; ?>
                           <tr>
                           	<td colspan='12'>
-                          		Agent Name: <?php echo $data['agent']['firstname'] . " " . $data['agent']['lastname']; ?><br />
+                          		Agent Name: <?php echo $data['agent']['mail_name']; ?><br />
                           	</td>
                           </tr>
         <?php endif; ?>
