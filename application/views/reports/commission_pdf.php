@@ -17,7 +17,7 @@ foreach ($report_data as $user_id => $data) {
 							<tr>
 								<td valign='top'>To:</td>
 								<td>
-									<?php echo $data['agent']['firstname'] . " " . $data['agent']['lastname']; ?><br />
+									<?php echo $data['agent']['mail_name']; ?><br />
 									<?php echo $data['agent']['mail_address']; ?><br>
 									<?php echo $data ['agent'] ['mail_city'] . "," . $data ['agent'] ['mail_province2'] . " " . $data ['agent'] ['mail_postcode']; ?><br>
 								</td>
@@ -36,7 +36,7 @@ foreach ($report_data as $user_id => $data) {
 						<img style="width: 80px;" src="<?php echo base_url();?>image/jf_logo.jpg" />
 					</td>
 					<td width='40%'>
-						Agent Name: <?php echo $data['agent']['firstname'] . " " . $data['agent']['lastname']; ?><br />
+						Agent Name: <?php echo $data['agent']['mail_name']; ?><br />
 						Payment Method: <?php echo $data['agent']['receive_type']; ?><br />
 						<?php
 							if ($data ['agent'] ['receive_type'] == 'Deposit') {
@@ -70,7 +70,7 @@ foreach ($report_data as $user_id => $data) {
 							<tr>
 								<td valign='top'>To:</td>
 								<td>
-									<?php echo $report_data['asbroker']['firstname'] . " " . $report_data['asbroker']['lastname']; ?><br />
+									<?php echo $report_data['asbroker']['mail_name']; ?><br />
 									<?php echo $report_data['asbroker']['mail_address']; ?><br>
 									<?php echo $report_data['asbroker']['mail_city'] . "," . $report_data['asbroker']['mail_province2'] . " " . $report_data['asbroker']['mail_postcode']; ?><br>
 								</td>
@@ -89,7 +89,7 @@ foreach ($report_data as $user_id => $data) {
 						<img style="width: 80px;" src="<?php echo base_url();?>image/jf_logo.jpg" />
 					</td>
 					<td width='40%'>
-						Brokerage Name: <?php echo $report_data['asbroker']['firstname'] . " " . $report_data['asbroker']['lastname']; ?><br />
+						Brokerage Name: <?php echo $report_data['asbroker']['mail_name']; ?><br />
 						Payment Method: <?php echo $report_data['asbroker']['receive_type']; ?><br />
 						<?php
 							if ($report_data['asbroker']['receive_type'] == 'Deposit') {
@@ -116,7 +116,7 @@ foreach ($report_data as $user_id => $data) {
 						<img style="width: 80px;" src="<?php echo base_url();?>image/jf_logo.jpg" />
 					</td>
 					<td width='40%'>
-						Agent Name: <?php echo $data['agent']['firstname'] . " " . $data['agent']['lastname']; ?><br />
+						Agent Name: <?php echo $data['agent']['mail_name']; ?><br />
 					</td>
 					<td width='50%' align='right'>
 						<div>For Period: <?php echo $payment_added_from . " - " . $payment_added_to; ?>&nbsp;&nbsp;&nbsp;</div>
