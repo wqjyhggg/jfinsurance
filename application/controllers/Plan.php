@@ -8,6 +8,7 @@ class Plan extends MY_Controller {
 	private $merchentID = "300203256";
 	private $apikey = "634E4AFd7Eda4dcEaA2976207A7C92bb";
 	public $error;
+	public $page_limit = 20;
 	public $toppackagename = array(
 			'all_inclusive' => "All Inclusive plan",
 			'single_medical_plan' => "Single medical plan",
@@ -82,14 +83,17 @@ class Plan extends MY_Controller {
 			if (empty($sArr)) {
 				$sArr = $this->input->get();
 			}
-			$data['plan_list'] = $this->plan_model->plan_search($sArr);
+			$data['plan_list'] = $this->plan_model->plan_search($sArr, $this->page_limit, $this->input->get('per_page'));
+			$data['plan_total'] = $this->plan_model->plan_search_count($sArr);
 			$this->session->set_userdata('policy_search', json_encode($sArr));
 		} else if ($this->input->get('q')) {
 			$para = array('policy_match' => $this->input->get('q'));
-			$data['plan_list'] = $this->plan_model->plan_search($para);
+			$data['plan_list'] = $this->plan_model->plan_search($para, $this->page_limit, $this->input->get('per_page'));
+			$data['plan_total'] = $this->plan_model->plan_search_count($para);
 			$this->session->set_userdata('policy_search', json_encode($para));
 		} else {
 			$data['plan_list'] = array();
+			$data['plan_total'] = 0;
 			$this->session->unset_userdata ( 'policy_search' );
 		}
 		$data['search_url'] = current_url ();
@@ -121,6 +125,36 @@ class Plan extends MY_Controller {
 		} else {
 			$this->session->set_userdata ( 'withprice', 0);
 		}
+
+		$this->load->library('pagination');
+		$config['base_url'] = site_url('plan');
+		$config['enable_query_strings'] = TRUE;
+		$config['page_query_string'] = TRUE;
+		$config['per_page'] = $this->page_limit;
+		$config['total_rows'] = $data['plan_total'];
+		$config['first_tag_open'] = "<li class='cpagination'>";
+		$config['first_tag_close'] = "</li>";
+		$config['last_tag_open'] = "<li class='cpagination'>";
+		$config['last_tag_close'] = "</li>";
+		$config['next_tag_open'] = "<li class='cpagination'>";
+		$config['next_tag_close'] = "</li>";
+		$config['prev_tag_open'] = "<li class='cpagination'>";
+		$config['prev_tag_close'] = "</li>";
+		$config['cur_tag_open'] = "<li class='cpagination' style='background-color:#ddd'>";
+		$config['cur_tag_close'] = "</li>";
+		$config['num_tag_open'] = "<li class='cpagination'>";
+		$config['num_tag_close'] = "</li>";
+		if (count($this->input->get()) > 0) {
+			$getArr = $this->input->get();
+			if (isset($getArr['per_page'])) {
+				unset($getArr['per_page']);
+			}
+			$config['suffix'] = '&' . http_build_query($getArr, '', "&");
+		}
+		
+		$this->pagination->initialize($config); // initiaze pagination config
+		
+		$data ['pagination'] = $this->pagination->create_links(); // create pagination links
 
 
 		$data['title_txt'] = 'Policy';
@@ -155,12 +189,11 @@ class Plan extends MY_Controller {
 		$data['status_list'] = $this->status_model->status_list();
 
 		$policy_search = $this->session->userdata('policy_search');
+		$plan_total = 0;
 		if ($policy_search) {
-			$policies = $this->plan_model->plan_export_search(json_decode($policy_search, TRUE));
-		} else {
-			$policies = array();
+			$sArr = json_decode($policy_search, TRUE);
+			$plan_total = $this->plan_model->plan_search_count($sArr);
 		}
-		
 		$w = WriterFactory::create(Type::XLSX); // for XLSX files
 		$kArr = array(
 				'plan_id',
@@ -241,16 +274,19 @@ class Plan extends MY_Controller {
 				'lastname_8',
 				'gende_8',
 				'birthday_8');
-		$tmpfname = "/tmp/jf_test.xlsx";
+		$tmpfname = "/tmp/jf_policy.xlsx";
 		$w->openToBrowser("Policy" . date('Ymd') . ".xlsx");
 		//$w->openToFile($tmpfname);
 		$w->addRow($kArr);
-		foreach($policies as $p) {
-			$para = array();
-			foreach($kArr as $k) {
-				$para[] = empty($p[$k]) ? '' : $p[$k];
+		for ($i = 0; $i < $plan_total; $i += $this->page_limit) {
+			$policies = $this->plan_model->plan_export_search($sArr, TRUE, $this->page_limit, $i);
+			foreach($policies as $p) {
+				$para = array();
+				foreach($kArr as $k) {
+					$para[] = empty($p[$k]) ? '' : $p[$k];
+				}
+				$w->addRow($para);
 			}
-			$w->addRow($para);
 		}
 		$w->close();
 		/*

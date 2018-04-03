@@ -74,8 +74,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	
 			                <?php if (!empty($error_message)) { echo $error_message . "<br>"; } ?>
 							<form action='<?php echo $search_url; ?>' method='GET'  class="form-horizontal">
-			    				  <input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
-
 			    				  <div class="row">
                     				<!-- Product select box -->
 			                        <div class="form-group col-sm-5 col-xs-12">
@@ -360,7 +358,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<?php } ?>
 					    </tbody>
 					</table>
-                    
+                  </div>
+                  <div class="row">
+                  	<div class="col-md-12 col-sm-12 col-xs-12">
+                  		<ul style="list-style-type: none">
+                  		<?php echo $pagination; ?> ( Total: <?php echo $plan_total;?> )
+                  		</ul>
+                  	</div>
                   </div>
                 </div>
               </div>
