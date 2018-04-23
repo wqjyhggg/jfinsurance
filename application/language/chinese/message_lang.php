@@ -8,7 +8,7 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-$lang['text_about'] = "About Us";
+$lang['text_about'] = "关于我们";
 $lang['text_agent'] = "Agent";
 $lang['text_behalf'] = "Behalf";
 $lang['text_claim'] = "Claim";
@@ -17,7 +17,7 @@ $lang['text_contact'] = "Contact";
 $lang['text_downloads'] = "Downloads";
 $lang['text_myhome'] = "My Home";
 $lang['text_api'] = "Api";
-$lang['text_home'] = "Home";
+$lang['text_home'] = "首页";
 $lang['text_languages'] = "Languages";
 $lang['text_logout'] = "Logout";
 $lang['text_our_partners'] = "Our Partners";
@@ -78,11 +78,4 @@ $lang['error_myname_email'] = 'Please input your full email address';
 $lang['error_myname_logo'] = 'Failed to upload logo file';
 $lang['error_myname_image'] = 'Failed to upload image file';
 $lang['error_paytype_list'] = 'One paytype is required!';
-
-
-$lang['txt_chinese'] = "中文";
-$lang['txt_english'] = "English";
-$lang['txt_japanese'] = "日本語";
-$lang['txt_korean'] = "한국인";
-
 

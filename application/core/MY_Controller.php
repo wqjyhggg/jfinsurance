@@ -5,6 +5,7 @@
  */
 class MY_Controller extends CI_Controller {
 	public $json_input;
+	public $data = array();
 	
 	public function __construct() {
 		parent::__construct();
@@ -18,15 +19,19 @@ class MY_Controller extends CI_Controller {
 		
 		// Set language 
 		$language = $this->session->userdata('language');
-		if (empty($language)) {
+		$segment = $this->uri->segment(1);
+		if (empty($language) || $segment) {
 			$language = $this->config->item('language');
 			$this->session->set_userdata('language', $language);
 		}
 
 		$currentUrl = empty($_SERVER['QUERY_STRING']) ? current_url() : current_url() . '?' . $_SERVER['QUERY_STRING'];
     	$this->session->set_userdata('curr_url', $currentUrl);
-        $this->lang->load('message', $language);
-
+        $this->lang->load('message');
+    	$this->lang->load('message', $language);
+        $this->data['lang'] = $this->lang->language;
+        $this->data['language'] = $language;
+        
         $this->load->model('menu_model');
         
 		$post = $this->input->post();
