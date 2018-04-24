@@ -2377,6 +2377,7 @@ class Plan extends MY_Controller {
 		if (($plan['status_id'] < 2) && ($beuser['user_group_id'] > 100)) {
 			// Before Sold
 			$para = array();
+			$para['plan_id'] = $plan['$plan_id'];
 			$para['product_short'] = $plan['product_short'];
 			$para['apply_date'] = date('Y-m-d');
 			$para['effective_date'] = $plan['effective_date'];

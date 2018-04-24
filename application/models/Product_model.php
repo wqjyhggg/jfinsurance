@@ -4,6 +4,7 @@ if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
 class Product_model extends CI_Model {
+	const PLANIDCHG2018=386000;
 	public $message;
 	
 	/**
@@ -546,7 +547,14 @@ class Product_model extends CI_Model {
 					case 100000:
 						if ($years <= 25) 		$rate = 3.59;
 						elseif ($years <= 40) 	$rate = 4.02;
-						elseif ($years <= 60) 	$rate = 4.95;
+						elseif ($years <= 60) {
+							if (isset($para['plan_id']) && ($para['plan_id'] < SELF::PLANIDCHG2018)) {
+								$rate = 4.95;
+							} else {
+								// new rate changed in 2018/04
+								$rate = 4.46;
+							}
+						}
 						elseif ($years <= 64) 	$rate = 4.98;
 						elseif ($years <= 69) 	$rate = 5.94;
 						elseif ($years <= 74) 	$rate = 9.79;

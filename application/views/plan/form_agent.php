@@ -515,6 +515,7 @@ function addmoremember() {
 
 function get_premium() {
 <?php if (empty($batch_number)) { ?>
+	var plan_id = $('input[name="plan_id"]').val();
 	var product_short = $('input[name="product_short"]').val();
 	var apply_date = $('input[name="apply_date"]').val();
 	var effective_date = $('input[name="effective_date"]').val();
@@ -595,6 +596,7 @@ function get_premium() {
 			url: '<?php echo $premium_url; ?>',
 			type: 'get',
 			data: {
+				plan_id: plan_id,
 				product_short: product_short,
 				apply_date: apply_date,
 				effective_date: effective_date,

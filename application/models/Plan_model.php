@@ -61,6 +61,7 @@ class Plan_model extends CI_Model {
 			$number_customer = $this->customer_model->get_number_customer($plan['customer_id'], $plan['isfamilyplan']);
 			$birthday = $this->customer_model->get_max_birthday($plan['customer_id'], $plan['isfamilyplan'], $plan['product_short']);
 			$para = array(
+						'plan_id' => $plan['plan_id'],
 						'product_short' => $plan['product_short'],
 						'apply_date' => $plan['apply_date'],
 						'effective_date' => $plan['effective_date'],
