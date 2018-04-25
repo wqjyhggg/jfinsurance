@@ -200,6 +200,9 @@ foreach ($report_data as $data) :?>
                             <th>Net Premium</th>
                             <!-- th>Commission Amount</th -->
                             <!-- th>Status</th -->
+	<?php if (($beuser['user_id'] == 450) || ($beuser['user_id'] == 2018)) { ?>
+                            <th>Note</th>
+	<?php } ?>
                           </tr>
                         </thead>
                         <tbody>
@@ -221,16 +224,24 @@ foreach ($report_data as $data) :?>
                               <td>$<?php echo ($record['amount'] - $record['commission'] );?></td>
                               <!-- td>$<?=$record['commission'] ?></td -->
                               <!-- td><?=$record['status'] ?></td -->
+	<?php if (($beuser['user_id'] == 450) || ($beuser['user_id'] == 2018)) { ?>
+    	                      <td><?php echo $record['note']; ?></td>
+	<?php } ?>
                             </tr>
     <?php if ($cnt > 100) break; ?>
     <?php endforeach; ?>
-                            <tr><td colspan=12>
+                            <tr>
+                            	<td colspan=12>
                                 Total Premium: $<?php echo $data['data']['policy_premium']; ?>;&nbsp;&nbsp;
                                 Total Net Premium: $<?php echo $data['data']['net_premium']; ?>;&nbsp;&nbsp;&nbsp;&nbsp;
                                 Username: <?php echo $data['data']['agent_username']; ?>;&nbsp;&nbsp;
                                 Email: <?php echo $data['data']['agent_email']; ?>;&nbsp;&nbsp;
                                 Name: <?php echo $data['data']['agent_firstname'] . " " . $data['data']['agent_lastname']; ?>;&nbsp;&nbsp;
-                            </td></tr>
+                            	</td>
+	<?php if (($beuser['user_id'] == 450) || ($beuser['user_id'] == 2018)) { ?>
+ 	                           <td>&nbsp;</td>
+	<?php } ?>
+                            </tr>
                             <tr style="background:#eee;"><td colspan=14></td></tr>
                         </tbody>
 <?php endforeach; ?>

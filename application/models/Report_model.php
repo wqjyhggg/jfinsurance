@@ -58,6 +58,7 @@ class Report_model extends CI_Model
     	$sql .= "		pl.dailyrate,";
     	$sql .= "		pl.totaldays,";
     	$sql .= "		pl.premium,";
+    	$sql .= "		pl.note,";
     	$sql .= "		pr.full_name,";
     	$sql .= "		pr.up_insuer,";
     	$sql .= "		CONCAT(cu.firstname, ' ', cu.lastname) as insured";

@@ -88,6 +88,9 @@ class Agent extends MY_Controller
 //                'commission_amount' => 'Commission Amount',
 //        		'status' => 'Status',
         );
+        if (($beuser['user_id'] == 450) || ($beuser['user_id'] == 2018)) {
+        	$kArr['note'] = "Note";
+        }
 
         $tmpfname = "/tmp/jf_test.xlsx";
         
