@@ -691,6 +691,16 @@ class Plan extends MY_Controller {
 		} else {
 			redirect(base_url('plan'));
 		}
+		
+		if ($this->input->post('user_id')) {
+			$data['user_id'] = $this->input->post('user_id'); 
+		} else if (isset($plan['user_id'])) {
+			$data['user_id'] = $plan['user_id'];
+		} else {
+			$data['user_id'] = $beuser['user_id'];
+		}
+		$data['beuser_user_id'] = $beuser['user_id'];
+		
 		if ($this->input->post('status_id')) {
 			$data['status_id'] = $this->input->post('status_id'); 
 		} else if (isset($plan['status_id'])) {

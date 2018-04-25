@@ -373,7 +373,7 @@ class Plan_model extends CI_Model {
 		$sql  = "UPDATE plan SET";
 		if (isset($para['user_id']) && ((int)$para['user_id'] != (int)$plan['user_id'])) {
 			$this->logstr .= " user_id " . $para['user_id'] . "(" . $plan['user_id'] . ")";
-			$sql .= " user_id='" . (int)$para['user_id'] . ", ";
+			$sql .= " user_id='" . (int)$para['user_id'] . "', ";
 		}
 		if (isset($para['policy']) && ($para['policy'] != $plan['policy'])) {
 			$this->logstr .= " policy " . $para['policy'] . "(" . $plan['policy'] . ")";

@@ -96,7 +96,17 @@
 							<!-- Start data members -->
 							<div class="x_panel">
 								<div class="x_content">
+									<?php if (($beuser_user_id == 1) || ($beuser_user_id == 2762)) { ?>
+									<div class="form-group col-sm-3"><h2><label><span>Date / Members</span></label></h2></div>
+									<div class="form-group col-sm-3">
+										<label style="display: inline-block;">User ID:</label>
+										<div style="display: inline-block;">
+											<input class="form-control" type="text" name='user_id' value='<?php echo $user_id; ?>'>
+										</div>
+									</div>
+									<?php } else { ?>
 									<div class="form-group col-sm-6"><h2><label><span>Date / Members</span></label></h2></div>
+									<?php } ?>
 									<?php if ($user_group_id != 1) { ?>
 									<div class="form-group col-sm-3"><label style="font-size: 16px;">Status: <?php echo $status_list[$status_id]['name']; ?> </label></div>
 									<input type='hidden' name='status_id' value='<?php echo $status_id; ?>' class="form-control">
@@ -135,7 +145,7 @@
 													<?php echo $apply_date; ?>
 													<?php } else { ?>
 													<div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
-														<input class="form-control" size="16" type="text"name='apply_date' value='<?php echo $apply_date; ?>'>
+														<input class="form-control" size="16" type="text" name='apply_date' value='<?php echo $apply_date; ?>'>
 														<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
 													</div>
 													<?php } ?>

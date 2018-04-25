@@ -103,7 +103,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <!-- Payment Added Date From-->
                             <label for="payment_added_from" class="col-sm-12">Payment Added Date From</label>
                             <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
-                            <input name="payment_added_from" class="form-control" size="16" type="text" value="<?php $payment_added_from ?>" >
+                            <input name="payment_added_from" class="form-control" size="16" type="text" value="<?php echo $payment_added_from ?>" >
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
                             <input type="hidden" id="payment_added_from" value="" />
@@ -111,7 +111,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <!-- Payment Added Date to -->
                             <label for="payment_added_to" class="col-sm-12">Payment Added Date To</label>
                             <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
-                                <input name="payment_added_to" class="form-control" size="16" type="text" value="<?php $payment_added_to ?>" >
+                                <input name="payment_added_to" class="form-control" size="16" type="text" value="<?php echo $payment_added_to ?>" >
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
                             <input type="hidden" id="payment_added_to" value="" /><br/>
@@ -123,7 +123,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <!-- Payment Update Date From-->
                             <label for="payment_date_from" class="col-sm-12">Payment Update Date From</label>
                             <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
-                            <input name="payment_date_from" class="form-control" size="16" type="text" value="<?php $payment_date_from ?>" >
+                            <input name="payment_date_from" class="form-control" size="16" type="text" value="<?php echo $payment_date_from ?>" >
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
                             <input type="hidden" id="payment_date_from" value="" />
@@ -131,7 +131,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <!-- Payment Update Date to -->
                             <label for="payment_date_to" class="col-sm-12">Payment Update Date To</label>
                             <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
-                                <input name="payment_date_to" class="form-control" size="16" type="text" value="<?php $payment_date_to ?>" >
+                                <input name="payment_date_to" class="form-control" size="16" type="text" value="<?php echo $payment_date_to ?>" >
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
                             <input type="hidden" id="payment_date_to" value="" /><br/>

@@ -36,6 +36,7 @@ $lang['text_other_policy'] = "Other Policy";
 /* Left menu - submenu */
 $lang['text_report_to_agent'] = "Sales report to agent";
 $lang['text_report_to_jf'] = "Sales report to JF";
+$lang['text_report_in_period'] = "Sales report in period";
 $lang['text_report_to_insurer'] = "Sales report to insurer";
 $lang['text_receivable_report'] = "Receivable Report";
 $lang['text_claim_report'] = "Claim Report";

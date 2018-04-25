@@ -197,7 +197,33 @@ class Report_model extends CI_Model
         return $results;
     }
 
-
+    /**
+     * Get sales report to JF data
+     *
+     * @param array $para Parameter array
+     * @return array sales report to agent data
+     */
+    public function get_report_in_period($para)
+    {
+    	$sql  = "SELECT distinct u.user_id, u.username, u.email, u.firstname, u.lastname, u.receive_type, u.pay_type FROM user u";
+    	$sql .= " JOIN payment pa ON (u.user_id=pa.user_id AND pa.pay_type='commission')";
+    	$sql .= " WHERE ABS(pa.amount)>=0.01";
+    	if (!empty($para['payment_added_from'])) {
+    		$sql .= " AND pa.added >= " . $this->db->escape($para['payment_added_from'] . " 00:00:00");
+    	}
+    	if (!empty($para['payment_added_to'])) {
+    		$sql .= " AND pa.added <= " . $this->db->escape($para['payment_added_to'] . " 23:59:59");
+    	}
+    	if (!empty($para['payment_date_from'])) {
+    		$sql .= " AND pa.last_update >= " . $this->db->escape($para['payment_date_from'] . " 00:00:00");
+    	}
+    	if (!empty($para['payment_date_to'])) {
+    		$sql .= " AND pa.last_update <= " . $this->db->escape($para['payment_date_to'] . " 23:59:59");
+    	}
+    	$sql .= " ORDER BY u.user_id ASC";
+    	return $this->db->query($sql)->result_array();
+    }
+    
     /**
      * Get sales report to insurer data
      *
