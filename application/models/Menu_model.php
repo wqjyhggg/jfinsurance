@@ -19,6 +19,7 @@ class Menu_model extends CI_Model {
 					array(
 							"<a class='leftmeun'><i class='fa fa-file-excel-o'></i>" . $this->lang->line ( 'text_report' ) . "<span class='fa fa-chevron-down'></span></a>",
 							"<a href='" . base_url('reports/agent') . "' class='leftmeun'>" . $this->lang->line ( 'text_report_to_agent' ) . "</a>",
+							"<a href='" . base_url('reports/annual') . "' class='leftmeun'>" . $this->lang->line ( 'text_agent_annual' ) . "</a>",
 							"<a href='" . base_url('reports/jf') . "' class='leftmeun'>" . $this->lang->line ( 'text_report_to_jf' ) . "</a>",
 							"<a href='" . base_url('reports/agentperiod') . "' class='leftmeun'>" . $this->lang->line ( 'text_report_in_period' ) . "</a>",
 							"<a href='" . base_url('reports/insurer') . "' class='leftmeun'>" . $this->lang->line ( 'text_report_to_insurer' ) . "</a>",
@@ -42,6 +43,7 @@ class Menu_model extends CI_Model {
 					"<a href='" . base_url('batch/other') . "' class='leftmeun'><i class='fa fa-upload'></i>" . $this->lang->line ( 'text_other_policy' ) . "</a>",
 					array(
 							"<a class='leftmeun'><i class='fa fa-file-excel-o'></i>" . $this->lang->line ( 'text_report' ) . "<span class='fa fa-chevron-down'></span></a>",
+							"<a href='" . base_url('reports/annual') . "' class='leftmeun'>" . $this->lang->line ( 'text_agent_annual' ) . "</a>",
 							"<a href='" . base_url('reports/agent') . "' class='leftmeun'>" . $this->lang->line ( 'text_report_to_agent' ) . "</a>",
 							"<a href='" . base_url('reports/jf') . "' class='leftmeun'>" . $this->lang->line ( 'text_report_to_jf' ) . "</a>",
 							"<a href='" . base_url('reports/agentperiod') . "' class='leftmeun'>" . $this->lang->line ( 'text_report_in_period' ) . "</a>",
@@ -62,6 +64,7 @@ class Menu_model extends CI_Model {
 					"<a href='" . base_url('batch/other') . "' class='leftmeun'><i class='fa fa-upload'></i>" . $this->lang->line ( 'text_other_policy' ) . "</a>",
 					array(
 							"<a class='leftmeun'><i class='fa fa-file-excel-o'></i>" . $this->lang->line ( 'text_report' ) . "<span class='fa fa-chevron-down'></span></a>",
+							"<a href='" . base_url('reports/annual') . "' class='leftmeun'>" . $this->lang->line ( 'text_agent_annual' ) . "</a>",
 							"<a href='" . base_url('reports/jf') . "' class='leftmeun'>" . $this->lang->line ( 'text_report_to_jf' ) . "</a>",
 							"<a href='" . base_url('reports/insurer') . "' class='leftmeun'>" . $this->lang->line ( 'text_report_to_insurer' ) . "</a>",
 							"<a href='" . base_url('reports/receivable') . "' class='leftmeun'>" . $this->lang->line ( 'text_receivable_report' ) . "</a>",
@@ -88,6 +91,7 @@ class Menu_model extends CI_Model {
 					array(
 							"<a class='leftmeun'><i class='fa fa-file-excel-o'></i>" . $this->lang->line ( 'text_report' ) . "<span class='fa fa-chevron-down'></span></a>",
 							"<a href='" . base_url('reports/agent') . "' class='leftmeun'>" . $this->lang->line ( 'text_report_to_agent' ) . "</a>",
+							"<a href='" . base_url('reports/annual') . "' class='leftmeun'>" . $this->lang->line ( 'text_agent_annual' ) . "</a>",
 							"<a href='" . base_url('reports/receivable') . "' class='leftmeun'>" . $this->lang->line ( 'text_receivable_report' ) . "</a>",
 							"<a href='" . base_url('reports/renewal') . "' class='leftmeun'>" . $this->lang->line ( 'text_renewal_report' ) . "</a>",
 						),
@@ -99,6 +103,7 @@ class Menu_model extends CI_Model {
 					array(
 							"<a class='leftmeun'><i class='fa fa-file-excel-o'></i>" . $this->lang->line ( 'text_report' ) . "<span class='fa fa-chevron-down'></span></a>",
 							"<a href='" . base_url('reports/agent') . "' class='leftmeun'>" . $this->lang->line ( 'text_report_to_agent' ) . "</a>",
+							"<a href='" . base_url('reports/annual') . "' class='leftmeun'>" . $this->lang->line ( 'text_agent_annual' ) . "</a>",
 							"<a href='" . base_url('reports/receivable') . "' class='leftmeun'>" . $this->lang->line ( 'text_receivable_report' ) . "</a>",
 							"<a href='" . base_url('reports/renewal') . "' class='leftmeun'>" . $this->lang->line ( 'text_renewal_report' ) . "</a>",
 						),

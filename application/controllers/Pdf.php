@@ -72,8 +72,14 @@ class Pdf extends MY_Controller {
 		$this->load->common ( 'pdf/upload', $data );
 	}
 
-	public function download($filename)
+	public function download($filename, $fn2='', $fn3='')
 	{
+		if ($fn2) {
+			$filename .= "/" . $fn2;
+			if ($fn3) {
+				$filename .= "/" . $fn3;
+			}
+		}
 		$fileinfo = pathinfo($filename);
 	    $mimeType = '';
 	    switch ($fileinfo['extension']) {
