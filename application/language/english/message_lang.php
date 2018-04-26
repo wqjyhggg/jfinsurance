@@ -8,7 +8,7 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-$lang['text_about'] = "About Us";
+
 $lang['text_agent'] = "Agent";
 $lang['text_behalf'] = "Behalf";
 $lang['text_claim'] = "Claim";
@@ -17,7 +17,6 @@ $lang['text_contact'] = "Contact";
 $lang['text_downloads'] = "Downloads";
 $lang['text_myhome'] = "My Home";
 $lang['text_api'] = "Api";
-$lang['text_home'] = "Home";
 $lang['text_languages'] = "Languages";
 $lang['text_logout'] = "Logout";
 $lang['text_our_partners'] = "Our Partners";
@@ -85,4 +84,36 @@ $lang['txt_english'] = "English";
 $lang['txt_japanese'] = "日本語";
 $lang['txt_korean'] = "한국인";
 
-
+$lang['text_home'] = "Home";
+$lang['text_about'] = "About Us";
+$lang['page_title'] = 'JF Insurance Agency Group Inc.';
+$lang['agent_login'] = 'Agent Login';
+$lang['buy_product'] = 'Buy Product';
+$lang['switch_language'] ='Language';
+$lang['we_dont_like'] = "We don't like to think about it, but sudden, unexpected accidents or illnesses do happen, and trying to find an pay for adequate medical attention can be difficult when you are abroad.";
+$lang['health_care_costs'] = 'Health care costs around the world can be very expensive. Hospital can charge thousands of dollars per day. Your health plan may or may not cover a minute protion of these cost. Without adequate insurance coverage you could be responsible from dollar one, which could create a massive impact on your personal finances. Why take the risk?';
+$lang['get_a_quote'] ='GET A QUOTE';
+$lang['app_download'] ='JF INSURANCE APP DOWNLOAD';
+$lang['we_take_care'] = 'We take care of you';
+$lang['JF_intro'] = 'JF Insurance Agency Group Inc. (JF) is a licensed brokerage firm incorporated in 1992. We are the leading private firm in providing Emergency Hospital and Medical coverage for Canadians, visitors across Canada and International students. We are recognized for our dedication to serve our clients on both an individual basis and association groups.';
+$lang['founder'] = 'Founder';
+$lang['founder_text'] = 'The founder Mr. Johnson Fu has more than 30 plus years of experience in the Insurance and Financial Industry. Mr. Fu is also very active among many communities and charity events. It is through his involvement in community service that the JF corporate philosophy “To Serve” has come to fruition. This philosophy emphasizes the attitude of all staff members at JF.';
+$lang['mission'] = 'Mission';
+$lang['mission_text'] = 'To reach all that can benefit from the peace of mind we offer; to ensure claims are processed in a timely manner.';
+$lang['vision'] = 'Vision';
+$lang['vision_text']='To reach all that can benefit from the peace of mind we offer; to ensure claims are processed in a timely manner.';
+$lang['we_offer']= 'We offer';
+$lang['we_take_care_of_you']='We take care of you';
+$lang['visitor_to_canada']='Visitors to Canada';
+$lang['visitor_to_canada_text']='Health care costs in Canada can be expensive if you’re not covered by a Canadian government health insurance plan. Therefore, be sure to carry visitor insurance to protect your finances and enjoy a secured stay while you are away from your home country.';
+$lang['inter_stu_to_canada']='International Student to Canada';
+$lang['inter_stu_to_canada_text']='Studying aboard is exciting and adventurous. Make sure you have the right insurance coverage for your journey while in Canada.';
+$lang['can_travel_out']='Canadian Travel Out';
+$lang['can_travel_out_text']='Your provincial health plan only covers a part of your health care costs incurred outside of Canada and limits coverage when travelling to another province.';
+$lang['contact_us'] ='Contact Us';
+$lang['toronto_office'] = 'Toronto Office';
+$lang['vancouver_office'] = 'Vancouver Office';
+$lang['phone'] = 'Phone:';
+$lang['fax'] = 'Fax:';
+$lang['toll_free'] = 'Toll Free:';
+$lang['toll_free_fax'] = 'Toll Free Fax:';
