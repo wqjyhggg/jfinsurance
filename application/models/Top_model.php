@@ -9970,6 +9970,66 @@ class Top_model extends CI_Model  {
 			'254.00',
 			'7.50',
 	);
+
+	private $trip_cancellation_75_79 = array(
+			'-1',
+			'94',
+			'99',
+			'104',
+			'109',
+			'114',
+			'119',
+			'126',
+			'132',
+			'138',
+			'145',
+			'153',
+			'162',
+			'171',
+			'180',
+			'191',
+			'202',
+			'213',
+			'225',
+			'236',
+			'247',
+			'260',
+			'272',
+			'284',
+			'297',
+			'309',
+			'9.12',
+	);
+	
+	private $trip_cancellation_80_84 = array(
+			'-1',
+			'112',
+			'118',
+			'126',
+			'133',
+			'140',
+			'147',
+			'155',
+			'162',
+			'169',
+			'179',
+			'190',
+			'201',
+			'212',
+			'224',
+			'236',
+			'248',
+			'262',
+			'275',
+			'289',
+			'304',
+			'318',
+			'334',
+			'350',
+			'368',
+			'386',
+			'11.4',
+	);
 	
 	private $annual = array(
 			// 4 days
@@ -10099,7 +10159,7 @@ class Top_model extends CI_Model  {
 	private function optional_plan($data, $ischeck) {
 		$this->premiumArr['trip_cancellation'] = 1;
 		if ($ischeck) {
-			if ($data['age'] >= 75) {
+			if ($data['age'] >= 85) {
 				$this->premiumArr['trip_cancellation'] = 0;
 			}
 			if (($data['package'] == 'optional_plan') && $data['isfamilyplan']) {
@@ -10179,9 +10239,13 @@ class Top_model extends CI_Model  {
 				$arr = 'trip_cancellation_65_69';
 			} else if ($data['age'] < 75) {
 				$arr = 'trip_cancellation_70_74';
+			} else if ($data['age'] < 80) {
+				$arr = 'trip_cancellation_75_79';
+			} else if ($data['age'] < 85) {
+				$arr = 'trip_cancellation_80_84';
 			}
 			if (!isset($this->{$arr}) || !is_array($this->{$arr})) {
-				$this->premiumArr['message'] = 'Age must be equal or less than 74 for Trip Cancellation plan.';
+				$this->premiumArr['message'] = 'Age must be equal or less than 84 for Trip Cancellation plan.';
 				$this->premiumArr['active_tab'] = 'packages_tab';
 				$this->premiumArr['premium'] = 0;
 				return 1;
@@ -10190,8 +10254,14 @@ class Top_model extends CI_Model  {
 			$idx = $data['trip_cancellation_insured'] / 100;
 			if ($idx < 26) {
 				$base = $this->{$arr}[$idx];
+				if ($base < 0) {
+					$this->premiumArr['message'] = "Rate option isn't available.";
+					$this->premiumArr['active_tab'] = 'packages_tab';
+					$this->premiumArr['premium'] = 0;
+					return 1;
+				}
 			} else {
-				$base = $this->{$arr}[25] + (($idx - 26) * $this->{$arr}[26]);
+				$base = $this->{$arr}[25] + (($idx - 25) * $this->{$arr}[26]);
 			}
 			
 			if ($data['isfamilyplan'] == 1) {

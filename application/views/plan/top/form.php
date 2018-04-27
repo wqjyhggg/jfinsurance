@@ -689,7 +689,7 @@
 																<?php if ($no_change) { ?>
 																<input type="hidden" name="trip_cancellation_insured" value="<?php echo $trip_cancellation_insured; ?>">$<?php echo number_format($trip_cancellation_insured); ?>
 																<?php } else { ?>
-																<input type="number" name="trip_cancellation_insured" class='check_premium' min="0" max="15000" step="100" value="<?php echo $trip_cancellation_insured; ?>"> ( every 100s )
+																<input type="number" name="trip_cancellation_insured" class='check_premium' min="0" max="20000" step="100" value="<?php echo $trip_cancellation_insured; ?>"> ( every 100s )
 																<?php } ?>
 															</div>
 														</div>
