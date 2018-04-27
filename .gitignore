@@ -3,6 +3,7 @@
 .settings/*
 user_guide/*
 agentinfo/*
+download/annual/*
 */config/development
 */logs/log-*.php
 !*/logs/index.html
