@@ -71,45 +71,194 @@ defined('BASEPATH') or exit('No direct script access allowed');
 			<div class="col-md-12 col-sm-12 col-xs-12">
 				<div class="x_panel">
 					<div class="x_title">
-						<h2>File List</h2>
+						<h2>Report Data</h2>
 						<div class="clearfix"></div>
 					</div>
-					<?php if (isset($filelist) && $filelist) { ?>
-					<div class="x_content">
+					<?php if (isset($record)) { ?>
+					<form method="post" action="<?=$action_url ?>" class="form-horizontal">
+						<input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
+						<input type='hidden' name='agent_id' value='<?php echo $agent_id; ?>'>
 						<table class="table table-hover">
 							<thead>
 								<tr>
 									<th>Month</th>
-									<th>File</th>
-									<?php if ($beuser['user_group_id'] < 100) { ?>
-									<th>&nbsp</th>
-									<?php } ?>
+									<th>Premium</th>
+									<th>Commission</th>
+									<th>Payment</th>
 								</tr>
 							</thead>
 							<tbody>
-								<?php foreach ( $filelist as $key => $rc ) : ?>
 								<tr>
-									<td><?php echo $key; ?></td>
+									<td>January</td>
 									<td>
-										<?php if ($rc['has']) { ?>
-										<a href='<?php echo base_url('pdf/download/'.$rc['filename']); ?>'><?php echo basename($rc['filename']); ?></a>
-										<?php } ?>
+										<input type="text" name="premium[1]" value="<?php echo $record['premium']['1']; ?>">
 									</td>
-									<?php if ($beuser['user_group_id'] < 100) { ?>
 									<td>
-										<form method="post" enctype="multipart/form-data" action="<?php echo $upload_url; ?>">
-											<input type="hidden" name="agent_id" value="<?php echo $agent_id;?>">
-											<input type="hidden" name="key" value="<?php echo $key;?>">
-											<span class="inline"><input type="file" name="file"></span>
-											<span class="inline"><input type="submit" value="Upload" class="btn btn-primary"></span>
-										</form>
+										<input type="text" name="commission[1]" value="<?php echo $record['commission']['1']; ?>">
 									</td>
-									<?php } ?>
+									<td>
+										<input type="text" name="payment[1]" value="<?php echo $record['payment']['1']; ?>">
+									</td>
 								</tr>
-								<?php endforeach; ?>
+								<tr>
+									<td>February</td>
+									<td>
+										<input type="text" name="premium[2]" value="<?php echo $record['premium']['2']; ?>">
+									</td>
+									<td>
+										<input type="text" name="commission[2]" value="<?php echo $record['commission']['2']; ?>">
+									</td>
+									<td>
+										<input type="text" name="payment[2]" value="<?php echo $record['payment']['2']; ?>">
+									</td>
+								</tr>
+								<tr>
+									<td>March</td>
+									<td>
+										<input type="text" name="premium[3]" value="<?php echo $record['premium']['3']; ?>">
+									</td>
+									<td>
+										<input type="text" name="commission[3]" value="<?php echo $record['commission']['3']; ?>">
+									</td>
+									<td>
+										<input type="text" name="payment[3]" value="<?php echo $record['payment']['3']; ?>">
+									</td>
+								</tr>
+								<tr>
+									<td>April</td>
+									<td>
+										<input type="text" name="premium[4]" value="<?php echo $record['premium']['4']; ?>">
+									</td>
+									<td>
+										<input type="text" name="commission[4]" value="<?php echo $record['commission']['4']; ?>">
+									</td>
+									<td>
+										<input type="text" name="payment[4]" value="<?php echo $record['payment']['4']; ?>">
+									</td>
+								</tr>
+								<tr>
+									<td>May</td>
+									<td>
+										<input type="text" name="premium[5]" value="<?php echo $record['premium']['5']; ?>">
+									</td>
+									<td>
+										<input type="text" name="commission[5]" value="<?php echo $record['commission']['5']; ?>">
+									</td>
+									<td>
+										<input type="text" name="payment[5]" value="<?php echo $record['payment']['5']; ?>">
+									</td>
+								</tr>
+								<tr>
+									<td>June</td>
+									<td>
+										<input type="text" name="premium[6]" value="<?php echo $record['premium']['6']; ?>">
+									</td>
+									<td>
+										<input type="text" name="commission[6]" value="<?php echo $record['commission']['6']; ?>">
+									</td>
+									<td>
+										<input type="text" name="payment[6]" value="<?php echo $record['payment']['6']; ?>">
+									</td>
+								</tr>
+								<tr>
+									<td>July</td>
+									<td>
+										<input type="text" name="premium[7]" value="<?php echo $record['premium']['7']; ?>">
+									</td>
+									<td>
+										<input type="text" name="commission[7]" value="<?php echo $record['commission']['7']; ?>">
+									</td>
+									<td>
+										<input type="text" name="payment[7]" value="<?php echo $record['payment']['7']; ?>">
+									</td>
+								</tr>
+								<tr>
+									<td>August</td>
+									<td>
+										<input type="text" name="premium[8]" value="<?php echo $record['premium']['8']; ?>">
+									</td>
+									<td>
+										<input type="text" name="commission[8]" value="<?php echo $record['commission']['8']; ?>">
+									</td>
+									<td>
+										<input type="text" name="payment[8]" value="<?php echo $record['payment']['8']; ?>">
+									</td>
+								</tr>
+								<tr>
+									<td>September</td>
+									<td>
+										<input type="text" name="premium[9]" value="<?php echo $record['premium']['9']; ?>">
+									</td>
+									<td>
+										<input type="text" name="commission[9]" value="<?php echo $record['commission']['9']; ?>">
+									</td>
+									<td>
+										<input type="text" name="payment[9]" value="<?php echo $record['payment']['9']; ?>">
+									</td>
+								</tr>
+								<tr>
+									<td>October</td>
+									<td>
+										<input type="text" name="premium[10]" value="<?php echo $record['premium']['10']; ?>">
+									</td>
+									<td>
+										<input type="text" name="commission[10]" value="<?php echo $record['commission']['10']; ?>">
+									</td>
+									<td>
+										<input type="text" name="payment[10]" value="<?php echo $record['payment']['10']; ?>">
+									</td>
+								</tr>
+								<tr>
+									<td>November</td>
+									<td>
+										<input type="text" name="premium[11]" value="<?php echo $record['premium']['11']; ?>">
+									</td>
+									<td>
+										<input type="text" name="commission[11]" value="<?php echo $record['commission']['11']; ?>">
+									</td>
+									<td>
+										<input type="text" name="payment[11]" value="<?php echo $record['payment']['11']; ?>">
+									</td>
+								</tr>
+								<tr>
+									<td>December</td>
+									<td>
+										<input type="text" name="premium[12]" value="<?php echo $record['premium']['12']; ?>">
+									</td>
+									<td>
+										<input type="text" name="commission[12]" value="<?php echo $record['commission']['12']; ?>">
+									</td>
+									<td>
+										<input type="text" name="payment[12]" value="<?php echo $record['payment']['12']; ?>">
+									</td>
+								</tr>
+								<tr>
+									<td><b>Total</b></td>
+									<td>
+										<div id="premium">0</div>
+									</td>
+									<td>
+										<div id="commission">0</div>
+									</td>
+									<td>
+										<div id="payment">0</div>
+									</td>
+								</tr>
 							</tbody>
 						</table>
-					</div>
+						<div class="row">
+							<div class="form-group col-sm-6">Previous year total sales : <input type="text" name="last_year_total" value="<?php echo $record['last_year_total']; ?>">
+							</div>
+							<?php if ($beuser['user_group_id'] < 100) { ?>
+							<div class="col-sm-3">
+								<input type='submit' name='submit' value='Submit' class="btn btn-primary">
+							</div>
+							<?php } ?>
+							<div class="col-sm-3">
+								<input type='submit' name='export' value='Export' class="btn btn-primary">
+							</div>
+						</div>
+					</form>
 					<?php } else { ?>
 					Please select agent
 					<?php } ?>
@@ -120,3 +269,30 @@ defined('BASEPATH') or exit('No direct script access allowed');
 	</div>
 </div>
 <!-- /page content -->
+<script>
+function sum_premium (name) {
+	var sum = 0;
+	$('input[name^="'+name+'"]').each(function() {
+		sum += parseFloat($(this).val());
+	});
+	$('#'+name).html(parseFloat(sum).toFixed(2));
+}
+
+$( document ).ready(function() {
+	<?php if ($beuser['user_group_id'] > 100) { ?>
+	$("input").prop('disabled', true);
+	<?php } ?>
+	$('input[name^="premium"]').change(function() {
+		sum_premium('premium');
+	});
+	$('input[name^="commission"]').change(function() {
+		sum_premium('commission');
+	});
+	$('input[name^="payment"]').change(function() {
+		sum_premium('payment');
+	});
+	sum_premium('premium');
+	sum_premium('commission');
+	sum_premium('payment');
+});
+</script>

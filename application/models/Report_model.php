@@ -857,4 +857,25 @@ class Report_model extends CI_Model
         $row['daily_rate'] = empty($row['total_days']) ? '' : sprintf("%01.2f", ($row['net_premium'] / $row['total_days']));
         return $row;
     }
+    
+    function get_annual($user_id) {
+    	$row = $this->db->get_where('user_meta', array('user_id' => $user_id, 'type' => 'annual_report'))->row_array();
+    	if ($row) {
+    		return json_decode($row['value'], TRUE);
+    	} else {
+    		return NULL;
+    	}
+    }
+    
+    function save_annual($user_id, $data) {
+    	$row = $this->db->get_where('user_meta', array('user_id' => $user_id, 'type' => 'annual_report'))->row_array();
+    	if ($row) {
+    		$row['value'] = json_encode($data);
+    		$row['last_update'] = date("Y-m-d H:i:s");
+    		$this->db->replace('user_meta', $row);
+    	} else {
+    		$row = array('user_id' => $user_id, 'type' => 'annual_report', 'value' => json_encode($data));
+    		$this->db->insert('user_meta', $row);
+    	}
+    }
 }

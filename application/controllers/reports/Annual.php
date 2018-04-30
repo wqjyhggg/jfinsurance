@@ -8,36 +8,6 @@ class Annual extends MY_Controller {
 	public $uploadtype = array('pdf', 'xls', 'xlsx'/*, 'doc', 'docx'*/);
 	public $data = array();
 	
-	/**
-	 * Index Page for this controller.
-	 */
-	public function filelist($agent_id)
-	{
-		$dir = DOWNLOADDIR . $this->annual . $agent_id;
-		if ( ! file_exists($dir)) {
-			if ( ! mkdir($dir, 0777, TRUE)) {
-				show_error("Can't create directory " . $dir);
-			}
-		}
-		$filelist = array();
-		$dt = new DateTime();
-		$dt->sub(date_interval_create_from_date_string("1 years"));
-		for ($i = 0; $i < 12; $i++) {
-			$filename = $this->annual . $agent_id . "/" . $dt->format("Y-m");
-			if (file_exists(DOWNLOADDIR . $filename . ".pdf")) {
-				$filelist[$dt->format("Y-m")] = array("filename" => $filename . ".pdf", "has" => 1);
-			} else if (file_exists(DOWNLOADDIR . $filename . ".xls")) {
-				$filelist[$dt->format("Y-m")] = array("filename" => $filename . ".xls", "has" => 1);
-			} else if (file_exists(DOWNLOADDIR . $filename . ".xlsx")) {
-				$filelist[$dt->format("Y-m")] = array("filename" => $filename . ".xlsx", "has" => 1);
-			} else {
-				$filelist[$dt->format("Y-m")] = array("filename" => $filename, "has" => 0);
-			}
-			$dt->add(date_interval_create_from_date_string("1 months"));
-		}
-		return $filelist;
-	}
-	
 	public function index() {
 		$beuser = $this->func_model->verify_login();
 		$this->load->model('report_model');
@@ -51,7 +21,6 @@ class Annual extends MY_Controller {
 		$this->data['top_menu'] = $this->menu_model->load_top_menu();
 		$this->data['menu'] = $this->menu_model->load_meun();
 		$this->data['action_url'] = current_url();
-		$this->data['upload_url'] = base_url("reports/annual/upload");
 		
 		if ($beuser['user_group_id'] > 100) {
 			$this->data['agent_id'] = $beuser['user_id'];
@@ -61,35 +30,77 @@ class Annual extends MY_Controller {
 		}
 
 		if ($this->data['agent_id']) {
-			// Get user file list
-			$this->data['filelist'] = $this->filelist($this->data['agent_id']);
+			if ($this->input->post('submit') || $this->input->post('export')) {
+				if ($beuser['user_group_id'] < 100) {
+					$post = $this->input->post();
+					$post['user_id'] = $beuser['user_id'];
+					$post['date_time'] = date("Y-m-d H:i:s");
+					$this->report_model->save_annual($this->data['agent_id'], $post);
+				}
+			}
+			$this->data['record'] = $this->report_model->get_annual($this->data['agent_id']);
+			if ($this->input->post('export')) {
+				return $this->export($this->data['record']);
+			}
+			
+			if (empty($this->data['record'])) {
+				$this->data['record'] = array("premium" => array(), "commission" => array(), "payment" => array(), "last_year_total" => 0);
+				for ($i = 1; $i <= 12; $i++) {
+					$this->data['record']["premium"][$i] = 0;
+					$this->data['record']["commission"][$i] = 0;
+					$this->data['record']["payment"][$i] = 0;
+				}
+			}
 		}
 		$this->data['beuser'] = $beuser;
 		$this->load->common('reports/annual', $this->data);
 	}
 	
-	function upload() {
-		$this->data['errormsg'] = "";
-		if ($this->input->post()) {
-			foreach ($_FILES as $uf) {
-				$name = $uf['name'];
-				$type = $uf['type'];
-				$tmp_name = $uf['tmp_name'];
-				$size = $uf['size'];
-				if (!empty($uf['error'])) {
-					$this->data['errormsg'] .= sprintf($this->lang->line ( 'error_file_upload' ), $name) . "<br />";
-					continue;
-				}
-				$fileinfo = pathinfo($name);
-				$filename = $this->input->post('key') . "." . $fileinfo['extension'];
-			    if (!in_array($fileinfo['extension'], $this->uploadtype)) {
-			    	$this->data['errormsg'] .= sprintf($this->lang->line ( 'error_file_type' ), $name) . "<br />";
-			    } else {
-			    	$filename = DOWNLOADDIR . $this->annual . $this->input->post('agent_id') . "/" . $filename;
-			    	move_uploaded_file($tmp_name, $filename);
-			    }
-			}
-		}
-		return $this->index();
-	}
+    private function export($record) {
+        $w = WriterFactory::create(Type::XLSX); // for XLSX files
+        $w->openToBrowser("Annual_Report_" . date('Ymd') . ".xlsx");
+        //$w->openToFile($tmpfname);
+        $w->addRow(array('Month', 'Premium', 'Commission', 'Payment'));
+
+        $premium = $record['premium']['1']; $commission = $record['commission']['1']; $payment = $record['payment']['1'];
+        $w->addRow(array('January', $record['premium']['1'], $record['commission']['1'], $record['payment']['1']));
+
+        $premium += $record['premium']['2']; $commission += $record['commission']['2']; $payment += $record['payment']['2'];
+        $w->addRow(array('February', $record['premium']['2'], $record['commission']['2'], $record['payment']['2']));
+
+        $premium += $record['premium']['3']; $commission += $record['commission']['3']; $payment += $record['payment']['3'];
+        $w->addRow(array('March', $record['premium']['3'], $record['commission']['3'], $record['payment']['3']));
+        
+        $premium += $record['premium']['4']; $commission += $record['commission']['4']; $payment += $record['payment']['4'];
+        $w->addRow(array('April', $record['premium']['4'], $record['commission']['4'], $record['payment']['4']));
+        
+        $premium += $record['premium']['5']; $commission += $record['commission']['5']; $payment += $record['payment']['5'];
+        $w->addRow(array('May', $record['premium']['5'], $record['commission']['5'], $record['payment']['5']));
+        
+        $premium += $record['premium']['6']; $commission += $record['commission']['6']; $payment += $record['payment']['6'];
+        $w->addRow(array('June', $record['premium']['6'], $record['commission']['6'], $record['payment']['6']));
+        
+        $premium += $record['premium']['7']; $commission += $record['commission']['7']; $payment += $record['payment']['7'];
+        $w->addRow(array('July', $record['premium']['7'], $record['commission']['7'], $record['payment']['7']));
+        
+        $premium += $record['premium']['8']; $commission += $record['commission']['8']; $payment += $record['payment']['8'];
+        $w->addRow(array('August', $record['premium']['8'], $record['commission']['8'], $record['payment']['8']));
+        
+        $premium += $record['premium']['9']; $commission += $record['commission']['9']; $payment += $record['payment']['9'];
+        $w->addRow(array('September', $record['premium']['9'], $record['commission']['9'], $record['payment']['9']));
+        
+        $premium += $record['premium']['10']; $commission += $record['commission']['10']; $payment += $record['payment']['10'];
+        $w->addRow(array('October', $record['premium']['10'], $record['commission']['10'], $record['payment']['10']));
+        
+        $premium += $record['premium']['11']; $commission += $record['commission']['11']; $payment += $record['payment']['11'];
+        $w->addRow(array('November', $record['premium']['11'], $record['commission']['11'], $record['payment']['11']));
+        
+        $premium += $record['premium']['12']; $commission += $record['commission']['12']; $payment += $record['payment']['12'];
+        $w->addRow(array('December', $record['premium']['12'], $record['commission']['12'], $record['payment']['12']));
+
+        $w->addRow(array('Total', $premium, $commission, $premium));
+        $w->addRow(array('Previous year total sales :' . $record['last_year_total']));
+        
+        $w->close();
+    }
 }
