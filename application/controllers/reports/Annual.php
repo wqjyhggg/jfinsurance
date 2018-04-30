@@ -38,9 +38,9 @@ class Annual extends MY_Controller {
 					$this->report_model->save_annual($this->data['agent_id'], $post);
 				}
 			}
-			$this->data['record'] = $this->report_model->get_annual($this->data['agent_id']);
+			$this->data['record'] = $this->report_model->get_annual($this->data['agent_id'], $this->data['agent_id']);
 			if ($this->input->post('export')) {
-				return $this->export($this->data['record']);
+				return $this->export($this->data['agent_id'], $this->data['record']);
 			}
 			
 			if (empty($this->data['record'])) {
@@ -56,7 +56,22 @@ class Annual extends MY_Controller {
 		$this->load->common('reports/annual', $this->data);
 	}
 	
-    private function export($record) {
+    private function export($agent_id, $record) {
+    	$data['style'] = $this->load->view('common/pdf_style',array(), TRUE);
+    	$mpdf = new mPDF('c');
+    	//todo may need separate commission pdf view
+        $premium = $commission = 0;
+    	for ($i = 1; $i <=12; $i++) {
+    		$premium += $record['premium'][$i];
+    		$commission += $record['commission'][$i];
+    	}
+    	$data['premium'] = $premium;
+    	$data['commission'] = $premium;
+    	$data['agent'] = $this->user_model->get_user_by_id($agent_id);
+    	$html = $this->load->view('reports/annual_pdf', $data, TRUE);
+    	$mpdf->writeHTML($html);
+    	$mpdf->Output();
+    	/*
         $w = WriterFactory::create(Type::XLSX); // for XLSX files
         $w->openToBrowser("Annual_Report_" . date('Ymd') . ".xlsx");
         //$w->openToFile($tmpfname);
@@ -102,5 +117,6 @@ class Annual extends MY_Controller {
         $w->addRow(array('Previous year total sales :' . $record['last_year_total']));
         
         $w->close();
+        */
     }
 }

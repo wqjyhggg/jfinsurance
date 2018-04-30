@@ -241,7 +241,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 										<div id="commission">0</div>
 									</td>
 									<td>
-										<div id="payment">0</div>
+										&nbsp;
 									</td>
 								</tr>
 							</tbody>
@@ -280,7 +280,7 @@ function sum_premium (name) {
 
 $( document ).ready(function() {
 	<?php if ($beuser['user_group_id'] > 100) { ?>
-	$("input").prop('disabled', true);
+	$("input[type=text]").prop('disabled', true);
 	<?php } ?>
 	$('input[name^="premium"]').change(function() {
 		sum_premium('premium');
@@ -288,11 +288,7 @@ $( document ).ready(function() {
 	$('input[name^="commission"]').change(function() {
 		sum_premium('commission');
 	});
-	$('input[name^="payment"]').change(function() {
-		sum_premium('payment');
-	});
 	sum_premium('premium');
 	sum_premium('commission');
-	sum_premium('payment');
 });
 </script>
