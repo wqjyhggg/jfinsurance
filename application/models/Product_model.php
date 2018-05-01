@@ -548,7 +548,7 @@ class Product_model extends CI_Model {
 						if ($years <= 25) 		$rate = 3.59;
 						elseif ($years <= 40) 	$rate = 4.02;
 						elseif ($years <= 60) {
-							if (isset($para['plan_id']) && ($para['plan_id'] < SELF::PLANIDCHG2018)) {
+							if (!empty($para['plan_id']) && ($para['plan_id'] < SELF::PLANIDCHG2018)) {
 								$rate = 4.95;
 							} else {
 								// new rate changed in 2018/04
