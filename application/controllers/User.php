@@ -292,6 +292,35 @@ class User extends MY_Controller {
 	/**
 	 * User list current user list
 	 */
+	public function export() {
+		$beuser = $this->func_model->verify_login();
+		if (($beuser['user_id'] == '1') || ($beuser['user_id'] == '2762')) {
+			$user_list = $this->user_model->get_user_list($this->session->beuser['user_group_id'], $this->session->beuser['user_id'], $this->input->get(), self::PERPAGE, ($this->input->get('per_page') * self::PERPAGE) );
+			
+			$w = WriterFactory::create(Type::XLSX); // for XLSX files
+			$w->openToBrowser("user_" . date('Ymd') . ".xlsx");
+			//$w->openToFile($tmpfname);
+			$w->addRow(array('User id', 'username', 'first name', 'last name', 'email', 'province', 'license number', 'license expire'));
+			
+			foreach($user_list as $agent) {
+				$w->addRow(array(
+						$agent['user_id'], 
+						$agent['username'],
+						$agent['firstname'],
+						$agent['lastname'],
+						$agent['email'],
+						$agent['province2'],
+						$agent['licence_number'],
+						$agent['licence_expire']
+						));
+			}
+			$w->close();
+		}
+	}
+	
+	/**
+	 * User list current user list
+	 */
 	public function dtlist() {
 		if (! $this->func_model->verify_level ( 104 )) {
 			// Login user
@@ -328,6 +357,7 @@ class User extends MY_Controller {
 		} else {
 			$data['behalf_url'] = '';
 		}
+		$data['export_url'] = base_url('user/export');
 		
 		$searchURL = current_url();
 		$para = $this->input->get();
