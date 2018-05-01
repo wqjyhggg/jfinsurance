@@ -4,7 +4,7 @@ if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
 class Product_model extends CI_Model {
-	const PLANIDCHG2018=387000;
+	const PLANIDCHG2018=385741;
 	public $message;
 	
 	/**
