@@ -637,6 +637,21 @@ class Cron extends MY_Controller {
 		}
 	}
 
+	public function delbatch() {
+		$batch = 1084;
+		$sql = "SELECT * FROM plan WHERE batch_number='".(int)$batch."'";
+		echo $sql."\n";
+		$rt = $this->db->query($sql)->result_array();
+		foreach ($rt  as $rc) {
+			$sql = "DELETE FROM payment WHERE plan_id='".(int)$rc['plan_id']."'";
+			echo $sql."\n";
+			$this->db->query($sql);
+		}
+		$sql = "DELETE FROM plan WHERE batch_number='".(int)$batch."'";
+		echo $sql."\n";
+		$this->db->query($sql);
+	}
+
 	public function test() {
 		$agentArr = array('155',
 '187',
