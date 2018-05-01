@@ -1,5 +1,9 @@
 <?php
 defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
+
+use Box\Spout\Common\Type;
+use Box\Spout\Writer\WriterFactory;
+
 class User extends MY_Controller {
 	const PASSWORD_MIN = 6;
 	const PASSWORD_MAX = 16;
@@ -295,7 +299,7 @@ class User extends MY_Controller {
 	public function export() {
 		$beuser = $this->func_model->verify_login();
 		if (($beuser['user_id'] == '1') || ($beuser['user_id'] == '2762')) {
-			$user_list = $this->user_model->get_user_list($this->session->beuser['user_group_id'], $this->session->beuser['user_id'], $this->input->get(), self::PERPAGE, ($this->input->get('per_page') * self::PERPAGE) );
+			$user_list = $this->user_model->get_user_list($this->session->beuser['user_group_id'], $this->session->beuser['user_id'] );
 			
 			$w = WriterFactory::create(Type::XLSX); // for XLSX files
 			$w->openToBrowser("user_" . date('Ymd') . ".xlsx");
@@ -357,6 +361,7 @@ class User extends MY_Controller {
 		} else {
 			$data['behalf_url'] = '';
 		}
+		$data['beuser_user_id'] = $this->session->beuser['user_id'];
 		$data['export_url'] = base_url('user/export');
 		
 		$searchURL = current_url();

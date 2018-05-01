@@ -140,6 +140,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                       <?php if($beuser_group_id != 2){ ?>
                       <a class="btn btn-info" href='<?php echo $edit_url."0"; ?>'><i class="fa fa-plus"></i> Add User</a>
                       <?php } ?>
+					  <?php if (($beuser_user_id == '1') || ($beuser_user_id == '2762')) { ?>
+                      <a class="btn btn-info" href='<?php echo $export_url; ?>'><i class="fa fa-download"></i> Export User</a>
+					  <?php } ?>
                     </span>
                     </h2>
 <?php } ?>
