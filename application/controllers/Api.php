@@ -218,6 +218,12 @@ class Api extends MY_Controller {
 					$p['flight_accident_insured'] = $plan['flight_accident_insured'];
 					$p['trip_cancellation_ck'] = $plan['trip_cancellation_ck'];
 					$p['trip_cancellation_insured'] = $plan['trip_cancellation_insured'];
+					$p['questionnaire'] = $plan['questionnaire'];
+					$p['question1'] = $plan['question1'];
+					$p['question2'] = $plan['question2'];
+					$p['question3'] = $plan['question3'];
+					$p['question4'] = $plan['question4'];
+					$p['question5'] = $plan['question5'];
 					$p['institution_addr'] = $plan['institution_addr'];
 					$p['student_id'] = $plan['student_id'];
 					$p['institution_phone'] = $plan['institution_phone'];
