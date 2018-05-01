@@ -154,7 +154,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 								<?php } ?>
 								</span>
 							<?php if ($plan['question5']) { ?>
-							<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Question 4 : 
+							<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Question 5 : 
 								<?php if ($plan['question5']) { ?>
 								<?php     if ($plan['question2'] == 2) { ?> Yes
 								<?php     } else  { ?> No <?php } ?> 
