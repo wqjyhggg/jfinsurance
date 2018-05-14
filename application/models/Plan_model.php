@@ -201,16 +201,16 @@ class Plan_model extends CI_Model {
 		if (isset($para['annual_plan_days'])) $sql .= " annual_plan_days=" . (int)$para['annual_plan_days'] . ", ";
 		if (isset($para['ad_and_d_ck'])) {
 			$sql .= " ad_and_d_ck='1', ";
-			if (isset($para['ad_and_d_insured'])) $sql .= " ad_and_d_insured=" . (int)$para['ad_and_d_insured'] . ", ";
 		}
+		if (isset($para['ad_and_d_insured'])) $sql .= " ad_and_d_insured=" . (int)$para['ad_and_d_insured'] . ", ";
 		if (isset($para['flight_accident_ck'])) {
 			$sql .= " flight_accident_ck='1', ";
-			if (isset($para['flight_accident_insured'])) $sql .= " flight_accident_insured=" . (int)$para['flight_accident_insured'] . ", ";
 		}
+		if (isset($para['flight_accident_insured'])) $sql .= " flight_accident_insured=" . (int)$para['flight_accident_insured'] . ", ";
 		if (isset($para['trip_cancellation_ck'])) {
 			$sql .= " trip_cancellation_ck='" . (int)$para['trip_cancellation_ck'] . "', ";
-			if (isset($para['trip_cancellation_insured'])) $sql .= " trip_cancellation_insured=" . (int)$para['trip_cancellation_insured'] . ", ";
 		}
+		if (isset($para['trip_cancellation_insured'])) $sql .= " trip_cancellation_insured=" . (int)$para['trip_cancellation_insured'] . ", ";
 		if (isset($para['questionnaire'])) $sql .= " questionnaire=" . (int)$para['questionnaire'] . ", ";
 		if (isset($para['question1'])) $sql .= " question1=" . (int)$para['question1'] . ", ";
 		if (isset($para['question2'])) $sql .= " question2=" . (int)$para['question2'] . ", ";

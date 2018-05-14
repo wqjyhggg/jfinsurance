@@ -364,21 +364,21 @@ class Plan extends MY_Controller {
 			if ($ad_and_d_ck) $ad_and_d_ck = 1;
 			$flight_accident_ck = $this->input->post('flight_accident_ck');
 			if ($flight_accident_ck) $flight_accident_ck = 1;
-			if (($this->input->post('free_cancel') != $plan['free_cancel']) ||
+			if ((int)($this->input->post('free_cancel') != (int)$plan['free_cancel']) ||
 				($this->input->post('annual_plan_days') != $plan['annual_plan_days']) ||
-				($ad_and_d_ck != $plan['ad_and_d_ck']) ||
+				((int)$ad_and_d_ck != (int)$plan['ad_and_d_ck']) ||
 				($this->input->post('ad_and_d_insured') != $plan['ad_and_d_insured']) ||
-				($flight_accident_ck != $plan['flight_accident_ck']) ||
+				((int)$flight_accident_ck != (int)$plan['flight_accident_ck']) ||
 				($this->input->post('flight_accident_insured') != $plan['flight_accident_insured']) ||
 				($this->input->post('trip_cancellation_ck') != $plan['trip_cancellation_ck	']) ||
 				($this->input->post('trip_cancellation_insured') != $plan['trip_cancellation_insured']) ||
 				($this->input->post('questionnaire') != $plan['questionnaire']) ||
-				($this->input->post('question1') != $plan['question1']) ||
-				($this->input->post('question2') != $plan['question2']) ||
-				($this->input->post('question3') != $plan['question3']) ||
-				($this->input->post('question4') != $plan['question4']) ||
-				($this->input->post('question5') != $plan['question5']) ) {
-				$this->error['error_message'] = "Plan can't be changed after plan effective";
+				((int)$this->input->post('question1') != (int)$plan['question1']) ||
+				((int)$this->input->post('question2') != (int)$plan['question2']) ||
+				((int)$this->input->post('question3') != (int)$plan['question3']) ||
+				((int)$this->input->post('question4') != (int)$plan['question4']) ||
+				((int)$this->input->post('question5') != (int)$plan['question5']) ) {
+				$this->error['error_message'] = "Plan can't be changed after plan effective XXXXXX";
 			}
 		} else {
 			// before 
