@@ -62,9 +62,10 @@ class Api extends MY_Controller {
 	public function agent($agent_id=0) {
 		if ($this->valid()) {
 			$data['errormsg'] = 'Unknown agent';
-			$data['success'] = 'OK';
+			$data['success'] = 'Fail';
 			$this->load->model('user_model');
 			if ($agent = $this->user_model->get_user_by_id($agent_id)) {
+				$data['success'] = 'OK';
 				$data['agent']['agent_id'] = $agent['user_id'];
 				$data['agent']['group_id'] = $agent['user_group_id'];
 				$data['agent']['username'] = $agent['username'];
@@ -73,6 +74,35 @@ class Api extends MY_Controller {
 				$data['agent']['email'] = $agent['email'];
 				$data['agent']['mobile_phone'] = $agent['mobile_phone'];
 				$products = $this->user_model->get_user_product_list($agent_id);
+				$data['agent']['products'] = array();
+				foreach ($products as $p) {
+					$data['agent']['products'][] = $p['product_short'];
+				}
+				$data['errormsg'] = '';
+			}
+		} else {
+			$data['errormsg'] = $this->error;
+		}
+		header('Content-Type: application/json');
+		header('Cache-Control: no-store, no-cache, must-revalidate');
+		echo json_encode($data);
+	}
+	
+	public function login() {
+		if ($this->valid()) {
+			$data['errormsg'] = 'Unknown agent';
+			$data['success'] = 'Fail';
+			$this->load->model('user_model');
+			if ($agent = $this->user_model->login( $this->input->post('username'), $this->input->post('password') )) {
+				$data['success'] = 'OK';
+				$data['agent']['agent_id'] = $agent['user_id'];
+				$data['agent']['group_id'] = $agent['user_group_id'];
+				$data['agent']['username'] = $agent['username'];
+				$data['agent']['firstname'] = $agent['firstname'];
+				$data['agent']['lastname'] = $agent['lastname'];
+				$data['agent']['email'] = $agent['email'];
+				$data['agent']['mobile_phone'] = $agent['mobile_phone'];
+				$products = $this->user_model->get_user_product_list($agent['user_id']);
 				$data['agent']['products'] = array();
 				foreach ($products as $p) {
 					$data['agent']['products'][] = $p['product_short'];
