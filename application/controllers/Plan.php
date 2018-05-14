@@ -334,10 +334,12 @@ class Plan extends MY_Controller {
 		$nowtm = strtotime(date('Y-m-d'). " 23:59:59");
 		$effective_date = $this->input->post('effective_date');
 		$effectivetm = strtotime($effective_date);
+		/*
 		if (($effective_date != $plan['effective_date']) && ($effective_date < $nowtm)) {
-			$this->error['error_effective_date'] = "Can't back Effective Date befort today";
+			$this->error['error_effective_date'] = "Can't back Effective Date before today";
 			return ;
 		}
+		*/
 		$nowdate = date('Y-m-d');
 		if ($plan['effective_date'] <= $nowdate) {
 			// After effective
