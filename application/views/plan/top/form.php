@@ -152,7 +152,7 @@
 												</div>
 												<div class="form-group col-sm-3">
 													<label class="col-sm-12">Departure Date (YYYY-MM-DD): </label>
-													<?php if ($user_group_id > 100) { ?>
+													<?php if (($user_group_id > 100) && $no_change) { ?>
 													<input type="hidden" name='arrival_date' value='<?php echo $arrival_date; ?>'>
 													<?php echo $arrival_date; ?>
 													<?php } else { ?>
@@ -167,7 +167,7 @@
 												</div>
 												<div class="form-group col-sm-3">
 													<label class="col-sm-12">Effective Date (YYYY-MM-DD): </label>
-													<?php if ($user_group_id > 100) { ?>
+													<?php if (($user_group_id > 100) && $no_change) { ?>
 													<input type="hidden" name='effective_date' value='<?php echo $effective_date; ?>'>
 													<?php echo $effective_date; ?>
 													<?php } else { ?>
@@ -182,7 +182,7 @@
 												</div>
 												<div class="form-group col-sm-3">
 													<label class="col-sm-12">Expiry Date (YYYY-MM-DD): </label>
-													<?php if ($user_group_id > 100) { ?>
+													<?php if (($user_group_id > 100) && $no_change) { ?>
 													<input type="hidden" name='expiry_date' value='<?php echo $expiry_date; ?>'>
 													<?php echo $expiry_date; ?>
 													<?php } else { ?>
@@ -197,7 +197,7 @@
 												</div>
 												<div class="form-group col-sm-3">
 													<label class="col-sm-12">Days: </label>
-													<?php if ($user_group_id > 100) { ?>
+													<?php if (($user_group_id > 100) && $no_change) { ?>
 													<input type="hidden" name='totaldays' value='<?php echo $totaldays; ?>'>
 													<?php echo $totaldays; ?>
 													<?php } else { ?>
@@ -208,7 +208,7 @@
 												</div>
 												<div class="form-group col-sm-3">
 													<label class="col-sm-12">Family / Group: </label>
-													<?php if ($user_group_id > 100) { ?>
+													<?php if (($user_group_id > 100) && $no_change) { ?>
 													<input type="hidden" name='isfamilyplan' value='<?php echo $isfamilyplan; ?>'>
 													<?php echo ($isfamilyplan == 1) ? 'Family' : (($isfamilyplan == 2) ? 'Group' : 'Single'); ?>
 													<?php } else { ?>
@@ -345,7 +345,7 @@
 															</div>
 															<div class="col-sm-4">
 																<label class="col-sm-12">&nbsp;</label>
-																<?php if (empty($user_group_id > 100)) { ?>
+																<?php if (($user_group_id > 100) && $no_change) { ?>
 																<input type='button' onclick='remove_member(<?php echo $i;?>)' value='Remove' data-toggle="tooltip" title="Remove Memeber" class="btn btn-info">
 																<?php } ?>
 															</div>
@@ -358,7 +358,7 @@
 													<div class="col-sm-1">
 													</div>
 													<div class="col-sm-11">
-														<?php if (empty($user_group_id > 100)) { ?>
+														<?php if (($user_group_id > 100) && $no_change) { ?>
 														<?php if ($isprocessplan && ($status_id != 5) && ($status_id != 6)) { ?>
 														<input class="btn btn-info btn-sm" type='button' id='addmorememberid' name='addmorememberid' value='Add More Member' onclick='addmoremember(1);'>
 														<?php } ?>
@@ -509,7 +509,7 @@
 										<fieldset>
 											<legend>Select Package</legend>
 											<div class="row">
-											<?php if ($user_group_id > 100) { ?>
+											<?php if (($user_group_id > 100) && $no_change) { ?>
 												<input type="hidden" name="package" value="<?php echo $package; ?>">
 												<div class="col-sm-3">
 													<?php if ($package == 'all_inclusive') { echo '<span class="glyphicon glyphicon-ok"></span>'; } ?>
@@ -537,25 +537,25 @@
 												</div>
 											<?php } else { ?>
 												<div class="col-sm-3">
-													<input <?php echo ($user_group_id > 100) ? 'disable="disable"' : ''; ?> type="radio" name="package" class='check_premium' value="all_inclusive" <?php if ($package == 'all_inclusive') { echo 'checked'; } ?>>
+													<input <?php echo (($user_group_id > 100) && $no_change) ? 'disable="disable"' : ''; ?> type="radio" name="package" class='check_premium' value="all_inclusive" <?php if ($package == 'all_inclusive') { echo 'checked'; } ?>>
 													<a href="#" data-toggle="popover" data-trigger="hover" title="All Inclusive" data-content="Explaination for All Inclusive">
 														<?php echo $toppackagename['all_inclusive']; ?> <span class="glyphicon glyphicon-question-sign"></span>
 													</a>
 												</div>
 												<div class="col-sm-3">
-													<input <?php echo ($user_group_id > 100) ? 'disable="disable"' : ''; ?> type="radio" name="package" class='check_premium' value="single_medical_plan" <?php if ($package == 'single_medical_plan') { echo 'checked'; } ?>>
+													<input <?php echo (($user_group_id > 100) && $no_change) ? 'disable="disable"' : ''; ?> type="radio" name="package" class='check_premium' value="single_medical_plan" <?php if ($package == 'single_medical_plan') { echo 'checked'; } ?>>
 													<a href="#" data-toggle="popover" data-trigger="hover" title="Out of Province" data-content="Explaination for Out of Province">
 														<?php echo $toppackagename['single_medical_plan']; ?> <span class="glyphicon glyphicon-question-sign"></span>
 													</a>
 												</div>
 												<div class="col-sm-3">
-													<input <?php echo ($user_group_id > 100) ? 'disable="disable"' : ''; ?> type="radio" name="package" class='check_premium' value="annual_plan" <?php if ($package == 'annual_plan') { echo 'checked'; } ?>>
+													<input <?php echo (($user_group_id > 100) && $no_change) ? 'disable="disable"' : ''; ?> type="radio" name="package" class='check_premium' value="annual_plan" <?php if ($package == 'annual_plan') { echo 'checked'; } ?>>
 													<a href="#" data-toggle="popover" data-trigger="hover" title="Annual Plan" data-content="Explaination for Annual Plan">
 														<?php echo $toppackagename['annual_plan']; ?> <span class="glyphicon glyphicon-question-sign"></span>
 													</a>
 												</div>
 												<div class="col-sm-3">
-													<input <?php echo ($user_group_id > 100) ? 'disable="disable"' : ''; ?> type="radio" name="package" class='check_premium' value="optional_plan" <?php if ($package == 'optional_plan') { echo 'checked'; } ?>>
+													<input <?php echo (($user_group_id > 100) && $no_change) ? 'disable="disable"' : ''; ?> type="radio" name="package" class='check_premium' value="optional_plan" <?php if ($package == 'optional_plan') { echo 'checked'; } ?>>
 													<a href="#" data-toggle="popover" data-trigger="hover" title="Optional Plan" data-content="Explaination for Optional Plan">
 														<?php echo $toppackagename['optional_plan']; ?> <span class="glyphicon glyphicon-question-sign"></span>
 													</a>
@@ -570,7 +570,7 @@
 											<div class="row">
 												<div class="col-sm-4">
 													<label class="col-sm-12">Sum Insured</label>
-													<?php if ($user_group_id > 100) { ?>
+													<?php if (($user_group_id > 100) && $no_change) { ?>
 													<input type="hidden" name="sum_insured" value="<?php echo $sum_insured; ?>">$<?php echo number_format($sum_insured, 2); ?>
 													<?php } else { ?>
 													<input type="number" name="sum_insured" class='check_premium' min="0" max="15000" step="100" value="<?php echo $sum_insured; ?>"> ( 0 - 15,000 every 100s)
@@ -578,7 +578,7 @@
 												</div>
 												<div class="col-sm-4">
 													<label class="col-sm-12">&nbsp;</label>
-													<?php if ($user_group_id > 100) { ?>
+													<?php if (($user_group_id > 100) && $no_change) { ?>
 													<input type="hidden" name="free_cancel" value="<?php echo $free_cancel ? 1 : 0; ?>">
 													<?php if ($free_cancel) { echo '<span class="glyphicon glyphicon-ok"></span>'; } ?> Free Cancellation
 													<?php } else { ?>
@@ -597,7 +597,7 @@
 												</div>
 												<div class="col-sm-10">
 													<label class="col-sm-12">Select Days</label>
-													<?php if ($user_group_id > 100) { ?>
+													<?php if (($user_group_id > 100) && $no_change) { ?>
 													<input type="hidden" name="annual_plan_days" value="<?php echo $annual_plan_days; ?>"><?php echo $annual_plan_days; ?> Days
 													<?php } else { ?>
 													<select name='annual_plan_days' class="check_premium" style="padding: 6px 2px;">
@@ -618,7 +618,7 @@
 											<div class="row panel-group">
 												<div class="panel panel-default">
 													<div class="panel-heading">
-														<?php if ($user_group_id > 100) { ?>
+														<?php if (($user_group_id > 100) && $no_change) { ?>
 														<input type="hidden" name="ad_and_d_ck" value="<?php echo $ad_and_d_ck ? 1 : 0; ?>">
 														<?php if ($ad_and_d_ck) { echo '<span class="glyphicon glyphicon-ok"></span>'; } ?> AD & D
 														<?php } else { ?>
@@ -630,7 +630,7 @@
 														<div class='row'>
 															<div class="col-sm-2 text-right"><label>Insured Amount : </label></div>
 															<div class="col-sm-10">
-																<?php if ($user_group_id > 100) { ?>
+																<?php if (($user_group_id > 100) && $no_change) { ?>
 																<input type="hidden" name="ad_and_d_insured" value="<?php echo $ad_and_d_insured; ?>">$<?php echo number_format($ad_and_d_insured); ?>
 																<?php } else { ?>
 																<select name='ad_and_d_insured' class="check_premium" style="padding: 6px 2px;">
@@ -646,7 +646,7 @@
 												</div>
 												<div class="panel panel-default">
 													<div class="panel-heading">
-														<?php if ($user_group_id > 100) { ?>
+														<?php if (($user_group_id > 100) && $no_change) { ?>
 														<input type="hidden" name="flight_accident_ck" value="<?php echo $flight_accident_ck ? 1 : 0; ?>">
 														<?php if ($flight_accident_ck) { echo '<span class="glyphicon glyphicon-ok"></span>'; } ?>  Flight Accident
 														<?php } else { ?>
@@ -658,7 +658,7 @@
 														<div class='row'>
 															<div class="col-sm-2 text-right"><label>Insured Amount : </label></div>
 															<div class="col-sm-10">
-																<?php if ($user_group_id > 100) { ?>
+																<?php if (($user_group_id > 100) && $no_change) { ?>
 																<input type="hidden" name="flight_accident_insured" value="<?php echo $flight_accident_insured; ?>">$<?php echo number_format($flight_accident_insured); ?>
 																<?php } else { ?>
 																<select name='flight_accident_insured' class="check_premium" style="padding: 6px 2px;">
@@ -674,7 +674,7 @@
 												<div class="panel panel-default">
 													<div class="panel-heading">
 														<input type="hidden" name="trip_cancellation_ck" value="<?php echo $trip_cancellation_ck; ?>">
-														<?php if ($user_group_id > 100) { ?>
+														<?php if (($user_group_id > 100) && $no_change) { ?>
 														<?php if ($trip_cancellation_ck) { echo '<span class="glyphicon glyphicon-ok"></span>'; } ?>
 														<?php } else { ?>
 														<input type="checkbox" name="trip_cancellation_ckbox" class='check_premium' value="1" <?php echo $trip_cancellation_ck ? 'checked' : ''; ?>>
@@ -686,7 +686,7 @@
 														<div class='row'>
 															<div class="col-sm-2 text-right"><label>Insured Amount : </label></div>
 															<div class="col-sm-10">
-																<?php if ($user_group_id > 100) { ?>
+																<?php if (($user_group_id > 100) && $no_change) { ?>
 																<input type="hidden" name="trip_cancellation_insured" value="<?php echo $trip_cancellation_insured; ?>">$<?php echo number_format($trip_cancellation_insured); ?>
 																<?php } else { ?>
 																<input type="number" name="trip_cancellation_insured" class='check_premium' min="0" max="20000" step="100" value="<?php echo $trip_cancellation_insured; ?>"> ( every 100s )
@@ -704,7 +704,7 @@
 											<div class="row">
 												<label class="inline">Select pre-existing condition coverage</label>
 												<div class="inline">
-													<?php if ($user_group_id > 100) { ?>
+													<?php if (($user_group_id > 100) && $no_change) { ?>
 														<?php echo ($stable_condition == 1) ? 'Including' : 'Excluding'; ?> stable pre-existing condition coverage
 													<?php } else { ?>
 													<select name='stable_condition' class="form-control check_premium" id='stable_condition_select'>
@@ -779,7 +779,7 @@
 														<li>Heart conditions/disease (do not include aspirin, hypertension (high blood pressure) or high cholesterol medications)</li>
 													</ul>
 												</div>
-												<?php if ($user_group_id > 100) { ?>
+												<?php if (($user_group_id > 100) && $no_change) { ?>
 												<input type="hidden" name="question1" value="<?php echo $question1; ?>">
 												<div class="col-sm-3">
 													<?php if ($question1 == 4) { echo '<span class="glyphicon glyphicon-ok"></span>'; } ?> 3 or more medications
@@ -816,7 +816,7 @@
 												<div class="col-sm-12">
 													<H4>Within the 24 months prior to the date of application, have you had a heart attack, stroke and/or transient ischemic attack (mini-stroke, TIA)?</H4>
 												</div>
-												<?php if ($user_group_id > 100) { ?>
+												<?php if (($user_group_id > 100) && $no_change) { ?>
 												<input type="hidden" name="question2" value="<?php echo $question2; ?>">
 												<div class="col-sm-3">
 													<?php if ($question2 == 2) { echo '<span class="glyphicon glyphicon-ok"></span>'; } ?> Yes
@@ -855,7 +855,7 @@
 														<li>Cancer</li>
 													</ul>
 												</div>
-												<?php if ($user_group_id > 100) { ?>
+												<?php if (($user_group_id > 100) && $no_change) { ?>
 												<input type="hidden" name="question3" value="<?php echo $question3; ?>">
 												<div class="col-sm-3">
 													<?php if ($question3 == 3) { echo '<span class="glyphicon glyphicon-ok"></span>'; } ?> 2 or more medical conditions
@@ -894,7 +894,7 @@
 														<li type='a'>Hospitalization or surgical intervention.</li>
 													</ol>
 												</div>
-												<?php if ($user_group_id > 100) { ?>
+												<?php if (($user_group_id > 100) && $no_change) { ?>
 												<input type="hidden" name="question4" value="<?php echo $question4; ?>">
 												<div class="col-sm-3">
 													<?php if ($question4 == 2) { echo '<span class="glyphicon glyphicon-ok"></span>'; } ?> Yes
@@ -919,7 +919,7 @@
 												<div class="col-sm-12">
 													<H4>Have you used any tobacco products in the past 24 months?</H4>
 												</div>
-												<?php if ($user_group_id > 100) { ?>
+												<?php if (($user_group_id > 100) && $no_change) { ?>
 												<input type="hidden" name="question4" value="<?php echo $question4; ?>">
 												<div class="col-sm-3">
 													<?php if ($question5 == 2) { echo'<span class="glyphicon glyphicon-ok"></span>'; } ?> Yes
@@ -1092,7 +1092,7 @@ var need_questionnaire = <?php printf("%d", $questionnaire); ?>;
 var cur_max_member = <?php printf("%d", $cur_max_member); ?>;
 var show_ajax_message = 0;
 var answer;
-<?php if ($user_group_id > 100) { ?>
+<?php if (($user_group_id > 100) && $no_change) { ?>
 <?php } else { ?>
 $('input[name="package"]').on('change', function (e) {
 	var q = $('input[name=package]:checked').val();
