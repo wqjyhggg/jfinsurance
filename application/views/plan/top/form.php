@@ -1158,7 +1158,7 @@ $('#question3_next').on('click', function (e) {
 	$('input[name=question4]').prop('checked', false);
 	$('input[name=question5]').prop('checked', false);
 	$('#questionnaire_q5').css('display','none');
-	if (q >= 1) {
+	if (q >= 2) {
 		$('#questionnaire_q4').css('display','none');
 		$('input[name=questionnaire]').val(4);
 		get_premium();
