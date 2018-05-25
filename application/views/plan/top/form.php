@@ -772,39 +772,25 @@
 												<div class="col-sm-12">
 													<H4>At the time of application, how many medications* in total do you take or have you been ordered to take by a physician, to treat one or more of the following medical conditions:</H4>
 												</div>
+												<input type="hidden" name="question1" value="<?php echo $question1; ?>">
+												<?php if (($user_group_id > 100) && $no_change) { ?>
 												<div class="col-sm-12">
 													<ul>
-														<li>Lung conditions/disease (include asthma)</li>
-														<li>Diabetes</li>
-														<li>Heart conditions/disease (do not include aspirin, hypertension (high blood pressure) or high cholesterol medications)</li>
+														<li>Lung conditions/disease (include asthma) : take <?php echo (int)$question1_lung; ?> medication(s)</li>
+														<li>Diabetes : take <?php echo (int)$question1_diabets; ?> medication(s)</li>
+														<li>Heart conditions/disease (do not include aspirin, hypertension (high blood pressure) or high cholesterol medications) : take <?php echo (int)$question1_heart; ?> medication(s)</li>
 													</ul>
 												</div>
-												<?php if (($user_group_id > 100) && $no_change) { ?>
-												<input type="hidden" name="question1" value="<?php echo $question1; ?>">
-												<div class="col-sm-3">
-													<?php if ($question1 == 4) { echo '<span class="glyphicon glyphicon-ok"></span>'; } ?> 3 or more medications
-												</div>
-												<div class="col-sm-3">
-													<?php if ($question1 == 3) { echo '<span class="glyphicon glyphicon-ok"></span>'; } ?> 2 medications
-												</div>
-												<div class="col-sm-3">
-													<?php if ($question1 == 2) { echo '<span class="glyphicon glyphicon-ok"></span>'; } ?> 1 medication
-												</div>
-												<div class="col-sm-3">
-													<?php if ($question1 == 1) { echo '<span class="glyphicon glyphicon-ok"></span>'; } ?> none
-												</div>
 												<?php } else { ?>
-												<div class="col-sm-3">
-													<input type="radio" name="question1" value="4" <?php if ($question1 == 4) { echo "checked"; } ?>> 3 or more medications
+												<div class="col-sm-12">
+													<ul>
+														<li>Lung conditions/disease (include asthma) : take <input name='question1_lung' value='<?php echo $question1_lung; ?>' style="width:2em" maxlength="2"> medication(s)</li>
+														<li>Diabetes : take <input name='question1_diabets' value='<?php echo $question1_diabets; ?>' style="width:2em" maxlength="2"> medication(s)</li>
+														<li>Heart conditions/disease (do not include aspirin, hypertension (high blood pressure) or high cholesterol medications) : take <input name='question1_heart' value='<?php echo $question1_heart; ?>' style="width:2em" maxlength="2"> medication(s)</li>
+													</ul>
 												</div>
-												<div class="col-sm-3">
-													<input type="radio" name="question1" value="3" <?php if ($question1 == 3) { echo "checked"; } ?>> 2 medications
-												</div>
-												<div class="col-sm-3">
-													<input type="radio" name="question1" value="2" <?php if ($question1 == 2) { echo "checked"; } ?>> 1 medication
-												</div>
-												<div class="col-sm-3">
-													<input type="radio" name="question1" value="1" <?php if ($question1 == 1) { echo "checked"; } ?>> none
+												<div class="col-sm-12 text-center">
+													<buttom type='button' id='question1_next' class='btn btn-info'>Next</buttom>
 												</div>
 												<?php } ?>
 											</div>
@@ -841,40 +827,39 @@
 												<div class="col-sm-12">
 													<H4>At the time of application, how many of the following medical conditions are you receiving treatment for? <br>Treatment includes medication* that you take or have been ordered to take by a physician.</H4>
 												</div>
+												<input type="hidden" name="question3" value="<?php echo $question3; ?>">
+												<?php if (($user_group_id > 100) && $no_change) { ?>
 												<div class="col-sm-12">
 													<ul>
-														<li>Heart conditions/disease (include aspirin)</li>
-														<li>Lung conditions/disease (include asthma)</li>
-														<li>Diabetes (controlled by medication or diet)</li>	
-														<li>Hypertension</li>
-														<li>Diverticulitis/Diverticulosis</li>
-														<li>Bowel obstruction including bleeding and inflammation</li>
-														<li>Peptic ulcer</li>
-														<li>GERD (gastro-esophageal reflux disease)</li>
-														<li>Kidney disease</li>
-														<li>Cancer</li>
+														<li>Bowel obstruction including bleeding and inflammation <?php echo $question3_bowel; ?></li>
+														<li>Cancer <?php echo $question3_cancer; ?></li>
+														<li>Diabetes (controlled by medication or diet) <?php echo $question3_diabetes; ?></li>	
+														<li>Diverticulitis/Diverticulosis <?php echo $question3_diverticu; ?></li>
+														<li>GERD (gastro-esophageal reflux disease) <?php echo $question3_gerd; ?></li>
+														<li>Heart conditions/disease (include aspirin) <?php echo $question3_heart; ?></li>
+														<li>Hypertension <?php echo $question3_hyper; ?></li>
+														<li>Kidney disease <?php echo $question3_kidney; ?></li>
+														<li>Lung conditions/disease (include asthma) <?php echo $question3_lung; ?></li>
+														<li>Peptic ulcer <?php echo $question3_peptic; ?></li>
 													</ul>
 												</div>
-												<?php if (($user_group_id > 100) && $no_change) { ?>
-												<input type="hidden" name="question3" value="<?php echo $question3; ?>">
-												<div class="col-sm-3">
-													<?php if ($question3 == 3) { echo '<span class="glyphicon glyphicon-ok"></span>'; } ?> 2 or more medical conditions
-												</div>
-												<div class="col-sm-3">
-													<?php if ($question3 == 2) { echo '<span class="glyphicon glyphicon-ok"></span>'; } ?> 1 medical condition
-												</div>
-												<div class="col-sm-3">
-													<?php if ($question3 == 1) { echo '<span class="glyphicon glyphicon-ok"></span>'; } ?> none
-												</div>
 												<?php } else { ?>
-												<div class="col-sm-3">
-													<input type="radio" name="question3" value="3" <?php if ($question3 == 3) { echo "checked"; } ?>> 2 or more medical conditions
+												<div class="col-sm-12">
+													<ul>
+														<li>Bowel obstruction including bleeding and inflammation <input type="radio" name="question3_bowel" value="Y" <?php if ($question3_bowel == 'Y') { echo "checked"; } ?>> Yes / <input type="radio" name="question3_bowel" value="N" <?php if ($question3_bowel == 'N') { echo "checked"; } ?>> No </li>
+														<li>Cancer <input type="radio" name="question3_cancer" value="Y" <?php if ($question3_cancer == 'Y') { echo "checked"; } ?>> Yes / <input type="radio" name="question3_cancer" value="N" <?php if ($question3_cancer == 'N') { echo "checked"; } ?>> No </li>
+														<li>Diabetes (controlled by medication or diet) <input type="radio" name="question3_diabetes" value="Y" <?php if ($question3_diabetes == 'Y') { echo "checked"; } ?>> Yes / <input type="radio" name="question3_diabetes" value="N" <?php if ($question3_diabetes == 'N') { echo "checked"; } ?>> No </li>	
+														<li>Diverticulitis/Diverticulosis <input type="radio" name="question3_diverticu" value="Y" <?php if ($question3_diverticu == 'Y') { echo "checked"; } ?>> Yes / <input type="radio" name="question3_diverticu" value="N" <?php if ($question3_diverticu == 'N') { echo "checked"; } ?>> No </li>
+														<li>GERD (gastro-esophageal reflux disease) <input type="radio" name="question3_gerd" value="Y" <?php if ($question3_gerd == 'Y') { echo "checked"; } ?>> Yes / <input type="radio" name="question3_gerd" value="N" <?php if ($question3_gerd == 'N') { echo "checked"; } ?>> No </li>
+														<li>Heart conditions/disease (include aspirin) <input type="radio" name="question3_heart" value="Y" <?php if ($question3_heart == 'Y') { echo "checked"; } ?>> Yes / <input type="radio" name="question3_heart" value="N" <?php if ($question3_heart == 'N') { echo "checked"; } ?>> No </li>
+														<li>Hypertension <input type="radio" name="question3_hyper" value="Y" <?php if ($question3_hyper == 'Y') { echo "checked"; } ?>> Yes / <input type="radio" name="question3_hyper" value="N" <?php if ($question3_hyper == 'N') { echo "checked"; } ?>> No </li>
+														<li>Kidney disease <input type="radio" name="question3_kidney" value="Y" <?php if ($question3_kidney == 'Y') { echo "checked"; } ?>> Yes / <input type="radio" name="question3_kidney" value="N" <?php if ($question3_kidney == 'N') { echo "checked"; } ?>> No </li>
+														<li>Lung conditions/disease (include asthma) <input type="radio" name="question3_lung" value="Y" <?php if ($question3_lung == 'Y') { echo "checked"; } ?>> Yes / <input type="radio" name="question3_lung" value="N" <?php if ($question3_lung == 'N') { echo "checked"; } ?>> No </li>
+														<li>Peptic ulcer <input type="radio" name="question3_peptic" value="Y" <?php if ($question3_peptic == 'Y') { echo "checked"; } ?>> Yes / <input type="radio" name="question3_peptic" value="N" <?php if ($question3_peptic == 'N') { echo "checked"; } ?>> No </li>
+													</ul>
 												</div>
-												<div class="col-sm-3">
-													<input type="radio" name="question3" value="2" <?php if ($question3 == 2) { echo "checked"; } ?>> 1 medical condition
-												</div>
-												<div class="col-sm-3">
-													<input type="radio" name="question3" value="1" <?php if ($question3 == 1) { echo "checked"; } ?>> none
+												<div class="col-sm-12 text-center">
+													<buttom type='button' id='question3_next' class='btn btn-info'>Next</buttom>
 												</div>
 												<?php } ?>
 											</div>
@@ -1117,31 +1102,32 @@ $('input[name="trip_cancellation_ckbox"]').on('change', function (e) {
 	}
 });
 
-$('input[name=question1]').on('change', function (e) {
-	var q = $('input[name=question1]:checked').val();
+$('#question1_next').on('click', function (e) {
+	var q = parseInt($('input[name=question1_lung]').val()) + parseInt($('input[name=question1_diabets]').val()) + parseInt($('input[name=question1_heart]').val());
+	$('input[name=question1]').val(q);
 	$('input[name=question2]').prop('checked', false);
-	$('input[name=question3]').prop('checked', false);
+	$('input[name=question3]').val(0);
 	$('input[name=question4]').prop('checked', false);
 	$('input[name=question5]').prop('checked', false);
 	$('#questionnaire_q3').css('display','none');
 	$('#questionnaire_q4').css('display','none');
 	$('#questionnaire_q5').css('display','none');
-	if (q == 4) {
+	if (q >= 3) {
 		$('#questionnaire_q2').css('display','none');
 		$('input[name=questionnaire]').val(6);
 		get_premium();
-	} else if (q == 3) {
+	} else if (q >= 2) {
 		$('#questionnaire_q2').css('display','none');
 		$('input[name=questionnaire]').val(5);
 		get_premium();
-	} else if ((q == 2) || (q == 1)) {
+	} else {
 		$('#questionnaire_q2').css('display','block');
 	}
 });
 
 $('input[name=question2]').on('change', function (e) {
 	var q = $('input[name=question2]:checked').val();
-	$('input[name=question3]').prop('checked', false);
+	$('input[name=question3]').val(0);
 	$('input[name=question4]').prop('checked', false);
 	$('input[name=question5]').prop('checked', false);
 	$('#questionnaire_q4').css('display','none');
@@ -1155,20 +1141,32 @@ $('input[name=question2]').on('change', function (e) {
 	}
 });
 
-$('input[name=question3]').on('change', function (e) {
-	var q = $('input[name=question3]:checked').val();
+$('#question3_next').on('click', function (e) {
+	var q = 0;
+	if ($('input[name=question3_bowel]:checked').val() == 'Y') q++;
+	if ($('input[name=question3_cancer]:checked').val() == 'Y') q++;
+	if ($('input[name=question3_diabetes]:checked').val() == 'Y') q++;
+	if ($('input[name=question3_diverticu]:checked').val() == 'Y') q++;
+	if ($('input[name=question3_gerd]:checked').val() == 'Y') q++;
+	if ($('input[name=question3_heart]:checked').val() == 'Y') q++;
+	if ($('input[name=question3_hyper]:checked').val() == 'Y') q++;
+	if ($('input[name=question3_kidney]:checked').val() == 'Y') q++;
+	if ($('input[name=question3_lung]:checked').val() == 'Y') q++;
+	if ($('input[name=question3_peptic]:checked').val() == 'Y') q++;
+
+	$('input[name=question3]').val(q);
 	$('input[name=question4]').prop('checked', false);
 	$('input[name=question5]').prop('checked', false);
 	$('#questionnaire_q5').css('display','none');
-	if (q == 3) {
+	if (q >= 1) {
 		$('#questionnaire_q4').css('display','none');
 		$('input[name=questionnaire]').val(4);
 		get_premium();
-	} else if (q == 2) {
+	} else if (q >= 1) {
 		$('#questionnaire_q4').css('display','none');
 		$('input[name=questionnaire]').val(3);
 		get_premium();
-	} else if (q == 1) {
+	} else {
 		$('#questionnaire_q4').css('display','block');
 	}
 });
@@ -1216,9 +1214,9 @@ $('a[data-toggle="tab"]').on('click', function (e) {
 		var q = $('input[name=questionnaire]').val();
 		if (q == 0) {
 			$('input[name=questionnaire]').val(0);
-			$('input[name=question1]').prop('checked', false);
+			$('input[name=question1]').val(0);
 			$('input[name=question2]').prop('checked', false);
-			$('input[name=question3]').prop('checked', false);
+			$('input[name=question3]').val(0);
 			$('input[name=question4]').prop('checked', false);
 			$('input[name=question5]').prop('checked', false);
 	
@@ -1464,9 +1462,9 @@ function get_premium() {
 					$('#page-next').css('display','none');
 				}
 				$('input[name=questionnaire]').val(0);
-				$('input[name=question1]').prop('checked', false);
+				$('input[name=question1]').val(0);
 				$('input[name=question2]').prop('checked', false);
-				$('input[name=question3]').prop('checked', false);
+				$('input[name=question3]').val(0);
 				$('input[name=question4]').prop('checked', false);
 				$('input[name=question5]').prop('checked', false);
 			}

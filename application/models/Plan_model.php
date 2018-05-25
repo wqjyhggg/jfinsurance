@@ -213,8 +213,21 @@ class Plan_model extends CI_Model {
 		if (isset($para['trip_cancellation_insured'])) $sql .= " trip_cancellation_insured=" . (int)$para['trip_cancellation_insured'] . ", ";
 		if (isset($para['questionnaire'])) $sql .= " questionnaire=" . (int)$para['questionnaire'] . ", ";
 		if (isset($para['question1'])) $sql .= " question1=" . (int)$para['question1'] . ", ";
+		if (isset($para['question1_lung'])) $sql .= " question1_lung=" . (int)$para['question1_lung'] . ", ";
+		if (isset($para['question1_diabets'])) $sql .= " question1_diabets=" . (int)$para['question1_diabets'] . ", ";
+		if (isset($para['question1_heart'])) $sql .= " question1_heart=" . (int)$para['question1_heart'] . ", ";
 		if (isset($para['question2'])) $sql .= " question2=" . (int)$para['question2'] . ", ";
 		if (isset($para['question3'])) $sql .= " question3=" . (int)$para['question3'] . ", ";
+		if (isset($para['question3_bowel'])) $sql .= " question3_bowel=" . $this->db->escape(trim($para['question3_bowel'])) . ", ";
+		if (isset($para['question3_cancer'])) $sql .= " question3_cancer=" . $this->db->escape(trim($para['question3_cancer'])) . ", ";
+		if (isset($para['question3_diabetes'])) $sql .= " question3_diabetes=" . $this->db->escape(trim($para['question3_diabetes'])) . ", ";
+		if (isset($para['question3_diverticu'])) $sql .= " question3_diverticu=" . $this->db->escape(trim($para['question3_diverticu'])) . ", ";
+		if (isset($para['question3_gerd'])) $sql .= " question3_gerd=" . $this->db->escape(trim($para['question3_gerd'])) . ", ";
+		if (isset($para['question3_heart'])) $sql .= " question3_heart=" . $this->db->escape(trim($para['question3_heart'])) . ", ";
+		if (isset($para['question3_hyper'])) $sql .= " question3_hyper=" . $this->db->escape(trim($para['question3_hyper'])) . ", ";
+		if (isset($para['question3_kidney'])) $sql .= " question3_kidney=" . $this->db->escape(trim($para['question3_kidney'])) . ", ";
+		if (isset($para['question3_lung'])) $sql .= " question3_lung=" . $this->db->escape(trim($para['question3_lung'])) . ", ";
+		if (isset($para['question3_peptic'])) $sql .= " question3_peptic=" . $this->db->escape(trim($para['question3_peptic'])) . ", ";
 		if (isset($para['question4'])) $sql .= " question4=" . (int)$para['question4'] . ", ";
 		if (isset($para['question5'])) $sql .= " question5=" . (int)$para['question5'] . ", ";
 
@@ -630,6 +643,18 @@ class Plan_model extends CI_Model {
 			$this->logstr .= " question1 " . $para['question1'] . "(" . $plan['question1'] . ")";
 			$sql .= " question1=" . $this->db->escape(trim($para['question1'])) . ", ";
 		}
+		if (isset($para['question1_lung']) && ($para['question1_lung'] != $plan['question1_lung'])) {
+			$this->logstr .= " question1_lung " . $para['question1_lung'] . "(" . $plan['question1_lung'] . ")";
+			$sql .= " question1_lung=" . $this->db->escape(trim($para['question1_lung'])) . ", ";
+		}
+		if (isset($para['question1_diabets']) && ($para['question1_diabets'] != $plan['question1_diabets'])) {
+			$this->logstr .= " question1_diabets " . $para['question1_diabets'] . "(" . $plan['question1_diabets'] . ")";
+			$sql .= " question1_diabets=" . $this->db->escape(trim($para['question1_diabets'])) . ", ";
+		}
+		if (isset($para['question1_heart']) && ($para['question1_heart'] != $plan['question1_heart'])) {
+			$this->logstr .= " question1_heart " . $para['question1_heart'] . "(" . $plan['question1_heart'] . ")";
+			$sql .= " question1_heart=" . $this->db->escape(trim($para['question1_heart'])) . ", ";
+		}
 		if (isset($para['question2']) && ($para['question2'] != $plan['question2'])) {
 			$this->logstr .= " question2 " . $para['question2'] . "(" . $plan['question2'] . ")";
 			$sql .= " question2=" . $this->db->escape(trim($para['question2'])) . ", ";
@@ -637,6 +662,46 @@ class Plan_model extends CI_Model {
 		if (isset($para['question3']) && ($para['question3'] != $plan['question3'])) {
 			$this->logstr .= " question3 " . $para['question3'] . "(" . $plan['question3'] . ")";
 			$sql .= " question3=" . $this->db->escape(trim($para['question3'])) . ", ";
+		}
+		if (isset($para['question3_bowel']) && ($para['question3_bowel'] != $plan['question3_bowel'])) {
+			$this->logstr .= " question3_bowel " . $para['question3_bowel'] . "(" . $plan['question3_bowel'] . ")";
+			$sql .= " question3_bowel=" . $this->db->escape(trim($para['question3_bowel'])) . ", ";
+		}
+		if (isset($para['question3_cancer']) && ($para['question3_cancer'] != $plan['question3_cancer'])) {
+			$this->logstr .= " question3_cancer " . $para['question3_cancer'] . "(" . $plan['question3_cancer'] . ")";
+			$sql .= " question3_cancer=" . $this->db->escape(trim($para['question3_cancer'])) . ", ";
+		}
+		if (isset($para['question3_diabetes']) && ($para['question3_diabetes'] != $plan['question3_diabetes'])) {
+			$this->logstr .= " question3_diabetes " . $para['question3_diabetes'] . "(" . $plan['question3_diabetes'] . ")";
+			$sql .= " question3_diabetes=" . $this->db->escape(trim($para['question3_diabetes'])) . ", ";
+		}
+		if (isset($para['question3_diverticu']) && ($para['question3_diverticu'] != $plan['question3_diverticu'])) {
+			$this->logstr .= " question3_diverticu " . $para['question3_diverticu'] . "(" . $plan['question3_diverticu'] . ")";
+			$sql .= " question3_diverticu=" . $this->db->escape(trim($para['question3_diverticu'])) . ", ";
+		}
+		if (isset($para['question3_gerd']) && ($para['question3_gerd'] != $plan['question3_gerd'])) {
+			$this->logstr .= " question3_gerd " . $para['question3_gerd'] . "(" . $plan['question3_gerd'] . ")";
+			$sql .= " question3_gerd=" . $this->db->escape(trim($para['question3_gerd'])) . ", ";
+		}
+		if (isset($para['question3_heart']) && ($para['question3_heart'] != $plan['question3_heart'])) {
+			$this->logstr .= " question3_heart " . $para['question3_heart'] . "(" . $plan['question3_heart'] . ")";
+			$sql .= " question3_heart=" . $this->db->escape(trim($para['question3_heart'])) . ", ";
+		}
+		if (isset($para['question3_hyper']) && ($para['question3_hyper'] != $plan['question3_hyper'])) {
+			$this->logstr .= " question3_hyper " . $para['question3_hyper'] . "(" . $plan['question3_hyper'] . ")";
+			$sql .= " question3_hyper=" . $this->db->escape(trim($para['question3_hyper'])) . ", ";
+		}
+		if (isset($para['question3_kidney']) && ($para['question3_kidney'] != $plan['question3_kidney'])) {
+			$this->logstr .= " question3_kidney " . $para['question3_kidney'] . "(" . $plan['question3_kidney'] . ")";
+			$sql .= " question3_kidney=" . $this->db->escape(trim($para['question3_kidney'])) . ", ";
+		}
+		if (isset($para['question3_lung']) && ($para['question3_lung'] != $plan['question3_lung'])) {
+			$this->logstr .= " question3_lung " . $para['question3_lung'] . "(" . $plan['question3_lung'] . ")";
+			$sql .= " question3_lung=" . $this->db->escape(trim($para['question3_lung'])) . ", ";
+		}
+		if (isset($para['question3_peptic']) && ($para['question3_peptic'] != $plan['question3_peptic'])) {
+			$this->logstr .= " question3_peptic " . $para['question3_peptic'] . "(" . $plan['question3_peptic'] . ")";
+			$sql .= " question3_peptic=" . $this->db->escape(trim($para['question3_peptic'])) . ", ";
 		}
 		if (isset($para['question4']) && ($para['question4'] != $plan['question4'])) {
 			$this->logstr .= " question4 " . $para['question4'] . "(" . $plan['question4'] . ")";

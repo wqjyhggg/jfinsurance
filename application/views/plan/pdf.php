@@ -125,12 +125,19 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 							<?php } ?>
 							<?php if ($plan['questionnaire']) { ?>
 							<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>With Questionnaire answers</span> 
+							<?php if ($plan['question1_lung'] || $plan['question1_diabets'] || $plan['question1_heart']) { ?>
 							<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Question 1 : 
-								<?php if ($plan['question1'] == 4) { ?> 3 or more medications
-								<?php } else if ($plan['question1'] == 3) { ?> 2 medications
-								<?php } else if ($plan['question1'] == 2) { ?> 1 medication
-								<?php } else  { ?> none <?php } ?>
+								<?php if ($plan['question1_lung']) { ?>
+									<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Lung conditions/disease (include asthma) : take <?php echo $plan['question1_lung']; ?> medication(s)
+								<?php } ?>
+								<?php if ($plan['question1_diabets']) { ?>
+									<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Diabetes : take <?php echo $plan['question1_diabets']; ?> medication(s)
+								<?php } ?>
+								<?php if ($plan['question1_heart']) { ?>
+									<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Heart conditions/disease (do not include aspirin, hypertension (high blood pressure) or high cholesterol medications) : take <?php echo $plan['question1_heart']; ?> medication(s)
+								<?php } ?>
 								</span>
+							<?php } ?>
 							<?php if ($plan['question2']) { ?>
 							<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Question 2 : 
 								<?php if ($plan['question2']) { ?>
@@ -140,10 +147,35 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 								</span>
 							<?php if ($plan['question3']) { ?>
 							<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Question 3 : 
-								<?php if ($plan['question3']) { ?>
-								<?php     if ($plan['question3'] == 3) { ?> 2 or more medical conditions
-								<?php     } else if ($plan['question3'] == 2) { ?> 1 medical condition
-								<?php     } else  { ?> none <?php } ?> 
+								<?php if ($plan['question3_bowel'] == 'Y') { ?>
+									<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bowel obstruction including bleeding and inflammation : yes
+								<?php } ?>
+								<?php if ($plan['question3_cancer'] == 'Y') { ?>
+									<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Cancer : yes
+								<?php } ?>
+								<?php if ($plan['question3_diabetes'] == 'Y') { ?>
+									<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Diabetes (controlled by medication or diet) : yes	
+								<?php } ?>
+								<?php if ($plan['question3_diverticu'] == 'Y') { ?>
+									<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Diverticulitis/Diverticulosis : yes
+								<?php } ?>
+								<?php if ($plan['question3_gerd'] == 'Y') { ?>
+									<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GERD (gastro-esophageal reflux disease) : yes
+								<?php } ?>
+								<?php if ($plan['question3_heart'] == 'Y') { ?>
+									<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Heart conditions/disease (include aspirin) : yes
+								<?php } ?>
+								<?php if ($plan['question3_hyper'] == 'Y') { ?>
+									<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Hypertension : yes
+								<?php } ?>
+								<?php if ($plan['question3_kidney'] == 'Y') { ?>
+									<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Kidney disease : yes
+								<?php } ?>
+								<?php if ($plan['question3_lung'] == 'Y') { ?>
+									<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Lung conditions/disease (include asthma) : yes
+								<?php } ?>
+								<?php if ($plan['question3_peptic'] == 'Y') { ?>
+									<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Peptic ulcer : yes
 								<?php } ?>
 								</span>
 							<?php if ($plan['question4']) { ?>

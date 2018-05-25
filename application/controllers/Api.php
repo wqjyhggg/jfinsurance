@@ -31,6 +31,34 @@ class Api extends MY_Controller {
 		echo json_encode($data);
 	}
 	
+	public function addplan() {
+		if ($this->valid()) {
+			$post = $this->input->post();
+			$data['errormsg'] = 'Unknown Parameter, Please contact JF admin';
+			$data['success'] = 'Fail';
+			$this->load->model('user_model');
+			$user = $this->user_model->get_user_by_id($post['user_id']);
+			if ($user) {
+				$this->session->set_userdata('vsuser', $user);
+				$this->load->model('plan_model');
+				$plan_id = $this->plan_model->add($post);
+				if ($plan_id) {
+					$plan = $this->plan_model->get_plan_by_id();
+					if ($plan) {
+						$data['success'] = 'OK';
+						$data['plan'] = $plan;
+						$data['errormsg'] = '';
+					}
+				}
+			}
+		} else {
+			$data['errormsg'] = $this->error;
+		}
+		header('Content-Type: application/json');
+		header('Cache-Control: no-store, no-cache, must-revalidate');
+		echo json_encode($data);
+	}
+	
 	public function premium() {
 		if ($this->valid()) {
 			$post = $this->input->post();

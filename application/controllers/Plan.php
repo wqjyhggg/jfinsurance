@@ -1140,6 +1140,27 @@ class Plan extends MY_Controller {
 		} else {
 			$data['question1'] = '0';
 		}
+		if ($this->input->post('question1_lung')) {
+			$data['question1_lung'] = $this->input->post('question1_lung');
+		} else if (isset($plan['question1_lung'])) {
+			$data['question1_lung'] = $plan['question1_lung'];
+		} else {
+			$data['question1_lung'] = '0';
+		}
+		if ($this->input->post('question1_diabets')) {
+			$data['question1_diabets'] = $this->input->post('question1_diabets');
+		} else if (isset($plan['question1_diabets'])) {
+			$data['question1_diabets'] = $plan['question1_diabets'];
+		} else {
+			$data['question1_diabets'] = '0';
+		}
+			if ($this->input->post('question1_heart')) {
+			$data['question1_heart'] = $this->input->post('question1_heart');
+		} else if (isset($plan['question1_heart'])) {
+			$data['question1_heart'] = $plan['question1_heart'];
+		} else {
+			$data['question1_heart'] = '0';
+		}
 		if ($this->input->post('question2')) {
 			$data['question2'] = $this->input->post('question2');
 		} else if (isset($plan['question2'])) {
@@ -1154,6 +1175,77 @@ class Plan extends MY_Controller {
 		} else {
 			$data['question3'] = '0';
 		}
+		if ($this->input->post('question3_bowel')) {
+			$data['question3_bowel'] = $this->input->post('question3_bowel');
+		} else if (isset($plan['question3_bowel'])) {
+			$data['question3_bowel'] = $plan['question3_bowel'];
+		} else {
+			$data['question3_bowel'] = 'N';
+		}
+		if ($this->input->post('question3_cancer')) {
+			$data['question3_cancer'] = $this->input->post('question3_cancer');
+		} else if (isset($plan['question3_cancer'])) {
+			$data['question3_cancer'] = $plan['question3_cancer'];
+		} else {
+			$data['question3_cancer'] = 'N';
+		}
+		if ($this->input->post('question3_diabetes')) {
+			$data['question3_diabetes'] = $this->input->post('question3_diabetes');
+		} else if (isset($plan['question3_diabetes'])) {
+			$data['question3_diabetes'] = $plan['question3_diabetes'];
+		} else {
+			$data['question3_diabetes'] = 'N';
+		}
+		if ($this->input->post('question3_diverticu')) {
+			$data['question3_diverticu'] = $this->input->post('question3_diverticu');
+		} else if (isset($plan['question3_diverticu'])) {
+			$data['question3_diverticu'] = $plan['question3_diverticu'];
+		} else {
+			$data['question3_diverticu'] = 'N';
+		}
+		if ($this->input->post('question3_gerd')) {
+			$data['question3_gerd'] = $this->input->post('question3_gerd');
+		} else if (isset($plan['question3_gerd'])) {
+			$data['question3_gerd'] = $plan['question3_gerd'];
+		} else {
+			$data['question3_gerd'] = 'N';
+		}
+		if ($this->input->post('question3_heart')) {
+			$data['question3_heart'] = $this->input->post('question3_heart');
+		} else if (isset($plan['question3_heart'])) {
+			$data['question3_heart'] = $plan['question3_heart'];
+		} else {
+			$data['question3_heart'] = 'N';
+		}
+		if ($this->input->post('question3_hyper')) {
+			$data['question3_hyper'] = $this->input->post('question3_hyper');
+		} else if (isset($plan['question3_hyper'])) {
+			$data['question3_hyper'] = $plan['question3_hyper'];
+		} else {
+			$data['question3_hyper'] = 'N';
+		}
+		if ($this->input->post('question3_kidney')) {
+			$data['question3_kidney'] = $this->input->post('question3_kidney');
+		} else if (isset($plan['question3_kidney'])) {
+			$data['question3_kidney'] = $plan['question3_kidney'];
+		} else {
+			$data['question3_kidney'] = 'N';
+		}
+		if ($this->input->post('question3_lung')) {
+			$data['question3_lung'] = $this->input->post('question3_lung');
+		} else if (isset($plan['question3_lung'])) {
+			$data['question3_lung'] = $plan['question3_lung'];
+		} else {
+			$data['question3_lung'] = 'N';
+		}
+		if ($this->input->post('question3_peptic')) {
+			$data['question3_peptic'] = $this->input->post('question3_peptic');
+		} else if (isset($plan['question3_peptic'])) {
+			$data['question3_peptic'] = $plan['question3_peptic'];
+		} else {
+			$data['question3_peptic'] = 'N';
+		}
+		
 		if ($this->input->post('question4')) {
 			$data['question4'] = $this->input->post('question4');
 		} else if (isset($plan['question4'])) {
