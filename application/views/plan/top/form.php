@@ -88,7 +88,6 @@
 					<input type='hidden' name='premium' step='0.01' id='premium' value='<?php echo $premium; ?>'>
 					<input type='hidden' name='tax' step='0.01' id='tax' value='<?php echo $tax; ?>'>
 					<input type='hidden' name=product_short id='product_short' value='<?php echo $product_short; ?>'>
-					<input type='hidden' name='isfamilyplan' id='isfamilyplan' value='<?php echo $isfamilyplan; ?>'>
 					<input type="hidden" name="questionnaire" value="<?php echo $questionnaire; ?>">
 					<input type="hidden" name="country2" id='country2' value="CA">
 					<div class="tab-content">
@@ -346,8 +345,9 @@
 															<div class="col-sm-4">
 																<label class="col-sm-12">&nbsp;</label>
 																<?php if (($user_group_id > 100) && $no_change) { ?>
+																<?php } else {?>
 																<input type='button' onclick='remove_member(<?php echo $i;?>)' value='Remove' data-toggle="tooltip" title="Remove Memeber" class="btn btn-info">
-																<?php } ?>
+																<?php }  ?>
 															</div>
 														</div>
 													</div>
@@ -359,6 +359,7 @@
 													</div>
 													<div class="col-sm-11">
 														<?php if (($user_group_id > 100) && $no_change) { ?>
+														<?php } else {?>
 														<?php if ($isprocessplan && ($status_id != 5) && ($status_id != 6)) { ?>
 														<input class="btn btn-info btn-sm" type='button' id='addmorememberid' name='addmorememberid' value='Add More Member' onclick='addmoremember(1);'>
 														<?php } ?>
@@ -1323,7 +1324,27 @@ $( document ).ready(function() {
 	if (premium > 0) {
 		$('#page-submit').show();
 	}
+
+	check_isfamilyplan();
+	$('select[name=isfamilyplan]').on('change', check_isfamilyplan);
 });
+
+function check_isfamilyplan() {
+	var sls = $('select[name=isfamilyplan]').val();
+	if (sls < 1) {
+		//single member
+		$('#family_member').hide();
+    	$("input[name^='firstname_']").each(function() {
+        	$(this).val('');
+    	});
+    	$("input[name^='lastname_']").each(function() {
+        	$(this).val('');
+    	});
+	} else {
+		// family or group
+		$('#family_member').show();
+	} 
+}
 
 function sorting_payment() {
 	var d = $(this).attr('data-type');

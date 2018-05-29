@@ -382,7 +382,7 @@ class Product_model extends CI_Model {
 					case 100000:
 						if ($years <= 25) 		$rate = 3.59;
 						elseif ($years <= 40) 	$rate = 4.02;
-						elseif ($years <= 60) 	$rate = 4.95;
+						elseif ($years <= 60) 	$rate = 4.46;
 						elseif ($years <= 64) 	$rate = 5.13;
 						elseif ($years <= 69) 	$rate = 5.94;
 						elseif ($years <= 74) 	$rate = 9.79;
