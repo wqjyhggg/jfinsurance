@@ -39,11 +39,12 @@ class Api extends MY_Controller {
 			$this->load->model('user_model');
 			$user = $this->user_model->get_user_by_id($post['user_id']);
 			if ($user) {
+				$this->session->set_userdata('beuser', NULL);
 				$this->session->set_userdata('vsuser', $user);
 				$this->load->model('plan_model');
 				$plan_id = $this->plan_model->add($post);
 				if ($plan_id) {
-					$plan = $this->plan_model->get_plan_by_id();
+					$plan = $this->plan_model->get_plan_by_id($plan_id);
 					if ($plan) {
 						$data['success'] = 'OK';
 						$data['plan'] = $plan;
@@ -96,6 +97,7 @@ class Api extends MY_Controller {
 				$data['success'] = 'OK';
 				$data['agent']['agent_id'] = $agent['user_id'];
 				$data['agent']['group_id'] = $agent['user_group_id'];
+				$data['agent']['region_id'] = $agent['region_id'];
 				$data['agent']['username'] = $agent['username'];
 				$data['agent']['firstname'] = $agent['firstname'];
 				$data['agent']['lastname'] = $agent['lastname'];
