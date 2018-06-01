@@ -627,10 +627,12 @@ class Plan_model extends CI_Model {
 				$sql .= " flight_accident_insured=" . (int)$para['flight_accident_insured'] . ", ";
 			}
 		}
-		if (isset($para['trip_cancellation_ck']) && ($para['trip_cancellation_ck'] != $plan['trip_cancellation_ck'])) {
+		$trip_cancellation_ck = isset($para['trip_cancellation_ck']) ? (int)$para['trip_cancellation_ck'] : 0;
+		if ($trip_cancellation_ck != $plan['trip_cancellation_ck']) {
 			$this->logstr .= " trip_cancellation_ck " . $para['trip_cancellation_ck'] . "(" . $plan['trip_cancellation_ck'] . ")";
 			$sql .= " trip_cancellation_ck='".(int)$trip_cancellation_ck."', ";
 		}
+
 		if (isset($para['trip_cancellation_insured']) && ($para['trip_cancellation_insured'] != $plan['trip_cancellation_insured'])) {
 			$this->logstr .= " trip_cancellation_insured " . $para['trip_cancellation_insured'] . "(" . $plan['trip_cancellation_insured'] . ")";
 			$sql .= " trip_cancellation_insured=" . (int)$para['trip_cancellation_insured'] . ", ";
