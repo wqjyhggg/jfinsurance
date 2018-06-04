@@ -449,8 +449,12 @@ $config['csrf_regenerate'] = TRUE;
 $config['csrf_exclude_uris'] = array(
 'plan',
 'plan/gettoppremium',
-'api/search',
+'api/addplan',
+'api/premium',
+'api/agent/[0-9]+',
+'api/login',
 'api/products',
+'api/search',
 'api/claim_summary',
 'batch/loadother',
 );
