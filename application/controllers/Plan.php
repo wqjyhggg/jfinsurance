@@ -482,13 +482,14 @@ class Plan extends MY_Controller {
 			if (empty($this->input->post('stable_condition'))) {
 				$this->error['error_stable_condition'] = 'Please select pre-existing condition coverage';
 			}
+/*
 			if ($product_short == 'JFR') {
 				$years = $this->product_model->getYears($arrival_date, $effective_date);
 				if ($years >= 2) {
 					$this->error['error_effective_date'] = 'Effective Date must less than 2 Years for Arrival Date';
 				}
 			}
-				
+*/
 			$this->from_valid_family_member();
 		} else if (($product_short == 'JUS') || ($product_short == 'NUS')) {
 			if (empty($this->input->post('rate_options'))) {
