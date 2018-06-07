@@ -73,9 +73,6 @@ class Product extends MY_Controller {
 		$plans = $this->product_model->product_deductible($product_short, $deductible_amount);
 		$plist = array();
 		foreach($plans as $amount) {
-			if (($product_short == 'JFR') && ($amount == 1000) && (empty($plan_id) || ($plan_id > Product_model::PLANIDCHG2018_2))) {
-				$amount = 500;
-			}
 			if ($amount != 'unlimit') {
 				$amountname = '$'.number_format($amount, 2, '.', ',');
 			} else {
