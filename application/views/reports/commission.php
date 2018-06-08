@@ -44,18 +44,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <div class="form-group col-sm-4">
                           <label class="col-sm-12">Agent:</label>
                           <div class="input-group col-sm-12">
-                              <select name="agent_id" class="form-control">
-                                <option value=0>Choose Agent</option>
-<?php foreach ($user_list as $agent) : ?>
-    <?php if ($agent_id == $agent['user_id']) : ?>
-                                <option value="<?php echo $agent['user_id']; ?>"  selected>
-    <?php else : ?>
-                                <option value="<?php echo $agent['user_id']; ?>" >
-    <?php endif; ?>
-                                    <?php echo $agent['username'] . " ( ". $agent['full_name'] . " )"; ?>
-                                </option>
-<?php endforeach; ?>
-                              </select>
+                              <input name="agent_id" class="form-control" value="<?php echo $agent_id; ?>">
                               <input type='checkbox' name='asbroker' value='1' <?php echo ($asbroker ? 'checked' : ''); ?>> As brokerage
                           </div>
                         </div>
