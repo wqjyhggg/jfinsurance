@@ -558,7 +558,7 @@ class Plan extends MY_Controller {
 			$tdata = $this->product_model->get_top_premium($this->input->post());
 			$ipremium = (float)$this->input->post('premium');
 			$tpremium = (float)$tdata['premium'];
-			if (empty($tdata['status']) || ($tdata['status'] != 'OK') || (($ipremium - $tpremium) > 0.001)) {
+			if (empty($tdata['status']) || ($tdata['status'] != 'OK') || (abs($ipremium - $tpremium) > 0.001)) {
 				$this->error['error_message'] = "Peimum has been changed, Please confirm and submit again";
 			}
 		}

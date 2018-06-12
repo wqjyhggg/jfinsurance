@@ -782,6 +782,7 @@ $( document ).ready(function() {
 		type: 'GET',
 		success: function(data, textStatus, jqXHR) {
         	$('#province2_div').html(data);
+        	get_premium();
     	},
 	});
 	$.ajax({
@@ -789,6 +790,7 @@ $( document ).ready(function() {
 		type: 'GET',
 		success: function(data, textStatus, jqXHR) {
         	$('#country2_div').html(data);
+        	get_premium();
     	},
 	});
 	if ( $( "#sum_insured_div" ).length ) {
@@ -841,7 +843,6 @@ $( document ).ready(function() {
 	if ($('input[name="holiday_rate"]').length) {
 		$('input[name="holiday_rate"]').change(get_premium);
 	}
-	get_premium();
 	addmoremember();
 
 	$( ".btn-payment-sort" ).click(sorting_payment);

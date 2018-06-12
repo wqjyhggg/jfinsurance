@@ -1256,6 +1256,7 @@ $( document ).ready(function() {
 		type: 'GET',
 		success: function(data, textStatus, jqXHR) {
         	$('#province2_div').html(data);
+        	get_premium();
     	},
 	});
 	/*
