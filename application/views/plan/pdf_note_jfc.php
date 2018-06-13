@@ -22,7 +22,7 @@ insured(s) is able to travel home for treatment. The insured(s) is aware that Pr
 
 some circumstances and that further details are provided in the policy.</p>
 		<p class="small" style="margin-top:2px;">IN THE EVENT OF A MEDICAL EMERGENCY OR CLAIM THAT MAY REQUIRE OR RESULT IN HOSPITALIZATION, CALL ONTIME CARE WORLDWIDE INC. IMMEDIATELY</p>
-		<p class="small" style="margin-top:2px;">Toll Free Canada/U.S.A. 1-866-259-5804<br />
+		<p class="small" style="margin-top:2px;">Toll Free Canada/U.S.A. 1-866-209-5804<br />
 			If unable to contact us toll free, please call collect: 905-707-9555<br />
 			If you notice any errors in the above information or have any questions, please contact JF Insurance Agency Group Inc. .</p>
 

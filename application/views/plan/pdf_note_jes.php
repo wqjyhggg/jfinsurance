@@ -9,7 +9,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<br />. The application(s) is aware that this insurance covers Emergencies (as defined in the policy) and may not cover expanses incurred after the application(s) is able to travel home for treatment. The application(s) is aware that Pre-existing Conditions (as defined in the policy) are excluded in some circumstances and that further details are provided in the policy.
 			<br />IN THE EVENT OF A MEDICAL EMERGENCY OR CLAIM THAT MAY REQUIRE OR RESULT IN HOSPITALIZATION, CALL OTC IMMEDIATELY
 			<br />From Canada & USA 1-888-988-3268
-			<br />Collect call worldwide 905-918-0188</p>
+			<br />Collect call worldwide 905-707-1512</p>
 				
 		</div>
 	</div><br />
