@@ -165,7 +165,7 @@ class Product_model extends CI_Model {
 		
 		if ($para['isfamilyplan'] == 1) {
 			if ($para['adult'] > 3) {
-				$r['message'] = 'Family Plan only allow 3 children';
+				$r['message'] = 'Family Plan only allow 3 adults';
 			} else if ($para['number_customer'] > 6) {
 				$r['message'] = 'Family Plan must less than 6 people';
 			}
@@ -238,7 +238,7 @@ class Product_model extends CI_Model {
 		
 		if ($para['isfamilyplan'] == 1) {
 			if ($people_order_19 > 3) {
-				$r['message'] = 'Family Plan only allow 3 children';
+				$r['message'] = 'Family Plan only allow 3 adults';
 			} else if ($people_number > 6) {
 				$r['message'] = 'Family Plan must less than 6 people';
 			}
