@@ -228,7 +228,11 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 				<?php if ($plan['isfamilyplan']) { ?>
 				<div class="row">
 					<div class="col-sm-12" style="padding:0;">	
-						<p><u><?php echo ($plan['isfamilyplan'] == 1) ? 'Family' : 'Group'; ?>Members</u></p>
+						<p><u><?php echo ($plan['isfamilyplan'] == 1) ? 'Family' : 'Group'; ?>Members</u>
+<?php if (($plan['product_short'] == 'JFR') || ($plan['product_short'] == 'OPL')) { ?>
+						&nbsp;&nbsp;&nbsp;&nbsp; ( Coverage is per person per trip )
+<?php } ?>
+						</p>
 					</div>
 				</div>
 					
