@@ -206,24 +206,24 @@ class Report_model extends CI_Model
      */
     public function get_report_in_period($para)
     {
-    	$sql  = "SELECT distinct u.user_id, u.username, u.email, u.firstname, u.lastname, u.receive_type, u.pay_type FROM payment pa";
-    	$sql .= " JOIN plan pl ON (pa.user_id=pl.user_id)";
-    	$sql .= " JOIN user u ON (pl.user_id=u.user_id)";
-    	$sql .= " WHERE ABS(pa.amount)>=0.01 AND pa.pay_type='commission'";
+    	$sql  = "SELECT distinct plan_id FROM payment WHERE ABS(amount)>=0.01 AND pay_type='commission'";
     	if (!empty($para['payment_added_from'])) {
-    		$sql .= " AND pa.added >= " . $this->db->escape($para['payment_added_from'] . " 00:00:00");
+    		$sql .= " AND added >= " . $this->db->escape($para['payment_added_from'] . " 00:00:00");
     	}
     	if (!empty($para['payment_added_to'])) {
-    		$sql .= " AND pa.added <= " . $this->db->escape($para['payment_added_to'] . " 23:59:59");
+    		$sql .= " AND added <= " . $this->db->escape($para['payment_added_to'] . " 23:59:59");
     	}
     	if (!empty($para['payment_date_from'])) {
-    		$sql .= " AND pa.last_update >= " . $this->db->escape($para['payment_date_from'] . " 00:00:00");
+    		$sql .= " AND last_update >= " . $this->db->escape($para['payment_date_from'] . " 00:00:00");
     	}
     	if (!empty($para['payment_date_to'])) {
-    		$sql .= " AND pa.last_update <= " . $this->db->escape($para['payment_date_to'] . " 23:59:59");
+    		$sql .= " AND last_update <= " . $this->db->escape($para['payment_date_to'] . " 23:59:59");
     	}
-    	$sql .= " ORDER BY u.user_id ASC";
-    	return $this->db->query($sql)->result_array();
+    	
+    	$sql2  = "SELECT distinct user_id FROM plan WHERE plan_id IN (" . $sql .")";
+
+    	$sql3  = "SELECT user_id, username, email, firstname, lastname, receive_type, pay_type FROM user WHERE user_id IN (" . $sql2 .") ORDER BY user_id ASC";
+    	return $this->db->query($sql3)->result_array();
     }
     
     /**
