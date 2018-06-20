@@ -1282,13 +1282,14 @@ class Plan extends MY_Controller {
 		$data['sum_insured_url'] = base_url ( "product/insured/" . $data['product_short'] );
 		if (!empty($data['sum_insured'])) $data['sum_insured_url'] .= "/" . $data['sum_insured']; 
 		$data['deductible_amount_url'] = base_url ( "product/deductible/" . $data['product_short'] );
+		$data['deductible_amount_url_now'] = $data['deductible_amount_url'];
 		if (!empty($data['deductible_amount'])) {
-			$data['deductible_amount_url'] .= "/0" . $data['deductible_amount'];
+			$data['deductible_amount_url_now'] .= "/0" . $data['deductible_amount'];
 		} else {
-			$data['deductible_amount_url'] .= "/" . $data['deductible_amount'];
+			$data['deductible_amount_url_now'] .= "/" . $data['deductible_amount'];
 		}
 		if (!empty($data['plan_id'])) {
-			$data['deductible_amount_url'] .= "/" . $data['plan_id'];
+			$data['deductible_amount_url_now'] .= "/" . $data['plan_id'];
 		}
 		$data['province_url'] = base_url ( "geo/province" );
 		$data['country_url'] = base_url ( "geo/country" );

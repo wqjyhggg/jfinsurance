@@ -804,7 +804,7 @@ $( document ).ready(function() {
 	}
 	if ( $( "#deductible_amount_div" ).length ) {
 		$.ajax({
-			url: '<?php echo $deductible_amount_url; ?>',
+			url: '<?php echo $deductible_amount_url_now; ?>',
 			success: function(data, textStatus, jqXHR) {
 	        	$('#deductible_amount_div').html(data);
 				get_premium();
