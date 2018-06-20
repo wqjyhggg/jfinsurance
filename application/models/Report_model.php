@@ -206,9 +206,10 @@ class Report_model extends CI_Model
      */
     public function get_report_in_period($para)
     {
-    	$sql  = "SELECT distinct u.user_id, u.username, u.email, u.firstname, u.lastname, u.receive_type, u.pay_type FROM user u";
-    	$sql .= " JOIN payment pa ON (u.user_id=pa.user_id AND pa.pay_type='commission')";
-    	$sql .= " WHERE ABS(pa.amount)>=0.01";
+    	$sql  = "SELECT distinct u.user_id, u.username, u.email, u.firstname, u.lastname, u.receive_type, u.pay_type FROM payment pa";
+    	$sql .= " JOIN plan pl ON (pa.user_id=pl.user_id)";
+    	$sql .= " JOIN user u ON (pl.user_id=u.user_id)";
+    	$sql .= " WHERE ABS(pa.amount)>=0.01 AND pa.pay_type='commission'";
     	if (!empty($para['payment_added_from'])) {
     		$sql .= " AND pa.added >= " . $this->db->escape($para['payment_added_from'] . " 00:00:00");
     	}
