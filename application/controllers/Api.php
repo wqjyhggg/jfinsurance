@@ -45,6 +45,98 @@ class Api extends MY_Controller {
 				$plan_id = $this->plan_model->add($post);
 				if ($plan_id) {
 					$plan = $this->plan_model->get_plan_by_id($plan_id);
+
+					$this->load->model('product_model');
+					$this->load->model('payment_model');
+		
+					$premium = (float)$post('premium');
+		
+					$product = $this->product_model->get_product($plan['product_short']);
+					$dt = array();
+					$dt['plan_id'] = $plan_id;
+					$dt['currency'] = $product['currency'];
+					$dt['pay_mothed'] = 'Credit Card';
+					$dt['name'] = 'User:'.$post['payment_info'];
+					$dt['added'] = date('c');
+					$dt['first5'] = 'XXXXX';
+					$dt['last4'] = 'XXXX';
+					$dt['expiry_month'] = '01';
+					$dt['expiry_year'] = '01';
+					$dt['ispaid'] = 0;
+					$commission_rate = $this->product_model->get_commission_rate($plan['product_short'], $plan['user_id']);
+					if (($plan['product_short'] == 'TOP') && ($plan['totalyears'] > 60)) {
+						if ($commission_rate > 15) {
+							$commission_rate -= 15;
+						} else {
+							$commission_rate = 0;
+						}
+					}
+					if ($plan['product_short'] == 'TOP') {
+						$commission_amount = ($premium - ($plan['tax'] * $premium / $plan['premium'])) * $commission_rate / 100.0;
+					} else {
+						$commission_amount = $premium * $commission_rate / 100.0;
+					}
+				
+					$dt['amount'] = $premium;
+					$dt['rate'] = 100;
+					$dt['pay_type'] = 'premium';
+					$dt['premium_payment_id'] = 0;
+					$payment_id = $this->payment_model->add($dt);
+					$para = array(
+							'plan_id' => $plan_id,
+							'customer_id' => $plan['customer_id'],
+							'payment_id' => $payment_id,
+							'message' => $this->payment_model->logstr,
+							'systemlog' => $this->payment_model->sqlstr
+					);
+					$this->log_model->activity('payment', $para);
+
+					// commission
+					$dt['amount'] = $commission_amount;
+					$dt['rate'] = $commission_rate;
+					$dt['pay_type'] = 'commission';
+					$dt['premium_payment_id'] = $payment_id;
+					if (($plan['product_short'] == 'OPL') || ($plan['product_short'] == 'JFR')) {
+						$nowtm = time();
+						$efftm = strtotime($plan['effective_date']);
+						if ($nowtm <= $efftm) {
+							if (($plan['sum_insured'] >= 100000) && ($plan['totaldays'] >= 365)) {
+								if ($this->payment_model->adjust_commission_added_date($plan_id, $plan['effective_date'])) {
+									$para = array(
+											'plan_id' => $plan_id,
+											'customer_id' => $plan['customer_id'],
+											'payment_id' => 0,
+											'message' => 'adjust apply time to effective date : ' . $plan_id . ' [ ' . $plan['effective_date'] . ' ]',
+											'systemlog' => $this->payment_model->sqlstr
+									);
+									$this->log_model->activity('commission', $para);
+								}
+								$dt['added'] = $plan['effective_date'];
+							}
+						}
+					}
+					$commission_payment_id = $this->payment_model->add($dt);
+					$para = array(
+							'plan_id' => $plan_id,
+							'customer_id' => $plan['customer_id'],
+							'payment_id' => $commission_payment_id,
+							'message' => $this->payment_model->logstr,
+							'systemlog' => $this->payment_model->sqlstr
+					);
+					$this->log_model->activity('commission', $para);
+
+					$payinfo = "Other System: " . $post['payment_info'];
+					$para = array('payment_id' => $payment_id, 'payinfo' => $payinfo, 'commission_payment_id' => $commission_payment_id, 'status_id' => 2, 'policy' => $this->plan_model->get_policy_number($plan_id, 2));
+					$this->plan_model->update($plan_id, $para);
+					$para = array(
+							'plan_id' => $plan_id,
+							'customer_id' => $plan['customer_id'],
+							'payment_id' => $payment_id,
+							'message' => $this->plan_model->logstr,
+							'systemlog' => $this->plan_model->sqlstr
+					);
+					$this->log_model->activity('plan', $para);
+
 					if ($plan) {
 						$data['success'] = 'OK';
 						$data['plan'] = $plan;
