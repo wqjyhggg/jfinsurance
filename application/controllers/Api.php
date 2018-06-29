@@ -56,7 +56,7 @@ class Api extends MY_Controller {
 					$dt['plan_id'] = $plan_id;
 					$dt['currency'] = $product['currency'];
 					$dt['pay_mothed'] = 'Credit Card';
-					$dt['name'] = 'User:'.$post['payment_info'];
+					$dt['name'] = 'User paid :'.$post['payment_info'];
 					$dt['added'] = date('c');
 					$dt['first5'] = 'XXXXX';
 					$dt['last4'] = 'XXXX';
@@ -126,7 +126,7 @@ class Api extends MY_Controller {
 					$this->log_model->activity('commission', $para);
 
 					$payinfo = "Other System: " . $post['payment_info'];
-					$para = array('payment_id' => $payment_id, 'payinfo' => $payinfo, 'commission_payment_id' => $commission_payment_id, 'status_id' => 2, 'policy' => $this->plan_model->get_policy_number($plan_id, 2));
+					$para = array('payment_id' => $payment_id, 'payinfo' => $payinfo, 'commission_payment_id' => $commission_payment_id, 'policy' => $this->plan_model->get_policy_number($plan_id, 2));
 					$this->plan_model->update($plan_id, $para);
 					$para = array(
 							'plan_id' => $plan_id,
