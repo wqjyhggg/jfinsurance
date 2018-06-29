@@ -49,7 +49,7 @@ class Api extends MY_Controller {
 					$this->load->model('product_model');
 					$this->load->model('payment_model');
 		
-					$premium = (float)$post('premium');
+					$premium = (float)$post['premium'];
 		
 					$product = $this->product_model->get_product($plan['product_short']);
 					$dt = array();
