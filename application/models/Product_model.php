@@ -6,7 +6,7 @@ if (!defined('BASEPATH'))
 class Product_model extends CI_Model {
 	const PLANIDCHG2018=385741;
 	const PLANIDCHG2018_1=394116;
-	const PLANIDCHG2018_2=396051;
+	const PLANIDCHG2018_2=401652;
 	public $message;
 	
 	/**
