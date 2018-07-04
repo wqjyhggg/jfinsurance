@@ -63,6 +63,19 @@
 <script src="<?php echo base_url();?>stylesheet/starrr/dist/starrr.js"></script>
 <!-- Build Custom Theme Scripts -->
 <script src="<?php echo base_url();?>build/js/custom.min.js"></script>
-
+<script>
+function reloadsession() {
+	$.ajax({
+		url: '<?php echo base_url("setting/update");; ?>',
+		type: 'get',
+		success: function(data, textStatus, jqXHR) {
+			//console.log("Load...");
+    	},
+	});
+}
+$( document ).ready(function() {
+	setInterval(reloadsession, 300000);
+});
+</script>
 </body>
 </html>
