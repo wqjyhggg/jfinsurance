@@ -127,8 +127,12 @@
 							</a>
 						</div>
 						<div class="btn-group jf-btn-group text-center my-1 pl-5">
-							<img src="<?php echo base_url();?>image/OTC_ios.png" style="width:90px; height:90px; margin-left:18px; margin-right:18px;">
-							<img src="<?php echo base_url();?>image/OTC_android.png" style="width:90px; height:90px; margin-left:28px;">
+							<a href="https://itunes.apple.com/ca/app/otc-mobile/id1382684672?mt=8">
+								<img src="<?php echo base_url();?>image/OTC_ios.png" style="width:90px; height:90px; margin-left:18px; margin-right:18px;">
+							</a>
+							<a href="https://play.google.com/store/apps/details?id=bm.com.policy">
+								<img src="<?php echo base_url();?>image/OTC_android.png" style="width:90px; height:90px; margin-left:28px;">
+							</a>
 						</div>
 					</div>
 				</div>
