@@ -119,8 +119,16 @@
 					<div class="app-content" data-aos="fade-right">
 						<h2 class="text-uppercase white-text mb-4"><?php echo $lang['app_download'];?></h2>
 						<div class="btn-group jf-btn-group text-center my-1 pl-5">
-							<button type="button" class="btn btn-primary btn-white btn-auto">iOS</button>
-							<button type="button" class="btn  btn-primary btn-white btn-auto">Android</button>
+							<a href="https://itunes.apple.com/ca/app/otc-mobile/id1382684672?mt=8">
+								<button type="button" class="btn btn-primary btn-white btn-auto">iOS</button>
+							</a>
+							<a href="https://play.google.com/store/apps/details?id=bm.com.policy">
+								<button type="button" class="btn  btn-primary btn-white btn-auto">Android</button>
+							</a>
+						</div>
+						<div class="btn-group jf-btn-group text-center my-1 pl-5">
+							<img src="<?php echo base_url();?>image/OTC_ios.png" style="width:90px; height:90px; margin-left:18px; margin-right:18px;">
+							<img src="<?php echo base_url();?>image/OTC_android.png" style="width:90px; height:90px; margin-left:28px;">
 						</div>
 					</div>
 				</div>
@@ -383,7 +391,7 @@
 			<div class="container">
 				<div class="row">
 					<div class="col-md-12 text-center">
-						<p class="white-text py-2">.Copyright © 2009-2016 JF Insurance Agency Group Inc. All rights reserved.</p>
+						<p class="white-text py-2">.Copyright © 2009-<?php echo date("Y"); ?> JF Insurance Agency Group Inc. All rights reserved.</p>
 					</div>
 				</div>
 			</div>
