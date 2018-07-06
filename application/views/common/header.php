@@ -22,11 +22,19 @@
 <link rel="stylesheet" href="<?php echo base_url();?>stylesheet/switchery/dist/switchery.min.css" >
 <link rel="stylesheet" href="<?php echo base_url();?>stylesheet/starrr/dist/starrr.css" >
 <!-- Build theme style -->
-<link rel="stylesheet" href="<?php echo base_url();?>/build/css/custom.min.css">
+<link rel="stylesheet" href="<?php echo base_url();?>build/css/custom.min.css">
  <!-- jQuery -->
 <script src="<?php echo base_url();?>stylesheet/jquery/dist/jquery.min.js"></script>
 <script src="<?php echo base_url();?>stylesheet/bootstrap/dist/js/bootstrap.min.js"></script>
 <script src="<?php echo base_url();?>stylesheet/datetimepicker/js/bootstrap-datetimepicker.js"></script>
+<script>
+$( document ).ready(function() {
+	$("#select_lang").on('change', function (){
+		var url = '<?php echo base_url();?>lang/' + $("#select_lang").val();
+		window.location.href=url;
+	});
+});
+</script>
 
 </head>
 <body class="nav-md">
@@ -38,6 +46,17 @@
 			<img class="img-responsive" src="<?php echo $myhomelogo; ?>" alt="JF Insurance">
 <?php } else { ?>
 			<img class="img-responsive" src="<?php echo base_url();?>image/logo.png" alt="JF Insurance">
+<?php } ?>
+<?php $uri = explode("?", $_SERVER['REQUEST_URI']); ?>
+<?php if ($uri[0] == '/') { ?>
+			<span class="pull-right" style="margin-top: -2em; margin-right: 2em;">
+				<select id='select_lang' onchange="window.location.href='<?php echo base_url();?>lang/' + $(this).val()" >
+					<option value='english' <?php if ($language == 'english') { echo "SELECTED"; } ?>><?php echo $lang['txt_english']?></option>
+					<option value='chinese' <?php if ($language == 'chinese') { echo "SELECTED"; } ?>><?php echo $lang['txt_chinese']?></option>
+					<option value='japanese' <?php if ($language == 'japanese') { echo "SELECTED"; } ?>><?php echo $lang['txt_japanese']?></option>
+					<option value='korean' <?php if ($language == 'korean') { echo "SELECTED"; } ?>><?php echo $lang['txt_korean']?></option>
+				</select>
+			</span>
 <?php } ?>
 		</div>
 		<nav class="navbar navbar-default">

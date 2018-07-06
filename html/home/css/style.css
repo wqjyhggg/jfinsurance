@@ -1,0 +1,425 @@
+/* Your custom styles */
+/*========== Do Not Touch In Css Start ========== */
+html,body{overflow-x:hidden;}
+@font-face{font-family:'helvetica-boldoblique';src:url('../fonts/helvetica-boldoblique.ttf') format('truetype');font-weight:normal;font-style:normal;}
+@font-face{font-family:'Helvetica-Light-Oblique';src:url('../fonts/Helvetica-Light-Oblique.ttf') format('truetype');font-weight:normal;font-style:normal;}
+
+body{
+    margin:0px; 
+    padding:0px; 
+    background:#fff; 
+    font-size:15px !important;
+    overflow-x:hidden;
+    color:#000;
+    font-weight: 500;
+    letter-spacing: 0.4px;
+	font-family:Helvetica, Arial, sans-serif;
+	
+	font-family: 'Helvetica-Light-Oblique';
+	
+}
+.container-full {
+     padding: 0 15px;
+}
+p{
+    margin:0px; 
+    padding:0px; 
+    line-height:24px; 
+    font-size:14px; 
+    
+    font-weight: 400;
+}
+a{
+    text-decoration:none; 
+
+    transition: all 0.5s ease;
+}
+a:focus,
+a:hover{
+    outline:none;
+    color:#0db789 !important;
+    text-decoration: none;
+}
+h1
+{
+	font-size:26px;
+	font-weight:bold;
+}
+h2
+{
+	font-size:22px;
+	font-weight:bold;
+}
+ h3 {
+    font-size: 21px;
+	font-weight: bold;
+ }
+ 
+ul {
+    list-style:none; 
+    padding:0px; 
+    margin:0px;
+}
+li {list-style:none;}
+.roboto{
+    font-family: 'Roboto', sans-serif;
+}
+.btn:focus{
+    outline: none !important;
+}
+button:focus{
+    outline: none;
+}
+.bg-green
+{
+	background-color:#0db789 !important;
+}
+.bg-white
+{
+	background-color:#fff !important;
+}
+.bg-gray
+{
+	background-color:#f6f6f6 !important;
+}
+.btn-gray
+{
+	background-color: #f8f8f8 !important;
+}
+.white-text
+{
+	color: #fff !important;
+}
+.green-text
+{
+	color: #0db789 !important;
+	background:transparent !important;
+}
+.black
+{
+	color: #000 !important;
+}
+
+.btn
+{  
+font-family: Helvetica, Arial, sans-serif;
+padding: 12px 30px 10px;
+    font-size: 14px;
+}
+.btn-white {
+    background-color: #fff!important;
+    color: #0db789 !important;
+    font-weight: bold;
+  
+}
+.jf-btn-group .btn {
+    margin: 0 10px 0 0px;
+    border-radius: 3px !important;
+    min-width: 125px;
+    text-transform: none;
+    font-size: 20px;
+    padding: 7px 10px;
+    font-style: italic;
+    font-weight: normal;
+}
+.border
+{
+	border:1px solid !important;
+}
+.border-bottom
+{
+	border-bottom:1px solid #ccc !important;
+}
+.pull-left{float:left !important;}
+.pull-right{float:right !important;}
+a, a.disabled:hover, a:disabled:hover {
+    color: #000;
+}
+/* ========== Do Not Touch In Css End ========== */
+/* ========================= Header Css Stared ========================= */
+/* ========== Menu Css Stared ========== */
+.navbar{
+    box-shadow: none;
+    background: transparent !important;
+}
+ul.header-dropdown-block.pull-right li {
+    display: inline-block;
+}
+ul.navbar-nav li.nav-item {
+    padding-right: 20px;
+}
+.navbar-expand-lg .navbar-nav .nav-link {
+   font-size: 14px;
+   font-weight: bold;
+}
+a.nav-link.border-menu {
+    color: #0db789 !important;
+    border: 2px solid #0db789;
+    border-radius: 5px;
+    padding: 5px 10px;
+}
+.navbar.navbar-light .navbar-nav .nav-item.active>.nav-link {
+    background-color: transparent !important;
+	color:#0db789 !important;
+}
+ul.header-dropdown-block .nav-link {
+    display: block;
+    padding: 9px 23px;
+    background-color: #f6f6f6 !important;
+    border-radius: 5px;
+}
+span.language-image .fas {
+    color: #0db789;
+    margin-right: 8px;
+}
+.dropdown-toggle::after {
+    position: absolute;
+      right: 8px;
+    top: 19px;
+}
+ul.header-dropdown-block .dropdown-toggle::after
+{
+	display:none;
+}
+ul.header-dropdown-block .dropdown-toggle:hover::after
+{
+	display:inline-block;
+}
+ul.header-dropdown-block .dropdown-menu
+{
+	 top: 44px !important;
+	padding: 0;
+	min-width:142px;
+}
+ul.header-dropdown-block .dropdown-item {
+    padding: 5px 10px;
+    font-size: 12px;
+    font-style: normal;
+    background: #0db789;
+    color: #fff;
+}
+ul.header-dropdown-block .dropdown-item:hover {
+    background: #fff;
+}
+span.lang-img img {
+    width: 18px;
+    margin-right: 9px !important;
+}
+span.lang-name {
+    position: relative;
+    top: 1px;
+}
+
+/* ========== Banner Css Stared ========== */
+.carousel-caption {
+    position: absolute;
+    right: auto;
+    bottom: 0;
+    left: 39px;
+    z-index: 10;
+    color: #fff;
+    text-align: center;
+    width: 577px;
+    height: 100%;
+    background: rgba(255,255,255,0.2);
+}
+.carousel-caption p
+{
+	font-size:15px;
+    text-align: left;
+}
+.title-image {
+    float: left;
+}
+/* ========== Banner Css Ended ========== */
+/* ========================= Header Css Ended ========================= */
+
+/* ========== App Portion Css Ended ========== */
+.custom-container {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+}
+.app-image img.img-fluid {
+    position: relative;
+    bottom: -7px;
+}
+.app-content {
+    padding-top: 26%;
+}
+/* ========== About Css Started ========== */
+h1.border-title {
+    border-bottom: 3px solid #ddd;
+    padding-bottom: 6px;
+	
+}
+span.border-green-bottom
+{
+	position:relative;
+	display:inline-block;
+}
+span.border-green-bottom::after {
+    content: '-';
+    position: absolute;
+    bottom: -9px;
+    display: block;
+    overflow: hidden;
+    width: 100%;
+    background: #0db789 !important;
+    padding: 0;
+    height: 4px;
+}
+span.border-sub-title {
+    font-size: 17px;
+    padding-left: 10px;
+}
+
+/* ========== Zigzag Portion Started ========== */
+.outer {
+    display: table  !important;
+  
+    height: 100%;
+    width: 100%;
+}
+.zig-image.zig-block img {
+    height: 100% !important;
+        width: 100%;
+    object-fit: cover;
+}
+.middle {
+    display: table-cell !important;
+    vertical-align: middle !important;
+}
+
+
+.inner {
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+}
+.zig-padding-1
+{
+	  padding: 0 230px 0 60px;
+}
+.zig-padding-2
+{
+	  padding: 0 60px 0 230px;
+}
+.box-outer,.zig-block{
+    height: 100%;
+    width: 100%;
+}
+.zig-block {
+    height: 410px;
+}
+.outer h3 {
+   border-left: 3px solid;
+    padding-left: 10px;
+}
+.offer-block{
+    height: 440px;
+    display: block;
+    overflow: hidden;
+}
+.double-title p {
+    font-size: 17px;
+}
+/* ========== Offer Css Started ========== */
+.double-title p {
+    font-size: 17px;
+}
+/* ========== Footer Css Started ========== */
+.address-line a
+{
+	color:#333;
+}
+section#copyright-wrapper p {
+    font-size: 15px;
+}
+span.address-title {
+    color: #666;
+    padding-right: 5px;
+}
+.normal-font
+{
+	font-weight:normal !important;
+}
+/* ========== Extra Css Started ========== */
+.btn
+{
+    transition: all 1.2s ease;
+	border:1px solid transparent;
+}
+.btn-white:hover
+{
+	background:#0db789 !important;
+	color:#fff !important;
+	border:1px solid #fff;
+}
+header ul.navbar-nav li a:before {
+    left: 0;
+    bottom: 0px;
+    width: 100%;
+    height: 2px;
+    background:#0db789;
+    transform: scaleX(0);
+    content: '';
+    position: absolute;
+    transition: transform .5s ease;
+}
+header ul.navbar-nav li a:hover:before {
+    transform: scaleX(1);
+}
+header ul.navbar-nav li a.border-menu:before 
+{
+	display:none;
+}
+header ul.navbar-nav li a.border-menu,header ul.navbar-nav li 
+{
+	transition:all 1.2s ease;
+}
+header ul.navbar-nav li a.border-menu:hover
+{
+	background:#0db789;
+	color:#fff !important;
+}
+a.nav-link.dropdown-toggle
+{
+	border:1px solid transparent;
+	transition: all 1.2s ease;
+}
+a.nav-link.dropdown-toggle:hover
+{
+	border:1px solid #0db789;
+}
+img.logo-image {
+    transition: all 0.8s linear;
+}
+img.logo-image:hover {
+     transform: scale(1.02);
+}
+.offer-img,.zig-image{
+    display: block;
+    overflow: hidden;
+}
+.offer-img img,.zig-image img {
+    transition: all 0.8s linear;
+}
+.offer-img img:hover,.zig-image img:hover {
+    transform: scale(1.1);
+	cursor:pointer;
+}
+h1.background-h1 {
+    background: #0db789 !important;
+    padding: 20px 30px 18px;
+    margin-right: 103px;
+    text-align: left;
+    margin-top: 48px;
+	position:relative;
+	max-width: 475px;
+}
+span.image img.h1-image {
+    position: absolute;
+    top: -77px;
+    right: 25px;
+}

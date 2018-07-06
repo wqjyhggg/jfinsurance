@@ -8,11 +8,15 @@ class Welcome extends MY_Controller {
 	 */
 	public function index()
 	{
-		$data['title_txt'] = 'Welcome';
+		$this->data['title_txt'] = 'Welcome';
 
-		$data['top_menu'] = $this->menu_model->load_top_menu();
-		$data['menu'] = $this->menu_model->load_meun();
-		//print_r($data['menu']);
-		$this->load->common('home', $data);
+		$this->data['top_menu'] = $this->menu_model->load_top_menu();
+		$this->data['menu'] = $this->menu_model->load_meun();
+		//print_r($this->data['menu']);
+		if ($this->session->userdata ( 'beuser' ))  {
+			$this->load->common('home', $this->data);
+		} else {
+			$this->load->view('home_v1', $this->data);
+		}
 	}
 }

@@ -8,7 +8,6 @@ class User extends MY_Controller {
 	const PASSWORD_MIN = 6;
 	const PASSWORD_MAX = 16;
 	const PERPAGE = 15;
-	private $data;
 	
 	/**
 	 * default for this controller. it is login page.
