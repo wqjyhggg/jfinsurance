@@ -219,8 +219,8 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 						<h4 style="margin-bottom:15px;"><u>Payment Details</u></h4>
 						<h4>Total Premium: <span>$<?php echo number_format($plan['premium'], 2, '.', ',');?></span></h4>
 						<h4>Premium: <span>$<?php echo number_format($plan['premium'], 2, '.', ','); ?></sapn> </h4>
-						<h4>Payment Date: <span><?php echo isset($payment['added']) ? date('Y-m-d', strtotime($payment['added'])) : ''; ?></sapn> </h4>
-						<h4>Payment Method: <span><?php echo isset($payment['pay_mothed']) ? $payment['pay_mothed'] : ''; ?></sapn> </h4>
+						<h4>Payment Date: <span><?php echo (($plan['status_id'] >= 2) && isset($payment['added'])) ? date('Y-m-d', strtotime($payment['added'])) : ''; ?></sapn> </h4>
+						<h4>Payment Method: <span><?php echo (($plan['status_id'] >= 2) && isset($payment['pay_mothed'])) ? $payment['pay_mothed'] : ''; ?></sapn> </h4>
 <?php } ?>
 					</div>
 				</div>
