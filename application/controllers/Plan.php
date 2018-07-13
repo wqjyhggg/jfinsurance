@@ -370,7 +370,7 @@ class Plan extends MY_Controller {
 				($this->input->post('ad_and_d_insured') != $plan['ad_and_d_insured']) ||
 				((int)$flight_accident_ck != (int)$plan['flight_accident_ck']) ||
 				($this->input->post('flight_accident_insured') != $plan['flight_accident_insured']) ||
-				($this->input->post('trip_cancellation_ck') != $plan['trip_cancellation_ck	']) ||
+				($this->input->post('trip_cancellation_ck') != $plan['trip_cancellation_ck']) ||
 				($this->input->post('trip_cancellation_insured') != $plan['trip_cancellation_insured']) ||
 				($this->input->post('questionnaire') != $plan['questionnaire']) ||
 				((int)$this->input->post('question1') != (int)$plan['question1']) ||
