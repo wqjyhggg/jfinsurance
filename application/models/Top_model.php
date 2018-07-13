@@ -10700,6 +10700,7 @@ class Top_model extends CI_Model  {
 			$para['questionnaire'] = $plan['questionnaire'];
 			$para['stable_condition'] = $plan['stable_condition'];
 			$para['isfamilyplan'] = $plan['isfamilyplan'];
+			$para['province2'] = $plan['province2'];
 			$para['people_number'] = 1;
 			if ($para['isfamilyplan'] == 2) {
 				// Group plan
