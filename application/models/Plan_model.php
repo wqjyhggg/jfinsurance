@@ -155,6 +155,7 @@ class Plan_model extends CI_Model {
 		$sql .= " product_short=" . $this->db->escape($para['product_short']) . ", ";
 		$sql .= " region_id=" . (int)$beuser['region_id'] . ", ";
 		if (isset($para['policy'])) $sql .= " policy=" . $this->db->escape($para['policy']) . ", ";
+		if (isset($para['key'])) $sql .= " api=" . $this->db->escape($para['key']) . ", ";
 		if (isset($para['batch_number'])) $sql .= " batch_number=" . $this->db->escape($para['batch_number']) . ", ";
 		$sql .= " isfamilyplan='" . (int)$isfamilyplan . "', ";
 		if (isset($para['apply_date'])) $sql .= " apply_date=" . $this->db->escape($para['apply_date']) . ", ";
