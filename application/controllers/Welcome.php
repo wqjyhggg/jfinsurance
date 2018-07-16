@@ -16,7 +16,8 @@ class Welcome extends MY_Controller {
 		if ($this->session->userdata ( 'beuser' ))  {
 			$this->load->common('home', $this->data);
 		} else {
-			$this->load->view('home_v1', $this->data);
+			$this->load->common('home', $this->data);
+			//$this->load->view('home_v1', $this->data);
 		}
 	}
 }

@@ -48,7 +48,7 @@ $( document ).ready(function() {
 			<img class="img-responsive" src="<?php echo base_url();?>image/logo.png" alt="JF Insurance">
 <?php } ?>
 <?php $uri = explode("?", $_SERVER['REQUEST_URI']); ?>
-<?php if ($uri[0] == '/') { ?>
+<?php if (0 && ($uri[0] == '/')) { ?>
 			<span class="pull-right" style="margin-top: -2em; margin-right: 2em;">
 				<select id='select_lang' onchange="window.location.href='<?php echo base_url();?>lang/' + $(this).val()" >
 					<option value='english' <?php if ($language == 'english') { echo "SELECTED"; } ?>><?php echo $lang['txt_english']?></option>
