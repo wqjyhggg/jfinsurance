@@ -6,7 +6,6 @@ use Endroid\QrCode\QrCode;
 class Myhome extends MY_Controller {
 	const NAME_MIN = 2;
 	const NAME_MAX = 32;
-	private $data;
 	private $logofile;
 	private $imagefile;
 	private $qrfile;
