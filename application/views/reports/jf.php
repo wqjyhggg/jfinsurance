@@ -205,6 +205,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <th>Number of Days</th>
                             <th>Daily Rate</th>
                             <th>Premium</th>
+                            <th>Tax</th>
                             <th>Pay Amount</th>
                             <th>Paid</th>
                             <th>Type</th>
@@ -227,6 +228,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <td><?php echo $record['totaldays']; ?></td>
                             <td>$<?php echo $record['dailyrate']; ?></td>
                             <td>$<?php echo $record['premium']; ?></td>
+                            <td>$<?php echo $record['tax']; ?></td>
                             <td>$<?php echo $record['amount']; ?></td>
                             <td><?php echo (($record['ispaid'] == 1) ? 'Y' : '-'); ?></td>
                             <td><?php echo $record['pay_type']; ?></td>
@@ -240,7 +242,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                           </tr>
         <?php endforeach; ?>
                           <tr>
-                            <td colspan='13'>&nbsp;</td>
+                            <td colspan='14'>&nbsp;</td>
                             <td>$<?php echo $data['amount']; ?></td>
                             <td colspan='3'>&nbsp;</td>
                             <td>$<?php echo ($data['amount'] - $data['commission']); ?></td>

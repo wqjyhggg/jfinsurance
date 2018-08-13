@@ -147,7 +147,8 @@ class Report_model extends CI_Model
     	$sql .= "		pl.expiry_date,";
     	$sql .= "		pl.dailyrate,";
     	$sql .= "		pl.totaldays,";
-    	$sql .= "		pl.premium,";
+    	$sql .= "		(pl.premium - pl.tax) as premium,";
+    	$sql .= "		pl.tax,";
     	$sql .= "		pr.full_name,";
     	$sql .= "		pr.up_insuer,";
     	$sql .= "		CONCAT(cu.firstname, ' ', cu.lastname) as insured";
