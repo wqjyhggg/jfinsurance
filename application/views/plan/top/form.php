@@ -769,6 +769,19 @@
 									</div>
 									<div class="col-sm-12 block-space">
 										<fieldset>
+											<legend>The following Medical Questionnaire must be completed if,</legend>
+											<div class="row">
+												<div class="col-sm-12">
+													<ol>
+														<li style="list-style-type: none;">Applicant is ages 60 ato  74 travelling for more than 60 days</li>
+														<li style="list-style-type: none;">Applicant is ages of 75 to 84 regradless of duration of the trip.</li>
+													</ol>
+												</div>
+											</div>
+										</fieldset>
+									</div>
+									<div class="col-sm-12 block-space">
+										<fieldset>
 											<div class="row">
 												<div class="col-sm-12">
 													<H4>At the time of application, how many medications* in total do you take or have you been ordered to take by a physician, to treat one or more of the following medical conditions:</H4>
@@ -1123,6 +1136,7 @@ $('#question1_next').on('click', function (e) {
 		get_premium();
 	} else {
 		$('#questionnaire_q2').css('display','block');
+		$('#page-submit').hide();
 	}
 });
 
@@ -1139,6 +1153,7 @@ $('input[name=question2]').on('change', function (e) {
 		get_premium();
 	} else if (q == 1) {
 		$('#questionnaire_q3').css('display','block');
+		$('#page-submit').hide();
 	}
 });
 
@@ -1169,6 +1184,7 @@ $('#question3_next').on('click', function (e) {
 		get_premium();
 	} else {
 		$('#questionnaire_q4').css('display','block');
+		$('#page-submit').hide();
 	}
 });
 
@@ -1181,6 +1197,7 @@ $('input[name=question4]').on('change', function (e) {
 		get_premium();
 	} else if (q == 1) {
 		$('#questionnaire_q5').css('display','block');
+		$('#page-submit').hide();
 	}
 });
 
