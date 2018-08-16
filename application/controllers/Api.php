@@ -55,7 +55,7 @@ class Api extends MY_Controller {
 					$dt = array();
 					$dt['plan_id'] = $plan_id;
 					$dt['currency'] = $product['currency'];
-					$dt['pay_mothed'] = 'Credit Card';
+					$dt['pay_mothed'] = empty($post['processor']) ? 'Api' : $post['processor'];
 					$dt['name'] = 'User paid :'.$post['payment_info'];
 					$dt['added'] = date('c');
 					$dt['first5'] = 'XXXXX';
