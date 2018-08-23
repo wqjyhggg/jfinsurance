@@ -314,7 +314,7 @@ class Plan extends MY_Controller {
 			}
 			
 			$years = $this->product_model->getYears($apply_date, $this->input->post('birthday_' . $i));
-			if ($years > 61) {
+			if ($years > 60) {
 				$this->error['error_birthday_' . $i] = 'Member older than 61';
 			}
 			if ($years > 21) {

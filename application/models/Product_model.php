@@ -124,11 +124,13 @@ class Product_model extends CI_Model {
 	 * @return	array					user table search result
 	 */
 	public function product_deductible($product_short, $amount=0) {
+		/*
 		if ($amount == 500) {
 			if (($product_short == 'OPL') || ($product_short == 'JFR')) {
 				return array(500);
 			}
 		}
+		*/
 		$arr = array();
 		$sql = "SELECT amount FROM product_deductible WHERE product_short=" . $this->db->escape($product_short) . " ORDER BY product_deductible_id";
 		$rows = $this->db->query($sql)->result_array();
