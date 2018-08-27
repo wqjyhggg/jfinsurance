@@ -646,7 +646,7 @@ function get_premium() {
 					} else if (!age85 && (data['premiumarr']['totalyears'] > 85)) {
 						if ( $( "#deductible_amount_div" ).length ) {
 							$.ajax({
-								url: '<?php echo $deductible_amount_url; ?>/500',
+								url: '<?php echo $deductible_amount_url; ?>/500only',
 								success: function(data, textStatus, jqXHR) {
 						        	$('#deductible_amount_div').html(data);
 									get_premium();
