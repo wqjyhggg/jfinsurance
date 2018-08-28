@@ -319,7 +319,7 @@ $usepsi = false;
 								<label class="inline">Total Days:</label> <span><?php echo $plan['totaldays']; ?></span>
 							</div>
 							<div class="col-sm-3">
-								<label class="inline">Premium:</label> <span>$<?php echo number_format($plan['premium'], 2, '.', ','); ?></span>
+								<label class="inline">Premium:</label> <span>$<?php echo number_format($plan['premium'], 2, '.', ','); ?> <?php if (!empty($plan['questionnaire'])) { echo " (Table" . $plan['questionnaire'] . ")"; } ?></span>
 							</div>
 							<div class="col-sm-12">
 								<label class="inline">Notes:</label> <span><?php echo $plan['note']; ?></span>
@@ -546,7 +546,7 @@ $usepsi = false;
 									<input type='hidden' name='premium' value='<?php echo $payment_total; ?>'>
 									<div class="row" style="padding: 10px;">
 										<div class="col-sm-12">
-											<label class="inline">Amount:</label><span><b> $<?php echo number_format($payment_total, 2, '.', ','); ?></b></span>
+											<label class="inline">Amount:</label><span><b> $<?php echo number_format($payment_total, 2, '.', ','); ?></b> <?php if ($plan['questionnaire'] > 0) { echo "(Table" . $plan['questionnaire'] . ")"; }?></span>
 											<input class="btn btn-primary paysubmit" type='submit' name='submit' value='Pay Now'>
 										</div>
 									</div>

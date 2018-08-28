@@ -378,7 +378,7 @@ class Plan extends MY_Controller {
 				((int)$this->input->post('question3') != (int)$plan['question3']) ||
 				((int)$this->input->post('question4') != (int)$plan['question4']) ||
 				((int)$this->input->post('question5') != (int)$plan['question5']) ) {
-				$this->error['error_message'] = "Plan can't be changed after plan effective XXXXXX";
+				$this->error['error_message'] = "Plan can't be changed after plan effective";
 			}
 		} else {
 			// before 

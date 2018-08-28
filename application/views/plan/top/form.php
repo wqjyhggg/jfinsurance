@@ -33,7 +33,7 @@
 	<div class="main-div">
 		<div class="page-title">
 			<div class="col-sm-6"><h3><?php echo $plan_full_name; ?></h3></div>
-			<div class="col-sm-6"><h2>Premium: $<span id='premium_value'><?php echo $premium; ?></span></h2></div>
+			<div class="col-sm-6"><h2>Premium: $<span id='premium_value'><?php echo $premium; ?></span> <span id='premium_rate_table'></span></h2></div>
 		</div>
 		<div class="clearfix"></div>
 		<!-- Form Section -->
@@ -1246,6 +1246,7 @@ $('a[data-toggle="tab"]').on('click', function (e) {
 			$('#page-submit').hide();
 			$('input[name="premium"]').val(0);
 			$('#premium_value').html('');
+			$('#premium_rate_table').html('');
 		}
 		$('#error_page_message').hide();
 		$('#error_page_message').html('');
@@ -1519,7 +1520,13 @@ function get_premium() {
         		$('input[name="premium"]').val(data['premium']);
         		$('input[name="tax"]').val(data['tax']);
 				$('#premium_value').html(data['premium']);
-				$('#page-submit').show();
+				if (data['premium'] > 0) {
+					var vt = $('input[name=questionnaire]').val();
+					if (vt > 0) {
+						$('#premium_rate_table').html('(Table' + vt + ')');
+					}
+					$('#page-submit').show();
+				}
 
 				if (data['message']) {
 					$('#error_page_message').html(data['message']);
@@ -1543,6 +1550,7 @@ function get_premium() {
 					}
 				}
 				$('#premium_value').html('');
+				$('#premium_rate_table').html('');
 				$('input[name="premium"]').val(0);
 			}
     	},
