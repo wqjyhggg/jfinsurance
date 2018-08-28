@@ -98,8 +98,8 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 							<?php if ($plan['package'] == 'all_inclusive') { ?>
 							<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Medical : $10,000,000</span>
 							<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Baggage : $1,000</span>
-							<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>AD&D : $100,000</span>
-							<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Flight Accident: $300,000</span>
+							<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>AD&D : $50,000</span>
+							<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Flight Accident: $100,000</span>
 							<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Trip Cancellation and Interruption: $<?php echo number_format($plan['sum_insured'], 2); ?></span>
 							<?php if ($plan['free_cancel']) { ?>
 							<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Cancel trip for any reason</span>
