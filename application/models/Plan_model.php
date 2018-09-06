@@ -610,7 +610,7 @@ class Plan_model extends CI_Model {
 			$ad_and_d_ck = isset($para['ad_and_d_ck']) ? 1 : 0;
 			if ($ad_and_d_ck != $plan['ad_and_d_ck']) {
 				$this->logstr .= " ad_and_d_ck " . $para['ad_and_d_ck'] . "(" . $plan['ad_and_d_ck'] . ")";
-				$sql .= " ad_and_d_ck='".(int)$$ad_and_d_ck."', ";
+				$sql .= " ad_and_d_ck='".(int)$ad_and_d_ck."', ";
 			}
 			if ($para['ad_and_d_insured'] != $plan['ad_and_d_insured']) {
 				$this->logstr .= " ad_and_d_insured " . $para['ad_and_d_insured'] . "(" . $plan['ad_and_d_insured'] . ")";
