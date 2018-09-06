@@ -11711,6 +11711,7 @@ class Top_model extends CI_Model  {
 			if ($data['questionnaire']) {
 				$this->premiumArr['message'] = "free cancel plan is not avaliable if you have to fill in questionnaire.";
 				$this->premiumArr['active_tab'] = 'packages_tab';
+				return 0;
 			}
 		} else if ($data['questionnaire']) {
 			$arr .= "_t".$data['questionnaire'];
