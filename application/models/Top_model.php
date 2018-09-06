@@ -11706,16 +11706,20 @@ class Top_model extends CI_Model  {
 			return 0;
 		}
 		
-		if ($ischeck) {
-			return 1;
-		}
-		
 		if ($data['free_cancel']) {
 			$arr .= "_cancel";
+			if ($data['questionnaire']) {
+				$this->premiumArr['message'] = "free cancel plan is not avaliable if you have to fill in questionnaire.";
+				$this->premiumArr['active_tab'] = 'packages_tab';
+			}
 		} else if ($data['questionnaire']) {
 			$arr .= "_t".$data['questionnaire'];
 		}
 
+		if ($ischeck) {
+			return 1;
+		}
+		
 		if (($data['sum_insured'] < 0) || ($data['sum_insured'] > 15000)) {
 			$this->premiumArr['message'] = 'Out of insured amount. Amount must less 15,000';
 			$this->premiumArr['active_tab'] = 'packages_tab';
