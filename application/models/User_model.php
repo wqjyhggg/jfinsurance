@@ -31,7 +31,7 @@ class User_model extends CI_Model {
 				$tm = strtotime($rc['licence_expire']) + 86400;
 				$now = time();
 				if ($now > $tm) {
-					return 'licence Expired';
+					return 'Please send a copy of your life license and E&O to service@jfgroup.ca to reactivate your account';
 				}
 			}
 			return $rc;
