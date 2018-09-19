@@ -596,10 +596,12 @@ class Plan_model extends CI_Model {
 			$this->logstr .= " package " . $para['package'] . "(" . $plan['package'] . ")";
 			$sql .= " package=" . $this->db->escape(trim($para['package'])) . ", ";
 		}
-		$free_cancel = isset($para['free_cancel']) ? 1 : 0;
-		if ($free_cancel != $plan['free_cancel']) {
-			$this->logstr .= " free_cancel " . $para['free_cancel'] . "(" . $plan['free_cancel'] . ")";
-			$sql .= " free_cancel='".$free_cancel."', ";
+		if (isset($para['package'])) {
+			$free_cancel = isset($para['free_cancel']) ? 1 : 0;
+			if ($free_cancel != $plan['free_cancel']) {
+				$this->logstr .= " free_cancel " . $para['free_cancel'] . "(" . $plan['free_cancel'] . ")";
+				$sql .= " free_cancel='".$free_cancel."', ";
+			}
 		}
 
 		if (isset($para['annual_plan_days']) && ($para['annual_plan_days'] != $plan['annual_plan_days'])) {
