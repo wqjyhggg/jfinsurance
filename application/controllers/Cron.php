@@ -503,6 +503,15 @@ class Cron extends MY_Controller {
 			if (empty($plan['firstname'])) $plan['firstname'] = '.';
 			if (empty($plan['lastname'])) $plan['lastname'] = '.';
 			if (empty($plan['gender'])) $plan['gender'] = '.';
+			
+			$plan['firstname'] = preg_replace('/[^\x20-\x7f]/', '.', $plan['firstname']);
+			$plan['lastname'] = preg_replace('/[^\x20-\x7f]/', '.', $plan['lastname']);
+			$plan['suite_number'] = preg_replace('/[^\x20-\x7f]/', '.', $plan['suite_number']);
+			$plan['street_number'] = preg_replace('/[^\x20-\x7f]/', '.', $plan['street_number']);
+			$plan['street_name'] = preg_replace('/[^\x20-\x7f]/', '.', $plan['street_name']);
+			$plan['city'] = preg_replace('/[^\x20-\x7f]/', '.', $plan['city']);
+			$plan['postcode'] = preg_replace('/[^\x20-\x7f]/', '.', $plan['postcode']);
+				
 			$sheet->setCellValue('C'.$row, $status_str);
 			$sheet->setCellValue('D'.$row, $plan['isfamilyplan'] ? "Family" : "Single");
 			$sheet->setCellValue('E'.$row, $plan['firstname']);
@@ -519,7 +528,7 @@ class Cron extends MY_Controller {
 			$sheet->setCellValue('K'.$row, $plan['city']); // City
 			$sheet->setCellValue('L'.$row, $plan['province2']); // Provincec
 			$sheet->setCellValue('M'.$row, $plan['postcode']); // Postal Code
-			$sheet->setCellValue('N'.$row, $plan['contact_phone']); // Contact Phone
+			$sheet->setCellValue('N'.$row, $plan['contact_phone'] . " "); // Contact Phone
 			$mlArr = array();
 			$mailaddr = '';
 			$r = preg_match($pattern, $plan['contact_email'], $mlArr);
@@ -565,6 +574,9 @@ class Cron extends MY_Controller {
 			if ($plan['isfamilyplan']) {
 				$customers = $this->customer_model->get_customer_by_parent_id($plan['customer_id']);
 				foreach ($customers as $c) {
+					$c['firstname'] = preg_replace('/[^\x20-\x7f]/', '.', $c['firstname']);
+					$c['lastname'] = preg_replace('/[^\x20-\x7f]/', '.', $c['lastname']);
+						
 					$sheet->setCellValue('A'.$row, $plan['policy']);
 					$sheet->setCellValue('B'.$row, $b);
 					$sheet->setCellValue('C'.$row, $status_str);
@@ -579,7 +591,7 @@ class Cron extends MY_Controller {
 					$sheet->setCellValue('K'.$row, $plan['city']); // City
 					$sheet->setCellValue('L'.$row, $plan['province2']); // Provincec
 					$sheet->setCellValue('M'.$row, $plan['postcode']); // Postal Code
-					$sheet->setCellValue('N'.$row, $plan['contact_phone']); // Contact Phone
+					$sheet->setCellValue('N'.$row, $plan['contact_phone'] . " "); // Contact Phone
 					$sheet->setCellValue('O'.$row, $plan['contact_email']); // Contact Email
 					$sheet->setCellValue('P'.$row, $note); // Notes
 					$sheet->setCellValue('Q'.$row, PHPExcel_Shared_Date::PHPToExcel(strtotime($plan['arrival_date'] . ' 00:00:00 UTC'))); // Arrival Date
