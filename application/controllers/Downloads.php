@@ -24,9 +24,7 @@ class Downloads extends MY_Controller {
 			foreach ($fileName as $fn) {
 				$name = str_replace('_', ' ', $fn);
 				$fname = $product_short . $fn . ".pdf";
-				echo "F: ".$fname."  "; //XXXXXXXXXXXXX
 				if (file_exists(DOWNLOADDIR . $fname)) {
-					echo "Exists!!<br>"; //XXXXXXXXXXXXX
 					$file_url[$product_short]['files'][] = array('url' => $downloads_url . $fname, 'name' => $name);
 				}
 			}
