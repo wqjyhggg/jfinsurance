@@ -17,7 +17,7 @@ class Downloads extends MY_Controller {
 		$file_url = array();
 		$product_list = $this->product_model->product_list(1);
 		ksort($product_list);
-		$fileName = array('_Brochure', '_Benefit_Summary', '_Claim_Form', '_Claim_Procedure', '_Consent_Form', '_Policy');
+		$fileName = array('_Brochure', '_Benefit_Summary', '_Claim_Form', '_Claim_Procedure', '_Consent_Form', '_Policy', '_Questionnaire');
 		
 		foreach ($product_list as $product_short => $p) {
 			$file_url[$product_short] = array('fullname' => $p['full_name'], 'files' => array());
