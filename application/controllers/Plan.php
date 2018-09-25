@@ -443,25 +443,25 @@ class Plan extends MY_Controller {
 			$this->error['error_beneficiary'] = 'Beneficiary is Required';
 		}
 		if (empty($this->input->post('firstname')) || preg_match('/[^\x20-\x7f]/', $this->input->post('firstname'))) {
-			$this->error['error_firstname'] = 'Firstname is Required, And must be Ascii Characters';
+			$this->error['error_firstname'] = 'Firstname is Required (No special character is allowed)';
 		}
 		if (empty($this->input->post('lastname')) || preg_match('/[^\x20-\x7f]/', $this->input->post('lastname'))) {
-			$this->error['error_lastname'] = 'Lastname is Required, And must be Ascii Characters';
+			$this->error['error_lastname'] = 'Lastname is Required (No special character is allowed)';
 		}
 		if (empty($this->input->post('birthday'))) {
 			$this->error['error_birthday'] = 'Birthday is Required';
 		}
 		if (empty($this->input->post('street_number')) || preg_match('/[^\x20-\x7f]/', $this->input->post('street_number'))) {
-			$this->error['error_street_number'] = 'Street number is Required, And must be Ascii Characters';
+			$this->error['error_street_number'] = 'Street number is Required (No special character is allowed)';
 		}
 		if (empty($this->input->post('street_name')) || preg_match('/[^\x20-\x7f]/', $this->input->post('street_name'))) {
-			$this->error['error_street_name'] = 'Street name is Required, And must be Ascii Characters';
+			$this->error['error_street_name'] = 'Street name is Required (No special character is allowed)';
 		}
 		if (empty($this->input->post('city')) || preg_match('/[^\x20-\x7f]/', $this->input->post('city'))) {
-			$this->error['error_city'] = 'City Required, And must be Ascii Characters';
+			$this->error['error_city'] = 'City Required (No special character is allowed)';
 		}
 		if (empty($this->input->post('postcode')) || preg_match('/[^\x20-\x7f]/', $this->input->post('postcode'))) {
-			$this->error['error_postcode'] = 'Postcode is Required, And must be Ascii Characters';
+			$this->error['error_postcode'] = 'Postcode is Required (No special character is allowed)';
 		}
 		if (empty($this->input->post('phone1'))) {
 			$this->error['error_phone1'] = 'Phone1 is Required';
