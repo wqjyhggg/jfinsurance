@@ -17,14 +17,16 @@ class Downloads extends MY_Controller {
 		$file_url = array();
 		$product_list = $this->product_model->product_list(1);
 		ksort($product_list);
-		$fileName = array('_Brochure', '_Benefit_Summary', '_Claim_Form', '_Claim_Procedure', '_Consent_Form', '_Policy', '_Questionnaire');
+		$fileName = array('_Brochure', '_Benefit_Summary', '_Claim_Form', '_Claim_Procedure', '_Consent_Form', '_Policy', '_Medical_Questionnaire', '_Baggage_Claim_Form', '_Cancellation_Claim_Form', '_Medical_Claim_Form');
 		
 		foreach ($product_list as $product_short => $p) {
 			$file_url[$product_short] = array('fullname' => $p['full_name'], 'files' => array());
 			foreach ($fileName as $fn) {
 				$name = str_replace('_', ' ', $fn);
 				$fname = $product_short . $fn . ".pdf";
+				echo "F: ".$fname."  "; //XXXXXXXXXXXXX
 				if (file_exists(DOWNLOADDIR . $fname)) {
+					echo "Exists!!<br>"; //XXXXXXXXXXXXX
 					$file_url[$product_short]['files'][] = array('url' => $downloads_url . $fname, 'name' => $name);
 				}
 			}
