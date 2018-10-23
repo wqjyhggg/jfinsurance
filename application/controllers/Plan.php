@@ -3532,6 +3532,7 @@ class Plan extends MY_Controller {
 			unset($plan['commission_payment_id']);
 			unset($plan['payinfo']);
 			unset($plan['note']);
+			unset($plan['premium']);
 			unset($plan['ip']);
 			$plan['apply_date'] = date('Y-m-d');
 		}

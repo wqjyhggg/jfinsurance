@@ -487,6 +487,11 @@ $usepsi = false;
 							</div>
 
 							<div id='cheque' <?php if (empty($cheque_dis)) { ?> style='display: none;' <?php } ?>>
+								<div class="row">
+									<div class="col-sm-12">
+										<label  class="inline" style="margin-bottom:0;color: #92082c;padding-bottom: 10px;">below info is not the actual payment. Please make the cheque payble to “JF Insurance Agency Group Inc.” and send the original cheque to JF via mail or in person</label>
+									</div>
+								</div>
 								<form action='<?php echo $active_url; ?>' method='POST'>
 									<input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
 									<input type='hidden' name='plan_id' value='<?php echo $plan['plan_id']; ?>'>
