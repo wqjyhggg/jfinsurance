@@ -341,7 +341,7 @@ class Plan extends MY_Controller {
 		}
 		*/
 		$nowdate = date('Y-m-d');
-		if ($plan['effective_date'] <= $nowdate) {
+		if (($plan['effective_date'] <= $nowdate) && ($beuser['user_group_id'] != 1)) {
 			// After effective
 			$expiry_date = $this->input->post('expiry_date');
 			if ($expiry_date != $plan['expiry_date']) {
