@@ -383,7 +383,7 @@ class Plan_model extends CI_Model {
 				}
 			}
 		}
-
+		
 		$sql  = "UPDATE plan SET";
 		if (isset($para['user_id']) && ((int)$para['user_id'] != (int)$plan['user_id'])) {
 			$this->logstr .= " user_id " . $para['user_id'] . "(" . $plan['user_id'] . ")";
@@ -596,46 +596,49 @@ class Plan_model extends CI_Model {
 			$this->logstr .= " package " . $para['package'] . "(" . $plan['package'] . ")";
 			$sql .= " package=" . $this->db->escape(trim($para['package'])) . ", ";
 		}
-		if (isset($para['package'])) {
-			$free_cancel = isset($para['free_cancel']) ? 1 : 0;
-			if ($free_cancel != $plan['free_cancel']) {
-				$this->logstr .= " free_cancel " . $para['free_cancel'] . "(" . $plan['free_cancel'] . ")";
-				$sql .= " free_cancel='".$free_cancel."', ";
-			}
-		}
-
+		
 		if (isset($para['annual_plan_days']) && ($para['annual_plan_days'] != $plan['annual_plan_days'])) {
 			$this->logstr .= " annual_plan_days " . $para['annual_plan_days'] . "(" . $plan['annual_plan_days'] . ")";
 			$sql .= " annual_plan_days=" . $this->db->escape(trim($para['annual_plan_days'])) . ", ";
 		}
-		if (isset($para['ad_and_d_insured']) && ($para['ad_and_d_insured'] > 0)) {
-			$ad_and_d_ck = isset($para['ad_and_d_ck']) ? 1 : 0;
-			if ($ad_and_d_ck != $plan['ad_and_d_ck']) {
-				$this->logstr .= " ad_and_d_ck " . $para['ad_and_d_ck'] . "(" . $plan['ad_and_d_ck'] . ")";
-				$sql .= " ad_and_d_ck='".(int)$ad_and_d_ck."', ";
-			}
-			if ($para['ad_and_d_insured'] != $plan['ad_and_d_insured']) {
-				$this->logstr .= " ad_and_d_insured " . $para['ad_and_d_insured'] . "(" . $plan['ad_and_d_insured'] . ")";
-				$sql .= " ad_and_d_insured=" . (int)$para['ad_and_d_insured'] . ", ";
-			}
-		}
-		if (isset($para['flight_accident_insured']) && ($para['flight_accident_insured'] > 0)) {
-			$flight_accident_ck = isset($para['flight_accident_ck']) ? 1 : 0;
-			if ($flight_accident_ck != $plan['flight_accident_ck']) {
-				$this->logstr .= " flight_accident_ck " . $para['flight_accident_ck'] . "(" . $plan['flight_accident_ck'] . ")";
-				$sql .= " flight_accident_ck='".(int)$flight_accident_ck."', ";
-			}
-			if ($para['flight_accident_insured'] != $plan['flight_accident_insured']) {
-				$this->logstr .= " flight_accident_insured " . $para['flight_accident_insured'] . "(" . $plan['flight_accident_insured'] . ")";
-				$sql .= " flight_accident_insured=" . (int)$para['flight_accident_insured'] . ", ";
-			}
-		}
-		if (isset($para['flight_accident_insured'])) {
-			$trip_cancellation_ck = (int)$para['trip_cancellation_ck'];
-			$this->logstr .= " trip_cancellation_ck " . $para['trip_cancellation_ck'] . "(" . $plan['trip_cancellation_ck'] . ")";
-			$sql .= " trip_cancellation_ck='".(int)$trip_cancellation_ck."', ";
-		}
+		if (isset($para['package'])) {
+			if (!isset($para['agree']) || ((int)$para['agree'] == (int)$plan['agree'])) {
+				$free_cancel = isset($para['free_cancel']) ? 1 : 0;
+				if ($free_cancel != $plan['free_cancel']) {
+					$this->logstr .= " free_cancel " . $para['free_cancel'] . "(" . $plan['free_cancel'] . ")";
+					$sql .= " free_cancel='".$free_cancel."', ";
+				}
 
+				if (isset($para['ad_and_d_insured']) && ($para['ad_and_d_insured'] > 0)) {
+					$ad_and_d_ck = isset($para['ad_and_d_ck']) ? 1 : 0;
+					if ($ad_and_d_ck != $plan['ad_and_d_ck']) {
+						$this->logstr .= " ad_and_d_ck " . $para['ad_and_d_ck'] . "(" . $plan['ad_and_d_ck'] . ")";
+						$sql .= " ad_and_d_ck='".(int)$ad_and_d_ck."', ";
+					}
+					if ($para['ad_and_d_insured'] != $plan['ad_and_d_insured']) {
+						$this->logstr .= " ad_and_d_insured " . $para['ad_and_d_insured'] . "(" . $plan['ad_and_d_insured'] . ")";
+						$sql .= " ad_and_d_insured=" . (int)$para['ad_and_d_insured'] . ", ";
+					}
+				}
+				if (isset($para['flight_accident_insured']) && ($para['flight_accident_insured'] > 0)) {
+					$flight_accident_ck = isset($para['flight_accident_ck']) ? 1 : 0;
+					if ($flight_accident_ck != $plan['flight_accident_ck']) {
+						$this->logstr .= " flight_accident_ck " . $para['flight_accident_ck'] . "(" . $plan['flight_accident_ck'] . ")";
+						$sql .= " flight_accident_ck='".(int)$flight_accident_ck."', ";
+					}
+					if ($para['flight_accident_insured'] != $plan['flight_accident_insured']) {
+						$this->logstr .= " flight_accident_insured " . $para['flight_accident_insured'] . "(" . $plan['flight_accident_insured'] . ")";
+						$sql .= " flight_accident_insured=" . (int)$para['flight_accident_insured'] . ", ";
+					}
+				}
+				if (isset($para['flight_accident_insured'])) {
+					$trip_cancellation_ck = (int)$para['trip_cancellation_ck'];
+					$this->logstr .= " trip_cancellation_ck " . $para['trip_cancellation_ck'] . "(" . $plan['trip_cancellation_ck'] . ")";
+					$sql .= " trip_cancellation_ck='".(int)$trip_cancellation_ck."', ";
+				}
+			}
+		}
+		
 		if (isset($para['trip_cancellation_insured']) && ($para['trip_cancellation_insured'] != $plan['trip_cancellation_insured'])) {
 			$this->logstr .= " trip_cancellation_insured " . $para['trip_cancellation_insured'] . "(" . $plan['trip_cancellation_insured'] . ")";
 			$sql .= " trip_cancellation_insured=" . (int)$para['trip_cancellation_insured'] . ", ";
