@@ -326,7 +326,7 @@ class Plan extends MY_Controller {
 		}
 	}
 	
-	function top_update_valid($plan) {
+	function top_update_valid($plan, $beuser) {
 		if ($plan['status_id'] < 2) {
 			// not available yet
 			return ;
@@ -603,7 +603,7 @@ class Plan extends MY_Controller {
 					if (!empty($planold) && ($planold['status_id'] >= 2) && ($beuser['user_group_id'] > 100)) {
 						redirect("plan/term/" . $plan_id);
 					} else {
-						$this->top_update_valid($planold);
+						$this->top_update_valid($planold, $beuser);
 					}
 				}
 				if (empty($this->error)) {
