@@ -337,8 +337,11 @@ class User extends MY_Controller {
 		$this->load->model('region_model');
 		$this->load->library('pagination');
 		
+		$per_page = empty($this->input->get('per_page')) ? 1 : $this->input->get('per_page');
+		if ($per_page < 1) $per_page = 1;
+
 		$data['user_group_list'] = $this->user_group_model->get_user_group_list(1);	// Get full list
-		$data['user_list'] = $this->user_model->get_user_list($this->session->beuser['user_group_id'], $this->session->beuser['user_id'], $this->input->get(), self::PERPAGE, ($this->input->get('per_page') * self::PERPAGE) );
+		$data['user_list'] = $this->user_model->get_user_list($this->session->beuser['user_group_id'], $this->session->beuser['user_id'], $this->input->get(), self::PERPAGE, (($per_page - 1) * self::PERPAGE) );
 		$data['user_list_total'] = $this->user_model->get_user_list_total($this->session->beuser['user_group_id'], $this->session->beuser['user_id'], $this->input->get());
 		$data['action_url'] = current_url();
 		$data['edit_url'] = base_url('user/edit')."?user_id=";
