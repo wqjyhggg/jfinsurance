@@ -45,10 +45,11 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 				<h4>
 				<?php if ($plan['product_short'] == 'TOP') { ?>
 					Departure Date:
+				 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span><?php echo $plan['arrival_date'];?></sapn>
 				<?php } else { ?>
 					Application Date:
-				<?php } ?>
 				 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span><?php echo $plan['apply_date'];?></sapn>
+				<?php } ?>
 				</h4>
 				<h4>Effective Date: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span><?php echo $plan['effective_date']; ?></sapn> </h4>
 				<h4>Expiry Date: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span><?php echo $plan['expiry_date']; ?></sapn> </h4>

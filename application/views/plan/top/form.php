@@ -514,7 +514,7 @@
 												<input type="hidden" name="package" value="<?php echo $package; ?>">
 												<div class="col-sm-3">
 													<?php if ($package == 'all_inclusive') { echo '<span class="glyphicon glyphicon-ok"></span>'; } ?>
-													<a href="#" data-toggle="popover" data-trigger="hover" title="All Inclusive" data-content="Explaination for All Inclusive">
+													<a href="#" data-toggle="popover" data-trigger="hover" title="All Inclusive" data-content="Including: Emergency Hospital & Medical: $10,000,000; AD&D: $50,000; Flight Accident: $100,000; Trip Cancellation; Baggage: $1,000">
 														<?php echo $toppackagename['all_inclusive']; ?> <span class="glyphicon glyphicon-question-sign"></span>
 													</a>
 												</div>
@@ -539,7 +539,7 @@
 											<?php } else { ?>
 												<div class="col-sm-3">
 													<input <?php echo (($user_group_id > 100) && $no_change) ? 'disable="disable"' : ''; ?> type="radio" name="package" class='check_premium' value="all_inclusive" <?php if ($package == 'all_inclusive') { echo 'checked'; } ?>>
-													<a href="#" data-toggle="popover" data-trigger="hover" title="All Inclusive" data-content="Explaination for All Inclusive">
+													<a href="#" data-toggle="popover" data-trigger="hover" title="All Inclusive" data-content="Including: Emergency Hospital & Medical: $10,000,000; AD&D: $50,000; Flight Accident: $100,000; Trip Cancellation; Baggage: $1,000">
 														<?php echo $toppackagename['all_inclusive']; ?> <span class="glyphicon glyphicon-question-sign"></span>
 													</a>
 												</div>
@@ -569,8 +569,10 @@
 										<fieldset>
 											<legend>Conditions</legend>
 											<div class="row">
+												<div class="col-sm-12">
+													<label class="col-sm-12">Trip cancellation before departure, refer to section V of policy wording for full description</label>
+												</div>
 												<div class="col-sm-4">
-													<label class="col-sm-12">Sum Insured</label>
 													<?php if (($user_group_id > 100) && $no_change) { ?>
 													<input type="hidden" name="sum_insured" value="<?php echo $sum_insured; ?>">$<?php echo number_format($sum_insured, 2); ?>
 													<?php } else { ?>
@@ -578,7 +580,6 @@
 													<?php } ?>
 												</div>
 												<div class="col-sm-4">
-													<label class="col-sm-12">&nbsp;</label>
 													<?php if (($user_group_id > 100) && $no_change) { ?>
 													<input type="hidden" name="free_cancel" value="<?php echo $free_cancel ? 1 : 0; ?>">
 													<?php if ($free_cancel) { echo '<span class="glyphicon glyphicon-ok"></span>'; } ?> Free Cancellation
@@ -683,7 +684,7 @@
 														Trip Cancellation
 													</div>
 													<div class="panel-body">
-														Trip Cancellation description
+														Trip cancellation before departure, refer to section V of policy wording for full description
 														<div class='row'>
 															<div class="col-sm-2 text-right"><label>Insured Amount : </label></div>
 															<div class="col-sm-10">
