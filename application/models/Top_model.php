@@ -11852,7 +11852,7 @@ class Top_model extends CI_Model  {
 		if ($plan['package'] == 'single_medical_plan') {
 			$para = array();
 			$para['age'] = $plan['totalyears'];
-			$para['totaldays'] = 120;
+			$para['totaldays'] = $plan['totaldays'];
 			$para['questionnaire'] = $plan['questionnaire'];
 			$para['stable_condition'] = $plan['stable_condition'];
 			$para['isfamilyplan'] = $plan['isfamilyplan'];
@@ -11886,7 +11886,7 @@ class Top_model extends CI_Model  {
 			if ($this->premiumArr['status'] == 'OK') {
 				$refund = $this->premiumArr['premium'] / 120 * ($plan['totaldays'] - $days);
 				if ($refund > 0) {
-					return $refund;
+					return round($refund, 2);
 				}
 			}
 		}
