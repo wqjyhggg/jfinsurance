@@ -88,7 +88,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			            <div class="form-group col-sm-3">
 			                <label class="col-sm-12">Business Name:</label>
 			                <div class="input-group col-sm-12">
-			                	<input type='text' name='business' value='<?php echo $business; ?>' class="form-control">
+			                	<input type='text' name='business' value="<?php echo $business; ?>" class="form-control">
 			                	<?php if (!empty($error_business)){ ?>
 								<div class="alert-error">	
 									<?php echo $error_business; ?>
@@ -102,7 +102,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<input type='hidden' name='user_group_id' value='<?php echo $user_group_id; ?>'>
 					<input type='hidden' name='parent_user_id' value='<?php echo $parent_user_id; ?>'>
 					<input type='hidden' name='region' value='<?php echo $region; ?>'>
-					<input type='hidden' name='business' value='<?php echo $business; ?>'>
+					<input type='hidden' name='business' value="<?php echo $business; ?>">
 					<div class="row">
 			            <div class="form-group col-sm-3">
 			                <label class="col-sm-12"><?php echo $business; ?></label>
@@ -113,7 +113,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	              		<div class="form-group col-sm-3">
 			                <label class="col-sm-12">Username:</label>
 			                <div class="input-group col-sm-12">
-			                	<input type='text' name='username' value='<?php echo $username; ?>' class="form-control">
+			                	<input type='text' name='username' value="<?php echo $username; ?>" class="form-control">
 			                	<?php if (!empty($error_username)){ ?>
 								<div class="alert-error">	
 									<?php echo $error_username; ?>
@@ -136,7 +136,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			            <div class="form-group col-sm-2">
 			                <label class="col-sm-12">First Name:</label>
 			                <div class="input-group col-sm-12">
-			                	<input type='text' name='firstname' value='<?php echo $firstname; ?>' class="form-control">
+			                	<input type='text' name='firstname' value="<?php echo $firstname; ?>' class="form-control">
 			                	<?php if (!empty($error_firstname)){ ?>
 								<div class="alert-error">	
 									<?php echo $error_firstname; ?>
@@ -147,7 +147,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			            <div class="form-group col-sm-2">
 			                <label class="col-sm-12">Last Name:</label>
 			                <div class="input-group col-sm-12">
-			                	<input type='text' name='lastname' value='<?php echo $lastname; ?>' class="form-control">
+			                	<input type='text' name='lastname' value="<?php echo $lastname; ?>" class="form-control">
 			                	<?php if (!empty($error_lastname)){ ?>
 								<div class="alert-error">	
 									<?php echo $error_lastname; ?>
@@ -170,7 +170,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	              		<div class="form-group col-sm-3">
 			                <label class="col-sm-12">E-mail:</label>
 			                <div class="input-group col-sm-12">
-			                	<input type='text' name='email' value='<?php echo $email; ?>' class="form-control">
+			                	<input type='text' name='email' value="<?php echo $email; ?>" class="form-control">
 			                	<?php if (!empty($error_email)){ ?>
 								<div class="alert-error">	
 									<?php echo $error_email; ?>
@@ -181,7 +181,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			            <div class="form-group col-sm-9">
 			                <label class="col-sm-12">Address:</label>
 			                <div class="input-group col-sm-12">
-			                	<input type='text' name='address' value='<?php echo $address; ?>' class="form-control">
+			                	<input type='text' name='address' value="<?php echo $address; ?>" class="form-control">
 			                	<?php if (!empty($error_address)){ ?>
 								<div class="alert-error">	
 									<?php echo $error_address; ?>
@@ -194,7 +194,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			            <div class="form-group col-sm-3">
 			                <label class="col-sm-12">City:</label>
 			                <div class="input-group col-sm-12">
-			                	<input type='text' name='city' value='<?php echo $city; ?>' class="form-control">
+			                	<input type='text' name='city' value="<?php echo $city; ?>" class="form-control">
 			                	<?php if (!empty($error_city)){ ?>
 								<div class="alert-error">	
 									<?php echo $error_city; ?>
@@ -239,7 +239,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			            <div class="form-group col-sm-3 mailaddr">
 			                <label class="col-sm-12">Mail Name:</label>
 			                <div class="input-group col-sm-12">
-			                	<input type='text' name='mail_name' value='<?php echo $mail_name; ?>' class="form-control">
+			                	<input type='text' name='mail_name' value="<?php echo $mail_name; ?>" class="form-control">
 			                	<?php if (!empty($error_mail_name)){ ?>
 								<div class="alert-error">	
 									<?php echo $error_mail_name; ?>
@@ -250,7 +250,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			            <div class="form-group col-sm-6 mailaddr">
 			                <label class="col-sm-12">Mail Address:</label>
 			                <div class="input-group col-sm-12">
-			                	<input type='text' name='mail_address' value='<?php echo $mail_address; ?>' class="form-control">
+			                	<input type='text' name='mail_address' value="<?php echo $mail_address; ?>" class="form-control">
 			                	<?php if (!empty($error_mail_address)){ ?>
 								<div class="alert-error">	
 									<?php echo $error_mail_address; ?>
@@ -263,7 +263,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			            <div class="form-group col-sm-3">
 			                <label class="col-sm-12">Mail City:</label>
 			                <div class="input-group col-sm-12">
-			                	<input type='text' name='mail_city' value='<?php echo $mail_city; ?>' class="form-control">
+			                	<input type='text' name='mail_city' value="<?php echo $mail_city; ?>" class="form-control">
 			                	<?php if (!empty($error_mail_city)){ ?>
 								<div class="alert-error">	
 									<?php echo $error_mail_city; ?>
@@ -304,13 +304,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			            <div class="form-group col-sm-3">
 			                <label class="col-sm-12">Website:</label>
 			                <div class="input-group col-sm-12">
-			                	<input type='text' name='website' value='<?php echo $website; ?>' class="form-control">
+			                	<input type='text' name='website' value="<?php echo $website; ?>" class="form-control">
 			                </div>
 			            </div>
 			            <div class="form-group col-sm-3">
 			                <label class="col-sm-12">Licence No.:</label>
 			                <div class="input-group col-sm-12">
-			                	<input type='text' name='licence_number' value='<?php echo $licence_number; ?>' class="form-control">
+			                	<input type='text' name='licence_number' value="<?php echo $licence_number; ?>" class="form-control">
 			                	<?php if (!empty($error_licence_number)){ ?>
 								<div class="alert-error">	
 									<?php echo $error_licence_number; ?>
@@ -378,7 +378,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<div class="col-sm-6">
 							<input  type='checkbox' name='product_list[]' value='<?php echo $key; ?>' <?php echo $pd['checked']; ?>> <?php echo $pd['product_short'] . " - " . $pd['full_name']; ?><br>
 							<?php echo $pd['product_short']; ?> Commission (%): <input type='text' name='product_commission_<?php echo $key; ?>' value='<?php echo $pd['commission']; ?>'><br>
-							Customize Product Name: <input  type='text' name='product_customize[<?php echo $pd['product_short']; ?>]' value='<?php echo $product_customize[$pd['product_short']]; ?>'><br>
+							Customize Product Name: <input  type='text' name='product_customize[<?php echo $pd['product_short']; ?>]' value="<?php echo $product_customize[$pd['product_short']]; ?>"><br>
 							<br />
 							</div>
 							<?php } ?>
@@ -447,12 +447,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<div class="row">
 			            <div class="form-group col-sm-12">
 				            <div class="form-group col-sm-3">
-				            	Footer Left1: <input type='text' name='pdf_f_left1' value='<?php echo $pdf_f_left1; ?>'>
-				            	Footer Left2: <input type='text' name='pdf_f_left2' value='<?php echo $pdf_f_left2; ?>'>
-				            	Footer Left3: <input type='text' name='pdf_f_left3' value='<?php echo $pdf_f_left3; ?>'>
-				            	Footer Left4: <input type='text' name='pdf_f_left4' value='<?php echo $pdf_f_left4; ?>'>
-				            	Footer Left5: <input type='text' name='pdf_f_left5' value='<?php echo $pdf_f_left5; ?>'>
-				            	Footer Left6: <input type='text' name='pdf_f_left6' value='<?php echo $pdf_f_left6; ?>'>
+				            	Footer Left1: <input type='text' name='pdf_f_left1' value="<?php echo $pdf_f_left1; ?>">
+				            	Footer Left2: <input type='text' name='pdf_f_left2' value="<?php echo $pdf_f_left2; ?>">
+				            	Footer Left3: <input type='text' name='pdf_f_left3' value="<?php echo $pdf_f_left3; ?>">
+				            	Footer Left4: <input type='text' name='pdf_f_left4' value="<?php echo $pdf_f_left4; ?>">
+				            	Footer Left5: <input type='text' name='pdf_f_left5' value="<?php echo $pdf_f_left5; ?>">
+				            	Footer Left6: <input type='text' name='pdf_f_left6' value="<?php echo $pdf_f_left6; ?>">
 				            </div>
 				            <div class="form-group col-sm-3">
 				            	<input type='file' name='qr_src'  accept="image/*"> QR (best 60 pixel)
@@ -461,12 +461,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<?php } ?>
 				            </div>
 				            <div class="form-group col-sm-3">
-				            	Footer Right1: <input type='text' name='pdf_f_right1' value='<?php echo $pdf_f_right1; ?>'>
-				            	Footer Right2: <input type='text' name='pdf_f_right2' value='<?php echo $pdf_f_right2; ?>'>
-				            	Footer Right3: <input type='text' name='pdf_f_right3' value='<?php echo $pdf_f_right3; ?>'>
-				            	Footer Right4: <input type='text' name='pdf_f_right4' value='<?php echo $pdf_f_right4; ?>'>
-				            	Footer Right5: <input type='text' name='pdf_f_right5' value='<?php echo $pdf_f_right5; ?>'>
-				            	Footer Right6: <input type='text' name='pdf_f_right6' value='<?php echo $pdf_f_right6; ?>'>
+				            	Footer Right1: <input type='text' name='pdf_f_right1' value="<?php echo $pdf_f_right1; ?>">
+				            	Footer Right2: <input type='text' name='pdf_f_right2' value="<?php echo $pdf_f_right2; ?>">
+				            	Footer Right3: <input type='text' name='pdf_f_right3' value="<?php echo $pdf_f_right3; ?>">
+				            	Footer Right4: <input type='text' name='pdf_f_right4' value="<?php echo $pdf_f_right4; ?>">
+				            	Footer Right5: <input type='text' name='pdf_f_right5' value="<?php echo $pdf_f_right5; ?>">
+				            	Footer Right6: <input type='text' name='pdf_f_right6' value="<?php echo $pdf_f_right6; ?>">
 				            </div>
 				            <div class="form-group col-sm-3">
 				            	<input type='file' name='qr2_src'  accept="image/*"> QR (best 60 pixel)

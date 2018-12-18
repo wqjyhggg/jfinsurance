@@ -496,7 +496,7 @@ class User extends MY_Controller {
 		$product_customize = array();
 		foreach ($product_list as $p) {
 			$p['checked'] = '';
-			if (empty($user_id) && ($p['product_short'] != 'JFC') && ($p['product_short'] != 'NUS') && ($p['product_short'] != 'JUS') && ($p['product_short'] != 'TOP')) {
+			if (empty($user_id) && ($p['product_short'] != 'JFC') && ($p['product_short'] != 'NUS') && ($p['product_short'] != 'JUS')) {
 				$p['checked'] = 'checked';
 			} 
 			$plist[$p['product_short']] = $p;

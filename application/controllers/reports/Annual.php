@@ -66,7 +66,7 @@ class Annual extends MY_Controller {
     		$commission += $record['commission'][$i];
     	}
     	$data['premium'] = $premium;
-    	$data['commission'] = $premium;
+    	$data['commission'] = $commission;
     	$data['agent'] = $this->user_model->get_user_by_id($agent_id);
     	$html = $this->load->view('reports/annual_pdf', $data, TRUE);
     	$mpdf->writeHTML($html);
