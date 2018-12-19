@@ -41,20 +41,14 @@ defined('BASEPATH') or exit('No direct script access allowed');
 							<div class="row">
 								<!-- Agent input box -->
 								<div class="form-group col-sm-3">
-									<label class="col-sm-12">Agent:</label>
-									<div class="input-group col-sm-12">
-										<select name="agent_id" class="form-control">
-											<option value=0>Choose Agent</option>
-											<?php foreach ($user_list as $agent) : ?>
-											<option value="<?=$agent['user_id'] ?>" <?php if ($agent_id == $agent['user_id']) { echo "selected"; } ?>><?php echo $agent['username'] . " ( ". $agent['full_name'] . " )"; ?></option>
-											<?php endforeach; ?>
-										</select>
-									</div>
+									<label class="col-sm-12 text-right">Agent:</label>
+								</div>
+								<div class="form-group col-sm-3">
+									<input type="text" name="agent_id" value="<?php echo $agent_id; ?>" class="form-control">
 								</div>
 								<!-- Agent input box end -->
 								<!-- submit button -->
 								<div class="col-sm-3">
-									<br />
 									<button class="btn btn-primary pull-right">Submit</button>
 								</div>
 								<!-- submit button -->

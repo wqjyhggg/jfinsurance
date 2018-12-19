@@ -26,7 +26,7 @@ class Annual extends MY_Controller {
 			$this->data['agent_id'] = $beuser['user_id'];
 		} else {
 			$this->data['agent_id'] = empty($this->input->post('agent_id')) ? 0 : (int)$this->input->post('agent_id');
-			$this->data['user_list'] = $this->user_model->get_available_user_list();
+			// $this->data['user_list'] = $this->user_model->get_available_user_list();
 		}
 
 		if ($this->data['agent_id']) {
