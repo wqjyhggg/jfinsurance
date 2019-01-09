@@ -136,7 +136,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			            <div class="form-group col-sm-2">
 			                <label class="col-sm-12">First Name:</label>
 			                <div class="input-group col-sm-12">
-			                	<input type='text' name='firstname' value="<?php echo $firstname; ?>' class="form-control">
+			                	<input type='text' name='firstname' value="<?php echo $firstname; ?>" class="form-control">
 			                	<?php if (!empty($error_firstname)){ ?>
 								<div class="alert-error">	
 									<?php echo $error_firstname; ?>
