@@ -17,10 +17,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<P style="padding-bottom: -1em;"><B>Emergency Hospital and Medical does not cover losses or expenses caused directly or indirectly, in whole or in part, by:</B></P>
 			<P style="padding-bottom: -1em;">Any sickness, injury or medical condition (other than a minor ailment) that was not stable:</P>
 			<P style="padding-bottom: -1em; padding-left: 4em;">i. In the 90 days prior to the effective date if:</P>
-			<P style="padding-bottom: -1em; padding-left: 4em;">ii. In the 180 days prior to the effective date if you qualify for Rate Category 3 or 4; or</P>
 			<P style="padding-bottom: -1em; padding-left: 8em;">a. you are less than 60 years of age; or</P>
 			<P style="padding-bottom: -1em; padding-left: 8em;">b. youare between 60 and 74 years of age travelling for no more than 31 days; or</P>
 			<P style="padding-bottom: -1em; padding-left: 8em;">c. you qualify to Rate Category 1 or 2.</P>
+			<P style="padding-bottom: -1em; padding-left: 4em;">ii. In the 180 days prior to the effective date if you qualify for Rate Category 3 or 4; or</P>
 			<P style="padding-bottom: -1em; padding-left: 4em;">iii. In the 365 days prior to the effective date if you qualify for Rate Category 5 or 6</P>
 		</div>
 	</div>

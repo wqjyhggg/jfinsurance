@@ -506,6 +506,8 @@
 								<div class="x_content">
 									<div class="form-group col-sm-6"><h2><label><span>Packages</span></label></h2></div>
 									<div class="clearfix"></div>
+									<div class="form-group col-sm-12"><label><span>All Inclusive plan and trip cancellation is non-refundable.</span></label></div>
+									<div class="clearfix"></div>
 									<div class="col-sm-12 block-space">
 										<fieldset>
 											<legend>Select Package</legend>
@@ -684,7 +686,16 @@
 														Trip Cancellation
 													</div>
 													<div class="panel-body">
-														Trip cancellation before departure, refer to section V of policy wording for full description
+														<div class='row'>
+															<div class="col-sm-12">
+																The trip cancellation will  be effective on the date of purchase.
+															</div>
+														</div>
+														<div class='row'>
+															<div class="col-sm-12">
+																Trip cancellation before departure, refer to section V of policy wording for full description
+															</div>
+														</div>
 														<div class='row'>
 															<div class="col-sm-2 text-right"><label>Insured Amount : </label></div>
 															<div class="col-sm-10">
