@@ -504,9 +504,9 @@
 							<!-- Start packages -->
 							<div class="x_panel">
 								<div class="x_content">
-									<div class="form-group col-sm-6"><h2><label><span>Packages</span></label></h2></div>
+									<div class="form-group col-sm-6"><h2><label><strong>Packages</strong></label></h2></div>
 									<div class="clearfix"></div>
-									<div class="form-group col-sm-12"><label><span>All Inclusive plan and trip cancellation is non-refundable.</span></label></div>
+									<div class="form-group col-sm-12"><label><strong>All Inclusive plan and trip cancellation is non-refundable.</strong></label></div>
 									<div class="clearfix"></div>
 									<div class="col-sm-12 block-space">
 										<fieldset>
