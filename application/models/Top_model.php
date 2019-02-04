@@ -11838,8 +11838,8 @@ class Top_model extends CI_Model  {
 				$this->premiumArr['tax'] = $tax; 
 			}
 				
-			if (($this->premiumArr['premium'] > 0) && ($this->premiumArr['premium'] < 25)) {
-				$this->premiumArr['premium'] = 25;
+			if (($this->premiumArr['premium'] > 0) && ($this->premiumArr['premium'] < 20)) {
+				$this->premiumArr['premium'] = 20;
 			}
 		}
 		return $this->premiumArr;
