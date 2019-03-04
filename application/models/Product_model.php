@@ -393,21 +393,23 @@ class Product_model extends CI_Model {
 						elseif ($years <= 60) 	{
 							if (!empty($para['plan_id']) && ($para['plan_id'] < SELF::PLANIDCHG2018_1)) {
 								$rate = 4.95;
-							} else  if (!empty($para['plan_id']) && ($para['plan_id'] < SELF::PLANIDCHG2019_4)) {
+							} else  {
 								// new rate changed in 2018/06/01
 								$rate = 4.46;
+							/*
 							} else {
 								// new rate changed in 2019/03/01
 								$rate = 4.20;
+							*/
 							}
 						}
 						elseif ($years <= 64)	{
-							if (!empty($para['plan_id']) && ($para['plan_id'] < SELF::PLANIDCHG2019_4)) {
+							//if (!empty($para['plan_id']) && ($para['plan_id'] < SELF::PLANIDCHG2019_4)) {
 								$rate = 5.13;
-							} else {
+							//} else {
 								// new rate changed in 2019/03/01
-								$rate = 4.70;
-							}
+							//	$rate = 4.70;
+							//}
 						}
 						elseif ($years <= 69) 	$rate = 5.94;
 						elseif ($years <= 74) 	$rate = 9.79;
@@ -419,20 +421,20 @@ class Product_model extends CI_Model {
 						if ($years <= 25) 		$rate = 4.3;
 						elseif ($years <= 40) 	$rate = 4.66;
 						elseif ($years <= 60) 	{
-							if (!empty($para['plan_id']) && ($para['plan_id'] < SELF::PLANIDCHG2019_4)) {
+							//if (!empty($para['plan_id']) && ($para['plan_id'] < SELF::PLANIDCHG2019_4)) {
 								$rate = 5.75;
-							} else {
+							//} else {
 								// new rate changed in 2019/03/01
-								$rate = 4.70;
-							}
+							//	$rate = 4.70;
+							//}
 						}
 						elseif ($years <= 64) 	{
-							if (!empty($para['plan_id']) && ($para['plan_id'] < SELF::PLANIDCHG2019_4)) {
+							//if (!empty($para['plan_id']) && ($para['plan_id'] < SELF::PLANIDCHG2019_4)) {
 								$rate = 6.34;
-							} else {
+							//} else {
 								// new rate changed in 2019/03/01
-								$rate = 5.50;
-							}
+							//	$rate = 5.50;
+							//}
 						}
 						elseif ($years <= 69) 	$rate = 7.4;
 						elseif ($years <= 74) 	$rate = 12.17;
