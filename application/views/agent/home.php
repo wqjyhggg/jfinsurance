@@ -106,19 +106,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                       <img class="img-responsive img-title" src="<?php echo base_url();?>image/t1.jpg" alt="Emergency Hospital Insurance" />
                       <h2>Visitor to Canada</h2>
                       <hr style="border-bottom:2px solid #ddd; width:50px; margin:0 0 15px;"/>
-                      <p>Health care costs in Canada can be expensive if you’re not covered by a Canadian government health insurance plan. Therefore, be sure to carry visitor insurance to protect your finances and enjoy a secured stay while you are away from your home country.</p>
+                      <p>Healthcare costs in Canada can be expensive if you’re not covered by a Canadian government healthcare plan. Make sure you have the proper visitor insurance coverage to help protect you and your family and enjoy a secure stay in Canada. </p>
                     </div>
                     <div class="col-sm-4" style="padding:15px 5%;">
                       <img class="img-responsive img-title" src="<?php echo base_url();?>image/t2.jpg" alt="Emergency Hospital Insurance" />
                       <h2>International Student to Canada</h2>
                       <hr style="border-bottom:2px solid #ddd; width:50px; margin:0 0 15px;"/>
-                      <p>Studying aboard is exciting and adventurous. Make sure you have the right insurance coverage for your journey while in Canada.</p>
+                      <p>Studying abroad is exciting and adventurous. Make sure you have the right insurance coverage for your journey while in Canada.</p>
                     </div>
                     <div class="col-sm-4" style="padding:15px 5%;">
                       <img class="img-responsive img-title" src="<?php echo base_url();?>image/t3.jpg" alt="Emergency Hospital Insurance" />
-                      <h2>Canadian Travel Out</h2>
+                      <h2>Canadian Travellers</h2>
                       <hr style="border-bottom:2px solid #ddd; width:50px; margin:0 0 15px;"/>
-                      <p>Your provincial health plan only covers a part of your health care costs incurred outside of Canada and limits coverage when travelling to another province.</p>
+                      <p>It may not come as a surprise that your provincial health plan may not cover your health care costs incurred outside of Canada, but did you also know that you could have limited coverage when traveling to other provinces/territories within Canada? Make sure you are properly covered when travelling abroad or from your home province. </p>
                     </div>
                   </div>
                 </div>
