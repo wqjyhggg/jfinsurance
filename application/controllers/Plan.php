@@ -3002,6 +3002,14 @@ class Plan extends MY_Controller {
 				$dt['note'] = "Cancel at " . $dt['added'] . " amount: " . $refund_amount . " admin fee: " . $admin_fee;
 				
 				$commission_rate = $this->product_model->get_commission_rate($plan['product_short'], $plan['user_id']);
+				if (($plan['product_short'] == 'TOP') && ($plan['totalyears'] > 60)) {
+					if ($commission_rate > 15) {
+						$commission_rate -= 15;
+					} else {
+						$commission_rate = 0;
+					}
+				}
+				
 				$commission_amount = $refund_amount * $commission_rate / 100.0;
 				$up_commission_rate = $this->product_model->get_up_commission_rate($plan['product_short']);
 				$up_commission_amount = $refund_amount * $up_commission_rate / 100.0;
@@ -3165,6 +3173,13 @@ class Plan extends MY_Controller {
 				$dt['note'] = "Refund at " . $dt['added'] . " amount: " . $refund_amount . " admin fee: " . $admin_fee;
 				
 				$commission_rate = $this->product_model->get_commission_rate($plan['product_short'], $plan['user_id']);
+				if (($plan['product_short'] == 'TOP') && ($plan['totalyears'] > 60)) {
+					if ($commission_rate > 15) {
+						$commission_rate -= 15;
+					} else {
+						$commission_rate = 0;
+					}
+				}
 				$commission_amount = $refund_amount * $commission_rate / 100.0;
 				$up_commission_rate = $this->product_model->get_up_commission_rate($plan['product_short']);
 				$up_commission_amount = $refund_amount * $up_commission_rate / 100.0;
