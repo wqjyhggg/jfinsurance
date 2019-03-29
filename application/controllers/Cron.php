@@ -361,6 +361,24 @@ class Cron extends MY_Controller {
 		}
 	}
 
+	public function format_phone($phone) {
+		$phone = preg_replace("/[^0-9]/", "", $phone);
+		$len = strlen($phone);
+		if ($len == 10) {
+			$phone = substr($phone, 0, 3) . "-" . substr($phone, 3, 3) . "-" . substr($phone, 6);
+		} else if ($len == 11) {
+			$phone = substr($phone, 0, 1) . "-" . substr($phone, 1, 3) . "-" . substr($phone, 4, 3) . "-" . substr($phone, 7);
+		} else {
+			$head = substr($phone, 0, 1);
+			if ($head == "1") {
+				$phone = substr($phone, 0, 1) . "-" . substr($phone, 1);
+			} else {
+				$phone = $phone . " ";
+			}
+		}
+		return $phone;
+	}
+
 	public function export() {
 		$this->valid();
 		set_time_limit(0);
@@ -516,7 +534,7 @@ class Cron extends MY_Controller {
 			$sheet->setCellValue('D'.$row, $plan['isfamilyplan'] ? "Family" : "Single");
 			$sheet->setCellValue('E'.$row, $plan['firstname']);
 			$sheet->setCellValue('F'.$row, $plan['lastname']);
-			$sheet->setCellValue('G'.$row, $plan['gender']);
+			$sheet->setCellValue('G'.$row, substring($plan['gender'], 0, 1));
 			$sheet->setCellValue('H'.$row, PHPExcel_Shared_Date::PHPToExcel(strtotime($plan['birthday'] . ' 00:00:00 UTC')));
 			//$sheet->getStyle('H'.$row)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_DATE_TIME2);
 			$sheet->getStyle('H'.$row)->getNumberFormat()->setFormatCode('m/d/yyyy h:mm:ss AM/PM');
@@ -528,7 +546,7 @@ class Cron extends MY_Controller {
 			$sheet->setCellValue('K'.$row, $plan['city']); // City
 			$sheet->setCellValue('L'.$row, $plan['province2']); // Provincec
 			$sheet->setCellValue('M'.$row, $plan['postcode']); // Postal Code
-			$sheet->setCellValue('N'.$row, $plan['contact_phone'] . " "); // Contact Phone
+			$sheet->setCellValue('N'.$row, format_phone($plan['contact_phone'])); // Contact Phone
 			$mlArr = array();
 			$mailaddr = '';
 			$r = preg_match($pattern, $plan['contact_email'], $mlArr);
@@ -591,7 +609,7 @@ class Cron extends MY_Controller {
 					$sheet->setCellValue('K'.$row, $plan['city']); // City
 					$sheet->setCellValue('L'.$row, $plan['province2']); // Provincec
 					$sheet->setCellValue('M'.$row, $plan['postcode']); // Postal Code
-					$sheet->setCellValue('N'.$row, $plan['contact_phone'] . " "); // Contact Phone
+					$sheet->setCellValue('N'.$row, format_phone($plan['contact_phone'])); // Contact Phone
 					$sheet->setCellValue('O'.$row, $plan['contact_email']); // Contact Email
 					$sheet->setCellValue('P'.$row, $note); // Notes
 					$sheet->setCellValue('Q'.$row, PHPExcel_Shared_Date::PHPToExcel(strtotime($plan['arrival_date'] . ' 00:00:00 UTC'))); // Arrival Date
