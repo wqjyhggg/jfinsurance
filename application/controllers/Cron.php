@@ -534,7 +534,7 @@ class Cron extends MY_Controller {
 			$sheet->setCellValue('D'.$row, $plan['isfamilyplan'] ? "Family" : "Single");
 			$sheet->setCellValue('E'.$row, $plan['firstname']);
 			$sheet->setCellValue('F'.$row, $plan['lastname']);
-			$sheet->setCellValue('G'.$row, substring($plan['gender'], 0, 1));
+			$sheet->setCellValue('G'.$row, substr($plan['gender'], 0, 1));
 			$sheet->setCellValue('H'.$row, PHPExcel_Shared_Date::PHPToExcel(strtotime($plan['birthday'] . ' 00:00:00 UTC')));
 			//$sheet->getStyle('H'.$row)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_DATE_TIME2);
 			$sheet->getStyle('H'.$row)->getNumberFormat()->setFormatCode('m/d/yyyy h:mm:ss AM/PM');
