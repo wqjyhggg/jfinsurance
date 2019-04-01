@@ -9,6 +9,7 @@ class Product_model extends CI_Model {
 	const PLANIDCHG2018_2=401652;
 	const PLANIDCHG2019_3=452015;
 	const PLANIDCHG2019_4=852015;
+	const PLANIDCHG2019_5=456749;   // JES apply 1.6 * 2. (used to be 1.6 daily * 2.5)
 	public $message;
 	
 	/**
@@ -899,7 +900,7 @@ class Product_model extends CI_Model {
 			$rate = 1.6;
 			if ($para['holiday_rate'] && $para['holiday_rate']) $rate = 1.85;
 			if ($para['isfamilyplan']) {
-				if ($number_customer == 2) {
+				if (($number_customer == 2) && (!empty($para['plan_id']) && ($para['plan_id'] < SELF::PLANIDCHG2019_5))) {
 					$rate = $rate * 2.5;
 				} else {
 					$rate = $rate * $number_customer;
