@@ -665,9 +665,10 @@ class User extends MY_Controller {
 			// Login user
 			redirect ( base_url () );
 		}
-		
+
 		// Get all text depend language
 		$this->data = $this->lang->language;
+		
 		$this->data ['username'] = '';
 		$this->data ['password'] = '';
 		$this->data ['error_message'] = '';
@@ -684,7 +685,14 @@ class User extends MY_Controller {
 					if ($r['forcepw']) {
 						redirect ( base_url ('user/resetpassword') );
 					}
-					redirect ( base_url ('product') );
+					// redirect ( base_url ('product') );
+					$this->data['top_menu'] = $this->menu_model->load_top_menu();
+					//$this->data['menu'] = $this->menu_model->load_meun();
+					$this->load->model('report_model');
+					$this->data['html'] = $this->report_model->get_pophome();
+						
+					$this->load->common ( 'user/announcement', $this->data );
+					return ;
 				} else {
 					$this->data['error_message'] = $r;
 				}

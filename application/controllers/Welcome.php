@@ -20,4 +20,15 @@ class Welcome extends MY_Controller {
 			//$this->load->view('home_v1', $this->data);
 		}
 	}
+
+	public function pophome()
+	{
+		$this->load->model('report_model');
+		$html = $this->report_model->get_pophome();
+		if ($html) {
+			die($html);
+		} else {
+			redirect ( base_url ('product') );
+		}
+	}
 }

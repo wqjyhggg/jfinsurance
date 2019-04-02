@@ -35,6 +35,7 @@ class Menu_model extends CI_Model {
 					"<a href='" . base_url('product') . "' class='leftmeun'><i class='fa fa-shield'></i>" . $this->lang->line ( 'text_our_products' ) . "</a>",
 					"<a href='" . base_url('user') . "' class='leftmeun'><i class='fa fa-users'></i>" . $this->lang->line ( 'text_agent' ) . "</a>",
 					"<a href='" . base_url('pdf/pdflist') . "' class='leftmeun'><i class='fa fa-file-pdf-o'></i>" . $this->lang->line ( 'text_list_download_file' ) . "</a>",
+					"<a href='" . base_url('announcement') . "' class='leftmeun'><i class='fa fa-cog'></i>" . $this->lang->line ( 'text_announcement' ) . "</a>",
 					"<a href='" . base_url('setting') . "' class='leftmeun'><i class='fa fa-cog'></i>" . $this->lang->line ( 'text_api' ) . "</a>",
 			),
 			2 => array(
