@@ -19,6 +19,11 @@ class Announcement extends MY_Controller {
 		$data['save_url'] = base_url('announcement/save');
 		
 		$data['html'] = $this->report_model->get_pophome();
+		$data['csrf'] = array (
+				'name' => $this->security->get_csrf_token_name (),
+				'value' => $this->security->get_csrf_hash ()
+		);
+		
 		$this->load->common('announcement', $data);
 	}
 	

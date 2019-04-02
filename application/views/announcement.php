@@ -10,6 +10,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<textarea id="mytextarea" name="html"></textarea>
 				<div class="main">
 					<form method="post" action="<?php echo $save_url; ?>" enctype="multipart/form-data">
+					<input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
 					<textarea id="textdata" name="textdata" style="display: none;"></textarea>
 					<div><input type="submit" id="send" value="Submit"></div>
 					</form>
