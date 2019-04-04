@@ -269,6 +269,7 @@ class Api extends MY_Controller {
 			$this->load->model('status_model');
 			$this->load->model('plan_model');
 			$this->load->model('customer_model');
+			$this->load->model('payment_model');
 				
 			$data = array();
 			if (!empty($this->input->post('plan_id'))) $data['plan_id'] = $this->input->post('plan_id');
@@ -397,6 +398,16 @@ class Api extends MY_Controller {
 							foreach ($family as $fm) {
 								$p['family'][] = array('firstname' => $fm['firstname'], 'lastname' => $fm['lastname'], 'birthday' => $fm['birthday'], 'gender' => $fm['gender'], );
 							}
+						}
+					}
+					if ((sizeof($data) == 1) && !empty($data['policy'])) {
+						// Add refund data as payment data as well
+						if ($p['status_id'] == Plan_model::CANCEL) {
+							$p['payment_tm'] = $this->payment_model->get_cancel_date($p['plan_id']);
+						} else if ($p['status_id'] == Plan_model::REFUND) {
+							$p['payment_tm'] = $this->payment_model->get_refund_date($p['plan_id']);
+						} else {
+							$p['payment_tm'] = $this->payment_model->get_first_payment_date($p['plan_id']);
 						}
 					}
 					$json['plan_list'][] = $p;
