@@ -687,11 +687,14 @@ class User extends MY_Controller {
 					}
 					// redirect ( base_url ('product') );
 					$this->data['top_menu'] = $this->menu_model->load_top_menu();
-					//$this->data['menu'] = $this->menu_model->load_meun();
 					$this->load->model('report_model');
 					$this->data['html'] = $this->report_model->get_pophome();
-						
-					$this->load->common ( 'user/announcement', $this->data );
+					if (!empty($this->data['html'])) {
+						$this->load->common ( 'user/announcement', $this->data );
+					} else {
+						$this->data['menu'] = $this->menu_model->load_meun();
+						redirect ( base_url ('product') );
+					}
 					return ;
 				} else {
 					$this->data['error_message'] = $r;
