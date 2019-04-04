@@ -259,9 +259,24 @@ class Payment_model extends CI_Model {
 		$this->logstr = 'Adjust Commission Back date[' . $plan_id . '][' . $date . ']';
 		return $this->db->affected_rows() > 0;
 	}
+
+	/**
+	 * get first payment
+	 *
+	 * @para plan_id
+	 * @para date
+	 * @return effect rows
+	 */
+	public function get_first_payment_date($plan_id) {
+		$this->db->where('plan_id', $plan_id);
+		$this->db->where('pay_type', 'premium');
+		$this->db->order_by('payment_id', 'ASC');
+		$this->db->limit(1);
+		return $this->db->get('payment')->row()->last_update;
+	}
 	
 	/**
-	 * adjust commission added date
+	 * get last payment
 	 * 
 	 * @para plan_id
 	 * @para date
