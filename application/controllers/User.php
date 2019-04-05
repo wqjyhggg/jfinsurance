@@ -689,10 +689,10 @@ class User extends MY_Controller {
 					$this->data['top_menu'] = $this->menu_model->load_top_menu();
 					$this->load->model('report_model');
 					$this->data['html'] = $this->report_model->get_pophome();
+					$this->data['menu'] = $this->menu_model->load_meun();
 					if (!empty($this->data['html'])) {
 						$this->load->common ( 'user/announcement', $this->data );
 					} else {
-						$this->data['menu'] = $this->menu_model->load_meun();
 						redirect ( base_url ('product') );
 					}
 					return ;

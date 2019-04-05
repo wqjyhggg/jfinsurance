@@ -16,15 +16,19 @@ class Announcement extends MY_Controller {
 		$data['menu'] = $this->menu_model->load_meun();
 		
 		$this->load->model('report_model');
-		$data['save_url'] = base_url('announcement/save');
+		$data['save_url'] = base_url('announcement/save'); 
 		
 		$data['html'] = $this->report_model->get_pophome();
 		$data['csrf'] = array (
 				'name' => $this->security->get_csrf_token_name (),
 				'value' => $this->security->get_csrf_hash ()
 		);
-		
-		$this->load->common('announcement', $data);
+
+		if ($beuser['user_group_id'] == 1) {
+			$this->load->common('announcement', $data);
+		} else {
+			$this->load->common('user/announcement', $data);
+		}
 	}
 	
 	public function save() {
