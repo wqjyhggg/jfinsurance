@@ -2837,6 +2837,9 @@ class Plan extends MY_Controller {
 					$data['special_note'] = $this->load->view('plan/top/pdf_note_top',$data, TRUE);
 					$files = array(
 					'TOP_Policy.pdf' => DOWNLOADDIR . 'TOP_Policy.pdf',
+					'TOP_Baggage_Claim_Form.pdf' => DOWNLOADDIR . 'TOP_Baggage_Claim_Form.pdf',
+					'TOP_Cancellation_Claim_Form.pdf' => DOWNLOADDIR . 'TOP_Cancellation_Claim_Form.pdf',
+					'TOP_Medical_Claim_Form.pdf' => DOWNLOADDIR . 'TOP_Medical_Claim_Form.pdf',
 					'TOP_Benefit_Summary.pdf' => DOWNLOADDIR . 'TOP_Benefit_Summary.pdf'
 					);
 				} else {
