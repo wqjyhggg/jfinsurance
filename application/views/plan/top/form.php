@@ -683,12 +683,12 @@
 														<?php } else { ?>
 														<input type="checkbox" name="trip_cancellation_ckbox" class='check_premium' value="1" <?php echo $trip_cancellation_ck ? 'checked' : ''; ?>>
 														<?php } ?>
-														Trip Cancellation
+														Trip cancellation and interruption
 													</div>
 													<div class="panel-body">
 														<div class='row'>
 															<div class="col-sm-12">
-																The trip cancellation will  be effective on the date of purchase.
+																The trip cancellation will be effective on the date of purchase.
 															</div>
 														</div>
 														<div class='row'>
