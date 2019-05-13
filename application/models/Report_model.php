@@ -890,8 +890,8 @@ class Report_model extends CI_Model
     }
     
     function set_pophome($html) {
-       	$data = $this->get_pophome();
-    	if ($data) {
+    	$row = $this->db->get_where('user_meta', array('user_id' => 1, 'type' => 'pophome'))->row_array();
+    	if ($row) {
     		$row = array('user_id' => 1, 'type' => 'pophome', 'value' => $html, 'last_update' => date("Y-m-d H:i:s"));
     		$this->db->replace('user_meta', $row);
     	} else {
