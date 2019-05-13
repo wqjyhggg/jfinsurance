@@ -26,7 +26,7 @@ class Welcome extends MY_Controller {
 		$this->load->model('report_model');
 		$html = $this->report_model->get_pophome();
 		if ($html) {
-			die($html);
+			die(rawurldecode($html));
 		} else {
 			redirect ( base_url ('product') );
 		}

@@ -884,7 +884,7 @@ class Report_model extends CI_Model
     function get_pophome() {
     	$row = $this->db->get_where('user_meta', array('user_id' => 1, 'type' => 'pophome'))->row_array();
     	if ($row) {
-    		return $row['value'];
+    		return rawurldecode($row['value']);
     	}
     	return '';
     }

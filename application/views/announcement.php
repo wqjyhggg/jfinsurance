@@ -26,7 +26,7 @@ $(document).ready(function() {
 	$("#mytextarea").Editor("setText", '<?php echo $html; ?>');
 	$("#send").click(function(){
 		var txt = $("#mytextarea").Editor("getText");
-		$("#textdata").val(txt);
+		$("#textdata").val(encodeURIComponent(txt));
 		return true;
 	});
 });
