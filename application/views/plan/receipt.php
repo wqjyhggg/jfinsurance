@@ -50,7 +50,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 		</div>
 		<div class="row">
 			<div class="col-sm-12 nopm text-right">
-				<h4 class="nopm">INCOME TAX RECEIPT</h4>
+				<h4 class="nopm">TAX RECEIPT</h4>
 			</div>
 		</div>
 		<div style="border-bottom:3px solid #eee;margin:10px auto 20px;"></div>
@@ -82,7 +82,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 		</div>
 		<div class="row">
 			<div class="col-sm-12 nopm text-right">
-				<h4 class="nopm">INCOME TAX RECEIPT</h4>
+				<h4 class="nopm">TAX RECEIPT</h4>
 			</div>
 		</div>
 		<div style="border-bottom:3px solid #eee;margin:10px auto 20px;"></div>
