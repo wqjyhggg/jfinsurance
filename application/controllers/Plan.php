@@ -2701,7 +2701,7 @@ class Plan extends MY_Controller {
 		$data['card_cvv'] = $this->input->post('card_cvv');
 		
 		$data['show_history'] = 0;
-		if ($beuser['user_group_id'] < 100) {
+		if ($this->session->userdata ( 'user') && ($beuser['user_group_id'] < 100)) {
 			$this->load->model('payment_model');
 			$data['show_history'] = 1;
 //			$data['activelogs'] = $this->log_model->get_activity_by_plan_id($plan['plan_id']);
