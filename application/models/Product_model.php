@@ -10,6 +10,7 @@ class Product_model extends CI_Model {
 	const PLANIDCHG2019_3=452015;
 	const PLANIDCHG2019_4=457707;	// OPL new rate
 	const PLANIDCHG2019_5=456749;   // JES apply 1.6 * 2. (used to be 1.6 daily * 2.5)
+	const PLANIDCHG2019_7=556749;   // JFR rate change
 	public $message;
 	
 	/**
@@ -631,9 +632,21 @@ class Product_model extends CI_Model {
 						elseif ($years <= 40) 	$rate = 2.74;
 						elseif ($years <= 60) 	$rate = 3.11;
 						elseif ($years <= 64) 	$rate = 4.02;
-						elseif ($years <= 69) 	$rate = 5.09;
+						elseif ($years <= 69) 	{
+							if (!empty($para['plan_id']) && ($para['plan_id'] < SELF::PLANIDCHG2019_7)) {
+								$rate = 5.09;
+							} else {
+								$rate = 4.8;
+							}
+						}
 						elseif ($years <= 74) 	$rate = 8.35;
-						elseif ($years <= 79) 	$rate = 9.88;
+						elseif ($years <= 79) 	{
+							if (!empty($para['plan_id']) && ($para['plan_id'] < SELF::PLANIDCHG2019_7)) {
+								$rate = 9.88;
+							} else {
+								$rate = 9.5;
+							}
+						}
 						elseif ($years <= 85) {
 							if (!empty($para['plan_id']) && ($para['plan_id'] < SELF::PLANIDCHG2018_2)) {
 								$rate = 19.58;
@@ -664,7 +677,13 @@ class Product_model extends CI_Model {
 							}
 						}
 						elseif ($years <= 69) 	$rate = 5.94;
-						elseif ($years <= 74) 	$rate = 9.79;
+						elseif ($years <= 74) 	{
+							if (!empty($para['plan_id']) && ($para['plan_id'] < SELF::PLANIDCHG2019_7)) {
+								$rate = 9.79;
+							} else {
+								$rate = 9.3;
+							}
+						}
 						elseif ($years <= 79) 	$rate = 11.59;
 						elseif ($years <= 85) {
 							if (!empty($para['plan_id']) && ($para['plan_id'] < SELF::PLANIDCHG2018_2)) {
@@ -696,7 +715,13 @@ class Product_model extends CI_Model {
 						}
 						elseif ($years <= 69) 	$rate = 7.4;
 						elseif ($years <= 74) 	$rate = 12.17;
-						elseif ($years <= 79) 	$rate = 14.41;
+						elseif ($years <= 79) 	{
+							if (!empty($para['plan_id']) && ($para['plan_id'] < SELF::PLANIDCHG2019_7)) {
+								$rate = 14.41;
+							} else {
+								$rate = 13.8;
+							}
+						}
 						elseif ($years <= 85) 	{ $premiumArr['message'] = "Over 80 years old $150,000 option isn't available"; return $premiumArr; }
 						else				  	{ $premiumArr['message'] = "Over 80 years old $150,000 option isn't available"; return $premiumArr; }
 						break;
@@ -717,8 +742,20 @@ class Product_model extends CI_Model {
 						elseif ($years <= 60) 	$rate = 8.34;
 						elseif ($years <= 64) 	$rate = 9.19;
 						elseif ($years <= 69) 	$rate = 10.73;
-						elseif ($years <= 74) 	$rate = 17.65;
-						elseif ($years <= 79) 	$rate = 20.89;
+						elseif ($years <= 74) 	{
+							if (!empty($para['plan_id']) && ($para['plan_id'] < SELF::PLANIDCHG2019_7)) {
+								$rate = 17.65;
+							} else {
+								$rate = 17.5;
+							}
+						}
+						elseif ($years <= 79) 	{
+							if (!empty($para['plan_id']) && ($para['plan_id'] < SELF::PLANIDCHG2019_7)) {
+								$rate = 20.89;
+							} else {
+								$rate = 20;
+							}
+						}
 						elseif ($years <= 85) 	{ $premiumArr['message'] = "Over 80 years old $150,000 option isn't available"; return $premiumArr; }
 						else				  	{ $premiumArr['message'] = "Over 80 years old $150,000 option isn't available"; return $premiumArr; }
 						break;
@@ -730,49 +767,202 @@ class Product_model extends CI_Model {
 				}
 				
 			} else if ($para['stable_condition'] == 2) {
-				// With stable pre-existing conditions coverage option
+				// Without stable pre-existing conditions coverage option
 				switch ($para['sum_insured']) {
 					case 10000:
-						if ($years <= 69) 		{ $premiumArr['message'] = "Under 70 years old must select including stable pre-existing condition coverage option"; return $premiumArr; }
-						elseif ($years <= 74) 	$rate = 3.82;
-						elseif ($years <= 79) 	$rate = 4.59;
-						elseif ($years <= 85) 	$rate = 6.23;
-						else				  	$rate = 9.57;
+						if ($years <= 25) 		$rate = 1.14;
+						elseif ($years <= 40) 	$rate = 1.28;
+						elseif ($years <= 60) 	$rate = 1.43;
+						elseif ($years <= 64) 	$rate = 1.84;
+						elseif ($years <= 69) 	$rate = 2.10;
+						elseif ($years <= 74) 	{
+							if (!empty($para['plan_id']) && ($para['plan_id'] < SELF::PLANIDCHG2019_7)) {
+								$rate = 3.82;
+							} else {
+								$rate = 3.31;
+							}
+						}
+						elseif ($years <= 79) 	{
+							if (!empty($para['plan_id']) && ($para['plan_id'] < SELF::PLANIDCHG2019_7)) {
+								$rate = 4.59;
+							} else {
+								$rate = 4.05;
+							}
+						}
+						elseif ($years <= 85) 	{
+							if (!empty($para['plan_id']) && ($para['plan_id'] < SELF::PLANIDCHG2019_7)) {
+								$rate = 6.23;
+							} else {
+								$rate = 5.93;
+							}
+						}
+						else				  	{
+							if (!empty($para['plan_id']) && ($para['plan_id'] < SELF::PLANIDCHG2019_7)) {
+								$rate = 9.57;
+							} else {
+								$rate = 9.13;
+							}
+						}
 						break;
 					case 15000:
-						if ($years <= 69) 		{ $premiumArr['message'] = "Under 70 years old must select including stable pre-existing condition coverage option"; return $premiumArr; }
-						elseif ($years <= 74) 	$rate = 4.99;
-						elseif ($years <= 79) 	$rate = 5.98;
-						elseif ($years <= 85) 	$rate = 7.88;
-						else				  	$rate = 12.37;
+						if ($years <= 25) 		$rate = 1.43;
+						elseif ($years <= 40) 	$rate = 1.55;
+						elseif ($years <= 60) 	$rate = 1.79;
+						elseif ($years <= 64) 	$rate = 2.18;
+						elseif ($years <= 69) 	$rate = 2.74;
+						elseif ($years <= 74) 	{
+							if (!empty($para['plan_id']) && ($para['plan_id'] < SELF::PLANIDCHG2019_7)) {
+								$rate = 4.99;
+							} else {
+								$rate = 4.39;
+							}
+						}
+						elseif ($years <= 79) 	{
+							if (!empty($para['plan_id']) && ($para['plan_id'] < SELF::PLANIDCHG2019_7)) {
+								$rate = 5.98;
+							} else {
+								$rate = 5.26;
+							}
+						}
+						elseif ($years <= 85) 	{
+							if (!empty($para['plan_id']) && ($para['plan_id'] < SELF::PLANIDCHG2019_7)) {
+								$rate = 7.88;
+							} else {
+								$rate = 7.64;
+							}
+						}
+						else				  	{
+							if (!empty($para['plan_id']) && ($para['plan_id'] < SELF::PLANIDCHG2019_7)) {
+								$rate = 12.37;
+							} else {
+								$rate = 12;
+							}
+						}
 						break;
 					case 25000:
-						if ($years <= 69) 		{ $premiumArr['message'] = "Under 70 years old must select including stable pre-existing condition coverage option"; return $premiumArr; }
-						elseif ($years <= 74) 	$rate = 5.99;
-						elseif ($years <= 79) 	$rate = 7.11;
-						elseif ($years <= 85) 	$rate = 9.69;
-						else				  	$rate = 14.9;
+						if ($years <= 25) 		$rate = 1.55;
+						elseif ($years <= 40) 	$rate = 1.70;
+						elseif ($years <= 60) 	$rate = 1.99;
+						elseif ($years <= 64) 	$rate = 2.75;
+						elseif ($years <= 69) 	$rate = 3.09;
+						elseif ($years <= 74) 	{
+							if (!empty($para['plan_id']) && ($para['plan_id'] < SELF::PLANIDCHG2019_7)) {
+								$rate = 5.99;
+							} else {
+								$rate = 4.3;
+							}
+						}
+						elseif ($years <= 79) 	{
+							if (!empty($para['plan_id']) && ($para['plan_id'] < SELF::PLANIDCHG2019_7)) {
+								$rate = 7.11;
+							} else {
+								$rate = 5.08;
+							}
+						}
+						elseif ($years <= 85) 	{
+							if (!empty($para['plan_id']) && ($para['plan_id'] < SELF::PLANIDCHG2019_7)) {
+								$rate = 9.69;
+							} else {
+								$rate = 9.35;
+							}
+						}
+						else				  	{
+							if (!empty($para['plan_id']) && ($para['plan_id'] < SELF::PLANIDCHG2019_7)) {
+								$rate = 14.9;
+							} else {
+								$rate = 14.3;
+							}
+						}
 						break;
 					case 50000:
-						if ($years <= 69) 		{ $premiumArr['message'] = "Under 70 years old must select including stable pre-existing condition coverage option"; return $premiumArr; }
-						elseif ($years <= 74) 	$rate = 6.59;
-						elseif ($years <= 79) 	$rate = 7.83;
-						elseif ($years <= 85) 	$rate = 10.43;
+						if ($years <= 25) 		$rate = 1.70;
+						elseif ($years <= 40) 	$rate = 1.85;
+						elseif ($years <= 60) 	$rate = 2.28;
+						elseif ($years <= 64) 	$rate = 3.31;
+						elseif ($years <= 69) 	$rate = 3.68;
+						elseif ($years <= 74) 	{
+							if (!empty($para['plan_id']) && ($para['plan_id'] < SELF::PLANIDCHG2019_7)) {
+								$rate = 6.59;
+							} else {
+								$rate = 6.16;
+							}
+						}
+						elseif ($years <= 79) 	{
+							if (!empty($para['plan_id']) && ($para['plan_id'] < SELF::PLANIDCHG2019_7)) {
+								$rate = 7.83;
+							} else {
+								$rate = 7.16;
+							}
+						}
+						elseif ($years <= 85) 	{
+							if (!empty($para['plan_id']) && ($para['plan_id'] < SELF::PLANIDCHG2019_7)) {
+								$rate = 10.43;
+							} else {
+								$rate = 10;
+							}
+						}
 						else				  	$rate = 16.4;
 						break;
 					case 100000:
-						if ($years <= 69) 		{ $premiumArr['message'] = "Under 70 years old must select including stable pre-existing condition coverage option"; return $premiumArr; }
-						elseif ($years <= 74) 	$rate = 8.12;
-						elseif ($years <= 79) 	$rate = 10.32;
+						if ($years <= 25) 		$rate = 2.28;
+						elseif ($years <= 40) 	$rate = 2.65;
+						elseif ($years <= 60) 	$rate = 3.38;
+						elseif ($years <= 64) 	$rate = 3.97;
+						elseif ($years <= 69) 	$rate = 5.08;
+						elseif ($years <= 74) 	{
+							if (!empty($para['plan_id']) && ($para['plan_id'] < SELF::PLANIDCHG2019_7)) {
+								$rate = 8.12;
+							} else {
+								$rate = 6.99;
+							}
+						}
+						elseif ($years <= 79) 	{
+							if (!empty($para['plan_id']) && ($para['plan_id'] < SELF::PLANIDCHG2019_7)) {
+								$rate = 10.32;
+							} else {
+								$rate = 8.67;
+							}
+						}
 						elseif ($years <= 85) 	$rate = 13.94;
 						else				  	$rate = 22.30;
+						break;
+					case 150000:
+						if ($years <= 25) 		$rate = 2.72;
+						elseif ($years <= 40) 	$rate = 3.09;
+						elseif ($years <= 60) 	$rate = 4.05;
+						elseif ($years <= 64) 	$rate = 4.70;
+						elseif ($years <= 69) 	$rate = 5.45;
+						elseif ($years <= 74) 	$rate = 9.00;
+						elseif ($years <= 79) 	$rate = 10.25;
+						elseif ($years <= 85) 	$rate = 15.50;
+						else				  	{ $premiumArr['message'] = "Over 85 years old $150,000 option isn't available"; return $premiumArr; }
+						break;
+					case 200000:
+						if ($years <= 25) 		$rate = 3.40;
+						elseif ($years <= 40) 	$rate = 3.85;
+						elseif ($years <= 60) 	$rate = 6.11;
+						elseif ($years <= 64) 	$rate = 6.75;
+						elseif ($years <= 69) 	$rate = 7.40;
+						elseif ($years <= 74) 	$rate = 12.50;
+						elseif ($years <= 79) 	$rate = 13.58;
+						elseif ($years <= 85) 	$rate = 18.85;
+						else				  	{ $premiumArr['message'] = "Over 85 years old $200,000 option isn't available"; return $premiumArr; }
+						break;
+					case 300000:
+						if ($years <= 25) 		$rate = 4.41;
+						elseif ($years <= 40) 	$rate = 4.78;
+						elseif ($years <= 60) 	$rate = 6.07;
+						elseif ($years <= 64) 	$rate = 6.76;
+						elseif ($years <= 69) 	$rate = 8.02;
+						elseif ($years <= 74) 	$rate = 12.96;
+						elseif ($years <= 79) 	$rate = 14.98;
+						elseif ($years <= 85) 	{ $premiumArr['message'] = "Over 79 years old $300,000 option isn't available"; return $premiumArr; }
+						else				  	{ $premiumArr['message'] = "Over 79 years old $300,000 option isn't available"; return $premiumArr; }
 						break;
 					case -1:
 						return FALSE;
 						break;
-					case 150000:
 					default:
-						$premiumArr['message'] = "$150,000 option isn't available";
 						return $premiumArr;
 				}
 			} else {

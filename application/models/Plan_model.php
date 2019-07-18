@@ -164,6 +164,10 @@ class Plan_model extends CI_Model {
 		if (isset($para['expiry_date'])) $sql .= " expiry_date=" . $this->db->escape($para['expiry_date']) . ", ";
 		if (isset($para['beneficiary'])) $sql .= " beneficiary=" . $this->db->escape($para['beneficiary']) . ", ";
 		if (isset($para['stable_condition'])) $sql .= " stable_condition='" . (int)$para['stable_condition'] . "', ";
+		if (($para['product_short'] == 'JFR') && ((int)$para['stable_condition'] == 2)) {
+			$sql .= " stable_condition_confirm='" . (empty($para['stable_condition_confirm']) ? "0" : "1") . "', ";
+		}
+		
 		if (isset($para['rate_options'])) $sql .= " rate_options='" . (int)$para['rate_options'] . "', ";
 		if (isset($para['holiday_rate'])) $sql .= " holiday_rate='" . (int)$para['holiday_rate'] . "', ";
 		if (isset($para['spouse'])) $sql .= " spouse='" . (int)$para['spouse'] . "', ";
@@ -434,6 +438,10 @@ class Plan_model extends CI_Model {
 		if (isset($para['stable_condition']) && ((int)$para['stable_condition'] != (int)$plan['stable_condition'])) {
 			$this->logstr .= " stable_condition " . $para['stable_condition'] . "(" . $plan['stable_condition'] . ")";
 			$sql .= " stable_condition='" . (int)$para['stable_condition'] . "', ";
+		}
+		if (($para['product_short'] == 'JFR') && ((int)$para['stable_condition'] == 2)) {
+			$this->logstr .= " stable_condition_confirm " . $para['stable_condition_confirm'] . "(" . $plan['stable_condition_confirm'] . ")";
+			$sql .= " stable_condition_confirm='" . (empty($para['stable_condition_confirm']) ? "0" : "1") . "', ";
 		}
 		if (isset($para['rate_options']) && ((int)$para['rate_options'] != (int)$plan['rate_options'])) {
 			$this->logstr .= " rate_options " . $para['rate_options'] . "(" . $plan['rate_options'] . ")";

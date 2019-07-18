@@ -482,14 +482,17 @@ class Plan extends MY_Controller {
 			if (empty($this->input->post('stable_condition'))) {
 				$this->error['error_stable_condition'] = 'Please select pre-existing condition coverage';
 			}
-/*
+
 			if ($product_short == 'JFR') {
-				$years = $this->product_model->getYears($arrival_date, $effective_date);
-				if ($years >= 2) {
-					$this->error['error_effective_date'] = 'Effective Date must less than 2 Years for Arrival Date';
+				$stable_condition = $this->input->post('stable_condition');
+				if ($stable_condition == 2) {
+					$stable_condition_confirm = $this->input->post('stable_condition_confirm');
+					if (empty($stable_condition_confirm)) {
+						$this->error['error_stable_condition_confirm'] = 'You must confirm this condition for your selection.';
+					}
 				}
 			}
-*/
+
 			$this->from_valid_family_member();
 		} else if (($product_short == 'JUS') || ($product_short == 'NUS')) {
 			if (empty($this->input->post('rate_options'))) {
@@ -826,6 +829,14 @@ class Plan extends MY_Controller {
 		} else {
 			$data['stable_condition'] = 0;
 		}
+		if ($this->input->post('stable_condition_confirm')) {
+			$data['stable_condition_confirm'] = $this->input->post('stable_condition_confirm'); 
+		} else if (isset($plan['stable_condition_confirm'])) {
+			$data['stable_condition_confirm'] = $plan['stable_condition_confirm'];
+		} else {
+			$data['stable_condition_confirm'] = 0;
+		}
+		
 		if ($this->input->post('rate_options')) {
 			$data['rate_options'] = $this->input->post('rate_options'); 
 		} else if (isset($plan['rate_options'])) {

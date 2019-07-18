@@ -1162,5 +1162,17 @@ $(document).ready(function(){
         $('#expiry_date_div').datepicker('setDate', myDate);
         get_premium();
     });
+	<?php if ($product_short == 'JFR') { ?> 
+	$('#stable_condition_select').change(function() {
+		var selected_val = $('#stable_condition_select').val();
+		if (selected_val == 2) {
+			// without stable  condition
+			$('#stable_condition_confirm_div').show();
+		} else {
+			$('#stable_condition_confirm_div').hide();
+		}
+	});
+	<?php } ?> 
+    
 });
 </script>
