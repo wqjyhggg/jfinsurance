@@ -57,17 +57,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<div class="col-sm-12">
 										<div class="inline">
 											<input type='checkbox' class='setpremium' id='stable_condition_confirm' name='stable_condition_confirm' <?php echo ($stable_condition_confirm ? "checked" : ""); ?>> Please confirm you have selected the "Excluding stable pre-existing condition coverage" <br />
+											<?php if (!empty($error_stable_condition_confirm)) {?>
+											<div class="alert-error">
+												<?php echo $error_stable_condition_confirm;?>
+											</div>	
+											<?php } ?>
 											<B>WARNING</B>: Please confirm with the insured(s) that this option does not cover ANY Pre-Existing Medical Condition(s).<br />
 
 Pre-Existing Medical Condition(s) means any medical condition, sickness or injury for which at any time prior to the effective date, you have experienced symptoms, you have received medical care, advice, investigation or medical treatment, you have been hospitalized, you have been prescribed (including prescribed as needed) or have taken medication, or you have undergone a medical surgical procedure.<br />
 
 By checking the below box, you confirm that both you and your client understand the term and that the option selected does NOT cover any Pre-Existing Medical Condition(s). 
 										</div>
-										<?php if (!empty($error_stable_condition_confirm)) {?>
-										<div class="alert-error">
-											<?php echo $error_stable_condition_confirm;?>
-										</div>	
-										<?php } ?>
 									</div>
 								</div>
 							</fieldset>
