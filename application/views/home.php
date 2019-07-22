@@ -123,7 +123,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <h5>Phone: 905-707-1512</h5>
                                 <h5>Fax: 905-707-1513</h5>
                                 <h5>Toll Free: 1-877-832-5541</h5>
-                                <h5>Toll Free Fax: 1-888-988-3268</h5><br />
+                                <h5>Toll Free Fax: 1-888-784-9608</h5><br />
                                 <h5>E-mail: info@jfgroup.ca</h5>
 
                               </div>
@@ -262,7 +262,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                   <h5>Phone: 905-707-1512</h5>
                   <h5>Fax: 905-707-1513</h5>
                   <h5>Toll Free: 1-877-832-5541</h5>
-                  <h5>Toll Free Fax: 1-888-988-3268</h5><br />
+                  <h5>Toll Free Fax: 1-888-784-9608</h5><br />
                   <h5>E-mail: info@jfgroup.ca</h5>
 
                 </div>

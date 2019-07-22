@@ -22,7 +22,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<p class="small" style="margin-top:2px;">Please read and understand the enclosed, which fully explains the terms, conditions, limitations and exclusions that are part of your policy.<br />
 
 			If you have a change in your health, including any change in your medication, between the date of application and the effective date of the policy, you must contact us to ensure that you remain eligible for this insurance. Ontime Care Worldwide Inc. must be notified prior to any surgery being performed or within 24 hours of admission to a hospital. Failure to do so, without reasonable cause, will result in the reduction of eligible benefit amounts payable.<br />
-			In the event of an emergency, contact Ontime Care Worldwide Inc: Toll Free Canada/U.S.A.: 1-888-988-3268<br />
+			In the event of an emergency, contact Ontime Care Worldwide Inc: Toll Free Canada/U.S.A.: 1-888-784-9608<br />
 			If unable to contact us toll free, please call collect: 905-707-9555.<br />
 			Underwritten by Berkley Canada (a W.R. Berkley Company).
 			</p>			

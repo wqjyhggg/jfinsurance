@@ -97,7 +97,7 @@ class Agent extends MY_Controller {
 		}
 		
 		if (!isset($myhome['toll_free_fax'])) {
-			$myhome['toll_free_fax'] = 'Toll Free Fax: 1-888-988-3268';
+			$myhome['toll_free_fax'] = 'Toll Free Fax: 1-888-784-9608';
 		}
 		
 		if (!isset($myhome['email'])) {
