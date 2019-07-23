@@ -43,7 +43,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 											<select name='stable_condition' class="form-control setpremium" id='stable_condition_select'>
 												<option value='0'> -- select condition -- </option>
 												<option value='1' <?php echo ($stable_condition == 1) ? 'selected' : ''; ?>>Including stable pre-existing condition coverage</option>
+												<?php if ($product_short == 'JFR') { ?>
+												<option value='2' <?php echo ($stable_condition == 2) ? 'selected' : ''; ?>>No pre-existing condition coverage</option>
+												<?php } else { ?>
 												<option value='2' <?php echo ($stable_condition == 2) ? 'selected' : ''; ?>>Excluding stable pre-existing condition coverage</option>
+												<?php } ?>
 											</select>
 										</div>
 										<?php if (!empty($error_stable_condition)) {?>
@@ -53,6 +57,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										<?php } ?>
 									</div>
 								</div>
+								<?php if ($product_short == 'JFR') { ?>
 								<div class="row" id="stable_condition_confirm_div" <?php echo ($stable_condition == 2) ? '' : 'style="display: none"'; ?>>
 									<div class="col-sm-12">
 										<div class="inline">
@@ -62,7 +67,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 Pre-Existing Medical Condition(s) means any medical condition, sickness or injury for which at any time prior to the effective date, you have experienced symptoms, you have received medical care, advice, investigation or medical treatment, you have been hospitalized, you have been prescribed (including prescribed as needed) or have taken medication, or you have undergone a medical surgical procedure.<br /><br />
 
 By checking the below box, you confirm that both you and your client understand the term and that the option selected does NOT cover any Pre-Existing Medical Condition(s). <br /><br />
-											<input type='checkbox' class='setpremium' id='stable_condition_confirm' name='stable_condition_confirm' <?php echo ($stable_condition_confirm ? "checked" : ""); ?>> Please confirm you have selected the "Excluding stable pre-existing condition coverage" <br />
+											<input type='checkbox' class='setpremium' id='stable_condition_confirm' name='stable_condition_confirm' <?php echo ($stable_condition_confirm ? "checked" : ""); ?>> Please confirm you have selected the "No pre-existing condition coverage" <br />
 											<?php if (!empty($error_stable_condition_confirm)) {?>
 											<div class="alert-error">
 												<?php echo $error_stable_condition_confirm;?>
@@ -71,6 +76,7 @@ By checking the below box, you confirm that both you and your client understand 
 										</div>
 									</div>
 								</div>
+								<?php } ?>
 							</fieldset>
 						</div>
 					</div><br />
