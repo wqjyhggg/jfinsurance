@@ -300,8 +300,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							</div>
 						</div>
 					</div>
-					<?php if (($do_user_id > 0) && ($claim_flag == 1)) { ?>
-						<?php if ($user_group_id < 100) { ?>
+					<?php if (($do_user_id > 0) && ($user_group_id < 100)) { ?>
 					<div class="row">
 						<div class="col-sm-12">
 							<label class="col-sm-12">By Check the checkbox, you can allow this policy to continue to pay. Please fill in your reason before cilck the checkbox.</label>
@@ -316,14 +315,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							 <input type='hidden' name='claim_allow_by' id='claim_allow_by' value=''>
 						</div>
 					</div>
-						<?php } else { ?>
+					<?php } ?>
+					<?php } else if (($claim_allow_by > 0) && ($status_id < 2)) { ?>
 					<div class="row">
-						<div class="col-sm-12">
-							<label class="col-sm-12">Please contact JF staff for further assistance 905-707-1512.</label>
+						<div class="form-group col-sm-6">
+							 <?php echo $claim_allow_note;?>
+						</div>
+						<div class="form-group col-sm-2">
+							 <input type='checkbox' class='setpremium' id='claim_allowed' checked> Un-check to Disallow this policy
+							 <input type='hidden' name='claim_allow_by' id='claim_allow_by' value=''>
+							 <input type='hidden' name='claim_allow_note' id='claim_allow_note' value='<?php echo $claim_allow_note;?>'>
 						</div>
 					</div>
-						<?php } ?>
-					<?php } ?>
 					<?php } ?>
 
 					<div class="row">
@@ -621,7 +624,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<a href='<?php echo $next_url; ?>'><span class="btn btn-info">No Change</span></a>
 						<?php } ?>
 						<?php if (($user_group_id == 1) || ($isprocessplan && ($status_id != 5) && ($status_id != 6))) { ?>
-							<input class="btn btn-primary pull-right" type='submit' name='submit' value='<?php echo $submit; ?>' />		
+							<input class="btn btn-primary pull-right" type='submit' id='page-submit' name='submit' value='<?php echo $submit; ?>' />		
 						<?php } ?>
 						</div>
 
@@ -1164,7 +1167,7 @@ function get_premium() {
 </script>
 <script type="text/javascript">
 $(document).ready(function(){
-	$('#formid').on('keyup keypress', function(e) {
+	$('#plan_edit_form').on('keyup keypress', function(e) {
 		var keyCode = e.keyCode || e.which;
 		if (keyCode === 13) {
 			e.preventDefault();
@@ -1219,6 +1222,14 @@ $(document).ready(function(){
             $('#claim_allow_by').val('<?php echo $do_user_id; ?>');
         } else {
             $('#claim_allow_by').val(''); 
+        }
+    });
+	<?php } else if (($claim_allow_by > 0) && ($status_id < 2)) { ?>
+    $('#claim_allowed').change(function(){
+        if (this.checked) {
+        } else {
+            $('#claim_allow_by').val('');
+            $('#page-submit').click();
         }
     });
 	<?php } ?> 

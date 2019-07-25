@@ -571,24 +571,17 @@ class Plan extends MY_Controller {
 	
 	function verify_claims($plan_id) {
 		$plan = $this->plan_model->get_plan_by_id($plan_id);
-		
-		if ($plan['claim_flag'] == 2) {
-			$this->error['error_claim'] = 'The insured(s) have had previous claim (s) that may affect the policy renewalre is a problem with processing the insured person. Please contact JF staff for further assistance 905-707-1512';
+
+		if ($plan['claim_flag'] >= 2) {
+			if ($plan['claim_allow_by'] < 1) {
+				$this->error['error_claim'] = 'The insured(s) have had previous claim (s) that may affect the policy renewalre is a problem with processing the insured person. Please contact JF staff for further assistance 905-707-1512';
+			}
 			return;
 		} else if (($plan['claim_flag'] == 1) && ((int)$plan['claim_allow_by'] > 0)) {
 			// this plan is allowed, stop check
 			return;
 		}
-		
-		if (isset($para['claim_allow_by']) && ($para['claim_allow_by'] != $plan['claim_allow_by'])) {
-			$this->logstr .= " claim_allow_by " . $para['claim_allow_by'] . "(" . $plan['claim_allow_by'] . ")";
-			$sql .= " claim_allow_by='" . (int)$para['claim_allow_by'] . "', ";
-			if (isset($para['claim_allow_note']) && ($para['claim_allow_note'] != $plan['claim_allow_note'])) {
-				$this->logstr .= " claim_allow_note " . $para['claim_allow_note'] . "(" . $plan['claim_allow_note'] . ")";
-				$sql .= " claim_allow_note=" . $this->db->escape(trim($para['claim_allow_note'])) . ", ";
-			}
-		}
-		
+
 		$customers = $this->plan_model->get_plan_customers_by_id($plan_id);
 		foreach ($customers as $customer) {
 			$vrecords = $this->plan_model->verify_customer($customer['firstname'], $customer['lastname'], $customer['birthday']);
@@ -607,7 +600,7 @@ class Plan extends MY_Controller {
 				continue;
 			} else if (($claim_amount <= 500) && ($case_amount <= 500)) {
 				$plan = $this->plan_model->update($plan_id, array('claim_flag' => 1));
-				$this->error['error_claim'] = "Warning: The insured(s) have had previous claim(s). Please check the policy eligibility and any pre-existing conditions with insured(s). " . $customer['firstname'] . " " . $customer['lastname'] . "(" . $customer['birthday'] . ")";
+				// $this->error['error_claim'] = "Warning: The insured(s) have had previous claim(s). Please check the policy eligibility and any pre-existing conditions with insured(s). " . $customer['firstname'] . " " . $customer['lastname'] . "(" . $customer['birthday'] . ")";
 			} else /* if (($claim_amount > 500) || ($case_amount > 500)) */ {
 				$plan = $this->plan_model->update($plan_id, array('claim_flag' => 2));
 				$this->error['error_claim'] = 'The insured(s) have had previous claim (s) that may affect the policy renewaler is a problem with processing the insured person. Please contact JF staff for further assistance 905-707-1512';
@@ -2519,7 +2512,7 @@ class Plan extends MY_Controller {
 		if (empty($plan)) {
 			redirect('user/login');
 		}
-		if ($plan['claim_flag'] > 1) {
+		if (($plan['claim_flag'] > 1) && ($plan['claim_allow_by'] < 1)) {
 			redirect('plan/form');
 		}
 		
@@ -2806,6 +2799,9 @@ class Plan extends MY_Controller {
 		$data['payhistory_url'] = base_url ( "plan/payhistory/" . $plan['plan_id'] );
 		$data['makepay_url'] = base_url ( "payment/makepay" );
 		$data['revert_url'] = base_url ( "payment/revert" ) . "/";
+		if ($plan['claim_flag'] == 1) {
+			$data['error_message'] = 'Warning: The insured(s) have had previous claim(s). Please check the policy eligibility and any pre-existing conditions with insured(s)';
+		}
 		
 		$this->session->set_userdata ( 'withlogo', 1);
 		if ($beuser['user_group_id'] != 103) {
