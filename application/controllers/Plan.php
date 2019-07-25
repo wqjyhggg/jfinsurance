@@ -569,6 +569,54 @@ class Plan extends MY_Controller {
 		return empty($this->error);
 	}
 	
+	function verify_claims($plan_id) {
+		$plan = $this->plan_model->get_plan_by_id($plan_id);
+		
+		if ($plan['claim_flag'] == 2) {
+			$this->error['error_claim'] = 'The insured(s) have had previous claim (s) that may affect the policy renewalre is a problem with processing the insured person. Please contact JF staff for further assistance 905-707-1512';
+			return;
+		} else if (($plan['claim_flag'] == 1) && ((int)$plan['claim_allow_by'] > 0)) {
+			// this plan is allowed, stop check
+			return;
+		}
+		
+		if (isset($para['claim_allow_by']) && ($para['claim_allow_by'] != $plan['claim_allow_by'])) {
+			$this->logstr .= " claim_allow_by " . $para['claim_allow_by'] . "(" . $plan['claim_allow_by'] . ")";
+			$sql .= " claim_allow_by='" . (int)$para['claim_allow_by'] . "', ";
+			if (isset($para['claim_allow_note']) && ($para['claim_allow_note'] != $plan['claim_allow_note'])) {
+				$this->logstr .= " claim_allow_note " . $para['claim_allow_note'] . "(" . $plan['claim_allow_note'] . ")";
+				$sql .= " claim_allow_note=" . $this->db->escape(trim($para['claim_allow_note'])) . ", ";
+			}
+		}
+		
+		$customers = $this->plan_model->get_plan_customers_by_id($plan_id);
+		foreach ($customers as $customer) {
+			$vrecords = $this->plan_model->verify_customer($customer['firstname'], $customer['lastname'], $customer['birthday']);
+			$claim_amount = 0;
+			$case_amount = 0;
+			if ($vrecords['status'] == 'OK') {
+				foreach ($vrecords['cases'] as $case) {
+					$case_amount += (float)$case['amount'];
+				}
+				foreach ($vrecords['claims'] as $claim) {
+					$claim_amount += (float)$claim['amount'];
+				}
+			}
+			if (empty($claim_amount) && empty($case_amount)) {
+				// continue check next customer
+				continue;
+			} else if (($claim_amount <= 500) && ($case_amount <= 500)) {
+				$plan = $this->plan_model->update($plan_id, array('claim_flag' => 1));
+				$this->error['error_claim'] = "Warning: The insured(s) have had previous claim(s). Please check the policy eligibility and any pre-existing conditions with insured(s). " . $customer['firstname'] . " " . $customer['lastname'] . "(" . $customer['birthday'] . ")";
+			} else /* if (($claim_amount > 500) || ($case_amount > 500)) */ {
+				$plan = $this->plan_model->update($plan_id, array('claim_flag' => 2));
+				$this->error['error_claim'] = 'The insured(s) have had previous claim (s) that may affect the policy renewaler is a problem with processing the insured person. Please contact JF staff for further assistance 905-707-1512';
+				break;
+			}
+		}
+		return;
+	}
+	
 	function form($plan=array()) {
 		$beuser = $this->func_model->verify_login(TRUE, TRUE);
 		$this->load->model('customer_model');
@@ -621,6 +669,7 @@ class Plan extends MY_Controller {
 								'systemlog' => $this->plan_model->sqlstr
 						);
 						$this->log_model->activity('plan', $para);
+
 						if ((($planold['product_short'] == 'OPL') || ($planold['product_short'] == 'JFR')) && ((($planold['sum_insured'] >= 100000) && ($planold['totaldays'] >= 365)) || (($plan['sum_insured'] >= 100000) && ($plan['totaldays'] >= 365)))) {
 							if (($plan['sum_insured'] >= 100000) && ($plan['totaldays'] >= 365)) {
 								if (($planold['effective_date'] != $plan['effective_date']) || ($planold['totaldays'] != $plan['totaldays']) || ($planold['premium'] != $plan['premium']) || ($planold['expiry_date'] != $plan['expiry_date']) ) {
@@ -649,6 +698,11 @@ class Plan extends MY_Controller {
 							}
 						}
 					}
+				}
+			}
+			if (empty($this->error)) {
+				if ($plan_id) {
+					$this->verify_claims($plan_id);
 				}
 			}
 			if (empty($this->error)) {
@@ -683,7 +737,7 @@ class Plan extends MY_Controller {
 			$plan = $this->plan_model->get_plan_by_id($data['plan_id']);
 		}
 		
-		if ($plan && isset($plan['status_id']) && ($plan['status_id'] > 1) && $this->session->userdata('vsuser')) {
+		if ($plan && isset($plan['status_id']) && ($plan['status_id'] > 1) && ($plan['claim_flag'] < 1)&& $this->session->userdata('vsuser')) {
 			// user can't change anything after sold
 			redirect('plan/detail/'.$plan['plan_id']);
 		}
@@ -1070,6 +1124,25 @@ class Plan extends MY_Controller {
 		} else {
 			$data['note'] = '';
 		}
+		if (isset($plan['claim_flag'])) {
+			$data['claim_flag'] = $plan['claim_flag'];
+		} else {
+			$data['claim_flag'] = 0;
+		}
+		if ($this->input->post('claim_allow_by')) {
+			$data['claim_allow_by'] = $this->input->post('claim_allow_by');
+		} else if (isset($plan['claim_allow_by'])) {
+			$data['claim_allow_by'] = $plan['claim_allow_by'];
+		} else {
+			$data['claim_allow_by'] = '';
+		}
+		if ($this->input->post('claim_allow_note')) {
+			$data['claim_allow_note'] = $this->input->post('claim_allow_note');
+		} else if (isset($plan['claim_allow_note'])) {
+			$data['claim_allow_note'] = $plan['claim_allow_note'];
+		} else {
+			$data['claim_allow_note'] = '';
+		}
 		if (isset($plan['free_cancel'])) {
 			$data['free_cancel'] = $plan['free_cancel'];
 		} else {
@@ -1402,6 +1475,15 @@ class Plan extends MY_Controller {
 				'value' => $this->security->get_csrf_hash ()
 		);
 
+		$data['do_user_id'] = 0;
+		$douser = $this->session->userdata('user');
+		if ($douser) {
+			$data['do_user_id'] = $douser['user_id'];
+		}
+		if (isset($data['error_claim'])) {
+			$data['next_url'] = '';
+		}
+		
 		$data['isprocessplan'] = 1;
 		$data['plan_cancel_date'] = '';
 		$data['plan_refund_date'] = '';
@@ -2436,6 +2518,9 @@ class Plan extends MY_Controller {
 		$plan = $this->plan_model->get_plan_by_id($plan_id);
 		if (empty($plan)) {
 			redirect('user/login');
+		}
+		if ($plan['claim_flag'] > 1) {
+			redirect('plan/form');
 		}
 		
 		if ($play_type = $this->input->post('play_type')) {

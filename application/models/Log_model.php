@@ -48,9 +48,11 @@ class Log_model extends CI_Model {
 		if (isset($para['payment_id'])) $log['payment_id'] = $para['payment_id'];
 		if (isset($para['message'])) $log['message'] = $para['message'];
 		if (isset($para['systemlog'])) $log['systemlog'] = $para['systemlog'];
-		
-		$this->db->insert ( "activity", $log );
-		return $this->db->insert_id ();
+		if (!empty($para['message']) || !empty($para['systemlog'])) {
+			$this->db->insert ( "activity", $log );
+			return $this->db->insert_id ();
+		}
+		return 0;
 	}
 	
 	public function get_activity_by_plan_id($plan_id) {

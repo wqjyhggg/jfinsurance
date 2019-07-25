@@ -14,6 +14,9 @@ class Plan_model extends CI_Model {
 
     const MAX_PLANS = 200;
 
+    const CLAIM_URL = "http://claim.otcww.com/api/claim_search"; //"http://claim.mmoo.ca/api/claim_search";
+    const CLAIM_KEY = "H5FqpJdc";
+    
     public $logstr;
 	public $sqlstr;
 	
@@ -26,6 +29,60 @@ class Plan_model extends CI_Model {
 	public function get_plan_by_id($plan_id) {
 		$sql = "SELECT * FROM plan WHERE plan_id='" . (int)$plan_id . "'";
 		return $this->db->query($sql)->row_array();
+	}
+	
+	/**
+	 * Get Plan current policy number
+	 * 
+	 * @param	integer	$plan_id		Parameters
+	 * @return	string					policy number
+	 */
+	public function get_plan_customers_by_id($plan_id) {
+		$sql = "SELECT * FROM customer WHERE plan_id='" . (int)$plan_id . "'";
+		return $this->db->query($sql)->result_array();
+	}
+	
+	/**
+	 * Get Customer Claim status
+	 * 
+	 * @param	integer	$plan_id		Parameters
+	 * @return	string					policy number
+	 */
+	public function verify_customer($firstname, $lastname, $dob) {
+		// prepare post data
+		$data ['key'] = self::CLAIM_KEY;
+		$data ['firstname'] = $firstname;
+		$data ['lastname'] = $lastname;
+		$data ['birth'] = $dob;
+		$post_data = http_build_query ( $data );
+		
+		// get list of policy status here
+		$url = self::CLAIM_URL;
+		$curl = curl_init ();
+		
+		// Post Data
+		curl_setopt ( $curl, CURLOPT_POST, 1 );
+		curl_setopt ( $curl, CURLOPT_POSTFIELDS, $post_data );
+		
+		// Optional Authentication:
+		//if (API_USER and API_PASSWORD) {
+		//	curl_setopt ( $curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC );
+		//	curl_setopt ( $curl, CURLOPT_USERPWD, API_USER . ":" . API_PASSWORD );
+		//}
+		
+		curl_setopt ( $curl, CURLOPT_URL, $url );
+		curl_setopt ( $curl, CURLOPT_RETURNTRANSFER, 1 );
+		curl_setopt ( $curl, CURLOPT_DNS_USE_GLOBAL_CACHE, false );
+		curl_setopt ( $curl, CURLOPT_DNS_CACHE_TIMEOUT, 2 );
+		curl_setopt ( $curl, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4 );
+		curl_setopt ( $curl, CURLOPT_SSL_VERIFYPEER, false);
+		curl_setopt ( $curl, CURLOPT_SSL_VERIFYHOST, false);
+		
+		$result = curl_exec ( $curl );
+		
+		curl_close ( $curl );
+		$rt = json_decode ( $result, TRUE );
+		return $rt;
 	}
 	
 	/**
@@ -439,7 +496,7 @@ class Plan_model extends CI_Model {
 			$this->logstr .= " stable_condition " . $para['stable_condition'] . "(" . $plan['stable_condition'] . ")";
 			$sql .= " stable_condition='" . (int)$para['stable_condition'] . "', ";
 		}
-		if (($para['product_short'] == 'JFR') && ((int)$para['stable_condition'] == 2)) {
+		if (isset($para['product_short']) && ($para['product_short'] == 'JFR') && ((int)$para['stable_condition'] == 2)) {
 			$this->logstr .= " stable_condition_confirm " . $para['stable_condition_confirm'] . "(" . $plan['stable_condition_confirm'] . ")";
 			$sql .= " stable_condition_confirm='" . (empty($para['stable_condition_confirm']) ? "0" : "1") . "', ";
 		}
@@ -727,9 +784,23 @@ class Plan_model extends CI_Model {
 			$this->logstr .= " question5 " . $para['question5'] . "(" . $plan['question5'] . ")";
 			$sql .= " question5=" . $this->db->escape(trim($para['question5'])) . ", ";
 		}
+		if (isset($para['claim_flag']) && ($para['claim_flag'] != $plan['claim_flag'])) {
+			$this->logstr .= " claim_flag " . $para['claim_flag'] . "(" . $plan['claim_flag'] . ")";
+			$sql .= " claim_flag='" . (int)$para['claim_flag'] . "', ";
+		}
+		if (isset($para['claim_allow_by']) && ($para['claim_allow_by'] != $plan['claim_allow_by'])) {
+			$this->logstr .= " claim_allow_by " . $para['claim_allow_by'] . "(" . $plan['claim_allow_by'] . ")";
+			$sql .= " claim_allow_by='" . (int)$para['claim_allow_by'] . "', ";
+			if (isset($para['claim_allow_note']) && ($para['claim_allow_note'] != $plan['claim_allow_note'])) {
+				$this->logstr .= " claim_allow_note " . $para['claim_allow_note'] . "(" . $plan['claim_allow_note'] . ")";
+				$sql .= " claim_allow_note=" . $this->db->escape(trim($para['claim_allow_note'])) . ", ";
+			}
+		}
 		
 		if ($sql == "UPDATE plan SET") {
 			// No change 
+			$this->logstr = '';
+			$this->sqlstr = '';
 			return $plan_id;
 		}
 		$sql .= " plan_id=plan_id ";

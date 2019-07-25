@@ -45,7 +45,7 @@
 					<li id='packages_li' ><a data-toggle="tab" id="packages_tab" href="#packages">Packages</a></li>
 					<li id='questionnaire_li' ><a data-toggle="tab" id="questionnaire_tab" href="#questionnaire" <?php if (empty($questionnaire)) { ?>style='display: none'<?php } ?>>Questionnaire</a></li>
 					<?php if (!empty($plan_id) && !empty($status_id)) { ?>
-						<?php if ($status_id == 1 && $user_group_id != 103) { /* qutoe */ ?>
+						<?php if ($status_id == 1 && $user_group_id != 103 && $next_url) { /* qutoe */ ?>
 							<li style="float: right;"><a href="<?php echo $pay_url; ?>"><span class="btn btn-info" style='color: #fff;'>Pay</span></a></li>
 						<?php } ?> 
 						<?php if (($status_id == Plan_model::SOLD) || ($status_id == Plan_model::PAID)) { ?> 
@@ -230,6 +230,39 @@
 													<?php } ?>
 												</div>
 											</div>
+											<?php if (!empty($error_claim)) { ?>
+											<div class="row">
+												<div class="col-sm-12">
+													<div class="alert-error"> 
+														<?php echo $error_claim; ?>
+													</div>
+												</div>
+											</div>
+											<?php if (($do_user_id > 0) && ($claim_flag == 1)) { ?>
+												<?php if ($user_group_id < 100) { ?>
+											<div class="row">
+												<div class="col-sm-12">
+													<label class="col-sm-12">By Check the checkbox, you can allow this policy to continue to pay. Please fill in your reason before cilck the checkbox.</label>
+												</div>
+											</div>
+											<div class="row">
+												<div class="form-group col-sm-6">
+													 <textarea name='claim_allow_note' id='claim_allow_note' style='width: 100%'><?php echo $claim_allow_note;?></textarea>
+												</div>
+												<div class="form-group col-sm-2">
+													 <input type='checkbox' class='setpremium' id='claim_allowed'> Allow this policy
+													 <input type='hidden' name='claim_allow_by' id='claim_allow_by' value=''>
+												</div>
+											</div>
+												<?php } else { ?>
+											<div class="row">
+												<div class="col-sm-12">
+													<label class="col-sm-12">Please contact JF staff for further assistance 905-707-1512.</label>
+												</div>
+											</div>
+												<?php } ?>
+											<?php } ?>
+											<?php } ?>
 										</fieldset>
 									</div>
 
@@ -1614,5 +1647,20 @@ $(document).ready(function(){
     if (premium <= 0) {
     	get_premium();
     }
+
+	<?php if (!empty($error_claim)) { ?>
+    $('#claim_allowed').change(function(){
+        if (this.checked) {
+            if (!$('#claim_allow_note').val()) {
+                $('#claim_allowed').prop('checked', false);
+                alert('Please fill up note before you allow process');
+                return;
+            }
+            $('#claim_allow_by').val('<?php echo $do_user_id; ?>');
+        } else {
+            $('#claim_allow_by').val(''); 
+        }
+    });
+	<?php } ?> 
 });
 </script>
