@@ -10,7 +10,7 @@ class Product_model extends CI_Model {
 	const PLANIDCHG2019_3=452015;
 	const PLANIDCHG2019_4=457707;	// OPL new rate
 	const PLANIDCHG2019_5=456749;   // JES apply 1.6 * 2. (used to be 1.6 daily * 2.5)
-	const PLANIDCHG2019_7=556749;   // JFR rate change
+	const PLANIDCHG2019_7=486069;   // JFR rate change
 	public $message;
 	
 	/**

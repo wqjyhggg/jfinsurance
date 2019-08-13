@@ -570,6 +570,7 @@ class Plan extends MY_Controller {
 	}
 	
 	function verify_claims($plan_id) {
+			return;
 		$plan = $this->plan_model->get_plan_by_id($plan_id);
 
 		if ($plan['claim_flag'] >= 2) {
