@@ -2517,6 +2517,12 @@ class Plan extends MY_Controller {
 		}
 		
 		if ($play_type = $this->input->post('play_type')) {
+			if (!empty($sekey)) {
+				if (empty($this->session->userdata ( 'beuser' )) && empty($this->session->userdata ( 'vsuser' ))) {
+					redirect('user/login');
+				}
+			}
+		
 			$totalpaid = $this->payment_model->get_total_paid($plan_id, $pay_type='premium');
 			$premium = preg_replace("/[^0-9\.-]/", "", $this->input->post('premium'));
 			$premium = $totalpaid + (float)$premium;
