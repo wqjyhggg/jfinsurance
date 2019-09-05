@@ -570,16 +570,12 @@ class Plan extends MY_Controller {
 	}
 	
 	function verify_claims($plan_id) {
-			return;
 		$plan = $this->plan_model->get_plan_by_id($plan_id);
 
 		if ($plan['claim_flag'] >= 2) {
 			if ($plan['claim_allow_by'] < 1) {
 				$this->error['error_claim'] = 'The insured(s) have had previous claim (s) that may affect the policy renewalre is a problem with processing the insured person. Please contact JF staff for further assistance 905-707-1512';
 			}
-			return;
-		} else if (($plan['claim_flag'] == 1) && ((int)$plan['claim_allow_by'] > 0)) {
-			// this plan is allowed, stop check
 			return;
 		}
 

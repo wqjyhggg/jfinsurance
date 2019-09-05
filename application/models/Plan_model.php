@@ -14,7 +14,9 @@ class Plan_model extends CI_Model {
 
     const MAX_PLANS = 200;
 
-    const CLAIM_URL = "http://claim.otcww.com/api/claim_search"; //"http://claim.mmoo.ca/api/claim_search";
+    //const CLAIM_URL = "http://claim.otcww.com/api/claim_search";
+    const CLAIM_URL = "http://claim.mmoo.ca/api/claim_search";
+    //const CLAIM_URL = "http://dev3.com/api/claim_search";
     const CLAIM_KEY = "H5FqpJdc";
     
     public $logstr;
