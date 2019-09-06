@@ -234,7 +234,7 @@
 											<div class="row">
 												<div class="col-sm-12">
 													<div class="alert-error"> 
-														<?php echo $error_claim; ?>
+														<strong><?php echo $error_claim; ?></strong>
 													</div>
 												</div>
 											</div>
