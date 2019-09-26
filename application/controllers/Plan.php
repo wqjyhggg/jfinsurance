@@ -2803,7 +2803,7 @@ class Plan extends MY_Controller {
 		$data['makepay_url'] = base_url ( "payment/makepay" );
 		$data['revert_url'] = base_url ( "payment/revert" ) . "/";
 		if ($plan['claim_flag'] == 1) {
-			$data['error_message'] = '<strong>Warning: The insured(s) have had previous claim(s). Please check the policy eligibility and any pre-existing conditions with insured(s)</strong>';
+			$data['error_message'] = '<strong>Warning: The insured may have a previous claim that is affecting the policy issuance or renewal. Please contact JF staff for further assistance 905-707-1512</strong>';
 		}
 		
 		$this->session->set_userdata ( 'withlogo', 1);
