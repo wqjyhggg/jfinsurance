@@ -57,7 +57,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										<?php } ?>
 									</div>
 								</div>
-								<?php if ($product_short == 'JFR') { ?>
 								<div class="row" id="stable_condition_confirm_div" <?php echo ($stable_condition == 2) ? '' : 'style="display: none"'; ?>>
 									<div class="col-sm-12">
 										<div class="inline">
@@ -76,7 +75,6 @@ By checking the below box, you confirm that both you and your client understand 
 										</div>
 									</div>
 								</div>
-								<?php } ?>
 							</fieldset>
 						</div>
 					</div><br />
