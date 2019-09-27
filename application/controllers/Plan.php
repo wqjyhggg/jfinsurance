@@ -483,7 +483,7 @@ class Plan extends MY_Controller {
 				$this->error['error_stable_condition'] = 'Please select pre-existing condition coverage';
 			}
 
-			if ($product_short == 'JFR') {
+			//if ($product_short == 'JFR') {
 				$stable_condition = $this->input->post('stable_condition');
 				if ($stable_condition == 2) {
 					$stable_condition_confirm = $this->input->post('stable_condition_confirm');
@@ -491,7 +491,7 @@ class Plan extends MY_Controller {
 						$this->error['error_stable_condition_confirm'] = 'You must confirm this condition for your selection.';
 					}
 				}
-			}
+			//}
 
 			$this->from_valid_family_member();
 		} else if (($product_short == 'JUS') || ($product_short == 'NUS')) {
@@ -574,7 +574,7 @@ class Plan extends MY_Controller {
 
 		if ($plan['claim_flag'] >= 2) {
 			if ($plan['claim_allow_by'] < 1) {
-				$this->error['error_claim'] = 'The insured(s) have had previous claim (s) that may affect the policy renewalre is a problem with processing the insured person. Please contact JF staff for further assistance 905-707-1512';
+				$this->error['error_claim'] = 'The insured may have a previous claim that is affecting the policy issuance or renewal. Please contact JF staff for further assistance 905-707-1512';
 			}
 			return;
 		}
@@ -595,12 +595,12 @@ class Plan extends MY_Controller {
 			if (empty($claim_amount) && empty($case_amount)) {
 				// continue check next customer
 				continue;
-			} else if (($claim_amount <= 500) && ($case_amount <= 500)) {
+			} else if (($claim_amount <= 2000) && ($case_amount <= 2000)) {
 				$plan = $this->plan_model->update($plan_id, array('claim_flag' => 1));
 				// $this->error['error_claim'] = "Warning: The insured(s) have had previous claim(s). Please check the policy eligibility and any pre-existing conditions with insured(s). " . $customer['firstname'] . " " . $customer['lastname'] . "(" . $customer['birthday'] . ")";
-			} else /* if (($claim_amount > 500) || ($case_amount > 500)) */ {
+			} else /* if (($claim_amount > 2000) || ($case_amount > 2000)) */ {
 				$plan = $this->plan_model->update($plan_id, array('claim_flag' => 2));
-				$this->error['error_claim'] = 'The insured(s) have had previous claim (s) that may affect the policy renewaler is a problem with processing the insured person. Please contact JF staff for further assistance 905-707-1512';
+				$this->error['error_claim'] = 'The insured may have a previous claim that is affecting the policy issuance or renewal. Please contact JF staff for further assistance 905-707-1512';
 				break;
 			}
 		}
@@ -2803,7 +2803,7 @@ class Plan extends MY_Controller {
 		$data['makepay_url'] = base_url ( "payment/makepay" );
 		$data['revert_url'] = base_url ( "payment/revert" ) . "/";
 		if ($plan['claim_flag'] == 1) {
-			$data['error_message'] = '<strong>Warning: The insured may have a previous claim that is affecting the policy issuance or renewal. Please contact JF staff for further assistance 905-707-1512</strong>';
+			$data['error_message'] = '<strong>Warning: The insured(s) have had previous claim(s). Please check the policy eligibility and any pre-existing conditions with insured(s).</strong>';
 		}
 		
 		$this->session->set_userdata ( 'withlogo', 1);
