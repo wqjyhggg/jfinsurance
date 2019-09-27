@@ -729,6 +729,7 @@ class Product_model extends CI_Model {
 							$premiumArr['message'] = "85+ option isn't available";
 							return $premiumArr;
 						}                   
+						break;
 					case 200000:
 						if ($years <= 25) 		$rate = 3.4;
 						elseif ($years <= 40) 	$rate = 3.85;
@@ -742,6 +743,7 @@ class Product_model extends CI_Model {
 							$premiumArr['message'] = "85+ option isn't available";
 							return $premiumArr;
 						}                   
+						break;
 					case 300000:
 						if ($years <= 25) 		$rate = 4.41;
 						elseif ($years <= 40) 	$rate = 4.78;
@@ -754,6 +756,7 @@ class Product_model extends CI_Model {
 							$premiumArr['message'] = "80+ option isn't available";
 							return $premiumArr;
 						}                   
+						break;
 					default:
 						$premiumArr['message'] = "the option rate isn't available";
 						return $premiumArr;
