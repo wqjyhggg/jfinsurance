@@ -354,7 +354,13 @@ class Product_model extends CI_Model {
 						elseif ($years <= 69) 	$rate = 3;
 						elseif ($years <= 74) 	$rate = 4.85;
 						elseif ($years <= 79) 	$rate = 5.8;
-						elseif ($years <= 85) 	$rate = 11.48;
+						elseif ($years <= 85) {
+							if (!empty($para['plan_id']) && ($para['plan_id'] < SELF::PLANIDCHG2018_8)) {
+								$rate = 11.48;
+							} else {
+								$rate = 9.5;
+							}
+						}
 						else				  	{ $premiumArr['message'] = "Over 85 years old must select excluding stable pre-existing condition coverage option"; return $premiumArr; }
 						break;
 					case 15000:
@@ -390,7 +396,13 @@ class Product_model extends CI_Model {
 						elseif ($years <= 69) 	$rate = 4.72;
 						elseif ($years <= 74) 	$rate = 7.6;
 						elseif ($years <= 79) 	$rate = 8.96;
-						elseif ($years <= 85) 	$rate = 17.76;
+						elseif ($years <= 85) {
+							if (!empty($para['plan_id']) && ($para['plan_id'] < SELF::PLANIDCHG2018_8)) {
+								$rate = 17.76;
+							} else {
+								$rate = 13;
+							}
+						}
 						else				  	{ $premiumArr['message'] = "Over 85 years old must select excluding stable pre-existing condition coverage option"; return $premiumArr; }
 						break;
 					case 50000:
@@ -422,7 +434,13 @@ class Product_model extends CI_Model {
 								$rate = 9.5;
 							}
 						}
-						elseif ($years <= 85) 	$rate = 19.58;
+						elseif ($years <= 85) {
+							if (!empty($para['plan_id']) && ($para['plan_id'] < SELF::PLANIDCHG2018_8)) {
+								$rate = 19.58;
+							} else {
+								$rate = 15.52;
+							}
+						}
 						else				  	{ $premiumArr['message'] = "Over 85 years old must select excluding stable pre-existing condition coverage option"; return $premiumArr; }
 						break;
 					case 100000:
@@ -457,7 +475,13 @@ class Product_model extends CI_Model {
 							}
 						}
 						elseif ($years <= 79) 	$rate = 11.59;
-						elseif ($years <= 85) 	$rate = 22.95;
+						elseif ($years <= 85) {
+							if (!empty($para['plan_id']) && ($para['plan_id'] < SELF::PLANIDCHG2018_8)) {
+								$rate = 22.95;
+							} else {
+								$rate = 19;
+							}
+						}
 						else				  	{ $premiumArr['message'] = "Over 85 years old must select excluding stable pre-existing condition coverage option"; return $premiumArr; }
 						break;
 					case 150000:

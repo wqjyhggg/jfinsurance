@@ -43,11 +43,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 											<select name='stable_condition' class="form-control setpremium" id='stable_condition_select'>
 												<option value='0'> -- select condition -- </option>
 												<option value='1' <?php echo ($stable_condition == 1) ? 'selected' : ''; ?>>Including stable pre-existing condition coverage</option>
-												<?php if ($product_short == 'JFR') { ?>
 												<option value='2' <?php echo ($stable_condition == 2) ? 'selected' : ''; ?>>No pre-existing condition coverage</option>
-												<?php } else { ?>
-												<option value='2' <?php echo ($stable_condition == 2) ? 'selected' : ''; ?>>Excluding stable pre-existing condition coverage</option>
-												<?php } ?>
 											</select>
 										</div>
 										<?php if (!empty($error_stable_condition)) {?>
