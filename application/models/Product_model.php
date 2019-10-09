@@ -355,7 +355,7 @@ class Product_model extends CI_Model {
 						elseif ($years <= 74) 	$rate = 4.85;
 						elseif ($years <= 79) 	$rate = 5.8;
 						elseif ($years <= 85) {
-							if (!empty($para['plan_id']) && ($para['plan_id'] < SELF::PLANIDCHG2018_8)) {
+							if (!empty($para['plan_id']) && ($para['plan_id'] < SELF::PLANIDCHG2019_8)) {
 								$rate = 11.48;
 							} else {
 								$rate = 9.5;
@@ -397,7 +397,7 @@ class Product_model extends CI_Model {
 						elseif ($years <= 74) 	$rate = 7.6;
 						elseif ($years <= 79) 	$rate = 8.96;
 						elseif ($years <= 85) {
-							if (!empty($para['plan_id']) && ($para['plan_id'] < SELF::PLANIDCHG2018_8)) {
+							if (!empty($para['plan_id']) && ($para['plan_id'] < SELF::PLANIDCHG2019_8)) {
 								$rate = 17.76;
 							} else {
 								$rate = 13;
@@ -435,7 +435,7 @@ class Product_model extends CI_Model {
 							}
 						}
 						elseif ($years <= 85) {
-							if (!empty($para['plan_id']) && ($para['plan_id'] < SELF::PLANIDCHG2018_8)) {
+							if (!empty($para['plan_id']) && ($para['plan_id'] < SELF::PLANIDCHG2019_8)) {
 								$rate = 19.58;
 							} else {
 								$rate = 15.52;
@@ -476,7 +476,7 @@ class Product_model extends CI_Model {
 						}
 						elseif ($years <= 79) 	$rate = 11.59;
 						elseif ($years <= 85) {
-							if (!empty($para['plan_id']) && ($para['plan_id'] < SELF::PLANIDCHG2018_8)) {
+							if (!empty($para['plan_id']) && ($para['plan_id'] < SELF::PLANIDCHG2019_8)) {
 								$rate = 22.95;
 							} else {
 								$rate = 19;
