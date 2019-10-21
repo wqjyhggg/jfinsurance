@@ -164,7 +164,7 @@ $usepsi = false;
 							<?php if ($plan['isfamilyplan']) { ?>
 								<div class="row">
 									<div class="col-sm-12" style="background-color:#5bc0de; color:#fff;">
-										<label class="inline">Family Member Information</label>
+										<label class="inline">Insured's Family Member Information</label>
 									</div>
 								
 								<?php for ($i = 0; $i < 9; $i++) { ?>
