@@ -16,6 +16,7 @@ $lang['text_career'] = "Career";
 $lang['text_contact'] = "Contact";
 $lang['text_downloads'] = "Downloads";
 $lang['text_myhome'] = "My Home";
+$lang['text_announcement'] = "Announcement";
 $lang['text_api'] = "Api";
 $lang['text_languages'] = "Languages";
 $lang['text_logout'] = "Logout";

@@ -880,4 +880,23 @@ class Report_model extends CI_Model
     		$this->db->insert('user_meta', $row);
     	}
     }
+
+    function get_pophome() {
+    	$row = $this->db->get_where('user_meta', array('user_id' => 1, 'type' => 'pophome'))->row_array();
+    	if ($row) {
+    		return rawurldecode($row['value']);
+    	}
+    	return '';
+    }
+    
+    function set_pophome($html) {
+    	$row = $this->db->get_where('user_meta', array('user_id' => 1, 'type' => 'pophome'))->row_array();
+    	if ($row) {
+    		$row = array('user_id' => 1, 'type' => 'pophome', 'value' => $html, 'last_update' => date("Y-m-d H:i:s"));
+    		$this->db->replace('user_meta', $row);
+    	} else {
+    		$row = array('user_id' => 1, 'type' => 'pophome', 'value' => $html);
+    		$this->db->insert('user_meta', $row);
+    	}
+    }
 }

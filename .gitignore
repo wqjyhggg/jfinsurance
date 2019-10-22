@@ -3,6 +3,7 @@
 .settings/*
 user_guide/*
 agentinfo/*
+ftptmp/*
 download/annual/*
 */config/development
 */logs/log-*.php

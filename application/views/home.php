@@ -39,44 +39,30 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                       <div class="lh-topdiv">
                         <img class="img-responsive" src="<?php echo base_url();?>image/homepic.png" alt="JF Insurance">
                         <div class="lh-top">
-                              <h1>WHY BUY INSURANCE</h1>
-                              <p>
-                                We don't like to think about it, but sudden, unexpected accidents or illnesses do happen,
-                                and trying to find an pay for adequate medical attention can be difficult when you are abroad.
-
-                              </p>
-                              <p>
-                                Health car costs around the world can be bery expensive. Hospital can charge thousands of dollars
-                                per day. Your health plan may or may not cover a minute protion of these cost. Without adequate
-                                insurance coverage you could be responsible from dollar one, which could create a massive impact on
-                                your personal finances. Why take the risk?
-                              </p>
+                              <h1>WHY SHOULD YOU BUY TRAVEL INSURANCE?</h1>
+                              <p>We don't like to think about it, but unexpected accidents or illnesses can occur when you and your family are traveling abroad, and finding and paying for adequate medical attention can be very difficult.</p>
+                              <p>Healthcare costs around the world can be very expensive; hospitals can charge thousands of dollars per day. Your government healthcare plan may or may not cover a minimal portion of these costs. Without adequate insurance coverage, you could be responsible for a significant amount of medical expenses that could have an immense impact on your personal finances. Why take this risk?</p>
                             </div>
                       </div>
                       <div class="row" style="margin:40px 0;">
                         <div class="col-sm-12 text-center">
                           <h3>ABOUT US</h3>
-                          <h4>we take care of you</h4>
+                          <h4>We will take care of you</h4>
                           <hr style="border-bottom:2px solid; width:50px; margin:0 auto 20px;" />
-                          <p>JF Insurance Agency Group Inc. (JF) is a licensed brokerage firm incorporated in 1992. We are the leading private firm in providing Emergency Hospital and Medical coverage for Canadians, visitors across Canada and International students. We are recognized for our dedication to serve our clients on both an individual basis and association groups.</p>
+                          <p>JF Insurance Agency Group Inc. (JF) is a licensed brokerage firm incorporated in 1992. We are the leading private firm in providing Emergency Hospital and Medical coverage for Canadians Travellers, Visitors to Canada and International Students. We are recognized for our dedication in serving our clients on an individual basis and by association groups.</p>
                         </div>
                       </div>
                       <div class="row" style="margin-right:0;margin-left:0;">
                         <div class="col-sm-12" style="padding-right:0;padding-left:0;">
                           <div style="background-color:#f6f6f6; padding:15px;margin:20px auto;">
                             <div class="row">
-                              <div class="col-sm-4" style="padding:15px 5%;">
+                              <div class="col-sm-6" style="padding:15px 5%;">
                                 <h2>Founder</h2>
                                 <hr style="border-bottom:2px solid #ddd; width:50px; margin:0 0 15px;"/>
-                                <p>The founder Mr. Johnson Fu has more than 30 plus years of experience in the Insurance and Financial Industry. Mr. Fu is also very active among many communities and charity events. It is through his involvement in community service that the JF corporate philosophy “To Serve” has come to fruition. This philosophy emphasizes the attitude of all staff members at JF.</p>
+                                <p>Mr. Johnson Fu has more than 30 years of experience in the Insurance and Financial Industry. Mr. Fu is an active member of his community as well as many local and international charities. His active involvement and dedication to community service has led to the JF philosophy "To Serve". It is this philosophy and attitude that resonates and helps guide all staff members at JF.</p>
                               </div>
-                              <div class="col-sm-4" style="padding:15px 5%;">
+                              <div class="col-sm-6" style="padding:15px 5%;">
                                 <h2>Mission</h2>
-                                <hr style="border-bottom:2px solid #ddd; width:50px; margin:0 0 15px;"/>
-                                <p>To reach all that can benefit from the peace of mind we offer; to ensure claims are processed in a timely manner.</p>
-                              </div>
-                              <div class="col-sm-4" style="padding:15px 5%;">
-                                <h2>Vision</h2>
                                 <hr style="border-bottom:2px solid #ddd; width:50px; margin:0 0 15px;"/>
                                 <p>To reach all that can benefit from the peace of mind we offer; to ensure claims are processed in a timely manner.</p>
                               </div>
@@ -100,19 +86,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <img class="img-responsive img-title" src="<?php echo base_url();?>image/t1.jpg" alt="Emergency Hospital Insurance" />
                                     <h2>Visitor to Canada</h2>
                                     <hr style="border-bottom:2px solid #ddd; width:50px; margin:0 0 15px;"/>
-                                    <p>Health care costs in Canada can be expensive if you’re not covered by a Canadian government health insurance plan. Therefore, be sure to carry visitor insurance to protect your finances and enjoy a secured stay while you are away from your home country.</p>
+                                    <p>Healthcare costs in Canada can be expensive if you’re not covered by a Canadian government healthcare plan. Make sure you have the proper visitor insurance coverage to help protect you and your family and enjoy a secure stay in Canada.</p>
                                   </div>
                                   <div class="col-sm-4" style="padding:15px 5%;">
                                     <img class="img-responsive img-title" src="<?php echo base_url();?>image/t2.jpg" alt="Emergency Hospital Insurance" />
                                     <h2>International Student to Canada</h2>
                                     <hr style="border-bottom:2px solid #ddd; width:50px; margin:0 0 15px;"/>
-                                    <p>Studying aboard is exciting and adventurous. Make sure you have the right insurance coverage for your journey while in Canada.</p>
+                                    <p>Studying abroad is exciting and adventurous. Make sure you have the right insurance coverage for your journey while in Canada.</p>
                                   </div>
                                   <div class="col-sm-4" style="padding:15px 5%;">
                                     <img class="img-responsive img-title" src="<?php echo base_url();?>image/t3.jpg" alt="Emergency Hospital Insurance" />
-                                    <h2>Canadian Travel Out</h2>
+                                    <h2>Canadian Travellers</h2>
                                     <hr style="border-bottom:2px solid #ddd; width:50px; margin:0 0 15px;"/>
-                                    <p>Your provincial health plan only covers a part of your health care costs incurred outside of Canada and limits coverage when travelling to another province.</p>
+                                    <p>It may not come as a surprise that your provincial health plan may not cover your health care costs incurred outside of Canada, but did you also know that you could have limited coverage when traveling to other provinces/territories within Canada? Make sure you are properly covered when travelling abroad or from your home province. </p>
                                   </div>
                                 </div>
                               </div>
@@ -137,7 +123,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <h5>Phone: 905-707-1512</h5>
                                 <h5>Fax: 905-707-1513</h5>
                                 <h5>Toll Free: 1-877-832-5541</h5>
-                                <h5>Toll Free Fax: 1-888-988-3268</h5><br />
+                                <h5>Toll Free Fax: 1-888-784-9608</h5><br />
                                 <h5>E-mail: info@jfgroup.ca</h5>
 
                               </div>
@@ -190,45 +176,31 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         </div>
 <?php } else { ?>
           <div class="h-top">
-                <h1>WHY BUY INSURANCE</h1>
-                <p>
-                  We don't like to think about it, but sudden, unexpected accidents or illnesses do happen,
-                  and trying to find an pay for adequate medical attention can be difficult when you are abroad.
-
-                </p>
-                <p>
-                  Health care costs around the world can be very expensive. Hospital can charge thousands of dollars
-                  per day. Your health plan may or may not cover a minute protion of these cost. Without adequate
-                  insurance coverage you could be responsible from dollar one, which could create a massive impact on
-                  your personal finances. Why take the risk?
-                </p>
+                <h1>WHY SHOULD YOU BUY TRAVEL INSURANCE?</h1>
+                <p>We don't like to think about it, but unexpected accidents or illnesses can occur when you and your family are traveling abroad, and finding and paying for adequate medical attention can be very difficult.</p>
+                <p>Healthcare costs around the world can be very expensive; hospitals can charge thousands of dollars per day. Your government healthcare plan may or may not cover a minimal portion of these costs. Without adequate insurance coverage, you could be responsible for a significant amount of medical expenses that could have an immense impact on your personal finances. Why take this risk?</p>
               </div>
 <?php } ?>
         </div>
         <div class="row" style="margin:40px 0;">
           <div class="col-sm-12 text-center">
             <h3>ABOUT US</h3>
-            <h4>we take care of you</h4>
+            <h4>We will take care of you</h4>
             <hr style="border-bottom:2px solid; width:50px; margin:0 auto 20px;" />
-            <p style="max-width:600px;width:100%;margin:0 auto;">JF Insurance Agency Group Inc. (JF) is a licensed brokerage firm incorporated in 1992. We are the leading private firm in providing Emergency Hospital and Medical coverage for Canadians, visitors across Canada and International students. We are recognized for our dedication to serve our clients on both an individual basis and association groups.</p>
+            <p style="max-width:600px;width:100%;margin:0 auto;">JF Insurance Agency Group Inc. (JF) is a licensed brokerage firm incorporated in 1992. We are the leading private firm in providing Emergency Hospital and Medical coverage for Canadians Travellers, Visitors to Canada and International Students. We are recognized for our dedication in serving our clients on an individual basis and by association groups.</p>
           </div>
         </div>
 				<div class="row" style="margin-right:0;margin-left:0;">
 					<div class="col-sm-12" style="padding-right:0;padding-left:0;">
 						<div style="background-color:#f6f6f6; padding:15px;margin:20px auto;">
 							<div class="row">
-                <div class="col-sm-4" style="padding:15px 5%;">
+                <div class="col-sm-6" style="padding:15px 5%;">
                   <h2>Founder</h2>
                   <hr style="border-bottom:2px solid #ddd; width:50px; margin:0 0 15px;"/>
-                  <p>The founder Mr. Johnson Fu has more than 30 plus years of experience in the Insurance and Financial Industry. Mr. Fu is also very active among many communities and charity events. It is through his involvement in community service that the JF corporate philosophy “To Serve” has come to fruition. This philosophy emphasizes the attitude of all staff members at JF.</p>
+                  <p>Mr. Johnson Fu has more than 30 years of experience in the Insurance and Financial Industry. Mr. Fu is an active member of his community as well as many local and international charities. His active involvement and dedication to community service has led to the JF philosophy "To Serve". It is this philosophy and attitude that resonates and helps guide all staff members at JF.</p>
                 </div>
-                <div class="col-sm-4" style="padding:15px 5%;">
+                <div class="col-sm-6" style="padding:15px 5%;">
                   <h2>Mission</h2>
-                  <hr style="border-bottom:2px solid #ddd; width:50px; margin:0 0 15px;"/>
-                  <p>To reach all that can benefit from the peace of mind we offer; to ensure claims are processed in a timely manner.</p>
-                </div>
-                <div class="col-sm-4" style="padding:15px 5%;">
-                  <h2>Vision</h2>
                   <hr style="border-bottom:2px solid #ddd; width:50px; margin:0 0 15px;"/>
                   <p>To reach all that can benefit from the peace of mind we offer; to ensure claims are processed in a timely manner.</p>
                 </div>
@@ -253,19 +225,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                       <img class="img-responsive img-title" src="<?php echo base_url();?>image/t1.jpg" alt="Emergency Hospital Insurance" />
                       <h2>Visitor to Canada</h2>
                       <hr style="border-bottom:2px solid #ddd; width:50px; margin:0 0 15px;"/>
-                      <p>Health care costs in Canada can be expensive if you’re not covered by a Canadian government health insurance plan. Therefore, be sure to carry visitor insurance to protect your finances and enjoy a secured stay while you are away from your home country.</p>
+                      <p>Healthcare costs in Canada can be expensive if you’re not covered by a Canadian government healthcare plan. Make sure you have the proper visitor insurance coverage to help protect you and your family and enjoy a secure stay in Canada. </p>
                     </div>
                     <div class="col-sm-4" style="padding:15px 5%;">
                       <img class="img-responsive img-title" src="<?php echo base_url();?>image/t2.jpg" alt="Emergency Hospital Insurance" />
                       <h2>International Student to Canada</h2>
                       <hr style="border-bottom:2px solid #ddd; width:50px; margin:0 0 15px;"/>
-                      <p>Studying aboard is exciting and adventurous. Make sure you have the right insurance coverage for your journey while in Canada.</p>
+                      <p>Studying abroad is exciting and adventurous. Make sure you have the right insurance coverage for your journey while in Canada.</p>
                     </div>
                     <div class="col-sm-4" style="padding:15px 5%;">
                       <img class="img-responsive img-title" src="<?php echo base_url();?>image/t3.jpg" alt="Emergency Hospital Insurance" />
-                      <h2>Canadian Travel Out</h2>
+                      <h2>Canadian Travellers</h2>
                       <hr style="border-bottom:2px solid #ddd; width:50px; margin:0 0 15px;"/>
-                      <p>Your provincial health plan only covers a part of your health care costs incurred outside of Canada and limits coverage when travelling to another province.</p>
+                      <p>It may not come as a surprise that your provincial health plan may not cover your health care costs incurred outside of Canada, but did you also know that you could have limited coverage when traveling to other provinces/territories within Canada? Make sure you are properly covered when travelling abroad or from your home province. </p>
                     </div>
                   </div>
                 </div>
@@ -290,7 +262,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                   <h5>Phone: 905-707-1512</h5>
                   <h5>Fax: 905-707-1513</h5>
                   <h5>Toll Free: 1-877-832-5541</h5>
-                  <h5>Toll Free Fax: 1-888-988-3268</h5><br />
+                  <h5>Toll Free Fax: 1-888-784-9608</h5><br />
                   <h5>E-mail: info@jfgroup.ca</h5>
 
                 </div>

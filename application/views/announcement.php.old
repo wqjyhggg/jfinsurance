@@ -1,0 +1,56 @@
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+?>
+<script src='https://cloud.tinymce.com/5/tinymce.min.js?apiKey=u6abmkgaq09unbi69s8n9v8vxcmfywtkczkc7y7jxx2zhiar'></script>
+<script>
+tinymce.init({
+	selector: '#mytextarea',
+    paste_data_images: true,
+    plugins: [
+        "advlist autolink lists link image charmap print preview hr anchor pagebreak",
+        "searchreplace wordcount visualblocks visualchars code fullscreen",
+        "insertdatetime media nonbreaking save table contextmenu directionality",
+        "emoticons template paste textcolor colorpicker textpattern"
+    ],
+    toolbar1: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
+    toolbar2: "print preview media | forecolor backcolor emoticons",
+    image_advtab: true,
+    file_picker_callback: function (callback, value, meta) {
+        if (meta.filetype == 'image') {
+            $('#upload').trigger('click');
+            $('#upload').on('change', function () {
+                var file = this.files[0];
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    callback(e.target.result, {
+                        alt: ''
+                    });
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+    },
+});
+</script>
+<div class="right_col" role="main">
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-12">
+				<input type="file" id="upload"> Upload File
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="main" style="min-height:800px;">
+					<form method="post" action="<?php echo $save_url; ?>" enctype="multipart/form-data">
+					<textarea id="mytextarea" name="html"></textarea></div>
+					<div><input type="submit" name="send" value="Submit"></div>
+					</form>
+				</div>
+				<textarea id="local-upload">
+	    			Click the 'Insert/Edit Image' button, then click the 'Upload' tab. Alternatively, drag and drop an image here.
+				</textarea>
+			</div>
+		</div>
+	</div>
+</div>

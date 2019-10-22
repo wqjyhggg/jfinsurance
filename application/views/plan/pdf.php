@@ -115,7 +115,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 							<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Flight Accident : $<?php echo number_format($plan['flight_accident_insured'], 2); ?></span>
 							<?php     } ?>
 							<?php     if ($plan['trip_cancellation_ck']) { ?>
-							<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Trip Cancellation : $<?php echo number_format($plan['trip_cancellation_insured'], 2); ?></span>
+							<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Trip Cancellation and Interruption : $<?php echo number_format($plan['trip_cancellation_insured'], 2); ?></span>
 							<?php     } ?>
 							<?php } else if ($plan['package'] == 'annual_plan') { ?>
 							<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Selected days : <?php echo $plan['annual_plan_days']; ?></span>

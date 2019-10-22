@@ -349,7 +349,7 @@ class Myhome extends MY_Controller {
 		} else if ($myhome) {
 			$this->data['toll_free_fax'] = $myhome['toll_free_fax'];
 		} else {
-			$this->data['toll_free_fax'] = 'Toll Free Fax: 1-888-988-3268';
+			$this->data['toll_free_fax'] = 'Toll Free Fax: 1-888-784-9608';
 		}
 		
 		if ($this->input->post('email')) {
@@ -366,7 +366,7 @@ class Myhome extends MY_Controller {
 		$file_url = array();
 		$product_list = $this->product_model->product_list(1);
 		ksort($product_list);
-		$fileName = array('_Brochure', '_Benefit_Summary', '_Claim_Form', '_Claim_Procedure', '_Consent_Form', '_Policy');
+		$fileName = array('_Brochure', '_ChineseBrochure', '_Benefit_Summary', '_Claim_Form', '_Claim_Procedure', '_Consent_Form', '_Policy');
 		
 		foreach ($product_list as $product_short => $p) {
 			$file_url[$product_short] = array('fullname' => $p['full_name'], 'files' => array());

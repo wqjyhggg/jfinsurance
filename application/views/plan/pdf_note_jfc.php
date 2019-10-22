@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<div class="row">
 		<div class="col-sm-12 nopm">
 
-		<p class="small" style="margin-top:2px;">Underwritten by Co-operators Life Insurance Company</p>
+		<p class="small" style="margin-top:2px;">Underwritten by CUMIS General Insurance Company, a member of The Co-operators group of companies.</p>
 
 		<p class="small" style="margin-top:2px;">All persons insured are subject to the terms and conditions below.</p>
 

@@ -168,6 +168,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					 	</div>
 					</div><br />
 					<?php echo $insurable_options; ?>
+					<?php if (!empty($error_claim)) { ?>
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="alert-error"> 
+								Please contact JF staff for further assistance 905-707-1512.
+							</div>
+						</div>
+					</div>
+					<?php } ?>
 					<div class="row">
 						<div class="col-sm-12">
 							<fieldset>

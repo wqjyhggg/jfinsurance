@@ -482,14 +482,17 @@ class Plan extends MY_Controller {
 			if (empty($this->input->post('stable_condition'))) {
 				$this->error['error_stable_condition'] = 'Please select pre-existing condition coverage';
 			}
-/*
-			if ($product_short == 'JFR') {
-				$years = $this->product_model->getYears($arrival_date, $effective_date);
-				if ($years >= 2) {
-					$this->error['error_effective_date'] = 'Effective Date must less than 2 Years for Arrival Date';
+
+			//if ($product_short == 'JFR') {
+				$stable_condition = $this->input->post('stable_condition');
+				if ($stable_condition == 2) {
+					$stable_condition_confirm = $this->input->post('stable_condition_confirm');
+					if (empty($stable_condition_confirm)) {
+						$this->error['error_stable_condition_confirm'] = 'You must confirm this condition for your selection.';
+					}
 				}
-			}
-*/
+			//}
+
 			$this->from_valid_family_member();
 		} else if (($product_short == 'JUS') || ($product_short == 'NUS')) {
 			if (empty($this->input->post('rate_options'))) {
@@ -566,6 +569,44 @@ class Plan extends MY_Controller {
 		return empty($this->error);
 	}
 	
+	function verify_claims($plan_id) {
+		$plan = $this->plan_model->get_plan_by_id($plan_id);
+
+		if ($plan['claim_flag'] >= 2) {
+			if ($plan['claim_allow_by'] < 1) {
+				$this->error['error_claim'] = 'The insured may have a previous claim that is affecting the policy issuance or renewal. Please contact JF staff for further assistance 905-707-1512';
+			}
+			return;
+		}
+
+		$customers = $this->plan_model->get_plan_customers_by_id($plan_id);
+		foreach ($customers as $customer) {
+			$vrecords = $this->plan_model->verify_customer($customer['firstname'], $customer['lastname'], $customer['birthday']);
+			$claim_amount = 0;
+			$case_amount = 0;
+			if ($vrecords['status'] == 'OK') {
+				foreach ($vrecords['cases'] as $case) {
+					$case_amount += (float)$case['amount'];
+				}
+				foreach ($vrecords['claims'] as $claim) {
+					$claim_amount += (float)$claim['amount'];
+				}
+			}
+			if (empty($claim_amount) && empty($case_amount)) {
+				// continue check next customer
+				continue;
+			} else if (($claim_amount <= 2000) && ($case_amount <= 2000)) {
+				$plan = $this->plan_model->update($plan_id, array('claim_flag' => 1));
+				// $this->error['error_claim'] = "Warning: The insured(s) have had previous claim(s). Please check the policy eligibility and any pre-existing conditions with insured(s). " . $customer['firstname'] . " " . $customer['lastname'] . "(" . $customer['birthday'] . ")";
+			} else /* if (($claim_amount > 2000) || ($case_amount > 2000)) */ {
+				$plan = $this->plan_model->update($plan_id, array('claim_flag' => 2));
+				$this->error['error_claim'] = 'The insured may have a previous claim that is affecting the policy issuance or renewal. Please contact JF staff for further assistance 905-707-1512';
+				break;
+			}
+		}
+		return;
+	}
+	
 	function form($plan=array()) {
 		$beuser = $this->func_model->verify_login(TRUE, TRUE);
 		$this->load->model('customer_model');
@@ -618,6 +659,7 @@ class Plan extends MY_Controller {
 								'systemlog' => $this->plan_model->sqlstr
 						);
 						$this->log_model->activity('plan', $para);
+
 						if ((($planold['product_short'] == 'OPL') || ($planold['product_short'] == 'JFR')) && ((($planold['sum_insured'] >= 100000) && ($planold['totaldays'] >= 365)) || (($plan['sum_insured'] >= 100000) && ($plan['totaldays'] >= 365)))) {
 							if (($plan['sum_insured'] >= 100000) && ($plan['totaldays'] >= 365)) {
 								if (($planold['effective_date'] != $plan['effective_date']) || ($planold['totaldays'] != $plan['totaldays']) || ($planold['premium'] != $plan['premium']) || ($planold['expiry_date'] != $plan['expiry_date']) ) {
@@ -646,6 +688,11 @@ class Plan extends MY_Controller {
 							}
 						}
 					}
+				}
+			}
+			if (empty($this->error)) {
+				if ($plan_id) {
+					$this->verify_claims($plan_id);
 				}
 			}
 			if (empty($this->error)) {
@@ -680,7 +727,7 @@ class Plan extends MY_Controller {
 			$plan = $this->plan_model->get_plan_by_id($data['plan_id']);
 		}
 		
-		if ($plan && isset($plan['status_id']) && ($plan['status_id'] > 1) && $this->session->userdata('vsuser')) {
+		if ($plan && isset($plan['status_id']) && ($plan['status_id'] > 1) && ($plan['claim_flag'] < 1)&& $this->session->userdata('vsuser')) {
 			// user can't change anything after sold
 			redirect('plan/detail/'.$plan['plan_id']);
 		}
@@ -826,6 +873,14 @@ class Plan extends MY_Controller {
 		} else {
 			$data['stable_condition'] = 0;
 		}
+		if ($this->input->post('stable_condition_confirm')) {
+			$data['stable_condition_confirm'] = $this->input->post('stable_condition_confirm'); 
+		} else if (isset($plan['stable_condition_confirm'])) {
+			$data['stable_condition_confirm'] = $plan['stable_condition_confirm'];
+		} else {
+			$data['stable_condition_confirm'] = 0;
+		}
+		
 		if ($this->input->post('rate_options')) {
 			$data['rate_options'] = $this->input->post('rate_options'); 
 		} else if (isset($plan['rate_options'])) {
@@ -1058,6 +1113,25 @@ class Plan extends MY_Controller {
 			$data['note'] = $plan['note'];
 		} else {
 			$data['note'] = '';
+		}
+		if (isset($plan['claim_flag'])) {
+			$data['claim_flag'] = $plan['claim_flag'];
+		} else {
+			$data['claim_flag'] = 0;
+		}
+		if ($this->input->post('claim_allow_by')) {
+			$data['claim_allow_by'] = $this->input->post('claim_allow_by');
+		} else if (isset($plan['claim_allow_by'])) {
+			$data['claim_allow_by'] = $plan['claim_allow_by'];
+		} else {
+			$data['claim_allow_by'] = '';
+		}
+		if ($this->input->post('claim_allow_note')) {
+			$data['claim_allow_note'] = $this->input->post('claim_allow_note');
+		} else if (isset($plan['claim_allow_note'])) {
+			$data['claim_allow_note'] = $plan['claim_allow_note'];
+		} else {
+			$data['claim_allow_note'] = '';
 		}
 		if (isset($plan['free_cancel'])) {
 			$data['free_cancel'] = $plan['free_cancel'];
@@ -1391,6 +1465,15 @@ class Plan extends MY_Controller {
 				'value' => $this->security->get_csrf_hash ()
 		);
 
+		$data['do_user_id'] = 0;
+		$douser = $this->session->userdata('user');
+		if ($douser) {
+			$data['do_user_id'] = $douser['user_id'];
+		}
+		if (isset($data['error_claim'])) {
+			$data['next_url'] = '';
+		}
+		
 		$data['isprocessplan'] = 1;
 		$data['plan_cancel_date'] = '';
 		$data['plan_refund_date'] = '';
@@ -2426,8 +2509,17 @@ class Plan extends MY_Controller {
 		if (empty($plan)) {
 			redirect('user/login');
 		}
+		if (($plan['claim_flag'] > 1) && ($plan['claim_allow_by'] < 1)) {
+			redirect('plan/form');
+		}
 		
 		if ($play_type = $this->input->post('play_type')) {
+			if (!empty($sekey)) {
+				if (empty($this->session->userdata ( 'beuser' )) && empty($this->session->userdata ( 'vsuser' ))) {
+					redirect('user/login');
+				}
+			}
+		
 			$totalpaid = $this->payment_model->get_total_paid($plan_id, $pay_type='premium');
 			$premium = preg_replace("/[^0-9\.-]/", "", $this->input->post('premium'));
 			$premium = $totalpaid + (float)$premium;
@@ -2701,7 +2793,7 @@ class Plan extends MY_Controller {
 		$data['card_cvv'] = $this->input->post('card_cvv');
 		
 		$data['show_history'] = 0;
-		if ($beuser['user_group_id'] < 100) {
+		if ($this->session->userdata ( 'user') && ($beuser['user_group_id'] < 100)) {
 			$this->load->model('payment_model');
 			$data['show_history'] = 1;
 //			$data['activelogs'] = $this->log_model->get_activity_by_plan_id($plan['plan_id']);
@@ -2710,6 +2802,9 @@ class Plan extends MY_Controller {
 		$data['payhistory_url'] = base_url ( "plan/payhistory/" . $plan['plan_id'] );
 		$data['makepay_url'] = base_url ( "payment/makepay" );
 		$data['revert_url'] = base_url ( "payment/revert" ) . "/";
+		if ($plan['claim_flag'] == 1) {
+			$data['error_message'] = '<strong>Warning: The insured(s) have had previous claim(s). Please check the policy eligibility and any pre-existing conditions with insured(s).</strong>';
+		}
 		
 		$this->session->set_userdata ( 'withlogo', 1);
 		if ($beuser['user_group_id'] != 103) {
@@ -2837,6 +2932,9 @@ class Plan extends MY_Controller {
 					$data['special_note'] = $this->load->view('plan/top/pdf_note_top',$data, TRUE);
 					$files = array(
 					'TOP_Policy.pdf' => DOWNLOADDIR . 'TOP_Policy.pdf',
+					'TOP_Baggage_Claim_Form.pdf' => DOWNLOADDIR . 'TOP_Baggage_Claim_Form.pdf',
+					'TOP_Cancellation_Claim_Form.pdf' => DOWNLOADDIR . 'TOP_Cancellation_Claim_Form.pdf',
+					'TOP_Medical_Claim_Form.pdf' => DOWNLOADDIR . 'TOP_Medical_Claim_Form.pdf',
 					'TOP_Benefit_Summary.pdf' => DOWNLOADDIR . 'TOP_Benefit_Summary.pdf'
 					);
 				} else {
@@ -3002,6 +3100,14 @@ class Plan extends MY_Controller {
 				$dt['note'] = "Cancel at " . $dt['added'] . " amount: " . $refund_amount . " admin fee: " . $admin_fee;
 				
 				$commission_rate = $this->product_model->get_commission_rate($plan['product_short'], $plan['user_id']);
+				if (($plan['product_short'] == 'TOP') && ($plan['totalyears'] > 60)) {
+					if ($commission_rate > 15) {
+						$commission_rate -= 15;
+					} else {
+						$commission_rate = 0;
+					}
+				}
+				
 				$commission_amount = $refund_amount * $commission_rate / 100.0;
 				$up_commission_rate = $this->product_model->get_up_commission_rate($plan['product_short']);
 				$up_commission_amount = $refund_amount * $up_commission_rate / 100.0;
@@ -3165,6 +3271,13 @@ class Plan extends MY_Controller {
 				$dt['note'] = "Refund at " . $dt['added'] . " amount: " . $refund_amount . " admin fee: " . $admin_fee;
 				
 				$commission_rate = $this->product_model->get_commission_rate($plan['product_short'], $plan['user_id']);
+				if (($plan['product_short'] == 'TOP') && ($plan['totalyears'] > 60)) {
+					if ($commission_rate > 15) {
+						$commission_rate -= 15;
+					} else {
+						$commission_rate = 0;
+					}
+				}
 				$commission_amount = $refund_amount * $commission_rate / 100.0;
 				$up_commission_rate = $this->product_model->get_up_commission_rate($plan['product_short']);
 				$up_commission_amount = $refund_amount * $up_commission_rate / 100.0;
@@ -3233,6 +3346,7 @@ class Plan extends MY_Controller {
 		$data['adminfee'] = 40;
 		$data['refund_enable'] = 1;
 		if ($plan['product_short'] == 'TOP') {
+			$data['adminfee'] = 20;
 			$data['top_refund_notes'] = "Only Single Medical Plan can do refund.";
 			if ($plan['package'] != 'single_medical_plan') {
 				$data['top_refund_notes'] .= " This plan can't be refunded.";

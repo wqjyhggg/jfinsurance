@@ -325,7 +325,7 @@
 										<span class="address-title"><?php echo $lang['toll_free'];?></span><a href="tel:1-877-832-5541">1-877-832-5541</a>
 									</p>
 									<p>
-										<span class="address-title"><?php echo $lang['toll_free_fax'];?></span>1-888-988-3268
+										<span class="address-title"><?php echo $lang['toll_free_fax'];?></span>1-888-784-9608
 									</p>
 
 								</div>
