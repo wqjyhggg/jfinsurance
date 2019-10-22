@@ -621,7 +621,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<?php } ?>	
 						<div class="col-sm-12" id='goto_next_page'>
 						<?php if (!empty($next_url)) { ?>
-						<a href='<?php echo $next_url; ?>'><span class="btn btn-info">No Change</span></a>
+						<a href='<?php echo $next_url; ?>'><span class="btn btn-info">No Change</span></a> Go next page without change
 						<?php } ?>
 						<?php if (($user_group_id == 1) || ($isprocessplan && ($status_id != 5) && ($status_id != 6))) { ?>
 							<input class="btn btn-primary pull-right" type='submit' id='page-submit' name='submit' value='<?php echo $submit; ?>' />		
