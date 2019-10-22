@@ -50,8 +50,9 @@ $usepsi = false;
 
 						<div class='pull-right spdf-option'><input type='checkbox' class='withlogobox' checked> With Logo <br /><input type='checkbox' class='withpricebox' checked> With Price </div>
 						<?php } ?>
-						<a class="btn btn-info pull-right" target="_blank" href='<?php echo $pdf_url; ?>'>Export PDF</a>
-						
+						<?php if (empty($sekey)) { ?>
+ 						<a class="btn btn-info pull-right" target="_blank" href='<?php echo $pdf_url; ?>'>Export PDF</a>
+						<?php } ?>
 					<?php } ?>
 					<?php if ($isprocessplan) { ?>
 					<?php if (($plan['status_id'] == 2) || ($plan['status_id'] == 3)) { ?>
@@ -289,8 +290,9 @@ $usepsi = false;
 									<?php if ($export_logo_price_option) { ?>
 									<div class='pull-right spdf-option'><input type='checkbox' class='withlogobox' checked> With Logo <br /><input type='checkbox' class='withpricebox' checked> With Price </div>
 									<?php } ?>
+									<?php if (empty($sekey)) { ?>
 									<a class="btn btn-info pull-right" target="_blank" href='<?php echo $pdf_url; ?>'>Export PDF</a>
-									
+									<?php } ?>
 								<?php } ?>
 
 								</div>

@@ -35,7 +35,9 @@ $usepsi = false;
 							Review Policy Detail <span><b>[ <?php echo $status_list[$plan['status_id']]['name']; ?> ]</b></span>
 						</h2>
 						<?php if (($plan['status_id'] == 1) || ($plan['status_id'] == 2) || ($plan['status_id'] == 3)) { ?>
+							<?php if (empty($sekey)) { ?>
 							<a class="btn btn-info pull-right" target="_blank" href='<?php echo $pdf_url; ?>'>Export PDF</a>
+							<?php } ?>
 							<?php if (($plan['status_id'] == 2) || ($plan['status_id'] == 3)) { ?>
 								<?php if (!empty($sendpackage_url)) { ?>
 									<a class="btn btn-info pull-right" target="_blank" href='<?php echo $sendpackage_url; ?>'>Send Package</a>
@@ -334,7 +336,9 @@ $usepsi = false;
 							<button class="btn btn-primary pull-right" data-toggle="collapse" data-target="#payment-div">Confirm and Pay</button>
 						<?php } ?>
 						<?php if (($plan['status_id'] == 1) || ($plan['status_id'] == 2) || ($plan['status_id'] == 3)) { ?>
+							<?php if (empty($sekey)) { ?>
 							<a class="btn btn-info pull-right" target="_blank" href='<?php echo $pdf_url; ?>'>Export PDF</a>
+							<?php } ?>
 						<?php } ?>
 						</div>
 					</div>
