@@ -311,7 +311,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                    
                     <?php if ($export_logo_price_option) { ?>
 						<div class='pull-right'>
-							<span style="color:#73879C;">Export Option for JES and JFC: </span>
+							<span style="color:#73879C;">Export Option for JES, JFP and JFC: </span>
 							<input type='checkbox' class='withlogobox' checked> With Logo  &nbsp;&nbsp;<input type='checkbox' class='withpricebox' checked> With Price 
 						</div>
 					<?php } ?>
