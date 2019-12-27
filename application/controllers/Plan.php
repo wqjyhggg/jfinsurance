@@ -3044,7 +3044,7 @@ class Plan extends MY_Controller {
 			$data['special_note'] = $this->load->view('plan/pdf_note_jfc',$data, TRUE);
 		} else if ($data['plan']['product_short'] == 'JFP') {
 			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
-			$data['special_note'] = $this->load->view('plan/pdf_note_jfc',$data, TRUE);
+			$data['special_note'] = $this->load->view('plan/pdf_note_jes',$data, TRUE);
 		} else if ($data['plan']['product_short'] == 'TOP') {
 			$data['insurable_options'] = '';
 			$data['toppackagename'] = $this->toppackagename;
