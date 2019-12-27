@@ -4,8 +4,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<div class="row">
 		<div class="col-sm-12 nopm">
 
-		<p class="small" style="margin-top:2px;">Underwritten by CUMIS General Insurance Company, a member of The Co-operators group of companies.</p>
-
 		<p class="small" style="margin-top:2px;">All persons insured are subject to the terms and conditions below.</p>
 
 		<p class="small" style="margin-top:2px;">This document does not constitute the entire insurance policy, and the insured(s) has been advised to read the full policy details of coverage and exclusions.</p>
