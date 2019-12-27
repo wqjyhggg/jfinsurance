@@ -4,29 +4,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <p>Good day:</p>
 <p>Thank you for choosing Johnson Fu Insurance Agency to cover the needs of your clients.</p><br />
 <p>Please find attached renewal report for your existing clients whose coverage is due for renewal.</p><br />
-
-<p><strong><span style="color: red;">Important:</span> Please reply to this email for policy renewal within the last 10 days of the current policy. Renew order will be process only if you have privded the complete information as following:</strong></p>
-<ol>
-	<li><strong><span style="color: red;">Renew Policy number</span></strong></li>
-	<li><strong><span style="color: red;">New effective date</span></strong></li>
-	<li><strong><span style="color: red;">New expiry date</span></strong></li>
-	<li><strong><span style="color: red;">Payment information: </span></strong>
-		<ul>
-			<li><strong><span style="color: red;">Credit card number</span></strong></li>
-			<li><strong><span style="color: red;">expiry date</span></strong></li>
-			<li><strong><span style="color: red;">cardholder's name</span></strong></li>
-			<li><strong><span style="color: red;">3 digits security code</span></strong></li>
-		</ul>
-	</li>
-</ol>
-<br />
-<p style="font-size: 14px;">
-	Please note that for renewal request send after the policy expiry date, new waiting period may apply.
-</p>
-<br />
-<p>
-	Should you have any questions, please do not hesitate to contact us.
-</p>
+<p>Please note that for renewal policy issued after the policy expiry date, new waiting period may apply.</p><br />
+<p>Should you have any questions, please do not hesitate to contact us.</p><br />
 <br /><br />
 <p>Kind regards,</p>
 <p style="font-size: 14px;color:#2472a4;">
