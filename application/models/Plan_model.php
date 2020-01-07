@@ -1002,9 +1002,9 @@ class Plan_model extends CI_Model {
 		$sql .= " ORDER BY plan_id DESC";
 		if ($limit) {
 			if ($start) {
-				$sql .= " LIMIT " . $start . ", " . $limit;
+				$sql .= " LIMIT " . (int)$start . ", " . (int)$limit;
 			} else {
-				$sql .= " LIMIT " . $limit;
+				$sql .= " LIMIT " . (int)$limit;
 			}
 		} else {
 			$sql .= " LIMIT " . self::MAX_PLANS;

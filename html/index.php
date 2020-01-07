@@ -1,5 +1,4 @@
 <?php
-
 /**
  * CodeIgniter
  *
@@ -7,7 +6,7 @@
  *
  * This content is released under the MIT License (MIT)
  *
- * Copyright (c) 2014 - 2016, British Columbia Institute of Technology
+ * Copyright (c) 2014 - 2019, British Columbia Institute of Technology
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -30,8 +29,8 @@
  * @package	CodeIgniter
  * @author	EllisLab Dev Team
  * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
- * @copyright	Copyright (c) 2014 - 2016, British Columbia Institute of Technology (http://bcit.ca/)
- * @license	http://opensource.org/licenses/MIT	MIT License
+ * @copyright	Copyright (c) 2014 - 2019, British Columbia Institute of Technology (https://bcit.ca/)
+ * @license	https://opensource.org/licenses/MIT	MIT License
  * @link	https://codeigniter.com
  * @since	Version 1.0.0
  * @filesource
@@ -54,12 +53,8 @@
  *
  * NOTE: If you change these, also change the error_reporting() code below
  */
-if (isset($_SERVER["SERVER_NAME"]) && ($_SERVER["SERVER_NAME"] == 'www.jfgroup.ca')) {
-	define('ENVIRONMENT', 'production');
-} else {
 	define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'development');
-}
-	
+
 /*
  *---------------------------------------------------------------
  * ERROR REPORTING
@@ -182,9 +177,7 @@ switch (ENVIRONMENT)
  * Un-comment the $assign_to_config array below to use this feature
  */
 	// $assign_to_config['name_of_config_item'] = 'value of config item';
-	define('DOWNLOADDIR', dirname(dirname(__FILE__)).DIRECTORY_SEPARATOR."download".DIRECTORY_SEPARATOR);
-	define('AGENTINFODIR', dirname(dirname(__FILE__)).DIRECTORY_SEPARATOR."agentinfo".DIRECTORY_SEPARATOR);
-	
+
 
 
 // --------------------------------------------------------------------

@@ -32,7 +32,7 @@ class MY_Controller extends CI_Controller {
         $this->data['lang'] = $this->lang->language;
         $this->data['language'] = $language;
         
-        $this->load->model('menu_model');
+        $this->load->model('html_model');
         
 		$post = $this->input->post();
         $get = $this->input->get();

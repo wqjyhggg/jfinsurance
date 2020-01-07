@@ -217,7 +217,7 @@ class Menu_model extends CI_Model {
 		$user = $this->session->userdata('user');
 		$beuser = $this->session->userdata('beuser');
 		$behalf = "<a href='" . base_url('behalf') . "' class='leftmeun'>" . $this->lang->line ( 'text_behalf' ) . "</a>";
-		$unbehalf = "<a href='" . base_url('behalf/undo') . "' class='leftmeun'>" . $this->lang->line ( 'text_unbehalf' ) . " (" . $beuser['username'] . ") </a>";
+		$unbehalf = "<a href='" . base_url('behalf/undo') . "' class='leftmeun'>" . $this->lang->line ( 'text_unbehalf' ) . " (" . empty($beuser['username']) ? '': $beuser['username'] . ") </a>";
 	
 		$onbehalf = 0;
 	   	if (!$user) {
