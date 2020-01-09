@@ -32,14 +32,14 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 		</div>
 		<div class="row">
 			<div class="col-sm-12 nopadding">
-				<p  class="nopm"><?php echo $customer['firstname'] . " " . $customer['lastname']; ?></p>
-				<p  class="nopm"><?php if(!empty($plan['suite_number'])){echo  $plan['suite_number'] . "- ";} ?><?php echo $plan['street_number'] . ' ' . $plan['street_name'] . '<br />' . $plan['city'] . ', ' . $plan['province2'] . ', ' . $plan['postcode']; ?></p>
+				<p  class="nopm"><?php echo htmlspecialchars($customer['firstname']) . " " . htmlspecialchars($customer['lastname']); ?></p>
+				<p  class="nopm"><?php if(!empty($plan['suite_number'])){echo  htmlspecialchars($plan['suite_number']) . "- ";} ?><?php echo htmlspecialchars($plan['street_number']) . ' ' . htmlspecialchars($plan['street_name']) . '<br />' . htmlspecialchars($plan['city']) . ', ' . htmlspecialchars($plan['province2']) . ', ' . htmlspecialchars($plan['postcode']); ?></p>
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-sm-12 nopadding">
-				<p  class="nopm">Dear <?php echo $customer['firstname'] . " " . $customer['lastname']; ?>,</p>
-				<p  class="nopm">We have processed your request to refund the policy of <span><b><?php echo $plan['policy']; ?></b></span>, <b><?php echo $customer['firstname'] . " " . $customer['lastname']; ?></b>. We are pleased to provide you a refund for the policy.</p>
+				<p  class="nopm">Dear <?php echo htmlspecialchars($customer['firstname']) . " " . htmlspecialchars($customer['lastname']); ?>,</p>
+				<p  class="nopm">We have processed your request to refund the policy of <span><b><?php echo $plan['policy']; ?></b></span>, <b><?php echo htmlspecialchars($customer['firstname']) . " " . htmlspecialchars($customer['lastname']); ?></b>. We are pleased to provide you a refund for the policy.</p>
 			</div>
 		</div>
 

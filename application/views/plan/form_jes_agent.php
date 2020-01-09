@@ -9,8 +9,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<div class="form-group col-sm-3">
 										<label class="col-sm-12">Beneficiary</label>
 										<div class="input-group col-sm-12">
-											<div class='form_text_show'><?php echo $beneficiary; ?></div>
-											<input type='hidden' name='beneficiary' value='<?php echo $beneficiary; ?>' class="form-control">
+											<div class='form_text_show'><?php echo htmlspecialchars($beneficiary); ?></div>
+											<input type='hidden' name='beneficiary' value='<?php echo $html_model->escapeQuote($beneficiary); ?>' class="form-control">
 										</div>
 									</div>
 									<div class="form-group col-sm-3">
@@ -37,22 +37,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<div class="form-group col-sm-3">
 										<label class="col-sm-12">School Name : </label>
 										<div class="input-group col-sm-12">
-											<div class='form_text_show'><?php echo $institution; ?></div>
-											<input type='hidden' name='institution' value='<?php echo $institution; ?>' class="form-control">
+											<div class='form_text_show'><?php echo htmlspecialchars($institution); ?></div>
+											<input type='hidden' name='institution' value='<?php echo $html_model->escapeQuote($institution); ?>' class="form-control">
 										</div>
 									</div>
 									<div class="form-group col-sm-3">
 										<label class="col-sm-12">School Full Address: </label>
 										<div class="input-group col-sm-12">
-											<div class='form_text_show'><?php echo $institution_addr; ?></div>
-											<input type='hidden' name='institution_addr' value='<?php echo $institution_addr; ?>' class="form-control">
+											<div class='form_text_show'><?php echo htmlspecialchars($institution_addr); ?></div>
+											<input type='hidden' name='institution_addr' value='<?php echo $html_model->escapeQuote($institution_addr); ?>' class="form-control">
 										</div>
 									</div>
 									<div class="form-group col-sm-3">
 										<label class="col-sm-12">School Phone: </label>
 										<div class="input-group col-sm-12">
-											<div class='form_text_show'><?php echo $institution_phone; ?></div>
-											<input type='hidden' name='institution_phone' value='<?php echo $institution_phone; ?>' class="form-control">
+											<div class='form_text_show'><?php echo htmlspecialchars($institution_phone); ?></div>
+											<input type='hidden' name='institution_phone' value='<?php echo $html_model->escapeQuote($institution_phone); ?>' class="form-control">
 										</div>
 									</div>
 								</div>

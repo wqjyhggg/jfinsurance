@@ -5,7 +5,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 							<div class="row">
 								<div class="col-sm-3">
 									<label class="inline">Beneficiary:</label>
-									<span><?php echo $plan['beneficiary']; ?></span>
+									<span><?php echo htmlspecialchars($plan['beneficiary']); ?></span>
 								</div>
 								<div class="col-sm-3">
 									<label class="inline">Sum Insured (USD):</label>

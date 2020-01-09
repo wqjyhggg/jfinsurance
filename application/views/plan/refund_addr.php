@@ -10,23 +10,23 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 						<input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
 					<div class="row">
 						<div class="col-sm-12">
-							<span style="width:110px;">Customer Name : </span><input type='text' name='customer_full_name' value="<?php echo !empty($firstname . ' ' . $lastname) ? $firstname . ' ' . $lastname : ''; ?>"><br />
+							<span style="width:110px;">Customer Name : </span><input type='text' name='customer_full_name' value="<?php echo !empty($firstname . ' ' . $lastname) ? $html_model->escapeQuote2($firstname . ' ' . $lastname) : ''; ?>"><br />
 						</div>
 						<div class="col-sm-12">
 							<br>
-							<span style="width:110px;">Address : </span><input type='text' name='full_address' value="<?php echo !empty($suite_number)? $suite_number .' - '. $street_number .' , '. $street_name: $street_number .' , '. $street_name ; ?>"><br />
+							<span style="width:110px;">Address : </span><input type='text' name='full_address' value="<?php echo !empty($suite_number)? $html_model->escapeQuote2($suite_number .' - '. $street_number .' , '. $street_name) : $html_model->escapeQuote2($street_number .' , '. $street_name); ?>"><br />
 						</div>
 						<div class="col-sm-12">
 							<br>
-							<span style="width:110px;">City: </span><input type='text' name='city' value="<?php echo $city; ?>"><br />
+							<span style="width:110px;">City: </span><input type='text' name='city' value="<?php echo $html_model->escapeQuote2($city); ?>"><br />
 						</div>
 						<div class="col-sm-12">
 							<br>
-							<span style="width:110px;">Province: </span><input type='text' name='province2' value="<?php echo $province2; ?>"><br />
+							<span style="width:110px;">Province: </span><input type='text' name='province2' value="<?php echo $html_model->escapeQuote2($province2); ?>"><br />
 						</div>
 						<div class="col-sm-12">
 							<br>
-							<span style="width:110px;">Post Code: </span><input type='text' name='postcode' value="<?php echo $postcode; ?>"><br />
+							<span style="width:110px;">Post Code: </span><input type='text' name='postcode' value="<?php echo $html_model->escapeQuote2($postcode); ?>"><br />
 						</div>
 					</div>
 					<div class="row">	

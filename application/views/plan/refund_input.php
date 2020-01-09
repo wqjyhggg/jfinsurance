@@ -83,7 +83,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                       <div class="row">
                         <div class="form-group col-sm-8 col-xs-12">
 	                        <?php if ($plan['product_short'] == 'TOP') { ?>
-                            <label class="center-block"><?php echo $top_refund_notes; ?></label>
+                            <label class="center-block"><?php echo htmlspecialchars($top_refund_notes); ?></label>
 	                        <?php } ?>
                         </div>
                         <?php if ($refund_enable) { ?>

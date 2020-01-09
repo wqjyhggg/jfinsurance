@@ -40,8 +40,8 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 		</div>
 		<div class="row">
 			<div class="col-sm-12 nopadding">
-				<p  class="nopm">Dear <?php echo $customer['firstname'] . " " . $customer['lastname']; ?>,</p>
-				<p  class="nopm">We have processed your request to refund the policy of <span><b><?php echo $plan['policy']; ?></b></span>, <b><?php echo $customer['firstname'] . " " . $customer['lastname']; ?></b>. We are pleased to provide you a refund for the policy.</p>
+				<p  class="nopm">Dear <?php echo htmlspecialchars($customer['firstname'] . " " . $customer['lastname']); ?>,</p>
+				<p  class="nopm">We have processed your request to refund the policy of <span><b><?php echo $plan['policy']; ?></b></span>, <b><?php echo htmlspecialchars($customer['firstname'] . " " . $customer['lastname']); ?></b>. We are pleased to provide you a refund for the policy.</p>
 			</div>
 		</div>
 

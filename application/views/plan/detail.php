@@ -88,7 +88,7 @@ $usepsi = false;
 									<label><?php if ($plan['status_id'] < 2) { ?>Quote<?php } else {?>Policy<?php } ?> Number: <span><?php echo $plan['policy']; ?></span></label>
 								</div>
 								<div class="col-sm-3">
-									<label style="text-transform: capitalize;">  By agent <?php echo "[ AgentID:" . $policy_user['user_id'] . " ] "; ?>: <?php echo $policy_user['firstname'] . " " . $policy_user['lastname']; ?></label>
+									<label style="text-transform: capitalize;">  By agent <?php echo "[ AgentID:" . $policy_user['user_id'] . " ] "; ?>: <?php echo htmlspecialchars($policy_user['firstname'] . " " . $policy_user['lastname']); ?></label>
 								</div>
 								
 							</div>		
@@ -146,11 +146,11 @@ $usepsi = false;
 							
 								<div class="col-sm-3">
 									<label class="inline">Last Name:</label>
-									<span><?php echo $customer['lastname']; ?></span>
+									<span><?php echo htmlspecialchars($customer['lastname']); ?></span>
 								</div>
 								<div class="col-sm-3">
 									<label class="inline">First Name:</label>
-									<span><?php echo $customer['firstname']; ?></span>
+									<span><?php echo htmlspecialchars($customer['firstname']); ?></span>
 								</div>
 								<div class="col-sm-3">
 									<label class="inline">Birth Date:</label>
@@ -173,11 +173,11 @@ $usepsi = false;
 									
 										<div class="col-sm-3">
 											<label class="inline">Last Name:</label>
-											<span><?php echo $customers[$i]['lastname']; ?></span>
+											<span><?php echo htmlspecialchars($customers[$i]['lastname']); ?></span>
 										</div>
 										<div class="col-sm-3">
 											<label class="inline">First Name:</label>
-											<span><?php echo $customers[$i]['firstname']; ?></span>
+											<span><?php echo htmlspecialchars($customers[$i]['firstname']); ?></span>
 										</div>
 										<div class="col-sm-3">
 											<label class="inline">Birth Date:</label>
@@ -197,41 +197,41 @@ $usepsi = false;
 								<div class="col-sm-12" style="background-color:#5bc0de; color:#fff;"><label>Address Information</label></div>
 								<div class="col-sm-3">
 									<label class="inline">Street No:</label>
-									<span><?php echo $plan['street_number']; ?></span>
+									<span><?php echo htmlspecialchars($plan['street_number']); ?></span>
 								</div>
 								<div class="col-sm-3">
 									<label class="inline">Street Name:</label>
-									<span><?php echo $plan['street_name']; ?></span>
+									<span><?php echo htmlspecialchars($plan['street_name']); ?></span>
 								</div>
 								<div class="col-sm-3">
 									<label class="inline">Suite No.:</label>
-									<span><?php echo $plan['suite_number']; ?></span>
+									<span><?php echo htmlspecialchars($plan['suite_number']); ?></span>
 								</div>
 								<div class="col-sm-3">
 									<label class="inline">City: </label>
-									<span><?php echo $plan['city']; ?></span>
+									<span><?php echo htmlspecialchars($plan['city']); ?></span>
 								</div>	
 							
 								<div class="col-sm-3">
 									<label class="inline">Province:</label>
-									<span><?php echo $plan['province2']; ?></span>
+									<span><?php echo htmlspecialchars($plan['province2']); ?></span>
 								</div>
 								<div class="col-sm-3">
 									<label class="inline">Country:</label>
-									<span><?php echo $plan['country2']; ?></span>
+									<span><?php echo htmlspecialchars($plan['country2']); ?></span>
 								</div>
 								<div class="col-sm-3">
 									<label class="inline">Postcode:</label>
-									<span><?php echo $plan['postcode']; ?></span>
+									<span><?php echo htmlspecialchars($plan['postcode']); ?></span>
 								</div>
 								
 								<div class="col-sm-3">
 									<label class="inline">Phone1:</label>
-									<span><?php echo $plan['phone1']; ?></span>
+									<span><?php echo htmlspecialchars($plan['phone1']); ?></span>
 								</div>
 								<div class="col-sm-3">
 									<label class="inline">Phone2:</label>
-									<span><?php echo $plan['phone2']; ?></span>
+									<span><?php echo htmlspecialchars($plan['phone2']); ?></span>
 								</div>
 								
 							</div>
@@ -241,15 +241,15 @@ $usepsi = false;
 								</div>
 								<div class="col-sm-3">
 									<label class="inline">Email:</label>
-									<span><?php echo $plan['contact_email']; ?></span>
+									<span><?php echo htmlspecialchars($plan['contact_email']); ?></span>
 								</div>
 								<div class="col-sm-3">
 									<label class="inline">Contact Phone:</label>
-									<span><?php echo $plan['contact_phone']; ?></span>
+									<span><?php echo htmlspecialchars($plan['contact_phone']); ?></span>
 								</div>
 								<div class="col-sm-3">
 									<label class="inline">Country of Origin:</label>
-									<span><?php echo $plan['residence']; ?></span>
+									<span><?php echo htmlspecialchars($plan['residence']); ?></span>
 								</div>
 							</div>
 
@@ -275,7 +275,7 @@ $usepsi = false;
 								</div>
 								<div class="col-sm-12">
 									<label class="inline">Notes:</label>
-									<span><?php echo $plan['note']; ?></span>
+									<span><?php echo htmlspecialchars($plan['note']); ?></span>
 								</div>
 								
 							</div>
@@ -683,7 +683,7 @@ $usepsi = false;
 											<td><?php echo $p['rate'] . "%"; ?></td>
 											<td><?php echo $pay_str; ?></td>
 											<td><?php echo $pay_info; ?></td>
-											<td><?php echo (strlen($p['note']) > 60) ? (substr($p['note'], 0, 57) . "...") : $p['note']; ?></td>
+											<td><?php echo (strlen($p['note']) > 60) ? (htmlspecialchars(substr($p['note'], 0, 57)) . "...") : htmlspecialchars($p['note']); ?></td>
 										</tr>
 										<?php 		} ?>
 									</tbody>
@@ -715,9 +715,9 @@ $usepsi = false;
 									<tbody>
 									<?php foreach ($activelogs as $p) { ?>
 										<tr>
-											<td><?php echo $p['username']; ?></td>
+											<td><?php echo htmlspecialchars($p['username']); ?></td>
 											<td><?php echo $p['tm']; ?></td>
-											<td><?php echo (strlen($p['message']) > 120) ? (substr($p['message'], 0, 117) . "...") : $p['message']; ?></td>
+											<td><?php echo (strlen($p['message']) > 120) ? (htmlspecialchars(substr($p['message'], 0, 117)) . "...") : htmlspecialchars($p['message']); ?></td>
 										</tr>
 									<?php 		} ?>
 									</tbody>
