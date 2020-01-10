@@ -257,7 +257,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 				<h4 style="border-bottom:1px solid #777;">Special Note</h4>
 			</div>
 		</div>
-		<?php echo htmlspecialchars($special_note);?>
+		<?php echo $special_note;?>
 
 			<!--/div--><!-- end p-detail -->
 		<!--/div--><!-- x_content -->
