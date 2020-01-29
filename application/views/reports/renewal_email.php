@@ -5,7 +5,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <p>Thank you for choosing Johnson Fu Insurance Agency to cover the needs of your clients.</p><br />
 <p>Please find attached renewal report for your existing clients whose coverage is due for renewal.</p><br />
 <p>Please note that for renewal policy issued after the policy expiry date, new waiting period may apply.</p><br />
-<p>Should you have any questions, please do not hesitate to contact us.</p><br />
+<p>Should you have any questions, please do not hesitate to contact us at sales@jfgroup.ca</p><br />
 <br /><br />
 <p>Kind regards,</p>
 <p style="font-size: 14px;color:#2472a4;">
