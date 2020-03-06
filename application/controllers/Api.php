@@ -391,6 +391,7 @@ class Api extends MY_Controller {
 					$p['agent_id'] = $plan['user_id'];
 					$p['agent_firstname'] = $plan['agent_firstname'];
 					$p['agent_lastname'] = $plan['agent_lastname'];
+					$p['agent_phone'] = $plan['agent_phone'];
 					$p['family'] = array();
 					if ($p['isfamilyplan']) {
 						$family = $this->customer_model->get_customer_by_parent_id($p['customer_id']);
