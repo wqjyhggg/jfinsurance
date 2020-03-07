@@ -23,13 +23,13 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 		</div>
 		<div class="row">
 			<div class="col-sm-12">
-				<p class="nopm" style="margin-bottom:2px;"><?php echo $customer['firstname'] . " " . $customer['lastname']; ?></p>
-				<p class="nopm"><?php if(!empty($plan['suite_number'])){echo  $plan['suite_number'] . "- ";} ?><?php echo $plan['street_number'] . ' ' . $plan['street_name'] . '<br />' . $plan['city'] . ', ' . $plan['province2'] . ', ' . $plan['postcode']; ?></p>
+				<p class="nopm" style="margin-bottom:2px;"><?php echo htmlspecialchars($customer['firstname'] . " " . $customer['lastname']); ?></p>
+				<p class="nopm"><?php if(!empty($plan['suite_number'])){echo  htmlspecialchars($plan['suite_number']) . "- ";} ?><?php echo htmlspecialchars($plan['street_number'] . ' ' . $plan['street_name']) . '<br />' . htmlspecialchars($plan['city'] . ', ' . $plan['province2'] . ', ' . $plan['postcode']); ?></p>
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-sm-12 nopadding">
-				<p>Dear <?php echo $customer['firstname'] . " " . $customer['lastname']; ?>,</p>
+				<p>Dear <?php echo htmlspecialchars($customer['firstname'] . " " . $customer['lastname']); ?>,</p>
 				<p>Thank you for choosing to insure with JF Insurance Agency Inc . Please review your policy declaration below and the enclosed policy wording carefully; your coverage and premium are based on the information you provided. If the policy declaration information is incorrect, you must inform us immediately at 1-877-832-5541. </p>
 			</div>
 		</div>

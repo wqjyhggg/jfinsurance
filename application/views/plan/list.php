@@ -91,7 +91,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			                        <div class="form-group col-sm-3">
 			                          <label class="col-sm-12">Policy Number:</label>
 			                          <div class="input-group col-sm-12">
-			                              <input type="text" name='policy' value='<?php echo $policy; ?>' class="form-control"/>
+			                              <input type="text" name='policy' value='<?php echo $html_model->escapeQuote($policy); ?>' class="form-control"/>
 			                          </div>
 			                        </div>
 			                        <!-- Policy Number input box end -->
@@ -117,7 +117,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			                        <div class="form-group col-sm-3">
 			                          <!--label class="col-sm-4">First Name:</label-->
 			                          <div class="input-group col-sm-12">
-			                              <input type="text" name="firstname" placeholder="First Name" data-toggle="tooltip" title="First Name" value="<?php echo $firstname; ?>" class="form-control"/>
+			                              <input type="text" name="firstname" placeholder="First Name" data-toggle="tooltip" title="First Name" value='<?php echo $html_model->escapeQuote($firstname); ?>' class="form-control"/>
 			                          </div>
 			                        </div>
 			                        <!-- First Name input box end -->
@@ -151,7 +151,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			                        <div class="form-group col-sm-3">
 			                          <!--label class="col-sm-12">Agent/School Name:</label-->
 			                          <div class="input-group col-sm-12">
-			                              <input type="text" name='uname' placeholder="Agent/School Name" data-toggle="tooltip" title="Agent/School Name" value='<?php echo $uname; ?>' class="form-control"/>
+			                              <input type="text" name='uname' placeholder="Agent/School Name" data-toggle="tooltip" title="Agent/School Name" value='<?php echo $html_model->escapeQuote($uname); ?>' class="form-control"/>
 			                          </div>
 			                        </div>
 			                        <!-- Agent input box end -->
@@ -159,7 +159,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			                        <div class="form-group col-sm-3">
 			                          <!--label class="col-sm-12">Batch No.:</label-->
 			                          <div class="input-group col-sm-12">
-			                              <input type="text" name='batch_number' placeholder="Batch No." data-toggle="tooltip" title="Batch No." value='<?php echo $batch_number; ?>' class="form-control"/>
+			                              <input type="text" name='batch_number' placeholder="Batch No." data-toggle="tooltip" title="Batch No." value='<?php echo $html_model->escapeQuote($batch_number); ?>' class="form-control"/>
 			                          </div>
 			                        </div>
 			                        <!-- Batch No. input box end -->
@@ -343,9 +343,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<td><?php echo $plan['product_short']; ?></td>
 							<td <?php if ($plan['status_id'] == '4') {?>style='color:red'<?php } ?>><?php echo $status_list[$plan['status_id']]['name'].(($plan['claim_flag'] == 1)?' (W)':(($plan['claim_flag'] == 2)?' (B)':'')); ?></td>
 							<td><?php echo $plan['effective_date']; ?></td>
-							<td><?php echo $plan['firstname'] . " " . $plan['lastname']; ?></td>
+							<td><?php echo htmlspecialchars($plan['firstname'] . " " . $plan['lastname']); ?></td>
 					<?php if ($beuser['user_group_id'] < 105) { ?>
-							<td><?php echo $plan['agent_firstname'] . " " . $plan['agent_lastname'] . " [ Agent ID: " . $plan['agent_id'] . " ] "; ?></td>
+							<td><?php echo htmlspecialchars($plan['agent_firstname'] . " " . $plan['agent_lastname']) . " [ Agent ID: " . $plan['agent_id'] . " ] "; ?></td>
 					<?php } ?>
 							<td>
 								<a style="color:#46b8da;" href='<?php echo $copy_url.$plan['plan_id']; ?>'>Copy</a> | 

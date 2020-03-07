@@ -38,16 +38,16 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 				<p class="topp">Tel: 1-877-832-5541</p>
 <?php } else { ?>			
 <?php if ($user['user_group_id'] > 100) { ?>			
-				<p class="topp" style="font-weight:bold;"><?php echo empty($user['business']) ? 'JF Agent' : $user['business']; ?> - <span style="text-transform: capitalize;font-weight:bold;"><?php echo ($user) ? $user['firstname'] . " " . $user['lastname'] : ''; ?></span></p>
-				<p class="topp"><?php echo ($user)? $user['address'] . ', ' . $user['city'] . ' ' . $user['province2'] . ' ' . $user['postcode']: ''; ?></p>
-				<p class="topp"><?php echo ($user)? $user['business_phone'] : '' ; ?></p>
+				<p class="topp" style="font-weight:bold;"><?php echo empty($user['business']) ? 'JF Agent' : htmlspecialchars($user['business']); ?> - <span style="text-transform: capitalize;font-weight:bold;"><?php echo ($user) ? htmlspecialchars($user['firstname'] . " " . $user['lastname']) : ''; ?></span></p>
+				<p class="topp"><?php echo ($user)? htmlspecialchars($user['address'] . ', ' . $user['city'] . ' ' . $user['province2'] . ' ' . $user['postcode']): ''; ?></p>
+				<p class="topp"><?php echo ($user)? htmlspecialchars($user['business_phone']) : '' ; ?></p>
 				<?php if (!empty($user['website'])) { ?>
-				<p class="topp"><?php echo $user['website']; ?></p>
+				<p class="topp"><?php echo htmlspecialchars($user['website']); ?></p>
 				<?php } ?>
 <?php } else { ?>			
 				<p class="topp" style="font-weight:bold;"> JF Agent - <span style="text-transform: capitalize;font-weight:bold;">Johnson Fu</span></p>
-				<p class="topp"><?php echo ($user)? $user['address'] . ', ' . $user['city'] . ' ' . $user['province2'] . ' ' . $user['postcode']: ''; ?></p>
-				<p class="topp"><?php echo ($user)? $user['business_phone'] : '' ; ?></p>
+				<p class="topp"><?php echo ($user)? htmlspecialchars($user['address'] . ', ' . $user['city'] . ' ' . $user['province2'] . ' ' . $user['postcode']): ''; ?></p>
+				<p class="topp"><?php echo ($user)? htmlspecialchars($user['business_phone']) : '' ; ?></p>
 <?php } ?>			
 <?php } ?>			
 			</div>
@@ -69,11 +69,11 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 				<div class="row" style="margin-top: -15px;">
 					<div class="col-sm-6 nopadding">
 						<h4 style="margin-bottom:15px;"><u>Policy Details</u></h4>
-						<h4>Policy Holder: <span><?php echo $customer['firstname'] . " " . $customer['lastname']; ?></span></h4>
+						<h4>Policy Holder: <span><?php echo htmlspecialchars($customer['firstname'] . " " . $customer['lastname']); ?></span></h4>
 						<h4>Date of Birth: <span><?php echo $customer['birthday'];?></sapn> </h4>
-						<h4>Address: <span><?php if(!empty($plan['suite_number'])){echo  $plan['suite_number'] . "- ";} ?><?php echo $plan['street_number'] . ' ' . $plan['street_name'] . ' ' . $plan['city'] . ', ' . $plan['province2'] . ' ' . $plan['postcode']; ?></sapn> </h4>
-						<h4>Phone Number: <span><?php echo $plan['phone1'];?></sapn> </h4>
-						<h4>Email: <span><?php echo $plan['contact_email'];?></sapn> </h4>
+						<h4>Address: <span><?php if(!empty($plan['suite_number'])){echo  htmlspecialchars($plan['suite_number']) . "- ";} ?><?php echo htmlspecialchars($plan['street_number'] . ' ' . $plan['street_name'] . ' ' . $plan['city'] . ', ' . $plan['province2'] . ' ' . $plan['postcode']); ?></sapn> </h4>
+						<h4>Phone Number: <span><?php echo htmlspecialchars($plan['phone1']);?></sapn> </h4>
+						<h4>Email: <span><?php echo htmlspecialchars($plan['contact_email']);?></sapn> </h4>
 					</div>
 					<div class="col-sm-6 nopadding">
 						<h4 style="margin-bottom:15px;">&nbsp;&nbsp;</h4>
@@ -214,7 +214,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 						<h4>Plan Type: <span><?php if($plan['isfamilyplan']==1){ echo "Family";}else{echo "Individual";} ?></sapn> </h4>
 						<?php if ($plan['sum_insured']) { ?><h4>Sum Insured: <span>$<?php echo number_format($plan['sum_insured'], 2); ?></sapn> </h4><?php } ?>
 						<?php if ($plan['deductible_amount'] || ($plan['product_short'] == 'OPL') || ($plan['product_short'] == 'JFR')) { ?><h4>Deductible: <span>$<?php echo number_format($plan['deductible_amount'], 2);?></sapn> </h4><?php } ?>
-						<h4>Beneficiary: <span><?php echo $plan['beneficiary'];?></sapn> </h4>
+						<h4>Beneficiary: <span><?php echo htmlspecialchars($plan['beneficiary']);?></sapn> </h4>
 <?php } // end if TOP ?>
 					</div>
 					<div class="col-sm-6 nopadding">
@@ -244,7 +244,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 					<?php for ($i = 0; $i < sizeof($customers); $i++) { ?>
 						<?php if (empty($customers[$i]['lastname']) && empty($customers[$i]['firstname'])) continue; ?>
 						<div class="col-sm-4" style="padding:0;">
-							<p style="margin-bottom: 0;"><span><?php echo $customers[$i]['firstname']  . " " . $customers[$i]['lastname']; ?></span>&nbsp;&nbsp;&nbsp;&nbsp;<span><?php echo $customers[$i]['birthday']; ?></span></p>
+							<p style="margin-bottom: 0;"><span><?php echo htmlspecialchars($customers[$i]['firstname']  . " " . $customers[$i]['lastname']); ?></span>&nbsp;&nbsp;&nbsp;&nbsp;<span><?php echo $customers[$i]['birthday']; ?></span></p>
 						</div>
 						
 					<?php } ?>
@@ -257,13 +257,13 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 				<h4 style="border-bottom:1px solid #777;">Special Note</h4>
 			</div>
 		</div>
-		<?php echo $special_note;?>
+		<?php echo htmlspecialchars($special_note);?>
 
 			<!--/div--><!-- end p-detail -->
 		<!--/div--><!-- x_content -->
 		<div class="row">
 			<div class="col-sm-12 nopm">
-				<p class="small">If you notice any errors in the above information or have any questions, please contact <?php if (in_array($plan['product_short'], $pdf_enable) && !empty($user['business'])) { echo $user['business']; } else { ?>JF Insurance Agency Group Inc<?php } ?>.</p>
+				<p class="small">If you notice any errors in the above information or have any questions, please contact <?php if (in_array($plan['product_short'], $pdf_enable) && !empty($user['business'])) { echo htmlspecialchars($user['business']); } else { ?>JF Insurance Agency Group Inc<?php } ?>.</p>
 			</div>
 			<div class="col-sm-4 nopm">
 			<?php if (in_array($plan['product_short'], $pdf_enable)) { ?>

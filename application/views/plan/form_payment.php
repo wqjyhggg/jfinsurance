@@ -67,7 +67,7 @@ foreach ( $payments as $p ) {
 							<td><?php echo $p['rate'] . "%"; ?></td>
 							<td><?php echo $pay_str; ?></td>
 							<td><?php echo $pay_info; ?></td>
-							<td><?php echo (strlen($p['note']) > 60) ? (substr($p['note'], 0, 57) . "...") : $p['note']; ?></td>
+							<td><?php echo (strlen($p['note']) > 60) ? (htmlspecialchars(substr($p['note'], 0, 57)) . "...") : htmlspecialchars($p['note']); ?></td>
 						</tr>
 <?php } ?>
 <?php if (!empty($total_payment)) { ?>

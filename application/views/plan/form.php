@@ -102,7 +102,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<label><span><?php echo $plan_full_name; ?></span></label>
 						</div>
 						<div class="form-group col-sm-3">
-							<label style="text-transform: capitalize;">By Agent<?php echo "[ AgentID:" . $policy_user['user_id'] . " ] "; ?>: <?php echo $policy_user['firstname'] . " " . $policy_user['lastname']; ?></label>
+							<label style="text-transform: capitalize;">By Agent<?php echo "[ AgentID:" . $policy_user['user_id'] . " ] "; ?>: <?php echo htmlspecialchars($policy_user['firstname'] . " " . $policy_user['lastname']); ?></label>
 						</div>
 					</div>
 					<?php } else { ?>
@@ -123,7 +123,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						</div>
 						<?php } else { ?>
 						<div class="form-group col-sm-3">
-							<label style="text-transform: capitalize;">By Agent<?php echo "[ AgentID:" . $policy_user['user_id'] . " ] "; ?>: <?php echo $policy_user['firstname'] . " " . $policy_user['lastname']; ?></label>
+							<label style="text-transform: capitalize;">By Agent<?php echo "[ AgentID:" . $policy_user['user_id'] . " ] "; ?>: <?php echo htmlspecialchars($policy_user['firstname'] . " " . $policy_user['lastname']); ?></label>
 						</div>
 						<?php } ?>
 						<?php if ($user_group_id != 1) { ?>
@@ -319,12 +319,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<?php } else if (($claim_allow_by > 0) && ($status_id < 2)) { ?>
 					<div class="row">
 						<div class="form-group col-sm-6">
-							 <?php echo $claim_allow_note;?>
+							 <?php echo htmlspecialchars($claim_allow_note);?>
 						</div>
 						<div class="form-group col-sm-2">
 							 <input type='checkbox' class='setpremium' id='claim_allowed' checked> Un-check to Disallow this policy
 							 <input type='hidden' name='claim_allow_by' id='claim_allow_by' value=''>
-							 <input type='hidden' name='claim_allow_note' id='claim_allow_note' value='<?php echo $claim_allow_note;?>'>
+							 <input type='hidden' name='claim_allow_note' id='claim_allow_note' value='<?php echo $html_model->escapeQuote($claim_allow_note);?>'>
 						</div>
 					</div>
 					<?php } ?>
@@ -339,7 +339,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<div class="col-sm-3">
 										<label class="col-sm-12">First Name:</label>
 										<div class="input-group col-sm-12">
-											<input class="form-control" type='text' name='firstname' value='<?php echo !empty($firstname) ? $firstname : ''; ?>'>
+											<input class="form-control" type='text' name='firstname' value='<?php echo !empty($firstname) ? $html_model->escapeQuote($firstname) : ''; ?>'>
 										</div>
 										<?php if (!empty($error_firstname)) {?>
 										<div class="alert-error">
@@ -350,7 +350,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<div class="col-sm-3">
 										<label class="col-sm-12">Last Name:</label>
 										<div class="input-group col-sm-12">
-											<input class="form-control" type='text' name='lastname' value='<?php echo !empty($lastname) ? $lastname : ''; ?>'>
+											<input class="form-control" type='text' name='lastname' value='<?php echo !empty($lastname) ? $html_model->escapeQuote($lastname) : ''; ?>'>
 										</div>
 										<?php if (!empty($error_lastname)) {?>
 										<div class="alert-error">
@@ -409,14 +409,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										<div class="col-sm-3">
 											<label class="col-sm-12">First Name: </label>
 											<div class="input-group col-sm-12">
-												<input class="form-control" type='text' name='firstname_<?php echo $i; ?>' id='firstname_<?php echo $i; ?>' value='<?php echo !empty(${'firstname_'.$i}) ? ${'firstname_'.$i} : ''; ?>'>
+												<input class="form-control" type='text' name='firstname_<?php echo $i; ?>' id='firstname_<?php echo $i; ?>' value='<?php echo !empty(${'firstname_'.$i}) ? $html_model->escapeQuote(${'firstname_'.$i}) : ''; ?>'>
 											</div>
 										</div>
 										<div class="col-sm-3">
 											<label class="col-sm-12">Last Name: </label>
 
 											<div class="input-group col-sm-12">	
-												<input class="form-control" type='text' name='lastname_<?php echo $i; ?>' id='lastname_<?php echo $i; ?>' value='<?php echo !empty(${'lastname_'.$i}) ? ${'lastname_'.$i} : ''; ?>'>
+												<input class="form-control" type='text' name='lastname_<?php echo $i; ?>' id='lastname_<?php echo $i; ?>' value='<?php echo !empty(${'lastname_'.$i}) ? $html_model->escapeQuote(${'lastname_'.$i}) : ''; ?>'>
 											</div>
 										</div>
 										<div class="col-sm-3">
@@ -479,7 +479,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<div class="form-group col-sm-3">
 										<label class="col-sm-12">Street No: </label>
 										<div class="input-group col-sm-12">
-											<input class="form-control" type='text' name='street_number' value="<?php echo $street_number; ?>">
+											<input class="form-control" type='text' name='street_number' value='<?php echo $html_model->escapeQuote($street_number); ?>'>
 										</div>
 										<?php if (!empty($error_street_number)) {?>
 										<div class="alert-error">
@@ -490,7 +490,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<div class="form-group col-sm-3">
 										<label class="col-sm-12">Street Name: </label>
 										<div class="input-group col-sm-12">
-											<input class="form-control" type='text' name='street_name' value="<?php echo str_replace("\"", "'", $street_name); ?>">
+											<input class="form-control" type='text' name='street_name' value='<?php echo $html_model->escapeQuote($street_name); ?>'>
 										</div>
 										<?php if (!empty($error_street_name)) {?>
 										<div class="alert-error">
@@ -501,13 +501,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<div class="form-group col-sm-3">
 										<label class="col-sm-12">Suite No.: </label>
 										<div class="input-group col-sm-12">
-											<input class="form-control" type='text' name='suite_number' value="<?php echo $suite_number; ?>">
+											<input class="form-control" type='text' name='suite_number' value='<?php echo $html_model->escapeQuote($suite_number); ?>'>
 										</div>
 									</div>
 									<div class="form-group col-sm-3">
 										<label class="col-sm-12">City: </label>
 										<div class="input-group col-sm-12">
-											<input class="form-control" type='text' name='city' value="<?php echo $city; ?>">
+											<input class="form-control" type='text' name='city' value='<?php echo $html_model->escapeQuote($city); ?>'>
 										</div>
 										<?php if (!empty($error_city)) {?>
 										<div class="alert-error">
@@ -532,7 +532,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<div class="form-group col-sm-3">
 										<label class="col-sm-12">Postcode: </label>
 										<div class="input-group col-sm-12">
-											<input class="form-control" type='text' name='postcode' value='<?php echo $postcode; ?>'>
+											<input class="form-control" type='text' name='postcode' value='<?php echo $html_model->escapeQuote($postcode); ?>'>
 										</div>
 										<?php if (!empty($error_postcode)) {?>
 										<div class="alert-error">
@@ -545,7 +545,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<div class="col-sm-3">
 										<label class="col-sm-12">Phone1: </label>
 										<div class="input-group col-sm-12">
-											<input class="form-control" type='text' name='phone1' value='<?php echo $phone1; ?>'>
+											<input class="form-control" type='text' name='phone1' value='<?php echo $html_model->escapeQuote($phone1); ?>'>
 										</div>
 										<?php if (!empty($error_phone1)) {?>
 										<div class="alert-error">
@@ -556,7 +556,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<div class="col-sm-3">
 										<label class="col-sm-12">Phone2: </label>
 										<div class="input-group col-sm-12">
-											<input class="form-control" type='text' name='phone2' value='<?php echo $phone2; ?>'>
+											<input class="form-control" type='text' name='phone2' value='<?php echo $html_model->escapeQuote($phone2); ?>'>
 										</div>
 									</div>
 								</div>
@@ -571,7 +571,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<div class="col-sm-3">
 										<label class="col-sm-12">Email: </label>
 										<div class="input-group col-sm-12">
-											<input class="form-control" type='text' name='contact_email' value='<?php echo $contact_email; ?>'>
+											<input class="form-control" type='text' name='contact_email' value='<?php echo $html_model->escapeQuote($contact_email); ?>'>
 										</div>
 										<?php if (!empty($error_contact_email)) {?>
 										<div class="alert-error">
@@ -582,13 +582,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<div class="col-sm-3">
 										<label class="col-sm-12">Contact Phone: </label>
 										<div class="input-group col-sm-12">
-											<input class="form-control" type='text' name='contact_phone' value='<?php echo $contact_phone; ?>'>
+											<input class="form-control" type='text' name='contact_phone' value='<?php echo $html_model->escapeQuote($contact_phone); ?>'>
 										</div>
 									</div>
 									<div class="col-sm-3">
 										<label class="col-sm-12">Country of Origin: </label>
 										<div class="input-group col-sm-12">
-											<input class="form-control" type='text' name='residence' value='<?php echo $residence; ?>'>
+											<input class="form-control" type='text' name='residence' value='<?php echo $html_model->escapeQuote($residence); ?>'>
 										</div>
 									</div>
 									
@@ -604,7 +604,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<div class="col-sm-12">
 										<label class="col-sm-12">Notes: </label>
 										<div class="input-group col-sm-12">
-								 			<textarea class="form-control" name="note"><?php echo $note; ?></textarea>
+								 			<textarea class="form-control" name="note"><?php echo htmlspecialchars($note); ?></textarea>
 								 		</div>
 								 	</div>
 								</div>
@@ -747,7 +747,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 												<td><?php echo $p['rate'] . "%"; ?></td>
 												<td><?php echo $pay_str; ?></td>
 												<td><?php echo $pay_info; ?></td>
-												<td><?php echo (strlen($p['note']) > 60) ? (substr($p['note'], 0, 57) . "...") : $p['note']; ?></td>
+												<td><?php echo (strlen($p['note']) > 60) ? (htmlspecialchars(substr($p['note'], 0, 57)) . "...") : htmlspecialchars($p['note']); ?></td>
 											</tr>
 											<?php 		} ?>
 										</tbody>
@@ -779,9 +779,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										<tbody>
 										<?php foreach ($activelogs as $p) { ?>
 											<tr>
-												<td><?php echo $p['username']; ?></td>
+												<td><?php echo htmlspecialchars($p['username']); ?></td>
 												<td><?php echo $p['tm']; ?></td>
-												<td><?php echo (strlen($p['message']) > 120) ? (substr($p['message'], 0, 117) . "...") : $p['message']; ?></td>
+												<td><?php echo (strlen($p['message']) > 120) ? (htmlspecialchars(substr($p['message'], 0, 117)) . "...") : htmlspecialchars($p['message']); ?></td>
 											</tr>
 										<?php 		} ?>
 										</tbody>

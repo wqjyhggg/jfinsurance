@@ -39,7 +39,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <div class="form-group col-sm-4 col-xs-12">
                           <label class="col-sm-12">Will Send Package To this Email address:</label>
                           <div class="input-group col-sm-12">
-                            <input type="text" name='emailaddr' value='<?php echo $emailaddr; ?>' class="form-control"/>
+                            <input type="text" name='emailaddr' value='<?php echo $html_model->escapeQuote($emailaddr); ?>' class="form-control"/>
                           </div>
                         </div>
                         <?php if ($beuser['user_group_id'] < 100) { ?>

@@ -9,9 +9,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<div class="form-group col-sm-3">
 										<label class="col-sm-12">Beneficiary</label>
 										<div class="form_text_show">
-											<?php echo $beneficiary; ?>
+											<?php echo htmlspecialchars($beneficiary); ?>
 										</div>
-										<input type='hidden' name='beneficiary' value='<?php echo $beneficiary; ?>' class="form-control">
+										<input type='hidden' name='beneficiary' value='<?php echo $html_model->escapeQuote($beneficiary); ?>' class="form-control">
 										<?php if (!empty($error_beneficiary)) {?>
 										<div class="alert-error">
 											<?php echo $error_beneficiary;?>

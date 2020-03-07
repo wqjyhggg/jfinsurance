@@ -222,10 +222,10 @@ $usepsi = false;
 							</div>
 
 							<div class="col-sm-3">
-								<label class="inline">Last Name:</label> <span><?php echo $customer['lastname']; ?></span>
+								<label class="inline">Last Name:</label> <span><?php echo htmlspecialchars($customer['lastname']); ?></span>
 							</div>
 							<div class="col-sm-3">
-								<label class="inline">First Name:</label> <span><?php echo $customer['firstname']; ?></span>
+								<label class="inline">First Name:</label> <span><?php echo htmlspecialchars($customer['firstname']); ?></span>
 							</div>
 							<div class="col-sm-3">
 								<label class="inline">Birth Date:</label> <span><?php echo $customer['birthday']; ?></span>
@@ -243,10 +243,10 @@ $usepsi = false;
 							<?php for ($i = 0; $i < 25; $i++) { ?>
 							<?php     if (empty($customers[$i]['lastname']) && empty($customers[$i]['firstname'])) continue; ?>
 							<div class="col-sm-3">
-								<label class="inline">Last Name:</label> <span><?php echo $customers[$i]['lastname']; ?></span>
+								<label class="inline">Last Name:</label> <span><?php echo htmlspecialchars($customers[$i]['lastname']); ?></span>
 							</div>
 							<div class="col-sm-3">
-								<label class="inline">First Name:</label> <span><?php echo $customers[$i]['firstname']; ?></span>
+								<label class="inline">First Name:</label> <span><?php echo htmlspecialchars($customers[$i]['firstname']); ?></span>
 							</div>
 							<div class="col-sm-3">
 								<label class="inline">Birth Date:</label> <span><?php echo $customers[$i]['birthday']; ?></span>
@@ -261,33 +261,33 @@ $usepsi = false;
 						<div class="row">
 							<div class="col-sm-12" style="background-color: #5bc0de; color: #fff;"><label>Address Information</label></div>
 							<div class="col-sm-3">
-								<label class="inline">Street No:</label> <span><?php echo $plan['street_number']; ?></span>
+								<label class="inline">Street No:</label> <span><?php echo htmlspecialchars($plan['street_number']); ?></span>
 							</div>
 							<div class="col-sm-3">
-								<label class="inline">Street Name:</label> <span><?php echo $plan['street_name']; ?></span>
+								<label class="inline">Street Name:</label> <span><?php echo htmlspecialchars($plan['street_name']); ?></span>
 							</div>
 							<div class="col-sm-3">
-								<label class="inline">Suite No.:</label> <span><?php echo $plan['suite_number']; ?></span>
+								<label class="inline">Suite No.:</label> <span><?php echo htmlspecialchars($plan['suite_number']); ?></span>
 							</div>
 							<div class="col-sm-3">
-								<label class="inline">City: </label> <span><?php echo $plan['city']; ?></span>
-							</div>
-
-							<div class="col-sm-3">
-								<label class="inline">Province:</label> <span><?php echo $plan['province2']; ?></span>
-							</div>
-							<div class="col-sm-3">
-								<label class="inline">Country:</label> <span><?php echo $plan['country2']; ?></span>
-							</div>
-							<div class="col-sm-3">
-								<label class="inline">Postcode:</label> <span><?php echo $plan['postcode']; ?></span>
+								<label class="inline">City: </label> <span><?php echo htmlspecialchars($plan['city']); ?></span>
 							</div>
 
 							<div class="col-sm-3">
-								<label class="inline">Phone1:</label> <span><?php echo $plan['phone1']; ?></span>
+								<label class="inline">Province:</label> <span><?php echo htmlspecialchars($plan['province2']); ?></span>
 							</div>
 							<div class="col-sm-3">
-								<label class="inline">Phone2:</label> <span><?php echo $plan['phone2']; ?></span>
+								<label class="inline">Country:</label> <span><?php echo htmlspecialchars($plan['country2']); ?></span>
+							</div>
+							<div class="col-sm-3">
+								<label class="inline">Postcode:</label> <span><?php echo htmlspecialchars($plan['postcode']); ?></span>
+							</div>
+
+							<div class="col-sm-3">
+								<label class="inline">Phone1:</label> <span><?php echo htmlspecialchars($plan['phone1']); ?></span>
+							</div>
+							<div class="col-sm-3">
+								<label class="inline">Phone2:</label> <span><?php echo htmlspecialchars($plan['phone2']); ?></span>
 							</div>
 						</div>
 						<div class="row">
@@ -296,13 +296,13 @@ $usepsi = false;
 								<label class="inline">Contact Information</label>
 							</div>
 							<div class="col-sm-3">
-								<label class="inline">Email:</label> <span><?php echo $plan['contact_email']; ?></span>
+								<label class="inline">Email:</label> <span><?php echo htmlspecialchars($plan['contact_email']); ?></span>
 							</div>
 							<div class="col-sm-3">
-								<label class="inline">Contact Phone:</label> <span><?php echo $plan['contact_phone']; ?></span>
+								<label class="inline">Contact Phone:</label> <span><?php echo htmlspecialchars($plan['contact_phone']); ?></span>
 							</div>
 							<div class="col-sm-3">
-								<label class="inline">Country of Origin:</label> <span><?php echo $plan['residence']; ?></span>
+								<label class="inline">Country of Origin:</label> <span><?php echo htmlspecialchars($plan['residence']); ?></span>
 							</div>
 						</div>
 
@@ -324,7 +324,7 @@ $usepsi = false;
 								<label class="inline">Premium:</label> <span>$<?php echo number_format($plan['premium'], 2, '.', ','); ?> <?php if (!empty($plan['questionnaire'])) { echo " (Table" . $plan['questionnaire'] . ")"; } ?></span>
 							</div>
 							<div class="col-sm-12">
-								<label class="inline">Notes:</label> <span><?php echo $plan['note']; ?></span>
+								<label class="inline">Notes:</label> <span><?php echo htmlspecialchars($plan['note']); ?></span>
 							</div>
 						</div>
 					</div>
@@ -583,7 +583,7 @@ $usepsi = false;
 				</div>
 				<div class="x_content">
 					<div class="row" id='payment_history'>
-					<?php 	if (!empty($payments) && is_array($payments) && (sizeof($payments > 0))) { ?>
+					<?php 	if (!empty($payments) && is_array($payments) && (sizeof($payments) > 0)) { ?>
 						<div class="col-sm-12">
 							<button type="button" class="btn btn-info" data-toggle="collapse" data-target="#history1">Payments <span class="fa fa-chevron-down"></span></button>
 							<div id="history1" class="collapse">
