@@ -652,6 +652,7 @@ class Cron extends MY_Controller {
 		$objWriter->save($outfile);
 		echo "Save to : " . $outfile . "\n";
 		$uploaded = FALSE;
+/*
 		for ($i = 0; $i < 5; $i++) {
 			$uploaded = $this->ftp($outfile, $uploadFilename);
 			if ($uploaded) {
@@ -660,10 +661,12 @@ class Cron extends MY_Controller {
 			}
 			sleep(60); // wait 1 minute too retry
 		}
+*/
 		if (!$uploaded) {
 			$this->load->model("mymail_model");
 			$this->mymail_model->send_mymail('wqjyhggg@gmail.com', 'JF upload error', "File: " . $outfile);
-			$this->mymail_model->send_mymail('cosmo@jfgroup.ca', 'JF upload error', "File: " . $outfile, array($outfile));
+			$this->mymail_model->send_mymail('willance@jfgroup.ca', 'JF upload error', "File: " . $outfile);
+			//$this->mymail_model->send_mymail('cosmo@jfgroup.ca', 'JF upload error', "File: " . $outfile, array($outfile));
 		}
 	}
 

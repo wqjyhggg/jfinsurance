@@ -2,7 +2,9 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 <br />
-<p>Dear <? echo $customer['firstname']; ?>,</p>
+<p>Dear <?php echo htmlspecialchars($customer['firstname'] . " " . $customer['lastname']); ?>,</p>
+<p>This is a confirmation of your recent purchased insurance, please <span style="color:red;">DO NOT REPLY</span> to this email.</p>
+<br />
 <p>Thank you for purchasing medical insurance from JF Insurance Agency Group Inc.</p>
 <br />
 <p>Please refer to the attached documents for your policy confirmation, details of your coverage and claim form. Please refer to the claim form for procedures on how to claim.</p>
