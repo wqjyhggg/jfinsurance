@@ -44,6 +44,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<?php } ?> 
 
 						<?php if($user_group_id != Plan_model::PAID && $user_group_id != 103){ ?>
+						<a href='<?php echo $renewal_url; ?>'><span class="btn btn-info" style='color:#fff;'>Renewal</span></a>
 						<a href='<?php echo $copy_url; ?>'><span class="btn btn-info" style='color:#fff;'>Copy</span></a>
 						<?php } ?>
 						<?php if ($status_id > 1 && $user_group_id != Plan_model::PAID) { ?>

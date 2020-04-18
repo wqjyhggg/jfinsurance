@@ -348,6 +348,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<td><?php echo htmlspecialchars($plan['agent_firstname'] . " " . $plan['agent_lastname']) . " [ Agent ID: " . $plan['agent_id'] . " ] "; ?></td>
 					<?php } ?>
 							<td>
+								<a style="color:#46b8da;" href='<?php echo $renewal_url.$plan['plan_id']; ?>'>Renewal</a> | 
 								<a style="color:#46b8da;" href='<?php echo $copy_url.$plan['plan_id']; ?>'>Copy</a> | 
 								<a style="color:#46b8da;" href='<?php echo $pdf_url.$plan['plan_id']; ?>' target='_blabk'>Export PDF</a> 
 								<?php if ((($plan['status_id'] == 2) || ($plan['status_id'] == 3)) && ($plan['product_short'] != 'NUS') && ($plan['product_short'] != 'JUS')) { ?> 

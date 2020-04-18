@@ -101,6 +101,7 @@ class Plan extends MY_Controller {
 		$data['export_list'] = base_url ( "plan/export_list" );
 		$data['edit_url'] = base_url ( "plan/edit" ) . "/";
 		$data['copy_url'] = base_url ( "plan/copy" ) . "/";
+		$data['renewal_url'] = base_url ( "plan/renewal" ) . "/";
 		$data['pdf_url'] = base_url ( "plan/pdf" ) . "/";
 		$data['province_url'] = base_url ( "geo/province/" );
 		$data['country_url'] = base_url ( "geo/country/" );
@@ -1380,6 +1381,7 @@ class Plan extends MY_Controller {
 		$data['status_list'] = $this->status_model->status_list();
 		if ((int)$data['plan_id'] > 0) {
 			$data['copy_url'] = base_url ( "plan/copy/" . (int)$data['plan_id'] );
+			$data['renewal_url'] = base_url ( "plan/renewal" ) . "/";
 			if ((int)$data['status_id'] == 1) {
 				$data['pay_url'] = base_url ( "plan/term/" . (int)$data['plan_id'] );
 			} else {
@@ -1388,6 +1390,7 @@ class Plan extends MY_Controller {
 			$data['next_url'] = base_url ( "plan/term/" . (int)$data['plan_id'] );
 		} else {
 			$data['copy_url'] = '';
+			$data['renewal_url'] = "";
 			$data['pay_url'] = '';
 			$data['next_url'] = '';
 		}
@@ -3662,7 +3665,32 @@ class Plan extends MY_Controller {
 		$mpdf->writeHTML($html);
 		$mpdf->Output();
 	}
-	
+		
+	public function Renewal($plan_id) {
+		$beuser = $this->func_model->verify_login(TRUE);
+		$this->load->model('plan_model');
+		$plan = $this->plan_model->get_plan_by_id($plan_id);
+		if ($plan) {
+			unset($plan['plan_id']);
+			// unset($plan['customer_id']);
+			unset($plan['user_id']);
+			unset($plan['status_id']);
+			// unset($plan['policy']);
+			// unset($plan['agree']);
+			unset($plan['batch_number']);
+			// unset($plan['spouse']);
+			// unset($plan['student_id']);
+			unset($plan['payment_id']);
+			unset($plan['commission_payment_id']);
+			// unset($plan['payinfo']);
+			// unset($plan['note']);
+			// unset($plan['premium']);
+			// unset($plan['ip']);
+			$plan['apply_date'] = date('Y-m-d');
+		}
+		$this->form($plan);
+	}
+
 	public function copy($plan_id) {
 		$beuser = $this->func_model->verify_login(TRUE);
 		$this->load->model('plan_model');

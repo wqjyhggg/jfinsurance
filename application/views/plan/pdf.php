@@ -99,8 +99,9 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 							<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Medical : $10,000,000</span>
 							<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Baggage : $1,000</span>
 							<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>AD&D : $50,000</span>
-							<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Flight Accident: $100,000</span>
-							<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Trip Cancellation and Interruption: $<?php echo number_format($plan['sum_insured'], 2); ?></span>
+							<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Flight Accident : $100,000</span>
+							<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Trip Cancellation : $<?php echo number_format($plan['sum_insured'], 2); ?></span>
+							<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Trip Interruption : Yes</span>
 							<?php if ($plan['free_cancel']) { ?>
 							<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Cancel trip for any reason</span>
 							<?php } ?>
@@ -115,10 +116,16 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 							<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Flight Accident : $<?php echo number_format($plan['flight_accident_insured'], 2); ?></span>
 							<?php     } ?>
 							<?php     if ($plan['trip_cancellation_ck']) { ?>
-							<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Trip Cancellation and Interruption : $<?php echo number_format($plan['trip_cancellation_insured'], 2); ?></span>
+							<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Trip Cancellation : $<?php echo number_format($plan['trip_cancellation_insured'], 2); ?></span>
+							<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Trip Interruption Coverage : Yes</span>
 							<?php     } ?>
 							<?php } else if ($plan['package'] == 'annual_plan') { ?>
 							<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Selected days : <?php echo $plan['annual_plan_days']; ?></span>
+							<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Medical : $10,000,000</span>
+							<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Baggage : N/A</span>
+							<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>AD&D : N/A</span>
+							<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Flight Accident: N/A</span>
+							<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Trip Cancellation and Interruption: N/A</span>
 							<?php } ?>
 							<?php if ($plan['stable_condition']) { ?>
 							<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span><?php echo ($plan['stable_condition'] == 1) ? 'Including' : 'Excluding'; ?> stable pre-existing condition coverage</span>
