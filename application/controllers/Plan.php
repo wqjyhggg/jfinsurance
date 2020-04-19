@@ -713,6 +713,15 @@ class Plan extends MY_Controller {
 			}
 		} else {
 			$plan_id = 0;
+			// For renewal plan
+			$customer = array();
+			$customers = array();
+			if (!empty($plan['customer_id'])) {
+				$customer = $this->customer_model->get_customer_by_id($plan['customer_id']);
+				if ($customer) {
+					$customers = $this->customer_model->get_customer_by_parent_id($plan['customer_id']);
+				}
+			}
 		}
 		$data = $this->error;
 		if ($this->input->post('plan_id')) {
@@ -1381,7 +1390,7 @@ class Plan extends MY_Controller {
 		$data['status_list'] = $this->status_model->status_list();
 		if ((int)$data['plan_id'] > 0) {
 			$data['copy_url'] = base_url ( "plan/copy/" . (int)$data['plan_id'] );
-			$data['renewal_url'] = base_url ( "plan/renewal" ) . "/";
+			$data['renewal_url'] = base_url ( "plan/renewal" . "/" . (int)$data['plan_id'] );
 			if ((int)$data['status_id'] == 1) {
 				$data['pay_url'] = base_url ( "plan/term/" . (int)$data['plan_id'] );
 			} else {
@@ -3686,6 +3695,10 @@ class Plan extends MY_Controller {
 			// unset($plan['note']);
 			// unset($plan['premium']);
 			// unset($plan['ip']);
+			unset($plan['effective_date']);
+			unset($plan['expiry_date']);
+			unset($plan['totaldays']);
+			unset($plan['premium']);
 			$plan['apply_date'] = date('Y-m-d');
 		}
 		$this->form($plan);
