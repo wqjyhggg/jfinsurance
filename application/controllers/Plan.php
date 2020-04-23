@@ -3699,6 +3699,7 @@ class Plan extends MY_Controller {
 			unset($plan['expiry_date']);
 			unset($plan['totaldays']);
 			unset($plan['premium']);
+			unset($plan['note']);
 			$plan['apply_date'] = date('Y-m-d');
 		}
 		$this->form($plan);
