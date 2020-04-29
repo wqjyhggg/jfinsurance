@@ -33,7 +33,7 @@ class Mymail_model extends CI_Model {
 		$this->load->library('email', $this->config);
 		$this->email->set_newline("\r\n");
 		if (empty($from)) {
-			$this->email->from($email, 'Support');
+			$this->email->from($email, 'JF Insurance');
 		} else {
 			$this->email->from($email, $from);
 		}

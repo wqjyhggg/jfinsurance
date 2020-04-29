@@ -2978,10 +2978,10 @@ class Plan extends MY_Controller {
 				$mpdf->Output($policy_file, 'F');
 				$this->load->model('mymail_model');
 				$body = $this->load->view('mail/package',$data, TRUE);
-				$title = $plan['policy'] . " - " . $data['customer']['firstname'] . " " . $data['customer']['lastname'];
+				$title = "Confirmation of Insurance - " . $plan['policy'] . " - " . $data['customer']['firstname'] . " " . $data['customer']['lastname'];
 				
 				$files['policy_confirmation.pdf'] = $policy_file;
-				$sendok = $this->mymail_model->send_mymail($emailaddr, $title, $body, $files, $from='Support');
+				$sendok = $this->mymail_model->send_mymail($emailaddr, $title, $body, $files, $from='JF Insurance');
 				unlink($policy_file);
 				if ($sendok) {
 					redirect('plan');
