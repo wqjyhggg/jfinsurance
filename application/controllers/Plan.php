@@ -3376,6 +3376,8 @@ class Plan extends MY_Controller {
 		$data['action_url'] = base_url('plan/refund');
 		$data['refund_amount_url'] = base_url('plan/refund_amount')."/".$plan['plan_id'];
 		$data['plan_id'] = $plan['plan_id'];
+		$claims = $this->plan_model->verify_policy($plan['policy']);
+		$data['claims'] = (!empty($claims) && ($claims['status'] == 'OK')) ? $claims['claims'] : '';
 		$data['adminfee'] = 40;
 		$data['refund_enable'] = 1;
 		if ($plan['product_short'] == 'TOP') {

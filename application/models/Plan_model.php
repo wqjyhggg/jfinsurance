@@ -14,7 +14,7 @@ class Plan_model extends CI_Model {
 
     const MAX_PLANS = 200;
 
-    const CLAIM_URL = "http://claim.otcww.com/api/claim_search";
+    const CLAIM_URL = "http://claim.otcww.com/api/";
     //const CLAIM_URL = "http://claim.mmoo.ca/api/claim_search";
     //const CLAIM_URL = "http://dev3.com/api/claim_search";
     const CLAIM_KEY = "H5FqpJdc";
@@ -47,8 +47,10 @@ class Plan_model extends CI_Model {
 	/**
 	 * Get Customer Claim status
 	 * 
-	 * @param	integer	$plan_id		Parameters
-	 * @return	string					policy number
+	 * @param	string	$firstname		Parameters
+	 * @param	string	$lastname		Parameters
+	 * @param	string	$dob			Parameters
+	 * @return	array
 	 */
 	public function verify_customer($firstname, $lastname, $dob) {
 		// prepare post data
@@ -59,7 +61,48 @@ class Plan_model extends CI_Model {
 		$post_data = http_build_query ( $data );
 		
 		// get list of policy status here
-		$url = self::CLAIM_URL;
+		$url = self::CLAIM_URL."claim_search";
+		$curl = curl_init ();
+		
+		// Post Data
+		curl_setopt ( $curl, CURLOPT_POST, 1 );
+		curl_setopt ( $curl, CURLOPT_POSTFIELDS, $post_data );
+		
+		// Optional Authentication:
+		//if (API_USER and API_PASSWORD) {
+		//	curl_setopt ( $curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC );
+		//	curl_setopt ( $curl, CURLOPT_USERPWD, API_USER . ":" . API_PASSWORD );
+		//}
+		
+		curl_setopt ( $curl, CURLOPT_URL, $url );
+		curl_setopt ( $curl, CURLOPT_RETURNTRANSFER, 1 );
+		curl_setopt ( $curl, CURLOPT_DNS_USE_GLOBAL_CACHE, false );
+		curl_setopt ( $curl, CURLOPT_DNS_CACHE_TIMEOUT, 2 );
+		curl_setopt ( $curl, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4 );
+		curl_setopt ( $curl, CURLOPT_SSL_VERIFYPEER, false);
+		curl_setopt ( $curl, CURLOPT_SSL_VERIFYHOST, false);
+		
+		$result = curl_exec ( $curl );
+		
+		curl_close ( $curl );
+		$rt = json_decode ( $result, TRUE );
+		return $rt;
+	}
+
+	/**
+	 * Get policy Claim status
+	 * 
+	 * @param	string	$policy_no		Parameters
+	 * @return	array
+	 */
+	public function verify_policy($policy_no) {
+		// prepare post data
+		$data ['key'] = self::CLAIM_KEY;
+		$data ['policy_no'] = $policy_no;
+		$post_data = http_build_query ( $data );
+		
+		// get list of policy status here
+		$url = self::CLAIM_URL."check_claims";
 		$curl = curl_init ();
 		
 		// Post Data
