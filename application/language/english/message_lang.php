@@ -91,6 +91,7 @@ $lang['text_home'] = "Home";
 $lang['text_about'] = "About Us";
 $lang['page_title'] = 'JF Insurance Agency Group Inc.';
 $lang['agent_login'] = 'Agent Login';
+$lang['text_how_to_claim'] = 'How to Claim';
 $lang['buy_product'] = 'Buy Product';
 $lang['switch_language'] ='Language';
 $lang['we_dont_like'] = "We don't like to think about it, but sudden, unexpected accidents or illnesses do happen, and trying to find an pay for adequate medical attention can be difficult when you are abroad.";
