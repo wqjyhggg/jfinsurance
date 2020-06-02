@@ -27,8 +27,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
 			<p style="text-decoration: underline; font-weight: bold;">Please READ before you submit your claim online:</p>
 			<p>
 				<ul>
-					<li>You can submit your claims online if your policy number begins with the following: JES, JFP, JFC, OPL, JFR, TOP.</li>
-					<li>Please submit one claim for each medical condition (Example/ Doctor visit and pharmacy expense for the same condition would fall under one claim).​</li>
+					<li>You can <a style="text-decoration: underline;" href="https://eclaim.jfgroup.ca">submit your claims online</a> if your policy number begins with the following: JES, JFP, JFC, OPL, JFR, TOP.</li>
+					<li>Please <a style="text-decoration: underline;" href="https://eclaim.jfgroup.ca">submit</a> one claim for each medical condition (Example/ Doctor visit and pharmacy expense for the same condition would fall under one claim).​</li>
 					<li>Please attach pdf files or readable photos of all itemized invoices and payment receipts from the medical service provider, pharmacy or hospital along with any detailed medical reports. ​</li>
 					<li>For patients treated at a medical clinic, a physician’s medical report is required. ​</li>
 					<li>Failure to include the required supporting documentation will delay processing.​</li>
