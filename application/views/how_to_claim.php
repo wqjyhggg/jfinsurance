@@ -22,7 +22,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 				<b>2. Online: </b>
 				<p>Web claim submissions are accepted for claims with total expenses under $500. (For claims over $500, please mail in your claim).</p>
 				<p>Please login below to submit your claim.</p>
-				<p>Submitting online is easy! – <a style="text-decoration: underline;" target="_blank" href="<?php echo base_url(); ?>/eclaim.mp4">video for step by step process</a>.</p>
+				<p><a style="text-decoration: underline;" href="https://eclaim.jfgroup.ca">Submitting online</a> is easy! – <a style="text-decoration: underline;" target="_blank" href="<?php echo base_url(); ?>/eclaim.mp4">video for step by step process</a>.</p>
 			</p>
 			<p style="text-decoration: underline; font-weight: bold;">Please READ before you submit your claim online:</p>
 			<p>
