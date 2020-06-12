@@ -2860,9 +2860,11 @@ class Plan extends MY_Controller {
 		$data['emailaddr'] = $plan['contact_email'];
 		if ($this->input->post()) {
 			$emailaddr = $this->input->post('emailaddr');
+			$withbatch = 0;
 			if ($beuser['user_group_id'] < 100) {
 				$data['withlogo'] = $this->input->post('withlogo');
 				$data['withprice'] = $this->input->post('withprice');
+				$withbatch = $this->input->post('withbatch');
 			} else {
 				$data['withlogo'] = 1;
 				if ($beuser['user_group_id'] != 103) {
@@ -2984,6 +2986,9 @@ class Plan extends MY_Controller {
 				$sendok = $this->mymail_model->send_mymail($emailaddr, $title, $body, $files, $from='JF Insurance');
 				unlink($policy_file);
 				if ($sendok) {
+					if ($withbatch) {
+						die("OK");
+					}
 					redirect('plan');
 				} else {
 					$data['error_message'] = "Something wrong with send email";
@@ -2995,6 +3000,10 @@ class Plan extends MY_Controller {
 		
 		$data['action_url'] = base_url('plan/sendpackage');
 		$data['plan_id'] = $plan['plan_id'];
+		$data['plan_batch'] = array();
+		if ($plan['batch_number'] > 0) {
+			$data['plan_batch'] = $this->plan_model->plan_search(array('batch_number' => $plan['batch_number']));
+		}
 		
 		$data['title_txt'] = 'Policy';
 		$data['top_menu'] = $this->menu_model->load_top_menu();
