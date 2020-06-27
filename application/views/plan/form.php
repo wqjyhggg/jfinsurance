@@ -336,7 +336,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<legend>Insurable Members</legend>
 								<input type='hidden' name='customer_id' value='<?php echo !empty($customer_id) ? $customer_id : 0; ?>'>
 								<div class="row">
-									<label class="col-sm-12">Customer Information</label>
+									<label class="col-sm-12">
+<?php
+ if ($product_short == 'JES') {
+    echo "Insured student";
+} else {
+    echo "Customer Information";
+}
+?>
+</label>
 									<div class="col-sm-3">
 										<label class="col-sm-12">First Name:</label>
 										<div class="input-group col-sm-12">
