@@ -83,9 +83,18 @@ class Jf extends MY_Controller
         		'amount' => 'Pay Amount',
                 'ispaid' => 'Paied',
                 'pay_type' => 'Type',
+                'pay_mothed' => 'Pay Mothed',
         		'commission_rate' => 'Commission Rate',
                 'net_premium' => 'Net Amount',
-                'commission' => 'Commission Amount');
+                'commission' => 'Commission Amount',
+                'contact_email' => 'Contact Email',
+                'contact_phone' => 'Contact Phone',
+            );
+        if ($region_id != 4) {
+            unset($kArr['pay_mothed']);
+            unset($kArr['contact_email']);
+            unset($kArr['contact_phone']);
+        }
                 
         $tmpfname = "/tmp/jf_test.xlsx";
         
@@ -122,7 +131,11 @@ class Jf extends MY_Controller
                     $w->addRow($arr);
                 }
                 
-                $arr = array('', '', '', '', '', '', '', '', '', '', '', '', $datas['amount'], '', '', '', $datas['amount'] - $datas['commission'], $datas['commission']);
+                if ($region_id != 4) {
+                    $arr = array('', '', '', '', '', '', '', '', '', '', '', '', $datas['amount'], '', '', '', $datas['amount'] - $datas['commission'], $datas['commission']);
+                } else {
+                    $arr = array('', '', '', '', '', '', '', '', '', '', '', '', $datas['amount'], '','', '', '', $datas['amount'] - $datas['commission'], $datas['commission']);
+                }
                 $w->addRow($arr);     
             }
            
