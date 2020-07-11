@@ -1276,7 +1276,7 @@ class Plan_model extends CI_Model {
 	 * @return array 
 	 */
 	public function claim_summary($data) {
-		$products = " AND product_short IN ('JES','JUS','JFC','NUS','JFR','OPL','TOP')";
+		$products = " AND product_short IN ('JES','JESP','JUS','JFC','JFP','NUS','JFR','OPL','TOP')";
 		$st = new DateTime($data['start_dt']);
 		$et = new DateTime($data['end_dt']);
 		$interval = new DateInterval('P1M');

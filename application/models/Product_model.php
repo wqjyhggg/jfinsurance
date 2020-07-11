@@ -1378,6 +1378,37 @@ class Product_model extends CI_Model {
 			$premiumArr['dailyrate'] = $rate;
 			$premiumArr['sum_insured'] = number_format($para['sum_insured'], 2, '.', ',');
 			$premiumArr['deductible_amount'] =  number_format($para['deductible_amount'], 2, '.', ',');
+		} else if ($para['product_short'] == 'JESP') {
+			if ($years <= 3) {
+				$premiumArr['message'] = "Customer age must over 4 years old";
+				return $premiumArr;
+			} else if ($years > 69) {
+				$premiumArr['message'] = "Customer age must less 69 years old";
+				return $premiumArr;
+			}
+			$number_customer = (int)$para['number_customer'];
+			$rate = 1.8;
+			// if ($para['holiday_rate'] && $para['holiday_rate']) $rate = 1.85;
+			if ($para['isfamilyplan']) {
+				if (($number_customer == 2) && (!empty($para['plan_id']) && ($para['plan_id'] < SELF::PLANIDCHG2019_5))) {
+					$rate = $rate * 2.5;
+				} else {
+					$rate = $rate * $number_customer;
+				}
+			}
+			if ($para['holiday_rate'] < 0) {
+				return FALSE;
+			}
+			$premium = $rate * $days;
+			if ($days >= 365) {
+				$premium -= 7;  // 1.8 * 365 = 657 - 650 / year = 7
+			}
+			$premiumArr['premium'] = $premium;
+			$premiumArr['totalyears'] = $years;
+			$premiumArr['totaldays'] = $days;
+			$premiumArr['dailyrate'] = $rate;
+			$premiumArr['sum_insured'] = number_format($para['sum_insured'], 2, '.', ',');
+			$premiumArr['deductible_amount'] =  number_format($para['deductible_amount'], 2, '.', ',');
 		} else if (($para['product_short'] == 'JFC') || ($para['product_short'] == 'JFP')) {
 			if ($years <= 3) {
 				$premiumArr['message'] = "Customer age must over 4 years old";

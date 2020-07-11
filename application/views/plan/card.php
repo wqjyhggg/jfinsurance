@@ -53,7 +53,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 				</h4>
 				<h4>Effective Date: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span><?php echo $plan['effective_date']; ?></sapn> </h4>
 				<h4>Expiry Date: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span><?php echo $plan['expiry_date']; ?></sapn> </h4>
-				<?php if (($plan['product_short'] != "JES") && ($plan['product_short'] !="JFC") && ($plan['product_short'] !="JFP") && ($plan['product_short'] !="TOP")) { ?>
+				<?php if (($plan['product_short'] != "JES") && ($plan['product_short'] != "JESP") && ($plan['product_short'] !="JFC") && ($plan['product_short'] !="JFP") && ($plan['product_short'] !="TOP")) { ?>
 				<h4>Number of Days: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span><?php echo $plan['totaldays'];?></sapn> </h4>
 				<?php } ?>
 				
@@ -70,6 +70,8 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 			<div class="jfcard" style="float: left;vertical-align:top;position:absolute;bottom:5px;left:5px;width:320px;margin-top: 30px;">
 				<?php if($plan['product_short'] == "JES"){ ?>
 					<h4 class="text-center" style="background: #eee;"><span>JF Elite PLus Student Insurance</span></h4>
+				<?php }elseif ($plan['product_short'] == "JESP") { ?>
+					<h4 class="text-center" style="background: #eee;"><span>JF Elite PLus Parent Insurance</span></h4>
 				<?php }elseif ($plan['product_short'] == "JFC") { ?>
 					<h4 class="text-center" style="background: #eee;"><span>JF Care Student Insurance</span></h4>
 				<?php }elseif ($plan['product_short'] == "JFP") { ?>
@@ -106,6 +108,8 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 
 				<?php if($plan['product_short'] == "JES"){ ?>
 					<h4 class="text-center" style="background: #eee;"><span>JF Elite PLus Student Insurance</span></h4>
+				<?php }elseif ($plan['product_short'] == "JESP") { ?>
+					<h4 class="text-center" style="background: #eee;"><span>JF Elite PLus Parent Insurance</span></h4>
 				<?php }elseif ($plan['product_short'] == "JFC") { ?>
 					<h4 class="text-center" style="background: #eee;"><span>JF Care Student Insurance</span></h4>
 				<?php }elseif ($plan['product_short'] == "JFP") { ?>
