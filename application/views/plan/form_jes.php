@@ -17,12 +17,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										</div>	
 										<?php } ?>
 									</div>
+<?php if ($product_short != 'JESP') { ?>
 									<div class="form-group col-sm-3">
 										<label class="col-sm-12">Is Family Plan : </label>
 										<div class="input-group col-sm-12" style="border: 1px solid #ccc;padding: 3px;">
 											<input type='checkbox' class='setpremium' name='isfamilyplan' id='isfamilyplan' <?php echo empty($isfamilyplan) ? "" : "checked"; ?>> Yes
 										</div>
 									</div>
+<?php } ?>
 									<?php if (($product_short == "JES") && ($user_group_id < 100)) { ?>
 									<div class="form-group col-sm-3">
 										<label class="col-sm-12">Holiday Rate : </label>
@@ -40,16 +42,30 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								</div>
 								<div class="row">
 									<div class="form-group col-sm-3">
+<?php if ($product_short == 'JESP') { ?>
+                                                                                <label class="col-sm-12">Child Name : </label>
+<?php } else { ?>
 										<label class="col-sm-12">Student ID : </label>
+<?php } ?>
 										<div class="input-group col-sm-12">
 											<input type='text' name='student_id' value='<?php echo $student_id; ?>' class="form-control">
 										</div>
+										<?php if (!empty($error_student_id)) {?>
+										<div class="alert-error">
+											<?php echo $error_student_id;?>
+										</div>	
+										<?php } ?>
 									</div>
 									<div class="form-group col-sm-3">
 										<label class="col-sm-12">School Name : </label>
 										<div class="input-group col-sm-12">
 											<input type='text' name='institution' value='<?php echo $html_model->escapeQuote($institution); ?>' class="form-control">
 										</div>
+										<?php if (!empty($error_institution)) {?>
+										<div class="alert-error">
+											<?php echo $error_institution;?>
+										</div>	
+										<?php } ?>
 									</div>
 									<div class="form-group col-sm-3">
 										<label class="col-sm-12">School Full Address: </label>

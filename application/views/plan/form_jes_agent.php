@@ -28,11 +28,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								</div>
 								<div class="row">
 									<div class="form-group col-sm-3">
+<?php if ($product_short == 'JESP') { ?>
+										<label class="col-sm-12">Child Name : </label>
+<?php } else { ?>
 										<label class="col-sm-12">Student ID : </label>
+<?php } ?>
 										<div class="input-group col-sm-12">
 											<div class='form_text_show'><?php echo $student_id; ?></div>
 											<input type='hidden' name='student_id' value='<?php echo $student_id; ?>' class="form-control">
 										</div>
+                                                                                <?php if (!empty($error_student_id)) { ?>
+                                                                                <div class="alert-error">
+                                                                                        <?php echo $error_student_id;?>
+                                                                                </div>
+                                                                                <?php } ?>
 									</div>
 									<div class="form-group col-sm-3">
 										<label class="col-sm-12">School Name : </label>
@@ -40,6 +49,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 											<div class='form_text_show'><?php echo htmlspecialchars($institution); ?></div>
 											<input type='hidden' name='institution' value='<?php echo $html_model->escapeQuote($institution); ?>' class="form-control">
 										</div>
+                                                                                <?php if (!empty($error_institution)) { ?>
+                                                                                <div class="alert-error">
+                                                                                        <?php echo $error_institution;?>
+                                                                                </div>
+                                                                                <?php } ?>
 									</div>
 									<div class="form-group col-sm-3">
 										<label class="col-sm-12">School Full Address: </label>
