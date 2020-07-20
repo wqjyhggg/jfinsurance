@@ -46,6 +46,7 @@ class Report_model extends CI_Model
     	$sql .= "		pa.added,";
     	$sql .= "		pa.pay_type,";
     	$sql .= "		pa.last_update,";
+	$sql .= "		pa.pay_mothed,";
     	$sql .= "		pl.plan_id,";
     	$sql .= "		pl.user_id,";
     	$sql .= "		pl.status_id,";
@@ -59,6 +60,8 @@ class Report_model extends CI_Model
     	$sql .= "		pl.totaldays,";
     	$sql .= "		pl.premium,";
     	$sql .= "		pl.note,";
+    	$sql .= "		pl.contact_email,";
+    	$sql .= "		pl.contact_phone,";
     	$sql .= "		pr.full_name,";
     	$sql .= "		pr.up_insuer,";
     	$sql .= "		CONCAT(cu.firstname, ' ', cu.lastname) as insured";

@@ -36,6 +36,7 @@ class Agent extends MY_Controller
 
         $data['agent_id'] = empty($this->input->post('agent_id')) ? 0 : (int)$this->input->post('agent_id');
         $data['region_id'] = empty($this->input->post('region_id')) ? $beuser['region_id'] : $this->input->post('region_id');
+
         $data['product_short'] = $this->input->post('product_short');
         $data['payment_added_from'] = $this->input->post('payment_added_from');
         $data['payment_added_to'] = $this->input->post('payment_added_to');
@@ -83,11 +84,14 @@ class Agent extends MY_Controller
                 'totaldays' => 'Number of Days',
                 'dailyrate' => 'Daily Rate',
                 'amount' => 'Policy Premium',
-//                'commission_rate' => 'Commission Rate',
                 'net_premium' => 'Net Premium',
-//                'commission_amount' => 'Commission Amount',
-//        		'status' => 'Status',
         );
+        if (($beuser['user_id'] == 2810) || ($beuser['user_id'] == 3297)) {
+        	$kArr['pay_mothed'] = 'Pay Mothed';
+        	$kArr['contact_email'] = 'Contact Email';
+        	$kArr['contact_phone'] = 'Contact Phone';
+        }
+
         if (($beuser['user_id'] == 450) || ($beuser['user_id'] == 2018)) {
         	$kArr['note'] = "Note";
         }

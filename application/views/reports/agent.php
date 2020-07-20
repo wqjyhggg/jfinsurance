@@ -196,12 +196,14 @@ foreach ($report_data as $data) :?>
                             <th>Number of Days</th>
                             <th>Daily Rate</th>
                             <th>Policy Premium</th>
-                            <!-- th>Commission Rate</th -->
                             <th>Net Premium</th>
-                            <!-- th>Commission Amount</th -->
-                            <!-- th>Status</th -->
 	<?php if (($beuser['user_id'] == 450) || ($beuser['user_id'] == 2018)) { ?>
                             <th>Note</th>
+	<?php } ?>
+	<?php if (($beuser['user_id'] == 2810) || ($beuser['user_id'] == 3297)) { ?>
+                            <th>Pay Mothed</th>
+                            <th>Contact Email</th>
+                            <th>Contact Phone</th>
 	<?php } ?>
                           </tr>
                         </thead>
@@ -220,12 +222,14 @@ foreach ($report_data as $data) :?>
                               <td><?php echo $record['totaldays']; ?></td>
                               <td>$<?php echo $record['dailyrate']; ?></td>
                               <td>$<?php echo $record['amount']; ?></td>
-                              <!-- td><?=$record['commission_rate'] ?></td -->
                               <td>$<?php echo ($record['amount'] - $record['commission'] );?></td>
-                              <!-- td>$<?=$record['commission'] ?></td -->
-                              <!-- td><?=$record['status'] ?></td -->
 	<?php if (($beuser['user_id'] == 450) || ($beuser['user_id'] == 2018)) { ?>
     	                      <td><?php echo $record['note']; ?></td>
+	<?php } ?>
+	<?php if (($beuser['user_id'] == 2810) || ($beuser['user_id'] == 3297)) { ?>
+                              <td><?=$record['pay_mothed'] ?></td>
+                              <td><?=$record['contact_email'] ?></td>
+                              <td><?=$record['contact_phone'] ?></td>
 	<?php } ?>
                             </tr>
     <?php if ($cnt > 100) break; ?>
