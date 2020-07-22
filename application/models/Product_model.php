@@ -1382,19 +1382,16 @@ class Product_model extends CI_Model {
 			if ($years <= 3) {
 				$premiumArr['message'] = "Customer age must over 4 years old";
 				return $premiumArr;
-			} else if ($years > 69) {
-				$premiumArr['message'] = "Customer age must less 69 years old";
+			} else if ($years > 59) {
+				$premiumArr['message'] = "Customer age must less 59 years old";
 				return $premiumArr;
 			}
 			$number_customer = (int)$para['number_customer'];
 			$rate = 1.8;
 			// if ($para['holiday_rate'] && $para['holiday_rate']) $rate = 1.85;
 			if ($para['isfamilyplan']) {
-				if (($number_customer == 2) && (!empty($para['plan_id']) && ($para['plan_id'] < SELF::PLANIDCHG2019_5))) {
-					$rate = $rate * 2.5;
-				} else {
-					$rate = $rate * $number_customer;
-				}
+				$premiumArr['message'] = "No family plan for JESP";
+				return $premiumArr;
 			}
 			if ($para['holiday_rate'] < 0) {
 				return FALSE;
