@@ -436,6 +436,11 @@ class Plan extends MY_Controller {
 				$this->error['error_institution'] = 'School Name is Required';
 			}
 		}
+		if ($product_short == 'JES') {
+			if (empty($this->input->post('institution'))) {
+				$this->error['error_institution'] = 'School Name is Required';
+			}
+		}
 		if (($product_short != 'TOP') && ($arrivaltm > $effectivetm)) {
 			$this->error['error_effective_date'] = 'Arrival Date cannot be later than Effective Date';
 		}
