@@ -90,8 +90,11 @@ class Jf extends MY_Controller
                 'contact_email' => 'Contact Email',
                 'contact_phone' => 'Contact Phone',
             );
-        if ($region_id != 4) {
+        if (($data['region_id'] != 4) && ($data['agent_id'] != 358)) {
             unset($kArr['pay_mothed']);
+            unset($kArr['contact_email']);
+            unset($kArr['contact_phone']);
+        } else if ($data['agent_id'] != 358) {
             unset($kArr['contact_email']);
             unset($kArr['contact_phone']);
         }

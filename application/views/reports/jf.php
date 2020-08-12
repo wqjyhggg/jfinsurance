@@ -239,7 +239,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <td>$<?php echo $record['amount']; ?></td>
                             <td><?php echo (($record['ispaid'] == 1) ? 'Y' : '-'); ?></td>
                             <td><?php echo $record['pay_type']; ?></td>
-                            <?php if ($region_id == 4) { ?>
+                            <?php if (($region_id == 4) || ($agent_id == 4)) { ?>
                             <td><?php echo $record['pay_mothed']; ?></td>
                             <?php } ?>
                             <?php if (abs($record['amount']) > 0.009) { ?>
