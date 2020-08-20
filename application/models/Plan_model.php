@@ -237,9 +237,9 @@ class Plan_model extends CI_Model {
 		$isfamilyplan = empty($para['isfamilyplan']) ? 0 : (((int)$para['isfamilyplan'] > 0) ? (int)$para['isfamilyplan'] : 1);
 		$cpara = array(
 				'plan_id' => 0,
-				'gender' => $para['gender'],
-				'firstname' => $para['firstname'],
-				'lastname' => $para['lastname'],
+				'gender' => trim($para['gender']),
+				'firstname' => trim($para['firstname']),
+				'lastname' => trim($para['lastname']),
 				'birthday' => $para['birthday'],
 				'parent_customer_id' => 0
 		);
@@ -382,8 +382,8 @@ class Plan_model extends CI_Model {
 				$cpara = array(
 						'plan_id' => $plan_id,
 						'gender' => $gender,
-						'firstname' => $firstname,
-						'lastname' => $lastname,
+						'firstname' => trim($firstname),
+						'lastname' => trim($lastname),
 						'birthday' => $birthday,
 						'parent_customer_id' => $customer_id
 				);
@@ -451,8 +451,8 @@ class Plan_model extends CI_Model {
 		if (!empty($para['gender']) && !empty($para['firstname']) && !empty($para['lastname']) && !empty($para['birthday'])) {
 			$cpara = array(
 					'gender' => $para['gender'],
-					'firstname' => $para['firstname'],
-					'lastname' => $para['lastname'],
+					'firstname' => trim($para['firstname']),
+					'lastname' => trim($para['lastname']),
 					'birthday' => $para['birthday']
 			);
 			$customer_id = $this->customer_model->update($plan['customer_id'], $cpara);
@@ -476,8 +476,8 @@ class Plan_model extends CI_Model {
 						'plan_id' => $plan_id,
 						'parent_customer_id' => $customer_id,
 						'gender' => $para['gender_' . $i],
-						'firstname' => $para['firstname_' . $i],
-						'lastname' => $para['lastname_' . $i],
+						'firstname' => trim($para['firstname_' . $i]),
+						'lastname' => trim($para['lastname_' . $i]),
 						'birthday' => $para['birthday_' . $i]
 				);
 				$customer_id_this = $this->customer_model->add($cpara);
