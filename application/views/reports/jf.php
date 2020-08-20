@@ -209,7 +209,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <th>Pay Amount</th>
                             <th>Paid</th>
                             <th>Type</th>
-                            <?php if ($region_id == 4) { ?>
+                            <?php if (($region_id == 4) || ($agent_id == 358)) { ?>
                             <th>Pay Mothed</th>
                             <?php } ?>
                             <th>Commission Rate</th>
@@ -239,7 +239,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <td>$<?php echo $record['amount']; ?></td>
                             <td><?php echo (($record['ispaid'] == 1) ? 'Y' : '-'); ?></td>
                             <td><?php echo $record['pay_type']; ?></td>
-                            <?php if (($region_id == 4) || ($agent_id == 4)) { ?>
+                            <?php if (($region_id == 4) || ($agent_id == 358)) { ?>
                             <td><?php echo $record['pay_mothed']; ?></td>
                             <?php } ?>
                             <?php if (abs($record['amount']) > 0.009) { ?>
@@ -259,7 +259,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <td colspan='14'>&nbsp;</td>
                             <td>$<?php echo $data['amount']; ?></td>
                             <td colspan='3'>&nbsp;</td>
-                            <?php if ($region_id == 4) { ?>
+                            <?php if (($region_id == 4) || ($agent_id == 358)) { ?>
                             <td>&nbsp;</td>
                             <?php } ?>
                             <td>$<?php echo ($data['amount'] - $data['commission']); ?></td>
