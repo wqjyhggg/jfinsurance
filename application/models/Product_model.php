@@ -166,6 +166,11 @@ class Product_model extends CI_Model {
 	}
 	
 	public function get_top_quote($para) {
+		$t20200901 = strtotime("2020-09-01");
+		if (time() > $t20200901) {
+			// Block TOP policy purchase Sept 1st From Allen Zhao ticket
+			return array('status' => 'Fail', 'message' => 'Sorry, We are no longer selling TOP product starting Sept 1st, 2020');
+		}
 		$r = array('status' => 'Fail', 'message' => '');
 		
 		if ($para['isfamilyplan'] == 1) {
