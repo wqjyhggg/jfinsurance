@@ -130,7 +130,7 @@ class Jf extends MY_Controller
                     $w->addRow($arr);
                 }
                 
-                $arr = array('', '', '', '', '', '', '', '', '', '', '', '', $datas['amount'], '','', '', '', $datas['amount'] - $datas['commission'], $datas['commission']);
+                $arr = array('', '', '', '', '', '', '', '', '', '', '', '', '', $datas['amount'], '','', '', '', $datas['amount'] - $datas['commission'], $datas['commission']);
                 $w->addRow($arr);     
             }
            
