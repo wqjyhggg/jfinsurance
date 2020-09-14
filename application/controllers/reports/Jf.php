@@ -90,11 +90,7 @@ class Jf extends MY_Controller
                 'contact_email' => 'Contact Email',
                 'contact_phone' => 'Contact Phone',
             );
-        if (($data['region_id'] != 4) && ($data['agent_id'] != 358)) {
-            unset($kArr['pay_mothed']);
-            unset($kArr['contact_email']);
-            unset($kArr['contact_phone']);
-        } else if ($data['agent_id'] != 358) {
+        if ($data['region_id'] != 4) {
             unset($kArr['contact_email']);
             unset($kArr['contact_phone']);
         }
@@ -134,11 +130,7 @@ class Jf extends MY_Controller
                     $w->addRow($arr);
                 }
                 
-                if ($region_id != 4) {
-                    $arr = array('', '', '', '', '', '', '', '', '', '', '', '', $datas['amount'], '', '', '', $datas['amount'] - $datas['commission'], $datas['commission']);
-                } else {
-                    $arr = array('', '', '', '', '', '', '', '', '', '', '', '', $datas['amount'], '','', '', '', $datas['amount'] - $datas['commission'], $datas['commission']);
-                }
+                $arr = array('', '', '', '', '', '', '', '', '', '', '', '', $datas['amount'], '','', '', '', $datas['amount'] - $datas['commission'], $datas['commission']);
                 $w->addRow($arr);     
             }
            
