@@ -3024,7 +3024,7 @@ class Plan extends MY_Controller {
 		$data['plan_id'] = $plan['plan_id'];
 		$data['plan_batch'] = array();
 		if ($plan['batch_number'] > 0) {
-			$data['plan_batch'] = $this->plan_model->plan_search(array('batch_number' => $plan['batch_number']));
+			$data['plan_batch'] = $this->plan_model->plan_search(array('batch_number' => $plan['batch_number']), 550);
 		}
 		
 		$data['title_txt'] = 'Policy';
