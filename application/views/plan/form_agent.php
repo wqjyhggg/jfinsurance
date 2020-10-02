@@ -46,6 +46,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<?php if (!empty($print_card_url)) { ?>
 						<a href='<?php echo $print_card_url; ?>' target="_blank"><span class="btn btn-info" style='color:#fff;'>Print Card</span></a>
 						<?php } ?>
+						<?php if ($export_logo_price_option) { ?>
+                                                <div class='pull-right spdf-option'><input type='checkbox' class='withlogobox' checked> With Logo <br /><input type='checkbox' class='withpricebox' checked> With Price </div>
+                                                <?php } ?>
 					<?php 	} ?>
 					<?php } ?>
 					<?php } ?>
@@ -485,6 +488,41 @@ $( document ).ready(function() {
 
 	get_premium();
 	addmoremember();
+
+        $('.withlogobox').change(function() {
+                var w = '0';
+                if ($(this).is(':checked')) {
+                        $('.withlogobox').prop('checked', true);
+                        w = '1';
+                } else {
+                        $('.withlogobox').prop('checked', false);
+                }
+                $.ajax({
+                        url: '<?php echo $export_logo_url; ?>' + w,
+                        type: 'GET',
+                        success: function(data, textStatus, jqXHR) {
+                        //console.log(data);
+                },
+                });
+        });
+
+        $('.withpricebox').change(function() {
+                var w = '0';
+                if ($(this).is(':checked')) {
+                        $('.withpricebox').prop('checked', true);
+                        w = '1';
+                } else {
+                        $('.withpricebox').prop('checked', false);
+                }
+                $.ajax({
+                        url: '<?php echo $export_price_url; ?>' + w,
+                        type: 'GET',
+                        success: function(data, textStatus, jqXHR) {
+                        //console.log(data);
+                },
+                });
+        });
+
 });
 
 function addmoremember() {
