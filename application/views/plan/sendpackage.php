@@ -88,7 +88,7 @@ foreach ($plan_batch as $p) {
 ?>
 function send_one_package() {
   if (plan_id_idx >= plan_id_arr.length) {
-    clearInterval(myVar);
+    clearInterval(intv);
     window.location.href = '<?php echo base_url("plan"); ?>';
     return ;
   }
@@ -126,7 +126,8 @@ function send_one_package() {
 $( document ).ready(function() {
 	$("#form_batch_submit").on("click",function(e) {
     e.preventDefault();
-    if (plan_id_idx < plan_id_arr.length) {
+    send_one_package();
+    if (plan_id_arr.length > 1) {
       intv = setInterval(send_one_package, 15000);
     }
 	});
