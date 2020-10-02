@@ -349,7 +349,7 @@ class Batch_model extends CI_Model {
 		$this->load->model('payment_model');
 		$this->load->model('plan_model');
 		
-		$statusArr = array(Plan_model::SOLD, Plan_model::PAID, Plan_model::CLAIMED);
+		$statusArr = array(Plan_model::SOLD, Plan_model::PAID, Plan_model::CLAIMED, Plan_model::CANCEL);
 		$this->db->where_in('status_id', $statusArr);
 		$this->db->where('batch_number', $batch_number);
 		$plans = $this->db->get('plan')->result_array();
