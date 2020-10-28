@@ -27,6 +27,7 @@ class Api extends MY_Controller {
 			$data['errormsg'] = $this->error;
 		}
 		header('Content-Type: application/json');
+		header("Access-Control-Allow-Origin: *");
 		header('Cache-Control: no-store, no-cache, must-revalidate');
 		echo json_encode($data);
 	}
@@ -148,6 +149,7 @@ class Api extends MY_Controller {
 			$data['errormsg'] = $this->error;
 		}
 		header('Content-Type: application/json');
+		header("Access-Control-Allow-Origin: *");
 		header('Cache-Control: no-store, no-cache, must-revalidate');
 		echo json_encode($data);
 	}
@@ -176,6 +178,7 @@ class Api extends MY_Controller {
 			$data['errormsg'] = $this->error;
 		}
 		header('Content-Type: application/json');
+		header("Access-Control-Allow-Origin: *");
 		header('Cache-Control: no-store, no-cache, must-revalidate');
 		echo json_encode($data);
 	}
@@ -206,6 +209,7 @@ class Api extends MY_Controller {
 			$data['errormsg'] = $this->error;
 		}
 		header('Content-Type: application/json');
+		header("Access-Control-Allow-Origin: *");
 		header('Cache-Control: no-store, no-cache, must-revalidate');
 		echo json_encode($data);
 	}
@@ -235,6 +239,7 @@ class Api extends MY_Controller {
 			$data['errormsg'] = $this->error;
 		}
 		header('Content-Type: application/json');
+		header("Access-Control-Allow-Origin: *");
 		header('Cache-Control: no-store, no-cache, must-revalidate');
 		echo json_encode($data);
 	}
@@ -259,6 +264,7 @@ class Api extends MY_Controller {
 			$data['errormsg'] = $this->error;
 		}
 		header('Content-Type: application/json');
+		header("Access-Control-Allow-Origin: *");
 		header('Cache-Control: no-store, no-cache, must-revalidate');
 		echo json_encode($data);
 	}
@@ -422,6 +428,7 @@ class Api extends MY_Controller {
 			$json['errormsg'] = $this->error;
 		}
 		header('Content-Type: application/json');
+		header("Access-Control-Allow-Origin: *");
 		header('Cache-Control: no-store, no-cache, must-revalidate');
 		echo json_encode($json);
 	}
@@ -445,6 +452,7 @@ class Api extends MY_Controller {
 			$json['errormsg'] = $this->error;
 		}
 		header('Content-Type: application/json');
+		header("Access-Control-Allow-Origin: *");
 		header('Cache-Control: no-store, no-cache, must-revalidate');
 		echo json_encode($json);
 	}
