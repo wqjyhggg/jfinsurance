@@ -13,7 +13,7 @@ class Mymail_model extends CI_Model {
 			'mailtype'  => 'html',
 			'charset'   => 'UTF-8'
 			);
-	public $myemails = array('confirmation@jfgroup.info','confirmation2@jfgroup.info','confirmation3@jfgroup.info');
+	public $myemails = array('confirmation@jfgroup.info','confirmation4@jfgroup.info','confirmation3@jfgroup.info');
 
 	/**
 	 * Send email
