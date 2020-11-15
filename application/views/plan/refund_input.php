@@ -97,7 +97,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                       <div class="row">
                         <div class="form-group col-sm-8 col-xs-12">
                         <?php if (!empty($claims)) { ?>
-                          <div class="alert-error">There is an existing claim in the system, please double check before you proceed.</div>
+                          <div class="alert-error">There is an existing claim or open cases in the system, please double check before you proceed.</div>
                         <?php } ?>
                         </div>
                         <div class="form-group col-sm-4 col-xs-12">
