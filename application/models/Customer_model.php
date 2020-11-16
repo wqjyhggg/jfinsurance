@@ -38,8 +38,14 @@ class Customer_model extends CI_Model {
 	 */
 	public function add($para) {
 		$this->logstr = "Add customer: " . $para['firstname'] . " " . $para['lastname'];
-		$para['firstname'] = trim($para['firstname']);
-	       	$para['lastname'] = trim($para['lastname']);
+		$firstname = trim($para['firstname']);
+	       	$lastname = trim($para['lastname']);
+		if (!empty($firstname)) {
+			$para['firstname'] = $firstname;
+		}
+		if (!empty($lastname)) {
+			$para['lastname'] = $lastname;
+		}
 		$this->db->set( $para );
 		$this->db->insert('customer');
 		$id = $this->db->insert_id();
@@ -100,8 +106,14 @@ class Customer_model extends CI_Model {
 		if (empty($customer)) {
 			$this->logstr = "Unknow customer (" . $customer_id . ") ";
 		} else {
-			$para['firstname'] = trim($para['firstname']);
-			$para['lastname'] = trim($para['lastname']);
+			$firstname = trim($para['firstname']);
+			$lastname = trim($para['lastname']);
+			if (!empty($firstname)) {
+				$para['firstname'] = $firstname;
+			}
+			if (!empty($lastname)) {
+				$para['lastname'] = $lastname;
+			}
 			$this->logstr = "";
 			if (isset($para['plan_id']) && ($para['plan_id'] != $customer['plan_id'])) {
 				$this->logstr .= " plan_id " . $para['plan_id'] . "(" . $customer['plan_id'] . ")";
