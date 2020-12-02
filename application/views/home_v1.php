@@ -52,7 +52,7 @@
 									</li>
 									<li class="nav-item"><a class="nav-link" href="<?php echo base_url("user/login");?>"><?php echo $lang['agent_login'];?></a></li>
 
-									<li class="nav-item"><a class="nav-link border-menu" href="https://www.jfgroup.ca/agent/johnson_fu"><?php echo $lang['buy_product'];?></a></li>
+									<li class="nav-item"><a class="nav-link border-menu" href="https://agent.jfgroup.ca/agent/johnson_fu"><?php echo $lang['buy_product'];?></a></li>
 								</ul>
 							</div>
 						</nav>
@@ -100,7 +100,7 @@
 								<p class="white-text mb-2"><?php echo $lang['we_dont_like'];?></p>
 								<p class="white-text mb-3"><?php echo $lang['health_care_costs'];?></p>
 								<div class="banner-btn">
-									<button type="button" onclick="location.href='https://www.jfgroup.ca/agent/johnson_fu';" class="btn btn-primary btn-white text-uppercase btn-auto"><?php echo $lang['get_a_quote'];?></button>
+									<button type="button" onclick="location.href='https://agent.jfgroup.ca/agent/johnson_fu';" class="btn btn-primary btn-white text-uppercase btn-auto"><?php echo $lang['get_a_quote'];?></button>
 								</div>
 							</div>
 						</div>
@@ -282,7 +282,7 @@
 			</div>
 			<div class="row">
 				<div class="col-md-12 text-center">
-					<button type="button" onclick="location.href='https://www.jfgroup.ca/agent/johnson_fu';" class="btn btn-primary border btn-white text-uppercase btn-auto"><?php echo $lang['get_a_quote'];?></button>
+					<button type="button" onclick="location.href='https://agent.jfgroup.ca/agent/johnson_fu';" class="btn btn-primary border btn-white text-uppercase btn-auto"><?php echo $lang['get_a_quote'];?></button>
 				</div>
 			</div>
 		</div>

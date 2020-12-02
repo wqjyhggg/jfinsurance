@@ -161,9 +161,9 @@ class Menu_model extends CI_Model {
 	public function load_top_menu() {
 		$meunArr = array(
 			0 =>array(
-					"<a href='" . base_url() . "' class='leftmeun'>" . $this->lang->line ( 'text_home' ) . "</a>",
+					"<a href='https://www.jfgroup.ca' class='leftmeun'>" . $this->lang->line ( 'text_home' ) . "</a>",
 					//"<a href='" . base_url() . "' class='leftmeun'>" . $this->lang->line ( 'text_languages' ) . "</a>",
-					"<a href='" . base_url('how_to_claim') . "' class='leftmeun'>" . $this->lang->line ( 'text_how_to_claim' ) . "</a>",
+					//"<a href='" . base_url('how_to_claim') . "' class='leftmeun'>" . $this->lang->line ( 'text_how_to_claim' ) . "</a>",
 					"<a href='" . base_url('user/login') . "' class='leftmeun'>" . $this->lang->line ( 'text_agent_login' ) . "</a>",
 				),
 			1 => array(

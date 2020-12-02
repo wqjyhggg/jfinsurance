@@ -54,7 +54,7 @@
  *
  * NOTE: If you change these, also change the error_reporting() code below
  */
-if (isset($_SERVER["SERVER_NAME"]) && ($_SERVER["SERVER_NAME"] == 'www.jfgroup.ca')) {
+if (isset($_SERVER["SERVER_NAME"]) && ($_SERVER["SERVER_NAME"] == 'agent.jfgroup.ca')) {
 	define('ENVIRONMENT', 'production');
 } else {
 	define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'development');
