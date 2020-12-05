@@ -972,6 +972,9 @@ class Plan_model extends CI_Model {
 		if (!empty($para['batch_number'])) {
 			$where[] = "p.batch_number=" . $this->db->escape($para['batch_number']);
 		}
+		if (!empty($para['student_id'])) {
+			$where[] = "p.student_id=" . $this->db->escape($para['student_id']);
+		}
 		if (!empty($para['status_id'])) {
 			$where[] = "p.status_id='" . (int)$para['status_id'] . "'";
 		}
@@ -1126,6 +1129,9 @@ class Plan_model extends CI_Model {
 		}
 		if (!empty($para['batch_number'])) {
 			$where[] = "p.batch_number=" . $this->db->escape($para['batch_number']);
+		}
+		if (!empty($para['student_id'])) {
+			$where[] = "p.student_id=" . $this->db->escape($para['student_id']);
 		}
 		if (!empty($para['status_id'])) {
 			$where[] = "p.status_id='" . (int)$para['status_id'] . "'";

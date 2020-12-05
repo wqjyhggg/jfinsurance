@@ -44,6 +44,7 @@ class Plan extends MY_Controller {
 		$data['expiry_date'] = $this->input->get_post('expiry_date');
 		$data['expiry_date2'] = $this->input->get_post('expiry_date2');
 		$data['uname'] = $this->input->get_post('uname');
+		$data['student_id'] = $this->input->get_post('student_id');
 		$data['batch_number'] = $this->input->get_post('batch_number');
 		$data['status_id'] = $this->input->get_post('status_id');
 		$data['product_short'] = $this->input->get_post('product_short');
@@ -62,6 +63,7 @@ class Plan extends MY_Controller {
 								&& empty($data['expiry_date']) 
 								&& empty($data['expiry_date2']) 
 								&& empty($data['uname']) 
+								&& empty($data['student_id']) 
 								&& empty($data['status_id']) 
 								&& empty($data['product_short']) 
 								&& empty($data['country2']) 
