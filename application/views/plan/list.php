@@ -155,6 +155,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			                          </div>
 			                        </div>
 			                        <!-- Agent input box end -->
+			                        <!-- Agent input box -->
+			                        <div class="form-group col-sm-3">
+			                          <!--label class="col-sm-12">Agent/School Name:</label-->
+			                          <div class="input-group col-sm-12">
+			                              <input type="text" name='student_id' placeholder="Student Id" data-toggle="tooltip" title="Student Id" value='<?php echo $html_model->escapeQuote($student_id); ?>' class="form-control"/>
+			                          </div>
+			                        </div>
+			                        <!-- Agent input box end -->
 			                        <!-- Batch No. input box -->
 			                        <div class="form-group col-sm-3">
 			                          <!--label class="col-sm-12">Batch No.:</label-->
