@@ -45,7 +45,7 @@ class Mymail_model extends CI_Model {
 				$this->email->attach($file, '', $name);
 			}
 		}
-		$r = $this->email->send();
-		return 1;
+		$r = $this->email->send(FALSE);
+		return $r;
 	}
 }

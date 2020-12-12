@@ -2018,6 +2018,11 @@ class CI_Email {
 
 		$reply = $this->_get_smtp_data();
 		$this->_set_error_message($reply);
+		if (empty($reply)) {
+			// skip empty line
+			$reply = $this->_get_smtp_data();
+			$this->_set_error_message($reply);
+		}
 
 		$this->_smtp_end();
 
