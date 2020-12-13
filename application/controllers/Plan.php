@@ -545,12 +545,12 @@ class Plan extends MY_Controller {
 					$years = $this->product_model->getYears($apply_date, $birthday);
 					if (($product_short == 'JES') || ($product_short == 'JESP')) {
 						if ($years > 59) {
-							$this->error['error_message'] = "All family member’s age must be less than  59 years old";
+							$this->error['error_message'] = "All family member's age must be less than 59 years old";
 							break;
 						}
 					} else {
 						if ($years > 69) {
-							$this->error['error_message'] = "All family member’s age must be less than  69 years old";
+							$this->error['error_message'] = "All family member's age must be less than 69 years old";
 							break;
 						}
 					}
@@ -566,7 +566,7 @@ class Plan extends MY_Controller {
 						if (empty($birthday)) break;
 						$years = $this->product_model->getYears($apply_date, $birthday);
 						if ($years < 4) {
-							$this->error['error_message'] = "All family member’s age must be older than 4 years old";
+							$this->error['error_message'] = "All family member's age must be older than 4 years old";
 							break;
 						}
 					}
@@ -3252,6 +3252,10 @@ class Plan extends MY_Controller {
 				$data['error_message'] = 'Invalid refund amount';
 			}
 		}
+
+		$claims = $this->plan_model->verify_policy($plan['policy']);
+		$data['claims'] = (!empty($claims) && ($claims['status'] == 'OK')) ? $claims['claims'] : '';
+
 		$data['action_url'] = base_url('plan/cancel');
 		$data['plan_id'] = $plan['plan_id'];
 		$data['admin_fee'] = 0;

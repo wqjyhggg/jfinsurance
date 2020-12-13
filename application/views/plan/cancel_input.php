@@ -20,12 +20,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           <div class="main-div">
             <div class="page-title">
               <div class="title_left">
-                <h3>Send Policy Package</h3>
+                <h3>Cancel Policy</h3>
               </div>
             </div>
             <div class="clearfix"></div>
 
            <!-- Filter Section -->
+           <?php if (!empty($claims)) { ?>
+           <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_content">
+                    <div class="alert-error">There is an existing claim or open cases in the system, please double check before you proceed.</div>
+                  </div>
+                </div>
+              </div>
+           </div>
+           <?php } ?>
             <div class="row">
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
