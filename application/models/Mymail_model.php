@@ -6,14 +6,15 @@ if (!defined('BASEPATH'))
 class Mymail_model extends CI_Model {
 	public $config = Array(
 			'protocol' => 'smtp',
-			'smtp_host' => 'ssl://smtp.gmail.com',	// 'smtp_host' => 'ssl://mail.johnsonfu.com',
-			'smtp_port' => 465,
-			'smtp_user' => 'confirmation@jfgroup.info',	// 'smtp_user' => 'confirmation@johnsonfu.com',
-			'smtp_pass' => 'Johnson2014',				// 'smtp_pass' => 'Confirmation@5792',
+			'smtp_host' => 'smtp.office365.com', // 'ssl://smtp.gmail.com',
+			'smtp_crypto' => 'tls',
+			'smtp_port' => 587,
+			'smtp_user' => 'confirmation@jfgroup.info',
+			'smtp_pass' => 'Johnson2014',
 			'mailtype'  => 'html',
 			'charset'   => 'UTF-8'
 			);
-	public $myemails = array('confirmation@jfgroup.info','confirmation3@jfgroup.info');
+	public $myemails = array('confirmation@jfgroup.ca','confirmation2@jfgroup.ca','confirmation3@jfgroup.ca');
 
 	/**
 	 * Send email
