@@ -647,7 +647,7 @@ class Batch extends MY_Controller {
 							// New Plan
 							$data['status_id'] = empty($data['ispaid']) ? Plan_model::SOLD : Plan_model::PAID;
 							$data['batch_number'] = $batch_number;
-							$data['note'] = isset($data['note']) ? $data['note'] . '; Batch Upload Add' : 'Batch Upload Add';
+							$data['note'] = 'Batch Upload Add';
 							$plan_id = $this->plan_model->add($data);
 							if ($plan_id) {
 								// add payment
