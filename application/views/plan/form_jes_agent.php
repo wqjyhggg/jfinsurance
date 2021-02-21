@@ -34,7 +34,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										<label class="col-sm-12">Student ID : </label>
 <?php } ?>
 										<div class="input-group col-sm-12">
-											<div class='form_text_show'><?php echo $student_id; ?></div>
 											<input type='text' name='student_id' value='<?php echo $student_id; ?>' class="form-control">
 										</div>
 									</div>
