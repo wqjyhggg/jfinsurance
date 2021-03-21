@@ -719,7 +719,8 @@ $usepsi = false;
 										<tr>
 											<td><?php echo htmlspecialchars($p['username']); ?></td>
 											<td><?php echo $p['tm']; ?></td>
-											<td><?php echo (strlen($p['message']) > 120) ? (htmlspecialchars(substr($p['message'], 0, 117)) . "...") : htmlspecialchars($p['message']); ?></td>
+											<!-- td><?php echo (strlen($p['message']) > 120) ? (htmlspecialchars(substr($p['message'], 0, 117)) . "...") : htmlspecialchars($p['message']); ?></td -->
+											<td><?php echo htmlspecialchars($p['message']); ?></td>
 										</tr>
 									<?php 		} ?>
 									</tbody>
