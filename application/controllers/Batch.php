@@ -211,6 +211,7 @@ class Batch extends MY_Controller {
 		$data ['products'] = $this->product_model->product_list ();
 		$data ['action_url'] = current_url ();
 		$data ['process_url'] = base_url('batch/processe');
+		$data ['test_url'] = base_url('batch/processetest');
 		$data ['csrf'] = array (
 				'name' => $this->security->get_csrf_token_name (),
 				'value' => $this->security->get_csrf_hash () 
@@ -219,8 +220,176 @@ class Batch extends MY_Controller {
 		$data ['menu'] = $this->menu_model->load_meun ();
 		$this->load->common ( 'batch/import', $data );
 	}
-	
-	public function processe() {
+
+  private function check_customer($firstname, $lastname, $birthday) {
+    $vrecords = $this->plan_model->verify_customer($firstname, $lastname, $birthday);
+    $claim_amount = 0;
+    $case_amount = 0;
+    if ($vrecords['status'] == 'OK') {
+      foreach ($vrecords['cases'] as $case) {
+        $case_amount += floatval($case['amount']);
+      }
+      foreach ($vrecords['claims'] as $claim) {
+        $claim_amount += floatval($claim['amount']);
+      }
+    }
+    return ($claim_amount>$case_amount)?$claim_amount:$case_amount;
+  }
+
+  public function processetest() {
+		$beuser = $this->func_model->verify_login ();
+		$user = $this->session->userdata ( 'user' );
+		$this->load->model ( 'product_model' );
+		$this->load->model ( 'batch_model' );
+		$this->load->model ( 'plan_model' );
+		
+		$data ['errormsg'] = "";
+		if ($user ['user_group_id'] > 103) {
+			$data ['errormsg'] = $this->lang->line ( "error_no_permission" );
+		}
+		if (empty ($this->input->post ( 'userfilename' ))) {
+			$data ['errormsg'] = "Please select upload file";
+		}
+		if (empty ( $data ['errormsg'] )) {
+			$uf = array_shift ( $_FILES );
+			$name = $uf ['name'];
+			$type = $uf ['type'];
+			$tmp_name = $uf ['tmp_name'];
+			$size = $uf ['size'];
+			$fileinfo = pathinfo ( $name );
+			if (! empty ( $uf ['error'] )) {
+				$data ['errormsg'] = sprintf ( $this->lang->line ( 'error_file_upload' ), $name ) . "<br />";
+			} else if (! in_array ( $fileinfo ['extension'], array (
+					'xlsx'/*,'csv'*/) )) {
+				$data ['errormsg'] = sprintf ( $this->lang->line ( 'error_file_type' ), $name );
+			} else {
+				set_time_limit(600); // Max run time 10 minutes
+				$reader = ReaderFactory::create ( Type::XLSX ); // for XLSX files
+				                                             // $reader = ReaderFactory::create(Type::CSV); // for CSV files
+				                                             // $reader = ReaderFactory::create(Type::ODS); // for ODS files
+				$reader->open ( $tmp_name );
+				$keyArr = array ();
+				$data = array ('errormsg' => '');
+				foreach ( $reader->getSheetIterator () as $sheet ) {
+					$i = 0;
+					foreach ( $sheet->getRowIterator () as $row ) {
+						$i ++;
+						if (empty ( $keyArr )) {
+							$keyArr = $row;
+							continue;
+						}
+						for($j = 0; $j < sizeof ( $keyArr ); $j ++) {
+							$data [$keyArr [$j]] = isset($row [$j]) ? $row [$j] : '';
+						}
+						$emptyline = TRUE;
+						for($j = 0; $j < sizeof ( $keyArr ); $j ++) {
+							$data [$keyArr[$j]] = isset($row[$j]) ? $row [$j] : '';
+							if (!empty($data [$keyArr[$j]])) {
+								$emptyline = FALSE;
+							}
+						}
+						if ($emptyline) continue;
+						
+						if (empty ( $data ['user_id'] )) {
+							if ($this->input->post ( 'user_id' )) {
+								$data ['user_id'] = $this->input->post ( 'user_id' );
+							} else {
+								$data ['user_id'] = $beuser ['user_id'];
+							}
+						}
+						if (empty ( $data ['product_short'] )) {
+							if ($this->input->post ( 'product_short' )) {
+								$data ['product_short'] = $this->input->post ( 'product_short' );
+							} else {
+								$data ['errormsg'] .= "No product at line " . $i . ": " . @join ( "|", $row ) . "<br>\n";
+								break;
+							}
+						} else {
+							if ($this->input->post ( 'product_short' )) {
+								$product_short = $this->input->post ( 'product_short' );
+								if ($product_short != $data ['product_short']) {
+									$data ['errormsg'] .= "product_short wrong at line " . $i . " (should be " . $product_short . "): " . @join ( "|", $row ) . "<br>\n";
+									break;
+								}
+							}
+						}
+						
+						if ($beuser['region_id'] && isset($data['region_id']) && ($beuser['region_id'] != $data['region_id'])) {
+							$data ['errormsg'] .= "You need permission to upload at line " . $i . " (" . $beuser['region_id'] . "): " . @join ( "|", $row ) . "<br>\n";
+							break;
+						}
+						
+						$product_short = $data ['product_short'];
+						$p = $this->product_model->get_product($product_short);
+						if (empty($p)) {
+							$data ['errormsg'] .= "Unknown product_short at line " . $i . " (should be " . $product_short . "): " . @join ( "|", $row ) . "<br>\n";
+							break;
+						}
+
+            $dt = $this->batch_model->unixstamp($data['birthday']);
+            if (empty($dt)) {
+							$data ['errormsg'] .= "Unknown birthday at line " . $i . " : " . @join ( "|", $row ) . "<br>\n";
+							break;
+            } else {
+              $birthday = date('Y-m-d', $dt);
+            }
+            if (empty($data['firstname'])) { 
+							$data ['errormsg'] .= "Unknown firstname at line " . $i . " : " . @join ( "|", $row ) . "<br>\n";
+							break;
+            }
+            if (empty($data['lastname'])) { 
+							$data ['errormsg'] .= "Unknown lastname at line " . $i . " : " . @join ( "|", $row ) . "<br>\n";
+							break;
+            }
+
+            $amount = $this->check_customer($data['firstname'], $data['lastname'], $birthday);
+            if ($amount > 0) {
+							$data ['errormsg'] .= "A customer firstname:".$data['firstname']." lastname:".$data['lastname']." Birthday:" .$birthday. " at line " . $i . " has claim amount ".$amount." : " . @join ( "|", $row ) . "<br>\n";
+							break;
+            }
+            
+            for ($i = 1; $i < 9; $i++) {
+              if (empty($data['firstname_'.$i])) { $firstname = ''; } else { $firstname = $data['firstname_'.$i]; }
+              if (empty($data['lastname_'.$i])) { $lastname = ''; } else { $lastname = $data['lastname_'.$i]; }
+              if (empty($data['birthday_'.$i])) {
+                $birthday = '';
+              } else {
+                $dt = $this->batch_model->unixstamp($data['birthday_'.$i]);
+                if (empty($dt)) {
+                  $birthday = '';
+                } else {
+                  $birthday = date('Y-m-d', $dt);
+                }
+              }
+              if (empty($firstname) && empty($lastname) && empty($birthday)) {
+                // end of check
+                break;
+              } else if ($firstname && $lastname && $birthday) {
+                $amount = $this->check_customer($firstname, $lastname, $birthday);
+                if ($amount > 0) {
+                  $data ['errormsg'] .= "A customer firstname_".$i.":".$firstname." lastname_".$i.":".$lastname." birthday_".$i.":" .$birthday. " at line " . $i . " has claim amount ".$amount." : " . @join ( "|", $row ) . "<br>\n";
+                  break 2;
+                }
+              } else {
+                $data ['errormsg'] .= "A customer name or birthday error firstname_".$i.":".$firstname." lastname_".$i.":".$lastname." birthday_".$i.":" .$birthday. " at line " . $i . " : " . @join ( "|", $row ) . "<br>\n";
+                break 2;
+              }
+            }
+					}
+				}
+				
+				$reader->close ();
+				if (empty($data['errormsg'])) {
+					$data ['successmsg'] = "Checked upload file: " . $name . ", all data looks OK";
+				}
+			}
+		}
+		header('Content-Type: application/json');
+		header('Cache-Control: no-store, no-cache, must-revalidate');
+		echo json_encode($data);
+	}
+
+  public function processe() {
 		$beuser = $this->func_model->verify_login ();
 		$user = $this->session->userdata ( 'user' );
 		$this->load->model ( 'product_model' );
