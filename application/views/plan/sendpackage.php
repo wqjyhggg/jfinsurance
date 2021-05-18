@@ -89,26 +89,35 @@ foreach ($plan_batch as $p) {
 function send_one_package() {
   if (plan_id_idx >= plan_id_arr.length) {
     clearInterval(intv);
-    window.location.href = '<?php echo base_url("plan"); ?>';
+   //XXXXX window.location.href = '<?php echo base_url("plan"); ?>';
+    var html = $('#sending').html();
+    html += "Sending package finished with count : " + plan_id_idx + "<br>";
+    $('#sending').html(html);
     return ;
   }
-  withlogo = $('input[name=withlogo]').val();
-  withprice = $('input[name=withprice]').val();
-  withbatch = $('input[name=withbatch]').val();
+  var withlogo = 0;
+  if($('input[name=withlogo]').is(":checked")) {
+    withlogo = 1;
+  }
+  var withprice = 0;
+  if($('input[name=withprice]').is(":checked")) {
+    withprice = 1;
+  }
+  
+  var formdata = new FormData();
+  formdata.append('withlogo',withlogo);
+  formdata.append('withprice',withprice);
+  formdata.append('withbatch','1');
+  formdata.append('emailaddr','');
   $.ajax({
 			url: '<?php echo $action_url; ?>' + '/' + plan_id_arr[plan_id_idx],
-			data: {
-        emailaddr:'',
-        withlogo:withlogo,
-        withprice:withprice,
-        withbatch:withbatch,
-      },
+			data: formdata,
 			cache: false,
 			contentType: false,
 			processData: false,
 			timeout: 600000,	// 10 mintes 
 			type: 'POST',
-			//dataType: 'json',
+			dataType: 'text',
 			error: function(jqXHR, textStatus, errorThrown) {
         var html = $('#sending').html();
         html += "Sending package fail<br>";
@@ -116,7 +125,7 @@ function send_one_package() {
 			},
 			success: function(rt) {
         var html = $('#sending').html();
-        html += "Sending package to plan id : " + plan_id_arr[plan_id_idx] + " OK<br>";
+        html += "Sending package to plan id : " + plan_id_arr[plan_id_idx] + " " + rt + "<br>";
         $('#sending').html(html);
         plan_id_idx++;
 			},

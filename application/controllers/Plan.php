@@ -2893,7 +2893,7 @@ class Plan extends MY_Controller {
 				$data['emailaddr'] = $emailaddr;
 			}
 			$this->load->model('verify_model');
-			if ($this->verify_model->isEmail($emailaddr)) {
+			if ($this->verify_model->isEmail($data['emailaddr'])) {
 				$this->load->model('customer_model');
 				$this->load->model('product_model');
 				$this->load->model('paytype_model');
@@ -3007,7 +3007,7 @@ class Plan extends MY_Controller {
 				$title = "Confirmation of Insurance - " . $plan['policy'] . " - " . $data['customer']['firstname'] . " " . $data['customer']['lastname'];
 				
 				$files['policy_confirmation.pdf'] = $policy_file;
-				$sendok = $this->mymail_model->send_mymail($emailaddr, $title, $body, $files, $from='JF Insurance');
+				$sendok = $this->mymail_model->send_mymail($data['emailaddr'], $title, $body, $files, $from='JF Insurance');
 				unlink($policy_file);
 				if ($sendok) {
 					if ($withbatch) {
