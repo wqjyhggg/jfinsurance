@@ -27,8 +27,49 @@ class Cron extends MY_Controller {
 		show_error("ERROR", 404);
 	}
 	
+  public function check_customer($plan, $st, $firstname, $lastname, $dob) {
+    $vrecords = $this->plan_model->verify_customer($firstname, $lastname, $dob);
+    $claim_amount = 0;
+    $case_amount = 0;
+    if ($vrecords['status'] == 'OK') {
+      foreach ($vrecords['cases'] as $case) {
+        $case_amount += (float)$case['amount'];
+      }
+      foreach ($vrecords['claims'] as $claim) {
+        $claim_amount += (float)$claim['amount'];
+      }
+    }
+    if (empty($claim_amount) && empty($case_amount)) {
+      // continue check next customer
+      ;
+    } else if (($claim_amount <= 2000) && ($case_amount <= 2000)) {
+      echo '"'.$plan['policy'].'","'.$st.'","<2000","'.$lastname.'","'.$firstname.'","'.$dob.'"'."\n";
+    } else /* if (($claim_amount > 2000) || ($case_amount > 2000)) */ {
+      echo '"'.$plan['policy'].'","'.$st.'",">2000","'.$lastname.'","'.$firstname.'","'.$dob.'"'."\n";
+    }
+  }
+
 	public function index() {
 		if ($this->valid()) {
+      $this->load->model('plan_model');
+
+      $status = array(1=>"Quote", 2=>"Sold",3=>"Paid",4=>"Claimed",7=>"Changed");
+      $dt = date("Y-m-d");
+      foreach ($status as $st=>$sstr) {
+        $plans = $this->plan_model->plan_search(array('status_id'=>$st,'expiry_date'=>$dt));
+        foreach ($plans as $plan) {
+          $this->check_customer($plan, $sstr, $plan['firstname'], $plan['lastname'], $plan['birthday']);
+          if ($plan['isfamilyplan']) {
+            $customers = $this->customer_model->get_plan_customers_by_id($plan['plan_id']);
+            foreach ($customers as $cust) {
+              if ($plan['customer_id'] == $cust['customer_id']) {
+                continue;
+              }
+              $this->check_customer($plan, $sstr, $cust['firstname'], $cust['lastname'], $cust['birthday']);
+            }
+          }
+        }
+      }
 			die("OK\n");
 		} else {
 			die($this->error."\n");
