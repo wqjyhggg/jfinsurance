@@ -47,7 +47,7 @@ class Mymail_model extends CI_Model {
 			}
 		}
 		$r = $this->email->send(FALSE);
-		log_message('info', "EMAIL: ".$this->email->print_debugger(array('aa')));
+		log_message('debug', "EMAIL: ".$this->email->print_debugger(array('aa')));
 		return $r;
 	}
 }

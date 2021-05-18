@@ -91,7 +91,7 @@ function send_one_package() {
     clearInterval(intv);
    //XXXXX window.location.href = '<?php echo base_url("plan"); ?>';
     var html = $('#sending').html();
-    html += "Sending package finished with count : " + plan_id_idx + "<br>";
+    html = "Sending package finished with count : " + plan_id_idx + "<br>" + html;
     $('#sending').html(html);
     return ;
   }
@@ -125,7 +125,7 @@ function send_one_package() {
 			},
 			success: function(rt) {
         var html = $('#sending').html();
-        html += "Sending package to plan id : " + plan_id_arr[plan_id_idx] + " " + rt + "<br>";
+        html = "Sending package to plan id : " + plan_id_arr[plan_id_idx] + " " + rt + "<br>" + html;
         $('#sending').html(html);
         plan_id_idx++;
 			},
