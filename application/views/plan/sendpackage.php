@@ -68,7 +68,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
                 </div>
               </div>
             </form>
-            <div id='sending'></div>
+            <div id='sending' style="max-height: 50rem; overflow:auto;">
+            </div>
           </div>
         </div>
       </div>
