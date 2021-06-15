@@ -1374,6 +1374,11 @@ class Plan extends MY_Controller {
 				$data['show_history'] = 1;
 				$data['activelogs'] = $this->log_model->get_activity_by_plan_id($data['plan_id']);
 				$data['payments'] = $this->payment_model->get_payment_by_plan_id($data['plan_id']);
+        if ($data['status_id'] >= 2){
+          $this->load->model('claim_model');
+          $claims = $this->plan_model->verify_policy($data['policy']);
+          $data['claims'] = (!empty($claims) && ($claims['status'] == 'OK')) ? $claims['claims'] : '';
+        }
 			}
 		}
 		$data['payhistory_url'] = base_url ( "plan/payhistory/" . $data['plan_id'] );

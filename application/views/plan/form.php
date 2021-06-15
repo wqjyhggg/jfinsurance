@@ -34,6 +34,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <div class="x_panel">
                   <div class="x_title">
                     <h2>Policy Detail<small></small></h2>
+                    <?php if ($user_group_id < 100) { ?>
+                      <?php if (!empty($claims)) { ?>
+                        <span style="color: red;">There is an existing claim or open cases.</span>
+                      <?php } ?>
+                    <?php } ?>
 					<?php if (!empty($plan_id) && !empty($status_id)) { ?>
 						<div class="pull-right text-right">
 						<?php /* it should be created plan */ ?>
