@@ -22,7 +22,7 @@ class Product_model extends CI_Model {
 	 */
 	public function get_product($product_short) {
 		$sql = "SELECT * FROM product WHERE product_short=". $this->db->escape($product_short);
-		return $this->db->query($sql)->row_array();
+		return $this->db->query($sql)->row_array(); 
 	}
 
 	/**
@@ -87,6 +87,10 @@ class Product_model extends CI_Model {
 				$sql .= " WHERE p.calculate='1'";
 			}
 		}
+    $dt = "Y-m-d";
+    if ($dt >= "2021-07-01") {
+      $sql .= " WHERE p.product_short!='OPL'";  //TTTTTTTTTTTTTTT
+    }
 		$sql .= " ORDER BY p.product_short ASC";
 		return $this->db->query($sql)->result_array();
 	}
@@ -288,6 +292,15 @@ class Product_model extends CI_Model {
 	 */
 	public function get_premium($para) {
 		$premiumArr = array('premium' => 0, 'totalyears' => 0, 'totaldays' => 0, 'dailyrate' => 0, 'message' => 0, 'force_deductable' => 0, 'sum_insured' => 0, 'deductible_amount' => 0);
+    $dt = "Y-m-d";
+    if (($dt >= "2021-07-01") || ($para['product_short'] == 'OPL')) {
+			$premiumArr['message'] = "OPL not available from 2021-07-01";
+			return $premiumArr;  //TTTTTTTTTTTTTTT
+    }
+    if (($para['effective_date'] >= "2021-12-31") || ($para['product_short'] == 'OPL')) {
+			$premiumArr['message'] = "Effective start date has to be before Dec 31, 2021";
+			return $premiumArr;  //TTTTTTTTTTTTTTT
+    }
 		if (empty($para['effective_date']) || empty($para['expiry_date'])) {
 			return FALSE;
 		}

@@ -231,6 +231,10 @@ class Plan_model extends CI_Model {
 				return 0;
 			}
 		}
+    $dt = "Y-m-d";
+    if (($dt >= "2021-07-01") || ($para['product_short'] == 'OPL')) {
+      return 0;  //TTTTTTTTTTTTTTT
+    }
 		if ((($para['product_short'] == 'NUS') || ($para['product_short'] == 'JUS')) && isset($para['rate_options']) && ($para['rate_options'] == 2)) {
 			$para['deductible_amount'] = 50;
 		}
