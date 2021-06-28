@@ -76,21 +76,28 @@ class Product_model extends CI_Model {
 				return array();
 			}
 		}
+    $dt = date("Y-m-d"); //TTTTTTTTTT
 		$sql = "SELECT p.* FROM product p ";
 		if ($beuser['user_group_id'] > 100) {
 			$sql .= " INNER JOIN user_product up ON (up.product_short=p.product_short) WHERE up.user_id='". (int)$beuser['user_id'] ."'";
 			if ($processonly) {
 				$sql .= " AND p.calculate='1'";
 			}
-		} else {
-			if ($processonly) {
-				$sql .= " WHERE p.calculate='1'";
-			}
-		}
-    $dt = "Y-m-d";
     if ($dt >= "2021-07-01") {
       $sql .= " AND p.product_short!='OPL'";  //TTTTTTTTTTTTTTT
     }
+		} else {
+			if ($processonly) {
+				$sql .= " WHERE p.calculate='1'";
+    if ($dt >= "2021-07-01") {
+      $sql .= " AND p.product_short!='OPL'";  //TTTTTTTTTTTTTTT
+    }
+			} else {
+    if ($dt >= "2021-07-01") {
+      $sql .= " AND p.product_short!='OPL'";  //TTTTTTTTTTTTTTT
+    }
+			}
+		}
 		$sql .= " ORDER BY p.product_short ASC";
 		return $this->db->query($sql)->result_array();
 	}
@@ -292,7 +299,7 @@ class Product_model extends CI_Model {
 	 */
 	public function get_premium($para) {
 		$premiumArr = array('premium' => 0, 'totalyears' => 0, 'totaldays' => 0, 'dailyrate' => 0, 'message' => 0, 'force_deductable' => 0, 'sum_insured' => 0, 'deductible_amount' => 0);
-    $dt = "Y-m-d";
+    $dt = date("Y-m-d");
     if (($dt >= "2021-07-01") && ($para['product_short'] == 'OPL')) {
 			$premiumArr['message'] = "OPL not available from 2021-07-01";
 			return $premiumArr;  //TTTTTTTTTTTTTTT

@@ -231,7 +231,7 @@ class Plan_model extends CI_Model {
 				return 0;
 			}
 		}
-    $dt = "Y-m-d";
+    $dt = date("Y-m-d");
     if (($dt >= "2021-07-01") && ($para['product_short'] == 'OPL')) {
       return 0;  //TTTTTTTTTTTTTTT
     }
