@@ -89,7 +89,7 @@ class Product_model extends CI_Model {
 		}
     $dt = "Y-m-d";
     if ($dt >= "2021-07-01") {
-      $sql .= " WHERE p.product_short!='OPL'";  //TTTTTTTTTTTTTTT
+      $sql .= " AND p.product_short!='OPL'";  //TTTTTTTTTTTTTTT
     }
 		$sql .= " ORDER BY p.product_short ASC";
 		return $this->db->query($sql)->result_array();
