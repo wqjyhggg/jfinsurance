@@ -76,26 +76,16 @@ class Product_model extends CI_Model {
 				return array();
 			}
 		}
-    $dt = date("Y-m-d"); //TTTTTTTTTT
 		$sql = "SELECT p.* FROM product p ";
 		if ($beuser['user_group_id'] > 100) {
 			$sql .= " INNER JOIN user_product up ON (up.product_short=p.product_short) WHERE up.user_id='". (int)$beuser['user_id'] ."'";
 			if ($processonly) {
 				$sql .= " AND p.calculate='1'";
 			}
-    if ($dt >= "2021-07-01") {
-      $sql .= " AND p.product_short!='OPL'";  //TTTTTTTTTTTTTTT
-    }
 		} else {
 			if ($processonly) {
 				$sql .= " WHERE p.calculate='1'";
-    if ($dt >= "2021-07-01") {
-      $sql .= " AND p.product_short!='OPL'";  //TTTTTTTTTTTTTTT
-    }
 			} else {
-    if ($dt >= "2021-07-01") {
-      $sql .= " AND p.product_short!='OPL'";  //TTTTTTTTTTTTTTT
-    }
 			}
 		}
 		$sql .= " ORDER BY p.product_short ASC";
