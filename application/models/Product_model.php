@@ -290,7 +290,7 @@ class Product_model extends CI_Model {
 	public function get_premium($para) {
 		$premiumArr = array('premium' => 0, 'totalyears' => 0, 'totaldays' => 0, 'dailyrate' => 0, 'message' => 0, 'force_deductable' => 0, 'sum_insured' => 0, 'deductible_amount' => 0);
     $dt = date("Y-m-d");
-    if (($dt >= "2021-07-01") && ($para['product_short'] == 'OPL')) {
+    if (($dt >= "2021-07-01") && empty($para['plan_id']) && ($para['product_short'] == 'OPL')) {
 			$premiumArr['message'] = "OPL not available from 2021-07-01";
 			return $premiumArr;  //TTTTTTTTTTTTTTT
     }
