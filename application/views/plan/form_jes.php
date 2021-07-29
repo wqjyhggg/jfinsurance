@@ -33,7 +33,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										</div>
 									</div>
 									<?php } else { ?>
+                  <?php if ($product_short != "BHS") { ?>
 									<input type='hidden' name='holiday_rate' id='holiday_rate' value='<?php echo $holiday_rate; ?>'>
+                  <?php } ?> 
 									<?php } ?>
 									<div class="form-group col-sm-3">
 										<label class="col-sm-12">Sum Insured (CAD) : $5,000,000</label>

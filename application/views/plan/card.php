@@ -41,7 +41,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 		</div>
 		<div class="row">
 			<div class="col-sm-12 nopadding">
-				<h4><?php if ($plan['status_id'] < 2) { ?>Quote<?php } else {?>Policy<?php } ?> Number: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span><?php echo $plan['policy']; ?></span></h4>
+				<h4><?php if ($plan['status_id'] < 2) { ?>Quote<?php } else {?>Policy<?php } ?> Number: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span><?php echo ($plan['product_short']=="BHS")?$plan['student_id']:$plan['policy']; ?></span></h4>
 				<h4>
 				<?php if ($plan['product_short'] == 'TOP') { ?>
 					Departure Date:
@@ -53,7 +53,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 				</h4>
 				<h4>Effective Date: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span><?php echo $plan['effective_date']; ?></sapn> </h4>
 				<h4>Expiry Date: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span><?php echo $plan['expiry_date']; ?></sapn> </h4>
-				<?php if (($plan['product_short'] != "JES") && ($plan['product_short'] != "JESP") && ($plan['product_short'] !="JFC") && ($plan['product_short'] !="JFP") && ($plan['product_short'] !="TOP")) { ?>
+				<?php if (($plan['product_short'] != "BHS") && ($plan['product_short'] != "JES") && ($plan['product_short'] != "JESP") && ($plan['product_short'] !="JFC") && ($plan['product_short'] !="JFP") && ($plan['product_short'] !="TOP")) { ?>
 				<h4>Number of Days: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span><?php echo $plan['totaldays'];?></sapn> </h4>
 				<?php } ?>
 				
@@ -81,7 +81,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 				<?php } ?>
 
 				<div style="width: 260px; margin: 0 auto;">
-					<h4><span class="small"><?php if ($plan['status_id'] < 2) { ?>Quote<?php } else {?>Certificate<?php } ?> No.: &nbsp;&nbsp;</span><span class="small"><?php echo $plan['policy']; ?></span></h4>
+					<h4><span class="small"><?php if ($plan['status_id'] < 2) { ?>Quote<?php } else {?>Certificate<?php } ?> No.: &nbsp;&nbsp;</span><span class="small"><?php echo ($plan['product_short']=="BHS")?$plan['student_id']:$plan['policy']; ?></span></h4>
 					<h4><span class="small"> Insured Name:&nbsp;&nbsp;&nbsp;</span><span class="small">
 					<?php
 					echo $customer['firstname'] . " " . $customer['lastname'];
@@ -119,7 +119,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 				<?php } ?>
 				
 				<div style="width: 260px; margin: 0 auto;">
-					<h4><span class="small"><?php if ($plan['status_id'] < 2) { ?>Quote<?php } else {?>Certificate<?php } ?> No.: &nbsp;&nbsp;</span><span class="small"><?php echo $plan['policy']; ?></span></h4>
+					<h4><span class="small"><?php if ($plan['status_id'] < 2) { ?>Quote<?php } else {?>Certificate<?php } ?> No.: &nbsp;&nbsp;</span><span class="small"><?php echo ($plan['product_short']=="BHS")?$plan['student_id']:$plan['policy']; ?></span></h4>
 					<h4><span class="small"> Insured Name:&nbsp;&nbsp;&nbsp;</span><span class="small">
 					<?php 
 					echo $customer['firstname'] . " " . $customer['lastname'];

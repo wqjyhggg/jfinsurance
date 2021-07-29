@@ -1365,6 +1365,32 @@ class Product_model extends CI_Model {
 			$premiumArr['dailyrate'] = $rate;
 			$premiumArr['sum_insured'] = number_format($para['sum_insured'], 2, '.', ',');
 			$premiumArr['deductible_amount'] =  number_format($para['deductible_amount'], 2, '.', ',');
+		} else if ($para['product_short'] == 'BHS') {
+			if ($years <= 3) {
+				$premiumArr['message'] = "Customer age must over 4 years old";
+				return $premiumArr;
+			} else if ($years > 69) {
+				$premiumArr['message'] = "Customer age must less 69 years old";
+				return $premiumArr;
+			}
+			$number_customer = (int)$para['number_customer'];
+			$rate = 2.6;
+			$yrate = 840;
+			if ($para['isfamilyplan']) {
+        $rate = $rate * $number_customer;
+        $yrate = $yrate * $number_customer;
+			}
+      if ($y = floor($days / 365)) {
+        $premium = $yrate * $y + $rate * ($days % 365);
+      } else {
+        $premium = $rate * $days;
+      }
+			$premiumArr['premium'] = $premium;
+			$premiumArr['totalyears'] = $years;
+			$premiumArr['totaldays'] = $days;
+			$premiumArr['dailyrate'] = $rate;
+			$premiumArr['sum_insured'] = number_format($para['sum_insured'], 2, '.', ',');
+			$premiumArr['deductible_amount'] =  number_format($para['deductible_amount'], 2, '.', ',');
 		} else if ($para['product_short'] == 'JES') {
 			if ($years <= 3) {
 				$premiumArr['message'] = "Customer age must over 4 years old";
