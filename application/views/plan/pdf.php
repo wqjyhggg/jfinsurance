@@ -67,6 +67,20 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 			<div class="p-detail"-->
 				<!-- policy detail -->
 				<div class="row" style="margin-top: -15px;">
+        <?php if ($plan['product_short'] == 'BHS') { ?>
+					<div class="col-sm-6 nopadding">
+						<h4 style="margin-bottom:15px;"><u>Policy Details</u></h4>
+						<h4><?php if ($plan['status_id'] < 2) { ?>Quote<?php } else {?>Policy<?php } ?> Number: <span><?php echo $plan['student_id']; ?></span></h4>
+						<h4>Policy Holder: <span><?php echo htmlspecialchars($customer['firstname'] . " " . $customer['lastname']); ?></span></h4>
+						<h4>Date of Birth: <span><?php echo $customer['birthday'];?></sapn> </h4>
+					</div>
+					<div class="col-sm-6 nopadding">
+						<h4 style="margin-bottom:15px;">&nbsp;&nbsp;</h4>
+						<h4>Effective Date: <span><?php echo $plan['effective_date']; ?></sapn> </h4>
+						<h4>Expiry Date: <span><?php echo $plan['expiry_date']; ?></sapn> </h4>
+						<h4>Number of Days: <span><?php echo $plan['totaldays'];?></sapn> </h4>
+					</div>
+        <?php } else { ?>
 					<div class="col-sm-6 nopadding">
 						<h4 style="margin-bottom:15px;"><u>Policy Details</u></h4>
 						<h4>Policy Holder: <span><?php echo htmlspecialchars($customer['firstname'] . " " . $customer['lastname']); ?></span></h4>
@@ -83,6 +97,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 						<h4>Expiry Date: <span><?php echo $plan['expiry_date']; ?></sapn> </h4>
 						<h4>Number of Days: <span><?php echo $plan['totaldays'];?></sapn> </h4>
 					</div>
+          <?php } ?>
 				</div>
 				<!-- end policy detail -->
 				<hr style="margin:3px auto;" />
@@ -91,7 +106,11 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 				<div class="row">
 					<div class="col-sm-6 nopadding">
 						<h4 style="margin-bottom:15px;"><u>Coverage Details</u></h4>
-<?php if ($plan['product_short'] == 'TOP') { ?>
+<?php if ($plan['product_short'] == 'BHS') { ?>
+						<h4>Insurance Plan:<br />&nbsp;&nbsp;&nbsp;<span><?php echo $plan_full_name;?></span></h4>
+						<h4>Sum Insured: <span>$<?php echo number_format($plan['sum_insured'], 2); ?></sapn> </h4>
+						<h4>Plan Type: : <span>Individual</sapn> </h4>
+<?php } else if ($plan['product_short'] == 'TOP') { ?>
 						<h4>
 							JF Canadian Travel Out Plan:
 							<br />&nbsp;&nbsp;&nbsp;<span><?php echo $toppackagename[$plan['package']]; ?></span>
