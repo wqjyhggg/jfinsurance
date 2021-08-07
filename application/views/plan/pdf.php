@@ -106,7 +106,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 				<div class="row">
 					<div class="col-sm-6 nopadding">
 						<h4 style="margin-bottom:15px;"><u>Coverage Details</u></h4>
-<?php if ($plan['product_short'] == 'BHS') { ?>
+<?php if (($plan['product_short'] == 'JFS') || ($plan['product_short'] == 'JFE') || ($plan['product_short'] == 'BHS')) { ?>
 						<h4>Insurance Plan:<br />&nbsp;&nbsp;&nbsp;<span><?php echo $plan_full_name;?></span></h4>
 						<h4>Sum Insured: <span>$<?php echo number_format($plan['sum_insured'], 2); ?></sapn> </h4>
 						<h4>Plan Type: : <span>Individual</sapn> </h4>

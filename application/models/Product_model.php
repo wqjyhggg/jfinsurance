@@ -303,7 +303,7 @@ class Product_model extends CI_Model {
 		}
 		$days = $this->getDays($para['effective_date'], $para['expiry_date']);	// $dt1 = date_create('1900-01-01 00:00:00'); $dt2 = date_create('1970-01-01 12:12:12'); echo $dt2->diff($dt1)->days;
 		$yearday = $this->getYearDays($para['effective_date']);
-    if ($para['product_short'] != 'BHS') {
+    if (($para['product_short'] != 'JFS') && ($para['product_short'] != 'JFE') && ($para['product_short'] != 'BHS')) {
       if ($days > $yearday) {
         $premiumArr['totaldays'] = $days;
         $premiumArr['message'] = "Period longer than a year, too long";
@@ -1367,6 +1367,46 @@ class Product_model extends CI_Model {
 			$premiumArr['dailyrate'] = $rate;
 			$premiumArr['sum_insured'] = number_format($para['sum_insured'], 2, '.', ',');
 			$premiumArr['deductible_amount'] =  number_format($para['deductible_amount'], 2, '.', ',');
+		} else if ($para['product_short'] == 'JFS') {
+			if ($years <= 3) {
+				$premiumArr['message'] = "Customer age must over 4 years old";
+				return $premiumArr;
+			} else if ($years > 69) {
+				$premiumArr['message'] = "Customer age must less 69 years old";
+				return $premiumArr;
+			}
+			$number_customer = (int)$para['number_customer'];
+			$rate = 1.6;
+			if ($para['isfamilyplan']) {
+        $rate = $rate * $number_customer;
+			}
+      $premium = $rate * $days;
+      $premiumArr['premium'] = $premium;
+			$premiumArr['totalyears'] = $years;
+			$premiumArr['totaldays'] = $days;
+			$premiumArr['dailyrate'] = $rate;
+			$premiumArr['sum_insured'] = number_format($para['sum_insured'], 2, '.', ',');
+			$premiumArr['deductible_amount'] =  number_format($para['deductible_amount'], 2, '.', ',');
+		} else if ($para['product_short'] == 'JFE') {
+			if ($years <= 3) {
+				$premiumArr['message'] = "Customer age must over 4 years old";
+				return $premiumArr;
+			} else if ($years > 69) {
+				$premiumArr['message'] = "Customer age must less 69 years old";
+				return $premiumArr;
+			}
+			$number_customer = (int)$para['number_customer'];
+			$rate = 1.85;
+			if ($para['isfamilyplan']) {
+        $rate = $rate * $number_customer;
+			}
+      $premium = $rate * $days;
+			$premiumArr['premium'] = $premium;
+			$premiumArr['totalyears'] = $years;
+			$premiumArr['totaldays'] = $days;
+			$premiumArr['dailyrate'] = $rate;
+			$premiumArr['sum_insured'] = number_format($para['sum_insured'], 2, '.', ',');
+			$premiumArr['deductible_amount'] =  number_format($para['deductible_amount'], 2, '.', ',');
 		} else if ($para['product_short'] == 'BHS') {
 			if ($years <= 3) {
 				$premiumArr['message'] = "Customer age must over 4 years old";
@@ -1402,8 +1442,19 @@ class Product_model extends CI_Model {
 				return $premiumArr;
 			}
 			$number_customer = (int)$para['number_customer'];
-			$rate = 1.6;
-			if ($para['holiday_rate'] && $para['holiday_rate']) $rate = 1.85;
+      $dt = date("Y-m-d");
+      if ($dt >= "2021-08-16") {
+        $rate = 1.8;
+      } else {
+        $rate = 1.6;
+      }
+			if ($para['holiday_rate'] && $para['holiday_rate']) {
+        if ($dt >= "2021-08-16") {
+          $rate = 2.05;
+        } else {
+          $rate = 1.85;
+        }
+      }
 			if ($para['isfamilyplan']) {
 				if (($number_customer == 2) && (!empty($para['plan_id']) && ($para['plan_id'] < SELF::PLANIDCHG2019_5))) {
 					$rate = $rate * 2.5;
@@ -1430,7 +1481,12 @@ class Product_model extends CI_Model {
 				return $premiumArr;
 			}
 			$number_customer = (int)$para['number_customer'];
-			$rate = 1.8;
+      $dt = date("Y-m-d");
+      if ($dt >= "2021-08-16") {
+        $rate = 1.85;
+      } else {
+        $rate = 1.8;
+      }
 			// if ($para['holiday_rate'] && $para['holiday_rate']) $rate = 1.85;
 			if ($para['isfamilyplan']) {
 				$premiumArr['message'] = "No family plan for JESP";
@@ -1441,7 +1497,11 @@ class Product_model extends CI_Model {
 			}
 			$premium = $rate * $days;
 			if ($days >= 365) {
-				$premium -= 7;  // 1.8 * 365 = 657 - 650 / year = 7
+        if ($dt >= "2021-08-16") {
+          $premium -= 10.25;  // 1.85 * 365 = 675.25 - 665 / year = 10.25
+        } else {
+          $premium -= 7;  // 1.8 * 365 = 657 - 650 / year = 7
+        }
 			}
 			$premiumArr['premium'] = $premium;
 			$premiumArr['totalyears'] = $years;
