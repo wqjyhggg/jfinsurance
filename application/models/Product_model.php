@@ -13,6 +13,7 @@ class Product_model extends CI_Model {
 	const PLANIDCHG2019_7=486069;   // JFR rate change
 	const PLANIDCHG2019_8=504988;   // OPL rate change
 	public $message;
+  public $default_uncheck_product=array('JFC','NUS','JUS','JFP','BHS');
 	
 	/**
 	 * Get product 
