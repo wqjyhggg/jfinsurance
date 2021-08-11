@@ -50,7 +50,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<div class="row">
 									<div class="form-group col-sm-3">
 <?php if ($product_short == 'JESP') { ?>
-                                                                                <label class="col-sm-12">Child Name : </label>
+                                                                                <label class="col-sm-12">Student Name : </label>
 <?php } else { ?>
 										<label class="col-sm-12">Student ID : </label>
 <?php } ?>

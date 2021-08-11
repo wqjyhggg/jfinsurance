@@ -432,7 +432,7 @@ class Plan extends MY_Controller {
 		
 		if ($product_short == 'JESP') {
 			if (empty($this->input->post('student_id'))) {
-				$this->error['error_student_id'] = 'Child Name is Required';
+				$this->error['error_student_id'] = 'Student Name is Required';
 			}
 			if (empty($this->input->post('institution'))) {
 				$this->error['error_institution'] = 'School Name is Required';
@@ -445,7 +445,7 @@ class Plan extends MY_Controller {
 		}
 		if ($product_short == 'BHS') {
 			if (empty($this->input->post('student_id'))) {
-				$this->error['error_student_id'] = 'Child Name is Required';
+				$this->error['error_student_id'] = 'Student Name is Required';
 			}
 		}
 		if (($product_short != 'TOP') && ($arrivaltm > $effectivetm)) {
