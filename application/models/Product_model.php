@@ -1450,11 +1450,7 @@ class Product_model extends CI_Model {
         $rate = 1.6;
       }
 			if ($para['holiday_rate'] && $para['holiday_rate']) {
-        if ($dt >= "2021-08-16") {
-          $rate = 2.05;
-        } else {
-          $rate = 1.85;
-        }
+        $rate = 1.85;
       }
 			if ($para['isfamilyplan']) {
 				if (($number_customer == 2) && (!empty($para['plan_id']) && ($para['plan_id'] < SELF::PLANIDCHG2019_5))) {
