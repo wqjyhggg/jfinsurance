@@ -1273,7 +1273,16 @@ class Product_model extends CI_Model {
 				return FALSE;
 			}
 			if ($para['isfamilyplan']) {
-				$rate *= 2;
+        if ($years <= 60) {
+          $rate *= 2;
+        } else {
+          $premiumArr['message'] = "Customer age must less 59 years old for apply family plan";
+          return $premiumArr;
+        }
+        if ((int)$para['number_customer'] < 3) {
+          $premiumArr['message'] = "Family plan required minimum of 3 policy holders";
+          return $premiumArr;
+        }
 			}
 			$rate = $rate * $discount;
 			$premium = $rate * $days;
