@@ -66,7 +66,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<div class="col-sm-12">
 										<label class="inline">Select pre-existing condition coverage</label>
 										<div class="inline">
-											<select name='stable_condition' class="form-control setpremium" id='stable_condition_select'>
+                      <select name='stable_condition' value="<?php echo $stable_condition; ?>" class="form-control setpremium" id='stable_condition_select'>
 												<option value='0'> -- select condition -- </option>
 												<option value='1' <?php echo ($stable_condition == 1) ? 'selected' : ''; ?>>Including stable pre-existing condition coverage</option>
 												<option value='2' <?php echo ($stable_condition == 2) ? 'selected' : ''; ?>>No pre-existing condition coverage</option>
