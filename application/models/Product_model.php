@@ -12,6 +12,7 @@ class Product_model extends CI_Model {
 	const PLANIDCHG2019_5=456749;   // JES apply 1.6 * 2. (used to be 1.6 daily * 2.5)
 	const PLANIDCHG2019_7=486069;   // JFR rate change
 	const PLANIDCHG2019_8=504988;   // OPL rate change
+	const PLANIDCHG2021_8=619241;   // JES JESP new rate
 	public $message;
   public $default_uncheck_product=array('JFC','NUS','JUS','JFP','BHS');
 	
@@ -1453,7 +1454,7 @@ class Product_model extends CI_Model {
 			}
 			$number_customer = (int)$para['number_customer'];
       $dt = date("Y-m-d");
-      if ($dt >= "2021-08-16") {
+      if (($dt >= "2021-08-16") && (!empty($para['plan_id']) && ($para['plan_id'] < SELF::PLANIDCHG2021_8))) {
         $rate = 1.8;
       } else {
         $rate = 1.6;
@@ -1472,6 +1473,9 @@ class Product_model extends CI_Model {
 				return FALSE;
 			}
 			$premium = $rate * $days;
+			if (($days >= 365) && (empty($para['plan_id']) || ($para['plan_id'] > SELF::PLANIDCHG2021_8))) {
+        $premium -= 12;  // 1.8 * 365 = 657 - 645 / year = 12
+			}
 			$premiumArr['premium'] = $premium;
 			$premiumArr['totalyears'] = $years;
 			$premiumArr['totaldays'] = $days;
@@ -1488,7 +1492,7 @@ class Product_model extends CI_Model {
 			}
 			$number_customer = (int)$para['number_customer'];
       $dt = date("Y-m-d");
-      if ($dt >= "2021-08-16") {
+      if (($dt >= "2021-08-16") && (!empty($para['plan_id']) && ($para['plan_id'] < SELF::PLANIDCHG2021_8))) {
         $rate = 1.85;
       } else {
         $rate = 1.8;
@@ -1503,7 +1507,7 @@ class Product_model extends CI_Model {
 			}
 			$premium = $rate * $days;
 			if ($days >= 365) {
-        if ($dt >= "2021-08-16") {
+        if (($dt >= "2021-08-16") && (empty($para['plan_id']) || ($para['plan_id'] > SELF::PLANIDCHG2021_8))) {
           $premium -= 10.25;  // 1.85 * 365 = 675.25 - 665 / year = 10.25
         } else {
           $premium -= 7;  // 1.8 * 365 = 657 - 650 / year = 7
