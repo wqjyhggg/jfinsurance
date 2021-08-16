@@ -107,12 +107,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								</div>
 								<div class="row" id="stable_condition_confirm_div" <?php echo ($stable_condition == 2) ? '' : 'style="display: none"'; ?>>
 									<div class="col-sm-12">
-										<div class="inline">
-											<input type='hidden' name='stable_condition_confirm' value='<?php echo $stable_condition_confirm; ?>'>
-											<i class="fa fa-check"></i>
+                    <div class="inline alert-error">
 											<B>WARNING</B>: Please confirm with the insured that this plan does not cover ANY Pre-Existing Medical Condition(s)..<br />
                       Pre-Existing Medical Condition(s) means any medical condition, sickness or injury for which at any time prior to the effective date, you have experienced symptoms, you have received medical care, advice, investigation or medical treatment, you have been hospitalized, you have been prescribed (including prescribed as needed) or have taken medication, or you have undergone a medical surgical procedure.<br />
-                      BBy checking the below box, you confirm that both you and your client understand the term and that the plan selected does NOT cover any Pre-Existing Medical Condition(s). <br />
+                      By checking the below box, you confirm that both you and your client understand the term and that the plan selected does NOT cover any Pre-Existing Medical Condition(s). <br />
                       Please confirm you have selected the "No pre-existing condition coverage"
 										</div>
 									</div>
