@@ -92,6 +92,7 @@ class Product extends MY_Controller {
 		$beuser = $this->func_model->verify_login(TRUE, TRUE); 
 		$this->load->model('product_model');
 		$para = array(
+			'status_id' => $this->input->post_get('status_id'),
 			'plan_id' => $this->input->post_get('plan_id'),
 			'product_short' => $this->input->post_get('product_short'),
 			'apply_date' => $this->input->post_get('apply_date'),
