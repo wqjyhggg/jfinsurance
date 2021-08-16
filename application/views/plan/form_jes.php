@@ -90,11 +90,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <?php if ($product_short == 'JFS') { ?>
                 <div class="row">
 									<div class="col-sm-12">
-										<label class="inline">Selected pre-existing condition coverage</label>
+										<label class="inline">Select pre-existing condition coverage</label>
 										<div class="inline">
-											<?php echo ($stable_condition == 1) ? "Including stable pre-existing condition coverage" : (($product_short == 'JFR') ? "No pre-existing condition coverage" : "No pre-existing condition coverage"); ?>
+											<select name='stable_condition' class="form-control setpremium" id='stable_condition_select'>
+												<option value='0'> -- select condition -- </option>
+												<option value='1' <?php echo ($stable_condition == 1) ? 'selected' : ''; ?>>Including stable pre-existing condition coverage</option>
+												<option value='2' <?php echo ($stable_condition == 2) ? 'selected' : ''; ?>>No pre-existing condition coverage</option>
+											</select>
 										</div>
-										<input type='hidden' class='stable_condition' name='stable_condition' id='stable_condition' value='<?php echo $stable_condition; ?>'>
+										<?php if (!empty($error_stable_condition)) {?>
+										<div class="alert-error">
+											<?php echo $error_stable_condition;?>
+										</div>	
+										<?php } ?>
 									</div>
 								</div>
 								<div class="row" id="stable_condition_confirm_div" <?php echo ($stable_condition == 2) ? '' : 'style="display: none"'; ?>>
