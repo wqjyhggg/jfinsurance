@@ -1454,7 +1454,11 @@ class Product_model extends CI_Model {
 			}
 			$number_customer = (int)$para['number_customer'];
       $dt = date("Y-m-d");
-      if (($dt < "2021-08-16") && (!empty($para['plan_id']) && ($para['plan_id'] < SELF::PLANIDCHG2021_8))) {
+      $status_id = 0;
+      if (isset($para['status_id'])) {
+        $status_id = intval($para['status_id']);
+      }
+      if (($dt < "2021-08-16") || (($status_id > 1) && !empty($para['plan_id']) && ($para['plan_id'] < SELF::PLANIDCHG2021_8))) {
         $rate = 1.6;
       } else {
         $rate = 1.8;
@@ -1492,7 +1496,11 @@ class Product_model extends CI_Model {
 			}
 			$number_customer = (int)$para['number_customer'];
       $dt = date("Y-m-d");
-      if (($dt < "2021-08-16") && (!empty($para['plan_id']) && ($para['plan_id'] < SELF::PLANIDCHG2021_8))) {
+      $status_id = 0;
+      if (isset($para['status_id'])) {
+        $status_id = intval($para['status_id']);
+      }
+      if (($dt < "2021-08-16") || (($status_id > 1) && !empty($para['plan_id']) && ($para['plan_id'] < SELF::PLANIDCHG2021_8))) {
         $rate = 1.8;
       } else {
         $rate = 1.85;
