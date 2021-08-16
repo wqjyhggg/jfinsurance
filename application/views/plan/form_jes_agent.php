@@ -62,30 +62,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									</div>
 								</div>
                 <?php if ($product_short == 'JFS') { ?>
-                <div class="row">
-									<div class="col-sm-12">
-										<label class="inline">Select pre-existing condition coverage</label>
-										<div class="inline">
-                      <select name='stable_condition' value="<?php echo $stable_condition; ?>" class="form-control setpremium" id='stable_condition_select'>
-												<option value='0'> -- select condition -- </option>
-												<option value='1' <?php echo ($stable_condition == 1) ? 'selected' : ''; ?>>Including stable pre-existing condition coverage</option>
-												<option value='2' <?php echo ($stable_condition == 2) ? 'selected' : ''; ?>>No pre-existing condition coverage</option>
-											</select>
-										</div>
-										<?php if (!empty($error_stable_condition)) {?>
-										<div class="alert-error">
-											<?php echo $error_stable_condition;?>
-										</div>	
-										<?php } ?>
-									</div>
-								</div>
 								<div class="row" id="stable_condition_confirm_div" <?php echo ($stable_condition == 2) ? '' : 'style="display: none"'; ?>>
 									<div class="col-sm-12">
-										<div class="inline alert-error">
+                    <div class="inline">
 											<B>WARNING</B>: Please confirm with the insured that this plan does not cover ANY Pre-Existing Medical Condition(s)..<br />
                       Pre-Existing Medical Condition(s) means any medical condition, sickness or injury for which at any time prior to the effective date, you have experienced symptoms, you have received medical care, advice, investigation or medical treatment, you have been hospitalized, you have been prescribed (including prescribed as needed) or have taken medication, or you have undergone a medical surgical procedure.<br />
                       By checking the below box, you confirm that both you and your client understand the term and that the plan selected does NOT cover any Pre-Existing Medical Condition(s). <br />
-                      Please confirm you have selected the "No pre-existing condition coverage"
+                      <input type='checkbox' name='stable_condition_confirm' value='<?php echo $stable_condition_confirm; ?>'>
+                      <input type='hidden' name='stable_condition' value='2'>
 										</div>
 									</div>
 								</div>
