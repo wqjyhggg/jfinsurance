@@ -97,6 +97,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                       By checking the box, you confirm that both you and your client understand the term and that the plan selected does NOT cover any Pre-Existing Medical Condition(s). <br />
                       <input type='hidden' name='stable_condition' value='2'>
 										</div>
+                    <?php if (!empty($error_stable_condition_confirm)) {?>
+											<div class="alert-error">
+												<?php echo $error_stable_condition_confirm;?>
+											</div>	
+										<?php } ?>
 									</div>
 								</div>
                 <?php } ?>

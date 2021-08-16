@@ -541,7 +541,7 @@ class Plan extends MY_Controller {
 			$apply_date = $this->input->post('apply_date');
 			$birthday = $this->input->post('birthday');
 			$years = $this->product_model->getYears($apply_date, $birthday);
-			if ($product_short == 'JFR') {
+			if ($product_short == 'JFS') {
         $stable_condition_confirm = $this->input->post('stable_condition_confirm');
         if (empty($stable_condition_confirm)) {
           $this->error['error_stable_condition_confirm'] = 'You must confirm you known about NOT cover any Pre-Existing Medical Condition(s).';
