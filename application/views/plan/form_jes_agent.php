@@ -62,7 +62,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									</div>
 								</div>
                 <?php if ($product_short == 'JFS') { ?>
-								<div class="row" id="stable_condition_confirm_div" <?php echo ($stable_condition == 2) ? '' : 'style="display: none"'; ?>>
+								<div class="row" id="stable_condition_confirm_div">
 									<div class="col-sm-12">
                     <div class="inline">
 											<B>WARNING</B>: Please confirm with the insured that this plan does not cover ANY Pre-Existing Medical Condition(s)..<br />
