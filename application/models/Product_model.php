@@ -1454,10 +1454,10 @@ class Product_model extends CI_Model {
 			}
 			$number_customer = (int)$para['number_customer'];
       $dt = date("Y-m-d");
-      if (($dt >= "2021-08-16") && (!empty($para['plan_id']) && ($para['plan_id'] < SELF::PLANIDCHG2021_8))) {
-        $rate = 1.8;
-      } else {
+      if (($dt < "2021-08-16") && (!empty($para['plan_id']) && ($para['plan_id'] < SELF::PLANIDCHG2021_8))) {
         $rate = 1.6;
+      } else {
+        $rate = 1.8;
       }
 			if ($para['holiday_rate'] && $para['holiday_rate']) {
         $rate = 1.85;
@@ -1492,10 +1492,10 @@ class Product_model extends CI_Model {
 			}
 			$number_customer = (int)$para['number_customer'];
       $dt = date("Y-m-d");
-      if (($dt >= "2021-08-16") && (!empty($para['plan_id']) && ($para['plan_id'] < SELF::PLANIDCHG2021_8))) {
-        $rate = 1.85;
-      } else {
+      if (($dt < "2021-08-16") && (!empty($para['plan_id']) && ($para['plan_id'] < SELF::PLANIDCHG2021_8))) {
         $rate = 1.8;
+      } else {
+        $rate = 1.85;
       }
 			// if ($para['holiday_rate'] && $para['holiday_rate']) $rate = 1.85;
 			if ($para['isfamilyplan']) {
