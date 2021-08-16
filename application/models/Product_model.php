@@ -14,7 +14,7 @@ class Product_model extends CI_Model {
 	const PLANIDCHG2019_8=504988;   // OPL rate change
 	const PLANIDCHG2021_8=619241;   // JES JESP new rate
 	public $message;
-  public $default_uncheck_product=array('JFC','NUS','JUS','JFP','BHS');
+  public $default_uncheck_product=array('BHS','JFE','JFP','JFC','JUS','NUS');  //  JES, JESP, JFS, JFR
 	
 	/**
 	 * Get product 
