@@ -67,7 +67,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="inline">
 											<B>WARNING</B>: Please confirm with the insured that this plan does not cover ANY Pre-Existing Medical Condition(s)..<br />
                       Pre-Existing Medical Condition(s) means any medical condition, sickness or injury for which at any time prior to the effective date, you have experienced symptoms, you have received medical care, advice, investigation or medical treatment, you have been hospitalized, you have been prescribed (including prescribed as needed) or have taken medication, or you have undergone a medical surgical procedure.<br />
-                      <input type='checkbox' name='stable_condition_confirm' value='<?php echo $stable_condition_confirm; ?>'>
+                      <input type='checkbox' name='stable_condition_confirm' value='1' <?php echo ($stable_condition_confirm?"checked":""); ?>>
                       By checking the box, you confirm that both you and your client understand the term and that the plan selected does NOT cover any Pre-Existing Medical Condition(s). <br />
                       <input type='hidden' name='stable_condition' value='2'>
 										</div>
