@@ -118,7 +118,7 @@ class Payment extends MY_Controller {
 	 */
 	public function admin() {
 		$beuser = $this->func_model->verify_login();
-		if (($beuser['user_id'] != 1) && ($beuser['user_id'] != 2762) && ($beuser['user_id'] != 2654)) {
+		if (($beuser['user_id'] != 1) && ($beuser['user_id'] != 2762) && ($beuser['user_id'] != 2654) && ($beuser['user_id'] != 2661)) {
 			show_error("You can't access this page");
 		}
 		
