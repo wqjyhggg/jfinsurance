@@ -477,17 +477,17 @@ defined('BASEPATH') or exit('No direct script access allowed');
         </div>
         <div class="row">
           <div class="col-sm-12 nopm">
-            <p class="small">Toutes les personnes assurées sont soumises aux termes et conditions ci-dessous.</p>
-            <p class="small">Le présent document ne constitue pas l'intégralité de la police d'assurance et il a été conseillé à l'assuré de lire l'intégralité des détails de la couverture et
-des exclusions de la police.</p>
-            <p class="small">Les conditions d'admissibilité du régime demandé sont importantes pour le risque pour lequel l'assurance est demandée. Si l'assuré ne satisfait pas aux
+            <p class="small">Toutes les personnes assurées sont soumises aux termes et conditions ci-dessous.<br />
+            Le présent document ne constitue pas l'intégralité de la police d'assurance et il a été conseillé à l'assuré de lire l'intégralité des détails de la couverture et
+des exclusions de la police.<br />
+            Les conditions d'admissibilité du régime demandé sont importantes pour le risque pour lequel l'assurance est demandée. Si l'assuré ne satisfait pas aux
 conditions d'admissibilité du régime choisi, ou s'il y a fausse déclaration, dissimulation ou omission de divulguer des faits ou des questions concernant
-l'assuré et faisant l'objet du formulaire de demande, aucune couverture d'assurance ne sera fournie.</p>
-            <p class="small">L'assuré est conscient que cette assurance couvre les urgences (telles que définies dans la police) et peut ne pas couvrir les frais encourus après que
+l'assuré et faisant l'objet du formulaire de demande, aucune couverture d'assurance ne sera fournie.<br />
+            L'assuré est conscient que cette assurance couvre les urgences (telles que définies dans la police) et peut ne pas couvrir les frais encourus après que
 l'assuré ait pu rentrer chez lui pour être soigné. L'assuré sait que les affections préexistantes (telles que définies dans la police) sont exclues dans
-certaines circonstances et que de plus amples détails sont fournis dans la police.</p>
-            <p class="small">EN CAS D'URGENCE MÉDICALE OU DE SINISTRE POUVANT NÉCESSITER OU ENTRAÎNER UNE HOSPITALISATION, APPELEZ ONTIME CARE
-WORLDWIDE INC. IMMÉDIATEMENT</p>
+certaines circonstances et que de plus amples détails sont fournis dans la police.<br />
+            EN CAS D'URGENCE MÉDICALE OU DE SINISTRE POUVANT NÉCESSITER OU ENTRAÎNER UNE HOSPITALISATION, APPELEZ ONTIME CARE
+WORLDWIDE INC. IMMÉDIATEMENT
           </div>
         </div>
         <div class="row">
