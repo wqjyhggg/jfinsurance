@@ -85,6 +85,7 @@ class Receivable extends MY_Controller
                 'order_date' => 'Pruchase Date',
                 'policy' => 'Policy Number',
                 'insured_name' => 'Customer Name',
+                'student_id' => 'Student ID',
                 'effective_date' => 'Effective Date',
                 'expiry_date' => 'Expiry Date',
                 'total_days' => 'Trip Length',

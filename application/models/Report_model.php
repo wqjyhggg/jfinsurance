@@ -372,6 +372,7 @@ class Report_model extends CI_Model
     	$sql  = "SELECT";
     	$sql .= " `pl`.`apply_date` AS `order_date`,";
     	$sql .= " `pl`.`policy`,";
+    	$sql .= " `pl`.`student_id`,";
     	$sql .= " `u`.`username` AS `insurer`,";
     	$sql .= " `pr`.`full_name` AS `product`,";
     	$sql .= " CONCAT(c.lastname, \", \", c.firstname) AS insured_name,";

@@ -228,6 +228,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <th>Pruchase Date</th>
                             <th>Policy Number</th>
                             <th>Customer Name</th>
+                            <th>Student ID</th>
                             <th>Effective Date</th>
                             <th>Expiry Date</th>
                             <th>Trip Length</th>
@@ -242,6 +243,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                               <td><?=$record['order_date'] ?></td>
                               <td><?=$record['policy'] ?></td>
                               <td><?=$record['insured_name'] ?></td>
+                              <td><?=$record['student_id'] ?></td>
                               <td><?=$record['effective_date'] ?></td>
                               <td><?=$record['expiry_date'] ?></td>
                               <td><?=$record['total_days'] ?></td>
