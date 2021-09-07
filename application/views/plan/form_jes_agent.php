@@ -13,6 +13,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 											<input type='hidden' name='beneficiary' value='<?php echo $html_model->escapeQuote($beneficiary); ?>' class="form-control">
 										</div>
 									</div>
+<?php if (($product_short != 'JESP') && ($product_short != 'JFS')) { ?>
 									<div class="form-group col-sm-3">
 										<label class="col-sm-12">Is Family Plan : </label>
 										<div class="input-group col-sm-12">
@@ -20,6 +21,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 											<input type='hidden' name='isfamilyplan' id='isfamilyplan' value='<?php echo $isfamilyplan; ?>'>
 										</div>
 									</div>
+<?php } ?>
 									<input type='hidden' name='holiday_rate' id='holiday_rate' value='<?php echo $holiday_rate; ?>'>
 									<div class="form-group col-sm-3">
 <?php if ($product_short == 'BHS') { ?>

@@ -17,7 +17,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										</div>	
 										<?php } ?>
 									</div>
-<?php if ($product_short != 'JESP') { ?>
+<?php if (($product_short != 'JESP') && ($product_short != 'JFS')) { ?>
 									<div class="form-group col-sm-3">
 										<label class="col-sm-12">Is Family Plan : </label>
 										<div class="input-group col-sm-12" style="border: 1px solid #ccc;padding: 3px;">
