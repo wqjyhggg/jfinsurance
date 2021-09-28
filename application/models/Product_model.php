@@ -1463,7 +1463,7 @@ class Product_model extends CI_Model {
       } else {
         $rate = 1.8;
       }
-			if ($para['holiday_rate'] && $para['holiday_rate']) {
+			if (isset($para['holiday_rate']) && $para['holiday_rate']) {
         $rate = 1.85;
       }
 			if ($para['isfamilyplan']) {
@@ -1473,12 +1473,14 @@ class Product_model extends CI_Model {
 					$rate = $rate * $number_customer;
 				}
 			}
-			if ($para['holiday_rate'] < 0) {
+			if (isset($para['holiday_rate']) && ($para['holiday_rate'] < 0)) {
 				return FALSE;
 			}
 			$premium = $rate * $days;
 			if (($days >= 365) && (empty($para['plan_id']) || ($para['plan_id'] > SELF::PLANIDCHG2021_8))) {
-        $premium -= 12;  // 1.8 * 365 = 657 - 645 / year = 12
+        if (empty($para['holiday_rate'])) {
+          $premium -= 12;  // 1.8 * 365 = 657 - 645 / year = 12
+        }
 			}
 			$premiumArr['premium'] = $premium;
 			$premiumArr['totalyears'] = $years;
@@ -1510,7 +1512,7 @@ class Product_model extends CI_Model {
 				$premiumArr['message'] = "No family plan for JESP";
 				return $premiumArr;
 			}
-			if ($para['holiday_rate'] < 0) {
+			if (isset($para['holiday_rate']) && ($para['holiday_rate'] < 0)) {
 				return FALSE;
 			}
 			$premium = $rate * $days;
