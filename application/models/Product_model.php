@@ -1466,20 +1466,21 @@ class Product_model extends CI_Model {
 			if (isset($para['holiday_rate']) && $para['holiday_rate']) {
         $rate = 1.85;
       }
+      $members = 1;
 			if ($para['isfamilyplan']) {
 				if (($number_customer == 2) && (!empty($para['plan_id']) && ($para['plan_id'] < SELF::PLANIDCHG2019_5))) {
-					$rate = $rate * 2.5;
+					$members = 2.5;
 				} else {
-					$rate = $rate * $number_customer;
+					$members = $number_customer;
 				}
 			}
 			if (isset($para['holiday_rate']) && ($para['holiday_rate'] < 0)) {
 				return FALSE;
 			}
-			$premium = $rate * $days;
+			$premium = $rate * $members * $days;
 			if (($days >= 365) && (empty($para['plan_id']) || ($para['plan_id'] > SELF::PLANIDCHG2021_8))) {
         if (empty($para['holiday_rate'])) {
-          $premium -= 12;  // 1.8 * 365 = 657 - 645 / year = 12
+          $premium -= 12 * $members;  // 1.8 * 365 = 657 - 645 / year = 12
         }
 			}
 			$premiumArr['premium'] = $premium;
