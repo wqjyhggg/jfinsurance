@@ -3162,7 +3162,7 @@ class Plan extends MY_Controller {
 		}
 		$html = $this->load->view('plan/pdf', $data, TRUE);
 		$mpdf->writeHTML($html);
-		$mpdf->Output("Policy");
+		$mpdf->Output("Policy.pdf","D");
 	}
 
 	/**
@@ -3557,7 +3557,7 @@ class Plan extends MY_Controller {
 		$html = $this->load->view('plan/cancel', $data, TRUE);
 		$mpdf = new mPDF('c');
 		$mpdf->writeHTML($html);
-		$mpdf->Output("policy_cancel");
+		$mpdf->Output("policy_cancel.pdf","D");
 	}
 	
 	/**
@@ -3639,7 +3639,7 @@ class Plan extends MY_Controller {
 			$html = $this->load->view('plan/refund', $data, TRUE);
 			$mpdf = new mPDF('c');
 			$mpdf->writeHTML($html);
-			$mpdf->Output("policy_refund");
+			$mpdf->Output("policy_refund.pdf","D");
 		} else {
 			$data['customer_full_name'] = $data['customer']['firstname'] . " " . $data['customer']['lastname'];
 			$data['full_address'] = empty($plan['suite_number']) ? '' : $plan['suite_number'] . "- ";
@@ -3714,7 +3714,7 @@ class Plan extends MY_Controller {
 		$data['style'] = $this->load->view('common/pdf_style',$data, TRUE);
 		$html = $this->load->view('plan/card', $data, TRUE);
 		$mpdf->writeHTML($html);
-		$mpdf->Output("policy_card");
+		$mpdf->Output("policy_card.pdf","D");
 	}
 	
 	/**
@@ -3775,7 +3775,7 @@ class Plan extends MY_Controller {
 		$data['style'] = $this->load->view('common/pdf_style',$data, TRUE);
 		$html = $this->load->view('plan/receipt', $data, TRUE);
 		$mpdf->writeHTML($html);
-		$mpdf->Output("receipt");
+		$mpdf->Output("receipt.pdf","D");
 	}
 		
 	public function Renewal($plan_id) {

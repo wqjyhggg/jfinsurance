@@ -529,7 +529,7 @@ class Citem extends MY_Controller {
 			//echo $html;
 			$mpdf = new mPDF('c');
 			$mpdf->writeHTML($html);
-			$mpdf->Output();
+			$mpdf->Output("letter.pdf","D");
 		} else {
 			// Show input form
 			$this->data['claim_id'] = $claim_id;
