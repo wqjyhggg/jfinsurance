@@ -12,10 +12,10 @@ class Annual extends MY_Controller {
 		$beuser = $this->func_model->verify_login();
 		$this->load->model('report_model');
 		
-		$this->data['csrf'] = array(
-				'name' => $this->security->get_csrf_token_name(),
-				'value' => $this->security->get_csrf_hash() 
-		);
+		// $this->data['csrf'] = array(
+		// 		'name' => $this->security->get_csrf_token_name(),
+		// 		'value' => $this->security->get_csrf_hash() 
+		// );
 		
 		$this->data['title_txt'] = 'Annual Report';
 		$this->data['top_menu'] = $this->menu_model->load_top_menu();
@@ -25,12 +25,12 @@ class Annual extends MY_Controller {
 		if ($beuser['user_group_id'] > 100) {
 			$this->data['agent_id'] = $beuser['user_id'];
 		} else {
-			$this->data['agent_id'] = empty($this->input->post('agent_id')) ? 0 : (int)$this->input->post('agent_id');
+			$this->data['agent_id'] = empty($this->input->post_get('agent_id')) ? 0 : (int)$this->input->post_get('agent_id');
 			// $this->data['user_list'] = $this->user_model->get_available_user_list();
 		}
 
 		if ($this->data['agent_id']) {
-			if ($this->input->post('submit') || $this->input->post('export')) {
+			if ($this->input->post('submit')) {
 				if ($beuser['user_group_id'] < 100) {
 					$post = $this->input->post();
 					$post['user_id'] = $beuser['user_id'];
@@ -38,8 +38,8 @@ class Annual extends MY_Controller {
 					$this->report_model->save_annual($this->data['agent_id'], $post);
 				}
 			}
-			$this->data['record'] = $this->report_model->get_annual($this->data['agent_id'], $this->data['agent_id']);
-			if ($this->input->post('export')) {
+			$this->data['record'] = $this->report_model->get_annual($this->data['agent_id']);
+			if ($this->input->get('export')) {
 				return $this->export($this->data['agent_id'], $this->data['record']);
 			}
 			
@@ -52,6 +52,7 @@ class Annual extends MY_Controller {
 				}
 			}
 		}
+		$this->data['export_url'] = base_url("reports/annual?export=1&agent_id=".$this->data['agent_id']);
 		$this->data['beuser'] = $beuser;
 		$this->load->common('reports/annual', $this->data);
 	}

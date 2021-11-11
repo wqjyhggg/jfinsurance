@@ -249,7 +249,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 							</div>
 							<?php } ?>
 							<div class="col-sm-3">
-								<input type='submit' name='export' value='Export' class="btn btn-primary">
+								<a href="<?php echo $export_url; ?>" class="btn btn-primary">Export</a>
 							</div>
 						</div>
 					</form>
