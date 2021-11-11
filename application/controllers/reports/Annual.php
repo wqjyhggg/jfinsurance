@@ -12,10 +12,10 @@ class Annual extends MY_Controller {
 		$beuser = $this->func_model->verify_login();
 		$this->load->model('report_model');
 		
-		// $this->data['csrf'] = array(
-		// 		'name' => $this->security->get_csrf_token_name(),
-		// 		'value' => $this->security->get_csrf_hash() 
-		// );
+		$this->data['csrf'] = array(
+				'name' => $this->security->get_csrf_token_name(),
+				'value' => $this->security->get_csrf_hash() 
+		);
 		
 		$this->data['title_txt'] = 'Annual Report';
 		$this->data['top_menu'] = $this->menu_model->load_top_menu();
