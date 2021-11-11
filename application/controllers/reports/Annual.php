@@ -71,7 +71,7 @@ class Annual extends MY_Controller {
     	$data['agent'] = $this->user_model->get_user_by_id($agent_id);
     	$html = $this->load->view('reports/annual_pdf', $data, TRUE);
     	$mpdf->writeHTML($html);
-    	$mpdf->Output();
+    	$mpdf->Output("Annual_report");
     	/*
         $w = WriterFactory::create(Type::XLSX); // for XLSX files
         $w->openToBrowser("Annual_Report_" . date('Ymd') . ".xlsx");
