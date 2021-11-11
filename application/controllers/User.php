@@ -303,9 +303,38 @@ class User extends MY_Controller {
 			$w = WriterFactory::create(Type::XLSX); // for XLSX files
 			$w->openToBrowser("user_" . date('Ymd') . ".xlsx");
 			//$w->openToFile($tmpfname);
-			$w->addRow(array('User id', 'username', 'first name', 'last name', 'email', 'province', 'license number', 'license expire'));
+			$w->addRow(array(
+        'User id', 
+        'username', 
+        'first name', 
+        'last name', 
+        'email', 
+        'province', 
+        'license number', 
+        'license expire', 
+        'Company Name',
+        'Business Name',
+        'City',
+        'Region',
+      ));
 			
 			foreach($user_list as $agent) {
+        $region = "All";
+        if ($agent['region_id'] == 1) {
+          $region = "Toronto";
+        } else if ($agent['region_id'] == 2) {
+          $region = "Vancouver";
+        } else if ($agent['region_id'] == 3) {
+          $region = "Qube";
+        } else if ($agent['region_id'] == 4) {
+          $region = "Vancouver2";
+        }
+        $company = "";
+        if ($agent['parent_user_id'] == 2) {
+          $company = "Brokerage";
+        } else if ($agent['region_id'] == 7) {
+          $company = "ABC Inc.";
+        }
 				$w->addRow(array(
 						$agent['user_id'], 
 						$agent['username'],
@@ -314,7 +343,11 @@ class User extends MY_Controller {
 						$agent['email'],
 						$agent['province2'],
 						$agent['licence_number'],
-						$agent['licence_expire']
+						$agent['licence_expire'],
+            $company,
+						$agent['business'],
+						$agent['city'],
+						$region
 						));
 			}
 			$w->close();
