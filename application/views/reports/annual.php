@@ -249,7 +249,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 							</div>
 							<?php } ?>
 							<div class="col-sm-3">
-								<a href="<?php echo $export_url; ?>" class="btn btn-primary">Export</a>
+								<a href="<?php echo $export_url; ?>" class="btn btn-primary" target="_blank">Export</a>
 							</div>
 						</div>
 					</form>
