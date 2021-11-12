@@ -332,6 +332,6 @@ class Commission extends MY_Controller
 		$mpdf->AddPage();
 		$html = $this->load->view('reports/commission_pdf', $data, TRUE);
 		$mpdf->writeHTML($html);
-		$mpdf->Output("Commission_report_".$data['agent_id'].".pdf","D");
+		$mpdf->Output("Commission_report_".$data['agent_id'].".pdf","I");
     }
 }
