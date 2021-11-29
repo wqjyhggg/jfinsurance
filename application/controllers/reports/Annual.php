@@ -3,76 +3,96 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 use Box\Spout\Common\Type;
 use Box\Spout\Writer\WriterFactory;
-class Annual extends MY_Controller {
-	public $annual = "annual/";
-	public $uploadtype = array('pdf', 'xls', 'xlsx'/*, 'doc', 'docx'*/);
-	public $data = array();
-	
-	public function index() {
-		$beuser = $this->func_model->verify_login();
-		$this->load->model('report_model');
-		
-		$this->data['csrf'] = array(
-				'name' => $this->security->get_csrf_token_name(),
-				'value' => $this->security->get_csrf_hash() 
-		);
-		
-		$this->data['title_txt'] = 'Annual Report';
-		$this->data['top_menu'] = $this->menu_model->load_top_menu();
-		$this->data['menu'] = $this->menu_model->load_meun();
-		$this->data['action_url'] = current_url();
-		
-		if ($beuser['user_group_id'] > 100) {
-			$this->data['agent_id'] = $beuser['user_id'];
-		} else {
-			$this->data['agent_id'] = empty($this->input->post_get('agent_id')) ? 0 : (int)$this->input->post_get('agent_id');
-			// $this->data['user_list'] = $this->user_model->get_available_user_list();
-		}
 
-		if ($this->data['agent_id']) {
-			if ($this->input->post('submit')) {
-				if ($beuser['user_group_id'] < 100) {
-					$post = $this->input->post();
-					$post['user_id'] = $beuser['user_id'];
-					$post['date_time'] = date("Y-m-d H:i:s");
-					$this->report_model->save_annual($this->data['agent_id'], $post);
-				}
-			}
-			$this->data['record'] = $this->report_model->get_annual($this->data['agent_id']);
-			if ($this->input->get('export')) {
-				return $this->export($this->data['agent_id'], $this->data['record']);
-			}
-			
-			if (empty($this->data['record'])) {
-				$this->data['record'] = array("premium" => array(), "commission" => array(), "payment" => array(), "last_year_total" => 0);
-				for ($i = 1; $i <= 12; $i++) {
-					$this->data['record']["premium"][$i] = 0;
-					$this->data['record']["commission"][$i] = 0;
-					$this->data['record']["payment"][$i] = 0;
-				}
-			}
-		}
-		$this->data['export_url'] = base_url("reports/annual?export=1&agent_id=".$this->data['agent_id']);
-		$this->data['beuser'] = $beuser;
-		$this->load->common('reports/annual', $this->data);
-	}
-	
-    private function export($agent_id, $record) {
-    	$data['style'] = $this->load->view('common/pdf_style',array(), TRUE);
-    	$mpdf = new mPDF('c');
-    	//todo may need separate commission pdf view
-        $premium = $commission = 0;
-    	for ($i = 1; $i <=12; $i++) {
-    		$premium += $record['premium'][$i];
-    		$commission += $record['commission'][$i];
-    	}
-    	$data['premium'] = $premium;
-    	$data['commission'] = $commission;
-    	$data['agent'] = $this->user_model->get_user_by_id($agent_id);
-    	$html = $this->load->view('reports/annual_pdf', $data, TRUE);
-    	$mpdf->writeHTML($html);
-    	$mpdf->Output("Annual_report.pdf","I");
-    	/*
+class Annual extends MY_Controller
+{
+  public $annual = "annual/";
+  public $uploadtype = array('pdf', 'xls', 'xlsx'/*, 'doc', 'docx'*/);
+  public $data = array();
+
+  public function index()
+  {
+    $beuser = $this->func_model->verify_login();
+    $this->load->model('report_model');
+
+    $this->data['csrf'] = array(
+      'name' => $this->security->get_csrf_token_name(),
+      'value' => $this->security->get_csrf_hash()
+    );
+
+    $this->data['title_txt'] = 'Annual Report';
+    $this->data['top_menu'] = $this->menu_model->load_top_menu();
+    $this->data['menu'] = $this->menu_model->load_meun();
+    $this->data['action_url'] = current_url();
+
+    if ($beuser['user_group_id'] > 100) {
+      $this->data['agent_id'] = $beuser['user_id'];
+    } else {
+      $this->data['agent_id'] = empty($this->input->post_get('agent_id')) ? "" : (int)$this->input->post_get('agent_id');
+      // $this->data['user_list'] = $this->user_model->get_available_user_list();
+    }
+    $user = $this->session->userdata('user');
+    $user_id = 0;
+    if ($user) {
+      $user_id = $user["user_id"];
+    }
+    $year = $this->input->post('year');
+    if (empty($year)) {
+      $year = date("Y") - 1;
+    }
+    $this->data['beuser'] = $beuser;
+    $this->data['year'] = $year;
+
+    if ($this->data['agent_id']) {
+      if ($this->input->post('submit')) {
+        if ($beuser['user_group_id'] < 100) {
+          $post = $this->input->post();
+          $post['user_id'] = $beuser['user_id'];
+          $post['date_time'] = date("Y-m-d H:i:s");
+          $this->report_model->save_annual($this->data['agent_id'], $year, $user_id, $post);
+        }
+      }
+      $this->data['record'] = $this->report_model->get_annual($this->data['agent_id'], $year, $user_id);
+      if ($this->input->get('export')) {
+        return $this->export($this->data['agent_id'], $year, $this->data['record']);
+      }
+
+      if ($beuser['user_group_id'] < 100) {
+        $this->data['record']["premium"] = array();
+        $this->data['record']["commission"] = array();
+        for ($i = 1; $i <= 12; $i++) {
+          $this->data['record']["premium"][$i] = $this->report_model->get_month_payment($this->data['agent_id'], $year, $i, 'premium');
+          if (!isset($this->data['record']["premium2"][$i])) {
+            $this->data['record']["premium2"][$i] = $this->data['record']["premium"][$i];
+          }
+          $this->data['record']["commission"][$i] = $this->report_model->get_month_payment($this->data['agent_id'], $year, $i, 'commission');
+          if (!isset($this->data['record']["commission2"][$i])) {
+            $this->data['record']["commission2"][$i] = $this->data['record']["commission"][$i];
+          }
+        }
+      }
+    }
+    $this->data['export_url'] = base_url("reports/annual?export=1&agent_id=" . $this->data['agent_id'] . "&year=" . $this->data['year']);
+    $this->load->common('reports/annual', $this->data);
+  }
+
+  private function export($agent_id, $record)
+  {
+    $data['style'] = $this->load->view('common/pdf_style', array(), TRUE);
+    $mpdf = new mPDF('c');
+    //todo may need separate commission pdf view
+    $premium = $commission = 0;
+    for ($i = 1; $i <= 12; $i++) {
+      $premium += $record['premium2'][$i];
+      $commission += $record['commission2'][$i];
+    }
+    $data['premium'] = $premium;
+    $data['commission'] = $commission;
+    $data['agent'] = $this->user_model->get_user_by_id($agent_id);
+    $html = $this->load->view('reports/annual_pdf', $data, TRUE);
+    $mpdf->writeHTML($html);
+    $mpdf->Output("Annual_report.pdf", "I");
+    /*
         $w = WriterFactory::create(Type::XLSX); // for XLSX files
         $w->openToBrowser("Annual_Report_" . date('Ymd') . ".xlsx");
         //$w->openToFile($tmpfname);
@@ -119,5 +139,5 @@ class Annual extends MY_Controller {
         
         $w->close();
         */
-    }
+  }
 }

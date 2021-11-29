@@ -29,7 +29,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 		<div class="row">
 			<div class="col-sm-12">
 				<p class="topp">Dear Agent :</p>
-				<p>This letter is to confirm your Total Sales and Total Commission earned with JF Insurance Agency Group Inc. in <?php echo (date("Y") - 1); ?>. They are as follows : </p>
+				<p>This letter is to confirm your Total Sales and Total Commission earned with JF Insurance Agency Group Inc. in <?php echo $year; ?>. They are as follows : </p>
 			</div>
 				<p><b>Total Sale : </b><span> $ <?php echo number_format($premium, 2);?></span></p>
 				<p><b>Commission Earned : </b><span> $ <?php echo number_format($commission, 2); ?></span></p>

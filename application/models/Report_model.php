@@ -867,24 +867,36 @@ class Report_model extends CI_Model
         return $row;
     }
     
-    function get_annual($user_id) {
-    	$row = $this->db->get_where('user_meta', array('user_id' => $user_id, 'type' => 'annual_report'))->row_array();
+    function get_annual($user_id, $year) {
+    	$row = $this->db->get_where('user_annual_report', array('user_id' => $user_id, 'year' => $year))->row_array();
     	if ($row) {
     		return json_decode($row['value'], TRUE);
     	} else {
     		return NULL;
     	}
     }
-    
-    function save_annual($user_id, $data) {
-    	$row = $this->db->get_where('user_meta', array('user_id' => $user_id, 'type' => 'annual_report'))->row_array();
+
+    function get_month_payment($user_id, $year, $month, $type) {
+      $dtstart = $year."-".str_pad($month, 2, "0", STR_PAD_LEFT)."-01 00:00:00";
+      $dtend = date("Y-m-d 00:00:00", strtotime($dtstart." +1 month"));
+      $sql = "SELECT SUM(amount) as total FROM payment WHERE user_id='".intval($user_id)."' AND added>='".$dtstart."' AND added<'".$dtend."' AND pay_type=".$this->db->escape($type);
+    	$row = $this->db->query($sql)->row_array();
+    	if ($row) {
+    		return $row['total'];
+    	}
+      return 0;
+    }
+
+    function save_annual($user_id, $year, $by_id, $data) {
+    	$row = $this->db->get_where('user_annual_report', array('user_id' => $user_id, 'year' => $year))->row_array();
     	if ($row) {
     		$row['value'] = json_encode($data);
+    		$row['by_id'] = $by_id;
     		$row['last_update'] = date("Y-m-d H:i:s");
-    		$this->db->replace('user_meta', $row);
+    		$this->db->replace('user_annual_report', $row);
     	} else {
-    		$row = array('user_id' => $user_id, 'type' => 'annual_report', 'value' => json_encode($data));
-    		$this->db->insert('user_meta', $row);
+    		$row = array('user_id' => $user_id, 'year' => $year, 'by_id' => $by_id, 'value' => json_encode($data));
+    		$this->db->insert('user_annual_report', $row);
     	}
     }
 
