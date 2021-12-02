@@ -151,7 +151,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
 function sum_premium (name) {
 	var sum = 0;
 	$('input[name^="'+name+'"]').each(function() {
-		sum += parseFloat($(this).val());
+    if (!isNaN($(this).val())) {
+		  sum += parseFloat($(this).val());
+    }
 	});
 	$('#'+name).html(parseFloat(sum).toFixed(2));
 }
