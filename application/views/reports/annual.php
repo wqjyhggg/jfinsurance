@@ -43,7 +43,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 								<div class="form-group col-sm-4">
                   <label for="year">Year:</label>
                   <select class="form-control" name="year" id="year">
-                    <?php for ($y = "2018"; $y < date("Y"); $y++) { ?>
+                    <?php for ($y = "2018"; $y <= date("Y"); $y++) { ?>
                       <option value="<?php echo $y; ?>" <?php if ($year == $y) {?>selected<?php } ?>><?php echo $y; ?></option>
                     <?php } ?>
                   </select>
@@ -92,7 +92,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 							<tbody>
                 <?php $total_premium = 0; $total_commission = 0; ?>
                 <?php for ($i = 1; $i <= 12; $i++) { ?>
-                <?php $total_premium += $record['premium2'][$i]; $total_commission += $record['commission2'][$i]; ?>
+                <?php $total_premium += floatval($record['premium2'][$i]); $total_commission += floatval($record['commission2'][$i]); ?>
                 <tr>
 									<td><?php echo date('F', mktime(0, 0, 0, $i, 10)); ?></td>
                   <?php if ($beuser['user_group_id'] < 100) { ?>

@@ -57,18 +57,16 @@ class Annual extends MY_Controller
         return $this->export($this->data['agent_id'], $year, $this->data['record']);
       }
 
-      if ($beuser['user_group_id'] < 100) {
-        $this->data['record']["premium"] = array();
-        $this->data['record']["commission"] = array();
-        for ($i = 1; $i <= 12; $i++) {
-          $this->data['record']["premium"][$i] = $this->report_model->get_month_payment($this->data['agent_id'], $year, $i, 'premium');
-          if (!isset($this->data['record']["premium2"][$i])) {
-            $this->data['record']["premium2"][$i] = $this->data['record']["premium"][$i];
-          }
-          $this->data['record']["commission"][$i] = $this->report_model->get_month_payment($this->data['agent_id'], $year, $i, 'commission');
-          if (!isset($this->data['record']["commission2"][$i])) {
-            $this->data['record']["commission2"][$i] = $this->data['record']["commission"][$i];
-          }
+      $this->data['record']["premium"] = array();
+      $this->data['record']["commission"] = array();
+      for ($i = 1; $i <= 12; $i++) {
+        $this->data['record']["premium"][$i] = $this->report_model->get_month_payment($this->data['agent_id'], $year, $i, 'premium');
+        if (!isset($this->data['record']["premium2"][$i])) {
+          $this->data['record']["premium2"][$i] = $this->data['record']["premium"][$i];
+        }
+        $this->data['record']["commission"][$i] = $this->report_model->get_month_payment($this->data['agent_id'], $year, $i, 'commission');
+        if (!isset($this->data['record']["commission2"][$i])) {
+          $this->data['record']["commission2"][$i] = $this->data['record']["commission"][$i];
         }
       }
     }
