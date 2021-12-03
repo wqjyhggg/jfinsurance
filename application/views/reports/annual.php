@@ -131,6 +131,16 @@ defined('BASEPATH') or exit('No direct script access allowed');
 							</tbody>
 						</table>
 						<div class="row">
+              <div class="col-sm-6">
+              </div>
+              <?php if ($beuser['user_group_id'] < 100) { ?>
+                <div class="col-sm-3">
+                  <input type='submit' name='update' value='Update' class="btn btn-primary">
+                </div>
+              <?php } ?>
+              <div class="col-sm-3">
+                <a href="<?php echo $export_url; ?>" class="btn btn-primary" target="_blank">Export</a>
+              </div>
 						</div>
 					</form>
 					<?php } else { ?>

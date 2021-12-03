@@ -44,7 +44,7 @@ class Annual extends MY_Controller
     $this->data['year'] = $year;
 
     if ($this->data['agent_id']) {
-      if ($this->input->post('submit')) {
+      if ($this->input->post('update')) {
         if ($beuser['user_group_id'] < 100) {
           $post = $this->input->post();
           $post['user_id'] = $beuser['user_id'];
