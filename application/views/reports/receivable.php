@@ -231,6 +231,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <th>Student ID</th>
                             <th>Effective Date</th>
                             <th>Expiry Date</th>
+                            <th>Refund Date</th>
                             <th>Trip Length</th>
                             <th>Premium</th>
                             <th>Net</th>
@@ -246,6 +247,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                               <td><?=$record['student_id'] ?></td>
                               <td><?=$record['effective_date'] ?></td>
                               <td><?=$record['expiry_date'] ?></td>
+                              <td><?php if ($record['status_id'] == 6) { echo $record['refund_date']; } ?></td>
                               <td><?=$record['total_days'] ?></td>
                               <td>$<?=number_format($record['policy_premium'],2) ?></td>
                               <td>$<?=number_format($record['pa_amount'],2) ?></td>
