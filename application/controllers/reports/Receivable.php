@@ -88,6 +88,7 @@ class Receivable extends MY_Controller
                 'student_id' => 'Student ID',
                 'effective_date' => 'Effective Date',
                 'expiry_date' => 'Expiry Date',
+                'refund_date' => 'Refund Date',
                 'total_days' => 'Trip Length',
                 'policy_premium' => 'Premium',
                 'net_premium' => 'Net',
@@ -141,7 +142,17 @@ class Receivable extends MY_Controller
                   
                 foreach ($datas['records'] as $record) {
                     $arr = array();
-                    foreach ($kArr as $k => $v) { $arr[] = $record[$k]; } 
+                    foreach ($kArr as $k => $v) { 
+                      if ($k == "refund_date") {
+                        if ($record["status_id"] == 6) {
+                          $arr[] = $record[$k]; 
+                        } else {
+                          $arr[] = "";
+                        }
+                      } else {
+                        $arr[] = $record[$k]; 
+                      }
+                    } 
                     $w->addRow($arr);
                 }
                    

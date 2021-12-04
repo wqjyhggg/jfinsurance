@@ -378,6 +378,7 @@ class Report_model extends CI_Model
     	$sql .= " CONCAT(c.lastname, \", \", c.firstname) AS insured_name,";
     	$sql .= " `pl`.`effective_date`,";
     	$sql .= " `pl`.`expiry_date`,";
+    	$sql .= " `pl`.`refund_date`,";
     	$sql .= " pl.totaldays AS total_days,";
     	$sql .= " `pl`.`dailyrate` AS `daily_rate`,";
     	$sql .= " `pl`.`premium` AS `policy_premium`,";
