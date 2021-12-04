@@ -36,7 +36,7 @@ class Annual extends MY_Controller
     if ($user) {
       $user_id = $user["user_id"];
     }
-    $year = $this->input->post('year');
+    $year = $this->input->post_get('year');
     if (empty($year)) {
       $year = date("Y") - 1;
     }
@@ -52,11 +52,7 @@ class Annual extends MY_Controller
           $this->report_model->save_annual($this->data['agent_id'], $year, $user_id, $post);
         }
       }
-      $this->data['record'] = $this->report_model->get_annual($this->data['agent_id'], $year, $user_id);
-      if ($this->input->get('export')) {
-        return $this->export($this->data['agent_id'], $year, $this->data['record']);
-      }
-
+      $this->data['record'] = array();
       $this->data['record']["premium"] = array();
       $this->data['record']["commission"] = array();
       for ($i = 1; $i <= 12; $i++) {
@@ -69,20 +65,23 @@ class Annual extends MY_Controller
           $this->data['record']["commission2"][$i] = $this->data['record']["commission"][$i];
         }
       }
+      if ($this->input->get('export')) {
+        return $this->export($this->data['agent_id'], $this->data);
+      }
     }
     $this->data['export_url'] = base_url("reports/annual?export=1&agent_id=" . $this->data['agent_id'] . "&year=" . $this->data['year']);
     $this->load->common('reports/annual', $this->data);
   }
 
-  private function export($agent_id, $record)
+  private function export($agent_id, $data)
   {
     $data['style'] = $this->load->view('common/pdf_style', array(), TRUE);
     $mpdf = new mPDF('c');
     //todo may need separate commission pdf view
     $premium = $commission = 0;
     for ($i = 1; $i <= 12; $i++) {
-      $premium += $record['premium2'][$i];
-      $commission += $record['commission2'][$i];
+      $premium += $this->data['record']['premium2'][$i];
+      $commission += $this->data['record']['commission2'][$i];
     }
     $data['premium'] = $premium;
     $data['commission'] = $commission;
