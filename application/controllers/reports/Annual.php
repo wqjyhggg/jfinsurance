@@ -52,7 +52,10 @@ class Annual extends MY_Controller
           $this->report_model->save_annual($this->data['agent_id'], $year, $user_id, $post);
         }
       }
-      $this->data['record'] = array();
+      $this->data['record'] = $this->report_model->get_annual($this->data['agent_id'], $year, $user_id);
+      if ($this->input->get('export')) {
+        return $this->export($this->data['agent_id'], $year, $this->data['record']);
+      }
       $this->data['record']["premium"] = array();
       $this->data['record']["commission"] = array();
       for ($i = 1; $i <= 12; $i++) {
@@ -64,9 +67,6 @@ class Annual extends MY_Controller
         if (!isset($this->data['record']["commission2"][$i])) {
           $this->data['record']["commission2"][$i] = $this->data['record']["commission"][$i];
         }
-      }
-      if ($this->input->get('export')) {
-        return $this->export($this->data['agent_id'], $this->data);
       }
     }
     $this->data['export_url'] = base_url("reports/annual?export=1&agent_id=" . $this->data['agent_id'] . "&year=" . $this->data['year']);
