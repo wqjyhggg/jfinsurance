@@ -54,7 +54,7 @@ class Annual extends MY_Controller
       }
       $this->data['record'] = $this->report_model->get_annual($this->data['agent_id'], $year, $user_id);
       if ($this->input->get('export')) {
-        return $this->export($this->data['agent_id'], $year, $this->data['record']);
+        return $this->export($this->data['agent_id'], $this->data['record']);
       }
       $this->data['record']["premium"] = array();
       $this->data['record']["commission"] = array();
