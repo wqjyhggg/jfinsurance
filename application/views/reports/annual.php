@@ -67,7 +67,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
 					<div class="x_title">
             <div class="col-sm-12">
   						<h2>Report Data</h2>
+              <?php if (!empty($record)) { ?>
 								<a href="<?php echo $export_url; ?>" class="btn btn-primary pull-right mr-6" target="_blank">Export</a>
+              <?php } ?>
 						</div>
 						<div class="clearfix"></div>
 					</div>
@@ -78,7 +80,11 @@ defined('BASEPATH') or exit('No direct script access allowed');
 						<table class="table table-hover">
 							<thead>
 								<tr>
-									<th>Month</th>
+									<th>
+                  <?php if ($beuser['user_group_id'] < 100) { ?>
+                    Month
+                  <?php } ?>
+                  </th>
 									<th>Premium</th>
                   <?php if ($beuser['user_group_id'] < 100) { ?>
 									<th>Premium Copy</th>
@@ -93,6 +99,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                 <?php $total_premium = 0; $total_commission = 0; ?>
                 <?php for ($i = 1; $i <= 12; $i++) { ?>
                 <?php $total_premium += floatval($record['premium2'][$i]); $total_commission += floatval($record['commission2'][$i]); ?>
+                <?php if ($beuser['user_group_id'] < 100) { ?>
                 <tr>
 									<td><?php echo date('F', mktime(0, 0, 0, $i, 10)); ?></td>
                   <?php if ($beuser['user_group_id'] < 100) { ?>
@@ -113,17 +120,22 @@ defined('BASEPATH') or exit('No direct script access allowed');
 									</td>
 								</tr>
                 <?php } ?>
+                <?php } ?>
 								<tr>
 									<td><b>Total</b></td>
+                  <?php if ($beuser['user_group_id'] < 100) { ?>
 									<td>
 										&nbsp;
 									</td>
+                  <?php } ?>
 									<td>
 										<div id="premium2"><?php echo $total_premium; ?></div>
 									</td>
+                  <?php if ($beuser['user_group_id'] < 100) { ?>
 									<td>
 										&nbsp;
 									</td>
+                  <?php } ?>
 									<td>
 										<div id="commission2"><?php echo $total_commission; ?></div>
 									</td>
