@@ -56,6 +56,7 @@ class Annual extends MY_Controller
       if ($this->input->get('export')) {
         return $this->export($this->data['agent_id'], $this->data['record']);
       }
+      if ($beuser['user_group_id'] < 100) {
       $this->data['record']["premium"] = array();
       $this->data['record']["commission"] = array();
       for ($i = 1; $i <= 12; $i++) {
@@ -67,6 +68,7 @@ class Annual extends MY_Controller
         if (!isset($this->data['record']["commission2"][$i])) {
           $this->data['record']["commission2"][$i] = $this->data['record']["commission"][$i];
         }
+      }
       }
     }
     $this->data['export_url'] = base_url("reports/annual?export=1&agent_id=" . $this->data['agent_id'] . "&year=" . $this->data['year']);
