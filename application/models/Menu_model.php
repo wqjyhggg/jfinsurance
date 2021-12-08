@@ -72,7 +72,7 @@ class Menu_model extends CI_Model {
 							"<a href='" . base_url('reports/receivable') . "' class='leftmeun'>" . $this->lang->line ( 'text_receivable_report' ) . "</a>",
 							"<a href='" . base_url('reports/refund') . "' class='leftmeun'>" . $this->lang->line ( 'text_refund_report' ) . "</a>",
 						),
-					"<a href='" . base_url('user/logout') . "' class='leftmeun'><i class='fa fa-power-off'></i>" . $this->lang->line ( 'text_logout' ) . "</a>",
+					// "<a href='" . base_url('user/logout') . "' class='leftmeun'><i class='fa fa-power-off'></i>" . $this->lang->line ( 'text_logout' ) . "</a>",
 					"<a href='" . base_url('announcement') . "' class='leftmeun'><i class='fa fa-cog'></i>" . $this->lang->line ( 'text_announcement' ) . "</a>",
 			),
 			103 =>array(
@@ -87,7 +87,7 @@ class Menu_model extends CI_Model {
 						),
 */
 					"<a href='" . base_url('product') . "' class='leftmeun'><i class='fa fa-shield'></i>" . $this->lang->line ( 'text_our_products' ) . "</a>",
-					"<a href='" . base_url('user/logout') . "' class='leftmeun'><i class='fa fa-power-off'></i>" . $this->lang->line ( 'text_logout' ) . "</a>",
+					// "<a href='" . base_url('user/logout') . "' class='leftmeun'><i class='fa fa-power-off'></i>" . $this->lang->line ( 'text_logout' ) . "</a>",
 					"<a href='" . base_url('announcement') . "' class='leftmeun'><i class='fa fa-cog'></i>" . $this->lang->line ( 'text_announcement' ) . "</a>",
 			),
 			104 =>array(
@@ -113,7 +113,7 @@ class Menu_model extends CI_Model {
 							"<a href='" . base_url('reports/renewal') . "' class='leftmeun'>" . $this->lang->line ( 'text_renewal_report' ) . "</a>",
 						),
 					"<a href='" . base_url('product') . "' class='leftmeun'><i class='fa fa-shield'></i>" . $this->lang->line ( 'text_our_products' ) . "</a>",
-					"<a href='" . base_url('user/logout') . "' class='leftmeun'><i class='fa fa-power-off'></i>" . $this->lang->line ( 'text_logout' ) . "</a>",
+					// "<a href='" . base_url('user/logout') . "' class='leftmeun'><i class='fa fa-power-off'></i>" . $this->lang->line ( 'text_logout' ) . "</a>",
 					"<a href='" . base_url('announcement') . "' class='leftmeun'><i class='fa fa-cog'></i>" . $this->lang->line ( 'text_announcement' ) . "</a>",
 				),
 		);
