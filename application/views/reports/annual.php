@@ -184,7 +184,7 @@ function sum_premium (name) {
 $( document ).ready(function() {
 	<?php if ($beuser['user_group_id'] > 100) { ?>
 	$("input[type=text]").prop('disabled', true);
-	<?php } ?>
+	<?php } else { ?>
 	$('input[name^="premium2"]').change(function() {
 		sum_premium('premium2');
 	});
@@ -193,5 +193,6 @@ $( document ).ready(function() {
 	});
 	sum_premium('premium2');
 	sum_premium('commission2');
+	<?php } ?>
 });
 </script>

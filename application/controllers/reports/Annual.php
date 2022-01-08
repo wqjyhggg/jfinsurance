@@ -81,9 +81,11 @@ class Annual extends MY_Controller
     $mpdf = new mPDF('c');
     //todo may need separate commission pdf view
     $premium = $commission = 0;
+    if (isset($data['premium2'])) {
     for ($i = 1; $i <= 12; $i++) {
-      $premium += $this->data['record']['premium2'][$i];
-      $commission += $this->data['record']['commission2'][$i];
+      $premium += $data['premium2'][$i];
+      $commission += $data['commission2'][$i];
+    }
     }
     $data['premium'] = $premium;
     $data['commission'] = $commission;
