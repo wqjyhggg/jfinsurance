@@ -877,10 +877,10 @@ class Report_model extends CI_Model
     	}
     }
 
-    function get_month_payment($user_id, $year, $month, $type) {
+    function get_month_payment($user_id, $year, $month, $types) {
       $dtstart = $year."-".str_pad($month, 2, "0", STR_PAD_LEFT)."-01 00:00:00";
       $dtend = date("Y-m-d 00:00:00", strtotime($dtstart." +1 month"));
-      $sql = "SELECT SUM(amount) as total FROM payment WHERE user_id='".intval($user_id)."' AND added>='".$dtstart."' AND added<'".$dtend."' AND pay_type=".$this->db->escape($type);
+      $sql = "SELECT SUM(pa.amount) as total FROM payment pa JOIN plan pl ON (pa.plan_id = pl.plan_id) WHERE pl.user_id='".intval($user_id)."' AND pa.added>='".$dtstart."' AND pa.added<'".$dtend."' AND pa.pay_type IN (".$types.")";
     	$row = $this->db->query($sql)->row_array();
     	if ($row) {
     		return $row['total'];

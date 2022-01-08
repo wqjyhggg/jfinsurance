@@ -60,11 +60,11 @@ class Annual extends MY_Controller
       $this->data['record']["premium"] = array();
       $this->data['record']["commission"] = array();
       for ($i = 1; $i <= 12; $i++) {
-        $this->data['record']["premium"][$i] = $this->report_model->get_month_payment($this->data['agent_id'], $year, $i, 'premium');
+        $this->data['record']["premium"][$i] = $this->report_model->get_month_payment($this->data['agent_id'], $year, $i, "'premium','refund','cancel'");
         if (!isset($this->data['record']["premium2"][$i])) {
           $this->data['record']["premium2"][$i] = $this->data['record']["premium"][$i];
         }
-        $this->data['record']["commission"][$i] = $this->report_model->get_month_payment($this->data['agent_id'], $year, $i, 'commission');
+        $this->data['record']["commission"][$i] = $this->report_model->get_month_payment($this->data['agent_id'], $year, $i, "'commission','refund_commission','cancel_commission'");
         if (!isset($this->data['record']["commission2"][$i])) {
           $this->data['record']["commission2"][$i] = $this->data['record']["commission"][$i];
         }
