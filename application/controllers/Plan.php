@@ -3161,6 +3161,8 @@ class Plan extends MY_Controller {
 			$mpdf->showWatermarkText = true;
 		}
 		$html = $this->load->view('plan/pdf', $data, TRUE);
+		$mpdf->SetHTMLHeader('<img style="width:100%;" src="'.base_url().'image/pdf_header.png" />');
+		$mpdf->SetHTMLFooter('<img style="width:100%;" src="'.base_url().'image/pdf_footer.png" />');
 		$mpdf->writeHTML($html);
 		$mpdf->Output("Policy.pdf","I");
 	}
