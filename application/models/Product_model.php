@@ -14,7 +14,7 @@ class Product_model extends CI_Model {
 	const PLANIDCHG2019_8=504988;   // OPL rate change
 	const PLANIDCHG2021_8=619241;   // JES JESP new rate
 	public $message;
-  public $default_uncheck_product=array('BHS','JFE','JFP','JFC','JUS','NUS');  //  JES, JESP, JFS, JFR
+  public $default_uncheck_product=array('BHS','JFE','JFP','JFC','JUS','NUS','JFPL');  //  JES, JESP, JFS, JFR
 	
 	/**
 	 * Get product 
@@ -1488,6 +1488,30 @@ class Product_model extends CI_Model {
 			$premiumArr['totaldays'] = $days;
 			$premiumArr['dailyrate'] = $rate;
 			$premiumArr['sum_insured'] = number_format($para['sum_insured'], 2, '.', ',');
+			$premiumArr['deductible_amount'] =  number_format($para['deductible_amount'], 2, '.', ',');
+		} else if ($para['product_short'] == 'JFPL') {
+      $beuser = $this->session->beuser;
+      if ($beuser['user_id'] == 2202) {
+        $rate = 1.7;
+      } else if ($beuser['user_id'] == 2185) {
+        $rate = 1.85;
+      } else {
+				$premiumArr['message'] = "You don't have permission to sell this production.";
+				return $premiumArr;
+      }
+			if ($years <= 3) {
+				$premiumArr['message'] = "Customer age must over 4 years old";
+				return $premiumArr;
+			} else {
+				$premiumArr['message'] = "Customer age can't older than 60 years old";
+				return $premiumArr;
+			}
+			$premium = $rate * $days;
+			$premiumArr['premium'] = $premium;
+			$premiumArr['totalyears'] = $years;
+			$premiumArr['totaldays'] = $days;
+			$premiumArr['dailyrate'] = $rate;
+			$premiumArr['sum_insured'] = number_format($para['sum_insured'], 2, '.', ','); //5,000,000.00
 			$premiumArr['deductible_amount'] =  number_format($para['deductible_amount'], 2, '.', ',');
 		} else if ($para['product_short'] == 'JESP') {
 			if ($years <= 3) {
