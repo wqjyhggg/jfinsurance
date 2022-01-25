@@ -14,7 +14,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<p class="small" style="margin-top:2px;">IN THE EVENT OF A MEDICAL EMERGENCY OR CLAIM THAT MAY REQUIRE OR RESULT IN HOSPITALIZATION, CALL ONTIME CARE WORLDWIDE INC. IMMEDIATELY</p>
 		<p class="small" style="margin-top:2px;">Toll Free Canada/U.S.A. 1-866-209-5804<br />
 			Collect call worldwider 905-707-9555<br />
-			</p>
+			The Insurance is underwritten by Old Republic Insurance Company of Canada and administered by JF Insurance Agency Group Inc.</p>
 
 	</div>
 </div><br />
