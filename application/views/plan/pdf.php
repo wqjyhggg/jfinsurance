@@ -342,7 +342,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
         <h4 style="border-bottom:1px solid #777;">Special Note</h4>
       </div>
       <?php if ($plan['product_short'] == "JFPL") { ?>
+      <div class="col-sm-12 nopm special-note">
         <p class="small">If you notice any errors in the above information or have any questions, please contact JF Insurance Agency Group Inc.</p>
+      </div>
       <?php } ?>
     </div>
     <?php echo $special_note; ?>
