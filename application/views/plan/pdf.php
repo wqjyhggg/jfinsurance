@@ -344,6 +344,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
     </div>
     <?php echo $special_note; ?>
 
+    <?php if ($plan['product_short'] != "JFPL") { ?>
     <!--/div-->
     <!-- end p-detail -->
     <!--/div-->
@@ -399,6 +400,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
         <?php } ?>
       </div>
     </div>
+    <?php } ?>
   </div><!-- End Container -->
   <?php if ($plan['product_short'] == 'JFE') { ?>
     <div style='page-break-before:always'>
