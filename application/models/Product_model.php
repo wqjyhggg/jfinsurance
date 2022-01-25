@@ -1502,7 +1502,7 @@ class Product_model extends CI_Model {
 			if ($years <= 3) {
 				$premiumArr['message'] = "Customer age must over 4 years old";
 				return $premiumArr;
-			} else {
+			} else if ($years > 59) {
 				$premiumArr['message'] = "Customer age can't older than 60 years old";
 				return $premiumArr;
 			}
