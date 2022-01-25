@@ -877,7 +877,30 @@ class Report_model extends CI_Model
     	}
     }
 
-    function get_month_payment($user_id, $year, $month, $types) {
+    function get_month_payment($user_id, $year, $month) {
+      $dtstart = $year."-".str_pad($month, 2, "0", STR_PAD_LEFT)."-01 00:00:00";
+      $dtend = date("Y-m-d 00:00:00", strtotime($dtstart." +1 month"));
+      $sql  = "SELECT"; 
+      $sql .= "   sum(pa2.amount - pa2.admin_fee) AS premium,";
+      $sql .= "   sum(pa.amount) as commission";
+      $sql .= " FROM payment pa"; 
+      $sql .= " JOIN plan pl ON pa.plan_id = pl.plan_id"; 
+      $sql .= " JOIN customer c ON pl.customer_id = c.customer_id"; 
+      $sql .= " JOIN product pr ON pl.product_short = pr.product_short"; 
+      $sql .= " JOIN status st ON pl.status_id = st.status_id ";
+      $sql .= " LEFT JOIN payment pa2 ON (pa.premium_payment_id=pa2.payment_id)";
+      $sql .= " WHERE pl.user_id='" . intval($user_id) . "'";
+      $sql .= " AND pa.added >= '" . $dtstart . "'";
+      $sql .= " AND pa.added < '" . $dtend . "'";
+      $sql .= " AND pa.pay_type IN ('commission','cancel_commission','refund_commission') AND ABS(pa.amount)>=0.01";
+      $row = $this->db->query($sql)->row_array();
+    	if ($row) {
+    		return $row;
+    	}
+      return array("commission"=>0,"premium"=>0);
+    }
+
+    function get_month_payment1($user_id, $year, $month, $types) {
       $dtstart = $year."-".str_pad($month, 2, "0", STR_PAD_LEFT)."-01 00:00:00";
       $dtend = date("Y-m-d 00:00:00", strtotime($dtstart." +1 month"));
       $sql = "SELECT SUM(pa.amount) as total FROM payment pa JOIN plan pl ON (pa.plan_id = pl.plan_id) WHERE pl.user_id='".intval($user_id)."' AND pa.added>='".$dtstart."' AND pa.added<'".$dtend."' AND pa.pay_type IN (".$types.")";
