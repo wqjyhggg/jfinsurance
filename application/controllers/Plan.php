@@ -3139,9 +3139,12 @@ class Plan extends MY_Controller {
 		} else if (($data['plan']['product_short'] == 'JFS') || ($data['plan']['product_short'] == 'JFE') || ($data['plan']['product_short'] == 'BHS')) {
 			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
 			$data['special_note'] = $this->load->view('plan/pdf_note_jes',$data, TRUE);
-		} else if (($data['plan']['product_short'] == 'JES') || ($data['plan']['product_short'] == 'JFPL')) {
+		} else if ($data['plan']['product_short'] == 'JES') {
 			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
 			$data['special_note'] = $this->load->view('plan/pdf_note_jes',$data, TRUE);
+		} else if ($data['plan']['product_short'] == 'JFPL') {
+			$data['insurable_options'] = $this->load->view('plan/detail_jfpl', $data, TRUE);
+			$data['special_note'] = $this->load->view('plan/pdf_note_jfpl',$data, TRUE);
 		} else if ($data['plan']['product_short'] == 'JESP') {
 			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
 			$data['special_note'] = $this->load->view('plan/pdf_note_jes',$data, TRUE);
@@ -3169,8 +3172,10 @@ class Plan extends MY_Controller {
 			$mpdf->showWatermarkText = true;
 		}
 		$html = $this->load->view('plan/pdf', $data, TRUE);
-		$mpdf->SetHTMLHeader('<img style="width:100%;" src="'.base_url().'image/pdf_header.png" />');
-		$mpdf->SetHTMLFooter('<img style="width:100%;" src="'.base_url().'image/pdf_footer.png" />');
+    if ($data['plan']['product_short'] == 'JFPL') {
+      $mpdf->SetHTMLHeader('<img style="width:100%;" src="'.base_url().'image/pdf_header.png" />');
+      $mpdf->SetHTMLFooter('<img style="width:100%;" src="'.base_url().'image/pdf_footer.png" />');
+    }
 		$mpdf->writeHTML($html);
 		$mpdf->Output("Policy.pdf","I");
 	}
