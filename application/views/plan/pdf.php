@@ -293,10 +293,13 @@ defined('BASEPATH') or exit('No direct script access allowed');
             </h4><?php } ?>
           <?php if ($plan['deductible_amount'] || ($plan['product_short'] == 'OPL') || ($plan['product_short'] == 'JFR')) { ?><h4>Deductible: <span>$<?php echo number_format($plan['deductible_amount'], 2); ?></sapn>
             </h4><?php } ?>
-          <h4>Beneficiary: <span><?php echo htmlspecialchars($plan['beneficiary']); ?></sapn>
-          </h4>
-        <?php } // end if TOP 
-        ?>
+          <h4>Beneficiary: <span><?php echo htmlspecialchars($plan['beneficiary']); ?></sapn></h4>
+	<?php } // end if TOP 
+	?>
+
+        <?php if ($plan['product_short'] == 'JFPL') { ?>
+	  <h4>Stable pre-existing condition coverage: <span>Yes</sapn> </h4>
+        <?php } ?>
       </div>
       <div class="col-sm-6 nopadding">
         <?php if ($withprice) { ?>
@@ -347,6 +350,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
     <div class="row">
       <div class="col-sm-12 nopm special-note">
         <p class="small">If you notice any errors in the above information or have any questions, please contact JF Insurance Agency Group Inc.</p>
+	<p class="small">The Insurance is underwritten by Old Republic Insurance Company of Canada and administered by JF Insurance Agency Group Inc.</p>
       </div>
     </div>
     <?php } else { ?>
