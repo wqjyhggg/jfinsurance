@@ -1848,6 +1848,7 @@ class Plan extends MY_Controller {
 	
 	private function credit_card() {
 		$this->load->model('plan_model');
+		$this->load->model('plan_history_model');
 		$this->load->model('product_model');
 		$this->load->model('payment_model');
 		
@@ -2034,6 +2035,7 @@ class Plan extends MY_Controller {
 						
 					$para = array('payment_id' => $payment_id, 'payinfo' => $payinfo, 'commission_payment_id' => $commission_payment_id );
 					$this->plan_model->update($plan_id, $para);
+          $this->plan_history_model->add($plan_id);
 					$para = array(
 							'plan_id' => $plan_id,
 							'customer_id' => $plan['customer_id'],
@@ -2098,6 +2100,7 @@ class Plan extends MY_Controller {
 
 	private function cash() {
 		$this->load->model('plan_model');
+		$this->load->model('plan_history_model');
 		$this->load->model('product_model');
 		$this->load->model('payment_model');
 		
@@ -2147,7 +2150,7 @@ class Plan extends MY_Controller {
 				'systemlog' => $this->payment_model->sqlstr
 		);
 		$this->log_model->activity('payment', $para);
-		
+
 		// up commission
 		$dt['amount'] = $up_commission_amount;
 		$dt['rate'] = $up_commission_rate;
@@ -2210,6 +2213,7 @@ class Plan extends MY_Controller {
 
 		$para = array('payment_id' => $payment_id, 'payinfo' => $payinfo, 'commission_payment_id' => $commission_payment_id, 'status_id' => 2, 'policy' => $this->plan_model->get_policy_number($plan_id, 2));
 		$this->plan_model->update($plan_id, $para);
+		$this->plan_history_model->add($plan_id);
 		$para = array(
 				'plan_id' => $plan_id,
 				'customer_id' => $plan['customer_id'],
@@ -2222,6 +2226,7 @@ class Plan extends MY_Controller {
 
 	private function cheque() {
 		$this->load->model('plan_model');
+		$this->load->model('plan_history_model');
 		$this->load->model('product_model');
 		$this->load->model('payment_model');
 		
@@ -2342,6 +2347,7 @@ class Plan extends MY_Controller {
 		
 		$para = array('payment_id' => $payment_id, 'payinfo' => $payinfo, 'commission_payment_id' => $commission_payment_id, 'status_id' => 2, 'policy' => $this->plan_model->get_policy_number($plan_id, 2));
 		$this->plan_model->update($plan_id, $para);
+    $this->plan_history_model->add($plan_id);
 		$para = array(
 				'plan_id' => $plan_id,
 				'customer_id' => $plan['customer_id'],
@@ -3188,6 +3194,8 @@ class Plan extends MY_Controller {
 	public function cancel($plan_id=0) {
 		$beuser = $this->func_model->verify_login(TRUE);
 		$this->load->model('plan_model');
+		$this->load->model('plan_history_model');
+
 		if (empty($plan_id)) {
 			$plan_id = $this->input->post('plan_id');
 		}
@@ -3279,11 +3287,22 @@ class Plan extends MY_Controller {
 						'systemlog' => $this->payment_model->sqlstr
 				);
 				$this->log_model->activity('up_commission', $para);
-	
+
+        // Add history
+        $history_id = 0;
+        if ($history = $this->plan_history_model->get_plan_history_by_plan_id($plan_id)) {
+          $history_id = $history["plan_history_id"];
+        } else {
+          $history_id = $this->plan_history_model->add($plan_id);
+        }
+
 				$note = "Cancel at " . $dt['added'] . " amount: " . $refund_amount . " admin fee: " . $admin_fee . "; " . $plan['note'];
 				$para = array('status_id' => 5, 'payment_id' => $payment_id, 'commission_payment_id' => $commission_payment_id, 'note' => $note );  // Change status to cancel
 				$this->plan_model->update($plan_id, $para);
-				$para = array(
+        if ($id = $this->plan_history_model->add_remove($history_id)) {
+          $this->plan_history_model->update($id, array("payment_id"=>$payment_id));
+        }
+        $para = array(
 						'plan_id' => $plan_id,
 						'customer_id' => $plan['customer_id'],
 						'payment_id' => $payment_id,
@@ -3364,6 +3383,8 @@ class Plan extends MY_Controller {
 	public function refund($plan_id=0) {
 		$beuser = $this->func_model->verify_login(TRUE);
 		$this->load->model('plan_model');
+		$this->load->model('plan_history_model');
+
 		if (empty($plan_id)) {
 			$plan_id = $this->input->post('plan_id');
 		}
@@ -3455,9 +3476,24 @@ class Plan extends MY_Controller {
 				);
 				$this->log_model->activity('up_commission', $para);
 	
-				$note = "Refund at " . $dt['added'] . " amount: " . $refund_amount . " admin fee: " . $admin_fee . "; " . $plan['note'];
+        // Add history
+        $history_id = 0;
+        if ($history = $this->plan_history_model->get_plan_history_by_plan_id($plan_id)) {
+          $history_id = $history["plan_history_id"];
+        } else {
+          $history_id = $this->plan_history_model->add($plan_id);
+        }
+        if ($id = $this->plan_history_model->add_remove($history_id)) {
+          $this->plan_history_model->update($id, array("status_id"=>6, "payment_id"=>$payment_id));
+        }
+
+        $note = "Refund at " . $dt['added'] . " amount: " . $refund_amount . " admin fee: " . $admin_fee . "; " . $plan['note'];
 				$para = array('status_id' => 6, 'payment_id' => $payment_id, 'commission_payment_id' => $commission_payment_id, 'refund_date' => $refund_date, 'note' => $note );  // Change status to refund
 				$this->plan_model->update($plan_id, $para);
+        if ($id = $this->plan_history_model->add($plan_id)) {
+          $this->plan_history_model->update($id, array("payment_id"=>$payment_id, "note"=>"Refunded Recode"));
+        }
+
 				$para = array(
 						'plan_id' => $plan_id,
 						'customer_id' => $plan['customer_id'],

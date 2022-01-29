@@ -415,6 +415,7 @@ class Plan_model extends CI_Model {
 		$this->load->model('customer_model');
 		$arr = array();
 		$plan = $this->get_plan_by_id($plan_id);
+    
 		if (empty($plan)) {
 			$this->logstr = 'Can not find plan by id[' . $plan_id . ']';
 			$this->sqlstr = 'Can not find plan by id[' . $plan_id . ']';
@@ -442,6 +443,8 @@ class Plan_model extends CI_Model {
 		}
 		$plan_id = $plan['plan_id'];
 		$this->logstr .= "Change Plan (" . (int)$plan_id . "): " . ($isvsuser ? ' by customer ' : ' ');
+    $update_history = 0;
+
 		$isfamilyplan = 0;
 		if (isset($para['isfamilyplan'])) {
 			if ((int)$para['isfamilyplan'] >= 1) {
@@ -529,10 +532,16 @@ class Plan_model extends CI_Model {
 			$sql .= " arrival_date=" . $this->db->escape($para['arrival_date']) . ", ";
 		}
 		if (isset($para['effective_date']) && ($para['effective_date'] != $plan['effective_date'])) {
+      if (($plan['status_id'] == self::PAID) || ($plan['status_id'] == self::SOLD)) {
+        $update_history = 1;
+      }
 			$this->logstr .= " effective_date " . $para['effective_date'] . "(" . $plan['effective_date'] . ")";
 			$sql .= " effective_date=" . $this->db->escape($para['effective_date']) . ", ";
 		}
 		if (isset($para['expiry_date']) && ($para['expiry_date'] != $plan['expiry_date'])) {
+      if (($plan['status_id'] == self::PAID) || ($plan['status_id'] == self::SOLD)) {
+        $update_history = 1;
+      }
 			$this->logstr .= " expiry_date " . $para['expiry_date'] . "(" . $plan['expiry_date'] . ")";
 			$sql .= " expiry_date=" . $this->db->escape($para['expiry_date']) . ", ";
 		}
@@ -855,6 +864,13 @@ class Plan_model extends CI_Model {
 		$sql .= " WHERE plan_id='" . (int)$plan_id . "'";
 		$this->db->query($sql);
 		$this->sqlstr = $this->db->last_query() . "; ";
+    if ($update_history) {
+      $this->load->model("plan_history_model");
+      if ($history = $this->plan_history_model->get_plan_history_by_plan_id($plan_id)) {
+        $this->plan_history_model->add_remove($history["plan_history_id"]);
+      }
+      $this->plan_history_model->add($plan_id);
+    }
 
 		if (isset($para['status_id']) && ((int)$para['status_id'] != (int)$plan['status_id']) && ((int)$para['status_id'] == 3) && ((int)$plan['status_id'] == 2)) {
 			$payment_id = empty($plan['payment_id']) ? (empty($para['payment_id']) ? 0 : $para['payment_id']) : $plan['payment_id'];
