@@ -13,8 +13,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<p class="small" style="margin-top:2px;">The insured(s) is aware that this insurance covers Emergencies (as defined in the policy) and may not cover expenses incurred after the insured(s) is able to travel home for treatment. The insured(s) is aware that Pre-existing Conditions (as defined in the policy) are excluded in some circumstances and that further details are provided in the policy.</p>
 		<p class="small" style="margin-top:2px;">IN THE EVENT OF A MEDICAL EMERGENCY OR CLAIM THAT MAY REQUIRE OR RESULT IN HOSPITALIZATION, CALL ONTIME CARE WORLDWIDE INC. IMMEDIATELY</p>
 		<p class="small" style="margin-top:2px;">Toll Free Canada/U.S.A. 1-866-209-5804<br />
-			Collect call worldwider 905-707-9555<br />
-			</p>
-
+			Collect call worldwider 905-707-9555</p>
 	</div>
 </div><br />
