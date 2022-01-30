@@ -866,7 +866,7 @@ class Plan_model extends CI_Model {
 		$this->sqlstr = $this->db->last_query() . "; ";
     if ($update_history) {
       $this->load->model("plan_history_model");
-      if ($history = $this->plan_history_model->get_plan_history_by_plan_id($plan_id)) {
+      if (($history = $this->plan_history_model->get_plan_history_by_plan_id($plan_id)) && ($history["actualrate"]>0)) {
         $this->plan_history_model->add_remove($history["plan_history_id"]);
       }
       $this->plan_history_model->add($plan_id);
