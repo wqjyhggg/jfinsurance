@@ -1721,6 +1721,7 @@ class Plan extends MY_Controller {
 
 	private function credit_card_negative() {
 		$this->load->model('plan_model');
+		$this->load->model('plan_history_model');
 		$this->load->model('product_model');
 		$this->load->model('payment_model');
 		
@@ -1836,6 +1837,12 @@ class Plan extends MY_Controller {
 		$payinfo = "Credit Card: paymount is negative";
 		$para = array('payment_id' => $payment_id, 'payinfo' => $payinfo, 'commission_payment_id' => $commission_payment_id, 'status_id' => 2, 'policy' => $this->plan_model->get_policy_number($plan_id, 2));
 		$this->plan_model->update($plan_id, $para);
+    if (($history = $this->plan_history_model->get_plan_history_by_plan_id($plan_id)) && ($history["actualrate"] < 0)) {
+      $plan["actualrate"] = number_format(floatval($plan["premium"]) / floatval($plan["totaldays"]), 2);
+      $this->plan_history_model->update($plan_id, $plan);
+    } else {
+      $this->plan_history_model->add($plan_id);
+    }
 		$para = array(
 				'plan_id' => $plan_id,
 				'customer_id' => $plan['customer_id'],
@@ -2035,7 +2042,12 @@ class Plan extends MY_Controller {
 						
 					$para = array('payment_id' => $payment_id, 'payinfo' => $payinfo, 'commission_payment_id' => $commission_payment_id );
 					$this->plan_model->update($plan_id, $para);
-          $this->plan_history_model->add($plan_id);
+          if (($history = $this->plan_history_model->get_plan_history_by_plan_id($plan_id)) && ($history["actualrate"] < 0)) {
+            $plan["actualrate"] = number_format(floatval($plan["premium"]) / floatval($plan["totaldays"]), 2);
+            $this->plan_history_model->update($plan_id, $plan);
+          } else {
+            $this->plan_history_model->add($plan_id);
+          }
 					$para = array(
 							'plan_id' => $plan_id,
 							'customer_id' => $plan['customer_id'],
@@ -2213,7 +2225,13 @@ class Plan extends MY_Controller {
 
 		$para = array('payment_id' => $payment_id, 'payinfo' => $payinfo, 'commission_payment_id' => $commission_payment_id, 'status_id' => 2, 'policy' => $this->plan_model->get_policy_number($plan_id, 2));
 		$this->plan_model->update($plan_id, $para);
-		$this->plan_history_model->add($plan_id);
+    if (($history = $this->plan_history_model->get_plan_history_by_plan_id($plan_id)) && ($history["actualrate"] < 0)) {
+      $plan["actualrate"] = number_format(floatval($plan["premium"]) / floatval($plan["totaldays"]), 2);
+      $this->plan_history_model->update($plan_id, $plan);
+    } else {
+      $this->plan_history_model->add($plan_id);
+    }
+
 		$para = array(
 				'plan_id' => $plan_id,
 				'customer_id' => $plan['customer_id'],
@@ -2347,7 +2365,12 @@ class Plan extends MY_Controller {
 		
 		$para = array('payment_id' => $payment_id, 'payinfo' => $payinfo, 'commission_payment_id' => $commission_payment_id, 'status_id' => 2, 'policy' => $this->plan_model->get_policy_number($plan_id, 2));
 		$this->plan_model->update($plan_id, $para);
-    $this->plan_history_model->add($plan_id);
+    if (($history = $this->plan_history_model->get_plan_history_by_plan_id($plan_id)) && ($history["actualrate"] < 0)) {
+      $plan["actualrate"] = number_format(floatval($plan["premium"]) / floatval($plan["totaldays"]), 2);
+      $this->plan_history_model->update($plan_id, $plan);
+    } else {
+      $this->plan_history_model->add($plan_id);
+    }
 		$para = array(
 				'plan_id' => $plan_id,
 				'customer_id' => $plan['customer_id'],
