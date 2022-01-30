@@ -34,45 +34,62 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 						<div class="clearfix"></div>
 					</div>
 					<div class="x_content">
-						<form  action='<?php echo $pay_url; ?>' method='POST' class="form-horizontal">
+						<form  action='<?php echo $pay_url; ?>' method='POST' id="myForm" class="form-horizontal">
 							<input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
 							<div class="row">
 								<div class="col-sm-12">
 									<fieldset>
 										<legend>Pay Information</legend>
 										<div class="row">
-											<div class="col-sm-4">
+											<div class="col-sm-3">
 												<label class="col-sm-12">Invoice: </label>
 												<div class="input-group col-sm-12">
 													<!-- div id='totaldays' class="div-box"></div -->
 													<input class="form-control" type='text' name='invoice_num' id='invoice_num' value='' >
 												</div>
 											</div>
-											<div class="col-sm-4">
+											<div class="col-sm-3">
 												<label class="col-sm-12">Bank Name: </label>
 												<div class="input-group col-sm-12">
 													<!-- div id='totaldays' class="div-box"></div -->
 													<input class="form-control" type='text' name='bank_name' id='bank_name' value='' >
 												</div>
 											</div>
-											<div class="col-sm-4">
+											<div class="col-sm-3">
 												<label class="col-sm-12">Payer: </label>
 												<div class="input-group col-sm-12">
 													<input class="form-control" type='text' name='payor_name' id='payor_name' value='' >
 												</div>
 											</div>
+											<div class="col-sm-3">
+												<label class="col-sm-12">Pay Method: </label>
+												<div class="input-group col-sm-12">
+                          <select name='pay_mothed' id="pay_mothed" class="form-control" style="padding:6px 2px;">
+                            <option value=''>-- Select Method --</option>
+                            <option value='Cash'>Cash</option>
+                            <option value='Checque'>Checque</option>
+                            <option value='Credit Card'>Credit Card</option>
+                          </select>
+												</div>
+											</div>
 										</div>
 										<div class="row">
-											<div class="col-sm-4">
+											<div class="col-sm-3">
 												<label class="col-sm-12">Cheque Number: </label>
 												<div class="input-group col-sm-12">
 													<input class="form-control" type='text' name='cheque_number' id='cheque_number' value='' >
 												</div>
 											</div>
-											<div class="col-sm-4">
+											<div class="col-sm-3">
 												<label class="col-sm-12">Pay To: </label>
 												<div class="input-group col-sm-12">
 													<input class="form-control" type='input' name='pay_to' id='pay_to' value=''>
+												</div>
+											</div>
+											<div class="col-sm-3">
+												<label class="col-sm-12">Receive Date: </label>
+												<div class="input-group col-sm-12">
+													<input class="form-control" type='date' name='cheque_cash_date' id='cheque_cash_date' value=''>
 												</div>
 											</div>
 										</div>
@@ -80,7 +97,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 											<div class="col-sm-12">
 												<label class="col-sm-12">Notes: </label>
 												<div class="input-group col-sm-12">
-										 			<textarea class="form-control" name="note"></textarea>
+										 			<textarea class="form-control" name="note" id="note"></textarea>
 										 		</div>
 										 	</div>
 										</div>
@@ -91,7 +108,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 							
 							<div class="row">
 								<div class="col-sm-12">
-									<input class="btn btn-primary pull-right" type='submit' name='pay_submit' value='Make Pay' />		
+									<input class="btn btn-primary pull-right" type='submit' name='pay_submit' id='pay_submit' value='Make Pay' />		
 								</div>
 								</div>
 							</div><br />
@@ -138,3 +155,35 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 	</div>
 </div>
 <!-- /page content -->
+<script type="text/javascript">
+$(document).ready(function(){
+  $('#pay_submit').attr("disabled", true);
+
+  $('#myForm').on('submit', function(e){
+    e.preventDefault();
+    var pay_method = $('#pay_mothed').val();
+    if (pay_method == '') {
+      alter("Please select Pay Method");
+      return;
+    } else if (pay_method == 'Checque') {
+      var len = $('#cheque_number').val().length;
+      if (len < 3) {
+        alter("Please input Cheque Number");
+        return;
+      }
+    } else if (pay_method == 'Cash') {
+      var len = $('#cheque_cash_date').val().length;
+      if (len < 1) {
+        alter("Please input Receive Date");
+        return;
+      }
+      var len = $('#note').val().length;
+      if (len < 1) {
+        alter("Please input Notes");
+        return;
+      }
+    }
+    this.submit();
+  });
+});
+</script>
