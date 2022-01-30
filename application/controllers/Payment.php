@@ -34,7 +34,8 @@ class Payment extends MY_Controller {
 				'pay_to' => $this->input->post('pay_to'),
 				'note' => $this->input->post('note'),
 				'ispaid' => 1,
-				'pay_mothed' => 'Cheque',
+				'pay_mothed' => $this->input->post('pay_mothed'),
+				'cheque_cash_date' => $this->input->post('cheque_cash_date'),
 				'pay_date' => date('Y-m-d'),
 			);
 					
@@ -46,11 +47,11 @@ class Payment extends MY_Controller {
 					$payarr['note'] .= " Make pay by " . $this->session->userdata ( 'user' )['username'] . "; " . $pay['note'];
 					if ($pay_submit && !$pay['ispaid']) {
 						// Submit pay
-						if ($pay['pay_type'] == 'premium') {
-							unset($payarr['pay_mothed']);
-						} else {
-							$payarr['pay_mothed'] = 'Cheque';
-						}
+						// if ($pay['pay_type'] == 'premium') {
+						// 	unset($payarr['pay_mothed']);
+						// } else {
+						// 	$payarr['pay_mothed'] = 'Cheque';
+						// }
 						$this->payment_model->update($payment_id, $payarr);
 						$plan = $this->plan_model->get_plan_by_id($pay['plan_id']);
 
