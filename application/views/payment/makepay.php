@@ -89,7 +89,10 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 											<div class="col-sm-3">
 												<label class="col-sm-12">Receive Date: </label>
 												<div class="input-group col-sm-12">
-													<input class="form-control" type='date' name='cheque_cash_date' id='cheque_cash_date' value=''>
+                          <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd" id='cheque_cash_date'>
+			                        <input class="setpremium form-control" size="16" type="text" name='cheque_cash_date' id='cheque_cash_date_real' value=''>
+			                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+			                    </div>
 												</div>
 											</div>
 										</div>
@@ -108,7 +111,8 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 							
 							<div class="row">
 								<div class="col-sm-12">
-									<input class="btn btn-primary pull-right" type='submit' name='pay_submit' id='pay_submit' value='Make Pay' />		
+									<input class="btn btn-primary pull-right" type='submit' name='pay_submit1' id='pay_submit1' value='Make Pay' />		
+									<input class="btn btn-primary pull-right" type='hidden' name='pay_submit' id='pay_submit' value='Make Pay' />		
 								</div>
 								</div>
 							</div><br />
@@ -157,29 +161,29 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 <!-- /page content -->
 <script type="text/javascript">
 $(document).ready(function(){
-  $('#pay_submit').attr("disabled", true);
+  // $('#pay_submit').attr("disabled", true);
 
   $('#myForm').on('submit', function(e){
     e.preventDefault();
     var pay_method = $('#pay_mothed').val();
     if (pay_method == '') {
-      alter("Please select Pay Method");
+      alert("Please select Pay Method");
       return;
     } else if (pay_method == 'Checque') {
       var len = $('#cheque_number').val().length;
       if (len < 3) {
-        alter("Please input Cheque Number");
+        alert("Please input Cheque Number");
         return;
       }
     } else if (pay_method == 'Cash') {
-      var len = $('#cheque_cash_date').val().length;
+      var len = $('#cheque_cash_date_real').val().length;
       if (len < 1) {
-        alter("Please input Receive Date");
+        alert("Please input Receive Date");
         return;
       }
       var len = $('#note').val().length;
       if (len < 1) {
-        alter("Please input Notes");
+        alert("Please input Notes");
         return;
       }
     }
