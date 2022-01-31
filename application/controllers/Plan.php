@@ -3030,7 +3030,8 @@ class Plan extends MY_Controller {
 					$files = array(
 					'JFPL_Policy.pdf' => DOWNLOADDIR . 'JFPL_Policy.pdf',
 					'JFPL_Claim_Form.pdf' => DOWNLOADDIR . 'JFPL_Claim_Form.pdf',
-					'JFPL_Brochure.pdf' => DOWNLOADDIR . 'JFPL_Brochure.pdf'
+					'JFPL_Brochure.pdf' => DOWNLOADDIR . 'JFPL_Clinic_Map.pdf',
+					'JFPL_Benefits_Summary.pdf' => DOWNLOADDIR . 'JFPL_Benefits_Summary.pdf'
 					);
 				} else if ($data['plan']['product_short'] == 'JESP') {
 					$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);

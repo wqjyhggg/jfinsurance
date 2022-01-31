@@ -1491,7 +1491,7 @@ class Product_model extends CI_Model {
 			$premiumArr['deductible_amount'] =  number_format($para['deductible_amount'], 2, '.', ',');
 		} else if ($para['product_short'] == 'JFPL') {
       $beuser = $this->session->beuser;
-      if ($beuser['user_id'] == 2202) {
+      if (($beuser['user_id'] == 657) || ($beuser['user_id'] == 1116) || ($beuser['user_id'] == 2202)) {
         $rate = 1.7;
       } else if ($beuser['user_id'] == 2185) {
         $rate = 1.85;
