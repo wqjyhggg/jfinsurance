@@ -3196,15 +3196,25 @@ class Plan extends MY_Controller {
 		$data['title_txt'] = 'Policy';
 		$data['customer_product_name'] = $this->product_model->get_product_customize_name($beuser['user_id'], $data['plan']['product_short']);
 		$data['style'] = $this->load->view('common/pdf_style',$data, TRUE);		
+		$data['hadheaderfooter'] = 0;
+    if ($data['plan']['product_short'] == 'JFPL') {
+		$mpdf = new mPDF('c', 'A4', 0, '', $mgl = 0, $mgr = 0, $mgt = 15, $mgb = 0, $mgh = 0, $mgf = 0, $orientation = 'P');
+		if ($plan['status_id'] < 2) {
+			$mpdf->SetWatermarkText ("QUOTE", 0.1);
+			$mpdf->showWatermarkText = true;
+		}
+		$data['hadheaderfooter'] = 1;
+		$html = $this->load->view('plan/pdf', $data, TRUE);
+      $mpdf->SetHTMLHeader('<img style="width:100%;" src="'.base_url().'image/pdf_header.png" />');
+      $mpdf->SetHTMLFooter('<img style="width:100%;" src="'.base_url().'image/pdf_footer.png" />');
+    } else {
+
 		$mpdf = new mPDF('c');
 		if ($plan['status_id'] < 2) {
 			$mpdf->SetWatermarkText ("QUOTE", 0.1);
 			$mpdf->showWatermarkText = true;
 		}
 		$html = $this->load->view('plan/pdf', $data, TRUE);
-    if ($data['plan']['product_short'] == 'JFPL') {
-      $mpdf->SetHTMLHeader('<img style="width:100%;" src="'.base_url().'image/pdf_header.png" />');
-      $mpdf->SetHTMLFooter('<img style="width:100%;" src="'.base_url().'image/pdf_footer.png" />');
     }
 		$mpdf->writeHTML($html);
 		$mpdf->Output("Policy.pdf","I");

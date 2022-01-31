@@ -15,9 +15,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
   <header>
     <!--p class="rh">JF Group</p-->
   </header>
-  <div class="container">
+  <div class="container" <?php if ($hadheaderfooter) { ?> style="padding: 0 40px;" <?php } ?>>
     <div class="row" style="padding-top:60px">
-      <?php if (0 && $withlogo) { ?>
+      <?php if (!$hadheaderfooter && $withlogo) { ?>
         <?php if (empty($user['pdf_logo']) || !in_array($plan['product_short'], $pdf_enable)) { ?>
           <div style="float:left;width:90px;">
             <img class="img-responsive" style="width:80px;" src="<?php echo base_url(); ?>image/jf_logo.jpg" />
@@ -293,10 +293,13 @@ defined('BASEPATH') or exit('No direct script access allowed');
             </h4><?php } ?>
           <?php if ($plan['deductible_amount'] || ($plan['product_short'] == 'OPL') || ($plan['product_short'] == 'JFR')) { ?><h4>Deductible: <span>$<?php echo number_format($plan['deductible_amount'], 2); ?></sapn>
             </h4><?php } ?>
-          <h4>Beneficiary: <span><?php echo htmlspecialchars($plan['beneficiary']); ?></sapn>
-          </h4>
-        <?php } // end if TOP 
-        ?>
+          <h4>Beneficiary: <span><?php echo htmlspecialchars($plan['beneficiary']); ?></sapn></h4>
+	<?php } // end if TOP 
+	?>
+
+        <?php if ($plan['product_short'] == 'JFPL') { ?>
+	  <h4>Stable pre-existing condition coverage: <span>Yes</sapn> </h4>
+        <?php } ?>
       </div>
       <div class="col-sm-6 nopadding">
         <?php if ($withprice) { ?>
