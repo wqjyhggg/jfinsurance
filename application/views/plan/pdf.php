@@ -346,14 +346,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
       </div>
     </div>
     <?php echo $special_note; ?>
-    <?php if ($plan['product_short'] == "JFPL") { ?>
-    <div class="row">
-      <div class="col-sm-12 nopm special-note">
-        <p class="small">If you notice any errors in the above information or have any questions, please contact JF Insurance Agency Group Inc.</p></br>
-        <p class="small">The Insurance is underwritten by Old Republic Insurance Company of Canada and administered by JF Insurance Agency Group Inc.</p>
-      </div>
-    </div>
-    <?php } else { ?>
     <!--/div-->
     <!-- end p-detail -->
     <!--/div-->
@@ -407,6 +399,12 @@ defined('BASEPATH') or exit('No direct script access allowed');
         <?php if (!empty($user['pdf_qr2']) && in_array($plan['product_short'], $pdf_enable)) { ?>
           <img class="img-responsive" style="width:60px;padding-top:10px;" src="<?php echo base_url('agent/img') . '/' . $user['pdf_qr2']; ?>" />
         <?php } ?>
+      </div>
+    </div>
+    <?php if ($plan['product_short'] == "JFPL") { ?>
+    <div class="row">
+      <div class="col-sm-12 nopm special-note">
+        <p class="small">The Insurance is underwritten by Old Republic Insurance Company of Canada and administered by JF Insurance Agency Group Inc.</p>
       </div>
     </div>
     <?php } ?>
