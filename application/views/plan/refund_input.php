@@ -77,7 +77,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         </div>
                         <div class="form-group col-sm-4 col-xs-12 pull-right">
                           <label>Refund Premium:</label> <!--span id="refund_amount"></span-->
-                          <input type="number" step="any" name='refund_amount' id='refund_amount' value='' class="form-control" readonly />
+                          <input type="number" step="any" name='refund_amount' id='refund_amount' value='' class="form-control" />
                         </div>
                       </div>
                       <div class="row">
