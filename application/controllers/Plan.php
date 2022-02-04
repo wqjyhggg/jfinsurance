@@ -3082,7 +3082,7 @@ class Plan extends MY_Controller {
           if ($data['withlogo']) {
             $mpdf->SetHTMLHeader('<img style="width:100%;" src="'.base_url().'image/pdf_header.png" />');
           }
-          $mpdf->SetHTMLFooter('<img style="width:100%;" src="'.base_url().'image/pdf_footer.png" />');
+          // $mpdf->SetHTMLFooter('<img style="width:100%;" src="'.base_url().'image/pdf_footer.png" />');
           $data['hadheaderfooter'] = 1;
         } else {
   				$mpdf = new mPDF('c');
@@ -3218,7 +3218,7 @@ class Plan extends MY_Controller {
       if ($data['withlogo']) {
         $mpdf->SetHTMLHeader('<img style="width:100%;" src="'.base_url().'image/pdf_header.png" />');
       }
-    $mpdf->SetHTMLFooter('<img style="width:100%;" src="'.base_url().'image/pdf_footer.png" />');
+    // $mpdf->SetHTMLFooter('<img style="width:100%;" src="'.base_url().'image/pdf_footer.png" />');
     } else {
 
 		$mpdf = new mPDF('c');
