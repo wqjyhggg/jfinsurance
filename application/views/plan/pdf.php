@@ -15,7 +15,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
   <header>
     <!--p class="rh">JF Group</p-->
   </header>
-  <div class="container" <?php if ($hadheaderfooter && !$withlogo) { ?> style="padding: 0 40px;" <?php } ?>>
+  <div class="container" <?php if ($hadheaderfooter) { ?> style="padding: 0 40px;" <?php } ?>>
     <div class="row" style="padding-top:60px">
       <?php if (!$hadheaderfooter && $withlogo) { ?>
         <?php if (empty($user['pdf_logo']) || !in_array($plan['product_short'], $pdf_enable)) { ?>
