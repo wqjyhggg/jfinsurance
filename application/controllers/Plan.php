@@ -1453,7 +1453,7 @@ class Plan extends MY_Controller {
 		$data['export_logo_url'] = base_url('plan/exportlogo') . "/";
 		$data['export_price_url'] = base_url('plan/exportprice') . "/";
 		$data['export_logo_price_option'] = FALSE;
-		if (($beuser['user_group_id'] < 100) || ($beuser['user_id'] = 3744)) $data['export_logo_price_option'] = TRUE;
+		if (($beuser['user_group_id'] < 100) || ($beuser['user_id'] == 3744)) $data['export_logo_price_option'] = TRUE;
 		$this->session->set_userdata ( 'withlogo', 1);
 		if ($beuser['user_group_id'] != 103) {
 			$this->session->set_userdata ( 'withprice', 1);
