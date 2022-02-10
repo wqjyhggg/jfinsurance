@@ -1453,15 +1453,7 @@ class Plan extends MY_Controller {
 		$data['export_logo_url'] = base_url('plan/exportlogo') . "/";
 		$data['export_price_url'] = base_url('plan/exportprice') . "/";
 		$data['export_logo_price_option'] = FALSE;
-		if (isset($plan['product_short'])) {
-			if (($plan['product_short'] == 'JES') || ($plan['product_short'] == 'JFPL') || ($plan['product_short'] == 'JESP') || ($plan['product_short'] == 'JFE') || ($plan['product_short'] == 'JFS') || ($plan['product_short'] == 'BHS')) {
-				if (($beuser['user_group_id'] < 100) || ($beuser['user_id'] = 3744)) $data['export_logo_price_option'] = TRUE;
-			} else if ($plan['product_short'] == 'JFC') {
-				if (($beuser['user_group_id'] < 100) || ($beuser['user_id'] = 3744)) $data['export_logo_price_option'] = TRUE;
-			} else if ($plan['product_short'] == 'JFP') {
-				if (($beuser['user_group_id'] < 100) || ($beuser['user_id'] = 3744)) $data['export_logo_price_option'] = TRUE;
-			}
-		}
+		if (($beuser['user_group_id'] < 100) || ($beuser['user_id'] = 3744)) $data['export_logo_price_option'] = TRUE;
 		$this->session->set_userdata ( 'withlogo', 1);
 		if ($beuser['user_group_id'] != 103) {
 			$this->session->set_userdata ( 'withprice', 1);
@@ -2843,6 +2835,7 @@ class Plan extends MY_Controller {
 		$data['export_logo_url'] = base_url('plan/exportlogo') . "/";
 		$data['export_price_url'] = base_url('plan/exportprice') . "/";
 		$data['export_logo_price_option'] = FALSE;
+    if (($beuser['user_group_id'] < 100) || ($beuser['user_id'] == 3744)) $data['export_logo_price_option'] = TRUE;
 		$data['isprocessplan'] = 1;
 		$data['html_model'] = $this->html_model;
 		if ($data['plan']['product_short'] == 'OPL') {
@@ -2854,10 +2847,8 @@ class Plan extends MY_Controller {
 		} else if ($data['plan']['product_short'] == 'NUS') {
 			$data['insurable_options'] = $this->load->view('plan/detail_jus', $data, TRUE);
 		} else if (($data['plan']['product_short'] == 'JES') || ($data['plan']['product_short'] == 'JFPL') || ($data['plan']['product_short'] == 'JESP') || ($data['plan']['product_short'] == 'JFE') || ($data['plan']['product_short'] == 'JFS') || ($data['plan']['product_short'] == 'BHS')) {
-			if (($beuser['user_group_id'] < 100) || ($beuser['user_id'] == 3744)) $data['export_logo_price_option'] = TRUE;
 			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
 		} else if (($data['plan']['product_short'] == 'JFC') || ($data['plan']['product_short'] == 'JFP')) {
-			if (($beuser['user_group_id'] < 100) || ($beuser['user_id'] == 3744)) $data['export_logo_price_option'] = TRUE;
 			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
 		} else {
 			$data['insurable_options'] = $this->load->view('plan/detail_other', $data, TRUE);
