@@ -16,7 +16,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
     <!--p class="rh">JF Group</p-->
   </header>
   <div class="container" <?php if ($hadheaderfooter) { ?> style="padding: 0 40px;" <?php } ?>>
-    <div class="row" style="padding-top:60px">
+    <div class="row" <?php if ($hadheaderfooter) { ?> style="padding-top:60px" <?php } ?>>
       <?php if (!$hadheaderfooter && $withlogo) { ?>
         <?php if (empty($user['pdf_logo']) || !in_array($plan['product_short'], $pdf_enable)) { ?>
           <div style="float:left;width:90px;">
@@ -56,9 +56,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
       <?php } ?>
     </div>
     <div class="row">
-      <div class="col-sm-6 text-center">
+      <div class="col-sm-12 text-right">
         <h2 style="margin:-15px 0 0;"><?php if ($plan['status_id'] < 2) { ?>Quote<?php } else { ?>Confirmation<?php } ?> of Insurance</h2>
       </div>
+          <?php if (0) { ?>
       <div class="col-sm-6 text-right">
           <?php if (($plan['product_short'] == 'NUS') || ($plan['product_short'] == 'JUS')) { ?>
             <p class="topp" style="font-weight:bold;"><span style="text-transform: capitalize;font-weight:bold;">HK Leung</span></p>
@@ -80,6 +81,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
           <?php } ?>
         <?php } ?>
       </div>
+        <?php } ?>
     </div>
 
     <!--div class="row">
