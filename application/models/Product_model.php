@@ -1493,7 +1493,7 @@ class Product_model extends CI_Model {
       $beuser = $this->session->beuser;
       if (($beuser['user_id'] == 657) || ($beuser['user_id'] == 1116) || ($beuser['user_id'] == 2202)) {
         $rate = 1.7;
-      } else if ($beuser['user_id'] == 2185) {
+      } else if (($beuser['user_id'] == 2185) || ($beuser['user_id'] == 4014)) {
         $rate = 1.85;
       } else {
 				$premiumArr['message'] = "You don't have permission to sell this production.";
