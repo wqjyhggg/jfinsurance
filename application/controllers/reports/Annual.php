@@ -54,7 +54,7 @@ class Annual extends MY_Controller
       }
       $this->data['record'] = $this->report_model->get_annual($this->data['agent_id'], $year, $user_id);
       if ($this->input->get('export')) {
-        return $this->export($this->data['agent_id'], $this->data['record']);
+        return $this->export($this->data['agent_id'], $this->data['record'], $year);
       }
       if ($beuser['user_group_id'] < 100) {
       $this->data['record']["premium"] = array();
@@ -76,7 +76,7 @@ class Annual extends MY_Controller
     $this->load->common('reports/annual', $this->data);
   }
 
-  private function export($agent_id, $data)
+  private function export($agent_id, $data, $year)
   {
     $data['style'] = $this->load->view('common/pdf_style', array(), TRUE);
     $mpdf = new mPDF('c');
@@ -88,6 +88,7 @@ class Annual extends MY_Controller
       $commission += $data['commission2'][$i];
     }
     }
+    $data['year'] = $year;
     $data['premium'] = $premium;
     $data['commission'] = $commission;
     $data['agent'] = $this->user_model->get_user_by_id($agent_id);
