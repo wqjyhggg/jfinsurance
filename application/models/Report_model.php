@@ -370,7 +370,24 @@ class Report_model extends CI_Model
 
   public function get_sales_report_insurer2($para)
   {
-    $sql  = "SELECT ph.* FROM plan_history ph WHERE ph.plan_id in (";
+    $sql  = "SELECT ph.*,";
+    $sql .= "	c.firstname,";
+    $sql .= "	c.lastname, ";
+    $sql .= "	c.gender, ";
+    $sql .= "	c.birthday, ";
+    $sql .= "	pa2.amount AS commission_amount,";
+    $sql .= "	'2.5' AS merchant_fee_per, ";
+    $sql .= "	ph.premium*0.025 as merchant_fee, ";
+    $sql .= "	'5' AS claims_handling_fee_per,";
+    $sql .= "	ph.premium*0.05 as claims_handling_fee,";
+    $sql .= "	ph.premium - (pa2.amount+ph.premium*0.075) as total_compensation,";
+    $sql .= "	(pa2.amount+ph.premium*0.075) as net_premium,";
+    $sql .= "	(100 - pr.up_pay_rate + 0.075) as total_compensation_per,";
+    $sql .= " FROM plan_history ph";
+    $sql .= " JOIN customer c ON ph.customer_id = c.customer_id";
+    $sql .= " JOIN product pr ON ph.product_short = pr.product_short";
+    $sql .= " LEFT JOIN payment pa2 ON (ph.payment_id=pa2.premium_payment_id AND pa2.pay_type IN ('commission','cancel_commission','refund_commission'))";
+    $sql .= " WHERE ph.plan_id in (";
     $sql .= " SELECT pa.plan_id FROM payment pa WHERE ";
     if (!empty($para['payment_added_from'])) {
       $sql .= " pa.added >= " . $this->db->escape($para['payment_added_from'] . " 00:00:00");

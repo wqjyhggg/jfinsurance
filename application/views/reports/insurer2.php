@@ -149,27 +149,26 @@ defined('BASEPATH') or exit('No direct script access allowed');
                     </tr>
                   </thead>
                   <tbody>
-                    <?php $premium_total = 0; ?>
                     <?php foreach ($report_data as $record) : ?>
-                      <?php $premium_total += $record['policy_premium']; ?>
+                      <?php $address = (empty($record['suite_number'])?"":$record['suite_number']."-").$record['street_number']." ".$record['street_name']; ?>
                       <tr>
                         <td><?= $record['policy'] ?></td>
                         <td><?= $record['firstname'] ?></td>
                         <td><?= $record['lastname'] ?></td>
                         <td><?= $record['gender'] ?></td>
                         <td><?= $status_list[$record['status_id']] ?></td>
-                        <td><?= $record['age'] ?></td>
+                        <td><?= $record['totalyears'] ?></td>
                         <td><?= $record['birthday'] ?></td>
-                        <td><?= $record['address'] ?></td>
+                        <td><?= $address ?></td>
                         <td><?= $record['city'] ?></td>
-                        <td><?= $record['province'] ?></td>
+                        <td><?= $record['province2'] ?></td>
                         <td><?= $record['postcode'] ?></td>
                         <td><?= $record['effective_date'] ?></td>
                         <td><?= $record['expiry_date'] ?></td>
-                        <td><?= $record['total_days'] ?></td>
+                        <td><?= $record['totaldays'] ?></td>
                         <td>$<?= $record['sum_insured'] ?></td>
                         <td>$<?= $record['deductible_amount'] ?></td>
-                        <td>$<?= $record['daily_rate'] ?></td>
+                        <td>$<?= $record['dailyrate'] ?></td>
                         <td>$<?= $record['policy_premium'] ?></td>
                         <!--td><?= $record['commission_rate_jf'] ?>%</td-->
                         <td><?= $record['merchant_fee_per'] ?>%</td>
@@ -180,12 +179,11 @@ defined('BASEPATH') or exit('No direct script access allowed');
                         <td>$<?= $record['net_premium'] ?></td>
                         <td><?= $record['total_compensation_per'] ?>%</td>
                         <td>$<?= $record['total_compensation'] ?></td>
-                        <td><?= $record['coverage'] ?></td>
+                        <td>&nbsp;</td>
                       </tr>
                     <?php endforeach; ?>
                   </tbody>
                 </table>
-                Total Premium: <?php echo $premium_total; ?>
               <?php endif; ?>
             </div>
           </div>
