@@ -4,7 +4,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 use Box\Spout\Common\Type;
 use Box\Spout\Writer\WriterFactory;
 
-class Insurer extends MY_Controller
+class Insurer2 extends MY_Controller
 {
   /**
    * Index Page for this controller.
@@ -30,16 +30,20 @@ class Insurer extends MY_Controller
     $data['product_short'] = $this->input->post('product_short');
     $data['payment_added_from'] = empty($this->input->post('payment_added_from'))?date("Y-m-d"):$this->input->post('payment_added_from');
     $data['payment_added_to'] = empty($this->input->post('payment_added_to'))?date("Y-m-d"):$this->input->post('payment_added_to');
+    $data['product_short'] = array_keys($data['product_short']);
 
-    $data['product_list'] = $this->product_model->get_available_product_list();
-    $data['report_data'] = empty($_POST) ? array() : $this->report_model->get_sales_report_insurer2($data);
+    // $data['report_data'] = empty($_POST) ? array() : $this->report_model->get_sales_report_insurer2($data);
+    $data['report_data'] = $this->report_model->get_sales_report_insurer2($data);
     if ($this->input->post('export')) {
       return $this->export_list($data);
     }
+    //echo "<pre>";
+    //print_r($data); //XXXXXXXXXXXXX
+    //echo "</pre>";
+    //die("XXXX");
+    $data['product_list'] = $this->product_model->get_available_product_list();
 
-    $data['export_list'] = base_url("reports/insurer/export_list");
-    $this->load->model('region_model');
-    $this->load->common('reports/insurer', $data);
+    $this->load->common('reports/insurer2', $data);
   }
 
   private function export_list($data)

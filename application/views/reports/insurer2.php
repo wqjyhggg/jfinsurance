@@ -34,6 +34,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
             <div class="clearfix"></div>
           </div>
           <div class="x_content">
+
             <form method="post" action="<?= $action_url ?>" class="form-horizontal">
               <input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
               <div class="row">
@@ -42,7 +43,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
                   <label class="col-sm-12">Product:</label>
                   <div class="input-group col-sm-12">
                     <?php foreach ($product_list as $product) : ?>
-                      <input type='checkbox' name='product_short[<?php echo $product["product_short"]; ?>]' <?php if (isset($product_short[$product["product_short"]])) { ?>checked<?php } ?>><?php echo $product["product_short"]; ?>
+                    <?php     if (empty($product["calculate"])) continue; ?>
+                      <input type='checkbox' name='product_short[<?php echo $product["product_short"]; ?>]' <?php if (in_array($product["product_short"], $product_short)) { ?>checked<?php } ?>> <?php echo $product["product_short"]; ?> &nbsp; &nbsp; 
                     <?php endforeach; ?>
                   </div>
                 </div>
@@ -55,7 +57,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                   <!-- Payment Added Date From-->
                   <label for="payment_added_from" class="col-sm-12">Payment Added Date From</label>
                   <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
-                    <input name="payment_added_from" class="form-control" size="16" type="text" value="<?php $payment_added_from ?>">
+                    <input name="payment_added_from" class="form-control" size="16" type="text" value="<?php echo $payment_added_from ?>">
                     <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                   </div>
                   <input type="hidden" id="payment_added_from" value="" />
@@ -65,7 +67,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                   <!-- Payment Added Date to -->
                   <label for="payment_added_to" class="col-sm-12">Payment Added Date To</label>
                   <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
-                    <input name="payment_added_to" class="form-control" size="16" type="text" value="<?php $payment_added_to ?>">
+                    <input name="payment_added_to" class="form-control" size="16" type="text" value="<?php echo $payment_added_to ?>">
                     <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                   </div>
                   <input type="hidden" id="payment_added_to" value="" /><br />
@@ -73,13 +75,15 @@ defined('BASEPATH') or exit('No direct script access allowed');
                 </div>
                 <!-- Payment Added Date End -->
                 <!-- export button -->
-                <div class="form-group col-sm-3">
-                  <input type="submit" name="export" value="1" class="btn btn-primary pull-right">Display Sales Report</input>
+                <div class="form-group col-sm-3 text-center">
+                  <label class="col-sm-12">&nbsp;</label>
+                  <input type="submit" name="export" value="Export" class="btn btn-primary" />
                 </div>
                 <!-- export button -->
                 <!-- submit button -->
                 <div class="form-group col-sm-3">
-                  <input type="submit" name="submit" value="1" class="btn btn-primary pull-right">Display Sales Report</input>
+                  <label class="col-sm-12">&nbsp;</label>
+                  <input type="submit" name="submit" value="Display" class="btn btn-primary" />
                 </div>
                 <!-- submit button -->
               </div>
@@ -94,24 +98,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
       <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">
           <div class="x_title">
-            <h2>Search Result <span class="inline-m">
-                <form method="get" action="<?php echo $export_list; ?>" class="form-horizontal">
-                  <input type='hidden' name="agent_id" value="<?php echo $agent_id; ?>">
-                  <input type='hidden' name="product_short" value="<?php echo $product_short; ?>">
-                  <input type='hidden' name="region_id" value="<?php echo $region_id; ?>">
-                  <input type='hidden' name="payment_added_from" value="<?php echo $payment_added_from; ?>">
-                  <input type='hidden' name="payment_added_to" value="<?php echo $payment_added_to; ?>">
-                  <input type='hidden' name="payment_date_from" value="<?php echo $payment_date_from; ?>">
-                  <input type='hidden' name="payment_date_to" value="<?php echo $payment_date_to; ?>">
-                  <div class="row">
-                    <!-- submit button -->
-                    <div class="col-sm-12">
-                      <button class="btn btn-primary pull-right">Export Report</button>
-                    </div>
-                    <!-- submit button -->
-                  </div>
-                </form>
-              </span></h2>
+            <h2>Search Result</h2>
             <div class="clearfix"></div>
           </div>
           <div class="x_content">
