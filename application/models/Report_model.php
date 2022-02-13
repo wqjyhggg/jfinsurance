@@ -382,7 +382,7 @@ class Report_model extends CI_Model
     $sql .= "	ph.premium*0.05 as claims_handling_fee,";
     $sql .= "	ph.premium - (pa2.amount+ph.premium*0.075) as total_compensation,";
     $sql .= "	(pa2.amount+ph.premium*0.075) as net_premium,";
-    $sql .= "	(100 - pr.up_pay_rate + 0.075) as total_compensation_per,";
+    $sql .= "	(100 - pr.up_pay_rate + 0.075) as total_compensation_per";
     $sql .= " FROM plan_history ph";
     $sql .= " JOIN customer c ON ph.customer_id = c.customer_id";
     $sql .= " JOIN product pr ON ph.product_short = pr.product_short";
