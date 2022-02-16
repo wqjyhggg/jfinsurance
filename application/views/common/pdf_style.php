@@ -16,6 +16,7 @@ span{font-weight: normal;}
 }
 .label{font-weight: bold;}
 .nopadding{padding-left: 0;padding-right: 0;}
+.nopadding2{padding-left: 20;padding-right: 0;}
 .col-sm-12,.col-sm-8,.col-sm-6,.col-sm-4,.col-sm-3{
 	position: relative;
     min-height: 1px;
