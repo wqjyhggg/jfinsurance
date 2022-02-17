@@ -30,6 +30,10 @@ span{font-weight: normal;}
 	width: 48%;
 	float: left;
 }
+.col-sm-5{
+	width: 40%;
+	float: left;
+}
 .col-sm-4{
     width:33%;
     float: left;
@@ -40,6 +44,10 @@ span{font-weight: normal;}
 }
 .col-sm-2{
 	width: 16%;
+	float: left;
+}
+.col-sm-1{
+	width: 8%;
 	float: left;
 }
 .p-detail [class*="col-"] {
