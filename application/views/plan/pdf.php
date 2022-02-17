@@ -58,20 +58,21 @@ defined('BASEPATH') or exit('No direct script access allowed');
     <?php if ($plan['product_short'] == 'JFPL') { ?>
       <div class="row">
         <div class="col-sm-12 text-left">
-            <?php if ($user['user_group_id'] > 100) { ?>
+          <?php if ($user['user_group_id'] > 100) { ?>
             <p class="topp" style="font-weight:bold;">
-              <?php echo empty($user['business']) ? 'JF Agent' : htmlspecialchars($user['business']); ?> - 
+              <?php echo empty($user['business']) ? 'JF Agent' : htmlspecialchars($user['business']); ?> -
               <span style="text-transform: capitalize;font-weight:bold;"><?php echo ($user) ? htmlspecialchars($user['firstname'] . " " . $user['lastname']) : ''; ?></span>
             </p>
             <p class="topp">
-              <?php echo ($user) ? htmlspecialchars($user['address'] . ' ' . $user['city'] . ' ' . $user['province2'] . ' ' . $user['postcode']) : ''; ?></p>
+              <?php echo ($user) ? htmlspecialchars($user['address'] . ' ' . $user['city'] . ' ' . $user['province2'] . ' ' . $user['postcode']) : ''; ?>
+            </p>
             <p class="topp">
               <?php echo ($user) ? htmlspecialchars($user['business_phone']) : ''; ?>
               <?php if (!empty($user['website'])) { ?>
                 &nbsp;<?php echo htmlspecialchars($user['website']); ?>
               <?php } ?>
             </p>
-            <?php } else { ?>
+          <?php } else { ?>
             <p class="topp" style="font-weight:bold;"> JF Agent - <span style="text-transform: capitalize;font-weight:bold;">Johnson Fu</span></p>
             <p class="topp"><?php echo ($user) ? htmlspecialchars($user['address'] . ', ' . $user['city'] . ' ' . $user['province2'] . ' ' . $user['postcode']) : ''; ?></p>
             <p class="topp"><?php echo ($user) ? htmlspecialchars($user['business_phone']) : ''; ?></p>
@@ -80,64 +81,59 @@ defined('BASEPATH') or exit('No direct script access allowed');
       </div>
       <div class="row">
         <div class="col-sm-6 text-left">
-            &nbsp;
+          &nbsp;
         </div>
         <div class="col-sm-1 text-left">
-            &nbsp;
+          &nbsp;
         </div>
         <div class="col-sm-5 text-left">
-          <h2 style="margin:-15px 0 0;"><?php if ($plan['status_id'] < 2) { ?>Quote<?php } else { ?>Confirmation<?php } ?> of Insurance</h2>
+          <h2><?php if ($plan['status_id'] < 2) { ?>Quote<?php } else { ?>Confirmation<?php } ?> of Insurance</h2>
         </div>
       </div>
     <?php } else { ?>
-    <div class="row">
-      <div class="col-sm-6 text-center">
-        <h2 style="margin:-15px 0 0;"><?php if ($plan['status_id'] < 2) { ?>Quote<?php } else { ?>Confirmation<?php } ?> of Insurance</h2>
-      </div>
-      <?php if (0) { ?>
-      <div class="col-sm-6 text-right">
-          <?php if (($plan['product_short'] == 'NUS') || ($plan['product_short'] == 'JUS')) { ?>
-            <p class="topp" style="font-weight:bold;"><span style="text-transform: capitalize;font-weight:bold;">HK Leung</span></p>
-            <p class="topp">JF Insurance Agency Group Inc.</p>
-            <p class="topp">939 Arcadia Ave, #R, Arcadia, CA91007</p>
-            <p class="topp">Tel: 1-877-832-5541</p>
-          <?php } else { ?>
-            <?php if ($user['user_group_id'] > 100) { ?>
-            <p class="topp" style="font-weight:bold;"><?php echo empty($user['business']) ? 'JF Agent' : htmlspecialchars($user['business']); ?> - <span style="text-transform: capitalize;font-weight:bold;"><?php echo ($user) ? htmlspecialchars($user['firstname'] . " " . $user['lastname']) : ''; ?></span></p>
-            <p class="topp"><?php echo ($user) ? htmlspecialchars($user['address'] . ', ' . $user['city'] . ' ' . $user['province2'] . ' ' . $user['postcode']) : ''; ?></p>
-            <p class="topp"><?php echo ($user) ? htmlspecialchars($user['business_phone']) : ''; ?></p>
-            <?php if (!empty($user['website'])) { ?>
-              <p class="topp"><?php echo htmlspecialchars($user['website']); ?></p>
-            <?php } ?>
+      <div class="row">
+        <div class="col-sm-6 text-center">
+          <h2 style="margin:-15px 0 0;"><?php if ($plan['status_id'] < 2) { ?>Quote<?php } else { ?>Confirmation<?php } ?> of Insurance</h2>
+        </div>
+        <?php if (0) { ?>
+          <div class="col-sm-6 text-right">
+            <?php if (($plan['product_short'] == 'NUS') || ($plan['product_short'] == 'JUS')) { ?>
+              <p class="topp" style="font-weight:bold;"><span style="text-transform: capitalize;font-weight:bold;">HK Leung</span></p>
+              <p class="topp">JF Insurance Agency Group Inc.</p>
+              <p class="topp">939 Arcadia Ave, #R, Arcadia, CA91007</p>
+              <p class="topp">Tel: 1-877-832-5541</p>
             <?php } else { ?>
-            <p class="topp" style="font-weight:bold;"> JF Agent - <span style="text-transform: capitalize;font-weight:bold;">Johnson Fu</span></p>
-            <p class="topp"><?php echo ($user) ? htmlspecialchars($user['address'] . ', ' . $user['city'] . ' ' . $user['province2'] . ' ' . $user['postcode']) : ''; ?></p>
-            <p class="topp"><?php echo ($user) ? htmlspecialchars($user['business_phone']) : ''; ?></p>
-          <?php } ?>
+              <?php if ($user['user_group_id'] > 100) { ?>
+                <p class="topp" style="font-weight:bold;"><?php echo empty($user['business']) ? 'JF Agent' : htmlspecialchars($user['business']); ?> - <span style="text-transform: capitalize;font-weight:bold;"><?php echo ($user) ? htmlspecialchars($user['firstname'] . " " . $user['lastname']) : ''; ?></span></p>
+                <p class="topp"><?php echo ($user) ? htmlspecialchars($user['address'] . ', ' . $user['city'] . ' ' . $user['province2'] . ' ' . $user['postcode']) : ''; ?></p>
+                <p class="topp"><?php echo ($user) ? htmlspecialchars($user['business_phone']) : ''; ?></p>
+                <?php if (!empty($user['website'])) { ?>
+                  <p class="topp"><?php echo htmlspecialchars($user['website']); ?></p>
+                <?php } ?>
+              <?php } else { ?>
+                <p class="topp" style="font-weight:bold;"> JF Agent - <span style="text-transform: capitalize;font-weight:bold;">Johnson Fu</span></p>
+                <p class="topp"><?php echo ($user) ? htmlspecialchars($user['address'] . ', ' . $user['city'] . ' ' . $user['province2'] . ' ' . $user['postcode']) : ''; ?></p>
+                <p class="topp"><?php echo ($user) ? htmlspecialchars($user['business_phone']) : ''; ?></p>
+              <?php } ?>
+            <?php } ?>
+          </div>
         <?php } ?>
       </div>
-      <?php } ?>
-    </div>
     <?php } ?>
-
-    <!--div class="row">
-			<h4 class="col-sm-6 nopadding"><?php if ($plan['status_id'] < 2) { ?>Quote<?php } else { ?>Policy<?php } ?> Number: <span><?php echo $plan['policy']; ?></span></h4>
-			<h4 class="col-sm-6 nopadding" style="margin-top:0px;">Policy Status: <?php echo $status_list[$plan['status_id']]['name']; ?></h4>
-		</div-->
-    <!--div>
-			<div class="p-detail"-->
-    <!-- policy detail -->
     <div class="row" style="margin-top: -15px;">
+      <div class="col-sm-12 nopadding">
+        <h4 style="margin-bottom:15px;"><u>Policy Details</u></h4>
+      </div>
+    </div>
+    <div class="row">
       <?php if ($plan['product_short'] == 'BHS') { ?>
         <div class="col-sm-6 nopadding">
-          <h4 style="margin-bottom:15px;"><u>Policy Details</u></h4>
           <h4><?php if ($plan['status_id'] < 2) { ?>Quote<?php } else { ?>Policy<?php } ?> Number: <span><?php echo $plan['student_id']; ?></span></h4>
           <h4>Policy Holder: <span><?php echo htmlspecialchars($customer['firstname'] . " " . $customer['lastname']); ?></span></h4>
           <h4>Date of Birth: <span><?php echo $customer['birthday']; ?></sapn>
           </h4>
         </div>
         <div class="col-sm-6 nopadding">
-          <h4 style="margin-bottom:15px;">&nbsp;&nbsp;</h4>
           <h4>Effective Date: <span><?php echo $plan['effective_date']; ?></sapn>
           </h4>
           <h4>Expiry Date: <span><?php echo $plan['expiry_date']; ?></sapn>
@@ -147,7 +143,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
         </div>
       <?php } else { ?>
         <div class="col-sm-6 nopadding">
-          <h4 style="margin-bottom:15px;"><u>Policy Details</u></h4>
           <h4>Policy Holder: <span><?php echo htmlspecialchars($customer['firstname'] . " " . $customer['lastname']); ?></span></h4>
           <h4>Date of Birth: <span><?php echo $customer['birthday']; ?></sapn>
           </h4>
@@ -166,7 +161,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
           &nbsp;
         </div>
         <div class="col-sm-5 nopadding2">
-          <h4 style="margin-bottom:15px;">&nbsp;&nbsp;</h4>
           <h4><?php if ($plan['status_id'] < 2) { ?>Quote<?php } else { ?>Policy<?php } ?> Number: <span><?php echo $plan['policy']; ?></span></h4>
           <h4>Application Date: <span><?php echo $plan['apply_date']; ?></sapn>
           </h4>
@@ -186,6 +180,15 @@ defined('BASEPATH') or exit('No direct script access allowed');
     <div class="row">
       <div class="col-sm-6 nopadding">
         <h4 style="margin-bottom:15px;"><u>Coverage Details</u></h4>
+      </div>
+      <?php if ($withprice) { ?>
+      <div class="col-sm-6 nopadding">
+        <h4 style="margin-bottom:15px;"><u>Payment Details</u></h4>
+      </div>
+      <?php } ?>
+    </div>
+    <div class="row">
+      <div class="col-sm-6 nopadding">
         <?php if (($plan['product_short'] == 'JFS') || ($plan['product_short'] == 'JFE') || ($plan['product_short'] == 'BHS')) { ?>
           <h4>Insurance Plan:<br />&nbsp;&nbsp;&nbsp;<span><?php echo $plan_full_name; ?></span></h4>
           <h4>Sum Insured: <span>$<?php echo number_format($plan['sum_insured'], 2); ?></sapn>
@@ -336,12 +339,14 @@ defined('BASEPATH') or exit('No direct script access allowed');
             </h4><?php } ?>
           <?php if ($plan['deductible_amount'] || ($plan['product_short'] == 'OPL') || ($plan['product_short'] == 'JFR')) { ?><h4>Deductible: <span>$<?php echo number_format($plan['deductible_amount'], 2); ?></sapn>
             </h4><?php } ?>
-          <h4>Beneficiary: <span><?php echo htmlspecialchars($plan['beneficiary']); ?></sapn></h4>
-	<?php } // end if TOP 
-	?>
+          <h4>Beneficiary: <span><?php echo htmlspecialchars($plan['beneficiary']); ?></sapn>
+          </h4>
+        <?php } // end if TOP 
+        ?>
 
         <?php if ($plan['product_short'] == 'JFPL') { ?>
-	        <h4>Stable Pre-existing Condition Coverage: <span>Yes</sapn> </h4>
+          <h4>Stable Pre-existing Condition Coverage: <span>Yes</sapn>
+          </h4>
         <?php } ?>
       </div>
       <div class="col-sm-1 nopadding2">
@@ -349,7 +354,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
       </div>
       <div class="col-sm-5 nopadding">
         <?php if ($withprice) { ?>
-          <h4 style="margin-bottom:15px;"><u>Payment Details</u></h4>
           <h4>Total Premium: <span>$<?php echo number_format($plan['premium'], 2, '.', ','); ?></span></h4>
           <h4>Premium: <span>$<?php echo number_format((float)$plan['premium'] - (float)$plan['tax'], 2, '.', ','); ?></sapn>
           </h4>
@@ -448,11 +452,11 @@ defined('BASEPATH') or exit('No direct script access allowed');
       </div>
     </div>
     <?php if ($plan['product_short'] == "JFPL") { ?>
-    <div class="row">
-      <div class="col-sm-12 nopm special-note">
-        <p class="small">The Insurance is underwritten by Old Republic Insurance Company of Canada and administered by JF Insurance Agency Group Inc.</p>
+      <div class="row">
+        <div class="col-sm-12 nopm special-note">
+          <p class="small">The Insurance is underwritten by Old Republic Insurance Company of Canada and administered by JF Insurance Agency Group Inc.</p>
+        </div>
       </div>
-    </div>
     <?php } ?>
   </div><!-- End Container -->
   <?php if ($plan['product_short'] == 'JFE') { ?>
@@ -525,10 +529,13 @@ defined('BASEPATH') or exit('No direct script access allowed');
         <div class="row">
           <div class="col-sm-6 nopadding">
             <h4 style="margin-bottom:15px;"><u>Détails de la couverture</u></h4>
-              <h4>Régime d'assurance:<br />&nbsp;&nbsp;&nbsp;<span><?php echo $plan_full_name; ?></span></h4>
-              <h4>Type de régime: <span>Individual</sapn></h4>
-              <h4>Montant assuré: <span>$<?php echo number_format($plan['sum_insured'], 2); ?></sapn></h4>
-              <h4>Bénéficiaire: <span><?php echo htmlspecialchars($plan['beneficiary']); ?></sapn></h4>
+            <h4>Régime d'assurance:<br />&nbsp;&nbsp;&nbsp;<span><?php echo $plan_full_name; ?></span></h4>
+            <h4>Type de régime: <span>Individual</sapn>
+            </h4>
+            <h4>Montant assuré: <span>$<?php echo number_format($plan['sum_insured'], 2); ?></sapn>
+            </h4>
+            <h4>Bénéficiaire: <span><?php echo htmlspecialchars($plan['beneficiary']); ?></sapn>
+            </h4>
           </div>
           <div class="col-sm-6 nopadding">
             <?php if ($withprice) { ?>
@@ -554,22 +561,22 @@ defined('BASEPATH') or exit('No direct script access allowed');
         <div class="row">
           <div class="col-sm-12 nopm">
             <p class="small">Toutes les personnes assurées sont soumises aux termes et conditions ci-dessous.<br />
-            Le présent document ne constitue pas l'intégralité de la police d'assurance et il a été conseillé à l'assuré de lire l'intégralité des détails de la couverture et
-des exclusions de la police.<br />
-            Les conditions d'admissibilité du régime demandé sont importantes pour le risque pour lequel l'assurance est demandée. Si l'assuré ne satisfait pas aux
-conditions d'admissibilité du régime choisi, ou s'il y a fausse déclaration, dissimulation ou omission de divulguer des faits ou des questions concernant
-l'assuré et faisant l'objet du formulaire de demande, aucune couverture d'assurance ne sera fournie.<br />
-            L'assuré est conscient que cette assurance couvre les urgences (telles que définies dans la police) et peut ne pas couvrir les frais encourus après que
-l'assuré ait pu rentrer chez lui pour être soigné. L'assuré sait que les affections préexistantes (telles que définies dans la police) sont exclues dans
-certaines circonstances et que de plus amples détails sont fournis dans la police.<br />
-            EN CAS D'URGENCE MÉDICALE OU DE SINISTRE POUVANT NÉCESSITER OU ENTRAÎNER UNE HOSPITALISATION, APPELEZ ONTIME CARE
-WORLDWIDE INC. IMMÉDIATEMENT
+              Le présent document ne constitue pas l'intégralité de la police d'assurance et il a été conseillé à l'assuré de lire l'intégralité des détails de la couverture et
+              des exclusions de la police.<br />
+              Les conditions d'admissibilité du régime demandé sont importantes pour le risque pour lequel l'assurance est demandée. Si l'assuré ne satisfait pas aux
+              conditions d'admissibilité du régime choisi, ou s'il y a fausse déclaration, dissimulation ou omission de divulguer des faits ou des questions concernant
+              l'assuré et faisant l'objet du formulaire de demande, aucune couverture d'assurance ne sera fournie.<br />
+              L'assuré est conscient que cette assurance couvre les urgences (telles que définies dans la police) et peut ne pas couvrir les frais encourus après que
+              l'assuré ait pu rentrer chez lui pour être soigné. L'assuré sait que les affections préexistantes (telles que définies dans la police) sont exclues dans
+              certaines circonstances et que de plus amples détails sont fournis dans la police.<br />
+              EN CAS D'URGENCE MÉDICALE OU DE SINISTRE POUVANT NÉCESSITER OU ENTRAÎNER UNE HOSPITALISATION, APPELEZ ONTIME CARE
+              WORLDWIDE INC. IMMÉDIATEMENT
           </div>
         </div>
         <div class="row">
           <div class="col-sm-12 nopm">
             <p class="small">Si vous remarquez des erreurs dans les renseignements ci-dessus ou si vous avez des questions, veuillez communiquer avec JF Insurance Agency
-Group Inc.</p>
+              Group Inc.</p>
           </div>
           <div class="col-sm-4 nopm">
             <?php if (in_array($plan['product_short'], $pdf_enable)) { ?>
