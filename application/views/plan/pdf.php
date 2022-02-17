@@ -82,7 +82,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
         <?php } ?>
       </div>
       <?php } else if ($plan['product_short'] == 'JFPL') { ?>
-        <div class="col-sm-6 text-left">
+        <div class="col-sm-1 text-left">
+            &nbsp;
+        </div>
+        <div class="col-sm-5 text-left">
             <?php if ($user['user_group_id'] > 100) { ?>
             <p class="topp" style="font-weight:bold;"><?php echo empty($user['business']) ? 'JF Agent' : htmlspecialchars($user['business']); ?></p>
             <p class="topp" style="font-weight:bold;"><span style="text-transform: capitalize;font-weight:bold;"><?php echo ($user) ? htmlspecialchars($user['firstname'] . " " . $user['lastname']) : ''; ?></span></p>
@@ -134,14 +137,19 @@ defined('BASEPATH') or exit('No direct script access allowed');
           </h4>
           <h4>Address: <span><?php if (!empty($plan['suite_number'])) {
                                 echo  htmlspecialchars($plan['suite_number']) . "- ";
-                              } ?><?php echo htmlspecialchars($plan['street_number'] . ' ' . $plan['street_name'] . ' ' . $plan['city'] . ', ' . $plan['province2'] . ' ' . $plan['postcode']); ?></sapn>
+                              } ?><?php echo htmlspecialchars($plan['street_number'] . ' ' . $plan['street_name']); ?></sapn>
+          </h4>
+          <h4>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span><?php echo htmlspecialchars($plan['city'] . ', ' . $plan['province2'] . ' ' . $plan['postcode']); ?></sapn>
           </h4>
           <h4>Phone Number: <span><?php echo htmlspecialchars($plan['phone1']); ?></sapn>
           </h4>
           <h4>Email: <span><?php echo htmlspecialchars($plan['contact_email']); ?></sapn>
           </h4>
         </div>
-        <div class="col-sm-6 nopadding2">
+        <div class="col-sm-1 nopadding">
+          &nbsp;
+        </div>
+        <div class="col-sm-5 nopadding2">
           <h4 style="margin-bottom:15px;">&nbsp;&nbsp;</h4>
           <h4><?php if ($plan['status_id'] < 2) { ?>Quote<?php } else { ?>Policy<?php } ?> Number: <span><?php echo $plan['policy']; ?></span></h4>
           <h4>Application Date: <span><?php echo $plan['apply_date']; ?></sapn>
@@ -320,7 +328,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
 	  <h4>Stable pre-existing condition coverage: <span>Yes</sapn> </h4>
         <?php } ?>
       </div>
-      <div class="col-sm-6 nopadding2">
+      <div class="col-sm-1 nopadding2">
+        &nbsp;
+      </div>
+      <div class="col-sm-5 nopadding">
         <?php if ($withprice) { ?>
           <h4 style="margin-bottom:15px;"><u>Payment Details</u></h4>
           <h4>Total Premium: <span>$<?php echo number_format($plan['premium'], 2, '.', ','); ?></span></h4>
