@@ -79,7 +79,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
         </div>
       </div>
       <div class="row">
-        <div class="col-sm-6 text-right">
         <div class="col-sm-6 text-left">
             &nbsp;
         </div>
