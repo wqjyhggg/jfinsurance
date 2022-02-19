@@ -92,7 +92,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
       </div>
     <?php } else { ?>
       <div class="row">
-        <div class="col-sm-6 text-center">
+        <div class="col-sm-12 text-center">
           <h2 style="margin:-15px 0 0;"><?php if ($plan['status_id'] < 2) { ?>Quote<?php } else { ?>Confirmation<?php } ?> of Insurance</h2>
         </div>
         <?php if (0) { ?>
@@ -122,10 +122,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
     <?php } ?>
     <div class="row" style="margin-top: -15px;">
       <div class="col-sm-12 nopadding">
-        <h4 style="margin-bottom:15px;"><u>Policy Details</u></h4>
+        <h4><u>Policy Details</u></h4>
       </div>
     </div>
-    <div class="row">
+    <div class="row" style="margin-top: -15px;">
       <?php if ($plan['product_short'] == 'BHS') { ?>
         <div class="col-sm-6 nopadding">
           <h4><?php if ($plan['status_id'] < 2) { ?>Quote<?php } else { ?>Policy<?php } ?> Number: <span><?php echo $plan['student_id']; ?></span></h4>
@@ -170,25 +170,20 @@ defined('BASEPATH') or exit('No direct script access allowed');
           </h4>
           <h4>Number of Days: <span><?php echo $plan['totaldays']; ?></sapn>
           </h4>
+          <h4>&nbsp;</sapn>
+          </h4>
         </div>
       <?php } ?>
     </div>
     <!-- end policy detail -->
-    <hr style="margin:3px auto;" />
+    <div style="display:block;">
+	<hr style="margin:3px auto;" />
+    </div>
 
     <!-- Coverage and payment Details-->
-    <div class="row">
+    <div class="row" style="margin-top: -15px;">
       <div class="col-sm-6 nopadding">
-        <h4 style="margin-bottom:15px;"><u>Coverage Details</u></h4>
-      </div>
-      <?php if ($withprice) { ?>
-      <div class="col-sm-6 nopadding">
-        <h4 style="margin-bottom:15px;"><u>Payment Details</u></h4>
-      </div>
-      <?php } ?>
-    </div>
-    <div class="row">
-      <div class="col-sm-6 nopadding">
+        <h4><u>Coverage Details</u></h4>
         <?php if (($plan['product_short'] == 'JFS') || ($plan['product_short'] == 'JFE') || ($plan['product_short'] == 'BHS')) { ?>
           <h4>Insurance Plan:<br />&nbsp;&nbsp;&nbsp;<span><?php echo $plan_full_name; ?></span></h4>
           <h4>Sum Insured: <span>$<?php echo number_format($plan['sum_insured'], 2); ?></sapn>
@@ -354,6 +349,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
       </div>
       <div class="col-sm-5 nopadding">
         <?php if ($withprice) { ?>
+          <h4><u>Payment Details</u></h4>
           <h4>Total Premium: <span>$<?php echo number_format($plan['premium'], 2, '.', ','); ?></span></h4>
           <h4>Premium: <span>$<?php echo number_format((float)$plan['premium'] - (float)$plan['tax'], 2, '.', ','); ?></sapn>
           </h4>
