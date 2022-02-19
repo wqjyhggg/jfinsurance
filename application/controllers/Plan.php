@@ -1827,13 +1827,16 @@ class Plan extends MY_Controller {
 		$this->log_model->activity('commission', $para);
 
 		$payinfo = "Credit Card: paymount is negative";
-		$para = array('payment_id' => $payment_id, 'payinfo' => $payinfo, 'commission_payment_id' => $commission_payment_id, 'status_id' => 2, 'policy' => $this->plan_model->get_policy_number($plan_id, 2));
+		$para = array('payment_id' => $payment_id, 'payinfo' => $payinfo, 'commission_payment_id' => $commission_payment_id, 'status_id' => Plan_model::SOLD, 'policy' => $this->plan_model->get_policy_number($plan_id, 2));
 		$this->plan_model->update($plan_id, $para);
     if (($history = $this->plan_history_model->get_plan_history_by_plan_id($plan_id)) && ($history["actualrate"] > 0)) {
-      $plan["actualrate"] = number_format(floatval($plan["premium"]) / floatval($plan["totaldays"]), 2);
-      $this->plan_history_model->update($plan_id, $plan);
+      $history["actualrate"] = number_format(floatval($plan["premium"]) / floatval($plan["totaldays"]), 2);
+      $history['payment_id'] = $payment_id;
+      $history['status_id'] = Plan_model::SOLD;
+      $history['policy'] = $para['policy'];
+      $this->plan_history_model->update($history["plan_history_id"], $history);
     } else {
-      $this->plan_history_model->add($plan_id);
+      $this->plan_history_model->add($plan_id, Plan_model::SOLD);
     }
 		$para = array(
 				'plan_id' => $plan_id,
@@ -2006,7 +2009,7 @@ class Plan extends MY_Controller {
 				if (isset($result['approved'])) {
 					$payinfo = "Credit Card: " . substr($card_number, 0, 5) . "xxx" . substr($card_number, -4) . " " . $card_name .  " " . $expiry_month . "/" . $expiry_year;
 						
-					$para = array('payment_id' => $payment_id, 'payinfo' => $payinfo, 'commission_payment_id' => $commission_payment_id, 'status_id' => 3, 'policy' => $this->plan_model->get_policy_number($plan_id, 2));
+					$para = array('payment_id' => $payment_id, 'payinfo' => $payinfo, 'commission_payment_id' => $commission_payment_id, 'status_id' => Plan_model::PAID, 'policy' => $this->plan_model->get_policy_number($plan_id, 2));
 					$this->plan_model->update($plan_id, $para);
 					$para = array(
 							'plan_id' => $plan_id,
@@ -2016,6 +2019,15 @@ class Plan extends MY_Controller {
 							'systemlog' => $this->plan_model->sqlstr
 					);
 					$this->log_model->activity('plan', $para);
+          if (($history = $this->plan_history_model->get_plan_history_by_plan_id($plan_id)) && ($history["actualrate"] > 0)) {
+            $history["actualrate"] = number_format(floatval($plan["premium"]) / floatval($plan["totaldays"]), 2);
+            $history['payment_id'] = $payment_id;
+            $history['status_id'] = Plan_model::PAID;
+            $history['policy'] = $para['policy'];
+            $this->plan_history_model->update($history["plan_history_id"], $history);
+          } else {
+            $this->plan_history_model->add($plan_id, Plan_model::PAID);
+          }
 					
 					$dt = array();
 					$dt['ispaid'] = 1;
@@ -2034,12 +2046,6 @@ class Plan extends MY_Controller {
 						
 					$para = array('payment_id' => $payment_id, 'payinfo' => $payinfo, 'commission_payment_id' => $commission_payment_id );
 					$this->plan_model->update($plan_id, $para);
-          if (($history = $this->plan_history_model->get_plan_history_by_plan_id($plan_id)) && ($history["actualrate"] > 0)) {
-            $plan["actualrate"] = number_format(floatval($plan["premium"]) / floatval($plan["totaldays"]), 2);
-            $this->plan_history_model->update($plan_id, $plan);
-          } else {
-            $this->plan_history_model->add($plan_id);
-          }
 					$para = array(
 							'plan_id' => $plan_id,
 							'customer_id' => $plan['customer_id'],
@@ -2215,13 +2221,16 @@ class Plan extends MY_Controller {
 		);
 		$this->log_model->activity('commission', $para);
 
-		$para = array('payment_id' => $payment_id, 'payinfo' => $payinfo, 'commission_payment_id' => $commission_payment_id, 'status_id' => 2, 'policy' => $this->plan_model->get_policy_number($plan_id, 2));
+		$para = array('payment_id' => $payment_id, 'payinfo' => $payinfo, 'commission_payment_id' => $commission_payment_id, 'status_id' => Plan_model::SOLD, 'policy' => $this->plan_model->get_policy_number($plan_id, 2));
 		$this->plan_model->update($plan_id, $para);
     if (($history = $this->plan_history_model->get_plan_history_by_plan_id($plan_id)) && ($history["actualrate"] > 0)) {
-      $plan["actualrate"] = number_format(floatval($plan["premium"]) / floatval($plan["totaldays"]), 2);
-      $this->plan_history_model->update($plan_id, $plan);
+      $history["actualrate"] = number_format(floatval($plan["premium"]) / floatval($plan["totaldays"]), 2);
+      $history['payment_id'] = $payment_id;
+      $history['status_id'] = Plan_model::SOLD;
+      $history['policy'] = $para['policy'];
+      $this->plan_history_model->update($history["plan_history_id"], $history);
     } else {
-      $this->plan_history_model->add($plan_id);
+      $this->plan_history_model->add($plan_id, Plan_model::SOLD);
     }
 
 		$para = array(
@@ -2355,13 +2364,16 @@ class Plan extends MY_Controller {
 		);
 		$this->log_model->activity('commission', $para);
 		
-		$para = array('payment_id' => $payment_id, 'payinfo' => $payinfo, 'commission_payment_id' => $commission_payment_id, 'status_id' => 2, 'policy' => $this->plan_model->get_policy_number($plan_id, 2));
+		$para = array('payment_id' => $payment_id, 'payinfo' => $payinfo, 'commission_payment_id' => $commission_payment_id, 'status_id' => Plan_model::SOLD, 'policy' => $this->plan_model->get_policy_number($plan_id, 2));
 		$this->plan_model->update($plan_id, $para);
     if (($history = $this->plan_history_model->get_plan_history_by_plan_id($plan_id)) && ($history["actualrate"] > 0)) {
-      $plan["actualrate"] = number_format(floatval($plan["premium"]) / floatval($plan["totaldays"]), 2);
-      $this->plan_history_model->update($plan_id, $plan);
+      $history["actualrate"] = number_format(floatval($plan["premium"]) / floatval($plan["totaldays"]), 2);
+      $history['payment_id'] = $payment_id;
+      $history['status_id'] = Plan_model::SOLD;
+      $history['policy'] = $para['policy'];
+      $this->plan_history_model->update($history["plan_history_id"], $history);
     } else {
-      $this->plan_history_model->add($plan_id);
+      $this->plan_history_model->add($plan_id, Plan_model::SOLD);
     }
 		$para = array(
 				'plan_id' => $plan_id,
@@ -3330,14 +3342,15 @@ class Plan extends MY_Controller {
         if (($history = $this->plan_history_model->get_plan_history_by_plan_id($plan_id)) && ($history["actualrate"]>0)) {
           $history_id = $history["plan_history_id"];
         } else {
-          $history_id = $this->plan_history_model->add($plan_id);
+          // Add missing first record.
+          $history_id = $this->plan_history_model->add($plan_id, $plan['status_id']);
         }
 
 				$note = "Cancel at " . $dt['added'] . " amount: " . $refund_amount . " admin fee: " . $admin_fee . "; " . $plan['note'];
 				$para = array('status_id' => 5, 'payment_id' => $payment_id, 'commission_payment_id' => $commission_payment_id, 'note' => $note );  // Change status to cancel
 				$this->plan_model->update($plan_id, $para);
         if ($id = $this->plan_history_model->add_remove($history_id)) {
-          $this->plan_history_model->update($id, array("payment_id"=>$payment_id));
+          $this->plan_history_model->update($id, array("payment_id"=>$payment_id, "note"=>"Canceled Recode"));
         }
         $para = array(
 						'plan_id' => $plan_id,
@@ -3518,16 +3531,15 @@ class Plan extends MY_Controller {
         if (($history = $this->plan_history_model->get_plan_history_by_plan_id($plan_id)) && ($history["actualrate"]>0)) {
           $history_id = $history["plan_history_id"];
         } else {
-          $history_id = $this->plan_history_model->add($plan_id);
+          // Add missing first record
+          $history_id = $this->plan_history_model->add($plan_id, $plan['status_id']);
         }
-        if ($id = $this->plan_history_model->add_remove($history_id)) {
-          $this->plan_history_model->update($id, array("status_id"=>6, "payment_id"=>$payment_id));
-        }
+        $this->plan_history_model->add_remove($history_id);
 
         $note = "Refund at " . $dt['added'] . " amount: " . $refund_amount . " admin fee: " . $admin_fee . "; " . $plan['note'];
-				$para = array('status_id' => 6, 'payment_id' => $payment_id, 'commission_payment_id' => $commission_payment_id, 'refund_date' => $refund_date, 'note' => $note );  // Change status to refund
+				$para = array('status_id' => Plan_model::REFUND, 'payment_id' => $payment_id, 'commission_payment_id' => $commission_payment_id, 'refund_date' => $refund_date, 'note' => $note );  // Change status to refund
 				$this->plan_model->update($plan_id, $para);
-        if ($id = $this->plan_history_model->add($plan_id)) {
+        if ($id = $this->plan_history_model->add($plan_id, Plan_model::REFUND)) {
           $this->plan_history_model->update($id, array("payment_id"=>$payment_id, "note"=>"Refunded Recode"));
         }
 

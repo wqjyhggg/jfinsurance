@@ -869,7 +869,12 @@ class Plan_model extends CI_Model {
       if (($history = $this->plan_history_model->get_plan_history_by_plan_id($plan_id)) && ($history["actualrate"]>0)) {
         $this->plan_history_model->add_remove($history["plan_history_id"]);
       }
-      $this->plan_history_model->add($plan_id);
+      $h_status_id = $plan['status_id'];
+      if (isset($para['status_id'])) {
+        $h_status_id = $plan['status_id'];
+      }
+
+      $this->plan_history_model->add($plan_id, $h_status_id);
     }
 
 		if (isset($para['status_id']) && ((int)$para['status_id'] != (int)$plan['status_id']) && ((int)$para['status_id'] == 3) && ((int)$plan['status_id'] == 2)) {
