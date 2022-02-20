@@ -136,8 +136,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
                         <td>$<?= $record['sum_insured'] ?></td>
                         <td>$<?= $record['deductible_amount'] ?></td>
                         <td>$<?= $record['premium'] ?></td>
-                        <td><?= $earned ?>%</td>
-                        <td><?= $unearned ?>%</td>
+                        <td>$<?= $earned ?></td>
+                        <td>$<?= $unearned ?></td>
                       </tr>
                     <?php endforeach; ?>
                   </tbody>
