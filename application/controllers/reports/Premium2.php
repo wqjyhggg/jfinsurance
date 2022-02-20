@@ -77,20 +77,36 @@ class Premium2 extends MY_Controller
     }
     $w->addRow($arr);
 
+    $total = $tearned = 0;
     foreach ($data['report_data'] as $record) {
       $earned = ($record['days_used']>0)? number_format(floatval($record['premium'])*floatval($record['days_used'])/floatval($record['totaldays']),2) : 0;
       $unearned = number_format(floatval($record['premium']) - $earned, 2);
+      $total += floatval($record['premium']);
+      $tearned += $earned;
       $arr = array();
       foreach ($kArr as $k => $v) {
         if ($k == "earned") {
-          $arr[] = $earned;
+          $arr[] = $tearned;
         } else if ($k == "unearned") {
-          $arr[] = $unearned;
+          $arr[] = $total - $tearned;
+        } else if ($k == "policy_premium") {
+          $arr[] = $total;
+        } else if ($k == "deductible_amount") {
+          $arr[] = 'Total:';
         } else {
-          $arr[] = $record[$k];
+          $arr[] = '';
         }
       }
       $w->addRow($arr);
+    }
+    foreach ($kArr as $k => $v) {
+      if ($k == "earned") {
+        $arr[] = $earned;
+      } else if ($k == "unearned") {
+        $arr[] = $unearned;
+      } else {
+        $arr[] = $record[$k];
+      }
     }
     $w->close();
   }
