@@ -4,7 +4,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 use Box\Spout\Common\Type;
 use Box\Spout\Writer\WriterFactory;
 
-class Insurer2 extends MY_Controller
+class Premium2 extends MY_Controller
 {
   /**
    * Index Page for this controller.
@@ -32,8 +32,7 @@ class Insurer2 extends MY_Controller
     $data['payment_added_to'] = empty($this->input->post('payment_added_to'))?date("Y-m-d"):$this->input->post('payment_added_to');
     $data['product_short'] = array_keys($data['product_short']);
 
-    // $data['report_data'] = empty($_POST) ? array() : $this->report_model->get_sales_report_insurer2($data);
-    $data['report_data'] = $this->report_model->get_sales_report_insurer2($data);
+    $data['report_data'] = $this->report_model->get_premium_report2($data);
     if ($this->input->post('export')) {
       return $this->export_list($data);
     }
@@ -43,61 +42,35 @@ class Insurer2 extends MY_Controller
     //die("XXXX");
     $data['product_list'] = $this->product_model->get_available_product_list();
 
-    $this->load->common('reports/insurer2', $data);
+    $this->load->common('reports/premium2', $data);
   }
 
   private function export_list($data)
   {
     //echo "<pre>";
     //print_r($data['report_data']);die('============');
-    $status_list = array(
-      1 => "Quote",
-      2 => "Sold",
-      3 => "Paid",
-      4 => "Claimed",
-      5 => "Cancel",
-      6 => "Refund",
-      7 => "Changed",
-    );
-
     $w = WriterFactory::create(Type::XLSX); // for XLSX files
     $kArr = array(
       'policy' => 'Policy Number',
       'firstname' => 'First Name',
       'lastname' => 'Last Name',
-      'gender' => 'Gender',
-      'status_id' => 'Status',
-      'age' => 'Age',
-      'birthday' => 'Birth Date',
-      'address' => 'Address',
-      'city' => 'City',
-      'province' => 'Province',
-      'postcode' => 'Postcode',
       'effective_date' => 'Effective Date',
       'expiry_date' => 'Expire Date',
       'total_days' => 'Number of Days',
+      'days_used' => 'Days of Used',
       'sum_insured' => 'Sum Insured',
       'deductible_amount' => 'Deductible Amount',
-      'daily_rate' => 'Daily Rate',
-      'policy_premium' => 'Policy Premium',
-      // 'commission_rate_jf' => 'Commission Rate to JF',
-      'merchant_fee_per' => 'Merchant Fee(Credit Card Fee)%',
-      'claims_handling_fee_per' => 'Claims Handling',
-      'commission_amount' => 'Commission Amount',
-      'merchant_fee' => 'Merchant Fee(Credit Card Fee)',
-      'claims_handling_fee' => 'Claims Handling Fee',
-      'net_premium' => 'Net Premium',
-      'total_compensation_per' => 'Total Compensation Rate(%)',
-      'total_compensation' => 'Total Compensation Amount',
-      'coverage' => 'Coverage',
+      'policy_premium' => 'Total',
+      'earned' => 'Earned',
+      'unearned' => 'Unearned',
     );
 
-    $w->openToBrowser("Sales_Report_to_Insurer_" . date('Ymd') . ".xlsx");
-
+    $w->openToBrowser("Premium_Report_" . date('Ymd') . ".xlsx");
     $w->addRow(array($data['payment_added_from']. " to " . $data['payment_added_to']));
     if (!empty($data['product_short'])) {
       $w->addRow($data['product_short']);
     }
+
     $arr = array();
     foreach ($kArr as $k => $v) {
       $arr[] = $v;
@@ -105,15 +78,14 @@ class Insurer2 extends MY_Controller
     $w->addRow($arr);
 
     foreach ($data['report_data'] as $record) {
-      $address = (empty($record['suite_number'])?"":$record['suite_number']."-").$record['street_number']." ".$record['street_name'];
+      $earned = ($record['days_used']>0)? number_format(floatval($record['premium'])*floatval($record['days_used'])/floatval($record['totaldays']),2) : 0;
+      $unearned = number_format(floatval($record['premium']) - $earned, 2);
       $arr = array();
       foreach ($kArr as $k => $v) {
-        if ($k == "status_id") {
-          $arr[] = $status_list[$record['status_id']];
-        } else if ($k == "address") {
-          $arr[] = $address;
-        } else if (($k == "merchant_fee") || ($k == "claims_handling_fee") || ($k == "net_premium") || ($k == "total_compensation_per") || ($k == "total_compensation")) {
-          $arr[] = number_format($record[$k], 3);
+        if ($k == "earned") {
+          $arr[] = $earned;
+        } else if ($k == "unearned") {
+          $arr[] = $unearned;
         } else {
           $arr[] = $record[$k];
         }

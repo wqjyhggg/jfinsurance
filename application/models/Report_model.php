@@ -408,6 +408,36 @@ class Report_model extends CI_Model
     return $this->db->query($sql)->result_array();
   }
 
+  public function get_premium_report2($para)
+  {
+    $sql  = "SELECT ph.*,";
+    $sql .= "	c.firstname,";
+    $sql .= "	c.lastname, ";
+    $sql .= "	c.lastname, ";
+    $sql .= "	IF (CURDATE()<ph.expiry_date), datediff(CURDATE(), ph.effective_date) + 1, datediff(ph.expiry_date, ph.effective_date) + 1 as days_used, ";
+    $sql .= " FROM plan_history ph";
+    $sql .= " JOIN customer c ON ph.customer_id = c.customer_id";
+    $sql .= " WHERE ph.plan_id in (";
+    $sql .= " SELECT pa.plan_id FROM payment pa WHERE ";
+    if (!empty($para['payment_added_from'])) {
+      $sql .= " pa.added >= " . $this->db->escape($para['payment_added_from'] . " 00:00:00");
+    } else {
+      $sql .= " pa.added >= " . $this->db->escape(date("Y-m-d")." 00:00:00");
+    }
+    if (!empty($para['payment_added_to'])) {
+      $sql .= " AND pa.added <= " . $this->db->escape($para['payment_added_to'] . " 23:59:59");
+    } else {
+      $sql .= " AND pa.added <= " . $this->db->escape(date("Y-m-d")." 23:59:59");
+    }
+    $sql .= "	AND pa.pay_type IN ('premium','refund','cancel') AND ABS(pa.amount)>=0.01";
+    $sql .= " )";
+    if (!empty($para['product_short'])) {
+      $sql .= " AND ph.product_short IN ('" . implode("','", str_replace("'", "", $para['product_short'])) . "')";
+    }
+
+    return $this->db->query($sql)->result_array();
+  }
+
   /**
    * Get Receivable report data
    *
