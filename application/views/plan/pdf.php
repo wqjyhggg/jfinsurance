@@ -170,8 +170,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
           </h4>
           <h4>Number of Days: <span><?php echo $plan['totaldays']; ?></sapn>
           </h4>
-          <h4>&nbsp;</sapn>
-          </h4>
+          <h4><br/><br/></h4>
         </div>
       <?php } ?>
     </div>
