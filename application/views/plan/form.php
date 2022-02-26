@@ -712,6 +712,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 												<th>Amount</th>
 												<th>Rate</th>
 												<th>Pay Status</th>
+                        <th>CK Info</th>
 												<th>Info</th>
 												<th>Notes</th>
 											</tr>
@@ -741,7 +742,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 													}
 												}
 												$pay_info = '';
-												if (!empty($p['invoice_num'])) $pay_info .= "[".$p['invoice_num']."]";
+                        $ck_info = $p['cheque_number'];
+                        if ($p['pay_date'] > "2020-01-01") $ck_info .= ":".$p['pay_date'];
+                        if (!empty($p['invoice_num'])) $pay_info .= "[".$p['invoice_num']."]";
 												if (!empty($p['bank_name'])) $pay_info .= "[".$p['bank_name']."]";
 												if (!empty($p['payor_name'])) $pay_info .= "[".$p['payor_name']."]";
 												if (!empty($p['cheque_number'])) $pay_info .= "[".$p['cheque_number']."]";
@@ -760,6 +763,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 												<td><?php echo $p['amount']; ?></td>
 												<td><?php echo $p['rate'] . "%"; ?></td>
 												<td><?php echo $pay_str; ?></td>
+                        <td><?php echo $ck_info; ?></td>
 												<td><?php echo $pay_info; ?></td>
 												<td><?php echo (strlen($p['note']) > 60) ? (htmlspecialchars(substr($p['note'], 0, 57)) . "...") : htmlspecialchars($p['note']); ?></td>
 											</tr>
