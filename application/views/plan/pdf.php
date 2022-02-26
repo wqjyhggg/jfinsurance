@@ -449,7 +449,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
     <?php if ($plan['product_short'] == "JFPL") { ?>
       <div class="row">
         <div class="col-sm-12 nopm special-note">
-          <p class="small">The Insurance is underwritten by Old Republic Insurance Company of Canada and administered by JF Insurance Agency Group Inc.</p>
+          <p class="small">Underwritten by Old Republic Insurance Company of Canada and administered by JF Insurance Agency Group Inc.</p>
         </div>
       </div>
     <?php } ?>
