@@ -86,28 +86,30 @@ class Premium2 extends MY_Controller
       $arr = array();
       foreach ($kArr as $k => $v) {
         if ($k == "earned") {
-          $arr[] = $tearned;
+          $arr[] = $earned;
         } else if ($k == "unearned") {
-          $arr[] = $total - $tearned;
-        } else if ($k == "policy_premium") {
-          $arr[] = $total;
-        } else if ($k == "deductible_amount") {
-          $arr[] = 'Total:';
+          $arr[] = $unearned;
         } else {
-          $arr[] = '';
+          $arr[] = $record[$k];
         }
       }
       $w->addRow($arr);
     }
+    $arr = array();
     foreach ($kArr as $k => $v) {
       if ($k == "earned") {
-        $arr[] = $earned;
+        $arr[] = $tearned;
       } else if ($k == "unearned") {
-        $arr[] = $unearned;
+        $arr[] = $total - $tearned;
+      } else if ($k == "policy_premium") {
+        $arr[] = $total;
+      } else if ($k == "deductible_amount") {
+        $arr[] = 'Total:';
       } else {
-        $arr[] = $record[$k];
+        $arr[] = '';
       }
     }
+    $w->addRow($arr);
     $w->close();
   }
 }
