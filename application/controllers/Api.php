@@ -97,7 +97,7 @@ class Api extends MY_Controller {
 					$dt['rate'] = $commission_rate;
 					$dt['pay_type'] = 'commission';
 					$dt['premium_payment_id'] = $payment_id;
-					if (($plan['product_short'] == 'OPL') || ($plan['product_short'] == 'JFR')) {
+					if (($plan['product_short'] == 'OPL') || ($plan['product_short'] == 'JFVTC') || ($plan['product_short'] == 'JFR')) {
 						$nowtm = time();
 						$efftm = strtotime($plan['effective_date']);
 						if ($nowtm <= $efftm) {

@@ -492,7 +492,7 @@ class Plan extends MY_Controller {
 		if (!empty($this->input->post('isfamilyplan')) && (empty($this->input->post('birthday_1')) || empty($this->input->post('firstname_1')) || empty($this->input->post('lastname_1')))) {
 			$this->error['error_message'] = 'Please input family / group member information';
 		}
-		if (($product_short == 'OPL') || ($product_short == 'JFR')) {
+		if (($product_short == 'OPL') || ($product_short == 'JFVTC') || ($product_short == 'JFR')) {
 			$apply_date = $this->input->post('apply_date');
 			$birthday = $this->input->post('birthday');
 			$days = $this->product_model->getDays($birthday, $apply_date);
@@ -686,7 +686,7 @@ class Plan extends MY_Controller {
 						);
 						$this->log_model->activity('plan', $para);
 
-						if ((($planold['product_short'] == 'OPL') || ($planold['product_short'] == 'JFR')) && ((($planold['sum_insured'] >= 100000) && ($planold['totaldays'] >= 365)) || (($plan['sum_insured'] >= 100000) && ($plan['totaldays'] >= 365)))) {
+						if ((($planold['product_short'] == 'OPL') || ($planold['product_short'] == 'JFVTC') || ($planold['product_short'] == 'JFR')) && ((($planold['sum_insured'] >= 100000) && ($planold['totaldays'] >= 365)) || (($plan['sum_insured'] >= 100000) && ($plan['totaldays'] >= 365)))) {
 							if (($plan['sum_insured'] >= 100000) && ($plan['totaldays'] >= 365)) {
 								if (($planold['effective_date'] != $plan['effective_date']) || ($planold['totaldays'] != $plan['totaldays']) || ($planold['premium'] != $plan['premium']) || ($planold['expiry_date'] != $plan['expiry_date']) ) {
 									// Super visa changed effective date
@@ -1535,7 +1535,7 @@ class Plan extends MY_Controller {
 			if (!empty($plan) && !empty($plan['status_id']) && ($plan['status_id'] > 1) && ($beuser['user_group_id'] > 100)) {
 				if ($data['product_short'] == 'OPL') {
 					$data['insurable_options'] = $this->load->view('plan/form_opl_agent', $data, TRUE);
-				} else if ($data['product_short'] == 'JFR') {
+				} else if (($data['product_short'] == 'JFVTC') || ($data['product_short'] == 'JFR')) {
 					$data['insurable_options'] = $this->load->view('plan/form_opl_agent', $data, TRUE);
 				} else if ($data['product_short'] == 'JUS') {
 					$data['insurable_options'] = $this->load->view('plan/form_jus_agent', $data, TRUE);
@@ -1554,7 +1554,7 @@ class Plan extends MY_Controller {
 			} else {
 				if ($data['product_short'] == 'OPL') {
 					$data['insurable_options'] = $this->load->view('plan/form_opl', $data, TRUE);
-				} else if ($data['product_short'] == 'JFR') {
+				} else if (($data['product_short'] == 'JFVTC') || ($data['product_short'] == 'JFR')) {
 					$data['insurable_options'] = $this->load->view('plan/form_opl', $data, TRUE);
 				} else if ($data['product_short'] == 'JUS') {
 					$data['insurable_options'] = $this->load->view('plan/form_jus', $data, TRUE);
@@ -1784,7 +1784,7 @@ class Plan extends MY_Controller {
 		$dt['rate'] = $commission_rate;
 		$dt['pay_type'] = 'commission';
 		$dt['premium_payment_id'] = $payment_id;
-		if (($plan['product_short'] == 'OPL') || ($plan['product_short'] == 'JFR')) {
+		if (($plan['product_short'] == 'OPL') || ($plan['product_short'] == 'JFVTC') || ($plan['product_short'] == 'JFR')) {
 			$nowtm = time();
 			$efftm = strtotime($plan['effective_date']);
 			if ($nowtm <= $efftm) {
@@ -1952,7 +1952,7 @@ class Plan extends MY_Controller {
 			$dt['rate'] = $commission_rate;
 			$dt['pay_type'] = 'commission';
 			$dt['premium_payment_id'] = $payment_id;
-			if (($plan['product_short'] == 'OPL') || ($plan['product_short'] == 'JFR')) {
+			if (($plan['product_short'] == 'OPL') || ($plan['product_short'] == 'JFVTC') || ($plan['product_short'] == 'JFR')) {
 				$nowtm = time();
 				$efftm = strtotime($plan['effective_date']);
 				if ($nowtm <= $efftm) {
@@ -2181,7 +2181,7 @@ class Plan extends MY_Controller {
 		$dt['rate'] = $commission_rate;
 		$dt['pay_type'] = 'commission';
 		$dt['premium_payment_id'] = $payment_id;
-		if (($plan['product_short'] == 'OPL') || ($plan['product_short'] == 'JFR')) {
+		if (($plan['product_short'] == 'OPL') || ($plan['product_short'] == 'JFVTC') || ($plan['product_short'] == 'JFR')) {
 			$nowtm = time();
 			$efftm = strtotime($plan['effective_date']);
 			if ($nowtm <= $efftm) {
@@ -2324,7 +2324,7 @@ class Plan extends MY_Controller {
 		$dt['rate'] = $commission_rate;
 		$dt['pay_type'] = 'commission';
 		$dt['premium_payment_id'] = $payment_id;
-		if (($plan['product_short'] == 'OPL') || ($plan['product_short'] == 'JFR')) {
+		if (($plan['product_short'] == 'OPL') || ($plan['product_short'] == 'JFVTC') || ($plan['product_short'] == 'JFR')) {
 			$nowtm = time();
 			$efftm = strtotime($plan['effective_date']);
 			if ($nowtm <= $efftm) {
@@ -2495,7 +2495,7 @@ class Plan extends MY_Controller {
 		$dt['pay_type'] = 'commission';
 		$dt['ispaid'] = 0;
 		$dt['premium_payment_id'] = $payment_id;
-		if (($plan['product_short'] == 'OPL') || ($plan['product_short'] == 'JFR')) {
+		if (($plan['product_short'] == 'OPL') || ($plan['product_short'] == 'JFVTC') || ($plan['product_short'] == 'JFR')) {
 			$nowtm = time();
 			$efftm = strtotime($plan['effective_date']);
 			if ($nowtm <= $efftm) {
@@ -2852,7 +2852,7 @@ class Plan extends MY_Controller {
 		$data['html_model'] = $this->html_model;
 		if ($data['plan']['product_short'] == 'OPL') {
 			$data['insurable_options'] = $this->load->view('plan/detail_opl', $data, TRUE);
-		} else if ($data['plan']['product_short'] == 'JFR') {
+		} else if (($data['plan']['product_short'] == 'JFVTC') || ($data['plan']['product_short'] == 'JFR')) {
 			$data['insurable_options'] = $this->load->view('plan/detail_opl', $data, TRUE);
 		} else if ($data['plan']['product_short'] == 'JUS') {
 			$data['insurable_options'] = $this->load->view('plan/detail_jus', $data, TRUE);
@@ -2972,7 +2972,16 @@ class Plan extends MY_Controller {
 					'OPL_Claim_Form.pdf' => DOWNLOADDIR . 'OPL_Claim_Form.pdf',
 					'OPL_Brochure.pdf' => DOWNLOADDIR . 'OPL_Brochure.pdf'
 					);
-				} else if ($data['plan']['product_short'] == 'JFR') {
+				} else if ($data['plan']['product_short'] == 'JFVTC') {
+					$data['insurable_options'] = $this->load->view('plan/detail_opl', $data, TRUE);
+					$data['special_note'] = $this->load->view('plan/pdf_note_jfr',$data, TRUE);
+					$files = array(
+					'JFVTC_Policy.pdf' => DOWNLOADDIR . 'JFVTC_Policy.pdf',
+					'JFVTC_Claim_Procedure.pdf' => DOWNLOADDIR . 'JFVTC_Claim_Procedure.pdf',
+					'JFVTC_Claim_Form.pdf' => DOWNLOADDIR . 'JFVTC_Claim_Form.pdf',
+					'JFVTC_Brochure.pdf' => DOWNLOADDIR . 'JFVTC_Brochure.pdf'
+          );
+        } else if ($data['plan']['product_short'] == 'JFR') {
 					$data['insurable_options'] = $this->load->view('plan/detail_opl', $data, TRUE);
 					$data['special_note'] = $this->load->view('plan/pdf_note_jfr',$data, TRUE);
 					$files = array(
@@ -3210,7 +3219,19 @@ class Plan extends MY_Controller {
 		$data['customer_product_name'] = $this->product_model->get_product_customize_name($beuser['user_id'], $data['plan']['product_short']);
 		$data['style'] = $this->load->view('common/pdf_style',$data, TRUE);		
 		$data['hadheaderfooter'] = 0;
-    if ($data['plan']['product_short'] == 'JFPL') {
+    if ($data['plan']['product_short'] == 'JFVTC') {
+      $mpdf = new mPDF('c', 'A4', 0, '', $mgl = 0, $mgr = 0, $mgt = 15, $mgb = 0, $mgh = 0, $mgf = 0, $orientation = 'P');
+      if ($plan['status_id'] < 2) {
+        $mpdf->SetWatermarkText ("QUOTE", 0.1);
+        $mpdf->showWatermarkText = true;
+      }
+      $data['hadheaderfooter'] = 1;
+      $html = $this->load->view('plan/pdf_jfvtc', $data, TRUE);
+      if ($data['withlogo']) {
+        $mpdf->SetHTMLHeader('<img style="width:100%;" src="'.base_url().'image/pdf_header.png" />');
+      }
+    // $mpdf->SetHTMLFooter('<img style="width:100%;" src="'.base_url().'image/pdf_footer.png" />');
+    } else if ($data['plan']['product_short'] == 'JFPL') {
       $mpdf = new mPDF('c', 'A4', 0, '', $mgl = 0, $mgr = 0, $mgt = 15, $mgb = 0, $mgh = 0, $mgf = 0, $orientation = 'P');
       if ($plan['status_id'] < 2) {
         $mpdf->SetWatermarkText ("QUOTE", 0.1);
@@ -3223,13 +3244,12 @@ class Plan extends MY_Controller {
       }
     // $mpdf->SetHTMLFooter('<img style="width:100%;" src="'.base_url().'image/pdf_footer.png" />');
     } else {
-
-		$mpdf = new mPDF('c');
-		if ($plan['status_id'] < 2) {
-			$mpdf->SetWatermarkText ("QUOTE", 0.1);
-			$mpdf->showWatermarkText = true;
-		}
-		$html = $this->load->view('plan/pdf', $data, TRUE);
+      $mpdf = new mPDF('c');
+      if ($plan['status_id'] < 2) {
+        $mpdf->SetWatermarkText ("QUOTE", 0.1);
+        $mpdf->showWatermarkText = true;
+      }
+      $html = $this->load->view('plan/pdf', $data, TRUE);
     }
 		$mpdf->writeHTML($html);
 		$mpdf->Output("Policy.pdf","I");
@@ -3361,7 +3381,7 @@ class Plan extends MY_Controller {
 				);
 				$this->log_model->activity('plan', $para);
 
-				if ((($plan['product_short'] == 'OPL') || ($plan['product_short'] == 'JFR')) && ($plan['sum_insured'] >= 100000) && ($plan['totaldays'] >= 365)) {
+				if ((($plan['product_short'] == 'OPL') || ($plan['product_short'] == 'JFVTC') || ($plan['product_short'] == 'JFR')) && ($plan['sum_insured'] >= 100000) && ($plan['totaldays'] >= 365)) {
 					// No more super visa, change payment data to today
 					$this->payment_model->adjust_commission_added_date($plan_id, $dt['added'], FALSE);
 					$para = array(
@@ -3629,7 +3649,7 @@ class Plan extends MY_Controller {
 		$data['html_model'] = $this->html_model;
 		if ($data['plan']['product_short'] == 'OPL') {
 			$data['insurable_options'] = $this->load->view('plan/detail_opl', $data, TRUE);
-		} else if ($data['plan']['product_short'] == 'JFR') {
+		} else if (($data['plan']['product_short'] == 'JFVTC') || ($data['plan']['product_short'] == 'JFR')) {
 			$data['insurable_options'] = $this->load->view('plan/detail_opl', $data, TRUE);
 		} else if ($data['plan']['product_short'] == 'JUS') {
 			$data['insurable_options'] = $this->load->view('plan/detail_jus', $data, TRUE);
@@ -3652,7 +3672,9 @@ class Plan extends MY_Controller {
 		$data['insure_co'] = 'Allianz Travel Insurance Coordinators Ltd';
 		if (($plan['product_short'] == 'JFR') || ($plan['product_short'] == 'JES') || ($plan['product_short'] == 'JESP') || ($plan['product_short'] == 'JFS') || ($plan['product_short'] == 'JFE') || ($plan['product_short'] == 'BHS')) {
 			$data['insure_co'] = "Berkley Canada";
-		}
+		} else if ($plan['product_short'] == 'JFVTC') {
+      $data['insure_co'] = "Old Republic";
+    }
 		$data['style'] = $this->load->view('common/pdf_style',$data, TRUE);
 		$html = $this->load->view('plan/cancel', $data, TRUE);
 		$mpdf = new mPDF('c');
@@ -3703,7 +3725,7 @@ class Plan extends MY_Controller {
 		$data['html_model'] = $this->html_model;
 		if ($data['plan']['product_short'] == 'OPL') {
 			$data['insurable_options'] = $this->load->view('plan/detail_opl', $data, TRUE);
-		} else if ($data['plan']['product_short'] == 'JFR') {
+		} else if (($data['plan']['product_short'] == 'JFVTC') || ($data['plan']['product_short'] == 'JFR')) {
 			$data['insurable_options'] = $this->load->view('plan/detail_opl', $data, TRUE);
 		} else if ($data['plan']['product_short'] == 'JUS') {
 			$data['insurable_options'] = $this->load->view('plan/detail_jus', $data, TRUE);
@@ -3729,7 +3751,9 @@ class Plan extends MY_Controller {
 			$data['insure_co'] = 'Allianz Travel Insurance Coordinators Ltd';
 			if (($plan['product_short'] == 'JFR') || ($plan['product_short'] == 'JES') || ($plan['product_short'] == 'JFPL') || ($plan['product_short'] == 'JESP') || ($plan['product_short'] == 'JFS') || ($plan['product_short'] == 'JFE') || ($plan['product_short'] == 'BHS')) {
 				$data['insure_co'] = "Berkley Canada";
-			}
+			} else if ($plan['product_short'] == 'JFVTC') {
+        $data['insure_co'] = "Old Republic";
+      }
 			$data['customer_full_name'] = $this->input->post('customer_full_name');
 			$data['full_address'] = $this->input->post('full_address');
 			$data['city'] = $this->input->post('city');
@@ -3774,7 +3798,7 @@ class Plan extends MY_Controller {
 		if ($data['plan']['product_short'] == 'OPL') {
 			$data['cardp'] = "opl";
 			$data['insurable_options'] = $this->load->view('plan/detail_opl', $data, TRUE);
-		} else if ($data['plan']['product_short'] == 'JFR') {
+		} else if (($data['plan']['product_short'] == 'JFVTC') || ($data['plan']['product_short'] == 'JFR')) {
 			$data['cardp'] = "jfr";
 			$data['insurable_options'] = $this->load->view('plan/detail_opl', $data, TRUE);
 		} else if ($data['plan']['product_short'] == 'JUS') {
@@ -3838,7 +3862,7 @@ class Plan extends MY_Controller {
 		$data['html_model'] = $this->html_model;
 		if ($data['plan']['product_short'] == 'OPL') {
 			$data['insurable_options'] = $this->load->view('plan/detail_opl', $data, TRUE);
-		} else if ($data['plan']['product_short'] == 'JFR') {
+		} else if (($data['plan']['product_short'] == 'JFVTC') || ($data['plan']['product_short'] == 'JFR')) {
 			$data['insurable_options'] = $this->load->view('plan/detail_opl', $data, TRUE);
 		} else if ($data['plan']['product_short'] == 'JUS') {
 			$data['insurable_options'] = $this->load->view('plan/detail_jus', $data, TRUE);

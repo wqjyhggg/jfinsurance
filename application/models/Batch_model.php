@@ -105,7 +105,7 @@ class Batch_model extends CI_Model {
 		$dt['rate'] = $commission_rate;
 		$dt['pay_type'] = 'commission';
 		$dt['premium_payment_id'] = $payment_id;
-		if (($plan['product_short'] == 'OPL') || ($plan['product_short'] == 'JFR') && ($premium > 100000)) {
+		if ((($plan['product_short'] == 'OPL') || ($plan['product_short'] == 'JFVTC') || ($plan['product_short'] == 'JFR')) && ($premium > 100000)) {
 			$dt['added'] = $plan['effective_date'];
 		}
 		$commission_payment_id = $this->payment_model->add($dt);

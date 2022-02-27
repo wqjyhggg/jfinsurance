@@ -44,7 +44,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<div class="col-sm-12">
 										<label class="inline">Selected pre-existing condition coverage</label>
 										<div class="inline">
-											<?php echo ($stable_condition == 1) ? "Including stable pre-existing condition coverage" : (($product_short == 'JFR') ? "No pre-existing condition coverage" : "No pre-existing condition coverage"); ?>
+											<?php echo ($stable_condition == 1) ? "Including stable pre-existing condition coverage" : ((($product_short == 'JFVTC') || ($product_short == 'JFR')) ? "No pre-existing condition coverage" : "No pre-existing condition coverage"); ?>
 										</div>
 										<input type='hidden' class='stable_condition' name='stable_condition' id='stable_condition' value='<?php echo $stable_condition; ?>'>
 									</div>

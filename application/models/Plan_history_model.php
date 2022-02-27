@@ -589,7 +589,7 @@ class Plan_history_model extends CI_Model
    */
   public function claim_summary($data)
   {
-    $products = " AND product_short IN ('JFS','JFE','BHS','JES',JFPL','JESP','JUS','JFC','JFP','NUS','JFR','OPL','TOP')";
+    $products = " AND product_short IN ('JFS','JFE','BHS','JES',JFPL','JESP','JUS','JFC','JFP','NUS','JFVTC','JFR','OPL','TOP')";
     $st = new DateTime($data['start_dt']);
     $et = new DateTime($data['end_dt']);
     $interval = new DateInterval('P1M');

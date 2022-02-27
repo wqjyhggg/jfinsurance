@@ -1220,7 +1220,7 @@ $(document).ready(function(){
         $('#expiry_date_div').datepicker('setDate', myDate);
         get_premium();
     });
-	<?php if (($product_short == 'JFR') || ($product_short == 'OPL')) { ?> 
+	<?php if (($product_short == 'JFVTC') || ($product_short == 'JFR') || ($product_short == 'OPL')) { ?> 
 	$('#stable_condition_select').change(function() {
 		var selected_val = $('#stable_condition_select').val();
 		if (selected_val == 2) {
