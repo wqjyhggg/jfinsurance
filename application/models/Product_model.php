@@ -852,7 +852,7 @@ class Product_model extends CI_Model {
 			$premiumArr['dailyrate'] = $rate;
 			$premiumArr['sum_insured'] = number_format($para['sum_insured'], 2, '.', ',');
 			$premiumArr['deductible_amount'] =  number_format($para['deductible_amount'], 2, '.', ',');
-		} else if ($para['product_short'] == 'JFTVC') {
+		} else if ($para['product_short'] == 'JFVTC') {
 			if ($para['stable_condition'] == 1) {
 				// With stable pre-existing conditions coverage option
 				switch ($para['sum_insured']) {
