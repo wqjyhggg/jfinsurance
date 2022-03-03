@@ -3089,17 +3089,25 @@ class Plan extends MY_Controller {
 				$data['title_txt'] = 'Policy';
 				$data['style'] = $this->load->view('common/pdf_style',$data, TRUE);
         $data['hadheaderfooter'] = 0;
-        if ($data['plan']['product_short'] == 'JFPL') {
+        if ($data['plan']['product_short'] == 'JFVTC') {
+          $mpdf = new mPDF('c', 'A4', 0, '', $mgl = 0, $mgr = 0, $mgt = 15, $mgb = 0, $mgh = 0, $mgf = 0, $orientation = 'P');
+          if ($data['withlogo']) {
+            $mpdf->SetHTMLHeader('<img style="width:100%;" src="'.base_url().'image/pdf_header.png" />');
+          }
+          $data['hadheaderfooter'] = 1;
+          $html = $this->load->view('plan/pdf_jfvtc', $data, TRUE);
+        } else if ($data['plan']['product_short'] == 'JFPL') {
           $mpdf = new mPDF('c', 'A4', 0, '', $mgl = 0, $mgr = 0, $mgt = 15, $mgb = 0, $mgh = 0, $mgf = 0, $orientation = 'P');
           if ($data['withlogo']) {
             $mpdf->SetHTMLHeader('<img style="width:100%;" src="'.base_url().'image/pdf_header.png" />');
           }
           // $mpdf->SetHTMLFooter('<img style="width:100%;" src="'.base_url().'image/pdf_footer.png" />');
           $data['hadheaderfooter'] = 1;
+          $html = $this->load->view('plan/pdf', $data, TRUE);
         } else {
   				$mpdf = new mPDF('c');
+          $html = $this->load->view('plan/pdf', $data, TRUE);
         }
-				$html = $this->load->view('plan/pdf', $data, TRUE);
 				$mpdf->writeHTML($html);
 				$mpdf->Output($policy_file, 'F');
 				$this->load->model('mymail_model');

@@ -133,7 +133,7 @@ class Product_model extends CI_Model {
 	 */
 	public function product_deductible($product_short, $amount=0) {
 		if ($amount == "500only") {
-			if (($product_short == 'OPL') || ($product_short == 'JFVTC') || ($product_short == 'JFR')) {
+			if (($product_short == 'OPL') || ($product_short == 'JFR')) {
 				return array(500);
 			}
 		}
@@ -1053,31 +1053,33 @@ class Product_model extends CI_Model {
 				return $premiumArr;
 			}
       $discount = 1;
-      switch ($para['deductible_amount']) {
-        case 100:
-          $discount = 0.95; // 5% discount
-          break;
-        case 500:
-          $discount = 0.85; // 15% discount
-          break;
-        case 1000:
-          $discount = 0.80; // 20% discount
-          break;
-        case 2500:
-          if ($para['sum_insured'] == 25000) {
-            $discount = 0.70; // 30% discount
-          } else if ($para['sum_insured'] == 50000) {
+			if ($years <= 85) {
+        switch ($para['deductible_amount']) {
+          case 100:
+            $discount = 0.95; // 5% discount
+            break;
+          case 500:
+            $discount = 0.85; // 15% discount
+            break;
+          case 1000:
             $discount = 0.80; // 20% discount
-          } else if ($para['sum_insured'] < 0)	{
-            return FALSE;
-          } else {
-            $premiumArr['message'] = "$25,000 deductible amount isn't available";
-            return $premiumArr;
-          }
-          break;
-        case 3000:
-          $discount = 0.70; // 30% discount
-          break;
+            break;
+          case 2500:
+            if ($para['sum_insured'] == 25000) {
+              $discount = 0.70; // 30% discount
+            } else if ($para['sum_insured'] == 50000) {
+              $discount = 0.80; // 20% discount
+            } else if ($para['sum_insured'] < 0)	{
+              return FALSE;
+            } else {
+              $premiumArr['message'] = "$25,000 deductible amount isn't available";
+              return $premiumArr;
+            }
+            break;
+          case 3000:
+            $discount = 0.70; // 30% discount
+            break;
+        }
       }
 			if (($para['sum_insured'] < 0) || ($para['deductible_amount'] < 0)) {
 				return FALSE;
@@ -1087,6 +1089,10 @@ class Product_model extends CI_Model {
           $rate *= 2;
         } else {
           $premiumArr['message'] = "Customer age must less 59 years old for apply family plan";
+          return $premiumArr;
+        }
+        if (intval($para['number_customer']) < 3) {
+          $premiumArr['message'] = "Family plan required minimum of 3 policy holders";
           return $premiumArr;
         }
 			}
