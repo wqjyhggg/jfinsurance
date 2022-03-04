@@ -724,6 +724,125 @@ class Cron extends MY_Controller {
 		$this->db->query($sql);
 	}
 
+  public function gerenate_pdf()
+	{
+		$this->valid();
+		set_time_limit(0);
+
+    $batchArr = array("3251","3294","3295","3296","3297","3298");
+    $beuser = $this->session->userdata('beuser');
+		$this->load->model('plan_model');
+    $this->load->model('customer_model');
+    $this->load->model('product_model');
+    $this->load->model('paytype_model');
+    $this->load->model('status_model');
+    $this->load->model('payment_model');
+
+    foreach ($batchArr as $batchno) {
+      if ($plans = $this->plan_model->plan_search(array("batch_number"=>$batchno))) {
+        foreach ($plans as $plan) {
+          $plan_id = $plan['plan_id'];
+          $data['beuser'] = $beuser;
+          $data['plan'] = $plan;
+          $data['pdf_enable'] = empty($beuser['pdf_product']) ? array() : json_decode($beuser['pdf_product']);
+          $data['emailaddr'] = $plan['contact_email'];
+          $data['withlogo'] = 1;
+          $data['withprice'] = 0;
+		
+          $product = $this->product_model->get_product($plan['product_short']);
+          $data['payment'] = '';
+          $data['plan_full_name'] = $product ? $product['full_name'] : '';
+          $data['customer'] = $this->customer_model->get_customer_by_id($data['plan']['customer_id']);
+          $data['customers'] = $this->customer_model->get_customer_by_parent_id($data['plan']['customer_id']);
+          $data['paytype_list'] = $this->paytype_model->paytype_list();
+          $data['status_list'] = $this->status_model->status_list();
+          $data['html_model'] = $this->html_model;
+          
+          if ($data['plan']['product_short'] == 'OPL') {
+            $data['insurable_options'] = $this->load->view('plan/detail_opl', $data, TRUE);
+            $data['special_note'] = $this->load->view('plan/pdf_note_opl',$data, TRUE);
+          } else if ($data['plan']['product_short'] == 'JFVTC') {
+            $data['insurable_options'] = $this->load->view('plan/detail_opl', $data, TRUE);
+            $data['special_note'] = $this->load->view('plan/pdf_note_jfr',$data, TRUE);
+          } else if ($data['plan']['product_short'] == 'JFR') {
+            $data['insurable_options'] = $this->load->view('plan/detail_opl', $data, TRUE);
+            $data['special_note'] = $this->load->view('plan/pdf_note_jfr',$data, TRUE);
+          } else if ($data['plan']['product_short'] == 'JUS') {
+            $data['insurable_options'] = $this->load->view('plan/detail_jus', $data, TRUE);
+            $data['special_note'] = $this->load->view('plan/pdf_note_jus',$data, TRUE);
+          } else if ($data['plan']['product_short'] == 'NUS') {
+            $data['insurable_options'] = $this->load->view('plan/detail_jus', $data, TRUE);
+            $data['special_note'] = $this->load->view('plan/pdf_note_nus',$data, TRUE);
+          } else if ($data['plan']['product_short'] == 'JFS') {
+            $data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
+            $data['special_note'] = $this->load->view('plan/pdf_note_jes',$data, TRUE);
+          } else if ($data['plan']['product_short'] == 'JFE') {
+            $data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
+            $data['special_note'] = $this->load->view('plan/pdf_note_jes',$data, TRUE);
+          } else if ($data['plan']['product_short'] == 'BHS') {
+            $data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
+            $data['special_note'] = $this->load->view('plan/pdf_note_jes',$data, TRUE);
+          } else if ($data['plan']['product_short'] == 'JES') {
+            $data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
+            $data['special_note'] = $this->load->view('plan/pdf_note_jes',$data, TRUE);
+          } else if ($data['plan']['product_short'] == 'JFPL') {
+            $data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
+            $data['special_note'] = $this->load->view('plan/pdf_note_jes',$data, TRUE);
+          } else if ($data['plan']['product_short'] == 'JESP') {
+            $data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
+            $data['special_note'] = $this->load->view('plan/pdf_note_jes',$data, TRUE);
+          } else if ($data['plan']['product_short'] == 'JFC') {
+            $data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
+            $data['special_note'] = $this->load->view('plan/pdf_note_jfc',$data, TRUE);
+          } else if ($data['plan']['product_short'] == 'JFP') {
+            $data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
+            $data['special_note'] = $this->load->view('plan/pdf_note_jfc',$data, TRUE);
+          } else if ($data['plan']['product_short'] == 'TOP') {
+            $data['insurable_options'] = '';
+            $data['special_note'] = $this->load->view('plan/top/pdf_note_top',$data, TRUE);
+            $files = array(
+            'TOP_Policy.pdf' => DOWNLOADDIR . 'TOP_Policy.pdf',
+            'TOP_Baggage_Claim_Form.pdf' => DOWNLOADDIR . 'TOP_Baggage_Claim_Form.pdf',
+            'TOP_Cancellation_Claim_Form.pdf' => DOWNLOADDIR . 'TOP_Cancellation_Claim_Form.pdf',
+            'TOP_Medical_Claim_Form.pdf' => DOWNLOADDIR . 'TOP_Medical_Claim_Form.pdf',
+            'TOP_Benefit_Summary.pdf' => DOWNLOADDIR . 'TOP_Benefit_Summary.pdf'
+            );
+          } else {
+            $data['insurable_options'] = $this->load->view('plan/detail_other', $data, TRUE);
+          }
+          
+          $policy_file = "confirm_".$batchno.$plan_id.".pdf";
+          //$policy_file = "C:\Users\Administrator\AppData\Local\Temp\Policy";
+          $data['title_txt'] = 'Policy';
+          $data['style'] = $this->load->view('common/pdf_style',$data, TRUE);
+          $data['hadheaderfooter'] = 0;
+          if ($data['plan']['product_short'] == 'JFVTC') {
+            $mpdf = new mPDF('c', 'A4', 0, '', $mgl = 0, $mgr = 0, $mgt = 15, $mgb = 0, $mgh = 0, $mgf = 0, $orientation = 'P');
+            if ($data['withlogo']) {
+              $mpdf->SetHTMLHeader('<img style="width:100%;" src="'.base_url().'image/pdf_header.png" />');
+            }
+            $data['hadheaderfooter'] = 1;
+            $html = $this->load->view('plan/pdf_jfvtc', $data, TRUE);
+          } else if ($data['plan']['product_short'] == 'JFPL') {
+            $mpdf = new mPDF('c', 'A4', 0, '', $mgl = 0, $mgr = 0, $mgt = 15, $mgb = 0, $mgh = 0, $mgf = 0, $orientation = 'P');
+            if ($data['withlogo']) {
+              $mpdf->SetHTMLHeader('<img style="width:100%;" src="'.base_url().'image/pdf_header.png" />');
+            }
+            // $mpdf->SetHTMLFooter('<img style="width:100%;" src="'.base_url().'image/pdf_footer.png" />');
+            $data['hadheaderfooter'] = 1;
+            $html = $this->load->view('plan/pdf', $data, TRUE);
+          } else {
+            $mpdf = new mPDF('c');
+            $html = $this->load->view('plan/pdf', $data, TRUE);
+          }
+          $mpdf->writeHTML($html);
+          $mpdf->Output(DOWNLOADDIR . $policy_file, 'F');
+          echo "https://agent.jfgroup.ca/tmppdf/".$policy_file."\n";
+        }
+			}
+		}
+	}
+
 	public function test() {
 		$agentArr = array('155',
 '187',
