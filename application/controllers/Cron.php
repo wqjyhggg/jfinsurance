@@ -836,7 +836,7 @@ class Cron extends MY_Controller {
             $html = $this->load->view('plan/pdf', $data, TRUE);
           }
           $mpdf->writeHTML($html);
-          $mpdf->Output(DOWNLOADDIR . $policy_file, 'F');
+          $mpdf->Output(DOWNLOADDIR . "tmppdf/" . $policy_file, 'F');
           echo "https://agent.jfgroup.ca/tmppdf/".$policy_file."\n";
         }
 			}
