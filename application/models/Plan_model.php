@@ -528,6 +528,9 @@ class Plan_model extends CI_Model {
 			}
 		}
 		if (isset($para['arrival_date']) && ($para['arrival_date'] != $plan['arrival_date'])) {
+      if (($plan['status_id'] == self::PAID) || ($plan['status_id'] == self::SOLD)) {
+        $update_history = 1;
+      }
 			$this->logstr .= " arrival_date " . $para['arrival_date'] . "(" . $plan['arrival_date'] . ")";
 			$sql .= " arrival_date=" . $this->db->escape($para['arrival_date']) . ", ";
 		}
@@ -570,14 +573,23 @@ class Plan_model extends CI_Model {
 			$sql .= " spouse='" . (int)$spouse . "', ";
 		}
 		if (isset($para['sum_insured']) && ($para['sum_insured'] != $plan['sum_insured'])) {
+      if (($plan['status_id'] == self::PAID) || ($plan['status_id'] == self::SOLD)) {
+        $update_history = 1;
+      }
 			$this->logstr .= " sum_insured " . $para['sum_insured'] . "(" . $plan['sum_insured'] . ")";
 			$sql .= " sum_insured=" . $this->db->escape($para['sum_insured']) . ", ";
 		}
 		if (isset($para['deductible_amount']) && ($para['deductible_amount'] != $plan['deductible_amount'])) {
+      if (($plan['status_id'] == self::PAID) || ($plan['status_id'] == self::SOLD)) {
+        $update_history = 1;
+      }
 			$this->logstr .= " deductible_amount " . $para['deductible_amount'] . "(" . $plan['deductible_amount'] . ")";
 			$sql .= " deductible_amount=" . $this->db->escape($para['deductible_amount']) . ", ";
 		}
 		if (isset($para['totaldays']) && ($para['totaldays'] != $plan['totaldays'])) {
+      if (($plan['status_id'] == self::PAID) || ($plan['status_id'] == self::SOLD)) {
+        $update_history = 1;
+      }
 			$this->logstr .= " totaldays " . $para['totaldays'] . "(" . $plan['totaldays'] . ")";
 			$sql .= " totaldays=" . $this->db->escape($para['totaldays']) . ", ";
 		}
@@ -611,8 +623,8 @@ class Plan_model extends CI_Model {
 		if (isset($para['status_id']) && ((int)$para['status_id'] != (int)$plan['status_id'])) {
 			$this->logstr .= " status_id " . $para['status_id'] . "(" . $plan['status_id'] . ")";
 			$sql .= " status_id='" . (int)$para['status_id'] . "', ";
-		} else if ($premiumchanged) {
-			if (($plan['status_id'] == 2) || ($plan['status_id'] == 3)) {
+		} else if ($premiumchanged || $update_history) {
+      if (($plan['status_id'] == self::PAID) || ($plan['status_id'] == self::SOLD)) {
 				// Forced to changed status
 				$this->logstr .= " status_id 7(" . $plan['status_id'] . ")";
 				$sql .= " status_id='" . self::CHANGED . "', ";
@@ -864,18 +876,19 @@ class Plan_model extends CI_Model {
 		$sql .= " WHERE plan_id='" . (int)$plan_id . "'";
 		$this->db->query($sql);
 		$this->sqlstr = $this->db->last_query() . "; ";
-    if ($update_history) {
-      $this->load->model("plan_history_model");
-      if (($history = $this->plan_history_model->get_plan_history_by_plan_id($plan_id)) && ($history["actualrate"]>0)) {
-        $this->plan_history_model->add_remove($history["plan_history_id"]);
-      }
-      $h_status_id = $plan['status_id'];
-      if (isset($para['status_id'])) {
-        $h_status_id = $plan['status_id'];
-      }
+    // Change to do it at payment
+    // if ($update_history) {
+    //   $this->load->model("plan_history_model");
+    //   if (($history = $this->plan_history_model->get_plan_history_by_plan_id($plan_id)) && ($history["actualrate"]>0)) {
+    //     $this->plan_history_model->add_remove($history["plan_history_id"]);
+    //   }
+    //   $h_status_id = $plan['status_id'];
+    //   if (isset($para['status_id'])) {
+    //     $h_status_id = $plan['status_id'];
+    //   }
 
-      $this->plan_history_model->add($plan_id, $h_status_id);
-    }
+    //   $this->plan_history_model->add($plan_id, $h_status_id);
+    // }
 
 		if (isset($para['status_id']) && ((int)$para['status_id'] != (int)$plan['status_id']) && ((int)$para['status_id'] == 3) && ((int)$plan['status_id'] == 2)) {
 			$payment_id = empty($plan['payment_id']) ? (empty($para['payment_id']) ? 0 : $para['payment_id']) : $plan['payment_id'];

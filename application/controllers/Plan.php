@@ -2604,7 +2604,30 @@ class Plan extends MY_Controller {
 			$totalpaid = $this->payment_model->get_total_paid($plan_id, $pay_type='premium');
 			$premium = preg_replace("/[^0-9\.-]/", "", $this->input->post('premium'));
 			$premium = $totalpaid + (float)$premium;
-			if (($premium - (float)$plan['premium']) > 0.001) {
+      if (empty($this->input->post('premium')) && ($plan["status_id"] == Plan_model::CHANGED) && (($premium - floatval($plan['premium'])) < 0.01)) {
+        // Confirm change
+        // Add history
+        $history_id = 0;
+        if (($history = $this->plan_history_model->get_plan_history_by_plan_id($plan_id)) && ($history["actualrate"]>0)) {
+          $history_id = $history["plan_history_id"];
+        } else {
+          // Add missing first record.
+          $history_id = $this->plan_history_model->add($plan_id, $plan['status_id']);
+        }
+
+        $this->plan_model->update($plan_id, array("status_id"=>Plan_model::PAID));
+        $para = array(
+          'plan_id' => $plan_id, 
+          'customer_id' => $plan['customer_id'], 
+          'payment_id' => 0, 
+          'message' => $this->plan_model->logstr, 
+          'systemlog' => $this->plan_model->sqlstr
+        );
+        $this->log_model->activity('plan', $para);
+        if ($this->plan_history_model->add_remove($history_id)) {
+          $this->plan_history_model->add($plan_id, Plan_model::PAID);
+        }
+      } else if (($premium - (float)$plan['premium']) > 0.001) {
 				$this->error = "Pay amount has problem plase try again.";
 			} else if ($play_type == 'Credit Card') {
 				$this->credit_card();

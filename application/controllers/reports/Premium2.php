@@ -87,6 +87,8 @@ class Premium2 extends MY_Controller
       foreach ($kArr as $k => $v) {
         if ($k == "earned") {
           $arr[] = $earned;
+        } else if ($k == "days_used") {
+          $arr[] = ($record[$k]>0)?$record[$k]:0;
         } else if ($k == "unearned") {
           $arr[] = $unearned;
         } else {
