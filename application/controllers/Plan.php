@@ -1826,18 +1826,20 @@ class Plan extends MY_Controller {
 		);
 		$this->log_model->activity('commission', $para);
 
-		$payinfo = "Credit Card: paymount is negative";
-		$para = array('payment_id' => $payment_id, 'payinfo' => $payinfo, 'commission_payment_id' => $commission_payment_id, 'status_id' => Plan_model::SOLD, 'policy' => $this->plan_model->get_policy_number($plan_id, 2));
-		$this->plan_model->update($plan_id, $para);
-    if (($history = $this->plan_history_model->get_plan_history_by_plan_id($plan_id)) && ($history["actualrate"] > 0)) {
-      $history["actualrate"] = number_format(floatval($plan["premium"]) / floatval($plan["totaldays"]), 2);
-      $history['payment_id'] = $payment_id;
-      $history['status_id'] = Plan_model::SOLD;
-      $history['policy'] = $para['policy'];
-      $this->plan_history_model->update($history["plan_history_id"], $history);
+    $history_id = 0;
+    if (($history = $this->plan_history_model->get_plan_history_by_plan_id($plan_id)) && ($history["actualrate"]>0)) {
+      $history_id = $history["plan_history_id"];
     } else {
-      $this->plan_history_model->add($plan_id, Plan_model::SOLD);
+      // Add missing first record.
+      $history_id = $this->plan_history_model->add($plan_id, $plan['status_id']);
     }
+
+    $payinfo = "Credit Card: paymount is negative";
+		$para = array('payment_id' => $payment_id, 'payinfo' => $payinfo, 'commission_payment_id' => $commission_payment_id, 'status_id' => Plan_model::SOLD, 'policy' => $this->plan_model->get_policy_number($plan_id, 2));
+    $this->plan_model->update($plan_id, $para);
+    $this->plan_history_model->add_remove($history_id);
+    $this->plan_history_model->add($plan_id, Plan_model::SOLD);
+
 		$para = array(
 				'plan_id' => $plan_id,
 				'customer_id' => $plan['customer_id'],
@@ -2007,7 +2009,15 @@ class Plan extends MY_Controller {
 			try {
 				$result = $beanstream->payments ()->makeCardPayment ( $payment_data, TRUE ); // set to FALSE for Pre-Auth
 				if (isset($result['approved'])) {
-					$payinfo = "Credit Card: " . substr($card_number, 0, 5) . "xxx" . substr($card_number, -4) . " " . $card_name .  " " . $expiry_month . "/" . $expiry_year;
+          $history_id = 0;
+          if (($history = $this->plan_history_model->get_plan_history_by_plan_id($plan_id)) && ($history["actualrate"]>0)) {
+            $history_id = $history["plan_history_id"];
+          } else {
+            // Add missing first record.
+            $history_id = $this->plan_history_model->add($plan_id, $plan['status_id']);
+          }
+        
+          $payinfo = "Credit Card: " . substr($card_number, 0, 5) . "xxx" . substr($card_number, -4) . " " . $card_name .  " " . $expiry_month . "/" . $expiry_year;
 						
 					$para = array('payment_id' => $payment_id, 'payinfo' => $payinfo, 'commission_payment_id' => $commission_payment_id, 'status_id' => Plan_model::PAID, 'policy' => $this->plan_model->get_policy_number($plan_id, 2));
 					$this->plan_model->update($plan_id, $para);
@@ -2019,15 +2029,8 @@ class Plan extends MY_Controller {
 							'systemlog' => $this->plan_model->sqlstr
 					);
 					$this->log_model->activity('plan', $para);
-          if (($history = $this->plan_history_model->get_plan_history_by_plan_id($plan_id)) && ($history["actualrate"] > 0)) {
-            $history["actualrate"] = number_format(floatval($plan["premium"]) / floatval($plan["totaldays"]), 2);
-            $history['payment_id'] = $payment_id;
-            $history['status_id'] = Plan_model::PAID;
-            $history['policy'] = $para['policy'];
-            $this->plan_history_model->update($history["plan_history_id"], $history);
-          } else {
-            $this->plan_history_model->add($plan_id, Plan_model::PAID);
-          }
+          $this->plan_history_model->add_remove($history_id);
+          $this->plan_history_model->add($plan_id, Plan_model::PAID);
 					
 					$dt = array();
 					$dt['ispaid'] = 1;
@@ -2221,17 +2224,18 @@ class Plan extends MY_Controller {
 		);
 		$this->log_model->activity('commission', $para);
 
+    $history_id = 0;
+    if (($history = $this->plan_history_model->get_plan_history_by_plan_id($plan_id)) && ($history["actualrate"]>0)) {
+      $history_id = $history["plan_history_id"];
+    } else {
+      // Add missing first record.
+      $history_id = $this->plan_history_model->add($plan_id, $plan['status_id']);
+    }
+
 		$para = array('payment_id' => $payment_id, 'payinfo' => $payinfo, 'commission_payment_id' => $commission_payment_id, 'status_id' => Plan_model::SOLD, 'policy' => $this->plan_model->get_policy_number($plan_id, 2));
 		$this->plan_model->update($plan_id, $para);
-    if (($history = $this->plan_history_model->get_plan_history_by_plan_id($plan_id)) && ($history["actualrate"] > 0)) {
-      $history["actualrate"] = number_format(floatval($plan["premium"]) / floatval($plan["totaldays"]), 2);
-      $history['payment_id'] = $payment_id;
-      $history['status_id'] = Plan_model::SOLD;
-      $history['policy'] = $para['policy'];
-      $this->plan_history_model->update($history["plan_history_id"], $history);
-    } else {
-      $this->plan_history_model->add($plan_id, Plan_model::SOLD);
-    }
+    $this->plan_history_model->add_remove($history_id);
+    $this->plan_history_model->add($plan_id, Plan_model::SOLD);
 
 		$para = array(
 				'plan_id' => $plan_id,
@@ -2364,17 +2368,19 @@ class Plan extends MY_Controller {
 		);
 		$this->log_model->activity('commission', $para);
 		
-		$para = array('payment_id' => $payment_id, 'payinfo' => $payinfo, 'commission_payment_id' => $commission_payment_id, 'status_id' => Plan_model::SOLD, 'policy' => $this->plan_model->get_policy_number($plan_id, 2));
-		$this->plan_model->update($plan_id, $para);
-    if (($history = $this->plan_history_model->get_plan_history_by_plan_id($plan_id)) && ($history["actualrate"] > 0)) {
-      $history["actualrate"] = number_format(floatval($plan["premium"]) / floatval($plan["totaldays"]), 2);
-      $history['payment_id'] = $payment_id;
-      $history['status_id'] = Plan_model::SOLD;
-      $history['policy'] = $para['policy'];
-      $this->plan_history_model->update($history["plan_history_id"], $history);
+    $history_id = 0;
+    if (($history = $this->plan_history_model->get_plan_history_by_plan_id($plan_id)) && ($history["actualrate"]>0)) {
+      $history_id = $history["plan_history_id"];
     } else {
-      $this->plan_history_model->add($plan_id, Plan_model::SOLD);
+      // Add missing first record.
+      $history_id = $this->plan_history_model->add($plan_id, $plan['status_id']);
     }
+    
+    $para = array('payment_id' => $payment_id, 'payinfo' => $payinfo, 'commission_payment_id' => $commission_payment_id, 'status_id' => Plan_model::SOLD, 'policy' => $this->plan_model->get_policy_number($plan_id, 2));
+		$this->plan_model->update($plan_id, $para);
+    $this->plan_history_model->add_remove($history_id);
+    $this->plan_history_model->add($plan_id, Plan_model::SOLD);
+
 		$para = array(
 				'plan_id' => $plan_id,
 				'customer_id' => $plan['customer_id'],
@@ -2606,7 +2612,6 @@ class Plan extends MY_Controller {
 			$premium = $totalpaid + (float)$premium;
       if (empty($this->input->post('premium')) && ($plan["status_id"] == Plan_model::CHANGED) && (($premium - floatval($plan['premium'])) < 0.01)) {
         // Confirm change
-        // Add history
         $history_id = 0;
         if (($history = $this->plan_history_model->get_plan_history_by_plan_id($plan_id)) && ($history["actualrate"]>0)) {
           $history_id = $history["plan_history_id"];
@@ -2624,9 +2629,8 @@ class Plan extends MY_Controller {
           'systemlog' => $this->plan_model->sqlstr
         );
         $this->log_model->activity('plan', $para);
-        if ($this->plan_history_model->add_remove($history_id)) {
-          $this->plan_history_model->add($plan_id, Plan_model::PAID);
-        }
+        $this->plan_history_model->add_remove($history_id);
+        $this->plan_history_model->add($plan_id, Plan_model::PAID);
       } else if (($premium - (float)$plan['premium']) > 0.001) {
 				$this->error = "Pay amount has problem plase try again.";
 			} else if ($play_type == 'Credit Card') {
@@ -3388,7 +3392,6 @@ class Plan extends MY_Controller {
 				);
 				$this->log_model->activity('up_commission', $para);
 
-        // Add history
         $history_id = 0;
         if (($history = $this->plan_history_model->get_plan_history_by_plan_id($plan_id)) && ($history["actualrate"]>0)) {
           $history_id = $history["plan_history_id"];
