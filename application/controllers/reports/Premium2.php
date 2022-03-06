@@ -57,7 +57,7 @@ class Premium2 extends MY_Controller
       'add_time' => 'Sold Date',
       'effective_date' => 'Effective Date',
       'expiry_date' => 'Expire Date',
-      'total_days' => 'Number of Days',
+      'totaldays' => 'Number of Days',
       'days_used' => 'Days of Used',
       'sum_insured' => 'Sum Insured',
       'deductible_amount' => 'Deductible Amount',
