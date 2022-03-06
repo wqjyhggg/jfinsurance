@@ -3621,7 +3621,7 @@ class Plan extends MY_Controller {
 				$para = array('status_id' => Plan_model::REFUND, 'payment_id' => $payment_id, 'commission_payment_id' => $commission_payment_id, 'refund_date' => $refund_date, 'note' => $note );  // Change status to refund
 				$this->plan_model->update($plan_id, $para);
         if ($id = $this->plan_history_model->add($plan_id, Plan_model::REFUND)) {
-          $this->plan_history_model->update($id, array("payment_id"=>$payment_id, "expiry_date"=>$refund_date, "note"=>"Refunded Recode"));
+          $this->plan_history_model->update($id, array("payment_id"=>$payment_id, "premium"=>($plan["premium"] - $total_amount),"expiry_date"=>$refund_date, "note"=>"Refunded Recode"));
         }
 
 				$para = array(
