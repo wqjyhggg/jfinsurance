@@ -1831,13 +1831,17 @@ class Plan extends MY_Controller {
       $history_id = $history["plan_history_id"];
     } else {
       // Add missing first record.
-      $history_id = $this->plan_history_model->add($plan_id, $plan['status_id']);
+      if ($plan['status_id'] > 1) {
+        $history_id = $this->plan_history_model->add($plan_id, $plan['status_id']);
+      }
     }
 
     $payinfo = "Credit Card: paymount is negative";
 		$para = array('payment_id' => $payment_id, 'payinfo' => $payinfo, 'commission_payment_id' => $commission_payment_id, 'status_id' => Plan_model::SOLD, 'policy' => $this->plan_model->get_policy_number($plan_id, 2));
     $this->plan_model->update($plan_id, $para);
-    $this->plan_history_model->add_remove($history_id);
+    if ($history_id) {
+      $this->plan_history_model->add_remove($history_id);
+    }
     $this->plan_history_model->add($plan_id, Plan_model::SOLD);
 
 		$para = array(
@@ -2014,7 +2018,9 @@ class Plan extends MY_Controller {
             $history_id = $history["plan_history_id"];
           } else {
             // Add missing first record.
-            $history_id = $this->plan_history_model->add($plan_id, $plan['status_id']);
+            if ($plan['status_id'] > 1) {
+              $history_id = $this->plan_history_model->add($plan_id, $plan['status_id']);
+            }
           }
         
           $payinfo = "Credit Card: " . substr($card_number, 0, 5) . "xxx" . substr($card_number, -4) . " " . $card_name .  " " . $expiry_month . "/" . $expiry_year;
@@ -2029,7 +2035,9 @@ class Plan extends MY_Controller {
 							'systemlog' => $this->plan_model->sqlstr
 					);
 					$this->log_model->activity('plan', $para);
-          $this->plan_history_model->add_remove($history_id);
+          if ($history_id) {
+            $this->plan_history_model->add_remove($history_id);
+          }
           $this->plan_history_model->add($plan_id, Plan_model::PAID);
 					
 					$dt = array();
@@ -2229,12 +2237,16 @@ class Plan extends MY_Controller {
       $history_id = $history["plan_history_id"];
     } else {
       // Add missing first record.
-      $history_id = $this->plan_history_model->add($plan_id, $plan['status_id']);
+      if ($plan['status_id'] > 1) {
+        $history_id = $this->plan_history_model->add($plan_id, $plan['status_id']);
+      }
     }
 
 		$para = array('payment_id' => $payment_id, 'payinfo' => $payinfo, 'commission_payment_id' => $commission_payment_id, 'status_id' => Plan_model::SOLD, 'policy' => $this->plan_model->get_policy_number($plan_id, 2));
 		$this->plan_model->update($plan_id, $para);
-    $this->plan_history_model->add_remove($history_id);
+    if ($history_id) {
+      $this->plan_history_model->add_remove($history_id);
+    }
     $this->plan_history_model->add($plan_id, Plan_model::SOLD);
 
 		$para = array(
@@ -2373,12 +2385,16 @@ class Plan extends MY_Controller {
       $history_id = $history["plan_history_id"];
     } else {
       // Add missing first record.
-      $history_id = $this->plan_history_model->add($plan_id, $plan['status_id']);
+      if ($plan['status_id'] > 1) {
+        $history_id = $this->plan_history_model->add($plan_id, $plan['status_id']);
+      }
     }
     
     $para = array('payment_id' => $payment_id, 'payinfo' => $payinfo, 'commission_payment_id' => $commission_payment_id, 'status_id' => Plan_model::SOLD, 'policy' => $this->plan_model->get_policy_number($plan_id, 2));
 		$this->plan_model->update($plan_id, $para);
-    $this->plan_history_model->add_remove($history_id);
+    if ($history_id) {
+      $this->plan_history_model->add_remove($history_id);
+    }
     $this->plan_history_model->add($plan_id, Plan_model::SOLD);
 
 		$para = array(
@@ -2618,7 +2634,9 @@ class Plan extends MY_Controller {
           $history_id = $history["plan_history_id"];
         } else {
           // Add missing first record.
-          $history_id = $this->plan_history_model->add($plan_id, $plan['status_id']);
+          if ($plan['status_id'] > 1) {
+            $history_id = $this->plan_history_model->add($plan_id, $plan['status_id']);
+          }
         }
 
         $this->plan_model->update($plan_id, array("status_id"=>Plan_model::PAID));
@@ -2630,7 +2648,9 @@ class Plan extends MY_Controller {
           'systemlog' => $this->plan_model->sqlstr
         );
         $this->log_model->activity('plan', $para);
-        $this->plan_history_model->add_remove($history_id);
+        if ($history_id) {
+          $this->plan_history_model->add_remove($history_id);
+        }
         $this->plan_history_model->add($plan_id, Plan_model::PAID);
       } else if (($premium - (float)$plan['premium']) > 0.001) {
 				$this->error = "Pay amount has problem plase try again.";
@@ -3398,7 +3418,9 @@ class Plan extends MY_Controller {
           $history_id = $history["plan_history_id"];
         } else {
           // Add missing first record.
-          $history_id = $this->plan_history_model->add($plan_id, $plan['status_id']);
+          if ($plan['status_id'] > 1) {
+            $history_id = $this->plan_history_model->add($plan_id, $plan['status_id']);
+          }
         }
 
 				$note = "Cancel at " . $dt['added'] . " amount: " . $refund_amount . " admin fee: " . $admin_fee . "; " . $plan['note'];
@@ -3587,9 +3609,13 @@ class Plan extends MY_Controller {
           $history_id = $history["plan_history_id"];
         } else {
           // Add missing first record
-          $history_id = $this->plan_history_model->add($plan_id, $plan['status_id']);
+          if ($plan['status_id'] > 1) {
+            $history_id = $this->plan_history_model->add($plan_id, $plan['status_id']);
+          }
         }
-        $this->plan_history_model->add_remove($history_id);
+        if ($history_id) {
+          $this->plan_history_model->add_remove($history_id);
+        }
 
         $note = "Refund at " . $dt['added'] . " amount: " . $refund_amount . " admin fee: " . $admin_fee . "; " . $plan['note'];
 				$para = array('status_id' => Plan_model::REFUND, 'payment_id' => $payment_id, 'commission_payment_id' => $commission_payment_id, 'refund_date' => $refund_date, 'note' => $note );  // Change status to refund
