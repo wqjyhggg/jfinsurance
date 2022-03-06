@@ -61,7 +61,7 @@ class Premium2 extends MY_Controller
       'days_used' => 'Days of Used',
       'sum_insured' => 'Sum Insured',
       'deductible_amount' => 'Deductible Amount',
-      'policy_premium' => 'Total',
+      'sum_insured' => 'Total',
       'earned' => 'Earned',
       'unearned' => 'Unearned',
     );
