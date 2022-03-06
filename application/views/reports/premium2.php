@@ -110,6 +110,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                       <th>Policy Number</th>
                       <th>First Name</th>
                       <th>Last Name</th>
+                      <th>Sold Date</th>
                       <th>Effective Date</th>
                       <th>Expiry Date</th>
                       <th>Number of Days</th>
@@ -131,6 +132,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                         <td><?= $record['policy'] ?></td>
                         <td><?= $record['firstname'] ?></td>
                         <td><?= $record['lastname'] ?></td>
+                        <td><?= ($record['ishead']==1)?substr($record['add_time'],0,10):'' ?></td>
                         <td><?= $record['effective_date'] ?></td>
                         <td><?= $record['expiry_date'] ?></td>
                         <td><?= $record['totaldays'] ?></td>
@@ -143,6 +145,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                       </tr>
                     <?php endforeach; ?>
                     <tr>
+                      <td>&nbsp;</td>
                       <td>&nbsp;</td>
                       <td>&nbsp;</td>
                       <td>&nbsp;</td>
