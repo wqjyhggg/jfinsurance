@@ -61,7 +61,7 @@ class Premium2 extends MY_Controller
       'days_used' => 'Days of Used',
       'sum_insured' => 'Sum Insured',
       'deductible_amount' => 'Deductible Amount',
-      'sum_insured' => 'Total',
+      'premium' => 'Total',
       'earned' => 'Earned',
       'unearned' => 'Unearned',
     );
@@ -106,7 +106,7 @@ class Premium2 extends MY_Controller
         $arr[] = $tearned;
       } else if ($k == "unearned") {
         $arr[] = $total - $tearned;
-      } else if ($k == "policy_premium") {
+      } else if ($k == "premium") {
         $arr[] = $total;
       } else if ($k == "deductible_amount") {
         $arr[] = 'Total:';
