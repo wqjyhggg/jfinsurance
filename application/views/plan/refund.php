@@ -59,7 +59,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 							<td>Original Premium: </td><td><span>$<?php echo number_format($plan['premium'], 2, '.', ',');?></span></td>
 						</tr>
 						<tr>
-							<td>Time on risk: </td><td><span>$<?php echo number_format(((float)$plan['premium'] - (float)$refund_amount), 2, '.', ','); ?></span></td>
+							<td>Premium: </td><td><span>$<?php echo number_format(((float)$plan['premium'] - (float)$refund_amount), 2, '.', ','); ?></span></td>
 						</tr>
 						<tr>	
 							<td>Un-used Premium: </td><td><span>$<?php echo number_format($refund_amount, 2, '.', ','); ?></span></td>
