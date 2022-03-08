@@ -436,7 +436,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
         <?php } else { ?>
           <p class="small">British Columbia:<br />
             128 - 6061 No. 3 Road<br />
-            Richmond, BC, Canadian V6Y 282<br />
+            Richmond, BC, Canada V6Y 282<br />
             Phone: 604-232-0896 Or 1-877-232-0896</p>
         <?php } ?>
       </div>
@@ -608,7 +608,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
             <?php } else { ?>
               <p class="small">British Columbia:<br />
                 128 - 6061 No. 3 Road<br />
-                Richmond, BC, Canadian V6Y 282<br />
+                Richmond, BC, Canada V6Y 282<br />
                 Phone: 604-232-0896 Or 1-877-232-0896</p>
             <?php } ?>
           </div>
