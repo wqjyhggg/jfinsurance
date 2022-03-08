@@ -133,7 +133,7 @@ class Product_model extends CI_Model {
 	 */
 	public function product_deductible($product_short, $amount=0) {
 		if ($amount == "500only") {
-			if (($product_short == 'OPL') || ($product_short == 'JFR')) {
+			if (($product_short == 'OPL') || ($product_short == 'JFR') || ($product_short == 'JFVTC')) {
 				return array(500);
 			}
 		}
