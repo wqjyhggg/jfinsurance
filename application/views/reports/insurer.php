@@ -198,6 +198,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <th>Sum Insured</th>
                             <th>Deductible Amount</th>
                             <th>Daily Rate</th>
+                            <th>Total Members</th>
                             <th>Policy Premium</th>
                             <!--th>Commission Rate to JF</th-->
                             <th>Merchant Fee(Credit Card Fee)%</th>
@@ -231,6 +232,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <td>$<?=$record['sum_insured'] ?></td>
                             <td>$<?=$record['deductible_amount'] ?></td>
                             <td>$<?=$record['daily_rate'] ?></td>
+                            <td><?=$record['customer_cnt'] ?></td>
                             <td>$<?=$record['policy_premium'] ?></td>
                             <!--td><?=$record['commission_rate_jf'] ?>%</td-->
                             <td><?=$record['merchant_fee_per'] ?>%</td>

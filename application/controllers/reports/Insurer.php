@@ -84,6 +84,7 @@ class Insurer extends MY_Controller
                 'sum_insured' => 'Sum Insured',
                 'deductible_amount' => 'Deductible Amount',
                 'daily_rate' => 'Daily Rate',
+                'customer_cnt' => 'Total Members',
                 'policy_premium' => 'Policy Premium',
                 'commission_rate_jf' => 'Commission Rate to JF',
                 'merchant_fee_per' => 'Merchant Fee(Credit Card Fee)%',

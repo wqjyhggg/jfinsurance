@@ -249,6 +249,7 @@ class Report_model extends CI_Model
     $sql .= "	c.lastname, ";
     $sql .= "	c.gender, ";
     $sql .= "	c.birthday, ";
+    $sql .= "	(SELECT count(cus.plan_id) FROM customer cus WHERE cus.plan_id=pa.plan_id) as customer_cnt, ";
     $sql .= "	CONCAT(pl.street_number, ' ', pl.street_name) AS address,";
     $sql .= "	pl.suite_number,";
     $sql .= "	pl.city,";
