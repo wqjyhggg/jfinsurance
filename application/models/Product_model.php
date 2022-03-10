@@ -1736,7 +1736,7 @@ class Product_model extends CI_Model {
 			if (($days >= 365) && (empty($para['plan_id']) || ($para['plan_id'] > SELF::PLANIDCHG2021_8))) {
         if (empty($para['holiday_rate'])) {
           // $premium -= 12 * $members;  // 1.8 * 365 = 657 - 645 / year = 12
-          $premium = 645;  // Over 365 must be 645
+          $premium = 645 * $members;  // Over 365 must be 645
         }
 			}
 			$premiumArr['premium'] = $premium;
