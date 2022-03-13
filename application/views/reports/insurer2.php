@@ -150,7 +150,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                   </thead>
                   <tbody>
                     <?php foreach ($report_data as $record) : ?>
-                      <?php $address = (empty($record['suite_number'])?"":$record['suite_number']."-").$record['street_number']." ".$record['street_name']; ?>
+                      <?php $address = (empty($record['suite_number'])?"":"Suite " . $record['suite_number']." ").$record['street_number']." ".$record['street_name']; ?>
                       <tr>
                         <td><?= $record['policy'] ?></td>
                         <td><?= $record['firstname'] ?></td>

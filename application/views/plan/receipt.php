@@ -23,7 +23,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 		<div class="row">
 			<div class="col-sm-12 nopadding">
 				<p class="nopm" style="margin-bottom:2px;"><?php echo htmlspecialchars($customer['firstname'] . " " . $customer['lastname']); ?></p>
-				<p class="nopm"><?php if(!empty($plan['suite_number'])){echo  htmlspecialchars($plan['suite_number']) . "- ";} ?><?php echo htmlspecialchars($plan['street_number'] . ' ' . $plan['street_name']) . '<br />' . htmlspecialchars($plan['city'] . ', ' . $plan['province2'] . ', ' . $plan['postcode']); ?></p>
+				<p class="nopm"><?php if(!empty($plan['suite_number'])){echo  "Suite " . htmlspecialchars($plan['suite_number']) . " ";} ?><?php echo htmlspecialchars($plan['street_number'] . ' ' . $plan['street_name']) . '<br />' . htmlspecialchars($plan['city'] . ', ' . $plan['province2'] . ', ' . $plan['postcode']); ?></p>
 			</div>
 		</div>
 		<div class="row">
@@ -59,7 +59,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 			<div class="col-sm-6 nopadding receipt-info">
 				<h4>DATE: <span><?php echo isset($payment['added']) ? $payment['added'] : ''; ?></span></h4>
 				<h4>NAME: <span><?php echo $customer['firstname'] . " " . $customer['lastname']; ?></span></h4>
-				<h4>ADDRESS: <span><?php if(!empty($plan['suite_number'])){echo  $plan['suite_number'] . "- ";} ?><?php echo $plan['street_number'] . ' ' . $plan['street_name'] . ' ' . $plan['city'] . ', ' . $plan['province2'] . ' ' . $plan['postcode']; ?></sapn> </h4>
+				<h4>ADDRESS: <span><?php if(!empty($plan['suite_number'])){echo  "Suite " . $plan['suite_number'] . " ";} ?><?php echo $plan['street_number'] . ' ' . $plan['street_name'] . ' ' . $plan['city'] . ', ' . $plan['province2'] . ' ' . $plan['postcode']; ?></sapn> </h4>
 				<h4><?php if ($plan['status_id'] < 2) { ?>QUOTE<?php } else {?>POLICY<?php } ?>: <span><?php echo $plan['policy']; ?></span></h4>
 				<h4>FOR: <span><?php if($plan['isfamilyplan']==1){ echo "Family";}elseif($plan['isfamilyplan']==2){ echo "Group";}else{echo "Individual";} ?></sapn> </h4>
 			</div>
@@ -90,7 +90,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 			<div class="col-sm-6 nopadding receipt-info">
 				<h4>DATE: <span><?php echo isset($payment['added']) ? $payment['added'] : ''; ?></span></h4>
 				<h4>NAME: <span><?php echo $customer['firstname'] . " " . $customer['lastname']; ?></span></h4>
-				<h4>ADDRESS: <span><?php if(!empty($plan['suite_number'])){echo  $plan['suite_number'] . "- ";} ?><?php echo $plan['street_number'] . ' ' . $plan['street_name'] . ' ' . $plan['city'] . ', ' . $plan['province2'] . ' ' . $plan['postcode']; ?></sapn> </h4>
+				<h4>ADDRESS: <span><?php if(!empty($plan['suite_number'])){echo  "Suite " . $plan['suite_number'] . " ";} ?><?php echo $plan['street_number'] . ' ' . $plan['street_name'] . ' ' . $plan['city'] . ', ' . $plan['province2'] . ' ' . $plan['postcode']; ?></sapn> </h4>
 				<h4><?php if ($plan['status_id'] < 2) { ?>QUOTE<?php } else {?>POLICY<?php } ?>: <span><?php echo $plan['policy']; ?></span></h4>
 				<h4>FOR: <span><?php if($plan['isfamilyplan']==1){ echo "Family";}elseif($plan['isfamilyplan']==2){ echo "Group";}else{echo "Individual";} ?></sapn> </h4>
 			</div>

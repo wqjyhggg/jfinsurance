@@ -583,7 +583,7 @@ class Cron extends MY_Controller {
 			$address1 = $plan['street_number'] . " " . $plan['street_name']; // [Address1] field text must be 50 characters maximum
 			if (strlen($address1) > 49) $address1 = substr($address1, 0, 49);
 			$sheet->setCellValue('I'.$row, $address1); // Address1
-			$sheet->setCellValue('J'.$row, ($plan['suite_number']) ? " Suite" . $plan['suite_number'] : ""); // Address2
+			$sheet->setCellValue('J'.$row, ($plan['suite_number']) ? " Suite " . $plan['suite_number'] : ""); // Address2
 			$sheet->setCellValue('K'.$row, $plan['city']); // City
 			$sheet->setCellValue('L'.$row, $plan['province2']); // Provincec
 			$sheet->setCellValue('M'.$row, $plan['postcode']); // Postal Code
@@ -646,7 +646,7 @@ class Cron extends MY_Controller {
 					$sheet->setCellValue('H'.$row, PHPExcel_Shared_Date::PHPToExcel(strtotime($c['birthday'] . ' 00:00:00 UTC')));
 					$sheet->getStyle('H'.$row)->getNumberFormat()->setFormatCode('m/d/yyyy h:mm:ss AM/PM');
 					$sheet->setCellValue('I'.$row, $address1); // Address1
-					$sheet->setCellValue('J'.$row, ($plan['suite_number']) ? " Suite" . $plan['suite_number'] : ""); // Address2
+					$sheet->setCellValue('J'.$row, ($plan['suite_number']) ? "Suite " . $plan['suite_number'] : ""); // Address2
 					$sheet->setCellValue('K'.$row, $plan['city']); // City
 					$sheet->setCellValue('L'.$row, $plan['province2']); // Provincec
 					$sheet->setCellValue('M'.$row, $plan['postcode']); // Postal Code

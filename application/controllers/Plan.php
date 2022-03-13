@@ -3827,7 +3827,7 @@ class Plan extends MY_Controller {
 			$mpdf->Output("policy_refund.pdf","I");
 		} else {
 			$data['customer_full_name'] = $data['customer']['firstname'] . " " . $data['customer']['lastname'];
-			$data['full_address'] = empty($plan['suite_number']) ? '' : $plan['suite_number'] . "- ";
+			$data['full_address'] = empty($plan['suite_number']) ? '' : "Suite " . $plan['suite_number'] . " ";
 			$data['full_address'] .= $plan['street_number'] . ' ' . $plan['street_name'];
 			$data['city'] = $plan['city'];
 			$data['province2'] = $plan['province2'];

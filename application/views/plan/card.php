@@ -24,7 +24,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 		<div class="row">
 			<div class="col-sm-12">
 				<p class="nopm" style="margin-bottom:2px;"><?php echo htmlspecialchars($customer['firstname'] . " " . $customer['lastname']); ?></p>
-				<p class="nopm"><?php if(!empty($plan['suite_number'])){echo  htmlspecialchars($plan['suite_number']) . "- ";} ?><?php echo htmlspecialchars($plan['street_number'] . ' ' . $plan['street_name']) . '<br />' . htmlspecialchars($plan['city'] . ', ' . $plan['province2'] . ', ' . $plan['postcode']); ?></p>
+				<p class="nopm"><?php if(!empty($plan['suite_number'])){echo  "Suite " . htmlspecialchars($plan['suite_number']) . " ";} ?><?php echo htmlspecialchars($plan['street_number'] . ' ' . $plan['street_name']) . '<br />' . htmlspecialchars($plan['city'] . ', ' . $plan['province2'] . ', ' . $plan['postcode']); ?></p>
 			</div>
 		</div>
 		<div class="row">

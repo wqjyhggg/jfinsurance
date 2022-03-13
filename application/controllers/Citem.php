@@ -69,7 +69,7 @@ class Citem extends MY_Controller {
 			$para['birthday'] = $claim['birthday'];
 			$para['gender'] = $claim['gender'];
 			$para['claim_date'] = date('Y-m-d');
-			$para['address'] = $plan['suite_number'] . " " . $plan['street_number'] . " " . $plan['street_name'];
+			$para['address'] = "Suite " . $plan['suite_number'] . " " . $plan['street_number'] . " " . $plan['street_name'];
 			$para['city'] = $plan['city'];
 			$para['province2'] = $plan['province2'];
 			$para['country2'] = $plan['country2'];
@@ -498,11 +498,10 @@ class Citem extends MY_Controller {
 			$this->data['claimed_total'] = 0;
 			$this->data['claimed_paid'] = 0;
 			foreach ($citem_ids as $citem_id) {
-                $citem = $this->claim_model->get_claim_item_by_id($citem_id);
-                if ($citem) {
-                	$uarr = array('pay_to' => $this->data['pay_to'], 'cheque_number' => $cheque_number);
-					
-                	$addr  = empty($this->data['suite_number']) ? '' : $this->data['suite_number'] . " - ";
+        $citem = $this->claim_model->get_claim_item_by_id($citem_id);
+        if ($citem) {
+         	$uarr = array('pay_to' => $this->data['pay_to'], 'cheque_number' => $cheque_number);
+				 	$addr  = empty($this->data['suite_number']) ? '' : "Suite " . $this->data['suite_number'] . " ";
 					$addr .= empty($this->data['street_number']) ? '' : $this->data['street_number'] . " "; 
 					$addr .= $this->data['street_name'];
 					$uarr['address'] = $addr;

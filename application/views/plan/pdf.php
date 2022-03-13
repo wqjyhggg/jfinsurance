@@ -147,7 +147,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
           <h4>Date of Birth: <span><?php echo $customer['birthday']; ?></sapn>
           </h4>
           <h4>Address: <span><?php if (!empty($plan['suite_number'])) {
-                                echo  htmlspecialchars($plan['suite_number']) . "- ";
+                                echo  "Suite " . htmlspecialchars($plan['suite_number']) . " ";
                               } ?><?php echo htmlspecialchars($plan['street_number'] . ' ' . $plan['street_name']); ?></sapn>
           </h4>
           <h4>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span><?php echo htmlspecialchars($plan['city'] . ', ' . $plan['province2'] . ' ' . $plan['postcode']); ?></sapn>
@@ -496,7 +496,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
             <h4>Date de naissance: <span><?php echo $customer['birthday']; ?></sapn>
             </h4>
             <h4>Adresse: <span><?php if (!empty($plan['suite_number'])) {
-                                  echo  htmlspecialchars($plan['suite_number']) . "- ";
+                                  echo  "Suite " . htmlspecialchars($plan['suite_number']) . " ";
                                 } ?><?php echo htmlspecialchars($plan['street_number'] . ' ' . $plan['street_name'] . ' ' . $plan['city'] . ', ' . $plan['province2'] . ' ' . $plan['postcode']); ?></sapn>
             </h4>
             <h4>Numéro de téléphone: <span><?php echo htmlspecialchars($plan['phone1']); ?></sapn>

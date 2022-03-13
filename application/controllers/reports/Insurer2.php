@@ -105,7 +105,7 @@ class Insurer2 extends MY_Controller
     $w->addRow($arr);
 
     foreach ($data['report_data'] as $record) {
-      $address = (empty($record['suite_number'])?"":$record['suite_number']."-").$record['street_number']." ".$record['street_name'];
+      $address = (empty($record['suite_number'])?"":"Suite " . $record['suite_number']." ").$record['street_number']." ".$record['street_name'];
       $arr = array();
       foreach ($kArr as $k => $v) {
         if ($k == "status_id") {
