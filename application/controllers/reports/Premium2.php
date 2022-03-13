@@ -30,7 +30,8 @@ class Premium2 extends MY_Controller
     $data['product_short'] = $this->input->post('product_short');
     $data['payment_added_from'] = empty($this->input->post('payment_added_from'))?date("Y-m-d"):$this->input->post('payment_added_from');
     $data['payment_added_to'] = empty($this->input->post('payment_added_to'))?date("Y-m-d"):$this->input->post('payment_added_to');
-    $data['product_short'] = array_keys($data['product_short']);
+    $data['product_short'] = empty($data['product_short'])?array():array_keys($data['product_short']);
+
 
     $data['report_data'] = $this->report_model->get_premium_report2($data);
     if ($this->input->post('export')) {
