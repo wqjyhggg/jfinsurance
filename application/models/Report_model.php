@@ -387,7 +387,7 @@ class Report_model extends CI_Model
     $sql .= " FROM plan_history ph";
     $sql .= " JOIN customer c ON ph.customer_id = c.customer_id";
     $sql .= " JOIN product pr ON ph.product_short = pr.product_short";
-    $sql .= " LEFT JOIN payment pa2 ON (ph.payment_id=pa2.premium_payment_id AND pa2.pay_type IN ('commission','cancel_commission','refund_commission'))";
+    $sql .= " LEFT JOIN payment pa2 ON (ph.payment_id!=0 AND ph.payment_id=pa2.premium_payment_id AND pa2.pay_type IN ('commission','cancel_commission','refund_commission'))";
     if (!empty($para['payment_added_from'])) {
       $sql .= "WHERE ph.add_time >= " . $this->db->escape($para['payment_added_from'] . " 00:00:00");
     } else {
