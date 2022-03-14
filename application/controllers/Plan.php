@@ -2653,7 +2653,7 @@ class Plan extends MY_Controller {
         }
         if ($nid = $this->plan_history_model->add($plan_id, Plan_model::PAID)) {
           // Remove payment_id, it should be no payment
-          $this->plan_history_model->update($nid, array("payment_id"=>0, "note"=>"plan condition change only"));
+          $this->plan_history_model->update($nid, array("note"=>"plan condition change only"));
         }
       } else if (($premium - (float)$plan['premium']) > 0.001) {
 				$this->error = "Pay amount has problem plase try again.";

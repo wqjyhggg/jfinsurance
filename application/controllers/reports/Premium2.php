@@ -55,7 +55,8 @@ class Premium2 extends MY_Controller
       'policy' => 'Policy Number',
       'firstname' => 'First Name',
       'lastname' => 'Last Name',
-      'add_time' => 'Sold Date',
+      'sold_date' => 'Sold Date',
+      'add_time' => 'Payment Date',
       'effective_date' => 'Effective Date',
       'expiry_date' => 'Expire Date',
       'totaldays' => 'Number of Days',
@@ -89,8 +90,10 @@ class Premium2 extends MY_Controller
       foreach ($kArr as $k => $v) {
         if ($k == "earned") {
           $arr[] = $earned;
-        } else if ($k == "add_time") {
+        } else if ($k == "sold_date") {
           $arr[] = ($record['ishead']==1)?substr($record[$k],0,10):'';
+        } else if ($k == "add_time") {
+          $arr[] = substr($record[$k],0,10);
         } else if ($k == "days_used") {
           $arr[] = ($record[$k]>0)?$record[$k]:0;
         } else if ($k == "unearned") {
