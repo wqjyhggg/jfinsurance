@@ -126,9 +126,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
                   <tbody>
                     <?php $total = $tearned = 0; ?>
                     <?php foreach ($report_data as $record) : ?>
-                      <?php $earned = ($record['days_used']>0)? number_format(floatval($record['premium'])*floatval($record['days_used'])/floatval($record['totaldays']),2) : 0; ?>
+                      <?php $earned = ($record['days_used']>0)? (floatval($record['premium'])*floatval($record['days_used'])/floatval($record['totaldays'])) : 0; ?>
                       <?php $unearned = number_format(floatval($record['premium']) - $earned, 2); ?>
                       <?php $total += floatval($record['premium']); $tearned += $earned; ?>
+                      <?php $earned = number_format($earned,2); ?>
                       <tr>
                         <td><?= $record['policy'] ?></td>
                         <td><?= $record['firstname'] ?></td>

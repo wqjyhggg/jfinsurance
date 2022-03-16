@@ -67,19 +67,19 @@ class Insurer2 extends MY_Controller
       'lastname' => 'Last Name',
       'gender' => 'Gender',
       'status_id' => 'Status',
-      'age' => 'Age',
+      'totalyears' => 'Age',
       'birthday' => 'Birth Date',
       'address' => 'Address',
       'city' => 'City',
-      'province' => 'Province',
+      'province2' => 'Province',
       'postcode' => 'Postcode',
       'effective_date' => 'Effective Date',
       'expiry_date' => 'Expire Date',
-      'total_days' => 'Number of Days',
+      'totaldays' => 'Number of Days',
       'sum_insured' => 'Sum Insured',
       'deductible_amount' => 'Deductible Amount',
-      'daily_rate' => 'Daily Rate',
-      'policy_premium' => 'Policy Premium',
+      'dailyrate' => 'Daily Rate',
+      'premium' => 'Policy Premium',
       // 'commission_rate_jf' => 'Commission Rate to JF',
       'merchant_fee_per' => 'Merchant Fee(Credit Card Fee)%',
       'claims_handling_fee_per' => 'Claims Handling',
@@ -115,7 +115,7 @@ class Insurer2 extends MY_Controller
         } else if (($k == "merchant_fee") || ($k == "claims_handling_fee") || ($k == "net_premium") || ($k == "total_compensation_per") || ($k == "total_compensation")) {
           $arr[] = number_format($record[$k], 3);
         } else {
-          $arr[] = $record[$k];
+          $arr[] = isset($record[$k])?$record[$k]:'';
         }
       }
       $w->addRow($arr);

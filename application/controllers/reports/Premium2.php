@@ -82,16 +82,18 @@ class Premium2 extends MY_Controller
 
     $total = $tearned = 0;
     foreach ($data['report_data'] as $record) {
-      $earned = ($record['days_used']>0)? number_format(floatval($record['premium'])*floatval($record['days_used'])/floatval($record['totaldays']),2) : 0;
+      $earned = ($record['days_used']>0)? (floatval($record['premium'])*floatval($record['days_used'])/floatval($record['totaldays'])) : 0;
       $unearned = number_format(floatval($record['premium']) - $earned, 2);
       $total += floatval($record['premium']);
       $tearned += $earned;
+      $earned = number_format($earned,2);
       $arr = array();
+      
       foreach ($kArr as $k => $v) {
         if ($k == "earned") {
           $arr[] = $earned;
         } else if ($k == "sold_date") {
-          $arr[] = ($record['ishead']==1)?substr($record[$k],0,10):'';
+          $arr[] = ($record['ishead']==1)?substr($record["add_time"],0,10):'';
         } else if ($k == "add_time") {
           $arr[] = substr($record[$k],0,10);
         } else if ($k == "days_used") {
