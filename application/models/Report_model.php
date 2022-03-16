@@ -401,6 +401,7 @@ class Report_model extends CI_Model
     if (!empty($para['product_short'])) {
       $sql .= " AND ph.product_short IN ('" . implode("','", str_replace("'", "", $para['product_short'])) . "')";
     }
+    $sql .= " ORDER BY ph.plan_id ASC, ph.plan_history_id ASC";
 
     return $this->db->query($sql)->result_array();
   }

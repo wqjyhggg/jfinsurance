@@ -55,7 +55,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                 <!-- Payment Added Date-->
                 <div class="form-group col-sm-3">
                   <!-- Payment Added Date From-->
-                  <label for="payment_added_from" class="col-sm-12">Payment Added Date From</label>
+                  <label for="payment_added_from" class="col-sm-12">Sold Date From</label>
                   <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
                     <input name="payment_added_from" class="form-control" size="16" type="text" value="<?php echo $payment_added_from ?>">
                     <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
@@ -65,7 +65,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                 </div>
                 <div class="form-group col-sm-3">
                   <!-- Payment Added Date to -->
-                  <label for="payment_added_to" class="col-sm-12">Payment Added Date To</label>
+                  <label for="payment_added_to" class="col-sm-12">Sold Date To</label>
                   <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
                     <input name="payment_added_to" class="form-control" size="16" type="text" value="<?php echo $payment_added_to ?>">
                     <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
