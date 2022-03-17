@@ -80,6 +80,8 @@ class Insurer2 extends MY_Controller
       'deductible_amount' => 'Deductible Amount',
       'dailyrate' => 'Daily Rate',
       'premium' => 'Policy Premium',
+      'add_time' => 'Payment Date',
+      'commission_rate' => 'Commission Rate',
       // 'commission_rate_jf' => 'Commission Rate to JF',
       'merchant_fee_per' => 'Merchant Fee(Credit Card Fee)%',
       'claims_handling_fee_per' => 'Claims Handling',
@@ -110,6 +112,10 @@ class Insurer2 extends MY_Controller
       foreach ($kArr as $k => $v) {
         if ($k == "status_id") {
           $arr[] = $status_list[$record['status_id']];
+        } else if ($k == "add_time") {
+          $arr[] = substr($record["add_time"], 0, 10);
+        } else if ($k == "commission_rate") {
+          $arr[] = number_format($record['commission_amount']*100/$record['premium'],2);
         } else if ($k == "address") {
           $arr[] = $address;
         } else if (($k == "merchant_fee") || ($k == "claims_handling_fee") || ($k == "net_premium") || ($k == "total_compensation_per") || ($k == "total_compensation")) {

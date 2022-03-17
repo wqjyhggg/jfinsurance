@@ -136,7 +136,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
                       <th>Deductible Amount</th>
                       <th>Daily Rate</th>
                       <th>Policy Premium</th>
-                      <!--th>Commission Rate to JF</th-->
+                      <th>Payment Date</th>
+                      <th>Commission Rate</th>
+                      <!-- th>Commission Rate to JF</th -->
                       <th>Merchant Fee(Credit Card Fee)%</th>
                       <th>Claims Handling</th>
                       <th>Commission Amount</th>
@@ -170,7 +172,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
                         <td>$<?= $record['deductible_amount'] ?></td>
                         <td>$<?= $record['dailyrate'] ?></td>
                         <td>$<?= $record['premium'] ?></td>
-                        <!--td><?= $record['commission_rate_jf'] ?>%</td-->
+                        <td><?= substr($record['add_time'],0,10) ?></td>
+                        <td><?= number_format($record['commission_amount']*100/$record['premium'],2) ?>%</td>
+                        <!-- td><?= $record['commission_rate_jf'] ?>%</td -->
                         <td><?= $record['merchant_fee_per'] ?>%</td>
                         <td><?= $record['claims_handling_fee_per'] ?>%</td>
                         <td>$<?= $record['commission_amount'] ?></td>

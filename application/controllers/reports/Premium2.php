@@ -50,11 +50,22 @@ class Premium2 extends MY_Controller
   {
     //echo "<pre>";
     //print_r($data['report_data']);die('============');
+    $status_list = array(
+                1 => "Quote",
+                2 => "Sold",
+                3 => "Paid",
+                4 => "Claimed",
+                5 => "Cancel",
+                6 => "Refund",
+                7 => "Changed",
+              );
+
     $w = WriterFactory::create(Type::XLSX); // for XLSX files
     $kArr = array(
       'policy' => 'Policy Number',
       'firstname' => 'First Name',
       'lastname' => 'Last Name',
+      'status_id' => 'Status',
       'sold_date' => 'Sold Date',
       'add_time' => 'Payment Date',
       'effective_date' => 'Effective Date',
@@ -94,6 +105,8 @@ class Premium2 extends MY_Controller
           $arr[] = $earned;
         } else if ($k == "sold_date") {
           $arr[] = ($record['ishead']==1)?substr($record["add_time"],0,10):'';
+        } else if ($k == "status_id") {
+          $arr[] = $status_list[$record["status_id"]];
         } else if ($k == "add_time") {
           $arr[] = substr($record[$k],0,10);
         } else if ($k == "days_used") {

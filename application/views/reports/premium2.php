@@ -104,12 +104,24 @@ defined('BASEPATH') or exit('No direct script access allowed');
           <div class="x_content">
             <div class="table-responsive limit-tableh">
               <?php if (!empty($report_data)) : ?>
+	      <?php
+              $status_list = array(
+                1 => "Quote",
+                2 => "Sold",
+                3 => "Paid",
+                4 => "Claimed",
+                5 => "Cancel",
+                6 => "Refund",
+                7 => "Changed",
+              );
+              ?>
                 <table class="table table-hover table-bordered">
                   <thead>
                     <tr>
                       <th>Policy Number</th>
                       <th>First Name</th>
                       <th>Last Name</th>
+                      <th>Status</th>
                       <th>Sold Date</th>
                       <th>Payment Date</th>
                       <th>Effective Date</th>
@@ -134,6 +146,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                         <td><?= $record['policy'] ?></td>
                         <td><?= $record['firstname'] ?></td>
                         <td><?= $record['lastname'] ?></td>
+                        <td><?= $status_list[$record['status_id']] ?></td>
                         <td><?= ($record['ishead']==1)?substr($record['add_time'],0,10):'' ?></td>
                         <td><?= substr($record['add_time'],0,10) ?></td>
                         <td><?= $record['effective_date'] ?></td>
