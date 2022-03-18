@@ -38,7 +38,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                   <?php } ?> 
 									<?php } ?>
 									<div class="form-group col-sm-3">
-<?php if ($product_short == 'BHS') { ?>
+<?php if (($product_short == 'BHS') || ($product_short == 'JFPL')) { ?>
 										<label class="col-sm-12">Sum Insured (CAD) : $2,000,000</label>
 										<input type='hidden' name='sum_insured' value='2000000' />
 <?php } else { ?>
