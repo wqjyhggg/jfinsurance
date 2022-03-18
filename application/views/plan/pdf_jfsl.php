@@ -18,6 +18,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
   <div class="container" <?php if ($hadheaderfooter) { ?> style="padding: 0 40px;" <?php } ?>>
     <div class="row" <?php if ($hadheaderfooter) { ?> style="padding-top: 60px;" <?php } ?>>
       <div class="col-sm-6 text-left">
+        <h2><?php if ($plan['status_id'] < 2) { ?>Quote<?php } else { ?>Confirmation<?php } ?> of Insurance</h2>
+      </div>
+      <div class="col-sm-6 text-left">
         <?php if ($user['user_group_id'] > 100) { ?>
           <p class="topp" style="font-weight:bold;">
             <?php echo empty($user['business']) ? 'JF Agent' : htmlspecialchars($user['business']); ?> -
@@ -37,13 +40,11 @@ defined('BASEPATH') or exit('No direct script access allowed');
           <p class="topp"><?php echo ($user) ? htmlspecialchars($user['address'] . ', ' . $user['city'] . ' ' . $user['province2'] . ' ' . $user['postcode']) : ''; ?></p>
           <p class="topp"><?php echo ($user) ? htmlspecialchars($user['business_phone']) : ''; ?></p>
         <?php } ?>
+        <h4><br /></h4>
       </div>
-      <div class="col-sm-1 text-left">
-        &nbsp;
-      </div>
-      <div class="col-sm-5 text-left">
-        <h2><?php if ($plan['status_id'] < 2) { ?>Quote<?php } else { ?>Confirmation<?php } ?> of Insurance</h2>
-      </div>
+    </div>
+    <div style="display:block;">
+      <hr style="margin:3px auto;" />
     </div>
     <div class="row" style="margin-top: -15px;">
       <div class="col-sm-12 nopadding">
