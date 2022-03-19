@@ -343,7 +343,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<div class="row">
 									<label class="col-sm-12">
 <?php
- if (($product_short == 'JFS') || ($product_short == 'JFE') || ($product_short == 'BHS') || ($product_short == 'JES') || ($product_short == 'JFPL') || ($product_short == 'JFSL')) {
+ if (($product_short == 'JFS') || ($product_short == 'JFE') || ($product_short == 'BHS') || ($product_short == 'JES') || ($product_short == 'JFPL') || ($product_short == 'JFSL') || ($product_short == 'JFGD')) {
     echo "Insured student";
 } else {
     echo "Customer Information";

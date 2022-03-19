@@ -788,6 +788,12 @@ class Cron extends MY_Controller {
           } else if ($data['plan']['product_short'] == 'JFPL') {
             $data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
             $data['special_note'] = $this->load->view('plan/pdf_note_jes',$data, TRUE);
+          } else if ($data['plan']['product_short'] == 'JFSL') {
+            $data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
+            $data['special_note'] = $this->load->view('plan/pdf_note_jes',$data, TRUE);
+          } else if ($data['plan']['product_short'] == 'JFGD') {
+            $data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
+            $data['special_note'] = $this->load->view('plan/pdf_note_jes',$data, TRUE);
           } else if ($data['plan']['product_short'] == 'JESP') {
             $data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
             $data['special_note'] = $this->load->view('plan/pdf_note_jes',$data, TRUE);
@@ -823,6 +829,13 @@ class Cron extends MY_Controller {
             }
             $data['hadheaderfooter'] = 1;
             $html = $this->load->view('plan/pdf_jfvtc', $data, TRUE);
+          } else if (($data['plan']['product_short'] == 'JFSL') || ($data['plan']['product_short'] == 'JFGD')) {
+            $mpdf = new mPDF('c', 'A4', 0, '', $mgl = 0, $mgr = 0, $mgt = 15, $mgb = 0, $mgh = 0, $mgf = 0, $orientation = 'P');
+            if ($data['withlogo']) {
+              $mpdf->SetHTMLHeader('<img style="width:100%;" src="'.base_url().'image/pdf_header.png" />');
+            }
+            $data['hadheaderfooter'] = 1;
+            $html = $this->load->view('plan/pdf_jfsl', $data, TRUE);
           } else if ($data['plan']['product_short'] == 'JFPL') {
             $mpdf = new mPDF('c', 'A4', 0, '', $mgl = 0, $mgr = 0, $mgt = 15, $mgb = 0, $mgh = 0, $mgf = 0, $orientation = 'P');
             if ($data['withlogo']) {

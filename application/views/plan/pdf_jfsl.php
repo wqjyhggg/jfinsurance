@@ -60,10 +60,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
             <?php if (!empty($plan['suite_number'])) {
               echo  "Suite " . htmlspecialchars($plan['suite_number']) . " ";
             } ?>
-            <?php echo htmlspecialchars($plan['street_number'] . ' ' . $plan['street_name']); ?></sapn>
-        </h4>
-        <h4>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <span><?php echo htmlspecialchars($plan['city'] . ', ' . $plan['province2'] . ' ' . $plan['postcode']); ?></sapn>
+            <?php echo htmlspecialchars($plan['street_number'] . ' ' . $plan['street_name']); ?>, <?php echo htmlspecialchars($plan['city'] . ', ' . $plan['province2'] . ', ' . $plan['postcode']); ?></sapn>
         </h4>
         <h4>Phone Number: <span><?php echo htmlspecialchars($plan['phone1']); ?></sapn>
         </h4>
@@ -180,6 +177,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
   <div class="container" <?php if ($hadheaderfooter) { ?> style="padding: 0 40px;" <?php } ?>>
     <div class="row" <?php if ($hadheaderfooter) { ?> style="padding-top: 60px;" <?php } ?>>
       <div class="col-sm-6 text-left">
+        <h2><?php if ($plan['status_id'] < 2) { ?>Quote<?php } else { ?>Confirmation<?php } ?> of Insurance</h2>
+      </div>
+      <div class="col-sm-6 text-left">
         <?php if ($user['user_group_id'] > 100) { ?>
           <p class="topp" style="font-weight:bold;">
             <?php echo empty($user['business']) ? 'JF Agent' : htmlspecialchars($user['business']); ?> -
@@ -199,13 +199,11 @@ defined('BASEPATH') or exit('No direct script access allowed');
           <p class="topp"><?php echo ($user) ? htmlspecialchars($user['address'] . ', ' . $user['city'] . ' ' . $user['province2'] . ' ' . $user['postcode']) : ''; ?></p>
           <p class="topp"><?php echo ($user) ? htmlspecialchars($user['business_phone']) : ''; ?></p>
         <?php } ?>
+        <h4><br /></h4>
       </div>
-      <div class="col-sm-1 text-left">
-        &nbsp;
-      </div>
-      <div class="col-sm-5 text-left">
-        <h2><?php if ($plan['status_id'] < 2) { ?>Quote<?php } else { ?>Confirmation<?php } ?> of Insurance</h2>
-      </div>
+    </div>
+    <div style="display:block;">
+      <hr style="margin:3px auto;" />
     </div>
     <div class="row" style="margin-top: -15px;">
       <div class="col-sm-12 nopadding">
@@ -214,17 +212,14 @@ defined('BASEPATH') or exit('No direct script access allowed');
     </div>
     <div class="row" style="margin-top: -15px;">
       <div class="col-sm-6 nopadding">
-        <h4>Policy Holder: <span><?php echo htmlspecialchars($$customers[$i]['firstname'] . " " . $$customers[$i]['lastname']); ?></span></h4>
-        <h4>Date of Birth: <span><?php echo $$customers[$i]['birthday']; ?></sapn>
+        <h4>Policy Holder: <span><?php echo htmlspecialchars($customers[$i]['firstname'] . " " . $customers[$i]['lastname']); ?></span></h4>
+        <h4>Date of Birth: <span><?php echo $customers[$i]['birthday']; ?></sapn>
         </h4>
         <h4>Address: <span>
             <?php if (!empty($plan['suite_number'])) {
               echo  "Suite " . htmlspecialchars($plan['suite_number']) . " ";
             } ?>
-            <?php echo htmlspecialchars($plan['street_number'] . ' ' . $plan['street_name']); ?></sapn>
-        </h4>
-        <h4>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <span><?php echo htmlspecialchars($plan['city'] . ', ' . $plan['province2'] . ' ' . $plan['postcode']); ?></sapn>
+            <?php echo htmlspecialchars($plan['street_number'] . ' ' . $plan['street_name']); ?>, <?php echo htmlspecialchars($plan['city'] . ', ' . $plan['province2'] . ', ' . $plan['postcode']); ?></sapn>
         </h4>
         <h4>Phone Number: <span><?php echo htmlspecialchars($plan['phone1']); ?></sapn>
         </h4>

@@ -59,10 +59,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
             <?php if (!empty($plan['suite_number'])) {
               echo  "Suite " . htmlspecialchars($plan['suite_number']) . " ";
             } ?>
-            <?php echo htmlspecialchars($plan['street_number'] . ' ' . $plan['street_name']); ?></sapn>
-        </h4>
-        <h4>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <span><?php echo htmlspecialchars($plan['city'] . ', ' . $plan['province2'] . ' ' . $plan['postcode']); ?></sapn>
+            <?php echo htmlspecialchars($plan['street_number'] . ' ' . $plan['street_name']); ?>, <?php echo htmlspecialchars($plan['city'] . ', ' . $plan['province2'] . ', ' . $plan['postcode']); ?></sapn>
         </h4>
         <h4>Phone Number: <span><?php echo htmlspecialchars($plan['phone1']); ?></sapn>
         </h4>
@@ -218,14 +215,14 @@ defined('BASEPATH') or exit('No direct script access allowed');
     </div>
     <div class="row" style="margin-top: -15px;">
       <div class="col-sm-6 nopadding">
-        <h4>Policy Holder: <span><?php echo htmlspecialchars($customers[$i]['firstname'] . " " . $$customers[$i]['lastname']); ?></span></h4>
+        <h4>Policy Holder: <span><?php echo htmlspecialchars($customers[$i]['firstname'] . " " . $customers[$i]['lastname']); ?></span></h4>
         <h4>Date of Birth: <span><?php echo $customers[$i]['birthday']; ?></sapn>
         </h4>
         <h4>Address: <span>
             <?php if (!empty($plan['suite_number'])) {
-              echo  "Suite " . htmlspecialchars($plan['suite_number']) . " - ";
+              echo  "Suite " . htmlspecialchars($plan['suite_number']) . " ";
             } ?>
-            <?php echo htmlspecialchars($plan['street_number'] . ' ' . $plan['street_name']) . htmlspecialchars($plan['city'] . ', ' . $plan['province2'] . ' ' . $plan['postcode']); ?></sapn>
+            <?php echo htmlspecialchars($plan['street_number'] . ' ' . $plan['street_name']); ?>, <?php echo htmlspecialchars($plan['city'] . ', ' . $plan['province2'] . ', ' . $plan['postcode']); ?></sapn>
         </h4>
         <h4>Phone Number: <span><?php echo htmlspecialchars($plan['phone1']); ?></sapn>
         </h4>
