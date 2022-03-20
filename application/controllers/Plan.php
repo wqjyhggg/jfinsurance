@@ -462,11 +462,19 @@ class Plan extends MY_Controller {
 		if (empty($this->input->post('beneficiary'))) {
 			$this->error['error_beneficiary'] = 'Beneficiary is Required';
 		}
-		if (empty($this->input->post('firstname')) || preg_match('/[^\x20-\x7f]/', $this->input->post('firstname'))) {
-			$this->error['error_firstname'] = 'Firstname is Required (No special character is allowed)';
+		$firstname = preg_replace('/[\x00-\x1F\x7F-\x9F]/u', '', $this->input->post('firstname'));
+		if (empty($firstname)) {
+			$this->error['error_firstname'] = 'Firstname is Required';
 		}
-		if (empty($this->input->post('lastname')) || preg_match('/[^\x20-\x7f]/', $this->input->post('lastname'))) {
-			$this->error['error_lastname'] = 'Lastname is Required (No special character is allowed)';
+		if ($firstname != $this->input->post('firstname')) {
+			$this->error['error_firstname'] = 'No special character is allowed';
+		}
+		$lastname = preg_replace('/[\x00-\x1F\x7F-\x9F]/u', '', $this->input->post('lastname'));
+		if (empty($lastname)) {
+			$this->error['error_lastname'] = 'Lastname is Required';
+		}
+		if ($lastname != $this->input->post('lastname')) {
+			$this->error['error_lastname'] = 'No special character is allowed';
 		}
 		if (empty($this->input->post('birthday'))) {
 			$this->error['error_birthday'] = 'Birthday is Required';
