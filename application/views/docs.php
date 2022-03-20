@@ -38,7 +38,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
     </header>
     <div class="row">
       <div class="col">
-        <?php if (empty($download_list)) { ?>
+        <?php if (empty($filelist)) { ?>
           <div class="login-form">
             <h3 class="login-title">Please input your Policy Number</h3>
             <?php if (!empty($error_message)) { ?>
@@ -63,12 +63,14 @@ defined('BASEPATH') or exit('No direct script access allowed');
             </form>
           </div>
         <?php } else { ?>
-          <h3 class="login-title">Click file name to download file.</h3>
-          <ul class="list-group">
+	  <div style="margin: auto; width: 60%; min-height: 540px;">
+            <h3>Click file name to download file.</h3>
+            <ul class="list-group">
             <?php foreach ($filelist as $file) { ?>
               <li class="list-group-item"><a href="<?php echo base_url('pdf/download/'.$file); ?>" target="_blank"><?php echo $file; ?></a</li>
             <?php } ?>
-          </ul>
+            </ul>
+          </div>
         <?php } ?>
       </div>
     </div>
