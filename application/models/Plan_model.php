@@ -33,6 +33,10 @@ class Plan_model extends CI_Model {
 		return $this->db->query($sql)->row_array();
 	}
 	
+  public function get_plan_by_policy($policy) {
+    return $this->db->where("policy", $policy)->get("plan")->row_array();
+  }
+
 	/**
 	 * Get Plan current policy number
 	 * 

@@ -2,7 +2,7 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-sm-12 text-center">
-				<p>.Copyright &copy; 2009-<?php echo date("Y"); ?> JF Insurance Agency Group Inc. All rights reserved.</p>
+				<p>Copyright &copy; 2009-<?php echo date("Y"); ?> JF Insurance Agency Group Inc. All rights reserved.</p>
 			</div>
 		</div>
 	</div>
