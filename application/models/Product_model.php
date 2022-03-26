@@ -1800,7 +1800,7 @@ class Product_model extends CI_Model {
 				return $premiumArr;
 			}
 			$premium = $rate * $days;
-      if ($days > 365) {
+      if ($days >= 365) {
         $premium = 645;
       }
       $number_customer = intval($para['number_customer']);

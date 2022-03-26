@@ -3166,21 +3166,13 @@ class Plan extends MY_Controller {
 				$data['title_txt'] = 'Policy';
 				$data['style'] = $this->load->view('common/pdf_style',$data, TRUE);
         $data['hadheaderfooter'] = 0;
-        if (($data['plan']['product_short'] == 'JFVTC') || ($data['plan']['product_short'] == 'JFSL')) {
+        if (($data['plan']['product_short'] == 'JFVTC') || ($data['plan']['product_short'] == 'JFGD') || ($data['plan']['product_short'] == 'JFSL')) {
           $mpdf = new mPDF('c', 'A4', 0, '', $mgl = 0, $mgr = 0, $mgt = 15, $mgb = 0, $mgh = 0, $mgf = 0, $orientation = 'P');
           if ($data['withlogo']) {
             $mpdf->SetHTMLHeader('<img style="width:100%;" src="'.base_url().'image/pdf_header.png" />');
           }
           $data['hadheaderfooter'] = 1;
           $html = $this->load->view('plan/pdf_jfvtc', $data, TRUE);
-        } else if ($data['plan']['product_short'] == 'JFGD') {
-          $mpdf = new mPDF('c', 'A4', 0, '', $mgl = 0, $mgr = 0, $mgt = 15, $mgb = 0, $mgh = 0, $mgf = 0, $orientation = 'P');
-          if ($data['withlogo']) {
-            $mpdf->SetHTMLHeader('<img style="width:100%;" src="'.base_url().'image/pdf_header.png" />');
-          }
-          // $mpdf->SetHTMLFooter('<img style="width:100%;" src="'.base_url().'image/pdf_footer.png" />');
-          $data['hadheaderfooter'] = 1;
-          $html = $this->load->view('plan/pdf_jfgd', $data, TRUE);
         } else if ($data['plan']['product_short'] == 'JFPL') {
           $mpdf = new mPDF('c', 'A4', 0, '', $mgl = 0, $mgr = 0, $mgt = 15, $mgb = 0, $mgh = 0, $mgf = 0, $orientation = 'P');
           if ($data['withlogo']) {
@@ -3318,7 +3310,7 @@ class Plan extends MY_Controller {
 		$data['customer_product_name'] = $this->product_model->get_product_customize_name($beuser['user_id'], $data['plan']['product_short']);
 		$data['style'] = $this->load->view('common/pdf_style',$data, TRUE);		
 		$data['hadheaderfooter'] = 0;
-    if (($data['plan']['product_short'] == 'JFVTC') || ($data['plan']['product_short'] == 'JFSL')) {
+    if (($data['plan']['product_short'] == 'JFVTC') || ($data['plan']['product_short'] == 'JFGD') || ($data['plan']['product_short'] == 'JFSL')) {
       $mpdf = new mPDF('c', 'A4', 0, '', $mgl = 0, $mgr = 0, $mgt = 15, $mgb = 0, $mgh = 0, $mgf = 0, $orientation = 'P');
       if ($plan['status_id'] < 2) {
         $mpdf->SetWatermarkText ("QUOTE", 0.1);
@@ -3326,18 +3318,6 @@ class Plan extends MY_Controller {
       }
       $data['hadheaderfooter'] = 1;
       $html = $this->load->view('plan/pdf_jfvtc', $data, TRUE);
-      if ($data['withlogo']) {
-        $mpdf->SetHTMLHeader('<img style="width:100%;" src="'.base_url().'image/pdf_header.png" />');
-      }
-      // $mpdf->SetHTMLFooter('<img style="width:100%;" src="'.base_url().'image/pdf_footer.png" />');
-    } else if ($data['plan']['product_short'] == 'JFGD') {
-      $mpdf = new mPDF('c', 'A4', 0, '', $mgl = 0, $mgr = 0, $mgt = 15, $mgb = 0, $mgh = 0, $mgf = 0, $orientation = 'P');
-      if ($plan['status_id'] < 2) {
-        $mpdf->SetWatermarkText ("QUOTE", 0.1);
-        $mpdf->showWatermarkText = true;
-      }
-      $data['hadheaderfooter'] = 1;
-      $html = $this->load->view('plan/pdf_jfgd', $data, TRUE);
       if ($data['withlogo']) {
         $mpdf->SetHTMLHeader('<img style="width:100%;" src="'.base_url().'image/pdf_header.png" />');
       }
