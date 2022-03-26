@@ -57,7 +57,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
         </h4>
         <h4>Address: <span>
             <?php if (!empty($plan['suite_number'])) {
-              echo  "Suite " . htmlspecialchars($plan['suite_number']) . " ";
+              echo  "Suite " . htmlspecialchars($plan['suite_number']) . " - ";
             } ?>
             <?php echo htmlspecialchars($plan['street_number'] . ' ' . $plan['street_name']); ?>, <?php echo htmlspecialchars($plan['city'] . ', ' . $plan['province2'] . ', ' . $plan['postcode']); ?></sapn>
         </h4>
@@ -220,7 +220,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
         </h4>
         <h4>Address: <span>
             <?php if (!empty($plan['suite_number'])) {
-              echo  "Suite " . htmlspecialchars($plan['suite_number']) . " ";
+              echo  "Suite " . htmlspecialchars($plan['suite_number']) . " - ";
             } ?>
             <?php echo htmlspecialchars($plan['street_number'] . ' ' . $plan['street_name']); ?>, <?php echo htmlspecialchars($plan['city'] . ', ' . $plan['province2'] . ', ' . $plan['postcode']); ?></sapn>
         </h4>
