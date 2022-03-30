@@ -2647,7 +2647,14 @@ class Plan extends MY_Controller {
           }
         }
 
-        $this->plan_model->update($plan_id, array("status_id"=>Plan_model::PAID));
+        $update_status_id = Plan_model::PAID;
+        if ($last_pay = $this->payment_model->get_last_payment($plan_id)) {
+          if (($last_pay["pay_mothed"] == 'Cash') && empty($last_pay["ispaid"])) {
+            $update_status_id = Plan_model::SOLD;
+          }
+        }
+
+        $this->plan_model->update($plan_id, array("status_id"=>$update_status_id));
         $para = array(
           'plan_id' => $plan_id, 
           'customer_id' => $plan['customer_id'], 
@@ -2659,7 +2666,7 @@ class Plan extends MY_Controller {
         if ($history_id) {
           $this->plan_history_model->add_remove($history_id);
         }
-        if ($nid = $this->plan_history_model->add($plan_id, Plan_model::PAID)) {
+        if ($nid = $this->plan_history_model->add($plan_id, $update_status_id)) {
           // Remove payment_id, it should be no payment
           $this->plan_history_model->update($nid, array("note"=>"plan condition change only"));
         }
