@@ -30,10 +30,12 @@ class Docs extends MY_Controller
                   }
                 } else if ($file == "JES_Policy.pdf") {
                   if ($plan["apply_date"] <= "2021-08-15") {
-                    $file = "JFRV1_Policy.pdf";
+                    $file = "JESV1_Policy.pdf";
                   }
                 }
-                $this->data['filelist'][] = $file;  // base_url("pdf/download/". $file);
+		if (preg_match("/Claim_Form.pdf/i", $file) || preg_match("/Policy.pdf/i", $file)) {
+                  $this->data['filelist'][] = $file;  // base_url("pdf/download/". $file);
+                }
               }
             }
             asort($this->data['filelist']);
