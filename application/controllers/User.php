@@ -316,6 +316,8 @@ class User extends MY_Controller {
         'Business Name',
         'City',
         'Region',
+        'Note',
+        'Note2',
       ));
 			
 			foreach($user_list as $agent) {
@@ -347,7 +349,9 @@ class User extends MY_Controller {
             $company,
 						$agent['business'],
 						$agent['city'],
-						$region
+						$region,
+						$agent['note'],
+						$agent['note2'],
 						));
 			}
 			$w->close();
