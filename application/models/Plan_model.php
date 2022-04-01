@@ -33,6 +33,10 @@ class Plan_model extends CI_Model {
 		return $this->db->query($sql)->row_array();
 	}
 	
+  public function get_plan_by_policy($policy) {
+    return $this->db->where("policy", $policy)->get("plan")->row_array();
+  }
+
 	/**
 	 * Get Plan current policy number
 	 * 
@@ -1321,7 +1325,7 @@ class Plan_model extends CI_Model {
 	 * @return array 
 	 */
 	public function claim_summary($data) {
-		$products = " AND product_short IN ('JFS','JFE','BHS','JES',JFPL','JESP','JUS','JFC','JFP','NUS','JFVTC','JFR','OPL','TOP')";
+		$products = " AND product_short IN ('JFS','JFE','BHS','JES',JFPL','JFSL','JFGD','JESP','JUS','JFC','JFP','NUS','JFVTC','JFR','OPL','TOP')";
 		$st = new DateTime($data['start_dt']);
 		$et = new DateTime($data['end_dt']);
 		$interval = new DateInterval('P1M');

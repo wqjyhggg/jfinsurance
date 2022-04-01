@@ -18,6 +18,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
   <div class="container" <?php if ($hadheaderfooter) { ?> style="padding: 0 40px;" <?php } ?>>
     <div class="row" <?php if ($hadheaderfooter) { ?> style="padding-top: 60px;" <?php } ?>>
       <div class="col-sm-6 text-left">
+        <h2><?php if ($plan['status_id'] < 2) { ?>Quote<?php } else { ?>Confirmation<?php } ?> of Insurance</h2>
+      </div>
+      <div class="col-sm-6 text-left">
         <?php if ($user['user_group_id'] > 100) { ?>
           <p class="topp" style="font-weight:bold;">
             <?php echo empty($user['business']) ? 'JF Agent' : htmlspecialchars($user['business']); ?> -
@@ -37,13 +40,11 @@ defined('BASEPATH') or exit('No direct script access allowed');
           <p class="topp"><?php echo ($user) ? htmlspecialchars($user['address'] . ', ' . $user['city'] . ' ' . $user['province2'] . ' ' . $user['postcode']) : ''; ?></p>
           <p class="topp"><?php echo ($user) ? htmlspecialchars($user['business_phone']) : ''; ?></p>
         <?php } ?>
+        <h4><br /></h4>
       </div>
-      <div class="col-sm-1 text-left">
-        &nbsp;
-      </div>
-      <div class="col-sm-5 text-left">
-        <h2><?php if ($plan['status_id'] < 2) { ?>Quote<?php } else { ?>Confirmation<?php } ?> of Insurance</h2>
-      </div>
+    </div>
+    <div style="display:block;">
+      <hr style="margin:3px auto;" />
     </div>
     <div class="row" style="margin-top: -15px;">
       <div class="col-sm-12 nopadding">
@@ -57,7 +58,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
         </h4>
         <h4>Address: <span>
             <?php if (!empty($plan['suite_number'])) {
-              echo  "Suite " . htmlspecialchars($plan['suite_number']) . " - ";
+              echo  "Suite " . htmlspecialchars($plan['suite_number']) . " ";
             } ?>
             <?php echo htmlspecialchars($plan['street_number'] . ' ' . $plan['street_name']); ?>, <?php echo htmlspecialchars($plan['city'] . ', ' . $plan['province2'] . ', ' . $plan['postcode']); ?></sapn>
         </h4>
@@ -131,20 +132,15 @@ defined('BASEPATH') or exit('No direct script access allowed');
     </div>
     <div class="row">
       <div class="col-sm-12 nopm">
-        <p class="small" style="margin-top:2px;"><b>Please retain this confirmation as your receipt.</b><br />
-          Please read and understand the enclosed, which fully explains the terms, conditions, limitations, and exclusions that are part of your policy.<br /><br />
-          If you have a change in your health, including any change in your medication, between the date of application and the effective date of the policy, you must contact us to ensure that you remain eligible for this insurance.
-          Ontime Care Worldwide Inc. must be notified prior to any surgery being performed or within 24 hours of admission to a hospital. Failure to do so, without reasonable cause, will result in the reduction of eligible benefit amounts payable. <br /><br />
-          IN THE EVENT OF AN EMERGENCY, CONTACT ONTIME CARE WORLDWIDE INC IMMEDIATELY: <br />
-          TOLL FREE CANADA/U.S.A.: 1-888-988-3268 IF UNABLE TO CONTACT US TOLL FREE, PLEASE CALL COLLECT: 905-707-9555.
-        </p>
-        <p class="small" style="margin-top:2px;"><b>Waiting Period</b> - When coverage is purchased any time after your arrival in Canada:<br />
-          a. If you are age 86 or older, in respect of any sickness, you will not be entitled to receive reimbursement for sickness or symptoms which manifested or were contracted or treated within 15 days following the effective date of this policy.<br />
-          b. If you are age 85 or under, in respect of any sickness, you will not be entitled to receive reimbursement for sickness or symptoms which manifested or were contracted or treated within 48 hours following the effective date of this policy.<br />
-          c. For all ages, if the policy was purchased 30 days or more after arrival in Canada, then in respect of any sickness, you will not be entitled to receive reimbursement for sickness or symptoms which manifested or were contracted or treated within seven days following the effective date of this policy.<br />
-          The waiting period may be waived by the Administrator Company under certain conditions prior to purchasing this policy. You must receive written confirmation from the Administrator Company that the waiting period has been waived.  Please refer to the Section IV: Insurance Agreement of the policy for details.<br />
-          <br />
-          If you notice any errors in the above information or have any questions, please contact JF Insurance Agency Group Inc.
+        <p class="small" style="margin-top:2px;">
+        All persons insured are subject to the terms and conditions below. <br />
+        This document does not constitute the entire insurance policy, and the insured(s) has been advised to read the full policy details of coverage and exclusions. <br />
+        The eligibility requirements for the plan applied for are material to the risk for which insurance is sought. If the insured(s) does not meet the eligibility requirements for the plan selected, or if there is any misrepresentation, concealment, or failure to disclose any facts or matters pertaining to the insured(s) that is the subject of the application form, then there shall be no insurance coverage provided. <br />
+        The insured(s) is aware that this insurance covers Emergencies (as defined in the policy) and may not cover expenses incurred after the insured(s) is able to travel home for treatment. The insured(s) is aware that Pre-existing Conditions (as defined in the policy) are excluded in some circumstances and that further details are provided in the policy.<br />
+        IN THE EVENT OF A MEDICAL EMERGENCY OR CLAIM THAT MAY REQUIRE OR RESULT IN HOSPITALIZATION, CALL ONTIME CARE WORLDWIDE INC. IMMEDIATELY <br />
+        Toll Free Canada/U.S.A. 1-866-209-5804<br />
+        Collect call worldwide 905-707-9555<br />
+        If you notice any errors in the above information or have any questions, please contact JF Insurance Agency Group Inc.<br />
         </p>
       </div>
     </div><br />
@@ -181,6 +177,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
   <div class="container" <?php if ($hadheaderfooter) { ?> style="padding: 0 40px;" <?php } ?>>
     <div class="row" <?php if ($hadheaderfooter) { ?> style="padding-top: 60px;" <?php } ?>>
       <div class="col-sm-6 text-left">
+        <h2><?php if ($plan['status_id'] < 2) { ?>Quote<?php } else { ?>Confirmation<?php } ?> of Insurance</h2>
+      </div>
+      <div class="col-sm-6 text-left">
         <?php if ($user['user_group_id'] > 100) { ?>
           <p class="topp" style="font-weight:bold;">
             <?php echo empty($user['business']) ? 'JF Agent' : htmlspecialchars($user['business']); ?> -
@@ -200,13 +199,11 @@ defined('BASEPATH') or exit('No direct script access allowed');
           <p class="topp"><?php echo ($user) ? htmlspecialchars($user['address'] . ', ' . $user['city'] . ' ' . $user['province2'] . ' ' . $user['postcode']) : ''; ?></p>
           <p class="topp"><?php echo ($user) ? htmlspecialchars($user['business_phone']) : ''; ?></p>
         <?php } ?>
+        <h4><br /></h4>
       </div>
-      <div class="col-sm-1 text-left">
-        &nbsp;
-      </div>
-      <div class="col-sm-5 text-left">
-        <h2><?php if ($plan['status_id'] < 2) { ?>Quote<?php } else { ?>Confirmation<?php } ?> of Insurance</h2>
-      </div>
+    </div>
+    <div style="display:block;">
+      <hr style="margin:3px auto;" />
     </div>
     <div class="row" style="margin-top: -15px;">
       <div class="col-sm-12 nopadding">
@@ -220,7 +217,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
         </h4>
         <h4>Address: <span>
             <?php if (!empty($plan['suite_number'])) {
-              echo  "Suite " . htmlspecialchars($plan['suite_number']) . " - ";
+              echo  "Suite " . htmlspecialchars($plan['suite_number']) . " ";
             } ?>
             <?php echo htmlspecialchars($plan['street_number'] . ' ' . $plan['street_name']); ?>, <?php echo htmlspecialchars($plan['city'] . ', ' . $plan['province2'] . ', ' . $plan['postcode']); ?></sapn>
         </h4>
@@ -294,20 +291,15 @@ defined('BASEPATH') or exit('No direct script access allowed');
     </div>
     <div class="row">
       <div class="col-sm-12 nopm">
-        <p class="small" style="margin-top:2px;"><b>Please retain this confirmation as your receipt.</b><br />
-          Please read and understand the enclosed, which fully explains the terms, conditions, limitations, and exclusions that are part of your policy.<br /><br />
-          If you have a change in your health, including any change in your medication, between the date of application and the effective date of the policy, you must contact us to ensure that you remain eligible for this insurance.
-          Ontime Care Worldwide Inc. must be notified prior to any surgery being performed or within 24 hours of admission to a hospital. Failure to do so, without reasonable cause, will result in the reduction of eligible benefit amounts payable. <br /><br />
-          IN THE EVENT OF AN EMERGENCY, CONTACT ONTIME CARE WORLDWIDE INC IMMEDIATELY: <br />
-          TOLL FREE CANADA/U.S.A.: 1-888-988-3268 IF UNABLE TO CONTACT US TOLL FREE, PLEASE CALL COLLECT: 905-707-9555.
-        </p>
-        <p class="small" style="margin-top:2px;"><b>Waiting Period</b> - When coverage is purchased any time after your arrival in Canada:<br />
-          a. If you are age 86 or older, in respect of any sickness, you will not be entitled to receive reimbursement for sickness or symptoms which manifested or were contracted or treated within 15 days following the effective date of this policy.<br />
-          b. If you are age 85 or under, in respect of any sickness, you will not be entitled to receive reimbursement for sickness or symptoms which manifested or were contracted or treated within 48 hours following the effective date of this policy.<br />
-          c. For all ages, if the policy was purchased 30 days or more after arrival in Canada, then in respect of any sickness, you will not be entitled to receive reimbursement for sickness or symptoms which manifested or were contracted or treated within seven days following the effective date of this policy.<br />
-          The waiting period may be waived by the Administrator Company under certain conditions prior to purchasing this policy. You must receive written confirmation from the Administrator Company that the waiting period has been waived.  Please refer to the Section IV: Insurance Agreement of the policy for details.<br />
-          <br />
-          If you notice any errors in the above information or have any questions, please contact JF Insurance Agency Group Inc.
+        <p class="small" style="margin-top:2px;">
+        All persons insured are subject to the terms and conditions below. <br />
+        This document does not constitute the entire insurance policy, and the insured(s) has been advised to read the full policy details of coverage and exclusions. <br />
+        The eligibility requirements for the plan applied for are material to the risk for which insurance is sought. If the insured(s) does not meet the eligibility requirements for the plan selected, or if there is any misrepresentation, concealment, or failure to disclose any facts or matters pertaining to the insured(s) that is the subject of the application form, then there shall be no insurance coverage provided. <br />
+        The insured(s) is aware that this insurance covers Emergencies (as defined in the policy) and may not cover expenses incurred after the insured(s) is able to travel home for treatment. The insured(s) is aware that Pre-existing Conditions (as defined in the policy) are excluded in some circumstances and that further details are provided in the policy.<br />
+        IN THE EVENT OF A MEDICAL EMERGENCY OR CLAIM THAT MAY REQUIRE OR RESULT IN HOSPITALIZATION, CALL ONTIME CARE WORLDWIDE INC. IMMEDIATELY <br />
+        Toll Free Canada/U.S.A. 1-866-209-5804<br />
+        Collect call worldwide 905-707-9555<br />
+        If you notice any errors in the above information or have any questions, please contact JF Insurance Agency Group Inc.<br />
         </p>
       </div>
     </div><br />
