@@ -13,7 +13,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 											<input type='hidden' name='beneficiary' value='<?php echo $html_model->escapeQuote($beneficiary); ?>' class="form-control">
 										</div>
 									</div>
-<?php if (($product_short != 'JESP') && ($product_short != 'JFS')) { ?>
+<?php if (($product_short != 'JESP') && ($product_short != 'JFS') && ($product_short != 'JFSL')) { ?>
 									<div class="form-group col-sm-3">
 										<label class="col-sm-12">Is Family Plan : </label>
 										<div class="input-group col-sm-12">

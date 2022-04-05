@@ -1789,7 +1789,7 @@ class Product_model extends CI_Model {
 		} else if ($para['product_short'] == 'JFGD') {
       $beuser = $this->session->beuser;
       $rate = 1.8;
-			if (isset($para['holiday_rate']) && ($para['holiday_rate'] < 0)) {
+			if (isset($para['holiday_rate']) && ($para['holiday_rate'] == 1)) {
         $rate = 1.85;
 			}
 			if ($years <= 3) {
