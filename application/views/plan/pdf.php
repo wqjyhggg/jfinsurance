@@ -55,7 +55,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
         </div>
       <?php } ?>
     </div>
-    <?php if ($plan['product_short'] == 'JFPL') { ?>
+    <?php if (($plan['product_short'] == 'JFPL') || ($plan['product_short'] == 'JFGD') || ($plan['product_short'] == 'JFSL')) { ?>
       <div class="row">
         <div class="col-sm-12 text-left">
           <?php if ($user['user_group_id'] > 100) { ?>
@@ -336,7 +336,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
         <?php } // end if TOP 
         ?>
 
-        <?php if ($plan['product_short'] == 'JFPL') { ?>
+        <?php if (($plan['product_short'] == 'JFPL') || ($plan['product_short'] == 'JFGD') || ($plan['product_short'] == 'JFSL')) { ?>
           <h4>Stable Pre-existing Condition Coverage: <span>Yes</sapn>
           </h4>
         <?php } ?>
@@ -444,7 +444,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
         <?php } ?>
       </div>
     </div>
-    <?php if ($plan['product_short'] == "JFPL") { ?>
+    <?php if (($plan['product_short'] == 'JFPL') || ($plan['product_short'] == 'JFGD') || ($plan['product_short'] == 'JFSL')) { ?>
       <div class="row">
         <div class="col-sm-12 nopm special-note">
           <p class="small">Underwritten by Old Republic Insurance Company of Canada and administered by JF Insurance Agency Group Inc.</p>
