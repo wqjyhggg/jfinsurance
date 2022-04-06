@@ -80,6 +80,7 @@ class Insurer extends MY_Controller
                 'postcode' => 'Postcode',
                 'effective_date' => 'Effective Date',
                 'expiry_date' => 'Expire Date',
+                'refund_date' => 'Refund Date',
                 'total_days' => 'Number of Days',
                 'sum_insured' => 'Sum Insured',
                 'deductible_amount' => 'Deductible Amount',
@@ -108,7 +109,17 @@ class Insurer extends MY_Controller
 
         foreach ($data['report_data'] as $data) {
             $arr = array();
-            foreach ($kArr as $k => $v) { $arr[] = $data[$k]; } 
+	    foreach ($kArr as $k => $v) { 
+              if ($k == "refund_date") {
+                if ($v["status_id"] == 6) {
+                  $arr[] = $data[$k]; 
+		} else {
+                  $arr[] = '';
+		}
+              } else {
+                $arr[] = $data[$k]; 
+              } 
+            } 
             $w->addRow($arr);
         }
         $w->close();

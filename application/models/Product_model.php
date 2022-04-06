@@ -1801,7 +1801,9 @@ class Product_model extends CI_Model {
 			}
 			$premium = $rate * $days;
       if ($days >= 365) {
+        if (empty($para['holiday_rate']) || ($para['holiday_rate'] != 1)) {
         $premium = 645;
+        }
       }
       $number_customer = intval($para['number_customer']);
 			$premiumArr['premium'] = $premium * $number_customer;
