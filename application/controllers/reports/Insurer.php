@@ -111,7 +111,7 @@ class Insurer extends MY_Controller
             $arr = array();
 	    foreach ($kArr as $k => $v) { 
               if ($k == "refund_date") {
-                if ($v["status_id"] == 6) {
+                if ($data["status_id"] == 6) {
                   $arr[] = $data[$k]; 
 		} else {
                   $arr[] = '';
