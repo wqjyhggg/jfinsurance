@@ -74,14 +74,24 @@ defined('BASEPATH') or exit('No direct script access allowed');
                   <!-- Payment Update Date to End -->
                 </div>
                 <!-- Payment Added Date End -->
+                <div class="form-group col-sm-3">
+                  <!-- Earned To date -->
+                  <label for="earned_to" class="col-sm-12">Earned To Date</label>
+                  <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
+                    <input name="earned_to" class="form-control" size="16" type="text" value="<?php echo $earned_to ?>">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                  </div>
+                  <input type="hidden" id="payment_added_to" value="" /><br />
+                  <!-- Earned To date -->
+                </div>
                 <!-- export button -->
-                <div class="form-group col-sm-3 text-center">
+                <div class="form-group col-sm-1 text-center">
                   <label class="col-sm-12">&nbsp;</label>
                   <input type="submit" name="export" value="Export" class="btn btn-primary" />
                 </div>
                 <!-- export button -->
                 <!-- submit button -->
-                <div class="form-group col-sm-3">
+                <div class="form-group col-sm-1">
                   <label class="col-sm-12">&nbsp;</label>
                   <input type="submit" name="submit" value="Display" class="btn btn-primary" />
                 </div>
@@ -121,6 +131,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                       <th>Policy Number</th>
                       <th>First Name</th>
                       <th>Last Name</th>
+                      <th>Province</th>
                       <th>Status</th>
                       <th>Sold Date</th>
                       <th>Payment Date</th>
@@ -136,18 +147,24 @@ defined('BASEPATH') or exit('No direct script access allowed');
                     </tr>
                   </thead>
                   <tbody>
-                    <?php $total = $tearned = 0; ?>
+                    <?php $total = $tearned = 0; $solddate = ''; ?>
                     <?php foreach ($report_data as $record) : ?>
-                      <?php $earned = ($record['days_used']>0)? (floatval($record['premium'])*floatval($record['days_used'])/floatval($record['totaldays'])) : 0; ?>
-                      <?php $unearned = number_format(floatval($record['premium']) - $earned, 2); ?>
-                      <?php $total += floatval($record['premium']); $tearned += $earned; ?>
+                      <?php if ($record['status_id'] == 6) {$dte = strtotime($record['expiry_date']); $dts = strtotime($record['effective_date']); $record['totaldays'] = round(($dte-$dts)/(60 * 60 * 24)) + 1; }; ?>
+                      <?php $premium = floatval($record['dailyrate'] * $record['totaldays']); ?>
+                      <?php if ($premium > $record['premium']) { $premium = floatval($record['premium']); } ?>
+                      <?php $earned = ($record['days_used']>0)? ($premium*floatval($record['days_used'])/floatval($record['totaldays'])) : 0; ?>
+                      <?php $unearned = number_format($premium - $earned, 2); ?>
+                      <?php $total += $premium; $tearned += $earned; ?>
+                      <?php if ($record['ishead']==1) { $solddate = substr($record['add_time'],0,10); } ?>
+                      <?php $premium = number_format($premium,2); ?>
                       <?php $earned = number_format($earned,2); ?>
                       <tr>
                         <td><?= $record['policy'] ?></td>
                         <td><?= $record['firstname'] ?></td>
                         <td><?= $record['lastname'] ?></td>
+                        <td><?= $record['province2'] ?></td>
                         <td><?= $status_list[$record['status_id']] ?></td>
-                        <td><?= ($record['ishead']==1)?substr($record['add_time'],0,10):'' ?></td>
+                        <td><?= $solddate ?></td>
                         <td><?= substr($record['add_time'],0,10) ?></td>
                         <td><?= $record['effective_date'] ?></td>
                         <td><?= $record['expiry_date'] ?></td>
@@ -155,12 +172,13 @@ defined('BASEPATH') or exit('No direct script access allowed');
                         <td><?= ($record['days_used']>0)?$record['days_used']:0 ?></td>
                         <td>$<?= $record['sum_insured'] ?></td>
                         <td>$<?= $record['deductible_amount'] ?></td>
-                        <td>$<?= $record['premium'] ?></td>
+                        <td>$<?= $premium ?></td>
                         <td>$<?= $earned ?></td>
                         <td>$<?= $unearned ?></td>
                       </tr>
                     <?php endforeach; ?>
                     <tr>
+                      <td>&nbsp;</td>
                       <td>&nbsp;</td>
                       <td>&nbsp;</td>
                       <td>&nbsp;</td>

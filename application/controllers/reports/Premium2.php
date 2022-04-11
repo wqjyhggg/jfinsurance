@@ -30,6 +30,7 @@ class Premium2 extends MY_Controller
     $data['product_short'] = $this->input->post('product_short');
     $data['payment_added_from'] = empty($this->input->post('payment_added_from'))?date("Y-m-d"):$this->input->post('payment_added_from');
     $data['payment_added_to'] = empty($this->input->post('payment_added_to'))?date("Y-m-d"):$this->input->post('payment_added_to');
+    $data['earned_to'] = empty($this->input->post('earned_to'))?date("Y-m-d"):$this->input->post('earned_to');
     $data['product_short'] = empty($data['product_short'])?array():array_keys($data['product_short']);
 
 
@@ -65,6 +66,7 @@ class Premium2 extends MY_Controller
       'policy' => 'Policy Number',
       'firstname' => 'First Name',
       'lastname' => 'Last Name',
+      'province2' => 'Province',
       'status_id' => 'Status',
       'sold_date' => 'Sold Date',
       'add_time' => 'Payment Date',
@@ -91,12 +93,17 @@ class Premium2 extends MY_Controller
     }
     $w->addRow($arr);
 
-    $total = $tearned = 0;
+    $total = $tearned = 0;  $solddate = '';
     foreach ($data['report_data'] as $record) {
-      $earned = ($record['days_used']>0)? (floatval($record['premium'])*floatval($record['days_used'])/floatval($record['totaldays'])) : 0;
-      $unearned = number_format(floatval($record['premium']) - $earned, 2);
-      $total += floatval($record['premium']);
+      if ($record['status_id'] == 6) { $dte = strtotime($record['expiry_date']); $dts = strtotime($record['effective_date']); $record['totaldays'] = round(($dte-$dts)/(60 * 60 * 24)) + 1; };
+      $premium = floatval($record['dailyrate'] * $record['totaldays']);
+      if ($premium > $record['premium']) { $premium = floatval($record['premium']); }
+      $earned = ($record['days_used']>0)? ($premium*floatval($record['days_used'])/floatval($record['totaldays'])) : 0;
+      $unearned = number_format($premium - $earned, 2);
+      $total += $premium;
       $tearned += $earned;
+      if ($record['ishead']==1) { $solddate = substr($record['add_time'],0,10); }
+      $premium = number_format($premium,2);
       $earned = number_format($earned,2);
       $arr = array();
       
@@ -104,13 +111,15 @@ class Premium2 extends MY_Controller
         if ($k == "earned") {
           $arr[] = $earned;
         } else if ($k == "sold_date") {
-          $arr[] = ($record['ishead']==1)?substr($record["add_time"],0,10):'';
+          $arr[] = $solddate;
         } else if ($k == "status_id") {
           $arr[] = $status_list[$record["status_id"]];
         } else if ($k == "add_time") {
           $arr[] = substr($record[$k],0,10);
         } else if ($k == "days_used") {
           $arr[] = ($record[$k]>0)?$record[$k]:0;
+        } else if ($k == "premium") {
+          $arr[] = $premium;
         } else if ($k == "unearned") {
           $arr[] = $unearned;
         } else {
