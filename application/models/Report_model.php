@@ -245,6 +245,8 @@ class Report_model extends CI_Model
     $sql  = "SELECT";
     $sql .= "	pl.policy,";
     $sql .= "	pl.product_short,";
+    $sql .= "	pl.status_id,";
+    $sql .= "	pl.refund_date,";
     $sql .= "	c.firstname,";
     $sql .= "	c.lastname, ";
     $sql .= "	c.gender, ";

@@ -194,6 +194,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <th>Post Code</th>
                             <th>Effective Date</th>
                             <th>Expiry Date</th>
+                            <th>Refund Date</th>
                             <th>Number of Days</th>
                             <th>Sum Insured</th>
                             <th>Deductible Amount</th>
@@ -228,6 +229,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <td><?=$record['postcode'] ?></td>
                             <td><?=$record['effective_date'] ?></td>
                             <td><?=$record['expiry_date'] ?></td>
+                            <td><?=($record['status_id']==6)?$record['refund_date']:'' ?></td>
                             <td><?=$record['total_days'] ?></td>
                             <td>$<?=$record['sum_insured'] ?></td>
                             <td>$<?=$record['deductible_amount'] ?></td>
