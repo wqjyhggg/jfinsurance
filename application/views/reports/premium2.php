@@ -141,6 +141,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
                       <th>Days of Used</th>
                       <th>Sum Insured</th>
                       <th>Deductible Amount</th>
+                      <th>Daily Rate</th>
+                      <th>Discounted Amount</th>
                       <th>Total</th>
                       <th>Earned</th>
                       <th>Unearned</th>
@@ -151,11 +153,14 @@ defined('BASEPATH') or exit('No direct script access allowed');
                     <?php foreach ($report_data as $record) : ?>
                       <?php if ($record['status_id'] == 6) {$dte = strtotime($record['expiry_date']); $dts = strtotime($record['effective_date']); $record['totaldays'] = round(($dte-$dts)/(60 * 60 * 24)) + 1; }; ?>
                       <?php $premium = floatval($record['dailyrate'] * $record['totaldays']); ?>
+                      <?php $dispremium = abs($premium) - abs($record['premium']); ?>
+                      <?php if ($dispremium < 0) $dispremium = 0; ?>
                       <?php if (abs($premium) > abs($record['premium'])) { $premium = floatval($record['premium']); } ?>
                       <?php $earned = ($record['days_used']>0)? ($premium*floatval($record['days_used'])/floatval($record['totaldays'])) : 0; ?>
                       <?php $unearned = number_format($premium - $earned, 2); ?>
                       <?php $total += $premium; $tearned += $earned; ?>
                       <?php if ($record['ishead']==1) { $solddate = substr($record['add_time'],0,10); } ?>
+                      <?php $dispremium = number_format($dispremium,2); ?>
                       <?php $premium = number_format($premium,2); ?>
                       <?php $earned = number_format($earned,2); ?>
                       <tr>
@@ -172,6 +177,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
                         <td><?= ($record['days_used']>0)?$record['days_used']:0 ?></td>
                         <td>$<?= $record['sum_insured'] ?></td>
                         <td>$<?= $record['deductible_amount'] ?></td>
+                        <td>$<?= $record['dailyrate'] ?></td>
+                        <td>$<?= $dispremium ?></td>
                         <td>$<?= $premium ?></td>
                         <td>$<?= $earned ?></td>
                         <td>$<?= $unearned ?></td>
@@ -190,9 +197,12 @@ defined('BASEPATH') or exit('No direct script access allowed');
                       <td>&nbsp;</td>
                       <td>&nbsp;</td>
                       <td>&nbsp;</td>
-                      <td>$<?= $total ?></td>
-                      <td>$<?= $tearned ?></td>
-                      <td>$<?= $total-$tearned ?></td>
+                      <td>&nbsp;</td>
+                      <td>&nbsp;</td>
+                      <td>&nbsp;</td>
+                      <td>$<?= number_format($total,2) ?></td>
+                      <td>$<?= number_format($tearned,2) ?></td>
+                      <td>$<?= number_format($total-$tearned,2) ?></td>
                     </tr>
                   </tbody>
                 </table>

@@ -76,6 +76,8 @@ class Premium2 extends MY_Controller
       'days_used' => 'Days of Used',
       'sum_insured' => 'Sum Insured',
       'deductible_amount' => 'Deductible Amount',
+      'dailyrate' => 'Daily Rate',
+      'dispremium' => 'Discounted Amount',
       'premium' => 'Total',
       'earned' => 'Earned',
       'unearned' => 'Unearned',
@@ -97,12 +99,15 @@ class Premium2 extends MY_Controller
     foreach ($data['report_data'] as $record) {
       if ($record['status_id'] == 6) { $dte = strtotime($record['expiry_date']); $dts = strtotime($record['effective_date']); $record['totaldays'] = round(($dte-$dts)/(60 * 60 * 24)) + 1; };
       $premium = floatval($record['dailyrate'] * $record['totaldays']);
+      $dispremium = abs($premium) - abs($record['premium']);
+      if ($dispremium < 0) $dispremium = 0;
       if (abs($premium) > abs($record['premium'])) { $premium = floatval($record['premium']); }
       $earned = ($record['days_used']>0)? ($premium*floatval($record['days_used'])/floatval($record['totaldays'])) : 0;
       $unearned = number_format($premium - $earned, 2);
       $total += $premium;
       $tearned += $earned;
       if ($record['ishead']==1) { $solddate = substr($record['add_time'],0,10); }
+      $dispremium = number_format($dispremium,2);
       $premium = number_format($premium,2);
       $earned = number_format($earned,2);
       $arr = array();
@@ -118,6 +123,8 @@ class Premium2 extends MY_Controller
           $arr[] = substr($record[$k],0,10);
         } else if ($k == "days_used") {
           $arr[] = ($record[$k]>0)?$record[$k]:0;
+        } else if ($k == "dispremium") {
+          $arr[] = $dispremium;
         } else if ($k == "premium") {
           $arr[] = $premium;
         } else if ($k == "unearned") {
@@ -131,11 +138,11 @@ class Premium2 extends MY_Controller
     $arr = array();
     foreach ($kArr as $k => $v) {
       if ($k == "earned") {
-        $arr[] = $tearned;
+        $arr[] = number_format($tearned,2);
       } else if ($k == "unearned") {
-        $arr[] = $total - $tearned;
+        $arr[] = number_format($total - $tearned,2);
       } else if ($k == "premium") {
-        $arr[] = $total;
+        $arr[] = number_format($total,2);
       } else if ($k == "deductible_amount") {
         $arr[] = 'Total:';
       } else {
