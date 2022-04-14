@@ -1589,8 +1589,8 @@ class Plan extends MY_Controller {
 		$beuser = $this->func_model->verify_login();
 		$this->load->model('product_model');
 		$data = array('status' => 'Fail', 'message' => '');
-		// Remove Top from Sep 1
-		if (0 && $this->input->post()) {
+		// Remove Top from Sep 1, Add back 2022-04-14
+		if ($this->input->post()) {
 			$data = $this->product_model->get_top_premium($this->input->post());
 			/*
 			if ($this->form_valid()) {
