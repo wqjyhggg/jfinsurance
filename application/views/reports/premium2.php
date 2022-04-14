@@ -151,7 +151,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                     <?php foreach ($report_data as $record) : ?>
                       <?php if ($record['status_id'] == 6) {$dte = strtotime($record['expiry_date']); $dts = strtotime($record['effective_date']); $record['totaldays'] = round(($dte-$dts)/(60 * 60 * 24)) + 1; }; ?>
                       <?php $premium = floatval($record['dailyrate'] * $record['totaldays']); ?>
-                      <?php if ($premium > $record['premium']) { $premium = floatval($record['premium']); } ?>
+                      <?php if (abs($premium) > abs($record['premium'])) { $premium = floatval($record['premium']); } ?>
                       <?php $earned = ($record['days_used']>0)? ($premium*floatval($record['days_used'])/floatval($record['totaldays'])) : 0; ?>
                       <?php $unearned = number_format($premium - $earned, 2); ?>
                       <?php $total += $premium; $tearned += $earned; ?>

@@ -97,7 +97,7 @@ class Premium2 extends MY_Controller
     foreach ($data['report_data'] as $record) {
       if ($record['status_id'] == 6) { $dte = strtotime($record['expiry_date']); $dts = strtotime($record['effective_date']); $record['totaldays'] = round(($dte-$dts)/(60 * 60 * 24)) + 1; };
       $premium = floatval($record['dailyrate'] * $record['totaldays']);
-      if ($premium > $record['premium']) { $premium = floatval($record['premium']); }
+      if (abs($premium) > abs($record['premium'])) { $premium = floatval($record['premium']); }
       $earned = ($record['days_used']>0)? ($premium*floatval($record['days_used'])/floatval($record['totaldays'])) : 0;
       $unearned = number_format($premium - $earned, 2);
       $total += $premium;

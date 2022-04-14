@@ -1799,14 +1799,15 @@ class Product_model extends CI_Model {
 				$premiumArr['message'] = "Customer age can't older than 70 years old";
 				return $premiumArr;
 			}
+      $number_customer = intval($para['number_customer']);
+      $rate *= $number_customer;
 			$premium = $rate * $days;
       if ($days >= 365) {
         if (empty($para['holiday_rate']) || ($para['holiday_rate'] != 1)) {
-        $premium = 645;
+        $premium = 645 * $number_customer;
         }
       }
-      $number_customer = intval($para['number_customer']);
-			$premiumArr['premium'] = $premium * $number_customer;
+			$premiumArr['premium'] = $premium;
 			$premiumArr['totalyears'] = $years;
 			$premiumArr['totaldays'] = $days;
 			$premiumArr['dailyrate'] = $rate;
