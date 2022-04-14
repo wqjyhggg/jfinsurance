@@ -139,6 +139,7 @@ class Batch_model extends CI_Model {
 	 */
 	public function add_record($para) {
 		$this->load->model('plan_model');
+		$this->load->model('plan_history_model');
 		$this->load->model('customer_model');
 		$this->load->model('product_model');
 		$beuser = $this->session->userdata ( 'beuser' );
@@ -291,10 +292,39 @@ class Batch_model extends CI_Model {
 			}
 			$this->add_payment($plan_id);
 		} else {
-			$plan_id = $this->plan_model->update($para['plan_id'], $data);
+      // add plan_history record
+      $history_id = 0;
+      if (($history = $this->plan_history_model->get_plan_history_by_plan_id($plan['plan_id'])) && ($history["actualrate"]>0)) {
+        $history_id = $history["plan_history_id"];
+      } else {
+        // Add missing first record.
+        if ($plan['status_id'] > 1) {
+          $history_id = $this->plan_history_model->add($plan['plan_id'], $plan['status_id']);
+        }
+      }
+
+      $plan_id = $this->plan_model->update($para['plan_id'], $data);
+      $payment_id = 0;
 			if ($data['premium'] != $plan['premium']) {
-				$this->add_payment($plan_id, (float)$data['premium'] - (float)$plan['premium']);
+				$payment_id = $this->add_payment($plan_id, (float)$data['premium'] - (float)$plan['premium']);
 			}
+
+      $this->plan_model->update($plan_id, array("status_id"=>$para['status_id']));
+      $para = array(
+        'plan_id' => $plan_id, 
+        'customer_id' => $plan['customer_id'], 
+        'payment_id' => $payment_id, 
+        'message' => $this->plan_model->logstr, 
+        'systemlog' => $this->plan_model->sqlstr
+      );
+      $this->log_model->activity('plan', $para);
+      if ($history_id) {
+        $this->plan_history_model->add_remove($history_id);
+      }
+      if ($nid = $this->plan_history_model->add($plan_id, $para['status_id'])) {
+        // Remove payment_id, it should be no payment
+        $this->plan_history_model->update($nid, array("note"=>"plan batch change"));
+      }
 		}
 		return $plan_id;
 	}
