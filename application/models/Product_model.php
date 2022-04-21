@@ -305,12 +305,11 @@ class Product_model extends CI_Model {
 		}
 		$days = $this->getDays($para['effective_date'], $para['expiry_date']);	// $dt1 = date_create('1900-01-01 00:00:00'); $dt2 = date_create('1970-01-01 12:12:12'); echo $dt2->diff($dt1)->days;
 		$yearday = $this->getYearDays($para['effective_date']);
-    if (($para['product_short'] != 'JFS') && ($para['product_short'] != 'JFE') && ($para['product_short'] != 'BHS')) {
-      if ($days > $yearday) {
-        $premiumArr['totaldays'] = $days;
-        $premiumArr['message'] = "Period longer than a year, too long";
-        return $premiumArr;
-      }
+    // From 2022-04-21 all plan can't more then one year.
+    if ($days > $yearday) {
+      $premiumArr['totaldays'] = $days;
+      $premiumArr['message'] = "Period longer than a year, too long";
+      return $premiumArr;
     }
 		
 		if (empty($days)) {
