@@ -69,11 +69,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<?php } ?>
 						<?php 	} ?>
 						<?php if ((($status_id == Plan_model::PAID) || ($status_id == Plan_model::SOLD) || ($status_id == Plan_model::CHANGED)) && $user_group_id <= 100 ) { ?>
-						<?php if(time() < strtotime($effective_date)){ ?>
 							<a href='<?php echo $cancel_url . $plan_id; ?>'><span class="btn btn-info" style='color:#fff;'>Cancel</span></a>
-							<?php }else{?>
 							<a href='<?php echo $refund_url . $plan_id; ?>'><span class="btn btn-info" style='color:#fff;'>Refund</span></a>
-							<?php } ?>
 						<?php } else if (($status_id == Plan_model::REFUND) && ($user_group_id <= 100) && !empty($refund_letter_url)) { ?>
 							<a id="popRefund"><span class="btn btn-info" style='color:#fff;'>Refund Letter</span></a>
 						<?php } else if (($status_id == Plan_model::CANCEL) && ($user_group_id <= 100) && !empty($cancel_letter_url)) { ?>
