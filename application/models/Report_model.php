@@ -251,7 +251,6 @@ class Report_model extends CI_Model
     $sql .= "	c.lastname, ";
     $sql .= "	c.gender, ";
     $sql .= "	c.birthday, ";
-    $sql .= "	(SELECT count(cus.plan_id) FROM customer cus WHERE cus.plan_id=pa.plan_id) as customer_cnt, ";
     $sql .= "	CONCAT(pl.street_number, ' ', pl.street_name) AS address,";
     $sql .= "	pl.suite_number,";
     $sql .= "	pl.city,";
@@ -276,6 +275,8 @@ class Report_model extends CI_Model
     $sql .= "	pa2.amount AS pr_commission,";
     $sql .= "	pa3.amount AS up_commission,";
     $sql .= "	'2.5' AS merchant_fee_per, ";
+    $sql .= "	(SELECT count(cus.plan_id) FROM customer cus WHERE cus.plan_id=pa.plan_id) as customer_cnt, ";
+    $sql .= "	pa.added, ";
     $sql .= "	'5' AS claims_handling_fee_per";
     $sql .= " FROM payment pa";
     $sql .= " JOIN plan pl ON pa.plan_id = pl.plan_id";
