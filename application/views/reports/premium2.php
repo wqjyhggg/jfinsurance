@@ -123,6 +123,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                 5 => "Cancel",
                 6 => "Refund",
                 7 => "Changed",
+                8 => "Adjust",
               );
               ?>
                 <table class="table table-hover table-bordered">
@@ -142,6 +143,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                       <th>Sum Insured</th>
                       <th>Deductible Amount</th>
                       <th>Daily Rate</th>
+                      <th>Quantity</th>
                       <th>Discounted Amount</th>
                       <th>Total</th>
                       <th>Earned</th>
@@ -178,6 +180,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                         <td>$<?= $record['sum_insured'] ?></td>
                         <td>$<?= $record['deductible_amount'] ?></td>
                         <td>$<?= $record['dailyrate'] ?></td>
+                        <td><?= $record['customer_cnt'] ?></td>
                         <td>$<?= $dispremium ?></td>
                         <td>$<?= $premium ?></td>
                         <td>$<?= $earned ?></td>
@@ -185,6 +188,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                       </tr>
                     <?php endforeach; ?>
                     <tr>
+                      <td>&nbsp;</td>
                       <td>&nbsp;</td>
                       <td>&nbsp;</td>
                       <td>&nbsp;</td>

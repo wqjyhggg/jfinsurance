@@ -11,6 +11,7 @@ class Plan_model extends CI_Model {
     const CANCEL = 5;
     const REFUND = 6;
     const CHANGED = 7;
+    const ADJUST = 8;
 
     const MAX_PLANS = 200;
 

@@ -66,7 +66,7 @@ class Plan_history_model extends CI_Model
   {
     // Add a cancel record for old record
     $sql  = "INSERT INTO plan_history (plan_id, customer_id, user_id, status_id, region_id, policy, agree, product_short, batch_number, apply_date, isfamilyplan, arrival_date, effective_date, expiry_date, beneficiary, stable_condition, stable_condition_confirm, rate_options, holiday_rate, spouse, sum_insured, deductible_amount, dailyrate, actualrate, totaldays, totalyears, premium, tax, commission_amount, street_number, street_name, suite_number, city, province2, country2, postcode, payment_id, note)";
-    $sql .= " SELECT plan_id, customer_id, user_id, 5, region_id, policy, agree, product_short, batch_number, apply_date, isfamilyplan, arrival_date, effective_date, expiry_date, beneficiary, stable_condition, stable_condition_confirm, rate_options, holiday_rate, spouse, sum_insured, deductible_amount, -dailyrate, -premium/totaldays, totaldays, totalyears, -premium, -tax, -commission_amount, street_number, street_name, suite_number, city, province2, country2, postcode, payment_id, note FROM plan_history";
+    $sql .= " SELECT plan_id, customer_id, user_id, 8, region_id, policy, agree, product_short, batch_number, apply_date, isfamilyplan, arrival_date, effective_date, expiry_date, beneficiary, stable_condition, stable_condition_confirm, rate_options, holiday_rate, spouse, sum_insured, deductible_amount, -dailyrate, -premium/totaldays, totaldays, totalyears, -premium, -tax, -commission_amount, street_number, street_name, suite_number, city, province2, country2, postcode, payment_id, note FROM plan_history";
     $sql .= " WHERE plan_history_id=".intval($plan_history_id);
     $this->db->query($sql);
     $plan_history_id = $this->db->insert_id();

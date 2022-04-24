@@ -59,6 +59,7 @@ class Premium2 extends MY_Controller
                 5 => "Cancel",
                 6 => "Refund",
                 7 => "Changed",
+                8 => "Adjust",
               );
 
     $w = WriterFactory::create(Type::XLSX); // for XLSX files
@@ -75,6 +76,7 @@ class Premium2 extends MY_Controller
       'totaldays' => 'Number of Days',
       'days_used' => 'Days of Used',
       'sum_insured' => 'Sum Insured',
+      'customer_cnt' => 'Quantity',
       'deductible_amount' => 'Deductible Amount',
       'dailyrate' => 'Daily Rate',
       'dispremium' => 'Discounted Amount',

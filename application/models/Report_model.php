@@ -415,6 +415,7 @@ class Report_model extends CI_Model
     $sql .= "	c.firstname,";
     $sql .= "	c.lastname, ";
     $sql .= "	c.lastname, ";
+    $sql .= "	(SELECT count(cus.plan_id) FROM customer cus WHERE cus.plan_id=ph.plan_id) as customer_cnt, ";
     $sql .= "	IF (". $this->db->escape($para['earned_to'])."<ph.expiry_date, datediff(". $this->db->escape($para['earned_to']).", ph.effective_date) + 1, datediff(ph.expiry_date, ph.effective_date) + 1) as days_used ";
     $sql .= " FROM plan_history ph";
     $sql .= " JOIN customer c ON ph.customer_id = c.customer_id";
