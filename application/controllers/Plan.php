@@ -3465,7 +3465,11 @@ class Plan extends MY_Controller {
           }
         }
 
-				$note = "Cancel at " . $dt['added'] . " amount: " . $refund_amount . " admin fee: " . $admin_fee . "; " . $plan['note'];
+        $exnote = $this->input->post('reason_input');
+        if (empty($exnote)) {
+          $exnote = $this->input->post('reason');
+        }
+				$note = "Reason: " . $exnote . ", cancel at " . $dt['added'] . " amount: " . $refund_amount . " admin fee: " . $admin_fee . "; " . $plan['note'];
 				$para = array('status_id' => 5, 'payment_id' => $payment_id, 'commission_payment_id' => $commission_payment_id, 'note' => $note );  // Change status to cancel
 				$this->plan_model->update($plan_id, $para);
         if ($id = $this->plan_history_model->add_remove($history_id)) {
