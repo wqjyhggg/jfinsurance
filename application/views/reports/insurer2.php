@@ -177,7 +177,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                         <!-- td><?= $record['commission_rate_jf'] ?>%</td -->
                         <td><?= $record['merchant_fee_per'] ?>%</td>
                         <td><?= $record['claims_handling_fee_per'] ?>%</td>
-                        <td><?= number_format($record['commission_amount'] * $record['premium'] / 100.0, 3) ?></td>
+                        <td><?= number_format($record['commission_rate'] * $record['premium'] / 100.0, 3) ?></td>
                         <td><?= number_format($record['merchant_fee'],3) ?></td>
                         <td><?= number_format($record['claims_handling_fee'],3) ?></td>
                         <td><?= number_format($record['net_premium'],3) ?></td>
