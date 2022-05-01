@@ -68,13 +68,13 @@ defined('BASEPATH') or exit('No direct script access allowed');
                   </div>
                 </div><br />
                 <div class="row">
-                  <label style="display:inline-block;vertical-align:middle;">Reason:</label>
-                  <div style="display:inline-block;vertical-align:middle;">
+                  <label class="col-sm-3 text-right">Reason:</label>
+                  <div class="col-sm-3">
                     <select name='reason' id='reason' class="form-control">
                       <option value='Unable to obtain visa/work permit'>Unable to obtain visa/work permit</option>
                       <option value='Client received OHIP card'>Client received OHIP card</option>
                       <option value='Client decided not to come'>Client decided not to come</option>
-                      <option value='Client passed away'></option>
+                      <option value='Client passed away'>Client passed away</option>
                       <option value='Super VISA was declined'>Super VISA was declined</option>
                       <option value='Client returned to home country'>Client returned to home country</option>
                       <option value='PR approval'>PR approval</option>
@@ -86,13 +86,11 @@ defined('BASEPATH') or exit('No direct script access allowed');
                       <?php } ?>
                     </select>
                   </div>
-                </div>
-                <div class="row reason_input" style="display:none;">
-                  <label style="display:inline-block;vertical-align:middle;">Detail:</label>
-                  <div style="display:inline-block;vertical-align:middle;">
-                    <input type="text" name='reason_input' id='reason_input' value='' class="form-control" />
+                  <div class="col-sm-6 reason_input">
+                    <input type="text" name='reason_input' id='reason_input' placeholder='Detail reason' value='' class="form-control" />
                   </div>
                 </div>
+		<br />
                 <div class="row">
                   <div class="form-group col-sm-12 text-center">
                     <label class="inline">Are you sure you want to cancel this policy? </label>
@@ -112,6 +110,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 <!-- /page content -->
 <script>
   $(document).ready(function() {
+    $(".reason_input").hide();
     $("#reason").on("change",function(e) {
   		e.preventDefault();
       var v = $("#reason").val();
