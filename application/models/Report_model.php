@@ -380,6 +380,7 @@ class Report_model extends CI_Model
     $sql .= "	c.gender, ";
     $sql .= "	c.birthday, ";
     $sql .= "	IF(ph.payment_id=0,0,pa2.amount) AS commission_amount,";
+    $sql .= "	IF(ph.payment_id=0,0,pa2.rate) AS commission_rate,";
     $sql .= "	'2.5' AS merchant_fee_per, ";
     $sql .= "	ph.premium*0.025 as merchant_fee, ";
     $sql .= "	'5' AS claims_handling_fee_per,";

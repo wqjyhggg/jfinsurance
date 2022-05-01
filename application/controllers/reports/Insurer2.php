@@ -115,7 +115,7 @@ class Insurer2 extends MY_Controller
         } else if ($k == "add_time") {
           $arr[] = substr($record["add_time"], 0, 10);
         } else if ($k == "commission_rate") {
-          $arr[] = number_format($record['commission_amount']*100/$record['premium'],2);
+          $arr[] = number_format($record['commission_rate']);
         } else if ($k == "address") {
           $arr[] = $address;
         } else if (($k == "merchant_fee") || ($k == "claims_handling_fee") || ($k == "net_premium") || ($k == "total_compensation_per") || ($k == "total_compensation")) {
