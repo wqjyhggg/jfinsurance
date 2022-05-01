@@ -168,21 +168,21 @@ defined('BASEPATH') or exit('No direct script access allowed');
                         <td><?= $record['effective_date'] ?></td>
                         <td><?= $record['expiry_date'] ?></td>
                         <td><?= $record['totaldays'] ?></td>
-                        <td>$<?= $record['sum_insured'] ?></td>
-                        <td>$<?= $record['deductible_amount'] ?></td>
-                        <td>$<?= $record['dailyrate'] ?></td>
-                        <td>$<?= $record['premium'] ?></td>
+                        <td><?= $record['sum_insured'] ?></td>
+                        <td><?= $record['deductible_amount'] ?></td>
+                        <td><?= $record['dailyrate'] ?></td>
+                        <td><?= $record['premium'] ?></td>
                         <td><?= substr($record['add_time'],0,10) ?></td>
                         <td><?= number_format($record['commission_rate']) ?>%</td>
                         <!-- td><?= $record['commission_rate_jf'] ?>%</td -->
                         <td><?= $record['merchant_fee_per'] ?>%</td>
                         <td><?= $record['claims_handling_fee_per'] ?>%</td>
-                        <td>$<?= $record['commission_amount'] ?></td>
-                        <td>$<?= number_format($record['merchant_fee'],3) ?></td>
-                        <td>$<?= number_format($record['claims_handling_fee'],3) ?></td>
-                        <td>$<?= number_format($record['net_premium'],3) ?></td>
+                        <td><?= number_format($record['commission_amount'] * $record['premium'] / 100.0, 3) ?></td>
+                        <td><?= number_format($record['merchant_fee'],3) ?></td>
+                        <td><?= number_format($record['claims_handling_fee'],3) ?></td>
+                        <td><?= number_format($record['net_premium'],3) ?></td>
                         <td><?= number_format($record['total_compensation_per'],3) ?>%</td>
-                        <td>$<?= number_format($record['total_compensation'],3) ?></td>
+                        <td><?= number_format($record['total_compensation'],3) ?></td>
                         <td>&nbsp;</td>
                       </tr>
                     <?php endforeach; ?>

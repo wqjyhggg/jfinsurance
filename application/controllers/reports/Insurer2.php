@@ -114,6 +114,8 @@ class Insurer2 extends MY_Controller
           $arr[] = $status_list[$record['status_id']];
         } else if ($k == "add_time") {
           $arr[] = substr($record["add_time"], 0, 10);
+        } else if ($k == "commission_amount") {
+          $arr[] = number_format($record['commission_amount'] * $record['premium'] / 100.0, 2);
         } else if ($k == "commission_rate") {
           $arr[] = number_format($record['commission_rate']);
         } else if ($k == "address") {
