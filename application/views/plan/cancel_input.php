@@ -74,7 +74,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                       <option value='Unable to obtain visa/work permit'>Unable to obtain visa/work permit</option>
                       <option value='Client received OHIP card'>Client received OHIP card</option>
                       <option value='Client decided not to come'>Client decided not to come</option>
-                      <option value='Client passed away'></option>
+                      <option value='Client passed away'>Client passed away</option>
                       <option value='Super VISA was declined'>Super VISA was declined</option>
                       <option value='Client returned to home country'>Client returned to home country</option>
                       <option value='PR approval'>PR approval</option>
