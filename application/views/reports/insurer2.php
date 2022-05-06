@@ -170,7 +170,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                         <td><?= $record['totaldays'] ?></td>
                         <td><?= $record['sum_insured'] ?></td>
                         <td><?= $record['deductible_amount'] ?></td>
-                        <td><?= $record['dailyrate'] ?></td>
+                        <td><?= number_format($record['dailyrate'],3) ?></td>
                         <td><?= $record['premium'] ?></td>
                         <td><?= substr($record['add_time'],0,10) ?></td>
                         <td><?= number_format($record['commission_rate']) ?>%</td>
