@@ -79,6 +79,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                       <option value='Client returned to home country'>Client returned to home country</option>
                       <option value='PR approval'>PR approval</option>
                       <option value='Policy issued by mistake'>Policy issued by mistake</option>
+                      <option value='Insured not eligible for the policy'>Insured not eligible for the policy</option>
                       <option value='Requested Void from Claim Department'>Requested Void from Claim Department</option>
                       <option value='Other'>Other</option>
                       <?php foreach ($status_list as $key => $value) { ?>
