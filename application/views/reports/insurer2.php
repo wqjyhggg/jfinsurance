@@ -171,7 +171,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                         <td><?= $record['sum_insured'] ?></td>
                         <td><?= $record['deductible_amount'] ?></td>
                         <td><?= number_format($record['dailyrate'],3) ?></td>
-                        <td><?= $record['premium'] ?></td>
+                        <td><?= number_format($record['premium'],2) ?></td>
                         <td><?= substr($record['add_time'],0,10) ?></td>
                         <td><?= number_format($record['commission_rate']) ?>%</td>
                         <!-- td><?= $record['commission_rate_jf'] ?>%</td -->
@@ -180,7 +180,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                         <td><?= number_format($record['commission_rate'] * $record['premium'] / 100.0, 3) ?></td>
                         <td><?= number_format($record['merchant_fee'],3) ?></td>
                         <td><?= number_format($record['claims_handling_fee'],3) ?></td>
-                        <td><?= number_format($record['net_premium'],3) ?></td>
+                        <td><?= number_format($record['net_premium'],2) ?></td>
                         <td><?= number_format($record['total_compensation_per'],3) ?>%</td>
                         <td><?= number_format($record['total_compensation'],3) ?></td>
                         <td>&nbsp;</td>

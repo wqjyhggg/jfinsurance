@@ -120,7 +120,9 @@ class Insurer2 extends MY_Controller
           $arr[] = number_format($record['commission_rate']);
         } else if ($k == "address") {
           $arr[] = $address;
-        } else if (($k == "dailyrate") || ($k == "merchant_fee") || ($k == "claims_handling_fee") || ($k == "net_premium") || ($k == "total_compensation_per") || ($k == "total_compensation")) {
+        } else if (($k == "premium") || ($k == "net_premium")) {
+          $arr[] = number_format($record[$k], 2);
+        } else if (($k == "dailyrate") || ($k == "merchant_fee") || ($k == "claims_handling_fee") || ($k == "total_compensation_per") || ($k == "total_compensation")) {
           $arr[] = number_format($record[$k], 3);
         } else {
           $arr[] = isset($record[$k])?$record[$k]:'';
