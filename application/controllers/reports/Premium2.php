@@ -113,7 +113,7 @@ class Premium2 extends MY_Controller
       $premium = number_format($premium,2);
       $earned = number_format($earned,2);
       $arr = array();
-      
+
       foreach ($kArr as $k => $v) {
         if ($k == "earned") {
           $arr[] = $earned;
@@ -131,6 +131,10 @@ class Premium2 extends MY_Controller
           $arr[] = $premium;
         } else if ($k == "unearned") {
           $arr[] = $unearned;
+        } else if ($k == "deductible_amount") {
+          $arr[] = number_format($record[$k], 2);
+        } else if ($k == "dailyrate") {
+          $arr[] = number_format($record[$k], 2);
         } else {
           $arr[] = $record[$k];
         }

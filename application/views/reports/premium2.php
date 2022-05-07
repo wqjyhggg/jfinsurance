@@ -178,8 +178,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
                         <td><?= $record['totaldays'] ?></td>
                         <td><?= ($record['days_used']>0)?$record['days_used']:0 ?></td>
                         <td>$<?= $record['sum_insured'] ?></td>
-                        <td>$<?= $record['deductible_amount'] ?></td>
-                        <td>$<?= $record['dailyrate'] ?></td>
+                        <td>$<?= number_format($record['deductible_amount'],2) ?></td>
+                        <td>$<?= number_format($record['dailyrate'],3) ?></td>
                         <td><?= $record['customer_cnt'] ?></td>
                         <td>$<?= $dispremium ?></td>
                         <td>$<?= $premium ?></td>
