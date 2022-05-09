@@ -1882,6 +1882,7 @@ class Product_model extends CI_Model {
 				//$premiumArr['message'] = "Minumum premium must more than " . (float)$product['min_premium'] . " ( " . (float)$premiumArr['premium'] . " estimate )";
 				$premiumArr['premium'] = (float)$product['min_premium'];
 			}
+      $premiumArr['premium'] = round($premiumArr['premium'], 2);
 		}
 		return $premiumArr;
 	}
