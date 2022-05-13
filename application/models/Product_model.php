@@ -1095,7 +1095,7 @@ class Product_model extends CI_Model {
           return $premiumArr;
         }
 			}
-			$rate = round($rate * $discount, 2);
+			$rate = $rate * $discount;
 			$premium = $rate * $days;
 			// if ($years > 85) {
 			// 	$premiumArr['message'] = "<p style='color:#2e6da4;'>Notice: Over 85 years old will have $500 Deductible</p>";
@@ -1640,7 +1640,7 @@ class Product_model extends CI_Model {
 				$premiumArr['message'] = "Customer age must less 69 years old";
 				return $premiumArr;
 			}
-			$number_customer = intval($para['number_customer']);
+			$number_customer = (int)$para['number_customer'];
 			$rate = 1.6;
 			if ($para['isfamilyplan']) {
         $rate = $rate * $number_customer;
@@ -1660,7 +1660,7 @@ class Product_model extends CI_Model {
 				$premiumArr['message'] = "Customer age must less 69 years old";
 				return $premiumArr;
 			}
-			$number_customer = intval($para['number_customer']);
+			$number_customer = (int)$para['number_customer'];
 			$rate = 1.85;
 			if ($para['isfamilyplan']) {
         $rate = $rate * $number_customer;
