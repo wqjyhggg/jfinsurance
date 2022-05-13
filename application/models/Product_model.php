@@ -839,7 +839,7 @@ class Product_model extends CI_Model {
 			if ($para['isfamilyplan']) {
 				$rate *= 2;
 			}
-			$rate = round($rate * $discount, 2);
+			$rate = $rate * $discount;
 			$premium = $rate * $days;
 			$message = "";
 			if ($years > 85) {
@@ -1539,7 +1539,7 @@ class Product_model extends CI_Model {
           return $premiumArr;
         }
 			}
-			$rate = round($rate * $discount, 2);
+			$rate = $rate * $discount;
 			$premium = $rate * $days;
 			if ($years > 85) {
 				$premiumArr['message'] = "<p style='color:#2e6da4;'>Notice: Over 85 years old will have $500 Deductible</p>";
@@ -1882,7 +1882,6 @@ class Product_model extends CI_Model {
 				//$premiumArr['message'] = "Minumum premium must more than " . (float)$product['min_premium'] . " ( " . (float)$premiumArr['premium'] . " estimate )";
 				$premiumArr['premium'] = (float)$product['min_premium'];
 			}
-      $premiumArr['premium'] = round($premiumArr['premium'], 2);
 		}
 		return $premiumArr;
 	}
