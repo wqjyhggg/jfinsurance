@@ -124,11 +124,13 @@ class Payment extends MY_Controller {
 		}
 		
 		$this->load->model('payment_model');
+		$this->load->model('plan_history_model');
 
 		$plan_id = $this->input->post('plan_id');
 		$payment_id = $this->input->post('payment_id');
 		if ($payment_id && ($payment = $this->payment_model->get_payment_by_id($payment_id))) {
 			if ($this->input->post('delete')) {
+				$this->plan_history_model->remove_history_by_payment_id($payment["plan_id"], $payment_id);
 				$this->payment_model->delete($payment_id);
 			} else if ($this->input->post('update')) {
 				$para['user_id'] = $this->input->post('user_id');
