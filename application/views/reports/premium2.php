@@ -148,6 +148,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                       <th>Total</th>
                       <th>Earned</th>
                       <th>Unearned</th>
+                      <th>Product</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -205,6 +206,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                         <td>$<?= number_format($record['deductible_amount'],2) ?></td>
                         <td>$<?= number_format($earned,2) ?></td>
                         <td>$<?= number_format($unearned,2) ?></td>
+                        <td><?= $record['product_short'] ?></td>
                       </tr>
                     <?php endforeach; ?>
                     <tr>
@@ -227,6 +229,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                       <td>$<?= number_format($total,2) ?></td>
                       <td>$<?= number_format($tearned,2) ?></td>
                       <td>$<?= number_format($total-$tearned,2) ?></td>
+                      <td>&nbsp;</td>
                     </tr>
                   </tbody>
                 </table>

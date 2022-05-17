@@ -83,6 +83,7 @@ class Premium2 extends MY_Controller
       'premium' => 'Total',
       'earned' => 'Earned',
       'unearned' => 'Unearned',
+      'product_short' => 'Product',
     );
 
     $w->openToBrowser("Premium_Report_" . date('Ymd') . ".xlsx");
