@@ -203,7 +203,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                         <td>$<?= number_format($record['dailyrate'],2) ?></td>
                         <td><?= $record['customer_cnt'] ?></td>
                         <td>$<?= number_format($discount,2) ?></td>
-                        <td>$<?= number_format($record['deductible_amount'],2) ?></td>
+                        <td>$<?= number_format($record['premium'],2) ?></td>
                         <td>$<?= number_format($earned,2) ?></td>
                         <td>$<?= number_format($unearned,2) ?></td>
                         <td><?= $record['product_short'] ?></td>
