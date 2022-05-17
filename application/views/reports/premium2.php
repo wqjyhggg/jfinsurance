@@ -153,18 +153,38 @@ defined('BASEPATH') or exit('No direct script access allowed');
                   <tbody>
                     <?php $total = $tearned = 0; $solddate = ''; ?>
                     <?php foreach ($report_data as $record) : ?>
-                      <?php if ($record['status_id'] == 6) {$dte = strtotime($record['expiry_date']); $dts = strtotime($record['effective_date']); $record['totaldays'] = round(($dte-$dts)/(60 * 60 * 24)) + 1; }; ?>
-                      <?php $premium = floatval($record['dailyrate'] * $record['totaldays']); ?>
-                      <?php $dispremium = abs($premium) - abs($record['premium']); ?>
-                      <?php if ($dispremium < 0) $dispremium = 0; ?>
-                      <?php if (abs($premium) > abs($record['premium'])) { $premium = floatval($record['premium']); } ?>
-                      <?php $earned = ($record['days_used']>0)? ($premium*floatval($record['days_used'])/floatval($record['totaldays'])) : 0; ?>
-                      <?php $unearned = number_format($premium - $earned, 2); ?>
-                      <?php $total += $premium; $tearned += $earned; ?>
-                      <?php if ($record['ishead']==1) { $solddate = substr($record['add_time'],0,10); } ?>
-                      <?php $dispremium = number_format($dispremium,2); ?>
-                      <?php $premium = number_format($premium,2); ?>
-                      <?php $earned = number_format($earned,2); ?>
+                      <?php
+                        if ($record['ishead']==1) { 
+                          $solddate = substr($record['add_time'],0,10);
+                        }
+                        if ($record['status_id'] == 6) {
+                          $dte = strtotime($record['expiry_date']);
+                          $dts = strtotime($record['effective_date']);
+                          $record['totaldays'] = round(($dte-$dts)/(60 * 60 * 24)) + 1; 
+                        }
+                        if (abs($record['premium']) <= 25) {
+                          $record['premium'] = floatval($record['dailyrate'] * $record['totaldays']);
+                        }
+                        if ($record['days_used'] >= $record['totaldays']) {
+                          $earned = $record['premium'];
+                          $unearned = 0;
+                        } else if ($record['days_used'] > 0) {
+                          $earned = $record['premium']*$record['days_used']/$record['totaldays'];
+                          $unearned = $record['premium'] - $earned;
+                        } else {
+                          $earned = 0;
+                          $unearned = $record['premium'];
+                        }
+                        $total += $record['premium'];
+                        $tearned += $earned;
+                        $discount = 0;
+                        if ($record['totaldays'] >= 365) {
+                          $discount = $record['totaldays'] * $record['dailyrate'] - $record['premium'];
+                          if ($discount < 5) {
+                            $discount = 0;
+                          }
+                        }
+                      ?>
                       <tr>
                         <td><?= $record['policy'] ?></td>
                         <td><?= $record['firstname'] ?></td>
@@ -179,12 +199,12 @@ defined('BASEPATH') or exit('No direct script access allowed');
                         <td><?= ($record['days_used']>0)?$record['days_used']:0 ?></td>
                         <td>$<?= $record['sum_insured'] ?></td>
                         <td>$<?= number_format($record['deductible_amount'],2) ?></td>
-                        <td>$<?= number_format($record['dailyrate'],3) ?></td>
+                        <td>$<?= number_format($record['dailyrate'],2) ?></td>
                         <td><?= $record['customer_cnt'] ?></td>
-                        <td>$<?= $dispremium ?></td>
-                        <td>$<?= $premium ?></td>
-                        <td>$<?= $earned ?></td>
-                        <td>$<?= $unearned ?></td>
+                        <td>$<?= number_format($discount,2) ?></td>
+                        <td>$<?= number_format($record['deductible_amount'],2) ?></td>
+                        <td>$<?= number_format($earned,2) ?></td>
+                        <td>$<?= number_format($unearned,2) ?></td>
                       </tr>
                     <?php endforeach; ?>
                     <tr>

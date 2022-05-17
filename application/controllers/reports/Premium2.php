@@ -79,7 +79,7 @@ class Premium2 extends MY_Controller
       'customer_cnt' => 'Quantity',
       'deductible_amount' => 'Deductible Amount',
       'dailyrate' => 'Daily Rate',
-      'dispremium' => 'Discounted Amount',
+      'discount' => 'Discounted Amount',
       'premium' => 'Total',
       'earned' => 'Earned',
       'unearned' => 'Unearned',
@@ -99,19 +99,50 @@ class Premium2 extends MY_Controller
 
     $total = $tearned = 0;  $solddate = '';
     foreach ($data['report_data'] as $record) {
-      if ($record['status_id'] == 6) { $dte = strtotime($record['expiry_date']); $dts = strtotime($record['effective_date']); $record['totaldays'] = round(($dte-$dts)/(60 * 60 * 24)) + 1; };
-      $premium = floatval($record['dailyrate'] * $record['totaldays']);
-      $dispremium = abs($premium) - abs($record['premium']);
-      if ($dispremium < 0) $dispremium = 0;
-      if (abs($premium) > abs($record['premium'])) { $premium = floatval($record['premium']); }
-      $earned = ($record['days_used']>0)? ($premium*floatval($record['days_used'])/floatval($record['totaldays'])) : 0;
-      $unearned = number_format($premium - $earned, 2);
-      $total += $premium;
+      // if ($record['status_id'] == 6) { $dte = strtotime($record['expiry_date']); $dts = strtotime($record['effective_date']); $record['totaldays'] = round(($dte-$dts)/(60 * 60 * 24)) + 1; };
+      // $premium = floatval($record['dailyrate'] * $record['totaldays']);
+      // $dispremium = abs($premium) - abs($record['premium']);
+      // if ($dispremium < 0) $dispremium = 0;
+      // if (abs($premium) > abs($record['premium'])) { $premium = floatval($record['premium']); }
+      // $earned = ($record['days_used']>0)? ($premium*floatval($record['days_used'])/floatval($record['totaldays'])) : 0;
+      // $unearned = number_format($premium - $earned, 2);
+      // $total += $premium;
+      // $tearned += $earned;
+      // if ($record['ishead']==1) { $solddate = substr($record['add_time'],0,10); }
+      // $dispremium = number_format($dispremium,2);
+      // $premium = number_format($premium,2);
+      // $earned = number_format($earned,2);
+      if ($record['ishead']==1) { 
+        $solddate = substr($record['add_time'],0,10);
+      }
+      if ($record['status_id'] == 6) {
+        $dte = strtotime($record['expiry_date']);
+        $dts = strtotime($record['effective_date']);
+        $record['totaldays'] = round(($dte-$dts)/(60 * 60 * 24)) + 1; 
+      }
+      if (abs($record['premium']) <= 25) {
+        $record['premium'] = floatval($record['dailyrate'] * $record['totaldays']);
+      }
+      if ($record['days_used'] >= $record['totaldays']) {
+        $earned = $record['premium'];
+        $unearned = 0;
+      } else if ($record['days_used'] > 0) {
+        $earned = $record['premium']*$record['days_used']/$record['totaldays'];
+        $unearned = $record['premium'] - $earned;
+      } else {
+        $earned = 0;
+        $unearned = $record['premium'];
+      }
+      $total += $record['premium'];
       $tearned += $earned;
-      if ($record['ishead']==1) { $solddate = substr($record['add_time'],0,10); }
-      $dispremium = number_format($dispremium,2);
-      $premium = number_format($premium,2);
-      $earned = number_format($earned,2);
+      $discount = 0;
+      if ($record['totaldays'] >= 365) {
+        $discount = $record['totaldays'] * $record['dailyrate'] - $record['premium'];
+        if ($discount < 5) {
+          $discount = 0;
+        }
+      }
+
       $arr = array();
 
       foreach ($kArr as $k => $v) {
@@ -125,12 +156,14 @@ class Premium2 extends MY_Controller
           $arr[] = substr($record[$k],0,10);
         } else if ($k == "days_used") {
           $arr[] = ($record[$k]>0)?$record[$k]:0;
-        } else if ($k == "dispremium") {
-          $arr[] = $dispremium;
+        } else if ($k == "discount") {
+          $arr[] = number_format($discount,2);
         } else if ($k == "premium") {
-          $arr[] = $premium;
+          $arr[] = number_format($record['premium'],2);
         } else if ($k == "unearned") {
-          $arr[] = $unearned;
+          $arr[] = number_format($unearned,2);
+        } else if ($k == "earned") {
+          $arr[] = number_format($earned,2);
         } else if ($k == "deductible_amount") {
           $arr[] = number_format($record[$k], 2);
         } else if ($k == "dailyrate") {
