@@ -391,16 +391,17 @@ class Report_model extends CI_Model
     $sql .= " FROM plan_history ph";
     $sql .= " JOIN customer c ON ph.customer_id = c.customer_id";
     $sql .= " JOIN product pr ON ph.product_short = pr.product_short";
-    $sql .= " LEFT JOIN payment pa2 ON (ph.payment_id!=0 AND ph.payment_id=pa2.premium_payment_id AND pa2.pay_type IN ('commission','cancel_commission','refund_commission'))";
+    $sql .= " JOIN payment pa2 ON (ph.payment_id=pa2.premium_payment_id AND pa2.pay_type IN ('commission','cancel_commission','refund_commission'))";
+    $sql .= "WHERE ph.status_id != 8 AND payment_id != 0";
     if (!empty($para['payment_added_from'])) {
-      $sql .= "WHERE ph.add_time >= " . $this->db->escape($para['payment_added_from'] . " 00:00:00");
+      $sql .= "AND pa2.added >= " . $this->db->escape($para['payment_added_from'] . " 00:00:00");
     } else {
-      $sql .= "WHERE ph.add_time >= " . $this->db->escape(date("Y-m-d")." 00:00:00");
+      $sql .= "AND pa2.added >= " . $this->db->escape(date("Y-m-d")." 00:00:00");
     }
     if (!empty($para['payment_added_to'])) {
-      $sql .= " AND ph.add_time <= " . $this->db->escape($para['payment_added_to'] . " 23:59:59");
+      $sql .= " AND pa2.added <= " . $this->db->escape($para['payment_added_to'] . " 23:59:59");
     } else {
-      $sql .= " AND ph.add_time <= " . $this->db->escape(date("Y-m-d")." 23:59:59");
+      $sql .= " AND pa2.added <= " . $this->db->escape(date("Y-m-d")." 23:59:59");
     }
     if (!empty($para['product_short'])) {
       $sql .= " AND ph.product_short IN ('" . implode("','", str_replace("'", "", $para['product_short'])) . "')";
