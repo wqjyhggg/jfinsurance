@@ -21,7 +21,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
   <div class="main-div">
     <div class="page-title">
       <div class="title_left">
-        <h3>Sales Report to Insurer</h3>
+        <h3>OR Premium Report</h3>
       </div>
     </div>
     <div class="clearfix"></div>

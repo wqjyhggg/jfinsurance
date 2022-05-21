@@ -83,7 +83,6 @@ class Insurer extends MY_Controller
       'postcode' => 'Postcode',
       'effective_date' => 'Effective Date',
       'expiry_date' => 'Expire Date',
-      'refund_date' => 'Refund Date',
       'total_days' => 'Number of Days',
       'sum_insured' => 'Sum Insured',
       'deductible_amount' => 'Deductible Amount',
@@ -98,9 +97,9 @@ class Insurer extends MY_Controller
       'net_premium' => 'Net Premium',
       'total_compensation_per' => 'Total Compensation Rate(%)',
       'total_compensation' => 'Total Compensation Amount',
-      'coverage' => 'Coverage',
       'customer_cnt' => 'Total Members',
       'added' => 'Purchase Date',
+      'refund_date' => 'Refund Date',
     );
 
     // $tmpfname = "/tmp/jf_test.xlsx";

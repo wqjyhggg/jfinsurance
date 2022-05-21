@@ -22,7 +22,7 @@ class Premium2 extends MY_Controller
       'name' => $this->security->get_csrf_token_name(),
       'value' => $this->security->get_csrf_hash()
     );
-    $data['title_txt'] = 'Sales Report to Insurer';
+    $data['title_txt'] = 'OR Premium Report';
     $data['top_menu'] = $this->menu_model->load_top_menu();
     $data['menu'] = $this->menu_model->load_meun();
     $data['action_url'] = current_url();
