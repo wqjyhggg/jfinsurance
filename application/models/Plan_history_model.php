@@ -59,6 +59,10 @@ class Plan_history_model extends CI_Model
     $sql .= " WHERE plan_id=".intval($plan_id);
     $this->db->query($sql);
     $plan_history_id = $this->db->insert_id();
+    if ($ishead && $plan_history_id) {
+      $sql = "UPDATE `plan_history` ph SET ph.add_time=(SELECT added FROM payment pa WHERE ph.payment_id=pa.payment_id) WHERE plan_history_id=".$plan_history_id;
+      $this->db->query($sql);
+    }
     return $plan_history_id;
   }
 
