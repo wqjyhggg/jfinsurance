@@ -3794,6 +3794,8 @@ class Plan extends MY_Controller {
 		$html = $this->load->view('plan/cancel', $data, TRUE);
 		$mpdf = new mPDF('c');
 		$mpdf->writeHTML($html);
+    $mpdf->SetWatermarkText ("JFGROUP.CA", 0.1);
+    $mpdf->showWatermarkText = true;
 		$mpdf->Output("policy_cancel.pdf","I");
 	}
 	
@@ -3878,7 +3880,9 @@ class Plan extends MY_Controller {
 			$html = $this->load->view('plan/refund', $data, TRUE);
 			$mpdf = new mPDF('c');
 			$mpdf->writeHTML($html);
-			$mpdf->Output("policy_refund.pdf","I");
+      $mpdf->SetWatermarkText ("JFGROUP.CA", 0.1);
+      $mpdf->showWatermarkText = true;
+      $mpdf->Output("policy_refund.pdf","I");
 		} else {
 			$data['customer_full_name'] = $data['customer']['firstname'] . " " . $data['customer']['lastname'];
 			$data['full_address'] = empty($plan['suite_number']) ? '' : "Suite " . $plan['suite_number'] . " ";
