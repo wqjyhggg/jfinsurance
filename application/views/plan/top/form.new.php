@@ -78,7 +78,7 @@
                 <li style="float: right;"><a href="<?php echo $refund_url . $plan_id; ?>" target="_blank"><span class="btn btn-info" style='color: #fff;'>Refund</span></a></li>
               <?php   } ?>
             <?php } else if (($status_id == Plan_model::REFUND) && ($user_group_id <= 100) && !empty($refund_letter_url)) { ?>
-              <li style="float: right;"><a id="popRefund"><span class="btn btn-info" style='color: #fff;'>Refund Letter</span></a></li>
+              <li style="float: right;"><a href="<?php echo $refund_letter_url; ?>" target="_blank"><span class="btn btn-info" style='color: #fff;'>Refund Letter</span></a></li>
             <?php } else if (($status_id == Plan_model::CANCEL) && ($user_group_id <= 100) && !empty($cancel_letter_url)) { ?>
               <li style="float: right;"><a href="<?php echo $cancel_letter_url; ?>" target="_blank"><span class="btn btn-info" style='color: #fff;'>Cancel Letter</span></a></li>
             <?php } ?>

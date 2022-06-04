@@ -121,9 +121,9 @@ $usepsi = false;
 							<div class="col-sm-3">
 								<label class="inline">Sum Insured:</label> <span><?php echo $plan['sum_insured']; ?></span>
 							</div>
-							<div class="col-sm-3">
+							<!-- <div class="col-sm-3">
 								<span><?php echo $plan['free_cancel'] ? ' With ' : ' Without '; ?> Free cancellation</span>
-							</div>
+							</div> -->
 							<?php } ?>
 							<?php if (($plan['package'] == 'single_medical_plan') || ($plan['package'] == 'optional_plan')) { ?>
 							<?php     if ($plan['ad_and_d_ck']) { ?>

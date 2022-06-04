@@ -5231,13 +5231,13 @@ class Top_model extends CI_Model  {
 			}
 				
 			$idx = intval($data['trip_cancellation_insured'] / 100) - 1;
-      $base = $this->{$arr}[$idx];
-      if (!empty($this->{$arr}[$idx]) || ($base < 0)) {
+      if (!isset($this->{$arr}[$idx]) || ($this->{$arr}[$idx] < 0)) {
         $this->premiumArr['message'] = "Rate option isn't available.";
         $this->premiumArr['active_tab'] = 'packages_tab';
         $this->premiumArr['premium'] = 0;
         return 1;
       }
+      $base = $this->{$arr}[$idx];
 			
 			if ($data['isfamilyplan'] == 1) {
 				$base *= 2.25;

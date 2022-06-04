@@ -1300,70 +1300,70 @@ class Plan extends MY_Controller {
 		} else if (isset($plan['question3_bowel'])) {
 			$data['question3_bowel'] = $plan['question3_bowel'];
 		} else {
-			$data['question3_bowel'] = 'N';
+			$data['question3_bowel'] = '';
 		}
 		if ($this->input->post('question3_cancer')) {
 			$data['question3_cancer'] = $this->input->post('question3_cancer');
 		} else if (isset($plan['question3_cancer'])) {
 			$data['question3_cancer'] = $plan['question3_cancer'];
 		} else {
-			$data['question3_cancer'] = 'N';
+			$data['question3_cancer'] = '';
 		}
 		if ($this->input->post('question3_diabetes')) {
 			$data['question3_diabetes'] = $this->input->post('question3_diabetes');
 		} else if (isset($plan['question3_diabetes'])) {
 			$data['question3_diabetes'] = $plan['question3_diabetes'];
 		} else {
-			$data['question3_diabetes'] = 'N';
+			$data['question3_diabetes'] = '';
 		}
 		if ($this->input->post('question3_diverticu')) {
 			$data['question3_diverticu'] = $this->input->post('question3_diverticu');
 		} else if (isset($plan['question3_diverticu'])) {
 			$data['question3_diverticu'] = $plan['question3_diverticu'];
 		} else {
-			$data['question3_diverticu'] = 'N';
+			$data['question3_diverticu'] = '';
 		}
 		if ($this->input->post('question3_gerd')) {
 			$data['question3_gerd'] = $this->input->post('question3_gerd');
 		} else if (isset($plan['question3_gerd'])) {
 			$data['question3_gerd'] = $plan['question3_gerd'];
 		} else {
-			$data['question3_gerd'] = 'N';
+			$data['question3_gerd'] = '';
 		}
 		if ($this->input->post('question3_heart')) {
 			$data['question3_heart'] = $this->input->post('question3_heart');
 		} else if (isset($plan['question3_heart'])) {
 			$data['question3_heart'] = $plan['question3_heart'];
 		} else {
-			$data['question3_heart'] = 'N';
+			$data['question3_heart'] = '';
 		}
 		if ($this->input->post('question3_hyper')) {
 			$data['question3_hyper'] = $this->input->post('question3_hyper');
 		} else if (isset($plan['question3_hyper'])) {
 			$data['question3_hyper'] = $plan['question3_hyper'];
 		} else {
-			$data['question3_hyper'] = 'N';
+			$data['question3_hyper'] = '';
 		}
 		if ($this->input->post('question3_kidney')) {
 			$data['question3_kidney'] = $this->input->post('question3_kidney');
 		} else if (isset($plan['question3_kidney'])) {
 			$data['question3_kidney'] = $plan['question3_kidney'];
 		} else {
-			$data['question3_kidney'] = 'N';
+			$data['question3_kidney'] = '';
 		}
 		if ($this->input->post('question3_lung')) {
 			$data['question3_lung'] = $this->input->post('question3_lung');
 		} else if (isset($plan['question3_lung'])) {
 			$data['question3_lung'] = $plan['question3_lung'];
 		} else {
-			$data['question3_lung'] = 'N';
+			$data['question3_lung'] = '';
 		}
 		if ($this->input->post('question3_peptic')) {
 			$data['question3_peptic'] = $this->input->post('question3_peptic');
 		} else if (isset($plan['question3_peptic'])) {
 			$data['question3_peptic'] = $plan['question3_peptic'];
 		} else {
-			$data['question3_peptic'] = 'N';
+			$data['question3_peptic'] = '';
 		}
 		
 		if ($this->input->post('question4')) {
@@ -3409,7 +3409,11 @@ class Plan extends MY_Controller {
 					}
 				}
 				
-				$commission_amount = $refund_amount * $commission_rate / 100.0;
+        if ($plan['product_short'] == 'TOP') {
+          $commission_amount = ($refund_amount - ($plan['tax'] * $refund_amount / $plan['premium'])) * $commission_rate / 100.0;
+        } else {
+          $commission_amount = $refund_amount * $commission_rate / 100.0;
+        }
 				$up_commission_rate = $this->product_model->get_up_commission_rate($plan['product_short']);
 				$up_commission_amount = $refund_amount * $up_commission_rate / 100.0;
 				
@@ -3603,7 +3607,11 @@ class Plan extends MY_Controller {
 						$commission_rate = 0;
 					}
 				}
-				$commission_amount = $refund_amount * $commission_rate / 100.0;
+        if ($plan['product_short'] == 'TOP') {
+          $commission_amount = ($refund_amount - ($plan['tax'] * $refund_amount / $plan['premium'])) * $commission_rate / 100.0;
+        } else {
+          $commission_amount = $refund_amount * $commission_rate / 100.0;
+        }
 				$up_commission_rate = $this->product_model->get_up_commission_rate($plan['product_short']);
 				$up_commission_amount = $refund_amount * $up_commission_rate / 100.0;
 				
