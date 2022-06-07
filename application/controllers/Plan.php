@@ -3322,6 +3322,9 @@ class Plan extends MY_Controller {
       if ($plan['status_id'] < 2) {
         $mpdf->SetWatermarkText ("QUOTE", 0.1);
         $mpdf->showWatermarkText = true;
+      } else if (($plan['status_id'] != 2) && ($plan['status_id'] != 3)) {
+        $mpdf->SetWatermarkText ("INVALID", 0.1);
+        $mpdf->showWatermarkText = true;
       }
       $data['hadheaderfooter'] = 1;
       $html = $this->load->view('plan/pdf_jfvtc', $data, TRUE);
@@ -3334,6 +3337,9 @@ class Plan extends MY_Controller {
       if ($plan['status_id'] < 2) {
         $mpdf->SetWatermarkText ("QUOTE", 0.1);
         $mpdf->showWatermarkText = true;
+      } else if (($plan['status_id'] != 2) && ($plan['status_id'] != 3)) {
+        $mpdf->SetWatermarkText ("INVALID", 0.1);
+        $mpdf->showWatermarkText = true;
       }
       $data['hadheaderfooter'] = 1;
       $html = $this->load->view('plan/pdf', $data, TRUE);
@@ -3345,6 +3351,9 @@ class Plan extends MY_Controller {
       $mpdf = new mPDF('c');
       if ($plan['status_id'] < 2) {
         $mpdf->SetWatermarkText ("QUOTE", 0.1);
+        $mpdf->showWatermarkText = true;
+      } else if (($plan['status_id'] != 2) && ($plan['status_id'] != 3)) {
+        $mpdf->SetWatermarkText ("INVALID", 0.1);
         $mpdf->showWatermarkText = true;
       }
       $html = $this->load->view('plan/pdf', $data, TRUE);
@@ -3794,8 +3803,6 @@ class Plan extends MY_Controller {
 		$html = $this->load->view('plan/cancel', $data, TRUE);
 		$mpdf = new mPDF('c');
 		$mpdf->writeHTML($html);
-    $mpdf->SetWatermarkText ("JFGROUP.CA", 0.1);
-    $mpdf->showWatermarkText = true;
 		$mpdf->Output("policy_cancel.pdf","I");
 	}
 	
@@ -3880,8 +3887,6 @@ class Plan extends MY_Controller {
 			$html = $this->load->view('plan/refund', $data, TRUE);
 			$mpdf = new mPDF('c');
 			$mpdf->writeHTML($html);
-      $mpdf->SetWatermarkText ("JFGROUP.CA", 0.1);
-      $mpdf->showWatermarkText = true;
       $mpdf->Output("policy_refund.pdf","I");
 		} else {
 			$data['customer_full_name'] = $data['customer']['firstname'] . " " . $data['customer']['lastname'];
