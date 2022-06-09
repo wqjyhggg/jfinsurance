@@ -3789,6 +3789,8 @@ class Plan extends MY_Controller {
 			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
 		} else if ($data['plan']['product_short'] == 'JFP') {
 			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
+		} else if ($data['plan']['product_short'] == 'TOP') {
+			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
 		} else {
 			$data['insurable_options'] = $this->load->view('plan/detail_other', $data, TRUE);
 		}
@@ -3864,6 +3866,8 @@ class Plan extends MY_Controller {
 		} else if ($data['plan']['product_short'] == 'JFC') {
 			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
 		} else if ($data['plan']['product_short'] == 'JFP') {
+			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
+		} else if ($data['plan']['product_short'] == 'TOP') {
 			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
 		} else {
 			$data['insurable_options'] = $this->load->view('plan/detail_other', $data, TRUE);
