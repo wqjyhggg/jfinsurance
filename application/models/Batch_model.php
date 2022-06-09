@@ -291,6 +291,10 @@ class Batch_model extends CI_Model {
 				$this->db->query($sql);
 			}
 			$this->add_payment($plan_id);
+      if ($nid = $this->plan_history_model->add($plan_id, $data['status_id'])) {
+        // Remove payment_id, it should be no payment
+        $this->plan_history_model->update($nid, array("note"=>"plan batch added"));
+      }
 		} else {
       // add plan_history record
       $history_id = 0;
