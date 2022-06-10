@@ -291,6 +291,7 @@ class Api extends MY_Controller {
 			}
 			if (!empty($this->input->post('policy'))) $data['policy'] = $this->input->post('policy');
 			else if (!empty($this->input->post('policy_match'))) $data['policy_match'] = $this->input->post('policy_match');
+			if (!empty($this->input->post('student_id'))) $data['student_id'] = $this->input->post('student_id');
 			if (!empty($this->input->post('apply_date'))) {
 				$data['apply_date'] = $this->input->post('apply_date');
 				if (!empty($this->input->post('apply_date2'))) {
@@ -325,7 +326,6 @@ class Api extends MY_Controller {
 			}
 			// $data['uname'] = $this->input->post('uname'); // Agent 
 			// $data['batch_number'] = $this->input->post('batch_number');
-			// $data['status_id'] = $this->input->post('status_id');
 			// $data['product_short'] = $this->input->post('product_short');
 			// $data['province2'] = $this->input->post('province2');
 			// $data['country2'] = $this->input->post('country2');
