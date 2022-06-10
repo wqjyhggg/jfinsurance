@@ -3802,7 +3802,11 @@ class Plan extends MY_Controller {
       $data['insure_co'] = "Old Republic";
     }
 		$data['style'] = $this->load->view('common/pdf_style',$data, TRUE);
-		$html = $this->load->view('plan/cancel', $data, TRUE);
+		if ($data['plan']['product_short'] == 'TOP') {
+      $html = $this->load->view('plan/top/cancel', $data, TRUE);
+    } else {
+      $html = $this->load->view('plan/cancel', $data, TRUE);
+    }
 		$mpdf = new mPDF('c');
 		$mpdf->writeHTML($html);
 		$mpdf->Output("policy_cancel.pdf","I");
@@ -3875,7 +3879,7 @@ class Plan extends MY_Controller {
 
 		//print_r($this->input->post());die('====');
 
-		if ($this->input->post('customer_full_name')) {
+		if ($this->input->post('customer_full_name') || ($data['plan']['product_short'] == 'TOP')) {
 			$data['insure_co'] = 'Allianz Travel Insurance Coordinators Ltd';
 			if (($plan['product_short'] == 'JFR') || ($plan['product_short'] == 'JES') || ($plan['product_short'] == 'JFPL') || ($plan['product_short'] == 'JESP') || ($plan['product_short'] == 'JFS') || ($plan['product_short'] == 'JFE') || ($plan['product_short'] == 'BHS')) {
 				$data['insure_co'] = "Berkley Canada";
@@ -3888,7 +3892,11 @@ class Plan extends MY_Controller {
 			$data['province2'] = $this->input->post('province2');
 			$data['postcode'] = $this->input->post('postcode');
 			$data['style'] = $this->load->view('common/pdf_style',$data, TRUE);
-			$html = $this->load->view('plan/refund', $data, TRUE);
+      if ($data['plan']['product_short'] == 'TOP') {
+        $html = $this->load->view('plan/top/cancel', $data, TRUE);
+      } else {
+        $html = $this->load->view('plan/refund', $data, TRUE);
+      }
 			$mpdf = new mPDF('c');
 			$mpdf->writeHTML($html);
       $mpdf->Output("policy_refund.pdf","I");
