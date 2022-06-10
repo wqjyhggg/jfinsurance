@@ -91,7 +91,7 @@ class Receivable extends MY_Controller
                 'refund_date' => 'Refund Date',
                 'total_days' => 'Trip Length',
                 'policy_premium' => 'Premium',
-                'net_premium' => 'Net',
+                'pa_amount' => 'Net',
         		'commission_amount' => 'Commission',
         		'cal_comm_rate' => 'Ratio',
         );
