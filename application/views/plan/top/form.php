@@ -72,11 +72,8 @@
               <li style="float: right;"><a href="<?php echo $sendpackage_url . $plan_id; ?>"><span class="btn btn-info" style='color: #fff;'>Send Package</span></a></li>
             <?php } ?>
             <?php if ((($status_id == Plan_model::PAID) || ($status_id == Plan_model::SOLD) || ($status_id == Plan_model::CHANGED)) && $user_group_id <= 100) { ?>
-              <?php if (time() < strtotime($effective_date)) { ?>
-                <li style="float: right;"><a href="<?php echo $cancel_url . $plan_id; ?>" target="_blank"><span class="btn btn-info" style='color: #fff;'>Cancel</span></a></li>
-              <?php   } else { ?>
-                <li style="float: right;"><a href="<?php echo $refund_url . $plan_id; ?>" target="_blank"><span class="btn btn-info" style='color: #fff;'>Refund</span></a></li>
-              <?php   } ?>
+              <li style="float: right;"><a href="<?php echo $cancel_url . $plan_id; ?>" target="_blank"><span class="btn btn-info" style='color: #fff;'>Cancel</span></a></li>
+              <li style="float: right;"><a href="<?php echo $refund_url . $plan_id; ?>" target="_blank"><span class="btn btn-info" style='color: #fff;'>Refund</span></a></li>
             <?php } else if (($status_id == Plan_model::REFUND) && ($user_group_id <= 100) && !empty($refund_letter_url)) { ?>
               <li style="float: right;"><a href="<?php echo $refund_letter_url; ?>" target="_blank"><span class="btn btn-info" style='color: #fff;'>Refund Letter</span></a></li>
             <?php } else if (($status_id == Plan_model::CANCEL) && ($user_group_id <= 100) && !empty($cancel_letter_url)) { ?>
