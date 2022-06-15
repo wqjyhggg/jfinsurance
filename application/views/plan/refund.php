@@ -90,7 +90,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 		<br />
 		<div class="row">
 			<div class="col-sm-12 nopadding">
-				<p><span style="border-top:1px solid #777;">For and on hehalf of</span><br /> JF Insurance Agency Group Inc.</p>
+				<p><span style="border-top:1px solid #777;">For and on behalf of</span><br /> JF Insurance Agency Group Inc.</p>
 			</div>
 		</div>		
 		<div class="row">
