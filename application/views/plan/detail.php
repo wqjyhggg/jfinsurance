@@ -281,6 +281,7 @@ $usepsi = false;
 							</div>
 							
 						</div><!-- end p-detail --><br />
+            <?php if ($beuser['user_group_id'] < 106) { ?>
 						<div class="row">
 								<div class="col-sm-12">
 								<?php if (!empty($payment_total)) { ?>						
@@ -303,15 +304,15 @@ $usepsi = false;
 									<a class="btn btn-info pull-right" target="_blank" href='<?php echo $pdf_url; ?>'>Export PDF</a>
 									<?php } ?>
 								<?php } ?>
-
 								</div>
 						</div>
+            <?php } ?>
 					</div><!-- x_content -->
 				</div>
 			</div>
 		</div>
 		<!-- End Form -->
-	<?php if (!empty($payment_total)) { ?>
+	<?php if (!empty($payment_total) && ($beuser['user_group_id'] < 106)) { ?>
 		<!-- Payment -->
 		<div class="row" id="payment-div" style="padding-bottom:30px;">
 			<div class="col-md-12 col-sm-12 col-xs-12">
