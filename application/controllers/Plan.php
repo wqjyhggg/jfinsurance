@@ -3318,7 +3318,7 @@ class Plan extends MY_Controller {
 		$data['style'] = $this->load->view('common/pdf_style',$data, TRUE);		
 		$data['hadheaderfooter'] = 0;
     if ($data['plan']['product_short'] == 'JFVTC') {
-      $mpdf = new mPDF('c', 'A4', 0, '', $mgl = 0, $mgr = 0, $mgt = 15, $mgb = 0, $mgh = 0, $mgf = 0, $orientation = 'P');
+      $mpdf = new mPDF('+aCJK', 'A4', 0, '', $mgl = 0, $mgr = 0, $mgt = 15, $mgb = 0, $mgh = 0, $mgf = 0, $orientation = 'P');
       if ($plan['status_id'] < 2) {
         $mpdf->SetWatermarkText ("QUOTE", 0.1);
         $mpdf->showWatermarkText = true;
@@ -3333,7 +3333,7 @@ class Plan extends MY_Controller {
       }
       // $mpdf->SetHTMLFooter('<img style="width:100%;" src="'.base_url().'image/pdf_footer.png" />');
     } else if (($data['plan']['product_short'] == 'JFPL') || ($data['plan']['product_short'] == 'JFGD') || ($data['plan']['product_short'] == 'JFSL')) {
-      $mpdf = new mPDF('c', 'A4', 0, '', $mgl = 0, $mgr = 0, $mgt = 15, $mgb = 0, $mgh = 0, $mgf = 0, $orientation = 'P');
+      $mpdf = new mPDF('+aCJK', 'A4', 0, '', $mgl = 0, $mgr = 0, $mgt = 15, $mgb = 0, $mgh = 0, $mgf = 0, $orientation = 'P');
       if ($plan['status_id'] < 2) {
         $mpdf->SetWatermarkText ("QUOTE", 0.1);
         $mpdf->showWatermarkText = true;
@@ -3348,7 +3348,7 @@ class Plan extends MY_Controller {
       }
     // $mpdf->SetHTMLFooter('<img style="width:100%;" src="'.base_url().'image/pdf_footer.png" />');
     } else {
-      $mpdf = new mPDF('c');
+      $mpdf = new mPDF('+aCJK');
       if ($plan['status_id'] < 2) {
         $mpdf->SetWatermarkText ("QUOTE", 0.1);
         $mpdf->showWatermarkText = true;
@@ -3358,6 +3358,8 @@ class Plan extends MY_Controller {
       }
       $html = $this->load->view('plan/pdf', $data, TRUE);
     }
+    $mpdf->autoLangToFont=true;
+    $mpdf->autoScriptToLang=true;
 		$mpdf->writeHTML($html);
 		$mpdf->Output("Policy.pdf","I");
 	}
