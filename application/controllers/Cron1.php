@@ -1,7 +1,7 @@
 <?php
 defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 
-class Cron extends MY_Controller {
+class Cron1 extends MY_Controller {
 	public $error;
 
 	const FTP_HOST="72.142.65.148";
@@ -433,7 +433,7 @@ class Cron extends MY_Controller {
 		$outdir = '/tmp/';
 		$pattern = "/^([_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,}))(.*)$/";
 		
-		$uploadFilename = 'OPL2_Sales_Report_' . date('Y.m.d_H.i.s.B') . '.xlsx';
+		$uploadFilename = 'OPL2_Sales_Report_2021_11_12' . '.xlsx';
 		//$uploadFilename = 'OPL2_Sales_Report_2019.03.31_03.00.00.111.xlsx';
 		$outfile = $outdir . $uploadFilename;
 		/*
@@ -503,10 +503,8 @@ class Cron extends MY_Controller {
 		$status_list = $this->status_model->status_list();
 		
 		$para = array();
-		$para['last_update'] = date('Y-m-d', time() - 86400) . " 00:00:00";
-		$para['last_update2'] = date('Y-m-d', time() - 86400) . " 23:59:59";
-		//$para['last_update'] =  "2019-03-30 00:00:00";
-		//$para['last_update2'] = "2019-03-30 23:59:59";
+		$para['last_update'] = "2021-11-01 00:00:00";
+		$para['last_update2'] = "2021-12-31 23:59:59";
 		$para['product_short'] = 'OPL';
 		$plansOPL = $this->plan_model->plan_search($para, 0);
 		$para['product_short'] = 'JFC';
@@ -583,7 +581,7 @@ class Cron extends MY_Controller {
 			$address1 = $plan['street_number'] . " " . $plan['street_name']; // [Address1] field text must be 50 characters maximum
 			if (strlen($address1) > 49) $address1 = substr($address1, 0, 49);
 			$sheet->setCellValue('I'.$row, $address1); // Address1
-			$sheet->setCellValue('J'.$row, ($plan['suite_number']) ? " Suite " . $plan['suite_number'] : ""); // Address2
+			$sheet->setCellValue('J'.$row, ($plan['suite_number']) ? " Suite" . $plan['suite_number'] : ""); // Address2
 			$sheet->setCellValue('K'.$row, $plan['city']); // City
 			$sheet->setCellValue('L'.$row, $plan['province2']); // Provincec
 			$sheet->setCellValue('M'.$row, $plan['postcode']); // Postal Code
@@ -646,7 +644,7 @@ class Cron extends MY_Controller {
 					$sheet->setCellValue('H'.$row, PHPExcel_Shared_Date::PHPToExcel(strtotime($c['birthday'] . ' 00:00:00 UTC')));
 					$sheet->getStyle('H'.$row)->getNumberFormat()->setFormatCode('m/d/yyyy h:mm:ss AM/PM');
 					$sheet->setCellValue('I'.$row, $address1); // Address1
-					$sheet->setCellValue('J'.$row, ($plan['suite_number']) ? "Suite " . $plan['suite_number'] : ""); // Address2
+					$sheet->setCellValue('J'.$row, ($plan['suite_number']) ? " Suite" . $plan['suite_number'] : ""); // Address2
 					$sheet->setCellValue('K'.$row, $plan['city']); // City
 					$sheet->setCellValue('L'.$row, $plan['province2']); // Provincec
 					$sheet->setCellValue('M'.$row, $plan['postcode']); // Postal Code
@@ -692,21 +690,6 @@ class Cron extends MY_Controller {
 		$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
 		$objWriter->save($outfile);
 		echo "Save to : " . $outfile . "\n";
-		$uploaded = FALSE;
-		for ($i = 0; $i < 5; $i++) {
-			$uploaded = $this->ftp($outfile, $uploadFilename);
-			if ($uploaded) {
-				// unlink($outfile);
-				break;
-			}
-			sleep(60); // wait 1 minute too retry
-		}
-
-		if (!$uploaded) {
-			$this->load->model("mymail_model");
-			$this->mymail_model->send_mymail('wqjyhggg@gmail.com', 'JF upload error', "File: " . $outfile);
-			$this->mymail_model->send_mymail('IT@jfgroup.ca', 'JF upload error', "File: " . $outfile, array($outfile));
-		}
 	}
 
 	public function delbatch() {
@@ -724,149 +707,156 @@ class Cron extends MY_Controller {
 		$this->db->query($sql);
 	}
 
-  public function gerenate_pdf()
-	{
-		$this->valid();
-		set_time_limit(0);
-
-    $batchArr = array("3251","3294","3295","3296","3297","3298");
-    $beuser = $this->session->userdata('beuser');
-		$this->load->model('plan_model');
-    $this->load->model('customer_model');
-    $this->load->model('product_model');
-    $this->load->model('paytype_model');
-    $this->load->model('status_model');
-    $this->load->model('payment_model');
-
-    foreach ($batchArr as $batchno) {
-      if ($plans = $this->plan_model->plan_search(array("batch_number"=>$batchno))) {
-        foreach ($plans as $plan) {
-          $plan_id = $plan['plan_id'];
-          $data['beuser'] = $beuser;
-          $data['plan'] = $plan;
-          $data['pdf_enable'] = empty($beuser['pdf_product']) ? array() : json_decode($beuser['pdf_product']);
-          $data['emailaddr'] = $plan['contact_email'];
-          $data['withlogo'] = 1;
-          $data['withprice'] = 0;
-		
-          $product = $this->product_model->get_product($plan['product_short']);
-          $data['payment'] = '';
-          $data['plan_full_name'] = $product ? $product['full_name'] : '';
-          $data['customer'] = $this->customer_model->get_customer_by_id($data['plan']['customer_id']);
-          $data['customers'] = $this->customer_model->get_customer_by_parent_id($data['plan']['customer_id']);
-          $data['paytype_list'] = $this->paytype_model->paytype_list();
-          $data['status_list'] = $this->status_model->status_list();
-          $data['html_model'] = $this->html_model;
-          
-          if ($data['plan']['product_short'] == 'OPL') {
-            $data['insurable_options'] = $this->load->view('plan/detail_opl', $data, TRUE);
-            $data['special_note'] = $this->load->view('plan/pdf_note_opl',$data, TRUE);
-          } else if ($data['plan']['product_short'] == 'JFVTC') {
-            $data['insurable_options'] = $this->load->view('plan/detail_opl', $data, TRUE);
-            $data['special_note'] = $this->load->view('plan/pdf_note_jfr',$data, TRUE);
-          } else if ($data['plan']['product_short'] == 'JFR') {
-            $data['insurable_options'] = $this->load->view('plan/detail_opl', $data, TRUE);
-            $data['special_note'] = $this->load->view('plan/pdf_note_jfr',$data, TRUE);
-          } else if ($data['plan']['product_short'] == 'JUS') {
-            $data['insurable_options'] = $this->load->view('plan/detail_jus', $data, TRUE);
-            $data['special_note'] = $this->load->view('plan/pdf_note_jus',$data, TRUE);
-          } else if ($data['plan']['product_short'] == 'NUS') {
-            $data['insurable_options'] = $this->load->view('plan/detail_jus', $data, TRUE);
-            $data['special_note'] = $this->load->view('plan/pdf_note_nus',$data, TRUE);
-          } else if ($data['plan']['product_short'] == 'JFS') {
-            $data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
-            $data['special_note'] = $this->load->view('plan/pdf_note_jes',$data, TRUE);
-          } else if ($data['plan']['product_short'] == 'JFE') {
-            $data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
-            $data['special_note'] = $this->load->view('plan/pdf_note_jes',$data, TRUE);
-          } else if ($data['plan']['product_short'] == 'BHS') {
-            $data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
-            $data['special_note'] = $this->load->view('plan/pdf_note_jes',$data, TRUE);
-          } else if ($data['plan']['product_short'] == 'JES') {
-            $data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
-            $data['special_note'] = $this->load->view('plan/pdf_note_jes',$data, TRUE);
-          } else if ($data['plan']['product_short'] == 'JFPL') {
-            $data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
-            $data['special_note'] = $this->load->view('plan/pdf_note_jes',$data, TRUE);
-          } else if ($data['plan']['product_short'] == 'JFSL') {
-            $data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
-            $data['special_note'] = $this->load->view('plan/pdf_note_jes',$data, TRUE);
-          } else if ($data['plan']['product_short'] == 'JFGD') {
-            $data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
-            $data['special_note'] = $this->load->view('plan/pdf_note_jes',$data, TRUE);
-          } else if ($data['plan']['product_short'] == 'JESP') {
-            $data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
-            $data['special_note'] = $this->load->view('plan/pdf_note_jes',$data, TRUE);
-          } else if ($data['plan']['product_short'] == 'JFC') {
-            $data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
-            $data['special_note'] = $this->load->view('plan/pdf_note_jfc',$data, TRUE);
-          } else if ($data['plan']['product_short'] == 'JFP') {
-            $data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
-            $data['special_note'] = $this->load->view('plan/pdf_note_jfc',$data, TRUE);
-          } else if ($data['plan']['product_short'] == 'TOP') {
-            $data['insurable_options'] = '';
-            $data['special_note'] = $this->load->view('plan/top/pdf_note_top',$data, TRUE);
-            $files = array(
-            'TOP_Policy.pdf' => DOWNLOADDIR . 'TOP_Policy.pdf',
-            'TOP_Baggage_Claim_Form.pdf' => DOWNLOADDIR . 'TOP_Baggage_Claim_Form.pdf',
-            'TOP_Cancellation_Claim_Form.pdf' => DOWNLOADDIR . 'TOP_Cancellation_Claim_Form.pdf',
-            'TOP_Medical_Claim_Form.pdf' => DOWNLOADDIR . 'TOP_Medical_Claim_Form.pdf',
-            'TOP_Benefit_Summary.pdf' => DOWNLOADDIR . 'TOP_Benefit_Summary.pdf'
-            );
-          } else {
-            $data['insurable_options'] = $this->load->view('plan/detail_other', $data, TRUE);
-          }
-          
-          $policy_file = "confirm_".$batchno.$plan_id.".pdf";
-          //$policy_file = "C:\Users\Administrator\AppData\Local\Temp\Policy";
-          $data['title_txt'] = 'Policy';
-          $data['style'] = $this->load->view('common/pdf_style',$data, TRUE);
-          $data['hadheaderfooter'] = 0;
-          if ($data['plan']['product_short'] == 'JFVTC') {
-            $mpdf = new mPDF('c', 'A4', 0, '', $mgl = 0, $mgr = 0, $mgt = 15, $mgb = 0, $mgh = 0, $mgf = 0, $orientation = 'P');
-            if ($data['withlogo']) {
-              $mpdf->SetHTMLHeader('<img style="width:100%;" src="'.base_url().'image/pdf_header.png" />');
-            }
-            $data['hadheaderfooter'] = 1;
-            $html = $this->load->view('plan/pdf_jfvtc', $data, TRUE);
-          } else if (($data['plan']['product_short'] == 'JFSL') || ($data['plan']['product_short'] == 'JFGD')) {
-            $mpdf = new mPDF('c', 'A4', 0, '', $mgl = 0, $mgr = 0, $mgt = 15, $mgb = 0, $mgh = 0, $mgf = 0, $orientation = 'P');
-            if ($data['withlogo']) {
-              $mpdf->SetHTMLHeader('<img style="width:100%;" src="'.base_url().'image/pdf_header.png" />');
-            }
-            $data['hadheaderfooter'] = 1;
-            $html = $this->load->view('plan/pdf_jfsl', $data, TRUE);
-          } else if ($data['plan']['product_short'] == 'JFPL') {
-            $mpdf = new mPDF('c', 'A4', 0, '', $mgl = 0, $mgr = 0, $mgt = 15, $mgb = 0, $mgh = 0, $mgf = 0, $orientation = 'P');
-            if ($data['withlogo']) {
-              $mpdf->SetHTMLHeader('<img style="width:100%;" src="'.base_url().'image/pdf_header.png" />');
-            }
-            // $mpdf->SetHTMLFooter('<img style="width:100%;" src="'.base_url().'image/pdf_footer.png" />');
-            $data['hadheaderfooter'] = 1;
-            $html = $this->load->view('plan/pdf', $data, TRUE);
-          } else {
-            $mpdf = new mPDF('c');
-            $html = $this->load->view('plan/pdf', $data, TRUE);
-          }
-          $mpdf->writeHTML($html);
-          $mpdf->Output(DOWNLOADDIR . "tmppdf/" . $policy_file, 'F');
-          echo "https://agent.jfgroup.ca/tmppdf/".$policy_file."\n";
-        }
-			}
-		}
-	}
-
 	public function test() {
-    $this->load->model('plan_history_model');
-    //$sql = "SELECT * FROM `plan` WHERE batch_number=3357";
-    $sql = "SELECT * FROM `plan` WHERE batch_number=3244";
-    //$sql = "SELECT * FROM `plan` WHERE batch_number=3321";
-    //$sql = "SELECT * FROM `plan` WHERE batch_number=3346";
-    $rt = $this->db->query($sql)->result_array();
-    foreach ($rt as $rc) {
-	    print_r($rc);
-      $history_id = $this->plan_history_model->add($rc['plan_id'], $rc['status_id']);
-    }
-    exit;
+		$agentArr = array('155',
+'187',
+'289',
+'324',
+'416',
+'671',
+'711',
+'783',
+'833',
+'901',
+'902',
+'921',
+'929',
+'930',
+'958',
+'971',
+'989',
+'1002',
+'1009',
+'1010',
+'1018',
+'1028',
+'1057',
+'1133',
+'1148',
+'1180',
+'1209',
+'1236',
+'1250',
+'1253',
+'1281',
+'1288',
+'1319',
+'1329',
+'1334',
+'1362',
+'1365',
+'1389',
+'1410',
+'1422',
+'1432',
+'1433',
+'1449',
+'1473',
+'1474',
+'1537',
+'1587',
+'1607',
+'1614',
+'1618',
+'1631',
+'1644',
+'1667',
+'1668',
+'1685',
+'1693',
+'1705',
+'1734',
+'1737',
+'1741',
+'1744',
+'1748',
+'1767',
+'1788',
+'1789',
+'1806',
+'1813',
+'1846',
+'1850',
+'1852',
+'1867',
+'1869',
+'1889',
+'1896',
+'1897',
+'1902',
+'1905',
+'1947',
+'1960',
+'1972',
+'2003',
+'2016',
+'2018',
+'2019',
+'2020',
+'2548',
+'2031',
+'2038',
+'2046',
+'2052',
+'2077',
+'2098',
+'2114',
+'2117',
+'2127',
+'2128',
+'2138',
+'2159',
+'2164',
+'2170',
+'2172',
+'2178',
+'2203',
+'2211',
+'2212',
+'2221',
+'2237',
+'2267',
+'2292',
+'2299',
+'2304',
+'2311',
+'2322',
+'2324',
+'2336',
+'2346',
+'2347',
+'2351',
+'2388',
+'2427',
+'2428',
+'2429',
+'2690',
+'2433',
+'2436',
+'2473',
+'2556',
+'2479',
+'2524',
+'2579',
+'2580',
+'2590',
+'2596',
+'2603',
+'2623',
+'2631',
+'2678',
+'2708',
+'2719',
+'2769',
+'2827',
+'2847');
+		foreach ($agentArr as $agent_id) {
+			$sql = "UPDATE plan SET region_id=3 WHERE user_id='".(int)$agent_id."'";
+			echo $sql."\n";
+			$this->db->query($sql);
+			$sql = "UPDATE user SET region_id=3 WHERE user_id='".(int)$agent_id."'";
+			echo $sql."\n";
+			$this->db->query($sql);
+		}
 	}
 }
