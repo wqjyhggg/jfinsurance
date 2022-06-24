@@ -3710,7 +3710,7 @@ class Plan extends MY_Controller {
 		$data['adminfee'] = 40;
 		$data['refund_enable'] = 1;
 		if ($plan['product_short'] == 'TOP') {
-			$data['adminfee'] = 20;
+			$data['adminfee'] = 25;
 			$data['top_refund_notes'] = "Only Single Medical Plan can do refund.";
 			if ($plan['package'] != 'single_medical_plan') {
 				$data['top_refund_notes'] .= " This plan can't be refunded.";
