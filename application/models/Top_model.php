@@ -5628,8 +5628,13 @@ class Top_model extends CI_Model  {
 				$this->single_medical_plan($para, 0);
 			}
 			if ($this->premiumArr['status'] == 'OK') {
-				$refund = $this->premiumArr['premium'] - $this->premiumArr['premium'] * $days / $plan['totaldays'];
-				if ($refund > 0) {
+        $usedamount = $this->premiumArr['premium'] * $days / $plan['totaldays'];
+        if ($usedamount < 25) {
+          $usedamount = 25;
+        }
+
+				$refund = $this->premiumArr['premium'] - $usedamount;
+ 				if ($refund > 0) {
 					return round($refund, 2);
 				}
 			}
