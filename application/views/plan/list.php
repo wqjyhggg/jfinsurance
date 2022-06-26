@@ -23,7 +23,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               <div class="title_left">
                 <h3>View/Edit Policy
                 	
-                	<?php if($beuser['user_group_id'] != 3 && $beuser['user_group_id'] != 103){ ?>
+                	<?php if (($beuser['user_group_id'] != 3) && ($beuser['user_group_id'] != 103) && ($beuser['user_group_id'] != 106)) { ?>
                 	<span class="btn btn-info" data-toggle="collapse" data-target="#create-div" title="Create New"><i class="fa fa-plus"></i> New</span>
 	            	<?php } ?>
 	            </h3>
