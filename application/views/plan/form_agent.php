@@ -425,7 +425,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							</fieldset>
 						</div>
 					</div><br />
-
+          <?php if (($user_group_id == 106) && !empty($plan_id)) { ?>
 					<div class="row">
 						<div class="col-sm-12" id='goto_next_page'>
 						<?php if (!empty($next_url)) { ?>
@@ -439,6 +439,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<div class="col-sm-12 alert-error float-error" title="Click to Close the notice" style="display:none;" id='error_next_page'>
 						</div>
 					</div>
+          <?php } ?>
 					
 					<div class="row">
 						<div class="col-sm-12">
