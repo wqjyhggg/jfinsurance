@@ -625,7 +625,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					</div><br />
 
 
-					<?php if(($user_group_id>100 && $status_id>1) || ($user_group_id == 3) || ($user_group_id == 103) || ($user_group_id == 106)) { ?>
+					<?php if ((($user_group_id>100) && ($status_id>1)) || ($user_group_id == 3) || ($user_group_id == 103)) { ?>
 					<div class="row" style="display:none;">
 					<?php }else{ ?>
 					<div class="row">
