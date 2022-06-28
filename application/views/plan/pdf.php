@@ -193,7 +193,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
             JF Canadian Travel Out Plan:
             <br />&nbsp;&nbsp;&nbsp;<span><?php echo $toppackagename[$plan['package']]; ?></span>
             <?php if ($plan['package'] == 'all_inclusive') { ?>
-              <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Medical : $10,000,000</span>
+              <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Medical : $5,000,000</span>
               <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Baggage : $1,000</span>
               <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>AD&D : $50,000</span>
               <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Flight Accident : $100,000</span>
@@ -218,7 +218,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
               <?php     } ?>
             <?php } else if ($plan['package'] == 'annual_plan') { ?>
               <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Selected days : <?php echo $plan['annual_plan_days']; ?></span>
-              <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Medical : $10,000,000</span>
+              <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Medical : $5,000,000</span>
               <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Baggage : N/A</span>
               <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>AD&D : N/A</span>
               <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Flight Accident: N/A</span>
