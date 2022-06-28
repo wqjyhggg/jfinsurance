@@ -425,7 +425,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							</fieldset>
 						</div>
 					</div><br />
-          <?php if (($user_group_id == 106) && !empty($plan_id)) { ?>
+          <?php if ($user_group_id != 106) { ?>
 					<div class="row">
 						<div class="col-sm-12" id='goto_next_page'>
 						<?php if (!empty($next_url)) { ?>
