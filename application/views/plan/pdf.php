@@ -204,7 +204,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
               <?php } ?>
             <?php } else if (($plan['package'] == 'single_medical_plan') || ($plan['package'] == 'optional_plan')) { ?>
               <?php if ($plan['package'] == 'single_medical_plan') { ?>
-                <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Sum Insured: $10,000,000</span>
+                <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Sum Insured: $5,000,000</span>
               <?php     } ?>
               <?php if ($plan['ad_and_d_ck']) { ?>
                 <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>AD & D : $<?php echo number_format($plan['ad_and_d_insured'], 2); ?></span>
