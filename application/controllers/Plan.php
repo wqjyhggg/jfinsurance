@@ -123,7 +123,7 @@ class Plan extends MY_Controller {
 		if (($beuser['user_group_id'] < 100) || ($beuser['user_id'] == 3744)) $data['export_logo_price_option'] = TRUE;
 			
 		$this->session->set_userdata ( 'withlogo', 1);
-		if ($beuser['user_group_id'] != 103) {
+		if (($beuser['user_group_id'] != 103) && ($beuser['user_group_id'] != 106)) {
 			$this->session->set_userdata ( 'withprice', 1);
 		} else {
 			$this->session->set_userdata ( 'withprice', 0);
@@ -1463,7 +1463,7 @@ class Plan extends MY_Controller {
 		$data['export_logo_price_option'] = FALSE;
 		if (($beuser['user_group_id'] < 100) || ($beuser['user_id'] == 3744)) $data['export_logo_price_option'] = TRUE;
 		$this->session->set_userdata ( 'withlogo', 1);
-		if ($beuser['user_group_id'] != 103) {
+		if (($beuser['user_group_id'] != 103) && ($beuser['user_group_id'] != 106)) {
 			$this->session->set_userdata ( 'withprice', 1);
 		} else {
 			$this->session->set_userdata ( 'withprice', 0);
@@ -2954,7 +2954,7 @@ class Plan extends MY_Controller {
 		}
 		
 		$this->session->set_userdata ( 'withlogo', 1);
-		if ($beuser['user_group_id'] != 103) {
+		if (($beuser['user_group_id'] != 103) && ($beuser['user_group_id'] != 106)) {
 			$this->session->set_userdata ( 'withprice', 1);
 		} else {
 			$this->session->set_userdata ( 'withprice', 0);
@@ -2997,7 +2997,7 @@ class Plan extends MY_Controller {
 				$withbatch = $this->input->post('withbatch');
 			} else {
 				$data['withlogo'] = 1;
-				if ($beuser['user_group_id'] != 103) {
+        if (($beuser['user_group_id'] != 103) && ($beuser['user_group_id'] != 106)) {
 					$data['withprice'] = 1;
 				} else {
 					$data['withprice'] = 0;
@@ -3265,7 +3265,10 @@ class Plan extends MY_Controller {
 		$data['paytype_list'] = $this->paytype_model->paytype_list();
 		$data['status_list'] = $this->status_model->status_list();
 		$data['withlogo'] = $this->session->userdata('withlogo');
-		$data['withprice'] = $this->session->userdata('withprice');
+    $data['withprice'] = $this->session->userdata('withprice');
+		if (($beuser['user_group_id'] == 103) || ($beuser['user_group_id'] == 106)) {
+      $data['withprice'] = 0;
+    }
 		$data['html_model'] = $this->html_model;
 		
 		if ($data['plan']['product_short'] == 'OPL') {
