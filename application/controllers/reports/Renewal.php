@@ -92,6 +92,8 @@ class Renewal extends MY_Controller
                 'effective_date' => 'Effective Date',
                 'expiry_date' => 'Expiry Date',
                 'customer_name' => 'Customer Name',
+                'gender' => 'Gender',
+                'birthday' => 'Birthday',
                 'province' => 'Province',
                 'phone' => 'Phone Number',
                 'email' => 'Email Address'

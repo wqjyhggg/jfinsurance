@@ -227,7 +227,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <td><?=$report_data['period']['from'] ?></td> 
                                 <td>To </td>
                                 <td><?=$report_data['period']['to'] ?></td>
-                                <td colspan=4></td>
+                                <td colspan=6></td>
                                 
                             </td></tr>
                             <tr><td colspan=7>Agent: <?=$renewal_data['agency'] ?></td></tr>
@@ -236,6 +236,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <th>Effective Date</th>
                             <th>Expiry Date</th>
                             <th>Customer Name</th>
+                            <th>Gender</th>
+                            <th>Birthday</th>
                             <th>Province</th>
                             <th>Phone Number</th>
                             <th>Email Address</th>
@@ -246,6 +248,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                               <td><?=$record['effective_date'] ?></td>
                               <td><?=$record['expiry_date'] ?></td>
                               <td><?=$record['customer_name'] ?></td>
+                              <td><?=$record['gender'] ?></td>
+                              <td><?=$record['birthday'] ?></td>
                               <td><?=$record['province'] ?></td>
                               <td><?=$record['phone'] ?></td>
                               <td><?=$record['email'] ?></td>

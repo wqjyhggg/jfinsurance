@@ -714,6 +714,8 @@ class Report_model extends CI_Model
             pl.effective_date,
             pl.expiry_date,
             CONCAT(c.firstname, " ", c.lastname) AS customer_name,
+            c.gender,
+            c.birthday,
             pl.province2 AS province,
             pl.phone1 AS phone,
             pl.contact_phone,
