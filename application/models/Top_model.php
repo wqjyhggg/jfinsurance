@@ -5375,7 +5375,7 @@ class Top_model extends CI_Model  {
 		}
 		
 		if (($data['totaldays'] < $mindays) || ($data['totaldays'] > $maxdays)) {
-			$this->premiumArr['message'] = 'Please select days less than 120.';
+			$this->premiumArr['message'] = 'Please select days less than 90.';
 			$this->premiumArr['active_tab'] = 'date_members_tab';
 			return 1;
 		}
@@ -5419,7 +5419,7 @@ class Top_model extends CI_Model  {
 	private function all_inclusive($data, $ischeck) {
 		$arr = 'all_inclusive';
 		$mindays = 1;
-		$maxdays = 90;  //120;
+		$maxdays = 90;
 
 		if ($data['age'] < 30) {
 			$arr = 'all_inclusive_0_29';
