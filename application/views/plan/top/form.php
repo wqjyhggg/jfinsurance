@@ -44,7 +44,11 @@
     <!-- Form Section -->
     <div class="row">
       <div class="col-md-12 col-sm-12 col-xs-12">
-        <div class="alert-error"><?php echo empty($error_message) ? '<H2 style="width: 100%; text-align: center;">The policy must purchase before departure</H2>' : $error_message . "<br>"; ?></div>
+        <?php if (empty($plan_id) || empty($status_id)) { ?>
+        <div class="alert-error"><H2 style="width: 100%; text-align: center;">The policy must purchase before departure</H2></div>
+        <?php } ?>
+
+        <div class="alert-error"><?php echo empty($error_message) ? '' : $error_message . "<br>"; ?></div>
         <ul class="nav nav-tabs" id="top-nav-tabs">
           <li id='date_members_li' class="active"><a data-toggle="tab" id="date_members_tab" href="#date_members">Date / Members</a></li>
           <li id='packages_li'><a data-toggle="tab" id="packages_tab" href="#packages">Packages</a></li>
