@@ -5468,6 +5468,9 @@ class Top_model extends CI_Model  {
 
     $dayidx = intval($data['totaldays'] - $mindays);	// change to index
 		$sum_idx = intval($data['sum_insured'] / 100);
+    if ($sum_idx > 25) {
+      $sum_idx = 25 + intval(($sum_idx - 25) / 5);
+    }
 
     if (!isset($this->{$arr}) || !is_array($this->{$arr}) || !isset($this->{$arr}[$dayidx][$sum_idx])) {
 			$this->premiumArr['message'] = 'Out of condition range. Please check Days, insured amount and other conditions.';
