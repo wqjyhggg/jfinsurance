@@ -529,7 +529,7 @@
                       <legend>Special Note/Instructions</legend>
                       <div class="row">
                         <div class="col-sm-12">
-                          <label class="col-sm-12">Notes: </label>
+                          <label class="col-sm-12">Notes: (Please provide previous coverage)</label>
                           <div class="input-group col-sm-12">
                             <textarea class="form-control" name="note"><?php echo $note; ?></textarea>
                           </div>
@@ -1645,6 +1645,68 @@
       get_premium();
     }
 
+    $('input[name="arrival_date"]').change(function() {
+      var applydt = $('input[name="apply_date"]').val();
+      var departturedt = $('input[name="arrival_date"]').val();
+      var effectivedt = $('input[name="effective_date"]').val();
+      var apply = new Date(applydt);
+      var departture = new Date(departturedt);
+      var effective = new Date(effectivedt);
+      if (apply.getTime() >= departture.getTime()) {
+        if (effective.getTime() >= departture.getTime()) {
+          alert("Confirm this is a TOP UP policy");
+          return;
+        } else if (apply.getTime() >= effective.getTime()) {
+          alert("Confirm this is an extended policy, And input provide previous coverage to specail note area");
+          return;
+        } else {
+          alert("Confirm policy is purchased before Departure");
+          return;
+        }
+      }
+      var expirydt = $('input[name="expiry_date"]').val();
+      var expiry = new Date(expirydt);
+      var diffdays = (effective.getTime() - effective.getTime()) / (1000 * 24 * 3600);
+      if (diffdays > 90) {
+        alert("Policy must less then 90 days");
+      }
+    });
+    $('input[name="effective_date"]').change(function() {
+      var applydt = $('input[name="apply_date"]').val();
+      var departturedt = $('input[name="arrival_date"]').val();
+      var effectivedt = $('input[name="effective_date"]').val();
+      var apply = new Date(applydt);
+      var departture = new Date(departturedt);
+      var effective = new Date(effectivedt);
+      if (apply.getTime() >= effective.getTime()) {
+        if (effective.getTime() >= departture.getTime()) {
+          alert("Confirm this is a TOP UP policy");
+          return;
+        } else if (apply.getTime() >= departture.getTime()) {
+          alert("Confirm this is an extended policy, And input provide previous coverage to specail note area");
+          return;
+        } else {
+          return;
+          alert("Confirm policy is purchased before Departure");
+        }
+      }
+      var expirydt = $('input[name="expiry_date"]').val();
+      var expiry = new Date(expirydt);
+      var diffdays = (effective.getTime() - effective.getTime()) / (1000 * 24 * 3600);
+      if (diffdays > 90) {
+        alert("Policy must less then 90 days");
+      }
+    });
+    $('input[name="expiry_date"]').change(function() {
+      var effectivedt = $('input[name="expiry_date"]').val();
+      var effective = new Date(effectivedt);
+      var expirydt = $('input[name="expiry_date"]').val();
+      var expiry = new Date(expirydt);
+      var diffdays = (effective.getTime() - effective.getTime()) / (1000 * 24 * 3600);
+      if (diffdays > 90) {
+        alert("Policy must less then 90 days");
+      }
+    });
     $('input[name="medical_eligible2"]').change(function() {
       var eli2 = $('input[name="medical_eligible2"]:checked').val();
       if (eli2 == "No") {
