@@ -44,9 +44,7 @@
     <!-- Form Section -->
     <div class="row">
       <div class="col-md-12 col-sm-12 col-xs-12">
-        <?php if (empty($plan_id) || empty($status_id)) { ?>
-        <div class="alert-error"><H2 style="width: 100%; text-align: center;">The policy must purchase before departure</H2></div>
-        <?php } ?>
+        <div class="alert-error"><H2 style="width: 100%; text-align: center;" id="title_alert_message"><?php if (empty($plan_id) || empty($status_id)) { ?>The policy must purchase before departure<?php } ?></H2></div>
 
         <div class="alert-error"><?php echo empty($error_message) ? '' : $error_message . "<br>"; ?></div>
         <ul class="nav nav-tabs" id="top-nav-tabs">
@@ -1601,6 +1599,53 @@
   }
 </script>
 <script type="text/javascript">
+  function mytestdate() {
+    var effectivedt = $('input[name="effective_date"]').val();
+    if (!effectivedt) {
+      return;
+    }
+    var effective = new Date(effectivedt);
+
+    var expirydt = $('input[name="expiry_date"]').val();
+    if (!expirydt) {
+      return;
+    }
+    var expiry = new Date(expirydt);
+
+    var diffdays = (expiry.getTime() - effective.getTime()) / (1000 * 24 * 3600) + 1;
+    if (diffdays > 90) {
+      $('#title_alert_message').text("Policy must less then 90 days");
+      return;
+    }
+
+    var departturedt = $('input[name="arrival_date"]').val();
+    if (!departturedt) {
+      return;
+    }
+    var departture = new Date(departturedt);
+    if (departture.getTime() > effective.getTime()) {
+      $('#title_alert_message').text("Policy departture date must earlier than effective date");
+      return;
+    } else if (departturedt == effectivedt) {
+      // Check apply data <= departture date (if normal policy)
+      $('#title_alert_message').text("Policy departture date must earlier than effective date");
+      return;
+    } else {
+      var applydt = $('input[name="apply_date"]').val();
+      if (!applydt) {
+        return;
+      }
+      var apply = new Date(applydt);
+      if (departture.getTime() < apply.getTime()) {
+        $('#title_alert_message').text("Confirm this is an extended policy, And input provide previous coverage to specail note area");
+        return;
+      } else {
+        $('#title_alert_message').text("Confirm this is a TOP UP policy");
+        return;
+      }
+    }
+    $('#title_alert_message').text('The policy must purchase before departure!!')
+  }
   $(document).ready(function() {
     $('[data-toggle="popover"]').popover();
 
@@ -1624,6 +1669,7 @@
         var myDate = new Date(myDate3);
         $('#expiry_date_div').datepicker('setDate', myDate);
       }
+      $('input[name="expiry_date"]').trigger("change");
     });
     $('#totaldays').change(function() {
       var days = $('#totaldays').val();
@@ -1633,6 +1679,7 @@
       var tm = myDate.getTime() + (days * 86400000) + 43200000;
       myDate.setTime(tm);
       $('#expiry_date_div').datepicker('setDate', myDate);
+      $('input[name="expiry_date"]').trigger("change");
     });
 
     $('body').on('change', '.check_premium', function() {
@@ -1645,67 +1692,17 @@
       get_premium();
     }
 
+    $('input[name="apply_date"]').change(function() {
+      mytestdate();
+    });
     $('input[name="arrival_date"]').change(function() {
-      var applydt = $('input[name="apply_date"]').val();
-      var departturedt = $('input[name="arrival_date"]').val();
-      var effectivedt = $('input[name="effective_date"]').val();
-      var apply = new Date(applydt);
-      var departture = new Date(departturedt);
-      var effective = new Date(effectivedt);
-      if (apply.getTime() >= departture.getTime()) {
-        if (effective.getTime() >= departture.getTime()) {
-          alert("Confirm this is a TOP UP policy");
-          return;
-        } else if (apply.getTime() >= effective.getTime()) {
-          alert("Confirm this is an extended policy, And input provide previous coverage to specail note area");
-          return;
-        } else {
-          alert("Confirm policy is purchased before Departure");
-          return;
-        }
-      }
-      var expirydt = $('input[name="expiry_date"]').val();
-      var expiry = new Date(expirydt);
-      var diffdays = (effective.getTime() - effective.getTime()) / (1000 * 24 * 3600);
-      if (diffdays > 90) {
-        alert("Policy must less then 90 days");
-      }
+      mytestdate();
     });
     $('input[name="effective_date"]').change(function() {
-      var applydt = $('input[name="apply_date"]').val();
-      var departturedt = $('input[name="arrival_date"]').val();
-      var effectivedt = $('input[name="effective_date"]').val();
-      var apply = new Date(applydt);
-      var departture = new Date(departturedt);
-      var effective = new Date(effectivedt);
-      if (apply.getTime() >= effective.getTime()) {
-        if (effective.getTime() >= departture.getTime()) {
-          alert("Confirm this is a TOP UP policy");
-          return;
-        } else if (apply.getTime() >= departture.getTime()) {
-          alert("Confirm this is an extended policy, And input provide previous coverage to specail note area");
-          return;
-        } else {
-          return;
-          alert("Confirm policy is purchased before Departure");
-        }
-      }
-      var expirydt = $('input[name="expiry_date"]').val();
-      var expiry = new Date(expirydt);
-      var diffdays = (effective.getTime() - effective.getTime()) / (1000 * 24 * 3600);
-      if (diffdays > 90) {
-        alert("Policy must less then 90 days");
-      }
+      mytestdate();
     });
     $('input[name="expiry_date"]').change(function() {
-      var effectivedt = $('input[name="expiry_date"]').val();
-      var effective = new Date(effectivedt);
-      var expirydt = $('input[name="expiry_date"]').val();
-      var expiry = new Date(expirydt);
-      var diffdays = (effective.getTime() - effective.getTime()) / (1000 * 24 * 3600);
-      if (diffdays > 90) {
-        alert("Policy must less then 90 days");
-      }
+      mytestdate();
     });
     $('input[name="medical_eligible2"]').change(function() {
       var eli2 = $('input[name="medical_eligible2"]:checked').val();
