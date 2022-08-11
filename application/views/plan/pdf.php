@@ -155,6 +155,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
           </h4>
           <h4>Email: <span><?php echo htmlspecialchars($plan['contact_email']); ?></sapn>
           </h4>
+          <?php if ($plan['product_short'] == 'TOP') { ?>
+          <h4>Beneficiary: <span><?php echo htmlspecialchars($plan['beneficiary']); ?></sapn>
+          </h4>
+          <?php } ?>
         </div>
         <div class="col-sm-1 nopadding">
           &nbsp;
