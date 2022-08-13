@@ -110,8 +110,11 @@
                       </div>
                     </div>
                   <?php } else { ?>
-                    <div class="form-group col-sm-6">
+                    <div class="form-group col-sm-3">
                       <h2><label><span>Date / Members</span></label></h2>
+                    </div>
+                    <div class="form-group col-sm-3">
+                      <label style="text-transform: capitalize;">By Agent<?php echo "[ AgentID:" . $policy_user['user_id'] . " ] "; ?>: <?php echo htmlspecialchars($policy_user['firstname'] . " " . $policy_user['lastname']); ?></label>
                     </div>
                   <?php } ?>
                   <?php if ($user_group_id != 1) { ?>
