@@ -1629,10 +1629,10 @@
     if (departture.getTime() > effective.getTime()) {
       $('#title_alert_message').text("Policy departture date must earlier than effective date");
       return;
-    } else if (departturedt == effectivedt) {
-      // Check apply data <= departture date (if normal policy)
-      $('#title_alert_message').text("Policy departture date must earlier than effective date");
-      return;
+    // } else if (departturedt == effectivedt) {
+    //   // Check apply data <= departture date (if normal policy)
+    //   $('#title_alert_message').text("Policy departture date must earlier than effective date");
+    //   return;
     } else {
       var applydt = $('input[name="apply_date"]').val();
       if (!applydt) {
