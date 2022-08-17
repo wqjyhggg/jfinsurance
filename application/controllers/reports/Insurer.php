@@ -97,7 +97,8 @@ class Insurer extends MY_Controller
       'net_premium' => 'Net Premium',
       'total_compensation_per' => 'Total Compensation Rate(%)',
       'total_compensation' => 'Total Compensation Amount',
-      'customer_cnt' => 'Total Members',
+      // 'customer_cnt' => 'Total Members',
+      'coverage' => 'Coverage',
       'added' => 'Purchase Date',
       'refund_date' => 'Refund Date',
     );

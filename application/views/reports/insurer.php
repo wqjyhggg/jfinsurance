@@ -208,7 +208,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
                       <th>Net Premium</th>
                       <th>Total Compensation Rate(%)</th>
                       <th>Total Compensation Amount</th>
-                      <th>Total Members</th>
+                      <!--th>Total Members</th-->
+                      <th>Coverage</th>
                       <th>Purchase Date</th>
                       <th>Refund Date</th>
                     </tr>
@@ -243,7 +244,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
                         <td>$<?= $record['net_premium'] ?></td>
                         <td><?= $record['total_compensation_per'] ?>%</td>
                         <td>$<?= $record['total_compensation'] ?></td>
-                        <td><?= $record['customer_cnt'] ?></td>
+                        <!--td><?= $record['customer_cnt'] ?></td-->
+                        <td><?= $record['coverage'] ?></td>
                         <td><?= $record['added'] ?></td>
                         <td><?= ($record['status_id'] == 6) ? $record['refund_date'] : '' ?></td>
                       </tr>
