@@ -99,10 +99,10 @@
               <!-- Start data members -->
               <div class="x_panel">
                 <div class="x_content">
+                  <div class="form-group col-sm-3">
+                    <h2><label><span><?php echo $policy; ?></span></label></h2>
+                  </div>
                   <?php if (($beuser_user_id == 1) || ($beuser_user_id == 2762)) { ?>
-                    <div class="form-group col-sm-3">
-                      <h2><label><span>Date / Members</span></label></h2>
-                    </div>
                     <div class="form-group col-sm-3">
                       <label style="display: inline-block;">User ID:</label>
                       <div style="display: inline-block;">
@@ -110,9 +110,6 @@
                       </div>
                     </div>
                   <?php } else { ?>
-                    <div class="form-group col-sm-3">
-                      <h2><label><span>Date / Members</span></label></h2>
-                    </div>
                     <div class="form-group col-sm-3">
                       <label style="text-transform: capitalize;">By Agent<?php echo "[ AgentID:" . $policy_user['user_id'] . " ] "; ?>: <?php echo htmlspecialchars($policy_user['firstname'] . " " . $policy_user['lastname']); ?></label>
                     </div>
@@ -1603,11 +1600,22 @@
 </script>
 <script type="text/javascript">
   function mytestdate() {
+    var applydt = $('input[name="apply_date"]').val();
+    if (!applydt) {
+      return;
+    }
+    var apply = new Date(applydt);
+
     var effectivedt = $('input[name="effective_date"]').val();
     if (!effectivedt) {
       return;
     }
     var effective = new Date(effectivedt);
+
+    if (effectivedt.getTime() < apply.getTime()) {
+      $('#title_alert_message').text("Policy cannot be effective before apply date");
+      return;
+    }
 
     var expirydt = $('input[name="expiry_date"]').val();
     if (!expirydt) {
@@ -1634,11 +1642,6 @@
     //   $('#title_alert_message').text("Policy departture date must earlier than effective date");
     //   return;
     } else {
-      var applydt = $('input[name="apply_date"]').val();
-      if (!applydt) {
-        return;
-      }
-      var apply = new Date(applydt);
       if (departture.getTime() < apply.getTime()) {
         $('#title_alert_message').text("Confirm this is an extended policy, And input provide previous coverage to specail note area");
         return;
