@@ -100,7 +100,7 @@
               <div class="x_panel">
                 <div class="x_content">
                   <div class="form-group col-sm-3">
-                    <h2><label><span><?php echo $policy; ?></span></label></h2>
+                    <h2><label><?php if ($status_id < 2) { ?>Quote<?php } else {?>Policy<?php } ?> Number: <span><?php echo $policy; ?></span></label></h2>
                   </div>
                   <?php if (($beuser_user_id == 1) || ($beuser_user_id == 2762)) { ?>
                     <div class="form-group col-sm-3">
