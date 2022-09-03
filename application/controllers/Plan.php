@@ -988,6 +988,8 @@ class Plan extends MY_Controller {
 			$data['firstname'] = $this->input->post('firstname');
 		} else if (isset($customer['firstname'])) {
 			$data['firstname'] = $customer['firstname'];
+		} else if (isset($plan['firstname'])) {
+			$data['firstname'] = $plan['firstname'];
 		} else {
 			$data['firstname'] = '';
 		}
@@ -995,6 +997,8 @@ class Plan extends MY_Controller {
 			$data['lastname'] = $this->input->post('lastname');
 		} else if (isset($customer['lastname'])) {
 			$data['lastname'] = $customer['lastname'];
+		} else if (isset($plan['lastname'])) {
+			$data['lastname'] = $plan['lastname'];
 		} else {
 			$data['lastname'] = '';
 		}
@@ -1002,6 +1006,8 @@ class Plan extends MY_Controller {
 			$data['birthday'] = $this->input->post('birthday');
 		} else if (isset($customer['birthday'])) {
 			$data['birthday'] = $customer['birthday'];
+		} else if (isset($plan['birthday'])) {
+			$data['birthday'] = $plan['birthday'];
 		} else {
 			$data['birthday'] = '';
 		}
@@ -1009,6 +1015,8 @@ class Plan extends MY_Controller {
 			$data['gender'] = $this->input->post('gender');
 		} else if (isset($customer['gender'])) {
 			$data['gender'] = $customer['gender'];
+		} else if (isset($plan['gender'])) {
+			$data['gender'] = $plan['gender'];
 		} else {
 			$data['gender'] = 'M';
 		}
@@ -1031,6 +1039,8 @@ class Plan extends MY_Controller {
 				$data['firstname_'.$i] = $this->input->post('firstname_'.$i);
 			} else if (isset($customers[$i - 1]) && isset($customers[$i - 1]['firstname'])) {
 				$data['firstname_'.$i] = $customers[$i - 1]['firstname'];
+			} else if (isset($plan['firstname_'.$i])) {
+				$data['firstname_'.$i] = $plan['firstname_'.$i];
 			} else {
 				$data['firstname_'.$i] = '';
 			}
@@ -1038,6 +1048,8 @@ class Plan extends MY_Controller {
 				$data['lastname_'.$i] = $this->input->post('lastname_'.$i);
 			} else if (isset($customers[$i - 1]) && isset($customers[$i - 1]['lastname'])) {
 				$data['lastname_'.$i] = $customers[$i - 1]['lastname'];
+			} else if (isset($plan['lastname_'.$i])) {
+				$data['lastname_'.$i] = $plan['lastname_'.$i];
 			} else {
 				$data['lastname_'.$i] = '';
 			}
@@ -1045,6 +1057,8 @@ class Plan extends MY_Controller {
 				$data['birthday_'.$i] = $this->input->post('birthday_'.$i);
 			} else if (isset($customers[$i - 1]) && isset($customers[$i - 1]['birthday'])) {
 				$data['birthday_'.$i] = $customers[$i - 1]['birthday'];
+			} else if (isset($plan['birthday_'.$i])) {
+				$data['birthday_'.$i] = $plan['birthday_'.$i];
 			} else {
 				$data['birthday_'.$i] = '';
 			}
@@ -1055,6 +1069,8 @@ class Plan extends MY_Controller {
 				$data['gender_'.$i] = $this->input->post('gender_'.$i);
 			} else if (isset($customers[$i - 1]) && isset($customers[$i - 1]['gender'])) {
 				$data['gender_'.$i] = $customers[$i - 1]['gender'];
+			} else if (isset($plan['gender_'.$i])) {
+				$data['gender_'.$i] = $plan['gender_'.$i];
 			} else {
 				$data['gender_'.$i] = 'M';
 			}
@@ -4078,6 +4094,7 @@ class Plan extends MY_Controller {
 		$this->load->model('plan_model');
 		$plan = $this->plan_model->get_plan_by_id($plan_id);
 		if ($plan) {
+			$customer_id = $plan['customer_id'];
 			unset($plan['plan_id']);
 			unset($plan['customer_id']);
 			unset($plan['user_id']);
@@ -4093,7 +4110,35 @@ class Plan extends MY_Controller {
 			unset($plan['note']);
 			unset($plan['premium']);
 			unset($plan['ip']);
+			unset($plan['agree']);
 			$plan['apply_date'] = date('Y-m-d');
+      if ($plan["product_short"] == "TOP") {
+        $plan['arrival_date'] = "";
+        $plan['effective_date'] = "";
+        $plan['expiry_date'] = "";
+        $plan['totaldays'] = "";
+        $plan['totalyears'] = "";
+      }
+      $this->load->model('customer_model');
+      $customer = $this->customer_model->get_customer_by_id($customer_id);
+      if ($customer) {
+        // $plan["customer_id"] = $customer["customer_id"];
+        $plan["gender"] = $customer["gender"];
+        $plan["firstname"] = $customer["firstname"];
+        $plan["lastname"] = $customer["lastname"];
+        $plan["birthday"] = $customer["birthday"];
+      }
+      $customers = $this->customer_model->get_customer_by_parent_id($customer_id);
+      if ($customers) {
+        for ($i = 0; $i <= sizeof($customers); $i++) {
+          $idx = $i + 1;
+          // $plan["customer_id"] = $customer["customer_id"];
+          $plan["gender_".$idx] = $customers[$i]["gender"];
+          $plan["firstname_".$idx] = $customers[$i]["firstname"];
+          $plan["lastname_".$idx] = $customers[$i]["lastname"];
+          $plan["birthday_".$idx] = $customers[$i]["birthday"];
+        }
+      }
 		}
 		$this->form($plan);
 	}

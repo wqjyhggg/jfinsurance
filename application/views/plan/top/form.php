@@ -81,6 +81,9 @@
             <?php } else if (($status_id == Plan_model::CANCEL) && ($user_group_id <= 100) && !empty($cancel_letter_url)) { ?>
               <li style="float: right;"><a href="<?php echo $cancel_letter_url; ?>" target="_blank"><span class="btn btn-info" style='color: #fff;'>Cancel Letter</span></a></li>
             <?php } ?>
+            <?php if (($status_id == Plan_model::SOLD) || ($status_id == Plan_model::PAID)) { ?>
+              <li style="float: right;"><a href='<?php echo $copy_url; ?>'><span class="btn btn-info" style='color:#fff;'>Copy</span></a></li>
+            <?php } ?>
           <?php } ?>
         </ul>
         <div class="clearfix"></div>
@@ -210,6 +213,17 @@
                           <?php } else { ?>
                             <div class='form_text_show'>
                               <input class="form-control check_premium" type='number' name='totaldays' id='totaldays' value='<?php echo $totaldays; ?>'>
+                            </div>
+                          <?php } ?>
+                        </div>
+                        <div class="form-group col-sm-3">
+                          <label class="col-sm-12">Years: </label>
+                          <?php if (($user_group_id > 100) && $no_change) { ?>
+                            <input type="hidden" name='totalyears' value='<?php echo $totalyears; ?>'>
+                            <?php echo $totalyears; ?>
+                          <?php } else { ?>
+                            <div class='form_text_show'>
+                              <input class="form-control check_premium" type='number' name='totalyears' id='totalyears' value='<?php echo $totalyears; ?>'>
                             </div>
                           <?php } ?>
                         </div>
