@@ -59,23 +59,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                 <!-- Agent input box end -->
 
                 <!-- Product input box -->
-                <div class="form-group col-sm-4">
-                  <label class="col-sm-12">Product:</label>
-                  <div class="input-group col-sm-12">
-                    <select name='product_short' class="form-control">
-                      <option value="">Choose Product</option>
-                      <?php foreach ($product_list as $product) : ?>
-                        <?php if ($product_short == $product['product_short']) : ?>
-                          <option value="<?= $product['product_short'] ?>" selected>
-                          <?php else : ?>
-                          <option value="<?= $product['product_short'] ?>">
-                          <?php endif; ?>
-                          <?= $product['full_name'] ?> (<?= $product['product_short'] ?>)
-                          </option>
-                        <?php endforeach; ?>
-                    </select>
-                  </div>
-                </div>
+                <input type="hidden" name="product_short" value="TOP">
                 <!-- Product input box end -->
                 <!-- Region input box end -->
                 <?php if ($beuser['region_id'] == 0) { ?>
@@ -208,8 +192,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
                       <th>Net Premium</th>
                       <th>Total Compensation Rate(%)</th>
                       <th>Total Compensation Amount</th>
-                      <th>Total Members</th>
-                      <!--th>Coverage</th-->
+                      <!--th>Total Members</th-->
+                      <th>Coverage</th>
                       <th>Purchase Date</th>
                       <th>Refund Date</th>
                     </tr>
@@ -244,8 +228,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
                         <td>$<?= $record['net_premium'] ?></td>
                         <td><?= $record['total_compensation_per'] ?>%</td>
                         <td>$<?= $record['total_compensation'] ?></td>
-                        <td><?= $record['customer_cnt'] ?></td>
-                        <!--td><?= $record['coverage'] ?></td-->
+                        <!--td><?= $record['customer_cnt'] ?></td-->
+                        <td><?= $record['coverage'] ?></td>
                         <td><?= $record['added'] ?></td>
                         <td><?= ($record['status_id'] == 6) ? $record['refund_date'] : '' ?></td>
                       </tr>

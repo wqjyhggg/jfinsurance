@@ -4,7 +4,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 use Box\Spout\Common\Type;
 use Box\Spout\Writer\WriterFactory;
 
-class Insurer extends MY_Controller
+class Insurer_top extends MY_Controller
 {
   /**
    * Index Page for this controller.
@@ -16,7 +16,7 @@ class Insurer extends MY_Controller
     $data['beuser'] = $beuser;
     $this->load->model('region_model');
     $data['regions'] = $this->region_model->get_regions();
-    $this->load->common('reports/insurer', $data);
+    $this->load->common('reports/insurer_top', $data);
   }
 
   private function set_data()
@@ -97,8 +97,8 @@ class Insurer extends MY_Controller
       'net_premium' => 'Net Premium',
       'total_compensation_per' => 'Total Compensation Rate(%)',
       'total_compensation' => 'Total Compensation Amount',
-      'customer_cnt' => 'Total Members',
-      // 'coverage' => 'Coverage',
+      // 'customer_cnt' => 'Total Members',
+      'coverage' => 'Coverage',
       'added' => 'Purchase Date',
       'refund_date' => 'Refund Date',
     );
