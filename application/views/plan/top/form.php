@@ -91,7 +91,6 @@
           <input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
           <input type='hidden' name='dailyrate' step='0.01' id='dailyrate' value='<?php echo $dailyrate; ?>'>
           <input type='hidden' name='plan_id' value='<?php echo $plan_id; ?>'>
-          <input type='hidden' name='totalyears' id='totalyears' value='<?php echo $totalyears; ?>'>
           <input type='hidden' name='premium' step='0.01' id='premium' value='<?php echo $premium; ?>'>
           <input type='hidden' name='tax' step='0.01' id='tax' value='<?php echo $tax; ?>'>
           <input type='hidden' name=product_short id='product_short' value='<?php echo $product_short; ?>'>
@@ -223,7 +222,7 @@
                             <?php echo $totalyears; ?>
                           <?php } else { ?>
                             <div class='form_text_show'>
-                              <input class="form-control check_premium" type='number' name='totalyears' id='totalyears' value='<?php echo $totalyears; ?>'>
+                              <input class="form-control check_premium" type='number' name='totalyears' id='totalyears' value='<?php echo $totalyears; ?>' readonly>
                             </div>
                           <?php } ?>
                         </div>
@@ -571,7 +570,7 @@
                           <input type="hidden" name="package" value="<?php echo $package; ?>">
                           <div class="col-sm-3">
                             <?php if ($package == 'all_inclusive') { echo '<span class="glyphicon glyphicon-ok"></span>'; } ?>
-                            <a href="#" data-toggle="popover" data-trigger="hover" title="All Inclusive" data-content="Including: Emergency Hospital & Medical: $10,000,000; AD&D: $50,000; Flight Accident: $100,000; Trip Cancellation; Baggage: $1,000">
+                            <a href="#" data-toggle="popover" data-trigger="hover" title="All Inclusive" data-content="Including: Emergency Hospital & Medical: $5,000,000; AD&D: $50,000; Flight Accident: $100,000; Trip Cancellation; Baggage: $1,000">
                               <?php echo $toppackagename['all_inclusive']; ?> <span class="glyphicon glyphicon-question-sign"></span>
                             </a>
                           </div>
@@ -590,7 +589,7 @@
                         <?php } else { ?>
                           <div class="col-sm-3">
                             <input <?php echo (($user_group_id > 100) && $no_change) ? 'disable="disable"' : ''; ?> type="radio" name="package" class='check_premium' value="all_inclusive" <?php if ($package == 'all_inclusive') { echo 'checked'; } ?>>
-                            <a href="#" data-toggle="popover" data-trigger="hover" title="All Inclusive" data-content="Including: Emergency Hospital & Medical: $10,000,000; AD&D: $50,000; Flight Accident: $100,000; Trip Cancellation; Baggage: $1,000">
+                            <a href="#" data-toggle="popover" data-trigger="hover" title="All Inclusive" data-content="Including: Emergency Hospital & Medical: $5,000,000; AD&D: $50,000; Flight Accident: $100,000; Trip Cancellation; Baggage: $1,000">
                               <?php echo $toppackagename['all_inclusive']; ?> <span class="glyphicon glyphicon-question-sign"></span>
                             </a>
                           </div>
@@ -1626,7 +1625,7 @@
     }
     var effective = new Date(effectivedt);
 
-    if (effectivedt.getTime() < apply.getTime()) {
+    if (effective.getTime() < apply.getTime()) {
       $('#title_alert_message').text("Policy cannot be effective before apply date");
       return;
     }

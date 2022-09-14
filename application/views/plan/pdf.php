@@ -341,8 +341,11 @@ defined('BASEPATH') or exit('No direct script access allowed');
         <?php } // end if TOP 
         ?>
 
-        <?php if (($plan['product_short'] == 'JFPL') || ($plan['product_short'] == 'JFGD') || ($plan['product_short'] == 'JFSL')) { ?>
+        <?php if (($plan['product_short'] == 'JFPL') || ($plan['product_short'] == 'JFGD')) { ?>
           <h4>Stable Pre-existing Condition Coverage: <span>Yes</sapn>
+          </h4>
+        <?php } else if ($plan['product_short'] == 'JFSL') { ?>
+          <h4>Stable Pre-existing Condition Coverage: <span>No</sapn>
           </h4>
         <?php } ?>
       </div>
