@@ -537,7 +537,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<div class="form-group col-sm-3">
 										<label class="col-sm-12">Country: </label>
 										<div class="input-group col-sm-12">
+                    <?php if (($product_short=="JES") || ($product_short=="JESP") || ($product_short=="JFR") || ($product_short=="JFS") || ($product_short=="JFVTC")) { ?>
+                      Canada
+											<input type='hidden' name='country2' value='CA'>
+                    <?php } else { ?>
 											<div id='country2_div'></div>
+                    <?php } ?>
 										</div>
 									</div>
 									<div class="form-group col-sm-3">
