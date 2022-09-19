@@ -457,6 +457,7 @@ $config['csrf_exclude_uris'] = array(
 'api/search',
 'api/claim_summary',
 'batch/loadother',
+'batch/processetest',
 'plan/sendpackage/[0-9]+',
 'reports/premium2',
 'reports/insurer2',
