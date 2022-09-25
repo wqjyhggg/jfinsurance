@@ -1663,6 +1663,11 @@
         return;
       }
     }
+    diffdays = (expiry.getTime() - departture.getTime()) / (1000 * 24 * 3600) + 1;
+    if (diffdays > 90) {
+      $('#title_alert_message').text("Expiry Date must be 90 days before the Departure date");
+      return;
+    }
     $('#title_alert_message').text('The policy must purchase before departure!!')
   }
   $(document).ready(function() {
