@@ -218,8 +218,13 @@ class Product_model extends CI_Model {
 		$birthday = isset($para['birthday']) ? $para['birthday'] : '';
 		$effective_date = isset($para['effective_date']) ? $para['effective_date'] : '';
 		$expiry_date = isset($para['expiry_date']) ? $para['expiry_date'] : '';
+		$arrival_date = isset($para['arrival_date']) ? $para['arrival_date'] : '';
 		
-		$r['totaldays'] = $para['totaldays'] = $this->getDays($effective_date, $expiry_date);
+    $limitday = $this->getDays($arrival_date, $expiry_date);
+    if ($limitday > 90) {
+      $r['message'] = "Expiry Date must be 90 days before the Departure date";
+    }
+    $r['totaldays'] = $para['totaldays'] = $this->getDays($effective_date, $expiry_date);
 		
 		$oldyears = $this->getYears($effective_date, $birthday);
 		$ageArr = array($oldyears);
