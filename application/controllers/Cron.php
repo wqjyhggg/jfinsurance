@@ -857,15 +857,20 @@ class Cron extends MY_Controller {
 	}
 
 	public function test() {
-    $this->load->model('plan_history_model');
+    //$this->load->model('plan_history_model');
     //$sql = "SELECT * FROM `plan` WHERE batch_number=3357";
-    $sql = "SELECT * FROM `plan` WHERE batch_number=3244";
+    $sql = "SELECT * FROM `user` WHERE user_id>2810 AND user_group_id=105";
     //$sql = "SELECT * FROM `plan` WHERE batch_number=3321";
     //$sql = "SELECT * FROM `plan` WHERE batch_number=3346";
     $rt = $this->db->query($sql)->result_array();
     foreach ($rt as $rc) {
-	    print_r($rc);
-      $history_id = $this->plan_history_model->add($rc['plan_id'], $rc['status_id']);
+      $sql = "INSERT ignore INTO user_product (user_id, product_short, commission) values (".$rc["user_id"].",'TOP', 30)";
+      echo $sql."\n";
+      if ($this->db->query($sql)) {
+	;
+      } else {
+	echo "Fail\n";
+      }
     }
     exit;
 	}
