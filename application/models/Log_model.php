@@ -13,6 +13,13 @@ class Log_model extends CI_Model {
 	 *        	activity information
 	 * @return none
 	 */
+
+  public $history_tables = [
+    "activity", 
+    "activity2019", 
+    "activity2017"
+  ];
+
 	public function activity($type, $para) {
 		$user = $this->session->userdata ( 'user' );
 		if (! $user) {
@@ -57,6 +64,14 @@ class Log_model extends CI_Model {
 	
 	public function get_activity_by_plan_id($plan_id) {
 		$sql = "SELECT a.*, u.username FROM activity a LEFT JOIN user u ON (a.user_id=u.user_id) WHERE a.plan_id='" . (int)$plan_id . "' AND atype='plan' ORDER BY activity_id ASC";
+		return $this->db->query($sql)->result_array();
+	}
+
+	public function get_activity_by_plan_id_tb($plan_id, $tb) {
+    if (!in_array($tb, $this->history_tables)) {
+      return array();
+    }
+		$sql = "SELECT a.*, u.username FROM ".$tb." a LEFT JOIN user u ON (a.user_id=u.user_id) WHERE a.plan_id='" . (int)$plan_id . "' AND atype='plan' ORDER BY activity_id ASC";
 		return $this->db->query($sql)->result_array();
 	}
 }

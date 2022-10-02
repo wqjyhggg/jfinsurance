@@ -7,7 +7,13 @@ class Payment_model extends CI_Model {
 	public $logstr;
 	public $sqlstr;
 	public $error;
-	
+
+  public $history_tables = [
+    "payment", 
+    "payment2019", 
+    "payment2017"
+  ];
+
 	/**
 	 * Sort pay type string
 	 * 
@@ -56,7 +62,21 @@ class Payment_model extends CI_Model {
 		}
 		return $this->db->get('payment')->result_array();
 	}
-	
+
+  public function get_payment_by_plan_id_tb($plan_id, $tb, $sort='last_update') {
+    if (!in_array($tb, $this->history_tables)) {
+      return array();
+    }
+		$this->db->where('plan_id', $plan_id);
+		$this->db->where('amount !=', 0);
+		if ($sort == 'type') {
+			$this->db->order_by('pay_type', 'asc');
+		} else {
+			$this->db->order_by('last_update', 'desc');
+		}
+		return $this->db->get($tb)->result_array();
+	}
+
 	/**
 	 * Get plan payment history
 	 *

@@ -1407,8 +1407,8 @@ class Plan extends MY_Controller {
 			if ($beuser['user_group_id'] < 100) {
 				$this->load->model('payment_model');
 				$data['show_history'] = 1;
-				$data['activelogs'] = $this->log_model->get_activity_by_plan_id($data['plan_id']);
-				$data['payments'] = $this->payment_model->get_payment_by_plan_id($data['plan_id']);
+				$data['activelog_tables'] = $this->log_model->history_tables;
+				$data['payment_tables'] = $this->payment_model->history_tables;
         if ($data['status_id'] >= 2){
           $this->load->model('claim_model');
           $claims = $this->plan_model->verify_policy($data['policy']);
@@ -1416,6 +1416,8 @@ class Plan extends MY_Controller {
         }
 			}
 		}
+		$data['get_activelog_history_url'] = base_url ( "plan/get_activelog_history/" . $data['plan_id'] );
+		$data['get_payment_history_url'] = base_url ( "plan/get_payment_history/" . $data['plan_id'] );
 		$data['payhistory_url'] = base_url ( "plan/payhistory/" . $data['plan_id'] );
 		$data['sum_insured_url'] = base_url ( "product/insured/" . $data['product_short'] );
 		if (!empty($data['sum_insured'])) $data['sum_insured_url'] .= "/" . $data['sum_insured']; 
@@ -1601,6 +1603,84 @@ class Plan extends MY_Controller {
 		}
 	}
 	
+  function get_activelog_history($plan_id) {
+		$beuser = $this->func_model->verify_login();
+    $this->load->model('log_model');
+    $tb = $this->input->get('tb');
+    $activelog_tables = $this->log_model->history_tables;
+
+    $rt = "";
+    if (in_array($tb, $activelog_tables)) {
+      $records = $this->log_model->get_activity_by_plan_id_tb($plan_id, $tb);
+      foreach ($records as $p) {
+        $rt .= "<tr>\n";
+        $rt .= "<td>".htmlspecialchars($p['username'])."</td>\n";
+        $rt .= "<td>".$p['tm']."</td>\n";
+        $rt .= "<td>".htmlspecialchars($p['message'])."</td>\n";
+        $rt .= "</tr>\n";
+      }
+    }
+    return $rt;
+  }
+
+  function get_payment_history($plan_id) {
+		$beuser = $this->func_model->verify_login();
+    $this->load->model('payment_model');
+
+    $tb = $this->input->get('tb');
+    $payment_tables = $this->payment_model->history_tables;
+    $rt = "";
+    if (in_array($tb, $payment_tables)) {
+      $payments = $this->payment_model->get_activity_by_plan_id_tb($plan_id, $tb);
+      foreach ($payments as $p) {
+        $pay_str = '';
+        if ($p['pay_type'] == 'up_commission') continue;
+        if ($p['pay_type'] == 'refund_up_commission') continue;
+        if ($p['pay_type'] == 'cancel_up_commission') continue;
+        
+        $sbstr = substr($p['pay_type'], 0, 6);
+        if ($p['ispaid']) {
+          $pay_str = 'Paid';
+        } else {
+          if ($sbstr == 'refund') {
+            $pay_str = "<a href='" . base_url ( "payment/revert" ) . "/" . $p['payment_id'] . "'>Revert Refund</a>";
+          } else if ($sbstr == 'cancel') {
+            $pay_str = "<a href='" . base_url ( "payment/revert" ) . "/" . $p['payment_id'] . "'>Revert Cancel</a>";
+          } else {
+            $pay_str = '-';
+          }
+        }
+        $pay_info = '';
+        $ck_info = $p['cheque_number'];
+        if ($p['pay_date'] > "2020-01-01") $ck_info .= ":".$p['pay_date'];
+        if (!empty($p['invoice_num'])) $pay_info .= "[".$p['invoice_num']."]";
+        if (!empty($p['bank_name'])) $pay_info .= "[".$p['bank_name']."]";
+        if (!empty($p['payor_name'])) $pay_info .= "[".$p['payor_name']."]";
+        if (!empty($p['cheque_number'])) $pay_info .= "[".$p['cheque_number']."]";
+        if (!empty($p['pay_to'])) $pay_info .= "[".$p['pay_to']."]";
+        if (!empty($p['name'])) $pay_info .= "[".$p['name']."]";
+        if (!empty($p['first5'])) $pay_info .= "[".$p['first5']."]";
+        if (!empty($p['last4'])) $pay_info .= "[".$p['last4']."]";
+        if (!empty($p['expiry_month'])) $pay_info .= "[".$p['expiry_month']."]";
+        if (!empty($p['expiry_year'])) $pay_info .= "[".$p['expiry_year']."]";
+
+        $rt .= "<tr>\n";
+        $rt .= "<td>".(empty($p['ispaid'])?"<input type='checkbox' name='payment[]' value='".$p['payment_id']."'>":"")."</td>\n";
+        $rt .= "<td>".$p['last_update']."</td>\n";
+        $rt .= "<td>".$p['pay_type']."</td>\n";
+        $rt .= "<td>".$p['pay_mothed']."</td>\n";
+        $rt .= "<td>".$p['amount']."</td>\n";
+        $rt .= "<td>".$p['rate'] . "%</td>\n";
+        $rt .= "<td>".$pay_str."</td>\n";
+        $rt .= "<td>".$ck_info."</td>\n";
+        $rt .= "<td>".$pay_info."</td>\n";
+        $rt .= "<td>".((strlen($p['note']) > 60) ? (htmlspecialchars(substr($p['note'], 0, 57)) . "...") : htmlspecialchars($p['note']))."</td>\n";
+        $rt .= "</tr>\n";
+      }
+    }
+    return $rt;
+  }
+
 	function gettoppremium() {
 		$beuser = $this->func_model->verify_login();
 		$this->load->model('product_model');
@@ -2960,7 +3040,10 @@ class Plan extends MY_Controller {
 			$this->load->model('payment_model');
 			$data['show_history'] = 1;
 //			$data['activelogs'] = $this->log_model->get_activity_by_plan_id($plan['plan_id']);
-			$data['payments'] = $this->payment_model->get_payment_by_plan_id($plan['plan_id']);
+//			$data['payments'] = $this->payment_model->get_payment_by_plan_id($plan['plan_id']);
+//      $data['activelog_tables'] = $this->log_model->history_tables;
+			$data['payment_tables'] = $this->payment_model->history_tables;
+
 		}
 		$data['payhistory_url'] = base_url ( "plan/payhistory/" . $plan['plan_id'] );
 		$data['makepay_url'] = base_url ( "payment/makepay" );

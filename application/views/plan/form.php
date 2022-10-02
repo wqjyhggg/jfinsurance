@@ -683,7 +683,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				</div>
             <!-- Pop Section -->
 
-            <!-- New Section -->
+           <!-- New Section -->
 			<?php if ($show_history) { ?>
             <div class="row">
             	<div class="col-sm-12">
@@ -694,124 +694,63 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	                  </div>
 	                  <div class="x_content">
 		                  <div class="row" id='payment_history'>
-							<?php 	if (!empty($payments) && is_array($payments) && (sizeof($payments > 0))) { ?>
+                        <?php	if (!empty($payment_tables) && is_array($payment_tables) && (sizeof($payment_tables) > 0)) { ?>
 		                  	<div class="col-sm-12">
-			                  	<button type="button" class="btn btn-info" data-toggle="collapse" data-target="#history1">Payments <span class="fa fa-chevron-down"></span></button>
-			  			        <div id="history1" class="collapse">                	
-			                  	<button type="button" class="btn btn-payment-sort" data-type="date">Sort By Date</button>
-			                  	<button type="button" class="btn btn-payment-sort" data-type="type">Sort By Type</button>
-			                  	<form action='<?php echo $makepay_url; ?>' method='POST' class="form-horizontal">
-								<input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
-			                  		<div class="table-responsive">
-			                  			<table class="table table-hover table-bordered">
-				                      	<thead>
-											<tr>
-												<th>&nbsp;</th>
-												<th>Last Update</th>
-												<th>Type</th>
-												<th>Pay Type</th>
-												<th>Amount</th>
-												<th>Rate</th>
-												<th>Pay Status</th>
-                        <th>CK Info</th>
-												<th>Info</th>
-												<th>Notes</th>
-											</tr>
-										</thead>
-										<tbody>
-											<?php 
-											foreach ($payments as $p) {
-												$pay_str = '';
-												if ($p['pay_type'] == 'up_commission') continue;
-												if ($p['pay_type'] == 'refund_up_commission') continue;
-												if ($p['pay_type'] == 'cancel_up_commission') continue;
-												
-												$sbstr = substr($p['pay_type'], 0, 6);
-												if ($p['ispaid']) {
-													//if (($sbstr == 'refund') || ($sbstr == 'cancel')) {
-														//$pay_str = 'N / A';
-													//} else {
-														$pay_str = 'Paid';
-													//}
-												} else {
-													if ($sbstr == 'refund') {
-														$pay_str = "<a href='" . $revert_url . $p['payment_id'] . "'>Revert Refund</a>";
-													} else if ($sbstr == 'cancel') {
-														$pay_str = "<a href='" . $revert_url . $p['payment_id'] . "'>Revert Cancel</a>";
-													} else {
-														$pay_str = '-';
-													}
-												}
-												$pay_info = '';
-                        $ck_info = $p['cheque_number'];
-                        if ($p['pay_date'] > "2020-01-01") $ck_info .= ":".$p['pay_date'];
-                        if (!empty($p['invoice_num'])) $pay_info .= "[".$p['invoice_num']."]";
-												if (!empty($p['bank_name'])) $pay_info .= "[".$p['bank_name']."]";
-												if (!empty($p['payor_name'])) $pay_info .= "[".$p['payor_name']."]";
-												if (!empty($p['cheque_number'])) $pay_info .= "[".$p['cheque_number']."]";
-												if (!empty($p['pay_to'])) $pay_info .= "[".$p['pay_to']."]";
-												if (!empty($p['name'])) $pay_info .= "[".$p['name']."]";
-												if (!empty($p['first5'])) $pay_info .= "[".$p['first5']."]";
-												if (!empty($p['last4'])) $pay_info .= "[".$p['last4']."]";
-												if (!empty($p['expiry_month'])) $pay_info .= "[".$p['expiry_month']."]";
-												if (!empty($p['expiry_year'])) $pay_info .= "[".$p['expiry_year']."]";
-												?>
-											<tr>
-												<td><?php if (empty($p['ispaid'])) { ?><input type='checkbox' name='payment[]' value='<?php echo $p['payment_id']; ?>'><?php } ?></td>
-												<td><?php echo $p['last_update']; ?></td>
-												<td><?php echo $p['pay_type']; ?></td>
-												<td><?php echo $p['pay_mothed']; ?></td>
-												<td><?php echo $p['amount']; ?></td>
-												<td><?php echo $p['rate'] . "%"; ?></td>
-												<td><?php echo $pay_str; ?></td>
-                        <td><?php echo $ck_info; ?></td>
-												<td><?php echo $pay_info; ?></td>
-												<td><?php echo (strlen($p['note']) > 60) ? (htmlspecialchars(substr($p['note'], 0, 57)) . "...") : htmlspecialchars($p['note']); ?></td>
-											</tr>
-											<?php 		} ?>
-										</tbody>
-										</table>
-			                  		</div>
-			                  		<div class="row"><div class="col-sm-12">
-			                  			<input type="submit" class="btn btn-primary" name='submit' value='Make Pay'>
-			                  		</div></div>
-			                  		</form>
+			                  	<button type="button" id="payment_history_button" class="btn btn-info" data-toggle="collapse" data-target="#history1">Payments <span class="fa fa-chevron-down"></span></button>
+			  			            <div id="history1" class="collapse">
+                            <?php	if (sizeof($payment_tables) > 1) { ?>
+                              <button type="button" id="payment_get_history_button" class="btn">Get More</button>
+                            <?php } ?>
+                            <form action='<?php echo $makepay_url; ?>' method='POST' class="form-horizontal">
+                              <input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
+			                  		    <div class="table-responsive">
+                                  <table class="table table-hover table-bordered" id="payment_history_table">
+                                    <tr>
+                                      <th>&nbsp;</th>
+                                      <th>Last Update</th>
+                                      <th>Type</th>
+                                      <th>Pay Type</th>
+                                      <th>Amount</th>
+                                      <th>Rate</th>
+                                      <th>Pay Status</th>
+                                      <th>CK Info</th>
+                                      <th>Info</th>
+                                      <th>Notes</th>
+                                    </tr>
+                                  </table>
+                                </div>
+                                <div class="row">
+                                  <div class="col-sm-12">
+                                    <input type="submit" class="btn btn-primary" name='submit' value='Make Pay'>
+                                  </div>
+                                </div>
+                              </form>
 			                  		<hr />
 			                  	</div>
 		                  	</div>
-							<?php 	} ?>
+                        <?php	} ?>
 		                  </div>
 		                  <div class="row">
-							<?php 	if (!empty($activelogs) && is_array($activelogs) && (sizeof($activelogs > 0))) { ?>
+                        <?php if (!empty($activelog_tables) && is_array($activelog_tables) && (sizeof($activelog_tables) > 0)) { ?>
 		                  	<div class="col-sm-12">
 			                  	<button type="button" class="btn btn-info" data-toggle="collapse" data-target="#history2">Changes <span class="fa fa-chevron-down"></span></button>
 			                  	<div id="history2" class="collapse">
+                            <?php	if (sizeof($activelog_tables) > 1) { ?>
+                              <button type="button" id="activelog_get_history_button" class="btn">Get More</button>
+                            <?php } ?>
 			                  		<div class="table-responsive">
-			                  			<table class="table table-hover table-bordered">
-				                      	<thead>
-											<tr>
-												<th>Username</th>
-												<th>Date Time</th>
-												<th>Message</th>
-											</tr>
-										</thead>
-										<tbody>
-										<?php foreach ($activelogs as $p) { ?>
-											<tr>
-												<td><?php echo htmlspecialchars($p['username']); ?></td>
-												<td><?php echo $p['tm']; ?></td>
-												<!-- td><?php echo (strlen($p['message']) > 120) ? (htmlspecialchars(substr($p['message'], 0, 117)) . "...") : htmlspecialchars($p['message']); ?></td -->
-												<td><?php echo htmlspecialchars($p['message']); ?></td>
-											</tr>
-										<?php 		} ?>
-										</tbody>
-										</table>
+			                  			<table class="table table-hover table-bordered" id="activelog_history_table">
+                                <tr>
+                                  <th>Username</th>
+                                  <th>Date Time</th>
+                                  <th>Message</th>
+                                </tr>
+                              </table>
 			                  		</div>
 			                  	</div>
 		                  	</div>
-							<?php 	} ?>
+                        <?php } ?>
 		                  </div>
-
 	                  </div><!--/x_content end-->
 	              </div><!--x_panel-->
             	</div>
@@ -821,15 +760,65 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         </div>
         <!-- /page content -->
 <script>
-	$('#error_next_page').click(function(){
-		$('#error_next_page').css('display','none');
-	});
-</script>
+var paytb=[];
+var logtb=[];
+<?php	
+if (!empty($payment_tables) && is_array($payment_tables) && (sizeof($payment_tables) > 0)) {
+  foreach ($payment_tables as $tb) {
+    echo "paytb.push(".$tb.");\n";
+  }
+}
+if (!empty($activelog_tables) && is_array($activelog_tables) && (sizeof($activelog_tables) > 0)) {
+  foreach ($activelog_tables as $tb) {
+    echo "logtb.push(".$tb.");\n";
+  }
+}
+?>
+$('#activelog_activelog_history_button').click(function(){
+  var status = $('#history2').attr('aria-expanded');
+  if (status == 'true') {
+    var tb = paytb.shift();
+    $.ajax({
+      url: '<?php echo $get_activelog_history_url; ?>' + '?tb=' + tb,
+      type: 'GET',
+      success: function(data, textStatus, jqXHR) {
+        console.log("activelog_history_button",data); //XXXXXXXXXXXXXXXXXXXXXX
+        var x=document.getElementById('activelog_history_table');
+        x.appendChild( data );
+    	},
+  	});
+  }
+  if (paytb.length <= 0) {
+    $('#activelog_get_history_button').css('display','none');
+  }
+});
 
-<script>
-	$('#premium_error').click(function(){
-		$('#premium_error').css('display','none');
-	});
+$('#payment_history_button').click(function(){
+  var status = $('#history1').attr('aria-expanded');
+  if (status == 'true') {
+    var tb = paytb.shift();
+    $.ajax({
+      url: '<?php echo $get_payment_history_url; ?>' + '?tb=' + tb,
+      type: 'GET',
+      success: function(data, textStatus, jqXHR) {
+        console.log("payment_history_button",data); //XXXXXXXXXXXXXXXXXXXXXX
+        var x=document.getElementById('payment_history_table');
+        x.appendChild( data );
+    	},
+  	});
+  }
+  if (paytb.length <= 0) {
+    $('#payment_get_history_button').css('display','none');
+  }
+});
+
+$('#error_next_page').click(function(){
+  $('#error_next_page').css('display','none');
+});
+
+$('#premium_error').click(function(){
+  $('#premium_error').css('display','none');
+});
 </script>
 <script>
 var age85 = 0;
