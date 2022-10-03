@@ -705,6 +705,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                               <input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
 			                  		    <div class="table-responsive">
                                   <table class="table table-hover table-bordered" id="payment_history_table">
+<tbody id="payment_history_table_tbody">
                                     <tr>
                                       <th>&nbsp;</th>
                                       <th>Last Update</th>
@@ -717,6 +718,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                       <th>Info</th>
                                       <th>Notes</th>
                                     </tr>
+                                    <tr>
+                                      <th>&nbsp;</th>
+                                      <th>Last Update</th>
+                                      <th>Type</th>
+                                      <th>Pay Type</th>
+                                      <th>Amount</th>
+                                      <th>Rate</th>
+                                      <th>Pay Status</th>
+                                      <th>CK Info</th>
+                                      <th>Info</th>
+                                      <th>Notes</th>
+                                    </tr>
+</tbody>
                                   </table>
                                 </div>
                                 <div class="row">
@@ -765,19 +779,19 @@ var logtb=[];
 <?php	
 if (!empty($payment_tables) && is_array($payment_tables) && (sizeof($payment_tables) > 0)) {
   foreach ($payment_tables as $tb) {
-    echo "paytb.push(".$tb.");\n";
+    echo "paytb.push('".$tb."');\n";
   }
 }
 if (!empty($activelog_tables) && is_array($activelog_tables) && (sizeof($activelog_tables) > 0)) {
   foreach ($activelog_tables as $tb) {
-    echo "logtb.push(".$tb.");\n";
+    echo "logtb.push('".$tb."');\n";
   }
 }
 ?>
 $('#activelog_activelog_history_button').click(function(){
-  var status = $('#history2').attr('aria-expanded');
-  if (status == 'true') {
-    var tb = paytb.shift();
+  var vs = $("#history2").is( ":visible" );
+  if (!vs) {
+    var tb = logtb.shift();
     $.ajax({
       url: '<?php echo $get_activelog_history_url; ?>' + '?tb=' + tb,
       type: 'GET',
@@ -788,25 +802,27 @@ $('#activelog_activelog_history_button').click(function(){
     	},
   	});
   }
-  if (paytb.length <= 0) {
+  if (logtb.length <= 0) {
     $('#activelog_get_history_button').css('display','none');
   }
 });
 
 $('#payment_history_button').click(function(){
-  var status = $('#history1').attr('aria-expanded');
-  if (status == 'true') {
+  var vs = $("#history1").is( ":visible" );
+  if (!vs) {
+console.log("payment_history_button2",status); //XXXXXXXYYYXXXXXXXXXXXXXXX
     var tb = paytb.shift();
     $.ajax({
       url: '<?php echo $get_payment_history_url; ?>' + '?tb=' + tb,
       type: 'GET',
       success: function(data, textStatus, jqXHR) {
         console.log("payment_history_button",data); //XXXXXXXXXXXXXXXXXXXXXX
-        var x=document.getElementById('payment_history_table');
-        x.appendChild( data );
+        var x=document.getElementById('payment_history_table_tbody').innerHTML;
+        document.getElementById('payment_history_table_tbody').innerHTML = x + data;
     	},
-  	});
+    });
   }
+console.log("payment_history_button3",paytb.length); //XXXXXXXXXXXXXXXXXXXXXX
   if (paytb.length <= 0) {
     $('#payment_get_history_button').css('display','none');
   }
