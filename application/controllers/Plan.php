@@ -1620,7 +1620,7 @@ class Plan extends MY_Controller {
         $rt .= "</tr>\n";
       }
     }
-    return $rt;
+    die($rt);
   }
 
   function get_payment_history($plan_id) {
@@ -1631,7 +1631,7 @@ class Plan extends MY_Controller {
     $payment_tables = $this->payment_model->history_tables;
     $rt = "";
     if (in_array($tb, $payment_tables)) {
-      $payments = $this->payment_model->get_activity_by_plan_id_tb($plan_id, $tb);
+      $payments = $this->payment_model->get_payment_by_plan_id_tb($plan_id, $tb);
       foreach ($payments as $p) {
         $pay_str = '';
         if ($p['pay_type'] == 'up_commission') continue;
@@ -1678,7 +1678,7 @@ class Plan extends MY_Controller {
         $rt .= "</tr>\n";
       }
     }
-    return $rt;
+    die($rt);
   }
 
 	function gettoppremium() {
