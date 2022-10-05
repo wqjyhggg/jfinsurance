@@ -808,21 +808,43 @@ $('#activelog_activelog_history_button').click(function(){
 });
 
 $('#payment_history_button').click(function(){
+  console.log("payment_history_button1",paytb); //XXXXXXXYYYXXXXXXXXXXXXXXX
   var vs = $("#history1").is( ":visible" );
   if (!vs) {
-console.log("payment_history_button2",status); //XXXXXXXYYYXXXXXXXXXXXXXXX
     var tb = paytb.shift();
+console.log("payment_history_button2",tb); //XXXXXXXYYYXXXXXXXXXXXXXXX
     $.ajax({
       url: '<?php echo $get_payment_history_url; ?>' + '?tb=' + tb,
       type: 'GET',
       success: function(data, textStatus, jqXHR) {
-        console.log("payment_history_button",data); //XXXXXXXXXXXXXXXXXXXXXX
+        console.log("payment_history_button R"); //XXXXXXXXXXXXXXXXXXXXXX
         var x=document.getElementById('payment_history_table_tbody').innerHTML;
         document.getElementById('payment_history_table_tbody').innerHTML = x + data;
     	},
     });
   }
 console.log("payment_history_button3",paytb.length); //XXXXXXXXXXXXXXXXXXXXXX
+  if (paytb.length <= 0) {
+    $('#payment_get_history_button').css('display','none');
+  }
+});
+$('#payment_get_history_button').click(function(){
+  var vs = $("#history1").is( ":visible" );
+  console.log("payment_get_history_button1",paytb,vs); //XXXXXXXYYYXXXXXXXXXXXXXXX
+  if (vs) {
+    var tb = paytb.shift();
+console.log("payment_get_history_button2",tb); //XXXXXXXYYYXXXXXXXXXXXXXXX
+    $.ajax({
+      url: '<?php echo $get_payment_history_url; ?>' + '?tb=' + tb,
+      type: 'GET',
+      success: function(data, textStatus, jqXHR) {
+        console.log("payment_get_history_button R",data); //XXXXXXXXXXXXXXXXXXXXXX
+        var x=document.getElementById('payment_history_table_tbody').innerHTML;
+        document.getElementById('payment_history_table_tbody').innerHTML = x + data;
+    	},
+    });
+  }
+console.log("payment_get_history_button3",paytb.length); //XXXXXXXXXXXXXXXXXXXXXX
   if (paytb.length <= 0) {
     $('#payment_get_history_button').css('display','none');
   }
