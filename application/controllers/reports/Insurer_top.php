@@ -46,7 +46,7 @@ class Insurer_top extends MY_Controller
     $data['user_list'] = $this->user_model->get_available_user_list();
     $data['report_data'] = empty($_POST) ? array() : $this->report_model->get_sales_report_insurer($data);
 
-    $data['export_list'] = base_url("reports/insurer/export_list");
+    $data['export_list'] = base_url("reports/insurer_top/export_list");
     return $data;
   }
 
