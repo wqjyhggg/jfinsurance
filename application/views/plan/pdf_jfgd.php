@@ -54,17 +54,17 @@ defined('BASEPATH') or exit('No direct script access allowed');
     <div class="row" style="margin-top: -15px;">
       <div class="col-sm-6 nopadding">
         <h4>Policy Holder: <span><?php echo htmlspecialchars($customer['firstname'] . " " . $customer['lastname']); ?></span></h4>
-        <h4>Date of Birth: <span><?php echo $customer['birthday']; ?></sapn>
+        <h4>Date of Birth: <span><?php echo $customer['birthday']; ?></span>
         </h4>
         <h4>Address: <span>
             <?php if (!empty($plan['suite_number'])) {
               echo  "Suite " . htmlspecialchars($plan['suite_number']) . " ";
             } ?>
-            <?php echo htmlspecialchars($plan['street_number'] . ' ' . $plan['street_name']); ?>, <?php echo htmlspecialchars($plan['city'] . ', ' . $plan['province2'] . ', ' . $plan['postcode']); ?></sapn>
+            <?php echo htmlspecialchars($plan['street_number'] . ' ' . $plan['street_name']); ?>, <?php echo htmlspecialchars($plan['city'] . ', ' . $plan['province2'] . ', ' . $plan['postcode']); ?></span>
         </h4>
-        <h4>Phone Number: <span><?php echo htmlspecialchars($plan['phone1']); ?></sapn>
+        <h4>Phone Number: <span><?php echo htmlspecialchars($plan['phone1']); ?></span>
         </h4>
-        <h4>Email: <span><?php echo htmlspecialchars($plan['contact_email']); ?></sapn>
+        <h4>Email: <span><?php echo htmlspecialchars($plan['contact_email']); ?></span>
         </h4>
       </div>
       <div class="col-sm-1 nopadding">
@@ -72,13 +72,13 @@ defined('BASEPATH') or exit('No direct script access allowed');
       </div>
       <div class="col-sm-5 nopadding2">
         <h4><?php if ($plan['status_id'] < 2) { ?>Quote<?php } else { ?>Policy<?php } ?> Number: <span><?php echo $plan['policy']; ?></span></h4>
-        <h4>Application Date: <span><?php echo $plan['apply_date']; ?></sapn>
+        <h4>Application Date: <span><?php echo $plan['apply_date']; ?></span>
         </h4>
-        <h4>Effective Date: <span><?php echo $plan['effective_date']; ?></sapn>
+        <h4>Effective Date: <span><?php echo $plan['effective_date']; ?></span>
         </h4>
-        <h4>Expiry Date: <span><?php echo $plan['expiry_date']; ?></sapn>
+        <h4>Expiry Date: <span><?php echo $plan['expiry_date']; ?></span>
         </h4>
-        <h4>Number of Days: <span><?php echo $plan['totaldays']; ?></sapn>
+        <h4>Number of Days: <span><?php echo $plan['totaldays']; ?></span>
         </h4>
         <h4><br /><br /></h4>
       </div>
@@ -96,15 +96,15 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                 echo "Family";
                               } else {
                                 echo "Individual";
-                              } ?></sapn>
+                              } ?></span>
         </h4>
-        <h4>Sum Insured: <span>$<?php echo number_format($plan['sum_insured'], 2); ?></sapn>
+        <h4>Sum Insured: <span>$<?php echo number_format($plan['sum_insured'], 2); ?></span>
         </h4>
-        <h4>Deductible: <span>$<?php echo number_format($plan['deductible_amount'], 2); ?></sapn>
+        <h4>Deductible: <span>$<?php echo number_format($plan['deductible_amount'], 2); ?></span>
         </h4>
-        <h4>Beneficiary: <span><?php echo htmlspecialchars($plan['beneficiary']); ?></sapn>
+        <h4>Beneficiary: <span><?php echo htmlspecialchars($plan['beneficiary']); ?></span>
         </h4>
-        <h4>Stable Pre-existing Condition Coverage: <span><?php echo ($plan['stable_condition'] == 1) ? 'Yes' : 'No'; ?></sapn>
+        <h4>Stable Pre-existing Condition Coverage: <span><?php echo ($plan['stable_condition'] == 1) ? 'Yes' : 'No'; ?></span>
         </h4>
       </div>
       <div class="col-sm-1 nopadding2">
@@ -114,13 +114,13 @@ defined('BASEPATH') or exit('No direct script access allowed');
         <?php if ($withprice) { ?>
           <h4><u>Payment Details</u></h4>
           <h4>Total Premium: <span>$<?php echo number_format($plan['premium'], 2, '.', ','); ?></span></h4>
-          <h4>Premium: <span>$<?php echo number_format((float)$plan['premium'] - (float)$plan['tax'], 2, '.', ','); ?></sapn>
+          <!-- <h4>Premium: <span>$<?php echo number_format((float)$plan['premium'] - (float)$plan['tax'], 2, '.', ','); ?></span>
+          </h4> -->
+          <h4>Tax: <span>$<?php echo number_format($plan['tax'], 2, '.', ','); ?></span>
           </h4>
-          <h4>Tax: <span>$<?php echo number_format($plan['tax'], 2, '.', ','); ?></sapn>
+          <h4>Payment Date: <span><?php echo (($plan['status_id'] >= 2) && isset($payment['added'])) ? date('Y-m-d', strtotime($payment['added'])) : ''; ?></span>
           </h4>
-          <h4>Payment Date: <span><?php echo (($plan['status_id'] >= 2) && isset($payment['added'])) ? date('Y-m-d', strtotime($payment['added'])) : ''; ?></sapn>
-          </h4>
-          <h4>Payment Method: <span><?php echo (($plan['status_id'] >= 2) && isset($payment['pay_mothed'])) ? $payment['pay_mothed'] : ''; ?></sapn>
+          <h4>Payment Method: <span><?php echo (($plan['status_id'] >= 2) && isset($payment['pay_mothed'])) ? $payment['pay_mothed'] : ''; ?></span>
           </h4>
         <?php } ?>
       </div>
@@ -213,17 +213,17 @@ defined('BASEPATH') or exit('No direct script access allowed');
     <div class="row" style="margin-top: -15px;">
       <div class="col-sm-6 nopadding">
         <h4>Policy Holder: <span><?php echo htmlspecialchars($customers[$i]['firstname'] . " " . $customers[$i]['lastname']); ?></span></h4>
-        <h4>Date of Birth: <span><?php echo $customers[$i]['birthday']; ?></sapn>
+        <h4>Date of Birth: <span><?php echo $customers[$i]['birthday']; ?></span>
         </h4>
         <h4>Address: <span>
             <?php if (!empty($plan['suite_number'])) {
               echo  "Suite " . htmlspecialchars($plan['suite_number']) . " ";
             } ?>
-            <?php echo htmlspecialchars($plan['street_number'] . ' ' . $plan['street_name']); ?>, <?php echo htmlspecialchars($plan['city'] . ', ' . $plan['province2'] . ', ' . $plan['postcode']); ?></sapn>
+            <?php echo htmlspecialchars($plan['street_number'] . ' ' . $plan['street_name']); ?>, <?php echo htmlspecialchars($plan['city'] . ', ' . $plan['province2'] . ', ' . $plan['postcode']); ?></span>
         </h4>
-        <h4>Phone Number: <span><?php echo htmlspecialchars($plan['phone1']); ?></sapn>
+        <h4>Phone Number: <span><?php echo htmlspecialchars($plan['phone1']); ?></span>
         </h4>
-        <h4>Email: <span><?php echo htmlspecialchars($plan['contact_email']); ?></sapn>
+        <h4>Email: <span><?php echo htmlspecialchars($plan['contact_email']); ?></span>
         </h4>
       </div>
       <div class="col-sm-1 nopadding">
@@ -231,13 +231,13 @@ defined('BASEPATH') or exit('No direct script access allowed');
       </div>
       <div class="col-sm-5 nopadding2">
         <h4><?php if ($plan['status_id'] < 2) { ?>Quote<?php } else { ?>Policy<?php } ?> Number: <span><?php echo $plan['policy']; ?></span></h4>
-        <h4>Application Date: <span><?php echo $plan['apply_date']; ?></sapn>
+        <h4>Application Date: <span><?php echo $plan['apply_date']; ?></span>
         </h4>
-        <h4>Effective Date: <span><?php echo $plan['effective_date']; ?></sapn>
+        <h4>Effective Date: <span><?php echo $plan['effective_date']; ?></span>
         </h4>
-        <h4>Expiry Date: <span><?php echo $plan['expiry_date']; ?></sapn>
+        <h4>Expiry Date: <span><?php echo $plan['expiry_date']; ?></span>
         </h4>
-        <h4>Number of Days: <span><?php echo $plan['totaldays']; ?></sapn>
+        <h4>Number of Days: <span><?php echo $plan['totaldays']; ?></span>
         </h4>
         <h4><br /><br /></h4>
       </div>
@@ -255,15 +255,15 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                 echo "Family";
                               } else {
                                 echo "Individual";
-                              } ?></sapn>
+                              } ?></span>
         </h4>
-        <h4>Sum Insured: <span>$<?php echo number_format($plan['sum_insured'], 2); ?></sapn>
+        <h4>Sum Insured: <span>$<?php echo number_format($plan['sum_insured'], 2); ?></span>
         </h4>
-        <h4>Deductible: <span>$<?php echo number_format($plan['deductible_amount'], 2); ?></sapn>
+        <h4>Deductible: <span>$<?php echo number_format($plan['deductible_amount'], 2); ?></span>
         </h4>
-        <h4>Beneficiary: <span><?php echo htmlspecialchars($plan['beneficiary']); ?></sapn>
+        <h4>Beneficiary: <span><?php echo htmlspecialchars($plan['beneficiary']); ?></span>
         </h4>
-        <h4>Stable Pre-existing Condition Coverage: <span><?php echo ($plan['stable_condition'] == 1) ? 'Yes' : 'No'; ?></sapn>
+        <h4>Stable Pre-existing Condition Coverage: <span><?php echo ($plan['stable_condition'] == 1) ? 'Yes' : 'No'; ?></span>
         </h4>
       </div>
       <div class="col-sm-1 nopadding2">
@@ -273,13 +273,13 @@ defined('BASEPATH') or exit('No direct script access allowed');
         <?php if ($withprice) { ?>
           <h4><u>Payment Details</u></h4>
           <h4>Total Premium: <span>$<?php echo number_format($plan['premium'], 2, '.', ','); ?></span></h4>
-          <h4>Premium: <span>$<?php echo number_format((float)$plan['premium'] - (float)$plan['tax'], 2, '.', ','); ?></sapn>
+          <!-- <h4>Premium: <span>$<?php echo number_format((float)$plan['premium'] - (float)$plan['tax'], 2, '.', ','); ?></span>
+          </h4> -->
+          <h4>Tax: <span>$<?php echo number_format($plan['tax'], 2, '.', ','); ?></span>
           </h4>
-          <h4>Tax: <span>$<?php echo number_format($plan['tax'], 2, '.', ','); ?></sapn>
+          <h4>Payment Date: <span><?php echo (($plan['status_id'] >= 2) && isset($payment['added'])) ? date('Y-m-d', strtotime($payment['added'])) : ''; ?></span>
           </h4>
-          <h4>Payment Date: <span><?php echo (($plan['status_id'] >= 2) && isset($payment['added'])) ? date('Y-m-d', strtotime($payment['added'])) : ''; ?></sapn>
-          </h4>
-          <h4>Payment Method: <span><?php echo (($plan['status_id'] >= 2) && isset($payment['pay_mothed'])) ? $payment['pay_mothed'] : ''; ?></sapn>
+          <h4>Payment Method: <span><?php echo (($plan['status_id'] >= 2) && isset($payment['pay_mothed'])) ? $payment['pay_mothed'] : ''; ?></span>
           </h4>
         <?php } ?>
       </div>

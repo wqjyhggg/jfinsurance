@@ -585,16 +585,17 @@ $usepsi = false;
 				</div>
 				<div class="x_content">
 					<div class="row" id='payment_history'>
-					<?php 	if (!empty($payments) && is_array($payments) && (sizeof($payments) > 0)) { ?>
+					<?php	if (!empty($payment_tables) && is_array($payment_tables) && (sizeof($payment_tables) > 0)) { ?>
 						<div class="col-sm-12">
 							<button type="button" class="btn btn-info" data-toggle="collapse" data-target="#history1">Payments <span class="fa fa-chevron-down"></span></button>
 							<div id="history1" class="collapse">
-								<button type="button" class="btn btn-payment-sort" data-type="date">Sort By Date</button>
-								<button type="button" class="btn btn-payment-sort" data-type="type">Sort By Type</button>
+                <?php	if (sizeof($payment_tables) > 1) { ?>
+                  <button type="button" id="payment_get_history_button" class="btn">Get More</button>
+                <?php } ?>
 								<form action='<?php echo $makepay_url; ?>' method='POST' class="form-horizontal">
 									<input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
 									<div class="table-responsive">
-										<table class="table table-hover table-bordered">
+										<table class="table table-hover table-bordered" id="payment_history_table">
 											<thead>
 												<tr>
 													<th>&nbsp;</th>
@@ -604,58 +605,12 @@ $usepsi = false;
 													<th>Amount</th>
 													<th>Rate</th>
 													<th>Pay Status</th>
+                          <th>CK Info</th>
 													<th>Info</th>
 													<th>Notes</th>
 												</tr>
 											</thead>
-											<tbody>
-											<?php
-											foreach ( $payments as $p ) {
-												$pay_str = '';
-												if ($p ['pay_type'] == 'up_commission') continue;
-												if ($p ['pay_type'] == 'refund_up_commission') continue;
-												if ($p ['pay_type'] == 'cancel_up_commission') continue;
-												
-												$sbstr = substr ( $p ['pay_type'], 0, 6 );
-												if ($p ['ispaid']) {
-													// if (($sbstr == 'refund') || ($sbstr == 'cancel')) {
-													// $pay_str = 'N / A';
-													// } else {
-													$pay_str = 'Paid';
-													// }
-												} else {
-													if ($sbstr == 'refund') {
-														$pay_str = "<a href='" . $revert_url . $p ['payment_id'] . "'>Revert Refund</a>";
-													} else if ($sbstr == 'cancel') {
-														$pay_str = "<a href='" . $revert_url . $p ['payment_id'] . "'>Revert Cancel</a>";
-													} else {
-														$pay_str = '-';
-													}
-												}
-												$pay_info = '';
-												if (! empty ( $p ['invoice_num'] )) $pay_info .= "[" . $p ['invoice_num'] . "]";
-												if (! empty ( $p ['bank_name'] )) $pay_info .= "[" . $p ['bank_name'] . "]";
-												if (! empty ( $p ['payor_name'] )) $pay_info .= "[" . $p ['payor_name'] . "]";
-												if (! empty ( $p ['cheque_number'] )) $pay_info .= "[" . $p ['cheque_number'] . "]";
-												if (! empty ( $p ['pay_to'] )) $pay_info .= "[" . $p ['pay_to'] . "]";
-												if (! empty ( $p ['name'] )) $pay_info .= "[" . $p ['name'] . "]";
-												if (! empty ( $p ['first5'] )) $pay_info .= "[" . $p ['first5'] . "]";
-												if (! empty ( $p ['last4'] )) $pay_info .= "[" . $p ['last4'] . "]";
-												if (! empty ( $p ['expiry_month'] )) $pay_info .= "[" . $p ['expiry_month'] . "]";
-												if (! empty ( $p ['expiry_year'] )) $pay_info .= "[" . $p ['expiry_year'] . "]";
-											?>
-												<tr>
-													<td><?php if (empty($p['ispaid'])) { ?><input type='checkbox' name='payment[]' value='<?php echo $p['payment_id']; ?>'><?php } ?></td>
-													<td><?php echo $p['last_update']; ?></td>
-													<td><?php echo $p['pay_type']; ?></td>
-													<td><?php echo $p['pay_mothed']; ?></td>
-													<td><?php echo $p['amount']; ?></td>
-													<td><?php echo $p['rate'] . "%"; ?></td>
-													<td><?php echo $pay_str; ?></td>
-													<td><?php echo $pay_info; ?></td>
-													<td><?php echo (strlen($p['note']) > 60) ? (substr($p['note'], 0, 57) . "...") : $p['note']; ?></td>
-												</tr>
-											<?php } ?>
+											<tbody id="payment_history_table_tbody">
 											</tbody>
 										</table>
 									</div>
@@ -671,27 +626,23 @@ $usepsi = false;
 						<?php 	} ?>
 					</div>
 					<div class="row">
-					<?php 	if (!empty($activelogs) && is_array($activelogs) && (sizeof($activelogs > 0))) { ?>
-	                  	<div class="col-sm-12">
-	                  		<button type="button" class="btn btn-info" data-toggle="collapse" data-target="#history2">Changes <span class="fa fa-chevron-down"></span></button>
-	                  		<div id="history2" class="collapse">
-	                  			<div class="table-responsive">
-	                  				<table class="table table-hover table-bordered">
-	                  					<thead>
-	                  						<tr>
+					  <?php if (!empty($activelog_tables) && is_array($activelog_tables) && (sizeof($activelog_tables) > 0)) { ?>
+	          <div class="col-sm-12">
+	            <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#history2">Changes <span class="fa fa-chevron-down"></span></button>
+              <div id="history2" class="collapse">
+                <?php	if (sizeof($activelog_tables) > 1) { ?>
+                  <button type="button" id="activelog_get_history_button" class="btn">Get More</button>
+                <?php } ?>
+                <div class="table-responsive">
+                  <table class="table table-hover table-bordered" id="activelog_history_table">
+                    <thead>
+                      <tr>
 												<th>Username</th>
 												<th>Date Time</th>
 												<th>Message</th>
 											</tr>
 										</thead>
-										<tbody>
-										<?php foreach ($activelogs as $p) { ?>
-											<tr>
-												<td><?php echo $p['username']; ?></td>
-												<td><?php echo $p['tm']; ?></td>
-												<td><?php echo (strlen($p['message']) > 120) ? (substr($p['message'], 0, 117) . "...") : $p['message']; ?></td>
-											</tr>
-										<?php } ?>
+										<tbody id="activelog_history_table_tbody">
 										</tbody>
 									</table>
 								</div>
@@ -709,6 +660,84 @@ $usepsi = false;
 </div>
 </div>
 <script type="text/javascript">
+var paytb=[];
+var logtb=[];
+<?php	
+if (!empty($payment_tables) && is_array($payment_tables) && (sizeof($payment_tables) > 0)) {
+  foreach ($payment_tables as $tb) {
+    echo "paytb.push('".$tb."');\n";
+  }
+}
+if (!empty($activelog_tables) && is_array($activelog_tables) && (sizeof($activelog_tables) > 0)) {
+  foreach ($activelog_tables as $tb) {
+    echo "logtb.push('".$tb."');\n";
+  }
+}
+?>
+$('#activelog_history_button').click(function(){
+  var vs = $("#history2").is( ":visible" );
+  if (!vs) {
+    var tb = logtb.shift();
+    $.ajax({
+      url: '<?php echo $get_activelog_history_url; ?>' + '?tb=' + tb,
+      type: 'GET',
+      success: function(data, textStatus, jqXHR) {
+        var x=document.getElementById('activelog_history_table_tbody');
+        document.getElementById('activelog_history_table_tbody') = x + data;
+    	},
+  	});
+  }
+  if (logtb.length <= 0) {
+    $('#activelog_get_history_button').css('display','none');
+  }
+});
+$('#activelog_get_history_button').click(function(){
+  var tb = logtb.shift();
+  $.ajax({
+    url: '<?php echo $get_activelog_history_url; ?>' + '?tb=' + tb,
+    type: 'GET',
+    success: function(data, textStatus, jqXHR) {
+      var x=document.getElementById('activelog_history_table_tbody');
+      document.getElementById('activelog_history_table_tbody') = x + data;
+    },
+  });
+  if (logtb.length <= 0) {
+    $('#activelog_get_history_button').css('display','none');
+  }
+});
+
+$('#payment_history_button').click(function(){
+  var vs = $("#history1").is( ":visible" );
+  if (!vs) {
+    var tb = paytb.shift();
+    $.ajax({
+      url: '<?php echo $get_payment_history_url; ?>' + '?tb=' + tb,
+      type: 'GET',
+      success: function(data, textStatus, jqXHR) {
+        var x=document.getElementById('payment_history_table_tbody').innerHTML;
+        document.getElementById('payment_history_table_tbody').innerHTML = x + data;
+    	},
+    });
+  }
+  if (paytb.length <= 0) {
+    $('#payment_get_history_button').css('display','none');
+  }
+});
+$('#payment_get_history_button').click(function(){
+  var tb = paytb.shift();
+  $.ajax({
+    url: '<?php echo $get_payment_history_url; ?>' + '?tb=' + tb,
+    type: 'GET',
+    success: function(data, textStatus, jqXHR) {
+      var x=document.getElementById('payment_history_table_tbody').innerHTML;
+      document.getElementById('payment_history_table_tbody').innerHTML = x + data;
+    },
+  });
+  if (paytb.length <= 0) {
+    $('#payment_get_history_button').css('display','none');
+  }
+});
+
 $(document).ready(function() {
 	$('#credit_card_div').click(function() {
 		$('#credit_card').show();

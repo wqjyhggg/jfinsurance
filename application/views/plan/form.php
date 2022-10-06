@@ -705,32 +705,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                               <input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
 			                  		    <div class="table-responsive">
                                   <table class="table table-hover table-bordered" id="payment_history_table">
-<tbody id="payment_history_table_tbody">
-                                    <tr>
-                                      <th>&nbsp;</th>
-                                      <th>Last Update</th>
-                                      <th>Type</th>
-                                      <th>Pay Type</th>
-                                      <th>Amount</th>
-                                      <th>Rate</th>
-                                      <th>Pay Status</th>
-                                      <th>CK Info</th>
-                                      <th>Info</th>
-                                      <th>Notes</th>
-                                    </tr>
-                                    <tr>
-                                      <th>&nbsp;</th>
-                                      <th>Last Update</th>
-                                      <th>Type</th>
-                                      <th>Pay Type</th>
-                                      <th>Amount</th>
-                                      <th>Rate</th>
-                                      <th>Pay Status</th>
-                                      <th>CK Info</th>
-                                      <th>Info</th>
-                                      <th>Notes</th>
-                                    </tr>
-</tbody>
+                                    <thead>
+                                      <tr>
+                                        <th>&nbsp;</th>
+                                        <th>Last Update</th>
+                                        <th>Type</th>
+                                        <th>Pay Type</th>
+                                        <th>Amount</th>
+                                        <th>Rate</th>
+                                        <th>Pay Status</th>
+                                        <th>CK Info</th>
+                                        <th>Info</th>
+                                        <th>Notes</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody id="payment_history_table_tbody">
+                                    </tbody>
                                   </table>
                                 </div>
                                 <div class="row">
@@ -747,18 +737,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		                  <div class="row">
                         <?php if (!empty($activelog_tables) && is_array($activelog_tables) && (sizeof($activelog_tables) > 0)) { ?>
 		                  	<div class="col-sm-12">
-			                  	<button type="button" class="btn btn-info" data-toggle="collapse" data-target="#history2">Changes <span class="fa fa-chevron-down"></span></button>
+			                  	<button type="button" id="activelog_history_button" class="btn btn-info" data-toggle="collapse" data-target="#history2">Changes <span class="fa fa-chevron-down"></span></button>
 			                  	<div id="history2" class="collapse">
                             <?php	if (sizeof($activelog_tables) > 1) { ?>
                               <button type="button" id="activelog_get_history_button" class="btn">Get More</button>
                             <?php } ?>
 			                  		<div class="table-responsive">
 			                  			<table class="table table-hover table-bordered" id="activelog_history_table">
-                                <tr>
-                                  <th>Username</th>
-                                  <th>Date Time</th>
-                                  <th>Message</th>
-                                </tr>
+                                <thead>
+                                  <tr>
+                                    <th>Username</th>
+                                    <th>Date Time</th>
+                                    <th>Message</th>
+                                  </tr>
+                                </thead>
+                                <tbody id="activelog_history_table_tbody">
+                                </tbody>
                               </table>
 			                  		</div>
 			                  	</div>
@@ -788,7 +782,7 @@ if (!empty($activelog_tables) && is_array($activelog_tables) && (sizeof($activel
   }
 }
 ?>
-$('#activelog_activelog_history_button').click(function(){
+$('#activelog_history_button').click(function(){
   var vs = $("#history2").is( ":visible" );
   if (!vs) {
     var tb = logtb.shift();
@@ -796,9 +790,8 @@ $('#activelog_activelog_history_button').click(function(){
       url: '<?php echo $get_activelog_history_url; ?>' + '?tb=' + tb,
       type: 'GET',
       success: function(data, textStatus, jqXHR) {
-        console.log("activelog_history_button",data); //XXXXXXXXXXXXXXXXXXXXXX
-        var x=document.getElementById('activelog_history_table');
-        x.appendChild( data );
+        var x=document.getElementById('activelog_history_table_tbody');
+        document.getElementById('activelog_history_table_tbody') = x + data;
     	},
   	});
   }
@@ -806,45 +799,48 @@ $('#activelog_activelog_history_button').click(function(){
     $('#activelog_get_history_button').css('display','none');
   }
 });
+$('#activelog_get_history_button').click(function(){
+  var tb = logtb.shift();
+  $.ajax({
+    url: '<?php echo $get_activelog_history_url; ?>' + '?tb=' + tb,
+    type: 'GET',
+    success: function(data, textStatus, jqXHR) {
+      var x=document.getElementById('activelog_history_table_tbody');
+      document.getElementById('activelog_history_table_tbody') = x + data;
+    },
+  });
+  if (logtb.length <= 0) {
+    $('#activelog_get_history_button').css('display','none');
+  }
+});
 
 $('#payment_history_button').click(function(){
-  console.log("payment_history_button1",paytb); //XXXXXXXYYYXXXXXXXXXXXXXXX
   var vs = $("#history1").is( ":visible" );
   if (!vs) {
     var tb = paytb.shift();
-console.log("payment_history_button2",tb); //XXXXXXXYYYXXXXXXXXXXXXXXX
     $.ajax({
       url: '<?php echo $get_payment_history_url; ?>' + '?tb=' + tb,
       type: 'GET',
       success: function(data, textStatus, jqXHR) {
-        console.log("payment_history_button R"); //XXXXXXXXXXXXXXXXXXXXXX
         var x=document.getElementById('payment_history_table_tbody').innerHTML;
         document.getElementById('payment_history_table_tbody').innerHTML = x + data;
     	},
     });
   }
-console.log("payment_history_button3",paytb.length); //XXXXXXXXXXXXXXXXXXXXXX
   if (paytb.length <= 0) {
     $('#payment_get_history_button').css('display','none');
   }
 });
 $('#payment_get_history_button').click(function(){
-  var vs = $("#history1").is( ":visible" );
-  console.log("payment_get_history_button1",paytb,vs); //XXXXXXXYYYXXXXXXXXXXXXXXX
-  if (vs) {
-    var tb = paytb.shift();
-console.log("payment_get_history_button2",tb); //XXXXXXXYYYXXXXXXXXXXXXXXX
-    $.ajax({
-      url: '<?php echo $get_payment_history_url; ?>' + '?tb=' + tb,
-      type: 'GET',
-      success: function(data, textStatus, jqXHR) {
-        console.log("payment_get_history_button R",data); //XXXXXXXXXXXXXXXXXXXXXX
-        var x=document.getElementById('payment_history_table_tbody').innerHTML;
-        document.getElementById('payment_history_table_tbody').innerHTML = x + data;
-    	},
-    });
-  }
-console.log("payment_get_history_button3",paytb.length); //XXXXXXXXXXXXXXXXXXXXXX
+  var tb = paytb.shift();
+  $.ajax({
+    url: '<?php echo $get_payment_history_url; ?>' + '?tb=' + tb,
+    type: 'GET',
+    success: function(data, textStatus, jqXHR) {
+      var x=document.getElementById('payment_history_table_tbody').innerHTML;
+      document.getElementById('payment_history_table_tbody').innerHTML = x + data;
+    },
+  });
   if (paytb.length <= 0) {
     $('#payment_get_history_button').css('display','none');
   }

@@ -637,19 +637,23 @@ $usepsi = false;
                   <form action='<?php echo $makepay_url; ?>' method='POST' class="form-horizontal">
                     <input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
                     <div class="table-responsive">
-                      <table class="table table-hover table-bordered">
-                        <tr>
-                          <th>&nbsp;</th>
-                          <th>Last Update</th>
-                          <th>Type</th>
-                          <th>Pay Type</th>
-                          <th>Amount</th>
-                          <th>Rate</th>
-                          <th>Pay Status</th>
-                          <th>CK Info</th>
-                          <th>Info</th>
-                          <th>Notes</th>
-                        </tr>
+                      <table class="table table-hover table-bordered" id="payment_history_table">
+                        <thead>
+                          <tr>
+                            <th>&nbsp;</th>
+                            <th>Last Update</th>
+                            <th>Type</th>
+                            <th>Pay Type</th>
+                            <th>Amount</th>
+                            <th>Rate</th>
+                            <th>Pay Status</th>
+                            <th>CK Info</th>
+                            <th>Info</th>
+                            <th>Notes</th>
+                          </tr>
+                        </thead>
+                        <tbody id="payment_history_table_tbody">
+                        </tbody>
                       </table>
                     </div>
                     <div class="row">
@@ -667,13 +671,20 @@ $usepsi = false;
                 <?php if (!empty($activelog_tables) && is_array($activelog_tables) && (sizeof($activelog_tables) > 0)) { ?>
                   <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#history2">Changes <span class="fa fa-chevron-down"></span></button>
                   <div id="history2" class="collapse">
+                    <?php	if (sizeof($activelog_tables) > 1) { ?>
+                      <button type="button" id="activelog_get_history_button" class="btn">Get More</button>
+                    <?php } ?>
                     <div class="table-responsive">
                       <table class="table table-hover table-bordered" id="activelog_history_table">
-                        <tr>
-                          <th>Username</th>
-                          <th>Date Time</th>
-                          <th>Message</th>
-                        </tr>
+                        <thead>
+                          <tr>
+                            <th>Username</th>
+                            <th>Date Time</th>
+                            <th>Message</th>
+                          </tr>
+                        </thead>
+                        <tbody id="activelog_history_table_tbody">
+                        </tbody>
                       </table>
                     </div>
                   </div>
@@ -758,39 +769,65 @@ if (!empty($activelog_tables) && is_array($activelog_tables) && (sizeof($activel
   }
 }
 ?>
-$('#activelog_activelog_history_button').click(function(){
-  var status = $('#history2').attr('aria-expanded');
-  if (status == 'true') {
-    var tb = paytb.shift();
+$('#activelog_history_button').click(function(){
+  var vs = $("#history2").is( ":visible" );
+  if (!vs) {
+    var tb = logtb.shift();
     $.ajax({
       url: '<?php echo $get_activelog_history_url; ?>' + '?tb=' + tb,
       type: 'GET',
       success: function(data, textStatus, jqXHR) {
-        console.log("activelog_history_button",data); //XXXXXXXXXXXXXXXXXXXXXX
-        var x=document.getElementById('activelog_history_table');
-        x.appendChild( data );
+        var x=document.getElementById('activelog_history_table_tbody');
+        document.getElementById('activelog_history_table_tbody') = x + data;
     	},
   	});
   }
-  if (paytb.length <= 0) {
+  if (logtb.length <= 0) {
+    $('#activelog_get_history_button').css('display','none');
+  }
+});
+$('#activelog_get_history_button').click(function(){
+  var tb = logtb.shift();
+  $.ajax({
+    url: '<?php echo $get_activelog_history_url; ?>' + '?tb=' + tb,
+    type: 'GET',
+    success: function(data, textStatus, jqXHR) {
+      var x=document.getElementById('activelog_history_table_tbody');
+      document.getElementById('activelog_history_table_tbody') = x + data;
+    },
+  });
+  if (logtb.length <= 0) {
     $('#activelog_get_history_button').css('display','none');
   }
 });
 
 $('#payment_history_button').click(function(){
-  var status = $('#history1').attr('aria-expanded');
-  if (status == 'true') {
+  var vs = $("#history1").is( ":visible" );
+  if (!vs) {
     var tb = paytb.shift();
     $.ajax({
       url: '<?php echo $get_payment_history_url; ?>' + '?tb=' + tb,
       type: 'GET',
       success: function(data, textStatus, jqXHR) {
-        console.log("payment_history_button",data); //XXXXXXXXXXXXXXXXXXXXXX
-        var x=document.getElementById('payment_history_table');
-        x.appendChild( data );
+        var x=document.getElementById('payment_history_table_tbody').innerHTML;
+        document.getElementById('payment_history_table_tbody').innerHTML = x + data;
     	},
-  	});
+    });
   }
+  if (paytb.length <= 0) {
+    $('#payment_get_history_button').css('display','none');
+  }
+});
+$('#payment_get_history_button').click(function(){
+  var tb = paytb.shift();
+  $.ajax({
+    url: '<?php echo $get_payment_history_url; ?>' + '?tb=' + tb,
+    type: 'GET',
+    success: function(data, textStatus, jqXHR) {
+      var x=document.getElementById('payment_history_table_tbody').innerHTML;
+      document.getElementById('payment_history_table_tbody').innerHTML = x + data;
+    },
+  });
   if (paytb.length <= 0) {
     $('#payment_get_history_button').css('display','none');
   }
