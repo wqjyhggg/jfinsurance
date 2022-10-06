@@ -777,8 +777,8 @@ $('#activelog_history_button').click(function(){
       url: '<?php echo $get_activelog_history_url; ?>' + '?tb=' + tb,
       type: 'GET',
       success: function(data, textStatus, jqXHR) {
-        var x=document.getElementById('activelog_history_table_tbody');
-        document.getElementById('activelog_history_table_tbody') = x + data;
+        var x=document.getElementById('activelog_history_table_tbody').innerHTML;
+        document.getElementById('activelog_history_table_tbody').innerHTML = x + data;
     	},
   	});
   }
@@ -792,8 +792,8 @@ $('#activelog_get_history_button').click(function(){
     url: '<?php echo $get_activelog_history_url; ?>' + '?tb=' + tb,
     type: 'GET',
     success: function(data, textStatus, jqXHR) {
-      var x=document.getElementById('activelog_history_table_tbody');
-      document.getElementById('activelog_history_table_tbody') = x + data;
+      var x=document.getElementById('activelog_history_table_tbody').innerHTML;
+      document.getElementById('activelog_history_table_tbody').innerHTML = x + data;
     },
   });
   if (logtb.length <= 0) {
