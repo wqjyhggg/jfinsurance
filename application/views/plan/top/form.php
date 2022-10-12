@@ -1677,13 +1677,19 @@ $('#payment_get_history_button').click(function(){
       return;
     }
     var departture = new Date(departturedt);
+    diffdays = (expiry.getTime() - departture.getTime()) / (1000 * 24 * 3600) + 1;
+    if (diffdays > 90) {
+      $('#title_alert_message').text("Expiry Date must be 90 days before the Departure date");
+      return;
+    }
     if (departture.getTime() > effective.getTime()) {
       $('#title_alert_message').text("Policy departture date must earlier than effective date");
       return;
-    // } else if (departturedt == effectivedt) {
+    } else if (departturedt == effectivedt) {
     //   // Check apply data <= departture date (if normal policy)
     //   $('#title_alert_message').text("Policy departture date must earlier than effective date");
-    //   return;
+    $('#title_alert_message').text("");
+    return;
     } else {
       if (departture.getTime() < apply.getTime()) {
         $('#title_alert_message').text("Confirm this is an extended policy, And input provide previous coverage to specail note area");
@@ -1692,11 +1698,6 @@ $('#payment_get_history_button').click(function(){
         $('#title_alert_message').text("Confirm this is a TOP UP policy");
         return;
       }
-    }
-    diffdays = (expiry.getTime() - departture.getTime()) / (1000 * 24 * 3600) + 1;
-    if (diffdays > 90) {
-      $('#title_alert_message').text("Expiry Date must be 90 days before the Departure date");
-      return;
     }
     $('#title_alert_message').text('The policy must purchase before departure!!')
   }
