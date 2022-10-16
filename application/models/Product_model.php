@@ -1852,6 +1852,8 @@ class Product_model extends CI_Model {
         $rate = 1.7;
       } else if (($beuser['user_id'] == 2185) || ($beuser['user_id'] == 4014)) {
         $rate = 1.85;
+      } else if (($beuser['user_id'] == 4249) || ($beuser['user_id'] == 4275) || ($beuser['user_id'] == 4276)) {
+        $rate = 1.8;
       } else {
 				$premiumArr['message'] = "You don't have permission to sell this production.";
 				return $premiumArr;
