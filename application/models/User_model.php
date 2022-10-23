@@ -792,4 +792,11 @@ class User_model extends CI_Model {
 		$this->db->where('user_id', $sub_user_id);
 		return $this->db->get('user')->row_array();
 	}
+	
+	public function get_user_by_username_or_email($para) {
+    $lower = trim(strtolower($para));
+		$this->db->where('LOWER(username)', $lower);
+		$this->db->or_where('LOWER(email)', $lower);
+		return $this->db->get('user')->row_array();
+	}
 }

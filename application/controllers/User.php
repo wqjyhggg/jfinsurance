@@ -755,4 +755,86 @@ class User extends MY_Controller {
 		$this->data['top_menu'] = $this->menu_model->load_top_menu();
 		$this->load->common ( 'user/login', $this->data );
 	}
+	
+	/**
+	 * User Forget Passwrod
+	 */
+	public function forget() {
+		if ($this->session->userdata ( 'user' )) {
+			// Login user
+			redirect ( base_url () );
+		}
+
+		// Get all text depend language
+		$this->data = $this->lang->language;
+		
+		$this->data['username'] = '';
+		$this->data['error_message'] = '';
+		$this->data['username_error'] = '';
+		$this->data['action_url'] = current_url ();
+    $ispost = 0;
+		if ($this->input->post()) {
+      $ispost = 1;
+			// Login post check
+			$r = $this->user_model->get_user_by_username_or_email($this->input->post('username'));
+			if ($r && filter_var($r["email"], FILTER_VALIDATE_EMAIL)) {
+        $this->load->model("forgetpwd_model");
+        if ($key = $this->forgetpwd_model->get_key($r["user_id"])) {
+          $this->load->model("mymail_model");
+          // Send link with key
+          
+          $mail = $this->forgetpwd_model->email_body($key);
+          $this->mymail_model->send_mymail($r["email"], $mail["title"], $mail["body"]);
+				}
+			}
+		}
+		
+		$this->data ['csrf'] = array (
+				'name' => $this->security->get_csrf_token_name (),
+				'value' => $this->security->get_csrf_hash () 
+		);
+		$this->data['top_menu'] = $this->menu_model->load_top_menu();
+		$this->load->common('user/forget', ["ispost" => $ispost]);
+	}
+	
+	/**
+	 * User Forget Passwrod
+	 */
+	public function setpassword() {
+    // Get all text depend language
+    $this->load->model("forgetpwd_model");
+    $this->forgetpwd_model->clear_old_data();
+
+		$this->data = $this->lang->language;
+		
+		$this->data['username'] = '';
+		$this->data['error_message'] = '';
+		$this->data['username_error'] = '';
+		$this->data['action_url'] = current_url ();
+
+    $key = $this->input->post_get("key");
+    if (!($user_id = $this->forgetpwd_model->verifykey($key))) {
+      show_error("This link is expired. Please use reset it");
+    }
+    if (!($user = $this->user_model->get_user_by_id($user_id))) {
+      show_error("This link is expired. Please contact system admin");
+    }
+
+		if ($password = $this->input->post("password")) {
+			$this->forgetpwd_model->remove_me($key);
+			if ($this->user_model->update($user_id, array('password' => $password))) {
+        $this->session->set_userdata('beuser', $user);
+        redirect("/");
+			}
+		}
+		
+		$this->data ['csrf'] = array (
+				'name' => $this->security->get_csrf_token_name (),
+				'value' => $this->security->get_csrf_hash () 
+		);
+    $this->data['key'] = $key;
+
+		$this->data['top_menu'] = $this->menu_model->load_top_menu();
+		$this->load->common('user/setpassword', $this->data);
+	}
 }

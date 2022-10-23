@@ -46,8 +46,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						    <div class="col-sm-12 pull-right">
 						      <input class="btn btn-primary" style="padding:6px 25px;" type='submit' value="Submit">
 						    </div>
-						 </div>
-					
+						</div>
+						<div class="form-group row">
+						    <div class="col-sm-12 pull-right">
+                  <br />
+						      <a href="<?php base_url("/user/forget"); ?>">Forget password</a>
+						    </div>
+						</div>
 					</form> 
 				</div>
 				
