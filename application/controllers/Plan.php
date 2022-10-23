@@ -1416,7 +1416,7 @@ class Plan extends MY_Controller {
         }
 			}
 		}
-		$data['get_activelog_history_url'] = base_url ( "plan/get_activelog_history/" . $data['plan_id'] );
+    $data['get_activelog_history_url'] = base_url ( "plan/get_activelog_history/" . $data['plan_id'] );
 		$data['get_payment_history_url'] = base_url ( "plan/get_payment_history/" . $data['plan_id'] );
 		$data['payhistory_url'] = base_url ( "plan/payhistory/" . $data['plan_id'] );
 		$data['sum_insured_url'] = base_url ( "product/insured/" . $data['product_short'] );
@@ -3045,6 +3045,8 @@ class Plan extends MY_Controller {
 			$data['payment_tables'] = $this->payment_model->history_tables;
 
 		}
+    $data['get_activelog_history_url'] = base_url ( "plan/get_activelog_history/" . $data['plan_id'] );
+		$data['get_payment_history_url'] = base_url ( "plan/get_payment_history/" . $data['plan_id'] );
 		$data['payhistory_url'] = base_url ( "plan/payhistory/" . $plan['plan_id'] );
 		$data['makepay_url'] = base_url ( "payment/makepay" );
 		$data['revert_url'] = base_url ( "payment/revert" ) . "/";
