@@ -587,7 +587,7 @@ $usepsi = false;
 					<div class="row" id='payment_history'>
 					<?php	if (!empty($payment_tables) && is_array($payment_tables) && (sizeof($payment_tables) > 0)) { ?>
 						<div class="col-sm-12">
-							<button type="button" class="btn btn-info" data-toggle="collapse" data-target="#history1">Payments <span class="fa fa-chevron-down"></span></button>
+							<button type="button" id="payment_history_button" class="btn btn-info" data-toggle="collapse" data-target="#history1">Payments <span class="fa fa-chevron-down"></span></button>
 							<div id="history1" class="collapse">
                 <?php	if (sizeof($payment_tables) > 1) { ?>
                   <button type="button" id="payment_get_history_button" class="btn">Get More</button>
