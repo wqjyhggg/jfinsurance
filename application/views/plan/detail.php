@@ -760,12 +760,12 @@ var logtb=[];
 <?php	
 if (!empty($payment_tables) && is_array($payment_tables) && (sizeof($payment_tables) > 0)) {
   foreach ($payment_tables as $tb) {
-    echo "paytb.push(".$tb.");\n";
+    echo "paytb.push('".$tb."');\n";
   }
 }
 if (!empty($activelog_tables) && is_array($activelog_tables) && (sizeof($activelog_tables) > 0)) {
   foreach ($activelog_tables as $tb) {
-    echo "logtb.push(".$tb.");\n";
+    echo "logtb.push('".$tb."');\n";
   }
 }
 ?>
