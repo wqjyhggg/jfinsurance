@@ -474,8 +474,7 @@ $usepsi = false;
 										  // to execute the copy command, and trigger event to update tooltip message
 										  // to indicate whether the text was successfully copied.
 										  $('#copy-button').bind('click', function() {
-										    var input = document.querySelector('#copy-input');
-										    input.setSelectionRange(0, input.value.length + 1);
+										    $('#copy-input').select();
 										    try {
 										      var success = document.execCommand('copy');
 										      if (success) {
