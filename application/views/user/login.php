@@ -50,7 +50,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<div class="form-group row">
 						    <div class="col-sm-12 pull-right">
                   <br />
-						      <a href="<?php base_url("/user/forget"); ?>">Forget password</a>
+						      <a href="<?php echo base_url("/user/forget"); ?>">Forget password</a>
 						    </div>
 						</div>
 					</form> 

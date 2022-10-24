@@ -21,7 +21,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
               <div class="col-sm-9">
                 <input type='text' class="form-control password" id="vpassword" name='vpassword' value='<?php echo $this->input->post("vpassword"); ?>' placeholder="Re enter passwrod">
 								<div class="alert-error text-left">
-								  Password and Verify Password are different, please re-enter
 								</div>
               </div>
             </div>
@@ -41,7 +40,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 function verify_password() {
   var v1 = $('#password').val();
   var v2 = $('#vpassword').val()
-  if (v1 != v2) {
+  if ((v1 != '') && (v2 != '') && (v1 != v2)) {
     $('.alert-error').html('Password and Verify Password are different, please re-enter');
     $('.alert-error').show();
     return false;
