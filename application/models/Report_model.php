@@ -20,6 +20,12 @@ class Report_model extends CI_Model
   const BROKERAGE = 104;
   const AGENT = 105;
 
+  public $payment_tables = [
+    "payment", 
+    "payment2019", 
+    "payment2017"
+  ];
+
   /**
    * Get sales report to agent data
    *
@@ -65,11 +71,11 @@ class Report_model extends CI_Model
     $sql .= "		pr.full_name,";
     $sql .= "		pr.up_insuer,";
     $sql .= "		CONCAT(cu.firstname, ' ', cu.lastname) as insured";
-    $sql .= " FROM payment pa";
+    $sql .= " FROM __payment__ pa";
     $sql .= " JOIN plan pl ON (pa.plan_id=pl.plan_id)";
     $sql .= " JOIN product pr ON (pl.product_short=pr.product_short)";
     $sql .= " JOIN customer cu ON (pl.customer_id=cu.customer_id)";
-    $sql .= " LEFT JOIN payment pa2 ON (pa.plan_id=pa2.plan_id AND pa.payment_id=pa2.premium_payment_id AND pa2.pay_type IN ('commission','cancel_commission','refund_commission'))";
+    $sql .= " LEFT JOIN __payment__ pa2 ON (pa.plan_id=pa2.plan_id AND pa.payment_id=pa2.premium_payment_id AND pa2.pay_type IN ('commission','cancel_commission','refund_commission'))";
     $sql .= " WHERE pa.pay_type IN ('premium','cancel','refund') AND ABS(pa.amount)>=0.10";
     if (!empty($para['payment_added_from'])) {
       $sql .= " AND pa.added >= " . $this->db->escape($para['payment_added_from'] . " 00:00:00");
@@ -93,7 +99,13 @@ class Report_model extends CI_Model
     if (!empty($para['region_id'])) {
       $sql .= " AND pl.region_id='" . (int)$para['region_id'] . "'";
     }
-    $sql .= " ORDER BY pl.user_id ASC, pl.apply_date";
+
+    $sqlu = "";
+    foreach ($this->payment_tables as $tb) {
+      $sqlu .= empty($sqlu)?"":" UNION ".str_replace('__payment__', $tb, $sql);
+    }
+
+    $sql = $sqlu . " ORDER BY pl.user_id ASC, pl.apply_date";
     $query = $this->db->query($sql)->result_array();
 
     $results = array();
@@ -159,11 +171,11 @@ class Report_model extends CI_Model
     $sql .= "		pr.full_name,";
     $sql .= "		pr.up_insuer,";
     $sql .= "		CONCAT(cu.firstname, ' ', cu.lastname) as insured";
-    $sql .= " FROM payment pa";
+    $sql .= " FROM __payment__ pa";
     $sql .= " JOIN plan pl ON (pa.plan_id=pl.plan_id)";
     $sql .= " JOIN product pr ON (pl.product_short=pr.product_short)";
     $sql .= " JOIN customer cu ON (pl.customer_id=cu.customer_id)";
-    $sql .= " LEFT JOIN payment pa2 ON (pa.plan_id=pa2.plan_id AND pa.payment_id=pa2.premium_payment_id AND pa2.pay_type IN ('commission','cancel_commission','refund_commission'))";
+    $sql .= " LEFT JOIN __payment__ pa2 ON (pa.plan_id=pa2.plan_id AND pa.payment_id=pa2.premium_payment_id AND pa2.pay_type IN ('commission','cancel_commission','refund_commission'))";
     $sql .= " WHERE pa.pay_type IN ('premium','cancel','refund') AND ABS(pa.amount)>=0.01";
     if (!empty($para['payment_added_from'])) {
       $sql .= " AND pa.added >= " . $this->db->escape($para['payment_added_from'] . " 00:00:00");
@@ -186,7 +198,11 @@ class Report_model extends CI_Model
     if (!empty($para['region_id'])) {
       $sql .= " AND pl.region_id='" . (int)$para['region_id'] . "'";
     }
-    $sql .= " ORDER BY pl.user_id ASC, pl.apply_date";
+    $sqlu = "";
+    foreach ($this->payment_tables as $tb) {
+      $sqlu .= empty($sqlu)?"":" UNION ".str_replace('__payment__', $tb, $sql);
+    }
+    $sql = $sqlu . " ORDER BY pl.user_id ASC, pl.apply_date";
     $query = $this->db->query($sql)->result_array();
     $results = array();
     $amount = 0;
@@ -214,7 +230,7 @@ class Report_model extends CI_Model
    */
   public function get_report_in_period($para)
   {
-    $sql  = "SELECT distinct plan_id FROM payment WHERE ABS(amount)>=0.01 AND pay_type='commission'";
+    $sql  = "SELECT distinct plan_id FROM __payment__ WHERE ABS(amount)>=0.01 AND pay_type='commission'";
     if (!empty($para['payment_added_from'])) {
       $sql .= " AND added >= " . $this->db->escape($para['payment_added_from'] . " 00:00:00");
     }
@@ -227,6 +243,11 @@ class Report_model extends CI_Model
     if (!empty($para['payment_date_to'])) {
       $sql .= " AND last_update <= " . $this->db->escape($para['payment_date_to'] . " 23:59:59");
     }
+    $sqlu = "";
+    foreach ($this->payment_tables as $tb) {
+      $sqlu .= empty($sqlu)?"":" UNION ".str_replace('__payment__', $tb, $sql);
+    }
+    $sql = $sqlu;
 
     $sql2  = "SELECT distinct user_id FROM plan WHERE plan_id IN (" . $sql . ")";
 
@@ -278,14 +299,14 @@ class Report_model extends CI_Model
     $sql .= "	(SELECT count(cus.plan_id) FROM customer cus WHERE cus.plan_id=pa.plan_id) as customer_cnt, ";
     $sql .= "	pa.added, ";
     $sql .= "	'5' AS claims_handling_fee_per";
-    $sql .= " FROM payment pa";
+    $sql .= " FROM __payment__ pa";
     $sql .= " JOIN plan pl ON pa.plan_id = pl.plan_id";
     $sql .= " JOIN customer c ON pl.customer_id = c.customer_id";
     $sql .= " JOIN product pr ON pl.product_short = pr.product_short";
     $sql .= " JOIN user u ON pl.user_id = u.user_id ";
     $sql .= " LEFT JOIN user_product up ON u.user_id = up.user_id and pr.product_short = up.product_short";
-    $sql .= " LEFT JOIN payment pa2 ON (pa.plan_id=pa2.plan_id AND pa.payment_id=pa2.premium_payment_id AND pa2.pay_type IN ('commission','cancel_commission','refund_commission'))";
-    $sql .= " LEFT JOIN payment pa3 ON (pa.plan_id=pa3.plan_id AND pa.payment_id=pa3.premium_payment_id AND pa3.pay_type IN ('up_commission','cancel_up_commission','refund_up_commission'))";
+    $sql .= " LEFT JOIN __payment__ pa2 ON (pa.plan_id=pa2.plan_id AND pa.payment_id=pa2.premium_payment_id AND pa2.pay_type IN ('commission','cancel_commission','refund_commission'))";
+    $sql .= " LEFT JOIN __payment__ pa3 ON (pa.plan_id=pa3.plan_id AND pa.payment_id=pa3.premium_payment_id AND pa3.pay_type IN ('up_commission','cancel_up_commission','refund_up_commission'))";
     $sql .= " WHERE pa.pay_type IN ('premium','cancel','refund') AND ABS(pa.amount)>=0.01";
     if (!empty($para['payment_added_from'])) {
       $sql .= " AND pa.added >= " . $this->db->escape($para['payment_added_from'] . " 00:00:00");
@@ -308,8 +329,12 @@ class Report_model extends CI_Model
     if (!empty($para['region_id'])) {
       $sql .= " AND pl.region_id='" . (int)$para['region_id'] . "'";
     }
+    $sqlu = "";
+    foreach ($this->payment_tables as $tb) {
+      $sqlu .= empty($sqlu)?"":" UNION ".str_replace('__payment__', $tb, $sql);
+    }
 
-    $query = $this->db->query($sql)->result_array();
+    $query = $this->db->query($sqlu)->result_array();
     $results = array();
 
     // From Plan controll should change to plan model. do it later if have time.
@@ -391,7 +416,7 @@ class Report_model extends CI_Model
     $sql .= " FROM plan_history ph";
     $sql .= " JOIN customer c ON ph.customer_id = c.customer_id";
     $sql .= " JOIN product pr ON ph.product_short = pr.product_short";
-    $sql .= " LEFT JOIN payment pa2 ON (ph.payment_id!=0 AND ph.payment_id=pa2.premium_payment_id AND pa2.pay_type IN ('commission','cancel_commission','refund_commission'))";
+    $sql .= " LEFT JOIN __payment__ pa2 ON (ph.payment_id!=0 AND ph.payment_id=pa2.premium_payment_id AND pa2.pay_type IN ('commission','cancel_commission','refund_commission'))";
     if (!empty($para['payment_added_from'])) {
       $sql .= "WHERE ph.add_time >= " . $this->db->escape($para['payment_added_from'] . " 00:00:00");
     } else {
@@ -405,7 +430,11 @@ class Report_model extends CI_Model
     if (!empty($para['product_short'])) {
       $sql .= " AND ph.product_short IN ('" . implode("','", str_replace("'", "", $para['product_short'])) . "')";
     }
-    $sql .= " ORDER BY ph.plan_id ASC, ph.plan_history_id ASC";
+    $sqlu = "";
+    foreach ($this->payment_tables as $tb) {
+      $sqlu .= empty($sqlu)?"":" UNION ".str_replace('__payment__', $tb, $sql);
+    }
+    $sql = $sqlu . " ORDER BY ph.plan_id ASC, ph.plan_history_id ASC";
 
     return $this->db->query($sql)->result_array();
   }
@@ -429,8 +458,8 @@ class Report_model extends CI_Model
     $sql .= " FROM plan_history ph";
     $sql .= " JOIN customer c ON ph.customer_id = c.customer_id";
     $sql .= " JOIN product pr ON ph.product_short = pr.product_short";
-    $sql .= " JOIN payment pa ON (ph.payment_id=pa.payment_id)";
-    $sql .= " JOIN payment pa2 ON (ph.payment_id=pa2.premium_payment_id AND pa2.pay_type IN ('commission','cancel_commission','refund_commission'))";
+    $sql .= " JOIN __payment__ pa ON (ph.payment_id=pa.payment_id)";
+    $sql .= " JOIN __payment__ pa2 ON (ph.payment_id=pa2.premium_payment_id AND pa2.pay_type IN ('commission','cancel_commission','refund_commission'))";
     $sql .= " WHERE ph.status_id != 8 AND ph.payment_id != 0";
     $sql .= "   AND ph.plan_history_id=(SELECT MIN(ph2.plan_history_id) FROM plan_history ph2 WHERE ph2.plan_id=ph.plan_id AND ph2.payment_id=ph.payment_id)";
     if (!empty($para['payment_added_from'])) {
@@ -446,7 +475,11 @@ class Report_model extends CI_Model
     if (!empty($para['product_short'])) {
       $sql .= " AND ph.product_short IN ('" . implode("','", str_replace("'", "", $para['product_short'])) . "')";
     }
-    $sql .= " ORDER BY ph.plan_id ASC, ph.plan_history_id ASC";
+    $sqlu = "";
+    foreach ($this->payment_tables as $tb) {
+      $sqlu .= empty($sqlu)?"":" UNION ".str_replace('__payment__', $tb, $sql);
+    }
+    $sql = $sqlu . " ORDER BY ph.plan_id ASC, ph.plan_history_id ASC";
 
     return $this->db->query($sql)->result_array();
   }
@@ -521,8 +554,8 @@ class Report_model extends CI_Model
     $sql .= " JOIN `product` `pr` ON `pl`.`product_short` = `pr`.`product_short`";
     $sql .= " JOIN `user` `u` ON `pl`.`user_id` = `u`.`user_id`";
     $sql .= " LEFT JOIN `user_product` `up` ON `u`.`user_id` = `up`.`user_id` and `pr`.`product_short` = `up`.`product_short`";
-    $sql .= " JOIN `payment` `pa` ON `pl`.`plan_id` = `pa`.`plan_id` AND `pa`.`pay_type` in ('premium','refund','cancel') AND `pa`.`ispaid` = 0";
-    $sql .= " LEFT JOIN `payment` `pa2` ON `pa`.`plan_id` = `pa2`.`plan_id` AND `pa2`.`pay_type` = 'commission' AND `pa`.`payment_id` = `pa2`.`premium_payment_id`";
+    $sql .= " JOIN __payment__ `pa` ON `pl`.`plan_id` = `pa`.`plan_id` AND `pa`.`pay_type` in ('premium','refund','cancel') AND `pa`.`ispaid` = 0";
+    $sql .= " LEFT JOIN __payment__ `pa2` ON `pa`.`plan_id` = `pa2`.`plan_id` AND `pa2`.`pay_type` = 'commission' AND `pa`.`payment_id` = `pa2`.`premium_payment_id`";
     $sql .= " WHERE `pa`.`amount` !=0";
 
     if (empty($para['policy_status'])) {
@@ -551,7 +584,11 @@ class Report_model extends CI_Model
     if (!empty($para['region_id'])) {
       $sql .= " AND pl.region_id='" . (int)$para['region_id'] . "'";
     }
-    $sql .= " ORDER BY `pl`.`policy`, `pa`.`payment_id`";
+    $sqlu = "";
+    foreach ($this->payment_tables as $tb) {
+      $sqlu .= empty($sqlu)?"":" UNION ".str_replace('__payment__', $tb, $sql);
+    }
+    $sql = $sqlu . " ORDER BY `pl`.`policy`, `pa`.`payment_id`";
 
     $query = $this->db->query($sql)->result_array();
     $results = $this->get_receivable_result($query);
@@ -649,12 +686,12 @@ class Report_model extends CI_Model
   {
     $sql = "SELECT
 					pl.policy, pl.refund_date, CONCAT(pl.street_number, ' ', pl.street_name) AS address, pl.suite_number, pl.city, pl.province2 AS province, pl.postcode,
-					(SELECT sum(amount) FROM payment pm1 WHERE pm1.plan_id=pl.plan_id AND pay_type='premium') as premium,
-					(SELECT sum(amount) FROM payment pm1 WHERE pm1.plan_id=pl.plan_id AND pay_type='commission') as commission,
+					(SELECT sum(amount) FROM __payment__ pm1 WHERE pm1.plan_id=pl.plan_id AND pay_type='premium') as premium,
+					(SELECT sum(amount) FROM __payment__ pm1 WHERE pm1.plan_id=pl.plan_id AND pay_type='commission') as commission,
 					CONCAT(c.firstname, ' ', c.lastname) AS customer_name, c.birthday,
 					CONCAT(u.firstname, ' ', u.lastname) AS agent_name,
 					pm.amount, pm.admin_fee, (pm.amount + pm.admin_fee) AS net_amount, pm.ispaid, pm.added, pm.pay_date, pm.pay_to
-				FROM payment pm
+				FROM __payment__ pm
 				JOIN plan pl ON pm.plan_id = pl.plan_id
 				JOIN user u ON pl.user_id = u.user_id
 				JOIN customer c ON pl.customer_id = c.customer_id
@@ -678,7 +715,11 @@ class Report_model extends CI_Model
     if (!empty($para['product_short'])) {
       $sql .= " AND pl.product_short = " . $this->db->escape($para['product_short']);
     }
-    $sql .= " ORDER BY pm.plan_id ASC, pm.payment_id ASC";
+    $sqlu = "";
+    foreach ($this->payment_tables as $tb) {
+      $sqlu .= empty($sqlu)?"":" UNION ".str_replace('__payment__', $tb, $sql);
+    }
+    $sql = $sqlu . " ORDER BY pm.plan_id ASC, pm.payment_id ASC";
     $query = $this->db->query($sql)->result_array();
     //die($this->db->last_query());
     return $query;
@@ -779,12 +820,12 @@ class Report_model extends CI_Model
     $sql .= "	pa.rate,";
     $sql .= "	pa.amount,";
     $sql .= "	pa.ispaid ";
-    $sql .= " FROM payment pa";
+    $sql .= " FROM __payment__ pa";
     $sql .= " JOIN plan pl ON pa.plan_id = pl.plan_id";
     $sql .= " JOIN customer c ON pl.customer_id = c.customer_id";
     $sql .= " JOIN product pr ON pl.product_short = pr.product_short";
     $sql .= " JOIN status st ON pl.status_id = st.status_id ";
-    $sql .= " LEFT JOIN payment pa2 ON (pa.premium_payment_id=pa2.payment_id)";
+    $sql .= " LEFT JOIN __payment__ pa2 ON (pa.premium_payment_id=pa2.payment_id)";
     $sql .= " WHERE pa.pay_type IN ('commission','cancel_commission','refund_commission') AND ABS(pa.amount)>=0.01 ";
     if (empty($para['ispaid'])) {
       $sql .= " AND pa.ispaid = 0";
@@ -817,7 +858,11 @@ class Report_model extends CI_Model
       $sql .= " AND pl.region_id='" . (int)$para['region_id'] . "'";
     }
 
-    $sql .= " ORDER BY user_id ASC, pl.plan_id ASC, added ASC";
+    $sqlu = "";
+    foreach ($this->payment_tables as $tb) {
+      $sqlu .= empty($sqlu)?"":" UNION ".str_replace('__payment__', $tb, $sql);
+    }
+    $sql = $sqlu . " ORDER BY user_id ASC, pl.plan_id ASC, added ASC";
 
     $query = $this->db->query($sql)->result_array();
     $results = array();
@@ -847,8 +892,26 @@ class Report_model extends CI_Model
   {
     $beuser = $this->session->beuser;
     $available_user_ids = array_keys($para['user_list']);
+    $paymenttb = "payment";
+    if (!empty($para['payment_date_from'])) {
+      $year = substr($para['payment_date_from'], 0, 4);
+      if ($year <= '2019') {
+        $paymenttb = "payment2019";
+        if ($year <= '2017') {
+          $paymenttb = "payment2017";
+        }
+      }
+    } else if (!empty($para['payment_date_to'])) {
+      $year = substr($para['payment_date_to'], 0, 4);
+      if ($year <= '2019') {
+        $paymenttb = "payment2019";
+        if ($year <= '2017') {
+          $paymenttb = "payment2017";
+        }
+      }
+    }
 
-    $sql  = "SELECT p.user_id, u.username, CONCAT(u.firstname, ' ', u.lastname) AS agent_name, SUM(p.amount) as total_balance, SUM(IF(p.ispaid=0, p.amount, 0)) as unpaid_premium, (SELECT MAX(pay_date) FROM payment p2 WHERE p2.user_id=p.user_id) as last_paid, u.receive_type, u.note FROM payment p ";
+    $sql  = "SELECT p.user_id, u.username, CONCAT(u.firstname, ' ', u.lastname) AS agent_name, SUM(p.amount) as total_balance, SUM(IF(p.ispaid=0, p.amount, 0)) as unpaid_premium, (SELECT MAX(pay_date) FROM ".$paymenttb." p2 WHERE p2.user_id=p.user_id) as last_paid, u.receive_type, u.note FROM ".$paymenttb." p ";
     $sql .= " JOIN user u ON (p.user_id=u.user_id)";
     $sql .= " WHERE p.pay_type='commission'";
     if (!empty($para['receive_type'])) {
@@ -1008,17 +1071,21 @@ class Report_model extends CI_Model
     $sql  = "SELECT";
     $sql .= "   sum(pa2.amount - pa2.admin_fee) AS premium,";
     $sql .= "   sum(pa.amount) as commission";
-    $sql .= " FROM payment pa";
+    $sql .= " FROM __payment__ pa";
     $sql .= " JOIN plan pl ON pa.plan_id = pl.plan_id";
     $sql .= " JOIN customer c ON pl.customer_id = c.customer_id";
     $sql .= " JOIN product pr ON pl.product_short = pr.product_short";
     $sql .= " JOIN status st ON pl.status_id = st.status_id ";
-    $sql .= " LEFT JOIN payment pa2 ON (pa.premium_payment_id=pa2.payment_id)";
+    $sql .= " LEFT JOIN __payment__ pa2 ON (pa.premium_payment_id=pa2.payment_id)";
     $sql .= " WHERE pl.user_id='" . intval($user_id) . "'";
     $sql .= " AND pa.added >= '" . $dtstart . "'";
     $sql .= " AND pa.added < '" . $dtend . "'";
     $sql .= " AND pa.pay_type IN ('commission','cancel_commission','refund_commission') AND ABS(pa.amount)>=0.01";
-    $row = $this->db->query($sql)->row_array();
+    $sqlu = "";
+    foreach ($this->payment_tables as $tb) {
+      $sqlu .= empty($sqlu)?"":" UNION ".str_replace('__payment__', $tb, $sql);
+    }
+    $row = $this->db->query($sqlu)->row_array();
     if ($row) {
       return $row;
     }
@@ -1029,8 +1096,12 @@ class Report_model extends CI_Model
   {
     $dtstart = $year . "-" . str_pad($month, 2, "0", STR_PAD_LEFT) . "-01 00:00:00";
     $dtend = date("Y-m-d 00:00:00", strtotime($dtstart . " +1 month"));
-    $sql = "SELECT SUM(pa.amount) as total FROM payment pa JOIN plan pl ON (pa.plan_id = pl.plan_id) WHERE pl.user_id='" . intval($user_id) . "' AND pa.added>='" . $dtstart . "' AND pa.added<'" . $dtend . "' AND pa.pay_type IN (" . $types . ")";
-    $row = $this->db->query($sql)->row_array();
+    $sql = "SELECT SUM(pa.amount) as total FROM __payment__ pa JOIN plan pl ON (pa.plan_id = pl.plan_id) WHERE pl.user_id='" . intval($user_id) . "' AND pa.added>='" . $dtstart . "' AND pa.added<'" . $dtend . "' AND pa.pay_type IN (" . $types . ")";
+    $sqlu = "";
+    foreach ($this->payment_tables as $tb) {
+      $sqlu .= empty($sqlu)?"":" UNION ".str_replace('__payment__', $tb, $sql);
+    }
+    $row = $this->db->query($sqlu)->row_array();
     if ($row) {
       return $row['total'];
     }
