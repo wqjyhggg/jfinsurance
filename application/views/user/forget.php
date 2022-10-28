@@ -20,7 +20,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                 <input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
                 <label for="username" class="col-sm-3 form-control-label">Username</label>
                 <div class="col-sm-9">
-                  <input type='text' class="form-control" id="username" name='username' value='<?php echo $username; ?>' placeholder="Your Username or Email">
+                  <input type='text' class="form-control" id="username" name='username' value='' placeholder="Your Username or Email">
                 </div>
               </div>
               <br /><br />

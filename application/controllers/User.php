@@ -814,7 +814,7 @@ class User extends MY_Controller {
 
     $key = $this->input->post_get("key");
     if (!($user_id = $this->forgetpwd_model->verifykey($key))) {
-      show_error("This link is expired. Please use reset it");
+      show_error("This link is expired. Please request it again");
     }
     if (!($user = $this->user_model->get_user_by_id($user_id))) {
       show_error("This link is expired. Please contact system admin");

@@ -26,7 +26,7 @@ class Forgetpwd_model extends CI_Model {
     $bidx = array_rand($this->mailbody);
     $rc = array(
       "title" => $this->mailtitle[$tidx],
-      "body" => $this->mailbody[$bidx],
+      "body" => str_replace("__URLLING__", $url, $this->mailbody[$bidx]),
     );
 
     return $rc;
@@ -60,7 +60,7 @@ class Forgetpwd_model extends CI_Model {
 	}
 
   public function verifykey($key) {
-    if (strlen($key != 64)) {
+    if (strlen($key) != 64) {
       return false;
     }
     $part1 = substr($key, 0, 32);
