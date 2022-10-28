@@ -102,10 +102,10 @@ class Report_model extends CI_Model
 
     $sqlu = "";
     foreach ($this->payment_tables as $tb) {
-      $sqlu .= empty($sqlu)?"":" UNION ".str_replace('__payment__', $tb, $sql);
+      $sqlu .= (empty($sqlu)?"":" UNION ").str_replace('__payment__', $tb, $sql);
     }
 
-    $sql = $sqlu . " ORDER BY pl.user_id ASC, pl.apply_date";
+    $sql = $sqlu . " ORDER BY user_id ASC, apply_date";
     $query = $this->db->query($sql)->result_array();
 
     $results = array();
@@ -200,9 +200,9 @@ class Report_model extends CI_Model
     }
     $sqlu = "";
     foreach ($this->payment_tables as $tb) {
-      $sqlu .= empty($sqlu)?"":" UNION ".str_replace('__payment__', $tb, $sql);
+      $sqlu .= (empty($sqlu)?"":" UNION ").str_replace('__payment__', $tb, $sql);
     }
-    $sql = $sqlu . " ORDER BY pl.user_id ASC, pl.apply_date";
+    $sql = $sqlu . " ORDER BY user_id ASC, apply_date";
     $query = $this->db->query($sql)->result_array();
     $results = array();
     $amount = 0;
@@ -245,7 +245,7 @@ class Report_model extends CI_Model
     }
     $sqlu = "";
     foreach ($this->payment_tables as $tb) {
-      $sqlu .= empty($sqlu)?"":" UNION ".str_replace('__payment__', $tb, $sql);
+      $sqlu .= (empty($sqlu)?"":" UNION ").str_replace('__payment__', $tb, $sql);
     }
     $sql = $sqlu;
 
@@ -331,7 +331,7 @@ class Report_model extends CI_Model
     }
     $sqlu = "";
     foreach ($this->payment_tables as $tb) {
-      $sqlu .= empty($sqlu)?"":" UNION ".str_replace('__payment__', $tb, $sql);
+      $sqlu .= (empty($sqlu)?"":" UNION ").str_replace('__payment__', $tb, $sql);
     }
 
     $query = $this->db->query($sqlu)->result_array();
@@ -432,9 +432,9 @@ class Report_model extends CI_Model
     }
     $sqlu = "";
     foreach ($this->payment_tables as $tb) {
-      $sqlu .= empty($sqlu)?"":" UNION ".str_replace('__payment__', $tb, $sql);
+      $sqlu .= (empty($sqlu)?"":" UNION ").str_replace('__payment__', $tb, $sql);
     }
-    $sql = $sqlu . " ORDER BY ph.plan_id ASC, ph.plan_history_id ASC";
+    $sql = $sqlu . " ORDER BY plan_id ASC, plan_history_id ASC";
 
     return $this->db->query($sql)->result_array();
   }
@@ -477,9 +477,9 @@ class Report_model extends CI_Model
     }
     $sqlu = "";
     foreach ($this->payment_tables as $tb) {
-      $sqlu .= empty($sqlu)?"":" UNION ".str_replace('__payment__', $tb, $sql);
+      $sqlu .= (empty($sqlu)?"":" UNION ").str_replace('__payment__', $tb, $sql);
     }
-    $sql = $sqlu . " ORDER BY ph.plan_id ASC, ph.plan_history_id ASC";
+    $sql = $sqlu . " ORDER BY plan_id ASC, plan_history_id ASC";
 
     return $this->db->query($sql)->result_array();
   }
@@ -586,9 +586,9 @@ class Report_model extends CI_Model
     }
     $sqlu = "";
     foreach ($this->payment_tables as $tb) {
-      $sqlu .= empty($sqlu)?"":" UNION ".str_replace('__payment__', $tb, $sql);
+      $sqlu .= (empty($sqlu)?"":" UNION ").str_replace('__payment__', $tb, $sql);
     }
-    $sql = $sqlu . " ORDER BY `pl`.`policy`, `pa`.`payment_id`";
+    $sql = $sqlu . " ORDER BY `policy`, `payment_id`";
 
     $query = $this->db->query($sql)->result_array();
     $results = $this->get_receivable_result($query);
@@ -717,9 +717,9 @@ class Report_model extends CI_Model
     }
     $sqlu = "";
     foreach ($this->payment_tables as $tb) {
-      $sqlu .= empty($sqlu)?"":" UNION ".str_replace('__payment__', $tb, $sql);
+      $sqlu .= (empty($sqlu)?"":" UNION ").str_replace('__payment__', $tb, $sql);
     }
-    $sql = $sqlu . " ORDER BY pm.plan_id ASC, pm.payment_id ASC";
+    $sql = $sqlu . " ORDER BY plan_id ASC, payment_id ASC";
     $query = $this->db->query($sql)->result_array();
     //die($this->db->last_query());
     return $query;
@@ -860,9 +860,9 @@ class Report_model extends CI_Model
 
     $sqlu = "";
     foreach ($this->payment_tables as $tb) {
-      $sqlu .= empty($sqlu)?"":" UNION ".str_replace('__payment__', $tb, $sql);
+      $sqlu .= (empty($sqlu)?"":" UNION ").str_replace('__payment__', $tb, $sql);
     }
-    $sql = $sqlu . " ORDER BY user_id ASC, pl.plan_id ASC, added ASC";
+    $sql = $sqlu . " ORDER BY user_id ASC, plan_id ASC, added ASC";
 
     $query = $this->db->query($sql)->result_array();
     $results = array();
