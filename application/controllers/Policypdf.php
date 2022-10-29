@@ -23,6 +23,7 @@ class Policypdf extends CI_Controller {
     $policy = $this->input->get_post("p");
     $short = preg_replace('/[0-9]+/', '', $policy);
     if (array_key_exists($short, $this->plist)) {
+      $this->load->database();
       $this->load->model("plan_model");
       if ($plan = $this->plan_model->get_plan_by_policy($policy)) {
         //Clear the cache
@@ -43,7 +44,7 @@ class Policypdf extends CI_Controller {
           flush();
     
           //Read the size of the file
-          readfile($url,true);
+          readfile($fname,true);
     
           //Terminate from the script
           die();
