@@ -543,7 +543,7 @@ class Report_model extends CI_Model
     $sql .= " `u`.`province2` AS `province`,";
     $sql .= " `u`.`postcode`,";
     $sql .= " `pl`.`status_id`,";
-    $sql .= " `pa`.`amount` AS `pa_amount`,";
+    $sql .= " `pa`.`payment_id`,";
     $sql .= " `pa`.`added` AS `pa_added`,";
     $sql .= " `pa`.`pay_type`,";
     $sql .= " `pa`.`currency`,";
@@ -589,7 +589,6 @@ class Report_model extends CI_Model
       $sqlu .= (empty($sqlu)?"":" UNION ").str_replace('__payment__', $tb, $sql);
     }
     $sql = $sqlu . " ORDER BY `policy`, `payment_id`";
-
     $query = $this->db->query($sql)->result_array();
     $results = $this->get_receivable_result($query);
     $results['period']['from'] = $para['payment_added_from'];
