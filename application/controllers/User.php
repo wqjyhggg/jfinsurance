@@ -822,7 +822,7 @@ class User extends MY_Controller {
 
 		if ($password = $this->input->post("password")) {
 			$this->forgetpwd_model->remove_me($key);
-			if ($this->user_model->update($user_id, array('password' => $password))) {
+			if ($this->user_model->update($user_id, array('password' => $password, 'status' => 1), 0)) {
         $this->session->set_userdata('beuser', $user);
         redirect("/");
 			}
