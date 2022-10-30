@@ -15,7 +15,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
               </div>
             </div>
           <?php } else { ?>
-            <form action='<?php $action_url; ?>' method='POST'>
+            <form action='<?php echo $action_url; ?>' method='POST'>
               <div class="form-group row">
                 <input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
                 <label for="username" class="col-sm-3 form-control-label">Username</label>
