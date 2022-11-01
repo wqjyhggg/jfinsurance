@@ -772,9 +772,9 @@ class User extends MY_Controller {
 		$this->data['error_message'] = '';
 		$this->data['username_error'] = '';
 		$this->data['action_url'] = current_url ();
-    $ispost = 0;
+    $this->data['ispost'] = 0;
 		if ($this->input->post()) {
-      $ispost = 1;
+      $this->data['ispost'] = 1;
 			// Login post check
 			$r = $this->user_model->get_user_by_username_or_email($this->input->post('username'));
 			if ($r && filter_var($r["email"], FILTER_VALIDATE_EMAIL)) {
@@ -794,7 +794,7 @@ class User extends MY_Controller {
 				'value' => $this->security->get_csrf_hash () 
 		);
 		$this->data['top_menu'] = $this->menu_model->load_top_menu();
-		$this->load->common('user/forget', ["ispost" => $ispost]);
+		$this->load->common('user/forget', $this->data);
 	}
 	
 	/**
@@ -822,7 +822,7 @@ class User extends MY_Controller {
 
 		if ($password = $this->input->post("password")) {
 			$this->forgetpwd_model->remove_me($key);
-			if ($this->user_model->update($user_id, array('password' => $password))) {
+			if ($this->user_model->update($user_id, array('password' => $password, 'status' => 1), 0)) {
         $this->session->set_userdata('beuser', $user);
         redirect("/");
 			}
