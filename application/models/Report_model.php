@@ -535,7 +535,7 @@ class Report_model extends CI_Model
     $sql .= " `pl`.`refund_date`,";
     $sql .= " pl.totaldays AS total_days,";
     $sql .= " `pl`.`dailyrate` AS `daily_rate`,";
-    $sql .= " `pl`.`premium` AS `policy_premium`,";
+    $sql .= " `pa`.`amount` AS `policy_premium`,";
     $sql .= " `pr`.`commission` AS `pr_commission`,";
     $sql .= " `up`.`commission` AS `up_commission`,";
     $sql .= " `u`.`user_id`, u.mail_name AS agent_name,";
@@ -555,7 +555,7 @@ class Report_model extends CI_Model
     $sql .= " JOIN `user` `u` ON `pl`.`user_id` = `u`.`user_id`";
     $sql .= " LEFT JOIN `user_product` `up` ON `u`.`user_id` = `up`.`user_id` and `pr`.`product_short` = `up`.`product_short`";
     $sql .= " JOIN __payment__ `pa` ON `pl`.`plan_id` = `pa`.`plan_id` AND `pa`.`pay_type` in ('premium','refund','cancel') AND `pa`.`ispaid` = 0";
-    $sql .= " LEFT JOIN __payment__ `pa2` ON `pa`.`plan_id` = `pa2`.`plan_id` AND `pa2`.`pay_type` = 'commission' AND `pa`.`payment_id` = `pa2`.`premium_payment_id`";
+    $sql .= " LEFT JOIN __payment__ `pa2` ON `pa`.`plan_id` = `pa2`.`plan_id` AND `pa2`.`pay_type` in ('commission','refund_commission','cancel_commission') AND `pa`.`payment_id` = `pa2`.`premium_payment_id`";
     $sql .= " WHERE `pa`.`amount` !=0";
 
     if (empty($para['policy_status'])) {
