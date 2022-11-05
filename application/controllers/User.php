@@ -784,7 +784,7 @@ class User extends MY_Controller {
           // Send link with key
           
           $mail = $this->forgetpwd_model->email_body($key);
-          $this->mymail_model->send_mymail($r["email"], $mail["title"], $mail["body"], $attach=array(), $from='', $charset='ISO-8859-1');
+          $this->mymail_model->send_mymail($r["email"], $mail["title"], $mail["body"], $attach=array(), $from='', $mailtype='text');
 				}
 			}
 		}

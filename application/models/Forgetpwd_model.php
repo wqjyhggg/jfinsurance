@@ -33,7 +33,8 @@ class Forgetpwd_model extends CI_Model {
 	}
 	
   public function clear_old_data() {
-    $day3 = time() - (3 * 86400);
+    // $day3 = time() - (3 * 86400);
+    $day3 = time() - (3 * 3600);
     $this->db->where("add_time<", date("Y-m-d H:i:s", $day3));
     $this->db->delete("forgetpwd");
 	}

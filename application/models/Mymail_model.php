@@ -26,11 +26,11 @@ class Mymail_model extends CI_Model {
 	 * @param	array	$attach		attachment file
 	 * @return	boolean
 	 */
-	public function send_mymail($to, $subject, $body, $attach=array(), $from='', $charset='UTF-8') {
+	public function send_mymail($to, $subject, $body, $attach=array(), $from='', $mailtype='html') {
 		shuffle($this->myemails);
 		$email = array_shift($this->myemails);
 		$this->config['smtp_user'] = $email;
-    $this->config['charset'] = $charset;
+    $this->config['mailtype'] = $mailtype;
 		
 		$this->load->library('email', $this->config);
 		$this->email->set_newline("\r\n");
