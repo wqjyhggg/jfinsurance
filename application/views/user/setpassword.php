@@ -7,17 +7,17 @@ defined('BASEPATH') or exit('No direct script access allowed');
     <div class="col-sm-12">
       <div class="main">
         <div class="login-form">
-          <h3 class="login-title">Set Password</h3>
+          <h3 class="login-title">Reset Password</h3>
           <form action='<?php $action_url; ?>' method='POST' id="myForm">
             <div class="form-group row">
               <input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
-              <label for="username" class="col-sm-3 form-control-label">Password</label>
+              <label for="username" class="col-sm-3 form-control-label">New Password</label>
               <div class="col-sm-9">
                 <input type='text' class="form-control password" id="password" name='password' value='<?php echo $this->input->post("password"); ?>' placeholder="New passwrod">
               </div>
             </div>
             <div class="form-group row">
-              <label for="username" class="col-sm-3 form-control-label">Verify Password</label>
+              <label for="username" class="col-sm-3 form-control-label">Verify New Password</label>
               <div class="col-sm-9">
                 <input type='text' class="form-control password" id="vpassword" name='vpassword' value='<?php echo $this->input->post("vpassword"); ?>' placeholder="Re enter passwrod">
 								<div class="alert-error text-left">

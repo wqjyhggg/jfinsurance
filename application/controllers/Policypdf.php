@@ -4,6 +4,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Policypdf extends CI_Controller {
   const DATE_LINE1 = "2021-08-16";
 
+  public $tlist = array("p" => "Policy", "c" => "claimform");
+  public $slist = array("JES", "JESP", "JFE", "JFGD", "JFP", "JFPL", "JFR", "JFVTC", "TOP");
   public $plist = array(
     "JES"   => array("JES.zip",   "JES2.zip"),
     "JESP"  => array("JESP.zip",  "JESP2.zip"),
@@ -21,18 +23,21 @@ class Policypdf extends CI_Controller {
 	public function index()
 	{
     $policy = $this->input->get_post("p");
+    $t = $this->input->get_post("t");
     $short = preg_replace('/[0-9]+/', '', $policy);
-    if (array_key_exists($short, $this->plist)) {
+    if (in_array($short, $this->slist) && array_key_exists($t, $this->tlist)) {
       $this->load->database();
       $this->load->model("plan_model");
       if ($plan = $this->plan_model->get_plan_by_policy($policy)) {
         //Clear the cache
         clearstatcache();
-        $idx = 0;
-        if ($plan["effective_date"] >= SELF::DATE_LINE1) {
-          $idx = 1;
+        $btw = "";
+        if ($t == "p") {
+          if ($plan["effective_date"] >= SELF::DATE_LINE1) {
+            $idx = "_new";
+          }
         }
-        $fname = DOWNLOADDIR . "files/" . $this->plist[$short][$idx];
+        $fname = DOWNLOADDIR . "files/" . $short. $btw."_" . $this->tlist[$t] . ".pdf";
 				if (file_exists($fname)) {
           //Define header information
           header('Content-Type: application/pdf');
