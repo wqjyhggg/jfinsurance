@@ -34,11 +34,11 @@ class Policypdf extends CI_Controller {
         $btw = "";
         if ($t == "p") {
           if ($plan["effective_date"] >= SELF::DATE_LINE1) {
-            $idx = "_new";
+            $btw = "_new";
           }
         }
         $fname = DOWNLOADDIR . "files/" . $short. $btw."_" . $this->tlist[$t] . ".pdf";
-				if (file_exists($fname)) {
+        if (file_exists($fname)) {
           //Define header information
           header('Content-Type: application/pdf');
           header('Content-Disposition: attachment; filename="'.basename($fname).'"');
