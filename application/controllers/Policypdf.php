@@ -6,6 +6,7 @@ class Policypdf extends CI_Controller {
 
   public $tlist = array("p" => "Policy", "c" => "claimform");
   public $slist = array("JES", "JESP", "JFE", "JFGD", "JFP", "JFPL", "JFSL", "JFR", "JFVTC", "TOP");
+  public $clist = array("JES", "JESP");
   public $plist = array(
     "JES"   => array("JES.zip",   "JES2.zip"),
     "JESP"  => array("JESP.zip",  "JESP2.zip"),
@@ -32,7 +33,7 @@ class Policypdf extends CI_Controller {
         //Clear the cache
         clearstatcache();
         $btw = "";
-        if ($t == "p") {
+        if (($t == "p") && in_array($short, $this->clist)) {
           if ($plan["effective_date"] >= SELF::DATE_LINE1) {
             $btw = "_new";
           }
