@@ -629,7 +629,7 @@ class Plan extends MY_Controller {
 			if (empty($claim_amount) && empty($case_amount)) {
 				// continue check next customer
 				continue;
-			} else if (($claim_amount <= 2000) && ($case_amount <= 2000)) {
+			} else if (($claim_amount <= 2500) && ($case_amount <= 2500)) {
 				$plan = $this->plan_model->update($plan_id, array('claim_flag' => 1));
 				// $this->error['error_claim'] = "Warning: The insured(s) have had previous claim(s). Please check the policy eligibility and any pre-existing conditions with insured(s). " . $customer['firstname'] . " " . $customer['lastname'] . "(" . $customer['birthday'] . ")";
 			} else /* if (($claim_amount > 2000) || ($case_amount > 2000)) */ {
