@@ -17,6 +17,9 @@ class MY_Controller extends CI_Controller {
 		$this->load->model('func_model');
 		$this->load->model('menu_model');
 		
+    // Set db time zone
+    $this->db->query("SET time_zone = 'America/Toronto'");
+    
 		// Set language 
 		$language = $this->session->userdata('language');
 		$segment = $this->uri->segment(1);
