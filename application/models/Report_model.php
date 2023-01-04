@@ -1082,7 +1082,7 @@ class Report_model extends CI_Model
     $sql .= " AND pa.pay_type IN ('commission','cancel_commission','refund_commission') AND ABS(pa.amount)>=0.01";
     $sqlu = "";
     foreach ($this->payment_tables as $tb) {
-      $sqlu .= empty($sqlu)?"":" UNION ".str_replace('__payment__', $tb, $sql);
+      $sqlu .= (empty($sqlu)?"":" UNION ").str_replace('__payment__', $tb, $sql);
     }
     $row = $this->db->query($sqlu)->row_array();
     if ($row) {
@@ -1098,7 +1098,7 @@ class Report_model extends CI_Model
     $sql = "SELECT SUM(pa.amount) as total FROM __payment__ pa JOIN plan pl ON (pa.plan_id = pl.plan_id) WHERE pl.user_id='" . intval($user_id) . "' AND pa.added>='" . $dtstart . "' AND pa.added<'" . $dtend . "' AND pa.pay_type IN (" . $types . ")";
     $sqlu = "";
     foreach ($this->payment_tables as $tb) {
-      $sqlu .= empty($sqlu)?"":" UNION ".str_replace('__payment__', $tb, $sql);
+      $sqlu .= (empty($sqlu)?"":" UNION ").str_replace('__payment__', $tb, $sql);
     }
     $row = $this->db->query($sqlu)->row_array();
     if ($row) {
