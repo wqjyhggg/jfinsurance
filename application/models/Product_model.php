@@ -1847,17 +1847,21 @@ class Product_model extends CI_Model {
 			$premiumArr['sum_insured'] = number_format($para['sum_insured'], 2, '.', ',');
 			$premiumArr['deductible_amount'] =  number_format($para['deductible_amount'], 2, '.', ',');
 		} else if ($para['product_short'] == 'JFPL') {
-      $beuser = $this->session->beuser;
-      if (($beuser['user_id'] == 657) || ($beuser['user_id'] == 1116) || ($beuser['user_id'] == 2202)) {
-        $rate = 1.7;
-      } else if (($beuser['user_id'] == 2185) || ($beuser['user_id'] == 4014)) {
-        $rate = 1.85;
-      } else if (($beuser['user_id'] == 4249) || ($beuser['user_id'] == 4275) || ($beuser['user_id'] == 4276) || ($beuser['user_id'] == 2661)) {
-        $rate = 1.8;
-      } else {
+            $beuser = $this->session->beuser;
+            $val170 = array(657, 1116, 2202);   // assigned before 2023-02-03
+            $val185 = array(2185, 4014);   // assigned before 2023-02-03
+            $val180 = array(4249, 4275, 4276, 2661, 4449);   // assigned before 2023-02-03
+            // Added 4449 form 2023-02-03
+            if (in_array($beuser['user_id'], $val170)) {
+                $rate = 1.7;
+            } else if (in_array($beuser['user_id'], $val185)) {
+                $rate = 1.85;
+            } else if (in_array($beuser['user_id'], $val180)) {
+                $rate = 1.8;
+            } else {
 				$premiumArr['message'] = "You don't have permission to sell this production.";
 				return $premiumArr;
-      }
+            }
 			if ($years <= 3) {
 				$premiumArr['message'] = "Customer age must over 4 years old";
 				return $premiumArr;
