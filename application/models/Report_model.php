@@ -486,6 +486,44 @@ class Report_model extends CI_Model
 
   public function get_premium_report2($para)
   {
+    if (1) {
+      $sql = "SELECT ph2.plan_id FROM plan_history ph2 WHERE ph2.ishead=1 ";
+      if (!empty($para['payment_added_from'])) {
+        $sql .= " AND ph2.add_time >= " . $this->db->escape($para['payment_added_from'] . " 00:00:00");
+      } else {
+        $sql .= " AND ph2.add_time >= " . $this->db->escape(date("Y-m-d")." 00:00:00");
+      }
+      if (!empty($para['payment_added_to'])) {
+        $sql .= " AND ph2.add_time <= " . $this->db->escape($para['payment_added_to'] . " 23:59:59");
+      } else {
+        $sql .= " AND ph2.add_time <= " . $this->db->escape(date("Y-m-d")." 23:59:59");
+      }
+      if (!empty($para['product_short'])) {
+        $sql .= " AND ph2.product_short IN ('" . implode("','", str_replace("'", "", $para['product_short'])) . "')";
+      }
+      $sql .= " ORDER BY ph2.plan_id ASC";
+      if ($rt = $this->db->query($sql)->result_array()) {
+        $rtt = array();
+        $sql  = "SELECT ph.*,";
+        $sql .= "	c.firstname,";
+        $sql .= "	c.lastname, ";
+        $sql .= "	c.lastname, ";
+        $sql .= "	(SELECT count(cus.plan_id) FROM customer cus WHERE cus.plan_id=ph.plan_id) as customer_cnt, ";
+        $sql .= "	IF (". $this->db->escape($para['earned_to'])."<ph.expiry_date, datediff(". $this->db->escape($para['earned_to']).", ph.effective_date) + 1, datediff(ph.expiry_date, ph.effective_date) + 1) as days_used ";
+        $sql .= " FROM plan_history ph";
+        $sql .= " JOIN customer c ON ph.customer_id = c.customer_id";
+        $sql .= " WHERE ph.plan_id = ";
+        $sql2 = " ORDER BY ph.plan_history_id ASC";
+        foreach ($rt as $rc) {
+          $sql1 = $sql . $rc["plan_id"] . $sql2;
+          if ($rtt1 = $this->db->query($sql1)->result_array()) {
+            $rtt = array_merge($rtt, $rtt1);
+          }
+        }
+        return $rtt;
+      }
+      return array();
+    } else {
     $sql  = "SELECT ph.*,";
     $sql .= "	c.firstname,";
     $sql .= "	c.lastname, ";
@@ -513,6 +551,7 @@ class Report_model extends CI_Model
     $sql .= " ORDER BY ph.plan_id ASC, ph.plan_history_id ASC";
 
     return $this->db->query($sql)->result_array();
+    }
   }
 
   /**
