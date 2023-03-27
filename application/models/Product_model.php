@@ -191,7 +191,7 @@ class Product_model extends CI_Model {
 
 		// Get All needs parameter
 		
-		$this->load->model('top_model');
+		$this->load->model('top2_model');
 
 		$para['package'] = isset($para['package']) ? $para['package'] : '';
 		$para['totaldays'] = isset($para['totaldays']) ? $para['totaldays'] : 0;
@@ -206,7 +206,7 @@ class Product_model extends CI_Model {
 		$para['trip_cancellation'] = isset($para['trip_cancellation']) ? $para['trip_cancellation'] : '';
 		$para['agearr'] = array();
 		
-		return $this->top_model->get_premium($para);		
+		return $this->top2_model->get_premium($para);		
 	}
 	
 	
@@ -271,7 +271,7 @@ class Product_model extends CI_Model {
 
 		// Get All needs parameter
 		
-		$this->load->model('top_model');
+		$this->load->model('top2_model');
 
 		$para['package'] = isset($para['package']) ? $para['package'] : '';
 		$para['totaldays'] = isset($para['totaldays']) ? $para['totaldays'] : 0;
@@ -286,7 +286,7 @@ class Product_model extends CI_Model {
 		$para['trip_cancellation'] = isset($para['trip_cancellation']) ? $para['trip_cancellation'] : '';
 		$para['agearr'] = $ageArr;
 		
-		return $this->top_model->get_premium($para);		
+		return $this->top2_model->get_premium($para);		
 	}
 	
 	/**
