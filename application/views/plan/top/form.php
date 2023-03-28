@@ -1680,8 +1680,11 @@ $('#payment_get_history_button').click(function(){
 
     var diffdays = (expiry.getTime() - effective.getTime()) / (1000 * 24 * 3600) + 1;
     if (diffdays > 90) {
-      $('#title_alert_message').text("Policy must less then 90 days");
-      return;
+      var package = $('input[name="package"]').val();
+      if (package && (package != 'annual_plan')) {
+        $('#title_alert_message').text("Policy must less then 90 days");
+        return;
+      }
     }
 
     var departuredt = $('input[name="arrival_date"]').val();
@@ -1690,10 +1693,10 @@ $('#payment_get_history_button').click(function(){
     }
     var departure = new Date(departuredt);
     diffdays = (expiry.getTime() - departure.getTime()) / (1000 * 24 * 3600) + 1;
-    if (diffdays > 90) {
-      $('#title_alert_message').text("Expiry Date must be 90 days before the Departure date");
-      return;
-    }
+    // if (diffdays > 90) {
+    //   $('#title_alert_message').text("Expiry Date must be 90 days before the Departure date");
+    //   return;
+    // }
     if (departure.getTime() > effective.getTime()) {
       $('#title_alert_message').text("Policy Departure date must earlier than effective date");
       return;
