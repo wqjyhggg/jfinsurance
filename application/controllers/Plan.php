@@ -3657,8 +3657,13 @@ class Plan extends MY_Controller {
 		$data['status'] = 'OK';
 		$data['refund_days'] = $this->product_model->getDays($plan['effective_date'], $this->input->get('refund_date'));
 		if ($plan['product_short'] == 'TOP') {
-			$this->load->model('top2_model');
-			$data['refund_amount'] = $this->top2_model->refund_amount($plan, $data['refund_days']);
+			if ($plan_id>Product_model::PLANIDCHG2024_1) {
+				$this->load->model('top2_model');
+				$data['refund_amount'] = $this->top2_model->refund_amount($plan, $data['refund_days']);
+			} else {
+				$this->load->model('top_model');
+				$data['refund_amount'] = $this->top_model->refund_amount($plan, $data['refund_days']);
+			}
 		} else {
 			$data['refund_amount'] = $this->plan_model->refund_amount($plan_id, $this->input->get('refund_date'));
 		}
