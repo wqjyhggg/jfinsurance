@@ -1218,6 +1218,7 @@ $('#payment_get_history_button').click(function(){
           $('#optional_plan_div').show();
         }
         show_ajax_message = 1;
+        mytestdate();
       });
 
       $('input[name="trip_cancellation_ckbox"]').on('change', function(e) {
@@ -1682,8 +1683,10 @@ $('#payment_get_history_button').click(function(){
     if (diffdays > 90) {
       var package = $('input[name="package"]').val();
       if (package && (package != 'annual_plan')) {
-        $('#title_alert_message').text("Policy must less then 90 days");
+        $('#title_alert_message').text("Policy must less than 90 days");
         return;
+      } else {
+        $('#title_alert_message').text("");
       }
     }
 
