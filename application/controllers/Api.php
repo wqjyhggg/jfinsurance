@@ -389,6 +389,7 @@ class Api extends MY_Controller {
 					$p['institution_fax'] = $plan['institution_fax'];
 					$p['contact_email'] = $plan['contact_email'];
 					$p['contact_phone'] = $plan['contact_phone'];
+					$p['contact_language'] = $plan['contact_language'];
 					$p['residence'] = $plan['residence'];
 					$p['firstname'] = $plan['firstname'];
 					$p['lastname'] = $plan['lastname'];
