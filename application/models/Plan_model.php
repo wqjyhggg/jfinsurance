@@ -239,7 +239,7 @@ class Plan_model extends CI_Model {
 		}
     $dt = date("Y-m-d");
     if (($dt >= "2021-07-01") && ($para['product_short'] == 'OPL')) {
-      return 0;  //TTTTTTTTTTTTTTT
+      return 0;
     }
 		if ((($para['product_short'] == 'NUS') || ($para['product_short'] == 'JUS')) && isset($para['rate_options']) && ($para['rate_options'] == 2)) {
 			$para['deductible_amount'] = 50;
@@ -304,6 +304,7 @@ class Plan_model extends CI_Model {
 		if (isset($para['institution_fax'])) $sql .= " institution_fax=" . $this->db->escape(trim($para['institution_fax'])) . ", ";
 		if (isset($para['contact_email'])) $sql .= " contact_email=" . $this->db->escape(trim($para['contact_email'])) . ", ";
 		if (isset($para['contact_phone'])) $sql .= " contact_phone=" . $this->db->escape(trim($para['contact_phone'])) . ", ";
+		if (isset($para['contact_language'])) $sql .= " contact_language=" . $this->db->escape(trim($para['contact_language'])) . ", ";
 		if (isset($para['residence'])) $sql .= " residence=" . $this->db->escape(trim($para['residence'])) . ", ";
 		if (isset($para['payment_id'])) $sql .= " payment_id=" . (int)$para['payment_id'] . ", ";
 		if (isset($para['commission_payment_id'])) $sql .= " commission_payment_id=" . (int)$para['commission_payment_id'] . ", ";
@@ -705,6 +706,10 @@ class Plan_model extends CI_Model {
 		if (isset($para['contact_phone']) && ($para['contact_phone'] != $plan['contact_phone'])) {
 			$this->logstr .= " contact_phone " . $para['contact_phone'] . "(" . $plan['contact_phone'] . ")";
 			$sql .= " contact_phone=" . $this->db->escape($para['contact_phone']) . ", ";
+		}
+		if (isset($para['contact_language']) && ($para['contact_language'] != $plan['contact_language'])) {
+			$this->logstr .= " contact_language " . $para['contact_language'] . "(" . $plan['contact_language'] . ")";
+			$sql .= " contact_language=" . $this->db->escape($para['contact_language']) . ", ";
 		}
 		if (isset($para['residence']) && ($para['residence'] != $plan['residence'])) {
 			$this->logstr .= " residence " . $para['residence'] . "(" . $plan['residence'] . ")";

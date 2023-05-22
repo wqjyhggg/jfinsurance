@@ -408,7 +408,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 											<input class="form-control" type='text' name='residence' value='<?php echo $html_model->escapeQuote($residence); ?>'>
 										</div>
 									</div>
-									
+									<div class="col-sm-3">
+										<label class="col-sm-12">Prefer Language: </label>
+                    <div class="input-group col-sm-12">
+                      <select name='contact_language' id='contact_language' class="form-control" style="padding:6px 2px;">
+                        <option value='English' <?php echo (empty($contact_language) || ($contact_language == 'English')) ? "selected" : ""; ?>>English</option>
+                        <option value='French' <?php echo ($contact_language == 'French') ? "selected" : ""; ?>>French</option>
+                      </select>
+                    </div>
+									</div>
 							</fieldset>
 						</div>
 					</div><br />	

@@ -15,6 +15,7 @@ class Plan extends MY_Controller {
 			'annual_plan' => "Annual plan",
 			'optional_plan' => "Optional plan",
 	);
+  public $french_plan = array("JES","JESP","JFS","TOP","JFPL","JFVTC");
 	
 	
 	/**
@@ -1158,6 +1159,13 @@ class Plan extends MY_Controller {
 			$data['contact_phone'] = $plan['contact_phone'];
 		} else {
 			$data['contact_phone'] = '';
+		}
+		if ($this->input->post('contact_language')) {
+			$data['contact_language'] = $this->input->post('contact_language');
+		} else if (isset($plan['contact_language'])) {
+			$data['contact_language'] = $plan['contact_language'];
+		} else {
+			$data['contact_language'] = '';
 		}
 		if ($this->input->post('residence')) {
 			$data['residence'] = $this->input->post('residence');
@@ -3104,6 +3112,7 @@ class Plan extends MY_Controller {
 					$data['withprice'] = 0;
 				}
 			}
+      $data['sendfrench'] = $this->input->post('sendfrench');
 			if (!empty($emailaddr)) {
 				$data['emailaddr'] = $emailaddr;
 			}
@@ -3140,6 +3149,16 @@ class Plan extends MY_Controller {
 					'OPL_Brochure.pdf' => DOWNLOADDIR . 'OPL_Brochure.pdf'
 					);
 				} else if ($data['plan']['product_short'] == 'JFVTC') {
+          if ($data['sendfrench']) {
+            $data['insurable_options'] = $this->load->view('plan/detail_opl', $data, TRUE);
+            $data['special_note'] = $this->load->view('plan/pdf_note_jfr',$data, TRUE);
+            $files = array(
+            'JFVTC_Policy.pdf' => DOWNLOADDIR . 'JFVTC_Policy_French.pdf',
+            // 'JFVTC_Claim_Procedure.pdf' => DOWNLOADDIR . 'JFVTC_Claim_Procedure.pdf',
+            'JFVTC_Claim_Form.pdf' => DOWNLOADDIR . 'JFVTC_Claim_Form_French.pdf',
+            'JFVTC_Brochure.pdf' => DOWNLOADDIR . 'JFVTC_Brochure_French.pdf'
+            );
+          } else {
 					$data['insurable_options'] = $this->load->view('plan/detail_opl', $data, TRUE);
 					$data['special_note'] = $this->load->view('plan/pdf_note_jfr',$data, TRUE);
 					$files = array(
@@ -3148,6 +3167,7 @@ class Plan extends MY_Controller {
 					'JFVTC_Claim_Form.pdf' => DOWNLOADDIR . 'JFVTC_Claim_Form.pdf',
 					'JFVTC_Brochure.pdf' => DOWNLOADDIR . 'JFVTC_Brochure.pdf'
           );
+          }
         } else if ($data['plan']['product_short'] == 'JFR') {
 					$data['insurable_options'] = $this->load->view('plan/detail_opl', $data, TRUE);
 					$data['special_note'] = $this->load->view('plan/pdf_note_jfr',$data, TRUE);
@@ -3171,14 +3191,25 @@ class Plan extends MY_Controller {
 					'NUS_Brochure.pdf' => DOWNLOADDIR . 'NUS_Brochure.pdf'
 					);
 				} else if ($data['plan']['product_short'] == 'JFS') {
-					$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
+          if ($data['sendfrench']) {
+            $data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
+            $data['special_note'] = $this->load->view('plan/pdf_note_jes',$data, TRUE);
+            $files = array(
+            'JFS_Policy.pdf' => DOWNLOADDIR . 'JFS_Policy_French.pdf',
+            'JFS_Claim_Form.pdf' => DOWNLOADDIR . 'JFS_Claim_Form_French.pdf',
+            'JFS_Clinic_Map.pdf' => DOWNLOADDIR . 'JFS_Clinic_Map_French.pdf',
+            'JFS_Brochure.pdf' => DOWNLOADDIR . 'JFS_Brochure_French.pdf',
+            );
+          } else {
+          $data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
 					$data['special_note'] = $this->load->view('plan/pdf_note_jes',$data, TRUE);
 					$files = array(
 					'JFS_Policy.pdf' => DOWNLOADDIR . 'JFS_Policy.pdf',
 					'JFS_Claim_Form.pdf' => DOWNLOADDIR . 'JFS_Claim_Form.pdf',
 					'JFS_Clinic_Map.pdf' => DOWNLOADDIR . 'JFS_Clinic_Map.pdf',
 					);
-				} else if ($data['plan']['product_short'] == 'JFE') {
+          }
+        } else if ($data['plan']['product_short'] == 'JFE') {
 					$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
 					$data['special_note'] = $this->load->view('plan/pdf_note_jes',$data, TRUE);
 					$files = array(
@@ -3195,6 +3226,16 @@ class Plan extends MY_Controller {
 					'BHS_Clinic_Map.pdf' => DOWNLOADDIR . 'BHS_Clinic_Map.pdf',
 					);
 				} else if ($data['plan']['product_short'] == 'JES') {
+          if ($data['sendfrench']) {
+            $data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
+            $data['special_note'] = $this->load->view('plan/pdf_note_jes',$data, TRUE);
+            $files = array(
+            'JES_Policy.pdf' => DOWNLOADDIR . 'JES_Policy_French.pdf',
+            'JES_Claim_Form.pdf' => DOWNLOADDIR . 'JES_Claim_Form_French.pdf',
+            'JES_Clinic_Map.pdf' => DOWNLOADDIR . 'JES_Clinic_Map_French.pdf',
+            'JES_Brochure.pdf' => DOWNLOADDIR . 'JES_Brochure_French.pdf'
+            );
+          } else {
 					$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
 					$data['special_note'] = $this->load->view('plan/pdf_note_jes',$data, TRUE);
 					$files = array(
@@ -3203,7 +3244,18 @@ class Plan extends MY_Controller {
 					'JES_Clinic_Map.pdf' => DOWNLOADDIR . 'JES_Clinic_Map.pdf',
 					'JES_Brochure.pdf' => DOWNLOADDIR . 'JES_Brochure.pdf'
 					);
-				} else if ($data['plan']['product_short'] == 'JFPL') {
+          }
+        } else if ($data['plan']['product_short'] == 'JFPL') {
+          if ($data['sendfrench']) {
+            $data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
+            $data['special_note'] = $this->load->view('plan/pdf_note_jes',$data, TRUE);
+            $files = array(
+            'JFPL_Policy.pdf' => DOWNLOADDIR . 'JFPL_Policy_French.pdf',
+            'JFPL_Claim_Form.pdf' => DOWNLOADDIR . 'JFPL_Claim_Form_French.pdf',
+            'JFPL_Clinic_Map.pdf' => DOWNLOADDIR . 'JFPL_Clinic_Map_French.pdf',
+            'JFPL_Brochure.pdf' => DOWNLOADDIR . 'JFPL_Brochure_French.pdf'
+            );
+          } else {
 					$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
 					$data['special_note'] = $this->load->view('plan/pdf_note_jes',$data, TRUE);
 					$files = array(
@@ -3212,7 +3264,8 @@ class Plan extends MY_Controller {
 					'JFPL_Clinic_Map.pdf' => DOWNLOADDIR . 'JFPL_Clinic_Map.pdf',
 					'JFPL_Benefit_Summary.pdf' => DOWNLOADDIR . 'JFPL_Benefit_Summary.pdf'
 					);
-				} else if ($data['plan']['product_short'] == 'JFSL') {
+          }
+        } else if ($data['plan']['product_short'] == 'JFSL') {
 					$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
 					$data['special_note'] = $this->load->view('plan/pdf_note_jes',$data, TRUE);
 					$files = array(
@@ -3221,7 +3274,7 @@ class Plan extends MY_Controller {
 					'JFSL_Clinic_Map.pdf' => DOWNLOADDIR . 'JFSL_Clinic_Map.pdf',
 					'JFSL_Benefit_Summary.pdf' => DOWNLOADDIR . 'JFSL_Benefit_Summary.pdf'
 					);
-				} else if ($data['plan']['product_short'] == 'JFGD') {
+        } else if ($data['plan']['product_short'] == 'JFGD') {
 					$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
 					$data['special_note'] = $this->load->view('plan/pdf_note_jes',$data, TRUE);
 					$files = array(
@@ -3231,6 +3284,15 @@ class Plan extends MY_Controller {
 					'JFGD_Benefit_Summary.pdf' => DOWNLOADDIR . 'JFGD_Benefit_Summary.pdf'
 					);
 				} else if ($data['plan']['product_short'] == 'JESP') {
+          if ($data['sendfrench']) {
+            $data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
+            $data['special_note'] = $this->load->view('plan/pdf_note_jes',$data, TRUE);
+            $files = array(
+            'JESP_Policy.pdf' => DOWNLOADDIR . 'JESP_Policy_French.pdf',
+            'JESP_Claim_Form.pdf' => DOWNLOADDIR . 'JESP_Claim_Form_French.pdf',
+            'JESP_Brochure.pdf' => DOWNLOADDIR . 'JESP_Brochure_French.pdf'
+            );
+          } else {
 					$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
 					$data['special_note'] = $this->load->view('plan/pdf_note_jes',$data, TRUE);
 					$files = array(
@@ -3238,7 +3300,8 @@ class Plan extends MY_Controller {
 					'JESP_Claim_Form.pdf' => DOWNLOADDIR . 'JESP_Claim_Form.pdf',
 					'JESP_Brochure.pdf' => DOWNLOADDIR . 'JESP_Brochure.pdf'
 					);
-				} else if ($data['plan']['product_short'] == 'JFC') {
+          }
+        } else if ($data['plan']['product_short'] == 'JFC') {
 					$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
 					$data['special_note'] = $this->load->view('plan/pdf_note_jfc',$data, TRUE);
 					$files = array(
@@ -3256,6 +3319,15 @@ class Plan extends MY_Controller {
 					);
 					
 				} else if ($data['plan']['product_short'] == 'TOP') {
+          if ($data['sendfrench']) {
+            $data['insurable_options'] = '';
+            $data['special_note'] = $this->load->view('plan/top/pdf_note_top',$data, TRUE);
+            $files = array(
+            'TOP_Policy.pdf' => DOWNLOADDIR . 'TOP_Policy_French.pdf',
+            'TOP_Claim_Form.pdf' => DOWNLOADDIR . 'TOP_Claim_Form_French.pdf',
+            'TOP_Brochure.pdf' => DOWNLOADDIR . 'TOP_Brochure_French.pdf'
+            );
+          } else {
 					$data['insurable_options'] = '';
 					$data['special_note'] = $this->load->view('plan/top/pdf_note_top',$data, TRUE);
 					$files = array(
@@ -3265,6 +3337,7 @@ class Plan extends MY_Controller {
 					'TOP_Medical_Claim_Form.pdf' => DOWNLOADDIR . 'TOP_Medical_Claim_Form.pdf',
 					'TOP_Benefit_Summary.pdf' => DOWNLOADDIR . 'TOP_Benefit_Summary.pdf'
 					);
+          }
 				} else {
 					$data['insurable_options'] = $this->load->view('plan/detail_other', $data, TRUE);
 				}
@@ -3325,6 +3398,7 @@ class Plan extends MY_Controller {
 		$data['title_txt'] = 'Policy';
 		$data['top_menu'] = $this->menu_model->load_top_menu();
 		$data['menu'] = $this->menu_model->load_meun();
+		$data['show_french'] = ($plan["province2"] == "QC") && in_array($plan["product_short"], $this->french_plan);
 		$data['csrf'] = array (
 				'name' => $this->security->get_csrf_token_name (),
 				'value' => $this->security->get_csrf_hash ()
