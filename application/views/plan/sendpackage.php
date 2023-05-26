@@ -38,14 +38,14 @@ defined('BASEPATH') or exit('No direct script access allowed');
               <input type='hidden' name='plan_id' value='<?php echo $plan_id; ?>'>
               <div class="row">
                 <!-- Product select box -->
-                <div class="form-group col-sm-4 col-xs-12">
+                <div class="form-group col-sm-3 col-xs-6">
                   <label class="col-sm-12">Will Send Package To this Email address:</label>
                   <div class="input-group col-sm-12">
                     <input type="text" name='emailaddr' value='<?php echo $html_model->escapeQuote($emailaddr); ?>' class="form-control" />
                   </div>
                 </div>
                 <?php if (($beuser['user_group_id'] < 100) || ($beuser['user_id'] == 3744)) { ?>
-                  <div class="form-group col-sm-4 col-xs-12">
+                  <div class="form-group col-sm-3 col-xs-6">
                     <label class="col-sm-12">Export Option:</label>
                     <div class="input-group col-sm-12">
                       &nbsp;&nbsp;&nbsp;&nbsp;
@@ -58,10 +58,19 @@ defined('BASEPATH') or exit('No direct script access allowed');
                     </div>
                   </div>
                 <?php } ?>
+                <?php if ($show_french) { ?>
+                  <div class="form-group col-sm-3 col-xs-6">
+                    <label class="col-sm-12">Send Franch Version:</label>
+                    <div class="input-group col-sm-12">
+                      &nbsp;&nbsp;&nbsp;&nbsp;
+                      <input type='checkbox' class='frenchbox' name='sendfrench' checked> French &nbsp;&nbsp;
+                    </div>
+                  </div>
+                <?php } ?>
                 <!-- Policy Number input box end -->
                 <?php if (!empty($plan_batch)) { ?>
                 <?php } ?>
-                <div class="form-group col-sm-4">
+                <div class="form-group col-sm-3">
                   <label class="col-sm-12">&nbsp;</label>
                   <button class="btn btn-primary" type='button' id='form_batch_submit' style='display:none;'>Send</button>
                   <input class="btn btn-primary" type='submit' name='send' value='Send' id='form_submit'>

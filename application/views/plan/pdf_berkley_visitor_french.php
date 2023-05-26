@@ -1,0 +1,256 @@
+<?php
+defined('BASEPATH') or exit('No direct script access allowed');
+?>
++<!DOCTYPE html>
++<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>PDF File</title>
+  <?php echo $style; ?>
+</head>
+
+<body>
+  <header>
+    <!--p class="rh">JF Group</p-->
+  </header>
+  <div class="container">
+    <div class="row">
+      <?php if ($withlogo) { ?>
+        <div style="float:left;width:90px;">
+          <img class="img-responsive" style="width:80px;" src="<?php echo base_url('agent/img') . '/' . $user['pdf_logo']; ?>" />
+        </div>
+      <?php } ?>
+    </div>
+    <div class="row">
+      <div class="col-sm-12 text-center">
+        <h2 style="margin:-15px 0 0;"><?php if ($plan['status_id'] < 2) { ?>Quote<?php } else { ?>Confirmation<?php } ?> d’assurance</h2>
+      </div>
+    </div>
+    <div class="row" style="margin-top: -15px;">
+      <div class="col-sm-12 nopadding">
+        <h4><u>Détails de la police</u></h4>
+      </div>
+    </div>
+    <div class="row" style="margin-top: -15px;">
+      <div class="col-sm-6 nopadding">
+        <h4>Assuré:: <span><?php echo htmlspecialchars($customer['firstname'] . " " . $customer['lastname']); ?></span></h4>
+        <h4>Date de naissance: <span><?php echo $customer['birthday']; ?></span></h4>
+        <h4>Adresse: <span><?php if (!empty($plan['suite_number'])) {
+                              echo  "Suite " . htmlspecialchars($plan['suite_number']) . " - ";
+                            } ?><?php echo htmlspecialchars($plan['street_number'] . ' ' . $plan['street_name']) . ' ' . htmlspecialchars($plan['city'] . ', ' . $plan['province2'] . ' ' . $plan['postcode']); ?></span>
+        </h4>
+        <h4>Numéro de téléphone: <span><?php echo htmlspecialchars($plan['phone1']); ?></span></h4>
+        <h4>Courriel: <span><?php echo htmlspecialchars($plan['contact_email']); ?></span></h4>
+        <h4>Bénéficiaire: <span><?php echo htmlspecialchars($plan['beneficiary']); ?></span></h4>
+      </div>
+      <div class="col-sm-1 nopadding">
+        &nbsp;
+      </div>
+      <div class="col-sm-5 nopadding2">
+        <h4>Numéro de <?php if ($plan['status_id'] < 2) { ?>Quote<?php } else { ?>Policy<?php } ?>: <span><?php echo $plan['policy']; ?></span></h4>
+        <h4>Date d'application: <span><?php echo $plan['apply_date']; ?></span></h4>
+        <h4>Date d’entrée en vigueur: <span><?php echo $plan['effective_date']; ?></span></h4>
+        <h4>Date d'échéance: <span><?php echo $plan['expiry_date']; ?></span></h4>
+        <h4>Nombre de jours: <span><?php echo $plan['totaldays']; ?></span></h4>
+        <h4><br/><br/></h4>
+      </div>
+    </div>
+    <!-- end policy detail -->
+    <div style="display:block;">
+	    <hr style="margin:3px auto;" />
+    </div>
+
+    <!-- Coverage and payment Details-->
+    <div class="row" style="margin-top: -15px;">
+      <div class="col-sm-6 nopadding">
+        <h4><u>Détails de la couverture</u></h4>
+        <h4>
+          JF Canadian Travel Out Plan:
+          <br />&nbsp;&nbsp;&nbsp;<span><?php echo $toppackagename[$plan['package']]; ?></span>
+          <?php if ($plan['package'] == 'all_inclusive') { ?>
+            <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Medical : $5,000,000</span>
+            <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Baggage : $1,000</span>
+            <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>AD&D : $50,000</span>
+            <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Flight Accident : $100,000</span>
+            <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Trip Cancellation : $<?php echo number_format($plan['sum_insured'], 2); ?></span>
+            <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Trip Interruption : Yes</span>
+            <?php if ($plan['free_cancel']) { ?>
+              <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Cancel trip for any reason</span>
+            <?php } ?>
+          <?php } else if (($plan['package'] == 'single_medical_plan') || ($plan['package'] == 'optional_plan')) { ?>
+            <?php if ($plan['package'] == 'single_medical_plan') { ?>
+              <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Sum Insured: $5,000,000</span>
+            <?php     } ?>
+            <?php if ($plan['ad_and_d_ck']) { ?>
+              <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>AD & D : $<?php echo number_format($plan['ad_and_d_insured'], 2); ?></span>
+            <?php     } ?>
+            <?php if ($plan['flight_accident_ck']) { ?>
+              <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Flight Accident : $<?php echo number_format($plan['flight_accident_insured'], 2); ?></span>
+            <?php     } ?>
+            <?php if ($plan['trip_cancellation_ck']) { ?>
+              <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Trip Cancellation : $<?php echo number_format($plan['trip_cancellation_insured'], 2); ?></span>
+              <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Trip Interruption Coverage : Yes</span>
+            <?php     } ?>
+          <?php } else if ($plan['package'] == 'annual_plan') { ?>
+            <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Selected days : <?php echo $plan['annual_plan_days']; ?></span>
+            <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Medical : $5,000,000</span>
+            <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Baggage : N/A</span>
+            <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>AD&D : N/A</span>
+            <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Flight Accident: N/A</span>
+            <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Trip Cancellation and Interruption: N/A</span>
+          <?php } ?>
+          <?php if ($plan['stable_condition']) { ?>
+            <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span><?php echo ($plan['stable_condition'] == 1) ? 'Including' : 'Excluding'; ?> stable pre-existing condition coverage</span>
+          <?php } ?>
+          <?php if ($plan['questionnaire'] > 0) { ?>
+            <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Your rate table is Table<?php echo $plan['questionnaire']; ?></span>
+            <?php if (0) { ?>
+              <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>With Questionnaire answers</span>
+              <?php if ($plan['question1_lung'] || $plan['question1_diabets'] || $plan['question1_heart']) { ?>
+                <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Question 1 :
+                  <?php if ($plan['question1_lung']) { ?>
+                    <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Lung conditions/disease (include asthma) : take <?php echo $plan['question1_lung']; ?> medication(s)
+                  <?php } ?>
+                  <?php if ($plan['question1_diabets']) { ?>
+                    <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Diabetes : take <?php echo $plan['question1_diabets']; ?> medication(s)
+                  <?php } ?>
+                  <?php if ($plan['question1_heart']) { ?>
+                    <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Heart conditions/disease (do not include aspirin, hypertension (high blood pressure) or high cholesterol medications) : take <?php echo $plan['question1_heart']; ?> medication(s)
+                  <?php } ?>
+                </span>
+              <?php } ?>
+              <?php if ($plan['question2']) { ?>
+                <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Question 2 :
+                  <?php if ($plan['question2']) { ?>
+                    <?php if ($plan['question2'] == 2) { ?> Yes
+                    <?php     } else { ?> No <?php } ?>
+                  <?php } ?>
+                </span>
+                <?php if ($plan['question3']) { ?>
+                  <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Question 3 :
+                    <?php if ($plan['question3_bowel'] == 'Y') { ?>
+                      <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bowel obstruction including bleeding and inflammation : yes
+                    <?php } ?>
+                    <?php if ($plan['question3_cancer'] == 'Y') { ?>
+                      <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Cancer : yes
+                    <?php } ?>
+                    <?php if ($plan['question3_diabetes'] == 'Y') { ?>
+                      <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Diabetes (controlled by medication or diet) : yes
+                    <?php } ?>
+                    <?php if ($plan['question3_diverticu'] == 'Y') { ?>
+                      <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Diverticulitis/Diverticulosis : yes
+                    <?php } ?>
+                    <?php if ($plan['question3_gerd'] == 'Y') { ?>
+                      <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GERD (gastro-esophageal reflux disease) : yes
+                    <?php } ?>
+                    <?php if ($plan['question3_heart'] == 'Y') { ?>
+                      <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Heart conditions/disease (include aspirin) : yes
+                    <?php } ?>
+                    <?php if ($plan['question3_hyper'] == 'Y') { ?>
+                      <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Hypertension : yes
+                    <?php } ?>
+                    <?php if ($plan['question3_kidney'] == 'Y') { ?>
+                      <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Kidney disease : yes
+                    <?php } ?>
+                    <?php if ($plan['question3_lung'] == 'Y') { ?>
+                      <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Lung conditions/disease (include asthma) : yes
+                    <?php } ?>
+                    <?php if ($plan['question3_peptic'] == 'Y') { ?>
+                      <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Peptic ulcer : yes
+                    <?php } ?>
+                  </span>
+                  <?php if ($plan['question4']) { ?>
+                    <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Question 4 :
+                      <?php if ($plan['question4']) { ?>
+                        <?php if ($plan['question4'] == 2) { ?> Yes
+                        <?php     } else { ?> No <?php } ?>
+                      <?php } ?>
+                    </span>
+                    <?php if ($plan['question5']) { ?>
+                      <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Question 5 :
+                        <?php if ($plan['question5']) { ?>
+                          <?php if ($plan['question2'] == 2) { ?> Yes
+                          <?php     } else { ?> No <?php } ?>
+                        <?php } ?>
+                      </span>
+                    <?php } // question5 
+                    ?>
+                  <?php } // question4 
+                  ?>
+                <?php } // question3 
+                ?>
+              <?php } // question2 
+              ?>
+            <?php } // if (0) 
+            ?>
+          <?php } // questionnaire 
+          ?>
+        </h4>
+      </div>
+      <div class="col-sm-1 nopadding2">
+        &nbsp;
+      </div>
+      <div class="col-sm-5 nopadding">
+        <?php if ($withprice) { ?>
+          <h4><u>Détails de paiement</u></h4>
+          <h4>Prime Totale: <span>$<?php echo number_format($plan['premium'], 2, '.', ','); ?></span></h4>
+          <h4>Prime: <span>$<?php echo number_format((float)$plan['premium'] - (float)$plan['tax'], 2, '.', ','); ?></span></h4>
+          <h4>Impôt: <span>$<?php echo number_format($plan['tax'], 2, '.', ','); ?></span></h4>
+          <h4>Date de paiement: <span><?php echo (($plan['status_id'] >= 2) && isset($payment['added'])) ? date('Y-m-d', strtotime($payment['added'])) : ''; ?></span></h4>
+          <h4>Mode de paiement: <span><?php echo (($plan['status_id'] >= 2) && isset($payment['pay_mothed'])) ? $payment['pay_mothed'] : ''; ?></span></h4>
+        <?php } ?>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12 nopm special-note">
+        <h4 style="border-bottom:1px solid #777;">Remarque spécialee</h4>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12 nopm">
+        <p class="small" style="margin-top:2px;"><b>Période d'attente.</b> - Lorsque la couverture est souscrite à n'importe quel moment après votre arrivée au Canada :<br />
+          a. Si vous êtes âgé de 86 ans ou plus, vous n'aurez pas droit à un remboursement pour une maladie ou des symptômes qui se sont manifestés ou qui ont été contractés ou traités dans les 15 jours suivant la date d'entrée en vigueur de la présente police<br />
+          b. Si vous avez 85 ans ou moins, vous n'avez pas droit au remboursement des maladies ou symptômes qui se sont manifestés ou qui ont été contractés ou traités dans les 48 heures suivant la date d'entrée en vigueur de la présente police.<br />
+          c. Pour tous les âges, si la police a été souscrite 30 jours ou plus après l'arrivée au Canada, en ce qui concerne la maladie, vous n'aurez pas droit à un
+            remboursement pour une maladie ou des symptômes qui se sont manifestés ou qui ont été contractés ou traités dans les sept jours suivant la date
+            d'entrée en vigueur de la présente police. Le délai d'attente peut être supprimé par la compagnie administratrice sous certaines conditions avant la
+            souscription de cette police. Vous devez recevoir une confirmation écrite de la part de la compagnie administratrice que le délai d'attente a été
+            supprimé. Veuillez-vous référer à la section IV : Convention d'assurance de la police pour plus de détails. Si vous remarquez des erreurs dans les
+            informations ci-dessus ou si vous avez des questions, veuillez contacter JF Insurance Agency Group Inc.<br />
+        </p>
+        <p class="small" style="margin-top:2px;"><b>Veuillez conserver cette confirmation comme reçu.</b><br />
+        Veuillez lire et comprendre le document ci-joint, qui explique en détail les termes, conditions, limitations et exclusions qui font partie de votre police.
+        Si votre état de santé change, y compris vos médicaments, entre la date de la souscription et la date d'entrée en vigueur de la police, vous devez nous contacter pour vous
+        assurer que vous restez éligible à cette assurance. Ontime Care Worldwide Inc. doit être avisé avant toute intervention chirurgicale ou dans les 24 heures suivant
+        l'admission à l'hôpital. Tout manquement à cette obligation, sans motif raisonnable, entraînera une réduction des montants éligibles payables.<br />
+        EN CAS D'URGENCE, CONTACTEZ ONTIME CARE WORLDWIDE INC IMMÉDIATEMENT :<br />
+        SANS FRAIS AU CANADA/AUX ÉTATS-UNIS : 1-888-988-3268 SI VOUS NE POUVEZ PAS NOUS CONTACTER SANS FRAIS, VEUILLEZ APPELER À FRAIS VIRÉS : 905-707-9555<br />
+        </p>
+        <p class="small" style="margin-top:2px;">
+        Si vous remarquez des erreurs dans les renseignements ci-dessus ou si vous avez des questions, veuillez communiquer avec JF Insurance Agency Group Inc.<br />
+        </p>
+      </div><br />
+    </div>
+    <div class="row">
+      <div class="col-sm-4 nopm">
+        <p class="small">Ontario:<br />
+          15 Wertheim Court, Suite 501,<br />
+          Richmond Hill, ON, Canada L4B 3H7<br />
+          Phone: 905-707-1512 Or 1-877-832-5541</p>
+      </div>
+      <div class="col-sm-2 nopm">
+      </div>
+      <div class="col-sm-4 nopm">
+        <p class="small">British Columbia:<br />
+          128 - 6061 No. 3 Road<br />
+          Richmond, BC, Canada V6Y 282<br />
+          Phone: 604-232-0896 Or 1-877-232-0896</p>
+      </div>
+    </div>
+  </div><!-- End Container -->
+</body>
+</html>
