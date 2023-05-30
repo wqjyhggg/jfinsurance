@@ -58,12 +58,12 @@ defined('BASEPATH') or exit('No direct script access allowed');
                     </div>
                   </div>
                 <?php } ?>
-                <?php if ($show_french) { ?>
+                <?php if ($show_french && ($beuser['user_group_id'] < 100)) { ?>
                   <div class="form-group col-sm-3 col-xs-6">
                     <label class="col-sm-12">Send Franch Version:</label>
                     <div class="input-group col-sm-12">
                       &nbsp;&nbsp;&nbsp;&nbsp;
-                      <input type='checkbox' class='frenchbox' name='sendfrench' checked> French &nbsp;&nbsp;
+                      <input type='checkbox' class='frenchbox' name='sendfrench'> French &nbsp;&nbsp;
                     </div>
                   </div>
                 <?php } ?>

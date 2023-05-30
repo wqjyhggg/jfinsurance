@@ -2164,6 +2164,8 @@ class Plan extends MY_Controller {
 							'systemlog' => $this->payment_model->sqlstr
 					);
 					$this->log_model->activity('payment', $para);
+          // If in Quebec, send French version package
+          $this->sendpackage($plan_id, 1);
 				} else {
 					$payinfo = "Credit Card: " . substr($card_number, 0, 5) . "xxx" . substr($card_number, -4) . " " . $card_name .  " " . $expiry_month . "/" . $expiry_year;
 						
@@ -2369,6 +2371,8 @@ class Plan extends MY_Controller {
 				'systemlog' => $this->plan_model->sqlstr
 		);
 		$this->log_model->activity('plan', $para);
+    // If in Quebec, send French version package
+    $this->sendpackage($plan_id, 1);
 	}
 
 	private function cheque() {
@@ -2517,6 +2521,8 @@ class Plan extends MY_Controller {
 				'systemlog' => $this->plan_model->sqlstr
 		);
 		$this->log_model->activity('plan', $para);
+    // If in Quebec, send French version package
+    $this->sendpackage($plan_id, 1);
 	}
 
 	function exportlogo($withlogo=1) {
@@ -3078,7 +3084,7 @@ class Plan extends MY_Controller {
 		}
 	}
 
-	public function sendpackage($plan_id=0)
+	public function sendpackage($plan_id=0, $sendfrenchemail=0)
 	{
 		$beuser = $this->func_model->verify_login(TRUE);
 		$this->load->model('plan_model');
@@ -3092,13 +3098,22 @@ class Plan extends MY_Controller {
 		if (empty($plan)) {
 			redirect('user/login');
 		}
+    if ($sendfrenchemail) {
+      // Check is Quebec customer or not
+      if ($plan['province2'] != 'QC') {
+        // Not in Quebec, do nothing
+        return;
+      }
+    }
 		
 		$data['beuser'] = $beuser;
 		$data['plan'] = $plan;
 		$data['pdf_enable'] = empty($beuser['pdf_product']) ? array() : json_decode($beuser['pdf_product']);
 		$data['emailaddr'] = $plan['contact_email'];
-		if ($this->input->post()) {
-			$emailaddr = $this->input->post('emailaddr');
+		if ($this->input->post() || $sendfrenchemail) {
+      if (!$intercall) {
+        $emailaddr = $this->input->post('emailaddr');
+      }
 			$withbatch = 0;
 			if ($beuser['user_group_id'] < 100) {
 				$data['withlogo'] = $this->input->post('withlogo');
@@ -3113,6 +3128,9 @@ class Plan extends MY_Controller {
 				}
 			}
       $data['sendfrench'] = $this->input->post('sendfrench');
+      if ($sendfrenchemail) {
+        $data['sendfrench'] = 1;
+      }
 			if (!empty($emailaddr)) {
 				$data['emailaddr'] = $emailaddr;
 			}
@@ -3395,6 +3413,10 @@ class Plan extends MY_Controller {
 				$files['policy_confirmation.pdf'] = $policy_file;
 				$sendok = $this->mymail_model->send_mymail($data['emailaddr'], $title, $body, $files, $from='JF Insurance');
 				unlink($policy_file);
+        if ($sendfrenchemail) {
+          return;
+        }
+  
 				if ($sendok) {
 					if ($withbatch) {
 						die("OK");
@@ -3407,7 +3429,10 @@ class Plan extends MY_Controller {
 				$data['error_message'] = "Please input valid email address";
 			}
 		}
-		
+    if ($sendfrenchemail) {
+      return;
+    }
+
 		$data['action_url'] = base_url('plan/sendpackage');
 		$data['plan_id'] = $plan['plan_id'];
 		$data['plan_batch'] = array();
