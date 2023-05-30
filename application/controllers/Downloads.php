@@ -27,6 +27,10 @@ class Downloads extends MY_Controller {
 				if (file_exists(DOWNLOADDIR . $fname)) {
 					$file_url[$product_short]['files'][] = array('url' => $downloads_url . $fname, 'name' => $name);
 				}
+				$fname = $product_short . $fn . "_French.pdf";
+				if (file_exists(DOWNLOADDIR . $fname)) {
+					$file_url[$product_short]['files'][] = array('url' => $downloads_url . $fname, 'name' => $name);
+				}
 			}
 		}
 

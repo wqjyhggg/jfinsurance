@@ -15,7 +15,7 @@ class Plan extends MY_Controller {
 			'annual_plan' => "Annual plan",
 			'optional_plan' => "Optional plan",
 	);
-  public $french_plan = array("JES","JESP","JFS","TOP","JFPL","JFVTC");
+  public $french_plan = array("JES","JESP","JFS","TOP","JFPL","JFVTC","JFR");
 	
 	
 	/**
@@ -3165,15 +3165,24 @@ class Plan extends MY_Controller {
             );
           }
         } else if ($data['plan']['product_short'] == 'JFR') {
-					$data['insurable_options'] = $this->load->view('plan/detail_opl', $data, TRUE);
-					$data['special_note'] = $this->load->view('plan/pdf_note_jfr',$data, TRUE);
-					$files = array(
-					'JFR_Policy.pdf' => DOWNLOADDIR . 'JFR_Policy.pdf',
-					'JFR_Claim_Procedure.pdf' => DOWNLOADDIR . 'JFR_Claim_Procedure.pdf',
-					'JFR_Consent_Form.pdf' => DOWNLOADDIR . 'JFR_Consent_Form.pdf',
-					'JFR_Claim_Form.pdf' => DOWNLOADDIR . 'JFR_Claim_Form.pdf',
-					'JFR_Brochure.pdf' => DOWNLOADDIR . 'JFR_Brochure.pdf'
-					);
+          if ($data['sendfrench']) {
+            $files = array(
+              'JFR_Policy.pdf' => DOWNLOADDIR . 'JFR_Policy_French.pdf',
+              'JFR_Claim_Procedure.pdf' => DOWNLOADDIR . 'JFR_Clinic_Map_French.pdf',
+              'JFR_Claim_Form.pdf' => DOWNLOADDIR . 'JFR_Claim_Form_French.pdf',
+              'JFR_Brochure.pdf' => DOWNLOADDIR . 'JFR_Brochure_French.pdf'
+              );
+          } else {
+            $data['insurable_options'] = $this->load->view('plan/detail_opl', $data, TRUE);
+            $data['special_note'] = $this->load->view('plan/pdf_note_jfr',$data, TRUE);
+            $files = array(
+            'JFR_Policy.pdf' => DOWNLOADDIR . 'JFR_Policy.pdf',
+            'JFR_Claim_Procedure.pdf' => DOWNLOADDIR . 'JFR_Claim_Procedure.pdf',
+            'JFR_Consent_Form.pdf' => DOWNLOADDIR . 'JFR_Consent_Form.pdf',
+            'JFR_Claim_Form.pdf' => DOWNLOADDIR . 'JFR_Claim_Form.pdf',
+            'JFR_Brochure.pdf' => DOWNLOADDIR . 'JFR_Brochure.pdf'
+            );
+          }
 				} else if ($data['plan']['product_short'] == 'JUS') {
 					$data['insurable_options'] = $this->load->view('plan/detail_jus', $data, TRUE);
 					$data['special_note'] = $this->load->view('plan/pdf_note_jus',$data, TRUE);
@@ -3192,6 +3201,7 @@ class Plan extends MY_Controller {
             'JFS_Policy.pdf' => DOWNLOADDIR . 'JFS_Policy_French.pdf',
             'JFS_Claim_Form.pdf' => DOWNLOADDIR . 'JFS_Claim_Form_French.pdf',
             'JFS_Clinic_Map.pdf' => DOWNLOADDIR . 'JFS_Clinic_Map_French.pdf',
+            'JFS_Benefit_Summary.pdf' => DOWNLOADDIR . 'JFS_Benefit_Summary_French.pdf',
             'JFS_Brochure.pdf' => DOWNLOADDIR . 'JFS_Brochure_French.pdf',
             );
           } else {
@@ -3365,6 +3375,8 @@ class Plan extends MY_Controller {
           if ($data['sendfrench']) {
             if (($data['plan']['product_short'] == 'JES') || ($data['plan']['product_short'] == 'JESP') || ($data['plan']['product_short'] == 'JFS')) {
               $html = $this->load->view('plan/pdf_berkley_student_french', $data, TRUE);
+            } else if ($data['plan']['product_short'] == 'JFR') {
+              $html = $this->load->view('plan/pdf_jfr_french', $data, TRUE);
             } else if ($data['plan']['product_short'] == 'TOP') {
               $html = $this->load->view('plan/pdf_berkley_visitor_french', $data, TRUE);
             } else {
