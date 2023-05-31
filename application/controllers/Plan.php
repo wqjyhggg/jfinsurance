@@ -2165,8 +2165,10 @@ class Plan extends MY_Controller {
 					);
 					$this->log_model->activity('payment', $para);
           // If in Quebec, send French version package
-          $this->sendpackage($plan_id, 1);
-				} else {
+          if (($plan["province2"] == "QC") && in_array($plan["product_short"], $this->french_plan)) {
+            $this->sendpackage($plan_id, 1);
+          }
+        } else {
 					$payinfo = "Credit Card: " . substr($card_number, 0, 5) . "xxx" . substr($card_number, -4) . " " . $card_name .  " " . $expiry_month . "/" . $expiry_year;
 						
 					$para = array('payment_id' => $payment_id, 'payinfo' => $payinfo, 'commission_payment_id' => $commission_payment_id );
@@ -2372,7 +2374,9 @@ class Plan extends MY_Controller {
 		);
 		$this->log_model->activity('plan', $para);
     // If in Quebec, send French version package
-    $this->sendpackage($plan_id, 1);
+    if (($plan["province2"] == "QC") && in_array($plan["product_short"], $this->french_plan)) {
+      $this->sendpackage($plan_id, 1);
+    }
 	}
 
 	private function cheque() {
@@ -2522,7 +2526,9 @@ class Plan extends MY_Controller {
 		);
 		$this->log_model->activity('plan', $para);
     // If in Quebec, send French version package
-    $this->sendpackage($plan_id, 1);
+    if (($plan["province2"] == "QC") && in_array($plan["product_short"], $this->french_plan)) {
+      $this->sendpackage($plan_id, 1);
+    }
 	}
 
 	function exportlogo($withlogo=1) {
