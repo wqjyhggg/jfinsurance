@@ -3407,8 +3407,13 @@ class Plan extends MY_Controller {
 				$mpdf->writeHTML($html);
 				$mpdf->Output($policy_file, 'F');
 				$this->load->model('mymail_model');
-				$body = $this->load->view('mail/package',$data, TRUE);
-				$title = "Confirmation of Insurance - " . $plan['policy'] . " - " . $data['customer']['firstname'] . " " . $data['customer']['lastname'];
+        if ($data['sendfrench']) {
+          $body = $this->load->view('mail/package_french',$data, TRUE);
+          $title = "Confirmation d’assurance - " . $plan['policy'] . " - " . $data['customer']['firstname'] . " " . $data['customer']['lastname'];
+        } else {
+          $body = $this->load->view('mail/package',$data, TRUE);
+          $title = "Confirmation of Insurance - " . $plan['policy'] . " - " . $data['customer']['firstname'] . " " . $data['customer']['lastname'];
+        }
 				
 				$files['policy_confirmation.pdf'] = $policy_file;
 				$sendok = $this->mymail_model->send_mymail($data['emailaddr'], $title, $body, $files, $from='JF Insurance');
