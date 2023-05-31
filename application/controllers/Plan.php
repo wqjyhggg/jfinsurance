@@ -3341,7 +3341,10 @@ class Plan extends MY_Controller {
           if ($data['sendfrench']) {
             $files = array(
             'TOP_Policy.pdf' => DOWNLOADDIR . 'TOP_Policy_French.pdf',
-            'TOP_Claim_Form.pdf' => DOWNLOADDIR . 'TOP_Claim_Form_French.pdf',
+            'TOP_Baggage_Claim_Form.pdf' => DOWNLOADDIR . 'TOP_Baggage_Claim_Form_French.pdf',
+            'TOP_Cancellation_Claim_Form.pdf' => DOWNLOADDIR . 'TOP_Cancellation_Claim_Form_French.pdf',
+            'TOP_Medical_Claim_Form.pdf' => DOWNLOADDIR . 'TOP_Medical_Claim_Form_French.pdf',
+            'TOP_Benefit_Summary.pdf' => DOWNLOADDIR . 'TOP_Benefit_Summary_French.pdf',
             'TOP_Brochure.pdf' => DOWNLOADDIR . 'TOP_Brochure_French.pdf'
             );
           } else {
