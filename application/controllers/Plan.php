@@ -15,7 +15,7 @@ class Plan extends MY_Controller {
 			'annual_plan' => "Annual plan",
 			'optional_plan' => "Optional plan",
 	);
-  public $french_plan = array("JES","JESP","JFS","TOP","JFPL","JFVTC","JFR");
+  public $french_plan = array("JES","JESP","JFS","TOP","JFPL","JFGD","JFVTC","JFR");
 	
 	
 	/**
@@ -3275,7 +3275,7 @@ class Plan extends MY_Controller {
             'JFPL_Policy.pdf' => DOWNLOADDIR . 'JFPL_Policy_French.pdf',
             'JFPL_Claim_Form.pdf' => DOWNLOADDIR . 'JFPL_Claim_Form_French.pdf',
             'JFPL_Clinic_Map.pdf' => DOWNLOADDIR . 'JFPL_Clinic_Map_French.pdf',
-            'JFPL_Brochure.pdf' => DOWNLOADDIR . 'JFPL_Benefit_Summary_French.pdf',
+            'JFPL_Benefit_Summary.pdf' => DOWNLOADDIR . 'JFPL_Benefit_Summary_French.pdf',
             'JFPL_Brochure.pdf' => DOWNLOADDIR . 'JFPL_Brochure_French.pdf'
             );
           } else {
@@ -3297,14 +3297,24 @@ class Plan extends MY_Controller {
 					'JFSL_Benefit_Summary.pdf' => DOWNLOADDIR . 'JFSL_Benefit_Summary.pdf'
 					);
         } else if ($data['plan']['product_short'] == 'JFGD') {
-					$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
-					$data['special_note'] = $this->load->view('plan/pdf_note_jes',$data, TRUE);
-					$files = array(
-					'JFGD_Policy.pdf' => DOWNLOADDIR . 'JFGD_Policy.pdf',
-					'JFGD_Claim_Form.pdf' => DOWNLOADDIR . 'JFGD_Claim_Form.pdf',
-					'JFGD_Clinic_Map.pdf' => DOWNLOADDIR . 'JFGD_Clinic_Map.pdf',
-					'JFGD_Benefit_Summary.pdf' => DOWNLOADDIR . 'JFGD_Benefit_Summary.pdf'
-					);
+          if ($data['sendfrench']) {
+            $files = array(
+            'JFGD_Policy.pdf' => DOWNLOADDIR . 'JFGD_Policy_French.pdf',
+            'JFGD_Claim_Form.pdf' => DOWNLOADDIR . 'JFGD_Claim_Form_French.pdf',
+            'JFGD_Clinic_Map.pdf' => DOWNLOADDIR . 'JFGD_Clinic_Map_French.pdf',
+            'JFGD_Benefit_Summary.pdf' => DOWNLOADDIR . 'JFGD_Benefit_Summary_French.pdf',
+            'JFGD_Brochure.pdf' => DOWNLOADDIR . 'JFGD_Brochure_French.pdf'
+            );
+          } else {
+            $data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
+            $data['special_note'] = $this->load->view('plan/pdf_note_jes',$data, TRUE);
+            $files = array(
+            'JFGD_Policy.pdf' => DOWNLOADDIR . 'JFGD_Policy.pdf',
+            'JFGD_Claim_Form.pdf' => DOWNLOADDIR . 'JFGD_Claim_Form.pdf',
+            'JFGD_Clinic_Map.pdf' => DOWNLOADDIR . 'JFGD_Clinic_Map.pdf',
+            'JFGD_Benefit_Summary.pdf' => DOWNLOADDIR . 'JFGD_Benefit_Summary.pdf'
+            );
+          }
 				} else if ($data['plan']['product_short'] == 'JESP') {
           if ($data['sendfrench']) {
             $files = array(
@@ -3377,7 +3387,7 @@ class Plan extends MY_Controller {
           } else {
             $html = $this->load->view('plan/pdf_jfvtc', $data, TRUE);
           }
-        } else if ($data['plan']['product_short'] == 'JFPL') {
+        } else if (($data['plan']['product_short'] == 'JFPL') || ($data['plan']['product_short'] == 'JFGD') || ($data['plan']['product_short'] == 'JFSL')) {
           $mpdf = new mPDF('c', 'A4', 0, '', $mgl = 0, $mgr = 0, $mgt = 15, $mgb = 0, $mgh = 0, $mgf = 0, $orientation = 'P');
           if ($data['withlogo']) {
             $mpdf->SetHTMLHeader('<img style="width:100%;" src="'.base_url().'image/pdf_header.png" />');
@@ -3389,14 +3399,6 @@ class Plan extends MY_Controller {
           } else {
             $html = $this->load->view('plan/pdf', $data, TRUE);
           }
-        } else if (($data['plan']['product_short'] == 'JFGD') || ($data['plan']['product_short'] == 'JFSL')) {
-          $mpdf = new mPDF('c', 'A4', 0, '', $mgl = 0, $mgr = 0, $mgt = 15, $mgb = 0, $mgh = 0, $mgf = 0, $orientation = 'P');
-          if ($data['withlogo']) {
-            $mpdf->SetHTMLHeader('<img style="width:100%;" src="'.base_url().'image/pdf_header.png" />');
-          }
-          // $mpdf->SetHTMLFooter('<img style="width:100%;" src="'.base_url().'image/pdf_footer.png" />');
-          $data['hadheaderfooter'] = 1;
-          $html = $this->load->view('plan/pdf', $data, TRUE);
         } else {
   				$mpdf = new mPDF('c');
           if ($data['sendfrench']) {
