@@ -27,6 +27,20 @@ defined('BASEPATH') or exit('No direct script access allowed');
           </div>
         <?php } ?>
       <?php } ?>
+      <div style="float:left;width:400px;">
+        <?php if ($user['user_group_id'] > 100) { ?>
+          <p class="topp" style="font-weight:bold;"><?php echo empty($user['business']) ? 'JF Agent' : htmlspecialchars($user['business']); ?> - <span style="text-transform: capitalize;font-weight:bold;"><?php echo ($user) ? htmlspecialchars($user['firstname'] . " " . $user['lastname']) : ''; ?></span></p>
+          <p class="topp"><?php echo ($user) ? htmlspecialchars($user['address'] . ', ' . $user['city'] . ' ' . $user['province2'] . ' ' . $user['postcode']) : ''; ?></p>
+          <p class="topp"><?php echo ($user) ? htmlspecialchars($user['business_phone']) : ''; ?></p>
+          <?php if (!empty($user['website'])) { ?>
+            <p class="topp"><?php echo htmlspecialchars($user['website']); ?></p>
+          <?php } ?>
+        <?php } else { ?>
+          <p class="topp" style="font-weight:bold;"> JF Agent - <span style="text-transform: capitalize;font-weight:bold;">Johnson Fu</span></p>
+          <p class="topp"><?php echo ($user) ? htmlspecialchars($user['address'] . ', ' . $user['city'] . ' ' . $user['province2'] . ' ' . $user['postcode']) : ''; ?></p>
+          <p class="topp"><?php echo ($user) ? htmlspecialchars($user['business_phone']) : ''; ?></p>
+        <?php } ?>
+      </div>
     </div>
     <div class="row">
       <div class="col-sm-12 text-center">
