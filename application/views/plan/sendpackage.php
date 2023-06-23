@@ -58,7 +58,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                     </div>
                   </div>
                 <?php } ?>
-                <?php if ($show_french && ($beuser['user_group_id'] < 100)) { ?>
+                <?php if ($show_french) { ?>
                   <div class="form-group col-sm-3 col-xs-6">
                     <label class="col-sm-12">Send Franch Version:</label>
                     <div class="input-group col-sm-12">
