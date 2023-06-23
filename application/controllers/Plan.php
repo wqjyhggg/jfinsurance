@@ -3180,6 +3180,9 @@ class Plan extends MY_Controller {
             'JFVTC_Claim_Form.pdf' => DOWNLOADDIR . 'JFVTC_Claim_Form_French.pdf',
             'JFVTC_Brochure.pdf' => DOWNLOADDIR . 'JFVTC_Brochure_French.pdf'
             );
+            if ($plan['effective_date'] < '2023-05-01') {
+              $files['JFVTC_Policy.pdf'] = DOWNLOADDIR . 'JFVTC_Policy_French_old.pdf';
+            }
           } else {
             $files = array(
             'JFVTC_Policy.pdf' => DOWNLOADDIR . 'JFVTC_Policy.pdf',
@@ -3187,6 +3190,9 @@ class Plan extends MY_Controller {
             'JFVTC_Claim_Form.pdf' => DOWNLOADDIR . 'JFVTC_Claim_Form.pdf',
             'JFVTC_Brochure.pdf' => DOWNLOADDIR . 'JFVTC_Brochure.pdf'
             );
+            if ($plan['effective_date'] < '2023-05-01') {
+              $files['JFVTC_Policy.pdf'] = DOWNLOADDIR . 'JFVTC_Policy_old.pdf';
+            }
           }
         } else if ($data['plan']['product_short'] == 'JFR') {
           if ($data['sendfrench']) {
@@ -3278,6 +3284,9 @@ class Plan extends MY_Controller {
             'JFPL_Benefit_Summary.pdf' => DOWNLOADDIR . 'JFPL_Benefit_Summary_French.pdf',
             'JFPL_Brochure.pdf' => DOWNLOADDIR . 'JFPL_Brochure_French.pdf'
             );
+            if ($plan['effective_date'] < '2023-01-01') {
+              $files['JFPL_Policy.pdf'] = DOWNLOADDIR . 'JFPL_Policy_French_old.pdf';
+            }
           } else {
             $data['special_note'] = $this->load->view('plan/pdf_note_jes',$data, TRUE);
             $files = array(
@@ -3286,6 +3295,9 @@ class Plan extends MY_Controller {
             'JFPL_Clinic_Map.pdf' => DOWNLOADDIR . 'JFPL_Clinic_Map.pdf',
             'JFPL_Benefit_Summary.pdf' => DOWNLOADDIR . 'JFPL_Benefit_Summary.pdf'
             );
+            if ($plan['effective_date'] < '2023-01-01') {
+              $files['JFPL_Policy.pdf'] = DOWNLOADDIR . 'JFPL_Policy_old.pdf';
+            }
           }
         } else if ($data['plan']['product_short'] == 'JFSL') {
 					$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
