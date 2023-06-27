@@ -39,6 +39,11 @@ class Policypdf extends CI_Controller {
           }
         }
         $fname = DOWNLOADDIR . "files/" . $short. $btw."_" . $this->tlist[$t] . ".pdf";
+        if (($plan['product_short'] == 'JFPL') && ($plan['effective_date'] < '2023-01-01')) {
+          $fname = DOWNLOADDIR . "files/" . $short. $btw."_" . $this->tlist[$t] . "_old.pdf";
+        } else if (($plan['product_short'] == 'JFVTC') && ($plan['effective_date'] < '2023-05-01')) {
+          $fname = DOWNLOADDIR . "files/" . $short. $btw."_" . $this->tlist[$t] . "_old.pdf";
+        }
         if (file_exists($fname)) {
           //Define header information
           header('Content-Type: application/pdf');
