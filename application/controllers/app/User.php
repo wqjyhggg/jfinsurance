@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class User
+class User extends CI_Controller
 {
   const PASSWORD_MIN = 6;
   const PASSWORD_MAX = 16;
@@ -508,7 +508,7 @@ class User
   }
 
   public function detail() {
-    return $this->edit(0);
+    return $this->update(0);
   }
   /**
    * User reset password page
@@ -560,7 +560,7 @@ class User
       if ($r) {
         if (is_array($r)) {
           $token = $this->app_model->create_token($r);
-          return $this->app_model->return_data(array("token" => $token));
+          return $this->app_model->return_ok(array("token" => $token));
         } else {
           $this->error = $r;
         }
