@@ -217,6 +217,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <th>Contact Email</th>
                             <th>Contact Phone</th>
                             <?php } ?>
+                            <th>Note</th>
                           </tr>
     <?php foreach ($data['results'] as $record) :?>
                           <tr>
@@ -246,9 +247,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <td>$<?php echo ($record['amount'] - $record['commission']); ?></td>
                             <td>$<?php echo $record['commission']; ?></td>
                             <?php if ($region_id == 4) { ?>
-                            <td><?php echo $data['contact_email']; ?></td>
-                            <td><?php echo $data['contact_phone']; ?></td>
+                            <td><?php echo $record['contact_email']; ?></td>
+                            <td><?php echo $record['contact_phone']; ?></td>
                             <?php } ?>
+                            <td><?php echo $record['note']; ?></td>
                           </tr>
         <?php endforeach; ?>
                           <tr>

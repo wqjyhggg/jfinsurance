@@ -89,6 +89,7 @@ class Jf extends MY_Controller
                 'commission' => 'Commission Amount',
                 'contact_email' => 'Contact Email',
                 'contact_phone' => 'Contact Phone',
+                'note' => 'Note',
             );
         if ($data['region_id'] != 4) {
             unset($kArr['contact_email']);

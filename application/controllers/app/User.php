@@ -579,10 +579,9 @@ class User extends CI_Controller
    */
   public function forget()
   {
-    $this->data['username'] = '';
-    $this->data['error_message'] = '';
-    $this->data['username_error'] = '';
-    if ($this->input->post()) {
+    $this->error = "";
+    $this->load->model("app_model");
+    if ($this->input->post('username')) {
       $this->data['ispost'] = 1;
       // Login post check
       $r = $this->user_model->get_user_by_username_or_email($this->input->post('username'));
@@ -598,5 +597,29 @@ class User extends CI_Controller
       }
     }
     $this->app_model->return_ok("Please check your email.");
+  }
+
+  /**
+   * User Forget Passwrod
+   */
+  public function static()
+  {
+    $this->error = "";
+    $this->load->model("app_model");
+    $this->load->model("user_model");
+    $user = $this->app_model->check_token($this->input->post("token"));
+
+    if (empty($user)) {
+      if (empty($this->error)) {
+        $this->error = "Timeout";
+      }
+      return $this->app_model->return_error($this->error);
+    }
+    $data = array();
+    $data["total_customers"] = "12345";
+    $data["total_sales_year_amount"] = "234567";
+    $data["total_sales_year"] = "2345";
+    $data["last_update"] = "2023-07-01";
+    $this->app_model->return_ok($data);
   }
 }

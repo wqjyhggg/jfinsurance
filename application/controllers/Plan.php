@@ -3059,9 +3059,6 @@ class Plan extends MY_Controller {
 		if ($this->session->userdata ( 'user') && ($beuser['user_group_id'] < 100)) {
 			$this->load->model('payment_model');
 			$data['show_history'] = 1;
-//			$data['activelogs'] = $this->log_model->get_activity_by_plan_id($plan['plan_id']);
-//			$data['payments'] = $this->payment_model->get_payment_by_plan_id($plan['plan_id']);
-//      $data['activelog_tables'] = $this->log_model->history_tables;
 			$data['payment_tables'] = $this->payment_model->history_tables;
 
 		}

@@ -940,7 +940,32 @@ class Plan_model extends CI_Model {
 		}
 	}
 	
-	/**
+	public function plan_activities($para, $limit=0, $start=0) {
+		
+		$sql  = "SELECT p.*, c.firstname, c.lastname, c.gender, c.birthday, u.firstname AS agent_firstname, u.lastname AS agent_lastname, u.user_id AS agent_id, u.business_phone as agent_phone FROM plan p";
+		$sql .= " INNER JOIN customer c ON (p.customer_id=c.customer_id)";
+		$sql .= " INNER JOIN user u ON (p.user_id=u.user_id)";
+		$where = array();
+		if (!empty($para['user_id'])) {
+			$where[] = "p.user_id=" . (int)$para['user_id'];
+		}
+		if (!empty($where)) {
+			$sql .= " WHERE " . join(" AND ", $where);
+		}
+		$sql .= " ORDER BY plan_id DESC";
+		if ($limit) {
+			if ($start) {
+				$sql .= " LIMIT " . (int)$start . ", " . (int)$limit;
+			} else {
+				$sql .= " LIMIT " . (int)$limit;
+			}
+		} else {
+			$sql .= " LIMIT " . self::MAX_PLANS;
+		}
+		return $this->db->query($sql)->result_array();
+	}
+
+  /**
 	 * Search Plans (policies) by conditions
 	 * 
 	 * @param	array	$para		Search parameters

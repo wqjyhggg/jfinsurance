@@ -68,3 +68,6 @@ Acknowledgement
 
 The CodeIgniter team would like to thank EllisLab, all the
 contributors to the CodeIgniter project and you, the CodeIgniter user.
+
+
+CREATE TABLE `jfweb`.`app` ( `user_id` INT NOT NULL ,  `token` VARCHAR(64) NOT NULL ,  `timeout` INT NOT NULL ,    PRIMARY KEY  (`user_id`),    INDEX  (`token`)) ENGINE = MyISAM;

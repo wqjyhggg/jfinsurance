@@ -75,9 +75,9 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => '172.31.91.60',
-	'username' => 'remoteacc',
-	'password' => 'b3FFc99bFE34885',
+	'hostname' => 'localhost',
+	'username' => 'rootuser',
+	'password' => '111111',
 	'database' => 'jfweb',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',

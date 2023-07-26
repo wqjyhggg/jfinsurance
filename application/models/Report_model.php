@@ -168,6 +168,7 @@ class Report_model extends CI_Model
     $sql .= "		pl.tax,";
     $sql .= "		pl.contact_email,";
     $sql .= "		pl.contact_phone,";
+    $sql .= "		pl.note,";
     $sql .= "		pr.full_name,";
     $sql .= "		pr.up_insuer,";
     $sql .= "		CONCAT(cu.firstname, ' ', cu.lastname) as insured";
