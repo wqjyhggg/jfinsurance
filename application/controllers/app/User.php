@@ -599,10 +599,7 @@ class User extends CI_Controller
     $this->app_model->return_ok("Please check your email.");
   }
 
-  /**
-   * User Forget Passwrod
-   */
-  public function static()
+  public function statics()
   {
     $this->error = "";
     $this->load->model("app_model");
