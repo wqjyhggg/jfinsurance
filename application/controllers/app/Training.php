@@ -42,9 +42,6 @@ class Training extends CI_Controller
       }
       return $this->app_model->return_error($this->error);
     }
-    if ($user["group_id"] < 100) {
-      return $this->app_model->return_error($this->error);
-    }
 
     $data["training"] = $this->training_model->get_by_id($this->input->post('training_id'));
     $this->app_model->return_ok($data);
@@ -64,8 +61,8 @@ class Training extends CI_Controller
       return $this->app_model->return_error($this->error);
     }
 
-    if ($user["group_id"] < 100) {
-      return $this->app_model->return_error($this->error);
+    if ($user["user_group_id"] > 100) {
+      return $this->app_model->return_error("no premission");
     }
     $this->load->model("training_model");
     $data = array();
@@ -94,15 +91,19 @@ class Training extends CI_Controller
       return $this->app_model->return_error($this->error);
     }
 
-    $this->load->model("training_model");
-    $data = array();
-    if ($training_id = $this->input->post("training_id")) {
-      $this->load->model("training_user_model");
-      if ($this->training_user_model->set_readed($user["user_id"], $training_id)) {
-        $data["training_id"] = $training_id;
-        $this->app_model->return_ok($data);
-      }
+    if ($user["user_group_id"] > 100) {
+      return $this->app_model->return_error("no premission");
     }
-    $this->app_model->return_error("Can't set readed for training_id: [".$training_id."]");
+    $this->load->model("training_user_model");
+    $data = array();
+    $training_id = $this->input->post("training_id");
+    $user_id = $this->input->post("user_id");
+    if (empty($training_id) || empty($user_id)) {
+      return $this->app_model->return_error("Perameter error");
+    }
+    $this->training_user_model->set_read($user_id, $training_id);
+    $data["training_id"] = $training_id;
+    $data["user_id"] = $user_id;
+    $this->app_model->return_ok($data);
   }
 }

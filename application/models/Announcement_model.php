@@ -61,7 +61,7 @@ class Announcement_model extends CI_Model {
     return 0;
 	}
 	
-	public function search($para, $limit=0, $start=-1) {
+  public function search($para, $limit=0, $start=-1) {
     if (isset($para['announcement_id'])) {
       $this->db->where("announcement_id", trim($para["announcement_id"]));
     }
@@ -71,13 +71,22 @@ class Announcement_model extends CI_Model {
     if (isset($para['desc'])) {
       $this->db->where("desc", trim($para["desc"]));
     }
-		if (isset($para['status'])) {
-      $this->db->where("status", trim($para["status"]));
+    if (isset($para['status'])) {
+      $this->db->where("status", intval($para["status"]));
+    } else {
+      $this->db->where("status", 1);
     }
-		if (empty($para['all'])) {
-      $this->db->where("start_tm>=", date("Y-m-d H:i:s"));
+    if (empty($para['all'])) {
+      $this->db->where("start_tm<=", date("Y-m-d H:i:s"));
+    }
+    if ($limit > 0) {
+      if ($start > 0) {
+        $this->db->limit($limit, $start);
+      } else {
+        $this->db->limit($limit);
+      }
     }
     $this->db->order_by("announcement_id", "DESC");
- 		return $this->db->get('announcement')->result_array();
-	}
+    return $this->db->get('announcement')->result_array();
+  }
 }

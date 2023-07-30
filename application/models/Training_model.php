@@ -62,7 +62,7 @@ class Training_model extends CI_Model {
     return 0;
 	}
 	
-	public function search($para, $limit=0, $start=-1) {
+  public function search($para, $limit=0, $start=-1) {
     if (isset($para['training_id'])) {
       $this->db->where("training_id", trim($para["training_id"]));
     }
@@ -72,13 +72,20 @@ class Training_model extends CI_Model {
     if (isset($para['desc'])) {
       $this->db->where("desc", trim($para["desc"]));
     }
-		if (isset($para['status'])) {
+    if (isset($para['status'])) {
       $this->db->where("status", trim($para["status"]));
     }
-		if (empty($para['all'])) {
-      $this->db->where("start_tm>=", date("Y-m-d H:i:s"));
+    if (empty($para['all'])) {
+      $this->db->where("start_tm<=", date("Y-m-d H:i:s"));
+    }
+    if ($limit > 0) {
+      if ($start > 0) {
+        $this->db->limit($limit, $start);
+      } else {
+        $this->db->limit($limit);
+      }
     }
     $this->db->order_by("training_id", "DESC");
- 		return $this->db->get('training')->result_array();
-	}
+    return $this->db->get('training')->result_array();
+  }
 }

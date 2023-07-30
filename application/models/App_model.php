@@ -30,7 +30,7 @@ class App_model extends CI_Model
     header('Content-Type: application/json');
     header("Access-Control-Allow-Origin: *");
     header('Cache-Control: no-store, no-cache, must-revalidate');
-    echo json_encode($data);
+    die(json_encode($data));
   }
 
   function unixstamp($excelDateTime)
@@ -62,7 +62,7 @@ class App_model extends CI_Model
         $this->db->where("user_id", $r["user_id"]);
         $this->db->update("app");
 
-        $sql = "SELECT * FROM user WHERE user_id = '" . (int)$user_id . "'";
+        $sql = "SELECT * FROM user WHERE user_id = '" . (int)$r["user_id"] . "'";
         return $this->db->query($sql)->row_array();
       }
     }

@@ -258,11 +258,18 @@ class User_model extends CI_Model {
 	 * 
 	 * @return	array					user table search result
 	 */
-	public function get_broker_id_list() {
+	public function get_broker_id_list($region_id=-1) {
+		if ($region_id < 0) {
+			if ($this->session->beuser['region_id'] != 0) {
+				$region_id = $this->session->beuser['region_id'];
+			} else {
+				$region_id = 0;
+			}
+		}
 		$sql = "SELECT user_id,business FROM user WHERE user_group_id = '104'";
-        if ($this->session->beuser['region_id'] != 0) {
-        	$sql .= " AND region_id='" . $this->session->beuser['region_id'] . "'";
-        }
+        	if ($region_id != 0) {
+        	$sql .= " AND region_id='" . $region_id . "'";
+        	}
 		$rt = $this->db->query($sql)->result_array();
 		$rtArr = array();
 		foreach ($rt as $rc) {

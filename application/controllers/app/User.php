@@ -268,12 +268,6 @@ class User extends CI_Controller
 		if (empty(trim($this->input->post('licence_expire'))) ) {
 			$this->data['error_licence_expire'] = $this->lang->line('error_licence_expire');
 			$rt = FALSE;
-		} else if ($this->session->beuser['user_group_id'] > 100) {
-			$tm = strtotime($this->input->post('licence_expire'));
-			if ($tm < time()) {
-				$this->data['error_licence_expire'] = $this->lang->line('error_licence_expire');
-				$rt = FALSE;
-			}
 		}
 		//$this->data['business_phone'] = $this->input->post('business_phone');
 		//$this->data['mobile_phone'] = $this->input->post('mobile_phone');
@@ -315,6 +309,11 @@ class User extends CI_Controller
 
     //$this->data = $this->lang->language;
     $user_id = $user['user_id'];
+    if ($user["user_group_id"] < 100) {
+      if ($this->input->post("user_id")) {
+        $user_id = $user['user_id'];
+      }
+    }
     if ($is_update && $this->verify()) {
       if ($this->user_model->check_username($user_id, $this->input->post('username'))) {
         $this->data['error_message'] = "username existed, please select other username";
@@ -331,179 +330,13 @@ class User extends CI_Controller
     }
 
     // Get all text depend language
-    $this->data['user_group_list'] = $this->user_group_model->get_user_group_list($this->session->user['user_group_id']);
-    $this->data['broker_list'] = $this->user_model->get_broker_id_list();
+    $this->data['user_group_list'] = $this->user_group_model->get_user_group_list($user['user_group_id']);
+    $this->data['broker_list'] = $this->user_model->get_broker_id_list($user["region_id"]);
     $this->data['province_list'] = $this->province_model->province_list();
-
-    $this->data['op_user_group_id'] = $this->session->beuser['user_group_id'];
-    $this->data['user_group_id'] = '';
-    $this->data['parent_user_id'] = ($this->session->beuser['user_group_id'] < 100) ? 0 : $this->session->beuser['user_id'];
-    $this->data['username'] = '';
-    $this->data['password'] = '';
-    $this->data['region_id'] = $this->session->beuser['region_id'];
-    $this->data['business'] = ($this->session->beuser['user_group_id'] < 100) ? '' : $this->session->beuser['business'];
-    $this->data['gender'] = '';
-    $this->data['firstname'] = '';
-    $this->data['lastname'] = '';
-    $this->data['email'] = '';
-    $this->data['address'] = '';
-    $this->data['city'] = '';
-    $this->data['province2'] = 'ON';
-    $this->data['country2'] = 'CA';
-    $this->data['postcode'] = '';
-    $this->data['mail_name'] = '';
-    $this->data['mail_address'] = '';
-    $this->data['mail_city'] = '';
-    $this->data['mail_province2'] = 'ON';
-    $this->data['mail_country2'] = 'CA';
-    $this->data['mail_postcode'] = '';
-    $this->data['website'] = '';
-    $this->data['licence_number'] = '';
-    $this->data['licence_expire'] = '';
-    $this->data['business_phone'] = '';
-    $this->data['mobile_phone'] = '';
-    $this->data['fax_number'] = '';
-    $this->data['toll_free'] = '';
-    $this->data['pay_type'] = '';
-    $this->data['receive_type'] = 'Cheque';
-    $this->data['ip'] = '';
-    $this->data['status'] = '';
-    $this->data['date_added'] = '';
-    $this->data['note'] = '';
-    $this->data['note2'] = '';
-    $this->data['date_added'] = '';
-    $this->data['enable_pdf'] = 0;
-    $this->data['pdf_logo'] = '';
-    $this->data['pdf_qr'] = '';
-    $this->data['pdf_qr2'] = '';
-    $this->data['pdf_f_left1'] = '';
-    $this->data['pdf_f_left2'] = '';
-    $this->data['pdf_f_left3'] = '';
-    $this->data['pdf_f_left4'] = '';
-    $this->data['pdf_f_left5'] = '';
-    $this->data['pdf_f_left6'] = '';
-    $this->data['pdf_f_right1'] = '';
-    $this->data['pdf_f_right2'] = '';
-    $this->data['pdf_f_right3'] = '';
-    $this->data['pdf_f_right4'] = '';
-    $this->data['pdf_f_right5'] = '';
-    $this->data['pdf_f_right6'] = '';
-
-    $product_list = $this->product_model->product_list(1);
-    $plist = array();
-    $pdf_plist = array();
-    $product_customize = array();
-    foreach ($product_list as $p) {
-      $p['checked'] = '';
-      if (empty($user_id) && !in_array($p['product_short'], $this->product_model->default_uncheck_product)) {
-        $p['checked'] = 'checked';
-      }
-      $plist[$p['product_short']] = $p;
-      $pdf_plist[$p['product_short']] = '';
-      $product_customize[$p['product_short']] = '';
-    }
-    $this->data['product_list'] = $plist;
-    $this->data['pdf_product_list'] = $pdf_plist;
-    $this->data['product_customize'] = $product_customize;
-    $this->data['paytype_list'] = $this->paytype_model->paytype_list();
-
-    if ($this->input->post()) {
-      $this->data['user_group_id'] = $this->input->post('user_group_id');
-      $this->data['parent_user_id'] = $this->input->post('parent_user_id');
-      $this->data['username'] = $this->input->post('username');
-      $this->data['password'] = $this->input->post('password');
-      $this->data['region_id'] = $this->input->post('region_id');
-      $this->data['business'] = $this->input->post('business');
-      $this->data['gender'] = $this->input->post('gender');
-      $this->data['firstname'] = $this->input->post('firstname');
-      $this->data['lastname'] = $this->input->post('lastname');
-      $this->data['email'] = $this->input->post('email');
-      $this->data['address'] = $this->input->post('address');
-      $this->data['city'] = $this->input->post('city');
-      $this->data['province2'] = $this->input->post('province2');
-      $this->data['country2'] = $this->input->post('country2');
-      $this->data['postcode'] = $this->input->post('postcode');
-      $this->data['mail_name'] = $this->input->post('mail_name');
-      $this->data['mail_address'] = $this->input->post('mail_address');
-      $this->data['mail_city'] = $this->input->post('mail_city');
-      $this->data['mail_province2'] = $this->input->post('mail_province2');
-      $this->data['mail_country2'] = $this->input->post('mail_country2');
-      $this->data['mail_postcode'] = $this->input->post('mail_postcode');
-      $this->data['website'] = $this->input->post('website');
-      $this->data['licence_number'] = $this->input->post('licence_number');
-      $this->data['licence_expire'] = $this->input->post('licence_expire');
-      $this->data['business_phone'] = $this->input->post('business_phone');
-      $this->data['mobile_phone'] = $this->input->post('mobile_phone');
-      $this->data['fax_number'] = $this->input->post('fax_number');
-      $this->data['toll_free'] = $this->input->post('toll_free');
-      $this->data['ip'] = $this->input->post('ip');
-      $this->data['status'] = $this->input->post('status');
-      $this->data['date_added'] = $this->input->post('date_added');
-      $this->data['note'] = $this->input->post('note');
-      $this->data['note2'] = $this->input->post('note2');
-      $this->data['pdf_f_left1'] = $this->input->post('pdf_f_left1');
-      $this->data['pdf_f_left2'] = $this->input->post('pdf_f_left2');
-      $this->data['pdf_f_left3'] = $this->input->post('pdf_f_left3');
-      $this->data['pdf_f_left4'] = $this->input->post('pdf_f_left4');
-      $this->data['pdf_f_left5'] = $this->input->post('pdf_f_left5');
-      $this->data['pdf_f_left6'] = $this->input->post('pdf_f_left6');
-      $this->data['pdf_f_right1'] = $this->input->post('pdf_f_right1');
-      $this->data['pdf_f_right2'] = $this->input->post('pdf_f_right2');
-      $this->data['pdf_f_right3'] = $this->input->post('pdf_f_right3');
-      $this->data['pdf_f_right4'] = $this->input->post('pdf_f_right4');
-      $this->data['pdf_f_right5'] = $this->input->post('pdf_f_right5');
-      $this->data['pdf_f_right6'] = $this->input->post('pdf_f_right6');
-      foreach ($this->data['product_list'] as $k => $p) {
-        if (isset($_POST['product_list'][$k])) {
-          $this->data['product_list'][$k]['checked'] = 'checked';
-        }
-        $this->data['product_list'][$k]['commission'] = $this->input->post('product_commission_' . $k);
-      }
-      foreach ($this->data['pdf_product_list'] as $k => $p) {
-        if (isset($_POST['pdf_product_list']) && in_array($k, $_POST['pdf_product_list'])) {
-          $this->data['pdf_product_list'][$k] = 'checked';
-        }
-      }
-      $pt = ' ';
-      foreach ($this->data['paytype_list'] as $k => $p) {
-        if (isset($_POST['paytype_list']) && in_array($p, $_POST['paytype_list'])) {
-          $pt .= "," . $p;
-        }
-      }
-      $this->data['product_customize'] = $this->input->post('product_customize');
-      $this->data['pay_type'] = $pt;
-      $this->data['receive_type'] = $this->input->post('receive_type');
-    } else if ($user_id) {
-      $user = $this->user_model->get_user_by_id($user_id);
-      $user_product_list = $this->user_model->get_user_product_list($user_id);
-      $user_pdf_list = array();
-      if (!empty($user['pdf_product'])) $user_pdf_list = json_decode($user['pdf_product']);
-      foreach ($this->data['pdf_product_list'] as $k => $p) {
-        if (in_array($k, $user_pdf_list)) {
-          $this->data['pdf_product_list'][$k] = 'checked';
-        }
-      }
-      if ($user && empty($this->input->post())) {
-        $this->data = array_merge($this->data, $user);
-      }
-      foreach ($this->data['product_list'] as $k => $p) {
-        foreach ($user_product_list as $up) {
-          if ($p['product_short'] == $up['product_short']) {
-            $p['checked'] = 'checked';
-            $p['commission'] = $up['commission'];
-          }
-        }
-        $this->data['product_list'][$k] = $p;
-      }
-
-      $product_customize = $this->product_model->get_product_customize($user_id);
-      foreach ($product_customize as $pdc) {
-        $this->data['product_customize'][$pdc['product_short']] = $pdc['name'];
-      }
-    }
-    if (empty($this->data['province2'])) $this->data['province2'] = 'ON';
-    if (empty($this->data['country2'])) $this->data['country2'] = 'CA';
+    $this->data['product_list'] = $this->product_model->product_list(1, $user);
     $this->data['regions'] = $this->region_model->get_regions();
+    $this->data['user'] = $this->user_model->get_user_by_id($user_id);
+
     $this->app_model->return_ok($this->data);
   }
 
@@ -537,7 +370,7 @@ class User extends CI_Controller
       } else if ((strlen($password) < self::PASSWORD_MIN) || (strlen($password) > self::PASSWORD_MAX)) {
         $this->data['error_message'] = $this->lang->line('error_password_input');
       } else {
-        $this->user_model->update($this->session->beuser['user_id'], array('password' => $password, 'status' => 1), 0);
+        $this->user_model->update($user['user_id'], array('password' => $password, 'status' => 1), 0);
         $this->log_model->activity('user', array('message' => "Reset Password: " . $this->user_model->logstr, 'systemlog' => "Reset Password: " . $this->user_model->sqlstr));
         redirect(base_url('product'));
       }

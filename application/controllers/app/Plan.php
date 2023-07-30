@@ -22,12 +22,14 @@ class Plan extends CI_Controller
 
     $data = array();
     $post = $this->input->post();
-    if ($user["group_id"] > 100) {
+    if ($user["user_group_id"] > 100) {
       $post["user_id"] = $user["user_id"];
     }
     $this->load->model("plan_model");
-    $limit = $this->input->post("limit");
-    $start = $this->input->post("start");
+    $limit = intval($this->input->post("limit"));
+    $start = intval($this->input->post("start"));
+    if ($limit <= 0) $limit = 5;
+    if ($start < 0) $start = 0;
     if ($plans = $this->plan_model->plan_activities($post, $limit, $start)) {
       $data["plans"] = $plans;
       $this->app_model->return_ok($data);
@@ -53,11 +55,11 @@ class Plan extends CI_Controller
     $plan_id = $this->input->post("plan_id");
     $this->load->model("plan_model");
     if ($id = $this->input->post("plan_id")) {
-      if ($plan = $this->plan_model->get_by_id($id)) {
-        if (($user["group_id"] > 100) && ($plan["user_id"] != $user["user_id"])) {
+      if ($plan = $this->plan_model->get_plan_by_id($id)) {
+        if (($user["user_group_id"] > 100) && ($plan["user_id"] != $user["user_id"])) {
           return $this->app_model->return_error("Can't find plan");
         }
-        $data["plan"] = $this->plan_model->get_by_id($id);
+        $data["plan"] = $plan;
         $this->app_model->return_ok($data);
       }
     }
@@ -84,7 +86,7 @@ class Plan extends CI_Controller
     $this->load->model("plan_model");
     $data = array();
     if ($id = $this->input->post("plan_id")) {
-      if ($this->plan_model->get_by_id($id)) {
+      if ($this->plan_model->get_plan_by_id($id)) {
         $this->plan_model->update($id, $this->input->post());
       }
     } else {
@@ -94,7 +96,7 @@ class Plan extends CI_Controller
     $this->app_model->return_ok($data);
   }
 
-	public function quote() {
+  public function quote() {
     $this->error = "";
     $this->load->model("app_model");
     $this->load->model("user_model");
@@ -107,13 +109,23 @@ class Plan extends CI_Controller
       return $this->app_model->return_error($this->error);
     }
 
-    if ($user["group_id"] > 100) {
+    if ($user["user_group_id"] > 100) {
       return $this->app_model->return_error($this->error);
     }
     $this->load->model("plan_model");
     $data = array();
 
     $post = $this->input->post();
+    if (!isset($post["product_short"])) {
+      return $this->app_model->return_error("Missing product_short");
+    }
+    if (!isset($post["total_days"])) {
+      return $this->app_model->return_error("Missing total_days");
+    }
+    if (!isset($post["totalyears"])) {
+      return $this->app_model->return_error("Missing totalyears");
+    }
+
     $this->load->model('product_model');
     if ($post['product_short'] == 'TOP') {
       $post['totaldays'] = $post['total_days'];
@@ -125,7 +137,7 @@ class Plan extends CI_Controller
         $data['premiumArr'] = $premium;
       }
     }
-		if (empty($data['premiumArr']) {
+    if (empty($data['premiumArr'])) {
       if (empty($this->error)) {
 			  $this->error = "Can't get premium";
       }

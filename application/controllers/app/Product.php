@@ -25,7 +25,7 @@ class Product extends CI_Controller
     }
     $this->load->model("product_model");
     $data = array();
-    $data["products"] = $this->product_model->search(array());
+    $data["products"] = $this->product_model->product_list(0, $user);
     $this->app_model->return_ok($data);
   }
 }

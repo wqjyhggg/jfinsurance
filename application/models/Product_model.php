@@ -72,13 +72,17 @@ class Product_model extends CI_Model {
 	 * @param	integer	$processonly
 	 * @return	array					user table search result
 	 */
-	public function product_array($processonly=0) {
+	public function product_array($processonly=0, $user=null) {
+		if (empty($user)) {
 		$beuser = $this->session->userdata ( 'beuser' );
 		if (empty($beuser)) {
 			$beuser = $this->session->userdata ( 'vsuser' );
 			if (empty($beuser)) {
 				return array();
 			}
+		}
+		} else {
+			$beuser = $user;
 		}
 		$sql = "SELECT p.* FROM product p ";
 		if ($beuser['user_group_id'] > 100) {
@@ -101,8 +105,8 @@ class Product_model extends CI_Model {
 	 * 
 	 * @return	array					user table search result
 	 */
-	public function product_list($processonly=0) {
-		$rt = $this->product_array($processonly);
+	public function product_list($processonly=0, $user=null) {
+		$rt = $this->product_array($processonly, $user);
 		$rArr = array();
 		foreach ($rt as $rc) {
 			$rArr[$rc['product_short']] = $rc;
@@ -171,13 +175,11 @@ class Product_model extends CI_Model {
 	}
 	
 	public function get_top_quote($para) {
-		$t20200901 = strtotime("2020-09-01");
-		if (time() > $t20200901) {
-			// Block TOP policy purchase Sept 1st From Allen Zhao ticket
-			return array('status' => 'Fail', 'message' => 'Sorry, We are no longer selling TOP product starting Sept 1st, 2020');
-		}
 		$r = array('status' => 'Fail', 'message' => '');
 		
+		if (!isset($para['isfamilyplan'])) $para['isfamilyplan'] = 0;
+		if (!isset($para['adult'])) $para['adult'] = 1;
+		if (!isset($para['number_customer'])) $para['number_customer'] = 1;
 		if ($para['isfamilyplan'] == 1) {
 			if ($para['adult'] >= 3) {
 				$r['message'] = 'Family Plan child(ren) no more than 19 years';
@@ -376,6 +378,11 @@ class Product_model extends CI_Model {
 		if (empty($days)) {
 			return FALSE;
 		}
+		if (!isset($para['deductible_amount'])) $para['deductible_amount'] = 100;
+		if (!isset($para['isfamilyplan'])) $para['isfamilyplan'] = 0;
+		if (!isset($para['sum_insured'])) $para['sum_insured'] = 10000;
+		if (!isset($para['stable_condition'])) $para['stable_condition'] = 1;
+		if (!isset($para['number_customer'])) $para['number_customer'] = 1;
 		if ($para['product_short'] == 'OPL') {
 			if ($para['stable_condition'] == 1) {
 				// With stable pre-existing conditions coverage option
