@@ -12,7 +12,7 @@ if (!defined('BASEPATH'))
 */
 class Training_user_model extends CI_Model {
   public function set_read($training_id, $user_id) {
-    return $this->db->query("insert into training_user (training_id, user_id) values ('".$training_id."','".$user_id."')";
+    return $this->db->query("insert into training_user (training_id, user_id) values ('".$training_id."','".$user_id."'");
   }
 
   public function get_user_training_ids($user_id) {

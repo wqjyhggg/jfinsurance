@@ -12,7 +12,7 @@ if (!defined('BASEPATH'))
 */
 class Announcement_user_model extends CI_Model {
   public function set_read($announcement_id, $user_id) {
-    return $this->db->query("insert into announcement_user (announcement_id, user_id) values ('".$announcement_id."','".$user_id."')";
+    return $this->db->query("insert into announcement_user (announcement_id, user_id) values ('".$announcement_id."','".$user_id."'");
   }
 
   public function get_user_announcement_ids($user_id) {
