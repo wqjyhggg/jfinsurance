@@ -393,11 +393,20 @@ class User extends CI_Controller
       if ($r) {
         if (is_array($r)) {
           $token = $this->app_model->create_token($r);
-          return $this->app_model->return_ok(array("token" => $token));
+          return $this->app_model->return_ok(array("token" => $token, "is_temp" => 0));
         } else {
           $this->error = $r;
         }
       } else {
+        $this->load->model("forgetpwd_model");
+        if ($tr = $this->forgetpwd_model->get_by_key($this->input->post('password'))) {
+          if ($r = $this->user_model->get_user_by_id($tr["user_id"])) {
+            if (is_array($r)) {
+              $token = $this->app_model->create_token($r);
+              return $this->app_model->return_ok(array("token" => $token, "is_temp" => 1));
+            } 
+          }
+        }
         $this->error = "No User Found";
       }
     }
@@ -420,11 +429,11 @@ class User extends CI_Controller
       $r = $this->user_model->get_user_by_username_or_email($this->input->post('username'));
       if ($r && filter_var($r["email"], FILTER_VALIDATE_EMAIL)) {
         $this->load->model("forgetpwd_model");
-        if ($key = $this->forgetpwd_model->get_key($r["user_id"])) {
+        if ($key = $this->forgetpwd_model->get_pwd($r["user_id"])) {
           $this->load->model("mymail_model");
           // Send link with key
 
-          $mail = $this->forgetpwd_model->email_body($key);
+          $mail = $this->forgetpwd_model->email_body_app($key);
           $this->mymail_model->send_mymail($r["email"], $mail["title"], $mail["body"], $attach = array(), $from = '', $mailtype = 'text');
         }
       }

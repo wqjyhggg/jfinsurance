@@ -9,12 +9,13 @@ if (!defined('BASEPATH'))
     `desc` TEXT,
     `start_tm` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `status` tinyint NOT NULL DEFAULT 1,
+    `orderby` tinyint NOT NULL DEFAULT 0,
     `update_tm` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY  (`announcement_id`)) ENGINE = MyISAM;
 */
 class Announcement_model extends CI_Model {
   public function get_by_id($announcement_id) {
-    return $this->db->get("announcement", array("announcement_id" => $announcement_id))->row_array();
+    return $this->db->get_where("announcement", array("announcement_id" => $announcement_id))->row_array();
   }
 	
 	public function add($para) {
@@ -33,6 +34,9 @@ class Announcement_model extends CI_Model {
     }
 		if (isset($para['status'])) {
       $this->db->set("status", trim($para["status"]));
+    }
+		if (isset($para['orderby'])) {
+      $this->db->set("orderby", trim($para["orderby"]));
     }
     if ($this->db->insert('announcement')) {
       $id = $this->db->insert_id();
@@ -53,6 +57,9 @@ class Announcement_model extends CI_Model {
     }
 		if (isset($para['status'])) {
       $this->db->set("status", trim($para["status"]));
+    }
+		if (isset($para['orderby'])) {
+      $this->db->set("orderby", trim($para["orderby"]));
     }
     $this->db->where("announcement_id", $id);
     if ($this->db->update('announcement')) {
@@ -86,7 +93,29 @@ class Announcement_model extends CI_Model {
         $this->db->limit($limit);
       }
     }
+    $this->db->order_by("orderby", "DESC");
     $this->db->order_by("announcement_id", "DESC");
     return $this->db->get('announcement')->result_array();
+  }
+	
+  public function search_total($para) {
+    if (isset($para['announcement_id'])) {
+      $this->db->where("announcement_id", trim($para["announcement_id"]));
+    }
+    if (isset($para['title'])) {
+      $this->db->where("title", trim($para["title"]));
+    }
+    if (isset($para['desc'])) {
+      $this->db->where("desc", trim($para["desc"]));
+    }
+    if (isset($para['status'])) {
+      $this->db->where("status", intval($para["status"]));
+    } else {
+      $this->db->where("status", 1);
+    }
+    if (empty($para['all'])) {
+      $this->db->where("start_tm<=", date("Y-m-d H:i:s"));
+    }
+    return $this->db->get('announcement')->num_rows();
   }
 }

@@ -10,12 +10,13 @@ if (!defined('BASEPATH'))
     `links` TEXT,
     `start_tm` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `status` tinyint NOT NULL DEFAULT 1,
+    `orderby` tinyint NOT NULL DEFAULT 0,
     `update_tm` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY  (`training_id`)) ENGINE = MyISAM;
 */
 class Training_model extends CI_Model {
   public function get_by_id($training_id) {
-    return $this->db->get("training", array("training_id" => $training_id))->row_array();
+    return $this->db->get_where("training", array("training_id" => $training_id))->row_array();
   }
 	
 	public function add($para) {
@@ -34,6 +35,9 @@ class Training_model extends CI_Model {
     }
 		if (isset($para['status'])) {
       $this->db->set("status", trim($para["status"]));
+    }
+		if (isset($para['orderby'])) {
+      $this->db->set("orderby", trim($para["orderby"]));
     }
     if ($this->db->insert('training')) {
       $id = $this->db->insert_id();
@@ -54,6 +58,9 @@ class Training_model extends CI_Model {
     }
 		if (isset($para['status'])) {
       $this->db->set("status", trim($para["status"]));
+    }
+		if (isset($para['orderby'])) {
+      $this->db->set("orderby", trim($para["orderby"]));
     }
     $this->db->where("training_id", $id);
     if ($this->db->update('training')) {
@@ -85,7 +92,27 @@ class Training_model extends CI_Model {
         $this->db->limit($limit);
       }
     }
+    $this->db->order_by("orderby", "DESC");
     $this->db->order_by("training_id", "DESC");
     return $this->db->get('training')->result_array();
+  }
+	
+  public function search_total($para) {
+    if (isset($para['training_id'])) {
+      $this->db->where("training_id", trim($para["training_id"]));
+    }
+    if (isset($para['title'])) {
+      $this->db->where("title", trim($para["title"]));
+    }
+    if (isset($para['desc'])) {
+      $this->db->where("desc", trim($para["desc"]));
+    }
+    if (isset($para['status'])) {
+      $this->db->where("status", trim($para["status"]));
+    }
+    if (empty($para['all'])) {
+      $this->db->where("start_tm<=", date("Y-m-d H:i:s"));
+    }
+    return $this->db->get('training')->num_rows();
   }
 }

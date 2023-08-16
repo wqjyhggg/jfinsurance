@@ -32,6 +32,7 @@ class Plan extends CI_Controller
     if ($start < 0) $start = 0;
     if ($plans = $this->plan_model->plan_activities($post, $limit, $start)) {
       $data["plans"] = $plans;
+      $data["totals"] = $this->plan_model->plan_activitie_totals($post);
       $this->app_model->return_ok($data);
     }
     return $this->app_model->return_error("Can't find plan");

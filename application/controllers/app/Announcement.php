@@ -24,8 +24,13 @@ class Announcement extends CI_Controller
       return $this->app_model->return_error($this->error);
     }
     $this->load->model("announcement_model");
+    $start = intval($this->input->post("start"));
+    $limit = intval($this->input->post("limit"));
+    if (empty($start)) $start = 0;
+    if (empty($limit)) $limit = 5;
     $data = array();
-    $data["announcements"] = $this->announcement_model->search(array(), 5);
+    $data["announcements"] = $this->announcement_model->search($this->input->post(), $limit, $start);
+    $data["totals"] = $this->announcement_model->search_total($this->input->post());
     $this->app_model->return_ok($data);
   }
 
@@ -42,6 +47,7 @@ class Announcement extends CI_Controller
       }
       return $this->app_model->return_error($this->error);
     }
+    $this->load->model("announcement_model");
 
     $data["announcement"] = $this->announcement_model->get_by_id($this->input->post('announcement_id'));
     $this->app_model->return_ok($data);

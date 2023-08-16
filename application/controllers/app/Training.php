@@ -42,6 +42,7 @@ class Training extends CI_Controller
       }
       return $this->app_model->return_error($this->error);
     }
+    $this->load->model("training_model");
 
     $data["training"] = $this->training_model->get_by_id($this->input->post('training_id'));
     $this->app_model->return_ok($data);

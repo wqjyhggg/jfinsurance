@@ -952,6 +952,76 @@ class Plan_model extends CI_Model {
 		if (!empty($where)) {
 			$sql .= " WHERE " . join(" AND ", $where);
 		}
+		if (!empty($para['plan_id'])) {
+			$where[] = "p.plan_id=" . (int)$para['plan_id'];
+		}
+		if (!empty($para['status_id'])) {
+			$where[] = "p.status_id='" . (int)$para['status_id'] . "'";
+		}
+		if (!empty($para['policy'])) {
+			$where[] = "p.policy=" . $this->db->escape($para['policy']);
+		} else if (!empty($para['policy_match'])) {
+			$where[] = "p.policy LIKE " . $this->db->escape('%'.$para['policy_match'].'%');
+		}
+		if (!empty($para['contact_email'])) {
+			$where[] = "LCASE(p.contact_email)=" . $this->db->escape(strtolower($para['contact_email']));
+		}
+		if (!empty($para['contact_phone'])) {
+			$where[] = "p.contact_phone=" . $this->db->escape($para['contact_phone']);
+		}
+		if (!empty($para['institution'])) {
+			$where[] = "p.institution=" . $this->db->escape($para['institution']);
+		}
+		if (!empty($para['firstname'])) {
+			$where[] = "LCASE(u.firstname)=" . $this->db->escape(strtolower($para['firstname']));
+		}
+		if (!empty($para['lastname'])) {
+			$where[] = "LCASE(u.lastname)=" . $this->db->escape(strtolower($para['lastname']));
+		}
+		if (!empty($para['student_id'])) {
+			$where[] = "p.student_id=" . $this->db->escape($para['student_id']);
+		}
+		if (!empty($para['product_short'])) {
+			$where[] = "p.product_short=" . $this->db->escape($para['product_short']);
+		}
+		if (!empty($para['province2'])) {
+			$where[] = "p.province2=" . $this->db->escape($para['province2']);
+		}
+		if (!empty($para['country2'])) {
+			$where[] = "p.country2=" . $this->db->escape($para['country2']);
+		}
+		if (!empty($para['apply_date'])) {
+			if (!empty($para['apply_date2'])) {
+				$where[] = "p.apply_date >= " . $this->db->escape($para['apply_date']);
+				$where[] = "p.apply_date <= " . $this->db->escape($para['apply_date2']);
+			} else {
+				$where[] = "p.apply_date >= " . $this->db->escape($para['apply_date']);
+			}
+		}
+		if (!empty($para['arrival_date'])) {
+			if (!empty($para['arrival_date2'])) {
+				$where[] = "p.arrival_date >= " . $this->db->escape($para['arrival_date']);
+				$where[] = "p.arrival_date <= " . $this->db->escape($para['arrival_date2']);
+			} else {
+				$where[] = "p.arrival_date >= " . $this->db->escape($para['arrival_date']);
+			}
+		}
+		if (!empty($para['effective_date'])) {
+			if (!empty($para['effective_date2'])) {
+				$where[] = "p.effective_date >= " . $this->db->escape($para['effective_date']);
+				$where[] = "p.effective_date <= " . $this->db->escape($para['effective_date2']);
+			} else {
+				$where[] = "p.effective_date >= " . $this->db->escape($para['effective_date']);
+			}
+		}
+		if (!empty($para['expiry_date'])) {
+			if (!empty($para['expiry_date2'])) {
+				$where[] = "p.expiry_date >= " . $this->db->escape($para['expiry_date']);
+				$where[] = "p.expiry_date <= " . $this->db->escape($para['expiry_date2']);
+			} else {
+				$where[] = "p.expiry_date >= " . $this->db->escape($para['expiry_date']);
+			}
+		}
 		$sql .= " ORDER BY plan_id DESC";
 		if ($limit) {
 			if ($start) {
@@ -963,6 +1033,91 @@ class Plan_model extends CI_Model {
 			$sql .= " LIMIT " . self::MAX_PLANS;
 		}
 		return $this->db->query($sql)->result_array();
+	}
+
+	public function plan_activitie_totals($para) {
+		
+		$sql  = "SELECT p.*, c.firstname, c.lastname, c.gender, c.birthday, u.firstname AS agent_firstname, u.lastname AS agent_lastname, u.user_id AS agent_id, u.business_phone as agent_phone FROM plan p";
+		$sql .= " INNER JOIN customer c ON (p.customer_id=c.customer_id)";
+		$sql .= " INNER JOIN user u ON (p.user_id=u.user_id)";
+		$where = array();
+		if (!empty($para['user_id'])) {
+			$where[] = "p.user_id=" . (int)$para['user_id'];
+		}
+		if (!empty($para['status_id'])) {
+			$where[] = "p.status_id='" . (int)$para['status_id'] . "'";
+		}
+		if (!empty($para['plan_id'])) {
+			$where[] = "p.plan_id=" . (int)$para['plan_id'];
+		}
+		if (!empty($para['policy'])) {
+			$where[] = "p.policy=" . $this->db->escape($para['policy']);
+		} else if (!empty($para['policy_match'])) {
+			$where[] = "p.policy LIKE " . $this->db->escape('%'.$para['policy_match'].'%');
+		}
+		if (!empty($para['contact_email'])) {
+			$where[] = "LCASE(p.contact_email)=" . $this->db->escape(strtolower($para['contact_email']));
+		}
+		if (!empty($para['contact_phone'])) {
+			$where[] = "p.contact_phone=" . $this->db->escape($para['contact_phone']);
+		}
+		if (!empty($para['institution'])) {
+			$where[] = "p.institution=" . $this->db->escape($para['institution']);
+		}
+		if (!empty($para['firstname'])) {
+			$where[] = "LCASE(u.firstname)=" . $this->db->escape(strtolower($para['firstname']));
+		}
+		if (!empty($para['lastname'])) {
+			$where[] = "LCASE(u.lastname)=" . $this->db->escape(strtolower($para['lastname']));
+		}
+		if (!empty($para['student_id'])) {
+			$where[] = "p.student_id=" . $this->db->escape($para['student_id']);
+		}
+		if (!empty($para['product_short'])) {
+			$where[] = "p.product_short=" . $this->db->escape($para['product_short']);
+		}
+		if (!empty($para['province2'])) {
+			$where[] = "p.province2=" . $this->db->escape($para['province2']);
+		}
+		if (!empty($para['country2'])) {
+			$where[] = "p.country2=" . $this->db->escape($para['country2']);
+		}
+		if (!empty($para['apply_date'])) {
+			if (!empty($para['apply_date2'])) {
+				$where[] = "p.apply_date >= " . $this->db->escape($para['apply_date']);
+				$where[] = "p.apply_date <= " . $this->db->escape($para['apply_date2']);
+			} else {
+				$where[] = "p.apply_date >= " . $this->db->escape($para['apply_date']);
+			}
+		}
+		if (!empty($para['arrival_date'])) {
+			if (!empty($para['arrival_date2'])) {
+				$where[] = "p.arrival_date >= " . $this->db->escape($para['arrival_date']);
+				$where[] = "p.arrival_date <= " . $this->db->escape($para['arrival_date2']);
+			} else {
+				$where[] = "p.arrival_date >= " . $this->db->escape($para['arrival_date']);
+			}
+		}
+		if (!empty($para['effective_date'])) {
+			if (!empty($para['effective_date2'])) {
+				$where[] = "p.effective_date >= " . $this->db->escape($para['effective_date']);
+				$where[] = "p.effective_date <= " . $this->db->escape($para['effective_date2']);
+			} else {
+				$where[] = "p.effective_date >= " . $this->db->escape($para['effective_date']);
+			}
+		}
+		if (!empty($para['expiry_date'])) {
+			if (!empty($para['expiry_date2'])) {
+				$where[] = "p.expiry_date >= " . $this->db->escape($para['expiry_date']);
+				$where[] = "p.expiry_date <= " . $this->db->escape($para['expiry_date2']);
+			} else {
+				$where[] = "p.expiry_date >= " . $this->db->escape($para['expiry_date']);
+			}
+		}
+    if (!empty($where)) {
+			$sql .= " WHERE " . join(" AND ", $where);
+		}
+		return $this->db->query($sql)->num_rows();
 	}
 
   /**

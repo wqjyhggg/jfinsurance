@@ -20,6 +20,18 @@ class Forgetpwd_model extends CI_Model {
     "You still can use you old password to login if you remember. If you want to reset it just following the URL link: __URLLING__",
   ];
 
+  public function email_body_app($key) {
+    $url = base_url("/user/setpassword")."?key=".$key;
+    $tidx = array_rand($this->mailtitle);
+    $bidx = array_rand($this->mailbody);
+    $rc = array(
+      "title" => "Reset Your password",
+      "body" => "If you didn't forget your passwrod, just ignore this email. Or use your temporary password: ".$key." to login to reset your in 10 minutes password."
+    );
+
+    return $rc;
+	}
+
   public function email_body($key) {
     $url = base_url("/user/setpassword")."?key=".$key;
     $tidx = array_rand($this->mailtitle);
@@ -55,6 +67,22 @@ class Forgetpwd_model extends CI_Model {
 		return NULL;
 	}
 	
+  public function get_pwd($user_id) {
+    $pwd = "TP".rand(10000,99999);
+		$this->db->set("forgetid", $pwd);
+    $this->db->set("user_id", $user_id);
+    $this->db->set("is_app", 1);
+		if ($this->db->insert("forgetpwd")) {
+      return $pwd;
+    }
+		return NULL;
+	}
+	
+	public function get_by_pwd($key) {
+    $sql = "SELECT * FROM forgetpwd WHERE forgetid='".trim($key)."' AND add_time>=(NOW() - INTERVAL 10 MINUTE)";
+		return $this->db->query($sql)->row_array();
+	}
+
 	public function get_by_key($key) {
 		$this->db->where('forgetid', trim($key));
 		return $this->db->get('forgetpwd')->row_array();
