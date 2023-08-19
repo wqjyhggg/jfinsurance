@@ -22,7 +22,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										</div>
 									</div>
 <?php } ?>
+<?php if (($product_short == "JES") || ($product_short == "JFGD") || ($product_short == "JFSL") || ($product_short == "JESP")) { ?>
+									<div class="form-group col-sm-3">
+										<label class="col-sm-12">Holiday Rate : </label>
+										<div class="input-group col-sm-12" style="border: 1px solid #ccc;padding: 3px;">
+											<input type='checkbox' name='holiday_rate' id='holiday_rate' value='1' <?php echo empty($holiday_rate) ? "" : "checked"; ?>> Yes
+										</div>
+									</div>
+<?php } else { ?>
 									<input type='hidden' name='holiday_rate' id='holiday_rate' value='<?php echo $holiday_rate; ?>'>
+<?php } ?>
 									<div class="form-group col-sm-3">
 <?php if ($product_short == 'BHS') { ?>
 										<label class="col-sm-12">Sum Insured (CAD) : $2,000,000</label>

@@ -17,7 +17,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										</div>	
 										<?php } ?>
 									</div>
-									<?php if (($product_short == "JES") && ($user_group_id < 100)) { ?>
+									<?php if ($product_short == "JES") { ?>
 									<div class="form-group col-sm-3">
 										<label class="col-sm-12">Holiday Rate : </label>
 										<div class="input-group col-sm-12" style="border: 1px solid #ccc;padding: 3px;">
