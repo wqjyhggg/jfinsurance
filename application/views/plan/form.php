@@ -338,17 +338,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<legend>Insurable Members</legend>
 								<input type='hidden' name='customer_id' value='<?php echo !empty($customer_id) ? $customer_id : 0; ?>'>
 								<div class="row">
-									<label class="col-sm-12">
-<?php
- if (($product_short == 'JFS') || ($product_short == 'JFE') || ($product_short == 'BHS') || ($product_short == 'JES') || ($product_short == 'JFPL') || ($product_short == 'JFSL') || ($product_short == 'JFGD')) {
-    echo "Insured student";
-} else {
-    echo "Customer Information";
-}
-?>
-</label>
+                <?php if (($product_short == 'JFS') || ($product_short == 'JFE') || ($product_short == 'BHS') || ($product_short == 'JES') || ($product_short == 'JFPL') || ($product_short == 'JFSL') || ($product_short == 'JFGD')) { ?>
+									<label class="col-sm-12">Insured student</label>
+                <?php } else { ?>
+                  <label class="col-sm-12">Customer Information</label>
+                <?php } ?>
 									<div class="col-sm-3">
+                  <?php if (($product_short == 'JFS') || ($product_short == 'JFE') || ($product_short == 'BHS') || ($product_short == 'JES') || ($product_short == 'JFPL') || ($product_short == 'JFSL') || ($product_short == 'JFGD')) { ?>
+		  							<label class="col-sm-12">Student First Name:</label>
+                  <?php } else { ?>
 										<label class="col-sm-12">First Name:</label>
+                  <?php } ?>
 										<div class="input-group col-sm-12">
 											<input class="form-control" type='text' name='firstname' value='<?php echo !empty($firstname) ? $html_model->escapeQuote($firstname) : ''; ?>'>
 										</div>
@@ -359,7 +359,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										<?php } ?>
 									</div>
 									<div class="col-sm-3">
+                  <?php if (($product_short == 'JFS') || ($product_short == 'JFE') || ($product_short == 'BHS') || ($product_short == 'JES') || ($product_short == 'JFPL') || ($product_short == 'JFSL') || ($product_short == 'JFGD')) { ?>
+		  							<label class="col-sm-12">Student Last Name:</label>
+                  <?php } else { ?>
 										<label class="col-sm-12">Last Name:</label>
+                  <?php } ?>
 										<div class="input-group col-sm-12">
 											<input class="form-control" type='text' name='lastname' value='<?php echo !empty($lastname) ? $html_model->escapeQuote($lastname) : ''; ?>'>
 										</div>
@@ -370,7 +374,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										<?php } ?>
 									</div>
 									<div class="col-sm-3">
+                  <?php if (($product_short == 'JFS') || ($product_short == 'JFE') || ($product_short == 'BHS') || ($product_short == 'JES') || ($product_short == 'JFPL') || ($product_short == 'JFSL') || ($product_short == 'JFGD')) { ?>
+		  							<label class="col-sm-12">Student Birth Date (YYYY-MM-DD):</label>
+                  <?php } else { ?>
 										<label class="col-sm-12">Birth Date (YYYY-MM-DD):</label>
+                  <?php } ?>
 										<div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd" data-date-end-date="0d" >
 					                        <input size="16" type="text" class='setpremium form-control' name='birthday' value='<?php echo !empty($birthday) ? $birthday : ''; ?>'>
 					                        
