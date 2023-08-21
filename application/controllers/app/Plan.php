@@ -53,14 +53,17 @@ class Plan extends CI_Controller
     }
 
     $data = array();
-    $plan_id = $this->input->post("plan_id");
     $this->load->model("plan_model");
+    $this->load->model("customer_model");
+
     if ($id = $this->input->post("plan_id")) {
       if ($plan = $this->plan_model->get_plan_by_id($id)) {
         if (($user["user_group_id"] > 100) && ($plan["user_id"] != $user["user_id"])) {
           return $this->app_model->return_error("Can't find plan");
         }
         $data["plan"] = $plan;
+        $data["customer"] = $this->customer_model->get_customer_by_id($plan["customer_id"]);
+        $data["family"] = $this->customer_model->get_customer_by_parent_id($plan["customer_id"]);
         $this->app_model->return_ok($data);
       }
     }
