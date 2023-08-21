@@ -63,7 +63,9 @@ class Plan extends CI_Controller
         }
         $data["plan"] = $plan;
         $data["customer"] = $this->customer_model->get_customer_by_id($plan["customer_id"]);
-        $data["family"] = $this->customer_model->get_customer_by_parent_id($plan["customer_id"]);
+        if ($plan["isfamilyplan"]) {
+          $data["family"] = $this->customer_model->get_customer_by_parent_id($plan["customer_id"]);
+        }
         $this->app_model->return_ok($data);
       }
     }
