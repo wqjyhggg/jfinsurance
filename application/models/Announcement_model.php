@@ -12,8 +12,6 @@ if (!defined('BASEPATH'))
     `orderby` tinyint NOT NULL DEFAULT 0,
     `update_tm` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY  (`announcement_id`)) ENGINE = MyISAM;
-    ALTER TABLE announcement  MODIFY COLUMN title VARCHAR(64) CHARACTER  SET UTF8 COLLATE UTF8_GENERAL_CI. 
-    ALTER TABLE announcement  MODIFY COLUMN desc TEXT CHARACTER  SET UTF8 COLLATE UTF8_GENERAL_CI. 
 */
 class Announcement_model extends CI_Model {
   public function get_by_id($announcement_id) {
@@ -75,12 +73,10 @@ class Announcement_model extends CI_Model {
       $this->db->where("announcement_id", trim($para["announcement_id"]));
     }
     if (isset($para['title'])) {
-      // $this->db->where("title", trim($para["title"]));
-      $this->db->where("title COLLATE UTF8_GENERAL_CI LIKE '".$this->db->escape($para['title'])."'");
+      $this->db->like("title", trim($para["title"]));
     }
     if (isset($para['desc'])) {
-      // $this->db->where("desc", trim($para["desc"]));
-      $this->db->where("desc COLLATE UTF8_GENERAL_CI LIKE '".$this->db->escape($para['desc'])."'");
+      $this->db->like("desc", trim($para["desc"]));
     }
     if (isset($para['status'])) {
       $this->db->where("status", intval($para["status"]));
@@ -107,12 +103,10 @@ class Announcement_model extends CI_Model {
       $this->db->where("announcement_id", trim($para["announcement_id"]));
     }
     if (isset($para['title'])) {
-      // $this->db->where("title", trim($para["title"]));
-      $this->db->where("title COLLATE UTF8_GENERAL_CI LIKE '".$this->db->escape($para['title'])."'");
+      $this->db->like("title", trim($para["title"]));
     }
     if (isset($para['desc'])) {
-      // $this->db->where("desc", trim($para["desc"]));
-      $this->db->where("desc COLLATE UTF8_GENERAL_CI LIKE '".$this->db->escape($para['desc'])."'");
+      $this->db->like("desc", trim($para["desc"]));
     }
     if (isset($para['status'])) {
       $this->db->where("status", intval($para["status"]));

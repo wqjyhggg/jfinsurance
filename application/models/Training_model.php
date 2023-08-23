@@ -76,11 +76,10 @@ class Training_model extends CI_Model {
       $this->db->where("training_id", trim($para["training_id"]));
     }
     if (isset($para['title'])) {
-      $this->db->where("title COLLATE UTF8_GENERAL_CI LIKE '".$this->db->escape($para['title'])."'");
+      $this->db->like("title", trim($para["title"]));
     }
     if (isset($para['desc'])) {
-      // $this->db->where("desc", trim($para["desc"]));
-      $this->db->where("desc COLLATE UTF8_GENERAL_CI LIKE '".$this->db->escape($para['desc'])."'");
+      $this->db->like("desc", trim($para["desc"]));
     }
     if (isset($para['status'])) {
       $this->db->where("status", trim($para["status"]));
@@ -105,12 +104,10 @@ class Training_model extends CI_Model {
       $this->db->where("training_id", trim($para["training_id"]));
     }
     if (isset($para['title'])) {
-      // $this->db->where("title", trim($para["title"]));
-      $this->db->where("title COLLATE UTF8_GENERAL_CI LIKE '".$this->db->escape($para['title'])."'");
+      $this->db->like("title", trim($para["title"]));
     }
     if (isset($para['desc'])) {
-      // $this->db->where("desc", trim($para["desc"]));
-      $this->db->where("desc COLLATE UTF8_GENERAL_CI LIKE '".$this->db->escape($para['desc'])."'");
+      $this->db->like("desc", trim($para["desc"]));
     }
     if (isset($para['status'])) {
       $this->db->where("status", trim($para["status"]));
