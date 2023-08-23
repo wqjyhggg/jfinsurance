@@ -226,17 +226,21 @@ class Plan_model extends CI_Model {
 	 * @param	array	$para		Parameters
 	 * @return	array					user table search result
 	 */
-	public function add($para) {
+	public function add($para, $apiuser=null) {
 		$this->load->model('customer_model');
-		$beuser = $this->session->userdata ( 'beuser' );
-		$isvsuser = 0;
-		if (empty($beuser)) {
-			$beuser = $this->session->userdata ( 'vsuser' );
-			$isvsuser = 1;
-			if (empty($beuser)) {
-				return 0;
-			}
-		}
+    if (empty($apiuser)) {
+      $beuser = $this->session->userdata ( 'beuser' );
+      $isvsuser = 0;
+      if (empty($beuser)) {
+        $beuser = $this->session->userdata ( 'vsuser' );
+        $isvsuser = 1;
+        if (empty($beuser)) {
+          return 0;
+        }
+      }
+    } else {
+      $beuser = $apiuser;
+    }
     $dt = date("Y-m-d");
     if (($dt >= "2021-07-01") && ($para['product_short'] == 'OPL')) {
       return 0;
