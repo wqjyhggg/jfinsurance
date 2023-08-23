@@ -26,7 +26,7 @@ class Training extends CI_Controller
     $this->load->model("training_model");
     $start = intval($this->input->post("start"));
     $limit = intval($this->input->post("limit"));
-    $para = $this->input->post("search");
+    $para = $this->input->post();
     $search = trim($this->input->post("search"));
     if (empty($start)) $start = 0;
     if (empty($limit)) $limit = 5;
