@@ -13,6 +13,8 @@ if (!defined('BASEPATH'))
     `orderby` tinyint NOT NULL DEFAULT 0,
     `update_tm` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY  (`training_id`)) ENGINE = MyISAM;
+    ALTER TABLE training  MODIFY COLUMN title VARCHAR(64) CHARACTER  SET UTF8 COLLATE UTF8_GENERAL_CI. 
+    ALTER TABLE training  MODIFY COLUMN desc TEXT CHARACTER  SET UTF8 COLLATE UTF8_GENERAL_CI. 
 */
 class Training_model extends CI_Model {
   public function get_by_id($training_id) {
@@ -74,10 +76,11 @@ class Training_model extends CI_Model {
       $this->db->where("training_id", trim($para["training_id"]));
     }
     if (isset($para['title'])) {
-      $this->db->where("title", trim($para["title"]));
+      $this->db->where("title COLLATE UTF8_GENERAL_CI LIKE '".$this->db->escape($para['title'])."'");
     }
     if (isset($para['desc'])) {
-      $this->db->where("desc", trim($para["desc"]));
+      // $this->db->where("desc", trim($para["desc"]));
+      $this->db->where("desc COLLATE UTF8_GENERAL_CI LIKE '".$this->db->escape($para['desc'])."'");
     }
     if (isset($para['status'])) {
       $this->db->where("status", trim($para["status"]));
@@ -102,10 +105,12 @@ class Training_model extends CI_Model {
       $this->db->where("training_id", trim($para["training_id"]));
     }
     if (isset($para['title'])) {
-      $this->db->where("title", trim($para["title"]));
+      // $this->db->where("title", trim($para["title"]));
+      $this->db->where("title COLLATE UTF8_GENERAL_CI LIKE '".$this->db->escape($para['title'])."'");
     }
     if (isset($para['desc'])) {
-      $this->db->where("desc", trim($para["desc"]));
+      // $this->db->where("desc", trim($para["desc"]));
+      $this->db->where("desc COLLATE UTF8_GENERAL_CI LIKE '".$this->db->escape($para['desc'])."'");
     }
     if (isset($para['status'])) {
       $this->db->where("status", trim($para["status"]));

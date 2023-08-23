@@ -24,8 +24,20 @@ class Training extends CI_Controller
       return $this->app_model->return_error($this->error);
     }
     $this->load->model("training_model");
+    $start = intval($this->input->post("start"));
+    $limit = intval($this->input->post("limit"));
+    $para = $this->input->post("search");
+    $search = trim($this->input->post("search"));
+    if (empty($start)) $start = 0;
+    if (empty($limit)) $limit = 5;
+    $para = array();
+    if (!empty($search)) {
+      $para["title"] = $search;
+      $para["desc"] = $search;
+    }
     $data = array();
-    $data["trainings"] = $this->training_model->search(array(), 5);
+    $data["trainings"] = $this->training_model->search($para, $limit, $start);
+    $data["totals"] = $this->training_model->search_total($para);
     $this->app_model->return_ok($data);
   }
 

@@ -26,11 +26,17 @@ class Announcement extends CI_Controller
     $this->load->model("announcement_model");
     $start = intval($this->input->post("start"));
     $limit = intval($this->input->post("limit"));
+    $para = $this->input->post("search");
+    $search = trim($this->input->post("search"));
     if (empty($start)) $start = 0;
     if (empty($limit)) $limit = 5;
+    if (!empty($search)) {
+      $para["title"] = $search;
+      $para["desc"] = $search;
+    }
     $data = array();
-    $data["announcements"] = $this->announcement_model->search($this->input->post(), $limit, $start);
-    $data["totals"] = $this->announcement_model->search_total($this->input->post());
+    $data["announcements"] = $this->announcement_model->search($para, $limit, $start);
+    $data["totals"] = $this->announcement_model->search_total($para);
     $this->app_model->return_ok($data);
   }
 
