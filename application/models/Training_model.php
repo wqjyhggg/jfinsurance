@@ -83,6 +83,12 @@ class Training_model extends CI_Model {
     }
     if (isset($para['status'])) {
       $this->db->where("status", trim($para["status"]));
+    } else {
+      $this->db->where("status", 1);
+    }
+    if (isset($para['search'])) {
+      $this->db->like("title", trim($para["search"]));
+      $this->db->or_like("desc", trim($para["search"]));
     }
     if (empty($para['all'])) {
       $this->db->where("start_tm<=", date("Y-m-d H:i:s"));
@@ -111,6 +117,12 @@ class Training_model extends CI_Model {
     }
     if (isset($para['status'])) {
       $this->db->where("status", trim($para["status"]));
+    } else {
+      $this->db->where("status", 1);
+    }
+    if (isset($para['search'])) {
+      $this->db->like("title", trim($para["search"]));
+      $this->db->or_like("desc", trim($para["search"]));
     }
     if (empty($para['all'])) {
       $this->db->where("start_tm<=", date("Y-m-d H:i:s"));

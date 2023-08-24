@@ -83,6 +83,10 @@ class Announcement_model extends CI_Model {
     } else {
       $this->db->where("status", 1);
     }
+    if (isset($para['search'])) {
+      $this->db->like("title", trim($para["search"]));
+      $this->db->or_like("desc", trim($para["search"]));
+    }
     if (empty($para['all'])) {
       $this->db->where("start_tm<=", date("Y-m-d H:i:s"));
     }
@@ -112,6 +116,10 @@ class Announcement_model extends CI_Model {
       $this->db->where("status", intval($para["status"]));
     } else {
       $this->db->where("status", 1);
+    }
+    if (isset($para['search'])) {
+      $this->db->like("title", trim($para["search"]));
+      $this->db->or_like("desc", trim($para["search"]));
     }
     if (empty($para['all'])) {
       $this->db->where("start_tm<=", date("Y-m-d H:i:s"));
