@@ -128,7 +128,7 @@ class Training extends CI_Controller
     $this->load->model("training_user_model");
     $data = array();
     $user_id = $this->input->post("user_id");
-    if (empty($training_id) || empty($user_id)) {
+    if (empty($user_id)) {
       return $this->app_model->return_error("Perameter error");
     }
     $training = $this->training_user_model->get_user_training_ids($user_id);

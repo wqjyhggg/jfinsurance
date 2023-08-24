@@ -126,7 +126,7 @@ class Announcement extends CI_Controller
 
     $this->load->model("announcement_user_model");
     $user_id = $this->input->post("user_id");
-    if (empty($announcement_id) || empty($user_id)) {
+    if (empty($user_id)) {
       return $this->app_model->return_error("Parameter error");
     }
     $announcement = $this->announcement_user_model->get_user_announcement_ids($user_id);
