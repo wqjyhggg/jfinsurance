@@ -98,7 +98,7 @@ class Plan extends CI_Controller
     } else {
       $id = $this->plan_model->add($this->input->post(), $user);
     }
-    $data["plan"] = $this->plan_model->get_by_id($id);
+    $data["plan"] = $this->plan_model->get_plan_by_id($id);
     $this->app_model->return_ok($data);
   }
 
