@@ -228,9 +228,9 @@ class Plan_model extends CI_Model {
 	 */
 	public function add($para, $apiuser=null) {
 		$this->load->model('customer_model');
+    $isvsuser = 0;
     if (empty($apiuser)) {
       $beuser = $this->session->userdata ( 'beuser' );
-      $isvsuser = 0;
       if (empty($beuser)) {
         $beuser = $this->session->userdata ( 'vsuser' );
         $isvsuser = 1;

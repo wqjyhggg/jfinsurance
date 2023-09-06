@@ -106,11 +106,15 @@ class Customer_model extends CI_Model {
 		if (empty($customer)) {
 			$this->logstr = "Unknow customer (" . $customer_id . ") ";
 		} else {
-			$firstname = trim($para['firstname']);
-			$lastname = trim($para['lastname']);
+      if (isset($para['firstname'])) {
+        $firstname = trim($para['firstname']);
+      }
 			if (!empty($firstname)) {
 				$para['firstname'] = $firstname;
 			}
+      if (isset($para['lastname'])) {
+        $lastname = trim($para['lastname']);
+      }
 			if (!empty($lastname)) {
 				$para['lastname'] = $lastname;
 			}
