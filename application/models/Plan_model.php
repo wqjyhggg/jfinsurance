@@ -1026,6 +1026,9 @@ class Plan_model extends CI_Model {
 				$where[] = "p.expiry_date >= " . $this->db->escape($para['expiry_date']);
 			}
 		}
+    if (!empty($where)) {
+			$sql .= " WHERE " . join(" AND ", $where);
+		}
 		$sql .= " ORDER BY plan_id DESC";
 		if ($limit) {
 			if ($start) {
