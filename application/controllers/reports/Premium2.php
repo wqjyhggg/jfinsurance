@@ -36,6 +36,7 @@ class Premium2 extends MY_Controller
 
     $data['report_data'] = array();
     if ($this->input->post('export')) {
+      $data['report_data'] = $this->report_model->get_premium_report2($data);
       return $this->export_list($data);
     } else if ($this->input->post('submit')) {
       $data['report_data'] = $this->report_model->get_premium_report2($data);
