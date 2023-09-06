@@ -30,6 +30,9 @@ class Training_model extends CI_Model {
 		if (isset($para['desc'])) {
       $this->db->set("desc", trim($para["desc"]));
     }
+		if (isset($para['links'])) {
+      $this->db->set("links", trim($para["links"]));
+    }
 		if (isset($para['start_tm'])) {
       $this->db->set("start_tm", trim($para["start_tm"]));
     } else {
@@ -54,6 +57,9 @@ class Training_model extends CI_Model {
 		}
 		if (isset($para['desc'])) {
       $this->db->set("desc", trim($para["desc"]));
+    }
+		if (isset($para['links'])) {
+      $this->db->set("links", trim($para["links"]));
     }
 		if (isset($para['start_tm'])) {
       $this->db->set("start_tm", trim($para["start_tm"]));
