@@ -977,10 +977,10 @@ class Plan_model extends CI_Model {
 			$where[] = "p.institution=" . $this->db->escape($para['institution']);
 		}
 		if (!empty($para['firstname'])) {
-			$where[] = "LCASE(u.firstname)=" . $this->db->escape(strtolower($para['firstname']));
+			$where[] = "LCASE(u.firstname)=" . $this->db->escape("%".strtolower($para['firstname'])."%");
 		}
 		if (!empty($para['lastname'])) {
-			$where[] = "LCASE(u.lastname)=" . $this->db->escape(strtolower($para['lastname']));
+			$where[] = "LCASE(u.lastname)=" . $this->db->escape("%".strtolower($para['lastname'])."%");
 		}
 		if (!empty($para['student_id'])) {
 			$where[] = "p.student_id=" . $this->db->escape($para['student_id']);
@@ -1072,10 +1072,10 @@ class Plan_model extends CI_Model {
 			$where[] = "p.institution=" . $this->db->escape($para['institution']);
 		}
 		if (!empty($para['firstname'])) {
-			$where[] = "LCASE(u.firstname)=" . $this->db->escape(strtolower($para['firstname']));
+			$where[] = "LCASE(u.firstname)=" . $this->db->escape("%".strtolower($para['firstname'])."%");
 		}
 		if (!empty($para['lastname'])) {
-			$where[] = "LCASE(u.lastname)=" . $this->db->escape(strtolower($para['lastname']));
+			$where[] = "LCASE(u.lastname)=" . $this->db->escape("%".strtolower($para['lastname'])."%");
 		}
 		if (!empty($para['student_id'])) {
 			$where[] = "p.student_id=" . $this->db->escape($para['student_id']);
