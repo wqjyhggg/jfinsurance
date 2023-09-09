@@ -35,7 +35,7 @@ class Plan extends CI_Controller
       $data["totals"] = $this->plan_model->plan_activitie_totals($post);
       $this->app_model->return_ok($data);
     }
-    return $this->app_model->return_error("Can't find plan");
+    return $this->app_model->return_ok(array("plans"=>array(), "totals"=>0));
   }
 
   public function detail()
