@@ -54,7 +54,7 @@ class Wording extends CI_Controller
 
     $this->load->model("wording_model");
     $data = array();
-    if ($this->wording_model->update($word, $desc)) {
+    if ($this->wording_model->save($word, $desc)) {
       $data["wording"] = $this->wording_model->getAll();
       $this->app_model->return_ok($data);
     }

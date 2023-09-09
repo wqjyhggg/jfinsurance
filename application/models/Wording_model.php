@@ -14,7 +14,7 @@ class Wording_model extends CI_Model {
     return $this->db->get("wording")->result_array();
   }
 	
-	public function add($para) {
-    return $this->db->replace('wording',$para);
+	public function save($word, $desc) {
+    return $this->db->replace('wording',array("word"=>$word, "desc"=>$desc));
 	}
 }
