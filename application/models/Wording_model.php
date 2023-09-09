@@ -10,7 +10,7 @@ if (!defined('BASEPATH'))
     PRIMARY KEY  (`word`)) ENGINE = MyISAM;
 */
 class Wording_model extends CI_Model {
-  public function getAll($announcement_id) {
+  public function getAll() {
     return $this->db->get("wording")->result_array();
   }
 	
