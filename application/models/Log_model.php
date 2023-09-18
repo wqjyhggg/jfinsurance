@@ -20,8 +20,10 @@ class Log_model extends CI_Model {
     "activity2017"
   ];
 
-	public function activity($type, $para) {
-		$user = $this->session->userdata ( 'user' );
+	public function activity($type, $para, $user=null) {
+    if (!$user) {
+      $user = $this->session->userdata ( 'user' );
+    }
 		if (! $user) {
 			$user = $this->session->userdata ( 'beuser' );
 			if (! $user) {

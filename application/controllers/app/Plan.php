@@ -93,7 +93,7 @@ class Plan extends CI_Controller
     $data = array();
     if ($id = $this->input->post("plan_id")) {
       if ($this->plan_model->get_plan_by_id($id)) {
-        $this->plan_model->update($id, $this->input->post());
+        $this->plan_model->update($id, $this->input->post(), array(), $user);
       }
     } else {
       $id = $this->plan_model->add($this->input->post(), $user);
@@ -148,4 +148,982 @@ class Plan extends CI_Controller
 		}
 		return $this->app_model->return_ok($data);
 	}
+
+  // print receipt
+  public function receipt() {
+    $this->error = "";
+    $this->load->model("app_model");
+    $this->load->model("user_model");
+    $user = $this->app_model->check_token($this->input->post("token"));
+
+    if (empty($user)) {
+      if (empty($this->error)) {
+        $this->error = "Timeout";
+      }
+      return $this->app_model->return_error($this->error);
+    }
+
+    $plan_id = $this->input->post("plan_id");
+		if (empty($plan_id)) {
+      return $this->app_model->return_error("Unknown plan");
+		}
+
+    $this->load->model("plan_model");
+    $beuser = $user;
+		$this->load->model('product_model');
+		$plan = $this->plan_model->get_plan_by_id($plan_id);
+		if (empty($plan)) {
+      return $this->app_model->return_error("Can't find plan");
+		}
+		$data = array('plan' => $plan);
+		$this->load->model('customer_model');
+		$data['customer'] = $this->customer_model->get_customer_by_id($data['plan']['customer_id']);
+		$data['customers'] = $this->customer_model->get_customer_by_parent_id($data['plan']['customer_id']);
+    $this->load->model('html_model');
+		$data['html_model'] = $this->html_model;
+		if ($data['plan']['product_short'] == 'OPL') {
+			$data['insurable_options'] = $this->load->view('plan/detail_opl', $data, TRUE);
+		} else if (($data['plan']['product_short'] == 'JFVTC') || ($data['plan']['product_short'] == 'JFR')) {
+			$data['insurable_options'] = $this->load->view('plan/detail_opl', $data, TRUE);
+		} else if ($data['plan']['product_short'] == 'JUS') {
+			$data['insurable_options'] = $this->load->view('plan/detail_jus', $data, TRUE);
+		} else if ($data['plan']['product_short'] == 'NUS') {
+			$data['insurable_options'] = $this->load->view('plan/detail_jus', $data, TRUE);
+		} else if (($data['plan']['product_short'] == 'JFS') || ($data['plan']['product_short'] == 'JFE') || ($data['plan']['product_short'] == 'BHS')) {
+			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
+		} else if (($data['plan']['product_short'] == 'JES') || ($data['plan']['product_short'] == 'JES')) {
+			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
+		} else if ($data['plan']['product_short'] == 'JESP') {
+			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
+		} else if ($data['plan']['product_short'] == 'JFC') {
+			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
+		} else if ($data['plan']['product_short'] == 'JFP') {
+			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
+		} else if ($data['plan']['product_short'] == 'TOP') {
+			$data['insurable_options'] = $this->load->view('plan/top/card', $data, TRUE);
+		} else {
+			$data['insurable_options'] = $this->load->view('plan/detail_other', $data, TRUE);
+		}
+
+		$this->load->model('payment_model');
+		$data['payment'] = '';
+		if ($plan['payment_id']) {
+			$data['payment'] = $this->payment_model->get_payment_by_id($plan['payment_id']);
+		}
+
+		$product = $this->product_model->get_product($plan['product_short']);
+		$data['plan_full_name'] = $product ? $product['full_name'] : '';
+		$data['agent'] = $this->user_model->get_user_by_id($plan['user_id']);
+		
+		$mpdf = new mPDF('c');
+		$data['title_txt'] = 'Receipt';
+		$data['style'] = $this->load->view('common/pdf_style',$data, TRUE);
+		$html = $this->load->view('plan/receipt', $data, TRUE);
+		return $this->app_model->return_ok(array("html"=>$html));
+  }
+
+  // print card,
+  public function card() {
+    $this->error = "";
+    $this->load->model("app_model");
+    $this->load->model("user_model");
+    $user = $this->app_model->check_token($this->input->post("token"));
+
+    if (empty($user)) {
+      if (empty($this->error)) {
+        $this->error = "Timeout";
+      }
+      return $this->app_model->return_error($this->error);
+    }
+
+    $plan_id = $this->input->post("plan_id");
+		if (empty($plan_id)) {
+      return $this->app_model->return_error("Unknown plan");
+		}
+
+    $this->load->model("plan_model");
+		$beuser = $user;
+		$this->load->model('product_model');
+		$plan = $this->plan_model->get_plan_by_id($plan_id);
+		if (empty($plan)) {
+      return $this->app_model->return_error("Can't find plan");
+		}
+		$data = array('plan' => $plan);
+		$this->load->model('customer_model');
+		$data['customer'] = $this->customer_model->get_customer_by_id($data['plan']['customer_id']);
+		$data['customers'] = $this->customer_model->get_customer_by_parent_id($data['plan']['customer_id']);
+    $this->load->model('html_model');
+		$data['html_model'] = $this->html_model;
+		if ($data['plan']['product_short'] == 'OPL') {
+			$data['cardp'] = "opl";
+			$data['insurable_options'] = $this->load->view('plan/detail_opl', $data, TRUE);
+		} else if (($data['plan']['product_short'] == 'JFVTC') || ($data['plan']['product_short'] == 'JFR')) {
+			$data['cardp'] = "jfr";
+			$data['insurable_options'] = $this->load->view('plan/detail_opl', $data, TRUE);
+		} else if ($data['plan']['product_short'] == 'JUS') {
+			$data['cardp'] = "jus";
+			$data['insurable_options'] = $this->load->view('plan/detail_jus', $data, TRUE);
+		} else if ($data['plan']['product_short'] == 'NUS') {
+			$data['cardp'] = "nus";
+			$data['insurable_options'] = $this->load->view('plan/detail_jus', $data, TRUE);
+		} else if (($data['plan']['product_short'] == 'JFS') || ($data['plan']['product_short'] == 'JFE') || ($data['plan']['product_short'] == 'BHS')) {
+			$data['cardp'] = "jes";
+			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
+		} else if (($data['plan']['product_short'] == 'JES') || ($data['plan']['product_short'] == 'JFPL') || ($data['plan']['product_short'] == 'JFSL') || ($data['plan']['product_short'] == 'JFGD')) {
+			$data['cardp'] = "jes";
+			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
+		} else if ($data['plan']['product_short'] == 'JESP') {
+			$data['cardp'] = "jes";
+			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
+		} else if ($data['plan']['product_short'] == 'JFC') {
+			$data['cardp'] = "jfc";
+			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
+		} else if ($data['plan']['product_short'] == 'JFP') {
+			$data['cardp'] = "jfp";
+			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
+		} else if ($data['plan']['product_short'] == 'TOP') {
+			$data['cardp'] = "top";
+			$data['insurable_options'] = $this->load->view('plan/top/card', $data, TRUE);
+		} else {
+			$data['cardp'] = "";
+			$data['insurable_options'] = $this->load->view('plan/detail_other', $data, TRUE);
+		}
+
+		$product = $this->product_model->get_product($plan['product_short']);
+		$data['plan_full_name'] = $product ? $product['full_name'] : '';
+
+		$data['style'] = $this->load->view('common/pdf_style',$data, TRUE);
+		$html = $this->load->view('plan/card', $data, TRUE);
+		return $this->app_model->return_ok(array("html"=>$html));
+  }
+
+  // print receipt, print card, refound
+  public function refund() {
+    $this->error = "";
+    $this->load->model("app_model");
+    $this->load->model("user_model");
+    $user = $this->app_model->check_token($this->input->post("token"));
+
+    if (empty($user)) {
+      if (empty($this->error)) {
+        $this->error = "Timeout";
+      }
+      return $this->app_model->return_error($this->error);
+    }
+
+    $plan_id = $this->input->post("plan_id");
+    $do_refund = $this->input->post("do_refund");
+		if (empty($plan_id)) {
+      return $this->app_model->return_error("Unknown plan");
+		}
+
+    $this->load->model("plan_model");
+    $data = array();
+		$beuser = $user;
+		$this->load->model('plan_model');
+		$this->load->model('plan_history_model');
+
+		$plan = $this->plan_model->get_plan_by_id($plan_id);
+		if (empty($plan)) {
+      return $this->app_model->return_error("Can't find plan");
+		}
+		if (($plan['status_id'] != Plan_model::SOLD) && ($plan['status_id'] != Plan_model::PAID)) {
+      return $this->app_model->return_error("Can't refund plan");
+		}
+		$this->load->model('product_model');
+		$product = $this->product_model->get_product($plan['product_short']);
+		
+		$data['beuser'] = $beuser;
+		$data['plan'] = $plan;
+		if ($do_refund == 1) {
+			$refund_amount = (float)$this->input->post('refund_amount');
+			$admin_fee = (float)$this->input->post('admin_fee');
+			$total_amount = (float)$this->input->post('total_refund');
+			$refund_date = $this->input->post('refund_date');
+			//die($refund_amount . '==' . $admin_fee . '++' . $total_amount);
+			if ($total_amount > 0) {
+				$this->load->model('payment_model');
+				$dt = array();
+				$dt['plan_id'] = $plan_id;
+				$dt['amount'] = $total_amount * (-1);
+				$dt['admin_fee'] = (float)$admin_fee;
+				$dt['pay_type'] = 'refund';
+				$dt['currency'] = $product['currency'];
+				$dt['pay_mothed'] = 'Cheque';
+				$dt['added'] = date('c');
+				$dt['ispaid'] = 0;
+				$dt['note'] = "Refund at " . $dt['added'] . " amount: " . $refund_amount . " admin fee: " . $admin_fee;
+				
+				$commission_rate = $this->product_model->get_commission_rate($plan['product_short'], $plan['user_id']);
+				if (($plan['product_short'] == 'TOP') && ($plan['totalyears'] > 60)) {
+					if ($commission_rate > 15) {
+						$commission_rate -= 15;
+					} else {
+						$commission_rate = 0;
+					}
+				}
+        if ($plan['product_short'] == 'TOP') {
+          $commission_amount = ($refund_amount - ($plan['tax'] * $refund_amount / $plan['premium'])) * $commission_rate / 100.0;
+        } else {
+          $commission_amount = $refund_amount * $commission_rate / 100.0;
+        }
+				$up_commission_rate = $this->product_model->get_up_commission_rate($plan['product_short']);
+				$up_commission_amount = $refund_amount * $up_commission_rate / 100.0;
+				
+				$dt['amount'] = $total_amount * (-1);
+				$dt['rate'] = 100;
+				$dt['pay_type'] = 'refund';
+				$dt['premium_payment_id'] = 0;
+				$payment_id = $this->payment_model->add($dt, $user);
+				$para = array(
+						'plan_id' => $plan_id,
+						'customer_id' => $plan['customer_id'],
+						'payment_id' => $payment_id,
+						'message' => $this->payment_model->logstr,
+						'systemlog' => $this->payment_model->sqlstr
+				);
+				$this->log_model->activity('payment', $para, $user);
+				
+				$dt['pay_type'] = 'refund_commission';
+				$dt['rate'] = $commission_rate;
+				$dt['amount'] = $commission_amount * (-1);
+				$dt['premium_payment_id'] = $payment_id;
+				$commission_payment_id = $this->payment_model->add($dt, $user);
+				$para = array(
+						'plan_id' => $plan_id,
+						'customer_id' => $plan['customer_id'],
+						'payment_id' => $commission_payment_id,
+						'message' => $this->payment_model->logstr,
+						'systemlog' => $this->payment_model->sqlstr
+				);
+				$this->log_model->activity('commission', $para, $user);
+	
+				$dt['pay_type'] = 'refund_up_commission';
+				$dt['rate'] = $up_commission_rate;
+				$dt['amount'] = $up_commission_amount * (-1);
+				$dt['premium_payment_id'] = $payment_id;
+				$up_commission_payment_id = $this->payment_model->add($dt, $user);
+				$para = array(
+						'plan_id' => $plan_id,
+						'customer_id' => $plan['customer_id'],
+						'payment_id' => $up_commission_payment_id,
+						'message' => $this->payment_model->logstr,
+						'systemlog' => $this->payment_model->sqlstr
+				);
+				$this->log_model->activity('up_commission', $para, $user);
+	
+        // Add history
+        $history_id = 0;
+        if (($history = $this->plan_history_model->get_plan_history_by_plan_id($plan_id)) && ($history["actualrate"]>0)) {
+          $history_id = $history["plan_history_id"];
+        } else {
+          // Add missing first record
+          if ($plan['status_id'] > 1) {
+            $history_id = $this->plan_history_model->add($plan_id, $plan['status_id']);
+          }
+        }
+        if ($history_id) {
+          $this->plan_history_model->add_remove($history_id);
+        }
+
+        $note = "Refund at " . $dt['added'] . " amount: " . $refund_amount . " admin fee: " . $admin_fee . "; " . $plan['note'];
+				$para = array('status_id' => Plan_model::REFUND, 'payment_id' => $payment_id, 'commission_payment_id' => $commission_payment_id, 'refund_date' => $refund_date, 'note' => $note );  // Change status to refund
+				$this->plan_model->update($plan_id, $para, array(), $user);
+        if ($id = $this->plan_history_model->add($plan_id, Plan_model::REFUND)) {
+          $this->plan_history_model->update($id, array("payment_id"=>$payment_id, "premium"=>($plan["premium"] - $refund_amount),"expiry_date"=>$refund_date, "note"=>"Refunded Recode"));
+        }
+
+				$para = array(
+						'plan_id' => $plan_id,
+						'customer_id' => $plan['customer_id'],
+						'payment_id' => $payment_id,
+						'message' => $this->plan_model->logstr,
+						'systemlog' => "By APP:".$this->plan_model->sqlstr
+				);
+				$this->log_model->activity('plan', $para, $user);
+        return $this->app_model->return_ok(array('plan_id' => $plan_id, 'customer_id' => $plan['customer_id'], 'payment_id' => $payment_id));
+			} else {
+				return $this->app_model->return_error('Invalid refund amount');
+			}
+		}
+		$claims = $this->plan_model->verify_policy($plan['policy']);
+		$data['claims'] = (!empty($claims) && ($claims['status'] == 'OK')) ? $claims['claims'] : '';
+		$data['adminfee'] = 40;
+		$data['refund_enable'] = 1;
+		if ($plan['product_short'] == 'TOP') {
+			$data['adminfee'] = 25;
+			$data['top_refund_notes'] = "Only Single Medical Plan can do refund.";
+			if ($plan['package'] != 'single_medical_plan') {
+				$data['top_refund_notes'] .= " This plan can't be refunded.";
+				$data['refund_enable'] = 0;
+			}
+		}
+    $data['total_premium'] = $plan['premium'];
+		$data['status'] = 'OK';
+		$data['refund_days'] = $this->product_model->getDays($plan['effective_date'], date("Y-m-d"));
+		if ($plan['product_short'] == 'TOP') {
+			if ($plan_id>Product_model::PLANIDCHG2024_1) {
+				$this->load->model('top2_model');
+				$data['refund_amount'] = $this->top2_model->refund_amount($plan, $data['refund_days']);
+			} else {
+				$this->load->model('top_model');
+				$data['refund_amount'] = $this->top_model->refund_amount($plan, $data['refund_days']);
+			}
+		} else {
+			$data['refund_amount'] = $this->plan_model->refund_amount($plan_id, $this->input->get('refund_date'));
+		}
+		$data['used_amount'] = $plan['premium'] - $data['refund_amount']; 
+		return $this->app_model->return_ok($data);
+  }
+
+  // print receipt, print card, cancel, refound
+  public function cancel() {
+    $this->error = "";
+    $this->load->model("app_model");
+    $this->load->model("user_model");
+    $user = $this->app_model->check_token($this->input->post("token"));
+
+    if (empty($user)) {
+      if (empty($this->error)) {
+        $this->error = "Timeout";
+      }
+      return $this->app_model->return_error($this->error);
+    }
+
+    $plan_id = $this->input->post("plan_id");
+    $do_cancel = $this->input->post("do_cancel");
+		if (empty($plan_id)) {
+      return $this->app_model->return_error("Unknown plan");
+		}
+
+    $data = array();
+		$beuser = $user;
+		$this->load->model('plan_model');
+		$this->load->model('plan_history_model');
+
+		$plan = $this->plan_model->get_plan_by_id($plan_id);
+		if (empty($plan)) {
+      return $this->app_model->return_error("Can't find plan");
+		}
+		if (($plan['status_id'] != Plan_model::SOLD) && ($plan['status_id'] != Plan_model::PAID)) {
+      return $this->app_model->return_error("Can't cancel plan");
+		}
+		$this->load->model('product_model');
+		$product = $this->product_model->get_product($plan['product_short']);
+		
+		$data['beuser'] = $beuser;
+		$data['plan'] = $plan;
+
+
+		if ($do_cancel == 1) {
+			$refund_amount = (float)$this->input->post('refund_amount');
+			$admin_fee = (float)$this->input->post('admin_fee');
+
+			$total_amount = $refund_amount - $admin_fee;
+
+			if ($total_amount > 0) {
+				$this->load->model('payment_model');
+				$dt = array();
+				$dt['plan_id'] = $plan_id;
+				$dt['admin_fee'] = $admin_fee;
+				$dt['currency'] = $product['currency'];
+				$dt['pay_mothed'] = 'Cheque';
+				$dt['added'] = date('c');
+				$dt['ispaid'] = 0;
+				$dt['note'] = "Cancel at " . $dt['added'] . " amount: " . $refund_amount . " admin fee: " . $admin_fee;
+				
+				$commission_rate = $this->product_model->get_commission_rate($plan['product_short'], $plan['user_id']);
+				if (($plan['product_short'] == 'TOP') && ($plan['totalyears'] > 60)) {
+					if ($commission_rate > 15) {
+						$commission_rate -= 15;
+					} else {
+						$commission_rate = 0;
+					}
+				}
+				
+        if ($plan['product_short'] == 'TOP') {
+          $commission_amount = ($refund_amount - ($plan['tax'] * $refund_amount / $plan['premium'])) * $commission_rate / 100.0;
+        } else {
+          $commission_amount = $refund_amount * $commission_rate / 100.0;
+        }
+				$up_commission_rate = $this->product_model->get_up_commission_rate($plan['product_short']);
+				$up_commission_amount = $refund_amount * $up_commission_rate / 100.0;
+				
+				$dt['amount'] = $total_amount * (-1);
+				$dt['rate'] = 100;
+				$dt['pay_type'] = 'cancel';
+				$dt['premium_payment_id'] = 0;
+				$payment_id = $this->payment_model->add($dt, $user);
+				$para = array(
+						'plan_id' => $plan_id,
+						'customer_id' => $plan['customer_id'],
+						'payment_id' => $payment_id,
+						'message' => $this->payment_model->logstr,
+						'systemlog' => $this->payment_model->sqlstr
+				);
+				$this->log_model->activity('payment', $para, $user);
+				
+				$dt['pay_type'] = 'cancel_commission';
+				$dt['rate'] = $commission_rate;
+				$dt['amount'] = $commission_amount * (-1);
+				$dt['premium_payment_id'] = $payment_id;
+				$commission_payment_id = $this->payment_model->add($dt, $user);
+				$para = array(
+						'plan_id' => $plan_id,
+						'customer_id' => $plan['customer_id'],
+						'payment_id' => $commission_payment_id,
+						'message' => $this->payment_model->logstr,
+						'systemlog' => $this->payment_model->sqlstr
+				);
+				$this->log_model->activity('commission', $para, $user);
+	
+				$dt['pay_type'] = 'cancel_up_commission';
+				$dt['rate'] = $up_commission_rate;
+				$dt['amount'] = $up_commission_amount * (-1);
+				$dt['premium_payment_id'] = $payment_id;
+				$up_commission_payment_id = $this->payment_model->add($dt, $user);
+				$para = array(
+						'plan_id' => $plan_id,
+						'customer_id' => $plan['customer_id'],
+						'payment_id' => $up_commission_payment_id,
+						'message' => $this->payment_model->logstr,
+						'systemlog' => $this->payment_model->sqlstr
+				);
+				$this->log_model->activity('up_commission', $para, $user);
+
+        $history_id = 0;
+        if (($history = $this->plan_history_model->get_plan_history_by_plan_id($plan_id)) && ($history["actualrate"]>0)) {
+          $history_id = $history["plan_history_id"];
+        } else {
+          // Add missing first record.
+          if ($plan['status_id'] > 1) {
+            $history_id = $this->plan_history_model->add($plan_id, $plan['status_id']);
+          }
+        }
+
+        $exnote = $this->input->post('reason_input');
+        if (empty($exnote)) {
+          $exnote = $this->input->post('reason');
+        }
+				$note = "Reason: " . $exnote . ", cancel at " . $dt['added'] . " amount: " . $refund_amount . " admin fee: " . $admin_fee . "; " . $plan['note'];
+				$para = array('status_id' => 5, 'payment_id' => $payment_id, 'commission_payment_id' => $commission_payment_id, 'note' => $note );  // Change status to cancel
+				$this->plan_model->update($plan_id, $para, array(), $user);
+        if ($id = $this->plan_history_model->add_remove($history_id)) {
+          $this->plan_history_model->update($id, array("payment_id"=>$payment_id, "note"=>"Canceled Recode"));
+        }
+        $para = array(
+						'plan_id' => $plan_id,
+						'customer_id' => $plan['customer_id'],
+						'payment_id' => $payment_id,
+						'message' => $this->plan_model->logstr,
+						'systemlog' => $this->plan_model->sqlstr
+				);
+				$this->log_model->activity('plan', $para, $user);
+
+				if ((($plan['product_short'] == 'OPL') || ($plan['product_short'] == 'JFVTC') || ($plan['product_short'] == 'JFR')) && ($plan['sum_insured'] >= 100000) && ($plan['totaldays'] >= 365)) {
+					// No more super visa, change payment data to today
+					$this->payment_model->adjust_commission_added_date($plan_id, $dt['added'], FALSE);
+					$para = array(
+							'plan_id' => $plan_id,
+							'customer_id' => $plan['customer_id'],
+							'payment_id' => $plan['commission_payment_id'],
+							'message' => $this->payment_model->logstr,
+							'systemlog' => $this->payment_model->sqlstr
+					);
+					$this->log_model->activity('plan', $para, $user);
+				}
+        return $this->app_model->return_ok(array('plan_id' => $plan_id, 'customer_id' => $plan['customer_id'], 'payment_id' => $payment_id));
+			} else {
+				return $this->app_model->return_error('Invalid refund amount');
+			}
+		}
+
+		$claims = $this->plan_model->verify_policy($plan['policy']);
+		$data['claims'] = (!empty($claims) && ($claims['status'] == 'OK')) ? $claims['claims'] : '';
+		$data['admin_fee'] = 0;
+		return $this->app_model->return_ok($data);
+  }
+
+  // export pdf
+  public function pdf() {
+    $this->error = "";
+    $this->load->model("app_model");
+    $this->load->model("user_model");
+    $user = $this->app_model->check_token($this->input->post("token"));
+
+    if (empty($user)) {
+      if (empty($this->error)) {
+        $this->error = "Timeout";
+      }
+      return $this->app_model->return_error($this->error);
+    }
+
+    $plan_id = $this->input->post("plan_id");
+		if (empty($plan_id)) {
+      return $this->app_model->return_error("Unknown plan");
+		}
+
+		$beuser = $user;
+
+		$this->load->model('customer_model');
+		$this->load->model('plan_model');
+		$this->load->model('product_model');
+		$this->load->model('paytype_model');
+		$this->load->model('status_model');
+		$this->load->model('payment_model');
+		$this->load->model('html_model');
+		$plan = $this->plan_model->get_plan_by_id($plan_id);
+		if (empty($plan)) {
+      return $this->app_model->return_error("Can't find plan");
+		}
+		
+		$data['beuser'] = $beuser;
+		$data['plan'] = $plan;
+		$data['pdf_enable'] = empty($beuser['pdf_product']) ? array() : json_decode($beuser['pdf_product']);
+		$data['payment'] = '';
+		if ($plan['payment_id']) {
+			$data['payment'] = $this->payment_model->get_payment_by_id($plan['payment_id']);
+		}
+		$data['user'] = '';
+		if ($plan['user_id']) {
+			$data['user'] = $this->user_model->get_user_by_id($plan['user_id']);
+		}
+		$product = $this->product_model->get_product($plan['product_short']);
+		$data['plan_full_name'] = $product ? $product['full_name'] : '';
+		$data['customer'] = $this->customer_model->get_customer_by_id($data['plan']['customer_id']);
+		$data['customers'] = $this->customer_model->get_customer_by_parent_id($data['plan']['customer_id']);
+		$data['paytype_list'] = $this->paytype_model->paytype_list();
+		$data['status_list'] = $this->status_model->status_list();
+		$data['withlogo'] = 1;
+    $data['withprice'] = 1;
+		if (($beuser['user_group_id'] == 103) || ($beuser['user_group_id'] == 106)) {
+      $data['withprice'] = 0;
+    }
+		$data['html_model'] = $this->html_model;
+		
+		if ($data['plan']['product_short'] == 'OPL') {
+			$data['insurable_options'] = $this->load->view('plan/detail_opl', $data, TRUE);
+			$data['special_note'] = $this->load->view('plan/pdf_note_opl',$data, TRUE);
+		} else if ($data['plan']['product_short'] == 'JFR') {
+			$data['insurable_options'] = $this->load->view('plan/detail_opl', $data, TRUE);
+			$data['special_note'] = $this->load->view('plan/pdf_note_jfr',$data, TRUE);
+		} else if ($data['plan']['product_short'] == 'JUS') {
+			$data['insurable_options'] = $this->load->view('plan/detail_jus', $data, TRUE);
+			$data['special_note'] = $this->load->view('plan/pdf_note_jus',$data, TRUE);
+		} else if ($data['plan']['product_short'] == 'NUS') {
+			$data['insurable_options'] = $this->load->view('plan/detail_jus', $data, TRUE);
+			$data['special_note'] = $this->load->view('plan/pdf_note_nus',$data, TRUE);
+		} else if (($data['plan']['product_short'] == 'JFS') || ($data['plan']['product_short'] == 'JFE') || ($data['plan']['product_short'] == 'BHS')) {
+			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
+			$data['special_note'] = $this->load->view('plan/pdf_note_jes',$data, TRUE);
+		} else if ($data['plan']['product_short'] == 'JES') {
+			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
+			$data['special_note'] = $this->load->view('plan/pdf_note_jes',$data, TRUE);
+		} else if ($data['plan']['product_short'] == 'JFPL') {
+			$data['insurable_options'] = $this->load->view('plan/detail_jfpl', $data, TRUE);
+			$data['special_note'] = $this->load->view('plan/pdf_note_jfpl',$data, TRUE);
+		} else if ($data['plan']['product_short'] == 'JFSL') {
+			$data['insurable_options'] = $this->load->view('plan/detail_jfpl', $data, TRUE);
+			$data['special_note'] = $this->load->view('plan/pdf_note_jfpl',$data, TRUE);
+		} else if ($data['plan']['product_short'] == 'JFGD') {
+			$data['insurable_options'] = $this->load->view('plan/detail_jfpl', $data, TRUE);
+			$data['special_note'] = $this->load->view('plan/pdf_note_jfpl',$data, TRUE);
+		} else if ($data['plan']['product_short'] == 'JESP') {
+			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
+			$data['special_note'] = $this->load->view('plan/pdf_note_jes',$data, TRUE);
+		} else if ($data['plan']['product_short'] == 'JFC') {
+			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
+			$data['special_note'] = $this->load->view('plan/pdf_note_jfc',$data, TRUE);
+		} else if ($data['plan']['product_short'] == 'JFP') {
+			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
+			$data['special_note'] = $this->load->view('plan/pdf_note_jes',$data, TRUE);
+		} else if ($data['plan']['product_short'] == 'TOP') {
+			$data['insurable_options'] = '';
+			$data['toppackagename'] = $this->toppackagename;
+			$data['special_note'] = $this->load->view('plan/top/pdf_note_top',$data, TRUE);
+		} else {
+			$data['insurable_options'] = $this->load->view('plan/detail_other', $data, TRUE);
+			$data['special_note'] = " ";
+		}
+		
+		$data['title_txt'] = 'Policy';
+		$data['customer_product_name'] = $this->product_model->get_product_customize_name($beuser['user_id'], $data['plan']['product_short']);
+		$data['style'] = $this->load->view('common/pdf_style',$data, TRUE);		
+		$data['hadheaderfooter'] = 0;
+    if ($data['plan']['product_short'] == 'JFVTC') {
+      $data['hadheaderfooter'] = 1;
+      $html = $this->load->view('plan/pdf_jfvtc', $data, TRUE);
+    } else if (($data['plan']['product_short'] == 'JFPL') || ($data['plan']['product_short'] == 'JFGD') || ($data['plan']['product_short'] == 'JFSL')) {
+      $data['hadheaderfooter'] = 1;
+      $html = $this->load->view('plan/pdf', $data, TRUE);
+    } else {
+      $html = $this->load->view('plan/pdf', $data, TRUE);
+    }
+    return $this->app_model->return_ok(array("html"=>$html));
+  }
+
+  // send package
+  public function sendpackage() {
+    $this->error = "";
+    $this->load->model("app_model");
+    $this->load->model("user_model");
+    $user = $this->app_model->check_token($this->input->post("token"));
+
+    if (empty($user)) {
+      if (empty($this->error)) {
+        $this->error = "Timeout";
+      }
+      return $this->app_model->return_error($this->error);
+    }
+
+    $plan_id = $this->input->post("plan_id");
+    $frenchemail = $this->input->post("frenchemail");
+		if (empty($plan_id)) {
+      return $this->app_model->return_error("Unknown plan");
+		}
+
+		$beuser = $user;
+
+    $data = array();
+		$this->load->model('plan_model');
+		$plan = $this->plan_model->get_plan_by_id($plan_id);
+		if (empty($plan)) {
+      return $this->app_model->return_error("Can't find plan");
+		}
+		
+		$data['beuser'] = $beuser;
+		$data['plan'] = $plan;
+		$data['pdf_enable'] = empty($beuser['pdf_product']) ? array() : json_decode($beuser['pdf_product']);
+		$data['emailaddr'] = $plan['contact_email'];
+    $withbatch = 0;
+    if ($beuser['user_group_id'] < 100) {
+      $data['withlogo'] = $this->input->post('withlogo');
+      $data['withprice'] = $this->input->post('withprice');
+      $withbatch = $this->input->post('withbatch');
+    } else {
+      $data['withlogo'] = 1;
+      if (($beuser['user_group_id'] != 103) && ($beuser['user_group_id'] != 106)) {
+        $data['withprice'] = 1;
+      } else {
+        $data['withprice'] = 0;
+      }
+    }
+    $data['sendfrench'] = $this->input->post('sendfrench');
+    $emailaddr = $this->input->post('emailaddr');
+    if (!empty($emailaddr)) {
+      $data['emailaddr'] = $emailaddr;
+    }
+    $this->load->model('verify_model');
+    if ($this->verify_model->isEmail($data['emailaddr'])) {
+      $this->load->model('customer_model');
+      $this->load->model('product_model');
+      $this->load->model('paytype_model');
+      $this->load->model('status_model');
+      $this->load->model('payment_model');
+      $this->load->model('html_model');
+      $product = $this->product_model->get_product($plan['product_short']);
+      $data['payment'] = '';
+      if ($plan['payment_id']) {
+        $data['payment'] = $this->payment_model->get_payment_by_id($plan['payment_id']);
+      }
+      $data['plan_full_name'] = $product ? $product['full_name'] : '';
+      $data['customer'] = $this->customer_model->get_customer_by_id($data['plan']['customer_id']);
+      $data['customers'] = $this->customer_model->get_customer_by_parent_id($data['plan']['customer_id']);
+      $data['paytype_list'] = $this->paytype_model->paytype_list();
+      $data['status_list'] = $this->status_model->status_list();
+      $data['html_model'] = $this->html_model;
+      
+      if ($plan['user_id']) {
+        $data['user'] = $this->user_model->get_user_by_id($plan['user_id']);
+      }
+      if ($data['plan']['product_short'] == 'OPL') {
+        $data['insurable_options'] = $this->load->view('plan/detail_opl', $data, TRUE);
+        $data['special_note'] = $this->load->view('plan/pdf_note_opl',$data, TRUE);
+        $files = array(
+        'OPL_Policy.pdf' => DOWNLOADDIR . 'OPL_Policy.pdf',
+        'OPL_Claim_Procedure.pdf' => DOWNLOADDIR . 'OPL_Claim_Procedure.pdf',
+        'OPL_Consent_Form.pdf' => DOWNLOADDIR . 'OPL_Consent_Form.pdf',
+        'OPL_Claim_Form.pdf' => DOWNLOADDIR . 'OPL_Claim_Form.pdf',
+        'OPL_Brochure.pdf' => DOWNLOADDIR . 'OPL_Brochure.pdf'
+        );
+      } else if ($data['plan']['product_short'] == 'JFVTC') {
+        if ($data['sendfrench']) {
+          $files = array(
+          'JFVTC_Policy.pdf' => DOWNLOADDIR . 'JFVTC_Policy_French.pdf',
+          'JFVTC_Claim_Procedure.pdf' => DOWNLOADDIR . 'JFVTC_Claim_Procedure_French.pdf',
+          'JFVTC_Claim_Form.pdf' => DOWNLOADDIR . 'JFVTC_Claim_Form_French.pdf',
+          'JFVTC_Brochure.pdf' => DOWNLOADDIR . 'JFVTC_Brochure_French.pdf'
+          );
+          if ($plan['effective_date'] < '2023-05-01') {
+            $files['JFVTC_Policy.pdf'] = DOWNLOADDIR . 'JFVTC_Policy_French_old.pdf';
+          }
+        } else {
+          $files = array(
+          'JFVTC_Policy.pdf' => DOWNLOADDIR . 'JFVTC_Policy.pdf',
+          'JFVTC_Claim_Procedure.pdf' => DOWNLOADDIR . 'JFVTC_Claim_Procedure.pdf',
+          'JFVTC_Claim_Form.pdf' => DOWNLOADDIR . 'JFVTC_Claim_Form.pdf',
+          'JFVTC_Brochure.pdf' => DOWNLOADDIR . 'JFVTC_Brochure.pdf'
+          );
+          if ($plan['effective_date'] < '2023-05-01') {
+            $files['JFVTC_Policy.pdf'] = DOWNLOADDIR . 'JFVTC_Policy_old.pdf';
+          }
+        }
+      } else if ($data['plan']['product_short'] == 'JFR') {
+        if ($data['sendfrench']) {
+          $files = array(
+            'JFR_Policy.pdf' => DOWNLOADDIR . 'JFR_Policy_French.pdf',
+            'JFR_Claim_Procedure.pdf' => DOWNLOADDIR . 'JFR_Clinic_Map_French.pdf',
+            'JFR_Claim_Form.pdf' => DOWNLOADDIR . 'JFR_Claim_Form_French.pdf',
+            'JFR_Brochure.pdf' => DOWNLOADDIR . 'JFR_Brochure_French.pdf'
+            );
+        } else {
+          $data['insurable_options'] = $this->load->view('plan/detail_opl', $data, TRUE);
+          $data['special_note'] = $this->load->view('plan/pdf_note_jfr',$data, TRUE);
+          $files = array(
+          'JFR_Policy.pdf' => DOWNLOADDIR . 'JFR_Policy.pdf',
+          'JFR_Claim_Procedure.pdf' => DOWNLOADDIR . 'JFR_Claim_Procedure.pdf',
+          'JFR_Consent_Form.pdf' => DOWNLOADDIR . 'JFR_Consent_Form.pdf',
+          'JFR_Claim_Form.pdf' => DOWNLOADDIR . 'JFR_Claim_Form.pdf',
+          'JFR_Brochure.pdf' => DOWNLOADDIR . 'JFR_Brochure.pdf'
+          );
+        }
+      } else if ($data['plan']['product_short'] == 'JUS') {
+        $data['insurable_options'] = $this->load->view('plan/detail_jus', $data, TRUE);
+        $data['special_note'] = $this->load->view('plan/pdf_note_jus',$data, TRUE);
+        $files = array(
+        'JUS_Brochure.pdf' => DOWNLOADDIR . 'JUS_Brochure.pdf'
+        );
+      } else if ($data['plan']['product_short'] == 'NUS') {
+        $data['insurable_options'] = $this->load->view('plan/detail_jus', $data, TRUE);
+        $data['special_note'] = $this->load->view('plan/pdf_note_nus',$data, TRUE);
+        $files = array(
+        'NUS_Brochure.pdf' => DOWNLOADDIR . 'NUS_Brochure.pdf'
+        );
+      } else if ($data['plan']['product_short'] == 'JFS') {
+        if ($data['sendfrench']) {
+          $files = array(
+          'JFS_Policy.pdf' => DOWNLOADDIR . 'JFS_Policy_French.pdf',
+          'JFS_Claim_Form.pdf' => DOWNLOADDIR . 'JFS_Claim_Form_French.pdf',
+          'JFS_Clinic_Map.pdf' => DOWNLOADDIR . 'JFS_Clinic_Map_French.pdf',
+          'JFS_Benefit_Summary.pdf' => DOWNLOADDIR . 'JFS_Benefit_Summary_French.pdf',
+          'JFS_Brochure.pdf' => DOWNLOADDIR . 'JFS_Brochure_French.pdf',
+          );
+        } else {
+          $data['special_note'] = $this->load->view('plan/pdf_note_jes',$data, TRUE);
+          $files = array(
+          'JFS_Policy.pdf' => DOWNLOADDIR . 'JFS_Policy.pdf',
+          'JFS_Claim_Form.pdf' => DOWNLOADDIR . 'JFS_Claim_Form.pdf',
+          'JFS_Clinic_Map.pdf' => DOWNLOADDIR . 'JFS_Clinic_Map.pdf',
+          );
+        }
+      } else if ($data['plan']['product_short'] == 'JFE') {
+        $data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
+        $data['special_note'] = $this->load->view('plan/pdf_note_jes',$data, TRUE);
+        $files = array(
+        'JFE_Policy.pdf' => DOWNLOADDIR . 'JFE_Policy.pdf',
+        'JFE_Claim_Form.pdf' => DOWNLOADDIR . 'JFE_Claim_Form.pdf',
+        'JFE_Clinic_Map.pdf' => DOWNLOADDIR . 'JFE_Clinic_Map.pdf',
+        );
+      } else if ($data['plan']['product_short'] == 'BHS') {
+        $data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
+        $data['special_note'] = $this->load->view('plan/pdf_note_jes',$data, TRUE);
+        $files = array(
+        'BHS_Policy.pdf' => DOWNLOADDIR . 'BHS_Policy.pdf',
+        'BHS_Claim_Form.pdf' => DOWNLOADDIR . 'BHS_Claim_Form.pdf',
+        'BHS_Clinic_Map.pdf' => DOWNLOADDIR . 'BHS_Clinic_Map.pdf',
+        );
+      } else if ($data['plan']['product_short'] == 'JES') {
+        if ($data['sendfrench']) {
+          $files = array(
+          'JES_Policy.pdf' => DOWNLOADDIR . 'JES_Policy_French.pdf',
+          'JES_Claim_Form.pdf' => DOWNLOADDIR . 'JES_Claim_Form_French.pdf',
+          'JES_Clinic_Map.pdf' => DOWNLOADDIR . 'JES_Clinic_Map_French.pdf',
+          'JES_Brochure.pdf' => DOWNLOADDIR . 'JES_Brochure_French.pdf'
+          );
+        } else {
+          $data['special_note'] = $this->load->view('plan/pdf_note_jes',$data, TRUE);
+          $files = array(
+          'JES_Policy.pdf' => DOWNLOADDIR . 'JES_Policy.pdf',
+          'JES_Claim_Form.pdf' => DOWNLOADDIR . 'JES_Claim_Form.pdf',
+          'JES_Clinic_Map.pdf' => DOWNLOADDIR . 'JES_Clinic_Map.pdf',
+          'JES_Brochure.pdf' => DOWNLOADDIR . 'JES_Brochure.pdf'
+          );
+        }
+      } else if ($data['plan']['product_short'] == 'JFPL') {
+        if ($data['sendfrench']) {
+          $files = array(
+          'JFPL_Policy.pdf' => DOWNLOADDIR . 'JFPL_Policy_French.pdf',
+          'JFPL_Claim_Form.pdf' => DOWNLOADDIR . 'JFPL_Claim_Form_French.pdf',
+          'JFPL_Clinic_Map.pdf' => DOWNLOADDIR . 'JFPL_Clinic_Map_French.pdf',
+          'JFPL_Benefit_Summary.pdf' => DOWNLOADDIR . 'JFPL_Benefit_Summary_French.pdf',
+          'JFPL_Brochure.pdf' => DOWNLOADDIR . 'JFPL_Brochure_French.pdf'
+          );
+          if ($plan['effective_date'] < '2023-01-01') {
+            $files['JFPL_Policy.pdf'] = DOWNLOADDIR . 'JFPL_Policy_French_old.pdf';
+          }
+        } else {
+          $data['special_note'] = $this->load->view('plan/pdf_note_jes',$data, TRUE);
+          $files = array(
+          'JFPL_Policy.pdf' => DOWNLOADDIR . 'JFPL_Policy.pdf',
+          'JFPL_Claim_Form.pdf' => DOWNLOADDIR . 'JFPL_Claim_Form.pdf',
+          'JFPL_Clinic_Map.pdf' => DOWNLOADDIR . 'JFPL_Clinic_Map.pdf',
+          'JFPL_Benefit_Summary.pdf' => DOWNLOADDIR . 'JFPL_Benefit_Summary.pdf'
+          );
+          if ($plan['effective_date'] < '2023-01-01') {
+            $files['JFPL_Policy.pdf'] = DOWNLOADDIR . 'JFPL_Policy_old.pdf';
+          }
+        }
+      } else if ($data['plan']['product_short'] == 'JFSL') {
+        $data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
+        $data['special_note'] = $this->load->view('plan/pdf_note_jes',$data, TRUE);
+        $files = array(
+        'JFSL_Policy.pdf' => DOWNLOADDIR . 'JFSL_Policy.pdf',
+        'JFSL_Claim_Form.pdf' => DOWNLOADDIR . 'JFSL_Claim_Form.pdf',
+        'JFSL_Clinic_Map.pdf' => DOWNLOADDIR . 'JFSL_Clinic_Map.pdf',
+        'JFSL_Benefit_Summary.pdf' => DOWNLOADDIR . 'JFSL_Benefit_Summary.pdf'
+        );
+      } else if ($data['plan']['product_short'] == 'JFGD') {
+        if ($data['sendfrench']) {
+          $files = array(
+          'JFGD_Policy.pdf' => DOWNLOADDIR . 'JFGD_Policy_French.pdf',
+          'JFGD_Claim_Form.pdf' => DOWNLOADDIR . 'JFGD_Claim_Form_French.pdf',
+          'JFGD_Clinic_Map.pdf' => DOWNLOADDIR . 'JFGD_Clinic_Map_French.pdf',
+          'JFGD_Benefit_Summary.pdf' => DOWNLOADDIR . 'JFGD_Benefit_Summary_French.pdf',
+          'JFGD_Brochure.pdf' => DOWNLOADDIR . 'JFGD_Brochure_French.pdf'
+          );
+        } else {
+          $data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
+          $data['special_note'] = $this->load->view('plan/pdf_note_jes',$data, TRUE);
+          $files = array(
+          'JFGD_Policy.pdf' => DOWNLOADDIR . 'JFGD_Policy.pdf',
+          'JFGD_Claim_Form.pdf' => DOWNLOADDIR . 'JFGD_Claim_Form.pdf',
+          'JFGD_Clinic_Map.pdf' => DOWNLOADDIR . 'JFGD_Clinic_Map.pdf',
+          'JFGD_Benefit_Summary.pdf' => DOWNLOADDIR . 'JFGD_Benefit_Summary.pdf'
+          );
+        }
+      } else if ($data['plan']['product_short'] == 'JESP') {
+        if ($data['sendfrench']) {
+          $files = array(
+          'JESP_Policy.pdf' => DOWNLOADDIR . 'JESP_Policy_French.pdf',
+          'JESP_Claim_Form.pdf' => DOWNLOADDIR . 'JESP_Claim_Form_French.pdf',
+          'JESP_Brochure.pdf' => DOWNLOADDIR . 'JESP_Brochure_French.pdf'
+          );
+        } else {
+        $data['special_note'] = $this->load->view('plan/pdf_note_jes',$data, TRUE);
+        $files = array(
+        'JESP_Policy.pdf' => DOWNLOADDIR . 'JESP_Policy.pdf',
+        'JESP_Claim_Form.pdf' => DOWNLOADDIR . 'JESP_Claim_Form.pdf',
+        'JESP_Brochure.pdf' => DOWNLOADDIR . 'JESP_Brochure.pdf'
+        );
+        }
+      } else if ($data['plan']['product_short'] == 'JFC') {
+        $data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
+        $data['special_note'] = $this->load->view('plan/pdf_note_jfc',$data, TRUE);
+        $files = array(
+        'JFC_Policy.pdf' => DOWNLOADDIR . 'JFC_Policy.pdf',
+        'JFC_Claim_Form.pdf' => DOWNLOADDIR . 'JFC_Claim_Form.pdf',
+        'JFC_Brochure.pdf' => DOWNLOADDIR . 'JFC_Brochure.pdf'
+        );
+      } else if ($data['plan']['product_short'] == 'JFP') {
+        $data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
+        $data['special_note'] = $this->load->view('plan/pdf_note_jfc',$data, TRUE);
+        $files = array(
+        'JFP_Policy.pdf' => DOWNLOADDIR . 'JFP_Policy.pdf',
+        'JFP_Claim_Form.pdf' => DOWNLOADDIR . 'JFP_Claim_Form.pdf',
+        'JFP_Brochure.pdf' => DOWNLOADDIR . 'JFP_Brochure.pdf'
+        );
+        
+      } else if ($data['plan']['product_short'] == 'TOP') {
+        if ($data['sendfrench']) {
+          $files = array(
+          'TOP_Policy.pdf' => DOWNLOADDIR . 'TOP_Policy_French.pdf',
+          'TOP_Baggage_Claim_Form.pdf' => DOWNLOADDIR . 'TOP_Baggage_Claim_Form_French.pdf',
+          'TOP_Cancellation_Claim_Form.pdf' => DOWNLOADDIR . 'TOP_Cancellation_Claim_Form_French.pdf',
+          'TOP_Medical_Claim_Form.pdf' => DOWNLOADDIR . 'TOP_Medical_Claim_Form_French.pdf',
+          'TOP_Benefit_Summary.pdf' => DOWNLOADDIR . 'TOP_Benefit_Summary_French.pdf',
+          'TOP_Brochure.pdf' => DOWNLOADDIR . 'TOP_Brochure_French.pdf'
+          );
+        } else {
+          $data['special_note'] = $this->load->view('plan/top/pdf_note_top',$data, TRUE);
+          $files = array(
+          'TOP_Policy.pdf' => DOWNLOADDIR . 'TOP_Policy.pdf',
+          'TOP_Baggage_Claim_Form.pdf' => DOWNLOADDIR . 'TOP_Baggage_Claim_Form.pdf',
+          'TOP_Cancellation_Claim_Form.pdf' => DOWNLOADDIR . 'TOP_Cancellation_Claim_Form.pdf',
+          'TOP_Medical_Claim_Form.pdf' => DOWNLOADDIR . 'TOP_Medical_Claim_Form.pdf',
+          'TOP_Benefit_Summary.pdf' => DOWNLOADDIR . 'TOP_Benefit_Summary.pdf'
+          );
+        }
+      } else {
+        $data['insurable_options'] = $this->load->view('plan/detail_other', $data, TRUE);
+      }
+      
+      $policy_file = tempnam("/tmp", "Policy");
+      //$policy_file = "C:\Users\Administrator\AppData\Local\Temp\Policy";
+      $data['title_txt'] = 'Policy';
+      $data['style'] = $this->load->view('common/pdf_style',$data, TRUE);
+      $data['hadheaderfooter'] = 0;
+      if ($data['plan']['product_short'] == 'JFVTC') {
+        $mpdf = new mPDF('c', 'A4', 0, '', $mgl = 0, $mgr = 0, $mgt = 15, $mgb = 0, $mgh = 0, $mgf = 0, $orientation = 'P');
+        if ($data['withlogo']) {
+          $mpdf->SetHTMLHeader('<img style="width:100%;" src="'.base_url().'image/pdf_header.png" />');
+        }
+        $data['hadheaderfooter'] = 1;
+        if ($data['sendfrench']) {
+          $html = $this->load->view('plan/pdf_OR_visitor_french', $data, TRUE);
+        } else {
+          $html = $this->load->view('plan/pdf_jfvtc', $data, TRUE);
+        }
+      } else if (($data['plan']['product_short'] == 'JFPL') || ($data['plan']['product_short'] == 'JFGD') || ($data['plan']['product_short'] == 'JFSL')) {
+        $mpdf = new mPDF('c', 'A4', 0, '', $mgl = 0, $mgr = 0, $mgt = 15, $mgb = 0, $mgh = 0, $mgf = 0, $orientation = 'P');
+        if ($data['withlogo']) {
+          $mpdf->SetHTMLHeader('<img style="width:100%;" src="'.base_url().'image/pdf_header.png" />');
+        }
+        // $mpdf->SetHTMLFooter('<img style="width:100%;" src="'.base_url().'image/pdf_footer.png" />');
+        $data['hadheaderfooter'] = 1;
+        if ($data['sendfrench']) {
+          $html = $this->load->view('plan/pdf_OR_student_french', $data, TRUE);
+        } else {
+          $html = $this->load->view('plan/pdf', $data, TRUE);
+        }
+      } else {
+        $mpdf = new mPDF('c');
+        if ($data['sendfrench']) {
+          if (($data['plan']['product_short'] == 'JES') || ($data['plan']['product_short'] == 'JESP') || ($data['plan']['product_short'] == 'JFS')) {
+            $html = $this->load->view('plan/pdf_berkley_student_french', $data, TRUE);
+          } else if ($data['plan']['product_short'] == 'JFR') {
+            $html = $this->load->view('plan/pdf_jfr_french', $data, TRUE);
+          } else if ($data['plan']['product_short'] == 'TOP') {
+            $html = $this->load->view('plan/pdf_berkley_visitor_french', $data, TRUE);
+          } else {
+            $html = $this->load->view('plan/pdf', $data, TRUE);  
+          }
+        } else {
+          $html = $this->load->view('plan/pdf', $data, TRUE);
+        }
+      }
+      $mpdf->writeHTML($html);
+      $mpdf->Output($policy_file, 'F');
+      $this->load->model('mymail_model');
+      if ($data['sendfrench']) {
+        $body = $this->load->view('mail/package_french',$data, TRUE);
+        $title = "Confirmation d’assurance - " . $plan['policy'] . " - " . $data['customer']['firstname'] . " " . $data['customer']['lastname'];
+      } else {
+        $body = $this->load->view('mail/package',$data, TRUE);
+        $title = "Confirmation of Insurance - " . $plan['policy'] . " - " . $data['customer']['firstname'] . " " . $data['customer']['lastname'];
+      }
+      
+      $files['policy_confirmation.pdf'] = $policy_file;
+      $sendok = $this->mymail_model->send_mymail($data['emailaddr'], $title, $body, $files, $from='JF Insurance');
+      unlink($policy_file);
+
+      if ($sendok) {
+        return $this->app_model->return_ok(array("message" => "OK"));
+      } else {
+        return $this->app_model->return_error("Something wrong with send email");
+      }
+    } else {
+      return $this->app_model->return_error("Please input valid email address");
+    }
+		return $this->app_model->return_ok($data);
+  }
 }

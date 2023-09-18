@@ -170,11 +170,14 @@ class Payment_model extends CI_Model {
 	 * @param	array	$para	Add payment record
 	 * @return	integer	record ID
 	 */
-	public function add($para) {
+	public function add($para, $beuser=null) {
 		if (isset($para['pay_type'])) {
 			$para['pay_type'] = $this->pay_type($para['pay_type']);
 		}
-		if ($beuser = $this->session->userdata ( 'beuser' )) {
+    if (empty($beuser)) {
+      $beuser = $this->session->userdata('beuser');
+    }
+		if ($beuser) {
 			$para['user_id'] = $beuser['user_id'];
 		}
 		$this->logstr = '';

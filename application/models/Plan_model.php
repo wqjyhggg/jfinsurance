@@ -419,7 +419,7 @@ class Plan_model extends CI_Model {
 	 * @param	array	$para		Parameters
 	 * @return	array					user table search result
 	 */
-	public function update($plan_id, $para, $checkboxArr=array()) {
+	public function update($plan_id, $para, $checkboxArr=array(), $apiuser=null) {
 		$this->logstr = '';
 		$this->sqlstr = '';
 		$this->load->model('customer_model');
@@ -431,17 +431,22 @@ class Plan_model extends CI_Model {
 			$this->sqlstr = 'Can not find plan by id[' . $plan_id . ']';
 			return 0;
 		}
-		$beuser = $this->session->userdata ( 'beuser' );
-		$isvsuser = 0;
-		if (empty($beuser)) {
-			$beuser = $this->session->userdata ( 'vsuser' );
-			$isvsuser = 1;
-			if (empty($beuser)) {
-				$this->logstr = 'Can not find beuser;';
-				$this->sqlstr = 'Can not find beuser';
-				return 0;
-			}
-		}
+    if (empty($apiuser)) {
+      $beuser = $this->session->userdata ( 'beuser' );
+      $isvsuser = 0;
+      if (empty($beuser)) {
+        $beuser = $this->session->userdata ( 'vsuser' );
+        $isvsuser = 1;
+        if (empty($beuser)) {
+          $this->logstr = 'Can not find beuser;';
+          $this->sqlstr = 'Can not find beuser';
+          return 0;
+        }
+      }
+    } else {
+      $beuser = $apiuser;
+    }
+
 		if (empty($beuser)) {
 			$this->load->model('user_model');
 			$beuser = $this->user_model->get_user_by_id($plan['user_id']);
@@ -959,6 +964,9 @@ class Plan_model extends CI_Model {
 		if (!empty($para['plan_id'])) {
 			$where[] = "p.plan_id=" . (int)$para['plan_id'];
 		}
+		if (!empty($para['product_short'])) {
+			$where[] = "p.product_short=" . $this->db->escape($para['product_short']);
+		}
 		if (!empty($para['status_id'])) {
 			$where[] = "p.status_id='" . (int)$para['status_id'] . "'";
 		}
@@ -976,17 +984,28 @@ class Plan_model extends CI_Model {
 		if (!empty($para['institution'])) {
 			$where[] = "p.institution=" . $this->db->escape($para['institution']);
 		}
+		if (!empty($para['batch_number'])) {
+			$where[] = "p.batch_number=" . $this->db->escape($para['batch_number']);
+		}
 		if (!empty($para['firstname'])) {
 			$where[] = "LCASE(c.firstname) LIKE " . $this->db->escape("%".strtolower($para['firstname'])."%");
 		}
 		if (!empty($para['lastname'])) {
 			$where[] = "LCASE(c.lastname) LIKE " . $this->db->escape("%".strtolower($para['lastname'])."%");
 		}
+    if (!empty($para['birthday'])) {
+			if (!empty($para['birthday2'])) {
+				$carr[] = "birthday >= " . $this->db->escape($para['birthday']);
+				$carr[] = "birthday <= " . $this->db->escape($para['birthday2']);
+			} else {
+				$carr[] = "birthday >= " . $this->db->escape($para['birthday']);
+			}
+		}
+    if (!empty($para['uname'])) {
+      $where[] = "(u.firstname LIKE " . $this->db->escape($para['uname'] . "%") . " OR u.lastname LIKE " . $this->db->escape($para['uname'] . "%") .")";
+    }
 		if (!empty($para['student_id'])) {
 			$where[] = "p.student_id=" . $this->db->escape($para['student_id']);
-		}
-		if (!empty($para['product_short'])) {
-			$where[] = "p.product_short=" . $this->db->escape($para['product_short']);
 		}
 		if (!empty($para['province2'])) {
 			$where[] = "p.province2=" . $this->db->escape($para['province2']);
@@ -1057,6 +1076,9 @@ class Plan_model extends CI_Model {
 		if (!empty($para['plan_id'])) {
 			$where[] = "p.plan_id=" . (int)$para['plan_id'];
 		}
+		if (!empty($para['product_short'])) {
+			$where[] = "p.product_short=" . $this->db->escape($para['product_short']);
+		}
 		if (!empty($para['policy'])) {
 			$where[] = "p.policy=" . $this->db->escape($para['policy']);
 		} else if (!empty($para['policy_match'])) {
@@ -1071,17 +1093,29 @@ class Plan_model extends CI_Model {
 		if (!empty($para['institution'])) {
 			$where[] = "p.institution=" . $this->db->escape($para['institution']);
 		}
+		if (!empty($para['batch_number'])) {
+			$where[] = "p.batch_number=" . $this->db->escape($para['batch_number']);
+		}
 		if (!empty($para['firstname'])) {
 			$where[] = "LCASE(c.firstname) LIKE " . $this->db->escape("%".strtolower($para['firstname'])."%");
 		}
 		if (!empty($para['lastname'])) {
 			$where[] = "LCASE(c.lastname) LIKE " . $this->db->escape("%".strtolower($para['lastname'])."%");
 		}
+    if (!empty($para['birthday'])) {
+			if (!empty($para['birthday2'])) {
+				$where[] = "birthday >= " . $this->db->escape($para['birthday']);
+				$where[] = "birthday <= " . $this->db->escape($para['birthday2']);
+			} else {
+				$where[] = "birthday >= " . $this->db->escape($para['birthday']);
+			}
+		}
+    if (!empty($para['uname'])) {
+      $where[] = "(u.firstname LIKE " . $this->db->escape($para['uname'] . "%") . " OR u.lastname LIKE " . $this->db->escape($para['uname'] . "%") .")";
+    }
+
 		if (!empty($para['student_id'])) {
 			$where[] = "p.student_id=" . $this->db->escape($para['student_id']);
-		}
-		if (!empty($para['product_short'])) {
-			$where[] = "p.product_short=" . $this->db->escape($para['product_short']);
 		}
 		if (!empty($para['province2'])) {
 			$where[] = "p.province2=" . $this->db->escape($para['province2']);
