@@ -431,9 +431,9 @@ class Plan_model extends CI_Model {
 			$this->sqlstr = 'Can not find plan by id[' . $plan_id . ']';
 			return 0;
 		}
+    $isvsuser = 0;
     if (empty($apiuser)) {
       $beuser = $this->session->userdata ( 'beuser' );
-      $isvsuser = 0;
       if (empty($beuser)) {
         $beuser = $this->session->userdata ( 'vsuser' );
         $isvsuser = 1;

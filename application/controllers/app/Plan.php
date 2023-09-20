@@ -154,6 +154,8 @@ class Plan extends CI_Controller
     $this->error = "";
     $this->load->model("app_model");
     $this->load->model("user_model");
+    $this->load->helper('url');
+
     $user = $this->app_model->check_token($this->input->post("token"));
 
     if (empty($user)) {
@@ -227,6 +229,8 @@ class Plan extends CI_Controller
     $this->error = "";
     $this->load->model("app_model");
     $this->load->model("user_model");
+    $this->load->helper('url');
+
     $user = $this->app_model->check_token($this->input->post("token"));
 
     if (empty($user)) {
@@ -297,11 +301,13 @@ class Plan extends CI_Controller
 		return $this->app_model->return_ok(array("html"=>$html));
   }
 
-  // print receipt, print card, refound
+  // refound
   public function refund() {
     $this->error = "";
     $this->load->model("app_model");
     $this->load->model("user_model");
+    $this->load->model("log_model");
+
     $user = $this->app_model->check_token($this->input->post("token"));
 
     if (empty($user)) {
@@ -476,11 +482,13 @@ class Plan extends CI_Controller
 		return $this->app_model->return_ok($data);
   }
 
-  // print receipt, print card, cancel, refound
+  // cancel
   public function cancel() {
     $this->error = "";
     $this->load->model("app_model");
     $this->load->model("user_model");
+    $this->load->model("log_model");
+
     $user = $this->app_model->check_token($this->input->post("token"));
 
     if (empty($user)) {
@@ -649,6 +657,8 @@ class Plan extends CI_Controller
     $this->error = "";
     $this->load->model("app_model");
     $this->load->model("user_model");
+    $this->load->helper('url');
+
     $user = $this->app_model->check_token($this->input->post("token"));
 
     if (empty($user)) {
@@ -767,6 +777,8 @@ class Plan extends CI_Controller
     $this->error = "";
     $this->load->model("app_model");
     $this->load->model("user_model");
+    $this->load->helper('url');
+
     $user = $this->app_model->check_token($this->input->post("token"));
 
     if (empty($user)) {
@@ -777,7 +789,6 @@ class Plan extends CI_Controller
     }
 
     $plan_id = $this->input->post("plan_id");
-    $frenchemail = $this->input->post("frenchemail");
 		if (empty($plan_id)) {
       return $this->app_model->return_error("Unknown plan");
 		}
