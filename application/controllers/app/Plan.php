@@ -221,7 +221,8 @@ class Plan extends CI_Controller
 		$data['title_txt'] = 'Receipt';
 		$data['style'] = $this->load->view('common/pdf_style',$data, TRUE);
 		$html = $this->load->view('plan/receipt', $data, TRUE);
-		return $this->app_model->return_ok(array("html"=>$html));
+		$mpdf->writeHTML($html);
+		$mpdf->Output("receipt.pdf","I");
   }
 
   // print card,
@@ -296,9 +297,12 @@ class Plan extends CI_Controller
 		$product = $this->product_model->get_product($plan['product_short']);
 		$data['plan_full_name'] = $product ? $product['full_name'] : '';
 
-		$data['style'] = $this->load->view('common/pdf_style',$data, TRUE);
+    $mpdf = new mPDF('c');
+		$data['title_txt'] = 'Card';
+    $data['style'] = $this->load->view('common/pdf_style',$data, TRUE);
 		$html = $this->load->view('plan/card', $data, TRUE);
-		return $this->app_model->return_ok(array("html"=>$html));
+		$mpdf->writeHTML($html);
+		$mpdf->Output("policy_card.pdf","I");
   }
 
   // refound
@@ -761,15 +765,48 @@ class Plan extends CI_Controller
 		$data['style'] = $this->load->view('common/pdf_style',$data, TRUE);		
 		$data['hadheaderfooter'] = 0;
     if ($data['plan']['product_short'] == 'JFVTC') {
+      $mpdf = new mPDF('+aCJK', 'A4', 0, '', $mgl = 0, $mgr = 0, $mgt = 15, $mgb = 0, $mgh = 0, $mgf = 0, $orientation = 'P');
+      if ($plan['status_id'] < 2) {
+        $mpdf->SetWatermarkText ("QUOTE", 0.1);
+        $mpdf->showWatermarkText = true;
+      } else if (($plan['status_id'] != 2) && ($plan['status_id'] != 3)) {
+        $mpdf->SetWatermarkText ("INVALID", 0.1);
+        $mpdf->showWatermarkText = true;
+      }
       $data['hadheaderfooter'] = 1;
       $html = $this->load->view('plan/pdf_jfvtc', $data, TRUE);
+      if ($data['withlogo']) {
+        $mpdf->SetHTMLHeader('<img style="width:100%;" src="'.base_url().'image/pdf_header.png" />');
+      }
     } else if (($data['plan']['product_short'] == 'JFPL') || ($data['plan']['product_short'] == 'JFGD') || ($data['plan']['product_short'] == 'JFSL')) {
+      $mpdf = new mPDF('+aCJK', 'A4', 0, '', $mgl = 0, $mgr = 0, $mgt = 15, $mgb = 0, $mgh = 0, $mgf = 0, $orientation = 'P');
+      if ($plan['status_id'] < 2) {
+        $mpdf->SetWatermarkText ("QUOTE", 0.1);
+        $mpdf->showWatermarkText = true;
+      } else if (($plan['status_id'] != 2) && ($plan['status_id'] != 3)) {
+        $mpdf->SetWatermarkText ("INVALID", 0.1);
+        $mpdf->showWatermarkText = true;
+      }
       $data['hadheaderfooter'] = 1;
       $html = $this->load->view('plan/pdf', $data, TRUE);
+      if ($data['withlogo']) {
+        $mpdf->SetHTMLHeader('<img style="width:100%;" src="'.base_url().'image/pdf_header.png" />');
+      }
     } else {
+      $mpdf = new mPDF('+aCJK');
+      if ($plan['status_id'] < 2) {
+        $mpdf->SetWatermarkText ("QUOTE", 0.1);
+        $mpdf->showWatermarkText = true;
+      } else if (($plan['status_id'] != 2) && ($plan['status_id'] != 3)) {
+        $mpdf->SetWatermarkText ("INVALID", 0.1);
+        $mpdf->showWatermarkText = true;
+      }
       $html = $this->load->view('plan/pdf', $data, TRUE);
     }
-    return $this->app_model->return_ok(array("html"=>$html));
+    $mpdf->autoLangToFont=true;
+    $mpdf->autoScriptToLang=true;
+		$mpdf->writeHTML($html);
+		$mpdf->Output("Policy.pdf","I");
   }
 
   // send package
