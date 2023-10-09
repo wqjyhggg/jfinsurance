@@ -608,7 +608,7 @@ $usepsi = false;
 								});
 								</script>
 
-								<div id='cash' style="padding:10px;" <?php if (empty($cash_dis)) { ?> style='display: none;' <?php } ?>>
+								<div id='ali' style="padding:10px; display: none;">
 									<div class="col-sm-12">
 										<label class="inline">Amount:</label><span><b> $<?php echo number_format($payment_total, 2, '.', ','); ?></b></span>
                     <a class="btn btn-primary paysubmit" id="ali_submit" style="display:none;">Pay Now</a>

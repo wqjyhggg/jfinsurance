@@ -548,7 +548,7 @@ $usepsi = false;
 							<div id='ali_div'>
 								<a class="btn btn-info col-sm-12">Pay By Ali <iclass="fa fa-chevron-down"></i></a>
 							</div>
-							<div id='ali' style="padding:10px;" <?php if (empty($ali_dis)) { ?> style='display: none;' <?php } ?>>
+							<div id='ali' style="padding:10px; display: none;">
                 <div class="col-sm-12">
                   <label class="inline">Amount:</label><span><b> $<?php echo number_format($payment_total, 2, '.', ','); ?></b> <?php if ($plan['questionnaire'] > 0) { echo "(Table" . $plan['questionnaire'] . ")"; }?></span>
                   <a class="btn btn-primary paysubmit" id="ali_submit" style="display:none;">Pay Now</a>
