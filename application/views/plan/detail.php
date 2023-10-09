@@ -586,7 +586,7 @@ $usepsi = false;
 									$('#ali_div').click(function() {
 										$('#ali').show();
                     <?php if (isset($cash_dis)) { ?>
-                    $('#ali').hide();
+                    $('#cash').hide();
                     <?php } ?>
 						    		<?php if (isset($credit_dis)) { ?>
 										$('#credit_card').hide();
