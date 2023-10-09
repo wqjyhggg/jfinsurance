@@ -332,13 +332,16 @@ $usepsi = false;
 
 						<div class="row">
 						<?php if (in_array('Credit Card', $paytype_list)) { ?>
-							<div class="col-sm-4">
+							<div class="col-sm-3">
 								<?php if (isset($credit_dis)) { ?>
 								<div id='credit_card_div'><a class="btn btn-info col-sm-12">Pay By Credit Card <i class="fa fa-chevron-down"></i></a></div>
 								<script type="text/javascript">
 								$(document).ready(function() {
 									$('#credit_card_div').click(function() {
 										$('#credit_card').show();
+                <?php if (isset($ali_dis)) { ?>
+                    $('#ali').hide();
+                <?php } ?>
 								<?php if (isset($cheque_dis)) { ?>
 										$('#cheque').hide();
 								<?php } ?>
@@ -504,13 +507,16 @@ $usepsi = false;
 							</div>
 						<?php } /* end cheque pay */ ?>
 						<?php if (in_array('Cheque', $paytype_list)) { ?>
-							<div class="col-sm-4">
+							<div class="col-sm-3">
 								<?php if (isset($cheque_dis)) { ?>
 								<div id='cheque_div'><a class="btn btn-info col-sm-12">Pay By Cheque <i class="fa fa-chevron-down"></i></a></div>
 								<script type="text/javascript">
 								$(document).ready(function() {
 									$('#cheque_div').click(function() {
 										$('#cheque').show();
+                <?php if (isset($ali_dis)) { ?>
+                    $('#ali').hide();
+                <?php } ?>
 								<?php if (isset($credit_dis)) { ?>
 										$('#credit_card').hide();
 								<?php } ?>
@@ -571,14 +577,59 @@ $usepsi = false;
 								<?php } ?>
 							</div>
 						<?php } /* end cheque pay */ ?>
+            <?php if (in_array('Ali', $paytype_list) && ($payment_total > 0)) { ?>
+							<div class="col-sm-3">
+								<?php if (isset($ali_dis)) { ?>
+								<div id='ali_div'><a class="btn btn-info col-sm-12">Pay By Ali <i class="fa fa-chevron-down"></i></a></div>
+								<script type="text/javascript">
+								$(document).ready(function() {
+									$('#ali_div').click(function() {
+										$('#ali').show();
+                    <?php if (isset($cash_dis)) { ?>
+                    $('#ali').hide();
+                    <?php } ?>
+						    		<?php if (isset($credit_dis)) { ?>
+										$('#credit_card').hide();
+				    				<?php } ?>
+		    						<?php if (isset($cheque_dis)) { ?>
+										$('#cheque').hide();
+    								<?php } ?>
+
+                    $.ajax({
+                      url: '<?php echo $get_ali_url; ?>' + '?sekey=' + '<?php echo $sekey; ?>',
+                      type: 'GET',
+                      success: function(data, textStatus, jqXHR) {
+                        console.log("ali_div ====>>>>", data, textStatus, jqXHR); //XXXXXXXXXXXXXXXXXXX
+                        $('#ali_submit').attr('href', data);
+                        $('#ali_submit').show();
+                      },
+                    });
+									});
+								});
+								</script>
+
+								<div id='cash' style="padding:10px;" <?php if (empty($cash_dis)) { ?> style='display: none;' <?php } ?>>
+									<div class="col-sm-12">
+										<label class="inline">Amount:</label><span><b> $<?php echo number_format($payment_total, 2, '.', ','); ?></b></span>
+                    <a class="btn btn-primary paysubmit" id="ali_submit" style="display:none;">Pay Now</a>
+								</div>
+								
+								</form><hr />
+								</div>
+								<?php } ?>
+							</div>
+						<?php } /* end cash pay */ ?>
 						<?php if (in_array('Cash', $paytype_list)) { ?>
-							<div class="col-sm-4">
+							<div class="col-sm-3">
 								<?php if (isset($cash_dis)) { ?>
 								<div id='cash_div'><a class="btn btn-info col-sm-12">Pay By Cash <i class="fa fa-chevron-down"></i></a></div>
 								<script type="text/javascript">
 								$(document).ready(function() {
 									$('#cash_div').click(function() {
 										$('#cash').show();
+                <?php if (isset($ali_dis)) { ?>
+                    $('#ali').hide();
+                <?php } ?>
 								<?php if (isset($credit_dis)) { ?>
 										$('#credit_card').hide();
 								<?php } ?>

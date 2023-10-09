@@ -363,7 +363,7 @@ $usepsi = false;
 				<?php if (!empty($errormsg)) { ?><div class="alert-error" style="margin-bottom: 15px;"><?php echo $errormsg; ?></div><?php } ?>
 					<div class="row">
 					<?php if (in_array('Credit Card', $paytype_list)) { ?>
-						<div class="col-sm-4">
+						<div class="col-sm-3">
 						<?php if (isset($credit_dis)) { ?>
 							<div id='credit_card_div'>
 								<a class="btn btn-info col-sm-12">Pay By Credit Card <i class="fa fa-chevron-down"></i></a>
@@ -486,7 +486,7 @@ $usepsi = false;
 						</div>
 						<?php } /* end cheque pay */ ?>
 						<?php if (in_array('Cheque', $paytype_list)) { ?>
-						<div class="col-sm-4">
+						<div class="col-sm-3">
 						<?php     if (isset($cheque_dis)) { ?>
 							<div id='cheque_div'>
 								<a class="btn btn-info col-sm-12">Pay By Cheque <i class="fa fa-chevron-down"></i></a>
@@ -541,9 +541,26 @@ $usepsi = false;
 						<?php     } ?>
 						</div>
 						<?php } /* end cheque pay */ ?>
-						
+
+            <?php if (in_array('Ali', $paytype_list) && ($payment_total > 0)) { ?>
+						<div class="col-sm-3">
+						<?php     if (isset($ali_dis)) { ?>
+							<div id='ali_div'>
+								<a class="btn btn-info col-sm-12">Pay By Ali <iclass="fa fa-chevron-down"></i></a>
+							</div>
+							<div id='ali' style="padding:10px;" <?php if (empty($ali_dis)) { ?> style='display: none;' <?php } ?>>
+                <div class="col-sm-12">
+                  <label class="inline">Amount:</label><span><b> $<?php echo number_format($payment_total, 2, '.', ','); ?></b> <?php if ($plan['questionnaire'] > 0) { echo "(Table" . $plan['questionnaire'] . ")"; }?></span>
+                  <a class="btn btn-primary paysubmit" id="ali_submit" style="display:none;">Pay Now</a>
+                </div>
+								<hr />
+							</div>
+						<?php     } ?>
+						</div>
+						<?php } /* end ali pay */ ?>
+
 						<?php if (in_array('Cash', $paytype_list)) { ?>
-						<div class="col-sm-4">
+						<div class="col-sm-3">
 						<?php     if (isset($cash_dis)) { ?>
 							<div id='cash_div'>
 								<a class="btn btn-info col-sm-12">Pay By Cash <iclass="fa fa-chevron-down"></i></a>
@@ -744,6 +761,9 @@ $(document).ready(function() {
 		<?php if (isset($cheque_dis)) { ?>
 		$('#cheque').hide();
 		<?php } ?>
+		<?php if (isset($ali_dis)) { ?>
+		$('#ali').hide();
+		<?php } ?>
 		<?php if (isset($cash_dis)) { ?>
 		$('#cash').hide();
 		<?php } ?>
@@ -757,6 +777,9 @@ $(document).ready(function() {
 		<?php if (isset($credit_dis)) { ?>
 		$('#credit_card').hide();
 		<?php } ?>
+		<?php if (isset($ali_dis)) { ?>
+		$('#ali').hide();
+		<?php } ?>
 		<?php if (isset($cash_dis)) { ?>
 		$('#cash').hide();
 		<?php } ?>
@@ -765,8 +788,32 @@ $(document).ready(function() {
 </script>
 <script type="text/javascript">
 $(document).ready(function() {
+	$('#ali_div').click(function() {
+		$('#ali').show();
+		<?php if (isset($cash_dis)) { ?>
+		$('#cash').hide();
+		<?php } ?>
+		<?php if (isset($credit_dis)) { ?>
+		$('#credit_card').hide();
+		<?php } ?>
+		<?php if (isset($cheque_dis)) { ?>
+		$('#cheque').hide();
+		<?php } ?>
+    $.ajax({
+      url: '<?php echo $get_ali_url; ?>' + '?sekey=' + '<?php echo $sekey; ?>',
+      type: 'GET',
+      success: function(data, textStatus, jqXHR) {
+        console.log("ali_div ====>>>>", data, textStatus, jqXHR); //XXXXXXXXXXXXXXXXXXX
+        $('#ali_submit').attr('href', data);
+        $('#ali_submit').show();
+      },
+    });
+	});
 	$('#cash_div').click(function() {
 		$('#cash').show();
+		<?php if (isset($ali_dis)) { ?>
+		$('#ali').hide();
+		<?php } ?>
 		<?php if (isset($credit_dis)) { ?>
 		$('#credit_card').hide();
 		<?php } ?>

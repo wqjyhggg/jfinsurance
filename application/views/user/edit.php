@@ -391,7 +391,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<div class="form-group col-sm-6">
 							<p><b>Allow Customer Pay type:</b></p>
 							<?php foreach ($paytype_list as $pay) { ?>
-							<div class="col-sm-4">
+							<div class="col-sm-3">
 							<input type='checkbox' name='paytype_list[]' value='<?php echo $pay; ?>' <?php echo (strpos($pay_type, $pay) === FALSE) ? '' : 'checked'; ?>> <?php echo $pay; ?><br>
 							</div>
 							<?php } ?>

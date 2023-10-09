@@ -458,6 +458,7 @@ $config['csrf_exclude_uris'] = array(
 'api/claim_summary',
 'batch/loadother',
 'plan/sendpackage/[0-9]+',
+'snappay/*',
 'reports/annual'
 );
 

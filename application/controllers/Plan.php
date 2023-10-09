@@ -1611,6 +1611,25 @@ class Plan extends MY_Controller {
 		}
 	}
 	
+  function get_ali_url($plan_id) {
+		$beuser = $this->func_model->verify_login();
+    $this->load->model('payment_model');
+    $this->load->model('plan_model');
+    $this->load->model('snappay_model');
+
+    $plan = $this->plan_model->get_plan_by_id($plan_id);
+    $sekey = $this->input->get('sekey');
+    if (!$plan) {
+      die("");
+    }
+    $payment_total = $plan['premium'] - $this->payment_model->get_total_paid($plan['plan_id'], 'premium');
+    if ($payment_total <= 0) {
+      die("");
+    }
+    $pay_url = $this->snappay_model->get_pay_url($plan, $payment_total, $sekey);
+    die($pay_url);
+  }
+
   function get_activelog_history($plan_id) {
 		$beuser = $this->func_model->verify_login();
     $this->load->model('log_model');
@@ -2715,6 +2734,21 @@ class Plan extends MY_Controller {
 		return $this->detail($plan_id, '', 'Payment Failed');
 	}
 	
+	function snappay($plan_id=0, $sekey='') {
+    log_message('debug', "snappay return: plan_id[".$plan_id."];sekey[".$sekey."]");
+    // If in Quebec, send French version package
+		$this->load->model('plan_model');
+		$plan = $this->plan_model->get_plan_by_id($plan_id);
+		if (empty($plan)) {
+      log_message('debug', "snappay return: can not find policy");
+			redirect('user/login');
+		}
+    if (($plan["province2"] == "QC") && in_array($plan["product_short"], $this->french_plan)) {
+      $this->sendpackage($plan_id, 1);
+    }
+    return $this->detail($plan_id, $sekey);
+	}
+	
 	function detail($plan_id=0, $sekey='', $passerr='') {
 		$this->error = '';
 		$defaultpay_type = '';
@@ -2794,6 +2828,11 @@ class Plan extends MY_Controller {
 			} else if ($play_type == 'Cash') {
 				$this->cash();
 				$defaultpay_type = 'Cash';
+			// } else if ($play_type == 'Ali') {
+      //   // If in Quebec, send French version package
+      //   if (($plan["province2"] == "QC") && in_array($plan["product_short"], $this->french_plan)) {
+      //     $this->sendpackage($plan_id, 1);
+      //   }
 			} else if ($play_type == 'Cheque') {
 				$this->cheque();
 				$defaultpay_type = 'Cheque';
@@ -2911,6 +2950,7 @@ class Plan extends MY_Controller {
 		$data['psi_active_url'] = 'https://checkout.psigate.com/HTMLPost/HTMLMessenger';
 		$data['psi_thanks_url'] = base_url('plan/psiok/' . $plan_id);
 		$data['psi_nothanks_url'] = base_url('plan/psifail/' . $plan_id);
+    $data['get_ali_url'] = base_url ( "plan/get_ali_url/" . $data['plan_id'] );
 		$data['StoreKey'] = 'JohnsonFuIns2017081018581'; //  'merchantcardcapture200024';
 		$data['CustomerIP'] = $this->input->ip_address();
 		
@@ -2940,6 +2980,11 @@ class Plan extends MY_Controller {
 				$data['pay_type'] = 'Cheque';
 				$display = 0;
 			}
+			if (in_array('Ali', $data['paytype_list'])) {
+				$data['ali_dis'] = $display;
+				$data['pay_type'] = 'Ali';
+				$display = 0;
+			}
 			if (in_array('Cash', $data['paytype_list'])) {
 				$data['cash_dis'] = $display;
 				$data['pay_type'] = 'Cash';
@@ -2954,6 +2999,8 @@ class Plan extends MY_Controller {
 				$data['credit_dis'] = 1;
 			} else if ($data['pay_type'] == 'Cheque') {
 				$data['cheque_dis'] = 1;
+			} else if ($data['pay_type'] == 'Ali') {
+				$data['ali_dis'] = 1;
 			} else if ($data['pay_type'] == 'Cash') {
 				$data['cash_dis'] = 1;
 			}
