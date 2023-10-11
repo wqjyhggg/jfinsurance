@@ -38,6 +38,256 @@ class Plan extends CI_Controller
     return $this->app_model->return_ok(array("plans"=>array(), "totals"=>0));
   }
 
+  function get_plan_pay() {
+    $this->error = "";
+    $this->load->model("app_model");
+    $this->load->model("user_model");
+    $user = $this->app_model->check_token($this->input->post("token"));
+
+    if (empty($user)) {
+      if (empty($this->error)) {
+        $this->error = "Timeout";
+      }
+      return $this->app_model->return_error($this->error);
+    }
+    $this->load->model('payment_model');
+    $this->load->model('plan_model');
+
+    $plan_id = $this->input->post("plan_id");
+    $plan = $this->plan_model->get_plan_by_id($plan_id);
+    if (empty($plan)) {
+      return $this->app_model->return_error("Unknown Policy");
+    }
+
+    $payment_total = $plan['premium'] - $this->payment_model->get_total_paid($plan['plan_id'], 'premium');
+    $this->app_model->return_ok(["pay_amount"=>$payment_total]);
+  }
+
+  function get_ali_url() {
+    $this->error = "";
+    $this->load->model("app_model");
+    $this->load->model("user_model");
+    $user = $this->app_model->check_token($this->input->post("token"));
+
+    if (empty($user)) {
+      if (empty($this->error)) {
+        $this->error = "Timeout";
+      }
+      return $this->app_model->return_error($this->error);
+    }
+    $this->load->model('payment_model');
+    $this->load->model('plan_model');
+    $this->load->model('snappay_model');
+
+    $plan_id = $this->input->post("plan_id");
+    $plan = $this->plan_model->get_plan_by_id($plan_id);
+    if (empty($plan)) {
+      return $this->app_model->return_error("Unknown Policy");
+    }
+
+    $payment_total = $plan['premium'] - $this->payment_model->get_total_paid($plan['plan_id'], 'premium');
+    if ($payment_total <= 0) {
+      return $this->app_model->return_error("Policy Paid already");
+    }
+    $pay_url = $this->snappay_model->get_pay_url($plan, $payment_total, "");
+    if (empty($pay_url)) {
+      return $this->app_model->return_error("Unknown Payment URL");
+    }
+    $this->app_model->return_ok(["pay_url"=>$pay_url, "pay_amount"=>$payment_total]);
+  }
+
+  function set_plan_pay() {
+    $this->error = "";
+    $this->load->model("app_model");
+    $this->load->model("user_model");
+    $user = $this->app_model->check_token($this->input->post("token"));
+
+    if (empty($user)) {
+      if (empty($this->error)) {
+        $this->error = "Timeout";
+      }
+      return $this->app_model->return_error($this->error);
+    }
+    $this->load->model('payment_model');
+    $this->load->model('plan_model');
+    $this->load->model('plan_history_model');
+		$this->load->model('product_model');
+		$this->load->model('log_model');
+
+    $plan_id = $this->input->post("plan_id");
+    $premium = $this->input->post("pay_amount");
+    $pay_type = $this->input->post("pay_type"); // Cash, Cheque
+    $plan = $this->plan_model->get_plan_by_id($plan_id);
+    if (empty($plan)) {
+      return $this->app_model->return_error("Unknown Policy");
+    }
+		$premium = (float)$premium;
+    
+    if ($pay_type == 'Ali') {
+      $payinfo = "Pay Ali: " . 'Premium: $' . $premium . "; ";
+    } else if ($pay_type == 'Cheque') {
+      $payinfo  = 'Invoice Number: ' . $this->input->post('invoice_num') . "; ";
+      $payinfo .= 'Bank Name: ' . $this->input->post('bank_name') . "; ";
+      $payinfo .= 'Payor Name: ' . $this->input->post('payor_name') . "; ";
+      $payinfo .= 'Cheque#: ' . $this->input->post('cheque_number') . "; ";
+      $payinfo .= 'Premium: $' . $this->input->post('premium') . "; ";
+    } else if ($pay_type == 'Credit Card') {
+      $card_number = $this->input->post('card_number');
+      $card_name = $this->input->post('card_name');
+      $expiry_month = $this->input->post('expiry_month');
+      $expiry_year = $this->input->post('expiry_year');
+      $card_cvv = $this->input->post('card_cvv');
+
+      $card_number = preg_replace('#[^0-9]#', '', $card_number);
+			$card_cvv = preg_replace('#[^0-9]#', '', $card_cvv);
+			$card_number_len = strlen($card_number);
+			$card_cvv_len = strlen($card_cvv);
+    }
+
+		$product = $this->product_model->get_product($plan['product_short']);
+		$dt = array();
+		$dt['plan_id'] = $plan_id;
+		$dt['amount'] = $premium;
+		$dt['pay_type'] = 'premium';
+		$dt['currency'] = $product['currency'];
+		$dt['pay_mothed'] = 'Ali'; // Cheque, 
+		$dt['added'] = date('c');
+		$dt['note'] = $payinfo;
+		$dt['ispaid'] = (($pay_type == 'Cash') || ($pay_type == 'Cheque'))?0:1;
+    if ($pay_type == 'Cheque') {
+      // for Cheque
+      $dt['invoice_num'] = empty($this->input->post('invoice_num')) ? '' : $this->input->post('invoice_num');
+      $dt['bank_name'] = $this->input->post('bank_name');
+      $dt['payor_name'] = $this->input->post('payor_name');
+      $dt['cheque_number'] = $this->input->post('cheque_number');
+    } else if ($pay_type == 'Credit Card') {
+			$dt['name'] = $card_name;
+			$dt['first5'] = substr($card_number, 0, 5);
+			$dt['last4'] = substr($card_number, -4);
+			$dt['expiry_month'] = $expiry_month;
+			$dt['expiry_year'] = $expiry_year;
+    }
+    
+
+		$commission_rate = $this->product_model->get_commission_rate($plan['product_short'], $plan['user_id']);
+		if (($plan['product_short'] == 'TOP') && ($plan['totalyears'] > 60)) {
+			if ($commission_rate > 15) {
+				$commission_rate -= 15;
+			} else {
+				$commission_rate = 0;
+			}
+		}
+		if ($plan['product_short'] == 'TOP') {
+			$commission_amount = ($premium - ($plan['tax'] * $premium / $plan['premium'])) * $commission_rate / 100.0;
+		} else {
+			$commission_amount = $premium * $commission_rate / 100.0;
+		}
+		// $up_commission_rate = $this->product_model->get_up_commission_rate($plan['product_short']);
+		// $up_commission_amount = $premium * $up_commission_rate / 100.0;
+		
+		$dt['amount'] = $premium;
+		$dt['rate'] = 100;
+		$dt['pay_type'] = 'premium';
+		$dt['premium_payment_id'] = 0;
+		$payment_id = $this->payment_model->add($dt);
+		$para = array(
+				'plan_id' => $plan_id,
+				'customer_id' => $plan['customer_id'],
+				'payment_id' => $payment_id,
+				'message' => $this->payment_model->logstr,
+				'systemlog' => $this->payment_model->sqlstr
+		);
+		$this->log_model->activity('payment', $para);
+
+		// // up commission
+		// $dt['amount'] = $up_commission_amount;
+		// $dt['rate'] = $up_commission_rate;
+		// $dt['pay_type'] = 'up_commission';
+		// $dt['premium_payment_id'] = $payment_id;
+		// $up_commission_payment_id = $this->payment_model->add($dt);
+		// $para = array(
+		// 		'plan_id' => $plan_id,
+		// 		'customer_id' => $plan['customer_id'],
+		// 		'payment_id' => $up_commission_payment_id,
+		// 		'message' => $this->payment_model->logstr,
+		// 		'systemlog' => $this->payment_model->sqlstr
+		// );
+		// $this->log_model->activity('up_commission', $para);
+
+		// commission
+		$dt['amount'] = $commission_amount;
+		$dt['rate'] = $commission_rate;
+		$dt['pay_type'] = 'commission';
+		$dt['premium_payment_id'] = $payment_id;
+		if (($plan['product_short'] == 'OPL') || ($plan['product_short'] == 'JFVTC') || ($plan['product_short'] == 'JFR')) {
+			$nowtm = time();
+			$efftm = strtotime($plan['effective_date']);
+			if ($nowtm <= $efftm) {
+				if (($plan['sum_insured'] >= 100000) && ($plan['totaldays'] >= 365)) {
+					if ($this->payment_model->adjust_commission_added_date($plan_id, $plan['effective_date'])) {
+						$para = array(
+								'plan_id' => $plan_id,
+								'customer_id' => $plan['customer_id'],
+								'payment_id' => 0,
+								'message' => 'adjust apply time to effective date : ' . $plan_id . ' [ ' . $plan['effective_date'] . ' ]',
+								'systemlog' => $this->payment_model->sqlstr
+						);
+						$this->log_model->activity('commission', $para);
+					}
+					$dt['added'] = $plan['effective_date'];
+				} else {
+					if ($this->payment_model->adjust_commission_added_back_date($plan_id, date('Y-m-d'))) {
+						$para = array(
+								'plan_id' => $plan_id,
+								'customer_id' => $plan['customer_id'],
+								'payment_id' => 0,
+								'message' => 'adjust apply time to today : ' . $plan_id . ' [ ' . date('Y-m-d') . ' ]',
+								'systemlog' => $this->payment_model->sqlstr
+						);
+						$this->log_model->activity('commission', $para);
+					}
+				}
+			}
+		}
+		$commission_payment_id = $this->payment_model->add($dt);
+		$para = array(
+				'plan_id' => $plan_id,
+				'customer_id' => $plan['customer_id'],
+				'payment_id' => $commission_payment_id,
+				'message' => $this->payment_model->logstr,
+				'systemlog' => $this->payment_model->sqlstr
+		);
+		$this->log_model->activity('commission', $para);
+
+    $history_id = 0;
+    if (($history = $this->plan_history_model->get_plan_history_by_plan_id($plan_id)) && ($history["actualrate"]>0)) {
+      $history_id = $history["plan_history_id"];
+    } else {
+      // Add missing first record.
+      if ($plan['status_id'] > 1) {
+        $history_id = $this->plan_history_model->add($plan_id, $plan['status_id']);
+      }
+    }
+
+		$para = array('payment_id' => $payment_id, 'payinfo' => $payinfo, 'commission_payment_id' => $commission_payment_id, 'status_id' => Plan_model::SOLD, 'policy' => $this->plan_model->get_policy_number($plan_id, 2));
+		$this->plan_model->update($plan_id, $para);
+    if ($history_id) {
+      $this->plan_history_model->add_remove($history_id);
+    }
+    $this->plan_history_model->add($plan_id, Plan_model::SOLD);
+
+		$para = array(
+				'plan_id' => $plan_id,
+				'customer_id' => $plan['customer_id'],
+				'payment_id' => $payment_id,
+				'message' => $this->plan_model->logstr,
+				'systemlog' => $this->plan_model->sqlstr
+		);
+		$this->log_model->activity('plan', $para);
+// ==============XXXXXXXXXXXXXXXXXXXX
+    $this->app_model->return_ok(["status"=>"OK"]);
+  }
+
   public function detail()
   {
     $this->error = "";
@@ -149,6 +399,18 @@ class Plan extends CI_Controller
 		return $this->app_model->return_ok($data);
 	}
 
+  public function output_heads() {
+    header("Access-Control-Allow-Origin: *");
+    $allowedOrigins = ["*"];
+    $origin = $_SERVER["HTTP_ORIGIN"] ?? '';
+    if (in_array($origin, $allowedOrigins)) {
+      header("Access-Control-Allow-Origin: $origin");
+    }
+    // 设置其他CORS头
+    header("Access-Control-Allow-Methods: GET, POST, PUT, PATCH, DELETE");
+    header("Access-Control-Allow-Headers: Content-Type, Authorization");
+  }
+
   // print receipt
   public function receipt() {
     $this->error = "";
@@ -217,6 +479,7 @@ class Plan extends CI_Controller
 		$data['plan_full_name'] = $product ? $product['full_name'] : '';
 		$data['agent'] = $this->user_model->get_user_by_id($plan['user_id']);
 		
+    $this->output_heads();
 		$mpdf = new mPDF('c');
 		$data['title_txt'] = 'Receipt';
 		$data['style'] = $this->load->view('common/pdf_style',$data, TRUE);
@@ -297,6 +560,7 @@ class Plan extends CI_Controller
 		$product = $this->product_model->get_product($plan['product_short']);
 		$data['plan_full_name'] = $product ? $product['full_name'] : '';
 
+    $this->output_heads();
     $mpdf = new mPDF('c');
 		$data['title_txt'] = 'Card';
     $data['style'] = $this->load->view('common/pdf_style',$data, TRUE);
@@ -803,6 +1067,7 @@ class Plan extends CI_Controller
       }
       $html = $this->load->view('plan/pdf', $data, TRUE);
     }
+    $this->output_heads();
     $mpdf->autoLangToFont=true;
     $mpdf->autoScriptToLang=true;
 		$mpdf->writeHTML($html);

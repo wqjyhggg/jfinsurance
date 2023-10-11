@@ -52,7 +52,7 @@ class Snappay_model extends CI_Model {
     return  $output;
   }
 
-  public function get_pay_url($plan, $amount, $sekey="") {
+  public function get_pay_url($plan, $amount, $sekey="", $needReturn) {
     $uid = $this->get_trans_id($plan["plan_id"]);
     if (!$uid) {
       $this->last_err = "Create uid error";
@@ -78,7 +78,8 @@ class Snappay_model extends CI_Model {
     $postArr['version'] = "1.0";
     $postArr['method'] = "pay.webpay";
     $postArr['payment_method'] = "ALIPAY";
-    $postArr['browser_type'] = "WAP";
+    $postArr['browser_type'] = "PC";
+    // $postArr['browser_type'] = "WAP";
 
     ksort($postArr);
     reset($postArr);
