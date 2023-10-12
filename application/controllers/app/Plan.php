@@ -402,7 +402,7 @@ class Plan extends CI_Controller
   public function output_heads() {
     header("Access-Control-Allow-Origin: *");
     $allowedOrigins = ["*"];
-    $origin = $_SERVER["HTTP_ORIGIN"] ?? '';
+    $origin = empty($_SERVER["HTTP_ORIGIN"]) ? '' : $_SERVER["HTTP_ORIGIN"];
     if (in_array($origin, $allowedOrigins)) {
       header("Access-Control-Allow-Origin: $origin");
     }
