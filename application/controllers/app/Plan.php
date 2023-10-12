@@ -89,9 +89,13 @@ class Plan extends CI_Controller
     if ($payment_total <= 0) {
       return $this->app_model->return_error("Policy Paid already");
     }
-    $pay_url = $this->snappay_model->get_pay_url($plan, $payment_total, "");
+    $pay_url = $this->snappay_model->get_pay_url($plan, $payment_total, $this->input->post("returnurl"));
     if (empty($pay_url)) {
-      return $this->app_model->return_error("Unknown Payment URL");
+      $err = "Unknown Payment URL";
+      if ($this->snappay_model->last_err) {
+        $err = $this->snappay_model->last_err;
+      }
+      return $this->app_model->return_error($err);
     }
     $this->app_model->return_ok(["pay_url"=>$pay_url, "pay_amount"=>$payment_total]);
   }
@@ -117,6 +121,9 @@ class Plan extends CI_Controller
     $plan_id = $this->input->post("plan_id");
     $premium = $this->input->post("pay_amount");
     $pay_type = $this->input->post("pay_type"); // Cash, Cheque, Credit Card
+    if (($pay_type != "") || ($pay_type != "") || ($pay_type != "")) {
+      return $this->app_model->return_error("Unknown pay type");
+    }
     $plan = $this->plan_model->get_plan_by_id($plan_id);
     if (empty($plan)) {
       return $this->app_model->return_error("Unknown Policy");
