@@ -116,7 +116,7 @@ class Plan extends CI_Controller
 
     $plan_id = $this->input->post("plan_id");
     $premium = $this->input->post("pay_amount");
-    $pay_type = $this->input->post("pay_type"); // Cash, Cheque
+    $pay_type = $this->input->post("pay_type"); // Cash, Cheque, Credit Card
     $plan = $this->plan_model->get_plan_by_id($plan_id);
     if (empty($plan)) {
       return $this->app_model->return_error("Unknown Policy");
@@ -150,10 +150,10 @@ class Plan extends CI_Controller
 		$dt['amount'] = $premium;
 		$dt['pay_type'] = 'premium';
 		$dt['currency'] = $product['currency'];
-		$dt['pay_mothed'] = 'Ali'; // Cheque, 
+		$dt['pay_mothed'] = $pay_type;
 		$dt['added'] = date('c');
 		$dt['note'] = $payinfo;
-		$dt['ispaid'] = (($pay_type == 'Cash') || ($pay_type == 'Cheque'))?0:1;
+		$dt['ispaid'] = 0; // (($pay_type == 'Cash') || ($pay_type == 'Cheque'))?0:1;
     if ($pay_type == 'Cheque') {
       // for Cheque
       $dt['invoice_num'] = empty($this->input->post('invoice_num')) ? '' : $this->input->post('invoice_num');
@@ -166,8 +166,18 @@ class Plan extends CI_Controller
 			$dt['last4'] = substr($card_number, -4);
 			$dt['expiry_month'] = $expiry_month;
 			$dt['expiry_year'] = $expiry_year;
+
+      $card_number = preg_replace('#[^0-9]#', '', $card_number);
+			$card_cvv = preg_replace('#[^0-9]#', '', $card_cvv);
+			$card_number_len = strlen($card_number);
+			$card_cvv_len = strlen($card_cvv);
+			
+			if (($card_number_len < 13) || ($card_number_len > 16)) {
+				return $this->app_model->return_error('Invalid Card Number');
+			} else if (($card_cvv_len < 3) || ($card_cvv_len > 4)) {
+				return $this->app_model->return_error('Invalid Card Number CVV');
+			}
     }
-    
 
 		$commission_rate = $this->product_model->get_commission_rate($plan['product_short'], $plan['user_id']);
 		if (($plan['product_short'] == 'TOP') && ($plan['totalyears'] > 60)) {
@@ -259,32 +269,156 @@ class Plan extends CI_Controller
 		);
 		$this->log_model->activity('commission', $para);
 
-    $history_id = 0;
-    if (($history = $this->plan_history_model->get_plan_history_by_plan_id($plan_id)) && ($history["actualrate"]>0)) {
-      $history_id = $history["plan_history_id"];
-    } else {
-      // Add missing first record.
-      if ($plan['status_id'] > 1) {
-        $history_id = $this->plan_history_model->add($plan_id, $plan['status_id']);
+    if (($pay_type == 'Cash') || ($pay_type == 'Cheque')) {
+      $history_id = 0;
+      if (($history = $this->plan_history_model->get_plan_history_by_plan_id($plan_id)) && ($history["actualrate"]>0)) {
+        $history_id = $history["plan_history_id"];
+      } else {
+        // Add missing first record.
+        if ($plan['status_id'] > 1) {
+          $history_id = $this->plan_history_model->add($plan_id, $plan['status_id']);
+        }
       }
-    }
 
-		$para = array('payment_id' => $payment_id, 'payinfo' => $payinfo, 'commission_payment_id' => $commission_payment_id, 'status_id' => Plan_model::SOLD, 'policy' => $this->plan_model->get_policy_number($plan_id, 2));
-		$this->plan_model->update($plan_id, $para);
-    if ($history_id) {
-      $this->plan_history_model->add_remove($history_id);
-    }
-    $this->plan_history_model->add($plan_id, Plan_model::SOLD);
+      $para = array('payment_id' => $payment_id, 'payinfo' => $payinfo, 'commission_payment_id' => $commission_payment_id, 'status_id' => Plan_model::SOLD, 'policy' => $this->plan_model->get_policy_number($plan_id, 2));
+      $this->plan_model->update($plan_id, $para);
+      if ($history_id) {
+        $this->plan_history_model->add_remove($history_id);
+      }
+      $this->plan_history_model->add($plan_id, Plan_model::SOLD);
 
-		$para = array(
-				'plan_id' => $plan_id,
-				'customer_id' => $plan['customer_id'],
-				'payment_id' => $payment_id,
-				'message' => $this->plan_model->logstr,
-				'systemlog' => $this->plan_model->sqlstr
-		);
-		$this->log_model->activity('plan', $para);
-// ==============XXXXXXXXXXXXXXXXXXXX
+      $para = array(
+          'plan_id' => $plan_id,
+          'customer_id' => $plan['customer_id'],
+          'payment_id' => $payment_id,
+          'message' => $this->plan_model->logstr,
+          'systemlog' => $this->plan_model->sqlstr
+      );
+      $this->log_model->activity('plan', $para);
+    } else if ($pay_type == 'Credit Card') {
+			$beanstream = new \Beanstream\Gateway ( $product['merchent_id'], $product['apikey'], 'www', 'v1' );
+			$payment_data = array (
+					'order_number' => $plan_id,
+					'amount' => $premium,
+					'payment_method' => 'card',
+					'card' => array (
+							'name' => $card_name,
+							'number' => $card_number,
+							'expiry_month' => $expiry_month,
+							'expiry_year' => $expiry_year,
+							'cvd' => $card_cvv 
+					) 
+			);
+			try {
+				$result = $beanstream->payments()->makeCardPayment( $payment_data, TRUE ); // set to FALSE for Pre-Auth
+				if (isset($result['approved'])) {
+          $history_id = 0;
+          if (($history = $this->plan_history_model->get_plan_history_by_plan_id($plan_id)) && ($history["actualrate"]>0)) {
+            $history_id = $history["plan_history_id"];
+          } else {
+            // Add missing first record.
+            if ($plan['status_id'] > 1) {
+              $history_id = $this->plan_history_model->add($plan_id, $plan['status_id']);
+            }
+          }
+        
+          $payinfo = "Credit Card: " . substr($card_number, 0, 5) . "xxx" . substr($card_number, -4) . " " . $card_name .  " " . $expiry_month . "/" . $expiry_year;
+						
+					$para = array('payment_id' => $payment_id, 'payinfo' => $payinfo, 'commission_payment_id' => $commission_payment_id, 'status_id' => Plan_model::PAID, 'policy' => $this->plan_model->get_policy_number($plan_id, 2));
+					$this->plan_model->update($plan_id, $para);
+					$para = array(
+							'plan_id' => $plan_id,
+							'customer_id' => $plan['customer_id'],
+							'payment_id' => $payment_id,
+							'message' => $this->plan_model->logstr,
+							'systemlog' => $this->plan_model->sqlstr
+					);
+					$this->log_model->activity('plan', $para);
+          if ($history_id) {
+            $this->plan_history_model->add_remove($history_id);
+          }
+          $this->plan_history_model->add($plan_id, Plan_model::PAID);
+					
+					$dt = array();
+					$dt['ispaid'] = 1;
+					$dt['note'] = "Success: Raw Data=> " . json_encode($result);
+					$payment_id = $this->payment_model->update($payment_id, $dt);
+					$para = array(
+							'plan_id' => $plan_id,
+							'customer_id' => $plan['customer_id'],
+							'payment_id' => $payment_id,
+							'message' => $this->payment_model->logstr,
+							'systemlog' => $this->payment_model->sqlstr
+					);
+					$this->log_model->activity('payment', $para);
+          // If in Quebec, send French version package
+          if (($plan["province2"] == "QC") && in_array($plan["product_short"], $this->french_plan)) {
+            $this->sendpackage(1, $user, $plan_id);
+          }
+        } else {
+					$payinfo = "Credit Card: " . substr($card_number, 0, 5) . "xxx" . substr($card_number, -4) . " " . $card_name .  " " . $expiry_month . "/" . $expiry_year;
+						
+					$para = array('payment_id' => $payment_id, 'payinfo' => $payinfo, 'commission_payment_id' => $commission_payment_id );
+					$this->plan_model->update($plan_id, $para);
+					$para = array(
+							'plan_id' => $plan_id,
+							'customer_id' => $plan['customer_id'],
+							'payment_id' => $payment_id,
+							'message' => $this->plan_model->logstr,
+							'systemlog' => $this->plan_model->sqlstr
+					);
+					$this->log_model->activity('plan', $para);
+					
+					$dt = array();
+					$dt['ispaid'] = 0;
+					$dt['amount'] = 0;
+					$dt['note'] = "Failur pay (" . $premium . "): Raw Data=> " . json_encode($result);
+					$payment_id = $this->payment_model->update($payment_id, $dt);
+					$para = array(
+							'plan_id' => $plan_id,
+							'customer_id' => $plan['customer_id'],
+							'payment_id' => $payment_id,
+							'message' => $this->payment_model->logstr,
+							'systemlog' => $this->payment_model->sqlstr
+					);
+					$this->log_model->activity('payment', $para);
+					$commission_payment_id = $this->payment_model->update($commission_payment_id, $dt);
+					$up_commission_payment_id = $this->payment_model->update($up_commission_payment_id, $dt);
+					$this->error = 'Card payment failed. Incorrect card information or insufficient credit.';
+				}
+			} catch ( \Beanstream\Exception $e ) {
+				$payinfo = "Credit Card: " . substr($card_number, 0, 5) . "xxx" . substr($card_number, -4) . " " . $card_name .  " " . $expiry_month . "/" . $expiry_year;
+					
+				$para = array('payment_id' => $payment_id, 'payinfo' => $payinfo, 'commission_payment_id' => $commission_payment_id);
+				$this->plan_model->update($plan_id, $para);
+				$para = array(
+						'plan_id' => $plan_id,
+						'customer_id' => $plan['customer_id'],
+						'payment_id' => $payment_id,
+						'message' => $this->plan_model->logstr,
+						'systemlog' => $this->plan_model->sqlstr
+				);
+				$this->log_model->activity('plan', $para);
+				
+				// print_r ( $e->getMessage() );
+				$dt = array();
+				$dt['ispaid'] = 0;
+				$dt['amount'] = 0;
+				$dt['note'] = "Failur pay (" . $premium . "): (libraray) Raw Data=> " . $e->getMessage() . " : " . json_encode($e);
+				$payment_id = $this->payment_model->update($payment_id, $dt);
+				$para = array(
+						'plan_id' => $plan_id,
+						'customer_id' => $plan['customer_id'],
+						'payment_id' => $payment_id,
+						'message' => $this->payment_model->logstr,
+						'systemlog' => $this->payment_model->sqlstr
+				);
+				$this->log_model->activity('payment', $para);
+				$commission_payment_id = $this->payment_model->update($commission_payment_id, $dt);
+				$up_commission_payment_id = $this->payment_model->update($up_commission_payment_id, $dt);
+				$this->error = 'Payment failed. Please verify your credit card info.';
+			}
+    }
     $this->app_model->return_ok(["status"=>"OK"]);
   }
 
@@ -1075,13 +1209,24 @@ class Plan extends CI_Controller
   }
 
   // send package
-  public function sendpackage() {
+  public function sendpackage($isinternal=false, $user=null, $plan_id=0) {
     $this->error = "";
     $this->load->model("app_model");
     $this->load->model("user_model");
     $this->load->helper('url');
 
-    $user = $this->app_model->check_token($this->input->post("token"));
+    if (!$isinternal) {
+      $user = $this->app_model->check_token($this->input->post("token"));
+      $post = array(
+        "plan_id" => $plan_id,
+        "withlogo" => 1,
+        "withprice" => 1,
+        "sendfrench" => 1,
+        "emailaddr" => "",
+      );
+    } else {
+      $post = $this->input->post();
+    }
 
     if (empty($user)) {
       if (empty($this->error)) {
@@ -1090,7 +1235,7 @@ class Plan extends CI_Controller
       return $this->app_model->return_error($this->error);
     }
 
-    $plan_id = $this->input->post("plan_id");
+    $plan_id = isset($post["plan_id"])?$post["plan_id"]:0;
 		if (empty($plan_id)) {
       return $this->app_model->return_error("Unknown plan");
 		}
@@ -1108,21 +1253,10 @@ class Plan extends CI_Controller
 		$data['plan'] = $plan;
 		$data['pdf_enable'] = empty($beuser['pdf_product']) ? array() : json_decode($beuser['pdf_product']);
 		$data['emailaddr'] = $plan['contact_email'];
-    $withbatch = 0;
-    if ($beuser['user_group_id'] < 100) {
-      $data['withlogo'] = $this->input->post('withlogo');
-      $data['withprice'] = $this->input->post('withprice');
-      $withbatch = $this->input->post('withbatch');
-    } else {
-      $data['withlogo'] = 1;
-      if (($beuser['user_group_id'] != 103) && ($beuser['user_group_id'] != 106)) {
-        $data['withprice'] = 1;
-      } else {
-        $data['withprice'] = 0;
-      }
-    }
-    $data['sendfrench'] = $this->input->post('sendfrench');
-    $emailaddr = $this->input->post('emailaddr');
+    $data['withlogo'] = isset($post['withlogo'])?$post['withlogo']:1;
+    $data['withprice'] = isset($post['withprice'])?$post['withprice']:1;
+    $data['sendfrench'] = isset($post['sendfrench'])?$post['sendfrench']:0;
+    $emailaddr = isset($post['emailaddr'])?$post['emailaddr']:"";
     if (!empty($emailaddr)) {
       $data['emailaddr'] = $emailaddr;
     }
