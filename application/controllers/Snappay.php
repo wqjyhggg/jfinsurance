@@ -16,15 +16,20 @@ class Snappay extends CI_Controller {
       log_message('debug', "snappay: plan_id[".$plan_id."];recv[".$recv."]");
       return;
     }
+    $this->load->database();
+    $this->load->helper('url');
+		$this->load->model('log_model');
     $this->load->model('plan_model');
     $this->load->model('snappay_model');
-    $plan = $this->plan_model->find_by_plan_id($plan_id);
+    $plan = $this->plan_model->get_plan_by_id($plan_id);
     if (empty($plan)) {
       log_message('debug', "plan_id?[".$plan_id."];recv[".$recv."]");
       return;
     }
 
-    $data = $this->snappay_model->get_postback($plan_id, $recv, $plan);
+    $user["user_id"] = $plan["user_id"];
+    $user["user_group_id"] = 1;
+    $data = $this->snappay_model->record_postback($plan_id, $recv, $plan);
     /*
     $data = [
       'type' => "snappay-ali",
@@ -69,7 +74,7 @@ class Snappay extends CI_Controller {
 		$dt['rate'] = 100;
 		$dt['pay_type'] = 'premium';
 		$dt['premium_payment_id'] = 0;
-		$payment_id = $this->payment_model->add($dt);
+		$payment_id = $this->payment_model->add($dt, $user);
 		$para = array(
 				'plan_id' => $plan_id,
 				'customer_id' => $plan['customer_id'],
@@ -77,7 +82,7 @@ class Snappay extends CI_Controller {
 				'message' => $this->payment_model->logstr,
 				'systemlog' => $this->payment_model->sqlstr
 		);
-		$this->log_model->activity('payment', $para);
+		$this->log_model->activity('payment', $para, $user);
 
 		// // up commission
 		// $dt['amount'] = $up_commission_amount;
@@ -112,7 +117,7 @@ class Snappay extends CI_Controller {
 								'message' => 'adjust apply time to effective date : ' . $plan_id . ' [ ' . $plan['effective_date'] . ' ]',
 								'systemlog' => $this->payment_model->sqlstr
 						);
-						$this->log_model->activity('commission', $para);
+						$this->log_model->activity('commission', $para, $user);
 					}
 					$dt['added'] = $plan['effective_date'];
 				} else {
@@ -124,12 +129,12 @@ class Snappay extends CI_Controller {
 								'message' => 'adjust apply time to today : ' . $plan_id . ' [ ' . date('Y-m-d') . ' ]',
 								'systemlog' => $this->payment_model->sqlstr
 						);
-						$this->log_model->activity('commission', $para);
+						$this->log_model->activity('commission', $para, $user);
 					}
 				}
 			}
 		}
-		$commission_payment_id = $this->payment_model->add($dt);
+		$commission_payment_id = $this->payment_model->add($dt, $user);
 		$para = array(
 				'plan_id' => $plan_id,
 				'customer_id' => $plan['customer_id'],
@@ -137,7 +142,7 @@ class Snappay extends CI_Controller {
 				'message' => $this->payment_model->logstr,
 				'systemlog' => $this->payment_model->sqlstr
 		);
-		$this->log_model->activity('commission', $para);
+		$this->log_model->activity('commission', $para, $user);
 
     $history_id = 0;
     if (($history = $this->plan_history_model->get_plan_history_by_plan_id($plan_id)) && ($history["actualrate"]>0)) {
@@ -149,12 +154,12 @@ class Snappay extends CI_Controller {
       }
     }
 
-		$para = array('payment_id' => $payment_id, 'payinfo' => $payinfo, 'commission_payment_id' => $commission_payment_id, 'status_id' => Plan_model::SOLD, 'policy' => $this->plan_model->get_policy_number($plan_id, 2));
-		$this->plan_model->update($plan_id, $para);
+		$para = array('payment_id' => $payment_id, 'payinfo' => $payinfo, 'commission_payment_id' => $commission_payment_id, 'status_id' => Plan_model::PAID, 'policy' => $this->plan_model->get_policy_number($plan_id, 2));
+		$this->plan_model->update($plan_id, $para, array(), $user);
     if ($history_id) {
       $this->plan_history_model->add_remove($history_id);
     }
-    $this->plan_history_model->add($plan_id, Plan_model::SOLD);
+    $this->plan_history_model->add($plan_id, Plan_model::PAID);
 
 		$para = array(
 				'plan_id' => $plan_id,
@@ -163,6 +168,6 @@ class Snappay extends CI_Controller {
 				'message' => $this->plan_model->logstr,
 				'systemlog' => $this->plan_model->sqlstr
 		);
-		$this->log_model->activity('plan', $para);
+		$this->log_model->activity('plan', $para, $user);
 	}
 }
