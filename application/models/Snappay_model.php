@@ -5,9 +5,9 @@ if (!defined('BASEPATH'))
 
 class Snappay_model extends CI_Model {
   public $url = "https://open.snappay.ca/api/gateway";
-  public $MerchantId = "901800000116";
-  public $AppId = "9f00cd9a873c511e";
-  public $key = "7e2083699dd510575faa1c72f9e35d43";
+  public $MerchantId = "902300039895";  //test "901800000116";
+  public $AppId = "145cdbb464ae1e99";   //test "9f00cd9a873c511e";
+  public $key = "43affabcc9f10d9ca04a452d4e778131"; //test "7e2083699dd510575faa1c72f9e35d43";
   public $last_err = "";
 
 	private function get_trans_id($plan_id) {
