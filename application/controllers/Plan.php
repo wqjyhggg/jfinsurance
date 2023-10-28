@@ -2942,6 +2942,13 @@ class Plan extends MY_Controller {
 			}
 		} else {
 			$data['paytype_list'] = $this->paytype_model->paytype_default();
+			$paytype_list = explode(",", trim($beuser['pay_type']));
+			foreach ($data['paytype_list'] as $key=>$pty) {
+				if (!in_array($pty, $paytype_list)) {
+					unset($data['paytype_list'][$key]);
+				}
+			}
+			$data['paytype_list'] = array_value($data['paytype_list']);
 		}
 		$data['payurl'] = base_url('plan/detail/' . $plan_id . '/' . $this->plan_model->get_plan_key($plan_id));
 		$data['payurltm'] = date("Y-m-d H:i", strtotime($plan['last_update']) + 48 * 3600);
