@@ -19,6 +19,6 @@ class Paytype_model extends CI_Model {
 	 * @return	array					user table search result
 	 */
 	public function paytype_default() {
-		return array('Credit Card');
+		return array('Credit Card', 'Ali');
 	}
 }
