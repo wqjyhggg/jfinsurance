@@ -129,7 +129,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<label style="text-transform: capitalize;">By Agent<?php echo "[ AgentID:" . $policy_user['user_id'] . " ] "; ?>: <?php echo htmlspecialchars($policy_user['firstname'] . " " . $policy_user['lastname']); ?></label>
 						</div>
 						<?php } ?>
-						<?php if ($user_group_id != 1) { ?>
+						<?php if (($user_group_id != 1) || (($beuser_user_id != 1) && ($beuser_user_id != 2762) && ($beuser_user_id != 2254) && ($beuser_user_id != 2661) && ($beuser_user_id != 4272) )) { ?>
 							<?php /* it is school or brokerage or agent */ ?>
 							<div class="form-group col-sm-3">
 								<label style="font-size:16px;">Status: <?php echo $status_list[$status_id]['name']; ?> </label>
