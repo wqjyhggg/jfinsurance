@@ -2020,9 +2020,11 @@ class Product_model extends CI_Model {
      *
      * @return array product list
      */
-    public function get_available_product_list() {
+    public function get_available_product_list($beuser=false) {
     	$userArr = array();
+			if (!$beuser) {
         $beuser = $this->session->beuser;
+			}
     	if ($beuser['user_group_id'] > 100) {
     		if ($beuser['user_group_id'] != 104) {
     			$userArr = array($beuser['user_id']);

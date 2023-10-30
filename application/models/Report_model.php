@@ -927,9 +927,11 @@ class Report_model extends CI_Model
    * @param array $para Parameter array
    * @return array commission report data
    */
-  public function get_agent_commission_report($para)
+  public function get_agent_commission_report($para, $beuser=false)
   {
-    $beuser = $this->session->beuser;
+    if (!$beuser) {
+      $beuser = $this->session->beuser;
+    }
     $available_user_ids = array_keys($para['user_list']);
     $paymenttb = "payment";
     if (!empty($para['payment_date_from'])) {

@@ -157,9 +157,11 @@ class User_model extends CI_Model {
      *
      * @return array available user list
      **/
-    public function get_available_user_list()
+    public function get_available_user_list($buser=false)
     {
-        $beuser = $this->session->beuser;
+				if (!$buser) {
+					$beuser = $this->session->beuser;
+				}
         if (($beuser['user_group_id'] > 100) && ($beuser['user_group_id'] != 104)) {
             return array(
                 $beuser['user_id'] => array(
