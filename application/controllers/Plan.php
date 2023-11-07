@@ -1612,7 +1612,7 @@ class Plan extends MY_Controller {
 	}
 	
   function get_ali_url($plan_id) {
-		$beuser = $this->func_model->verify_login();
+    $this->load->model('user_model');
     $this->load->model('payment_model');
     $this->load->model('plan_model');
     $this->load->model('snappay_model');
@@ -1620,11 +1620,21 @@ class Plan extends MY_Controller {
     $plan = $this->plan_model->get_plan_by_id($plan_id);
     $sekey = $this->input->get('sekey');
     if (!$plan) {
-      die("");
+      show_error("Error 1");
     }
+		$beuser = $this->user_model->get_user_by_id($plan['user_id']);
+		$key = $this->plan_model->get_plan_key($plan_id);
+		if ($key != $sekey) {
+			show_error("Error 2");
+		}
+		if ($plan['status_id'] != Plan_model::CHANGED) {
+			if (((time() - strtotime($plan['last_update'])) > (48 * 3600)) || ($plan['effective_date'] <= date("Y-m-d"))) {
+				show_error("This pay link is expired. Please contact your agent to Pay");
+			}
+		}
     $payment_total = $plan['premium'] - $this->payment_model->get_total_paid($plan['plan_id'], 'premium');
     if ($payment_total <= 0) {
-      die("");
+      show_error("Do not need pay");
     }
     $pay_url = $this->snappay_model->get_pay_url($plan, $payment_total, $sekey);
     die($pay_url);
