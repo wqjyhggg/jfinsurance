@@ -580,7 +580,7 @@ $usepsi = false;
             <?php if (in_array('Ali', $paytype_list) && ($payment_total > 0)) { ?>
 							<div class="col-sm-3">
 								<?php if (isset($ali_dis)) { ?>
-								<div id='ali_div'><a class="btn btn-info col-sm-12">Pay By Ali <i class="fa fa-chevron-down"></i></a></div>
+								<div id='ali_div'><a class="btn btn-info col-sm-12">Pay By Alipay <i class="fa fa-chevron-down"></i></a></div>
 								<script type="text/javascript">
 								$(document).ready(function() {
 									$('#ali_div').click(function() {
@@ -599,7 +599,6 @@ $usepsi = false;
                       url: '<?php echo $get_ali_url; ?>' + '?sekey=' + '<?php echo $sekey; ?>',
                       type: 'GET',
                       success: function(data, textStatus, jqXHR) {
-                        console.log("ali_div ====>>>>", data, textStatus, jqXHR); //XXXXXXXXXXXXXXXXXXX
                         $('#ali_submit').attr('href', data);
                         $('#ali_submit').show();
                       },

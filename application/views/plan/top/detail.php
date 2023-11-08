@@ -564,7 +564,7 @@ $usepsi = false;
 									</div>
 							<?php     } ?>
 							<div id='ali_div'>
-								<a class="btn btn-info col-sm-12">Pay By Ali <iclass="fa fa-chevron-down"></i></a>
+								<a class="btn btn-info col-sm-12">Pay By Alipay <iclass="fa fa-chevron-down"></i></a>
 							</div>
 							<div id='ali' style="padding:10px; display: none;">
                 <div class="col-sm-12">
@@ -821,7 +821,6 @@ $(document).ready(function() {
       url: '<?php echo $get_ali_url; ?>' + '?sekey=' + '<?php echo $sekey; ?>',
       type: 'GET',
       success: function(data, textStatus, jqXHR) {
-        console.log("ali_div ====>>>>", data, textStatus, jqXHR); //XXXXXXXXXXXXXXXXXXX
         $('#ali_submit').attr('href', data);
         $('#ali_submit').show();
       },

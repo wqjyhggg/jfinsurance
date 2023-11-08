@@ -2986,6 +2986,9 @@ class Plan extends MY_Controller {
 		}
 		$data['defaultpay_type'] = $defaultpay_type;
 		$display = 1;
+		if (!empty($sekey)) {
+			$display = 0;
+		}
 		if (empty($defaultpay_type)) {
 			if (in_array('Credit Card', $data['paytype_list'])) {
 				$data['credit_dis'] = $display;
@@ -3013,13 +3016,13 @@ class Plan extends MY_Controller {
 			$data['cash_dis'] = 0;
 			$data['pay_type'] = $defaultpay_type;
 			if ($data['pay_type'] == 'Credit Card') {
-				$data['credit_dis'] = 1;
+				$data['credit_dis'] = $display;
 			} else if ($data['pay_type'] == 'Cheque') {
-				$data['cheque_dis'] = 1;
+				$data['cheque_dis'] = $display;
 			} else if ($data['pay_type'] == 'Ali') {
-				$data['ali_dis'] = 1;
+				$data['ali_dis'] = $display;
 			} else if ($data['pay_type'] == 'Cash') {
-				$data['cash_dis'] = 1;
+				$data['cash_dis'] = $display;
 			}
 		}
 		
