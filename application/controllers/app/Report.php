@@ -852,24 +852,26 @@ class Report extends CI_Controller
 
     $date_from = $report_data['period']['from'];
     $date_to = $report_data['period']['to'];
-    foreach ($report_data['data'] as $datas) {
-      $arr = array('Expire Date From: ', $date_from, 'To: ', $date_to);
-      array_push($report, $arr);
-      $arr = array('Agent: ', $datas['agency']);
-      array_push($report, $arr);
-      $arr = array('', '');
-      array_push($report, $arr);
-      array_push($report, array_values($kArr));
-
-      foreach ($datas['records'] as $record) {
-        $arr = array();
-        foreach ($kArr as $k => $v) {
-          $arr[] = $record[$k];
+    if ($report_data['data']) {
+      foreach ($report_data['data'] as $datas) {
+        $arr = array('Expire Date From: ', $date_from, 'To: ', $date_to);
+        array_push($report, $arr);
+        $arr = array('Agent: ', $datas['agency']);
+        array_push($report, $arr);
+        $arr = array('', '');
+        array_push($report, $arr);
+        array_push($report, array_values($kArr));
+  
+        foreach ($datas['records'] as $record) {
+          $arr = array();
+          foreach ($kArr as $k => $v) {
+            $arr[] = $record[$k];
+          }
+          array_push($report, $arr);
         }
+        $arr = array('', '');
         array_push($report, $arr);
       }
-      $arr = array('', '');
-      array_push($report, $arr);
     }
 
     $this->app_model->return_ok([

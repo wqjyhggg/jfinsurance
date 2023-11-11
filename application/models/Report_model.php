@@ -1027,15 +1027,17 @@ class Report_model extends CI_Model
     $this->db->join('user u', 'pl.user_id = u.user_id');
   }
 
-  private function common_report_where($para, $buser=null)
+  private function common_report_where($para, $beuser=null)
   {
     if (empty($beuser)) {
       $beuser = $this->session->beuser;
     }
-    $available_user_ids = array_keys($para['user_list']);
+    $available_user_ids = empty($para['user_list'])?array():array_keys($para['user_list']);
     $available_product_short = array();
-    foreach ($para['product_list'] as $product) {
-      $available_product_short[] = $product['product_short'];
+    if (!empty($para['product_list'])) {
+      foreach ($para['product_list'] as $product) {
+        $available_product_short[] = $product['product_short'];
+      }
     }
 
     if (!empty($available_product_short)) {
