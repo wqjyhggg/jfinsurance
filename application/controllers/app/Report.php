@@ -755,6 +755,9 @@ class Report extends CI_Controller
     array_push($report, array('', '', '', '', '', '', '', ''));
 
     foreach ($report_data as $datas) {
+      if (empty($datas['agency'])) {
+        continue;
+      }
       $arr = array('Bill to: ' . $datas['agency']['agent_name'] . ', ' . $datas['agency']['address'] . ', ' . $datas['agency']['province'] . ', ' . $datas['agency']['postal_code']);
       array_push($report, $arr);
       $arr = array('', '', '', '', '', '', '', '');
@@ -832,7 +835,7 @@ class Report extends CI_Controller
     $data['expiry_date_from'] = $this->input->post('expiry_date_from');
     $data['expiry_date_to'] = $this->input->post('expiry_date_to');
 
-    $report_data = $this->report_model->get_receivable($data);
+    $report_data = $this->report_model->get_renewal_report($data, $user);
     $report = array();
 
     $kArr = array(

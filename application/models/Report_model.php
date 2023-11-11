@@ -770,20 +770,20 @@ class Report_model extends CI_Model
    * @param array $para Parameter array
    * @return array Renewal Report data
    */
-  public function get_renewal_report($para)
+  public function get_renewal_report($para, $buser=null)
   {
-    $query = $this->get_renewal_report_query($para);
+    $query = $this->get_renewal_report_query($para, $buser);
     $results = $this->get_renewal_report_result($query);
     $results['period']['from'] = $para['expiry_date_from'];
     $results['period']['to'] = $para['expiry_date_to'];
     return $results;
   }
 
-  private function get_renewal_report_query($para)
+  private function get_renewal_report_query($para, $buser=null)
   {
     $this->renewal_report_fields();
     $this->renewal_report_from();
-    $this->renewal_report_where($para);
+    $this->renewal_report_where($para, $buser);
     return $this->db->get()->result_array();
   }
 
@@ -812,10 +812,10 @@ class Report_model extends CI_Model
     $this->common_from();
   }
 
-  private function renewal_report_where($para)
+  private function renewal_report_where($para, $buser=null)
   {
     $this->db->where_in('pl.status_id', array(self::SOLD, self::PAID, self::CLAIMED, self::CHANGED));
-    $this->common_report_where($para);
+    $this->common_report_where($para, $buser);
   }
 
   private function get_renewal_report_result($query)
@@ -1027,9 +1027,11 @@ class Report_model extends CI_Model
     $this->db->join('user u', 'pl.user_id = u.user_id');
   }
 
-  private function common_report_where($para)
+  private function common_report_where($para, $buser=null)
   {
-    $beuser = $this->session->beuser;
+    if (empty($beuser)) {
+      $beuser = $this->session->beuser;
+    }
     $available_user_ids = array_keys($para['user_list']);
     $available_product_short = array();
     foreach ($para['product_list'] as $product) {
