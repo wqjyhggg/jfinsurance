@@ -58,11 +58,10 @@ class Report extends CI_Controller
 
     $data['title_txt'] = 'OR Premium Report';
 
-    $data['product_short'] = $this->input->post('product_short');
+    $data['product_short'] = empty($this->input->post('product_short')) ? array() : $this->input->post('product_short');
     $data['payment_added_from'] = empty($this->input->post('payment_added_from')) ? date("Y-m-d") : $this->input->post('payment_added_from');
     $data['payment_added_to'] = empty($this->input->post('payment_added_to')) ? date("Y-m-d") : $this->input->post('payment_added_to');
     $data['earned_to'] = empty($this->input->post('earned_to')) ? date("Y-m-d") : $this->input->post('earned_to');
-    $data['product_short'] = empty($data['product_short']) ? array() : array_keys($data['product_short']);
 
     $report_data = $this->report_model->get_premium_report2($data);
     $report = array();
@@ -507,7 +506,7 @@ class Report extends CI_Controller
     );
 
     array_push($report, array_values($kArr));
-    foreach ($data['report_data'] as $record) {
+    foreach ($report_data as $record) {
       $arr = array();
       foreach ($kArr as $k => $v) {
         $arr[] = $record[$k];
@@ -742,7 +741,7 @@ class Report extends CI_Controller
       'refund_date' => 'Refund Date',
       'total_days' => 'Trip Length',
       'policy_premium' => 'Premium',
-      'pa_amount' => 'Net',
+      'net_premium' => 'Net',
       'commission_amount' => 'Commission',
       'cal_comm_rate' => 'Ratio',
     );
@@ -755,7 +754,7 @@ class Report extends CI_Controller
     array_push($report, array('For Policy of: ', 'From ' . $report_data['period']['from'], 'To ' . $report_data['period']['to']));
     array_push($report, array('', '', '', '', '', '', '', ''));
 
-    foreach ($report_data['data'] as $datas) {
+    foreach ($report_data as $datas) {
       $arr = array('Bill to: ' . $datas['agency']['agent_name'] . ', ' . $datas['agency']['address'] . ', ' . $datas['agency']['province'] . ', ' . $datas['agency']['postal_code']);
       array_push($report, $arr);
       $arr = array('', '', '', '', '', '', '', '');

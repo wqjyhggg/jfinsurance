@@ -647,7 +647,7 @@ class Report_model extends CI_Model
     $premium_last_update = 0;
     foreach ($query as $row) {
       $row['commission_rate'] = $row['pr_commission'];
-      $row['net_premium'] = sprintf("%01.2f", ($row['pa_amount'] - $row['commission_amount']));
+      $row['net_premium'] = sprintf("%01.2f", ($row['policy_premium'] - $row['commission_amount']));
 
       $results['data'][$row['user_id']]['agency']['agent_name'] = $row['agent_name'];
       $results['data'][$row['user_id']]['agency']['address'] = $row['address'];
@@ -659,11 +659,11 @@ class Report_model extends CI_Model
         $results['data'][$row['user_id']]['agency']['payable_to_jf'] = 0;
       }
 
-      $results['data'][$row['user_id']]['agency']['outstanding'] += $row['pa_amount'];
+      $results['data'][$row['user_id']]['agency']['outstanding'] += $row['policy_premium'];
       $results['data'][$row['user_id']]['agency']['commission'] += $row['commission_amount'];
-      $results['data'][$row['user_id']]['agency']['payable_to_jf'] += $row['pa_amount'] - $row['commission_amount'];
-      if (abs($row['pa_amount']) > 0.005) {
-        $row['cal_comm_rate'] = sprintf('%2.1f', $row['commission_amount'] * 100.0 / $row['pa_amount']);
+      $results['data'][$row['user_id']]['agency']['payable_to_jf'] += $row['policy_premium'] - $row['commission_amount'];
+      if (abs($row['policy_premium']) > 0.005) {
+        $row['cal_comm_rate'] = sprintf('%2.1f', $row['commission_amount'] * 100.0 / $row['policy_premium']);
       } else {
         $row['cal_comm_rate'] = 0;
       }
@@ -723,13 +723,13 @@ class Report_model extends CI_Model
    */
   public function get_refund_report($para)
   {
-    $sql = "SELECT
+    $sql = "SELECT pl.plan_id,
 					pl.policy, pl.refund_date, CONCAT(pl.street_number, ' ', pl.street_name) AS address, pl.suite_number, pl.city, pl.province2 AS province, pl.postcode,
 					(SELECT sum(amount) FROM __payment__ pm1 WHERE pm1.plan_id=pl.plan_id AND pay_type='premium') as premium,
 					(SELECT sum(amount) FROM __payment__ pm1 WHERE pm1.plan_id=pl.plan_id AND pay_type='commission') as commission,
 					CONCAT(c.firstname, ' ', c.lastname) AS customer_name, c.birthday,
 					CONCAT(u.firstname, ' ', u.lastname) AS agent_name,
-					pm.amount, pm.admin_fee, (pm.amount + pm.admin_fee) AS net_amount, pm.ispaid, pm.added, pm.pay_date, pm.pay_to
+					pm.payment_id, pm.amount, pm.admin_fee, (pm.amount + pm.admin_fee) AS net_amount, pm.ispaid, pm.added, pm.pay_date, pm.pay_to
 				FROM __payment__ pm
 				JOIN plan pl ON pm.plan_id = pl.plan_id
 				JOIN user u ON pl.user_id = u.user_id
@@ -932,7 +932,7 @@ class Report_model extends CI_Model
     if (!$beuser) {
       $beuser = $this->session->beuser;
     }
-    $available_user_ids = array_keys($para['user_list']);
+    $available_user_ids = empty($para['user_list'])?array():array_keys($para['user_list']);
     $paymenttb = "payment";
     if (!empty($para['payment_date_from'])) {
       $year = substr($para['payment_date_from'], 0, 4);
