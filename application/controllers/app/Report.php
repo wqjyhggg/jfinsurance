@@ -852,7 +852,7 @@ class Report extends CI_Controller
 
     $date_from = $report_data['period']['from'];
     $date_to = $report_data['period']['to'];
-    if ($report_data['data']) {
+    if (!empty($report_data['data'])) {
       foreach ($report_data['data'] as $datas) {
         $arr = array('Expire Date From: ', $date_from, 'To: ', $date_to);
         array_push($report, $arr);
