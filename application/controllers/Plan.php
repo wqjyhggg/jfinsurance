@@ -1632,7 +1632,7 @@ class Plan extends MY_Controller {
 				show_error("This pay link is expired. Please contact your agent to Pay");
 			}
 		}
-    $payment_total = $plan['premium'] - $this->payment_model->get_total_paid($plan['plan_id'], 'premium');
+    $payment_total = $plan['premium'] - $this->payment_model->get_total_paid($plan['plan_id'], 'premium', $plan['apply_date']);
     if ($payment_total <= 0) {
       show_error("Do not need pay");
     }
@@ -2792,7 +2792,7 @@ class Plan extends MY_Controller {
 				}
 			}
 		
-			$totalpaid = $this->payment_model->get_total_paid($plan_id, $pay_type='premium');
+			$totalpaid = $this->payment_model->get_total_paid($plan_id, 'premium', $plan['apply_date']);
 			$premium = preg_replace("/[^0-9\.-]/", "", $this->input->post('premium'));
 			$premium = $totalpaid + (float)$premium;
       if (empty($this->input->post('premium')) && ($plan["status_id"] == Plan_model::CHANGED) && (($premium - floatval($plan['premium'])) < 0.01)) {
@@ -2808,7 +2808,7 @@ class Plan extends MY_Controller {
         }
 
         $update_status_id = Plan_model::PAID;
-        if ($last_pay = $this->payment_model->get_last_payment($plan_id)) {
+        if ($last_pay = $this->payment_model->get_last_payment($plan_id, $plan['apply_date'])) {
           if (($last_pay["pay_mothed"] == 'Cash') && empty($last_pay["ispaid"])) {
             $update_status_id = Plan_model::SOLD;
           }
@@ -2973,7 +2973,7 @@ class Plan extends MY_Controller {
 		
 		$data['status_list'] = $this->status_model->status_list();
 		$days = $this->product_model->getDays('today', $plan['effective_date']);
-		$data['payment_total'] = $plan['premium'] - $this->payment_model->get_total_paid($plan['plan_id'], 'premium');
+		$data['payment_total'] = $plan['premium'] - $this->payment_model->get_total_paid($plan['plan_id'], 'premium', $plan['apply_date']);
 		/* Can't update status to PAID when payment ispaid = 0 !!!
 		if (empty($data['payment_total']) && ($plan['status_id'] == Plan_model::SOLD)) {
 			$this->plan_model->update($plan_id, array('status_id' => Plan_model::PAID));
@@ -3214,7 +3214,7 @@ class Plan extends MY_Controller {
 				$product = $this->product_model->get_product($plan['product_short']);
 				$data['payment'] = '';
 				if ($plan['payment_id']) {
-					$data['payment'] = $this->payment_model->get_payment_by_id($plan['payment_id']);
+					$data['payment'] = $this->payment_model->get_payment_by_id($plan['payment_id'], $plan['apply_date']);
 				}
 				$data['plan_full_name'] = $product ? $product['full_name'] : '';
 				$data['customer'] = $this->customer_model->get_customer_by_id($data['plan']['customer_id']);
@@ -4074,7 +4074,7 @@ class Plan extends MY_Controller {
 		$this->load->model('product_model');
 		$this->load->model('payment_model');
 		$product = $this->product_model->get_product($plan['product_short']);
-		$payment = $this->payment_model->get_payment_by_id($plan['payment_id']);
+		$payment = $this->payment_model->get_payment_by_id($plan['payment_id'], $plan['apply_date']);
 		
 		$data['beuser'] = $beuser;
 		$data['plan'] = $plan;
@@ -4155,7 +4155,7 @@ class Plan extends MY_Controller {
 		$this->load->model('product_model');
 		$this->load->model('payment_model');
 		$product = $this->product_model->get_product($plan['product_short']);
-		$payment = $this->payment_model->get_payment_by_id($plan['payment_id']);
+		$payment = $this->payment_model->get_payment_by_id($plan['payment_id'], $plan['apply_date']);
 
 		$data['beuser'] = $beuser;
 		$data['plan'] = $plan;
@@ -4345,7 +4345,7 @@ class Plan extends MY_Controller {
 		$this->load->model('payment_model');
 		$data['payment'] = '';
 		if ($plan['payment_id']) {
-			$data['payment'] = $this->payment_model->get_payment_by_id($plan['payment_id']);
+			$data['payment'] = $this->payment_model->get_payment_by_id($plan['payment_id'], $plan['apply_date']);
 		}
 
 		$product = $this->product_model->get_product($plan['product_short']);

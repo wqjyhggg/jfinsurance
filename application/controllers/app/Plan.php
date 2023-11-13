@@ -59,7 +59,7 @@ class Plan extends CI_Controller
       return $this->app_model->return_error("Unknown Policy");
     }
 
-    $payment_total = $plan['premium'] - $this->payment_model->get_total_paid($plan['plan_id'], 'premium');
+    $payment_total = $plan['premium'] - $this->payment_model->get_total_paid($plan['plan_id'], 'premium', $plan['apply_date']);
     $this->app_model->return_ok(["pay_amount"=>$payment_total]);
   }
 
@@ -85,7 +85,7 @@ class Plan extends CI_Controller
       return $this->app_model->return_error("Unknown Policy");
     }
 
-    $payment_total = $plan['premium'] - $this->payment_model->get_total_paid($plan['plan_id'], 'premium');
+    $payment_total = $plan['premium'] - $this->payment_model->get_total_paid($plan['plan_id'], 'premium', $plan['apply_date']);
     if ($payment_total <= 0) {
       return $this->app_model->return_error("Policy Paid already");
     }
@@ -613,7 +613,7 @@ class Plan extends CI_Controller
 		$this->load->model('payment_model');
 		$data['payment'] = '';
 		if ($plan['payment_id']) {
-			$data['payment'] = $this->payment_model->get_payment_by_id($plan['payment_id']);
+			$data['payment'] = $this->payment_model->get_payment_by_id($plan['payment_id'], $plan['apply_date']);
 		}
 
 		$product = $this->product_model->get_product($plan['product_short']);
@@ -1101,7 +1101,7 @@ class Plan extends CI_Controller
 		$data['pdf_enable'] = empty($beuser['pdf_product']) ? array() : json_decode($beuser['pdf_product']);
 		$data['payment'] = '';
 		if ($plan['payment_id']) {
-			$data['payment'] = $this->payment_model->get_payment_by_id($plan['payment_id']);
+			$data['payment'] = $this->payment_model->get_payment_by_id($plan['payment_id'], $plan['apply_date']);
 		}
 		$data['user'] = '';
 		if ($plan['user_id']) {

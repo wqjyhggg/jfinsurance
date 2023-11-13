@@ -415,7 +415,7 @@ class Api extends MY_Controller {
 						} else if ($p['status_id'] == Plan_model::REFUND) {
 							$p['payment_tm'] = $this->payment_model->get_refund_date($p['plan_id']);
 						} else {
-							$p['payment_tm'] = $this->payment_model->get_first_payment_date($p['plan_id']);
+							$p['payment_tm'] = $this->payment_model->get_first_payment_date($p['plan_id'], $plan['apply_date']);
 						}
 					}
 					$json['plan_list'][] = $p;

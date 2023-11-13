@@ -41,9 +41,25 @@ class Payment_model extends CI_Model {
 	 * @param integer $payment_id
 	 * @return array
 	 */
-	public function get_payment_by_id($payment_id) {
+	public function get_payment_by_id($payment_id, $apply_date=null) {
 		$this->db->where('payment_id', $payment_id);
-		return $this->db->get('payment')->row_array();
+		if ($rt = $this->db->get('payment')->row_array()) {
+			return $rt;
+		}
+		if (!$apply_date) {
+			return $rt;
+		}
+		$apply = strtotime($apply_date);
+		if ($apply > strtotime("2019-12-31 23:59:59")) {
+			return $rt;
+		}
+		for ($i = 1; $i < sizeof($this->history_tables); $i++) {
+			$this->db->where('payment_id', $payment_id);
+			if ($rt = $this->db->get($this->history_tables[$i])->row_array()) {
+				return $rt;
+			}
+		}
+		return $rt;
 	}
 	
 	/**
@@ -99,12 +115,29 @@ class Payment_model extends CI_Model {
 	 * @param integer $plan_id
 	 * @return array
 	 */
-	public function get_total_paid($plan_id, $pay_type='premium') {
+	public function get_total_paid($plan_id, $pay_type='premium', $apply_date) {
+		$amount = 0;
 		$this->db->select_sum('amount');
 		$this->db->where('plan_id', $plan_id);
 		$this->db->where('pay_type', $pay_type);
 		// $this->db->where('ispaid', 1);
-		return $this->db->get('payment')->row()->amount;
+		if ($rt = $this->db->get('payment')->row_array()) {
+			$amount = $rt["amount"];
+		}
+
+		$apply = strtotime($apply_date);
+		if ($apply > strtotime("2019-12-31 23:59:59")) {
+			return $amount;
+		}
+		for ($i = 1; $i < sizeof($this->history_tables); $i++) {
+			$this->db->select_sum('amount');
+			$this->db->where('plan_id', $plan_id);
+			$this->db->where('pay_type', $pay_type);
+			if ($rt = $this->db->get($this->history_tables[$i])->row_array()) {
+				$amount += $rt["amount"];
+			}
+		}
+		return $amount;
 	}
 
 	/**
@@ -290,12 +323,22 @@ class Payment_model extends CI_Model {
 	 * @para date
 	 * @return effect rows
 	 */
-	public function get_first_payment_date($plan_id) {
-		$this->db->where('plan_id', $plan_id);
-		$this->db->where('pay_type', 'premium');
-		$this->db->order_by('payment_id', 'ASC');
-		$this->db->limit(1);
-		return $this->db->get('payment')->row()->last_update;
+	public function get_first_payment_date($plan_id, $apply_date) {
+		$starti = sizeof($this->history_tables) - 1;
+		$apply = strtotime($apply_date);
+		if ($apply > strtotime("2019-12-31 23:59:59")) {
+			$starti = 0;
+		}
+		for ($i = $starti; $i >= 0; $i--) {
+			$this->db->where('plan_id', $plan_id);
+			$this->db->where('pay_type', 'premium');
+			$this->db->order_by('payment_id', 'ASC');
+			$this->db->limit(1);
+			if ($rt = $this->db->get($this->history_tables[$i])->row_array()) {
+				return $rt['last_update'];
+			}
+		}
+		return null;
 	}
 	
 	/**
@@ -305,11 +348,27 @@ class Payment_model extends CI_Model {
 	 * @para date
 	 * @return effect rows
 	 */
-	public function get_last_payment($plan_id) {
+	public function get_last_payment($plan_id, $apply_date="2000-01-01") {
 		$this->db->where('plan_id', $plan_id);
 		$this->db->where('pay_type', 'premium');
 		$this->db->order_by('payment_id', 'DESC');
 		$this->db->limit(1);
-		return $this->db->get('payment')->row_array();
+		if ($rt = $this->db->get('payment')->row_array()) {
+			return $rt;
+		}
+		$apply = strtotime($apply_date);
+		if ($apply > strtotime("2019-12-31 23:59:59")) {
+			return $rt;
+		}
+		for ($i = 1; $i < sizeof($this->history_tables); $i++) {
+			$this->db->where('plan_id', $plan_id);
+			$this->db->where('pay_type', 'premium');
+			$this->db->order_by('payment_id', 'DESC');
+			$this->db->limit(1);
+			if ($rt = $this->db->get($this->history_tables[$i])->row_array()) {
+				return $rt;
+			}
+		}
+		return $rt;
 	}
 }
