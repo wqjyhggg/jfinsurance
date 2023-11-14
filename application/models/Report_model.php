@@ -429,7 +429,11 @@ class Report_model extends CI_Model
       $sql .= " AND ph.add_time <= " . $this->db->escape(date("Y-m-d")." 23:59:59");
     }
     if (!empty($para['product_short'])) {
-      $sql .= " AND ph.product_short IN ('" . implode("','", str_replace("'", "", $para['product_short'])) . "')";
+      if (is_array($para['product_short'])) {
+        $sql .= " AND ph.product_short IN ('" . implode("','", str_replace("'", "", $para['product_short'])) . "')";
+      } else {
+        $sql .= " AND ph.product_short IN ('" . str_replace("'", "", $para['product_short']) . "')";
+      }
     }
     $sqlu = "";
     foreach ($this->payment_tables as $tb) {
@@ -474,7 +478,11 @@ class Report_model extends CI_Model
       $sql .= " AND pa.added <= " . $this->db->escape(date("Y-m-d")." 23:59:59");
     }
     if (!empty($para['product_short'])) {
-      $sql .= " AND ph.product_short IN ('" . implode("','", str_replace("'", "", $para['product_short'])) . "')";
+      if (is_array($para['product_short'])) {
+        $sql .= " AND ph.product_short IN ('" . implode("','", str_replace("'", "", $para['product_short'])) . "')";
+      } else {
+        $sql .= " AND ph.product_short IN ('" . str_replace("'", "", $para['product_short']) . "')";
+      }
     }
     $sqlu = "";
     foreach ($this->payment_tables as $tb) {
