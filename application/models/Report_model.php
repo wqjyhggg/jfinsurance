@@ -500,7 +500,11 @@ class Report_model extends CI_Model
         $sql .= " AND ph2.add_time <= " . $this->db->escape(date("Y-m-d")." 23:59:59");
       }
       if (!empty($para['product_short'])) {
-        $sql .= " AND ph2.product_short IN ('" . implode("','", str_replace("'", "", $para['product_short'])) . "')";
+        if (is_array($para['product_short'])) {
+          $sql .= " AND ph2.product_short IN ('" . implode("','", str_replace("'", "", $para['product_short'])) . "')";
+        } else {
+          $sql .= " AND ph2.product_short IN ('" . str_replace("'", "", $para['product_short']) . "')";
+        }
       }
       $sql .= " ORDER BY ph2.plan_id ASC";
       if ($rt = $this->db->query($sql)->result_array()) {
