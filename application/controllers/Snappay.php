@@ -12,8 +12,8 @@ class Snappay extends CI_Controller {
 	public function index($plan_id)
 	{
     $recv = trim(file_get_contents('php://input'));
+		log_message('debug', "snappay: plan_id[".$plan_id."];recv[".$recv."]");
     if (empty($recv) || empty($plan_id)) {
-      log_message('debug', "snappay: plan_id[".$plan_id."];recv[".$recv."]");
       return;
     }
     $this->load->database();
@@ -52,7 +52,7 @@ class Snappay extends CI_Controller {
 		$dt['pay_mothed'] = 'Ali';
 		$dt['added'] = date('c');
 		$dt['note'] = $payinfo;
-		$dt['ispaid'] = 0;
+		$dt['ispaid'] = 1;
 
 		$commission_rate = $this->product_model->get_commission_rate($plan['product_short'], $plan['user_id']);
 		if (($plan['product_short'] == 'TOP') && ($plan['totalyears'] > 60)) {
@@ -104,6 +104,7 @@ class Snappay extends CI_Controller {
 		$dt['rate'] = $commission_rate;
 		$dt['pay_type'] = 'commission';
 		$dt['premium_payment_id'] = $payment_id;
+		$dt['ispaid'] = 0;
 		if (($plan['product_short'] == 'OPL') || ($plan['product_short'] == 'JFVTC') || ($plan['product_short'] == 'JFR')) {
 			$nowtm = time();
 			$efftm = strtotime($plan['effective_date']);
