@@ -334,6 +334,15 @@ $usepsi = false;
 						<div class="col-sm-12">
 						<?php if (!empty($payment_total)) { ?>						
 							<button class="btn btn-primary pull-right" data-toggle="collapse" data-target="#payment-div">Confirm and Pay</button>
+						<?php } else if ($plan['status_id'] == 7) { ?>
+							<form action='<?php echo $active_url; ?>' method='POST'>
+								<input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
+								<input type='hidden' name='plan_id' value='<?php echo $plan['plan_id']; ?>'>
+								<input type='hidden' name='play_type' value='Confirm'>
+								<input type='hidden' name='sekey' value='<?php echo $sekey; ?>'>
+								<input type='hidden' name='premium' value='0'>
+								<input class="btn btn-primary pull-right" type='submit' name='submit' value='Confirm Change'>
+							</form>
 						<?php } ?>
 						<?php if (($plan['status_id'] == 1) || ($plan['status_id'] == 2) || ($plan['status_id'] == 3)) { ?>
 							<?php if (empty($sekey)) { ?>
