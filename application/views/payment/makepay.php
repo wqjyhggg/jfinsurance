@@ -69,6 +69,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
                             <option value='Cash'>Cash</option>
                             <option value='Checque'>Checque</option>
                             <option value='Credit Card'>Credit Card</option>
+                            <option value='Alipay'>Alipay</option>
                           </select>
 												</div>
 											</div>

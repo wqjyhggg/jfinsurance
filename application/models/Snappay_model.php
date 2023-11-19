@@ -53,6 +53,7 @@ class Snappay_model extends CI_Model {
   }
 
   public function get_pay_url($plan, $amount, $sekey="", $returnurl="") {
+    $this->load->model('plan_model');
     $this->last_err = "";
     $uid = $this->get_trans_id($plan["plan_id"]);
     if (!$uid) {
@@ -63,7 +64,7 @@ class Snappay_model extends CI_Model {
     $postArr['app_id'] = $this->AppId;
     $postArr['format'] = "JSON";
     $postArr['charset'] = "UTF-8";
-    $postArr['description'] = "Pay for " . $plan["policy"];
+    $postArr['description'] = "Pay for " . $this->plan_model->get_policy_number($plan["plan_id"], 2);
     $postArr['effective_minutes'] = 5;
     $postArr['merchant_no'] = $this->MerchantId;
     $postArr['out_order_no'] = $plan["plan_id"] . "-" . $uid;
