@@ -1732,6 +1732,8 @@ class Plan extends CI_Controller
 		$data['refund_amount'] = $refund_amount;
 		$data['admin_fee'] = $admin_fee;
 		$data['total_amount'] = $total_amount;
+    $data['street_number'] = '';
+    $data['street_name'] = '';
 		
 		$this->load->model('customer_model');
     $this->load->model('html_model');
@@ -1782,9 +1784,6 @@ class Plan extends CI_Controller
       } else {
         $html = $this->load->view('plan/refund', $data, TRUE);
       }
-			$mpdf = new mPDF('c');
-			$mpdf->writeHTML($html);
-      $mpdf->Output("policy_refund.pdf","I");
 		} else {
 			$data['customer_full_name'] = $data['customer']['firstname'] . " " . $data['customer']['lastname'];
 			$data['full_address'] = empty($plan['suite_number']) ? '' : "Suite " . $plan['suite_number'] . " ";
@@ -1793,7 +1792,10 @@ class Plan extends CI_Controller
 			$data['province2'] = $plan['province2'];
 			$data['postcode'] = $plan['postcode'];
 
-			$this->load->view('plan/refund_addr', $data);
+			$html = $this->load->view('plan/refund_addr', $data, TRUE);
 		}
-	}
+    $mpdf = new mPDF('c');
+    $mpdf->writeHTML($html);
+    $mpdf->Output("policy_refund.pdf","I");
+  }
 }
