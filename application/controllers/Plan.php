@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 use Box\Spout\Common\Type;
 use Box\Spout\Writer\WriterFactory;
@@ -10,14 +10,14 @@ class Plan extends MY_Controller {
 	public $error;
 	public $page_limit = 20;
 	public $toppackagename = array(
-			'all_inclusive' => "All Inclusive plan",
-			'single_medical_plan' => "Single medical plan",
-			'annual_plan' => "Annual plan",
-			'optional_plan' => "Optional plan",
+		'all_inclusive' => "All Inclusive plan",
+		'single_medical_plan' => "Single medical plan",
+		'annual_plan' => "Annual plan",
+		'optional_plan' => "Optional plan",
 	);
-  public $french_plan = array("JES","JESP","JFS","TOP","JFPL","JFGD","JFVTC","JFR");
-	
-	
+	public $french_plan = array("JES", "JESP", "JFS", "TOP", "JFPL", "JFGD", "JFVTC", "JFR");
+
+
 	/**
 	 * Index Page for this controller.
 	 */
@@ -27,9 +27,9 @@ class Plan extends MY_Controller {
 		$this->load->model('status_model');
 		$this->load->model('product_model');
 		$this->load->model('plan_model');
-		
+
 		$data = array();
-		
+
 		$data['beuser'] = $beuser;
 		$data['firstname'] = $this->input->get_post('firstname');
 		$data['lastname'] = $this->input->get_post('lastname');
@@ -51,28 +51,28 @@ class Plan extends MY_Controller {
 		$data['product_short'] = $this->input->get_post('product_short');
 		$data['province2'] = $this->input->get_post('province2');
 		$data['country2'] = $this->input->get_post('country2');
-		$data['morefilter'] = (    empty($data['firstname']) 
-								&& empty($data['lastname']) 
-								&& empty($data['birthday']) 
-								&& empty($data['birthday2']) 
-								&& empty($data['apply_date']) 
-								&& empty($data['apply_date2']) 
-								&& empty($data['arrival_date']) 
-								&& empty($data['arrival_date2']) 
-								&& empty($data['effective_date']) 
-								&& empty($data['effective_date2']) 
-								&& empty($data['expiry_date']) 
-								&& empty($data['expiry_date2']) 
-								&& empty($data['uname']) 
-								&& empty($data['student_id']) 
-								&& empty($data['status_id']) 
-								&& empty($data['product_short']) 
-								&& empty($data['country2']) 
-								&& empty($data['batch_number']) ) ? 1 : 0;
-		
+		$data['morefilter'] = (empty($data['firstname'])
+			&& empty($data['lastname'])
+			&& empty($data['birthday'])
+			&& empty($data['birthday2'])
+			&& empty($data['apply_date'])
+			&& empty($data['apply_date2'])
+			&& empty($data['arrival_date'])
+			&& empty($data['arrival_date2'])
+			&& empty($data['effective_date'])
+			&& empty($data['effective_date2'])
+			&& empty($data['expiry_date'])
+			&& empty($data['expiry_date2'])
+			&& empty($data['uname'])
+			&& empty($data['student_id'])
+			&& empty($data['status_id'])
+			&& empty($data['product_short'])
+			&& empty($data['country2'])
+			&& empty($data['batch_number'])) ? 1 : 0;
+
 		$data['product_list'] = $this->product_model->product_list();
 		$prod2 = array();
-		foreach($data['product_list'] as $key => $value) {
+		foreach ($data['product_list'] as $key => $value) {
 			if ($value['calculate']) {
 				$prod2[$key] = $value;
 			}
@@ -97,18 +97,18 @@ class Plan extends MY_Controller {
 		} else {
 			$data['plan_list'] = array();
 			$data['plan_total'] = 0;
-			$this->session->unset_userdata ( 'policy_search' );
+			$this->session->unset_userdata('policy_search');
 		}
-		$data['search_url'] = current_url ();
-		$data['add_url'] = base_url ( "plan/add" );
-		$data['export_list'] = base_url ( "plan/export_list" );
-		$data['edit_url'] = base_url ( "plan/edit" ) . "/";
-		$data['copy_url'] = base_url ( "plan/copy" ) . "/";
-		$data['renewal_url'] = base_url ( "plan/renewal" ) . "/";
-		$data['pdf_url'] = base_url ( "plan/pdf" ) . "/";
-		$data['province_url'] = base_url ( "geo/province/" );
-		$data['country_url'] = base_url ( "geo/country/" );
-		$data['sendpackage_url'] = base_url ( "plan/sendpackage" ) . "/";
+		$data['search_url'] = current_url();
+		$data['add_url'] = base_url("plan/add");
+		$data['export_list'] = base_url("plan/export_list");
+		$data['edit_url'] = base_url("plan/edit") . "/";
+		$data['copy_url'] = base_url("plan/copy") . "/";
+		$data['renewal_url'] = base_url("plan/renewal") . "/";
+		$data['pdf_url'] = base_url("plan/pdf") . "/";
+		$data['province_url'] = base_url("geo/province/");
+		$data['country_url'] = base_url("geo/country/");
+		$data['sendpackage_url'] = base_url("plan/sendpackage") . "/";
 		if (!empty($data['country2'])) {
 			$data['province_url'] .= "/" . $data['country2'];
 			$data['country_url'] .= "/" . $data['country2'];
@@ -116,18 +116,18 @@ class Plan extends MY_Controller {
 				$data['province_url'] .= "/" . $data['province2'];
 			}
 		}
-		
+
 
 		$data['export_logo_url'] = base_url('plan/exportlogo') . "/";
 		$data['export_price_url'] = base_url('plan/exportprice') . "/";
 		$data['export_logo_price_option'] = FALSE;
 		if (($beuser['user_group_id'] < 100) || ($beuser['user_id'] == 3744)) $data['export_logo_price_option'] = TRUE;
-			
-		$this->session->set_userdata ( 'withlogo', 1);
+
+		$this->session->set_userdata('withlogo', 1);
 		if (($beuser['user_group_id'] != 103) && ($beuser['user_group_id'] != 106)) {
-			$this->session->set_userdata ( 'withprice', 1);
+			$this->session->set_userdata('withprice', 1);
 		} else {
-			$this->session->set_userdata ( 'withprice', 0);
+			$this->session->set_userdata('withprice', 0);
 		}
 
 		$this->load->library('pagination');
@@ -155,10 +155,10 @@ class Plan extends MY_Controller {
 			}
 			$config['suffix'] = '&' . http_build_query($getArr, '', "&");
 		}
-		
+
 		$this->pagination->initialize($config); // initiaze pagination config
-		
-		$data ['pagination'] = $this->pagination->create_links(); // create pagination links
+
+		$data['pagination'] = $this->pagination->create_links(); // create pagination links
 
 
 		$data['title_txt'] = 'Policy';
@@ -167,24 +167,25 @@ class Plan extends MY_Controller {
 		$this->load->model('html_model');
 		$data['html_model'] = $this->html_model;
 
-		$data['csrf'] = array (
-				'name' => $this->security->get_csrf_token_name (),
-				'value' => $this->security->get_csrf_hash ()
+		$data['csrf'] = array(
+			'name' => $this->security->get_csrf_token_name(),
+			'value' => $this->security->get_csrf_hash()
 		);
 
 		$this->load->common('plan/list', $data);
 	}
-	
-	function export_list() {
-		$beuser = $this->func_model->verify_login(); 
+
+	function export_list()
+	{
+		$beuser = $this->func_model->verify_login();
 		$this->load->model('status_model');
 		$this->load->model('product_model');
 		$this->load->model('plan_model');
-		
-	
+
+
 		$data['product_list'] = $this->product_model->product_list();
 		$prod2 = array();
-		foreach($data['product_list'] as $key => $value) {
+		foreach ($data['product_list'] as $key => $value) {
 			if ($value['calculate']) {
 				$prod2[$key] = $value;
 			}
@@ -200,93 +201,94 @@ class Plan extends MY_Controller {
 		}
 		$w = WriterFactory::create(Type::XLSX); // for XLSX files
 		$kArr = array(
-				'plan_id',
-				'customer_id',
-				'user_id',
-				'status_id',
-				'policy',
-				'product_short',
-				'batch_number',
-				'isfamilyplan',
-				'apply_date',
-				'arrival_date',
-				'effective_date',
-				'expiry_date',
-				'beneficiary',
-				'stable_condition',
-				'rate_options',
-				'holiday_rate',
-				'spouse',
-				'sum_insured',
-				'deductible_amount',
-				'dailyrate',
-				'totaldays',
-				'totalyears',
-				'premium',
-				'commission_amount',
-				'street_number',
-				'street_name',
-				'suite_number',
-				'city',
-				'province2',
-				'country2',
-				'postcode',
-				'phone1',
-				'phone2',
-				'institution',
-				'institution_addr',
-				'student_id',
-				'institution_phone',
-				'institution_fax',
-				'contact_email',
-				'contact_phone',
-				'residence',
-				'payinfo',
-				'firstname',
-				'lastname',
-				'gende',
-				'birthday',
-				'firstname_1',
-				'lastname_1',
-				'gende_1',
-				'birthday_1',
-				'firstname_2',
-				'lastname_2',
-				'gende_2',
-				'birthday_2',
-				'firstname_3',
-				'lastname_3',
-				'gende_3',
-				'birthday_3',
-				'firstname_4',
-				'lastname_4',
-				'gende_4',
-				'birthday_4',
-				'firstname_5',
-				'lastname_5',
-				'gende_5',
-				'birthday_5',
-				'firstname_6',
-				'lastname_6',
-				'gende_6',
-				'birthday_6',
-				'firstname_7',
-				'lastname_7',
-				'gende_7',
-				'birthday_7',
-				'firstname_8',
-				'lastname_8',
-				'gende_8',
-				'birthday_8');
+			'plan_id',
+			'customer_id',
+			'user_id',
+			'status_id',
+			'policy',
+			'product_short',
+			'batch_number',
+			'isfamilyplan',
+			'apply_date',
+			'arrival_date',
+			'effective_date',
+			'expiry_date',
+			'beneficiary',
+			'stable_condition',
+			'rate_options',
+			'holiday_rate',
+			'spouse',
+			'sum_insured',
+			'deductible_amount',
+			'dailyrate',
+			'totaldays',
+			'totalyears',
+			'premium',
+			'commission_amount',
+			'street_number',
+			'street_name',
+			'suite_number',
+			'city',
+			'province2',
+			'country2',
+			'postcode',
+			'phone1',
+			'phone2',
+			'institution',
+			'institution_addr',
+			'student_id',
+			'institution_phone',
+			'institution_fax',
+			'contact_email',
+			'contact_phone',
+			'residence',
+			'payinfo',
+			'firstname',
+			'lastname',
+			'gende',
+			'birthday',
+			'firstname_1',
+			'lastname_1',
+			'gende_1',
+			'birthday_1',
+			'firstname_2',
+			'lastname_2',
+			'gende_2',
+			'birthday_2',
+			'firstname_3',
+			'lastname_3',
+			'gende_3',
+			'birthday_3',
+			'firstname_4',
+			'lastname_4',
+			'gende_4',
+			'birthday_4',
+			'firstname_5',
+			'lastname_5',
+			'gende_5',
+			'birthday_5',
+			'firstname_6',
+			'lastname_6',
+			'gende_6',
+			'birthday_6',
+			'firstname_7',
+			'lastname_7',
+			'gende_7',
+			'birthday_7',
+			'firstname_8',
+			'lastname_8',
+			'gende_8',
+			'birthday_8'
+		);
 		$tmpfname = "/tmp/jf_policy.xlsx";
 		$w->openToBrowser("Policy" . date('Ymd') . ".xlsx");
 		//$w->openToFile($tmpfname);
 		$w->addRow($kArr);
 		for ($i = 0; $i < $plan_total; $i += $this->page_limit) {
 			$policies = $this->plan_model->plan_export_search($sArr, TRUE, $this->page_limit, $i);
-			foreach($policies as $p) {
+			foreach ($policies as $p) {
 				$para = array();
-				foreach($kArr as $k) {
+				foreach ($kArr as $k) {
 					$para[] = empty($p[$k]) ? '' : $p[$k];
 				}
 				$w->addRow($para);
@@ -303,12 +305,13 @@ class Plan extends MY_Controller {
 		*/
 		//unlink($tmpfname);
 	}
-	
-	function from_valid_family_member() {
+
+	function from_valid_family_member()
+	{
 		$apply_date = $this->input->post('apply_date');
 		$older_than_21 = 0;
 		$today = date("Y-m-d");
-		for ($i = 1 ; $i < 9; $i++) {
+		for ($i = 1; $i < 9; $i++) {
 			if (empty($this->input->post('gender_' . $i)) || empty($this->input->post('firstname_' . $i)) || empty($this->input->post('lastname_' . $i)) || empty($this->input->post('birthday_' . $i))) {
 				continue;
 			}
@@ -316,7 +319,7 @@ class Plan extends MY_Controller {
 			if ($days < 15) {
 				$this->error['error_birthday_' . $i] = "Customer age must be old than 15 days";
 			}
-			
+
 			$years = $this->product_model->getYears($apply_date, $this->input->post('birthday_' . $i));
 			if ($years > 60) {
 				$this->error['error_birthday_' . $i] = 'Member older than 61';
@@ -329,13 +332,14 @@ class Plan extends MY_Controller {
 			}
 		}
 	}
-	
-	function top_update_valid($plan, $beuser) {
+
+	function top_update_valid($plan, $beuser)
+	{
 		if ($plan['status_id'] < 2) {
 			// not available yet
-			return ;
+			return;
 		}
-		$nowtm = strtotime(date('Y-m-d'). " 23:59:59");
+		$nowtm = strtotime(date('Y-m-d') . " 23:59:59");
 		$effective_date = $this->input->post('effective_date');
 		$effectivetm = strtotime($effective_date);
 		/*
@@ -368,7 +372,8 @@ class Plan extends MY_Controller {
 			if ($ad_and_d_ck) $ad_and_d_ck = 1;
 			$flight_accident_ck = $this->input->post('flight_accident_ck');
 			if ($flight_accident_ck) $flight_accident_ck = 1;
-			if ((int)($this->input->post('free_cancel') != (int)$plan['free_cancel']) ||
+			if (
+				(int)($this->input->post('free_cancel') != (int)$plan['free_cancel']) ||
 				($this->input->post('annual_plan_days') != $plan['annual_plan_days']) ||
 				((int)$ad_and_d_ck != (int)$plan['ad_and_d_ck']) ||
 				($this->input->post('ad_and_d_insured') != $plan['ad_and_d_insured']) ||
@@ -381,7 +386,8 @@ class Plan extends MY_Controller {
 				((int)$this->input->post('question2') != (int)$plan['question2']) ||
 				((int)$this->input->post('question3') != (int)$plan['question3']) ||
 				((int)$this->input->post('question4') != (int)$plan['question4']) ||
-				((int)$this->input->post('question5') != (int)$plan['question5']) ) {
+				((int)$this->input->post('question5') != (int)$plan['question5'])
+			) {
 				$this->error['error_message'] = "Plan can't be changed after plan effective";
 			}
 		} else {
@@ -392,7 +398,7 @@ class Plan extends MY_Controller {
 				if ($plan['ad_and_d_ck'] && (($ad_and_d_ck != $plan['ad_and_d_ck']) || ($this->input->post('ad_and_d_insured') < $plan['ad_and_d_insured']))) {
 					$this->error['error_message'] = "AD & D Plan only be changed to add sum inusured";
 				}
-				
+
 				$flight_accident_ck = $this->input->post('flight_accident_ck');
 				if ($flight_accident_ck) $flight_accident_ck = 1;
 				if ($plan['flight_accident_ck'] && (($flight_accident_ck != $plan['flight_accident_ck']) || ($this->input->post('flight_accident_insured') < $plan['flight_accident_insured']))) {
@@ -409,21 +415,22 @@ class Plan extends MY_Controller {
 			}
 		}
 	}
-	
-	function form_valid() {
+
+	function form_valid()
+	{
 		$this->error = array();
 
 		$product_short = $this->input->post('product_short');
 		if (empty($product_short) || empty($this->product_model->get_product($product_short))) {
 			redirect(base_url('plan'));
 		}
-		
+
 		$nowtm = strtotime(date('Y-m-d'));
 		$arrival_date = $this->input->post('arrival_date');
 		$arrivaltm = strtotime($arrival_date);
 		if (($product_short != 'TOP') && empty($arrival_date)) {	// 2015-01-01
 			$this->error['error_arrival_date'] = 'Confirm Arrival Date';
-		/*	
+			/*	
 		} else if (($product_short == 'JFR') && ($arrivaltm < 1420070400)) {	// 2015-01-01
 			$this->error['error_arrival_date'] = "Arrival Date is too early";
 		*/
@@ -433,7 +440,7 @@ class Plan extends MY_Controller {
 		if (empty($effective_date) || ($effectivetm < 1466555500)) {
 			$this->error['error_effective_date'] = 'Confirm Effective Date';
 		}
-		
+
 		if ($product_short == 'JESP') {
 			if (empty($this->input->post('student_id'))) {
 				$this->error['error_student_id'] = 'Student Name is Required';
@@ -509,20 +516,20 @@ class Plan extends MY_Controller {
 			$birthday = $this->input->post('birthday');
 			$days = $this->product_model->getDays($birthday, $apply_date);
 			if ($days < 15) {
-				$this->error['error_message'] = "Customer age must be old than 15 days ".$days . "[".$birthday."][".$apply_date."]";
+				$this->error['error_message'] = "Customer age must be old than 15 days " . $days . "[" . $birthday . "][" . $apply_date . "]";
 			}
 			if (empty($this->input->post('stable_condition'))) {
 				$this->error['error_stable_condition'] = 'Please select pre-existing condition coverage';
 			}
 
 			//if ($product_short == 'JFR') {
-				$stable_condition = $this->input->post('stable_condition');
-				if ($stable_condition == 2) {
-					$stable_condition_confirm = $this->input->post('stable_condition_confirm');
-					if (empty($stable_condition_confirm)) {
-						$this->error['error_stable_condition_confirm'] = 'You must confirm this condition for your selection.';
-					}
+			$stable_condition = $this->input->post('stable_condition');
+			if ($stable_condition == 2) {
+				$stable_condition_confirm = $this->input->post('stable_condition_confirm');
+				if (empty($stable_condition_confirm)) {
+					$this->error['error_stable_condition_confirm'] = 'You must confirm this condition for your selection.';
 				}
+			}
 			//}
 
 			$this->from_valid_family_member();
@@ -538,7 +545,7 @@ class Plan extends MY_Controller {
 				$this->error['error_message'] = "Customer age must be less than 69 years old";
 			} else {
 				for ($i = 1; $i < 9; $i++) {
-					$birthday = $this->input->post('birthday_'.$i);
+					$birthday = $this->input->post('birthday_' . $i);
 					if (empty($birthday)) break;
 					$years = $this->product_model->getYears($apply_date, $birthday);
 					if ($years > 26) {
@@ -554,16 +561,16 @@ class Plan extends MY_Controller {
 			$birthday = $this->input->post('birthday');
 			$years = $this->product_model->getYears($apply_date, $birthday);
 			if ($product_short == 'JFS') {
-        $stable_condition_confirm = $this->input->post('stable_condition_confirm');
-        if (empty($stable_condition_confirm)) {
-          $this->error['error_stable_condition_confirm'] = 'You must confirm you known about NOT cover any Pre-Existing Medical Condition(s).';
-        }
+				$stable_condition_confirm = $this->input->post('stable_condition_confirm');
+				if (empty($stable_condition_confirm)) {
+					$this->error['error_stable_condition_confirm'] = 'You must confirm you known about NOT cover any Pre-Existing Medical Condition(s).';
+				}
 			}
 			if ($years > 69) {
 				$this->error['error_message'] = "Customer age must be less than 69 years old";
 			} else {
 				for ($i = 1; $i < 9; $i++) {
-					$birthday = $this->input->post('birthday_'.$i);
+					$birthday = $this->input->post('birthday_' . $i);
 					if (empty($birthday)) break;
 					$years = $this->product_model->getYears($apply_date, $birthday);
 					if (($product_short == 'JES') || ($product_short == 'JFPL') || ($product_short == 'JESP') || ($product_short == 'JFE') || ($product_short == 'JFS') || ($product_short == 'BHS')) {
@@ -585,7 +592,7 @@ class Plan extends MY_Controller {
 					$this->error['error_message'] = "Customer age must be older than 4 years old";
 				} else {
 					for ($i = 1; $i < 9; $i++) {
-						$birthday = $this->input->post('birthday_'.$i);
+						$birthday = $this->input->post('birthday_' . $i);
 						if (empty($birthday)) break;
 						$years = $this->product_model->getYears($apply_date, $birthday);
 						if ($years < 4) {
@@ -603,11 +610,12 @@ class Plan extends MY_Controller {
 				$this->error['error_message'] = "Peimum has been changed, Please confirm and submit again";
 			}
 		}
-		
+
 		return empty($this->error);
 	}
-	
-	function verify_claims($plan_id) {
+
+	function verify_claims($plan_id)
+	{
 		$plan = $this->plan_model->get_plan_by_id($plan_id);
 
 		if ($plan['claim_flag'] >= 2) {
@@ -644,30 +652,31 @@ class Plan extends MY_Controller {
 		}
 		return;
 	}
-	
-	function form($plan=array()) {
+
+	function form($plan = array())
+	{
 		$beuser = $this->func_model->verify_login(TRUE, TRUE);
 		$this->load->model('customer_model');
-		
+
 		$this->load->model('status_model');
 		$this->load->model('product_model');
 		$this->load->model('plan_model');
 		$this->load->model('payment_model');
-		
+
 		$this->error = array();
 		if ($this->input->post('submit') && $this->form_valid()) {
 			$plan_id = $this->input->post('plan_id');
-					
+
 			if (empty($plan_id)) {
 				$plan_id = $this->plan_model->add($this->input->post());
 				if ($plan_id) {
 					$plan = $this->plan_model->get_plan_by_id($plan_id);
 					$para = array(
-							'plan_id' => $plan_id, 
-							'customer_id' => $plan['customer_id'], 
-							'payment_id' => 0, 
-							'message' => $this->plan_model->logstr, 
-							'systemlog' => $this->plan_model->sqlstr
+						'plan_id' => $plan_id,
+						'customer_id' => $plan['customer_id'],
+						'payment_id' => 0,
+						'message' => $this->plan_model->logstr,
+						'systemlog' => $this->plan_model->sqlstr
 					);
 					$this->log_model->activity('plan', $para);
 				}
@@ -690,25 +699,25 @@ class Plan extends MY_Controller {
 					if ($plan_id) {
 						$plan = $this->plan_model->get_plan_by_id($plan_id);
 						$para = array(
-								'plan_id' => $plan_id, 
-								'customer_id' => $plan['customer_id'], 
-								'payment_id' => 0, 
-								'message' => $this->plan_model->logstr, 
-								'systemlog' => $this->plan_model->sqlstr
+							'plan_id' => $plan_id,
+							'customer_id' => $plan['customer_id'],
+							'payment_id' => 0,
+							'message' => $this->plan_model->logstr,
+							'systemlog' => $this->plan_model->sqlstr
 						);
 						$this->log_model->activity('plan', $para);
 
 						if ((($planold['product_short'] == 'OPL') || ($planold['product_short'] == 'JFVTC') || ($planold['product_short'] == 'JFR')) && ((($planold['sum_insured'] >= 100000) && ($planold['totaldays'] >= 365)) || (($plan['sum_insured'] >= 100000) && ($plan['totaldays'] >= 365)))) {
 							if (($plan['sum_insured'] >= 100000) && ($plan['totaldays'] >= 365)) {
-								if (($planold['effective_date'] != $plan['effective_date']) || ($planold['totaldays'] != $plan['totaldays']) || ($planold['premium'] != $plan['premium']) || ($planold['expiry_date'] != $plan['expiry_date']) ) {
+								if (($planold['effective_date'] != $plan['effective_date']) || ($planold['totaldays'] != $plan['totaldays']) || ($planold['premium'] != $plan['premium']) || ($planold['expiry_date'] != $plan['expiry_date'])) {
 									// Super visa changed effective date
 									$this->payment_model->adjust_commission_added_date($plan_id, $plan['effective_date'], FALSE);
 									$para = array(
-											'plan_id' => $plan_id, 
-											'customer_id' => $plan['customer_id'], 
-											'payment_id' => $plan['commission_payment_id'], 
-											'message' => $this->payment_model->logstr, 
-											'systemlog' => $this->payment_model->sqlstr
+										'plan_id' => $plan_id,
+										'customer_id' => $plan['customer_id'],
+										'payment_id' => $plan['commission_payment_id'],
+										'message' => $this->payment_model->logstr,
+										'systemlog' => $this->payment_model->sqlstr
 									);
 									$this->log_model->activity('plan', $para);
 								}
@@ -716,11 +725,11 @@ class Plan extends MY_Controller {
 								// No more super visa, change payment data to today
 								$this->payment_model->adjust_commission_added_date($plan_id, date('Y-m-d'), FALSE);
 								$para = array(
-										'plan_id' => $plan_id, 
-										'customer_id' => $plan['customer_id'], 
-										'payment_id' => $plan['commission_payment_id'], 
-										'message' => $this->payment_model->logstr, 
-										'systemlog' => $this->payment_model->sqlstr
+									'plan_id' => $plan_id,
+									'customer_id' => $plan['customer_id'],
+									'payment_id' => $plan['commission_payment_id'],
+									'message' => $this->payment_model->logstr,
+									'systemlog' => $this->payment_model->sqlstr
 								);
 								$this->log_model->activity('plan', $para);
 							}
@@ -763,7 +772,7 @@ class Plan extends MY_Controller {
 		}
 		$data = $this->error;
 		if ($this->input->post('plan_id')) {
-			$data['plan_id'] = $this->input->post('plan_id'); 
+			$data['plan_id'] = $this->input->post('plan_id');
 		} else if (isset($plan['plan_id'])) {
 			$data['plan_id'] = $plan['plan_id'];
 		} else {
@@ -773,98 +782,98 @@ class Plan extends MY_Controller {
 		if (empty($plan) && $data['plan_id']) {
 			$plan = $this->plan_model->get_plan_by_id($data['plan_id']);
 		}
-		
-		if ($plan && isset($plan['status_id']) && ($plan['status_id'] > 1) && ($plan['claim_flag'] < 1)&& $this->session->userdata('vsuser')) {
+
+		if ($plan && isset($plan['status_id']) && ($plan['status_id'] > 1) && ($plan['claim_flag'] < 1) && $this->session->userdata('vsuser')) {
 			// user can't change anything after sold
-			redirect('plan/detail/'.$plan['plan_id']);
+			redirect('plan/detail/' . $plan['plan_id']);
 		}
-		
+
 		if ($plan && isset($plan['policy'])) {
-			$data['policy'] = $plan['policy']; 
+			$data['policy'] = $plan['policy'];
 		}
-		
+
 		if ($this->input->post('product_short')) {
-			$data['product_short'] = $this->input->post('product_short'); 
+			$data['product_short'] = $this->input->post('product_short');
 		} else if (isset($plan['product_short'])) {
 			$data['product_short'] = $plan['product_short'];
 		} else {
 			redirect(base_url('plan'));
 		}
-		
+
 		if ($this->input->post('user_id')) {
-			$data['user_id'] = $this->input->post('user_id'); 
+			$data['user_id'] = $this->input->post('user_id');
 		} else if (isset($plan['user_id'])) {
 			$data['user_id'] = $plan['user_id'];
 		} else {
 			$data['user_id'] = $beuser['user_id'];
 		}
 		$data['beuser_user_id'] = $beuser['user_id'];
-		
+
 		if ($this->input->post('status_id')) {
-			$data['status_id'] = $this->input->post('status_id'); 
+			$data['status_id'] = $this->input->post('status_id');
 		} else if (isset($plan['status_id'])) {
 			$data['status_id'] = $plan['status_id'];
 		} else {
 			$data['status_id'] = 1;
 		}
 		if ($this->input->post('apply_date')) {
-			$data['apply_date'] = $this->input->post('apply_date'); 
+			$data['apply_date'] = $this->input->post('apply_date');
 		} else if (isset($plan['apply_date'])) {
 			$data['apply_date'] = $plan['apply_date'];
 		} else {
 			$data['apply_date'] = date("Y-m-d");
 		}
 		if ($this->input->post('arrival_date')) {
-			$data['arrival_date'] = $this->input->post('arrival_date'); 
+			$data['arrival_date'] = $this->input->post('arrival_date');
 		} else if (isset($plan['arrival_date'])) {
 			$data['arrival_date'] = $plan['arrival_date'];
 		} else {
 			$data['arrival_date'] = '';
 		}
 		if ($this->input->post('effective_date')) {
-			$data['effective_date'] = $this->input->post('effective_date'); 
+			$data['effective_date'] = $this->input->post('effective_date');
 		} else if (isset($plan['effective_date'])) {
 			$data['effective_date'] = $plan['effective_date'];
 		} else {
 			$data['effective_date'] = '';
 		}
 		if ($this->input->post('expiry_date')) {
-			$data['expiry_date'] = $this->input->post('expiry_date'); 
+			$data['expiry_date'] = $this->input->post('expiry_date');
 		} else if (isset($plan['expiry_date'])) {
 			$data['expiry_date'] = $plan['expiry_date'];
 		} else {
 			$data['expiry_date'] = '';
 		}
 		if ($this->input->post('beneficiary')) {
-			$data['beneficiary'] = $this->input->post('beneficiary'); 
+			$data['beneficiary'] = $this->input->post('beneficiary');
 		} else if (isset($plan['beneficiary'])) {
 			$data['beneficiary'] = $plan['beneficiary'];
 		} else {
 			$data['beneficiary'] = '';
 		}
 		if ($this->input->post('batch_number')) {
-			$data['batch_number'] = $this->input->post('batch_number'); 
+			$data['batch_number'] = $this->input->post('batch_number');
 		} else if (isset($plan['batch_number'])) {
 			$data['batch_number'] = $plan['batch_number'];
 		} else {
 			$data['batch_number'] = 0;
 		}
 		if ($this->input->post('isfamilyplan')) {
-			$data['isfamilyplan'] = $this->input->post('isfamilyplan'); 
+			$data['isfamilyplan'] = $this->input->post('isfamilyplan');
 		} else if (isset($plan['isfamilyplan'])) {
 			$data['isfamilyplan'] = $plan['isfamilyplan'];
 		} else {
 			$data['isfamilyplan'] = 0;
 		}
 		if ($this->input->post('sum_insured')) {
-			$data['sum_insured'] = $this->input->post('sum_insured'); 
+			$data['sum_insured'] = $this->input->post('sum_insured');
 		} else if (isset($plan['sum_insured'])) {
 			$data['sum_insured'] = $plan['sum_insured'];
 		} else {
 			$data['sum_insured'] = 0;
 		}
 		if ($this->input->post('premium')) {
-			$data['premium'] = $this->input->post('premium'); 
+			$data['premium'] = $this->input->post('premium');
 			if ($data['product_short'] == 'TOP') {
 				$tdata = $this->product_model->get_top_premium($this->input->post());
 				if (empty($tdata['status']) || ($tdata['status'] != 'OK')) {
@@ -883,7 +892,7 @@ class Plan extends MY_Controller {
 		} else {
 			$data['tax'] = 0;
 		}
-		
+
 		if ($this->input->post('student_id')) {
 			$data['student_id'] = $this->input->post('student_id');
 		} else if (isset($plan['student_id'])) {
@@ -912,45 +921,45 @@ class Plan extends MY_Controller {
 		} else {
 			$data['institution_phone'] = '';
 		}
-		
+
 		if ($this->input->post('stable_condition')) {
-			$data['stable_condition'] = $this->input->post('stable_condition'); 
+			$data['stable_condition'] = $this->input->post('stable_condition');
 		} else if (isset($plan['stable_condition'])) {
 			$data['stable_condition'] = $plan['stable_condition'];
 		} else {
 			$data['stable_condition'] = 0;
 		}
 		if ($this->input->post('stable_condition_confirm')) {
-			$data['stable_condition_confirm'] = $this->input->post('stable_condition_confirm'); 
+			$data['stable_condition_confirm'] = $this->input->post('stable_condition_confirm');
 		} else if (isset($plan['stable_condition_confirm'])) {
 			$data['stable_condition_confirm'] = $plan['stable_condition_confirm'];
 		} else {
 			$data['stable_condition_confirm'] = 0;
 		}
-		
+
 		if ($this->input->post('rate_options')) {
-			$data['rate_options'] = $this->input->post('rate_options'); 
+			$data['rate_options'] = $this->input->post('rate_options');
 		} else if (isset($plan['rate_options'])) {
 			$data['rate_options'] = $plan['rate_options'];
 		} else {
 			$data['rate_options'] = 0;
 		}
 		if ($this->input->post('holiday_rate')) {
-			$data['holiday_rate'] = $this->input->post('holiday_rate'); 
+			$data['holiday_rate'] = $this->input->post('holiday_rate');
 		} else if (isset($plan['holiday_rate'])) {
 			$data['holiday_rate'] = $plan['holiday_rate'];
 		} else {
 			$data['holiday_rate'] = 0;
 		}
 		if ($this->input->post('spouse')) {
-			$data['spouse'] = $this->input->post('spouse');; 
+			$data['spouse'] = $this->input->post('spouse');;
 		} else if (isset($plan['spouse'])) {
 			$data['spouse'] = $plan['spouse'];
 		} else {
 			$data['spouse'] = 0;
 		}
 		if ($this->input->post('deductible_amount')) {
-			$data['deductible_amount'] = $this->input->post('deductible_amount'); 
+			$data['deductible_amount'] = $this->input->post('deductible_amount');
 		} else if (isset($plan['deductible_amount'])) {
 			$data['deductible_amount'] = $plan['deductible_amount'];
 		} else {
@@ -961,21 +970,21 @@ class Plan extends MY_Controller {
 			}
 		}
 		if ($this->input->post('totaldays')) {
-			$data['totaldays'] = $this->input->post('totaldays'); 
+			$data['totaldays'] = $this->input->post('totaldays');
 		} else if (isset($plan['totaldays'])) {
 			$data['totaldays'] = $plan['totaldays'];
 		} else {
 			$data['totaldays'] = '';
 		}
 		if ($this->input->post('dailyrate')) {
-			$data['dailyrate'] = $this->input->post('dailyrate'); 
+			$data['dailyrate'] = $this->input->post('dailyrate');
 		} else if (isset($plan['dailyrate'])) {
 			$data['dailyrate'] = $plan['dailyrate'];
 		} else {
 			$data['dailyrate'] = '';
 		}
 		if ($this->input->post('totalyears')) {
-			$data['totalyears'] = $this->input->post('totalyears'); 
+			$data['totalyears'] = $this->input->post('totalyears');
 		} else if (isset($plan['totalyears'])) {
 			$data['totalyears'] = $plan['totalyears'];
 		} else {
@@ -1032,51 +1041,51 @@ class Plan extends MY_Controller {
 		$data['max_member'] = $max_member;
 		$data['cur_max_member'] = 0;
 		for ($i = 1; $i < $max_member; $i++) {
-			if ($this->input->post('customer_id_'.$i)) {
-				$data['customer_id_'.$i] = $this->input->post('customer_id_'.$i);
+			if ($this->input->post('customer_id_' . $i)) {
+				$data['customer_id_' . $i] = $this->input->post('customer_id_' . $i);
 			} else if (isset($customers[$i - 1]) && isset($customers[$i - 1]['customer_id'])) {
-				$data['customer_id_'.$i] = $customers[$i - 1]['customer_id'];
+				$data['customer_id_' . $i] = $customers[$i - 1]['customer_id'];
 			} else {
-				$data['customer_id_'.$i] = 0;
+				$data['customer_id_' . $i] = 0;
 			}
-			if ($this->input->post('firstname_'.$i)) {
-				$data['firstname_'.$i] = $this->input->post('firstname_'.$i);
+			if ($this->input->post('firstname_' . $i)) {
+				$data['firstname_' . $i] = $this->input->post('firstname_' . $i);
 			} else if (isset($customers[$i - 1]) && isset($customers[$i - 1]['firstname'])) {
-				$data['firstname_'.$i] = $customers[$i - 1]['firstname'];
-			} else if (isset($plan['firstname_'.$i])) {
-				$data['firstname_'.$i] = $plan['firstname_'.$i];
+				$data['firstname_' . $i] = $customers[$i - 1]['firstname'];
+			} else if (isset($plan['firstname_' . $i])) {
+				$data['firstname_' . $i] = $plan['firstname_' . $i];
 			} else {
-				$data['firstname_'.$i] = '';
+				$data['firstname_' . $i] = '';
 			}
-			if ($this->input->post('lastname_'.$i)) {
-				$data['lastname_'.$i] = $this->input->post('lastname_'.$i);
+			if ($this->input->post('lastname_' . $i)) {
+				$data['lastname_' . $i] = $this->input->post('lastname_' . $i);
 			} else if (isset($customers[$i - 1]) && isset($customers[$i - 1]['lastname'])) {
-				$data['lastname_'.$i] = $customers[$i - 1]['lastname'];
-			} else if (isset($plan['lastname_'.$i])) {
-				$data['lastname_'.$i] = $plan['lastname_'.$i];
+				$data['lastname_' . $i] = $customers[$i - 1]['lastname'];
+			} else if (isset($plan['lastname_' . $i])) {
+				$data['lastname_' . $i] = $plan['lastname_' . $i];
 			} else {
-				$data['lastname_'.$i] = '';
+				$data['lastname_' . $i] = '';
 			}
-			if ($this->input->post('birthday_'.$i)) {
-				$data['birthday_'.$i] = $this->input->post('birthday_'.$i);
+			if ($this->input->post('birthday_' . $i)) {
+				$data['birthday_' . $i] = $this->input->post('birthday_' . $i);
 			} else if (isset($customers[$i - 1]) && isset($customers[$i - 1]['birthday'])) {
-				$data['birthday_'.$i] = $customers[$i - 1]['birthday'];
-			} else if (isset($plan['birthday_'.$i])) {
-				$data['birthday_'.$i] = $plan['birthday_'.$i];
+				$data['birthday_' . $i] = $customers[$i - 1]['birthday'];
+			} else if (isset($plan['birthday_' . $i])) {
+				$data['birthday_' . $i] = $plan['birthday_' . $i];
 			} else {
-				$data['birthday_'.$i] = '';
+				$data['birthday_' . $i] = '';
 			}
-			if (!empty($data['birthday_'.$i])) {
+			if (!empty($data['birthday_' . $i])) {
 				$data['cur_max_member'] += 1;
 			}
-			if ($this->input->post('gender_'.$i)) {
-				$data['gender_'.$i] = $this->input->post('gender_'.$i);
+			if ($this->input->post('gender_' . $i)) {
+				$data['gender_' . $i] = $this->input->post('gender_' . $i);
 			} else if (isset($customers[$i - 1]) && isset($customers[$i - 1]['gender'])) {
-				$data['gender_'.$i] = $customers[$i - 1]['gender'];
-			} else if (isset($plan['gender_'.$i])) {
-				$data['gender_'.$i] = $plan['gender_'.$i];
+				$data['gender_' . $i] = $customers[$i - 1]['gender'];
+			} else if (isset($plan['gender_' . $i])) {
+				$data['gender_' . $i] = $plan['gender_' . $i];
 			} else {
-				$data['gender_'.$i] = 'M';
+				$data['gender_' . $i] = 'M';
 			}
 		}
 		if ($this->input->post('street_number')) {
@@ -1208,7 +1217,7 @@ class Plan extends MY_Controller {
 		} else {
 			$data['free_cancel'] = '';
 		}
-		
+
 		// For TOP plan
 		if ($this->input->post('ad_and_d_ck')) {
 			$data['ad_and_d_ck'] = 1;
@@ -1301,7 +1310,7 @@ class Plan extends MY_Controller {
 		} else {
 			$data['question1_diabets'] = '0';
 		}
-			if ($this->input->post('question1_heart')) {
+		if ($this->input->post('question1_heart')) {
 			$data['question1_heart'] = $this->input->post('question1_heart');
 		} else if (isset($plan['question1_heart'])) {
 			$data['question1_heart'] = $plan['question1_heart'];
@@ -1392,7 +1401,7 @@ class Plan extends MY_Controller {
 		} else {
 			$data['question3_peptic'] = '';
 		}
-		
+
 		if ($this->input->post('question4')) {
 			$data['question4'] = $this->input->post('question4');
 		} else if (isset($plan['question4'])) {
@@ -1407,7 +1416,7 @@ class Plan extends MY_Controller {
 		} else {
 			$data['question5'] = '0';
 		}
-		
+
 		$data['show_history'] = 0;
 		if (empty($data['plan_id'])) {
 			$data['submit'] = 'Next';
@@ -1420,19 +1429,19 @@ class Plan extends MY_Controller {
 				$data['show_history'] = 1;
 				$data['activelog_tables'] = $this->log_model->history_tables;
 				$data['payment_tables'] = $this->payment_model->history_tables;
-        if ($data['status_id'] >= 2){
-          $this->load->model('claim_model');
-          $claims = $this->plan_model->verify_policy($data['policy']);
-          $data['claims'] = (!empty($claims) && ($claims['status'] == 'OK')) ? $claims['claims'] : '';
-        }
+				if ($data['status_id'] >= 2) {
+					$this->load->model('claim_model');
+					$claims = $this->plan_model->verify_policy($data['policy']);
+					$data['claims'] = (!empty($claims) && ($claims['status'] == 'OK')) ? $claims['claims'] : '';
+				}
 			}
 		}
-    $data['get_activelog_history_url'] = base_url ( "plan/get_activelog_history/" . $data['plan_id'] );
-		$data['get_payment_history_url'] = base_url ( "plan/get_payment_history/" . $data['plan_id'] );
-		$data['payhistory_url'] = base_url ( "plan/payhistory/" . $data['plan_id'] );
-		$data['sum_insured_url'] = base_url ( "product/insured/" . $data['product_short'] );
-		if (!empty($data['sum_insured'])) $data['sum_insured_url'] .= "/" . $data['sum_insured']; 
-		$data['deductible_amount_url'] = base_url ( "product/deductible/" . $data['product_short'] );
+		$data['get_activelog_history_url'] = base_url("plan/get_activelog_history/" . $data['plan_id']);
+		$data['get_payment_history_url'] = base_url("plan/get_payment_history/" . $data['plan_id']);
+		$data['payhistory_url'] = base_url("plan/payhistory/" . $data['plan_id']);
+		$data['sum_insured_url'] = base_url("product/insured/" . $data['product_short']);
+		if (!empty($data['sum_insured'])) $data['sum_insured_url'] .= "/" . $data['sum_insured'];
+		$data['deductible_amount_url'] = base_url("product/deductible/" . $data['product_short']);
 		$data['deductible_amount_url_now'] = $data['deductible_amount_url'];
 		if (!empty($data['deductible_amount'])) {
 			$data['deductible_amount_url_now'] .= "/0" . $data['deductible_amount'];
@@ -1442,8 +1451,8 @@ class Plan extends MY_Controller {
 		if (!empty($data['plan_id'])) {
 			$data['deductible_amount_url_now'] .= "/" . $data['plan_id'];
 		}
-		$data['province_url'] = base_url ( "geo/province" );
-		$data['country_url'] = base_url ( "geo/country" );
+		$data['province_url'] = base_url("geo/province");
+		$data['country_url'] = base_url("geo/country");
 		if (!empty($data['country2'])) {
 			$data['province_url'] .= "/" . $data['country2'];
 			$data['country_url'] .= "/" . $data['country2'];
@@ -1457,30 +1466,30 @@ class Plan extends MY_Controller {
 		$data['plan_full_name'] = $product ? $product['full_name'] : '';
 		$data['status_list'] = $this->status_model->status_list();
 		if ((int)$data['plan_id'] > 0) {
-			$data['copy_url'] = base_url ( "plan/copy/" . (int)$data['plan_id'] );
-			$data['renewal_url'] = base_url ( "plan/renewal" . "/" . (int)$data['plan_id'] );
+			$data['copy_url'] = base_url("plan/copy/" . (int)$data['plan_id']);
+			$data['renewal_url'] = base_url("plan/renewal" . "/" . (int)$data['plan_id']);
 			if ((int)$data['status_id'] == 1) {
-				$data['pay_url'] = base_url ( "plan/term/" . (int)$data['plan_id'] );
+				$data['pay_url'] = base_url("plan/term/" . (int)$data['plan_id']);
 			} else {
 				$data['pay_url'] = '';
 			}
-			$data['next_url'] = base_url ( "plan/term/" . (int)$data['plan_id'] );
+			$data['next_url'] = base_url("plan/term/" . (int)$data['plan_id']);
 		} else {
 			$data['copy_url'] = '';
 			$data['renewal_url'] = "";
 			$data['pay_url'] = '';
 			$data['next_url'] = '';
 		}
-		
+
 		$data['policy_user'] = (isset($plan) && !empty($plan['user_id'])) ? $this->user_model->get_user_by_id($plan['user_id']) : $this->user_model->get_user_by_id($beuser['user_id']);
-		$data['premium_url'] = base_url ( "product/getpremium" );
-		$data['action_url'] = base_url ( "plan/form" );
-		$data['claimurl'] = base_url ( "claim/add" ) . "/";
-		$data['sendpackage_url'] = base_url ( "plan/sendpackage" ) . "/";
-		$data['cancel_url'] = base_url ( "plan/cancel" ) . "/";
-		$data['refund_url'] = base_url ( "plan/refund" ) . "/";
-		$data['revert_url'] = base_url ( "payment/revert" ) . "/";
-		$data['makepay_url'] = base_url ( "payment/makepay" );
+		$data['premium_url'] = base_url("product/getpremium");
+		$data['action_url'] = base_url("plan/form");
+		$data['claimurl'] = base_url("claim/add") . "/";
+		$data['sendpackage_url'] = base_url("plan/sendpackage") . "/";
+		$data['cancel_url'] = base_url("plan/cancel") . "/";
+		$data['refund_url'] = base_url("plan/refund") . "/";
+		$data['revert_url'] = base_url("payment/revert") . "/";
+		$data['makepay_url'] = base_url("payment/makepay");
 
 		$data['print_card_url'] = '';
 		$data['print_receipt_url'] = '';
@@ -1491,13 +1500,13 @@ class Plan extends MY_Controller {
 		$data['export_price_url'] = base_url('plan/exportprice') . "/";
 		$data['export_logo_price_option'] = FALSE;
 		if (($beuser['user_group_id'] < 100) || ($beuser['user_id'] == 3744)) $data['export_logo_price_option'] = TRUE;
-		$this->session->set_userdata ( 'withlogo', 1);
+		$this->session->set_userdata('withlogo', 1);
 		if (($beuser['user_group_id'] != 103) && ($beuser['user_group_id'] != 106)) {
-			$this->session->set_userdata ( 'withprice', 1);
+			$this->session->set_userdata('withprice', 1);
 		} else {
-			$this->session->set_userdata ( 'withprice', 0);
+			$this->session->set_userdata('withprice', 0);
 		}
-		
+
 		if (!empty($plan) && !empty($plan['status_id']) && !empty($plan['plan_id']) && ($plan['status_id'] >= 2)) {
 			if ($plan['status_id'] == 5) {
 				// Cancel
@@ -1514,7 +1523,7 @@ class Plan extends MY_Controller {
 				$data['print_receipt_url'] = base_url('plan/receipt/' . $plan['plan_id']);
 			}
 		}
-		
+
 		$data['title_txt'] = 'Policy';
 		if ($vsuser = $this->session->userdata('vsuser')) {
 			$this->load->model('myhome_model');
@@ -1522,20 +1531,20 @@ class Plan extends MY_Controller {
 			if (!empty($myhome['logo'])) {
 				$data['myhomelogo'] = base_url('agent/img') . '/' . $myhome['logo'];
 			}
-			
+
 			if (!empty($myhome['qr'])) {
 				$data['myqr'] = base_url('agent/img') . '/' . $myhome['qr'];
 			}
-				
+
 			$data['top_menu'] = '';
 			$data['menu'] = '';
 		} else {
 			$data['top_menu'] = $this->menu_model->load_top_menu();
 			$data['menu'] = $this->menu_model->load_meun();
 		}
-		$data['csrf'] = array (
-				'name' => $this->security->get_csrf_token_name (),
-				'value' => $this->security->get_csrf_hash ()
+		$data['csrf'] = array(
+			'name' => $this->security->get_csrf_token_name(),
+			'value' => $this->security->get_csrf_hash()
 		);
 
 		$data['do_user_id'] = 0;
@@ -1546,7 +1555,7 @@ class Plan extends MY_Controller {
 		if (isset($data['error_claim'])) {
 			$data['next_url'] = '';
 		}
-		
+
 		$data['isprocessplan'] = 1;
 		$data['plan_cancel_date'] = '';
 		$data['plan_refund_date'] = '';
@@ -1563,7 +1572,7 @@ class Plan extends MY_Controller {
 		$data['html_model'] = $this->html_model;
 		if ($data['product_short'] == 'TOP') {
 			$data['toppackagename'] = $this->toppackagename;
-			$data['premium_url'] = base_url ( "plan/gettoppremium" );
+			$data['premium_url'] = base_url("plan/gettoppremium");
 			$data['no_change'] = 0;
 			if (!empty($plan) && !empty($plan['status_id']) && !empty($plan['plan_id']) && ($plan['status_id'] >= 2) && ($data['user_group_id'] > 100)) {
 				$data['no_change'] = 1;
@@ -1587,7 +1596,7 @@ class Plan extends MY_Controller {
 					$data['insurable_options'] = $this->load->view('plan/form_other_agent', $data, TRUE);
 					$data['isprocessplan'] = 0;
 				}
-				
+
 				$this->load->common('plan/form_agent', $data);
 			} else {
 				if ($data['product_short'] == 'OPL') {
@@ -1606,26 +1615,27 @@ class Plan extends MY_Controller {
 					$data['insurable_options'] = $this->load->view('plan/form_other', $data, TRUE);
 					$data['isprocessplan'] = 0;
 				}
-		
+
 				$data['popRefund'] = $this->load->view('plan/refund_addr', $data, TRUE);
-				
+
 				//$this->load->common('plan/form', $data);
 				$this->load->common('plan/form', $data);
 			}
 		}
 	}
-	
-  function get_ali_url($plan_id) {
-    $this->load->model('user_model');
-    $this->load->model('payment_model');
-    $this->load->model('plan_model');
-    $this->load->model('snappay_model');
 
-    $plan = $this->plan_model->get_plan_by_id($plan_id);
-    $sekey = $this->input->get('sekey');
-    if (!$plan) {
-      show_error("Error 1");
-    }
+	function get_ali_url($plan_id)
+	{
+		$this->load->model('user_model');
+		$this->load->model('payment_model');
+		$this->load->model('plan_model');
+		$this->load->model('snappay_model');
+
+		$plan = $this->plan_model->get_plan_by_id($plan_id);
+		$sekey = $this->input->get('sekey');
+		if (!$plan) {
+			show_error("Error 1");
+		}
 		$beuser = $this->user_model->get_user_by_id($plan['user_id']);
 		$key = $this->plan_model->get_plan_key($plan_id);
 		if ($key != $sekey) {
@@ -1636,93 +1646,96 @@ class Plan extends MY_Controller {
 				show_error("This pay link is expired. Please contact your agent to Pay");
 			}
 		}
-    $payment_total = $plan['premium'] - $this->payment_model->get_total_paid($plan['plan_id'], 'premium', $plan['apply_date']);
-    if ($payment_total <= 0) {
-      show_error("Do not need pay");
-    }
-    $pay_url = $this->snappay_model->get_pay_url($plan, $payment_total, $sekey);
-    die($pay_url);
-  }
+		$payment_total = $plan['premium'] - $this->payment_model->get_total_paid($plan['plan_id'], 'premium', $plan['apply_date']);
+		if ($payment_total <= 0) {
+			show_error("Do not need pay");
+		}
+		$pay_url = $this->snappay_model->get_pay_url($plan, $payment_total, $sekey);
+		die($pay_url);
+	}
 
-  function get_activelog_history($plan_id) {
+	function get_activelog_history($plan_id)
+	{
 		$beuser = $this->func_model->verify_login();
-    $this->load->model('log_model');
-    $tb = $this->input->get('tb');
-    $activelog_tables = $this->log_model->history_tables;
+		$this->load->model('log_model');
+		$tb = $this->input->get('tb');
+		$activelog_tables = $this->log_model->history_tables;
 
-    $rt = "";
-    if (in_array($tb, $activelog_tables)) {
-      $records = $this->log_model->get_activity_by_plan_id_tb($plan_id, $tb);
-      foreach ($records as $p) {
-        $rt .= "<tr>\n";
-        $rt .= "<td>".htmlspecialchars($p['username'])."</td>\n";
-        $rt .= "<td>".$p['tm']."</td>\n";
-        $rt .= "<td>".htmlspecialchars($p['message'])."</td>\n";
-        $rt .= "</tr>\n";
-      }
-    }
-    die($rt);
-  }
+		$rt = "";
+		if (in_array($tb, $activelog_tables)) {
+			$records = $this->log_model->get_activity_by_plan_id_tb($plan_id, $tb);
+			foreach ($records as $p) {
+				$rt .= "<tr>\n";
+				$rt .= "<td>" . htmlspecialchars($p['username']) . "</td>\n";
+				$rt .= "<td>" . $p['tm'] . "</td>\n";
+				$rt .= "<td>" . htmlspecialchars($p['message']) . "</td>\n";
+				$rt .= "</tr>\n";
+			}
+		}
+		die($rt);
+	}
 
-  function get_payment_history($plan_id) {
+	function get_payment_history($plan_id)
+	{
 		$beuser = $this->func_model->verify_login();
-    $this->load->model('payment_model');
+		$this->load->model('payment_model');
 
-    $tb = $this->input->get('tb');
-    $payment_tables = $this->payment_model->history_tables;
-    $rt = "";
-    if (in_array($tb, $payment_tables)) {
-      $payments = $this->payment_model->get_payment_by_plan_id_tb($plan_id, $tb);
-      foreach ($payments as $p) {
-        $pay_str = '';
-        if ($p['pay_type'] == 'up_commission') continue;
-        if ($p['pay_type'] == 'refund_up_commission') continue;
-        if ($p['pay_type'] == 'cancel_up_commission') continue;
-        
-        $sbstr = substr($p['pay_type'], 0, 6);
-        if ($p['ispaid']) {
-          $pay_str = 'Paid';
-        } else {
-          if ($sbstr == 'refund') {
-            $pay_str = "<a href='" . base_url ( "payment/revert" ) . "/" . $p['payment_id'] . "'>Revert Refund</a>";
-          } else if ($sbstr == 'cancel') {
-            $pay_str = "<a href='" . base_url ( "payment/revert" ) . "/" . $p['payment_id'] . "'>Revert Cancel</a>";
-          } else {
-            $pay_str = '-';
-          }
-        }
-        $pay_info = '';
-        $ck_info = $p['cheque_number'];
-        if ($p['pay_date'] > "2020-01-01") $ck_info .= ":".$p['pay_date'];
-        if (!empty($p['invoice_num'])) $pay_info .= "[".$p['invoice_num']."]";
-        if (!empty($p['bank_name'])) $pay_info .= "[".$p['bank_name']."]";
-        if (!empty($p['payor_name'])) $pay_info .= "[".$p['payor_name']."]";
-        if (!empty($p['cheque_number'])) $pay_info .= "[".$p['cheque_number']."]";
-        if (!empty($p['pay_to'])) $pay_info .= "[".$p['pay_to']."]";
-        if (!empty($p['name'])) $pay_info .= "[".$p['name']."]";
-        if (!empty($p['first5'])) $pay_info .= "[".$p['first5']."]";
-        if (!empty($p['last4'])) $pay_info .= "[".$p['last4']."]";
-        if (!empty($p['expiry_month'])) $pay_info .= "[".$p['expiry_month']."]";
-        if (!empty($p['expiry_year'])) $pay_info .= "[".$p['expiry_year']."]";
+		$tb = $this->input->get('tb');
+		$payment_tables = $this->payment_model->history_tables;
+		$rt = "";
+		if (in_array($tb, $payment_tables)) {
+			$payments = $this->payment_model->get_payment_by_plan_id_tb($plan_id, $tb);
+			foreach ($payments as $p) {
+				$pay_str = '';
+				if ($p['pay_type'] == 'up_commission') continue;
+				if ($p['pay_type'] == 'refund_up_commission') continue;
+				if ($p['pay_type'] == 'cancel_up_commission') continue;
 
-        $rt .= "<tr>\n";
-        $rt .= "<td>".(empty($p['ispaid'])?"<input type='checkbox' name='payment[]' value='".$p['payment_id']."'>":"")."</td>\n";
-        $rt .= "<td>".$p['last_update']."</td>\n";
-        $rt .= "<td>".$p['pay_type']."</td>\n";
-        $rt .= "<td>".$p['pay_mothed']."</td>\n";
-        $rt .= "<td>".$p['amount']."</td>\n";
-        $rt .= "<td>".$p['rate'] . "%</td>\n";
-        $rt .= "<td>".$pay_str."</td>\n";
-        $rt .= "<td>".$ck_info."</td>\n";
-        $rt .= "<td>".$pay_info."</td>\n";
-        $rt .= "<td>".((strlen($p['note']) > 60) ? (htmlspecialchars(substr($p['note'], 0, 57)) . "...") : htmlspecialchars($p['note']))."</td>\n";
-        $rt .= "</tr>\n";
-      }
-    }
-    die($rt);
-  }
+				$sbstr = substr($p['pay_type'], 0, 6);
+				if ($p['ispaid']) {
+					$pay_str = 'Paid';
+				} else {
+					if ($sbstr == 'refund') {
+						$pay_str = "<a href='" . base_url("payment/revert") . "/" . $p['payment_id'] . "'>Revert Refund</a>";
+					} else if ($sbstr == 'cancel') {
+						$pay_str = "<a href='" . base_url("payment/revert") . "/" . $p['payment_id'] . "'>Revert Cancel</a>";
+					} else {
+						$pay_str = '-';
+					}
+				}
+				$pay_info = '';
+				$ck_info = $p['cheque_number'];
+				if ($p['pay_date'] > "2020-01-01") $ck_info .= ":" . $p['pay_date'];
+				if (!empty($p['invoice_num'])) $pay_info .= "[" . $p['invoice_num'] . "]";
+				if (!empty($p['bank_name'])) $pay_info .= "[" . $p['bank_name'] . "]";
+				if (!empty($p['payor_name'])) $pay_info .= "[" . $p['payor_name'] . "]";
+				if (!empty($p['cheque_number'])) $pay_info .= "[" . $p['cheque_number'] . "]";
+				if (!empty($p['pay_to'])) $pay_info .= "[" . $p['pay_to'] . "]";
+				if (!empty($p['name'])) $pay_info .= "[" . $p['name'] . "]";
+				if (!empty($p['first5'])) $pay_info .= "[" . $p['first5'] . "]";
+				if (!empty($p['last4'])) $pay_info .= "[" . $p['last4'] . "]";
+				if (!empty($p['expiry_month'])) $pay_info .= "[" . $p['expiry_month'] . "]";
+				if (!empty($p['expiry_year'])) $pay_info .= "[" . $p['expiry_year'] . "]";
 
-	function gettoppremium() {
+				$rt .= "<tr>\n";
+				$rt .= "<td>" . (empty($p['ispaid']) ? "<input type='checkbox' name='payment[]' value='" . $p['payment_id'] . "'>" : "") . "</td>\n";
+				$rt .= "<td>" . $p['last_update'] . "</td>\n";
+				$rt .= "<td>" . $p['pay_type'] . "</td>\n";
+				$rt .= "<td>" . $p['pay_mothed'] . "</td>\n";
+				$rt .= "<td>" . $p['amount'] . "</td>\n";
+				$rt .= "<td>" . $p['rate'] . "%</td>\n";
+				$rt .= "<td>" . $pay_str . "</td>\n";
+				$rt .= "<td>" . $ck_info . "</td>\n";
+				$rt .= "<td>" . $pay_info . "</td>\n";
+				$rt .= "<td>" . ((strlen($p['note']) > 60) ? (htmlspecialchars(substr($p['note'], 0, 57)) . "...") : htmlspecialchars($p['note'])) . "</td>\n";
+				$rt .= "</tr>\n";
+			}
+		}
+		die($rt);
+	}
+
+	function gettoppremium()
+	{
 		$beuser = $this->func_model->verify_login();
 		$this->load->model('product_model');
 		$data = array('status' => 'Fail', 'message' => '');
@@ -1738,14 +1751,15 @@ class Plan extends MY_Controller {
 			}
 			*/
 		}
-		
+
 		header('Content-Type: application/json');
 		echo json_encode($data);
 	}
-	
-	function payhistory($plan_id) {
+
+	function payhistory($plan_id)
+	{
 		$beuser = $this->func_model->verify_login();
-	
+
 		$this->load->model('plan_model');
 		$this->load->model('payment_model');
 		$data['show_history'] = 1;
@@ -1761,23 +1775,24 @@ class Plan extends MY_Controller {
 				}
 			}
 		}
-		
-		$data['payhistory_url'] = base_url ( "plan/payhistory/" . $plan_id );
+
+		$data['payhistory_url'] = base_url("plan/payhistory/" . $plan_id);
 		$data['user_group_id'] = $beuser['user_group_id'];
-		$data['revert_url'] = base_url ( "payment/revert" ) . "/";
-		$data['makepay_url'] = base_url ( "payment/makepay" );
+		$data['revert_url'] = base_url("payment/revert") . "/";
+		$data['makepay_url'] = base_url("payment/makepay");
 		$this->load->model('html_model');
 		$data['html_model'] = $this->html_model;
-	
-		$data['csrf'] = array (
-				'name' => $this->security->get_csrf_token_name (),
-				'value' => $this->security->get_csrf_hash ()
+
+		$data['csrf'] = array(
+			'name' => $this->security->get_csrf_token_name(),
+			'value' => $this->security->get_csrf_hash()
 		);
-	
+
 		$this->load->view('plan/form_payment', $data);
 	}
-	
-	function add() {
+
+	function add()
+	{
 		$beuser = $this->func_model->verify_login(TRUE, TRUE);
 		$product_short = $this->input->post_get('product_short');
 		if (empty($product_short)) {
@@ -1787,8 +1802,9 @@ class Plan extends MY_Controller {
 		return ($this->form($plan));
 	}
 
-	function term($plan_id=0) {
-		$beuser = $this->func_model->verify_login(TRUE, TRUE); 
+	function term($plan_id = 0)
+	{
+		$beuser = $this->func_model->verify_login(TRUE, TRUE);
 		$this->load->model('plan_model');
 		if (empty($plan_id)) {
 			$plan_id = $this->input->post('plan_id');
@@ -1800,35 +1816,35 @@ class Plan extends MY_Controller {
 		if (empty($plan)) {
 			redirect(base_url('production'));
 		}
-		
+
 		$data['message'] = '';
 		if ($this->input->post('submit')) {
 			$agree = $this->input->post('agree');
 			if ($agree) {
 				if (empty($plan['agree'])) {
 					$this->load->model('product_model');
-					
+
 					$para = array('agree' => 1);
 					$this->plan_model->update($plan_id, $para);
 					$plan = $this->plan_model->get_plan_by_id($plan_id);
 					$para = array(
-							'plan_id' => $plan_id, 
-							'customer_id' => $plan['customer_id'], 
-							'payment_id' => 0, 
-							'message' => $this->plan_model->logstr, 
-							'systemlog' => $this->plan_model->sqlstr
+						'plan_id' => $plan_id,
+						'customer_id' => $plan['customer_id'],
+						'payment_id' => 0,
+						'message' => $this->plan_model->logstr,
+						'systemlog' => $this->plan_model->sqlstr
 					);
 					$this->log_model->activity('plan', $para);
 				}
-				
-				redirect('plan/detail/'.$plan_id);
+
+				redirect('plan/detail/' . $plan_id);
 			} else {
 				$data['message'] = 'You need agree term and conditions to continue.';
 			}
 		}
 		$data['plan_id'] = $plan_id;
 		$data['agree'] = $plan['agree'];
-		
+
 		$data['action_url'] = base_url('plan/term');
 		$data['title_txt'] = 'Policy';
 		if ($vsuser = $this->session->userdata('vsuser')) {
@@ -1837,37 +1853,38 @@ class Plan extends MY_Controller {
 			if (!empty($myhome['logo'])) {
 				$data['myhomelogo'] = base_url('agent/img') . '/' . $myhome['logo'];
 			}
-			
+
 			if (!empty($myhome['qr'])) {
 				$data['myqr'] = base_url('agent/img') . '/' . $myhome['qr'];
 			}
-				
+
 			$data['top_menu'] = '';
 			$data['menu'] = '';
 		} else {
 			$data['top_menu'] = $this->menu_model->load_top_menu();
 			$data['menu'] = $this->menu_model->load_meun();
 		}
-		$data['csrf'] = array (
-				'name' => $this->security->get_csrf_token_name (),
-				'value' => $this->security->get_csrf_hash ()
+		$data['csrf'] = array(
+			'name' => $this->security->get_csrf_token_name(),
+			'value' => $this->security->get_csrf_hash()
 		);
 		$this->load->model('html_model');
 		$data['html_model'] = $this->html_model;
-		
+
 		$this->load->common('plan/term', $data);
 	}
 
-	private function credit_card_negative() {
+	private function credit_card_negative()
+	{
 		$this->load->model('plan_model');
 		$this->load->model('plan_history_model');
 		$this->load->model('product_model');
 		$this->load->model('payment_model');
-		
+
 		$plan_id = $this->input->post('plan_id');
 		// $premium = preg_replace("/[^0-9\.-]/", "", $this->input->post('premium'));
 		$premium = (float)$this->input->post('premium');
-		
+
 		$plan = $this->plan_model->get_plan_by_id($plan_id);
 		$product = $this->product_model->get_product($plan['product_short']);
 		$dt = array();
@@ -1896,18 +1913,18 @@ class Plan extends MY_Controller {
 		}
 		$up_commission_rate = $this->product_model->get_up_commission_rate($plan['product_short']);
 		$up_commission_amount = $premium * $up_commission_rate / 100.0;
-				
+
 		$dt['amount'] = $premium;
 		$dt['rate'] = 100;
 		$dt['pay_type'] = 'premium';
 		$dt['premium_payment_id'] = 0;
 		$payment_id = $this->payment_model->add($dt);
 		$para = array(
-				'plan_id' => $plan_id,
-				'customer_id' => $plan['customer_id'],
-				'payment_id' => $payment_id,
-				'message' => $this->payment_model->logstr,
-				'systemlog' => $this->payment_model->sqlstr
+			'plan_id' => $plan_id,
+			'customer_id' => $plan['customer_id'],
+			'payment_id' => $payment_id,
+			'message' => $this->payment_model->logstr,
+			'systemlog' => $this->payment_model->sqlstr
 		);
 		$this->log_model->activity('payment', $para);
 
@@ -1918,11 +1935,11 @@ class Plan extends MY_Controller {
 		$dt['premium_payment_id'] = $payment_id;
 		$up_commission_payment_id = $this->payment_model->add($dt);
 		$para = array(
-				'plan_id' => $plan_id,
-				'customer_id' => $plan['customer_id'],
-				'payment_id' => $up_commission_payment_id,
-				'message' => $this->payment_model->logstr,
-				'systemlog' => $this->payment_model->sqlstr
+			'plan_id' => $plan_id,
+			'customer_id' => $plan['customer_id'],
+			'payment_id' => $up_commission_payment_id,
+			'message' => $this->payment_model->logstr,
+			'systemlog' => $this->payment_model->sqlstr
 		);
 		$this->log_model->activity('up_commission', $para);
 
@@ -1938,16 +1955,16 @@ class Plan extends MY_Controller {
 				if (($plan['sum_insured'] >= 100000) && ($plan['totaldays'] >= 365)) {
 					if ($this->payment_model->adjust_commission_added_date($plan_id, $plan['effective_date'])) {
 						$para = array(
-								'plan_id' => $plan_id,
-								'customer_id' => $plan['customer_id'],
-								'payment_id' => 0,
-								'message' => 'adjust apply time to effective date : ' . $plan_id . ' [ ' . $plan['effective_date'] . ' ]',
-								'systemlog' => $this->payment_model->sqlstr
+							'plan_id' => $plan_id,
+							'customer_id' => $plan['customer_id'],
+							'payment_id' => 0,
+							'message' => 'adjust apply time to effective date : ' . $plan_id . ' [ ' . $plan['effective_date'] . ' ]',
+							'systemlog' => $this->payment_model->sqlstr
 						);
 						$this->log_model->activity('commission', $para);
 					}
 					$dt['added'] = $plan['effective_date'];
-				/* cause bug	
+					/* cause bug	
 				} else {
 					if ($this->payment_model->adjust_commission_added_back_date($plan_id, date('Y-m-d'))) {
 						$para = array(
@@ -1965,64 +1982,65 @@ class Plan extends MY_Controller {
 		}
 		$commission_payment_id = $this->payment_model->add($dt);
 		$para = array(
-				'plan_id' => $plan_id,
-				'customer_id' => $plan['customer_id'],
-				'payment_id' => $commission_payment_id,
-				'message' => $this->payment_model->logstr,
-				'systemlog' => $this->payment_model->sqlstr
+			'plan_id' => $plan_id,
+			'customer_id' => $plan['customer_id'],
+			'payment_id' => $commission_payment_id,
+			'message' => $this->payment_model->logstr,
+			'systemlog' => $this->payment_model->sqlstr
 		);
 		$this->log_model->activity('commission', $para);
 
-    $history_id = 0;
-    if (($history = $this->plan_history_model->get_plan_history_by_plan_id($plan_id)) && ($history["actualrate"]>0)) {
-      $history_id = $history["plan_history_id"];
-    } else {
-      // Add missing first record.
-      if ($plan['status_id'] > 1) {
-        $history_id = $this->plan_history_model->add($plan_id, $plan['status_id']);
-      }
-    }
+		$history_id = 0;
+		if (($history = $this->plan_history_model->get_plan_history_by_plan_id($plan_id)) && ($history["actualrate"] > 0)) {
+			$history_id = $history["plan_history_id"];
+		} else {
+			// Add missing first record.
+			if ($plan['status_id'] > 1) {
+				$history_id = $this->plan_history_model->add($plan_id, $plan['status_id']);
+			}
+		}
 
-    $payinfo = "Credit Card: paymount is negative";
+		$payinfo = "Credit Card: paymount is negative";
 		$para = array('payment_id' => $payment_id, 'payinfo' => $payinfo, 'commission_payment_id' => $commission_payment_id, 'status_id' => Plan_model::SOLD, 'policy' => $this->plan_model->get_policy_number($plan_id, 2));
-    $this->plan_model->update($plan_id, $para);
-    if ($history_id) {
-      $this->plan_history_model->add_remove($history_id);
-    }
-    $this->plan_history_model->add($plan_id, Plan_model::SOLD);
+		$this->plan_model->update($plan_id, $para);
+		if ($history_id) {
+			$this->plan_history_model->add_remove($history_id);
+		}
+		$this->plan_history_model->add($plan_id, Plan_model::SOLD);
 
 		$para = array(
-				'plan_id' => $plan_id,
-				'customer_id' => $plan['customer_id'],
-				'payment_id' => $payment_id,
-				'message' => $this->plan_model->logstr,
-				'systemlog' => $this->plan_model->sqlstr
+			'plan_id' => $plan_id,
+			'customer_id' => $plan['customer_id'],
+			'payment_id' => $payment_id,
+			'message' => $this->plan_model->logstr,
+			'systemlog' => $this->plan_model->sqlstr
 		);
 		$this->log_model->activity('plan', $para);
 	}
-	
-	private function credit_card() {
+
+	private function credit_card()
+	{
 		$this->load->model('plan_model');
 		$this->load->model('plan_history_model');
 		$this->load->model('product_model');
 		$this->load->model('payment_model');
-		
+
 		$plan_id = $this->input->post('plan_id');
 		// $premium = preg_replace("/[^0-9\.-]/", "", $this->input->post('premium'));
 		$premium = (float)$this->input->post('premium');
 		if ($premium < 0) {
 			return $this->credit_card_negative();
 		}
-		
-		if (empty( $this->input->post('card_number') ) ) {
+
+		if (empty($this->input->post('card_number'))) {
 			$this->error = 'Please input Card Number.';
-		} else if (empty( $this->input->post('card_name') ) ) {
+		} else if (empty($this->input->post('card_name'))) {
 			$this->error = 'Please input Card Name.';
-		} else if (empty( $this->input->post('expiry_month') ) ) {
+		} else if (empty($this->input->post('expiry_month'))) {
 			$this->error = 'Please select Expiry Month.';
-		} else if (empty( $this->input->post('expiry_year') ) ) {
+		} else if (empty($this->input->post('expiry_year'))) {
 			$this->error = 'Please select Expiry Year.';
-		} else if (empty( $this->input->post('card_cvv') ) ) {
+		} else if (empty($this->input->post('card_cvv'))) {
 			$this->error = 'Please Input Card CVV';
 		} else {
 			$card_number = $this->input->post('card_number');
@@ -2035,252 +2053,253 @@ class Plan extends MY_Controller {
 			$card_cvv = preg_replace('#[^0-9]#', '', $card_cvv);
 			$card_number_len = strlen($card_number);
 			$card_cvv_len = strlen($card_cvv);
-			
+
 			if (($card_number_len < 13) || ($card_number_len > 16)) {
 				$this->error = 'Invalid Card Number';
 			} else if (($card_cvv_len < 3) || ($card_cvv_len > 4)) {
 				$this->error = 'Invalid Card Number CVV';
 			} else {
-				
-			$plan = $this->plan_model->get_plan_by_id($plan_id);
-			$product = $this->product_model->get_product($plan['product_short']);
-			$dt = array();
-			$dt['plan_id'] = $plan_id;
-			$dt['currency'] = $product['currency'];
-			$dt['pay_mothed'] = 'Credit Card';
-			$dt['name'] = $card_name;
-			$dt['added'] = date('c');
-			$dt['first5'] = substr($card_number, 0, 5);
-			$dt['last4'] = substr($card_number, -4);
-			$dt['expiry_month'] = $expiry_month;
-			$dt['expiry_year'] = $expiry_year;
-			$dt['ispaid'] = 0;
-			$commission_rate = $this->product_model->get_commission_rate($plan['product_short'], $plan['user_id']);
-			if (($plan['product_short'] == 'TOP') && ($plan['totalyears'] > 60)) {
-				if ($commission_rate > 15) {
-					$commission_rate -= 15;
-				} else {
-					$commission_rate = 0;
+
+				$plan = $this->plan_model->get_plan_by_id($plan_id);
+				$product = $this->product_model->get_product($plan['product_short']);
+				$dt = array();
+				$dt['plan_id'] = $plan_id;
+				$dt['currency'] = $product['currency'];
+				$dt['pay_mothed'] = 'Credit Card';
+				$dt['name'] = $card_name;
+				$dt['added'] = date('c');
+				$dt['first5'] = substr($card_number, 0, 5);
+				$dt['last4'] = substr($card_number, -4);
+				$dt['expiry_month'] = $expiry_month;
+				$dt['expiry_year'] = $expiry_year;
+				$dt['ispaid'] = 0;
+				$commission_rate = $this->product_model->get_commission_rate($plan['product_short'], $plan['user_id']);
+				if (($plan['product_short'] == 'TOP') && ($plan['totalyears'] > 60)) {
+					if ($commission_rate > 15) {
+						$commission_rate -= 15;
+					} else {
+						$commission_rate = 0;
+					}
 				}
-			}
-			if ($plan['product_short'] == 'TOP') {
-				$commission_amount = ($premium - ($plan['tax'] * $premium / $plan['premium'])) * $commission_rate / 100.0;
-			} else {
-				$commission_amount = $premium * $commission_rate / 100.0;
-			}
-			$up_commission_rate = $this->product_model->get_up_commission_rate($plan['product_short']);
-			$up_commission_amount = $premium * $up_commission_rate / 100.0;
-					
-			$dt['amount'] = $premium;
-			$dt['rate'] = 100;
-			$dt['pay_type'] = 'premium';
-			$dt['premium_payment_id'] = 0;
-			$payment_id = $this->payment_model->add($dt);
-			$para = array(
+				if ($plan['product_short'] == 'TOP') {
+					$commission_amount = ($premium - ($plan['tax'] * $premium / $plan['premium'])) * $commission_rate / 100.0;
+				} else {
+					$commission_amount = $premium * $commission_rate / 100.0;
+				}
+				$up_commission_rate = $this->product_model->get_up_commission_rate($plan['product_short']);
+				$up_commission_amount = $premium * $up_commission_rate / 100.0;
+
+				$dt['amount'] = $premium;
+				$dt['rate'] = 100;
+				$dt['pay_type'] = 'premium';
+				$dt['premium_payment_id'] = 0;
+				$payment_id = $this->payment_model->add($dt);
+				$para = array(
 					'plan_id' => $plan_id,
 					'customer_id' => $plan['customer_id'],
 					'payment_id' => $payment_id,
 					'message' => $this->payment_model->logstr,
 					'systemlog' => $this->payment_model->sqlstr
-			);
-			$this->log_model->activity('payment', $para);
+				);
+				$this->log_model->activity('payment', $para);
 
-			// upstream commission
-			$dt['amount'] = $up_commission_amount;
-			$dt['rate'] = $up_commission_rate;
-			$dt['pay_type'] = 'up_commission';
-			$dt['premium_payment_id'] = $payment_id;
-			$up_commission_payment_id = $this->payment_model->add($dt);
-			$para = array(
+				// upstream commission
+				$dt['amount'] = $up_commission_amount;
+				$dt['rate'] = $up_commission_rate;
+				$dt['pay_type'] = 'up_commission';
+				$dt['premium_payment_id'] = $payment_id;
+				$up_commission_payment_id = $this->payment_model->add($dt);
+				$para = array(
 					'plan_id' => $plan_id,
 					'customer_id' => $plan['customer_id'],
 					'payment_id' => $up_commission_payment_id,
 					'message' => $this->payment_model->logstr,
 					'systemlog' => $this->payment_model->sqlstr
-			);
-			$this->log_model->activity('up_commission', $para);
+				);
+				$this->log_model->activity('up_commission', $para);
 
-			// commission
-			$dt['amount'] = $commission_amount;
-			$dt['rate'] = $commission_rate;
-			$dt['pay_type'] = 'commission';
-			$dt['premium_payment_id'] = $payment_id;
-			if (($plan['product_short'] == 'OPL') || ($plan['product_short'] == 'JFVTC') || ($plan['product_short'] == 'JFR')) {
-				$nowtm = time();
-				$efftm = strtotime($plan['effective_date']);
-				if ($nowtm <= $efftm) {
-					if (($plan['sum_insured'] >= 100000) && ($plan['totaldays'] >= 365)) {
-						if ($this->payment_model->adjust_commission_added_date($plan_id, $plan['effective_date'])) {
-							$para = array(
+				// commission
+				$dt['amount'] = $commission_amount;
+				$dt['rate'] = $commission_rate;
+				$dt['pay_type'] = 'commission';
+				$dt['premium_payment_id'] = $payment_id;
+				if (($plan['product_short'] == 'OPL') || ($plan['product_short'] == 'JFVTC') || ($plan['product_short'] == 'JFR')) {
+					$nowtm = time();
+					$efftm = strtotime($plan['effective_date']);
+					if ($nowtm <= $efftm) {
+						if (($plan['sum_insured'] >= 100000) && ($plan['totaldays'] >= 365)) {
+							if ($this->payment_model->adjust_commission_added_date($plan_id, $plan['effective_date'])) {
+								$para = array(
 									'plan_id' => $plan_id,
 									'customer_id' => $plan['customer_id'],
 									'payment_id' => 0,
 									'message' => 'adjust apply time to effective date : ' . $plan_id . ' [ ' . $plan['effective_date'] . ' ]',
 									'systemlog' => $this->payment_model->sqlstr
-							);
-							$this->log_model->activity('commission', $para);
-						}
-						$dt['added'] = $plan['effective_date'];
-					} else {
-						if ($this->payment_model->adjust_commission_added_back_date($plan_id, date('Y-m-d'))) {
-							$para = array(
+								);
+								$this->log_model->activity('commission', $para);
+							}
+							$dt['added'] = $plan['effective_date'];
+						} else {
+							if ($this->payment_model->adjust_commission_added_back_date($plan_id, date('Y-m-d'))) {
+								$para = array(
 									'plan_id' => $plan_id,
 									'customer_id' => $plan['customer_id'],
 									'payment_id' => 0,
 									'message' => 'adjust apply time to today : ' . $plan_id . ' [ ' . date('Y-m-d') . ' ]',
 									'systemlog' => $this->payment_model->sqlstr
-							);
-							$this->log_model->activity('commission', $para);
+								);
+								$this->log_model->activity('commission', $para);
+							}
 						}
 					}
 				}
-			}
-			$commission_payment_id = $this->payment_model->add($dt);
-			$para = array(
+				$commission_payment_id = $this->payment_model->add($dt);
+				$para = array(
 					'plan_id' => $plan_id,
 					'customer_id' => $plan['customer_id'],
 					'payment_id' => $commission_payment_id,
 					'message' => $this->payment_model->logstr,
 					'systemlog' => $this->payment_model->sqlstr
-			);
-			$this->log_model->activity('commission', $para);
-			$beanstream = new \Beanstream\Gateway ( $product['merchent_id'], $product['apikey'], 'www', 'v1' );
-			$payment_data = array (
+				);
+				$this->log_model->activity('commission', $para);
+				$beanstream = new \Beanstream\Gateway($product['merchent_id'], $product['apikey'], 'www', 'v1');
+				$payment_data = array(
 					'order_number' => $plan_id,
 					'amount' => $premium,
 					'payment_method' => 'card',
-					'card' => array (
-							'name' => $card_name,
-							'number' => $card_number,
-							'expiry_month' => $expiry_month,
-							'expiry_year' => $expiry_year,
-							'cvd' => $card_cvv 
-					) 
-			);
-			try {
-				$result = $beanstream->payments ()->makeCardPayment ( $payment_data, TRUE ); // set to FALSE for Pre-Auth
-				if (isset($result['approved'])) {
-          $history_id = 0;
-          if (($history = $this->plan_history_model->get_plan_history_by_plan_id($plan_id)) && ($history["actualrate"]>0)) {
-            $history_id = $history["plan_history_id"];
-          } else {
-            // Add missing first record.
-            if ($plan['status_id'] > 1) {
-              $history_id = $this->plan_history_model->add($plan_id, $plan['status_id']);
-            }
-          }
-        
-          $payinfo = "Credit Card: " . substr($card_number, 0, 5) . "xxx" . substr($card_number, -4) . " " . $card_name .  " " . $expiry_month . "/" . $expiry_year;
-						
-					$para = array('payment_id' => $payment_id, 'payinfo' => $payinfo, 'commission_payment_id' => $commission_payment_id, 'status_id' => Plan_model::PAID, 'policy' => $this->plan_model->get_policy_number($plan_id, 2));
-					$this->plan_model->update($plan_id, $para);
-					$para = array(
+					'card' => array(
+						'name' => $card_name,
+						'number' => $card_number,
+						'expiry_month' => $expiry_month,
+						'expiry_year' => $expiry_year,
+						'cvd' => $card_cvv
+					)
+				);
+				try {
+					$result = $beanstream->payments()->makeCardPayment($payment_data, TRUE); // set to FALSE for Pre-Auth
+					if (isset($result['approved'])) {
+						$history_id = 0;
+						if (($history = $this->plan_history_model->get_plan_history_by_plan_id($plan_id)) && ($history["actualrate"] > 0)) {
+							$history_id = $history["plan_history_id"];
+						} else {
+							// Add missing first record.
+							if ($plan['status_id'] > 1) {
+								$history_id = $this->plan_history_model->add($plan_id, $plan['status_id']);
+							}
+						}
+
+						$payinfo = "Credit Card: " . substr($card_number, 0, 5) . "xxx" . substr($card_number, -4) . " " . $card_name .  " " . $expiry_month . "/" . $expiry_year;
+
+						$para = array('payment_id' => $payment_id, 'payinfo' => $payinfo, 'commission_payment_id' => $commission_payment_id, 'status_id' => Plan_model::PAID, 'policy' => $this->plan_model->get_policy_number($plan_id, 2));
+						$this->plan_model->update($plan_id, $para);
+						$para = array(
 							'plan_id' => $plan_id,
 							'customer_id' => $plan['customer_id'],
 							'payment_id' => $payment_id,
 							'message' => $this->plan_model->logstr,
 							'systemlog' => $this->plan_model->sqlstr
-					);
-					$this->log_model->activity('plan', $para);
-          if ($history_id) {
-            $this->plan_history_model->add_remove($history_id);
-          }
-          $this->plan_history_model->add($plan_id, Plan_model::PAID);
-					
-					$dt = array();
-					$dt['ispaid'] = 1;
-					$dt['note'] = "Success: Raw Data=> " . json_encode($result);
-					$payment_id = $this->payment_model->update($payment_id, $dt);
-					$para = array(
+						);
+						$this->log_model->activity('plan', $para);
+						if ($history_id) {
+							$this->plan_history_model->add_remove($history_id);
+						}
+						$this->plan_history_model->add($plan_id, Plan_model::PAID);
+
+						$dt = array();
+						$dt['ispaid'] = 1;
+						$dt['note'] = "Success: Raw Data=> " . json_encode($result);
+						$payment_id = $this->payment_model->update($payment_id, $dt);
+						$para = array(
 							'plan_id' => $plan_id,
 							'customer_id' => $plan['customer_id'],
 							'payment_id' => $payment_id,
 							'message' => $this->payment_model->logstr,
 							'systemlog' => $this->payment_model->sqlstr
-					);
-					$this->log_model->activity('payment', $para);
-          // If in Quebec, send French version package
-          if (($plan["province2"] == "QC") && in_array($plan["product_short"], $this->french_plan)) {
-            $this->sendpackage($plan_id, 1);
-          }
-        } else {
+						);
+						$this->log_model->activity('payment', $para);
+						// If in Quebec, send French version package
+						if (($plan["province2"] == "QC") && in_array($plan["product_short"], $this->french_plan)) {
+							$this->sendpackage($plan_id, 1);
+						}
+					} else {
+						$payinfo = "Credit Card: " . substr($card_number, 0, 5) . "xxx" . substr($card_number, -4) . " " . $card_name .  " " . $expiry_month . "/" . $expiry_year;
+
+						$para = array('payment_id' => $payment_id, 'payinfo' => $payinfo, 'commission_payment_id' => $commission_payment_id);
+						$this->plan_model->update($plan_id, $para);
+						$para = array(
+							'plan_id' => $plan_id,
+							'customer_id' => $plan['customer_id'],
+							'payment_id' => $payment_id,
+							'message' => $this->plan_model->logstr,
+							'systemlog' => $this->plan_model->sqlstr
+						);
+						$this->log_model->activity('plan', $para);
+
+						$dt = array();
+						$dt['ispaid'] = 0;
+						$dt['amount'] = 0;
+						$dt['note'] = "Failur pay (" . $premium . "): Raw Data=> " . json_encode($result);
+						$payment_id = $this->payment_model->update($payment_id, $dt);
+						$para = array(
+							'plan_id' => $plan_id,
+							'customer_id' => $plan['customer_id'],
+							'payment_id' => $payment_id,
+							'message' => $this->payment_model->logstr,
+							'systemlog' => $this->payment_model->sqlstr
+						);
+						$this->log_model->activity('payment', $para);
+						$commission_payment_id = $this->payment_model->update($commission_payment_id, $dt);
+						$up_commission_payment_id = $this->payment_model->update($up_commission_payment_id, $dt);
+						$this->error = 'Card payment failed. Incorrect card information or insufficient credit.';
+					}
+				} catch (\Beanstream\Exception $e) {
 					$payinfo = "Credit Card: " . substr($card_number, 0, 5) . "xxx" . substr($card_number, -4) . " " . $card_name .  " " . $expiry_month . "/" . $expiry_year;
-						
-					$para = array('payment_id' => $payment_id, 'payinfo' => $payinfo, 'commission_payment_id' => $commission_payment_id );
+
+					$para = array('payment_id' => $payment_id, 'payinfo' => $payinfo, 'commission_payment_id' => $commission_payment_id);
 					$this->plan_model->update($plan_id, $para);
 					$para = array(
-							'plan_id' => $plan_id,
-							'customer_id' => $plan['customer_id'],
-							'payment_id' => $payment_id,
-							'message' => $this->plan_model->logstr,
-							'systemlog' => $this->plan_model->sqlstr
-					);
-					$this->log_model->activity('plan', $para);
-					
-					$dt = array();
-					$dt['ispaid'] = 0;
-					$dt['amount'] = 0;
-					$dt['note'] = "Failur pay (" . $premium . "): Raw Data=> " . json_encode($result);
-					$payment_id = $this->payment_model->update($payment_id, $dt);
-					$para = array(
-							'plan_id' => $plan_id,
-							'customer_id' => $plan['customer_id'],
-							'payment_id' => $payment_id,
-							'message' => $this->payment_model->logstr,
-							'systemlog' => $this->payment_model->sqlstr
-					);
-					$this->log_model->activity('payment', $para);
-					$commission_payment_id = $this->payment_model->update($commission_payment_id, $dt);
-					$up_commission_payment_id = $this->payment_model->update($up_commission_payment_id, $dt);
-					$this->error = 'Card payment failed. Incorrect card information or insufficient credit.';
-				}
-			} catch ( \Beanstream\Exception $e ) {
-				$payinfo = "Credit Card: " . substr($card_number, 0, 5) . "xxx" . substr($card_number, -4) . " " . $card_name .  " " . $expiry_month . "/" . $expiry_year;
-					
-				$para = array('payment_id' => $payment_id, 'payinfo' => $payinfo, 'commission_payment_id' => $commission_payment_id);
-				$this->plan_model->update($plan_id, $para);
-				$para = array(
 						'plan_id' => $plan_id,
 						'customer_id' => $plan['customer_id'],
 						'payment_id' => $payment_id,
 						'message' => $this->plan_model->logstr,
 						'systemlog' => $this->plan_model->sqlstr
-				);
-				$this->log_model->activity('plan', $para);
-				
-				// print_r ( $e->getMessage() );
-				$dt = array();
-				$dt['ispaid'] = 0;
-				$dt['amount'] = 0;
-				$dt['note'] = "Failur pay (" . $premium . "): (libraray) Raw Data=> " . $e->getMessage() . " : " . json_encode($e);
-				$payment_id = $this->payment_model->update($payment_id, $dt);
-				$para = array(
+					);
+					$this->log_model->activity('plan', $para);
+
+					// print_r ( $e->getMessage() );
+					$dt = array();
+					$dt['ispaid'] = 0;
+					$dt['amount'] = 0;
+					$dt['note'] = "Failur pay (" . $premium . "): (libraray) Raw Data=> " . $e->getMessage() . " : " . json_encode($e);
+					$payment_id = $this->payment_model->update($payment_id, $dt);
+					$para = array(
 						'plan_id' => $plan_id,
 						'customer_id' => $plan['customer_id'],
 						'payment_id' => $payment_id,
 						'message' => $this->payment_model->logstr,
 						'systemlog' => $this->payment_model->sqlstr
-				);
-				$this->log_model->activity('payment', $para);
-				$commission_payment_id = $this->payment_model->update($commission_payment_id, $dt);
-				$up_commission_payment_id = $this->payment_model->update($up_commission_payment_id, $dt);
-				$this->error = 'Payment failed. Please verify your credit card info.';
-			}
+					);
+					$this->log_model->activity('payment', $para);
+					$commission_payment_id = $this->payment_model->update($commission_payment_id, $dt);
+					$up_commission_payment_id = $this->payment_model->update($up_commission_payment_id, $dt);
+					$this->error = 'Payment failed. Please verify your credit card info.';
+				}
 			} // number length check
 		}
 	}
 
-	private function cash() {
+	private function cash()
+	{
 		$this->load->model('plan_model');
 		$this->load->model('plan_history_model');
 		$this->load->model('product_model');
 		$this->load->model('payment_model');
-		
+
 		$plan_id = $this->input->post('plan_id');
 		$premium = preg_replace("/[^0-9\.-]/", "", $this->input->post('premium'));
 		$premium = (float)$premium;
 		$payinfo = "Pay Cash: " . 'Premium: $' . $premium . "; ";
-		
+
 		$plan = $this->plan_model->get_plan_by_id($plan_id);
 		$product = $this->product_model->get_product($plan['product_short']);
 		$dt = array();
@@ -2308,18 +2327,18 @@ class Plan extends MY_Controller {
 		}
 		$up_commission_rate = $this->product_model->get_up_commission_rate($plan['product_short']);
 		$up_commission_amount = $premium * $up_commission_rate / 100.0;
-		
+
 		$dt['amount'] = $premium;
 		$dt['rate'] = 100;
 		$dt['pay_type'] = 'premium';
 		$dt['premium_payment_id'] = 0;
 		$payment_id = $this->payment_model->add($dt);
 		$para = array(
-				'plan_id' => $plan_id,
-				'customer_id' => $plan['customer_id'],
-				'payment_id' => $payment_id,
-				'message' => $this->payment_model->logstr,
-				'systemlog' => $this->payment_model->sqlstr
+			'plan_id' => $plan_id,
+			'customer_id' => $plan['customer_id'],
+			'payment_id' => $payment_id,
+			'message' => $this->payment_model->logstr,
+			'systemlog' => $this->payment_model->sqlstr
 		);
 		$this->log_model->activity('payment', $para);
 
@@ -2330,11 +2349,11 @@ class Plan extends MY_Controller {
 		$dt['premium_payment_id'] = $payment_id;
 		$up_commission_payment_id = $this->payment_model->add($dt);
 		$para = array(
-				'plan_id' => $plan_id,
-				'customer_id' => $plan['customer_id'],
-				'payment_id' => $up_commission_payment_id,
-				'message' => $this->payment_model->logstr,
-				'systemlog' => $this->payment_model->sqlstr
+			'plan_id' => $plan_id,
+			'customer_id' => $plan['customer_id'],
+			'payment_id' => $up_commission_payment_id,
+			'message' => $this->payment_model->logstr,
+			'systemlog' => $this->payment_model->sqlstr
 		);
 		$this->log_model->activity('up_commission', $para);
 
@@ -2350,11 +2369,11 @@ class Plan extends MY_Controller {
 				if (($plan['sum_insured'] >= 100000) && ($plan['totaldays'] >= 365)) {
 					if ($this->payment_model->adjust_commission_added_date($plan_id, $plan['effective_date'])) {
 						$para = array(
-								'plan_id' => $plan_id,
-								'customer_id' => $plan['customer_id'],
-								'payment_id' => 0,
-								'message' => 'adjust apply time to effective date : ' . $plan_id . ' [ ' . $plan['effective_date'] . ' ]',
-								'systemlog' => $this->payment_model->sqlstr
+							'plan_id' => $plan_id,
+							'customer_id' => $plan['customer_id'],
+							'payment_id' => 0,
+							'message' => 'adjust apply time to effective date : ' . $plan_id . ' [ ' . $plan['effective_date'] . ' ]',
+							'systemlog' => $this->payment_model->sqlstr
 						);
 						$this->log_model->activity('commission', $para);
 					}
@@ -2362,11 +2381,11 @@ class Plan extends MY_Controller {
 				} else {
 					if ($this->payment_model->adjust_commission_added_back_date($plan_id, date('Y-m-d'))) {
 						$para = array(
-								'plan_id' => $plan_id,
-								'customer_id' => $plan['customer_id'],
-								'payment_id' => 0,
-								'message' => 'adjust apply time to today : ' . $plan_id . ' [ ' . date('Y-m-d') . ' ]',
-								'systemlog' => $this->payment_model->sqlstr
+							'plan_id' => $plan_id,
+							'customer_id' => $plan['customer_id'],
+							'payment_id' => 0,
+							'message' => 'adjust apply time to today : ' . $plan_id . ' [ ' . date('Y-m-d') . ' ]',
+							'systemlog' => $this->payment_model->sqlstr
 						);
 						$this->log_model->activity('commission', $para);
 					}
@@ -2375,51 +2394,52 @@ class Plan extends MY_Controller {
 		}
 		$commission_payment_id = $this->payment_model->add($dt);
 		$para = array(
-				'plan_id' => $plan_id,
-				'customer_id' => $plan['customer_id'],
-				'payment_id' => $commission_payment_id,
-				'message' => $this->payment_model->logstr,
-				'systemlog' => $this->payment_model->sqlstr
+			'plan_id' => $plan_id,
+			'customer_id' => $plan['customer_id'],
+			'payment_id' => $commission_payment_id,
+			'message' => $this->payment_model->logstr,
+			'systemlog' => $this->payment_model->sqlstr
 		);
 		$this->log_model->activity('commission', $para);
 
-    $history_id = 0;
-    if (($history = $this->plan_history_model->get_plan_history_by_plan_id($plan_id)) && ($history["actualrate"]>0)) {
-      $history_id = $history["plan_history_id"];
-    } else {
-      // Add missing first record.
-      if ($plan['status_id'] > 1) {
-        $history_id = $this->plan_history_model->add($plan_id, $plan['status_id']);
-      }
-    }
+		$history_id = 0;
+		if (($history = $this->plan_history_model->get_plan_history_by_plan_id($plan_id)) && ($history["actualrate"] > 0)) {
+			$history_id = $history["plan_history_id"];
+		} else {
+			// Add missing first record.
+			if ($plan['status_id'] > 1) {
+				$history_id = $this->plan_history_model->add($plan_id, $plan['status_id']);
+			}
+		}
 
 		$para = array('payment_id' => $payment_id, 'payinfo' => $payinfo, 'commission_payment_id' => $commission_payment_id, 'status_id' => Plan_model::SOLD, 'policy' => $this->plan_model->get_policy_number($plan_id, 2));
 		$this->plan_model->update($plan_id, $para);
-    if ($history_id) {
-      $this->plan_history_model->add_remove($history_id);
-    }
-    $this->plan_history_model->add($plan_id, Plan_model::SOLD);
+		if ($history_id) {
+			$this->plan_history_model->add_remove($history_id);
+		}
+		$this->plan_history_model->add($plan_id, Plan_model::SOLD);
 
 		$para = array(
-				'plan_id' => $plan_id,
-				'customer_id' => $plan['customer_id'],
-				'payment_id' => $payment_id,
-				'message' => $this->plan_model->logstr,
-				'systemlog' => $this->plan_model->sqlstr
+			'plan_id' => $plan_id,
+			'customer_id' => $plan['customer_id'],
+			'payment_id' => $payment_id,
+			'message' => $this->plan_model->logstr,
+			'systemlog' => $this->plan_model->sqlstr
 		);
 		$this->log_model->activity('plan', $para);
-    // If in Quebec, send French version package
-    if (($plan["province2"] == "QC") && in_array($plan["product_short"], $this->french_plan)) {
-      $this->sendpackage($plan_id, 1);
-    }
+		// If in Quebec, send French version package
+		if (($plan["province2"] == "QC") && in_array($plan["product_short"], $this->french_plan)) {
+			$this->sendpackage($plan_id, 1);
+		}
 	}
 
-	private function cheque() {
+	private function cheque()
+	{
 		$this->load->model('plan_model');
 		$this->load->model('plan_history_model');
 		$this->load->model('product_model');
 		$this->load->model('payment_model');
-		
+
 		$plan_id = $this->input->post('plan_id');
 		$premium = preg_replace("/[^0-9\.-]/", "", $this->input->post('premium'));
 		$premium = (float)$premium;
@@ -2460,18 +2480,18 @@ class Plan extends MY_Controller {
 		}
 		$up_commission_rate = $this->product_model->get_up_commission_rate($plan['product_short']);
 		$up_commission_amount = $premium * $up_commission_rate / 100.0;
-		
+
 		$dt['amount'] = $premium;
 		$dt['rate'] = 100;
 		$dt['pay_type'] = 'premium';
 		$dt['premium_payment_id'] = 0;
 		$payment_id = $this->payment_model->add($dt);
 		$para = array(
-				'plan_id' => $plan_id,
-				'customer_id' => $plan['customer_id'],
-				'payment_id' => $payment_id,
-				'message' => $this->payment_model->logstr,
-				'systemlog' => $this->payment_model->sqlstr
+			'plan_id' => $plan_id,
+			'customer_id' => $plan['customer_id'],
+			'payment_id' => $payment_id,
+			'message' => $this->payment_model->logstr,
+			'systemlog' => $this->payment_model->sqlstr
 		);
 		$this->log_model->activity('payment', $para);
 
@@ -2482,11 +2502,11 @@ class Plan extends MY_Controller {
 		$dt['premium_payment_id'] = $payment_id;
 		$up_commission_payment_id = $this->payment_model->add($dt);
 		$para = array(
-				'plan_id' => $plan_id,
-				'customer_id' => $plan['customer_id'],
-				'payment_id' => $up_commission_payment_id,
-				'message' => $this->payment_model->logstr,
-				'systemlog' => $this->payment_model->sqlstr
+			'plan_id' => $plan_id,
+			'customer_id' => $plan['customer_id'],
+			'payment_id' => $up_commission_payment_id,
+			'message' => $this->payment_model->logstr,
+			'systemlog' => $this->payment_model->sqlstr
 		);
 		$this->log_model->activity('up_commission', $para);
 
@@ -2502,11 +2522,11 @@ class Plan extends MY_Controller {
 				if (($plan['sum_insured'] >= 100000) && ($plan['totaldays'] >= 365)) {
 					if ($this->payment_model->adjust_commission_added_date($plan_id, $plan['effective_date'])) {
 						$para = array(
-								'plan_id' => $plan_id,
-								'customer_id' => $plan['customer_id'],
-								'payment_id' => 0,
-								'message' => 'adjust apply time to effective date : ' . $plan_id . ' [ ' . $plan['effective_date'] . ' ]',
-								'systemlog' => $this->payment_model->sqlstr
+							'plan_id' => $plan_id,
+							'customer_id' => $plan['customer_id'],
+							'payment_id' => 0,
+							'message' => 'adjust apply time to effective date : ' . $plan_id . ' [ ' . $plan['effective_date'] . ' ]',
+							'systemlog' => $this->payment_model->sqlstr
 						);
 						$this->log_model->activity('commission', $para);
 					}
@@ -2514,11 +2534,11 @@ class Plan extends MY_Controller {
 				} else {
 					if ($this->payment_model->adjust_commission_added_back_date($plan_id, date('Y-m-d'))) {
 						$para = array(
-								'plan_id' => $plan_id,
-								'customer_id' => $plan['customer_id'],
-								'payment_id' => 0,
-								'message' => 'adjust apply time to today : ' . $plan_id . ' [ ' . date('Y-m-d') . ' ]',
-								'systemlog' => $this->payment_model->sqlstr
+							'plan_id' => $plan_id,
+							'customer_id' => $plan['customer_id'],
+							'payment_id' => 0,
+							'message' => 'adjust apply time to today : ' . $plan_id . ' [ ' . date('Y-m-d') . ' ]',
+							'systemlog' => $this->payment_model->sqlstr
 						);
 						$this->log_model->activity('commission', $para);
 					}
@@ -2527,56 +2547,59 @@ class Plan extends MY_Controller {
 		}
 		$commission_payment_id = $this->payment_model->add($dt);
 		$para = array(
-				'plan_id' => $plan_id,
-				'customer_id' => $plan['customer_id'],
-				'payment_id' => $commission_payment_id,
-				'message' => $this->payment_model->logstr,
-				'systemlog' => $this->payment_model->sqlstr
+			'plan_id' => $plan_id,
+			'customer_id' => $plan['customer_id'],
+			'payment_id' => $commission_payment_id,
+			'message' => $this->payment_model->logstr,
+			'systemlog' => $this->payment_model->sqlstr
 		);
 		$this->log_model->activity('commission', $para);
-		
-    $history_id = 0;
-    if (($history = $this->plan_history_model->get_plan_history_by_plan_id($plan_id)) && ($history["actualrate"]>0)) {
-      $history_id = $history["plan_history_id"];
-    } else {
-      // Add missing first record.
-      if ($plan['status_id'] > 1) {
-        $history_id = $this->plan_history_model->add($plan_id, $plan['status_id']);
-      }
-    }
-    
-    $para = array('payment_id' => $payment_id, 'payinfo' => $payinfo, 'commission_payment_id' => $commission_payment_id, 'status_id' => Plan_model::SOLD, 'policy' => $this->plan_model->get_policy_number($plan_id, 2));
+
+		$history_id = 0;
+		if (($history = $this->plan_history_model->get_plan_history_by_plan_id($plan_id)) && ($history["actualrate"] > 0)) {
+			$history_id = $history["plan_history_id"];
+		} else {
+			// Add missing first record.
+			if ($plan['status_id'] > 1) {
+				$history_id = $this->plan_history_model->add($plan_id, $plan['status_id']);
+			}
+		}
+
+		$para = array('payment_id' => $payment_id, 'payinfo' => $payinfo, 'commission_payment_id' => $commission_payment_id, 'status_id' => Plan_model::SOLD, 'policy' => $this->plan_model->get_policy_number($plan_id, 2));
 		$this->plan_model->update($plan_id, $para);
-    if ($history_id) {
-      $this->plan_history_model->add_remove($history_id);
-    }
-    $this->plan_history_model->add($plan_id, Plan_model::SOLD);
+		if ($history_id) {
+			$this->plan_history_model->add_remove($history_id);
+		}
+		$this->plan_history_model->add($plan_id, Plan_model::SOLD);
 
 		$para = array(
-				'plan_id' => $plan_id,
-				'customer_id' => $plan['customer_id'],
-				'payment_id' => $payment_id,
-				'message' => $this->plan_model->logstr,
-				'systemlog' => $this->plan_model->sqlstr
+			'plan_id' => $plan_id,
+			'customer_id' => $plan['customer_id'],
+			'payment_id' => $payment_id,
+			'message' => $this->plan_model->logstr,
+			'systemlog' => $this->plan_model->sqlstr
 		);
 		$this->log_model->activity('plan', $para);
-    // If in Quebec, send French version package
-    if (($plan["province2"] == "QC") && in_array($plan["product_short"], $this->french_plan)) {
-      $this->sendpackage($plan_id, 1);
-    }
+		// If in Quebec, send French version package
+		if (($plan["province2"] == "QC") && in_array($plan["product_short"], $this->french_plan)) {
+			$this->sendpackage($plan_id, 1);
+		}
 	}
 
-	function exportlogo($withlogo=1) {
-		$this->session->set_userdata ( 'withlogo',  $withlogo);
+	function exportlogo($withlogo = 1)
+	{
+		$this->session->set_userdata('withlogo',  $withlogo);
 		echo $withlogo ? 'Has Logo' : 'No Logo';
 	}
 
-	function exportprice($withprice=1) {
-		$this->session->set_userdata ( 'withprice',  $withprice);
+	function exportprice($withprice = 1)
+	{
+		$this->session->set_userdata('withprice',  $withprice);
 		echo $withprice ? 'With Price' : 'No Price';
 	}
-	
-	private function psireturncommon($plan_id) {
+
+	private function psireturncommon($plan_id)
+	{
 		$this->load->model('psigate_model');
 		$this->load->model('plan_model');
 		if (!$plan_id) {
@@ -2616,19 +2639,20 @@ class Plan extends MY_Controller {
 		$para['CustomerIssLang'] = $this->input->get('CustomerIssLang') ? $this->input->get('CustomerIssLang') : '';
 		$para['TransType'] = $this->input->get('TransType') ? $this->input->get('TransType') : '';
 		$para['rowdata'] = json_encode($this->input->get());
-		
+
 		$para['psigate_id'] = $this->psigate_model->add($para);
-		
+
 		return $para;
 	}
 
-	function psiok($plan_id=0) {
+	function psiok($plan_id = 0)
+	{
 		$psipara = $this->psireturncommon($plan_id);
 		$this->load->model('product_model');
 		$this->load->model('payment_model');
-		
+
 		$premium = (float)$psipara['FullTotal'];
-		
+
 		$plan = $this->plan_model->get_plan_by_id($plan_id);
 		$product = $this->product_model->get_product($plan['product_short']);
 		$dt = array();
@@ -2655,18 +2679,18 @@ class Plan extends MY_Controller {
 		} else {
 			$commission_amount = $premium * $commission_rate / 100.0;
 		}
-					
+
 		$dt['amount'] = $premium;
 		$dt['rate'] = 100;
 		$dt['pay_type'] = 'premium';
 		$dt['premium_payment_id'] = 0;
 		$payment_id = $this->payment_model->add($dt);
 		$para = array(
-				'plan_id' => $plan_id,
-				'customer_id' => $plan['customer_id'],
-				'payment_id' => $payment_id,
-				'message' => $this->payment_model->logstr,
-				'systemlog' => $this->payment_model->sqlstr
+			'plan_id' => $plan_id,
+			'customer_id' => $plan['customer_id'],
+			'payment_id' => $payment_id,
+			'message' => $this->payment_model->logstr,
+			'systemlog' => $this->payment_model->sqlstr
 		);
 		$this->log_model->activity('payment', $para);
 
@@ -2683,11 +2707,11 @@ class Plan extends MY_Controller {
 				if (($plan['sum_insured'] >= 100000) && ($plan['totaldays'] >= 365)) {
 					if ($this->payment_model->adjust_commission_added_date($plan_id, $plan['effective_date'])) {
 						$para = array(
-								'plan_id' => $plan_id,
-								'customer_id' => $plan['customer_id'],
-								'payment_id' => 0,
-								'message' => 'adjust apply time to effective date : ' . $plan_id . ' [ ' . $plan['effective_date'] . ' ]',
-								'systemlog' => $this->payment_model->sqlstr
+							'plan_id' => $plan_id,
+							'customer_id' => $plan['customer_id'],
+							'payment_id' => 0,
+							'message' => 'adjust apply time to effective date : ' . $plan_id . ' [ ' . $plan['effective_date'] . ' ]',
+							'systemlog' => $this->payment_model->sqlstr
 						);
 						$this->log_model->activity('commission', $para);
 					}
@@ -2695,11 +2719,11 @@ class Plan extends MY_Controller {
 				} else {
 					if ($this->payment_model->adjust_commission_added_back_date($plan_id, date('Y-m-d'))) {
 						$para = array(
-								'plan_id' => $plan_id,
-								'customer_id' => $plan['customer_id'],
-								'payment_id' => 0,
-								'message' => 'adjust apply time to today : ' . $plan_id . ' [ ' . date('Y-m-d') . ' ]',
-								'systemlog' => $this->payment_model->sqlstr
+							'plan_id' => $plan_id,
+							'customer_id' => $plan['customer_id'],
+							'payment_id' => 0,
+							'message' => 'adjust apply time to today : ' . $plan_id . ' [ ' . date('Y-m-d') . ' ]',
+							'systemlog' => $this->payment_model->sqlstr
 						);
 						$this->log_model->activity('commission', $para);
 					}
@@ -2708,11 +2732,11 @@ class Plan extends MY_Controller {
 		}
 		$commission_payment_id = $this->payment_model->add($dt);
 		$para = array(
-				'plan_id' => $plan_id,
-				'customer_id' => $plan['customer_id'],
-				'payment_id' => $commission_payment_id,
-				'message' => $this->payment_model->logstr,
-				'systemlog' => $this->payment_model->sqlstr
+			'plan_id' => $plan_id,
+			'customer_id' => $plan['customer_id'],
+			'payment_id' => $commission_payment_id,
+			'message' => $this->payment_model->logstr,
+			'systemlog' => $this->payment_model->sqlstr
 		);
 		$this->log_model->activity('commission', $para);
 
@@ -2720,52 +2744,55 @@ class Plan extends MY_Controller {
 		$para = array('payment_id' => $payment_id, 'payinfo' => $payinfo, 'commission_payment_id' => $commission_payment_id, 'status_id' => Plan_model::PAID, 'policy' => $this->plan_model->get_policy_number($plan_id, 2));
 		$this->plan_model->update($plan_id, $para);
 		$para = array(
-				'plan_id' => $plan_id,
-				'customer_id' => $plan['customer_id'],
-				'payment_id' => $payment_id,
-				'commission_payment_id' => $commission_payment_id,
-				'message' => $this->plan_model->logstr,
-				'systemlog' => $this->plan_model->sqlstr
+			'plan_id' => $plan_id,
+			'customer_id' => $plan['customer_id'],
+			'payment_id' => $payment_id,
+			'commission_payment_id' => $commission_payment_id,
+			'message' => $this->plan_model->logstr,
+			'systemlog' => $this->plan_model->sqlstr
 		);
 		$this->log_model->activity('plan', $para);
-		redirect(base_url('plan/detail/'.$plan_id));
+		redirect(base_url('plan/detail/' . $plan_id));
 	}
 
-	function psifail($plan_id=0) {
+	function psifail($plan_id = 0)
+	{
 		$para = $this->psireturncommon($plan_id);
 		$this->load->model('product_model');
 		$this->load->model('payment_model');
-		
+
 		$plan = $this->plan_model->get_plan_by_id($plan_id);
 		if ($plan) {
 			$para = array(
-					'plan_id' => $plan_id,
-					'customer_id' => $plan['customer_id'],
-					'payment_id' => 0,
-					'message' => 'payment fail',
-					'systemlog' => json_encode($para)
+				'plan_id' => $plan_id,
+				'customer_id' => $plan['customer_id'],
+				'payment_id' => 0,
+				'message' => 'payment fail',
+				'systemlog' => json_encode($para)
 			);
 			$this->log_model->activity('payment', $para);
 		}
 		return $this->detail($plan_id, '', 'Payment Failed');
 	}
-	
-	function snappay($plan_id=0, $sekey='') {
-    log_message('debug', "snappay return: plan_id[".$plan_id."];sekey[".$sekey."]");
-    // If in Quebec, send French version package
+
+	function snappay($plan_id = 0, $sekey = '')
+	{
+		log_message('debug', "snappay return: plan_id[" . $plan_id . "];sekey[" . $sekey . "]");
+		// If in Quebec, send French version package
 		$this->load->model('plan_model');
 		$plan = $this->plan_model->get_plan_by_id($plan_id);
 		if (empty($plan)) {
-      log_message('debug', "snappay return: can not find policy");
+			log_message('debug', "snappay return: can not find policy");
 			redirect('user/login');
 		}
-    if (($plan["province2"] == "QC") && in_array($plan["product_short"], $this->french_plan)) {
-      $this->sendpackage($plan_id, 1);
-    }
-    return $this->detail($plan_id, $sekey);
+		if (($plan["province2"] == "QC") && in_array($plan["product_short"], $this->french_plan)) {
+			$this->sendpackage($plan_id, 1);
+		}
+		return $this->detail($plan_id, $sekey);
 	}
-	
-	function detail($plan_id=0, $sekey='', $passerr='') {
+
+	function detail($plan_id = 0, $sekey = '', $passerr = '')
+	{
 		$this->error = '';
 		$defaultpay_type = '';
 		if ($play_type = $this->input->post('play_type')) {
@@ -2775,7 +2802,7 @@ class Plan extends MY_Controller {
 		if (empty($plan_id)) {
 			redirect(base_url('production'));
 		}
-		
+
 		$this->load->model('customer_model');
 		$this->load->model('plan_model');
 		$this->load->model('product_model');
@@ -2790,53 +2817,53 @@ class Plan extends MY_Controller {
 		if (($plan['claim_flag'] > 1) && ($plan['claim_allow_by'] < 1)) {
 			redirect('plan/form');
 		}
-		
+
 		if ($play_type = $this->input->post('play_type')) {
 			if (!empty($sekey)) {
-				if (empty($this->session->userdata ( 'beuser' )) && empty($this->session->userdata ( 'vsuser' ))) {
+				if (empty($this->session->userdata('beuser')) && empty($this->session->userdata('vsuser'))) {
 					redirect('user/login');
 				}
 			}
-		
+
 			$totalpaid = $this->payment_model->get_total_paid($plan_id, 'premium', $plan['apply_date']);
 			$premium = preg_replace("/[^0-9\.-]/", "", $this->input->post('premium'));
 			$premium = $totalpaid + (float)$premium;
-      if (empty($this->input->post('premium')) && ($plan["status_id"] == Plan_model::CHANGED) && (($premium - floatval($plan['premium'])) < 0.01)) {
-        // Confirm change
-        $history_id = 0;
-        if (($history = $this->plan_history_model->get_plan_history_by_plan_id($plan_id)) && ($history["actualrate"]>0)) {
-          $history_id = $history["plan_history_id"];
-        } else {
-          // Add missing first record.
-          if ($plan['status_id'] > 1) {
-            $history_id = $this->plan_history_model->add($plan_id, $plan['status_id']);
-          }
-        }
+			if (empty($this->input->post('premium')) && ($plan["status_id"] == Plan_model::CHANGED) && (($premium - floatval($plan['premium'])) < 0.01)) {
+				// Confirm change
+				$history_id = 0;
+				if (($history = $this->plan_history_model->get_plan_history_by_plan_id($plan_id)) && ($history["actualrate"] > 0)) {
+					$history_id = $history["plan_history_id"];
+				} else {
+					// Add missing first record.
+					if ($plan['status_id'] > 1) {
+						$history_id = $this->plan_history_model->add($plan_id, $plan['status_id']);
+					}
+				}
 
-        $update_status_id = Plan_model::PAID;
-        if ($last_pay = $this->payment_model->get_last_payment($plan_id, $plan['apply_date'])) {
-          if (($last_pay["pay_mothed"] == 'Cash') && empty($last_pay["ispaid"])) {
-            $update_status_id = Plan_model::SOLD;
-          }
-        }
+				$update_status_id = Plan_model::PAID;
+				if ($last_pay = $this->payment_model->get_last_payment($plan_id, $plan['apply_date'])) {
+					if (($last_pay["pay_mothed"] == 'Cash') && empty($last_pay["ispaid"])) {
+						$update_status_id = Plan_model::SOLD;
+					}
+				}
 
-        $this->plan_model->update($plan_id, array("status_id"=>$update_status_id));
-        $para = array(
-          'plan_id' => $plan_id, 
-          'customer_id' => $plan['customer_id'], 
-          'payment_id' => 0, 
-          'message' => $this->plan_model->logstr, 
-          'systemlog' => $this->plan_model->sqlstr
-        );
-        $this->log_model->activity('plan', $para);
-        if ($history_id) {
-          $this->plan_history_model->add_remove($history_id);
-        }
-        if ($nid = $this->plan_history_model->add($plan_id, $update_status_id)) {
-          // Remove payment_id, it should be no payment
-          $this->plan_history_model->update($nid, array("note"=>"plan condition change only"));
-        }
-      } else if (($premium - (float)$plan['premium']) > 0.001) {
+				$this->plan_model->update($plan_id, array("status_id" => $update_status_id));
+				$para = array(
+					'plan_id' => $plan_id,
+					'customer_id' => $plan['customer_id'],
+					'payment_id' => 0,
+					'message' => $this->plan_model->logstr,
+					'systemlog' => $this->plan_model->sqlstr
+				);
+				$this->log_model->activity('plan', $para);
+				if ($history_id) {
+					$this->plan_history_model->add_remove($history_id);
+				}
+				if ($nid = $this->plan_history_model->add($plan_id, $update_status_id)) {
+					// Remove payment_id, it should be no payment
+					$this->plan_history_model->update($nid, array("note" => "plan condition change only"));
+				}
+			} else if (($premium - (float)$plan['premium']) > 0.001) {
 				$this->error = "Pay amount has problem plase try again.";
 			} else if ($play_type == 'Credit Card') {
 				$this->credit_card();
@@ -2844,11 +2871,11 @@ class Plan extends MY_Controller {
 			} else if ($play_type == 'Cash') {
 				$this->cash();
 				$defaultpay_type = 'Cash';
-			// } else if ($play_type == 'Ali') {
-      //   // If in Quebec, send French version package
-      //   if (($plan["province2"] == "QC") && in_array($plan["product_short"], $this->french_plan)) {
-      //     $this->sendpackage($plan_id, 1);
-      //   }
+				// } else if ($play_type == 'Ali') {
+				//   // If in Quebec, send French version package
+				//   if (($plan["province2"] == "QC") && in_array($plan["product_short"], $this->french_plan)) {
+				//     $this->sendpackage($plan_id, 1);
+				//   }
 			} else if ($play_type == 'Cheque') {
 				$this->cheque();
 				$defaultpay_type = 'Cheque';
@@ -2870,10 +2897,10 @@ class Plan extends MY_Controller {
 					show_error("This pay link is expired. Please contact your agent to Pay");
 				}
 			}
-			
-			$this->session->set_userdata ( 'beuser',  $beuser);
+
+			$this->session->set_userdata('beuser',  $beuser);
 		}
-		
+
 		if (empty($passerr)) {
 			$data['errormsg'] = $this->error;
 		} else {
@@ -2884,7 +2911,7 @@ class Plan extends MY_Controller {
 		$data['apply_date'] = date('Y-m-d');
 		if ($play_type = $this->input->post('play_type')) {
 			// Pay Action
-			if (($plan['status_id'] == 3) && empty($this->session->userdata ('user'))) {
+			if (($plan['status_id'] == 3) && empty($this->session->userdata('user'))) {
 				// Paid Status and Paied from User
 				$this->load->model('mymail_model');
 				$body  = "Dear " . $beuser['firstname'] . ",\r\n\r\n";
@@ -2895,10 +2922,10 @@ class Plan extends MY_Controller {
 				$body .= "Richmond Hill, ON L4B 3H7\r\n";
 				$body .= "Tel: 905-707-1512  Fax: 905-707-1513\r\n";
 				$body .= "Website: www.jfgroup.ca\r\n";
-				$this->mymail_model->send_mymail($beuser['email'], 'Your client has paid for the policy '.$plan['policy'], $body);
+				$this->mymail_model->send_mymail($beuser['email'], 'Your client has paid for the policy ' . $plan['policy'], $body);
 			}
 		}
-		
+
 		if (($plan['status_id'] < 2) && ($beuser['user_group_id'] > 100)) {
 			// Before Sold
 			$para = array();
@@ -2919,15 +2946,15 @@ class Plan extends MY_Controller {
 			$para['number_customer'] = $this->customer_model->get_number_customer($plan['customer_id'], $plan['isfamilyplan']);
 			$premiumarr = $this->product_model->get_premium($para);
 			if (!empty($premiumarr) && !empty($premiumarr['premium']) && ((float)$premiumarr['premium'] != (float)$plan['premium'])) {
-				$para = array('premium' => $premiumarr['premium'],'dailyrate' => $premiumarr['dailyrate'],'totaldays' => $premiumarr['totaldays'],'totalyears' => $premiumarr['totalyears']);
+				$para = array('premium' => $premiumarr['premium'], 'dailyrate' => $premiumarr['dailyrate'], 'totaldays' => $premiumarr['totaldays'], 'totalyears' => $premiumarr['totalyears']);
 				$this->plan_model->update($plan['plan_id'], $para);
 				$plan = $this->plan_model->get_plan_by_id($plan['plan_id']);
 				$para = array(
-						'plan_id' => $plan_id, 
-						'customer_id' => $plan['customer_id'], 
-						'payment_id' => 0, 
-						'message' => $this->plan_model->logstr, 
-						'systemlog' => $this->plan_model->sqlstr
+					'plan_id' => $plan_id,
+					'customer_id' => $plan['customer_id'],
+					'payment_id' => 0,
+					'message' => $this->plan_model->logstr,
+					'systemlog' => $this->plan_model->sqlstr
 				);
 				$this->log_model->activity('plan', $para);
 			}
@@ -2946,10 +2973,10 @@ class Plan extends MY_Controller {
 		}
 		$product = $this->product_model->get_product($plan['product_short']);
 		$data['plan_full_name'] = $product ? $product['full_name'] : '';
-		
+
 		$data['customer'] = $this->customer_model->get_customer_by_id($plan['customer_id']);
 		$data['customers'] = $this->customer_model->get_customer_by_parent_id($plan['customer_id']);
-		
+
 		if (empty($sekey)) {
 			if ($beuser['user_group_id'] < 100) {
 				$data['paytype_list'] = $this->paytype_model->paytype_list();
@@ -2959,7 +2986,7 @@ class Plan extends MY_Controller {
 		} else {
 			$data['paytype_list'] = $this->paytype_model->paytype_default();
 			$paytype_list = explode(",", trim($beuser['pay_type']));
-			foreach ($data['paytype_list'] as $key=>$pty) {
+			foreach ($data['paytype_list'] as $key => $pty) {
 				if (!in_array($pty, $paytype_list)) {
 					unset($data['paytype_list'][$key]);
 				}
@@ -2973,10 +3000,10 @@ class Plan extends MY_Controller {
 		$data['psi_active_url'] = 'https://checkout.psigate.com/HTMLPost/HTMLMessenger';
 		$data['psi_thanks_url'] = base_url('plan/psiok/' . $plan_id);
 		$data['psi_nothanks_url'] = base_url('plan/psifail/' . $plan_id);
-    $data['get_ali_url'] = base_url ( "plan/get_ali_url/" . $plan_id);
+		$data['get_ali_url'] = base_url("plan/get_ali_url/" . $plan_id);
 		$data['StoreKey'] = 'JohnsonFuIns2017081018581'; //  'merchantcardcapture200024';
 		$data['CustomerIP'] = $this->input->ip_address();
-		
+
 		$data['status_list'] = $this->status_model->status_list();
 		$days = $this->product_model->getDays('today', $plan['effective_date']);
 		$data['payment_total'] = $plan['premium'] - $this->payment_model->get_total_paid($plan['plan_id'], 'premium', $plan['apply_date']);
@@ -3031,13 +3058,13 @@ class Plan extends MY_Controller {
 				$data['cash_dis'] = $display;
 			}
 		}
-		
+
 		// Refund special
 		$data['used_days'] = 0;
 		if ($data['plan']['status_id'] == 6) {
-			$data['used_days'] = $this->product_model->getDays($data['plan']['effective_date'],$data['plan']['refund_date']);
+			$data['used_days'] = $this->product_model->getDays($data['plan']['effective_date'], $data['plan']['refund_date']);
 		}
-		
+
 		$data['policy_user'] = $this->user_model->get_user_by_id($plan['user_id']);
 		$data['pdf_url'] = base_url('plan/pdf/' . $plan['plan_id']);
 		$data['print_card_url'] = '';
@@ -3063,14 +3090,14 @@ class Plan extends MY_Controller {
 				if ($beuser['user_group_id'] < 100) {
 					$data['plan_url'] = base_url('plan/edit/' . $plan['plan_id']);
 				}
-				$data['sendpackage_url'] = base_url ( "plan/sendpackage/" . $plan['plan_id']);
+				$data['sendpackage_url'] = base_url("plan/sendpackage/" . $plan['plan_id']);
 			}
 		} else {
-			if ($this->session->userdata ( 'user' )) {
+			if ($this->session->userdata('user')) {
 				$data['plan_url'] = base_url('plan/edit/' . $plan['plan_id']);
 			}
 		}
-		
+
 		$data['title_txt'] = 'Policy';
 		$data['isvsuser'] = 0;
 		if ($vsuser = $this->session->userdata('vsuser')) {
@@ -3079,30 +3106,30 @@ class Plan extends MY_Controller {
 			if (!empty($myhome['logo'])) {
 				$data['myhomelogo'] = base_url('agent/img') . '/' . $myhome['logo'];
 			}
-			
+
 			if (!empty($myhome['qr'])) {
 				$data['myqr'] = base_url('agent/img') . '/' . $myhome['qr'];
 			}
-			
+
 			$data['paytype_list'] = $this->paytype_model->paytype_default();
 			$data['isvsuser'] = 1;
-				
+
 			$data['top_menu'] = '';
 			$data['menu'] = '';
 		} else {
 			$data['top_menu'] = $this->menu_model->load_top_menu();
 			$data['menu'] = $this->menu_model->load_meun();
 		}
-		$data['csrf'] = array (
-				'name' => $this->security->get_csrf_token_name (),
-				'value' => $this->security->get_csrf_hash ()
+		$data['csrf'] = array(
+			'name' => $this->security->get_csrf_token_name(),
+			'value' => $this->security->get_csrf_hash()
 		);
-		
+
 		$data['defaultpay_type'] = $defaultpay_type;
 		$data['export_logo_url'] = base_url('plan/exportlogo') . "/";
 		$data['export_price_url'] = base_url('plan/exportprice') . "/";
 		$data['export_logo_price_option'] = FALSE;
-    if (($beuser['user_group_id'] < 100) || ($beuser['user_id'] == 3744)) $data['export_logo_price_option'] = TRUE;
+		if (($beuser['user_group_id'] < 100) || ($beuser['user_id'] == 3744)) $data['export_logo_price_option'] = TRUE;
 		$data['isprocessplan'] = 1;
 		$this->load->model('html_model');
 		$data['html_model'] = $this->html_model;
@@ -3122,38 +3149,37 @@ class Plan extends MY_Controller {
 			$data['insurable_options'] = $this->load->view('plan/detail_other', $data, TRUE);
 			$data['isprocessplan'] = 0;
 		}
-		
+
 		$data['card_number'] = $this->input->post('card_number');
 		$data['card_name'] = $this->input->post('card_name');
 		$data['expiry_month'] = $this->input->post('expiry_month');
 		$data['expiry_year'] = $this->input->post('expiry_year');
 		$data['card_cvv'] = $this->input->post('card_cvv');
-		
+
 		$data['show_history'] = 0;
-		if ($this->session->userdata ( 'user') && ($beuser['user_group_id'] < 100)) {
+		if ($this->session->userdata('user') && ($beuser['user_group_id'] < 100)) {
 			$this->load->model('payment_model');
 			$data['show_history'] = 1;
 			$data['payment_tables'] = $this->payment_model->history_tables;
-
 		}
-    $data['get_activelog_history_url'] = base_url ( "plan/get_activelog_history/" . $plan['plan_id'] );
-		$data['get_payment_history_url'] = base_url ( "plan/get_payment_history/" . $plan['plan_id'] );
-		$data['payhistory_url'] = base_url ( "plan/payhistory/" . $plan['plan_id'] );
-		$data['makepay_url'] = base_url ( "payment/makepay" );
-		$data['revert_url'] = base_url ( "payment/revert" ) . "/";
+		$data['get_activelog_history_url'] = base_url("plan/get_activelog_history/" . $plan['plan_id']);
+		$data['get_payment_history_url'] = base_url("plan/get_payment_history/" . $plan['plan_id']);
+		$data['payhistory_url'] = base_url("plan/payhistory/" . $plan['plan_id']);
+		$data['makepay_url'] = base_url("payment/makepay");
+		$data['revert_url'] = base_url("payment/revert") . "/";
 		if ($plan['claim_flag'] == 1) {
 			$data['error_message'] = '<strong>Warning: The insured(s) have had previous claim(s). Please check the policy eligibility and any pre-existing conditions with insured(s).</strong>';
 		}
-		
-		$this->session->set_userdata ( 'withlogo', 1);
+
+		$this->session->set_userdata('withlogo', 1);
 		if (($beuser['user_group_id'] != 103) && ($beuser['user_group_id'] != 106)) {
-			$this->session->set_userdata ( 'withprice', 1);
+			$this->session->set_userdata('withprice', 1);
 		} else {
-			$this->session->set_userdata ( 'withprice', 0);
+			$this->session->set_userdata('withprice', 0);
 		}
 		$this->load->model('html_model');
 		$data['html_model'] = $this->html_model;
-		
+
 		if ($data['plan']['product_short'] == 'TOP') {
 			$data['toppackagename'] = $this->toppackagename;
 			$this->load->common('plan/top/detail', $data);
@@ -3162,7 +3188,7 @@ class Plan extends MY_Controller {
 		}
 	}
 
-	public function sendpackage($plan_id=0, $sendfrenchemail=0)
+	public function sendpackage($plan_id = 0, $sendfrenchemail = 0)
 	{
 		$beuser = $this->func_model->verify_login(TRUE);
 		$this->load->model('plan_model');
@@ -3176,22 +3202,22 @@ class Plan extends MY_Controller {
 		if (empty($plan)) {
 			redirect('user/login');
 		}
-    if ($sendfrenchemail) {
-      // Check is Quebec customer or not
-      if ($plan['province2'] != 'QC') {
-        // Not in Quebec, do nothing
-        return;
-      }
-    }
-		
+		if ($sendfrenchemail) {
+			// Check is Quebec customer or not
+			if ($plan['province2'] != 'QC') {
+				// Not in Quebec, do nothing
+				return;
+			}
+		}
+
 		$data['beuser'] = $beuser;
 		$data['plan'] = $plan;
 		$data['pdf_enable'] = empty($beuser['pdf_product']) ? array() : json_decode($beuser['pdf_product']);
 		$data['emailaddr'] = $plan['contact_email'];
 		if ($this->input->post() || $sendfrenchemail) {
-      if (!$intercall) {
-        $emailaddr = $this->input->post('emailaddr');
-      }
+			if (!$intercall) {
+				$emailaddr = $this->input->post('emailaddr');
+			}
 			$withbatch = 0;
 			if ($beuser['user_group_id'] < 100) {
 				$data['withlogo'] = $this->input->post('withlogo');
@@ -3199,16 +3225,16 @@ class Plan extends MY_Controller {
 				$withbatch = $this->input->post('withbatch');
 			} else {
 				$data['withlogo'] = 1;
-        if (($beuser['user_group_id'] != 103) && ($beuser['user_group_id'] != 106)) {
+				if (($beuser['user_group_id'] != 103) && ($beuser['user_group_id'] != 106)) {
 					$data['withprice'] = 1;
 				} else {
 					$data['withprice'] = 0;
 				}
 			}
-      $data['sendfrench'] = $this->input->post('sendfrench');
-      if ($sendfrenchemail) {
-        $data['sendfrench'] = 1;
-      }
+			$data['sendfrench'] = $this->input->post('sendfrench');
+			if ($sendfrenchemail) {
+				$data['sendfrench'] = 1;
+			}
 			if (!empty($emailaddr)) {
 				$data['emailaddr'] = $emailaddr;
 			}
@@ -3231,293 +3257,292 @@ class Plan extends MY_Controller {
 				$data['status_list'] = $this->status_model->status_list();
 				$this->load->model('html_model');
 				$data['html_model'] = $this->html_model;
-				
+
 				if ($plan['user_id']) {
 					$data['user'] = $this->user_model->get_user_by_id($plan['user_id']);
 				}
 				if ($data['plan']['product_short'] == 'OPL') {
 					$data['insurable_options'] = $this->load->view('plan/detail_opl', $data, TRUE);
-					$data['special_note'] = $this->load->view('plan/pdf_note_opl',$data, TRUE);
+					$data['special_note'] = $this->load->view('plan/pdf_note_opl', $data, TRUE);
 					$files = array(
-					'OPL_Policy.pdf' => DOWNLOADDIR . 'OPL_Policy.pdf',
-					'OPL_Claim_Procedure.pdf' => DOWNLOADDIR . 'OPL_Claim_Procedure.pdf',
-					'OPL_Consent_Form.pdf' => DOWNLOADDIR . 'OPL_Consent_Form.pdf',
-					'OPL_Claim_Form.pdf' => DOWNLOADDIR . 'OPL_Claim_Form.pdf',
-					'OPL_Brochure.pdf' => DOWNLOADDIR . 'OPL_Brochure.pdf'
+						'OPL_Policy.pdf' => DOWNLOADDIR . 'OPL_Policy.pdf',
+						'OPL_Claim_Procedure.pdf' => DOWNLOADDIR . 'OPL_Claim_Procedure.pdf',
+						'OPL_Consent_Form.pdf' => DOWNLOADDIR . 'OPL_Consent_Form.pdf',
+						'OPL_Claim_Form.pdf' => DOWNLOADDIR . 'OPL_Claim_Form.pdf',
+						'OPL_Brochure.pdf' => DOWNLOADDIR . 'OPL_Brochure.pdf'
 					);
 				} else if ($data['plan']['product_short'] == 'JFVTC') {
-          if ($data['sendfrench']) {
-            $files = array(
-            'JFVTC_Policy.pdf' => DOWNLOADDIR . 'JFVTC_Policy_French.pdf',
-            'JFVTC_Claim_Procedure.pdf' => DOWNLOADDIR . 'JFVTC_Claim_Procedure_French.pdf',
-            'JFVTC_Claim_Form.pdf' => DOWNLOADDIR . 'JFVTC_Claim_Form_French.pdf',
-            'JFVTC_Brochure.pdf' => DOWNLOADDIR . 'JFVTC_Brochure_French.pdf'
-            );
-            if ($plan['effective_date'] < '2023-05-01') {
-              $files['JFVTC_Policy.pdf'] = DOWNLOADDIR . 'JFVTC_Policy_French_old.pdf';
-            }
-          } else {
-            $files = array(
-            'JFVTC_Policy.pdf' => DOWNLOADDIR . 'JFVTC_Policy.pdf',
-            'JFVTC_Claim_Procedure.pdf' => DOWNLOADDIR . 'JFVTC_Claim_Procedure.pdf',
-            'JFVTC_Claim_Form.pdf' => DOWNLOADDIR . 'JFVTC_Claim_Form.pdf',
-            'JFVTC_Brochure.pdf' => DOWNLOADDIR . 'JFVTC_Brochure.pdf'
-            );
-            if ($plan['effective_date'] < '2023-05-01') {
-              $files['JFVTC_Policy.pdf'] = DOWNLOADDIR . 'JFVTC_Policy_old.pdf';
-            }
-          }
-        } else if ($data['plan']['product_short'] == 'JFR') {
-          if ($data['sendfrench']) {
-            $files = array(
-              'JFR_Policy.pdf' => DOWNLOADDIR . 'JFR_Policy_French.pdf',
-              'JFR_Claim_Procedure.pdf' => DOWNLOADDIR . 'JFR_Clinic_Map_French.pdf',
-              'JFR_Claim_Form.pdf' => DOWNLOADDIR . 'JFR_Claim_Form_French.pdf',
-              'JFR_Brochure.pdf' => DOWNLOADDIR . 'JFR_Brochure_French.pdf'
-              );
-          } else {
-            $data['insurable_options'] = $this->load->view('plan/detail_opl', $data, TRUE);
-            $data['special_note'] = $this->load->view('plan/pdf_note_jfr',$data, TRUE);
-            $files = array(
-            'JFR_Policy.pdf' => DOWNLOADDIR . 'JFR_Policy.pdf',
-            'JFR_Claim_Procedure.pdf' => DOWNLOADDIR . 'JFR_Claim_Procedure.pdf',
-            'JFR_Consent_Form.pdf' => DOWNLOADDIR . 'JFR_Consent_Form.pdf',
-            'JFR_Claim_Form.pdf' => DOWNLOADDIR . 'JFR_Claim_Form.pdf',
-            'JFR_Brochure.pdf' => DOWNLOADDIR . 'JFR_Brochure.pdf'
-            );
-          }
+					if ($data['sendfrench']) {
+						$files = array(
+							'JFVTC_Policy.pdf' => DOWNLOADDIR . 'JFVTC_Policy_French.pdf',
+							'JFVTC_Claim_Procedure.pdf' => DOWNLOADDIR . 'JFVTC_Claim_Procedure_French.pdf',
+							'JFVTC_Claim_Form.pdf' => DOWNLOADDIR . 'JFVTC_Claim_Form_French.pdf',
+							'JFVTC_Brochure.pdf' => DOWNLOADDIR . 'JFVTC_Brochure_French.pdf'
+						);
+						if ($plan['effective_date'] < '2023-05-01') {
+							$files['JFVTC_Policy.pdf'] = DOWNLOADDIR . 'JFVTC_Policy_French_old.pdf';
+						}
+					} else {
+						$files = array(
+							'JFVTC_Policy.pdf' => DOWNLOADDIR . 'JFVTC_Policy.pdf',
+							'JFVTC_Claim_Procedure.pdf' => DOWNLOADDIR . 'JFVTC_Claim_Procedure.pdf',
+							'JFVTC_Claim_Form.pdf' => DOWNLOADDIR . 'JFVTC_Claim_Form.pdf',
+							'JFVTC_Brochure.pdf' => DOWNLOADDIR . 'JFVTC_Brochure.pdf'
+						);
+						if ($plan['effective_date'] < '2023-05-01') {
+							$files['JFVTC_Policy.pdf'] = DOWNLOADDIR . 'JFVTC_Policy_old.pdf';
+						}
+					}
+				} else if ($data['plan']['product_short'] == 'JFR') {
+					if ($data['sendfrench']) {
+						$files = array(
+							'JFR_Policy.pdf' => DOWNLOADDIR . 'JFR_Policy_French.pdf',
+							'JFR_Claim_Procedure.pdf' => DOWNLOADDIR . 'JFR_Clinic_Map_French.pdf',
+							'JFR_Claim_Form.pdf' => DOWNLOADDIR . 'JFR_Claim_Form_French.pdf',
+							'JFR_Brochure.pdf' => DOWNLOADDIR . 'JFR_Brochure_French.pdf'
+						);
+					} else {
+						$data['insurable_options'] = $this->load->view('plan/detail_opl', $data, TRUE);
+						$data['special_note'] = $this->load->view('plan/pdf_note_jfr', $data, TRUE);
+						$files = array(
+							'JFR_Policy.pdf' => DOWNLOADDIR . 'JFR_Policy.pdf',
+							'JFR_Claim_Procedure.pdf' => DOWNLOADDIR . 'JFR_Claim_Procedure.pdf',
+							'JFR_Consent_Form.pdf' => DOWNLOADDIR . 'JFR_Consent_Form.pdf',
+							'JFR_Claim_Form.pdf' => DOWNLOADDIR . 'JFR_Claim_Form.pdf',
+							'JFR_Brochure.pdf' => DOWNLOADDIR . 'JFR_Brochure.pdf'
+						);
+					}
 				} else if ($data['plan']['product_short'] == 'JUS') {
 					$data['insurable_options'] = $this->load->view('plan/detail_jus', $data, TRUE);
-					$data['special_note'] = $this->load->view('plan/pdf_note_jus',$data, TRUE);
+					$data['special_note'] = $this->load->view('plan/pdf_note_jus', $data, TRUE);
 					$files = array(
-					'JUS_Brochure.pdf' => DOWNLOADDIR . 'JUS_Brochure.pdf'
+						'JUS_Brochure.pdf' => DOWNLOADDIR . 'JUS_Brochure.pdf'
 					);
 				} else if ($data['plan']['product_short'] == 'NUS') {
 					$data['insurable_options'] = $this->load->view('plan/detail_jus', $data, TRUE);
-					$data['special_note'] = $this->load->view('plan/pdf_note_nus',$data, TRUE);
+					$data['special_note'] = $this->load->view('plan/pdf_note_nus', $data, TRUE);
 					$files = array(
-					'NUS_Brochure.pdf' => DOWNLOADDIR . 'NUS_Brochure.pdf'
+						'NUS_Brochure.pdf' => DOWNLOADDIR . 'NUS_Brochure.pdf'
 					);
 				} else if ($data['plan']['product_short'] == 'JFS') {
-          if ($data['sendfrench']) {
-            $files = array(
-            'JFS_Policy.pdf' => DOWNLOADDIR . 'JFS_Policy_French.pdf',
-            'JFS_Claim_Form.pdf' => DOWNLOADDIR . 'JFS_Claim_Form_French.pdf',
-            'JFS_Clinic_Map.pdf' => DOWNLOADDIR . 'JFS_Clinic_Map_French.pdf',
-            'JFS_Benefit_Summary.pdf' => DOWNLOADDIR . 'JFS_Benefit_Summary_French.pdf',
-            'JFS_Brochure.pdf' => DOWNLOADDIR . 'JFS_Brochure_French.pdf',
-            );
-          } else {
-            $data['special_note'] = $this->load->view('plan/pdf_note_jes',$data, TRUE);
-            $files = array(
-            'JFS_Policy.pdf' => DOWNLOADDIR . 'JFS_Policy.pdf',
-            'JFS_Claim_Form.pdf' => DOWNLOADDIR . 'JFS_Claim_Form.pdf',
-            'JFS_Clinic_Map.pdf' => DOWNLOADDIR . 'JFS_Clinic_Map.pdf',
-            );
-          }
-        } else if ($data['plan']['product_short'] == 'JFE') {
+					if ($data['sendfrench']) {
+						$files = array(
+							'JFS_Policy.pdf' => DOWNLOADDIR . 'JFS_Policy_French.pdf',
+							'JFS_Claim_Form.pdf' => DOWNLOADDIR . 'JFS_Claim_Form_French.pdf',
+							'JFS_Clinic_Map.pdf' => DOWNLOADDIR . 'JFS_Clinic_Map_French.pdf',
+							'JFS_Benefit_Summary.pdf' => DOWNLOADDIR . 'JFS_Benefit_Summary_French.pdf',
+							'JFS_Brochure.pdf' => DOWNLOADDIR . 'JFS_Brochure_French.pdf',
+						);
+					} else {
+						$data['special_note'] = $this->load->view('plan/pdf_note_jes', $data, TRUE);
+						$files = array(
+							'JFS_Policy.pdf' => DOWNLOADDIR . 'JFS_Policy.pdf',
+							'JFS_Claim_Form.pdf' => DOWNLOADDIR . 'JFS_Claim_Form.pdf',
+							'JFS_Clinic_Map.pdf' => DOWNLOADDIR . 'JFS_Clinic_Map.pdf',
+						);
+					}
+				} else if ($data['plan']['product_short'] == 'JFE') {
 					$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
-					$data['special_note'] = $this->load->view('plan/pdf_note_jes',$data, TRUE);
+					$data['special_note'] = $this->load->view('plan/pdf_note_jes', $data, TRUE);
 					$files = array(
-					'JFE_Policy.pdf' => DOWNLOADDIR . 'JFE_Policy.pdf',
-					'JFE_Claim_Form.pdf' => DOWNLOADDIR . 'JFE_Claim_Form.pdf',
-					'JFE_Clinic_Map.pdf' => DOWNLOADDIR . 'JFE_Clinic_Map.pdf',
+						'JFE_Policy.pdf' => DOWNLOADDIR . 'JFE_Policy.pdf',
+						'JFE_Claim_Form.pdf' => DOWNLOADDIR . 'JFE_Claim_Form.pdf',
+						'JFE_Clinic_Map.pdf' => DOWNLOADDIR . 'JFE_Clinic_Map.pdf',
 					);
 				} else if ($data['plan']['product_short'] == 'BHS') {
 					$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
-					$data['special_note'] = $this->load->view('plan/pdf_note_jes',$data, TRUE);
+					$data['special_note'] = $this->load->view('plan/pdf_note_jes', $data, TRUE);
 					$files = array(
-					'BHS_Policy.pdf' => DOWNLOADDIR . 'BHS_Policy.pdf',
-					'BHS_Claim_Form.pdf' => DOWNLOADDIR . 'BHS_Claim_Form.pdf',
-					'BHS_Clinic_Map.pdf' => DOWNLOADDIR . 'BHS_Clinic_Map.pdf',
+						'BHS_Policy.pdf' => DOWNLOADDIR . 'BHS_Policy.pdf',
+						'BHS_Claim_Form.pdf' => DOWNLOADDIR . 'BHS_Claim_Form.pdf',
+						'BHS_Clinic_Map.pdf' => DOWNLOADDIR . 'BHS_Clinic_Map.pdf',
 					);
 				} else if ($data['plan']['product_short'] == 'JES') {
-          if ($data['sendfrench']) {
-            $files = array(
-            'JES_Policy.pdf' => DOWNLOADDIR . 'JES_Policy_French.pdf',
-            'JES_Claim_Form.pdf' => DOWNLOADDIR . 'JES_Claim_Form_French.pdf',
-            'JES_Clinic_Map.pdf' => DOWNLOADDIR . 'JES_Clinic_Map_French.pdf',
-            'JES_Brochure.pdf' => DOWNLOADDIR . 'JES_Brochure_French.pdf'
-            );
-          } else {
-            $data['special_note'] = $this->load->view('plan/pdf_note_jes',$data, TRUE);
-            $files = array(
-            'JES_Policy.pdf' => DOWNLOADDIR . 'JES_Policy.pdf',
-            'JES_Claim_Form.pdf' => DOWNLOADDIR . 'JES_Claim_Form.pdf',
-            'JES_Clinic_Map.pdf' => DOWNLOADDIR . 'JES_Clinic_Map.pdf',
-            'JES_Brochure.pdf' => DOWNLOADDIR . 'JES_Brochure.pdf'
-            );
-          }
-        } else if ($data['plan']['product_short'] == 'JFPL') {
-          if ($data['sendfrench']) {
-            $files = array(
-            'JFPL_Policy.pdf' => DOWNLOADDIR . 'JFPL_Policy_French.pdf',
-            'JFPL_Claim_Form.pdf' => DOWNLOADDIR . 'JFPL_Claim_Form_French.pdf',
-            'JFPL_Clinic_Map.pdf' => DOWNLOADDIR . 'JFPL_Clinic_Map_French.pdf',
-            'JFPL_Benefit_Summary.pdf' => DOWNLOADDIR . 'JFPL_Benefit_Summary_French.pdf',
-            'JFPL_Brochure.pdf' => DOWNLOADDIR . 'JFPL_Brochure_French.pdf'
-            );
-            if ($plan['effective_date'] < '2023-01-01') {
-              $files['JFPL_Policy.pdf'] = DOWNLOADDIR . 'JFPL_Policy_French_old.pdf';
-            }
-          } else {
-            $data['special_note'] = $this->load->view('plan/pdf_note_jes',$data, TRUE);
-            $files = array(
-            'JFPL_Policy.pdf' => DOWNLOADDIR . 'JFPL_Policy.pdf',
-            'JFPL_Claim_Form.pdf' => DOWNLOADDIR . 'JFPL_Claim_Form.pdf',
-            'JFPL_Clinic_Map.pdf' => DOWNLOADDIR . 'JFPL_Clinic_Map.pdf',
-            'JFPL_Benefit_Summary.pdf' => DOWNLOADDIR . 'JFPL_Benefit_Summary.pdf'
-            );
-            if ($plan['effective_date'] < '2023-01-01') {
-              $files['JFPL_Policy.pdf'] = DOWNLOADDIR . 'JFPL_Policy_old.pdf';
-            }
-          }
-        } else if ($data['plan']['product_short'] == 'JFSL') {
+					if ($data['sendfrench']) {
+						$files = array(
+							'JES_Policy.pdf' => DOWNLOADDIR . 'JES_Policy_French.pdf',
+							'JES_Claim_Form.pdf' => DOWNLOADDIR . 'JES_Claim_Form_French.pdf',
+							'JES_Clinic_Map.pdf' => DOWNLOADDIR . 'JES_Clinic_Map_French.pdf',
+							'JES_Brochure.pdf' => DOWNLOADDIR . 'JES_Brochure_French.pdf'
+						);
+					} else {
+						$data['special_note'] = $this->load->view('plan/pdf_note_jes', $data, TRUE);
+						$files = array(
+							'JES_Policy.pdf' => DOWNLOADDIR . 'JES_Policy.pdf',
+							'JES_Claim_Form.pdf' => DOWNLOADDIR . 'JES_Claim_Form.pdf',
+							'JES_Clinic_Map.pdf' => DOWNLOADDIR . 'JES_Clinic_Map.pdf',
+							'JES_Brochure.pdf' => DOWNLOADDIR . 'JES_Brochure.pdf'
+						);
+					}
+				} else if ($data['plan']['product_short'] == 'JFPL') {
+					if ($data['sendfrench']) {
+						$files = array(
+							'JFPL_Policy.pdf' => DOWNLOADDIR . 'JFPL_Policy_French.pdf',
+							'JFPL_Claim_Form.pdf' => DOWNLOADDIR . 'JFPL_Claim_Form_French.pdf',
+							'JFPL_Clinic_Map.pdf' => DOWNLOADDIR . 'JFPL_Clinic_Map_French.pdf',
+							'JFPL_Benefit_Summary.pdf' => DOWNLOADDIR . 'JFPL_Benefit_Summary_French.pdf',
+							'JFPL_Brochure.pdf' => DOWNLOADDIR . 'JFPL_Brochure_French.pdf'
+						);
+						if ($plan['effective_date'] < '2023-01-01') {
+							$files['JFPL_Policy.pdf'] = DOWNLOADDIR . 'JFPL_Policy_French_old.pdf';
+						}
+					} else {
+						$data['special_note'] = $this->load->view('plan/pdf_note_jes', $data, TRUE);
+						$files = array(
+							'JFPL_Policy.pdf' => DOWNLOADDIR . 'JFPL_Policy.pdf',
+							'JFPL_Claim_Form.pdf' => DOWNLOADDIR . 'JFPL_Claim_Form.pdf',
+							'JFPL_Clinic_Map.pdf' => DOWNLOADDIR . 'JFPL_Clinic_Map.pdf',
+							'JFPL_Benefit_Summary.pdf' => DOWNLOADDIR . 'JFPL_Benefit_Summary.pdf'
+						);
+						if ($plan['effective_date'] < '2023-01-01') {
+							$files['JFPL_Policy.pdf'] = DOWNLOADDIR . 'JFPL_Policy_old.pdf';
+						}
+					}
+				} else if ($data['plan']['product_short'] == 'JFSL') {
 					$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
-					$data['special_note'] = $this->load->view('plan/pdf_note_jes',$data, TRUE);
+					$data['special_note'] = $this->load->view('plan/pdf_note_jes', $data, TRUE);
 					$files = array(
-					'JFSL_Policy.pdf' => DOWNLOADDIR . 'JFSL_Policy.pdf',
-					'JFSL_Claim_Form.pdf' => DOWNLOADDIR . 'JFSL_Claim_Form.pdf',
-					'JFSL_Clinic_Map.pdf' => DOWNLOADDIR . 'JFSL_Clinic_Map.pdf',
-					'JFSL_Benefit_Summary.pdf' => DOWNLOADDIR . 'JFSL_Benefit_Summary.pdf'
+						'JFSL_Policy.pdf' => DOWNLOADDIR . 'JFSL_Policy.pdf',
+						'JFSL_Claim_Form.pdf' => DOWNLOADDIR . 'JFSL_Claim_Form.pdf',
+						'JFSL_Clinic_Map.pdf' => DOWNLOADDIR . 'JFSL_Clinic_Map.pdf',
+						'JFSL_Benefit_Summary.pdf' => DOWNLOADDIR . 'JFSL_Benefit_Summary.pdf'
 					);
-        } else if ($data['plan']['product_short'] == 'JFGD') {
-          if ($data['sendfrench']) {
-            $files = array(
-            'JFGD_Policy.pdf' => DOWNLOADDIR . 'JFGD_Policy_French.pdf',
-            'JFGD_Claim_Form.pdf' => DOWNLOADDIR . 'JFGD_Claim_Form_French.pdf',
-            'JFGD_Clinic_Map.pdf' => DOWNLOADDIR . 'JFGD_Clinic_Map_French.pdf',
-            'JFGD_Benefit_Summary.pdf' => DOWNLOADDIR . 'JFGD_Benefit_Summary_French.pdf',
-            'JFGD_Brochure.pdf' => DOWNLOADDIR . 'JFGD_Brochure_French.pdf'
-            );
-          } else {
-            $data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
-            $data['special_note'] = $this->load->view('plan/pdf_note_jes',$data, TRUE);
-            $files = array(
-            'JFGD_Policy.pdf' => DOWNLOADDIR . 'JFGD_Policy.pdf',
-            'JFGD_Claim_Form.pdf' => DOWNLOADDIR . 'JFGD_Claim_Form.pdf',
-            'JFGD_Clinic_Map.pdf' => DOWNLOADDIR . 'JFGD_Clinic_Map.pdf',
-            'JFGD_Benefit_Summary.pdf' => DOWNLOADDIR . 'JFGD_Benefit_Summary.pdf'
-            );
-          }
+				} else if ($data['plan']['product_short'] == 'JFGD') {
+					if ($data['sendfrench']) {
+						$files = array(
+							'JFGD_Policy.pdf' => DOWNLOADDIR . 'JFGD_Policy_French.pdf',
+							'JFGD_Claim_Form.pdf' => DOWNLOADDIR . 'JFGD_Claim_Form_French.pdf',
+							'JFGD_Clinic_Map.pdf' => DOWNLOADDIR . 'JFGD_Clinic_Map_French.pdf',
+							'JFGD_Benefit_Summary.pdf' => DOWNLOADDIR . 'JFGD_Benefit_Summary_French.pdf',
+							'JFGD_Brochure.pdf' => DOWNLOADDIR . 'JFGD_Brochure_French.pdf'
+						);
+					} else {
+						$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
+						$data['special_note'] = $this->load->view('plan/pdf_note_jes', $data, TRUE);
+						$files = array(
+							'JFGD_Policy.pdf' => DOWNLOADDIR . 'JFGD_Policy.pdf',
+							'JFGD_Claim_Form.pdf' => DOWNLOADDIR . 'JFGD_Claim_Form.pdf',
+							'JFGD_Clinic_Map.pdf' => DOWNLOADDIR . 'JFGD_Clinic_Map.pdf',
+							'JFGD_Benefit_Summary.pdf' => DOWNLOADDIR . 'JFGD_Benefit_Summary.pdf'
+						);
+					}
 				} else if ($data['plan']['product_short'] == 'JESP') {
-          if ($data['sendfrench']) {
-            $files = array(
-            'JESP_Policy.pdf' => DOWNLOADDIR . 'JESP_Policy_French.pdf',
-            'JESP_Claim_Form.pdf' => DOWNLOADDIR . 'JESP_Claim_Form_French.pdf',
-            'JESP_Brochure.pdf' => DOWNLOADDIR . 'JESP_Brochure_French.pdf'
-            );
-          } else {
-					$data['special_note'] = $this->load->view('plan/pdf_note_jes',$data, TRUE);
-					$files = array(
-					'JESP_Policy.pdf' => DOWNLOADDIR . 'JESP_Policy.pdf',
-					'JESP_Claim_Form.pdf' => DOWNLOADDIR . 'JESP_Claim_Form.pdf',
-					'JESP_Brochure.pdf' => DOWNLOADDIR . 'JESP_Brochure.pdf'
-					);
-          }
-        } else if ($data['plan']['product_short'] == 'JFC') {
+					if ($data['sendfrench']) {
+						$files = array(
+							'JESP_Policy.pdf' => DOWNLOADDIR . 'JESP_Policy_French.pdf',
+							'JESP_Claim_Form.pdf' => DOWNLOADDIR . 'JESP_Claim_Form_French.pdf',
+							'JESP_Brochure.pdf' => DOWNLOADDIR . 'JESP_Brochure_French.pdf'
+						);
+					} else {
+						$data['special_note'] = $this->load->view('plan/pdf_note_jes', $data, TRUE);
+						$files = array(
+							'JESP_Policy.pdf' => DOWNLOADDIR . 'JESP_Policy.pdf',
+							'JESP_Claim_Form.pdf' => DOWNLOADDIR . 'JESP_Claim_Form.pdf',
+							'JESP_Brochure.pdf' => DOWNLOADDIR . 'JESP_Brochure.pdf'
+						);
+					}
+				} else if ($data['plan']['product_short'] == 'JFC') {
 					$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
-					$data['special_note'] = $this->load->view('plan/pdf_note_jfc',$data, TRUE);
+					$data['special_note'] = $this->load->view('plan/pdf_note_jfc', $data, TRUE);
 					$files = array(
-					'JFC_Policy.pdf' => DOWNLOADDIR . 'JFC_Policy.pdf',
-					'JFC_Claim_Form.pdf' => DOWNLOADDIR . 'JFC_Claim_Form.pdf',
-					'JFC_Brochure.pdf' => DOWNLOADDIR . 'JFC_Brochure.pdf'
+						'JFC_Policy.pdf' => DOWNLOADDIR . 'JFC_Policy.pdf',
+						'JFC_Claim_Form.pdf' => DOWNLOADDIR . 'JFC_Claim_Form.pdf',
+						'JFC_Brochure.pdf' => DOWNLOADDIR . 'JFC_Brochure.pdf'
 					);
 				} else if ($data['plan']['product_short'] == 'JFP') {
 					$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
-					$data['special_note'] = $this->load->view('plan/pdf_note_jfc',$data, TRUE);
+					$data['special_note'] = $this->load->view('plan/pdf_note_jfc', $data, TRUE);
 					$files = array(
-					'JFP_Policy.pdf' => DOWNLOADDIR . 'JFP_Policy.pdf',
-					'JFP_Claim_Form.pdf' => DOWNLOADDIR . 'JFP_Claim_Form.pdf',
-					'JFP_Brochure.pdf' => DOWNLOADDIR . 'JFP_Brochure.pdf'
+						'JFP_Policy.pdf' => DOWNLOADDIR . 'JFP_Policy.pdf',
+						'JFP_Claim_Form.pdf' => DOWNLOADDIR . 'JFP_Claim_Form.pdf',
+						'JFP_Brochure.pdf' => DOWNLOADDIR . 'JFP_Brochure.pdf'
 					);
-					
 				} else if ($data['plan']['product_short'] == 'TOP') {
-          if ($data['sendfrench']) {
-            $files = array(
-            'TOP_Policy.pdf' => DOWNLOADDIR . 'TOP_Policy_French.pdf',
-            'TOP_Baggage_Claim_Form.pdf' => DOWNLOADDIR . 'TOP_Baggage_Claim_Form_French.pdf',
-            'TOP_Cancellation_Claim_Form.pdf' => DOWNLOADDIR . 'TOP_Cancellation_Claim_Form_French.pdf',
-            'TOP_Medical_Claim_Form.pdf' => DOWNLOADDIR . 'TOP_Medical_Claim_Form_French.pdf',
-            'TOP_Benefit_Summary.pdf' => DOWNLOADDIR . 'TOP_Benefit_Summary_French.pdf',
-            'TOP_Brochure.pdf' => DOWNLOADDIR . 'TOP_Brochure_French.pdf'
-            );
-          } else {
-            $data['special_note'] = $this->load->view('plan/top/pdf_note_top',$data, TRUE);
-            $files = array(
-            'TOP_Policy.pdf' => DOWNLOADDIR . 'TOP_Policy.pdf',
-            'TOP_Baggage_Claim_Form.pdf' => DOWNLOADDIR . 'TOP_Baggage_Claim_Form.pdf',
-            'TOP_Cancellation_Claim_Form.pdf' => DOWNLOADDIR . 'TOP_Cancellation_Claim_Form.pdf',
-            'TOP_Medical_Claim_Form.pdf' => DOWNLOADDIR . 'TOP_Medical_Claim_Form.pdf',
-            'TOP_Benefit_Summary.pdf' => DOWNLOADDIR . 'TOP_Benefit_Summary.pdf'
-            );
-          }
+					if ($data['sendfrench']) {
+						$files = array(
+							'TOP_Policy.pdf' => DOWNLOADDIR . 'TOP_Policy_French.pdf',
+							'TOP_Baggage_Claim_Form.pdf' => DOWNLOADDIR . 'TOP_Baggage_Claim_Form_French.pdf',
+							'TOP_Cancellation_Claim_Form.pdf' => DOWNLOADDIR . 'TOP_Cancellation_Claim_Form_French.pdf',
+							'TOP_Medical_Claim_Form.pdf' => DOWNLOADDIR . 'TOP_Medical_Claim_Form_French.pdf',
+							'TOP_Benefit_Summary.pdf' => DOWNLOADDIR . 'TOP_Benefit_Summary_French.pdf',
+							'TOP_Brochure.pdf' => DOWNLOADDIR . 'TOP_Brochure_French.pdf'
+						);
+					} else {
+						$data['special_note'] = $this->load->view('plan/top/pdf_note_top', $data, TRUE);
+						$files = array(
+							'TOP_Policy.pdf' => DOWNLOADDIR . 'TOP_Policy.pdf',
+							'TOP_Baggage_Claim_Form.pdf' => DOWNLOADDIR . 'TOP_Baggage_Claim_Form.pdf',
+							'TOP_Cancellation_Claim_Form.pdf' => DOWNLOADDIR . 'TOP_Cancellation_Claim_Form.pdf',
+							'TOP_Medical_Claim_Form.pdf' => DOWNLOADDIR . 'TOP_Medical_Claim_Form.pdf',
+							'TOP_Benefit_Summary.pdf' => DOWNLOADDIR . 'TOP_Benefit_Summary.pdf'
+						);
+					}
 				} else {
 					$data['insurable_options'] = $this->load->view('plan/detail_other', $data, TRUE);
 				}
-				
+
 				$policy_file = tempnam("/tmp", "Policy");
 				//$policy_file = "C:\Users\Administrator\AppData\Local\Temp\Policy";
 				$data['title_txt'] = 'Policy';
-				$data['style'] = $this->load->view('common/pdf_style',$data, TRUE);
-        $data['hadheaderfooter'] = 0;
-        if ($data['plan']['product_short'] == 'JFVTC') {
-          $mpdf = new mPDF('c', 'A4', 0, '', $mgl = 0, $mgr = 0, $mgt = 15, $mgb = 0, $mgh = 0, $mgf = 0, $orientation = 'P');
-          if ($data['withlogo']) {
-            $mpdf->SetHTMLHeader('<img style="width:100%;" src="'.base_url().'image/pdf_header.png" />');
-          }
-          $data['hadheaderfooter'] = 1;
-          if ($data['sendfrench']) {
-            $html = $this->load->view('plan/pdf_OR_visitor_french', $data, TRUE);
-          } else {
-            $html = $this->load->view('plan/pdf_jfvtc', $data, TRUE);
-          }
-        } else if (($data['plan']['product_short'] == 'JFPL') || ($data['plan']['product_short'] == 'JFGD') || ($data['plan']['product_short'] == 'JFSL')) {
-          $mpdf = new mPDF('c', 'A4', 0, '', $mgl = 0, $mgr = 0, $mgt = 15, $mgb = 0, $mgh = 0, $mgf = 0, $orientation = 'P');
-          if ($data['withlogo']) {
-            $mpdf->SetHTMLHeader('<img style="width:100%;" src="'.base_url().'image/pdf_header.png" />');
-          }
-          // $mpdf->SetHTMLFooter('<img style="width:100%;" src="'.base_url().'image/pdf_footer.png" />');
-          $data['hadheaderfooter'] = 1;
-          if ($data['sendfrench']) {
-            $html = $this->load->view('plan/pdf_OR_student_french', $data, TRUE);
-          } else {
-            $html = $this->load->view('plan/pdf', $data, TRUE);
-          }
-        } else {
-  				$mpdf = new mPDF('c');
-          if ($data['sendfrench']) {
-            if (($data['plan']['product_short'] == 'JES') || ($data['plan']['product_short'] == 'JESP') || ($data['plan']['product_short'] == 'JFS')) {
-              $html = $this->load->view('plan/pdf_berkley_student_french', $data, TRUE);
-            } else if ($data['plan']['product_short'] == 'JFR') {
-              $html = $this->load->view('plan/pdf_jfr_french', $data, TRUE);
-            } else if ($data['plan']['product_short'] == 'TOP') {
-              $html = $this->load->view('plan/pdf_berkley_visitor_french', $data, TRUE);
-            } else {
-              $html = $this->load->view('plan/pdf', $data, TRUE);  
-            }
-          } else {
-            $html = $this->load->view('plan/pdf', $data, TRUE);
-          }
-        }
+				$data['style'] = $this->load->view('common/pdf_style', $data, TRUE);
+				$data['hadheaderfooter'] = 0;
+				if ($data['plan']['product_short'] == 'JFVTC') {
+					$mpdf = new mPDF('c', 'A4', 0, '', $mgl = 0, $mgr = 0, $mgt = 15, $mgb = 0, $mgh = 0, $mgf = 0, $orientation = 'P');
+					if ($data['withlogo']) {
+						$mpdf->SetHTMLHeader('<img style="width:100%;" src="' . base_url() . 'image/pdf_header.png" />');
+					}
+					$data['hadheaderfooter'] = 1;
+					if ($data['sendfrench']) {
+						$html = $this->load->view('plan/pdf_OR_visitor_french', $data, TRUE);
+					} else {
+						$html = $this->load->view('plan/pdf_jfvtc', $data, TRUE);
+					}
+				} else if (($data['plan']['product_short'] == 'JFPL') || ($data['plan']['product_short'] == 'JFGD') || ($data['plan']['product_short'] == 'JFSL')) {
+					$mpdf = new mPDF('c', 'A4', 0, '', $mgl = 0, $mgr = 0, $mgt = 15, $mgb = 0, $mgh = 0, $mgf = 0, $orientation = 'P');
+					if ($data['withlogo']) {
+						$mpdf->SetHTMLHeader('<img style="width:100%;" src="' . base_url() . 'image/pdf_header.png" />');
+					}
+					// $mpdf->SetHTMLFooter('<img style="width:100%;" src="'.base_url().'image/pdf_footer.png" />');
+					$data['hadheaderfooter'] = 1;
+					if ($data['sendfrench']) {
+						$html = $this->load->view('plan/pdf_OR_student_french', $data, TRUE);
+					} else {
+						$html = $this->load->view('plan/pdf', $data, TRUE);
+					}
+				} else {
+					$mpdf = new mPDF('c');
+					if ($data['sendfrench']) {
+						if (($data['plan']['product_short'] == 'JES') || ($data['plan']['product_short'] == 'JESP') || ($data['plan']['product_short'] == 'JFS')) {
+							$html = $this->load->view('plan/pdf_berkley_student_french', $data, TRUE);
+						} else if ($data['plan']['product_short'] == 'JFR') {
+							$html = $this->load->view('plan/pdf_jfr_french', $data, TRUE);
+						} else if ($data['plan']['product_short'] == 'TOP') {
+							$html = $this->load->view('plan/pdf_berkley_visitor_french', $data, TRUE);
+						} else {
+							$html = $this->load->view('plan/pdf', $data, TRUE);
+						}
+					} else {
+						$html = $this->load->view('plan/pdf', $data, TRUE);
+					}
+				}
 				$mpdf->writeHTML($html);
 				$mpdf->Output($policy_file, 'F');
 				$this->load->model('mymail_model');
-        if ($data['sendfrench']) {
-          $body = $this->load->view('mail/package_french',$data, TRUE);
-          $title = "Confirmation d’assurance - " . $plan['policy'] . " - " . $data['customer']['firstname'] . " " . $data['customer']['lastname'];
-        } else {
-          $body = $this->load->view('mail/package',$data, TRUE);
-          $title = "Confirmation of Insurance - " . $plan['policy'] . " - " . $data['customer']['firstname'] . " " . $data['customer']['lastname'];
-        }
-				
+				if ($data['sendfrench']) {
+					$body = $this->load->view('mail/package_french', $data, TRUE);
+					$title = "Confirmation d’assurance - " . $plan['policy'] . " - " . $data['customer']['firstname'] . " " . $data['customer']['lastname'];
+				} else {
+					$body = $this->load->view('mail/package', $data, TRUE);
+					$title = "Confirmation of Insurance - " . $plan['policy'] . " - " . $data['customer']['firstname'] . " " . $data['customer']['lastname'];
+				}
+
 				$files['policy_confirmation.pdf'] = $policy_file;
-				$sendok = $this->mymail_model->send_mymail($data['emailaddr'], $title, $body, $files, $from='JF Insurance');
+				$sendok = $this->mymail_model->send_mymail($data['emailaddr'], $title, $body, $files, $from = 'JF Insurance');
 				unlink($policy_file);
-        if ($sendfrenchemail) {
-          return;
-        }
-  
+				if ($sendfrenchemail) {
+					return;
+				}
+
 				if ($sendok) {
 					if ($withbatch) {
 						die("OK");
@@ -3530,9 +3555,9 @@ class Plan extends MY_Controller {
 				$data['error_message'] = "Please input valid email address";
 			}
 		}
-    if ($sendfrenchemail) {
-      return;
-    }
+		if ($sendfrenchemail) {
+			return;
+		}
 
 		$data['action_url'] = base_url('plan/sendpackage');
 		$data['plan_id'] = $plan['plan_id'];
@@ -3540,18 +3565,18 @@ class Plan extends MY_Controller {
 		if ($plan['batch_number'] > 0) {
 			$data['plan_batch'] = $this->plan_model->plan_search(array('batch_number' => $plan['batch_number']), 550);
 		}
-		
+
 		$data['title_txt'] = 'Policy';
 		$data['top_menu'] = $this->menu_model->load_top_menu();
 		$data['menu'] = $this->menu_model->load_meun();
 		$data['show_french'] = ($plan["province2"] == "QC") && in_array($plan["product_short"], $this->french_plan);
-		$data['csrf'] = array (
-				'name' => $this->security->get_csrf_token_name (),
-				'value' => $this->security->get_csrf_hash ()
+		$data['csrf'] = array(
+			'name' => $this->security->get_csrf_token_name(),
+			'value' => $this->security->get_csrf_hash()
 		);
 		$this->load->model('html_model');
 		$data['html_model'] = $this->html_model;
-		
+
 		$this->load->common('plan/sendpackage', $data);
 	}
 
@@ -3568,7 +3593,7 @@ class Plan extends MY_Controller {
 		if (empty($plan)) {
 			redirect('user/login');
 		}
-		
+
 		$data['beuser'] = $beuser;
 		$data['plan'] = $plan;
 		$data['pdf_enable'] = empty($beuser['pdf_product']) ? array() : json_decode($beuser['pdf_product']);
@@ -3587,107 +3612,107 @@ class Plan extends MY_Controller {
 		$data['paytype_list'] = $this->paytype_model->paytype_list();
 		$data['status_list'] = $this->status_model->status_list();
 		$data['withlogo'] = $this->session->userdata('withlogo');
-    $data['withprice'] = $this->session->userdata('withprice');
+		$data['withprice'] = $this->session->userdata('withprice');
 		if (($beuser['user_group_id'] == 103) || ($beuser['user_group_id'] == 106)) {
-      $data['withprice'] = 0;
-    }
+			$data['withprice'] = 0;
+		}
 		$this->load->model('html_model');
 		$data['html_model'] = $this->html_model;
-		
+
 		if ($data['plan']['product_short'] == 'OPL') {
 			$data['insurable_options'] = $this->load->view('plan/detail_opl', $data, TRUE);
-			$data['special_note'] = $this->load->view('plan/pdf_note_opl',$data, TRUE);
+			$data['special_note'] = $this->load->view('plan/pdf_note_opl', $data, TRUE);
 		} else if ($data['plan']['product_short'] == 'JFR') {
 			$data['insurable_options'] = $this->load->view('plan/detail_opl', $data, TRUE);
-			$data['special_note'] = $this->load->view('plan/pdf_note_jfr',$data, TRUE);
+			$data['special_note'] = $this->load->view('plan/pdf_note_jfr', $data, TRUE);
 		} else if ($data['plan']['product_short'] == 'JUS') {
 			$data['insurable_options'] = $this->load->view('plan/detail_jus', $data, TRUE);
-			$data['special_note'] = $this->load->view('plan/pdf_note_jus',$data, TRUE);
+			$data['special_note'] = $this->load->view('plan/pdf_note_jus', $data, TRUE);
 		} else if ($data['plan']['product_short'] == 'NUS') {
 			$data['insurable_options'] = $this->load->view('plan/detail_jus', $data, TRUE);
-			$data['special_note'] = $this->load->view('plan/pdf_note_nus',$data, TRUE);
+			$data['special_note'] = $this->load->view('plan/pdf_note_nus', $data, TRUE);
 		} else if (($data['plan']['product_short'] == 'JFS') || ($data['plan']['product_short'] == 'JFE') || ($data['plan']['product_short'] == 'BHS')) {
 			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
-			$data['special_note'] = $this->load->view('plan/pdf_note_jes',$data, TRUE);
+			$data['special_note'] = $this->load->view('plan/pdf_note_jes', $data, TRUE);
 		} else if ($data['plan']['product_short'] == 'JES') {
 			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
-			$data['special_note'] = $this->load->view('plan/pdf_note_jes',$data, TRUE);
+			$data['special_note'] = $this->load->view('plan/pdf_note_jes', $data, TRUE);
 		} else if ($data['plan']['product_short'] == 'JFPL') {
 			$data['insurable_options'] = $this->load->view('plan/detail_jfpl', $data, TRUE);
-			$data['special_note'] = $this->load->view('plan/pdf_note_jfpl',$data, TRUE);
+			$data['special_note'] = $this->load->view('plan/pdf_note_jfpl', $data, TRUE);
 		} else if ($data['plan']['product_short'] == 'JFSL') {
 			$data['insurable_options'] = $this->load->view('plan/detail_jfpl', $data, TRUE);
-			$data['special_note'] = $this->load->view('plan/pdf_note_jfpl',$data, TRUE);
+			$data['special_note'] = $this->load->view('plan/pdf_note_jfpl', $data, TRUE);
 		} else if ($data['plan']['product_short'] == 'JFGD') {
 			$data['insurable_options'] = $this->load->view('plan/detail_jfpl', $data, TRUE);
-			$data['special_note'] = $this->load->view('plan/pdf_note_jfpl',$data, TRUE);
+			$data['special_note'] = $this->load->view('plan/pdf_note_jfpl', $data, TRUE);
 		} else if ($data['plan']['product_short'] == 'JESP') {
 			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
-			$data['special_note'] = $this->load->view('plan/pdf_note_jes',$data, TRUE);
+			$data['special_note'] = $this->load->view('plan/pdf_note_jes', $data, TRUE);
 		} else if ($data['plan']['product_short'] == 'JFC') {
 			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
-			$data['special_note'] = $this->load->view('plan/pdf_note_jfc',$data, TRUE);
+			$data['special_note'] = $this->load->view('plan/pdf_note_jfc', $data, TRUE);
 		} else if ($data['plan']['product_short'] == 'JFP') {
 			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
-			$data['special_note'] = $this->load->view('plan/pdf_note_jes',$data, TRUE);
+			$data['special_note'] = $this->load->view('plan/pdf_note_jes', $data, TRUE);
 		} else if ($data['plan']['product_short'] == 'TOP') {
 			$data['insurable_options'] = '';
 			$data['toppackagename'] = $this->toppackagename;
-			$data['special_note'] = $this->load->view('plan/top/pdf_note_top',$data, TRUE);
+			$data['special_note'] = $this->load->view('plan/top/pdf_note_top', $data, TRUE);
 		} else {
 			$data['insurable_options'] = $this->load->view('plan/detail_other', $data, TRUE);
 			$data['special_note'] = " ";
 		}
-		
+
 		$data['title_txt'] = 'Policy';
 		$data['customer_product_name'] = $this->product_model->get_product_customize_name($beuser['user_id'], $data['plan']['product_short']);
-		$data['style'] = $this->load->view('common/pdf_style',$data, TRUE);		
+		$data['style'] = $this->load->view('common/pdf_style', $data, TRUE);
 		$data['hadheaderfooter'] = 0;
-    if ($data['plan']['product_short'] == 'JFVTC') {
-      $mpdf = new mPDF('+aCJK', 'A4', 0, '', $mgl = 0, $mgr = 0, $mgt = 15, $mgb = 0, $mgh = 0, $mgf = 0, $orientation = 'P');
-      if ($plan['status_id'] < 2) {
-        $mpdf->SetWatermarkText ("QUOTE", 0.1);
-        $mpdf->showWatermarkText = true;
-      } else if (($plan['status_id'] != 2) && ($plan['status_id'] != 3)) {
-        $mpdf->SetWatermarkText ("INVALID", 0.1);
-        $mpdf->showWatermarkText = true;
-      }
-      $data['hadheaderfooter'] = 1;
-      $html = $this->load->view('plan/pdf_jfvtc', $data, TRUE);
-      if ($data['withlogo']) {
-        $mpdf->SetHTMLHeader('<img style="width:100%;" src="'.base_url().'image/pdf_header.png" />');
-      }
-      // $mpdf->SetHTMLFooter('<img style="width:100%;" src="'.base_url().'image/pdf_footer.png" />');
-    } else if (($data['plan']['product_short'] == 'JFPL') || ($data['plan']['product_short'] == 'JFGD') || ($data['plan']['product_short'] == 'JFSL')) {
-      $mpdf = new mPDF('+aCJK', 'A4', 0, '', $mgl = 0, $mgr = 0, $mgt = 15, $mgb = 0, $mgh = 0, $mgf = 0, $orientation = 'P');
-      if ($plan['status_id'] < 2) {
-        $mpdf->SetWatermarkText ("QUOTE", 0.1);
-        $mpdf->showWatermarkText = true;
-      } else if (($plan['status_id'] != 2) && ($plan['status_id'] != 3)) {
-        $mpdf->SetWatermarkText ("INVALID", 0.1);
-        $mpdf->showWatermarkText = true;
-      }
-      $data['hadheaderfooter'] = 1;
-      $html = $this->load->view('plan/pdf', $data, TRUE);
-      if ($data['withlogo']) {
-        $mpdf->SetHTMLHeader('<img style="width:100%;" src="'.base_url().'image/pdf_header.png" />');
-      }
-    // $mpdf->SetHTMLFooter('<img style="width:100%;" src="'.base_url().'image/pdf_footer.png" />');
-    } else {
-      $mpdf = new mPDF('+aCJK');
-      if ($plan['status_id'] < 2) {
-        $mpdf->SetWatermarkText ("QUOTE", 0.1);
-        $mpdf->showWatermarkText = true;
-      } else if (($plan['status_id'] != 2) && ($plan['status_id'] != 3)) {
-        $mpdf->SetWatermarkText ("INVALID", 0.1);
-        $mpdf->showWatermarkText = true;
-      }
-      $html = $this->load->view('plan/pdf', $data, TRUE);
-    }
-    $mpdf->autoLangToFont=true;
-    $mpdf->autoScriptToLang=true;
+		if ($data['plan']['product_short'] == 'JFVTC') {
+			$mpdf = new mPDF('+aCJK', 'A4', 0, '', $mgl = 0, $mgr = 0, $mgt = 15, $mgb = 0, $mgh = 0, $mgf = 0, $orientation = 'P');
+			if ($plan['status_id'] < 2) {
+				$mpdf->SetWatermarkText("QUOTE", 0.1);
+				$mpdf->showWatermarkText = true;
+			} else if (($plan['status_id'] != 2) && ($plan['status_id'] != 3)) {
+				$mpdf->SetWatermarkText("INVALID", 0.1);
+				$mpdf->showWatermarkText = true;
+			}
+			$data['hadheaderfooter'] = 1;
+			$html = $this->load->view('plan/pdf_jfvtc', $data, TRUE);
+			if ($data['withlogo']) {
+				$mpdf->SetHTMLHeader('<img style="width:100%;" src="' . base_url() . 'image/pdf_header.png" />');
+			}
+			// $mpdf->SetHTMLFooter('<img style="width:100%;" src="'.base_url().'image/pdf_footer.png" />');
+		} else if (($data['plan']['product_short'] == 'JFPL') || ($data['plan']['product_short'] == 'JFGD') || ($data['plan']['product_short'] == 'JFSL')) {
+			$mpdf = new mPDF('+aCJK', 'A4', 0, '', $mgl = 0, $mgr = 0, $mgt = 15, $mgb = 0, $mgh = 0, $mgf = 0, $orientation = 'P');
+			if ($plan['status_id'] < 2) {
+				$mpdf->SetWatermarkText("QUOTE", 0.1);
+				$mpdf->showWatermarkText = true;
+			} else if (($plan['status_id'] != 2) && ($plan['status_id'] != 3)) {
+				$mpdf->SetWatermarkText("INVALID", 0.1);
+				$mpdf->showWatermarkText = true;
+			}
+			$data['hadheaderfooter'] = 1;
+			$html = $this->load->view('plan/pdf', $data, TRUE);
+			if ($data['withlogo']) {
+				$mpdf->SetHTMLHeader('<img style="width:100%;" src="' . base_url() . 'image/pdf_header.png" />');
+			}
+			// $mpdf->SetHTMLFooter('<img style="width:100%;" src="'.base_url().'image/pdf_footer.png" />');
+		} else {
+			$mpdf = new mPDF('+aCJK');
+			if ($plan['status_id'] < 2) {
+				$mpdf->SetWatermarkText("QUOTE", 0.1);
+				$mpdf->showWatermarkText = true;
+			} else if (($plan['status_id'] != 2) && ($plan['status_id'] != 3)) {
+				$mpdf->SetWatermarkText("INVALID", 0.1);
+				$mpdf->showWatermarkText = true;
+			}
+			$html = $this->load->view('plan/pdf', $data, TRUE);
+		}
+		$mpdf->autoLangToFont = true;
+		$mpdf->autoScriptToLang = true;
 		$mpdf->writeHTML($html);
-		$mpdf->Output("Policy.pdf","I");
+		$mpdf->Output("Policy.pdf", "I");
 	}
 
 	/**
@@ -3695,7 +3720,8 @@ class Plan extends MY_Controller {
 	 * 
 	 * @param integer $plan_id
 	 */
-	public function cancel($plan_id=0) {
+	public function cancel($plan_id = 0)
+	{
 		$beuser = $this->func_model->verify_login(TRUE);
 		$this->load->model('plan_model');
 		$this->load->model('plan_history_model');
@@ -3711,11 +3737,11 @@ class Plan extends MY_Controller {
 			redirect('user/login');
 		}
 		if (($plan['status_id'] != Plan_model::SOLD) && ($plan['status_id'] != Plan_model::PAID)) {
-			redirect('plan/detail/'.$plan_id);
+			redirect('plan/detail/' . $plan_id);
 		}
 		$this->load->model('product_model');
 		$product = $this->product_model->get_product($plan['product_short']);
-		
+
 		$data['beuser'] = $beuser;
 		$data['plan'] = $plan;
 
@@ -3736,7 +3762,7 @@ class Plan extends MY_Controller {
 				$dt['added'] = date('c');
 				$dt['ispaid'] = 0;
 				$dt['note'] = "Cancel at " . $dt['added'] . " amount: " . $refund_amount . " admin fee: " . $admin_fee;
-				
+
 				$commission_rate = $this->product_model->get_commission_rate($plan['product_short'], $plan['user_id']);
 				if (($plan['product_short'] == 'TOP') && ($plan['totalyears'] > 60)) {
 					if ($commission_rate > 15) {
@@ -3745,83 +3771,83 @@ class Plan extends MY_Controller {
 						$commission_rate = 0;
 					}
 				}
-				
-        if ($plan['product_short'] == 'TOP') {
-          $commission_amount = ($refund_amount - ($plan['tax'] * $refund_amount / $plan['premium'])) * $commission_rate / 100.0;
-        } else {
-          $commission_amount = $refund_amount * $commission_rate / 100.0;
-        }
+
+				if ($plan['product_short'] == 'TOP') {
+					$commission_amount = ($refund_amount - ($plan['tax'] * $refund_amount / $plan['premium'])) * $commission_rate / 100.0;
+				} else {
+					$commission_amount = $refund_amount * $commission_rate / 100.0;
+				}
 				$up_commission_rate = $this->product_model->get_up_commission_rate($plan['product_short']);
 				$up_commission_amount = $refund_amount * $up_commission_rate / 100.0;
-				
+
 				$dt['amount'] = $total_amount * (-1);
 				$dt['rate'] = 100;
 				$dt['pay_type'] = 'cancel';
 				$dt['premium_payment_id'] = 0;
 				$payment_id = $this->payment_model->add($dt);
 				$para = array(
-						'plan_id' => $plan_id,
-						'customer_id' => $plan['customer_id'],
-						'payment_id' => $payment_id,
-						'message' => $this->payment_model->logstr,
-						'systemlog' => $this->payment_model->sqlstr
+					'plan_id' => $plan_id,
+					'customer_id' => $plan['customer_id'],
+					'payment_id' => $payment_id,
+					'message' => $this->payment_model->logstr,
+					'systemlog' => $this->payment_model->sqlstr
 				);
 				$this->log_model->activity('payment', $para);
-				
+
 				$dt['pay_type'] = 'cancel_commission';
 				$dt['rate'] = $commission_rate;
 				$dt['amount'] = $commission_amount * (-1);
 				$dt['premium_payment_id'] = $payment_id;
 				$commission_payment_id = $this->payment_model->add($dt);
 				$para = array(
-						'plan_id' => $plan_id,
-						'customer_id' => $plan['customer_id'],
-						'payment_id' => $commission_payment_id,
-						'message' => $this->payment_model->logstr,
-						'systemlog' => $this->payment_model->sqlstr
+					'plan_id' => $plan_id,
+					'customer_id' => $plan['customer_id'],
+					'payment_id' => $commission_payment_id,
+					'message' => $this->payment_model->logstr,
+					'systemlog' => $this->payment_model->sqlstr
 				);
 				$this->log_model->activity('commission', $para);
-	
+
 				$dt['pay_type'] = 'cancel_up_commission';
 				$dt['rate'] = $up_commission_rate;
 				$dt['amount'] = $up_commission_amount * (-1);
 				$dt['premium_payment_id'] = $payment_id;
 				$up_commission_payment_id = $this->payment_model->add($dt);
 				$para = array(
-						'plan_id' => $plan_id,
-						'customer_id' => $plan['customer_id'],
-						'payment_id' => $up_commission_payment_id,
-						'message' => $this->payment_model->logstr,
-						'systemlog' => $this->payment_model->sqlstr
+					'plan_id' => $plan_id,
+					'customer_id' => $plan['customer_id'],
+					'payment_id' => $up_commission_payment_id,
+					'message' => $this->payment_model->logstr,
+					'systemlog' => $this->payment_model->sqlstr
 				);
 				$this->log_model->activity('up_commission', $para);
 
-        $history_id = 0;
-        if (($history = $this->plan_history_model->get_plan_history_by_plan_id($plan_id)) && ($history["actualrate"]>0)) {
-          $history_id = $history["plan_history_id"];
-        } else {
-          // Add missing first record.
-          if ($plan['status_id'] > 1) {
-            $history_id = $this->plan_history_model->add($plan_id, $plan['status_id']);
-          }
-        }
+				$history_id = 0;
+				if (($history = $this->plan_history_model->get_plan_history_by_plan_id($plan_id)) && ($history["actualrate"] > 0)) {
+					$history_id = $history["plan_history_id"];
+				} else {
+					// Add missing first record.
+					if ($plan['status_id'] > 1) {
+						$history_id = $this->plan_history_model->add($plan_id, $plan['status_id']);
+					}
+				}
 
-        $exnote = $this->input->post('reason_input');
-        if (empty($exnote)) {
-          $exnote = $this->input->post('reason');
-        }
+				$exnote = $this->input->post('reason_input');
+				if (empty($exnote)) {
+					$exnote = $this->input->post('reason');
+				}
 				$note = "Reason: " . $exnote . ", cancel at " . $dt['added'] . " amount: " . $refund_amount . " admin fee: " . $admin_fee . "; " . $plan['note'];
-				$para = array('status_id' => 5, 'payment_id' => $payment_id, 'commission_payment_id' => $commission_payment_id, 'note' => $note );  // Change status to cancel
+				$para = array('status_id' => 5, 'payment_id' => $payment_id, 'commission_payment_id' => $commission_payment_id, 'note' => $note);  // Change status to cancel
 				$this->plan_model->update($plan_id, $para);
-        if ($id = $this->plan_history_model->add_remove($history_id)) {
-          $this->plan_history_model->update($id, array("payment_id"=>$payment_id, "note"=>"Canceled Recode"));
-        }
-        $para = array(
-						'plan_id' => $plan_id,
-						'customer_id' => $plan['customer_id'],
-						'payment_id' => $payment_id,
-						'message' => $this->plan_model->logstr,
-						'systemlog' => $this->plan_model->sqlstr
+				if ($id = $this->plan_history_model->add_remove($history_id)) {
+					$this->plan_history_model->update($id, array("payment_id" => $payment_id, "note" => "Canceled Recode"));
+				}
+				$para = array(
+					'plan_id' => $plan_id,
+					'customer_id' => $plan['customer_id'],
+					'payment_id' => $payment_id,
+					'message' => $this->plan_model->logstr,
+					'systemlog' => $this->plan_model->sqlstr
 				);
 				$this->log_model->activity('plan', $para);
 
@@ -3829,16 +3855,16 @@ class Plan extends MY_Controller {
 					// No more super visa, change payment data to today
 					$this->payment_model->adjust_commission_added_date($plan_id, $dt['added'], FALSE);
 					$para = array(
-							'plan_id' => $plan_id,
-							'customer_id' => $plan['customer_id'],
-							'payment_id' => $plan['commission_payment_id'],
-							'message' => $this->payment_model->logstr,
-							'systemlog' => $this->payment_model->sqlstr
+						'plan_id' => $plan_id,
+						'customer_id' => $plan['customer_id'],
+						'payment_id' => $plan['commission_payment_id'],
+						'message' => $this->payment_model->logstr,
+						'systemlog' => $this->payment_model->sqlstr
 					);
 					$this->log_model->activity('plan', $para);
 				}
-				
-				redirect('plan/detail/'.$plan_id);
+
+				redirect('plan/detail/' . $plan_id);
 			} else {
 				$data['error_message'] = 'Invalid refund amount';
 			}
@@ -3854,22 +3880,23 @@ class Plan extends MY_Controller {
 		$data['title_txt'] = 'Policy';
 		$data['top_menu'] = $this->menu_model->load_top_menu();
 		$data['menu'] = $this->menu_model->load_meun();
-		$data['csrf'] = array (
-				'name' => $this->security->get_csrf_token_name (),
-				'value' => $this->security->get_csrf_hash ()
+		$data['csrf'] = array(
+			'name' => $this->security->get_csrf_token_name(),
+			'value' => $this->security->get_csrf_hash()
 		);
 		$this->load->model('html_model');
 		$data['html_model'] = $this->html_model;
-		
+
 		$this->load->common('plan/cancel_input', $data);
 	}
-	
+
 	/**
 	 * Refund Letter
 	 * 
 	 * @param integer $plan_id
 	 */
-	public function refund_amount($plan_id) {
+	public function refund_amount($plan_id)
+	{
 		$beuser = $this->func_model->verify_login(TRUE);
 		$this->load->model('plan_model');
 		$this->load->model('product_model');
@@ -3880,7 +3907,7 @@ class Plan extends MY_Controller {
 		$data['status'] = 'OK';
 		$data['refund_days'] = $this->product_model->getDays($plan['effective_date'], $this->input->get('refund_date'));
 		if ($plan['product_short'] == 'TOP') {
-			if ($plan_id>Product_model::PLANIDCHG2024_1) {
+			if ($plan_id > Product_model::PLANIDCHG2024_1) {
 				$this->load->model('top2_model');
 				$data['refund_amount'] = $this->top2_model->refund_amount($plan, $data['refund_days']);
 			} else {
@@ -3890,17 +3917,18 @@ class Plan extends MY_Controller {
 		} else {
 			$data['refund_amount'] = $this->plan_model->refund_amount($plan_id, $this->input->get('refund_date'));
 		}
-		$data['used_amount'] = $plan['premium'] - $data['refund_amount']; 
+		$data['used_amount'] = $plan['premium'] - $data['refund_amount'];
 		header('Content-Type: application/json');
 		echo json_encode($data);
 	}
-	
+
 	/**
 	 * Refund Letter
 	 * 
 	 * @param integer $plan_id
 	 */
-	public function refund($plan_id=0) {
+	public function refund($plan_id = 0)
+	{
 		$beuser = $this->func_model->verify_login(TRUE);
 		$this->load->model('plan_model');
 		$this->load->model('plan_history_model');
@@ -3916,11 +3944,11 @@ class Plan extends MY_Controller {
 			redirect('user/login');
 		}
 		if (($plan['status_id'] != Plan_model::SOLD) && ($plan['status_id'] != Plan_model::PAID)) {
-			redirect('plan/detail/'.$plan_id);
+			redirect('plan/detail/' . $plan_id);
 		}
 		$this->load->model('product_model');
 		$product = $this->product_model->get_product($plan['product_short']);
-		
+
 		$data['beuser'] = $beuser;
 		$data['plan'] = $plan;
 		if ($this->input->post()) {
@@ -3941,7 +3969,7 @@ class Plan extends MY_Controller {
 				$dt['added'] = date('c');
 				$dt['ispaid'] = 0;
 				$dt['note'] = "Refund at " . $dt['added'] . " amount: " . $refund_amount . " admin fee: " . $admin_fee;
-				
+
 				$commission_rate = $this->product_model->get_commission_rate($plan['product_short'], $plan['user_id']);
 				if (($plan['product_short'] == 'TOP') && ($plan['totalyears'] > 60)) {
 					if ($commission_rate > 15) {
@@ -3950,92 +3978,92 @@ class Plan extends MY_Controller {
 						$commission_rate = 0;
 					}
 				}
-        if ($plan['product_short'] == 'TOP') {
-          $commission_amount = ($refund_amount - ($plan['tax'] * $refund_amount / $plan['premium'])) * $commission_rate / 100.0;
-        } else {
-          $commission_amount = $refund_amount * $commission_rate / 100.0;
-        }
+				if ($plan['product_short'] == 'TOP') {
+					$commission_amount = ($refund_amount - ($plan['tax'] * $refund_amount / $plan['premium'])) * $commission_rate / 100.0;
+				} else {
+					$commission_amount = $refund_amount * $commission_rate / 100.0;
+				}
 				$up_commission_rate = $this->product_model->get_up_commission_rate($plan['product_short']);
 				$up_commission_amount = $refund_amount * $up_commission_rate / 100.0;
-				
+
 				$dt['amount'] = $total_amount * (-1);
 				$dt['rate'] = 100;
 				$dt['pay_type'] = 'refund';
 				$dt['premium_payment_id'] = 0;
 				$payment_id = $this->payment_model->add($dt);
 				$para = array(
-						'plan_id' => $plan_id,
-						'customer_id' => $plan['customer_id'],
-						'payment_id' => $payment_id,
-						'message' => $this->payment_model->logstr,
-						'systemlog' => $this->payment_model->sqlstr
+					'plan_id' => $plan_id,
+					'customer_id' => $plan['customer_id'],
+					'payment_id' => $payment_id,
+					'message' => $this->payment_model->logstr,
+					'systemlog' => $this->payment_model->sqlstr
 				);
 				$this->log_model->activity('payment', $para);
-				
+
 				$dt['pay_type'] = 'refund_commission';
 				$dt['rate'] = $commission_rate;
 				$dt['amount'] = $commission_amount * (-1);
 				$dt['premium_payment_id'] = $payment_id;
 				$commission_payment_id = $this->payment_model->add($dt);
 				$para = array(
-						'plan_id' => $plan_id,
-						'customer_id' => $plan['customer_id'],
-						'payment_id' => $commission_payment_id,
-						'message' => $this->payment_model->logstr,
-						'systemlog' => $this->payment_model->sqlstr
+					'plan_id' => $plan_id,
+					'customer_id' => $plan['customer_id'],
+					'payment_id' => $commission_payment_id,
+					'message' => $this->payment_model->logstr,
+					'systemlog' => $this->payment_model->sqlstr
 				);
 				$this->log_model->activity('commission', $para);
-	
+
 				$dt['pay_type'] = 'refund_up_commission';
 				$dt['rate'] = $up_commission_rate;
 				$dt['amount'] = $up_commission_amount * (-1);
 				$dt['premium_payment_id'] = $payment_id;
 				$up_commission_payment_id = $this->payment_model->add($dt);
 				$para = array(
-						'plan_id' => $plan_id,
-						'customer_id' => $plan['customer_id'],
-						'payment_id' => $up_commission_payment_id,
-						'message' => $this->payment_model->logstr,
-						'systemlog' => $this->payment_model->sqlstr
+					'plan_id' => $plan_id,
+					'customer_id' => $plan['customer_id'],
+					'payment_id' => $up_commission_payment_id,
+					'message' => $this->payment_model->logstr,
+					'systemlog' => $this->payment_model->sqlstr
 				);
 				$this->log_model->activity('up_commission', $para);
-	
-        // Add history
-        $history_id = 0;
-        if (($history = $this->plan_history_model->get_plan_history_by_plan_id($plan_id)) && ($history["actualrate"]>0)) {
-          $history_id = $history["plan_history_id"];
-        } else {
-          // Add missing first record
-          if ($plan['status_id'] > 1) {
-            $history_id = $this->plan_history_model->add($plan_id, $plan['status_id']);
-          }
-        }
-        if ($history_id) {
-          $this->plan_history_model->add_remove($history_id);
-        }
 
-        $note = "Refund at " . $dt['added'] . " amount: " . $refund_amount . " admin fee: " . $admin_fee . "; " . $plan['note'];
-				$para = array('status_id' => Plan_model::REFUND, 'payment_id' => $payment_id, 'commission_payment_id' => $commission_payment_id, 'refund_date' => $refund_date, 'note' => $note );  // Change status to refund
+				// Add history
+				$history_id = 0;
+				if (($history = $this->plan_history_model->get_plan_history_by_plan_id($plan_id)) && ($history["actualrate"] > 0)) {
+					$history_id = $history["plan_history_id"];
+				} else {
+					// Add missing first record
+					if ($plan['status_id'] > 1) {
+						$history_id = $this->plan_history_model->add($plan_id, $plan['status_id']);
+					}
+				}
+				if ($history_id) {
+					$this->plan_history_model->add_remove($history_id);
+				}
+
+				$note = "Refund at " . $dt['added'] . " amount: " . $refund_amount . " admin fee: " . $admin_fee . "; " . $plan['note'];
+				$para = array('status_id' => Plan_model::REFUND, 'payment_id' => $payment_id, 'commission_payment_id' => $commission_payment_id, 'refund_date' => $refund_date, 'note' => $note);  // Change status to refund
 				$this->plan_model->update($plan_id, $para);
-        if ($id = $this->plan_history_model->add($plan_id, Plan_model::REFUND)) {
-          $this->plan_history_model->update($id, array("payment_id"=>$payment_id, "premium"=>($plan["premium"] - $refund_amount),"expiry_date"=>$refund_date, "note"=>"Refunded Recode"));
-        }
+				if ($id = $this->plan_history_model->add($plan_id, Plan_model::REFUND)) {
+					$this->plan_history_model->update($id, array("payment_id" => $payment_id, "premium" => ($plan["premium"] - $refund_amount), "expiry_date" => $refund_date, "note" => "Refunded Recode"));
+				}
 
 				$para = array(
-						'plan_id' => $plan_id,
-						'customer_id' => $plan['customer_id'],
-						'payment_id' => $payment_id,
-						'message' => $this->plan_model->logstr,
-						'systemlog' => $this->plan_model->sqlstr
+					'plan_id' => $plan_id,
+					'customer_id' => $plan['customer_id'],
+					'payment_id' => $payment_id,
+					'message' => $this->plan_model->logstr,
+					'systemlog' => $this->plan_model->sqlstr
 				);
 				$this->log_model->activity('plan', $para);
-				redirect('plan/detail/'.$plan_id);
+				redirect('plan/detail/' . $plan_id);
 			} else {
 				$data['error_message'] = 'Invalid refund amount';
 			}
 		}
 		$data['action_url'] = base_url('plan/refund');
-		$data['refund_amount_url'] = base_url('plan/refund_amount')."/".$plan['plan_id'];
+		$data['refund_amount_url'] = base_url('plan/refund_amount') . "/" . $plan['plan_id'];
 		$data['plan_id'] = $plan['plan_id'];
 		$claims = $this->plan_model->verify_policy($plan['policy']);
 		$data['claims'] = (!empty($claims) && ($claims['status'] == 'OK')) ? $claims['claims'] : '';
@@ -4055,23 +4083,24 @@ class Plan extends MY_Controller {
 		$data['title_txt'] = 'Policy';
 		$data['top_menu'] = $this->menu_model->load_top_menu();
 		$data['menu'] = $this->menu_model->load_meun();
-		$data['csrf'] = array (
-				'name' => $this->security->get_csrf_token_name (),
-				'value' => $this->security->get_csrf_hash ()
+		$data['csrf'] = array(
+			'name' => $this->security->get_csrf_token_name(),
+			'value' => $this->security->get_csrf_hash()
 		);
 		$this->load->model('html_model');
 		$data['html_model'] = $this->html_model;
-		
+
 		$this->load->common('plan/refund_input', $data);
 	}
-	
+
 
 	/**
 	 * Cancel Letter
 	 * 
 	 * @param integer $plan_id
 	 */
-	public function cancelprint($plan_id=0) {
+	public function cancelprint($plan_id = 0)
+	{
 		$beuser = $this->func_model->verify_login(TRUE);
 		$this->load->model('plan_model');
 		if (empty($plan_id)) {
@@ -4088,7 +4117,7 @@ class Plan extends MY_Controller {
 		$this->load->model('payment_model');
 		$product = $this->product_model->get_product($plan['product_short']);
 		$payment = $this->payment_model->get_payment_by_id($plan['payment_id'], $plan['apply_date']);
-		
+
 		$data['beuser'] = $beuser;
 		$data['plan'] = $plan;
 
@@ -4101,7 +4130,7 @@ class Plan extends MY_Controller {
 		$data['refund_amount'] = $refund_amount;
 		$data['admin_fee'] = $admin_fee;
 		$data['total_amount'] = $total_amount;
-				
+
 		$this->load->model('customer_model');
 		$this->load->model('html_model');
 		$data['customer'] = $this->customer_model->get_customer_by_id($data['plan']['customer_id']);
@@ -4135,25 +4164,26 @@ class Plan extends MY_Controller {
 		if (($plan['product_short'] == 'JFR') || ($plan['product_short'] == 'JES') || ($plan['product_short'] == 'JESP') || ($plan['product_short'] == 'JFS') || ($plan['product_short'] == 'JFE') || ($plan['product_short'] == 'BHS')) {
 			$data['insure_co'] = "Berkley Canada";
 		} else if ($plan['product_short'] == 'JFVTC') {
-      $data['insure_co'] = "Old Republic";
-    }
-		$data['style'] = $this->load->view('common/pdf_style',$data, TRUE);
+			$data['insure_co'] = "Old Republic";
+		}
+		$data['style'] = $this->load->view('common/pdf_style', $data, TRUE);
 		if ($data['plan']['product_short'] == 'TOP') {
-      $html = $this->load->view('plan/top/cancel', $data, TRUE);
-    } else {
-      $html = $this->load->view('plan/cancel', $data, TRUE);
-    }
+			$html = $this->load->view('plan/top/cancel', $data, TRUE);
+		} else {
+			$html = $this->load->view('plan/cancel', $data, TRUE);
+		}
 		$mpdf = new mPDF('c');
 		$mpdf->writeHTML($html);
-		$mpdf->Output("policy_cancel.pdf","I");
+		$mpdf->Output("policy_cancel.pdf", "I");
 	}
-	
+
 	/**
 	 * Refund Letter
 	 * 
 	 * @param integer $plan_id
 	 */
-	public function refundprint($plan_id=0) {
+	public function refundprint($plan_id = 0)
+	{
 		$beuser = $this->func_model->verify_login(TRUE);
 		$this->load->model('plan_model');
 		if (empty($plan_id)) {
@@ -4173,18 +4203,18 @@ class Plan extends MY_Controller {
 
 		$data['beuser'] = $beuser;
 		$data['plan'] = $plan;
-		$data['refundprint_url'] = base_url ( "plan/refundprint" ) . "/" . $plan_id;
-		
+		$data['refundprint_url'] = base_url("plan/refundprint") . "/" . $plan_id;
+
 		$total_amount = (float)$payment['amount'] * (-1);
 		$admin_fee = (float)$payment['admin_fee'];
 		$refund_amount = $total_amount + $admin_fee;
-		
+
 		$this->load->model('status_model');
 		$data['status_list'] = $this->status_model->status_list();
 		$data['refund_amount'] = $refund_amount;
 		$data['admin_fee'] = $admin_fee;
 		$data['total_amount'] = $total_amount;
-		
+
 		$this->load->model('customer_model');
 		$this->load->model('html_model');
 		$data['customer'] = $this->customer_model->get_customer_by_id($data['plan']['customer_id']);
@@ -4221,22 +4251,19 @@ class Plan extends MY_Controller {
 			if (($plan['product_short'] == 'JFR') || ($plan['product_short'] == 'JES') || ($plan['product_short'] == 'JFPL') || ($plan['product_short'] == 'JESP') || ($plan['product_short'] == 'JFS') || ($plan['product_short'] == 'JFE') || ($plan['product_short'] == 'BHS')) {
 				$data['insure_co'] = "Berkley Canada";
 			} else if (($plan['product_short'] == 'JFVTC') || ($data['plan']['product_short'] == 'JFSL') || ($data['plan']['product_short'] == 'JFGD')) {
-        $data['insure_co'] = "Old Republic";
-      }
+				$data['insure_co'] = "Old Republic";
+			}
 			$data['customer_full_name'] = $this->input->post('customer_full_name');
 			$data['full_address'] = $this->input->post('full_address');
 			$data['city'] = $this->input->post('city');
 			$data['province2'] = $this->input->post('province2');
 			$data['postcode'] = $this->input->post('postcode');
-			$data['style'] = $this->load->view('common/pdf_style',$data, TRUE);
-      if ($data['plan']['product_short'] == 'TOP') {
-        $html = $this->load->view('plan/top/cancel', $data, TRUE);
-      } else {
-        $html = $this->load->view('plan/refund', $data, TRUE);
-      }
-			$mpdf = new mPDF('c');
-			$mpdf->writeHTML($html);
-      $mpdf->Output("policy_refund.pdf","I");
+			$data['style'] = $this->load->view('common/pdf_style', $data, TRUE);
+			if ($data['plan']['product_short'] == 'TOP') {
+				$html = $this->load->view('plan/top/refund', $data, TRUE);
+			} else {
+				$html = $this->load->view('plan/refund', $data, TRUE);
+			}
 		} else {
 			$data['customer_full_name'] = $data['customer']['firstname'] . " " . $data['customer']['lastname'];
 			$data['full_address'] = empty($plan['suite_number']) ? '' : "Suite " . $plan['suite_number'] . " ";
@@ -4245,22 +4272,26 @@ class Plan extends MY_Controller {
 			$data['province2'] = $plan['province2'];
 			$data['postcode'] = $plan['postcode'];
 
-			$this->load->view('plan/refund_addr', $data);
+			$html = $this->load->view('plan/refund_addr', $data, TRUE);
 		}
+		$mpdf = new mPDF('c');
+		$mpdf->writeHTML($html);
+		$mpdf->Output("policy_refund.pdf", "I");
 	}
-	
+
 	/**
 	 * Print Travel Card
 	 * 
 	 * @param integer $plan_id
 	 */
-	public function card($plan_id) {
+	public function card($plan_id)
+	{
 		$beuser = $this->func_model->verify_login(TRUE);
 		$this->load->model('plan_model');
 		$this->load->model('product_model');
 		$plan = $this->plan_model->get_plan_by_id($plan_id);
 		if (empty($plan)) {
-			redirect ( base_url ('user/login') );
+			redirect(base_url('user/login'));
 			return;
 		}
 		$data = array('plan' => $plan);
@@ -4309,24 +4340,25 @@ class Plan extends MY_Controller {
 
 		$mpdf = new mPDF('c');
 		$data['title_txt'] = 'Card';
-		$data['style'] = $this->load->view('common/pdf_style',$data, TRUE);
+		$data['style'] = $this->load->view('common/pdf_style', $data, TRUE);
 		$html = $this->load->view('plan/card', $data, TRUE);
 		$mpdf->writeHTML($html);
-		$mpdf->Output("policy_card.pdf","I");
+		$mpdf->Output("policy_card.pdf", "I");
 	}
-	
+
 	/**
 	 * Print Receipt
 	 * 
 	 * @param integer $plan_id
 	 */
-	public function receipt($plan_id) {
+	public function receipt($plan_id)
+	{
 		$beuser = $this->func_model->verify_login(TRUE);
 		$this->load->model('plan_model');
 		$this->load->model('product_model');
 		$plan = $this->plan_model->get_plan_by_id($plan_id);
 		if (empty($plan)) {
-			redirect ( base_url ('user/login') );
+			redirect(base_url('user/login'));
 			return;
 		}
 		$data = array('plan' => $plan);
@@ -4368,16 +4400,17 @@ class Plan extends MY_Controller {
 		$product = $this->product_model->get_product($plan['product_short']);
 		$data['plan_full_name'] = $product ? $product['full_name'] : '';
 		$data['agent'] = $this->user_model->get_user_by_id($plan['user_id']);
-		
+
 		$mpdf = new mPDF('c');
 		$data['title_txt'] = 'Receipt';
-		$data['style'] = $this->load->view('common/pdf_style',$data, TRUE);
+		$data['style'] = $this->load->view('common/pdf_style', $data, TRUE);
 		$html = $this->load->view('plan/receipt', $data, TRUE);
 		$mpdf->writeHTML($html);
-		$mpdf->Output("receipt.pdf","I");
+		$mpdf->Output("receipt.pdf", "I");
 	}
-		
-	public function Renewal($plan_id) {
+
+	public function Renewal($plan_id)
+	{
 		$beuser = $this->func_model->verify_login(TRUE);
 		$this->load->model('plan_model');
 		$plan = $this->plan_model->get_plan_by_id($plan_id);
@@ -4407,7 +4440,8 @@ class Plan extends MY_Controller {
 		$this->form($plan);
 	}
 
-	public function copy($plan_id) {
+	public function copy($plan_id)
+	{
 		$beuser = $this->func_model->verify_login(TRUE);
 		$this->load->model('plan_model');
 		$plan = $this->plan_model->get_plan_by_id($plan_id);
@@ -4430,38 +4464,39 @@ class Plan extends MY_Controller {
 			unset($plan['ip']);
 			unset($plan['agree']);
 			$plan['apply_date'] = date('Y-m-d');
-      if ($plan["product_short"] == "TOP") {
-        $plan['arrival_date'] = "";
-        $plan['effective_date'] = "";
-        $plan['expiry_date'] = "";
-        $plan['totaldays'] = "";
-        $plan['totalyears'] = "";
-      }
-      $this->load->model('customer_model');
-      $customer = $this->customer_model->get_customer_by_id($customer_id);
-      if ($customer) {
-        // $plan["customer_id"] = $customer["customer_id"];
-        $plan["gender"] = $customer["gender"];
-        $plan["firstname"] = $customer["firstname"];
-        $plan["lastname"] = $customer["lastname"];
-        $plan["birthday"] = $customer["birthday"];
-      }
-      $customers = $this->customer_model->get_customer_by_parent_id($customer_id);
-      if ($customers) {
-        for ($i = 0; $i <= sizeof($customers); $i++) {
-          $idx = $i + 1;
-          // $plan["customer_id"] = $customer["customer_id"];
-          $plan["gender_".$idx] = $customers[$i]["gender"];
-          $plan["firstname_".$idx] = $customers[$i]["firstname"];
-          $plan["lastname_".$idx] = $customers[$i]["lastname"];
-          $plan["birthday_".$idx] = $customers[$i]["birthday"];
-        }
-      }
+			if ($plan["product_short"] == "TOP") {
+				$plan['arrival_date'] = "";
+				$plan['effective_date'] = "";
+				$plan['expiry_date'] = "";
+				$plan['totaldays'] = "";
+				$plan['totalyears'] = "";
+			}
+			$this->load->model('customer_model');
+			$customer = $this->customer_model->get_customer_by_id($customer_id);
+			if ($customer) {
+				// $plan["customer_id"] = $customer["customer_id"];
+				$plan["gender"] = $customer["gender"];
+				$plan["firstname"] = $customer["firstname"];
+				$plan["lastname"] = $customer["lastname"];
+				$plan["birthday"] = $customer["birthday"];
+			}
+			$customers = $this->customer_model->get_customer_by_parent_id($customer_id);
+			if ($customers) {
+				for ($i = 0; $i <= sizeof($customers); $i++) {
+					$idx = $i + 1;
+					// $plan["customer_id"] = $customer["customer_id"];
+					$plan["gender_" . $idx] = $customers[$i]["gender"];
+					$plan["firstname_" . $idx] = $customers[$i]["firstname"];
+					$plan["lastname_" . $idx] = $customers[$i]["lastname"];
+					$plan["birthday_" . $idx] = $customers[$i]["birthday"];
+				}
+			}
 		}
 		$this->form($plan);
 	}
 
-	public function edit($plan_id=0) {
+	public function edit($plan_id = 0)
+	{
 		$this->load->model('plan_model');
 		$plan = $this->plan_model->get_plan_by_id($plan_id);
 		$this->form($plan);
