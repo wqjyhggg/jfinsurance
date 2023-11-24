@@ -10,7 +10,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 						<input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
 					<div class="row">
 						<div class="col-sm-12">
-							<span style="width:110px;">Customer Name : </span><input type='text' name='customer_full_name' value="<?php echo !empty($firstname . ' ' . $lastname) ? $html_model->escapeQuote2($firstname . ' ' . $lastname) : ''; ?>"><br />
+							<span style="width:110px;">Customer Name : </span><input type='text' name='customer_full_name' value="<?php echo (empty($firstname)?'':$html_model->escapeQuote2($firstname)) . ' ' . (empty($lastname)?'':$html_model->escapeQuote2($lastname)); ?>"><br />
 						</div>
 						<div class="col-sm-12">
 							<br>
