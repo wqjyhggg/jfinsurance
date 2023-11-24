@@ -121,6 +121,7 @@ class Plan extends CI_Controller
     $plan_id = $this->input->post("plan_id");
     $premium = $this->input->post("pay_amount");
     $pay_type = $this->input->post("pay_type"); // Cash, Cheque, Credit Card
+    $payinfo = '';
     if (($pay_type != "") || ($pay_type != "") || ($pay_type != "")) {
       return $this->app_model->return_error("Unknown pay type");
     }
@@ -206,7 +207,7 @@ class Plan extends CI_Controller
 		$dt['rate'] = 100;
 		$dt['pay_type'] = 'premium';
 		$dt['premium_payment_id'] = 0;
-		$payment_id = $this->payment_model->add($dt);
+		$payment_id = $this->payment_model->add($dt, $user);
 		$para = array(
 				'plan_id' => $plan_id,
 				'customer_id' => $plan['customer_id'],
@@ -221,7 +222,7 @@ class Plan extends CI_Controller
 		// $dt['rate'] = $up_commission_rate;
 		// $dt['pay_type'] = 'up_commission';
 		// $dt['premium_payment_id'] = $payment_id;
-		// $up_commission_payment_id = $this->payment_model->add($dt);
+		// $up_commission_payment_id = $this->payment_model->add($dt, $user);
 		// $para = array(
 		// 		'plan_id' => $plan_id,
 		// 		'customer_id' => $plan['customer_id'],
@@ -266,7 +267,7 @@ class Plan extends CI_Controller
 				}
 			}
 		}
-		$commission_payment_id = $this->payment_model->add($dt);
+		$commission_payment_id = $this->payment_model->add($dt, $user);
 		$para = array(
 				'plan_id' => $plan_id,
 				'customer_id' => $plan['customer_id'],
@@ -484,7 +485,22 @@ class Plan extends CI_Controller
     $data = array();
     if ($id = $this->input->post("plan_id")) {
       if ($this->plan_model->get_plan_by_id($id)) {
-        $this->plan_model->update($id, $this->input->post(), array(), $user);
+        $ckArr = array(
+          "holiday_rate" => empty($para['holiday_rate']) ? 0 : 1,
+          "spouse" => empty($para['spouse']) ? 0 : 1,
+          "free_cancel" => isset($para['free_cancel']) ? 1 : 0    
+        );
+        $isfamilyplan = 0;
+        if (isset($para['isfamilyplan'])) {
+          if ((int)$para['isfamilyplan'] >= 1) {
+            $isfamilyplan = (int)$para['isfamilyplan'];
+          } else if (!empty($para['isfamilyplan'])) {
+            $isfamilyplan = 1;
+          }
+        }
+        $ckArr['isfamilyplan'] = $isfamilyplan;
+    
+        $this->plan_model->update($id, $this->input->post(), $ckArr, $user);
       }
     } else {
       $id = $this->plan_model->add($this->input->post(), $user);
@@ -1627,6 +1643,7 @@ class Plan extends CI_Controller
 		$data['total_amount'] = $total_amount;
 				
 		$this->load->model('customer_model');
+    $this->load->model('html_model');
 		$data['customer'] = $this->customer_model->get_customer_by_id($data['plan']['customer_id']);
 		$data['customers'] = $this->customer_model->get_customer_by_parent_id($data['plan']['customer_id']);
 		$data['html_model'] = $this->html_model;
@@ -1717,6 +1734,7 @@ class Plan extends CI_Controller
 		$data['total_amount'] = $total_amount;
 		
 		$this->load->model('customer_model');
+    $this->load->model('html_model');
 		$data['customer'] = $this->customer_model->get_customer_by_id($data['plan']['customer_id']);
 		$data['customers'] = $this->customer_model->get_customer_by_parent_id($data['plan']['customer_id']);
 		$data['html_model'] = $this->html_model;

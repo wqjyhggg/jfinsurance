@@ -53,6 +53,7 @@ class Snappay_model extends CI_Model {
   }
 
   public function get_pay_url($plan, $amount, $sekey="", $returnurl="") {
+    $this->load->helper('url');
     $this->load->model('plan_model');
     $this->last_err = "";
     $uid = $this->get_trans_id($plan["plan_id"]);

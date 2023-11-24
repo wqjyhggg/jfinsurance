@@ -164,6 +164,7 @@ class Plan extends MY_Controller {
 		$data['title_txt'] = 'Policy';
 		$data['top_menu'] = $this->menu_model->load_top_menu();
 		$data['menu'] = $this->menu_model->load_meun();
+		$this->load->model('html_model');
 		$data['html_model'] = $this->html_model;
 
 		$data['csrf'] = array (
@@ -1558,6 +1559,7 @@ class Plan extends MY_Controller {
 				$data['plan_refund_date'] = $plan['refund_date'];
 			}
 		}
+		$this->load->model('html_model');
 		$data['html_model'] = $this->html_model;
 		if ($data['product_short'] == 'TOP') {
 			$data['toppackagename'] = $this->toppackagename;
@@ -1764,6 +1766,7 @@ class Plan extends MY_Controller {
 		$data['user_group_id'] = $beuser['user_group_id'];
 		$data['revert_url'] = base_url ( "payment/revert" ) . "/";
 		$data['makepay_url'] = base_url ( "payment/makepay" );
+		$this->load->model('html_model');
 		$data['html_model'] = $this->html_model;
 	
 		$data['csrf'] = array (
@@ -1849,6 +1852,7 @@ class Plan extends MY_Controller {
 				'name' => $this->security->get_csrf_token_name (),
 				'value' => $this->security->get_csrf_hash ()
 		);
+		$this->load->model('html_model');
 		$data['html_model'] = $this->html_model;
 		
 		$this->load->common('plan/term', $data);
@@ -3100,6 +3104,7 @@ class Plan extends MY_Controller {
 		$data['export_logo_price_option'] = FALSE;
     if (($beuser['user_group_id'] < 100) || ($beuser['user_id'] == 3744)) $data['export_logo_price_option'] = TRUE;
 		$data['isprocessplan'] = 1;
+		$this->load->model('html_model');
 		$data['html_model'] = $this->html_model;
 		if ($data['plan']['product_short'] == 'OPL') {
 			$data['insurable_options'] = $this->load->view('plan/detail_opl', $data, TRUE);
@@ -3146,6 +3151,7 @@ class Plan extends MY_Controller {
 		} else {
 			$this->session->set_userdata ( 'withprice', 0);
 		}
+		$this->load->model('html_model');
 		$data['html_model'] = $this->html_model;
 		
 		if ($data['plan']['product_short'] == 'TOP') {
@@ -3223,6 +3229,7 @@ class Plan extends MY_Controller {
 				$data['customers'] = $this->customer_model->get_customer_by_parent_id($data['plan']['customer_id']);
 				$data['paytype_list'] = $this->paytype_model->paytype_list();
 				$data['status_list'] = $this->status_model->status_list();
+				$this->load->model('html_model');
 				$data['html_model'] = $this->html_model;
 				
 				if ($plan['user_id']) {
@@ -3542,6 +3549,7 @@ class Plan extends MY_Controller {
 				'name' => $this->security->get_csrf_token_name (),
 				'value' => $this->security->get_csrf_hash ()
 		);
+		$this->load->model('html_model');
 		$data['html_model'] = $this->html_model;
 		
 		$this->load->common('plan/sendpackage', $data);
@@ -3583,6 +3591,7 @@ class Plan extends MY_Controller {
 		if (($beuser['user_group_id'] == 103) || ($beuser['user_group_id'] == 106)) {
       $data['withprice'] = 0;
     }
+		$this->load->model('html_model');
 		$data['html_model'] = $this->html_model;
 		
 		if ($data['plan']['product_short'] == 'OPL') {
@@ -3849,6 +3858,7 @@ class Plan extends MY_Controller {
 				'name' => $this->security->get_csrf_token_name (),
 				'value' => $this->security->get_csrf_hash ()
 		);
+		$this->load->model('html_model');
 		$data['html_model'] = $this->html_model;
 		
 		$this->load->common('plan/cancel_input', $data);
@@ -4049,6 +4059,7 @@ class Plan extends MY_Controller {
 				'name' => $this->security->get_csrf_token_name (),
 				'value' => $this->security->get_csrf_hash ()
 		);
+		$this->load->model('html_model');
 		$data['html_model'] = $this->html_model;
 		
 		$this->load->common('plan/refund_input', $data);
@@ -4092,6 +4103,7 @@ class Plan extends MY_Controller {
 		$data['total_amount'] = $total_amount;
 				
 		$this->load->model('customer_model');
+		$this->load->model('html_model');
 		$data['customer'] = $this->customer_model->get_customer_by_id($data['plan']['customer_id']);
 		$data['customers'] = $this->customer_model->get_customer_by_parent_id($data['plan']['customer_id']);
 		$data['html_model'] = $this->html_model;
@@ -4174,6 +4186,7 @@ class Plan extends MY_Controller {
 		$data['total_amount'] = $total_amount;
 		
 		$this->load->model('customer_model');
+		$this->load->model('html_model');
 		$data['customer'] = $this->customer_model->get_customer_by_id($data['plan']['customer_id']);
 		$data['customers'] = $this->customer_model->get_customer_by_parent_id($data['plan']['customer_id']);
 		$data['html_model'] = $this->html_model;
@@ -4252,6 +4265,7 @@ class Plan extends MY_Controller {
 		}
 		$data = array('plan' => $plan);
 		$this->load->model('customer_model');
+		$this->load->model('html_model');
 		$data['customer'] = $this->customer_model->get_customer_by_id($data['plan']['customer_id']);
 		$data['customers'] = $this->customer_model->get_customer_by_parent_id($data['plan']['customer_id']);
 		$data['html_model'] = $this->html_model;
@@ -4317,6 +4331,7 @@ class Plan extends MY_Controller {
 		}
 		$data = array('plan' => $plan);
 		$this->load->model('customer_model');
+		$this->load->model('html_model');
 		$data['customer'] = $this->customer_model->get_customer_by_id($data['plan']['customer_id']);
 		$data['customers'] = $this->customer_model->get_customer_by_parent_id($data['plan']['customer_id']);
 		$data['html_model'] = $this->html_model;
