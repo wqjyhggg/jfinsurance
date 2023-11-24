@@ -66,10 +66,10 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 												<div class="input-group col-sm-12">
                           <select name='pay_mothed' id="pay_mothed" class="form-control" style="padding:6px 2px;">
                             <option value=''>-- Select Method --</option>
+                            <option value='Alipay'>Alipay</option>
                             <option value='Cash'>Cash</option>
                             <option value='Checque'>Checque</option>
                             <option value='Credit Card'>Credit Card</option>
-                            <option value='Alipay'>Alipay</option>
                           </select>
 												</div>
 											</div>
