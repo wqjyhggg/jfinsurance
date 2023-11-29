@@ -340,6 +340,27 @@ class User extends CI_Controller
     $this->app_model->return_ok($this->data);
   }
 
+	public function list() {
+    $this->error = "";
+    $this->load->model("app_model");
+    $this->load->model("user_model");
+    $user = $this->app_model->check_token($this->input->post("token"));
+
+    if (empty($user)) {
+      if (empty($this->error)) {
+        $this->error = "Timeout";
+      }
+      return $this->app_model->return_error($this->error);
+    }
+
+    $user_list = $this->user_model->get_available_user_list($user);
+    // $paytype_list = $this->paytype_model->paytype_list();
+
+    $this->app_model->return_ok([
+      "agent_list" => $user_list, // For sales_agent, jf
+    ]);
+  }
+
   public function detail() {
     return $this->update(0);
   }

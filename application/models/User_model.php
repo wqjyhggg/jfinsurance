@@ -175,6 +175,7 @@ class User_model extends CI_Model {
         $this->db->select('
             u.user_id,
             u.username,
+            u.email,
             concat(u.firstname, " ", u.lastname) as full_name
         ');
         if (!empty($beuser['region_id'])) {
@@ -190,7 +191,28 @@ class User_model extends CI_Model {
                 $this->db->where('u.user_group_id >= 2');
             }
         }
-        $this->db->order_by('u.username');
+				if (!empty($para['user_id'])) {
+					$this->db->where('user_id', (int)$para['user_id']);
+				}
+				if (!empty($para['user_group_id'])) {
+					$this->db->where('user_group_id', (int)$para['user_group_id']);
+				}
+				if (!empty($para['username'])) {
+					$this->db->like('username', $para['username']);
+				}
+				if (!empty($para['firstname'])) {
+					$this->db->like('firstname', $para['firstname']);
+				}
+				if (!empty($para['lastname'])) {
+					$this->db->like('lastname', $para['lastname']);
+				}
+				if (!empty($para['email'])) {
+					$this->db->like('email', $para['email']);
+				}
+				if (!empty($para['business'])) {
+					$this->db->like('business', $para['business']);
+				}
+				$this->db->order_by('u.username');
         $results = $this->db->get()->result_array();
         $records = array();
         foreach ($results as $row) {
