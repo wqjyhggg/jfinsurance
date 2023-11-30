@@ -340,7 +340,7 @@ class User extends CI_Controller
     $this->app_model->return_ok($this->data);
   }
 
-	public function list() {
+	public function users() {
     $this->error = "";
     $this->load->model("app_model");
     $this->load->model("user_model");
