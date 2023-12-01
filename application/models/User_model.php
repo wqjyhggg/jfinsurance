@@ -164,20 +164,11 @@ class User_model extends CI_Model {
 				}
         if (($beuser['user_group_id'] > 100) && ($beuser['user_group_id'] != 104)) {
             return array(
-                $beuser['user_id'] => array(
-                    'user_id' => $beuser['user_id'],
-                    'username' => $beuser['username'],
-                    'full_name' => $beuser['firstname'] . ' ' . $beuser['lastname']
-                )
+                $beuser['user_id'] => array_merge($beuser, array('full_name' => $beuser['firstname'] . ' ' . $beuser['lastname']))
             );
         }
         $this->db->distinct();
-        $this->db->select('
-            u.user_id,
-            u.username,
-            u.email,
-            concat(u.firstname, " ", u.lastname) as full_name
-        ');
+        $this->db->select('u.*, concat(u.firstname, " ", u.lastname) as full_name');
         if (!empty($beuser['region_id'])) {
         	$this->db->where('u.region_id', $beuser['region_id']);
         }
