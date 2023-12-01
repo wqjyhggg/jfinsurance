@@ -12,8 +12,9 @@ class Snappay extends CI_Controller {
 	public function index($plan_id)
 	{
     $recv = trim(file_get_contents('php://input'));
-		log_message('debug', "snappay: plan_id[".$plan_id."];recv[".$recv."]");
+		log_message('debug', "Snappay pb snappay: plan_id[".$plan_id."];recv[".$recv."]");
     if (empty($recv) || empty($plan_id)) {
+      log_message('debug', "Snappay pb plan_id R [".$plan_id."];recv[".$recv."]");
       return;
     }
     $this->load->database();
@@ -23,13 +24,19 @@ class Snappay extends CI_Controller {
     $this->load->model('snappay_model');
     $plan = $this->plan_model->get_plan_by_id($plan_id);
     if (empty($plan)) {
-      log_message('debug', "plan_id?[".$plan_id."];recv[".$recv."]");
+      log_message('debug', "Snappay pb plan_id R [".$plan_id."];recv[".$recv."]");
+      return;
+    }
+    if ($plan['status_id'] > 1) {
+      log_message('debug', "plan_id R [".$plan_id."] status_id:".$plan['status_id']);
       return;
     }
 
     $user["user_id"] = $plan["user_id"];
     $user["user_group_id"] = 1;
     $data = $this->snappay_model->record_postback($plan_id, $recv, $plan);
+		$para = array('payinfo' => "Snappy Fast Set first", 'status_id' => Plan_model::CHANGED);
+		$this->plan_model->update($plan_id, $para, array(), $user);
     /*
     $data = [
       'type' => "snappay-ali",
@@ -170,5 +177,6 @@ class Snappay extends CI_Controller {
 				'systemlog' => $this->plan_model->sqlstr
 		);
 		$this->log_model->activity('plan', $para, $user);
+		log_message('debug', "Snappay pb plan_id R [".$plan_id."]; payment_id[".$recv."]");
 	}
 }
