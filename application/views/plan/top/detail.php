@@ -493,7 +493,42 @@ $usepsi = false;
 							<!-- End pay by credit card -->
 							<?php } ?>
 						</div>
-						<?php } /* end cheque pay */ ?>
+						<?php } /* end credit card */ ?>
+            <?php if (in_array('Ali', $paytype_list) && ($payment_total > 0)) { ?>
+						<div class="col-sm-3">
+						<?php     if (isset($ali_dis)) { ?>
+							<?php     if (empty($sekey) && empty($isvsuser) && ((((time() - strtotime($plan['last_update'])) < (48 * 3600)) && ($plan['effective_date'] > date("Y-m-d"))) || ($plan['status_id'] == Plan_model::CHANGED))) { ?>
+									<div class="row">
+										<div class="col-sm-12">
+											<label class="inline" style="margin-bottom: 0;">Pay url to user by Email (Valid before <?php echo $payurltm; ?>):</label>
+										</div>
+										<br />
+									</div>
+									<div class="row">
+										<div class="col-sm-12">
+											<div class="input-group">
+												<input id="copy-input2" class="form-control" type='text' name='payurl' value='<?php echo $payurl; ?>' readonly>
+												<span class="input-group-btn">
+													<button class="btn btn-default" type="button" id="copy-button2" data-toggle="tooltip" title="Copy to Clipboard">Copy</button>
+												</span>
+											</div>
+										</div>
+									</div>
+							<?php     } ?>
+							<div id='ali_div'>
+								<a class="btn btn-info col-sm-12">Pay By Alipay <iclass="fa fa-chevron-down"></i></a>
+							</div>
+							<div id='ali' style="padding:10px; display: none;">
+                <div class="col-sm-12">
+                  <label class="inline">Amount:</label><span><b> $<?php echo number_format($payment_total, 2, '.', ','); ?></b> <?php if ($plan['questionnaire'] > 0) { echo "(Table" . $plan['questionnaire'] . ")"; }?></span>
+                  <a class="btn btn-primary paysubmit" id="ali_submit" style="display:none;">Pay Now</a>
+                </div>
+								<hr />
+							</div>
+						<?php     } ?>
+						</div>
+						<?php } /* end ali pay */ ?>
+
 						<?php if (in_array('Cheque', $paytype_list)) { ?>
 						<div class="col-sm-3">
 						<?php     if (isset($cheque_dis)) { ?>
@@ -550,41 +585,6 @@ $usepsi = false;
 						<?php     } ?>
 						</div>
 						<?php } /* end cheque pay */ ?>
-
-            <?php if (in_array('Ali', $paytype_list) && ($payment_total > 0)) { ?>
-						<div class="col-sm-3">
-						<?php     if (isset($ali_dis)) { ?>
-							<?php     if (empty($sekey) && empty($isvsuser) && ((((time() - strtotime($plan['last_update'])) < (48 * 3600)) && ($plan['effective_date'] > date("Y-m-d"))) || ($plan['status_id'] == Plan_model::CHANGED))) { ?>
-									<div class="row">
-										<div class="col-sm-12">
-											<label class="inline" style="margin-bottom: 0;">Pay url to user by Email (Valid before <?php echo $payurltm; ?>):</label>
-										</div>
-										<br />
-									</div>
-									<div class="row">
-										<div class="col-sm-12">
-											<div class="input-group">
-												<input id="copy-input2" class="form-control" type='text' name='payurl' value='<?php echo $payurl; ?>' readonly>
-												<span class="input-group-btn">
-													<button class="btn btn-default" type="button" id="copy-button2" data-toggle="tooltip" title="Copy to Clipboard">Copy</button>
-												</span>
-											</div>
-										</div>
-									</div>
-							<?php     } ?>
-							<div id='ali_div'>
-								<a class="btn btn-info col-sm-12">Pay By Alipay <iclass="fa fa-chevron-down"></i></a>
-							</div>
-							<div id='ali' style="padding:10px; display: none;">
-                <div class="col-sm-12">
-                  <label class="inline">Amount:</label><span><b> $<?php echo number_format($payment_total, 2, '.', ','); ?></b> <?php if ($plan['questionnaire'] > 0) { echo "(Table" . $plan['questionnaire'] . ")"; }?></span>
-                  <a class="btn btn-primary paysubmit" id="ali_submit" style="display:none;">Pay Now</a>
-                </div>
-								<hr />
-							</div>
-						<?php     } ?>
-						</div>
-						<?php } /* end ali pay */ ?>
 
 						<?php if (in_array('Cash', $paytype_list)) { ?>
 						<div class="col-sm-3">

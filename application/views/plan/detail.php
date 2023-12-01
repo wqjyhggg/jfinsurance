@@ -506,77 +506,6 @@ $usepsi = false;
 								<?php } ?>
 							</div>
 						<?php } /* end cheque pay */ ?>
-						<?php if (in_array('Cheque', $paytype_list)) { ?>
-							<div class="col-sm-3">
-								<?php if (isset($cheque_dis)) { ?>
-								<div id='cheque_div'><a class="btn btn-info col-sm-12">Pay By Cheque <i class="fa fa-chevron-down"></i></a></div>
-								<script type="text/javascript">
-								$(document).ready(function() {
-									$('#cheque_div').click(function() {
-										$('#cheque').show();
-                <?php if (isset($ali_dis)) { ?>
-                    $('#ali').hide();
-                <?php } ?>
-								<?php if (isset($credit_dis)) { ?>
-										$('#credit_card').hide();
-								<?php } ?>
-								<?php if (isset($cash_dis)) { ?>
-										$('#cash').hide();
-								<?php } ?>
-									});
-								});
-								</script>
-							
-								<div id='cheque' <?php if (empty($cheque_dis)) { ?> style='display: none;' <?php } ?>>
-								<div class="row">
-									<div class="col-sm-12">
-										<label  class="inline" style="margin-bottom:0;color: #92082c;padding-bottom: 10px;">below info is not the actual payment. Please make the cheque payble to “JF Insurance Agency Group Inc.” and send the original cheque to JF via mail or in person</label>
-									</div>
-								</div>
-								<form action='<?php echo $active_url; ?>' method='POST'>
-									<input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
-									<input type='hidden' name='plan_id' value='<?php echo $plan['plan_id']; ?>'>
-									<input type='hidden' name='play_type' value='Cheque'>
-									<input type='hidden' name='sekey' value='<?php echo $sekey; ?>'>
-									<input type='hidden' name='premium' value='<?php echo $payment_total; ?>'>
-									<div class="row">
-										<div class="col-sm-12">
-											<label  class="inline" style="margin-bottom:0;">Bank Name:</label>
-											<div class="col-sm-12 input-group">
-												<input type='text' name='bank_name' value='' class="form-control">
-											</div>
-										</div>
-									</div>
-									<div class="row">
-										<div class="col-sm-12">
-											<label  class="inline" style="margin-bottom:0;">Payor Name:</label>
-											<div class="col-sm-12 input-group">
-												<input type='text' name='payor_name' value='' class="form-control">
-											</div>
-										</div>
-									</div>
-									<div class="row">
-										<div class="col-sm-12">
-											<label  class="inline" style="margin-bottom:0;">Cheque No.:</label>
-											<div class="col-sm-12 input-group">
-												<input type='text' name='cheque_number' value='' class="form-control">
-											</div>
-										</div>
-									</div>
-									
-									<div class="row" style="padding:10px;">
-										<div class="col-sm-12 text-right">
-											<label class="inline">Amount:</label><span><b> $<?php echo number_format($payment_total, 2, '.', ','); ?></b></span>
-											<input class="btn btn-primary paysubmit" type='submit' name='submit' value='Pay Now'>
-										</div>
-									</div>
-									 
-								</form>
-								<hr />
-								</div>
-								<?php } ?>
-							</div>
-						<?php } /* end cheque pay */ ?>
             <?php if (in_array('Ali', $paytype_list) && ($payment_total > 0)) { ?>
 							<div class="col-sm-3">
 								<?php if (isset($ali_dis)) { ?>
@@ -668,7 +597,78 @@ $usepsi = false;
 								</div>
 								<?php } ?>
 							</div>
-						<?php } /* end cash pay */ ?>
+						<?php } /* end ali pay */ ?>
+						<?php if (in_array('Cheque', $paytype_list)) { ?>
+							<div class="col-sm-3">
+								<?php if (isset($cheque_dis)) { ?>
+								<div id='cheque_div'><a class="btn btn-info col-sm-12">Pay By Cheque <i class="fa fa-chevron-down"></i></a></div>
+								<script type="text/javascript">
+								$(document).ready(function() {
+									$('#cheque_div').click(function() {
+										$('#cheque').show();
+                <?php if (isset($ali_dis)) { ?>
+                    $('#ali').hide();
+                <?php } ?>
+								<?php if (isset($credit_dis)) { ?>
+										$('#credit_card').hide();
+								<?php } ?>
+								<?php if (isset($cash_dis)) { ?>
+										$('#cash').hide();
+								<?php } ?>
+									});
+								});
+								</script>
+							
+								<div id='cheque' <?php if (empty($cheque_dis)) { ?> style='display: none;' <?php } ?>>
+								<div class="row">
+									<div class="col-sm-12">
+										<label  class="inline" style="margin-bottom:0;color: #92082c;padding-bottom: 10px;">below info is not the actual payment. Please make the cheque payble to “JF Insurance Agency Group Inc.” and send the original cheque to JF via mail or in person</label>
+									</div>
+								</div>
+								<form action='<?php echo $active_url; ?>' method='POST'>
+									<input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
+									<input type='hidden' name='plan_id' value='<?php echo $plan['plan_id']; ?>'>
+									<input type='hidden' name='play_type' value='Cheque'>
+									<input type='hidden' name='sekey' value='<?php echo $sekey; ?>'>
+									<input type='hidden' name='premium' value='<?php echo $payment_total; ?>'>
+									<div class="row">
+										<div class="col-sm-12">
+											<label  class="inline" style="margin-bottom:0;">Bank Name:</label>
+											<div class="col-sm-12 input-group">
+												<input type='text' name='bank_name' value='' class="form-control">
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-sm-12">
+											<label  class="inline" style="margin-bottom:0;">Payor Name:</label>
+											<div class="col-sm-12 input-group">
+												<input type='text' name='payor_name' value='' class="form-control">
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-sm-12">
+											<label  class="inline" style="margin-bottom:0;">Cheque No.:</label>
+											<div class="col-sm-12 input-group">
+												<input type='text' name='cheque_number' value='' class="form-control">
+											</div>
+										</div>
+									</div>
+									
+									<div class="row" style="padding:10px;">
+										<div class="col-sm-12 text-right">
+											<label class="inline">Amount:</label><span><b> $<?php echo number_format($payment_total, 2, '.', ','); ?></b></span>
+											<input class="btn btn-primary paysubmit" type='submit' name='submit' value='Pay Now'>
+										</div>
+									</div>
+									 
+								</form>
+								<hr />
+								</div>
+								<?php } ?>
+							</div>
+						<?php } /* end cheque pay */ ?>
 						<?php if (in_array('Cash', $paytype_list)) { ?>
 							<div class="col-sm-3">
 								<?php if (isset($cash_dis)) { ?>
