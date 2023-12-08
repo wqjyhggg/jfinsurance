@@ -27,7 +27,7 @@ class Snappay extends CI_Controller {
       log_message('debug', "Snappay pb plan_id R [".$plan_id."];recv[".$recv."]");
       return;
     }
-    if ($plan['status_id'] > 1) {
+    if (($plan['status_id'] > 1) && ($plan['status_id'] != Plan_model::CHANGED)) {
       log_message('debug', "plan_id R [".$plan_id."] status_id:".$plan['status_id']);
       return;
     }
