@@ -1736,7 +1736,7 @@ class Plan extends MY_Controller {
 
 	function gettoppremium()
 	{
-		$beuser = $this->func_model->verify_login();
+		$beuser = $this->func_model->verify_login(TRUE, TRUE);
 		$this->load->model('product_model');
 		$data = array('status' => 'Fail', 'message' => '');
 		// Remove Top from Sep 1, Add back 2022-04-14
