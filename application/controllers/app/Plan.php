@@ -1684,6 +1684,9 @@ class Plan extends CI_Controller
       $html = $this->load->view('plan/cancel', $data, TRUE);
     }
 		$mpdf = new mPDF('c');
+    $this->output_heads();
+    $mpdf->autoLangToFont=true;
+    $mpdf->autoScriptToLang=true;
 		$mpdf->writeHTML($html);
 		$mpdf->Output("policy_cancel.pdf","I");
 	}
@@ -1795,6 +1798,9 @@ class Plan extends CI_Controller
 			$html = $this->load->view('plan/refund_addr', $data, TRUE);
 		}
     $mpdf = new mPDF('c');
+    $this->output_heads();
+    $mpdf->autoLangToFont=true;
+    $mpdf->autoScriptToLang=true;
     $mpdf->writeHTML($html);
     $mpdf->Output("policy_refund.pdf","I");
   }
