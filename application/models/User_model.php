@@ -157,7 +157,7 @@ class User_model extends CI_Model {
      *
      * @return array available user list
      **/
-    public function get_available_user_list($beuser=false)
+    public function get_available_user_list($beuser=false, $para=false)
     {
 				if (!$beuser) {
 					$beuser = $this->session->beuser;
@@ -182,25 +182,25 @@ class User_model extends CI_Model {
                 $this->db->where('u.user_group_id >= 2');
             }
         }
-				if (!empty($para['user_id'])) {
+				if ($para && !empty($para['user_id'])) {
 					$this->db->where('user_id', (int)$para['user_id']);
 				}
-				if (!empty($para['user_group_id'])) {
+				if ($para && !empty($para['user_group_id'])) {
 					$this->db->where('user_group_id', (int)$para['user_group_id']);
 				}
-				if (!empty($para['username'])) {
+				if ($para && !empty($para['username'])) {
 					$this->db->like('username', $para['username']);
 				}
-				if (!empty($para['firstname'])) {
+				if ($para && !empty($para['firstname'])) {
 					$this->db->like('firstname', $para['firstname']);
 				}
-				if (!empty($para['lastname'])) {
+				if ($para && !empty($para['lastname'])) {
 					$this->db->like('lastname', $para['lastname']);
 				}
-				if (!empty($para['email'])) {
+				if ($para && !empty($para['email'])) {
 					$this->db->like('email', $para['email']);
 				}
-				if (!empty($para['business'])) {
+				if ($para && !empty($para['business'])) {
 					$this->db->like('business', $para['business']);
 				}
 				$this->db->order_by('u.username');

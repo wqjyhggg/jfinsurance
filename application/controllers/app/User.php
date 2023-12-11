@@ -353,7 +353,7 @@ class User extends CI_Controller
       return $this->app_model->return_error($this->error);
     }
 
-    $user_list = $this->user_model->get_available_user_list($user);
+    $user_list = $this->user_model->get_available_user_list($user, $this->input->post());
     // $paytype_list = $this->paytype_model->paytype_list();
 
     $this->app_model->return_ok([
