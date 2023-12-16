@@ -276,10 +276,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			                <div class="input-group col-sm-12">
 			                	<div id='mail_province2_div'></div>
 			                	<?php if (!empty($error_mail_province)){ ?>
-								<div class="alert-error">	
-									<?php echo $error_mail_province; ?>
-								</div>
-								<?php } ?>
+                  <div class="alert-error">	
+                    <?php echo $error_mail_province; ?>
+                  </div>
+                  <?php } ?>
 			                </div>
 			            </div>
 			            <div class="form-group col-sm-3">
@@ -372,6 +372,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <?php if ($op_user_group_id < 100) { ?>
 					<div class="row">
 						<div class="form-group col-sm-12">
+							<h4>Available Province: ( All unchecked == All checked )</h4>
+            </div>
+						<?php foreach ($province_list as $province) { ?>
+            <div class="col-sm-2">
+              <input  type='checkbox' name='user_province[]' value='<?php echo $province["province2"]; ?>' <?php echo $province['checked']; ?>> <?php echo $province["province2"]; ?>
+            </div>
+						<?php } ?>
+					</div>
+					
+					<div class="row">
+						<div class="form-group col-sm-12">
 							<h4>Products:</h4>
 
 							<?php foreach ($product_list as $key => $pd) { ?>
@@ -383,9 +394,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							</div>
 							<?php } ?>
 						</div>
-
 					</div>
-					
 				
 					<div class="row">
 						<div class="form-group col-sm-6">

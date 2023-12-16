@@ -467,6 +467,11 @@
                           <div class="input-group col-sm-12">
                             <div id='province2_div'></div>
                           </div>
+                          <?php if (!empty($error_province2)) {?>
+                          <div class="alert-error">
+                            <?php echo $error_province2; ?>
+                          </div>
+                          <?php } ?>
                         </div>
                         <div class="form-group col-sm-3">
                           <label class="col-sm-12">Country: </label>

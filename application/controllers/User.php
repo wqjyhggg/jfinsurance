@@ -447,6 +447,7 @@ class User extends MY_Controller {
 		$this->load->model('product_model');
 		$this->load->model('paytype_model');
 		$this->load->model('user_group_model');
+		$this->load->model('user_province_model');
 		$this->load->model('region_model');
 		$this->load->model('verify_model');
 		
@@ -464,6 +465,13 @@ class User extends MY_Controller {
 				$this->user_model->update ( $user_id, $post, 1, array('product_list' => 1));
 				$this->log_model->activity('user', array('message' => $this->user_model->logstr, 'systemlog' => $this->user_model->sqlstr));
 				$this->product_model->set_product_customize($user_id, $this->input->post('product_customize'));
+        $user_province = $this->input->post('user_province');
+        if (sizeof($user_province) > 0) {
+          $this->user_province_model->remove_by_user($user_id);
+          foreach ($user_province as $province) {
+            $this->user_province_model->add($user_id, $province);
+          }
+        }
 				redirect ( base_url ('user') );
 			}
 		}
@@ -471,7 +479,7 @@ class User extends MY_Controller {
 		// Get all text depend language
 		$this->data['user_group_list'] = $this->user_group_model->get_user_group_list($this->session->user['user_group_id']);
 		$this->data['broker_list'] = $this->user_model->get_broker_id_list();
-		$this->data['province_list'] = $this->province_model->province_list();
+		$this->data['province_list'] = $this->province_model->province_list("CA");
 		
 		$this->data['op_user_group_id'] = $this->session->beuser['user_group_id'];
 		$this->data['user_group_id'] = '';
@@ -641,6 +649,13 @@ class User extends MY_Controller {
 		}
 		if (empty($this->data['province2'])) $this->data['province2'] = 'ON';
 		if (empty($this->data['country2'])) $this->data['country2'] = 'CA';
+    foreach ($this->data['province_list'] as $k => $rc) {
+      if ($myrc = $this->user_province_model->get_by_user_province($user_id, $rc["province2"])) {
+        $this->data['province_list'][$k]["checked"] = 'checked';
+      } else {
+        $this->data['province_list'][$k]["checked"] = '';
+      }
+    }
 		$this->data['regions'] = $this->region_model->get_regions();
 		$this->data['province_url'] = base_url ( "geo/province/" . $this->data['country2'] . "/" . $this->data['province2'] );
 		$this->data['country_url'] = base_url ( "geo/country/" . $this->data['country2'] );
