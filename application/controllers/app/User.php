@@ -330,12 +330,30 @@ class User extends CI_Controller
     }
 
     // Get all text depend language
+    $this->data['regions'] = $this->region_model->get_regions();
+    $user = $this->user_model->get_user_by_id($user_id);
+    $this->data['user'] = $user;
     $this->data['user_group_list'] = $this->user_group_model->get_user_group_list($user['user_group_id']);
     $this->data['broker_list'] = $this->user_model->get_broker_id_list($user["region_id"]);
     $this->data['province_list'] = $this->province_model->province_list();
     $this->data['product_list'] = $this->product_model->product_list(1, $user);
-    $this->data['regions'] = $this->region_model->get_regions();
-    $this->data['user'] = $this->user_model->get_user_by_id($user_id);
+    $user_product_list = $this->user_model->get_user_product_list($user_id);
+    $pdf_product_list = array();
+    $user_pdf_list = json_decode($user['pdf_product']);
+    foreach ($this->data['product_list'] as $k => $p) {
+			$this->data['product_list'][$k]['checked'] = '';
+      foreach($user_product_list as $up) {
+        if ($p['product_short'] == $up['product_short']) {
+          $this->data['product_list'][$k]['checked'] = 'checked';
+          break;
+        }
+      }
+      $pdf_product_list[$p["product_short"]] = "";
+      if (in_array($p["product_short"], $user_pdf_list)) {
+        $pdf_product_list[$p["product_short"]] = "checked";
+      }
+		}
+    $this->data['pdf_product_list'] = $pdf_product_list;
 
     $this->app_model->return_ok($this->data);
   }

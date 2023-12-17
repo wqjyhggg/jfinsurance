@@ -120,9 +120,9 @@ class Plan extends CI_Controller
 
     $plan_id = $this->input->post("plan_id");
     $premium = $this->input->post("pay_amount");
-    $pay_type = $this->input->post("pay_type"); // Cash, Cheque, Credit Card
+    $pay_type = $this->input->post("pay_type"); // Cash, Cheque, Ali, Credit Card
     $payinfo = '';
-    if (($pay_type != "") || ($pay_type != "") || ($pay_type != "")) {
+    if (($pay_type != "Cash") || ($pay_type != "Cheque") || ($pay_type != "Ali") || ($pay_type != "Credit Card")) {
       return $this->app_model->return_error("Unknown pay type");
     }
     $plan = $this->plan_model->get_plan_by_id($plan_id);
