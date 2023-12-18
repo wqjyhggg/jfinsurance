@@ -349,7 +349,7 @@ class User extends CI_Controller
         }
       }
       $pdf_product_list[$p["product_short"]] = "";
-      if (in_array($p["product_short"], $user_pdf_list)) {
+      if (is_array($user_pdf_list) && in_array($p["product_short"], $user_pdf_list)) {
         $pdf_product_list[$p["product_short"]] = "checked";
       }
 		}
