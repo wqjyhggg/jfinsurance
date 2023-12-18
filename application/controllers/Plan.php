@@ -526,7 +526,7 @@ class Plan extends MY_Controller {
         if (sizeof($user_province) > 0) {
           $my_user_province = $this->user_province_model->get_by_user_province($user_id, $this->input->post('province2'));
           if (empty($my_user_province)) {
-            $this->error['error_province2'] = 'You can not process in this Province';
+            $this->error['error_province2'] = "You don't have license to sale in this province, Please contact us for more information";
           }
         }
       }
