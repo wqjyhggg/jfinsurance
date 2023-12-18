@@ -333,8 +333,12 @@ class User extends CI_Controller
     $this->data['regions'] = $this->region_model->get_regions();
     $user = $this->user_model->get_user_by_id($user_id);
     $this->data['user'] = $user;
-    $this->data['user_group_list'] = $this->user_group_model->get_user_group_list($user['user_group_id']);
-    $this->data['broker_list'] = $this->user_model->get_broker_id_list($user["region_id"]);
+    $this->data['user_group_list'] = array();
+    $this->data['broker_list'] = array();
+    if ($user["user_group_id"] < 100) {
+      $this->data['user_group_list'] = $this->user_group_model->get_user_group_list($user['user_group_id']);
+      $this->data['broker_list'] = $this->user_model->get_broker_id_list($user["region_id"]);
+    }
     $this->data['province_list'] = $this->province_model->province_list();
     $this->data['product_list'] = $this->product_model->product_list(1, $user);
     $user_product_list = $this->user_model->get_user_product_list($user_id);
