@@ -311,7 +311,7 @@ class User extends CI_Controller
     $user_id = $user['user_id'];
     if ($user["user_group_id"] < 100) {
       if ($this->input->post("user_id")) {
-        $user_id = $user['user_id'];
+        $user_id = $this->input->post("user_id");
       }
     }
     if ($is_update && $this->verify()) {
