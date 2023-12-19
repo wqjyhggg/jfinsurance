@@ -122,7 +122,7 @@ class Plan extends CI_Controller
     $premium = $this->input->post("pay_amount");
     $pay_type = $this->input->post("pay_type"); // Cash, Cheque, Ali, Credit Card
     $payinfo = '';
-    if (($pay_type != "Cash") || ($pay_type != "Cheque") || ($pay_type != "Ali") || ($pay_type != "Credit Card")) {
+    if (($pay_type != "Cash") && ($pay_type != "Cheque") && ($pay_type != "Ali") && ($pay_type != "Credit Card")) {
       return $this->app_model->return_error("Unknown pay type");
     }
     $plan = $this->plan_model->get_plan_by_id($plan_id);
@@ -215,7 +215,7 @@ class Plan extends CI_Controller
 				'message' => $this->payment_model->logstr,
 				'systemlog' => $this->payment_model->sqlstr
 		);
-		$this->log_model->activity('payment', $para);
+		$this->log_model->activity('payment', $para, $user);
 
 		// // up commission
 		// $dt['amount'] = $up_commission_amount;
@@ -230,7 +230,7 @@ class Plan extends CI_Controller
 		// 		'message' => $this->payment_model->logstr,
 		// 		'systemlog' => $this->payment_model->sqlstr
 		// );
-		// $this->log_model->activity('up_commission', $para);
+		// $this->log_model->activity('up_commission', $para, $user);
 
 		// commission
 		$dt['amount'] = $commission_amount;
@@ -250,7 +250,7 @@ class Plan extends CI_Controller
 								'message' => 'adjust apply time to effective date : ' . $plan_id . ' [ ' . $plan['effective_date'] . ' ]',
 								'systemlog' => $this->payment_model->sqlstr
 						);
-						$this->log_model->activity('commission', $para);
+						$this->log_model->activity('commission', $para, $user);
 					}
 					$dt['added'] = $plan['effective_date'];
 				} else {
@@ -262,7 +262,7 @@ class Plan extends CI_Controller
 								'message' => 'adjust apply time to today : ' . $plan_id . ' [ ' . date('Y-m-d') . ' ]',
 								'systemlog' => $this->payment_model->sqlstr
 						);
-						$this->log_model->activity('commission', $para);
+						$this->log_model->activity('commission', $para, $user);
 					}
 				}
 			}
@@ -275,7 +275,7 @@ class Plan extends CI_Controller
 				'message' => $this->payment_model->logstr,
 				'systemlog' => $this->payment_model->sqlstr
 		);
-		$this->log_model->activity('commission', $para);
+		$this->log_model->activity('commission', $para, $user);
 
     if (($pay_type == 'Cash') || ($pay_type == 'Cheque')) {
       $history_id = 0;
@@ -302,7 +302,7 @@ class Plan extends CI_Controller
           'message' => $this->plan_model->logstr,
           'systemlog' => $this->plan_model->sqlstr
       );
-      $this->log_model->activity('plan', $para);
+      $this->log_model->activity('plan', $para, $user);
     } else if ($pay_type == 'Credit Card') {
 			$beanstream = new \Beanstream\Gateway ( $product['merchent_id'], $product['apikey'], 'www', 'v1' );
 			$payment_data = array (
@@ -341,7 +341,7 @@ class Plan extends CI_Controller
 							'message' => $this->plan_model->logstr,
 							'systemlog' => $this->plan_model->sqlstr
 					);
-					$this->log_model->activity('plan', $para);
+					$this->log_model->activity('plan', $para, $user);
           if ($history_id) {
             $this->plan_history_model->add_remove($history_id);
           }
@@ -358,7 +358,7 @@ class Plan extends CI_Controller
 							'message' => $this->payment_model->logstr,
 							'systemlog' => $this->payment_model->sqlstr
 					);
-					$this->log_model->activity('payment', $para);
+					$this->log_model->activity('payment', $para, $user);
           // If in Quebec, send French version package
           if (($plan["province2"] == "QC") && in_array($plan["product_short"], $this->french_plan)) {
             $this->sendpackage(1, $user, $plan_id);
@@ -375,7 +375,7 @@ class Plan extends CI_Controller
 							'message' => $this->plan_model->logstr,
 							'systemlog' => $this->plan_model->sqlstr
 					);
-					$this->log_model->activity('plan', $para);
+					$this->log_model->activity('plan', $para, $user);
 					
 					$dt = array();
 					$dt['ispaid'] = 0;
@@ -389,7 +389,7 @@ class Plan extends CI_Controller
 							'message' => $this->payment_model->logstr,
 							'systemlog' => $this->payment_model->sqlstr
 					);
-					$this->log_model->activity('payment', $para);
+					$this->log_model->activity('payment', $para, $user);
 					$commission_payment_id = $this->payment_model->update($commission_payment_id, $dt);
 					$up_commission_payment_id = $this->payment_model->update($up_commission_payment_id, $dt);
 					$this->error = 'Card payment failed. Incorrect card information or insufficient credit.';
@@ -406,7 +406,7 @@ class Plan extends CI_Controller
 						'message' => $this->plan_model->logstr,
 						'systemlog' => $this->plan_model->sqlstr
 				);
-				$this->log_model->activity('plan', $para);
+				$this->log_model->activity('plan', $para, $user);
 				
 				// print_r ( $e->getMessage() );
 				$dt = array();
@@ -421,7 +421,7 @@ class Plan extends CI_Controller
 						'message' => $this->payment_model->logstr,
 						'systemlog' => $this->payment_model->sqlstr
 				);
-				$this->log_model->activity('payment', $para);
+				$this->log_model->activity('payment', $para, $user);
 				$commission_payment_id = $this->payment_model->update($commission_payment_id, $dt);
 				$up_commission_payment_id = $this->payment_model->update($up_commission_payment_id, $dt);
 				$this->error = 'Payment failed. Please verify your credit card info.';
