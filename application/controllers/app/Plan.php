@@ -289,7 +289,7 @@ class Plan extends CI_Controller
       }
 
       $para = array('payment_id' => $payment_id, 'payinfo' => $payinfo, 'commission_payment_id' => $commission_payment_id, 'status_id' => Plan_model::SOLD, 'policy' => $this->plan_model->get_policy_number($plan_id, 2));
-      $this->plan_model->update($plan_id, $para);
+      $this->plan_model->update($plan_id, $para, array(), $user);
       if ($history_id) {
         $this->plan_history_model->add_remove($history_id);
       }
