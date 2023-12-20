@@ -9,7 +9,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 
-$lang['text_agent'] = "Agent";
+$lang['text_agent'] = "Agente";
 $lang['text_behalf'] = "Behalf";
 $lang['text_claim'] = "Claim";
 $lang['text_career'] = "Career";

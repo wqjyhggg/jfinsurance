@@ -21,7 +21,15 @@ class Lang extends MY_Controller {
 		redirect($currentUrl, 'refresh');
 	}
 
-	public function chinese()
+	public function french()
+	{
+		$lang = 'french';
+		$this->session->set_userdata('language', $lang);
+		$currentUrl = $this->session->set_userdata('curr_url');
+		redirect($currentUrl, 'refresh');
+	}
+
+  public function chinese()
 	{
 		$lang = 'chinese';
 		$this->session->set_userdata('language', $lang);

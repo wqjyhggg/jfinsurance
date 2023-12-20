@@ -52,9 +52,10 @@ $( document ).ready(function() {
 			<span class="pull-right" style="margin-top: -2em; margin-right: 2em;">
 				<select id='select_lang' onchange="window.location.href='<?php echo base_url();?>lang/' + $(this).val()" >
 					<option value='english' <?php if ($language == 'english') { echo "SELECTED"; } ?>><?php echo $lang['txt_english']?></option>
-					<option value='chinese' <?php if ($language == 'chinese') { echo "SELECTED"; } ?>><?php echo $lang['txt_chinese']?></option>
+					<option value='french' <?php if ($language == 'french') { echo "SELECTED"; } ?>><?php echo $lang['txt_french']?></option>
+					<!-- <option value='chinese' <?php if ($language == 'chinese') { echo "SELECTED"; } ?>><?php echo $lang['txt_chinese']?></option>
 					<option value='japanese' <?php if ($language == 'japanese') { echo "SELECTED"; } ?>><?php echo $lang['txt_japanese']?></option>
-					<option value='korean' <?php if ($language == 'korean') { echo "SELECTED"; } ?>><?php echo $lang['txt_korean']?></option>
+					<option value='korean' <?php if ($language == 'korean') { echo "SELECTED"; } ?>><?php echo $lang['txt_korean']?></option> -->
 				</select>
 			</span>
 <?php } ?>
