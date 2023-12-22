@@ -48,14 +48,12 @@ $( document ).ready(function() {
 			<img class="img-responsive" src="<?php echo base_url();?>image/logo.png" alt="JF Insurance">
 <?php } ?>
 <?php $uri = explode("?", $_SERVER['REQUEST_URI']); ?>
+<?php $language = $this->session->userdata('language'); ?>
 <?php if (0 && ($uri[0] == '/')) { ?>
 			<span class="pull-right" style="margin-top: -2em; margin-right: 2em;">
 				<select id='select_lang' onchange="window.location.href='<?php echo base_url();?>lang/' + $(this).val()" >
-					<option value='english' <?php if ($language == 'english') { echo "SELECTED"; } ?>><?php echo $lang['txt_english']?></option>
-					<option value='french' <?php if ($language == 'french') { echo "SELECTED"; } ?>><?php echo $lang['txt_french']?></option>
-					<!-- <option value='chinese' <?php if ($language == 'chinese') { echo "SELECTED"; } ?>><?php echo $lang['txt_chinese']?></option>
-					<option value='japanese' <?php if ($language == 'japanese') { echo "SELECTED"; } ?>><?php echo $lang['txt_japanese']?></option>
-					<option value='korean' <?php if ($language == 'korean') { echo "SELECTED"; } ?>><?php echo $lang['txt_korean']?></option> -->
+					<option value='english' <?php if ($language == 'english') { echo "SELECTED"; } ?>><?php echo $this->lang->line('txt_english'); ?></option>
+					<option value='french' <?php if ($language == 'french') { echo "SELECTED"; } ?>><?php echo $this->lang->line('txt_french'); ?></option>
 				</select>
 			</span>
 <?php } ?>
@@ -91,7 +89,7 @@ $( document ).ready(function() {
 		    	<div class="col-sm-3 col-md-3 pull-right">
 		            <form class="navbar-form" method='GET' action='<?php echo base_url('plan'); ?>'>
 		                <div class="input-group" style="margin-bottom:0;">
-		                    <input type="text" class="form-control" placeholder="Search" name="q">
+		                    <input type="text" class="form-control" placeholder="<?php echo $this->lang->line('Search'); ?>" name="q">
 		                    <div class="input-group-btn">
 		                        <button class="btn btn-default" type="submit" style="margin-bottom:0;padding-bottom:5px;"><i class="glyphicon glyphicon-search"></i></button>
 		                    </div>

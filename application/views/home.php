@@ -21,7 +21,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           <div class="main-div">
             <div class="page-title">
               <div class="title_left">
-                <h3>Home</h3>
+                <h3><?php echo $this->lang->line("text_home"); ?></h3>
               </div>
 
             </div>
@@ -39,17 +39,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                       <div class="lh-topdiv">
                         <img class="img-responsive" src="<?php echo base_url();?>image/homepic.png" alt="JF Insurance">
                         <div class="lh-top">
-                              <h1>WHY SHOULD YOU BUY TRAVEL INSURANCE?</h1>
-                              <p>We don't like to think about it, but unexpected accidents or illnesses can occur when you and your family are traveling abroad, and finding and paying for adequate medical attention can be very difficult.</p>
-                              <p>Healthcare costs around the world can be very expensive; hospitals can charge thousands of dollars per day. Your government healthcare plan may or may not cover a minimal portion of these costs. Without adequate insurance coverage, you could be responsible for a significant amount of medical expenses that could have an immense impact on your personal finances. Why take this risk?</p>
+                              <h1><?php echo $this->lang->line("WHY SHOULD YOU BUY TRAVEL INSURANCE"); ?>?</h1>
+                              <p><?php echo $this->lang->line("We don't like to think about it, but unexpected accidents or illnesses can occur when you and your family are traveling abroad, and finding and paying for adequate medical attention can be very difficult."); ?></p>
+                              <p><?php echo $this->lang->line("Healthcare costs around the world can be very expensive; hospitals can charge thousands of dollars per day. Your government healthcare plan may or may not cover a minimal portion of these costs. Without adequate insurance coverage, you could be responsible for a significant amount of medical expenses that could have an immense impact on your personal finances. Why take this risk?"); ?></p>
                             </div>
                       </div>
                       <div class="row" style="margin:40px 0;">
                         <div class="col-sm-12 text-center">
-                          <h3>ABOUT US</h3>
-                          <h4>We will take care of you</h4>
+                          <h3><?php echo $this->lang->line("ABOUT US"); ?></h3>
+                          <h4><?php echo $this->lang->line("We will take care of you"); ?></h4>
                           <hr style="border-bottom:2px solid; width:50px; margin:0 auto 20px;" />
-                          <p>JF Insurance Agency Group Inc. (JF) is a licensed brokerage firm incorporated in 1992. We are the leading private firm in providing Emergency Hospital and Medical coverage for Canadians Travellers, Visitors to Canada and International Students. We are recognized for our dedication in serving our clients on an individual basis and by association groups.</p>
+                          <p><?php echo $this->lang->line("JF Insurance Agency Group Inc. (JF) is a licensed brokerage firm incorporated in 1992. We are the leading private firm in providing Emergency Hospital and Medical coverage for Canadians Travellers, Visitors to Canada and International Students. We are recognized for our dedication in serving our clients on an individual basis and by association groups."); ?></p>
                         </div>
                       </div>
                       <div class="row" style="margin-right:0;margin-left:0;">
@@ -57,14 +57,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                           <div style="background-color:#f6f6f6; padding:15px;margin:20px auto;">
                             <div class="row">
                               <div class="col-sm-6" style="padding:15px 5%;">
-                                <h2>Founder</h2>
+                                <h2><?php echo $this->lang->line("Founder"); ?></h2>
                                 <hr style="border-bottom:2px solid #ddd; width:50px; margin:0 0 15px;"/>
-                                <p>Mr. Johnson Fu has more than 30 years of experience in the Insurance and Financial Industry. Mr. Fu is an active member of his community as well as many local and international charities. His active involvement and dedication to community service has led to the JF philosophy "To Serve". It is this philosophy and attitude that resonates and helps guide all staff members at JF.</p>
+                                <p><?php echo $this->lang->line("Mr. Johnson Fu has more than 30 years of experience in the Insurance and Financial Industry. Mr. Fu is an active member of his community as well as many local and international charities. His active involvement and dedication to community service has led to the JF philosophy \"To Serve\". It is this philosophy and attitude that resonates and helps guide all staff members at JF."); ?></p>
                               </div>
                               <div class="col-sm-6" style="padding:15px 5%;">
-                                <h2>Mission</h2>
+                                <h2><?php echo $this->lang->line("Mission"); ?></h2>
                                 <hr style="border-bottom:2px solid #ddd; width:50px; margin:0 0 15px;"/>
-                                <p>To reach all that can benefit from the peace of mind we offer; to ensure claims are processed in a timely manner.</p>
+                                <p><?php echo $this->lang->line("To reach all that can benefit from the peace of mind we offer; to ensure claims are processed in a timely manner."); ?></p>
                               </div>
                             </div>
                           </div>
@@ -73,8 +73,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
                       <div class="row" style="margin:40px 0;">
                         <div class="col-sm-12 col-md-12 text-center">
-                          <h3>WE OFFER</h3>
-                          <h4>we take care of you</h4>
+                          <h3><?php echo $this->lang->line("WE OFFER"); ?></h3>
+                          <h4><?php echo $this->lang->line("we take care of you"); ?></h4>
                           <hr style="border-bottom:2px solid; width:50px; margin:0 auto 20px;" />
 
                         </div>
@@ -83,22 +83,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                               <div style="padding:15px;margin:20px auto;">
                                 <div class="row">
                                   <div class="col-sm-4" style="padding:15px 5%;">
-                                    <img class="img-responsive img-title" src="<?php echo base_url();?>image/t1.jpg" alt="Emergency Hospital Insurance" />
-                                    <h2>Visitor to Canada</h2>
+                                    <img class="img-responsive img-title" src="<?php echo base_url();?>image/t1.jpg" alt='<?php echo $this->lang->line("Emergency Hospital Insurance"); ?>' />
+                                    <h2><?php echo $this->lang->line("Visitor to Canada"); ?></h2>
                                     <hr style="border-bottom:2px solid #ddd; width:50px; margin:0 0 15px;"/>
-                                    <p>Healthcare costs in Canada can be expensive if you’re not covered by a Canadian government healthcare plan. Make sure you have the proper visitor insurance coverage to help protect you and your family and enjoy a secure stay in Canada.</p>
+                                    <p><?php echo $this->lang->line("Healthcare costs in Canada can be expensive if you’re not covered by a Canadian government healthcare plan. Make sure you have the proper visitor insurance coverage to help protect you and your family and enjoy a secure stay in Canada."); ?></p>
                                   </div>
                                   <div class="col-sm-4" style="padding:15px 5%;">
-                                    <img class="img-responsive img-title" src="<?php echo base_url();?>image/t2.jpg" alt="Emergency Hospital Insurance" />
-                                    <h2>International Student to Canada</h2>
+                                    <img class="img-responsive img-title" src="<?php echo base_url();?>image/t2.jpg" alt='<?php echo $this->lang->line("Emergency Hospital Insurance"); ?>' />
+                                    <h2><?php echo $this->lang->line("International Student to Canada"); ?></h2>
                                     <hr style="border-bottom:2px solid #ddd; width:50px; margin:0 0 15px;"/>
-                                    <p>Studying abroad is exciting and adventurous. Make sure you have the right insurance coverage for your journey while in Canada.</p>
+                                    <p><?php echo $this->lang->line("Studying abroad is exciting and adventurous. Make sure you have the right insurance coverage for your journey while in Canada."); ?></p>
                                   </div>
                                   <div class="col-sm-4" style="padding:15px 5%;">
-                                    <img class="img-responsive img-title" src="<?php echo base_url();?>image/t3.jpg" alt="Emergency Hospital Insurance" />
-                                    <h2>Canadian Travellers</h2>
+                                    <img class="img-responsive img-title" src="<?php echo base_url();?>image/t3.jpg" alt='<?php echo $this->lang->line("Emergency Hospital Insurance"); ?>' />
+                                    <h2><?php echo $this->lang->line("Canadian Travellers"); ?></h2>
                                     <hr style="border-bottom:2px solid #ddd; width:50px; margin:0 0 15px;"/>
-                                    <p>It may not come as a surprise that your provincial health plan may not cover your health care costs incurred outside of Canada, but did you also know that you could have limited coverage when traveling to other provinces/territories within Canada? Make sure you are properly covered when travelling abroad or from your home province. </p>
+                                    <p><?php echo $this->lang->line("It may not come as a surprise that your provincial health plan may not cover your health care costs incurred outside of Canada, but did you also know that you could have limited coverage when traveling to other provinces/territories within Canada? Make sure you are properly covered when travelling abroad or from your home province."); ?> </p>
                                   </div>
                                 </div>
                               </div>
@@ -110,7 +110,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                           <div style="background-color:#f6f6f6; padding:15px;margin:20px auto;">
                             <div class="row" style="margin:40px 0 20px;">
                               <div class="col-sm-12 text-center">
-                                <h3>CONTACT US</h3>
+                                <h3><?php echo $this->lang->line("CONTACT US"); ?></h3>
                                 <hr style="border-bottom:2px solid; width:50px; margin:0 auto 20px;" />
                               </div>
                             </div>
@@ -176,18 +176,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         </div>
 <?php } else { ?>
           <div class="h-top">
-                <h1>WHY SHOULD YOU BUY TRAVEL INSURANCE?</h1>
-                <p>We don't like to think about it, but unexpected accidents or illnesses can occur when you and your family are traveling abroad, and finding and paying for adequate medical attention can be very difficult.</p>
-                <p>Healthcare costs around the world can be very expensive; hospitals can charge thousands of dollars per day. Your government healthcare plan may or may not cover a minimal portion of these costs. Without adequate insurance coverage, you could be responsible for a significant amount of medical expenses that could have an immense impact on your personal finances. Why take this risk?</p>
+                <h1><?php echo $this->lang->line("WHY SHOULD YOU BUY TRAVEL INSURANCE"); ?>?</h1>
+                <p><?php echo $this->lang->line("We don't like to think about it, but unexpected accidents or illnesses can occur when you and your family are traveling abroad, and finding and paying for adequate medical attention can be very difficult."); ?></p>
+                <p><?php echo $this->lang->line("Healthcare costs around the world can be very expensive; hospitals can charge thousands of dollars per day. Your government healthcare plan may or may not cover a minimal portion of these costs. Without adequate insurance coverage, you could be responsible for a significant amount of medical expenses that could have an immense impact on your personal finances. Why take this risk?"); ?></p>
               </div>
 <?php } ?>
         </div>
         <div class="row" style="margin:40px 0;">
           <div class="col-sm-12 text-center">
-            <h3>ABOUT US</h3>
-            <h4>We will take care of you</h4>
+            <h3><?php echo $this->lang->line("ABOUT US"); ?></h3>
+            <h4><?php echo $this->lang->line("We will take care of you"); ?></h4>
             <hr style="border-bottom:2px solid; width:50px; margin:0 auto 20px;" />
-            <p style="max-width:600px;width:100%;margin:0 auto;">JF Insurance Agency Group Inc. (JF) is a licensed brokerage firm incorporated in 1992. We are the leading private firm in providing Emergency Hospital and Medical coverage for Canadians Travellers, Visitors to Canada and International Students. We are recognized for our dedication in serving our clients on an individual basis and by association groups.</p>
+            <p style="max-width:600px;width:100%;margin:0 auto;"><?php echo $this->lang->line("JF Insurance Agency Group Inc. (JF) is a licensed brokerage firm incorporated in 1992. We are the leading private firm in providing Emergency Hospital and Medical coverage for Canadians Travellers, Visitors to Canada and International Students. We are recognized for our dedication in serving our clients on an individual basis and by association groups."); ?></p>
           </div>
         </div>
 				<div class="row" style="margin-right:0;margin-left:0;">
@@ -195,14 +195,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<div style="background-color:#f6f6f6; padding:15px;margin:20px auto;">
 							<div class="row">
                 <div class="col-sm-6" style="padding:15px 5%;">
-                  <h2>Founder</h2>
+                  <h2><?php echo $this->lang->line("Founder"); ?></h2>
                   <hr style="border-bottom:2px solid #ddd; width:50px; margin:0 0 15px;"/>
-                  <p>Mr. Johnson Fu has more than 30 years of experience in the Insurance and Financial Industry. Mr. Fu is an active member of his community as well as many local and international charities. His active involvement and dedication to community service has led to the JF philosophy "To Serve". It is this philosophy and attitude that resonates and helps guide all staff members at JF.</p>
+                  <p><?php echo $this->lang->line("Mr. Johnson Fu has more than 30 years of experience in the Insurance and Financial Industry. Mr. Fu is an active member of his community as well as many local and international charities. His active involvement and dedication to community service has led to the JF philosophy \"To Serve\". It is this philosophy and attitude that resonates and helps guide all staff members at JF."); ?></p>
                 </div>
                 <div class="col-sm-6" style="padding:15px 5%;">
-                  <h2>Mission</h2>
+                  <h2><?php echo $this->lang->line("Mission"); ?></h2>
                   <hr style="border-bottom:2px solid #ddd; width:50px; margin:0 0 15px;"/>
-                  <p>To reach all that can benefit from the peace of mind we offer; to ensure claims are processed in a timely manner.</p>
+                  <p><?php echo $this->lang->line("To reach all that can benefit from the peace of mind we offer; to ensure claims are processed in a timely manner."); ?></p>
                 </div>
               </div>
 						</div>
@@ -211,8 +211,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
         <div class="row" style="margin:40px 0;">
           <div class="col-sm-12 col-md-12 text-center">
-            <h3>WE OFFER</h3>
-            <h4>we take care of you</h4>
+            <h3><?php echo $this->lang->line("WE OFFER"); ?></h3>
+            <h4><?php echo $this->lang->line("we take care of you"); ?></h4>
             <hr style="border-bottom:2px solid; width:50px; margin:0 auto 20px;" />
 
           </div>
@@ -222,22 +222,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <div style="padding:15px;margin:20px auto;">
                   <div class="row">
                     <div class="col-sm-4" style="padding:15px 5%;">
-                      <img class="img-responsive img-title" src="<?php echo base_url();?>image/t1.jpg" alt="Emergency Hospital Insurance" />
-                      <h2>Visitor to Canada</h2>
+                      <img class="img-responsive img-title" src="<?php echo base_url();?>image/t1.jpg" alt='<?php echo $this->lang->line("Emergency Hospital Insurance"); ?>' />
+                      <h2><?php echo $this->lang->line("Visitor to Canada"); ?></h2>
                       <hr style="border-bottom:2px solid #ddd; width:50px; margin:0 0 15px;"/>
-                      <p>Healthcare costs in Canada can be expensive if you’re not covered by a Canadian government healthcare plan. Make sure you have the proper visitor insurance coverage to help protect you and your family and enjoy a secure stay in Canada. </p>
+                      <p><?php echo $this->lang->line("Healthcare costs in Canada can be expensive if you’re not covered by a Canadian government healthcare plan. Make sure you have the proper visitor insurance coverage to help protect you and your family and enjoy a secure stay in Canada."); ?> </p>
                     </div>
                     <div class="col-sm-4" style="padding:15px 5%;">
-                      <img class="img-responsive img-title" src="<?php echo base_url();?>image/t2.jpg" alt="Emergency Hospital Insurance" />
-                      <h2>International Student to Canada</h2>
+                      <img class="img-responsive img-title" src="<?php echo base_url();?>image/t2.jpg" alt='<?php echo $this->lang->line("Emergency Hospital Insurance"); ?>' />
+                      <h2><?php echo $this->lang->line("International Student to Canada"); ?></h2>
                       <hr style="border-bottom:2px solid #ddd; width:50px; margin:0 0 15px;"/>
-                      <p>Studying abroad is exciting and adventurous. Make sure you have the right insurance coverage for your journey while in Canada.</p>
+                      <p><?php echo $this->lang->line("Studying abroad is exciting and adventurous. Make sure you have the right insurance coverage for your journey while in Canada."); ?></p>
                     </div>
                     <div class="col-sm-4" style="padding:15px 5%;">
-                      <img class="img-responsive img-title" src="<?php echo base_url();?>image/t3.jpg" alt="Emergency Hospital Insurance" />
-                      <h2>Canadian Travellers</h2>
+                      <img class="img-responsive img-title" src="<?php echo base_url();?>image/t3.jpg" alt='<?php echo $this->lang->line("Emergency Hospital Insurance"); ?>' />
+                      <h2><?php echo $this->lang->line("Canadian Travellers"); ?></h2>
                       <hr style="border-bottom:2px solid #ddd; width:50px; margin:0 0 15px;"/>
-                      <p>It may not come as a surprise that your provincial health plan may not cover your health care costs incurred outside of Canada, but did you also know that you could have limited coverage when traveling to other provinces/territories within Canada? Make sure you are properly covered when travelling abroad or from your home province. </p>
+                      <p><?php echo $this->lang->line("It may not come as a surprise that your provincial health plan may not cover your health care costs incurred outside of Canada, but did you also know that you could have limited coverage when traveling to other provinces/territories within Canada? Make sure you are properly covered when travelling abroad or from your home province."); ?> </p>
                     </div>
                   </div>
                 </div>
@@ -249,7 +249,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <div style="background-color:#f6f6f6; padding:15px;margin:20px auto;">
               <div class="row" style="margin:40px 0 20px;">
                 <div class="col-sm-12 text-center">
-                  <h3>CONTACT US</h3>
+                  <h3><?php echo $this->lang->line("CONTACT US"); ?></h3>
                   <hr style="border-bottom:2px solid; width:50px; margin:0 auto 20px;" />
                 </div>
               </div>

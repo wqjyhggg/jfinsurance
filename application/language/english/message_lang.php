@@ -122,3 +122,154 @@ $lang['phone'] = 'Phone:';
 $lang['fax'] = 'Fax:';
 $lang['toll_free'] = 'Toll Free:';
 $lang['toll_free_fax'] = 'Toll Free Fax:';
+
+/* New Texts */
+/* A */
+$lang["ABOUT US"] = "ABOUT US";
+$lang["Action"] = "Action";
+$lang["Age"] = "Age";
+$lang["Agent"] = "Agent";
+$lang["Apply Date"] = "Apply Date";
+$lang["Arrival Date"] = "Arrival Date";
+
+/* B */
+$lang["Birth Date"] = "Birth Date";
+$lang["By Agent"] = "By Agent";
+
+/* C */
+$lang["Canadian Travellers"] = "Canadian Travellers";
+$lang["City"] = "City";
+$lang["CONTACT US"] = "CONTACT US";
+$lang["Contact Phone"] = "Contact Phone";
+$lang["Copy"] = "Copy";
+$lang["Country"] = "Country";
+$lang["Country of Origin"] = "Country of Origin";
+$lang["Create"] = "Create";
+$lang["Customer Information"] = "Customer Information";
+
+/* D */
+$lang["Daily Rate"] = "Daily Rate";
+$lang["Date"] = "Date";
+$lang["Days"] = "Days";
+
+/* E */
+$lang["Edit Policy"] = "Edit Policy";
+$lang["Effect Date"] = "Effect Date";
+$lang["Effective Date"] = "Effective Date";
+$lang["Email"] = "Email";
+$lang["Emergency Hospital Insurance"] = "Emergency Hospital Insurance";
+$lang["Expiry Date"] = "Expiry Date";
+$lang["Export PDF"] = "Export PDF";
+$lang["Export Xlsx"] = "Export Xlsx";
+
+/* F */
+$lang["Family Member"] = "Family Member";
+$lang["Female"] = "Female";
+$lang["First Name"] = "First Name";
+$lang["Forget password"] = "Forget password";
+$lang['Founder'] = 'Founder';
+$lang["Full Name"] = "Full Name";
+
+/* G */
+$lang["Gender"] = "Gender";
+
+/* H */
+$lang["Healthcare costs around the world can be very expensive; hospitals can charge thousands of dollars per day. Your government healthcare plan may or may not cover a minimal portion of these costs. Without adequate insurance coverage, you could be responsible for a significant amount of medical expenses that could have an immense impact on your personal finances. Why take this risk?"] = "Healthcare costs around the world can be very expensive; hospitals can charge thousands of dollars per day. Your government healthcare plan may or may not cover a minimal portion of these costs. Without adequate insurance coverage, you could be responsible for a significant amount of medical expenses that could have an immense impact on your personal finances. Why take this risk?";
+$lang["Healthcare costs in Canada can be expensive if you’re not covered by a Canadian government healthcare plan. Make sure you have the proper visitor insurance coverage to help protect you and your family and enjoy a secure stay in Canada."] = "Healthcare costs in Canada can be expensive if you’re not covered by a Canadian government healthcare plan. Make sure you have the proper visitor insurance coverage to help protect you and your family and enjoy a secure stay in Canada.";
+
+/* I */
+$lang["International Student to Canada"] = "International Student to Canada";
+$lang["Instructions"] = "Instructions";
+$lang["Insurable Members"] = "Insurable Members";
+$lang["It may not come as a surprise that your provincial health plan may not cover your health care costs incurred outside of Canada, but did you also know that you could have limited coverage when traveling to other provinces/territories within Canada? Make sure you are properly covered when travelling abroad or from your home province."] = "It may not come as a surprise that your provincial health plan may not cover your health care costs incurred outside of Canada, but did you also know that you could have limited coverage when traveling to other provinces/territories within Canada? Make sure you are properly covered when travelling abroad or from your home province.";
+
+/* J */
+$lang["JF Insurance Agency Group Inc. (JF) is a licensed brokerage firm incorporated in 1992. We are the leading private firm in providing Emergency Hospital and Medical coverage for Canadians Travellers, Visitors to Canada and International Students. We are recognized for our dedication in serving our clients on an individual basis and by association groups."] = "JF Insurance Agency Group Inc. (JF) is a licensed brokerage firm incorporated in 1992. We are the leading private firm in providing Emergency Hospital and Medical coverage for Canadians Travellers, Visitors to Canada and International Students. We are recognized for our dedication in serving our clients on an individual basis and by association groups.";
+/* K */
+
+/* L */
+$lang["Last Name"] = "Last Name";
+$lang["Login"] = "Login";
+
+/* M */
+$lang["Male"] = "Male";
+$lang["Members"] = "Members";
+$lang['Mission'] = 'Mission';
+$lang["Mr. Johnson Fu has more than 30 years of experience in the Insurance and Financial Industry. Mr. Fu is an active member of his community as well as many local and international charities. His active involvement and dedication to community service has led to the JF philosophy \"To Serve\". It is this philosophy and attitude that resonates and helps guide all staff members at JF."] = "Mr. Johnson Fu has more than 30 years of experience in the Insurance and Financial Industry. Mr. Fu is an active member of his community as well as many local and international charities. His active involvement and dedication to community service has led to the JF philosophy \"To Serve\". It is this philosophy and attitude that resonates and helps guide all staff members at JF.";
+
+/* N */
+$lang["Name"] = "Name";
+$lang["New Password Again"] = "New Password Again";
+$lang["Notes"] = "Notes";
+
+/* O */
+$lang["Our Product"] = "Our Product";
+$lang["Our Products"] = "Our Products";
+
+/* P */
+$lang["Password"] = "Password";
+$lang["Password must between 6 to 16 charactors"] = "Password must between 6 to 16 charactors";
+$lang["Please contact JF staff for further assistance 905-707-1512"] = "Please contact JF staff for further assistance 905-707-1512";
+$lang["Phone"] = "Phone";
+$lang["Policy Detail"] = "Policy Detail";
+$lang["Policy Filter"] = "Policy Filter";
+$lang["Policy Number"] = "Policy Number";
+$lang["Policy No."] = "Policy No.";
+$lang["Postcode"] = "Postcode";
+$lang["Premium"] = "Premium";
+$lang["Prefer Language"] = "Prefer Language";
+$lang["Print Receipt"] = "Print Receipt";
+$lang["Print Card"] = "Print Card";
+$lang["Product List"] = "Product List";
+$lang["Product Short Name"] = "Product Short Name";
+$lang["Province"] = "Province";
+
+/* Q */
+$lang["Quote"] = "Quote";
+
+/* R */
+$lang["Renewal"] = "Renewal";
+$lang["Reset Password"] = "Reset Password";
+
+/* S */
+$lang["Search"] = "Search";
+$lang["Search Result"] = "Search Result";
+$lang["select product"] = "select product";
+$lang["Send Package"] = "Send Package";
+$lang["Special Note"] = "Special Note";
+$lang["Status"] = "Status";
+$lang["Street No"] = "Street No";
+$lang["Street Name"] = "Street Name";
+$lang["Studying abroad is exciting and adventurous. Make sure you have the right insurance coverage for your journey while in Canada."] = "Studying abroad is exciting and adventurous. Make sure you have the right insurance coverage for your journey while in Canada.";
+$lang["Submit"] = "Submit";
+$lang["Suite No."] = "Suite No.";
+$lang["Summary"] = "Summary";
+
+/* T */
+$lang["The policy must purchase before departure"] = "The policy must purchase before departure";
+$lang["To reach all that can benefit from the peace of mind we offer; to ensure claims are processed in a timely manner."] = "To reach all that can benefit from the peace of mind we offer; to ensure claims are processed in a timely manner.";
+$lang["Total"] = "Total";
+$lang["Travel Dates"] = "Travel Dates";
+
+/* U */
+$lang["Username"] = "Username";
+
+/* V */
+$lang["View"] = "View";
+$lang["View Summary"] = "View Summary";
+$lang["Visitor to Canada"] = "Visitor to Canada";
+
+/* W */
+$lang["We don't like to think about it, but unexpected accidents or illnesses can occur when you and your family are traveling abroad, and finding and paying for adequate medical attention can be very difficult"] = "We don't like to think about it, but unexpected accidents or illnesses can occur when you and your family are traveling abroad, and finding and paying for adequate medical attention can be very difficult";
+$lang["WE OFFER"] = "WE OFFER";
+$lang["We will take care of you"] = "We will take care of you";
+$lang["we take care of you"] = "we take care of you";
+$lang["WHY SHOULD YOU BUY TRAVEL INSURANCE"] = "WHY SHOULD YOU BUY TRAVEL INSURANCE";
+
+/* X */
+/* Y */
+$lang["Your New Password"] = "Your New Password";
+
+/* Z */
+
+/* New Added */

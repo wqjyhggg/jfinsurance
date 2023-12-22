@@ -22,7 +22,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           <duv class-"main-div">
             <div class="page-title">
               <div class="title_left">
-                <h3>Our Products</h3>
+                <h3><?php echo $this->lang->line("Our Products"); ?></h3>
               </div>
 
             </div>
@@ -33,7 +33,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Product List<small></small></h2>
+                    <h2><?php echo $this->lang->line("Product List"); ?><small></small></h2>
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
@@ -42,10 +42,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                       <table class="table table-hover table-bordered">
                         <thead>
                           <tr>
-                            <th>Product Short Name</th>
-                            <th>Full Name</th>
-                            <th>Quote</th>
-                            <th>Summary</th>
+                            <th><?php echo $this->lang->line("Product Short Name"); ?></th>
+                            <th><?php echo $this->lang->line("Full Name"); ?></th>
+                            <th><?php echo $this->lang->line("Quote"); ?></th>
+                            <th><?php echo $this->lang->line("Summary"); ?></th>
                             
                           </tr>
                         </thead>
@@ -54,8 +54,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <tr>
                               <td><?php echo $p['product_short']; ?></td>
                               <td><?php echo $p['full_name']; ?></td>
-                              <td><a href="<?php echo $quote_url . "?product_short=" . $p['product_short']; ?>" class="btn btn-primary">Quote</a></td>
-                              <td><a target="_bland" href="<?php echo $downloads_url . $p['product_short'] . $url_benefit . '.pdf'; ?>" class="btn btn-info">View Summary</a></td>
+                              <td><a href="<?php echo $quote_url . "?product_short=" . $p['product_short']; ?>" class="btn btn-primary"><?php echo $this->lang->line("Quote"); ?></a></td>
+                              <td><a target="_bland" href="<?php echo $downloads_url . $p['product_short'] . $url_benefit . '.pdf'; ?>" class="btn btn-info"><?php echo $this->lang->line("View Summary"); ?></a></td>
                             </tr>
                             <?php } ?>
                         </tbody>

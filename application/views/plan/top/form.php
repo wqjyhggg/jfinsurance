@@ -37,18 +37,18 @@
         <h3><?php echo $plan_full_name; ?></h3>
       </div>
       <div class="col-sm-6">
-        <h2>Premium: $<span id='premium_value'><?php echo $premium; ?></span> <span id='premium_rate_table'></span></h2>
+        <h2><?php echo $this->lang->line("Premium"); ?>: $<span id='premium_value'><?php echo $premium; ?></span> <span id='premium_rate_table'></span></h2>
       </div>
     </div>
     <div class="clearfix"></div>
     <!-- Form Section -->
     <div class="row">
       <div class="col-md-12 col-sm-12 col-xs-12">
-        <div class="alert-error"><H2 style="width: 100%; text-align: center;" id="title_alert_message"><?php if (empty($plan_id) || empty($status_id)) { ?>The policy must purchase before departure<?php } ?></H2></div>
+        <div class="alert-error"><H2 style="width: 100%; text-align: center;" id="title_alert_message"><?php if (empty($plan_id) || empty($status_id)) { echo $this->lang->line("The policy must purchase before departure"); } ?></H2></div>
 
         <div class="alert-error"><?php echo empty($error_message) ? '' : $error_message . "<br>"; ?></div>
         <ul class="nav nav-tabs" id="top-nav-tabs">
-          <li id='date_members_li' class="active"><a data-toggle="tab" id="date_members_tab" href="#date_members">Date / Members</a></li>
+          <li id='date_members_li' class="active"><a data-toggle="tab" id="date_members_tab" href="#date_members"><?php echo $this->lang->line("Date"); ?> / <?php echo $this->lang->line("Members"); ?></a></li>
           <li id='packages_li'><a data-toggle="tab" id="packages_tab" href="#packages">Packages</a></li>
           <li id='questionnaire_li'><a data-toggle="tab" id="questionnaire_tab" href="#questionnaire" <?php if (empty($questionnaire)) { ?>style='display: none' <?php } ?>>Questionnaire</a></li>
           <?php if (!empty($plan_id) && !empty($status_id)) { ?>

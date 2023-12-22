@@ -21,7 +21,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           <div class="main-div">
             <div class="page-title">
               <div class="title_left">
-                <h3>View/Edit Policy
+                <h3><?php echo $this->lang->line("View"); ?>/<?php echo $this->lang->line("Edit Policy"); ?>
                 	
                 	<?php if (($beuser['user_group_id'] != 3) && ($beuser['user_group_id'] != 103) && ($beuser['user_group_id'] != 106)) { ?>
                 	<span class="btn btn-info" data-toggle="collapse" data-target="#create-div" title="Create New"><i class="fa fa-plus"></i> New</span>
@@ -36,7 +36,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Create<small></small></h2>
+                    <h2><?php echo $this->lang->line("Create"); ?><small></small></h2>
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
@@ -44,7 +44,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
 						<div class="row">
 							<div class="form-group col-sm-3">
-				                <label class="col-sm-12">Product List:</label>
+				                <label class="col-sm-12"><?php echo $this->lang->line("Product List"); ?>:</label>
 				                <select name='product_short' class="form-control">
 									<?php foreach ($product_list_a as $key => $value) { ?>
 									<option value='<?php echo $key; ?>'><?php echo $value['full_name']; ?></option>
@@ -53,7 +53,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				            </div>
 							<div class="form-group col-sm-3">
 								<label class="col-sm-12"> &nbsp;</label>
-								<input class="btn btn-primary" type='submit' name='add' value='Create'>
+								<input class="btn btn-primary" type='submit' name='add' value='<?php echo $this->lang->line("Create"); ?>'>
 							</div>
 						</div>
 					</form> 
@@ -67,7 +67,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Policy Filter<small></small></h2>
+                    <h2><?php echo $this->lang->line("Policy Filter"); ?><small></small></h2>
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
@@ -77,9 +77,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			    				  <div class="row">
                     				<!-- Product select box -->
 			                        <div class="form-group col-sm-5 col-xs-12">
-			                          <label class="col-sm-12">Our Product:</label>
+			                          <label class="col-sm-12"><?php echo $this->lang->line("Our Product"); ?>:</label>
 			                          <select name='product_short' class="form-control">
-										<option value='0'> -- select product -- </option>
+										<option value='0'> -- <?php echo $this->lang->line("select product"); ?> -- </option>
 										<?php foreach ($product_list as $key => $value) { ?>
 										<option value='<?php echo $key; ?>' <?php echo ($key == $product_short) ? 'selected' : ''; ?>><?php echo $value['full_name']; ?></option>
 										<?php } ?>
@@ -89,7 +89,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			                        <!-- Product select box end -->
 			                        <!-- Policy Number input box -->
 			                        <div class="form-group col-sm-3">
-			                          <label class="col-sm-12">Policy Number:</label>
+			                          <label class="col-sm-12"><?php echo $this->lang->line("Policy Number"); ?>:</label>
 			                          <div class="input-group col-sm-12">
 			                              <input type="text" name='policy' value='<?php echo $html_model->escapeQuote($policy); ?>' class="form-control"/>
 			                          </div>
@@ -97,7 +97,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			                        <!-- Policy Number input box end -->
 			                        <div class="form-group col-sm-4">
 			                        	<label class="col-sm-12">&nbsp;</label>
-			                        	<input class="btn btn-primary" type='submit' name='search' value='Search'>
+			                        	<input class="btn btn-primary" type='submit' name='search' value='<?php echo $this->lang->line("Search"); ?>'>
 			                        	<input type="button" class="btn btn-info" data-toggle="collapse" data-target="#adv-search" name='search' value='More Filter'>
 			                        </div>	
                     			</div>
@@ -167,7 +167,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			                        <div class="form-group col-sm-3">
 			                          <!--label class="col-sm-12">Batch No.:</label-->
 			                          <div class="input-group col-sm-12">
-			                              <input type="text" name='batch_number' placeholder="Batch No." data-toggle="tooltip" title="Batch No." value='<?php echo $html_model->escapeQuote($batch_number); ?>' class="form-control"/>
+			                              <input type="text" name='batch_number' placeholder="<?php echo $this->lang->line("Batch No."); ?>" data-toggle="tooltip" title="Batch No." value='<?php echo $html_model->escapeQuote($batch_number); ?>' class="form-control"/>
 			                          </div>
 			                        </div>
 			                        <!-- Batch No. input box end -->
@@ -315,7 +315,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Search Result <span> <a class="btn btn-info" href='<?php echo $export_list; ?>'><i class="fa fa-share"></i> Export Xlsx</a></span></h2>
+                    <h2><?php echo $this->lang->line("Search Result"); ?> <span> <a class="btn btn-info" href='<?php echo $export_list; ?>'><i class="fa fa-share"></i> <?php echo $this->lang->line("Export Xlsx"); ?></a></span></h2>
                    
                     <?php if ($export_logo_price_option) { ?>
 						<div class='pull-right'>
@@ -331,16 +331,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                       <table class="table table-hover table-bordered">
                       	<thead>
 							<tr>
-								<th>Policy No.</th>
-								<th>Batch No.</th>
-								<th>Name</th>
-								<th>Status</th>
-								<th>Effect Date</th>
-								<th>Insured</th>
+								<th><?php echo $this->lang->line("Policy No."); ?></th>
+								<th><?php echo $this->lang->line("Batch No."); ?></th>
+								<th><?php echo $this->lang->line("Name"); ?></th>
+								<th><?php echo $this->lang->line("Status"); ?></th>
+								<th><?php echo $this->lang->line("Effect Date"); ?></th>
+								<th><?php echo $this->lang->line("Insured"); ?></th>
 						<?php if ($beuser['user_group_id'] < 105) { ?>
-								<th>Agent</th>
+								<th><?php echo $this->lang->line("Agent"); ?></th>
 						<?php } ?>
-								<th>Action</th>
+								<th><?php echo $this->lang->line("Action"); ?></th>
 							</tr>
 						</thead>
 						<tbody>
@@ -356,11 +356,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<td><?php echo htmlspecialchars($plan['agent_firstname'] . " " . $plan['agent_lastname']) . " [ Agent ID: " . $plan['agent_id'] . " ] "; ?></td>
 					<?php } ?>
 							<td>
-								<a style="color:#46b8da;" href='<?php echo $renewal_url.$plan['plan_id']; ?>'>Renewal</a> | 
-								<a style="color:#46b8da;" href='<?php echo $copy_url.$plan['plan_id']; ?>'>Copy</a> | 
-								<a style="color:#46b8da;" href='<?php echo $pdf_url.$plan['plan_id']; ?>' target='_blabk'>Export PDF</a> 
+								<a style="color:#46b8da;" href='<?php echo $renewal_url.$plan['plan_id']; ?>'><?php echo $this->lang->line("Renewal"); ?></a> | 
+								<a style="color:#46b8da;" href='<?php echo $copy_url.$plan['plan_id']; ?>'><?php echo $this->lang->line("Copy"); ?></a> | 
+								<a style="color:#46b8da;" href='<?php echo $pdf_url.$plan['plan_id']; ?>' target='_blabk'><?php echo $this->lang->line("Export PDF"); ?></a> 
 								<?php if ((($plan['status_id'] == 2) || ($plan['status_id'] == 3)) && ($plan['product_short'] != 'NUS') && ($plan['product_short'] != 'JUS')) { ?> 
-									| <a style="color:#46b8da;" href='<?php echo $sendpackage_url . $plan['plan_id']; ?>'>Send Package</a>
+									| <a style="color:#46b8da;" href='<?php echo $sendpackage_url . $plan['plan_id']; ?>'><?php echo $this->lang->line("Send Package"); ?></a>
 								<?php } ?>
 							</td>
 						</tr>
@@ -371,7 +371,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                   <div class="row">
                   	<div class="col-md-12 col-sm-12 col-xs-12">
                   		<ul style="list-style-type: none">
-                  		<?php echo $pagination; ?> ( Total: <?php echo $plan_total;?> )
+                  		<?php echo $pagination; ?> ( <?php echo $this->lang->line("Total"); ?>: <?php echo $plan_total;?> )
                   		</ul>
                   	</div>
                   </div>
