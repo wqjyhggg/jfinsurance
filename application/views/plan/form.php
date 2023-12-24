@@ -735,7 +735,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                         <th><?php echo $this->lang->line("Pay Type"); ?></th>
                                         <th><?php echo $this->lang->line("Amount"); ?></th>
                                         <th><?php echo $this->lang->line("Rate"); ?></th>
-                                        <th><?php echo $this->lang->line("Pay <?php echo $this->lang->line("Status"); ?>"); ?></th>
+                                        <th><?php echo $this->lang->line("Pay Status"); ?></th>
                                         <th>CK Info</th>
                                         <th>Info</th>
                                         <th><?php echo $this->lang->line("Notes"); ?></th>
