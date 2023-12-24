@@ -134,6 +134,7 @@ $lang["Age"] = "Age";
 $lang["Agent"] = "Agent";
 $lang["Apply Date"] = "Apply Date";
 $lang["All persons insured are subject to the terms and conditions below."] = "All persons insured are subject to the terms and conditions below.";
+$lang["Allow this policy"] = "Allow this policy";
 $lang["Arrival Date"] = "Arrival Date";
 
 /* B */
@@ -143,8 +144,10 @@ $lang["Beneficiary"] = "Beneficiary";
 $lang["Birth Date"] = "Birth Date";
 $lang["Bowel obstruction including bleeding and inflammation"] = "Bowel obstruction including bleeding and inflammation";
 $lang["By Agent"] = "By Agent";
+$lang["By Check the checkbox, you can allow this policy to continue to pay. Please fill in your reason before cilck the checkbox."] = "By Check the checkbox, you can allow this policy to continue to pay. Please fill in your reason before cilck the checkbox.";
 $lang["By checking the box, I agree to the above term."] = "By checking the box, I agree to the above term.";
 $lang["By checking the box, you confirm that both you and your client understand the term and that the plan selected does NOT cover any Pre-Existing Medical Condition(s)."] = "By checking the box, you confirm that both you and your client understand the term and that the plan selected does NOT cover any Pre-Existing Medical Condition(s).";
+
 
 /* C */
 $lang["Canadian Travellers"] = "Canadian Travellers";
@@ -349,6 +352,7 @@ $lang["Travel Insurance Disclaimer"] = "Travel Insurance Disclaimer";
 $lang["Type"] = "Type";
 
 /* U */
+$lang["Un-check to Disallow this policy"] = "Un-check to Disallow this policy";
 $lang["understand that I need to contact with my insurance representative to get confirmation package after I completed the application."] = "understand that I need to contact with my insurance representative to get confirmation package after I completed the application.";
 $lang["Used Days"] = "Used Days";
 $lang["Username"] = "Username";
@@ -376,7 +380,6 @@ $lang["Your New Password"] = "Your New Password";
 /* Z */
 
 /* New Added */
-$lang[""] = "";
 $lang[""] = "";
 $lang[""] = "";
 $lang[""] = "";

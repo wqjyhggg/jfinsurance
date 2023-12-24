@@ -132,12 +132,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<?php if (($user_group_id != 1) || (($beuser_user_id != 1) && ($beuser_user_id != 2762) && ($beuser_user_id != 2254) && ($beuser_user_id != 2661) && ($beuser_user_id != 4272) )) { ?>
 							<?php /* it is school or brokerage or agent */ ?>
 							<div class="form-group col-sm-3">
-								<label style="font-size:16px;">Status: <?php echo $status_list[$status_id]['name']; ?> </label>
+								<label style="font-size:16px;"><?php echo $this->lang->line("Status"); ?>: <?php echo $status_list[$status_id]['name']; ?> </label>
 							</div>
 							<input type='hidden' name='status_id' value='<?php echo $status_id; ?>' class="form-control">
 							<?php } else { ?>
 							<div class="form-group col-sm-3">
-							<label style="display:inline-block;vertical-align:middle;">Status:</label>
+							<label style="display:inline-block;vertical-align:middle;"><?php echo $this->lang->line("Status"); ?>:</label>
 							<div style="display:inline-block;vertical-align:middle;">
 							<select name='status_id' class="form-control">
 								<option value='0'> -- select policy status -- </option>
@@ -157,7 +157,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
    						 <legend><?php echo $this->lang->line("Travel Dates"); ?></legend>
    						 <div class="row">
 							<div class="form-group col-sm-3">
-								<label class="col-sm-12">Apply Date (YYYY-MM-DD):</label>
+								<label class="col-sm-12"><?php echo $this->lang->line("Apply Date"); ?> (YYYY-MM-DD):</label>
 								<?php if ($user_group_id != 1) { ?>
 			                        <input type="hidden" name='apply_date' value='<?php echo $apply_date; ?>'>
 			                        <?php echo $apply_date; ?>
@@ -169,7 +169,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<?php } ?>
 							</div>
 							<div class="form-group col-sm-3">
-								<label class="col-sm-12">Arrival Date (YYYY-MM-DD): </label>
+								<label class="col-sm-12"><?php echo $this->lang->line("Arrival Date"); ?> (YYYY-MM-DD): </label>
 								<div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd" id='arrival_date_div' >
 			                        <input class="form-control" size="16" type="text" name='arrival_date' id='arrival_date' value='<?php echo $arrival_date; ?>' data-date-format="yyyy-mm-dd">
 			                        
@@ -183,7 +183,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 							</div>
 							<div class="form-group col-sm-3">
-								<label class="col-sm-12">Effective Date (YYYY-MM-DD): </label>
+								<label class="col-sm-12"><?php echo $this->lang->line("Effective Date"); ?> (YYYY-MM-DD): </label>
 								<div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd" id='effective_date_div'>
 			                        <input class="setpremium form-control" size="16" type="text" name='effective_date' value='<?php echo $effective_date; ?>'>
 			                        
@@ -196,7 +196,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			                    <?php } ?>
 							</div>
 							<div class="form-group col-sm-3">
-								<label class="col-sm-12">Expiry Date (YYYY-MM-DD): </label>
+								<label class="col-sm-12"><?php echo $this->lang->line("Expiry Date"); ?> (YYYY-MM-DD): </label>
 						  		<div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd" id='expiry_date_div'>
 									<input size="16" type='text' name='expiry_date' class='setpremium form-control' id='expiry_date' value='<?php echo $expiry_date; ?>'>
 									
@@ -212,7 +212,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<?php if (!empty($plan_cancel_date)) {?>
 						<div class="row">
 							<div class="col-sm-3">
-								<label class="inline">Cancel Date:</label>
+								<label class="inline"><?php echo $this->lang->line("Cancel Date"); ?>:</label>
 								<span><?php echo $plan_cancel_date; ?></span>
 							</div>
 						</div>
@@ -220,7 +220,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<?php if (!empty($plan_refund_date)) {?>
 						<div class="row">
 							<div class="col-sm-3">
-								<label class="inline">Refund Date:</label>
+								<label class="inline"><?php echo $this->lang->line("Refund Date"); ?>:</label>
 								<span><?php echo $plan_refund_date; ?></span>
 							</div>
 						</div>
@@ -228,25 +228,25 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<?php if ($batch_number ) { ?>
 								<div class="row">
 									<div class="col-sm-3">
-										<label class="col-sm-12">Days: </label>
+										<label class="col-sm-12"><?php echo $this->lang->line("Days"); ?>: </label>
 										<div class='form_text_show'>
 											<input class="form-control" type='number' name='totaldays' id='totaldays' value='<?php echo $totaldays; ?>' >
 										</div>
 									</div>
 									<div class="col-sm-3">
-										<label class="col-sm-12">Daily Rate: </label>
+										<label class="col-sm-12"><?php echo $this->lang->line("Daily Rate"); ?>: </label>
 										<div class='form_text_show'>
 											<input class="form-control" type='number' name='dailyrate' step='0.01' id='dailyrate' value='<?php echo $dailyrate; ?>'>
 										</div>
 									</div>
 									<div class="col-sm-3">
-										<label class="col-sm-12">Age: </label>
+										<label class="col-sm-12"><?php echo $this->lang->line("Age"); ?>: </label>
 										<div class='form_text_show'>
 											<input class="form-control" type='number' name='totalyears' id='totalyears' value='<?php echo $totalyears; ?>'>
 										</div>
 									</div>
 									<div class="col-sm-3">
-										<label class="col-sm-12">Premium: </label>
+										<label class="col-sm-12"><?php echo $this->lang->line("Premium"); ?>: </label>
 										<div class="form_text_show" id='premiumdisplay'>
 											<input class="form-control" type='number' name='premium' step='0.01' id='premium' value='<?php echo $premium; ?>'>	
 										</div>
@@ -255,7 +255,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<?php } else { ?>
 								<div class="row">
 									<div class="col-sm-1">
-										<label class="col-sm-12">Days: </label>
+										<label class="col-sm-12"><?php echo $this->lang->line("Days"); ?>: </label>
 										<div class="input-group col-sm-12">
 											<!-- div id='totaldays' class="div-box"></div -->
 											<input class="form-control" type='text' name='totaldays' id='totaldays' value='<?php echo $totaldays; ?>' >
@@ -267,19 +267,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										</div>
 									</div>
 									<div class="col-sm-3">
-										<label class="col-sm-12">Daily Rate: </label>
+										<label class="col-sm-12"><?php echo $this->lang->line("Daily Rate"); ?>: </label>
 										<div class="input-group col-sm-12">
 											<input class="form-control" type='text' name='dailyrate' id='dailyrate' value='<?php echo $dailyrate; ?>' readonly >
 										</div>
 									</div>
 									<div class="col-sm-3">
-										<label class="col-sm-12">Age: </label>
+										<label class="col-sm-12"><?php echo $this->lang->line("Age"); ?>: </label>
 										<div class="input-group col-sm-12">
 											<input class="form-control" type='text' name='totalyears' id='totalyears' value='<?php echo $totalyears; ?>' readonly >
 										</div>
 									</div>
 									<div class="col-sm-3">
-										<label class="inline">Premium: </label>
+										<label class="inline"><?php echo $this->lang->line("Premium"); ?>: </label>
 										<div class="input-group col-sm-12">
 											<?php if ($user_group_id < 100) { ?>
 											<input class="form-control" type='text' name='premium' id='premium' value='<?php echo $premium; ?>'>
@@ -306,7 +306,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<?php if (($do_user_id > 0) && ($user_group_id < 100)) { ?>
 					<div class="row">
 						<div class="col-sm-12">
-							<label class="col-sm-12">By Check the checkbox, you can allow this policy to continue to pay. Please fill in your reason before cilck the checkbox.</label>
+							<label class="col-sm-12"><?php echo $this->lang->line("By Check the checkbox, you can allow this policy to continue to pay. Please fill in your reason before cilck the checkbox."); ?></label>
 						</div>
 					</div>
 					<div class="row">
@@ -314,7 +314,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							 <textarea name='claim_allow_note' id='claim_allow_note' style='width: 100%'><?php echo $claim_allow_note;?></textarea>
 						</div>
 						<div class="form-group col-sm-2">
-							 <input type='checkbox' class='setpremium' id='claim_allowed'> Allow this policy
+							 <input type='checkbox' class='setpremium' id='claim_allowed'> <?php echo $this->lang->line("Allow this policy"); ?>
 							 <input type='hidden' name='claim_allow_by' id='claim_allow_by' value=''>
 						</div>
 					</div>
@@ -325,7 +325,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							 <?php echo htmlspecialchars($claim_allow_note);?>
 						</div>
 						<div class="form-group col-sm-2">
-							 <input type='checkbox' class='setpremium' id='claim_allowed' checked> Un-check to Disallow this policy
+							 <input type='checkbox' class='setpremium' id='claim_allowed' checked> <?php echo $this->lang->line("Un-check to Disallow this policy"); ?>
 							 <input type='hidden' name='claim_allow_by' id='claim_allow_by' value=''>
 							 <input type='hidden' name='claim_allow_note' id='claim_allow_note' value='<?php echo $html_model->escapeQuote($claim_allow_note);?>'>
 						</div>
@@ -335,19 +335,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<div class="row">
 						<div class="col-sm-12">
 							<fieldset>
-								<legend>Insurable Members</legend>
+								<legend><?php echo $this->lang->line("Insurable Members"); ?></legend>
 								<input type='hidden' name='customer_id' value='<?php echo !empty($customer_id) ? $customer_id : 0; ?>'>
 								<div class="row">
                 <?php if (($product_short == 'JFS') || ($product_short == 'JFE') || ($product_short == 'BHS') || ($product_short == 'JES') || ($product_short == 'JFPL') || ($product_short == 'JFSL') || ($product_short == 'JFGD')) { ?>
-									<label class="col-sm-12">Insured student</label>
+									<label class="col-sm-12"><?php echo $this->lang->line("Insured student"); ?></label>
                 <?php } else { ?>
-                  <label class="col-sm-12">Customer Information</label>
+                  <label class="col-sm-12"><?php echo $this->lang->line("Customer Information"); ?></label>
                 <?php } ?>
 									<div class="col-sm-3">
                   <?php if (($product_short == 'JFS') || ($product_short == 'JFE') || ($product_short == 'BHS') || ($product_short == 'JES') || ($product_short == 'JFPL') || ($product_short == 'JFSL') || ($product_short == 'JFGD')) { ?>
-		  							<label class="col-sm-12">Student First Name:</label>
+		  							<label class="col-sm-12"><?php echo $this->lang->line("Student First Name"); ?>:</label>
                   <?php } else { ?>
-										<label class="col-sm-12">First Name:</label>
+										<label class="col-sm-12"><?php echo $this->lang->line("First Name"); ?>:</label>
                   <?php } ?>
 										<div class="input-group col-sm-12">
 											<input class="form-control" type='text' name='firstname' value='<?php echo !empty($firstname) ? $html_model->escapeQuote($firstname) : ''; ?>'>
@@ -360,9 +360,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									</div>
 									<div class="col-sm-3">
                   <?php if (($product_short == 'JFS') || ($product_short == 'JFE') || ($product_short == 'BHS') || ($product_short == 'JES') || ($product_short == 'JFPL') || ($product_short == 'JFSL') || ($product_short == 'JFGD')) { ?>
-		  							<label class="col-sm-12">Student Last Name:</label>
+		  							<label class="col-sm-12"><?php echo $this->lang->line("Student Last Name"); ?>:</label>
                   <?php } else { ?>
-										<label class="col-sm-12">Last Name:</label>
+										<label class="col-sm-12"><?php echo $this->lang->line("Last Name"); ?>:</label>
                   <?php } ?>
 										<div class="input-group col-sm-12">
 											<input class="form-control" type='text' name='lastname' value='<?php echo !empty($lastname) ? $html_model->escapeQuote($lastname) : ''; ?>'>
@@ -375,9 +375,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									</div>
 									<div class="col-sm-3">
                   <?php if (($product_short == 'JFS') || ($product_short == 'JFE') || ($product_short == 'BHS') || ($product_short == 'JES') || ($product_short == 'JFPL') || ($product_short == 'JFSL') || ($product_short == 'JFGD')) { ?>
-		  							<label class="col-sm-12">Student Birth Date (YYYY-MM-DD):</label>
+		  							<label class="col-sm-12"><?php echo $this->lang->line("Student Birth Date"); ?> (YYYY-MM-DD):</label>
                   <?php } else { ?>
-										<label class="col-sm-12">Birth Date (YYYY-MM-DD):</label>
+										<label class="col-sm-12"><?php echo $this->lang->line("Birth Date"); ?> (YYYY-MM-DD):</label>
                   <?php } ?>
 										<div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd" data-date-end-date="0d" >
 					                        <input size="16" type="text" class='setpremium form-control' name='birthday' value='<?php echo !empty($birthday) ? $birthday : ''; ?>'>
@@ -393,7 +393,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<div class="col-sm-3">
 										<div class="row">
 											<div class="col-sm-6">
-												<label class="col-sm-12">Gender: </label>
+												<label class="col-sm-12"><?php echo $this->lang->line("Gender"); ?>: </label>
 												<div class="input-group col-sm-12">
 													<select name='gender' class="form-control" style="padding:6px 2px;">
 													<option value='M' <?php echo (empty($gender) || ($gender != 'F')) ? "selected" : ""; ?>>Male</option>
@@ -426,20 +426,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									</div>
 									
 										<div class="col-sm-3">
-											<label class="col-sm-12">First Name: </label>
+											<label class="col-sm-12"><?php echo $this->lang->line("First Name"); ?>: </label>
 											<div class="input-group col-sm-12">
 												<input class="form-control" type='text' name='firstname_<?php echo $i; ?>' id='firstname_<?php echo $i; ?>' value='<?php echo !empty(${'firstname_'.$i}) ? $html_model->escapeQuote(${'firstname_'.$i}) : ''; ?>'>
 											</div>
 										</div>
 										<div class="col-sm-3">
-											<label class="col-sm-12">Last Name: </label>
+											<label class="col-sm-12"><?php echo $this->lang->line("Last Name"); ?>: </label>
 
 											<div class="input-group col-sm-12">	
 												<input class="form-control" type='text' name='lastname_<?php echo $i; ?>' id='lastname_<?php echo $i; ?>' value='<?php echo !empty(${'lastname_'.$i}) ? $html_model->escapeQuote(${'lastname_'.$i}) : ''; ?>'>
 											</div>
 										</div>
 										<div class="col-sm-3">
-											<label class="col-sm-12">Birth Date: </label>
+											<label class="col-sm-12"><?php echo $this->lang->line("Birth Date"); ?>: </label>
 											
 											<div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd" data-date-end-date="0d">
 					                        	<input size="16" type="text" class='setpremium form-control' name='birthday_<?php echo $i; ?>' id='birthday_<?php echo $i; ?>' value='<?php echo !empty(${'birthday_'.$i}) ? ${'birthday_'.$i} : ''; ?>'>
@@ -455,7 +455,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										<div class="col-sm-3">
 											<div class="row">
 												<div class="col-sm-6">
-													<label class="col-sm-12">Gender: </label>
+													<label class="col-sm-12"><?php echo $this->lang->line("Gender"); ?>: </label>
 													<div class="input-group col-sm-12">
 														<select name='gender_<?php echo $i; ?>' id='gender_<?php echo $i; ?>' class="form-control" style="padding:6px 2px;">
 														<option value='M' <?php echo (empty(${'gender_'.$i}) || (${'gender_'.$i} != 'F')) ? "selected" : ""; ?>>Male</option>
@@ -496,7 +496,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<legend>Address</legend>
 								<div class="row">
 									<div class="form-group col-sm-3">
-										<label class="col-sm-12">Street No: </label>
+										<label class="col-sm-12"><?php echo $this->lang->line("Street No"); ?>: </label>
 										<div class="input-group col-sm-12">
 											<input class="form-control" type='text' name='street_number' value='<?php echo $html_model->escapeQuote($street_number); ?>'>
 										</div>
@@ -507,7 +507,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										<?php } ?>
 									</div>
 									<div class="form-group col-sm-3">
-										<label class="col-sm-12">Street Name: </label>
+										<label class="col-sm-12"><?php echo $this->lang->line("Street Name"); ?>: </label>
 										<div class="input-group col-sm-12">
 											<input class="form-control" type='text' name='street_name' value='<?php echo $html_model->escapeQuote($street_name); ?>'>
 										</div>
@@ -518,13 +518,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										<?php } ?>
 									</div>
 									<div class="form-group col-sm-3">
-										<label class="col-sm-12">Suite No.: </label>
+										<label class="col-sm-12"><?php echo $this->lang->line("Suite No."); ?>: </label>
 										<div class="input-group col-sm-12">
 											<input class="form-control" type='text' name='suite_number' value='<?php echo $html_model->escapeQuote($suite_number); ?>'>
 										</div>
 									</div>
 									<div class="form-group col-sm-3">
-										<label class="col-sm-12">City: </label>
+										<label class="col-sm-12"><?php echo $this->lang->line("City"); ?>: </label>
 										<div class="input-group col-sm-12">
 											<input class="form-control" type='text' name='city' value='<?php echo $html_model->escapeQuote($city); ?>'>
 										</div>
@@ -537,7 +537,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								</div>
 								<div class="row">	
 									<div class="form-group col-sm-3">
-										<label class="col-sm-12">Province: </label>
+										<label class="col-sm-12"><?php echo $this->lang->line("Province"); ?>: </label>
 										<div class="input-group col-sm-12">
 											<div id='province2_div'></div>
 										</div>
@@ -548,7 +548,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										<?php } ?>
 									</div>
 									<div class="form-group col-sm-3">
-										<label class="col-sm-12">Country: </label>
+										<label class="col-sm-12"><?php echo $this->lang->line("Country"); ?>: </label>
 										<div class="input-group col-sm-12">
                     <?php if (($product_short=="JES") || ($product_short=="JESP") || ($product_short=="JFR") || ($product_short=="JFS") || ($product_short=="JFVTC")) { ?>
                       Canada
@@ -559,7 +559,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										</div>
 									</div>
 									<div class="form-group col-sm-3">
-										<label class="col-sm-12">Postcode: </label>
+										<label class="col-sm-12"><?php echo $this->lang->line("Postcode"); ?>: </label>
 										<div class="input-group col-sm-12">
 											<input class="form-control" type='text' name='postcode' value='<?php echo $html_model->escapeQuote($postcode); ?>'>
 										</div>
@@ -572,7 +572,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								</div>
 								<div class="row">
 									<div class="col-sm-3">
-										<label class="col-sm-12">Phone1: </label>
+										<label class="col-sm-12"><?php echo $this->lang->line("Phone"); ?>1: </label>
 										<div class="input-group col-sm-12">
 											<input class="form-control" type='text' name='phone1' value='<?php echo $html_model->escapeQuote($phone1); ?>'>
 										</div>
@@ -583,7 +583,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										<?php } ?>
 									</div>
 									<div class="col-sm-3">
-										<label class="col-sm-12">Phone2: </label>
+										<label class="col-sm-12"><?php echo $this->lang->line("Phone"); ?>2: </label>
 										<div class="input-group col-sm-12">
 											<input class="form-control" type='text' name='phone2' value='<?php echo $html_model->escapeQuote($phone2); ?>'>
 										</div>
@@ -598,7 +598,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<legend>Contact</legend>
 								<div class="row">
 									<div class="col-sm-3">
-										<label class="col-sm-12">Email: </label>
+										<label class="col-sm-12"><?php echo $this->lang->line("Email"); ?>: </label>
 										<div class="input-group col-sm-12">
 											<input class="form-control" type='text' name='contact_email' value='<?php echo $html_model->escapeQuote($contact_email); ?>'>
 										</div>
@@ -609,19 +609,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										<?php } ?>
 									</div>
 									<div class="col-sm-3">
-										<label class="col-sm-12">Contact Phone: </label>
+										<label class="col-sm-12"><?php echo $this->lang->line("Contact Phone"); ?>: </label>
 										<div class="input-group col-sm-12">
 											<input class="form-control" type='text' name='contact_phone' value='<?php echo $html_model->escapeQuote($contact_phone); ?>'>
 										</div>
 									</div>
 									<div class="col-sm-3">
-										<label class="col-sm-12">Country of Origin: </label>
+										<label class="col-sm-12"><?php echo $this->lang->line("Country of Origin"); ?>: </label>
 										<div class="input-group col-sm-12">
 											<input class="form-control" type='text' name='residence' value='<?php echo $html_model->escapeQuote($residence); ?>'>
 										</div>
 									</div>
 									<div class="col-sm-3">
-										<label class="col-sm-12">Prefer Language: </label>
+										<label class="col-sm-12"><?php echo $this->lang->line("Prefer Language"); ?>: </label>
                     <div class="input-group col-sm-12">
                       <select name='contact_language' id='contact_language' class="form-control" style="padding:6px 2px;">
                         <option value='English' <?php echo (empty($contact_language) || ($contact_language == 'English')) ? "selected" : ""; ?>>English</option>
@@ -637,10 +637,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<div class="row" <?php if ($user_group_id > 100) { ?>style='display:none; '<?php } ?>>
 						<div class="col-sm-12">
 							<fieldset>
-								<legend>Special Note/Instructions</legend>
+								<legend><?php echo $this->lang->line("Special Note/Instructions"); ?></legend>
 								<div class="row" >
 									<div class="col-sm-12">
-										<label class="col-sm-12">Notes: </label>
+										<label class="col-sm-12"><?php echo $this->lang->line("Notes"); ?>: </label>
 										<div class="input-group col-sm-12">
 								 			<textarea class="form-control" name="note"><?php echo htmlspecialchars($note); ?></textarea>
 								 		</div>
@@ -718,10 +718,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		                  <div class="row" id='payment_history'>
                         <?php	if (!empty($payment_tables) && is_array($payment_tables) && (sizeof($payment_tables) > 0)) { ?>
 		                  	<div class="col-sm-12">
-			                  	<button type="button" id="payment_history_button" class="btn btn-info" data-toggle="collapse" data-target="#history1">Payments <span class="fa fa-chevron-down"></span></button>
+			                  	<button type="button" id="payment_history_button" class="btn btn-info" data-toggle="collapse" data-target="#history1"><?php echo $this->lang->line("Payments"); ?> <span class="fa fa-chevron-down"></span></button>
 			  			            <div id="history1" class="collapse">
                             <?php	if (sizeof($payment_tables) > 1) { ?>
-                              <button type="button" id="payment_get_history_button" class="btn">Get More</button>
+                              <button type="button" id="payment_get_history_button" class="btn"><?php echo $this->lang->line("Get More"); ?></button>
                             <?php } ?>
                             <form action='<?php echo $makepay_url; ?>' method='POST' class="form-horizontal">
                               <input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
@@ -730,15 +730,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <thead>
                                       <tr>
                                         <th>&nbsp;</th>
-                                        <th>Last Update</th>
-                                        <th>Type</th>
-                                        <th>Pay Type</th>
-                                        <th>Amount</th>
-                                        <th>Rate</th>
-                                        <th>Pay Status</th>
+                                        <th><?php echo $this->lang->line("Last Update"); ?></th>
+                                        <th><?php echo $this->lang->line("Type"); ?></th>
+                                        <th><?php echo $this->lang->line("Pay Type"); ?></th>
+                                        <th><?php echo $this->lang->line("Amount"); ?></th>
+                                        <th><?php echo $this->lang->line("Rate"); ?></th>
+                                        <th><?php echo $this->lang->line("Pay <?php echo $this->lang->line("Status"); ?>"); ?></th>
                                         <th>CK Info</th>
                                         <th>Info</th>
-                                        <th>Notes</th>
+                                        <th><?php echo $this->lang->line("Notes"); ?></th>
                                       </tr>
                                     </thead>
                                     <tbody id="payment_history_table_tbody">
@@ -762,15 +762,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			                  	<button type="button" id="activelog_history_button" class="btn btn-info" data-toggle="collapse" data-target="#history2">Changes <span class="fa fa-chevron-down"></span></button>
 			                  	<div id="history2" class="collapse">
                             <?php	if (sizeof($activelog_tables) > 1) { ?>
-                              <button type="button" id="activelog_get_history_button" class="btn">Get More</button>
+                              <button type="button" id="activelog_get_history_button" class="btn"><?php echo $this->lang->line("Get More"); ?></button>
                             <?php } ?>
 			                  		<div class="table-responsive">
 			                  			<table class="table table-hover table-bordered" id="activelog_history_table">
                                 <thead>
                                   <tr>
-                                    <th>Username</th>
-                                    <th>Date Time</th>
-                                    <th>Message</th>
+                                    <th><?php echo $this->lang->line("Username"); ?></th>
+                                    <th><?php echo $this->lang->line("Date Time"); ?></th>
+                                    <th><?php echo $this->lang->line("Message"); ?></th>
                                   </tr>
                                 </thead>
                                 <tbody id="activelog_history_table_tbody">

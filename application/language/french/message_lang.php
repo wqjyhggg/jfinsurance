@@ -125,7 +125,8 @@ $lang["Age"] = "Âge";
 $lang["Agent"] = "Agente";
 $lang["Apply Date"] = "Date de candidature";
 $lang["All persons insured are subject to the terms and conditions below."] = "Toutes les personnes assurées sont soumises aux modalités ci-dessous.";
-$lang["Arrival Date"] = "Date d'arrivée";
+$lang["Allow this policy"] = "Autoriser cette règle";
+lang["Arrival Date"] = "Date d'arrivée";
 
 /* B */
 $lang["Bank Name"] = "Nom de banque";
@@ -134,6 +135,7 @@ $lang["Beneficiary"] = "Bénéficiaire";
 $lang["Birth Date"] = "Date de naissance";
 $lang["Bowel obstruction including bleeding and inflammation"] = "Occlusion intestinale, y compris saignement et inflammation";
 $lang["By Agent"] = "Par agent";
+$lang["By Check the checkbox, you can allow this policy to continue to pay. Please fill in your reason before cilck the checkbox."] = "En cochant la case, vous pouvez autoriser cette politique à continuer de payer. Veuillez indiquer votre motif avant de cocher la case.";
 $lang["By checking the box, I agree to the above term."] = "En cochant la case, j'accepte les conditions ci-dessus.";
 $lang["By checking the box, you confirm that both you and your client understand the term and that the plan selected does NOT cover any Pre-Existing Medical Condition(s)."] = "En cochant la case, vous confirmez que vous et votre client comprenez le terme et que le plan choisi ne couvre AUCUN problème de santé préexistant.";
 
@@ -312,6 +314,7 @@ $lang["stable pre-existing condition coverage"] = "couverture stable des maladie
 $lang["Status"] = "Statut";
 $lang["Street No"] = "Numéro de rue";
 $lang["Street Name"] = "Nom de rue";
+$lang["Student First Name"] = "Prénom de l'étudiant";
 $lang["Student ID"] = "Carte d'étudiant";
 $lang["Student Name"] = "Nom d'étudiant";
 $lang["Studying abroad is exciting and adventurous. Make sure you have the right insurance coverage for your journey while in Canada."] = "Étudier à l’étranger est passionnant et aventureux. Assurez-vous d'avoir la bonne couverture d'assurance pour votre voyage pendant votre séjour au Canada.";
@@ -340,6 +343,7 @@ $lang["Travel Insurance Disclaimer"] = "Avis de non-responsabilité en matière 
 $lang["Type"] = "Taper";
 
 /* U */
+$lang["Un-check to Disallow this policy"] = "Décochez pour refuser cette politique";
 $lang["understand that I need to contact with my insurance representative to get confirmation package after I completed the application."] = "Je comprends que je dois contacter mon représentant d'assurance pour obtenir un dossier de confirmation après avoir rempli la proposition.";
 $lang["Used Days"] = "Jours utilisés";
 $lang["Username"] = "Nom d'utilisateur";
