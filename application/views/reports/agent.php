@@ -21,7 +21,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           <div class="main-div">
             <div class="page-title">
               <div class="title_left">
-                <h3>Sales Report to Agent</h3>
+                <h3><?php echo $this->lang->line("Sales Report to Agent"); ?></h3>
               </div>
 
             </div>
@@ -31,7 +31,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Report Filter<small></small></h2>
+                    <h2><?php echo $this->lang->line("Report Filter"); ?><small></small></h2>
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
@@ -40,10 +40,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                       <div class="row">
                       <!-- Agent input box -->
                         <div class="form-group col-sm-4">
-                          <label class="col-sm-12">Agent:</label>
+                          <label class="col-sm-12"><?php echo $this->lang->line("Agent"); ?>:</label>
                           <div class="input-group col-sm-12">
                               <select name="agent_id" class="form-control">
-                                <option value=0>Choose Agent</option>
+                                <option value=0><?php echo $this->lang->line("Choose Agent"); ?></option>
 <?php foreach ($user_list as $agent) : ?>
     <?php if ($agent_id == $agent['user_id']) : ?>
                                 <option value="<?=$agent['user_id'] ?>"  selected>
@@ -60,10 +60,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
                         <!-- Product input box -->
                         <div class="form-group col-sm-4">
-                          <label class="col-sm-12">Product:</label>
+                          <label class="col-sm-12"><?php echo $this->lang->line("Product"); ?>:</label>
                             <div class="input-group col-sm-12">
                               <select name='product_short' class="form-control">
-                                <option value="">Choose Product</option>
+                                <option value=""><?php echo $this->lang->line("Choose Product"); ?></option>
 <?php foreach ($product_list as $product) : ?>
     <?php if ($product_short == $product['product_short']) : ?>
                                 <option value="<?=$product['product_short'] ?>"  selected>
@@ -80,10 +80,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <?php if ($beuser['region_id'] == 0) { ?>
                         <!-- Product input box -->
                         <div class="form-group col-sm-4">
-                          <label class="col-sm-12">Region:</label>
+                          <label class="col-sm-12"><?php echo $this->lang->line("Region"); ?>:</label>
                             <div class="input-group col-sm-12">
                             <select name='region_id' class="form-control">
-                              <option value='0'> -- All Region -- </option>
+                              <option value='0'> -- <?php echo $this->lang->line("All Region"); ?> -- </option>
                               <?php foreach ($regions as $key => $name) { ?>
                               <option value='<?php echo $key; ?>' <?php echo ($region_id == $key) ? 'selected' : ''; ?>><?php echo $name; ?></option>
                               <?php } ?>
@@ -100,7 +100,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <!-- Payment Added Date-->
                         <div class="form-group col-sm-4">
                             <!-- Payment Added Date From-->
-                            <label for="payment_added_from" class="col-sm-12">Payment Added Date From</label>
+                            <label for="payment_added_from" class="col-sm-12"><?php echo $this->lang->line("Payment Added Date From"); ?></label>
                             <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
                             <input name="payment_added_from" class="form-control" size="16" type="text" value="<?php echo $payment_added_from ?>" >
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
@@ -108,7 +108,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <input type="hidden" id="payment_added_from" value="" />
                             <!-- Payment Added Date From End-->
                             <!-- Payment Added Date to -->
-                            <label for="payment_added_to" class="col-sm-12">Payment Added Date To</label>
+                            <label for="payment_added_to" class="col-sm-12"><?php echo $this->lang->line("Payment Added Date To"); ?></label>
                             <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
                                 <input name="payment_added_to" class="form-control" size="16" type="text" value="<?php echo $payment_added_to ?>" >
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
@@ -120,7 +120,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <!-- Payment Update Date-->
                         <div class="form-group col-sm-4">
                             <!-- Payment Update Date From-->
-                            <label for="payment_date_from" class="col-sm-12">Payment Update Date From</label>
+                            <label for="payment_date_from" class="col-sm-12"><?php echo $this->lang->line("Payment Update Date From"); ?></label>
                             <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
                             <input name="payment_date_from" class="form-control" size="16" type="text" value="<?php echo $payment_date_from ?>" >
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
@@ -128,7 +128,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <input type="hidden" id="payment_date_from" value="" />
                             <!-- Payment Update Date From End-->
                             <!-- Payment Update Date to -->
-                            <label for="payment_date_to" class="col-sm-12">Payment Update Date To</label>
+                            <label for="payment_date_to" class="col-sm-12"><?php echo $this->lang->line("Payment Update Date To"); ?></label>
                             <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
                                 <input name="payment_date_to" class="form-control" size="16" type="text" value="<?php echo $payment_date_to ?>" >
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
@@ -141,7 +141,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                       <div class="row">
                         <!-- submit button -->
                           <div class="col-sm-12">
-                            <button class="btn btn-primary pull-right">Display Sales Report</button>
+                            <button class="btn btn-primary pull-right"><?php echo $this->lang->line("Display Sales Report"); ?></button>
                           </div>
                         <!-- submit button -->
                       </div>
@@ -168,7 +168,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			                    <div class="row">
 			                        <!-- submit button -->
 			                        <div class="col-sm-12">
-			                            <button class="btn btn-primary pull-right">Exort Sales Report</button>
+			                            <button class="btn btn-primary pull-right"><?php echo $this->lang->line("Export Sales Report"); ?></button>
 			                        </div>
 			                        <!-- submit button -->
 			                    </div>
@@ -185,25 +185,25 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 foreach ($report_data as $data) :?>
                         <thead>
                           <tr>
-                            <th>Count</th>
-                            <th>Payment Date</th>
-                            <th>Policy No</th>
-                            <th>Insurer</th>
-                            <th>Product</th>
-                            <th>Insured Name</th>
-                            <th>Effective Date</th>
-                            <th>Expiry Date</th>
-                            <th>Number of Days</th>
-                            <th>Daily Rate</th>
-                            <th>Policy Premium</th>
-                            <th>Net Premium</th>
+                            <th><?php echo $this->lang->line("Count"); ?></th>
+                            <th><?php echo $this->lang->line("Payment Date"); ?></th>
+                            <th><?php echo $this->lang->line("Policy No."); ?></th>
+                            <th><?php echo $this->lang->line("Insurer"); ?></th>
+                            <th><?php echo $this->lang->line("Product"); ?></th>
+                            <th><?php echo $this->lang->line("Insured Name"); ?></th>
+                            <th><?php echo $this->lang->line("Effective Date"); ?></th>
+                            <th><?php echo $this->lang->line("Expiry Date"); ?></th>
+                            <th><?php echo $this->lang->line("Number of Days"); ?></th>
+                            <th><?php echo $this->lang->line("Daily Rate"); ?></th>
+                            <th><?php echo $this->lang->line("Policy Premium"); ?></th>
+                            <th><?php echo $this->lang->line("Net Premium"); ?></th>
 	<?php if (($beuser['user_id'] == 450) || ($beuser['user_id'] == 2018)) { ?>
-                            <th>Note</th>
+                            <th><?php echo $this->lang->line("Note"); ?></th>
 	<?php } ?>
 	<?php if (($beuser['user_id'] == 2810) || ($beuser['user_id'] == 3297)) { ?>
-                            <th>Pay Mothed</th>
-                            <th>Contact Email</th>
-                            <th>Contact Phone</th>
+                            <th><?php echo $this->lang->line("Pay Mothed"); ?></th>
+                            <th><?php echo $this->lang->line("Contact Email"); ?></th>
+                            <th><?php echo $this->lang->line("Contact Phone"); ?></th>
 	<?php } ?>
                           </tr>
                         </thead>
@@ -236,11 +236,11 @@ foreach ($report_data as $data) :?>
     <?php endforeach; ?>
                             <tr>
                             	<td colspan=12>
-                                Total Premium: $<?php echo $data['data']['policy_premium']; ?>;&nbsp;&nbsp;
-                                Total Net Premium: $<?php echo $data['data']['net_premium']; ?>;&nbsp;&nbsp;&nbsp;&nbsp;
-                                Username: <?php echo $data['data']['agent_username']; ?>;&nbsp;&nbsp;
-                                Email: <?php echo $data['data']['agent_email']; ?>;&nbsp;&nbsp;
-                                Name: <?php echo $data['data']['agent_firstname'] . " " . $data['data']['agent_lastname']; ?>;&nbsp;&nbsp;
+                                <?php echo $this->lang->line("Total Premium"); ?>: $<?php echo $data['data']['policy_premium']; ?>;&nbsp;&nbsp;
+                                <?php echo $this->lang->line("Total Net Premium"); ?>: $<?php echo $data['data']['net_premium']; ?>;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <?php echo $this->lang->line("Username"); ?>: <?php echo $data['data']['agent_username']; ?>;&nbsp;&nbsp;
+                                <?php echo $this->lang->line("Email"); ?>: <?php echo $data['data']['agent_email']; ?>;&nbsp;&nbsp;
+                                <?php echo $this->lang->line("Name"); ?>: <?php echo $data['data']['agent_firstname'] . " " . $data['data']['agent_lastname']; ?>;&nbsp;&nbsp;
                             	</td>
 	<?php if (($beuser['user_id'] == 450) || ($beuser['user_id'] == 2018)) { ?>
  	                           <td>&nbsp;</td>

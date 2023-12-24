@@ -22,7 +22,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           <div class="main-div">
             <div class="page-title">
               <div class="title_left">
-                <h3>Receivable Report</h3>
+                <h3><?php echo $this->lang->line("Receivable Report"); ?></h3>
               </div>
 
             </div>
@@ -45,10 +45,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <?php } else { ?>                      
                       <!-- Agent select box -->
                         <div class="form-group col-sm-3">
-                          <label class="col-sm-12">Agent:</label>
+                          <label class="col-sm-12"><?php echo $this->lang->line("Agent"); ?>:</label>
                           <div class="input-group col-sm-12">
                               <select name="agent_id" class="form-control">
-                                <option value=0>Choose Agent</option>
+                                <option value=0><?php echo $this->lang->line("Choose Agent"); ?></option>
 <?php foreach ($user_list as $agent) : ?>
     <?php if ($agent_id == $agent['user_id']) : ?>
                                 <option value="<?=$agent['user_id'] ?>"  selected>
@@ -66,10 +66,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
                         <!-- Product select box -->
                         <div class="form-group col-sm-3">
-                          <label class="col-sm-12">Product:</label>
+                          <label class="col-sm-12"><?php echo $this->lang->line("Product"); ?>:</label>
                             <div class="input-group col-sm-12">
                               <select name="product_short" class="form-control">
-                                <option value="">Choose Product</option>
+                                <option value=""><?php echo $this->lang->line("Choose Product"); ?></option>
 <?php foreach ($product_list as $product) : ?>
     <?php if ($product_short == $product['product_short']) : ?>
                                 <option value="<?=$product['product_short'] ?>"  selected>
@@ -85,12 +85,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <!-- Product select box end -->
                         <!-- Product select box -->
                         <div class="form-group col-sm-3">
-                          <label class="col-sm-12">Policy Status:</label>
+                          <label class="col-sm-12"><?php echo $this->lang->line("Policy Status"); ?>:</label>
                             <div input-group class="col-sm-12">
                               <select name="policy_status" class="form-control">
-                                <option value=0 <?php if (($policy_status != 1) && ($policy_status != 2)) { echo "selected"; } ?>>All</option>
-                                <option value=1 <?php if ($policy_status == 1) { echo "selected"; } ?>>Quote</option>
-                                <option value=2 <?php if ($policy_status == 2) { echo "selected"; } ?>>Sold</option>
+                                <option value=0 <?php if (($policy_status != 1) && ($policy_status != 2)) { echo "selected"; } ?>><?php echo $this->lang->line("All"); ?></option>
+                                <option value=1 <?php if ($policy_status == 1) { echo "selected"; } ?>><?php echo $this->lang->line("Quote"); ?></option>
+                                <option value=2 <?php if ($policy_status == 2) { echo "selected"; } ?>><?php echo $this->lang->line("Sold"); ?></option>
                               </select>
                           </div>
                         </div>
@@ -119,7 +119,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <!-- Payment Added Date-->
                         <div class="form-group col-sm-4">
                             <!-- Payment Added Date From-->
-                            <label for="payment_added_from" class="col-sm-12">Payment Added Date From</label>
+                            <label for="payment_added_from" class="col-sm-12"><?php echo $this->lang->line("Payment Added Date From"); ?></label>
                             <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
                             <input name="payment_added_from" class="form-control" size="16" type="text" value="<?php $payment_added_from ?>" >
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
@@ -127,7 +127,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <input type="hidden" id="payment_added_from" value="" />
                             <!-- Payment Added Date From End-->
                             <!-- Payment Added Date to -->
-                            <label for="payment_added_to" class="col-sm-12">Payment Added Date To</label>
+                            <label for="payment_added_to" class="col-sm-12"><?php echo $this->lang->line("Payment Added Date To"); ?></label>
                             <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
                                 <input name="payment_added_to" class="form-control" size="16" type="text" value="<?php $payment_added_to ?>" >
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
@@ -139,7 +139,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <!-- Payment Update Date-->
                         <div class="form-group col-sm-4">
                             <!-- Payment Update Date From-->
-                            <label for="payment_date_from" class="col-sm-12">Payment Update Date From</label>
+                            <label for="payment_date_from" class="col-sm-12"><?php echo $this->lang->line("Payment Update Date From"); ?></label>
                             <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
                             <input name="payment_date_from" class="form-control" size="16" type="text" value="<?php $payment_date_from ?>" >
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
@@ -147,7 +147,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <input type="hidden" id="payment_date_from" value="" />
                             <!-- Payment Update Date From End-->
                             <!-- Payment Update Date to -->
-                            <label for="payment_date_to" class="col-sm-12">Payment Update Date To</label>
+                            <label for="payment_date_to" class="col-sm-12"><?php echo $this->lang->line("Payment Update Date To"); ?></label>
                             <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
                                 <input name="payment_date_to" class="form-control" size="16" type="text" value="<?php $payment_date_to ?>" >
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
@@ -160,7 +160,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                       <div class="row">
                         <!-- submit button -->
                           <div class="col-sm-12">
-                            <button class="btn btn-primary pull-right">Display Report</button>
+                            <button class="btn btn-primary pull-right"><?php echo $this->lang->line("Display Report"); ?></button>
                           </div>
                         <!-- submit button -->
                       </div>
@@ -189,7 +189,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		                    <div class="row">
 		                        <!-- submit button -->
 		                        <div class="col-sm-12">
-		                            <button class="btn btn-primary pull-right">Export Report</button>
+		                            <button class="btn btn-primary pull-right"><?php echo $this->lang->line("Export Report"); ?></button>
 		                        </div>
 		                        <!-- submit button -->
 		                    </div>
@@ -205,38 +205,38 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                          JF Insurance Agency Group Inc. <br>
                          15 Wertheim court, Suite 501, Richmond Hill, ON, L4B 3H7 <br>
                          Tel: 905-707-1512 Fax: 905-707-1513 Toll free: 1-877-832-5541<br>
-                         Invoice Statement<br>
-                         For Policy of
-                         From:<?=$report_data['period']['from'] ?>
-                         To:<?=$report_data['period']['to'] ?><br><br>
+                         <?php echo $this->lang->line("Invoice Statement"); ?><br>
+                         <?php echo $this->lang->line("For Policy of"); ?>
+                         <?php echo $this->lang->line("From"); ?>:<?=$report_data['period']['from'] ?>
+                         <?php echo $this->lang->line("To"); ?>:<?=$report_data['period']['to'] ?><br><br>
                        </div>
                       <table class="table table-hover table-bordered">
     <?php foreach ($report_data['data'] as $user_id => $data) :?>
                         <thead>
                         <tr><td colspan=10>
-                          Bill to:
+                          <?php echo $this->lang->line("Bill to"); ?>:
                           <?=$data['agency']['agent_name'] ?><br>
                           <?=$data['agency']['address'] ?><br>
                           <?=$data['agency']['province'] ?>,&nbsp;&nbsp; <?=$data['agency']['postal_code'] ?><br><br>
-                          Premium collected on behalf of JF Insurance Agency Inc: $<?=$data['agency']['outstanding'] ?><br>
-                          Less Administration Fee for handaling the following policies: $<?=$data['agency']['commission'] ?><br>
-                          Net payable to JF Insurance Ageny Inc.: $<?=$data['agency']['payable_to_jf'] ?>
+                          <?php echo $this->lang->line("Premium collected on behalf of JF Insurance Agency Inc"); ?>: $<?=$data['agency']['outstanding'] ?><br>
+                          <?php echo $this->lang->line("Less Administration Fee for handaling the following policies"); ?>: $<?=$data['agency']['commission'] ?><br>
+                          <?php echo $this->lang->line("Net payable to JF Insurance Ageny Inc."); ?>: $<?=$data['agency']['payable_to_jf'] ?>
                         </td></tr>
                         </thead>
                         <tbody>
                           <tr>
-                            <th>Pruchase Date</th>
-                            <th>Policy Number</th>
-                            <th>Customer Name</th>
-                            <th>Student ID</th>
-                            <th>Effective Date</th>
-                            <th>Expiry Date</th>
-                            <th>Refund Date</th>
-                            <th>Trip Length</th>
-                            <th>Premium</th>
-                            <th>Net</th>
-                            <th>Commission</th>
-                            <th>Ratio</th>
+                            <th><?php echo $this->lang->line("Pruchase Date"); ?></th>
+                            <th><?php echo $this->lang->line("Policy Number"); ?></th>
+                            <th><?php echo $this->lang->line("Customer Name"); ?></th>
+                            <th><?php echo $this->lang->line("Student ID"); ?></th>
+                            <th><?php echo $this->lang->line("Effective Date"); ?></th>
+                            <th><?php echo $this->lang->line("Expiry Date"); ?></th>
+                            <th><?php echo $this->lang->line("Refund Date"); ?></th>
+                            <th><?php echo $this->lang->line("Trip Length"); ?></th>
+                            <th><?php echo $this->lang->line("Premium"); ?></th>
+                            <th><?php echo $this->lang->line("Net"); ?></th>
+                            <th><?php echo $this->lang->line("Commission"); ?></th>
+                            <th><?php echo $this->lang->line("Ratio"); ?></th>
                           </tr>
 		<?php if (!empty($data['records'])) : ?>
         <?php foreach ($data['records'] as $record) : ?>

@@ -133,21 +133,28 @@ $lang["Amount"] = "Amount";
 $lang["Age"] = "Age";
 $lang["Agent"] = "Agent";
 $lang["Apply Date"] = "Apply Date";
+$lang["All"] = "All";
 $lang["All persons insured are subject to the terms and conditions below."] = "All persons insured are subject to the terms and conditions below.";
+$lang["All Region"] = "All Region";
 $lang["Allow this policy"] = "Allow this policy";
+$lang["Application Date From"] = "Application Date From";
+$lang["Application Date To"] = "Application Date To";
 $lang["Arrival Date"] = "Arrival Date";
+$lang["Arrival Date From"] = "Arrival Date From";
+$lang["Arrival Date To"] = "Arrival Date To";
 
 /* B */
 $lang["Bank Name"] = "Bank Name";
 $lang["below info is not the actual payment. Please make the cheque payble to “JF Insurance Agency Group Inc.” and send the original cheque to JF via mail or in person"] = "below info is not the actual payment. Please make the cheque payble to “JF Insurance Agency Group Inc.” and send the original cheque to JF via mail or in person";
 $lang["Beneficiary"] = "Beneficiary";
+$lang["Bill to"] = "Bill to";
 $lang["Birth Date"] = "Birth Date";
+$lang["Birthday"] = "Birthday";
 $lang["Bowel obstruction including bleeding and inflammation"] = "Bowel obstruction including bleeding and inflammation";
 $lang["By Agent"] = "By Agent";
 $lang["By Check the checkbox, you can allow this policy to continue to pay. Please fill in your reason before cilck the checkbox."] = "By Check the checkbox, you can allow this policy to continue to pay. Please fill in your reason before cilck the checkbox.";
 $lang["By checking the box, I agree to the above term."] = "By checking the box, I agree to the above term.";
 $lang["By checking the box, you confirm that both you and your client understand the term and that the plan selected does NOT cover any Pre-Existing Medical Condition(s)."] = "By checking the box, you confirm that both you and your client understand the term and that the plan selected does NOT cover any Pre-Existing Medical Condition(s).";
-
 
 /* C */
 $lang["Canadian Travellers"] = "Canadian Travellers";
@@ -158,17 +165,24 @@ $lang["Card Holder's Name"] = "Card Holder's Name";
 $lang["Card Number"] = "Card Number";
 $lang["Changes"] = "Changes";
 $lang["Cheque No."] = "Cheque No.";
+$lang["Choose Agent"] = "Choose Agent";
+$lang["Choose Product"] = "Choose Product";
 $lang["City"] = "City";
+$lang["Commission"] = "Commission";
+$lang["Commission Copy"] = "Commission Copy";
 $lang["Confirm and Pay"] = "Confirm and Pay";
 $lang["Confirmation"] = "Confirmation";
+$lang["Contact Email"] = "Contact Email";
 $lang["Contact Information"] = "Contact Information";
 $lang["Contact Phone"] = "Contact Phone";
 $lang["CONTACT US"] = "CONTACT US";
 $lang["Copy"] = "Copy";
+$lang["Count"] = "Count";
 $lang["Country"] = "Country";
 $lang["Country of Origin"] = "Country of Origin";
 $lang["Create"] = "Create";
 $lang["Customer Information"] = "Customer Information";
+$lang["Customer Name"] = "Customer Name";
 
 /* D */
 $lang["Daily Rate"] = "Daily Rate";
@@ -177,6 +191,7 @@ $lang["Date Time"] = "Date Time";
 $lang["Days"] = "Days";
 $lang["Departure Date"] = "Departure Date";
 $lang["Diabetes (controlled by medication or diet)"] = "Diabetes (controlled by medication or diet)";
+$lang["Display Sales Report"] = "Display Sales Report";
 $lang["Diverticulitis/Diverticulosis"] = "Diverticulitis/Diverticulosis";
 $lang["do not include aspirin, hypertension (high blood pressure) or high cholesterol medications"] = "do not include aspirin, hypertension (high blood pressure) or high cholesterol medications";
 
@@ -185,13 +200,20 @@ $lang["Edit"] = "Edit";
 $lang["Edit Policy"] = "Edit Policy";
 $lang["Effect Date"] = "Effect Date";
 $lang["Effective Date"] = "Effective Date";
+$lang["Effective Date From"] = "Effective Date From";
+$lang["Effective Date To"] = "Effective Date To";
 $lang["Eligibility"] = "Eligibility";
 $lang["Email"] = "Email";
+$lang["Email Address"] = "Email Address";
 $lang["Emergency Hospital Insurance"] = "Emergency Hospital Insurance";
 $lang["Expiry Date"] = "Expiry Date";
+$lang["Expiry Date From"] = "Expiry Date From";
+$lang["Expiry Date To"] = "Expiry Date To";
 $lang["Expiry Month"] = "Expiry Month";
 $lang["Expiry Year"] = "Expiry Year";
+$lang["Export"] = "Export";
 $lang["Export PDF"] = "Export PDF";
+$lang["Export Sales Report"] = "Export Sales Report";
 $lang["Export Xlsx"] = "Export Xlsx";
 
 /* F */
@@ -200,8 +222,10 @@ $lang["Female"] = "Female";
 $lang["First Name"] = "First Name";
 $lang["Flight Accident insured amount"] = "Flight Accident insured amount";
 $lang["For All Members"] = "For All Members";
+$lang["For Policy of"] = "For Policy of";
 $lang["Forget password"] = "Forget password";
 $lang['Founder'] = 'Founder';
+$lang["From"] = "From";
 $lang["Full Name"] = "Full Name";
 
 /* G */
@@ -224,9 +248,12 @@ $lang["include aspirin"] = "include aspirin";
 $lang["include asthma"] = "include asthma";
 $lang["International Student to Canada"] = "International Student to Canada";
 $lang["Instructions"] = "Instructions";
+$lang["Insurer"] = "Insurer";
+$lang["Insured Name"] = "Insured Name";
 $lang["Insurable Members"] = "Insurable Members";
 $lang["Insurable Options"] = "Insurable Options";
 $lang["Insured's Family Member Information"] = "Insured's Family Member Information";
+$lang["Invoice Statement"] = "Invoice Statement";
 $lang["Is Family Plan"] = "Is Family Plan";
 $lang["It may not come as a surprise that your provincial health plan may not cover your health care costs incurred outside of Canada, but did you also know that you could have limited coverage when traveling to other provinces/territories within Canada? Make sure you are properly covered when travelling abroad or from your home province."] = "It may not come as a surprise that your provincial health plan may not cover your health care costs incurred outside of Canada, but did you also know that you could have limited coverage when traveling to other provinces/territories within Canada? Make sure you are properly covered when travelling abroad or from your home province.";
 
@@ -238,6 +265,7 @@ $lang["Kidney disease"] = "Kidney disease";
 /* L */
 $lang["Last Update"] = "Last Update";
 $lang["Last Name"] = "Last Name";
+$lang["Less Administration Fee for handaling the following policies"] = "Less Administration Fee for handaling the following policies";
 $lang["Login"] = "Login";
 $lang["Lung conditions/disease"] = "Lung conditions/disease";
 
@@ -247,16 +275,22 @@ $lang["medication(s)"] = "medication(s)";
 $lang["Members"] = "Members";
 $lang["Message"] = "Message";
 $lang['Mission'] = 'Mission';
+$lang["Month"] = "Month";
 $lang["Mr. Johnson Fu has more than 30 years of experience in the Insurance and Financial Industry. Mr. Fu is an active member of his community as well as many local and international charities. His active involvement and dedication to community service has led to the JF philosophy \"To Serve\". It is this philosophy and attitude that resonates and helps guide all staff members at JF."] = "Mr. Johnson Fu has more than 30 years of experience in the Insurance and Financial Industry. Mr. Fu is an active member of his community as well as many local and international charities. His active involvement and dedication to community service has led to the JF philosophy \"To Serve\". It is this philosophy and attitude that resonates and helps guide all staff members at JF.";
 $lang["My insurance representative has reviewed the Policy benefits, definitions and exclusions with me. I understand that if I have (or the person I am purchasing coverage for has) any pre-existing conditions, I (or the person I am purchasing coverage for) must disclose these to my insurance representative prior to purchasing coverage to allow for an informed assessment of the type of insurance coverage that is best suited to protect me (or the person I am purchasing coverage for)."] = "My insurance representative has reviewed the Policy benefits, definitions and exclusions with me. I understand that if I have (or the person I am purchasing coverage for has) any pre-existing conditions, I (or the person I am purchasing coverage for) must disclose these to my insurance representative prior to purchasing coverage to allow for an informed assessment of the type of insurance coverage that is best suited to protect me (or the person I am purchasing coverage for).";
 $lang["My insurance representative has reviewed the Visitors/International students to Canada Insurance Policy ('Policy') Eligibility criteria with me. I understand that coverage is not available for purchase if I have (or the person I am purchasing coverage for has) any of the excluded conditions listed under the Eligibility section of the Policy."] = "My insurance representative has reviewed the Visitors/International students to Canada Insurance Policy ('Policy') Eligibility criteria with me. I understand that coverage is not available for purchase if I have (or the person I am purchasing coverage for has) any of the excluded conditions listed under the Eligibility section of the Policy.";
 
 /* N */
 $lang["Name"] = "Name";
+$lang["Net"] = "Net";
+$lang["Net payable to JF Insurance Ageny Inc."] = "Net payable to JF Insurance Ageny Inc.";
+$lang["Net Premium"] = "Net Premium";
 $lang["New Password Again"] = "New Password Again";
 $lang["No"] = "No";
+$lang["Note"] = "Note";
 $lang["Notes"] = "Notes";
 $lang["Number"] = "Number";
+$lang["Number of Days"] = "Number of Days";
 
 /* O */
 $lang["Our Product"] = "Our Product";
@@ -271,14 +305,21 @@ $lang["Pay By Alipay"] = "Pay By Alipay";
 $lang["Pay By Cash"] = "Pay By Cash";
 $lang["Pay By Cheque"] = "Pay By Cheque";
 $lang["Pay By Credit Card"] = "Pay By Credit Card";
+$lang["Pay Mothed"] = "Pay Mothed";
 $lang["Pay Now"] = "Pay Now";
 $lang["Pay Status"] = "Pay Status";
 $lang["Pay Type"] = "Pay Type";
 $lang["Pay url to user by Email"] = "Pay url to user by Email";
 $lang["Payor Name"] = "Payor Name";
+$lang["Payment Added Date From"] = "Payment Added Date From";
+$lang["Payment Added Date To"] = "Payment Added Date To";
+$lang["Payment Date"] = "Payment Date";
+$lang["Payment Update Date From"] = "Payment Update Date From";
+$lang["Payment Update Date To"] = "Payment Update Date To";
 $lang["Payments"] = "Payments";
 $lang["Peptic ulcer"] = "Peptic ulcer";
 $lang["Phone"] = "Phone";
+$lang["Phone Number"] = "Phone Number";
 $lang["Please confirm with the insured that this plan does not cover ANY Pre-Existing Medical Condition(s).."] = "Please confirm with the insured that this plan does not cover ANY Pre-Existing Medical Condition(s)..";
 $lang["Please contact JF staff for further assistance 905-707-1512"] = "Please contact JF staff for further assistance 905-707-1512";
 $lang["Please contact your agent to get your policy details and the insurance package."] = "Please contact your agent to get your policy details and the insurance package.";
@@ -289,15 +330,21 @@ $lang["Policy Filter"] = "Policy Filter";
 $lang["Policy History"] = "Policy History";
 $lang["Policy Number"] = "Policy Number";
 $lang["Policy No."] = "Policy No.";
+$lang["Policy Premium"] = "Policy Premium";
+$lang["Policy Status"] = "Policy Status";
 $lang["Postcode"] = "Postcode";
 $lang["Pre-Existing Medical Condition(s) means any medical condition, sickness or injury for which at any time prior to the effective date, you have experienced symptoms, you have received medical care, advice, investigation or medical treatment, you have been hospitalized, you have been prescribed (including prescribed as needed) or have taken medication, or you have undergone a medical surgical procedure."] = "Pre-Existing Medical Condition(s) means any medical condition, sickness or injury for which at any time prior to the effective date, you have experienced symptoms, you have received medical care, advice, investigation or medical treatment, you have been hospitalized, you have been prescribed (including prescribed as needed) or have taken medication, or you have undergone a medical surgical procedure.";
 $lang["Premium"] = "Premium";
+$lang["Premium collected on behalf of JF Insurance Agency Inc"] = "Premium collected on behalf of JF Insurance Agency Inc";
+$lang["Premium Copy"] = "Premium Copy";
 $lang["Prefer Language"] = "Prefer Language";
 $lang["Print Receipt"] = "Print Receipt";
 $lang["Print Card"] = "Print Card";
+$lang["Product"] = "Product";
 $lang["Product List"] = "Product List";
 $lang["Product Short Name"] = "Product Short Name";
 $lang["Province"] = "Province";
+$lang["Pruchase Date"] = "Pruchase Date";
 
 /* Q */
 $lang["Question"] = "Question";
@@ -305,19 +352,27 @@ $lang["Quote"] = "Quote";
 
 /* R */
 $lang["Rate"] = "Rate";
+$lang["Ratio"] = "Ratio";
+$lang["Receivable Report"] = "Receivable Report";
 $lang["Refund Date"] = "Refund Date";
 $lang["Refund Porcess Date"] = "Refund Porcess Date";
+$lang["Region"] = "Region";
 $lang["Renewal"] = "Renewal";
+$lang["Renew Email"] = "Renew Email";
+$lang["Renewal Report"] = "Renewal Report";
+$lang["Report Filter"] = "Report Filter";
 $lang["Reset Password"] = "Reset Password";
 $lang["Review Policy Detail"] = "Review Policy Detail";
 
 /* S */
+$lang["Sales Report to Agent"] = "Sales Report to Agent";
 $lang["School Full Address"] = "School Full Address";
 $lang["School Name"] = "School Name";
 $lang["Search"] = "Search";
 $lang["Search Result"] = "Search Result";
 $lang["select product"] = "select product";
 $lang["Send Package"] = "Send Package";
+$lang["Sold"] = "Sold";
 $lang["Special Note"] = "Special Note";
 $lang["Special Note/Instructions"] = "Special Note/Instructions";
 $lang["stable pre-existing condition coverage"] = "stable pre-existing condition coverage";
@@ -345,13 +400,17 @@ $lang["The following statements must be true for all members."] = "The following
 $lang["The policy must purchase before departure"] = "The policy must purchase before departure";
 $lang["This document does not constitute the entire insurance policy, and the applicant has been advised to read the policy booklet for full details of coverage and exclusions. You must agree to the terms of the contract."] = "This document does not constitute the entire insurance policy, and the applicant has been advised to read the policy booklet for full details of coverage and exclusions. You must agree to the terms of the contract.";
 $lang["This document does not constitute the entire insurance policy, and the applicant(s) has been advised to read the policy full details of coverage and exclusions."] = "This document does not constitute the entire insurance policy, and the applicant(s) has been advised to read the policy full details of coverage and exclusions.";
+$lang["To"] = "To";
 $lang["To reach all that can benefit from the peace of mind we offer; to ensure claims are processed in a timely manner."] = "To reach all that can benefit from the peace of mind we offer; to ensure claims are processed in a timely manner.";
 $lang["Toll Free Canada/U.S.A. 1-800-869-6747"] = "Toll Free Canada/U.S.A. 1-800-869-6747";
 $lang["Total"] = "Total";
 $lang["Total Days"] = "Total Days";
+$lang["Total Net Premium"] = "Total Net Premium";
+$lang["Total Premium"] = "Total Premium";
 $lang["Trip Cancellation insured amount"] = "Trip Cancellation insured amount";
 $lang["Travel Dates"] = "Travel Dates";
 $lang["Travel Insurance Disclaimer"] = "Travel Insurance Disclaimer";
+$lang["Trip Length"] = "Trip Length";
 $lang["Type"] = "Type";
 
 /* U */
@@ -376,6 +435,7 @@ $lang["WHY SHOULD YOU BUY TRAVEL INSURANCE"] = "WHY SHOULD YOU BUY TRAVEL INSURA
 
 /* X */
 /* Y */
+$lang["Year"] = "Year";
 $lang["Yes"] = "Yes";
 $lang["Your answered questionnaire with"] = "Your answered questionnaire with";
 $lang["Your New Password"] = "Your New Password";
@@ -383,58 +443,3 @@ $lang["Your New Password"] = "Your New Password";
 /* Z */
 
 /* New Added */
-$lang[""] = "";
-$lang[""] = "";
-$lang[""] = "";
-$lang[""] = "";
-$lang[""] = "";
-$lang[""] = "";
-$lang[""] = "";
-$lang[""] = "";
-$lang[""] = "";
-$lang[""] = "";
-$lang[""] = "";
-$lang[""] = "";
-$lang[""] = "";
-$lang[""] = "";
-$lang[""] = "";
-$lang[""] = "";
-$lang[""] = "";
-$lang[""] = "";
-$lang[""] = "";
-$lang[""] = "";
-$lang[""] = "";
-$lang[""] = "";
-$lang[""] = "";
-$lang[""] = "";
-$lang[""] = "";
-$lang[""] = "";
-$lang[""] = "";
-$lang[""] = "";
-$lang[""] = "";
-$lang[""] = "";
-$lang[""] = "";
-$lang[""] = "";
-$lang[""] = "";
-$lang[""] = "";
-$lang[""] = "";
-$lang[""] = "";
-$lang[""] = "";
-$lang[""] = "";
-$lang[""] = "";
-$lang[""] = "";
-$lang[""] = "";
-$lang[""] = "";
-$lang[""] = "";
-$lang[""] = "";
-$lang[""] = "";
-$lang[""] = "";
-$lang[""] = "";
-$lang[""] = "";
-$lang[""] = "";
-$lang[""] = "";
-$lang[""] = "";
-$lang[""] = "";
-$lang[""] = "";
-$lang[""] = "";
-$lang[""] = "";
