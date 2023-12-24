@@ -154,7 +154,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						
 						<div class="col-sm-12">
 						<fieldset>
-   						 <legend>Travel Dates</legend>
+   						 <legend><?php echo $this->lang->line("Travel Dates"); ?></legend>
    						 <div class="row">
 							<div class="form-group col-sm-3">
 								<label class="col-sm-12">Apply Date (YYYY-MM-DD):</label>
