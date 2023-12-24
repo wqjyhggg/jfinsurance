@@ -126,7 +126,7 @@ $lang["Agent"] = "Agente";
 $lang["Apply Date"] = "Date de candidature";
 $lang["All persons insured are subject to the terms and conditions below."] = "Toutes les personnes assurées sont soumises aux modalités ci-dessous.";
 $lang["Allow this policy"] = "Autoriser cette règle";
-lang["Arrival Date"] = "Date d'arrivée";
+$lang["Arrival Date"] = "Date d'arrivée";
 
 /* B */
 $lang["Bank Name"] = "Nom de banque";
@@ -314,7 +314,9 @@ $lang["stable pre-existing condition coverage"] = "couverture stable des maladie
 $lang["Status"] = "Statut";
 $lang["Street No"] = "Numéro de rue";
 $lang["Street Name"] = "Nom de rue";
+$lang["Student Birth Date"] = "Date de naissance de l'étudiant";
 $lang["Student First Name"] = "Prénom de l'étudiant";
+$lang["Student Last Name"] = "Nom de famille de l'étudiant";
 $lang["Student ID"] = "Carte d'étudiant";
 $lang["Student Name"] = "Nom d'étudiant";
 $lang["Studying abroad is exciting and adventurous. Make sure you have the right insurance coverage for your journey while in Canada."] = "Étudier à l’étranger est passionnant et aventureux. Assurez-vous d'avoir la bonne couverture d'assurance pour votre voyage pendant votre séjour au Canada.";
