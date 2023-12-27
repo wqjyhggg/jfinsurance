@@ -473,7 +473,7 @@ $lang["Year"] = "Année";
 $lang["Yes"] = "Oui";
 $lang["You don't have license to sale in this province, Please contact us for more information"] = "Vous n'avez pas de permis de vente dans cette province, veuillez nous contacter pour plus d'informations";
 $lang["You must confirm this condition for your selection."] = "Vous devez confirmer cette condition pour votre sélection.";
-$lang["You must confirm you known about NOT cover any Pre-Existing Medical Condition(s).]" = "Vous devez confirmer que vous êtes au courant de NE PAS couvrir les problèmes médicaux préexistants.";
+$lang["You must confirm you known about NOT cover any Pre-Existing Medical Condition(s)."] = "Vous devez confirmer que vous êtes au courant de NE PAS couvrir les problèmes médicaux préexistants.";
 $lang["Your answered questionnaire with"] = "Votre questionnaire répondu avec";
 $lang["Your New Password"] = "Votre nouveau mot de passe";
 
