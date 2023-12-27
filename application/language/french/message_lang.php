@@ -149,7 +149,9 @@ $lang["By checking the box, you confirm that both you and your client understand
 
 /* C */
 $lang["Canadian Travellers"] = "Voyageurs canadiens";
+$lang["Cancel"] = "Annuler";
 $lang["Cancel Date"] = "Date d'annulation";
+$lang["Cancel Letter"] = "Annuler la lettre";
 $lang["Cancer"] = "Cancer";
 $lang["Card CVV"] = "Carte CVV";
 $lang["Card Holder's Name"] = "Nom du titulaire de la carte";
@@ -223,6 +225,7 @@ $lang["Full Name"] = "Nom et prénom";
 $lang["Gender"] = "Genre";
 $lang["GERD (gastro-esophageal reflux disease)"] = "RGO (reflux gastro-œsophagien)";
 $lang["Get More"] = "Avoir plus";
+$lang["Go next page without change"] = "Aller à la page suivante sans changement";
 
 /* H */
 $lang["Healthcare costs around the world can be very expensive; hospitals can charge thousands of dollars per day. Your government healthcare plan may or may not cover a minimal portion of these costs. Without adequate insurance coverage, you could be responsible for a significant amount of medical expenses that could have an immense impact on your personal finances. Why take this risk?"] = "Les coûts des soins de santé dans le monde peuvent être très élevés ; les hôpitaux peuvent facturer des milliers de dollars par jour. Votre régime d’assurance maladie gouvernemental peut couvrir ou non une partie minime de ces coûts. Sans couverture d’assurance adéquate, vous pourriez être responsable d’un montant important de frais médicaux qui pourraient avoir un impact immense sur vos finances personnelles. Pourquoi prendre ce risque ?";
@@ -267,6 +270,7 @@ $lang["Members"] = "Membres";
 $lang["Message"] = "message";
 $lang['Mission'] = 'Mission';
 $lang["Month"] = "Mois";
+$lang["More Filter"] = "Plus de filtre";
 $lang["Mr. Johnson Fu has more than 30 years of experience in the Insurance and Financial Industry. Mr. Fu is an active member of his community as well as many local and international charities. His active involvement and dedication to community service has led to the JF philosophy \"To Serve\". It is this philosophy and attitude that resonates and helps guide all staff members at JF."] = "M. Johnson Fu possède plus de 30 ans d'expérience dans le secteur de l'assurance et de la finance. M. Fu est un membre actif de sa communauté ainsi que de nombreuses œuvres caritatives locales et internationales. Son implication active et son dévouement au service communautaire ont conduit à la philosophie de JF « To Serve ». C'est cette philosophie et cette attitude qui résonnent et guident tous les membres du personnel de JF.";
 $lang["My insurance representative has reviewed the Policy benefits, definitions and exclusions with me. I understand that if I have (or the person I am purchasing coverage for has) any pre-existing conditions, I (or the person I am purchasing coverage for) must disclose these to my insurance representative prior to purchasing coverage to allow for an informed assessment of the type of insurance coverage that is best suited to protect me (or the person I am purchasing coverage for)."] = "Mon représentant en assurance a examiné avec moi les garanties, les définitions et les exclusions de la police. Je comprends que si j'ai (ou si la personne pour laquelle je souscris une couverture a) des problèmes de santé préexistants, je (ou la personne pour laquelle je souscris une couverture) dois les divulguer à mon représentant d'assurance avant de souscrire une couverture afin de permettre une réponse éclairée. évaluation du type de couverture d’assurance la mieux adaptée pour me protéger (ou protéger la personne pour laquelle je souscris une couverture).";
 $lang["My insurance representative has reviewed the Visitors/International students to Canada Insurance Policy ('Policy') Eligibility criteria with me. I understand that coverage is not available for purchase if I have (or the person I am purchasing coverage for has) any of the excluded conditions listed under the Eligibility section of the Policy."] = "Mon représentant en assurance a examiné avec moi les critères d'admissibilité de la police d'assurance pour les visiteurs/étudiants internationaux au Canada (« police »). Je comprends que la couverture n'est pas disponible à l'achat si je présente (ou si la personne pour laquelle je souscris une couverture présente) l'une des conditions exclues énumérées dans la section Admissibilité de la police.";
@@ -276,8 +280,12 @@ $lang["Name"] = "Nom";
 $lang["Net"] = "Filet";
 $lang["Net payable to JF Insurance Ageny Inc."] = "Net payable à JF Insurance Agency Inc.";
 $lang["Net Premium"] = "Prime nette";
+$lang["New"] = "Nouveau";
 $lang["New Password Again"] = "Retapez le nouveau mot de passe";
+$lang["New Policy"] = "Nouvelle politique";
+$lang["Next"] = "Suivant";
 $lang["No"] = "Non";
+$lang["No Change"] = "Pas de changement";
 $lang["Note"] = "Note";
 $lang["Notes"] = "Remarques";
 $lang["Number"] = "Nombre";
@@ -292,6 +300,7 @@ $lang["Package"] = "Emballer";
 $lang["Package Name"] = "Nom du paquet";
 $lang["Password"] = "Mot de passe";
 $lang["Password must between 6 to 16 charactors"] = "Le mot de passe doit contenir entre 6 et 16 caractères";
+$lang["Pay"] = "Payer";
 $lang["Pay By Alipay"] = "Payer par Alipay";
 $lang["Pay By Cash"] = "Payer en espèce";
 $lang["Pay By Cheque"] = "Payer par cheque";
@@ -345,7 +354,9 @@ $lang["Quote"] = "Citation";
 $lang["Rate"] = "Taux";
 $lang["Ratio"] = "Rapport";
 $lang["Receivable Report"] = "Rapport sur les créances";
+$lang["Refund"] = "Remboursement";
 $lang["Refund Date"] = "date de remboursement";
+$lang["Refund Letter"] = "Lettre de remboursement";
 $lang["Refund Porcess Date"] = "Date du processus de remboursement";
 $lang["Region"] = "Région";
 $lang["Renewal"] = "Renouvellement";
@@ -361,6 +372,7 @@ $lang["School Full Address"] = "Adresse complète de l'école";
 $lang["School Name"] = "Nom de l'école";
 $lang["Search"] = "Recherche";
 $lang["Search Result"] = "Résultat de la recherche";
+$lang["select policy status"] = "sélectionner le statut de la police";
 $lang["select product"] = "sélectionner un produit";
 $lang["Send Package"] = "Envoyer le colis";
 $lang["Sold"] = "Vendue";
@@ -389,6 +401,7 @@ $lang["The applicant(s) is aware that this insurance covers only Emergencies (as
 $lang["The eligibility requirements for the plan applied for are material to the risk for which insurance is sought. If the applicant(s) does not meet the eligibility requirements for the plan selected, or if there is any misrepresentation or concealment of or failure to disclose any facts or matters pertaining to the applicant(s) and that are the subject insurance coverage provided."] = "Les conditions d’admissibilité au régime demandé sont importantes par rapport au risque pour lequel une assurance est recherchée. Si le ou les demandeurs ne satisfont pas aux critères d'éligibilité pour le plan sélectionné, ou s'il y a une fausse déclaration, une dissimulation ou une omission de divulguer des faits ou des questions concernant le ou les demandeurs et qui font l'objet de la couverture d'assurance fournie.";
 $lang["The following statements must be true for all members."] = "Les déclarations suivantes doivent être vraies pour tous les membres.";
 $lang["The policy must purchase before departure"] = "La police doit être achetée avant le départ";
+$lang["There is an existing claim or open cases."] = "Il existe une réclamation existante ou des dossiers ouverts.";
 $lang["This document does not constitute the entire insurance policy, and the applicant has been advised to read the policy booklet for full details of coverage and exclusions. You must agree to the terms of the contract."] = "Ce document ne constitue pas l’intégralité de la police d’assurance et il est conseillé au proposant de lire le livret de la police pour connaître tous les détails de la couverture et des exclusions. Vous devez accepter les termes du contrat.";
 $lang["This document does not constitute the entire insurance policy, and the applicant(s) has been advised to read the policy full details of coverage and exclusions."] = "Ce document ne constitue pas l’intégralité de la police d’assurance et il est conseillé au(x) proposant(s) de lire la police tous les détails de la couverture et des exclusions.";
 $lang["To"] = "À";
@@ -407,6 +420,7 @@ $lang["Type"] = "Taper";
 /* U */
 $lang["Un-check to Disallow this policy"] = "Décochez pour refuser cette politique";
 $lang["understand that I need to contact with my insurance representative to get confirmation package after I completed the application."] = "Je comprends que je dois contacter mon représentant d'assurance pour obtenir un dossier de confirmation après avoir rempli la proposition.";
+$lang["Update Policy"] = "Politique de mise à jour";
 $lang["Used Days"] = "Jours utilisés";
 $lang["Username"] = "Nom d'utilisateur";
 

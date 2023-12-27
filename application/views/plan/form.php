@@ -33,10 +33,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Policy Detail<small></small></h2>
+                    <h2><?php echo $this->lang->line("Policy Detail"); ?><small></small></h2>
                     <?php if ($user_group_id < 100) { ?>
                       <?php if (!empty($claims)) { ?>
-                        <span style="color: red;">There is an existing claim or open cases.</span>
+                        <span style="color: red;"><?php echo $this->lang->line("There is an existing claim or open cases."); ?></span>
                       <?php } ?>
                     <?php } ?>
 					<?php if (!empty($plan_id) && !empty($status_id)) { ?>
@@ -45,36 +45,36 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<?php if ($isprocessplan) { ?>
 						<?php if ($status_id == Plan_model::QUOTE && $user_group_id != 103 && $next_url) { /* qutoe */ ?>
 
-						<a href='<?php echo $pay_url; ?>'><span class="btn btn-info" style='color:#fff;'>Pay</span></a>
+						<a href='<?php echo $pay_url; ?>'><span class="btn btn-info" style='color:#fff;'><?php echo $this->lang->line("Pay"); ?></span></a>
 						<?php } ?> 
 
 						<?php if($user_group_id != Plan_model::PAID && $user_group_id != 103){ ?>
-						<a href='<?php echo $renewal_url; ?>'><span class="btn btn-info" style='color:#fff;'>Renewal</span></a>
-						<a href='<?php echo $copy_url; ?>'><span class="btn btn-info" style='color:#fff;'>Copy</span></a>
+						<a href='<?php echo $renewal_url; ?>'><span class="btn btn-info" style='color:#fff;'><?php echo $this->lang->line("Renewal"); ?></span></a>
+						<a href='<?php echo $copy_url; ?>'><span class="btn btn-info" style='color:#fff;'><?php echo $this->lang->line("Copy"); ?></span></a>
 						<?php } ?>
 						<?php if ($status_id > 1 && $user_group_id != Plan_model::PAID) { ?>
 						<?php 	if ((($status_id == Plan_model::SOLD) || ($status_id == Plan_model::PAID)) && ($product_short != 'NUS') && ($product_short != 'JUS')) { ?> 
-							<a href='<?php echo $sendpackage_url . $plan_id; ?>'><span class="btn btn-info"  style='color:#fff;'>Send Package</span></a>
+							<a href='<?php echo $sendpackage_url . $plan_id; ?>'><span class="btn btn-info"  style='color:#fff;'><?php echo $this->lang->line("Send Package"); ?></span></a>
 						<?php 	} ?>
 						<?php 	if (($status_id == Plan_model::SOLD) || ($status_id == Plan_model::PAID)) { ?> 
 							<?php if ($export_logo_price_option) { ?>
 							<div class='pull-right spdf-option'><input type='checkbox' class='withlogobox' checked> With Logo <br /><input type='checkbox' class='withpricebox' checked> With Price </div>
 							<?php } ?>
-							<a class="btn btn-info pull-right" target="_blank" href='<?php echo $pdf_url; ?>'>Export PDF</a>
+							<a class="btn btn-info pull-right" target="_blank" href='<?php echo $pdf_url; ?>'><?php echo $this->lang->line("Export PDF"); ?></a>
 							<?php if (!empty($print_receipt_url)) { ?>
-							<a href='<?php echo $print_receipt_url; ?>' target="_blank"><span class="btn btn-info" style='color:#fff;'>Print Receipt</span></a>
+							<a href='<?php echo $print_receipt_url; ?>' target="_blank"><span class="btn btn-info" style='color:#fff;'><?php echo $this->lang->line("Print Receipt"); ?></span></a>
 							<?php } ?>
 							<?php if (!empty($print_card_url)) { ?>
-							<a href='<?php echo $print_card_url; ?>' target="_blank"><span class="btn btn-info" style='color:#fff;'>Print Card</span></a>
+							<a href='<?php echo $print_card_url; ?>' target="_blank"><span class="btn btn-info" style='color:#fff;'><?php echo $this->lang->line("Print Card"); ?></span></a>
 							<?php } ?>
 						<?php 	} ?>
 						<?php if ((($status_id == Plan_model::PAID) || ($status_id == Plan_model::SOLD) || ($status_id == Plan_model::CHANGED)) && $user_group_id <= 100 ) { ?>
-							<a href='<?php echo $cancel_url . $plan_id; ?>'><span class="btn btn-info" style='color:#fff;'>Cancel</span></a>
-							<a href='<?php echo $refund_url . $plan_id; ?>'><span class="btn btn-info" style='color:#fff;'>Refund</span></a>
+							<a href='<?php echo $cancel_url . $plan_id; ?>'><span class="btn btn-info" style='color:#fff;'><?php echo $this->lang->line("Cancel"); ?></span></a>
+							<a href='<?php echo $refund_url . $plan_id; ?>'><span class="btn btn-info" style='color:#fff;'><?php echo $this->lang->line("Refund"); ?></span></a>
 						<?php } else if (($status_id == Plan_model::REFUND) && ($user_group_id <= 100) && !empty($refund_letter_url)) { ?>
-							<a id="popRefund"><span class="btn btn-info" style='color:#fff;'>Refund Letter</span></a>
+							<a id="popRefund"><span class="btn btn-info" style='color:#fff;'><?php echo $this->lang->line("Refund Letter"); ?></span></a>
 						<?php } else if (($status_id == Plan_model::CANCEL) && ($user_group_id <= 100) && !empty($cancel_letter_url)) { ?>
-							<a target='_blank' href='<?php echo $cancel_letter_url; ?>'><span class="btn btn-info" style='color:#fff;'>Cancel Letter</span></a>
+							<a target='_blank' href='<?php echo $cancel_letter_url; ?>'><span class="btn btn-info" style='color:#fff;'><?php echo $this->lang->line("Cancel Letter"); ?></span></a>
 						<?php } ?>
 						<?php } ?>
 						<?php } ?>
@@ -105,7 +105,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<label><span><?php echo $plan_full_name; ?></span></label>
 						</div>
 						<div class="form-group col-sm-3">
-							<label style="text-transform: capitalize;">By Agent<?php echo "[ AgentID:" . $policy_user['user_id'] . " ] "; ?>: <?php echo htmlspecialchars($policy_user['firstname'] . " " . $policy_user['lastname']); ?></label>
+							<label style="text-transform: capitalize;"><?php echo $this->lang->line("By Agent"); ?><?php echo "[ AgentID:" . $policy_user['user_id'] . " ] "; ?>: <?php echo htmlspecialchars($policy_user['firstname'] . " " . $policy_user['lastname']); ?></label>
 						</div>
 					</div>
 					<?php } else { ?>
@@ -113,20 +113,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						
 						<div class="form-group col-sm-3">
 							<label><span><?php echo $plan_full_name; ?></span></label>
-							<label><?php if ($status_id < 2) { ?>Quote<?php } else {?>Policy<?php } ?> Number: <span><?php echo $policy; ?></span></label>
+							<label><?php if ($status_id < 2) { ?><?php echo $this->lang->line("Quote"); ?><?php } else {?><?php echo $this->lang->line("Policy"); ?><?php } ?> <?php echo $this->lang->line("Number"); ?>: <span><?php echo $policy; ?></span></label>
 							 
 						</div>
 						
 						<?php if (($beuser_user_id == 1) || ($beuser_user_id == 2762)) { ?>
 						<div class="form-group col-sm-3">
-							<label style="display: inline-block;">By Agent</label>
+							<label style="display: inline-block;"><?php echo $this->lang->line("By Agent"); ?></label>
 							<div style="display: inline-block;">
 								<input class="form-control" type="text" name='user_id' value='<?php echo $user_id; ?>'>
 							</div>
 						</div>
 						<?php } else { ?>
 						<div class="form-group col-sm-3">
-							<label style="text-transform: capitalize;">By Agent<?php echo "[ AgentID:" . $policy_user['user_id'] . " ] "; ?>: <?php echo htmlspecialchars($policy_user['firstname'] . " " . $policy_user['lastname']); ?></label>
+							<label style="text-transform: capitalize;"><?php echo $this->lang->line("By Agent"); ?><?php echo "[ AgentID:" . $policy_user['user_id'] . " ] "; ?>: <?php echo htmlspecialchars($policy_user['firstname'] . " " . $policy_user['lastname']); ?></label>
 						</div>
 						<?php } ?>
 						<?php if (($user_group_id != 1) || (($beuser_user_id != 1) && ($beuser_user_id != 2762) && ($beuser_user_id != 2254) && ($beuser_user_id != 2661) && ($beuser_user_id != 4272) )) { ?>
@@ -140,7 +140,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<label style="display:inline-block;vertical-align:middle;"><?php echo $this->lang->line("Status"); ?>:</label>
 							<div style="display:inline-block;vertical-align:middle;">
 							<select name='status_id' class="form-control">
-								<option value='0'> -- select policy status -- </option>
+								<option value='0'> -- <?php echo $this->lang->line("select policy status"); ?> -- </option>
 								<?php foreach ($status_list as $key => $value) { ?>
 								<option value='<?php echo $key; ?>' <?php echo ($key == $status_id) ? 'selected' : ''; ?>><?php echo $value['name']; ?></option>
 								<?php } ?>
@@ -658,7 +658,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<?php } ?>	
 						<div class="col-sm-12" id='goto_next_page'>
 						<?php if (!empty($next_url)) { ?>
-						<a href='<?php echo $next_url; ?>'><span class="btn btn-info">No Change</span></a> Go next page without change
+						<a href='<?php echo $next_url; ?>'><span class="btn btn-info"><?php echo $this->lang->line("No Change"); ?></span></a> <?php echo $this->lang->line("Go next page without change"); ?>
 						<?php } ?>
 						<?php if (($user_group_id == 1) || ($isprocessplan && ($status_id != 5) && ($status_id != 6))) { ?>
 							<input class="btn btn-primary pull-right" type='submit' id='page-submit' name='submit' value='<?php echo $submit; ?>' />		

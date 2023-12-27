@@ -158,7 +158,9 @@ $lang["By checking the box, you confirm that both you and your client understand
 
 /* C */
 $lang["Canadian Travellers"] = "Canadian Travellers";
+$lang["Cancel"] = "Cancel";
 $lang["Cancel Date"] = "Cancel Date";
+$lang["Cancel Letter"] = "Cancel Letter";
 $lang["Cancer"] = "Cancer";
 $lang["Card CVV"] = "Card CVV";
 $lang["Card Holder's Name"] = "Card Holder's Name";
@@ -232,6 +234,7 @@ $lang["Full Name"] = "Full Name";
 $lang["Gender"] = "Gender";
 $lang["GERD (gastro-esophageal reflux disease)"] = "GERD (gastro-esophageal reflux disease)";
 $lang["Get More"] = "Get More";
+$lang["Go next page without change"] = "Go next page without change";
 
 /* H */
 $lang["Healthcare costs around the world can be very expensive; hospitals can charge thousands of dollars per day. Your government healthcare plan may or may not cover a minimal portion of these costs. Without adequate insurance coverage, you could be responsible for a significant amount of medical expenses that could have an immense impact on your personal finances. Why take this risk?"] = "Healthcare costs around the world can be very expensive; hospitals can charge thousands of dollars per day. Your government healthcare plan may or may not cover a minimal portion of these costs. Without adequate insurance coverage, you could be responsible for a significant amount of medical expenses that could have an immense impact on your personal finances. Why take this risk?";
@@ -276,6 +279,7 @@ $lang["Members"] = "Members";
 $lang["Message"] = "Message";
 $lang['Mission'] = 'Mission';
 $lang["Month"] = "Month";
+$lang["More Filter"] = "More Filter";
 $lang["Mr. Johnson Fu has more than 30 years of experience in the Insurance and Financial Industry. Mr. Fu is an active member of his community as well as many local and international charities. His active involvement and dedication to community service has led to the JF philosophy \"To Serve\". It is this philosophy and attitude that resonates and helps guide all staff members at JF."] = "Mr. Johnson Fu has more than 30 years of experience in the Insurance and Financial Industry. Mr. Fu is an active member of his community as well as many local and international charities. His active involvement and dedication to community service has led to the JF philosophy \"To Serve\". It is this philosophy and attitude that resonates and helps guide all staff members at JF.";
 $lang["My insurance representative has reviewed the Policy benefits, definitions and exclusions with me. I understand that if I have (or the person I am purchasing coverage for has) any pre-existing conditions, I (or the person I am purchasing coverage for) must disclose these to my insurance representative prior to purchasing coverage to allow for an informed assessment of the type of insurance coverage that is best suited to protect me (or the person I am purchasing coverage for)."] = "My insurance representative has reviewed the Policy benefits, definitions and exclusions with me. I understand that if I have (or the person I am purchasing coverage for has) any pre-existing conditions, I (or the person I am purchasing coverage for) must disclose these to my insurance representative prior to purchasing coverage to allow for an informed assessment of the type of insurance coverage that is best suited to protect me (or the person I am purchasing coverage for).";
 $lang["My insurance representative has reviewed the Visitors/International students to Canada Insurance Policy ('Policy') Eligibility criteria with me. I understand that coverage is not available for purchase if I have (or the person I am purchasing coverage for has) any of the excluded conditions listed under the Eligibility section of the Policy."] = "My insurance representative has reviewed the Visitors/International students to Canada Insurance Policy ('Policy') Eligibility criteria with me. I understand that coverage is not available for purchase if I have (or the person I am purchasing coverage for has) any of the excluded conditions listed under the Eligibility section of the Policy.";
@@ -285,8 +289,12 @@ $lang["Name"] = "Name";
 $lang["Net"] = "Net";
 $lang["Net payable to JF Insurance Ageny Inc."] = "Net payable to JF Insurance Ageny Inc.";
 $lang["Net Premium"] = "Net Premium";
+$lang["New"] = "New";
 $lang["New Password Again"] = "New Password Again";
+$lang["New Policy"] = "New Policy";
+$lang["Next"] = "Next";
 $lang["No"] = "No";
+$lang["No Change"] = "No Change";
 $lang["Note"] = "Note";
 $lang["Notes"] = "Notes";
 $lang["Number"] = "Number";
@@ -301,6 +309,7 @@ $lang["Package"] = "Package";
 $lang["Package Name"] = "Package Name";
 $lang["Password"] = "Password";
 $lang["Password must between 6 to 16 charactors"] = "Password must between 6 to 16 charactors";
+$lang["Pay"] = "Pay";
 $lang["Pay By Alipay"] = "Pay By Alipay";
 $lang["Pay By Cash"] = "Pay By Cash";
 $lang["Pay By Cheque"] = "Pay By Cheque";
@@ -354,7 +363,9 @@ $lang["Quote"] = "Quote";
 $lang["Rate"] = "Rate";
 $lang["Ratio"] = "Ratio";
 $lang["Receivable Report"] = "Receivable Report";
+$lang["Refund"] = "Refund";
 $lang["Refund Date"] = "Refund Date";
+$lang["Refund Letter"] = "Refund Letter";
 $lang["Refund Porcess Date"] = "Refund Porcess Date";
 $lang["Region"] = "Region";
 $lang["Renewal"] = "Renewal";
@@ -370,6 +381,7 @@ $lang["School Full Address"] = "School Full Address";
 $lang["School Name"] = "School Name";
 $lang["Search"] = "Search";
 $lang["Search Result"] = "Search Result";
+$lang["select policy status"] = "select policy status";
 $lang["select product"] = "select product";
 $lang["Send Package"] = "Send Package";
 $lang["Sold"] = "Sold";
@@ -398,6 +410,7 @@ $lang["The applicant(s) is aware that this insurance covers only Emergencies (as
 $lang["The eligibility requirements for the plan applied for are material to the risk for which insurance is sought. If the applicant(s) does not meet the eligibility requirements for the plan selected, or if there is any misrepresentation or concealment of or failure to disclose any facts or matters pertaining to the applicant(s) and that are the subject insurance coverage provided."] = "The eligibility requirements for the plan applied for are material to the risk for which insurance is sought. If the applicant(s) does not meet the eligibility requirements for the plan selected, or if there is any misrepresentation or concealment of or failure to disclose any facts or matters pertaining to the applicant(s) and that are the subject insurance coverage provided.";
 $lang["The following statements must be true for all members."] = "The following statements must be true for all members.";
 $lang["The policy must purchase before departure"] = "The policy must purchase before departure";
+$lang["There is an existing claim or open cases."] = "There is an existing claim or open cases.";
 $lang["This document does not constitute the entire insurance policy, and the applicant has been advised to read the policy booklet for full details of coverage and exclusions. You must agree to the terms of the contract."] = "This document does not constitute the entire insurance policy, and the applicant has been advised to read the policy booklet for full details of coverage and exclusions. You must agree to the terms of the contract.";
 $lang["This document does not constitute the entire insurance policy, and the applicant(s) has been advised to read the policy full details of coverage and exclusions."] = "This document does not constitute the entire insurance policy, and the applicant(s) has been advised to read the policy full details of coverage and exclusions.";
 $lang["To"] = "To";
@@ -416,6 +429,7 @@ $lang["Type"] = "Type";
 /* U */
 $lang["Un-check to Disallow this policy"] = "Un-check to Disallow this policy";
 $lang["understand that I need to contact with my insurance representative to get confirmation package after I completed the application."] = "understand that I need to contact with my insurance representative to get confirmation package after I completed the application.";
+$lang["Update Policy"] = "Update Policy";
 $lang["Used Days"] = "Used Days";
 $lang["Username"] = "Username";
 

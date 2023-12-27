@@ -1443,11 +1443,11 @@ class Plan extends MY_Controller {
 
 		$data['show_history'] = 0;
 		if (empty($data['plan_id'])) {
-			$data['submit'] = 'Next';
-			$data['p_header'] = 'New Policy';
+			$data['submit'] = $this->lang->line("'Next");
+			$data['p_header'] = $this->lang->line("New Policy");
 		} else {
-			$data['p_header'] = 'Edit Policy';
-			$data['submit'] = 'Update Policy';
+			$data['p_header'] = $this->lang->line("Edit Policy");
+			$data['submit'] = $this->lang->line("Update Policy");
 			if ($beuser['user_group_id'] < 100) {
 				$this->load->model('payment_model');
 				$data['show_history'] = 1;
