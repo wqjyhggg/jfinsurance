@@ -370,6 +370,7 @@ $lang["Review Policy Detail"] = "Examiner les détails de la politique";
 $lang["Sales Report to Agent"] = "Rapport de ventes à l'agent";
 $lang["School Full Address"] = "Adresse complète de l'école";
 $lang["School Name"] = "Nom de l'école";
+$lang["School Phone"] = "Téléphone scolaire";
 $lang["Search"] = "Recherche";
 $lang["Search Result"] = "Résultat de la recherche";
 $lang["select policy status"] = "sélectionner le statut de la police";

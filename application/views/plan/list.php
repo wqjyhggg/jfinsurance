@@ -24,7 +24,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <h3><?php echo $this->lang->line("View"); ?>/<?php echo $this->lang->line("Edit Policy"); ?>
                 	
                 	<?php if (($beuser['user_group_id'] != 3) && ($beuser['user_group_id'] != 103) && ($beuser['user_group_id'] != 106)) { ?>
-                	<span class="btn btn-info" data-toggle="collapse" data-target="#create-div" title="Create New"><i class="fa fa-plus"></i> New</span>
+                	<span class="btn btn-info" data-toggle="collapse" data-target="#create-div" title="Create New"><i class="fa fa-plus"></i> <?php echo $this->lang->line("New"); ?></span>
 	            	<?php } ?>
 	            </h3>
               </div>
@@ -98,7 +98,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			                        <div class="form-group col-sm-4">
 			                        	<label class="col-sm-12">&nbsp;</label>
 			                        	<input class="btn btn-primary" type='submit' name='search' value='<?php echo $this->lang->line("Search"); ?>'>
-			                        	<input type="button" class="btn btn-info" data-toggle="collapse" data-target="#adv-search" name='search' value='More Filter'>
+			                        	<input type="button" class="btn btn-info" data-toggle="collapse" data-target="#adv-search" name='search' value='<?php echo $this->lang->line("More Filter"); ?>'>
 			                        </div>	
                     			</div>
 

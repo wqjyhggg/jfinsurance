@@ -1443,7 +1443,7 @@ class Plan extends MY_Controller {
 
 		$data['show_history'] = 0;
 		if (empty($data['plan_id'])) {
-			$data['submit'] = $this->lang->line("'Next");
+			$data['submit'] = $this->lang->line("Next");
 			$data['p_header'] = $this->lang->line("New Policy");
 		} else {
 			$data['p_header'] = $this->lang->line("Edit Policy");

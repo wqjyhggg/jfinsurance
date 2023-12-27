@@ -379,6 +379,7 @@ $lang["Review Policy Detail"] = "Review Policy Detail";
 $lang["Sales Report to Agent"] = "Sales Report to Agent";
 $lang["School Full Address"] = "School Full Address";
 $lang["School Name"] = "School Name";
+$lang["School Phone"] = "School Phone";
 $lang["Search"] = "Search";
 $lang["Search Result"] = "Search Result";
 $lang["select policy status"] = "select policy status";
