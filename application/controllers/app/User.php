@@ -343,6 +343,13 @@ class User extends CI_Controller
     $this->data['product_list'] = $this->product_model->product_list(1, $user);
     $user_product_list = $this->user_model->get_user_product_list($user_id);
     $pdf_product_list = array();
+
+    $product_customize = $this->product_model->get_product_customize($user_id);
+    foreach ($product_customize as $pdc) {
+      $this->data['product_customize'][$pdc['product_short']] = $pdc['name'];
+    }
+    $this->data['$product_customize'] = $product_customize;
+
     $user_pdf_list = json_decode($user['pdf_product']);
     foreach ($this->data['product_list'] as $k => $p) {
 			$this->data['product_list'][$k]['checked'] = '';
