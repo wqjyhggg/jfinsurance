@@ -429,7 +429,7 @@ class Plan extends MY_Controller {
 		$arrival_date = $this->input->post('arrival_date');
 		$arrivaltm = strtotime($arrival_date);
 		if (($product_short != 'TOP') && empty($arrival_date)) {	// 2015-01-01
-			$this->error['error_arrival_date'] = 'Confirm Arrival Date';
+			$this->error['error_arrival_date'] = $this->lang->line("Confirm Arrival Date");
 			/*	
 		} else if (($product_short == 'JFR') && ($arrivaltm < 1420070400)) {	// 2015-01-01
 			$this->error['error_arrival_date'] = "Arrival Date is too early";
@@ -438,79 +438,79 @@ class Plan extends MY_Controller {
 		$effective_date = $this->input->post('effective_date');
 		$effectivetm = strtotime($effective_date);
 		if (empty($effective_date) || ($effectivetm < 1466555500)) {
-			$this->error['error_effective_date'] = 'Confirm Effective Date';
+			$this->error['error_effective_date'] = $this->lang->line("Confirm Effective Date");
 		}
 
 		if ($product_short == 'JESP') {
 			if (empty($this->input->post('student_id'))) {
-				$this->error['error_student_id'] = 'Student Name is Required';
+				$this->error['error_student_id'] = $this->lang->line("Student Name is Required");
 			}
 			if (empty($this->input->post('institution'))) {
-				$this->error['error_institution'] = 'School Name is Required';
+				$this->error['error_institution'] = $this->lang->line("School Name is Required");
 			}
 		}
 		if (($product_short == 'JES') || ($product_short == 'JFPL') || ($product_short == 'JFSL') || ($product_short == 'JFGD')) {
 			if (empty($this->input->post('institution'))) {
-				$this->error['error_institution'] = 'School Name is Required';
+				$this->error['error_institution'] = $this->lang->line("School Name is Required");
 			}
 		}
 		if ($product_short == 'BHS') {
 			if (empty($this->input->post('student_id'))) {
-				$this->error['error_student_id'] = 'Student Name is Required';
+				$this->error['error_student_id'] = $this->lang->line("Student Name is Required");
 			}
 		}
 		if (($product_short != 'TOP') && ($arrivaltm > $effectivetm)) {
-			$this->error['error_effective_date'] = 'Arrival Date cannot be later than Effective Date';
+			$this->error['error_effective_date'] = $this->lang->line("Arrival Date cannot be later than Effective Date");
 		}
 		$expiry_date = $this->input->post('expiry_date');
 		$expirytm = strtotime($expiry_date);
 		if (empty($expiry_date) || ($expirytm < 1466555500) || ($expirytm < $effectivetm)) {
-			$this->error['error_expiry_date'] = 'Confirm Expiry Date';
+			$this->error['error_expiry_date'] = $this->lang->line("Confirm Expiry Date");
 		}
 		if ((float)$this->input->post('premium') < 0.1) {
-			$this->error['error_premium'] = "Please check all your input fields. Premium amount can't be 0!";
+			$this->error['error_premium'] = $this->lang->line("Please check all your input fields. Premium amount can't be 0!");
 		}
 		if (empty($this->input->post('beneficiary'))) {
-			$this->error['error_beneficiary'] = 'Beneficiary is Required';
+			$this->error['error_beneficiary'] = $this->lang->line("Beneficiary is Required");
 		}
 		$firstname = preg_replace('/[\x00-\x1F\x7F-\x9F]/u', '', $this->input->post('firstname'));
 		if (empty($firstname)) {
-			$this->error['error_firstname'] = 'Firstname is Required';
+			$this->error['error_firstname'] = $this->lang->line("Firstname is Required");
 		}
 		if ($firstname != $this->input->post('firstname')) {
-			$this->error['error_firstname'] = 'No special character is allowed';
+			$this->error['error_firstname'] = $this->lang->line("No special character is allowed");
 		}
 		$lastname = preg_replace('/[\x00-\x1F\x7F-\x9F]/u', '', $this->input->post('lastname'));
 		if (empty($lastname)) {
-			$this->error['error_lastname'] = 'Lastname is Required';
+			$this->error['error_lastname'] = $this->lang->line("Lastname is Required");
 		}
 		if ($lastname != $this->input->post('lastname')) {
-			$this->error['error_lastname'] = 'No special character is allowed';
+			$this->error['error_lastname'] = $this->lang->line("No special character is allowed");
 		}
 		if (empty($this->input->post('birthday'))) {
-			$this->error['error_birthday'] = 'Birthday is Required';
+			$this->error['error_birthday'] = $this->lang->line("Birthday is Required");
 		}
 		if (empty($this->input->post('street_number')) || preg_match('/[^\x20-\x7f]/', $this->input->post('street_number'))) {
-			$this->error['error_street_number'] = 'Street number is Required (No special character is allowed)';
+			$this->error['error_street_number'] = $this->lang->line("Street number is Required (No special character is allowed)");
 		}
 		if (empty($this->input->post('street_name')) || preg_match('/[^\x20-\x7f]/', $this->input->post('street_name'))) {
-			$this->error['error_street_name'] = 'Street name is Required (No special character is allowed)';
+			$this->error['error_street_name'] = $this->lang->line("Street name is Required (No special character is allowed)");
 		}
 		if (empty($this->input->post('city')) || preg_match('/[^\x20-\x7f]/', $this->input->post('city'))) {
-			$this->error['error_city'] = 'City Required (No special character is allowed)';
+			$this->error['error_city'] = $this->lang->line("City Required (No special character is allowed)");
 		}
 		if (empty($this->input->post('postcode')) || preg_match('/[^\x20-\x7f]/', $this->input->post('postcode'))) {
-			$this->error['error_postcode'] = 'Postcode is Required (No special character is allowed)';
+			$this->error['error_postcode'] = $this->lang->line("Postcode is Required (No special character is allowed)");
 		}
 		if (empty($this->input->post('phone1'))) {
-			$this->error['error_phone1'] = 'Phone1 is Required';
+			$this->error['error_phone1'] = $this->lang->line("Phone1 is Required");
 		}
 		if (empty($this->input->post('contact_email'))) {
-			$this->error['error_contact_email'] = 'Contact email is Required';
+			$this->error['error_contact_email'] = $this->lang->line("Contact email is Required");
 		}
 
     if (empty($this->input->post('province2'))) {
-			$this->error['error_province2'] = 'Province is Required';
+			$this->error['error_province2'] = $this->lang->line("Province is Required");
 		} else {
       $user_id = 0;
       if ($this->input->post('user_id')) {
@@ -526,14 +526,14 @@ class Plan extends MY_Controller {
         if (sizeof($user_province) > 0) {
           $my_user_province = $this->user_province_model->get_by_user_province($user_id, $this->input->post('province2'));
           if (empty($my_user_province)) {
-            $this->error['error_province2'] = "You don't have license to sale in this province, Please contact us for more information";
+            $this->error['error_province2'] = $this->lang->line("You don't have license to sale in this province, Please contact us for more information");
           }
         }
       }
     }
 
 		if (!empty($this->input->post('isfamilyplan')) && (empty($this->input->post('birthday_1')) || empty($this->input->post('firstname_1')) || empty($this->input->post('lastname_1')))) {
-			$this->error['error_message'] = 'Please input family / group member information';
+			$this->error['error_message'] = $this->lang->line("Please input family / group member information");
 		}
 		if (($product_short == 'OPL') || ($product_short == 'JFVTC') || ($product_short == 'JFR')) {
 			$apply_date = $this->input->post('apply_date');
@@ -551,7 +551,7 @@ class Plan extends MY_Controller {
 			if ($stable_condition == 2) {
 				$stable_condition_confirm = $this->input->post('stable_condition_confirm');
 				if (empty($stable_condition_confirm)) {
-					$this->error['error_stable_condition_confirm'] = 'You must confirm this condition for your selection.';
+					$this->error['error_stable_condition_confirm'] = $this->lang->line("You must confirm this condition for your selection.");
 				}
 			}
 			//}
@@ -559,14 +559,14 @@ class Plan extends MY_Controller {
 			$this->from_valid_family_member();
 		} else if (($product_short == 'JUS') || ($product_short == 'NUS')) {
 			if (empty($this->input->post('rate_options'))) {
-				$this->error['error_rate_options'] = 'Please select rate options';
+				$this->error['error_rate_options'] = $this->lang->line("Please select rate options");
 			}
 			$skip_cnt = (empty($this->input->post('spouse'))) ? 0 : 1;
 			$apply_date = $this->input->post('apply_date');
 			$birthday = $this->input->post('birthday');
 			$years = $this->product_model->getYears($apply_date, $birthday);
 			if ($years > 69) {
-				$this->error['error_message'] = "Customer age must be less than 69 years old";
+				$this->error['error_message'] = $this->lang->line("Customer age must be less than 69 years old");
 			} else {
 				for ($i = 1; $i < 9; $i++) {
 					$birthday = $this->input->post('birthday_' . $i);
@@ -574,7 +574,7 @@ class Plan extends MY_Controller {
 					$years = $this->product_model->getYears($apply_date, $birthday);
 					if ($years > 26) {
 						if ($skip_cnt <= 0) {
-							$this->error['error_message'] = 'Dependent children must under age 26';
+							$this->error['error_message'] = $this->lang->line("Dependent children must under age 26");
 						}
 						$skip_cnt--;
 					}
@@ -587,11 +587,11 @@ class Plan extends MY_Controller {
 			if ($product_short == 'JFS') {
 				$stable_condition_confirm = $this->input->post('stable_condition_confirm');
 				if (empty($stable_condition_confirm)) {
-					$this->error['error_stable_condition_confirm'] = 'You must confirm you known about NOT cover any Pre-Existing Medical Condition(s).';
+					$this->error['error_stable_condition_confirm'] = $this->lang->line("You must confirm you known about NOT cover any Pre-Existing Medical Condition(s).");
 				}
 			}
 			if ($years > 69) {
-				$this->error['error_message'] = "Customer age must be less than 69 years old";
+				$this->error['error_message'] = $this->lang->line("Customer age must be less than 69 years old");
 			} else {
 				for ($i = 1; $i < 9; $i++) {
 					$birthday = $this->input->post('birthday_' . $i);
@@ -599,12 +599,12 @@ class Plan extends MY_Controller {
 					$years = $this->product_model->getYears($apply_date, $birthday);
 					if (($product_short == 'JES') || ($product_short == 'JFPL') || ($product_short == 'JESP') || ($product_short == 'JFE') || ($product_short == 'JFS') || ($product_short == 'BHS')) {
 						if ($years > 59) {
-							$this->error['error_message'] = "All family member's age must be less than 59 years old";
+							$this->error['error_message'] = $this->lang->line("All family member's age must be less than 59 years old");
 							break;
 						}
 					} else {
 						if ($years > 69) {
-							$this->error['error_message'] = "All family member's age must be less than 69 years old";
+							$this->error['error_message'] = $this->lang->line("All family member's age must be less than 69 years old");
 							break;
 						}
 					}
@@ -613,14 +613,14 @@ class Plan extends MY_Controller {
 			$years = $this->product_model->getYears($apply_date, $this->input->post('birthday'));
 			if (($product_short == 'JES') || ($product_short == 'JFPL') || ($product_short == 'JFSL') || ($product_short == 'JFGD') || ($product_short == 'JESP') || ($product_short == 'JFE') || ($product_short == 'JFS') || ($product_short == 'BHS')) {
 				if ($years < 4) {
-					$this->error['error_message'] = "Customer age must be older than 4 years old";
+					$this->error['error_message'] = $this->lang->line("Customer age must be older than 4 years old");
 				} else {
 					for ($i = 1; $i < 9; $i++) {
 						$birthday = $this->input->post('birthday_' . $i);
 						if (empty($birthday)) break;
 						$years = $this->product_model->getYears($apply_date, $birthday);
 						if ($years < 4) {
-							$this->error['error_message'] = "All family member's age must be older than 4 years old";
+							$this->error['error_message'] = $this->lang->line("All family member's age must be older than 4 years old");
 							break;
 						}
 					}
@@ -631,7 +631,7 @@ class Plan extends MY_Controller {
 			$ipremium = (float)$this->input->post('premium');
 			$tpremium = (float)$tdata['premium'];
 			if (empty($tdata['status']) || ($tdata['status'] != 'OK') || (abs($ipremium - $tpremium) > 0.001)) {
-				$this->error['error_message'] = "Peimum has been changed, Please confirm and submit again";
+				$this->error['error_message'] = $this->lang->line("Premium has been changed, Please confirm and submit again");
 			}
 		}
 
