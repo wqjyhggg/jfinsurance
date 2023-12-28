@@ -1,5 +1,10 @@
 <?php
 defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
+$show = true;
+$fYear = $this->lang->line('Year');
+if ($fYear != "Year") {
+  $show = false;
+}
 ?>
 <!-- Content top navigation -->
 <div class="top_nav">
@@ -16,6 +21,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 <!-- page content -->
 <div class="right_col" role="main" style="margin-bottom: 40px;">
 	<div class="main-div">
+    <?php if ($show == true) { ?>
 		<div class="page-title">
 			<div class="title_left">
 				<h3>Agreement to use MyHome service</h3>
@@ -64,6 +70,13 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 			</div>
 		</div>
 		<!-- End Term -->
+    <?php } else { ?>
+    <div class="page-title">
+			<div class="title_left">
+				<h3>Pour l'instant, le service MyHome ne prend en charge que la version anglaise. La version française sera bientôt disponible</h3>
+			</div>
+		</div>
+    <?php } ?>
 	</div>
 </div>
 <!-- /page content -->
