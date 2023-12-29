@@ -421,6 +421,7 @@ $lang["School Name is Required"] = "Le nom de l'école est obligatoire";
 $lang["School Phone"] = "School Phone";
 $lang["Search"] = "Search";
 $lang["Search Result"] = "Search Result";
+$lang["select condition"] = "select condition";
 $lang["select country"] = "select country";
 $lang["select province"] = "select province";
 $lang["select policy status"] = "select policy status";

@@ -412,6 +412,7 @@ $lang["School Name is Required"] = "Le nom de l'école est requis";
 $lang["School Phone"] = "Téléphone scolaire";
 $lang["Search"] = "Recherche";
 $lang["Search Result"] = "Résultat de la recherche";
+$lang["select condition"] = "sélectionner une condition";
 $lang["select country"] = "choisissez le pays";
 $lang["select province"] = "sélectionner une province";
 $lang["select policy status"] = "sélectionner le statut de la police";
