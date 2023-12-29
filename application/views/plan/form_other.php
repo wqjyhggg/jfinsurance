@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<div class="row">
 						<div class="col-sm-12">
 							<fieldset>
-								<legend>Insurable Options</legend>
+								<legend><?php echo $this->lang->line("Insurable Options"); ?></legend>
 								<div class="row">
 									<div class="form-group col-sm-3">
 										<label class="col-sm-12"><?php echo $this->lang->line("Beneficiary"); ?></label>

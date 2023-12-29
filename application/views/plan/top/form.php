@@ -786,15 +786,15 @@
                     <fieldset>
                       <legend>Pre-existing conditons</legend>
                       <div class="row">
-                        <label class="inline">Select pre-existing condition coverage</label>
+                        <label class="inline"><?php echo $this->lang->line("Select pre-existing condition coverage"); ?></label>
                         <div class="inline">
                           <?php if (($user_group_id > 100) && $no_change) { ?>
-                            <?php echo ($stable_condition == 1) ? 'Including' : 'Excluding'; ?> stable pre-existing condition coverage
+                            <?php echo ($stable_condition == 1) ? 'Including' : 'Excluding'; ?> <?php echo $this->lang->line("stable pre-existing condition coverage"); ?>
                           <?php } else { ?>
                             <select name='stable_condition' class="form-control check_premium" id='stable_condition_select'>
-                              <option value='0'> -- select condition -- </option>
-                              <option value='1' <?php echo ($stable_condition == 1) ? 'selected' : ''; ?>>Including stable pre-existing condition coverage</option>
-                              <option value='2' <?php echo ($stable_condition == 2) ? 'selected' : ''; ?>>Excluding stable pre-existing condition coverage</option>
+                              <option value='0'> -- <?php echo $this->lang->line("select condition"); ?> -- </option>
+                              <option value='1' <?php echo ($stable_condition == 1) ? 'selected' : ''; ?>><?php echo $this->lang->line("Including stable pre-existing condition coverage"); ?></option>
+                              <option value='2' <?php echo ($stable_condition == 2) ? 'selected' : ''; ?>><?php echo $this->lang->line("Excluding stable pre-existing condition coverage"); ?></option>
                             </select>
                           <?php } ?>
                         </div>

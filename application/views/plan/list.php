@@ -109,7 +109,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			                        <div class="form-group col-sm-3">
 			                          <!--label class="col-sm-4">Last Name:</label-->
 			                          <div class="input-group col-sm-12">
-			                              <input type="text" name="lastname" placeholder="Last Name" data-toggle="tooltip" title="Last Name" value="<?php echo $lastname; ?>" class="form-control"/>
+			                              <input type="text" name="lastname" placeholder="<?php echo $this->lang->line("Last Name"); ?>" data-toggle="tooltip" title="<?php echo $this->lang->line("Last Name"); ?>" value="<?php echo $lastname; ?>" class="form-control"/>
 			                          </div>
 			                        </div>
 			                        <!-- Last Name input box end -->
@@ -117,7 +117,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			                        <div class="form-group col-sm-3">
 			                          <!--label class="col-sm-4">First Name:</label-->
 			                          <div class="input-group col-sm-12">
-			                              <input type="text" name="firstname" placeholder="First Name" data-toggle="tooltip" title="First Name" value='<?php echo $html_model->escapeQuote($firstname); ?>' class="form-control"/>
+			                              <input type="text" name="firstname" placeholder="<?php echo $this->lang->line("First Name"); ?>" data-toggle="tooltip" title="<?php echo $this->lang->line("First Name"); ?>" value='<?php echo $html_model->escapeQuote($firstname); ?>' class="form-control"/>
 			                          </div>
 			                        </div>
 			                        <!-- First Name input box end -->
@@ -125,7 +125,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			                        <div class="form-group col-sm-3">
 			                          <!--label for="application_date_from" class="col-sm-4">Birthdate From:</label-->
 			                            <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
-			                                <input type="text" size="16" name="birthday" placeholder="Birthdate From" data-toggle="tooltip" title="Birthdate From" value="<?php echo $birthday; ?>" class="form-control">
+			                                <input type="text" size="16" name="birthday" placeholder="<?php echo $this->lang->line("Birthdate From"); ?>" data-toggle="tooltip" title="<?php echo $this->lang->line("Birthdate From"); ?>" value="<?php echo $birthday; ?>" class="form-control">
 			                                <div class="input-group-addon">
 			                                    <span class="glyphicon glyphicon-calendar"></span>
 			                                </div>
@@ -135,7 +135,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			                        <div class="form-group col-sm-3">
 			                          <!--label for="application_date_from" class="col-sm-4">Birthdate to:</label-->
 			                            <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
-			                                <input type="text" size="16" name="birthday2" placeholder="Birthdate To" data-toggle="tooltip" title="Birthdate To" value="<?php echo $birthday2; ?>" class="form-control">
+			                                <input type="text" size="16" name="birthday2" placeholder="<?php echo $this->lang->line("Birthdate To"); ?>" data-toggle="tooltip" title="<?php echo $this->lang->line("Birthdate To"); ?>" value="<?php echo $birthday2; ?>" class="form-control">
 			                                <div class="input-group-addon">
 			                                    <span class="glyphicon glyphicon-calendar"></span>
 			                                </div>
@@ -151,7 +151,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			                        <div class="form-group col-sm-3">
 			                          <!--label class="col-sm-12">Agent/School Name:</label-->
 			                          <div class="input-group col-sm-12">
-			                              <input type="text" name='uname' placeholder="Agent/School Name" data-toggle="tooltip" title="Agent/School Name" value='<?php echo $html_model->escapeQuote($uname); ?>' class="form-control"/>
+			                              <input type="text" name='uname' placeholder="<?php echo $this->lang->line("Agent/School Name"); ?>" data-toggle="tooltip" title="<?php echo $this->lang->line("Agent/School Name"); ?>" value='<?php echo $html_model->escapeQuote($uname); ?>' class="form-control"/>
 			                          </div>
 			                        </div>
 			                        <!-- Agent input box end -->
@@ -159,7 +159,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			                        <div class="form-group col-sm-3">
 			                          <!--label class="col-sm-12">Agent/School Name:</label-->
 			                          <div class="input-group col-sm-12">
-			                              <input type="text" name='student_id' placeholder="Student Id" data-toggle="tooltip" title="Student Id" value='<?php echo $html_model->escapeQuote($student_id); ?>' class="form-control"/>
+			                              <input type="text" name='student_id' placeholder="<?php echo $this->lang->line("Student ID"); ?>" data-toggle="tooltip" title="<?php echo $this->lang->line("Student ID"); ?>" value='<?php echo $html_model->escapeQuote($student_id); ?>' class="form-control"/>
 			                          </div>
 			                        </div>
 			                        <!-- Agent input box end -->
@@ -181,7 +181,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			                          <!-- Application Date from -->
 			                            <!--label for="application_date_from" class="col-sm-12">Application Date From</label-->
 			                            <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
-			                                <input type="text" size="16" name='apply_date' placeholder="Application Date From" data-toggle="tooltip" title="Application Date From" value='<?php echo $apply_date; ?>' class="form-control">
+			                                <input type="text" size="16" name='apply_date' placeholder="<?php echo $this->lang->line("Application Date From"); ?>" data-toggle="tooltip" title="<?php echo $this->lang->line("Application Date From"); ?>" value='<?php echo $apply_date; ?>' class="form-control">
 			                                <div class="input-group-addon">
 			                                    <span class="glyphicon glyphicon-calendar"></span>
 			                                </div>
@@ -192,7 +192,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			                            <!-- Application Date to -->
 			                            <!--label for="application_date_to" class="col-sm-12">Application Date To</label-->
 			                            <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
-			                                <input type="text" size="16" name='apply_date2' placeholder="Application Date To" data-toggle="tooltip" title="Application Date To" value='<?php echo $apply_date2; ?>' class="form-control">
+			                                <input type="text" size="16" name='apply_date2' placeholder="<?php echo $this->lang->line("Application Date To"); ?>" data-toggle="tooltip" title="<?php echo $this->lang->line("Application Date To"); ?>" value='<?php echo $apply_date2; ?>' class="form-control">
 			                                <div class="input-group-addon">
 			                                    <span class="glyphicon glyphicon-calendar"></span>
 			                                </div>
@@ -207,7 +207,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			                            <!-- Arrival Date From-->
 			                            <!--label for="create_date_from" class="col-sm-12">Arrival Date From</label-->
 			                            <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
-			                                <input type="text" size="16" name='arrival_date' placeholder="Arrival Date From" data-toggle="tooltip" title="Arrival Date From" value='<?php echo $arrival_date; ?>' class="form-control">
+			                                <input type="text" size="16" name='arrival_date' placeholder="<?php echo $this->lang->line("Arrival Date From"); ?>" data-toggle="tooltip" title="<?php echo $this->lang->line("Arrival Date From"); ?>" value='<?php echo $arrival_date; ?>' class="form-control">
 			                                <div class="input-group-addon">
 			                                    <span class="glyphicon glyphicon-calendar"></span>
 			                                </div>
@@ -218,7 +218,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			                            <!-- Create Date to -->
 			                            <!--label for="create_date_to" class="col-sm-12">Arrival Date To</label-->
 			                            <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
-			                                <input type="text" size="16" name='arrival_date2' placeholder="Arrival Date To" data-toggle="tooltip" title="Arrival Date To" value='<?php echo $arrival_date2; ?>' class="form-control">
+			                                <input type="text" size="16" name='arrival_date2' placeholder="<?php echo $this->lang->line("Arrival Date To"); ?>" data-toggle="tooltip" title="<?php echo $this->lang->line("Arrival Date To"); ?>" value='<?php echo $arrival_date2; ?>' class="form-control">
 			                                <div class="input-group-addon">
 			                                    <span class="glyphicon glyphicon-calendar"></span>
 			                                </div>
@@ -233,7 +233,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			                            <!-- Effective Date From-->
 			                            <!--label for="effective_date_from" class="col-sm-12">Effective Date From</label-->
 			                            <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
-			                                <input type="text" size="16" name='effective_date' placeholder="Effective Date From" data-toggle="tooltip" title="Effective Date From" value='<?php echo $effective_date; ?>' class="form-control">
+			                                <input type="text" size="16" name='effective_date' placeholder="<?php echo $this->lang->line("Effective Date From"); ?>" data-toggle="tooltip" title="<?php echo $this->lang->line("Effective Date From"); ?>" value='<?php echo $effective_date; ?>' class="form-control">
 			                                <div class="input-group-addon">
 			                                    <span class="glyphicon glyphicon-calendar"></span>
 			                                </div>
@@ -244,7 +244,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			                            <!-- Effective Date to -->
 			                            <!--label for="effective_date_to" class="col-sm-12">Effective Date To</label-->
 			                            <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
-			                                <input type="text" size="16" name='effective_date2' placeholder="Effective Date To" data-toggle="tooltip" title="Effective Date To" value='<?php echo $effective_date2; ?>' class="form-control">
+			                                <input type="text" size="16" name='effective_date2' placeholder="<?php echo $this->lang->line("Effective Date To"); ?>" data-toggle="tooltip" title="<?php echo $this->lang->line("Effective Date To"); ?>" value='<?php echo $effective_date2; ?>' class="form-control">
 			                                <div class="input-group-addon">
 			                                    <span class="glyphicon glyphicon-calendar"></span>
 			                                </div>
@@ -258,7 +258,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			                            
 			                            <!--label for="payment_update_date_from" class="col-sm-12">Expiry Date From</label-->
 			                            <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
-			                                <input type="text" size="16" name='expiry_date' placeholder="Expiry Date From" data-toggle="tooltip" title="Expiry Date From" value='<?php echo $expiry_date; ?>' class="form-control">
+			                                <input type="text" size="16" name='expiry_date' placeholder="<?php echo $this->lang->line("Expiry Date From"); ?>" data-toggle="tooltip" title="<?php echo $this->lang->line("Expiry Date From"); ?>" value='<?php echo $expiry_date; ?>' class="form-control">
 			                                <div class="input-group-addon">
 			                                    <span class="glyphicon glyphicon-calendar"></span>
 			                                </div>
@@ -268,7 +268,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			                           
 			                            <!--label for="payment_update_date_to" class="col-sm-12">Expiry Date To</label-->
 			                            <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
-			                                <input class="form-control" size="16" type="text" name='expiry_date2' placeholder="Expiry Date To" data-toggle="tooltip" title="Expiry Date To" value='<?php echo $expiry_date2; ?>' >
+			                                <input class="form-control" size="16" type="text" name='expiry_date2' placeholder="<?php echo $this->lang->line("Expiry Date To"); ?>" data-toggle="tooltip" title="<?php echo $this->lang->line("Expiry Date To"); ?>" value='<?php echo $expiry_date2; ?>' >
 			                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
 			                            </div>
 			                            <input type="hidden" id="payment_update_date_to" value="" />
@@ -282,7 +282,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			                        <div class="form-group col-sm-3">
 			                          <!--label class="col-sm-12">Policy Status:</label-->
 			                          <select name='status_id' class="form-control">
-										<option value='0'> -- select policy status -- </option>
+										<option value='0'> -- <?php echo $this->lang->line("select policy status"); ?> -- </option>
 										<?php foreach ($status_list as $key => $value) { ?>
 										<option value='<?php echo $key; ?>' <?php echo ($key == $status_id) ? 'selected' : ''; ?>><?php echo $value['name']; ?></option>
 										<?php } ?>

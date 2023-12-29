@@ -13,7 +13,7 @@ class Geo extends MY_Controller {
 		$neednull = $this->input->get_post('neednull');
 		$myid = $this->input->get_post('myid');
 		if ($neednull) {
-			$clist = array('' => array("name" => ' -- select country --', "selected" => ""));
+			$clist = array('' => array("name" => ' -- '.$this->lang->line("select country").' --', "selected" => ""));
 		} else {
 			if (empty($c)) $c = 'CA';	// double safe for country code
 			$clist = array();
@@ -44,7 +44,7 @@ class Geo extends MY_Controller {
 		$neednull = $this->input->get_post('neednull');
 		$myid = $this->input->get_post('myid');
 		if ($neednull) {
-			$plist = array('' => array("name" => ' -- select province --', "selected" => ""));
+			$plist = array('' => array("name" => ' -- '.$this->lang->line("select province").' --', "selected" => ""));
 		} else {
 			$plist = array();
 		}
