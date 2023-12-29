@@ -126,7 +126,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </div>
                     <div class="col-sm-6 text-right">
         					   <?php echo $this->lang->line("By checking the box, I agree to the above term."); ?>: <input type='checkbox' name='agree' id='agree' <?php echo $agree ? 'checked' : ''; ?>>
-        					   <input class="btn btn-primary" type='submit' name='submit' value='Agree'><br>
+        					   <input class="btn btn-primary" type='submit' name='submit' value='<php echo $this->lang->line("Agree"); ?>'><br>
         					  </div>
                   </div>
                   </form> 
