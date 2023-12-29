@@ -57,7 +57,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<div class="col-sm-12">
 										<div class="inline">
 											<br />
-											<B><?PHP ECHO $THIS->LANG->LINE("WARNING"); ?></B>: <?php echo $this->lang->line("Please confirm with the insured(s) that this option does not cover ANY Pre-Existing Medical Condition(s)"); ?>.<br /><br />
+											<B><?php echo $this->lang->line("WARNING"); ?></B>: <?php echo $this->lang->line("Please confirm with the insured(s) that this option does not cover ANY Pre-Existing Medical Condition(s)"); ?>.<br /><br />
 
 <?php echo $this->lang->line("Pre-Existing Medical Condition(s) means any medical condition, sickness or injury for which at any time prior to the effective date, you have experienced symptoms, you have received medical care, advice, investigation or medical treatment, you have been hospitalized, you have been prescribed (including prescribed as needed) or have taken medication, or you have undergone a medical surgical procedure."); ?><br /><br />
 
