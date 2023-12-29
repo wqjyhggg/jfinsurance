@@ -124,6 +124,7 @@ $lang["Amount"] = "Montante";
 $lang["Age"] = "Âge";
 $lang["Agent"] = "Agente";
 $lang["Agent/School Name"] = "Nom de l'agent/de l'école";
+$lang["Agree"] = "Accepter";
 $lang["Apply Date"] = "Date de candidature";
 $lang["All"] = "Toute";
 $lang["All family member's age must be less than 59 years old"] = "L'âge de tous les membres de la famille doit être inférieur à 59 ans";

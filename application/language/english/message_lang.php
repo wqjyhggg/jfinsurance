@@ -133,6 +133,7 @@ $lang["Amount"] = "Amount";
 $lang["Age"] = "Age";
 $lang["Agent"] = "Agent";
 $lang["Agent/School Name"] = "Agent/School Name";
+$lang["Agree"] = "Agree";
 $lang["Apply Date"] = "Apply Date";
 $lang["All"] = "All";
 $lang["All family member's age must be less than 59 years old"] = "All family member's age must be less than 59 years old";
