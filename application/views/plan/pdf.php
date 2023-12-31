@@ -141,7 +141,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
           &nbsp;
         </div>
         <div class="col-sm-5 nopadding2">
-          <h4><?php if ($plan['status_id'] < 2) { ?>Quote<?php } else { ?>Policy<?php } ?> Number: <span><?php echo $plan['policy']; ?></span></h4>
+          <h4><?php if ($plan['status_id'] < 2) { echo $this->lang->line("Quote"); } else { echo $this->lang->line("Policy"); } echo $this->lang->line("Number"); ?>: <span><?php echo $plan['policy']; ?></span></h4>
           <h4><?php echo $this->lang->line("Application Date"); ?>: <span><?php echo $plan['apply_date']; ?></span>
           </h4>
           <h4><?php echo $this->lang->line("Effective Date"); ?>: <span><?php echo $plan['effective_date']; ?></span>
