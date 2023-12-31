@@ -88,7 +88,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
           &nbsp;
         </div>
         <div class="col-sm-5 text-left">
-          <h2><?php if ($plan['status_id'] < 2) { echo $this->lang->line("Quote"); } else { echo $this->lang->line("Confirmation"); } echo $this->lang->line("of Insurance"); ?> </h2>
+          <h2><?php if ($plan['status_id'] < 2) { echo $this->lang->line("Quote"); } else { echo $this->lang->line("Confirmation"); } echo " " . $this->lang->line("of Insurance"); ?> </h2>
         </div>
       </div>
     <?php } else { ?>
@@ -106,7 +106,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
     <div class="row" style="margin-top: -15px;">
       <?php if ($plan['product_short'] == 'BHS') { ?>
         <div class="col-sm-6 nopadding">
-          <h4><?php if ($plan['status_id'] < 2) { echo $this->lang->line("Quote"); } else { echo $this->lang->line("Policy"); } echo $this->lang->line("Number"); ?> <span><?php echo $plan['student_id']; ?></span></h4>
+          <h4><?php if ($plan['status_id'] < 2) { echo $this->lang->line("Quote"); } else { echo $this->lang->line("Policy"); } echo " " . $this->lang->line("Number"); ?> <span><?php echo $plan['student_id']; ?></span></h4>
           <h4><?php echo $this->lang->line("Policy Holder"); ?>: <span><?php echo htmlspecialchars($customer['firstname'] . " " . $customer['lastname']); ?></span></h4>
           <h4><?php echo $this->lang->line("Date of Birth"); ?>: <span><?php echo $customer['birthday']; ?></span>
           </h4>
@@ -141,7 +141,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
           &nbsp;
         </div>
         <div class="col-sm-5 nopadding2">
-          <h4><?php if ($plan['status_id'] < 2) { echo $this->lang->line("Quote"); } else { echo $this->lang->line("Policy"); } echo $this->lang->line("Number"); ?>: <span><?php echo $plan['policy']; ?></span></h4>
+          <h4><?php if ($plan['status_id'] < 2) { echo $this->lang->line("Quote"); } else { echo $this->lang->line("Policy"); } echo " " . $this->lang->line("Number"); ?>: <span><?php echo $plan['policy']; ?></span></h4>
           <h4><?php echo $this->lang->line("Application Date"); ?>: <span><?php echo $plan['apply_date']; ?></span>
           </h4>
           <h4><?php echo $this->lang->line("Effective Date"); ?>: <span><?php echo $plan['effective_date']; ?></span>
