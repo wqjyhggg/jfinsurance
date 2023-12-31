@@ -143,6 +143,7 @@ $lang["All family member's age must be older than 4 years old"] = "All family me
 $lang["All persons insured are subject to the terms and conditions below."] = "All persons insured are subject to the terms and conditions below.";
 $lang["All Region"] = "All Region";
 $lang["Allow this policy"] = "Allow this policy";
+$lang["Application Date"] = "Application Date";
 $lang["Application Date From"] = "Application Date From";
 $lang["Application Date To"] = "Application Date To";
 $lang["Arrival Date"] = "Arrival Date";
