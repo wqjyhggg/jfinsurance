@@ -128,6 +128,7 @@ $lang['toll_free_fax'] = 'Toll Free Fax:';
 $lang["ABOUT US"] = "ABOUT US";
 $lang["Action"] = "Action";
 $lang["AD & D insured amount"] = "AD & D insured amount";
+$lang["Address"] = "Address";
 $lang["Address Information"] = "Address Information";
 $lang["Amount"] = "Amount";
 $lang["Age"] = "Age";
@@ -184,6 +185,7 @@ $lang["City"] = "City";
 $lang["City Required (No special character is allowed)"] = "City Required (No special character is allowed)";
 $lang["Commission"] = "Commission";
 $lang["Commission Copy"] = "Commission Copy";
+$lang["Collect call worldwider 905-707-9555"] = "Collect call worldwider 905-707-9555";
 $lang["Confirm and Pay"] = "Confirm and Pay";
 $lang["Confirm Arrival Date"] = "Confirm Arrival Date";
 $lang["Confirm Effective Date"] = "Confirm Effective Date";
@@ -198,6 +200,7 @@ $lang["Copy"] = "Copy";
 $lang["Count"] = "Count";
 $lang["Country"] = "Country";
 $lang["Country of Origin"] = "Country of Origin";
+$lang["Coverage is per person per trip"] = "Coverage is per person per trip";
 $lang["Create"] = "Create";
 $lang["Customer Information"] = "Customer Information";
 $lang["Customer age must be less than 69 years old"] = "Customer age must be less than 69 years old";
@@ -207,6 +210,7 @@ $lang["Customer Name"] = "Customer Name";
 /* D */
 $lang["Daily Rate"] = "Daily Rate";
 $lang["Date"] = "Date";
+$lang["Date of Birth"] = "Date of Birth";
 $lang["Date Time"] = "Date Time";
 $lang["Days"] = "Days";
 $lang["Deductible amount (USD)"] = "Deductible amount (USD)";
@@ -228,6 +232,7 @@ $lang["Eligibility"] = "Eligibility";
 $lang["Email"] = "Email";
 $lang["Email Address"] = "Email Address";
 $lang["Emergency Hospital Insurance"] = "Emergency Hospital Insurance";
+$lang["Excluding Stable Pre-existing Medical Condition Coverage"] = "Excluding Stable Pre-existing Medical Condition Coverage";
 $lang["Excluding stable pre-existing condition coverage"] = "Excluding stable pre-existing condition coverage";
 $lang["Expiry Date"] = "Expiry Date";
 $lang["Expiry Date From"] = "Expiry Date From";
@@ -241,10 +246,12 @@ $lang["Export Xlsx"] = "Export Xlsx";
 
 /* F */
 $lang["Family Member"] = "Family Member";
+$lang["Family Plan"] = "Family Plan";
 $lang["Female"] = "Female";
 $lang["First Name"] = "First Name";
 $lang["Firstname is Required"] = "Firstname is Required";
 $lang["Flight Accident insured amount"] = "Flight Accident insured amount";
+$lang["For all ages, then in respect of any sickness, you will not be entitled to receive reimbursement for sickness or symptoms which manifested or were contracted or treated within seven days following the effective date if the policy was purchased 30 days or more after arrival in Canada"] = "For all ages, then in respect of any sickness, you will not be entitled to receive reimbursement for sickness or symptoms which manifested or were contracted or treated within seven days following the effective date if the policy was purchased 30 days or more after arrival in Canada";
 $lang["For All Members"] = "For All Members";
 $lang["For Policy of"] = "For Policy of";
 $lang["Forget password"] = "Forget password";
@@ -267,11 +274,20 @@ $lang["Hypertension"] = "Hypertension";
 
 /* I */
 $lang["If unable to contact us toll free, please call collect: 416-340-8809"] = "If unable to contact us toll free, please call collect: 416-340-8809";
+$lang["If you are age 86 or older, then in respect of any sickness, you will not be entitled to receive reimbursement for sickness or symptoms which manifested or were contracted or treated within 15 days following the effective date of this policy"] = "If you are age 86 or older, then in respect of any sickness, you will not be entitled to receive reimbursement for sickness or symptoms which manifested or were contracted or treated within 15 days following the effective date of this policy";
+$lang["If you are age 85 or under, then in respect of any sickness, you will not be entitled to receive reimbursement for sickness or symptoms which manifested or were contracted or treated within 48 hours following the effective date of this policy"] = "If you are age 85 or under, then in respect of any sickness, you will not be entitled to receive reimbursement for sickness or symptoms which manifested or were contracted or treated within 48 hours following the effective date of this policy";
+$lang["If you have a change in your health, including any change in your medication, between the date of application and the effective date of the policy, you must contact us to ensure that you remain eligible for this insurance. Ontime Care Worldwide Inc. must be notified prior to any surgery being performed or within 24 hours of admission to a hospital. Failure to do so, without reasonable cause, will result in the reduction of eligible benefit amounts payable"] = "If you have a change in your health, including any change in your medication, between the date of application and the effective date of the policy, you must contact us to ensure that you remain eligible for this insurance. Ontime Care Worldwide Inc. must be notified prior to any surgery being performed or within 24 hours of admission to a hospital. Failure to do so, without reasonable cause, will result in the reduction of eligible benefit amounts payable";
+$lang["if you have coverage with another insurer during the first part of your trip in Canada, and you are purchasing this insurance after your arrival in Canada and there will be no gap in your coverage, you may request to have the Waiting Period waived. You must provide proof satisfactory to the administrator company that your have other coverage in force prior to purchasing this policy and receive written approval from the administrator company"] = "if you have coverage with another insurer during the first part of your trip in Canada, and you are purchasing this insurance after your arrival in Canada and there will be no gap in your coverage, you may request to have the Waiting Period waived. You must provide proof satisfactory to the administrator company that your have other coverage in force prior to purchasing this policy and receive written approval from the administrator company";
+$lang["If you notice any errors in the above information or have any questions, please contact"] = "If you notice any errors in the above information or have any questions, please contact";
 $lang["If you notice any errors in the above information or have any questions, please contact JF Insurance Agency Group Inc."] = "If you notice any errors in the above information or have any questions, please contact JF Insurance Agency Group Inc.";
+$lang["If unable to contact us toll free, please call collect: 905-707-9555"] = "If unable to contact us toll free, please call collect: 905-707-9555";
+$lang["IN THE EVENT OF A MEDICAL EMERGENCY OR CLAIM THAT MAY REQUIRE OR RESULT IN HOSPITALIZATION, CALL ONTIME CARE WORLDWIDE INC. IMMEDIATELY"] = "IN THE EVENT OF A MEDICAL EMERGENCY OR CLAIM THAT MAY REQUIRE OR RESULT IN HOSPITALIZATION, CALL ONTIME CARE WORLDWIDE INC. IMMEDIATELY";
 $lang["IN THE EVENT OF A MEDICAL EMERGENCY OR A CLAIM THAT MAY REQUIRE OR RESULT IN HOSPITALIZATION, CALL TIC IMMEDIATELY."] = "IN THE EVENT OF A MEDICAL EMERGENCY OR A CLAIM THAT MAY REQUIRE OR RESULT IN HOSPITALIZATION, CALL TIC IMMEDIATELY.";
+$lang["In the event of an emergency, contact Ontime Care Worldwide Inc: Toll Free Canada/U.S.A.: 1-888-988-3268"] = "In the event of an emergency, contact Ontime Care Worldwide Inc: Toll Free Canada/U.S.A.: 1-888-988-3268";
 $lang["include aspirin"] = "include aspirin";
 $lang["include asthma"] = "include asthma";
 $lang["Include Spouse"] = "Include Spouse";
+$lang["Including Stable Pre-existing Medical Condition Coverage"] = "Including Stable Pre-existing Medical Condition Coverage";
 $lang["Including stable pre-existing condition coverage"] = "Including stable pre-existing condition coverage";
 $lang["International Student to Canada"] = "International Student to Canada";
 $lang["Instructions"] = "Instructions";
@@ -280,8 +296,10 @@ $lang["Insured Name"] = "Insured Name";
 $lang["Insurable Members"] = "Insurable Members";
 $lang["Insurable Options"] = "Insurable Options";
 $lang["Insured's Family Member Information"] = "Insured's Family Member Information";
+$lang["INVALID"] = "INVALID";
 $lang["Invoice Statement"] = "Invoice Statement";
 $lang["Is Family Plan"] = "Is Family Plan";
+$lang["is purchased on or prior to the expiry date of an existing policy already issued by the administrator company to take effect on the day following such expiry date, provide no increase in the aggregate policy limit (Sum insured Option) or rate schedule change is applied for"] = "is purchased on or prior to the expiry date of an existing policy already issued by the administrator company to take effect on the day following such expiry date, provide no increase in the aggregate policy limit (Sum insured Option) or rate schedule change is applied for";
 $lang["It may not come as a surprise that your provincial health plan may not cover your health care costs incurred outside of Canada, but did you also know that you could have limited coverage when traveling to other provinces/territories within Canada? Make sure you are properly covered when travelling abroad or from your home province."] = "It may not come as a surprise that your provincial health plan may not cover your health care costs incurred outside of Canada, but did you also know that you could have limited coverage when traveling to other provinces/territories within Canada? Make sure you are properly covered when travelling abroad or from your home province.";
 
 /* J */
@@ -328,6 +346,7 @@ $lang["Number"] = "Number";
 $lang["Number of Days"] = "Number of Days";
 
 /* O */
+$lang["of Insurance"] = "of Insurance";
 $lang["Our Product"] = "Our Product";
 $lang["Our Products"] = "Our Products";
 
@@ -350,9 +369,12 @@ $lang["Payor Name"] = "Payor Name";
 $lang["Payment Added Date From"] = "Payment Added Date From";
 $lang["Payment Added Date To"] = "Payment Added Date To";
 $lang["Payment Date"] = "Payment Date";
+$lang["Payment Details"] = "Payment Details";
+$lang["Payment Method"] = "Payment Method";
 $lang["Payment Update Date From"] = "Payment Update Date From";
 $lang["Payment Update Date To"] = "Payment Update Date To";
 $lang["Payments"] = "Payments";
+$lang["PDF File"] = "PDF File";
 $lang["Peptic ulcer"] = "Peptic ulcer";
 $lang["Phone"] = "Phone";
 $lang["Phone Number"] = "Phone Number";
@@ -363,13 +385,15 @@ $lang["Please confirm you have selected the 'No pre-existing condition coverage'
 $lang["Please contact JF staff for further assistance 905-707-1512"] = "Please contact JF staff for further assistance 905-707-1512";
 $lang["Please contact your agent to get your policy details and the insurance package."] = "Please contact your agent to get your policy details and the insurance package.";
 $lang["Please input family / group member information"] = "Please input family / group member information";
-$lang["Select pre-existing condition coverage"] = "Select pre-existing condition coverage";
+$lang["Please read and understand the enclosed, which fully explains the terms, conditions, limitations and exclusions that are part of your policy"] = "Please read and understand the enclosed, which fully explains the terms, conditions, limitations and exclusions that are part of your policy";
+$lang["Please retain this confirmation as your receipt"] = "Please retain this confirmation as your receipt";
 $lang["Please select rate options"] = "Please select rate options";
 $lang["Policy"] = "Policy";
 $lang["Policy Benefits and Exclusions"] = "Policy Benefits and Exclusions";
 $lang["Policy Detail"] = "Policy Detail";
 $lang["Policy Filter"] = "Policy Filter";
 $lang["Policy History"] = "Policy History";
+$lang["Policy Holder"] = "Policy Holder";
 $lang["Policy Number"] = "Policy Number";
 $lang["Policy No."] = "Policy No.";
 $lang["Policy Premium"] = "Policy Premium";
@@ -393,6 +417,7 @@ $lang["Pruchase Date"] = "Pruchase Date";
 
 /* Q */
 $lang["Question"] = "Question";
+$lang["QUOTE"] = "QUOTE";
 $lang["Quote"] = "Quote";
 
 /* R */
@@ -424,6 +449,7 @@ $lang["Search"] = "Search";
 $lang["Search Result"] = "Search Result";
 $lang["select condition"] = "select condition";
 $lang["select country"] = "select country";
+$lang["Select pre-existing condition coverage"] = "Select pre-existing condition coverage";
 $lang["select province"] = "select province";
 $lang["select policy status"] = "select policy status";
 $lang["Selected pre-existing condition coverage"] = "Selected pre-existing condition coverage";
@@ -446,24 +472,31 @@ $lang["Student ID"] = "Student ID";
 $lang["Student Name"] = "Student Name";
 $lang["Studying abroad is exciting and adventurous. Make sure you have the right insurance coverage for your journey while in Canada."] = "Studying abroad is exciting and adventurous. Make sure you have the right insurance coverage for your journey while in Canada.";
 $lang["Submit"] = "Submit";
+$lang["Suite"] = "Suite";
 $lang["Suite No."] = "Suite No.";
 $lang["Sum Insured"] = "Sum Insured";
 $lang["Summary"] = "Summary";
 
 /* T */
 $lang["take"] = "take";
+$lang["Tax"] = "Tax";
 $lang["Terms & Conditions"] = "Terms & Conditions";
 $lang["Terms and Conditions"] = "Terms and Conditions";
+$lang["the administrator company specifically waives or modifies the waiting period in writing; or"] = "the administrator company specifically waives or modifies the waiting period in writing; or";
 $lang["The applicant(s) is aware that this insurance covers only Emergencies (as defined in the policy) and may not cover expenses incurred after the applicant(s) is able to travel home for treatment. The applicant(s) is aware that Pre-existing Conditions (as defined in the policy) are excluded in some circumstances and that further details are provided in the policy."] = "The applicant(s) is aware that this insurance covers only Emergencies (as defined in the policy) and may not cover expenses incurred after the applicant(s) is able to travel home for treatment. The applicant(s) is aware that Pre-existing Conditions (as defined in the policy) are excluded in some circumstances and that further details are provided in the policy.";
 $lang["The eligibility requirements for the plan applied for are material to the risk for which insurance is sought. If the applicant(s) does not meet the eligibility requirements for the plan selected, or if there is any misrepresentation or concealment of or failure to disclose any facts or matters pertaining to the applicant(s) and that are the subject insurance coverage provided."] = "The eligibility requirements for the plan applied for are material to the risk for which insurance is sought. If the applicant(s) does not meet the eligibility requirements for the plan selected, or if there is any misrepresentation or concealment of or failure to disclose any facts or matters pertaining to the applicant(s) and that are the subject insurance coverage provided.";
+$lang["The eligibility requirements for the plan applied for are material to the risk for which insurance is sought. If the insured(s) does not meet the eligibility requirements for the plan selected, or if there is any misrepresentation, concealment, or failure to disclose any facts or matters pertaining to the insured(s) that is the subject of the application form, then there shall be no insurance coverage provided"] = "The eligibility requirements for the plan applied for are material to the risk for which insurance is sought. If the insured(s) does not meet the eligibility requirements for the plan selected, or if there is any misrepresentation, concealment, or failure to disclose any facts or matters pertaining to the insured(s) that is the subject of the application form, then there shall be no insurance coverage provided";
 $lang["The following statements must be true for all members."] = "The following statements must be true for all members.";
+$lang["The insured(s) is aware that this insurance covers Emergencies (as defined in the policy) and may not cover expenses incurred after the insured(s) is able to travel home for treatment. The insured(s) is aware that Pre-existing Conditions (as defined in the policy) are excluded in some circumstances and that further details are provided in the policy"] = "The insured(s) is aware that this insurance covers Emergencies (as defined in the policy) and may not cover expenses incurred after the insured(s) is able to travel home for treatment. The insured(s) is aware that Pre-existing Conditions (as defined in the policy) are excluded in some circumstances and that further details are provided in the policy";
 $lang["The policy must purchase before departure"] = "The policy must purchase before departure";
+$lang["The waiting period may be waived (upon approval from administrator company) if this policy"] = "The waiting period may be waived (upon approval from administrator company) if this policy";
 $lang["There is an existing claim or open cases."] = "There is an existing claim or open cases.";
 $lang["This document does not constitute the entire insurance policy, and the applicant has been advised to read the policy booklet for full details of coverage and exclusions. You must agree to the terms of the contract."] = "This document does not constitute the entire insurance policy, and the applicant has been advised to read the policy booklet for full details of coverage and exclusions. You must agree to the terms of the contract.";
 $lang["This document does not constitute the entire insurance policy, and the applicant(s) has been advised to read the policy full details of coverage and exclusions."] = "This document does not constitute the entire insurance policy, and the applicant(s) has been advised to read the policy full details of coverage and exclusions.";
 $lang["To"] = "To";
 $lang["To reach all that can benefit from the peace of mind we offer; to ensure claims are processed in a timely manner."] = "To reach all that can benefit from the peace of mind we offer; to ensure claims are processed in a timely manner.";
 $lang["Toll Free Canada/U.S.A. 1-800-869-6747"] = "Toll Free Canada/U.S.A. 1-800-869-6747";
+$lang["Toll Free Canada/U.S.A. 1-866-209-5804"] = "Toll Free Canada/U.S.A. 1-866-209-5804";
 $lang["Total"] = "Total";
 $lang["Total Days"] = "Total Days";
 $lang["Total Net Premium"] = "Total Net Premium";
@@ -477,6 +510,7 @@ $lang["Type"] = "Type";
 /* U */
 $lang["Un-check to Disallow this policy"] = "Un-check to Disallow this policy";
 $lang["understand that I need to contact with my insurance representative to get confirmation package after I completed the application."] = "understand that I need to contact with my insurance representative to get confirmation package after I completed the application.";
+$lang["Underwritten by Berkley Canada (a W.R. Berkley Company)"] = "Underwritten by Berkley Canada (a W.R. Berkley Company)";
 $lang["Update Policy"] = "Update Policy";
 $lang["Used Days"] = "Used Days";
 $lang["Username"] = "Username";
@@ -488,11 +522,13 @@ $lang["View Summary"] = "View Summary";
 $lang["Visitor to Canada"] = "Visitor to Canada";
 
 /* W */
+$lang["Waiting Period"] = "Waiting Period";
 $lang["WARNING"] = "WARNING";
 $lang["We don't like to think about it, but unexpected accidents or illnesses can occur when you and your family are traveling abroad, and finding and paying for adequate medical attention can be very difficult"] = "We don't like to think about it, but unexpected accidents or illnesses can occur when you and your family are traveling abroad, and finding and paying for adequate medical attention can be very difficult";
 $lang["WE OFFER"] = "WE OFFER";
 $lang["We will take care of you"] = "We will take care of you";
 $lang["we take care of you"] = "we take care of you";
+$lang["When coverage is purchased any time after your arrival in Canada"] = "When coverage is purchased any time after your arrival in Canada";
 $lang["WHY SHOULD YOU BUY TRAVEL INSURANCE"] = "WHY SHOULD YOU BUY TRAVEL INSURANCE";
 
 /* X */

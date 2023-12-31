@@ -22,7 +22,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 								<?php if ($plan['isfamilyplan']) { ?>
 								<div class="col-sm-6">
 									<label class="inline"><?php echo $this->lang->line("Family Plan"); ?>:</label>
-									<span>Yes</span>
+									<span><?php echo $this->lang->line("Yes"); ?></span>
 								</div>
 								<?php } ?>
 								<?php if ($plan ['stable_condition'] == 1) { ?>

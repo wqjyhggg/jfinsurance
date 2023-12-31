@@ -259,7 +259,7 @@ $usepsi = false;
 						<?php } ?>	
 
 						<div class="row">
-							<div class="col-sm-12" style="background-color: #5bc0de; color: #fff;"><label>Address Information</label></div>
+							<div class="col-sm-12" style="background-color: #5bc0de; color: #fff;"><label><?php echo $this->lang->line("Address Information"); ?></label></div>
 							<div class="col-sm-3">
 								<label class="inline"><?php echo $this->lang->line("Street No"); ?>:</label> <span><?php echo htmlspecialchars($plan['street_number']); ?></span>
 							</div>

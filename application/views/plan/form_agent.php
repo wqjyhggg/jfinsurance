@@ -286,7 +286,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<div class="row">
 						<div class="col-sm-12">
 							<fieldset>
-								<legend>Address</legend>
+								<legend><?php echo $this->lang->line("Address"); ?></legend>
 								<div class="row">
 									<div class="form-group col-sm-3">
 										<label class="col-sm-12"><?php echo $this->lang->line("Street No"); ?>: </label>

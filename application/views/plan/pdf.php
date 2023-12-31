@@ -8,7 +8,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>PDF File</title>
+  <title><?php echo $this->lang->line("PDF File"); ?></title>
   <?php echo $style; ?>
 </head>
 
@@ -88,50 +88,27 @@ defined('BASEPATH') or exit('No direct script access allowed');
           &nbsp;
         </div>
         <div class="col-sm-5 text-left">
-          <h2><?php if ($plan['status_id'] < 2) { ?>Quote<?php } else { ?>Confirmation<?php } ?> of Insurance</h2>
+          <h2><?php if ($plan['status_id'] < 2) { echo $this->lang->line("Quote"); } else { echo $this->lang->line("Confirmation"); } echo $this->lang->line("of Insurance"); ?> </h2>
         </div>
       </div>
     <?php } else { ?>
       <div class="row">
         <div class="col-sm-12 text-center">
-          <h2 style="margin:-15px 0 0;"><?php if ($plan['status_id'] < 2) { ?>Quote<?php } else { ?>Confirmation<?php } ?> of Insurance</h2>
+          <h2 style="margin:-15px 0 0;"><?php if ($plan['status_id'] < 2) { echo $this->lang->line("Quote"); } else { echo $this->lang->line("Confirmation"); } echo $this->lang->line("of Insurance"); ?></h2>
         </div>
-        <?php if (0) { ?>
-          <div class="col-sm-6 text-right">
-            <?php if (($plan['product_short'] == 'NUS') || ($plan['product_short'] == 'JUS')) { ?>
-              <p class="topp" style="font-weight:bold;"><span style="text-transform: capitalize;font-weight:bold;">HK Leung</span></p>
-              <p class="topp">JF Insurance Agency Group Inc.</p>
-              <p class="topp">939 Arcadia Ave, #R, Arcadia, CA91007</p>
-              <p class="topp">Tel: 1-877-832-5541</p>
-            <?php } else { ?>
-              <?php if ($user['user_group_id'] > 100) { ?>
-                <p class="topp" style="font-weight:bold;"><?php echo empty($user['business']) ? 'JF Agent' : htmlspecialchars($user['business']); ?> - <span style="text-transform: capitalize;font-weight:bold;"><?php echo ($user) ? htmlspecialchars($user['firstname'] . " " . $user['lastname']) : ''; ?></span></p>
-                <p class="topp"><?php echo ($user) ? htmlspecialchars($user['address'] . ', ' . $user['city'] . ' ' . $user['province2'] . ' ' . $user['postcode']) : ''; ?></p>
-                <p class="topp"><?php echo ($user) ? htmlspecialchars($user['business_phone']) : ''; ?></p>
-                <?php if (!empty($user['website'])) { ?>
-                  <p class="topp"><?php echo htmlspecialchars($user['website']); ?></p>
-                <?php } ?>
-              <?php } else { ?>
-                <p class="topp" style="font-weight:bold;"> JF Agent - <span style="text-transform: capitalize;font-weight:bold;">Johnson Fu</span></p>
-                <p class="topp"><?php echo ($user) ? htmlspecialchars($user['address'] . ', ' . $user['city'] . ' ' . $user['province2'] . ' ' . $user['postcode']) : ''; ?></p>
-                <p class="topp"><?php echo ($user) ? htmlspecialchars($user['business_phone']) : ''; ?></p>
-              <?php } ?>
-            <?php } ?>
-          </div>
-        <?php } ?>
       </div>
     <?php } ?>
     <div class="row" style="margin-top: -15px;">
       <div class="col-sm-12 nopadding">
-        <h4><u>Policy Details</u></h4>
+        <h4><u><?php echo $this->lang->line("Policy Detail"); ?></u></h4>
       </div>
     </div>
     <div class="row" style="margin-top: -15px;">
       <?php if ($plan['product_short'] == 'BHS') { ?>
         <div class="col-sm-6 nopadding">
-          <h4><?php if ($plan['status_id'] < 2) { ?>Quote<?php } else { ?>Policy<?php } ?> Number: <span><?php echo $plan['student_id']; ?></span></h4>
-          <h4>Policy Holder: <span><?php echo htmlspecialchars($customer['firstname'] . " " . $customer['lastname']); ?></span></h4>
-          <h4>Date of Birth: <span><?php echo $customer['birthday']; ?></span>
+          <h4><?php if ($plan['status_id'] < 2) { echo $this->lang->line("Quote"); } else { echo $this->lang->line("Policy"); } echo $this->lang->line("Number"); ?> <span><?php echo $plan['student_id']; ?></span></h4>
+          <h4><?php echo $this->lang->line("Policy Holder"); ?>: <span><?php echo htmlspecialchars($customer['firstname'] . " " . $customer['lastname']); ?></span></h4>
+          <h4><?php echo $this->lang->line("Date of Birth"); ?>: <span><?php echo $customer['birthday']; ?></span>
           </h4>
         </div>
         <div class="col-sm-6 nopadding">
@@ -144,19 +121,19 @@ defined('BASEPATH') or exit('No direct script access allowed');
         </div>
       <?php } else { ?>
         <div class="col-sm-6 nopadding">
-          <h4>Policy Holder: <span><?php echo htmlspecialchars($customer['firstname'] . " " . $customer['lastname']); ?></span></h4>
-          <h4>Date of Birth: <span><?php echo $customer['birthday']; ?></span>
+          <h4><?php echo $this->lang->line("Policy Holder"); ?>: <span><?php echo htmlspecialchars($customer['firstname'] . " " . $customer['lastname']); ?></span></h4>
+          <h4><?php echo $this->lang->line("Date of Birth"); ?>: <span><?php echo $customer['birthday']; ?></span>
           </h4>
-          <h4>Address: <span><?php if (!empty($plan['suite_number'])) {
+          <h4><?php echo $this->lang->line("Address"); ?>: <span><?php if (!empty($plan['suite_number'])) {
                                 echo  "Suite " . htmlspecialchars($plan['suite_number']) . " - ";
                               } ?><?php echo htmlspecialchars($plan['street_number'] . ' ' . $plan['street_name']) . ' ' . htmlspecialchars($plan['city'] . ', ' . $plan['province2'] . ' ' . $plan['postcode']); ?></span>
           </h4>
-          <h4>Phone Number: <span><?php echo htmlspecialchars($plan['phone1']); ?></span>
+          <h4><?php echo $this->lang->line("Phone Number"); ?>: <span><?php echo htmlspecialchars($plan['phone1']); ?></span>
           </h4>
-          <h4>Email: <span><?php echo htmlspecialchars($plan['contact_email']); ?></span>
+          <h4><?php echo $this->lang->line("Email"); ?>: <span><?php echo htmlspecialchars($plan['contact_email']); ?></span>
           </h4>
           <?php if ($plan['product_short'] == 'TOP') { ?>
-          <h4>Beneficiary: <span><?php echo htmlspecialchars($plan['beneficiary']); ?></span>
+          <h4><?php echo $this->lang->line("Beneficiary"); ?>: <span><?php echo htmlspecialchars($plan['beneficiary']); ?></span>
           </h4>
           <?php } ?>
         </div>
@@ -202,7 +179,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
               <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>AD&D : $50,000</span>
               <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Flight Accident : $100,000</span>
               <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Trip Cancellation : $<?php echo number_format($plan['sum_insured'], 2); ?></span>
-              <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Trip Interruption : Yes</span>
+              <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Trip Interruption : <?php echo $this->lang->line("Yes"); ?></span>
               <?php if ($plan['free_cancel']) { ?>
                 <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Cancel trip for any reason</span>
               <?php } ?>
@@ -218,7 +195,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
               <?php     } ?>
               <?php if ($plan['trip_cancellation_ck']) { ?>
                 <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Trip Cancellation : $<?php echo number_format($plan['trip_cancellation_insured'], 2); ?></span>
-                <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Trip Interruption Coverage : Yes</span>
+                <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Trip Interruption Coverage : <?php echo $this->lang->line("Yes"); ?></span>
               <?php     } ?>
             <?php } else if ($plan['package'] == 'annual_plan') { ?>
               <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Selected days : <?php echo $plan['annual_plan_days']; ?></span>
@@ -251,8 +228,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
                 <?php if ($plan['question2']) { ?>
                   <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Question 2 :
                     <?php if ($plan['question2']) { ?>
-                      <?php if ($plan['question2'] == 2) { ?> Yes
-                      <?php     } else { ?> No <?php } ?>
+                      <?php if ($plan['question2'] == 2) { ?> <?php echo $this->lang->line("Yes"); ?>
+                      <?php     } else { ?> <?php echo $this->lang->line("No"); ?> <?php } ?>
                     <?php } ?>
                   </span>
                   <?php if ($plan['question3']) { ?>
@@ -291,15 +268,15 @@ defined('BASEPATH') or exit('No direct script access allowed');
                     <?php if ($plan['question4']) { ?>
                       <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Question 4 :
                         <?php if ($plan['question4']) { ?>
-                          <?php if ($plan['question4'] == 2) { ?> Yes
-                          <?php     } else { ?> No <?php } ?>
+                          <?php if ($plan['question4'] == 2) { ?> <?php echo $this->lang->line("Yes"); ?>
+                          <?php     } else { ?> <?php echo $this->lang->line("No"); ?> <?php } ?>
                         <?php } ?>
                       </span>
                       <?php if ($plan['question5']) { ?>
                         <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Question 5 :
                           <?php if ($plan['question5']) { ?>
-                            <?php if ($plan['question2'] == 2) { ?> Yes
-                            <?php     } else { ?> No <?php } ?>
+                            <?php if ($plan['question2'] == 2) { ?> <?php echo $this->lang->line("Yes"); ?>
+                            <?php     } else { ?> <?php echo $this->lang->line("No"); ?> <?php } ?>
                           <?php } ?>
                         </span>
                       <?php } // question5 
@@ -336,16 +313,16 @@ defined('BASEPATH') or exit('No direct script access allowed');
             </h4><?php } ?>
           <?php if ($plan['deductible_amount'] || ($plan['product_short'] == 'OPL') || ($plan['product_short'] == 'JFR')) { ?><h4>Deductible: <span>$<?php echo number_format($plan['deductible_amount'], 2); ?></span>
             </h4><?php } ?>
-          <h4>Beneficiary: <span><?php echo htmlspecialchars($plan['beneficiary']); ?></span>
+          <h4><?php echo $this->lang->line("Beneficiary"); ?>: <span><?php echo htmlspecialchars($plan['beneficiary']); ?></span>
           </h4>
         <?php } // end if TOP 
         ?>
 
         <?php if (($plan['product_short'] == 'JFPL') || ($plan['product_short'] == 'JFGD')) { ?>
-          <h4>Stable Pre-existing Condition Coverage: <span>Yes</span>
+          <h4><?php echo $this->lang->line("Stable Pre-existing Condition Coverage"); ?>: <span><?php echo $this->lang->line("Yes"); ?></span>
           </h4>
         <?php } else if ($plan['product_short'] == 'JFSL') { ?>
-          <h4>Stable Pre-existing Condition Coverage: <span>No</span>
+          <h4><?php echo $this->lang->line("Stable Pre-existing Condition Coverage"); ?>: <span><?php echo $this->lang->line("No"); ?></span>
           </h4>
         <?php } ?>
       </div>
@@ -354,15 +331,15 @@ defined('BASEPATH') or exit('No direct script access allowed');
       </div>
       <div class="col-sm-5 nopadding">
         <?php if ($withprice) { ?>
-          <h4><u>Payment Details</u></h4>
-          <h4>Total Premium: <span>$<?php echo number_format($plan['premium'], 2, '.', ','); ?></span></h4>
+          <h4><u><?php echo $this->lang->line("Payment Details"); ?></u></h4>
+          <h4><?php echo $this->lang->line("Total Premium"); ?>: <span>$<?php echo number_format($plan['premium'], 2, '.', ','); ?></span></h4>
           <!-- <h4>Premium: <span>$<?php echo number_format((float)$plan['premium'] - (float)$plan['tax'], 2, '.', ','); ?></span>
           </h4> -->
-          <h4>Tax: <span>$<?php echo number_format($plan['tax'], 2, '.', ','); ?></span>
+          <h4><?php echo $this->lang->line("Tax"); ?>: <span>$<?php echo number_format($plan['tax'], 2, '.', ','); ?></span>
           </h4>
-          <h4>Payment Date: <span><?php echo (($plan['status_id'] >= 2) && isset($payment['added'])) ? date('Y-m-d', strtotime($payment['added'])) : ''; ?></span>
+          <h4><?php echo $this->lang->line("Payment Date"); ?>: <span><?php echo (($plan['status_id'] >= 2) && isset($payment['added'])) ? date('Y-m-d', strtotime($payment['added'])) : ''; ?></span>
           </h4>
-          <h4>Payment Method: <span><?php echo (($plan['status_id'] >= 2) && isset($payment['pay_mothed'])) ? $payment['pay_mothed'] : ''; ?></span>
+          <h4><?php echo $this->lang->line("Payment Method"); ?>: <span><?php echo (($plan['status_id'] >= 2) && isset($payment['pay_mothed'])) ? $payment['pay_mothed'] : ''; ?></span>
           </h4>
         <?php } ?>
       </div>
@@ -371,9 +348,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
     <?php if ($plan['isfamilyplan']) { ?>
       <div class="row">
         <div class="col-sm-12" style="padding:0;">
-          <p><u><?php echo ($plan['isfamilyplan'] == 1) ? 'Family' : 'Group'; ?>Members</u>
+          <p><u><?php echo ($plan['isfamilyplan'] == 1) ? 'Family' : 'Group'; ?><?php echo $this->lang->line("Members"); ?></u>
             <?php if (($plan['product_short'] == 'JFR') || ($plan['product_short'] == 'OPL')) { ?>
-              &nbsp;&nbsp;&nbsp;&nbsp; ( Coverage is per person per trip )
+              &nbsp;&nbsp;&nbsp;&nbsp; ( <?php echo $this->lang->line("Coverage is per person per trip"); ?> )
             <?php } ?>
           </p>
         </div>
@@ -393,7 +370,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
     <!-- End Family Member -->
     <div class="row">
       <div class="col-sm-12 nopm special-note">
-        <h4 style="border-bottom:1px solid #777;">Special Note</h4>
+        <h4 style="border-bottom:1px solid #777;"><?php echo $this->lang->line("Special Note"); ?></h4>
       </div>
     </div>
     <?php echo $special_note; ?>
@@ -403,7 +380,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
     <!-- x_content -->
     <div class="row">
       <div class="col-sm-12 nopm">
-        <p class="small">If you notice any errors in the above information or have any questions, please contact <?php if (in_array($plan['product_short'], $pdf_enable) && !empty($user['business'])) {
+        <p class="small"><?php echo $this->lang->line("If you notice any errors in the above information or have any questions, please contact"); ?> <?php if (in_array($plan['product_short'], $pdf_enable) && !empty($user['business'])) {
                                                                                                                     echo htmlspecialchars($user['business']);
                                                                                                                   } else { ?>JF Insurance Agency Group Inc<?php } ?>.</p>
       </div>
