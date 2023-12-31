@@ -112,11 +112,11 @@ defined('BASEPATH') or exit('No direct script access allowed');
           </h4>
         </div>
         <div class="col-sm-6 nopadding">
-          <h4>Effective Date: <span><?php echo $plan['effective_date']; ?></span>
+          <h4><?php echo $this->lang->line("Effective Date"); ?>: <span><?php echo $plan['effective_date']; ?></span>
           </h4>
-          <h4>Expiry Date: <span><?php echo $plan['expiry_date']; ?></span>
+          <h4><?php echo $this->lang->line("Expiry Date"); ?>: <span><?php echo $plan['expiry_date']; ?></span>
           </h4>
-          <h4>Number of Days: <span><?php echo $plan['totaldays']; ?></span>
+          <h4><?php echo $this->lang->line("Number of Days"); ?>: <span><?php echo $plan['totaldays']; ?></span>
           </h4>
         </div>
       <?php } else { ?>
@@ -142,13 +142,13 @@ defined('BASEPATH') or exit('No direct script access allowed');
         </div>
         <div class="col-sm-5 nopadding2">
           <h4><?php if ($plan['status_id'] < 2) { ?>Quote<?php } else { ?>Policy<?php } ?> Number: <span><?php echo $plan['policy']; ?></span></h4>
-          <h4>Application Date: <span><?php echo $plan['apply_date']; ?></span>
+          <h4><?php echo $this->lang->line("Application Date"); ?>: <span><?php echo $plan['apply_date']; ?></span>
           </h4>
-          <h4>Effective Date: <span><?php echo $plan['effective_date']; ?></span>
+          <h4><?php echo $this->lang->line("Effective Date"); ?>: <span><?php echo $plan['effective_date']; ?></span>
           </h4>
-          <h4>Expiry Date: <span><?php echo $plan['expiry_date']; ?></span>
+          <h4><?php echo $this->lang->line("Expiry Date"); ?>: <span><?php echo $plan['expiry_date']; ?></span>
           </h4>
-          <h4>Number of Days: <span><?php echo $plan['totaldays']; ?></span>
+          <h4><?php echo $this->lang->line("Number of Days"); ?>: <span><?php echo $plan['totaldays']; ?></span>
           </h4>
           <h4><br/><br/></h4>
         </div>
