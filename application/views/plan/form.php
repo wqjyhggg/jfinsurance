@@ -263,7 +263,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									</div>
 									<div class="col-sm-2">
 										<div class="input-group col-sm-12" style="padding-top: 28px;">
-											 <input type='checkbox' class='setpremium' id='checkboxdays'> 1 Year
+											 <input type='checkbox' class='setpremium' id='checkboxdays'> 1 <?php echo $this->lang->line("Year"); ?>
 										</div>
 									</div>
 									<div class="col-sm-3">
