@@ -159,8 +159,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			                <label class="col-sm-12">Gender:</label>
 			                <div class="col-sm-12 input-group">
 				                <select name='gender' class="form-control">
-									<option value='M' <?php echo (empty($gender) || ($gender == 'M')) ? 'selected' : ''; ?>> M - Male </option>
-									<option value='F' <?php echo ($gender == 'F') ? 'selected' : ''; ?>> F - Female </option>
+									<option value='M' <?php echo (empty($gender) || ($gender == 'M')) ? 'selected' : ''; ?>> M - <?php echo $this->lang->line("Male"); ?> </option>
+									<option value='F' <?php echo ($gender == 'F') ? 'selected' : ''; ?>> F - <?php echo $this->lang->line("Female"); ?> </option>
 								</select>
 							</div>
 			            </div>

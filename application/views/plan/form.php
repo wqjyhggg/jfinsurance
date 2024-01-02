@@ -396,8 +396,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 												<label class="col-sm-12"><?php echo $this->lang->line("Gender"); ?>: </label>
 												<div class="input-group col-sm-12">
 													<select name='gender' class="form-control" style="padding:6px 2px;">
-													<option value='M' <?php echo (empty($gender) || ($gender != 'F')) ? "selected" : ""; ?>>Male</option>
-													<option value='F' <?php echo (!empty($gender) && ($gender == 'F')) ? "selected" : ""; ?>>Female</option>
+													<option value='M' <?php echo (empty($gender) || ($gender != 'F')) ? "selected" : ""; ?>><?php echo $this->lang->line("Male"); ?></option>
+													<option value='F' <?php echo (!empty($gender) && ($gender == 'F')) ? "selected" : ""; ?>><?php echo $this->lang->line("Female"); ?></option>
 													</select>
 												</div>
 											</div>
@@ -458,8 +458,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 													<label class="col-sm-12"><?php echo $this->lang->line("Gender"); ?>: </label>
 													<div class="input-group col-sm-12">
 														<select name='gender_<?php echo $i; ?>' id='gender_<?php echo $i; ?>' class="form-control" style="padding:6px 2px;">
-														<option value='M' <?php echo (empty(${'gender_'.$i}) || (${'gender_'.$i} != 'F')) ? "selected" : ""; ?>>Male</option>
-														<option value='F' <?php echo (!empty(${'gender_'.$i}) && (${'gender_'.$i} == 'F')) ? "selected" : ""; ?>>Female</option>
+														<option value='M' <?php echo (empty(${'gender_'.$i}) || (${'gender_'.$i} != 'F')) ? "selected" : ""; ?>><?php echo $this->lang->line("Male"); ?></option>
+														<option value='F' <?php echo (!empty(${'gender_'.$i}) && (${'gender_'.$i} == 'F')) ? "selected" : ""; ?>><?php echo $this->lang->line("Female"); ?></option>
 														</select>
 													</div>
 												</div>
