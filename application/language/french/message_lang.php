@@ -247,7 +247,8 @@ $lang["For all ages, then in respect of any sickness, you will not be entitled t
 $lang["For All Members"] = "Pour tous les membres";
 $lang["For Policy of"] = "Pour la politique de";
 $lang["Forget password"] = "Mot de passe oublié";
-$lang['Founder'] = 'Fondatrice';
+$lang["Founder"] = "Fondatrice";
+$lang["French"] = "Français";
 $lang["From"] = "Depuis";
 $lang["Full Name"] = "Nom et prénom";
 

@@ -63,7 +63,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                     <label class="col-sm-12"><?php echo $this->lang->line("Send Franch Version"); ?>:</label>
                     <div class="input-group col-sm-12">
                       &nbsp;&nbsp;&nbsp;&nbsp;
-                      <input type='checkbox' class='frenchbox' name='sendfrench'> French &nbsp;&nbsp;
+                      <input type='checkbox' class='frenchbox' name='sendfrench'> <?php echo $this->lang->line("French"); ?> &nbsp;&nbsp;
                     </div>
                   </div>
                 <?php } ?>
@@ -73,7 +73,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                 <div class="form-group col-sm-3">
                   <label class="col-sm-12">&nbsp;</label>
                   <button class="btn btn-primary" type='button' id='form_batch_submit' style='display:none;'><?php echo $this->lang->line("Send"); ?></button>
-                  <input class="btn btn-primary" type='submit' name='send' value='Send' id='form_submit'>
+                  <input class="btn btn-primary" type='submit' name='send' value='<?php echo $this->lang->line("Send"); ?>' id='form_submit'>
                 </div>
               </div>
             </form>

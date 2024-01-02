@@ -257,6 +257,7 @@ $lang["For All Members"] = "For All Members";
 $lang["For Policy of"] = "For Policy of";
 $lang["Forget password"] = "Forget password";
 $lang['Founder'] = 'Founder';
+$lang["French"] = "French";
 $lang["From"] = "From";
 $lang["Full Name"] = "Full Name";
 
