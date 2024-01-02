@@ -1,5 +1,10 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
+$isFrench = "";
+$agree = $this->lang->line("Agree");
+if ($agree != "Agree") {
+  $isFrench = "_French";
+}
 ?>
 
 <!-- Product page content -->
@@ -55,7 +60,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                               <td><?php echo $p['product_short']; ?></td>
                               <td><?php echo $p['full_name']; ?></td>
                               <td><a href="<?php echo $quote_url . "?product_short=" . $p['product_short']; ?>" class="btn btn-primary"><?php echo $this->lang->line("Quote"); ?></a></td>
-                              <td><a target="_bland" href="<?php echo $downloads_url . $p['product_short'] . $url_benefit . '.pdf'; ?>" class="btn btn-info"><?php echo $this->lang->line("View Summary"); ?></a></td>
+                              <td><a target="_bland" href="<?php echo $downloads_url . $p['product_short'] . $url_benefit . $isFrench . '.pdf'; ?>" class="btn btn-info"><?php echo $this->lang->line("View Summary"); ?></a></td>
                             </tr>
                             <?php } ?>
                         </tbody>
