@@ -32,7 +32,7 @@ $usepsi = false;
 				<div class="x_panel">
 					<div class="x_title">
 						<h2 class="col-xs-12 col-sm-12 col-md-12" style="width: auto;">
-							<?php echo $this->lang->line("Review <?php echo $this->lang->line("Policy"); ?> Detail"); ?> <span><b>[ <?php echo $status_list[$plan['status_id']]['name']; ?> ]</b></span>
+							<?php echo $this->lang->line("Review Policy Detail"); ?> <span><b>[ <?php echo $status_list[$plan['status_id']]['name']; ?> ]</b></span>
 						</h2>
 						<?php if (($plan['status_id'] == 1) || ($plan['status_id'] == 2) || ($plan['status_id'] == 3)) { ?>
 							<?php if (empty($sekey)) { ?>
