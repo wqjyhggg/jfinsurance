@@ -446,7 +446,10 @@ $lang["select province"] = "sélectionner une province";
 $lang["select policy status"] = "sélectionner le statut de la police";
 $lang["Selected pre-existing condition coverage"] = "Couverture des affections préexistantes sélectionnées";
 $lang["select product"] = "sélectionner un produit";
+$lang["Send"] = "Envoyer";
+$lang["Send Franch Version"] = "Envoyer la version française";
 $lang["Send Package"] = "Envoyer le colis";
+$lang["Send Policy Package"] = "Envoyer le package de règles";
 $lang["Sold"] = "Vendue";
 $lang["Special Note"] = "Note spéciale";
 $lang["Special Note/Instructions"] = "Remarque spéciale/Instructions";
@@ -523,7 +526,7 @@ $lang["We will take care of you"] = "Nous allons prendre soin de vous";
 $lang["we take care of you"] = "nous prenons soin de vous";
 $lang["When coverage is purchased any time after your arrival in Canada"] = "Lorsque la couverture est achetée à tout moment après votre arrivée au Canada";
 $lang["WHY SHOULD YOU BUY TRAVEL INSURANCE"] = "POURQUOI DEVRIEZ-VOUS ACHETER UNE ASSURANCE VOYAGE";
-
+$lang["Will Send Package To this Email address"] = "Enverra le colis à cette adresse e-mail";
 /* X */
 /* Y */
 $lang["Year"] = "Année";

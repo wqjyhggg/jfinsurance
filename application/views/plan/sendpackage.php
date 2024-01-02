@@ -20,7 +20,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
   <div class="main-div">
     <div class="page-title">
       <div class="title_left">
-        <h3>Send Policy Package</h3>
+        <h3><?php echo $this->lang->line("Send Policy Package"); ?></h3>
       </div>
     </div>
     <div class="clearfix"></div>
@@ -39,7 +39,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
               <div class="row">
                 <!-- Product select box -->
                 <div class="form-group col-sm-3 col-xs-6">
-                  <label class="col-sm-12">Will Send Package To this Email address:</label>
+                  <label class="col-sm-12"><?php echo $this->lang->line("Will Send Package To this Email address"); ?>:</label>
                   <div class="input-group col-sm-12">
                     <input type="text" name='emailaddr' value='<?php echo $html_model->escapeQuote($emailaddr); ?>' class="form-control" />
                   </div>
@@ -60,7 +60,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                 <?php } ?>
                 <?php if ($show_french) { ?>
                   <div class="form-group col-sm-3 col-xs-6">
-                    <label class="col-sm-12">Send Franch Version:</label>
+                    <label class="col-sm-12"><?php echo $this->lang->line("Send Franch Version"); ?>:</label>
                     <div class="input-group col-sm-12">
                       &nbsp;&nbsp;&nbsp;&nbsp;
                       <input type='checkbox' class='frenchbox' name='sendfrench'> French &nbsp;&nbsp;
@@ -72,7 +72,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                 <?php } ?>
                 <div class="form-group col-sm-3">
                   <label class="col-sm-12">&nbsp;</label>
-                  <button class="btn btn-primary" type='button' id='form_batch_submit' style='display:none;'>Send</button>
+                  <button class="btn btn-primary" type='button' id='form_batch_submit' style='display:none;'><?php echo $this->lang->line("Send"); ?></button>
                   <input class="btn btn-primary" type='submit' name='send' value='Send' id='form_submit'>
                 </div>
               </div>
