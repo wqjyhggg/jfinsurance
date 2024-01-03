@@ -1,6 +1,11 @@
 <?php
 defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 $usepsi = false;
+$hideForFrench = false;
+$Agree = $this->lang->line("Agree");
+if ($Agree != "Agree") {
+  $hideForFrench = true;
+}
 ?>
 
 <!-- Plan page content -->
@@ -59,10 +64,10 @@ $usepsi = false;
 						<?php if (!empty($sendpackage_url)) { ?>
 						<a class="btn btn-info pull-right" target="_blank" href='<?php echo $sendpackage_url; ?>'><?php echo $this->lang->line("Send Package"); ?></a>
 						<?php } ?>
-						<?php if (!empty($print_card_url)) { ?>
+						<?php if (!empty($print_card_url) && !$hideForFrench) { ?>
 						<a class="btn btn-info pull-right" target="_blank" href='<?php echo $print_card_url; ?>'><?php echo $this->lang->line("Print Card"); ?></a>
 						<?php } ?>
-						<?php if (!empty($print_receipt_url)) { ?>
+						<?php if (!empty($print_receipt_url) && !$hideForFrench) { ?>
 						<a class="btn btn-info pull-right" target="_blank" href='<?php echo $print_receipt_url; ?>'><?php echo $this->lang->line("Print Receipt"); ?></a>
 						<?php } ?>
 					<?php } ?>

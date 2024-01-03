@@ -1,4 +1,11 @@
-<?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
+<?php 
+defined('BASEPATH') or exit('No direct script access allowed');
+$hideForFrench = false;
+$Agree = $this->lang->line("Agree");
+if ($Agree != "Agree") {
+  $hideForFrench = true;
+}
+?>
 <style>
   .nav-tabs>li.active>a {
     background-color: #ffffff !important;
@@ -65,11 +72,11 @@
                 </li>
               <?php } ?>
               <li style="float: right;"><a href="<?php echo $pdf_url; ?>" target="_blank"><span class="btn btn-info" style='color: #fff;'>Export PDF</span></a></li>
-              <?php if (!empty($print_receipt_url)) { ?>
-                <li style="float: right;"><a href="<?php echo $print_receipt_url; ?>" target="_blank"><span class="btn btn-info" style='color: #fff;'>Print Receipt</span></a></li>
+              <?php if (!empty($print_receipt_url) && !$hideForFrench) { ?>
+                <li style="float: right;"><a href="<?php echo $print_receipt_url; ?>" target="_blank"><span class="btn btn-info" style='color: #fff;'><?php echo $this->lang->line("Print Receipt"); ?></span></a></li>
               <?php } ?>
-              <?php if (!empty($print_card_url)) { ?>
-                <li style="float: right;"><a href="<?php echo $print_card_url; ?>" target="_blank"><span class="btn btn-info" style='color: #fff;'>Print Card</span></a></li>
+              <?php if (!empty($print_card_url) && !$hideForFrench) { ?>
+                <li style="float: right;"><a href="<?php echo $print_card_url; ?>" target="_blank"><span class="btn btn-info" style='color: #fff;'><?php echo $this->lang->line("Print Card"); ?></span></a></li>
               <?php } ?>
               <li style="float: right;"><a href="<?php echo $sendpackage_url . $plan_id; ?>"><span class="btn btn-info" style='color: #fff;'>Send Package</span></a></li>
             <?php } ?>

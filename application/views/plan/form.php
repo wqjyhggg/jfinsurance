@@ -1,5 +1,10 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
+$hideForFrench = false;
+$Agree = $this->lang->line("Agree");
+if ($Agree != "Agree") {
+  $hideForFrench = true;
+}
 ?>
 
 <!-- Plan page content -->
@@ -61,10 +66,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<div class='pull-right spdf-option'><input type='checkbox' class='withlogobox' checked> With Logo <br /><input type='checkbox' class='withpricebox' checked> With Price </div>
 							<?php } ?>
 							<a class="btn btn-info pull-right" target="_blank" href='<?php echo $pdf_url; ?>'><?php echo $this->lang->line("Export PDF"); ?></a>
-							<?php if (!empty($print_receipt_url)) { ?>
+							<?php if (!empty($print_receipt_url) && !$hideForFrench) { ?>
 							<a href='<?php echo $print_receipt_url; ?>' target="_blank"><span class="btn btn-info" style='color:#fff;'><?php echo $this->lang->line("Print Receipt"); ?></span></a>
 							<?php } ?>
-							<?php if (!empty($print_card_url)) { ?>
+							<?php if (!empty($print_card_url) && !$hideForFrench) { ?>
 							<a href='<?php echo $print_card_url; ?>' target="_blank"><span class="btn btn-info" style='color:#fff;'><?php echo $this->lang->line("Print Card"); ?></span></a>
 							<?php } ?>
 						<?php 	} ?>
