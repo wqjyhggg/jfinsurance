@@ -512,22 +512,13 @@ class Plan extends MY_Controller {
     if (empty($this->input->post('province2'))) {
 			$this->error['error_province2'] = $this->lang->line("Province is Required");
 		} else {
-      $user_id = 0;
-      if ($this->input->post('user_id')) {
-        $user_id = $this->input->post('user_id');
-      } else if (($plan_id = $this->input->post('plan_id')) && ($plan = $this->plan_model->get_plan_by_id($plan_id))) {
-        $user_id = $plan['user_id'];
-      } else {
-        $user_id = $beuser['user_id'];
-      }
-      if ($user_id) {
-        $this->load->model('user_province_model');
-        $user_province = $this->user_province_model->get_by_user($user_id);
-        if (sizeof($user_province) > 0) {
-          $my_user_province = $this->user_province_model->get_by_user_province($user_id, $this->input->post('province2'));
-          if (empty($my_user_province)) {
-            $this->error['error_province2'] = $this->lang->line("You don't have license to sale in this province, Please contact us for more information");
-          }
+      $user_id = $beuser['user_id'];
+      $this->load->model('user_province_model');
+      $user_province = $this->user_province_model->get_by_user($user_id);
+      if (sizeof($user_province) > 0) {
+        $my_user_province = $this->user_province_model->get_by_user_province($user_id, $this->input->post('province2'));
+        if (empty($my_user_province)) {
+          $this->error['error_province2'] = $this->lang->line("You don't have license to sale in this province, Please contact us for more information");
         }
       }
     }
