@@ -452,10 +452,11 @@ if ($Agree != "Agree") {
 					<div class="row">
 						<div class="col-sm-12" id='goto_next_page'>
 						<?php if (!empty($next_url)) { ?>
-						<a href='<?php echo $next_url; ?>'><span class="btn btn-info">No Change</span></a>
+						<a href='<?php echo $next_url; ?>'><span class="btn btn-info"><?php echo $this->lang->line("No Change"); ?></span></a>
 						<?php } ?>
 						<?php if ($isprocessplan && ($status_id != 5) && ($status_id != 6)) { ?>
 							<input class="btn btn-primary pull-right" type='submit' name='submit' value='<?php echo $submit; ?>' />		
+							<input class="btn btn-primary pull-right" type='submit' id='page-submit' name='submit' value='<?php echo $submit; ?>' />		
 						<?php } ?>
 						</div>
 
@@ -499,18 +500,19 @@ $( document ).ready(function() {
 		url: '<?php echo $province_url; ?>',
 		type: 'GET',
 		success: function(data, textStatus, jqXHR) {
-        	$('#province2_div').html(data);
-    	},
+      get_premium();
+     	$('#province2_div').html(data);
+   	},
 	});
 	$.ajax({
 		url: '<?php echo $country_url; ?>',
 		type: 'GET',
 		success: function(data, textStatus, jqXHR) {
-        	$('#country2_div').html(data);
-    	},
+      get_premium();
+     	$('#country2_div').html(data);
+   	},
 	});
 
-	get_premium();
 	addmoremember();
 
         $('.withlogobox').change(function() {
