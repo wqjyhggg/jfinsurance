@@ -36,7 +36,7 @@ class Pdf extends CI_Controller
         if (substr($file, 0, 1) == '.') {
           continue;
         }
-        if (filetype($file) != "file") {
+        if (filetype(DOWNLOADDIR.$file) != "file") {
           continue;
         }
         $filelist[] = $file;
