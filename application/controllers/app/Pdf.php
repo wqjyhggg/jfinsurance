@@ -30,14 +30,19 @@ class Pdf extends CI_Controller
     } else if ($user["user_group_id"] != 1) {
       return $this->app_model->return_error("You can't access this function");
     }
-    $data['filelist'] = array();
+    $filelist = array();
     if ($handle = opendir(DOWNLOADDIR)) {
       while (($file = readdir($handle)) !== false) {
-        if (substr($file, 0, 1) == '.')
+        if (substr($file, 0, 1) == '.') {
           continue;
-        $data['filelist'][] = $file;
+        }
+        if (filetype($file) != "file") {
+          continue;
+        }
+        $filelist[] = $file;
       }
-      asort($data['filelist']);
+      asort($filelist);
+      $data['filelist'] = array_values($filelist);
     }
     $this->app_model->return_ok($data);
   }
