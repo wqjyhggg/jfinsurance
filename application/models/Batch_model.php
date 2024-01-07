@@ -137,12 +137,16 @@ class Batch_model extends CI_Model {
 	 * @param	array	$para	Parameter array
 	 * @return	array					user table search result
 	 */
-	public function add_record($para) {
+	public function add_record($para, $user=null) {
 		$this->load->model('plan_model');
 		$this->load->model('plan_history_model');
 		$this->load->model('customer_model');
 		$this->load->model('product_model');
-		$beuser = $this->session->userdata ( 'beuser' );
+    if ($user) {
+      $beuser = $user;
+    } else {
+      $beuser = $this->session->userdata('beuser');
+    }
 
 		$data = array();
 
