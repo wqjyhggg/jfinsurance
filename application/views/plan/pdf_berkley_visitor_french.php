@@ -113,7 +113,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
             <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Trip Cancellation and Interruption: N/A</span>
           <?php } ?>
           <?php if ($plan['stable_condition']) { ?>
-            <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span><?php echo ($plan['stable_condition'] == 1) ? 'Including' : 'Excluding'; ?> stable pre-existing condition coverage</span>
+            <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span><?php echo ($plan['stable_condition'] == 1) ? 'Including' : 'Excluding'; ?> <?php echo $this->lang->line("stable pre-existing condition coverage"); ?></span>
           <?php } ?>
           <?php if ($plan['questionnaire'] > 0) { ?>
             <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Your rate table is Table<?php echo $plan['questionnaire']; ?></span>

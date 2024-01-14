@@ -207,7 +207,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
             <?php } ?>
             <?php if ($plan['questionnaire'] > 0) { ?>
               <?php if ($plan['stable_condition']) { ?>
-              <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span><?php echo ($plan['stable_condition'] == 1) ? 'Including' : 'Excluding'; ?> stable pre-existing condition coverage</span>
+              <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span><?php echo ($plan['stable_condition'] == 1) ? 'Including' : 'Excluding'; ?> <?php echo $this->lang->line("stable pre-existing condition coverage"); ?></span>
               <?php } ?>
               <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Your rate table is Table<?php echo $plan['questionnaire']; ?></span>
               <?php if (0) { ?>
@@ -319,10 +319,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
         ?>
 
         <?php if (($plan['product_short'] == 'JFPL') || ($plan['product_short'] == 'JFGD')) { ?>
-          <h4><?php echo $this->lang->line("Stable Pre-existing Condition Coverage"); ?>: <span><?php echo $this->lang->line("Yes"); ?></span>
+          <h4><?php echo $this->lang->line("Stable pre-existing condition coverage"); ?>: <span><?php echo $this->lang->line("Yes"); ?></span>
           </h4>
         <?php } else if ($plan['product_short'] == 'JFSL') { ?>
-          <h4><?php echo $this->lang->line("Stable Pre-existing Condition Coverage"); ?>: <span><?php echo $this->lang->line("No"); ?></span>
+          <h4><?php echo $this->lang->line("Stable pre-existing condition coverage"); ?>: <span><?php echo $this->lang->line("No"); ?></span>
           </h4>
         <?php } ?>
       </div>
