@@ -5410,7 +5410,7 @@ class Top2_model extends CI_Model  {
 			}
 			return $this->optional_plan($data, 0);
 		} else {
-			$this->premiumArr['message'] = 'Not available. Please change days or insure amount';
+			$this->premiumArr['message'] = "This option is not available, the policy will cover pre-existing condition automatically.  Please change coverage to 'with stable pre-existing medical condition'.";
 		}
 
 		return 1;
