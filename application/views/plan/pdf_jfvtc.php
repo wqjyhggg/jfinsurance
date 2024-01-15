@@ -134,8 +134,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
         <p class="small" style="margin-top:2px;"><b><?php echo $this->lang->line("Please retain this confirmation as your receipt"); ?>.</b><br />
           <?php echo $this->lang->line("Please read and understand the enclosed, which fully explains the terms, conditions, limitations and exclusions that are part of your policy"); ?>.<br /><br />
           <?php echo $this->lang->line("If you have a change in your health, including any change in your medication, between the date of application and the effective date of the policy, you must contact us to ensure that you remain eligible for this insurance. Ontime Care Worldwide Inc. must be notified prior to any surgery being performed or within 24 hours of admission to a hospital. Failure to do so, without reasonable cause, will result in the reduction of eligible benefit amounts payable"); ?>. <br /><br />
-          <?PHP ECHO $THIS->LANG->LINE("IN THE EVENT OF AN EMERGENCY, CONTACT ONTIME CARE WORLDWIDE INC IMMEDIATELY"); ?>: <br />
-          <?PHP ECHO $THIS->LANG->LINE("TOLL FREE CANADA/U.S.A.: 1-888-988-3268 IF UNABLE TO CONTACT US TOLL FREE, PLEASE CALL COLLECT: 905-707-9555"); ?>.
+          <?PHP echo $this->lang->line("IN THE EVENT OF AN EMERGENCY, CONTACT ONTIME CARE WORLDWIDE INC IMMEDIATELY"); ?>: <br />
+          <?PHP echo $this->lang->line("TOLL FREE CANADA/U.S.A.: 1-888-988-3268 IF UNABLE TO CONTACT US TOLL FREE, PLEASE CALL COLLECT: 905-707-9555"); ?>.
         </p>
         <p class="small" style="margin-top:2px;"><b><?php echo $this->lang->line("Waiting Period"); ?></b> - <?php echo $this->lang->line("When coverage is purchased any time after your arrival in Canada"); ?>:<br />
           a. <?php echo $this->lang->line("If you are age 86 or older, then in respect of any sickness, you will not be entitled to receive reimbursement for sickness or symptoms which manifested or were contracted or treated within 15 days following the effective date of this policy"); ?>.<br />
@@ -296,8 +296,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
         <p class="small" style="margin-top:2px;"><b><?php echo $this->lang->line("Please retain this confirmation as your receipt"); ?>.</b><br />
           <?php echo $this->lang->line("Please read and understand the enclosed, which fully explains the terms, conditions, limitations and exclusions that are part of your policy"); ?>.<br /><br />
           <?php echo $this->lang->line("If you have a change in your health, including any change in your medication, between the date of application and the effective date of the policy, you must contact us to ensure that you remain eligible for this insurance. Ontime Care Worldwide Inc. must be notified prior to any surgery being performed or within 24 hours of admission to a hospital. Failure to do so, without reasonable cause, will result in the reduction of eligible benefit amounts payable"); ?>. <br /><br />
-          <?PHP ECHO $THIS->LANG->LINE("IN THE EVENT OF AN EMERGENCY, CONTACT ONTIME CARE WORLDWIDE INC IMMEDIATELY"); ?>: <br />
-          <?PHP ECHO $THIS->LANG->LINE("TOLL FREE CANADA/U.S.A.: 1-888-988-3268 IF UNABLE TO CONTACT US TOLL FREE, PLEASE CALL COLLECT: 905-707-9555"); ?>.
+          <?PHP echo $this->lang->line("IN THE EVENT OF AN EMERGENCY, CONTACT ONTIME CARE WORLDWIDE INC IMMEDIATELY"); ?>: <br />
+          <?PHP echo $this->lang->line("TOLL FREE CANADA/U.S.A.: 1-888-988-3268 IF UNABLE TO CONTACT US TOLL FREE, PLEASE CALL COLLECT: 905-707-9555"); ?>.
         </p>
         <p class="small" style="margin-top:2px;"><b><?php echo $this->lang->line("Waiting Period"); ?></b> - <?php echo $this->lang->line("When coverage is purchased any time after your arrival in Canada"); ?>:<br />
           a. <?php echo $this->lang->line("If you are age 86 or older, then in respect of any sickness, you will not be entitled to receive reimbursement for sickness or symptoms which manifested or were contracted or treated within 15 days following the effective date of this policy"); ?>.<br />

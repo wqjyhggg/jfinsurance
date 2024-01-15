@@ -153,6 +153,7 @@ $lang["Arrival Date To"] = "Arrival Date To";
 
 /* B */
 $lang["Bank Name"] = "Bank Name";
+$lang["Batch No."] = "Batch No.";
 $lang["below info is not the actual payment. Please make the cheque payble to “JF Insurance Agency Group Inc.” and send the original cheque to JF via mail or in person"] = "below info is not the actual payment. Please make the cheque payble to “JF Insurance Agency Group Inc.” and send the original cheque to JF via mail or in person";
 $lang["Beneficiary"] = "Beneficiary";
 $lang["Beneficiary is Required"] = "Beneficiary is Required";
@@ -302,6 +303,7 @@ $lang["Instructions"] = "Instructions";
 $lang["Insurance Plan"] = "Insurance Plan";
 $lang["Insurable Members"] = "Insurable Members";
 $lang["Insurable Options"] = "Insurable Options";
+$lang["Insured"] = "Insured";
 $lang["Insured Name"] = "Insured Name";
 $lang["Insured's Family Member Information"] = "Insured's Family Member Information";
 $lang["Insurer"] = "Insurer";
