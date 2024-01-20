@@ -76,18 +76,34 @@ class Cron1 extends MY_Controller {
         die("Can't open write file: ".$file." at line ".__LINE__);
       }
       foreach ($rt as $rc) {
-        $sql  = "SELECT pa.payment_id, pa.plan_id, pa.premium_payment_id, pa.last_update, pa.added, pl.user_id, pl.policy, (pa.amount - pa.admin_fee) AS premium FROM payment pa";
+        // $sql  = "SELECT pa.payment_id, pa.plan_id, pa.premium_payment_id, pa.last_update, pa.added, pl.user_id, pl.policy, (pa.amount - pa.admin_fee) AS premium FROM payment pa";
+        // $sql .= " JOIN plan pl ON pa.plan_id = pl.plan_id";
+        // $sql .= " WHERE pa.pay_type IN ('premium','cancel_premium','refund_premium') AND ABS(pa.amount)>=0.01 ";
+        // $sql .= " AND pa.added >= '2023-01-01 00:00:00'";
+        // $sql .= " AND pa.added <= '2023-12-31 23:59:59'";
+        // $sql .= " AND pl.user_id='" . (int)$rc['user_id'] . "'";
+        // if ($rt1 = $this->db->query($sql)->result_array()) {
+        //   $premium = 0;
+        //   foreach ($rt1 as $rc1) {
+        //     $premium += $rc1["premium"];
+        //   }
+        //   fputcsv($fp, [$rc["user_id"], $rc["username"], $rc["firstname"], $rc["lastname"], $rc["email"], $premium]);
+        // }
+        $sql  = "SELECT";
+        $sql .= "   sum(pa2.amount - pa2.admin_fee) AS premium,";
+        $sql .= "   sum(pa.amount) as commission";
+        $sql .= " FROM __payment__ pa";
         $sql .= " JOIN plan pl ON pa.plan_id = pl.plan_id";
-        $sql .= " WHERE pa.pay_type IN ('premium','cancel_premium','refund_premium') AND ABS(pa.amount)>=0.01 ";
+        $sql .= " JOIN customer c ON pl.customer_id = c.customer_id";
+        $sql .= " JOIN product pr ON pl.product_short = pr.product_short";
+        $sql .= " JOIN status st ON pl.status_id = st.status_id ";
+        $sql .= " LEFT JOIN __payment__ pa2 ON (pa.premium_payment_id=pa2.payment_id)";
+        $sql .= " WHERE pl.user_id='" . intval($rc['user_id']) . "'";
         $sql .= " AND pa.added >= '2023-01-01 00:00:00'";
-        $sql .= " AND pa.added <= '2023-12-31 23:59:59'";
-        $sql .= " AND pl.user_id='" . (int)$rc['user_id'] . "'";
-        if ($rt1 = $this->db->query($sql)->result_array()) {
-          $premium = 0;
-          foreach ($rt1 as $rc1) {
-            $premium += $rc1["premium"];
-          }
-          fputcsv($fp, [$rc["user_id"], $rc["username"], $rc["firstname"], $rc["lastname"], $rc["email"], $premium]);
+        $sql .= " AND pa.added < '2024-01-01 00:00:00'";
+        $sql .= " AND pa.pay_type IN ('commission','cancel_commission','refund_commission') AND ABS(pa.amount)>=0.01";
+        if ($rc1 = $this->db->query($sql)->row_array()) {
+          fputcsv($fp, [$rc["user_id"], $rc["username"], $rc["firstname"], $rc["lastname"], $rc["email"], $rc1["premium"]]);
         }
       }
       fclose($fp);
