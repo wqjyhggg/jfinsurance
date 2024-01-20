@@ -97,7 +97,7 @@ class Cron1 extends MY_Controller {
         $sql .= " JOIN customer c ON pl.customer_id = c.customer_id";
         $sql .= " JOIN product pr ON pl.product_short = pr.product_short";
         $sql .= " JOIN status st ON pl.status_id = st.status_id ";
-        $sql .= " LEFT JOIN __payment__ pa2 ON (pa.premium_payment_id=pa2.payment_id)";
+        $sql .= " LEFT JOIN payment pa2 ON (pa.premium_payment_id=pa2.payment_id)";
         $sql .= " WHERE pl.user_id='" . intval($rc['user_id']) . "'";
         $sql .= " AND pa.added >= '2023-01-01 00:00:00'";
         $sql .= " AND pa.added < '2024-01-01 00:00:00'";
