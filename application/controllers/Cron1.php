@@ -92,7 +92,7 @@ class Cron1 extends MY_Controller {
         $sql  = "SELECT";
         $sql .= "   sum(pa2.amount - pa2.admin_fee) AS premium,";
         $sql .= "   sum(pa.amount) as commission";
-        $sql .= " FROM __payment__ pa";
+        $sql .= " FROM payment pa";
         $sql .= " JOIN plan pl ON pa.plan_id = pl.plan_id";
         $sql .= " JOIN customer c ON pl.customer_id = c.customer_id";
         $sql .= " JOIN product pr ON pl.product_short = pr.product_short";
