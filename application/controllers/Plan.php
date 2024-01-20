@@ -4275,7 +4275,8 @@ class Plan extends MY_Controller {
 			$data['postcode'] = $this->input->post('postcode');
 			$data['style'] = $this->load->view('common/pdf_style', $data, TRUE);
 			if ($data['plan']['product_short'] == 'TOP') {
-				$html = $this->load->view('plan/top/refund', $data, TRUE);
+				$html = $this->load->view('plan/top/cancel', $data, TRUE);      // Refund use same template as cancel as requested
+				// $html = $this->load->view('plan/top/refund', $data, TRUE);
 			} else {
 				$html = $this->load->view('plan/refund', $data, TRUE);
 			}
