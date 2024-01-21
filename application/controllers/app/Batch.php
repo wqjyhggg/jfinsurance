@@ -138,11 +138,17 @@ class Batch extends CI_Controller
     }
     if (empty($data['errormsg'])) {
       $uf = array_shift($_FILES);
+      if (empty($uf)) {
+        return $this->app_model->return_error("No upload file");
+      }
       $name = $uf['name'];
       $type = $uf['type'];
       $tmp_name = $uf['tmp_name'];
       $size = $uf['size'];
       $fileinfo = pathinfo($name);
+      if (empty($fileinfo)) {
+        return $this->app_model->return_error("Unknown upload file");
+      }
       if (!empty($uf['error'])) {
         $data['errormsg'] = sprintf($this->lang->line('error_file_upload'), $name) . "<br />";
       } else if (!in_array($fileinfo['extension'], array('xlsx')) ) {
