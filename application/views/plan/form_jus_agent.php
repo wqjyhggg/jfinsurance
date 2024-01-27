@@ -28,7 +28,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										 <input type='hidden' class='setpremium' name='spouse' id='spouse' value='<?php echo $html_model->escapeQuote($spouse); ?>'>
 									</div>
 									<div class="form-group col-sm-3">
-										<label class="col-sm-12"><?php echo $this->lang->line("Deductible amount (USD)"); ?>:</label>
+										<label class="col-sm-12"><?php echo $this->lang->line("Deductible amount"); ?> (USD):</label>
 										<div class="form_text_show">
 											 <?php echo $deductible_amount; ?>
 										</div>

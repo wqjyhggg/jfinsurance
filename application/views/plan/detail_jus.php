@@ -8,11 +8,11 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 									<span><?php echo htmlspecialchars($plan['beneficiary']); ?></span>
 								</div>
 								<div class="col-sm-3">
-									<label class="inline"><?php echo $this->lang->line("Sum Insured (USD)"); ?>:</label>
+									<label class="inline"><?php echo $this->lang->line("Sum Insured"); ?> (USD):</label>
 									<span>Unlimited</span>
 								</div>
 								<div class="col-sm-3">
-									<label class="inline"><?php echo $this->lang->line("Deductible amount (USD)"); ?>:</label>
+									<label class="inline"><?php echo $this->lang->line("Deductible amount"); ?> (USD):</label>
 									<span>$<?php echo number_format($plan['deductible_amount'], 2, '.', ','); ?></span>
 								</div>
 								<?php if ($plan['isfamilyplan']) { ?>
