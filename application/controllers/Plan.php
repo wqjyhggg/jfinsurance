@@ -3550,6 +3550,17 @@ class Plan extends MY_Controller {
 					$body = $this->load->view('mail/package', $data, TRUE);
 					$title = "Confirmation of Insurance - " . $plan['policy'] . " - " . $data['customer']['firstname'] . " " . $data['customer']['lastname'];
 				}
+        if (($data['plan']['product_short'] == 'TOP') && empty($data['sendfrench'])) {
+          if (($data['plan']['package'] == 'single_medical_plan') || ($data['plan']['package'] == 'all_inclusive')) {
+            $top_add_file = tempnam("/tmp", "Additional");
+            $mpdf = new mPDF('c', 'A4', 0, '', $mgl = 0, $mgr = 0, $mgt = 15, $mgb = 0, $mgh = 0, $mgf = 0, $orientation = 'P');
+            $mpdf->SetHTMLHeader('<img style="width:100%;" src="' . base_url() . 'image/pdf_header.png" />');
+            $html = $this->load->view('plan/top/pdf_additional', $data, TRUE);
+            $mpdf->writeHTML($html);
+            $mpdf->Output($top_add_file, 'F');
+            $files['policy_additional.pdf'] = $top_add_file;
+          }
+        }
 
 				$files['policy_confirmation.pdf'] = $policy_file;
 				$sendok = $this->mymail_model->send_mymail($data['emailaddr'], $title, $body, $files, $from = 'JF Insurance');
