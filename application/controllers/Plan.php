@@ -3558,7 +3558,7 @@ class Plan extends MY_Controller {
             $html = $this->load->view('plan/top/pdf_additional', $data, TRUE);
             $mpdf->writeHTML($html);
             $mpdf->Output($top_add_file, 'F');
-            $files['policy_additional.pdf'] = $top_add_file;
+            $files['TOP_VisaLetter.pdf'] = $top_add_file;
           }
         }
 
