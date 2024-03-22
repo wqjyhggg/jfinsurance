@@ -99,11 +99,11 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 						<span class="small pull-left">Effective Date: &nbsp;&nbsp;</span><span class="small"><?php echo $plan['effective_date']; ?></sapn>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 						<span class="small" style="text-align: right;">Expiry Date: &nbsp;&nbsp;</span><span class="small"><?php echo $plan['expiry_date']; ?></sapn>
 					</h4>
-          <h4>Emergency Call Center: 1-888-988-3268</h4>
-          <h4>In the event of an emergency</h4>
-          <h4>You must call Ontime Care immediately</h4>
-          <h4>From Canad and the Us call Toll Free: 1-866-209-57804</h4>
-          <h4>From Anywhere call Collect: 1-905-707-9555</h4>
+          <h4><span class="small">Emergency Call Center: 1-888-988-3268</span></h4>
+          <h4><span class="small">In the event of an emergency</span></h4>
+          <h4><span class="small">You must call Ontime Care immediately</span></h4>
+          <h4><span class="small">From Canad and the Us call Toll Free: 1-866-209-57804</span></h4>
+          <h4><span class="small">From Anywhere call Collect: 1-905-707-9555</span></h4>
 				</div>
 				<div class="row"><div class="col-sm-12 nopadding text-center">
 					<img class="img-responsive" style="max-width:170px;" src="<?php echo base_url();?>image/logo.png" />
@@ -143,11 +143,11 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 						<span class="small pull-left">Effective Date: &nbsp;&nbsp;</span><span class="small"><?php echo $plan['effective_date']; ?></sapn>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 						<span class="small" style="text-align: right;">Expiry Date: &nbsp;&nbsp;</span><span class="small"><?php echo $plan['expiry_date']; ?></sapn>
 					</h4>
-          <h4>Emergency Call Center: 1-888-988-3268</h4>
-          <h4>In the event of an emergency</h4>
-          <h4>You must call Ontime Care immediately</h4>
-          <h4>From Canad and the Us call Toll Free: 1-866-209-57804</h4>
-          <h4>From Anywhere call Collect: 1-905-707-9555</h4>
+          <h4><span class="small">Emergency Call Center: 1-888-988-3268</span></h4>
+          <h4><span class="small">In the event of an emergency</span></h4>
+          <h4><span class="small">You must call Ontime Care immediately</span></h4>
+          <h4><span class="small">From Canad and the Us call Toll Free: 1-866-209-57804</span></h4>
+          <h4><span class="small">From Anywhere call Collect: 1-905-707-9555</span></h4>
 				</div>
 				<div class="row"><div class="col-sm-12 nopadding text-center">
 					<img class="img-responsive" style="max-width:170px;" src="<?php echo base_url();?>image/logo.png" />
