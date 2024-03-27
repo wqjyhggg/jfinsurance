@@ -6,7 +6,8 @@ Madame, Monsieur <?php echo htmlspecialchars($customer['firstname'] . " " . $cus
 <br />
 <br />
 <span style="color:red;">
-Ceci est une confirmation de l'assurance que vous avez récemment souscrite. NE RÉPONDEZ PAS à ce courriel.
+Ceci est une confirmation de l'assurance que vous avez récemment
+souscrite. NE RÉPONDEZ PAS à ce courriel.
 </span>
 <br />
 <br />
