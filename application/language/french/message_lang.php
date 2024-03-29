@@ -540,7 +540,7 @@ $lang["Underwritten by Berkley Canada (a W.R. Berkley Company)"] = "Souscrit par
 $lang["Underwritten by Old Republic Insurance Company of Canada and administered by JF Insurance Agency Group Inc."] = "Souscrit par Old Republic Insurance Company du Canada et administré par JF Insurance Agency Group Inc.";
 $lang["Update"] = "Mise à jour";
 $lang["Update Policy"] = "Politique de mise à jour";
-$land["Upload Your QR Code"] = "Téléchargez votre code QR";
+$lang["Upload Your QR Code"] = "Téléchargez votre code QR";
 $lang["Used Days"] = "Jours utilisés";
 $lang["Username"] = "Nom d'utilisateur";
 
