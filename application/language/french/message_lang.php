@@ -361,6 +361,7 @@ $lang["Number of Days"] = "Nombre de jours";
 
 /* O */
 $lang["of Insurance"] = "d'assurance";
+$lang["Our Plans"] = "Nos plans";
 $lang["Our Product"] = "Notre produit";
 $lang["Our Products"] = "Nos produits";
 
@@ -537,6 +538,7 @@ $lang["Un-check to Disallow this policy"] = "Décochez pour refuser cette politi
 $lang["understand that I need to contact with my insurance representative to get confirmation package after I completed the application."] = "Je comprends que je dois contacter mon représentant d'assurance pour obtenir un dossier de confirmation après avoir rempli la proposition.";
 $lang["Underwritten by Berkley Canada (a W.R. Berkley Company)"] = "Souscrit par Berkley Canada (une société W.R. Berkley)";
 $lang["Underwritten by Old Republic Insurance Company of Canada and administered by JF Insurance Agency Group Inc."] = "Souscrit par Old Republic Insurance Company du Canada et administré par JF Insurance Agency Group Inc.";
+$lang["Update"] = "Mise à jour";
 $lang["Update Policy"] = "Politique de mise à jour";
 $land["Upload Your QR Code"] = "Téléchargez votre code QR";
 $lang["Used Days"] = "Jours utilisés";

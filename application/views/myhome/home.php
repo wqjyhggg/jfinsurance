@@ -84,7 +84,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                           <div style="background-color:#f6f6f6; padding:15px;margin:20px auto;">
                             <div class="row">
       			                  <div class="x_title">
-      			                    <h2>Our Plans<small></small></h2>
+      			                    <h2><?php echo $this->lang->line("Our Plans"); ?><small></small></h2>
       			                    <div class="clearfix"></div>
       			                  </div>
       			                  <div class="x_content">
@@ -109,8 +109,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
                       <div class="row" style="margin:40px 0;">
                         <div class="col-sm-12 col-md-12 text-center">
-                          <h3>WE OFFER</h3>
-                          <h4>we take care of you</h4>
+                          <h3><?php echo $this->lang->line("WE OFFER"); ?></h3>
+                          <h4><?php echo $this->lang->line("we take care of you"); ?></h4>
                           <hr style="border-bottom:2px solid; width:50px; margin:0 auto 20px;" />
 
                         </div>
@@ -120,13 +120,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <div class="row">
                                   <div class="col-sm-4" style="padding:15px 5%;">
                                     <img class="img-responsive img-title" src="<?php echo base_url();?>image/t1.jpg" alt="Emergency Hospital Insurance" />
-                                    <h2>Visitor to Canada</h2>
+                                    <h2><?php echo $this->lang->line("Visitor to Canada"); ?></h2>
                                     <hr style="border-bottom:2px solid #ddd; width:50px; margin:0 0 15px;"/>
                                     <p><?php echo $this->lang->line("Healthcare costs in Canada can be expensive if you’re not covered by a Canadian government healthcare plan. Make sure you have the proper visitor insurance coverage to help protect you and your family and enjoy a secure stay in Canada."); ?> </p>
                                   </div>
                                   <div class="col-sm-4" style="padding:15px 5%;">
                                     <img class="img-responsive img-title" src="<?php echo base_url();?>image/t2.jpg" alt="Emergency Hospital Insurance" />
-                                    <h2>International Student to Canada</h2>
+                                    <h2><?php echo $this->lang->line("International Student to Canada"); ?></h2>
                                     <hr style="border-bottom:2px solid #ddd; width:50px; margin:0 0 15px;"/>
                                     <p><?php echo $this->lang->line("Studying abroad is exciting and adventurous. Make sure you have the right insurance coverage for your journey while in Canada."); ?></p>
                                   </div>
@@ -193,7 +193,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         </div>
                       </div>
 
-                        <input class="btn btn-primary" type='submit' value='update'>
+                        <input class="btn btn-primary" type='submit' value='<?php echo $this->lang->line("Update"); ?>'>
                       
                     </div>
                     
