@@ -126,6 +126,7 @@ $lang["Age"] = "Âge";
 $lang["Agent"] = "Agente";
 $lang["Agent/School Name"] = "Nom de l'agent/de l'école";
 $lang["Agree"] = "Accepter";
+$lang["Agreement to use MyHome service"] = "Accord d'utilisation du service MyHome";
 $lang["Apply Date"] = "Date de candidature";
 $lang["All"] = "Toute";
 $lang["All family member's age must be less than 59 years old"] = "L'âge de tous les membres de la famille doit être inférieur à 59 ans";
@@ -134,6 +135,8 @@ $lang["All family member's age must be older than 4 years old"] = "L'âge de tou
 $lang["All persons insured are subject to the terms and conditions below."] = "Toutes les personnes assurées sont soumises aux modalités ci-dessous.";
 $lang["All Region"] = "Toute la région";
 $lang["Allow this policy"] = "Autoriser cette règle";
+$lang["Always give your client a copy of the confirmation of coverage. Documents can be emailed to your client directly from JF Insurance"] = "Remettez toujours à votre client une copie de la confirmation de couverture. Les documents peuvent être envoyés par courrier électronique à votre client directement depuis JF Insurance";
+$lang["Always review the policy with your client. Make sure to point out where they can find benefits, definitions and exclusions and recommend they read the policy as soon as possible – preferably, before the effective date. Defined terms are shown in bold italics. You can give your client a copy of the policy or email it to them directly from JF Insurance"] = "Examinez toujours la politique avec votre client. Assurez-vous de leur indiquer où trouver les garanties, les définitions et les exclusions et recommandez-leur de lire la police le plus tôt possible – de préférence avant la date d’entrée en vigueur. Les termes définis sont indiqués en italique gras. Vous pouvez remettre à votre client une copie de la police ou la lui envoyer par courrier électronique directement depuis JF Insurance.";
 $lang["Application Date"] = "Date de la demande du";
 $lang["Application Date From"] = "Date de la demande du";
 $lang["Application Date To"] = "Date de candidature à";
@@ -176,6 +179,7 @@ $lang["Choose Agent"] = "Choisir un agent";
 $lang["Choose Product"] = "Choisir un produit";
 $lang["City"] = "Ville";
 $lang["City Required (No special character is allowed)"] = "Ville obligatoire (aucun caractère spécial n'est autorisé)";
+$lang["Claim procedure"] = "Procédure de réclamation";
 $lang["Commission"] = "Commission";
 $lang["Commission Copy"] = "Copie des commissions";
 $lang["Collect call worldwide 905-707-9555"] = "Appel à frais virés dans le monde entier au 905-707-9555";
@@ -184,6 +188,7 @@ $lang["Confirm Arrival Date"] = "Confirmer la date d'arrivée";
 $lang["Confirm Effective Date"] = "Confirmer la date d'entrée en vigueur";
 $lang["Confirm Expiry Date"] = "Confirmer la date d'expiration";
 $lang["Confirmation"] = "Confirmation";
+$lang["CONFIRMATION OF COVERAGE"] = "CONFIRMATION DE COUVERTURE";
 $lang["Contact Email"] = "Email du contact";
 $lang["Contact email is Required"] = "L'e-mail de contact est obligatoire";
 $lang["Contact Information"] = "Coordonnées";
@@ -211,7 +216,9 @@ $lang["Deductible"] = "Déductible";
 $lang["Deductible amount"] = "Montant déductible";
 $lang["Departure Date"] = "Date de départ";
 $lang["Dependent children must under age 26"] = "Les enfants à charge doivent avoir moins de 26 ans";
+$lang["Determine if your client qualifies for coverage. Review the Policy's Eligibility criteria with your client"] = "Déterminez si votre client est admissible à la couverture. Passez en revue les critères d’éligibilité de la police avec votre client";
 $lang["Diabetes (controlled by medication or diet)"] = "Diabète (contrôlé par des médicaments ou un régime)";
+$lang["Disagree"] = "Être en désaccord";
 $lang["Display Sales Report"] = "Afficher le rapport de ventes";
 $lang["Diverticulitis/Diverticulosis"] = "Diverticulite/Diverticulose";
 $lang["do not include aspirin, hypertension (high blood pressure) or high cholesterol medications"] = "n'incluez pas l'aspirine, les médicaments contre l'hypertension (hypertension artérielle) ou l'hypercholestérolémie";
@@ -234,6 +241,7 @@ $lang["Expiry Date From"] = "Date d'expiration du";
 $lang["Expiry Date To"] = "Date d'expiration à";
 $lang["Expiry Month"] = "Mois d'expiration";
 $lang["Expiry Year"] = "Année d'expiration";
+$lang["Explain to your client"] = "Expliquez à votre client";
 $lang["Export"] = "Exporter";
 $lang["Export PDF"] = "Exporter un PDF";
 $lang["Export Sales Report"] = "Rapport de ventes à l'exportation";
@@ -299,6 +307,7 @@ $lang["Insured Name"] = "Nom de l'assuré";
 $lang["Insured's Family Member Information"] = "Informations sur les membres de la famille de l'assuré";
 $lang["Insurer"] = "Assureuse";
 $lang["INVALID"] = "INVALIDE";
+$lang["Investigations, consultations or treatments"] = "Investigations, consultations ou traitements";
 $lang["Invoice Statement"] = "Déclaration facture";
 $lang["Is Family Plan"] = "Est-ce que le plan familial";
 $lang["is purchased on or prior to the expiry date of an existing policy already issued by the administrator company to take effect on the day following such expiry date, provide no increase in the aggregate policy limit (Sum insured Option) or rate schedule change is applied for"] = "est souscrit au plus tard à la date d'expiration d'une police existante déjà émise par la société administratrice pour prendre effet le jour suivant cette date d'expiration, à condition qu'aucune augmentation de la limite globale de la police (option de somme assurée) ou qu'un changement de grille tarifaire ne soit demandé.";
@@ -306,6 +315,7 @@ $lang["It may not come as a surprise that your provincial health plan may not co
 
 /* J */
 $lang["JF Insurance Agency Group Inc. (JF) is a licensed brokerage firm incorporated in 1992. We are the leading private firm in providing Emergency Hospital and Medical coverage for Canadians Travellers, Visitors to Canada and International Students. We are recognized for our dedication in serving our clients on an individual basis and by association groups."] = "JF Insurance Agency Group Inc. (JF) est une société de courtage agréée constituée en 1992. Nous sommes la principale société privée en matière de fourniture d'une couverture hospitalière et médicale d'urgence aux voyageurs canadiens, aux visiteurs du Canada et aux étudiants internationaux. Nous sommes reconnus pour notre dévouement à servir nos clients sur une base individuelle et par des groupes associatifs.";
+$lang["JF Insurance Agency Group Inc. (JF) is a licensed brokerage firm incorporated in 1992. We are the leading private firm in providing Emergency Hospital and Medical coverage for Canadians, visitors across Canada and International students. We are recognized for our dedication to serve our clients on both an individual basis and association groups."] = "JF Insurance Agency Group Inc. (JF) est une société de courtage agréée constituée en 1992. Nous sommes la principale société privée en matière de fourniture d'une couverture hospitalière et médicale d'urgence aux Canadiens, aux visiteurs de partout au Canada et aux étudiants internationaux. Nous sommes reconnus pour notre dévouement à servir nos clients tant sur une base individuelle que sur des groupes associatifs.";
 /* K */
 $lang["Kidney disease"] = "Maladie du rein";
 
@@ -323,6 +333,8 @@ $lang["medication(s)"] = "médicament(s)";
 $lang["Members"] = "Membres";
 $lang["Message"] = "message";
 $lang['Mission'] = 'Mission';
+$lang["Modify Background Image"] = "Modifier l'image d'arrière-plan";
+$lang["Modify Logo Image"] = "Modifier l'image du logo";
 $lang["Month"] = "Mois";
 $lang["More Filter"] = "Plus de filtre";
 $lang["Mr. Johnson Fu has more than 30 years of experience in the Insurance and Financial Industry. Mr. Fu is an active member of his community as well as many local and international charities. His active involvement and dedication to community service has led to the JF philosophy \"To Serve\". It is this philosophy and attitude that resonates and helps guide all staff members at JF."] = "M. Johnson Fu possède plus de 30 ans d'expérience dans le secteur de l'assurance et de la finance. M. Fu est un membre actif de sa communauté ainsi que de nombreuses œuvres caritatives locales et internationales. Son implication active et son dévouement au service communautaire ont conduit à la philosophie de JF « To Serve ». C'est cette philosophie et cette attitude qui résonnent et guident tous les membres du personnel de JF.";
@@ -401,6 +413,7 @@ $lang["Policy Number"] = "Numéro de police";
 $lang["Policy No."] = "Politique n°";
 $lang["Policy Premium"] = "Prime de police";
 $lang["Policy Status"] = "Statut de la politique";
+$lang["Policy Wording"] = "Formulation de la politique";
 $lang["Postcode"] = "Code postal";
 $lang["Postcode is Required (No special character is allowed)"] = "Le code postal est obligatoire (aucun caractère spécial n'est autorisé)";
 $lang["Pre-Existing Medical Condition(s) means any medical condition, sickness or injury for which at any time prior to the effective date, you have experienced symptoms, you have received medical care, advice, investigation or medical treatment, you have been hospitalized, you have been prescribed (including prescribed as needed) or have taken medication, or you have undergone a medical surgical procedure."] = "Condition médicale préexistante désigne toute condition médicale, maladie ou blessure pour laquelle, à tout moment avant la date d'entrée en vigueur, vous avez présenté des symptômes, vous avez reçu des soins médicaux, des conseils, une enquête ou un traitement médical, vous avez été hospitalisé, on vous a prescrit (y compris prescrit en cas de besoin) ou vous avez pris des médicaments, ou vous avez subi une intervention médico-chirurgicale.";
@@ -419,6 +432,7 @@ $lang["Province is Required"] = "La province est requise";
 $lang["Pruchase Date"] = "date d'achat";
 
 /* Q */
+$lang["Qualify your client"] = "Qualifiez votre client";
 $lang["Question"] = "Question";
 $lang["QUOTE"] = "CITATION";
 $lang["Quote"] = "Citation";
@@ -464,6 +478,7 @@ $lang["Send Policy Package"] = "Envoyer le package de règles";
 $lang["Sold"] = "Vendue";
 $lang["Special Note"] = "Note spéciale";
 $lang["Special Note/Instructions"] = "Remarque spéciale/Instructions";
+$lang["Stable pre-existing condition"] = "État préexistant stable";
 $lang["Stable pre-existing condition coverage"] = "Couverture stable des maladies préexistantes";
 $lang["stable pre-existing condition coverage"] = "couverture stable des maladies préexistantes";
 $lang["Status"] = "Statut";
@@ -523,6 +538,7 @@ $lang["understand that I need to contact with my insurance representative to get
 $lang["Underwritten by Berkley Canada (a W.R. Berkley Company)"] = "Souscrit par Berkley Canada (une société W.R. Berkley)";
 $lang["Underwritten by Old Republic Insurance Company of Canada and administered by JF Insurance Agency Group Inc."] = "Souscrit par Old Republic Insurance Company du Canada et administré par JF Insurance Agency Group Inc.";
 $lang["Update Policy"] = "Politique de mise à jour";
+$land["Upload Your QR Code"] = "Téléchargez votre code QR";
 $lang["Used Days"] = "Jours utilisés";
 $lang["Username"] = "Nom d'utilisateur";
 
@@ -535,11 +551,14 @@ $lang["Visitor to Canada"] = "Visiteur au Canada";
 /* W */
 $lang["Waiting Period"] = "Temps d'attente";
 $lang["WARNING"] = "AVERTISSEMENT";
+$lang["We don't like to think about it, but sudden, unexpected accidents or illnesses do happen, and trying to find an pay for adequate medical attention can be difficult when you are abroad.<br>Health car costs around the world can be bery expensive. Hospital can charge thousands of dollars per day. Your health plan may or may not cover a minute protion of these cost. Without adequate insurance coverage you could be responsible from dollar one, which could create a massive impact on your personal finances. Why take the risk"] = "Nous n'aimons pas y penser, mais des accidents ou des maladies soudains et inattendus peuvent survenir, et essayer de trouver un salaire pour des soins médicaux adéquats peut être difficile lorsque vous êtes à l'étranger.<br>Les coûts des soins de santé dans le monde peuvent être minimes. cher. L'hôpital peut facturer des milliers de dollars par jour. Votre plan de santé peut ou non couvrir une infime partie de ces coûts. Sans couverture d’assurance adéquate, vous pourriez être responsable dès le premier dollar, ce qui pourrait avoir un impact considérable sur vos finances personnelles. Pourquoi prendre le risque";
 $lang["We don't like to think about it, but unexpected accidents or illnesses can occur when you and your family are traveling abroad, and finding and paying for adequate medical attention can be very difficult"] = "Nous n'aimons pas y penser, mais des accidents ou des maladies inattendus peuvent survenir lorsque vous et votre famille voyagez à l'étranger, et trouver et payer des soins médicaux adéquats peut être très difficile";
 $lang["WE OFFER"] = "NOUS OFFRONS";
 $lang["We will take care of you"] = "Nous allons prendre soin de vous";
+$lang["We take care of you"] = "Nous prenons soin de vous";
 $lang["we take care of you"] = "nous prenons soin de vous";
 $lang["When coverage is purchased any time after your arrival in Canada"] = "Lorsque la couverture est achetée à tout moment après votre arrivée au Canada";
+$lang["WHY BUY INSURANCE"] = "POURQUOI ACHETER UNE ASSURANCE";
 $lang["WHY SHOULD YOU BUY TRAVEL INSURANCE"] = "POURQUOI DEVRIEZ-VOUS ACHETER UNE ASSURANCE VOYAGE";
 $lang["Will Send Package To this Email address"] = "Enverra le colis à cette adresse e-mail";
 /* X */
@@ -550,8 +569,8 @@ $lang["You don't have license to sale in this province, Please contact us for mo
 $lang["You must confirm this condition for your selection."] = "Vous devez confirmer cette condition pour votre sélection.";
 $lang["You must confirm you known about NOT cover any Pre-Existing Medical Condition(s)."] = "Vous devez confirmer que vous êtes au courant de NE PAS couvrir les problèmes médicaux préexistants.";
 $lang["Your answered questionnaire with"] = "Votre questionnaire répondu avec";
+$lang["Your My Home information has been saved"] = "Vos informations My Home ont été enregistrées";
 $lang["Your New Password"] = "Votre nouveau mot de passe";
-
 /* Z */
 
 /* New Added */

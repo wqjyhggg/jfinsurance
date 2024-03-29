@@ -52,7 +52,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                      		<div style="text-align: center;">
                     			<img style='max-width: 390px; width: auto; max-height: 70px; position: relative;' id='logo_image_life' src="<?php echo base_url('agent/img') . '/' . $logo_src; ?>" alt="JF Insurance">
                     			<br />
-                    			<input style='border:1px solid #ddd;max-width: 390px; width: auto; max-height: 70px; position: relative; display: inline-block;' id='logo_image' type='file' name='logo_src'> Modify Logo Image
+                    			<input style='border:1px solid #ddd;max-width: 390px; width: auto; max-height: 70px; position: relative; display: inline-block;' id='logo_image' type='file' name='logo_src'> <?php echo $this->lang->line('Modify Logo Image'); ?>
                      		</div>
                   		</div>
 		                  <br />
@@ -60,7 +60,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                       <div class="lh-topdiv" style="min-height: 200px;border:1px dashed #ddd;">
                         <img id='big_image_life' class="img-responsive" src="<?php echo base_url('agent/img') . '/' . $image_src; ?>" alt="JF Insurance">
                         <input class="mypbg-img" type='file' id='big_image' name='image_src' value='' style='border:1px solid #ddd;'>
-                        <p  class="mypbg-label" >Modify Background Image</p>
+                        <p  class="mypbg-label" ><?php echo $this->lang->line('Modify Background Image'); ?></p>
                         <div class="lh-top" >
                               <h1><input type='text' name='top_title' value='<?php echo $top_title; ?>' class="form-control"></h1>
                               <textarea style="width: 100%;color: #333;" rows='5' name='top_desc'><?php echo $top_desc; ?></textarea>
@@ -122,19 +122,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <img class="img-responsive img-title" src="<?php echo base_url();?>image/t1.jpg" alt="Emergency Hospital Insurance" />
                                     <h2>Visitor to Canada</h2>
                                     <hr style="border-bottom:2px solid #ddd; width:50px; margin:0 0 15px;"/>
-                                    <p>Healthcare costs in Canada can be expensive if you’re not covered by a Canadian government healthcare plan. Make sure you have the proper visitor insurance coverage to help protect you and your family and enjoy a secure stay in Canada. </p>
+                                    <p><?php echo $this->lang->line("Healthcare costs in Canada can be expensive if you’re not covered by a Canadian government healthcare plan. Make sure you have the proper visitor insurance coverage to help protect you and your family and enjoy a secure stay in Canada."); ?> </p>
                                   </div>
                                   <div class="col-sm-4" style="padding:15px 5%;">
                                     <img class="img-responsive img-title" src="<?php echo base_url();?>image/t2.jpg" alt="Emergency Hospital Insurance" />
                                     <h2>International Student to Canada</h2>
                                     <hr style="border-bottom:2px solid #ddd; width:50px; margin:0 0 15px;"/>
-                                    <p>Studying abroad is exciting and adventurous. Make sure you have the right insurance coverage for your journey while in Canada.</p>
+                                    <p><?php echo $this->lang->line("Studying abroad is exciting and adventurous. Make sure you have the right insurance coverage for your journey while in Canada."); ?></p>
                                   </div>
                                   <div class="col-sm-4" style="padding:15px 5%;">
                                     <img class="img-responsive img-title" src="<?php echo base_url();?>image/t3.jpg" alt="Emergency Hospital Insurance" />
-                                    <h2>Canadian Travellers</h2>
+                                    <h2><?php echo $this->lang->line("Canadian Travellers"); ?></h2>
                                     <hr style="border-bottom:2px solid #ddd; width:50px; margin:0 0 15px;"/>
-                                    <p>Canadian Travellers</p>
+                                    <p><?php echo $this->lang->line("Canadian Travellers"); ?></p>
                                   </div>
                                 </div>
                               </div>
@@ -146,7 +146,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                           <div style="background-color:#f6f6f6; padding:15px;margin:20px auto;">
                             <div class="row" style="margin:40px 0 20px;">
                               <div class="col-sm-12 text-center">
-                                <h3>CONTACT US</h3>
+                                <h3><?php echo $this->lang->line("CONTACT US"); ?></h3>
                                 <hr style="border-bottom:2px solid; width:50px; margin:0 auto 20px;" />
                               </div>
                             </div>
@@ -179,7 +179,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <div class="row">    
                               <div class="col-sm-12"><hr /></div>
                               <div class="col-sm-4">
-                                <p>Upload Your QR Code</p>
+                                <p><?php echo $this->lang->line("Upload Your QR Code"); ?></p>
                                 <div style="">
                                 <?php if ($qr_src !== 'noqr.png'){?>
                                   <img style="width: 100%;max-width: 100px;" id='qr_image_life' src="<?php echo base_url('agent/img') . '/' . $qr_src; ?>" alt="JF Insurance">
