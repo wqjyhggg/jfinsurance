@@ -144,6 +144,7 @@ $lang["Arrival Date"] = "Date d'arrivée";
 $lang["Arrival Date cannot be later than Effective Date"] = "La date d'arrivée ne peut pas être postérieure à la date d'entrée en vigueur";
 $lang["Arrival Date From"] = "Date d'arrivée à partir de";
 $lang["Arrival Date To"] = "Date d'arrivée à";
+$lang["Agent Info"] = "En tant qu'agent";
 
 /* B */
 $lang["Bank Name"] = "Nom de la banque";

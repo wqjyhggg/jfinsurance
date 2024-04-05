@@ -94,7 +94,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
     <?php } else { ?>
       <div class="row">
         <div class="col-sm-12 text-center">
-          <h2 style="margin:-15px 0 0;"><?php if ($plan['status_id'] < 2) { echo $this->lang->line("Quote"); } else { echo $this->lang->line("Confirmation"); } echo $this->lang->line("of Insurance"); ?></h2>
+          <h2 style="margin:-15px 0 0;"><?php if ($plan['status_id'] < 2) { echo $this->lang->line("Quote"); } else { echo $this->lang->line("Confirmation"); } echo " " . $this->lang->line("of Insurance"); ?></h2>
         </div>
       </div>
     <?php } ?>

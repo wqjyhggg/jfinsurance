@@ -64,6 +64,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                     <div class="input-group col-sm-12">
                       &nbsp;&nbsp;&nbsp;&nbsp;
                       <input type='checkbox' class='frenchbox' name='sendfrench'> <?php echo $this->lang->line("French"); ?> &nbsp;&nbsp;
+                      <input type='checkbox' class='frenchbox' name='asagent'> <?php echo $this->lang->line("As Agent"); ?> &nbsp;&nbsp;
                     </div>
                   </div>
                 <?php } ?>

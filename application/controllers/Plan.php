@@ -3230,9 +3230,7 @@ class Plan extends MY_Controller {
 		$data['pdf_enable'] = empty($beuser['pdf_product']) ? array() : json_decode($beuser['pdf_product']);
 		$data['emailaddr'] = $plan['contact_email'];
 		if ($this->input->post() || $sendfrenchemail) {
-			if (!$intercall) {
-				$emailaddr = $this->input->post('emailaddr');
-			}
+      $emailaddr = $this->input->post('emailaddr');
 			$withbatch = 0;
 			if ($beuser['user_group_id'] < 100) {
 				$data['withlogo'] = $this->input->post('withlogo');
@@ -3247,6 +3245,7 @@ class Plan extends MY_Controller {
 				}
 			}
 			$data['sendfrench'] = $this->input->post('sendfrench');
+			$data['asagent'] = $this->input->post('asagent');
 			if ($sendfrenchemail) {
 				$data['sendfrench'] = 1;
 			}

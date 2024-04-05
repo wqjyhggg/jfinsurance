@@ -44,6 +44,7 @@ http://get.adobe.com/reader.
 Cordialement,
 <br />
 <br />
+<?php if (empty($asagent)) { ?>
 JF Insurance Agency Group Inc.
 <br />
 15 Wertheim Court, Suite #501
@@ -55,3 +56,11 @@ Tél: 905-707-1512 Fax: 905-707-1513
 Courriel: Info@jfgroup.ca
 <br />
 Site Internet: www.jfgroup.ca
+<?php } else { 
+echo $beuser["business"]."<br />";
+echo $beuser["address"]."<br />";
+echo $beuser["city"]." ".$beuser["province2"]." ".$beuser["[postcode]"]."<br />";
+echo "Tel: ".$beuser["business_phone"]."<br />";
+echo $this->lang->line("Email").": ".$beuser["email"]."<br />";
+echo $beuser["website"]."<br />";
+} ?>
