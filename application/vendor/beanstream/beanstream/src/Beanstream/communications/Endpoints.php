@@ -10,7 +10,8 @@ class Endpoints {
 	/**
 	 * Endpoints: Set BASE API Endpoint URL with inline {0} platform variable
 	 */
-	CONST BASE_URL = 'https://{0}.beanstream.com/api';
+	// CONST BASE_URL = 'https://{0}.beanstream.com/api'; XXXXXXXXXXXXXXXXXXXXXXX
+	CONST BASE_URL = 'https://web.na.bambora.com/api';
 
 	/**
 	 * Endpoint URL holders
@@ -74,7 +75,8 @@ class Endpoints {
 		$this->unreferencedReturnsURL = $this->basePaymentsURL . '/0/returns';
 		$this->voidsURL = $this->basePaymentsURL . '/{2}/void';
 		$this->continuationsURL = $this->basePaymentsURL . '/{2}/continue';
-		$this->tokenizationURL = 'https://{0}.beanstream.com/scripts/tokenization/tokens';
+		// $this->tokenizationURL = 'https://{0}.beanstream.com/scripts/tokenization/tokens'; XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+		$this->tokenizationURL = 'https://web.na.bambora.com/scripts/tokenization/tokens';
 
 		//profiles
 		$this->baseProfilesURL = self::BASE_URL . '/{1}/profiles';
