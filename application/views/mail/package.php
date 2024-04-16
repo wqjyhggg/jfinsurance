@@ -49,10 +49,10 @@ Email: Info@jfgroup.ca
 <br />
 Website: www.jfgroup.ca
 <?php } else { 
-echo $beuser["business"]."<br />";
-echo $beuser["address"]."<br />";
-echo $beuser["city"]." ".$beuser["province2"]." ".$beuser["[postcode]"]."<br />";
-echo "Tel: ".$beuser["business_phone"]."<br />";
-echo $this->lang->line("Email").": ".$beuser["email"]."<br />";
+echo $beuser["business"]."<br />\n";
+echo $beuser["address"]."<br />\n";
+echo $beuser["city"]." ".$beuser["province2"]." ".$beuser["[postcode]"]."<br />\n";
+echo "Tel: ".$beuser["business_phone"]."<br />\n";
+echo $this->lang->line("Email").": ".$beuser["email"]."<br />\n";
 echo $beuser["website"]."<br />";
 } ?>
