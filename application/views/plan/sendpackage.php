@@ -60,7 +60,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                 <?php } ?>
                 <?php if ($show_french) { ?>
                   <div class="form-group col-sm-3 col-xs-6">
-                    <label class="col-sm-12"><?php echo $this->lang->line("Send Franch Version"); ?>:</label>
+                    <label class="col-sm-12"><?php echo $this->lang->line("Send French Version"); ?>:</label>
                     <div class="input-group col-sm-12">
                       &nbsp;&nbsp;&nbsp;&nbsp;
                       <input type='checkbox' class='frenchbox' name='sendfrench'> <?php echo $this->lang->line("French"); ?> &nbsp;&nbsp;
