@@ -42,42 +42,42 @@ defined('BASEPATH') or exit('No direct script access allowed');
         &nbsp;
       </div>
       <div class="col-sm-5 text-left">
-        <h2><?php if ($plan['status_id'] < 2) { ?>Quote<?php } else { ?>Confirmation<?php } ?> of Insurance</h2>
+        <h2><?php if ($plan['status_id'] < 2) { ?><?php echo $this->lang->line("Quote"); ?><?php } else { ?><?php echo $this->lang->line("Confirmation"); ?><?php } ?> <?php echo $this->lang->line("of Insurance"); ?></h2>
       </div>
     </div>
     <div class="row" style="margin-top: -15px;">
       <div class="col-sm-12 nopadding">
-        <h4><u>Policy Details</u></h4>
+        <h4><u><?php echo $this->lang->line("Policy Detail"); ?></u></h4>
       </div>
     </div>
     <div class="row" style="margin-top: -15px;">
       <div class="col-sm-6 nopadding">
-        <h4>Policy Holder: <span><?php echo htmlspecialchars($customer['firstname'] . " " . $customer['lastname']); ?></span></h4>
-        <h4>Date of Birth: <span><?php echo $customer['birthday']; ?></span>
+        <h4><?php echo $this->lang->line("Policy Holder"); ?>: <span><?php echo htmlspecialchars($customer['firstname'] . " " . $customer['lastname']); ?></span></h4>
+        <h4><?php echo $this->lang->line("Date of Birth"); ?>: <span><?php echo $customer['birthday']; ?></span>
         </h4>
-        <h4>Address: <span>
+        <h4><?php echo $this->lang->line("Address"); ?>: <span>
             <?php if (!empty($plan['suite_number'])) {
               echo  "Suite " . htmlspecialchars($plan['suite_number']) . " - ";
             } ?>
             <?php echo htmlspecialchars($plan['street_number'] . ' ' . $plan['street_name']); ?>, <?php echo htmlspecialchars($plan['city'] . ', ' . $plan['province2'] . ', ' . $plan['postcode']); ?></span>
         </h4>
-        <h4>Phone Number: <span><?php echo htmlspecialchars($plan['phone1']); ?></span>
+        <h4><?php echo $this->lang->line("Phone Number"); ?>: <span><?php echo htmlspecialchars($plan['phone1']); ?></span>
         </h4>
-        <h4>Email: <span><?php echo htmlspecialchars($plan['contact_email']); ?></span>
+        <h4><?php echo $this->lang->line("Email"); ?>: <span><?php echo htmlspecialchars($plan['contact_email']); ?></span>
         </h4>
       </div>
       <div class="col-sm-1 nopadding">
         &nbsp;
       </div>
       <div class="col-sm-5 nopadding2">
-        <h4><?php if ($plan['status_id'] < 2) { ?>Quote<?php } else { ?>Policy<?php } ?> Number: <span><?php echo $plan['policy']; ?></span></h4>
-        <h4>Application Date: <span><?php echo $plan['apply_date']; ?></span>
+        <h4><?php if ($plan['status_id'] < 2) { ?><?php echo $this->lang->line("Quote"); ?><?php } else { ?><?php echo $this->lang->line("Policy"); ?><?php } ?> <?php echo $this->lang->line("Number"); ?>: <span><?php echo $plan['policy']; ?></span></h4>
+        <h4><?php echo $this->lang->line("Application Date"); ?>: <span><?php echo $plan['apply_date']; ?></span>
         </h4>
-        <h4>Effective Date: <span><?php echo $plan['effective_date']; ?></span>
+        <h4><?php echo $this->lang->line("Effective Date"); ?>: <span><?php echo $plan['effective_date']; ?></span>
         </h4>
-        <h4>Expiry Date: <span><?php echo $plan['expiry_date']; ?></span>
+        <h4><?php echo $this->lang->line("Expiry Date"); ?>: <span><?php echo $plan['expiry_date']; ?></span>
         </h4>
-        <h4>Number of Days: <span><?php echo $plan['totaldays']; ?></span>
+        <h4><?php echo $this->lang->line("Number of Days"); ?>: <span><?php echo $plan['totaldays']; ?></span>
         </h4>
         <h4><br /><br /></h4>
       </div>
@@ -89,21 +89,21 @@ defined('BASEPATH') or exit('No direct script access allowed');
     <!-- Coverage and payment Details-->
     <div class="row" style="margin-top: -15px;">
       <div class="col-sm-6 nopadding">
-        <h4><u>Coverage Details</u></h4>
-        <h4>Insurance Plan:<br />&nbsp;&nbsp;&nbsp;<span><?php echo $plan_full_name; ?></span></h4>
-        <h4>Plan Type: <span><?php if ($plan['isfamilyplan'] == 1) {
-                                echo "Family";
+        <h4><u><?php echo $this->lang->line("Coverage Details"); ?></u></h4>
+        <h4><?php echo $this->lang->line("Insurance Plan"); ?>:<br />&nbsp;&nbsp;&nbsp;<span><?php echo $plan_full_name; ?></span></h4>
+        <h4><?php echo $this->lang->line("Plan Type"); ?>: <span><?php if ($plan['isfamilyplan'] == 1) {
+                                echo $this->lang->line("Family");
                               } else {
-                                echo "Individual";
+                                echo $this->lang->line("Individual");
                               } ?></span>
         </h4>
-        <h4>Sum Insured: <span>$<?php echo number_format($plan['sum_insured'], 2); ?></span>
+        <h4><?php echo $this->lang->line("Sum Insured"); ?>: <span>$<?php echo number_format($plan['sum_insured'], 2); ?></span>
         </h4>
-        <h4>Deductible: <span>$<?php echo number_format($plan['deductible_amount'], 2); ?></span>
+        <h4><?php echo $this->lang->line("Deductible"); ?>: <span>$<?php echo number_format($plan['deductible_amount'], 2); ?></span>
         </h4>
-        <h4>Beneficiary: <span><?php echo htmlspecialchars($plan['beneficiary']); ?></span>
+        <h4><?php echo $this->lang->line("Beneficiary"); ?>: <span><?php echo htmlspecialchars($plan['beneficiary']); ?></span>
         </h4>
-        <h4>Stable Pre-existing Condition Coverage: <span><?php echo ($plan['stable_condition'] == 1) ? 'Yes' : 'No'; ?></span>
+        <h4><?php echo $this->lang->line("Stable pre-existing condition coverage"); ?>: <span><?php echo ($plan['stable_condition'] == 1) ? $this->lang->line("Yes") : $this->lang->line("No"); ?></span>
         </h4>
       </div>
       <div class="col-sm-1 nopadding2">
@@ -111,40 +111,39 @@ defined('BASEPATH') or exit('No direct script access allowed');
       </div>
       <div class="col-sm-5 nopadding">
         <?php if ($withprice) { ?>
-          <h4><u>Payment Details</u></h4>
-          <h4>Total Premium: <span>$<?php echo number_format($plan['premium'], 2, '.', ','); ?></span></h4>
+          <h4><u><?php echo $this->lang->line("Payment Details"); ?></u></h4>
+          <h4><?php echo $this->lang->line("Total Premium"); ?>: <span>$<?php echo number_format($plan['premium'], 2, '.', ','); ?></span></h4>
           <!-- <h4>Premium: <span>$<?php echo number_format((float)$plan['premium'] - (float)$plan['tax'], 2, '.', ','); ?></span>
           </h4> -->
-          <h4>Tax: <span>$<?php echo number_format($plan['tax'], 2, '.', ','); ?></span>
+          <h4><?php echo $this->lang->line("Tax"); ?>: <span>$<?php echo number_format($plan['tax'], 2, '.', ','); ?></span>
           </h4>
-          <h4>Payment Date: <span><?php echo (($plan['status_id'] >= 2) && isset($payment['added'])) ? date('Y-m-d', strtotime($payment['added'])) : ''; ?></span>
+          <h4><?php echo $this->lang->line("Payment Date"); ?>: <span><?php echo (($plan['status_id'] >= 2) && isset($payment['added'])) ? date('Y-m-d', strtotime($payment['added'])) : ''; ?></span>
           </h4>
-          <h4>Payment Method: <span><?php echo (($plan['status_id'] >= 2) && isset($payment['pay_mothed'])) ? $payment['pay_mothed'] : ''; ?></span>
+          <h4><?php echo $this->lang->line("Payment Method"); ?>: <span><?php echo (($plan['status_id'] >= 2) && isset($payment['pay_mothed'])) ? $payment['pay_mothed'] : ''; ?></span>
           </h4>
         <?php } ?>
       </div>
     </div>
     <div class="row">
       <div class="col-sm-12 nopm special-note">
-        <h4 style="border-bottom:1px solid #777;">Special Note</h4>
+        <h4 style="border-bottom:1px solid #777;"><?php echo $this->lang->line("Special Note"); ?></h4>
       </div>
     </div>
     <div class="row">
       <div class="col-sm-12 nopm">
-        <p class="small" style="margin-top:2px;"><b>Please retain this confirmation as your receipt.</b><br />
-          Please read and understand the enclosed, which fully explains the terms, conditions, limitations, and exclusions that are part of your policy.<br /><br />
-          If you have a change in your health, including any change in your medication, between the date of application and the effective date of the policy, you must contact us to ensure that you remain eligible for this insurance.
-          Ontime Care Worldwide Inc. must be notified prior to any surgery being performed or within 24 hours of admission to a hospital. Failure to do so, without reasonable cause, will result in the reduction of eligible benefit amounts payable. <br /><br />
-          IN THE EVENT OF AN EMERGENCY, CONTACT ONTIME CARE WORLDWIDE INC IMMEDIATELY: <br />
-          TOLL FREE CANADA/U.S.A.: 1-888-988-3268 IF UNABLE TO CONTACT US TOLL FREE, PLEASE CALL COLLECT: 905-707-9555.
+        <p class="small" style="margin-top:2px;"><b><?php echo $this->lang->line("Please retain this confirmation as your receipt"); ?>.</b><br />
+          <?php echo $this->lang->line("Please read and understand the enclosed, which fully explains the terms, conditions, limitations and exclusions that are part of your policy"); ?>.<br /><br />
+          <?php echo $this->lang->line("If you have a change in your health, including any change in your medication, between the date of application and the effective date of the policy, you must contact us to ensure that you remain eligible for this insurance. Ontime Care Worldwide Inc. must be notified prior to any surgery being performed or within 24 hours of admission to a hospital. Failure to do so, without reasonable cause, will result in the reduction of eligible benefit amounts payable"); ?>. <br /><br />
+          <?PHP echo $this->lang->line("IN THE EVENT OF AN EMERGENCY, CONTACT ONTIME CARE WORLDWIDE INC IMMEDIATELY"); ?>: <br />
+          <?PHP echo $this->lang->line("TOLL FREE CANADA/U.S.A.: 1-888-988-3268 IF UNABLE TO CONTACT US TOLL FREE, PLEASE CALL COLLECT: 905-707-9555"); ?>.
         </p>
-        <p class="small" style="margin-top:2px;"><b>Waiting Period</b> - When coverage is purchased any time after your arrival in Canada:<br />
-          a. If you are age 86 or older, in respect of any sickness, you will not be entitled to receive reimbursement for sickness or symptoms which manifested or were contracted or treated within 15 days following the effective date of this policy.<br />
-          b. If you are age 85 or under, in respect of any sickness, you will not be entitled to receive reimbursement for sickness or symptoms which manifested or were contracted or treated within 48 hours following the effective date of this policy.<br />
-          c. For all ages, if the policy was purchased 30 days or more after arrival in Canada, then in respect of any sickness, you will not be entitled to receive reimbursement for sickness or symptoms which manifested or were contracted or treated within seven days following the effective date of this policy.<br />
-          The waiting period may be waived by the Administrator Company under certain conditions prior to purchasing this policy. You must receive written confirmation from the Administrator Company that the waiting period has been waived.  Please refer to the Section IV: Insurance Agreement of the policy for details.<br />
+        <p class="small" style="margin-top:2px;"><b><?php echo $this->lang->line("Waiting Period"); ?></b> - <?php echo $this->lang->line("When coverage is purchased any time after your arrival in Canada"); ?>:<br />
+          a. <?php echo $this->lang->line("If you are age 86 or older, then in respect of any sickness, you will not be entitled to receive reimbursement for sickness or symptoms which manifested or were contracted or treated within 15 days following the effective date of this policy"); ?>.<br />
+          b. <?php echo $this->lang->line("If you are age 85 or under, then in respect of any sickness, you will not be entitled to receive reimbursement for sickness or symptoms which manifested or were contracted or treated within 48 hours following the effective date of this policy"); ?>.<br />
+          c. <?php echo $this->lang->line("For all ages, if the policy was purchased 30 days or more after arrival in Canada, then in respect of any sickness, you will not be entitled to receive reimbursement for sickness or symptoms which manifested or were contracted or treated within seven days following the effective date of this policy"); ?>.<br />
+          <?php echo $this->lang->line("The waiting period may be waived by the Administrator Company under certain conditions prior to purchasing this policy. You must receive written confirmation from the Administrator Company that the waiting period has been waived.  Please refer to the Section IV: Insurance Agreement of the policy for details"); ?>.<br />
           <br />
-          If you notice any errors in the above information or have any questions, please contact JF Insurance Agency Group Inc.
+          <?php echo $this->lang->line("If you notice any errors in the above information or have any questions, please contact JF Insurance Agency Group Inc."); ?>
         </p>
       </div>
     </div><br />
@@ -168,7 +167,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
     </div>
     <div class="row">
       <div class="col-sm-12 nopm special-note">
-        <p class="small">Underwritten by Old Republic Insurance Company of Canada and administered by JF Insurance Agency Group Inc.</p>
+        <p class="small"><?php echo $this->lang->line("Underwritten by Old Republic Insurance Company of Canada and administered by JF Insurance Agency Group Inc."); ?></p>
       </div>
     </div>
   </div><!-- End Container -->
@@ -205,42 +204,42 @@ defined('BASEPATH') or exit('No direct script access allowed');
         &nbsp;
       </div>
       <div class="col-sm-5 text-left">
-        <h2><?php if ($plan['status_id'] < 2) { ?>Quote<?php } else { ?>Confirmation<?php } ?> of Insurance</h2>
+        <h2><?php if ($plan['status_id'] < 2) { ?><?php echo $this->lang->line("Quote"); ?><?php } else { ?><?php echo $this->lang->line("Confirmation"); ?><?php } ?> <?php echo $this->lang->line("of Insurance"); ?></h2>
       </div>
     </div>
     <div class="row" style="margin-top: -15px;">
       <div class="col-sm-12 nopadding">
-        <h4><u>Policy Details</u></h4>
+        <h4><u><?php echo $this->lang->line("Policy Detail"); ?></u></h4>
       </div>
     </div>
     <div class="row" style="margin-top: -15px;">
       <div class="col-sm-6 nopadding">
-        <h4>Policy Holder: <span><?php echo htmlspecialchars($customers[$i]['firstname'] . " " . $customers[$i]['lastname']); ?></span></h4>
-        <h4>Date of Birth: <span><?php echo $customers[$i]['birthday']; ?></span>
+        <h4><?php echo $this->lang->line("Policy Holder"); ?>: <span><?php echo htmlspecialchars($customers[$i]['firstname'] . " " . $customers[$i]['lastname']); ?></span></h4>
+        <h4><?php echo $this->lang->line("Date of Birth"); ?>: <span><?php echo $customers[$i]['birthday']; ?></span>
         </h4>
-        <h4>Address: <span>
+        <h4><?php echo $this->lang->line("Address"); ?>: <span>
             <?php if (!empty($plan['suite_number'])) {
               echo  "Suite " . htmlspecialchars($plan['suite_number']) . " - ";
             } ?>
             <?php echo htmlspecialchars($plan['street_number'] . ' ' . $plan['street_name']); ?>, <?php echo htmlspecialchars($plan['city'] . ', ' . $plan['province2'] . ', ' . $plan['postcode']); ?></span>
         </h4>
-        <h4>Phone Number: <span><?php echo htmlspecialchars($plan['phone1']); ?></span>
+        <h4><?php echo $this->lang->line("Phone Number"); ?>: <span><?php echo htmlspecialchars($plan['phone1']); ?></span>
         </h4>
-        <h4>Email: <span><?php echo htmlspecialchars($plan['contact_email']); ?></span>
+        <h4><?php echo $this->lang->line("Email"); ?>: <span><?php echo htmlspecialchars($plan['contact_email']); ?></span>
         </h4>
       </div>
       <div class="col-sm-1 nopadding">
         &nbsp;
       </div>
       <div class="col-sm-5 nopadding2">
-        <h4><?php if ($plan['status_id'] < 2) { ?>Quote<?php } else { ?>Policy<?php } ?> Number: <span><?php echo $plan['policy']; ?></span></h4>
-        <h4>Application Date: <span><?php echo $plan['apply_date']; ?></span>
+        <h4><?php if ($plan['status_id'] < 2) { ?><?php echo $this->lang->line("Quote"); ?><?php } else { ?><?php echo $this->lang->line("Policy"); ?><?php } ?> Number: <span><?php echo $plan['policy']; ?></span></h4>
+        <h4><?php echo $this->lang->line("Application Date"); ?>: <span><?php echo $plan['apply_date']; ?></span>
         </h4>
-        <h4>Effective Date: <span><?php echo $plan['effective_date']; ?></span>
+        <h4><?php echo $this->lang->line("Effective Date"); ?>: <span><?php echo $plan['effective_date']; ?></span>
         </h4>
-        <h4>Expiry Date: <span><?php echo $plan['expiry_date']; ?></span>
+        <h4><?php echo $this->lang->line("Expiry Date"); ?>: <span><?php echo $plan['expiry_date']; ?></span>
         </h4>
-        <h4>Number of Days: <span><?php echo $plan['totaldays']; ?></span>
+        <h4><?php echo $this->lang->line("Number of Days"); ?>: <span><?php echo $plan['totaldays']; ?></span>
         </h4>
         <h4><br /><br /></h4>
       </div>
@@ -252,21 +251,21 @@ defined('BASEPATH') or exit('No direct script access allowed');
     <!-- Coverage and payment Details-->
     <div class="row" style="margin-top: -15px;">
       <div class="col-sm-6 nopadding">
-        <h4><u>Coverage Details</u></h4>
-        <h4>Insurance Plan:<br />&nbsp;&nbsp;&nbsp;<span><?php echo $plan_full_name; ?></span></h4>
-        <h4>Plan Type: <span><?php if ($plan['isfamilyplan'] == 1) {
-                                echo "Family";
+        <h4><u><?php echo $this->lang->line("Coverage Details"); ?></u></h4>
+        <h4><?php echo $this->lang->line("Insurance Plan"); ?>:<br />&nbsp;&nbsp;&nbsp;<span><?php echo $plan_full_name; ?></span></h4>
+        <h4><?php echo $this->lang->line("Plan Type"); ?>: <span><?php if ($plan['isfamilyplan'] == 1) {
+                                echo $this->lang->line("Family");
                               } else {
-                                echo "Individual";
+                                echo $this->lang->line("Individual");
                               } ?></span>
         </h4>
-        <h4>Sum Insured: <span>$<?php echo number_format($plan['sum_insured'], 2); ?></span>
+        <h4><?php echo $this->lang->line("Sum Insured"); ?>: <span>$<?php echo number_format($plan['sum_insured'], 2); ?></span>
         </h4>
-        <h4>Deductible: <span>$<?php echo number_format($plan['deductible_amount'], 2); ?></span>
+        <h4><?php echo $this->lang->line("Deductible"); ?>: <span>$<?php echo number_format($plan['deductible_amount'], 2); ?></span>
         </h4>
-        <h4>Beneficiary: <span><?php echo htmlspecialchars($plan['beneficiary']); ?></span>
+        <h4><?php echo $this->lang->line("Beneficiary"); ?>: <span><?php echo htmlspecialchars($plan['beneficiary']); ?></span>
         </h4>
-        <h4>Stable Pre-existing Condition Coverage: <span><?php echo ($plan['stable_condition'] == 1) ? 'Yes' : 'No'; ?></span>
+        <h4><?php echo $this->lang->line("Stable pre-existing condition coverage"); ?>: <span><?php echo ($plan['stable_condition'] == 1) ? $this->lang->line("Yes") : $this->lang->line("No"); ?></span>
         </h4>
       </div>
       <div class="col-sm-1 nopadding2">
@@ -274,40 +273,39 @@ defined('BASEPATH') or exit('No direct script access allowed');
       </div>
       <div class="col-sm-5 nopadding">
         <?php if ($withprice) { ?>
-          <h4><u>Payment Details</u></h4>
-          <h4>Total Premium: <span>$<?php echo number_format($plan['premium'], 2, '.', ','); ?></span></h4>
+          <h4><u><?php echo $this->lang->line("Payment Details"); ?></u></h4>
+          <h4><?php echo $this->lang->line("Total Premium"); ?>: <span>$<?php echo number_format($plan['premium'], 2, '.', ','); ?></span></h4>
           <!-- <h4>Premium: <span>$<?php echo number_format((float)$plan['premium'] - (float)$plan['tax'], 2, '.', ','); ?></span>
           </h4> -->
-          <h4>Tax: <span>$<?php echo number_format($plan['tax'], 2, '.', ','); ?></span>
+          <h4><?php echo $this->lang->line("Tax"); ?>: <span>$<?php echo number_format($plan['tax'], 2, '.', ','); ?></span>
           </h4>
-          <h4>Payment Date: <span><?php echo (($plan['status_id'] >= 2) && isset($payment['added'])) ? date('Y-m-d', strtotime($payment['added'])) : ''; ?></span>
+          <h4><?php echo $this->lang->line("Payment Date"); ?>: <span><?php echo (($plan['status_id'] >= 2) && isset($payment['added'])) ? date('Y-m-d', strtotime($payment['added'])) : ''; ?></span>
           </h4>
-          <h4>Payment Method: <span><?php echo (($plan['status_id'] >= 2) && isset($payment['pay_mothed'])) ? $payment['pay_mothed'] : ''; ?></span>
+          <h4><?php echo $this->lang->line("Payment Method"); ?>: <span><?php echo (($plan['status_id'] >= 2) && isset($payment['pay_mothed'])) ? $payment['pay_mothed'] : ''; ?></span>
           </h4>
         <?php } ?>
       </div>
     </div>
     <div class="row">
       <div class="col-sm-12 nopm special-note">
-        <h4 style="border-bottom:1px solid #777;">Special Note</h4>
+        <h4 style="border-bottom:1px solid #777;"><?php echo $this->lang->line("Special Note"); ?></h4>
       </div>
     </div>
     <div class="row">
       <div class="col-sm-12 nopm">
-        <p class="small" style="margin-top:2px;"><b>Please retain this confirmation as your receipt.</b><br />
-          Please read and understand the enclosed, which fully explains the terms, conditions, limitations, and exclusions that are part of your policy.<br /><br />
-          If you have a change in your health, including any change in your medication, between the date of application and the effective date of the policy, you must contact us to ensure that you remain eligible for this insurance.
-          Ontime Care Worldwide Inc. must be notified prior to any surgery being performed or within 24 hours of admission to a hospital. Failure to do so, without reasonable cause, will result in the reduction of eligible benefit amounts payable. <br /><br />
-          IN THE EVENT OF AN EMERGENCY, CONTACT ONTIME CARE WORLDWIDE INC IMMEDIATELY: <br />
-          TOLL FREE CANADA/U.S.A.: 1-888-988-3268 IF UNABLE TO CONTACT US TOLL FREE, PLEASE CALL COLLECT: 905-707-9555.
+        <p class="small" style="margin-top:2px;"><b><?php echo $this->lang->line("Please retain this confirmation as your receipt"); ?>.</b><br />
+          <?php echo $this->lang->line("Please read and understand the enclosed, which fully explains the terms, conditions, limitations and exclusions that are part of your policy"); ?>.<br /><br />
+          <?php echo $this->lang->line("If you have a change in your health, including any change in your medication, between the date of application and the effective date of the policy, you must contact us to ensure that you remain eligible for this insurance. Ontime Care Worldwide Inc. must be notified prior to any surgery being performed or within 24 hours of admission to a hospital. Failure to do so, without reasonable cause, will result in the reduction of eligible benefit amounts payable"); ?>. <br /><br />
+          <?PHP echo $this->lang->line("IN THE EVENT OF AN EMERGENCY, CONTACT ONTIME CARE WORLDWIDE INC IMMEDIATELY"); ?>: <br />
+          <?PHP echo $this->lang->line("TOLL FREE CANADA/U.S.A.: 1-888-988-3268 IF UNABLE TO CONTACT US TOLL FREE, PLEASE CALL COLLECT: 905-707-9555"); ?>.
         </p>
-        <p class="small" style="margin-top:2px;"><b>Waiting Period</b> - When coverage is purchased any time after your arrival in Canada:<br />
-          a. If you are age 86 or older, in respect of any sickness, you will not be entitled to receive reimbursement for sickness or symptoms which manifested or were contracted or treated within 15 days following the effective date of this policy.<br />
-          b. If you are age 85 or under, in respect of any sickness, you will not be entitled to receive reimbursement for sickness or symptoms which manifested or were contracted or treated within 48 hours following the effective date of this policy.<br />
-          c. For all ages, if the policy was purchased 30 days or more after arrival in Canada, then in respect of any sickness, you will not be entitled to receive reimbursement for sickness or symptoms which manifested or were contracted or treated within seven days following the effective date of this policy.<br />
-          The waiting period may be waived by the Administrator Company under certain conditions prior to purchasing this policy. You must receive written confirmation from the Administrator Company that the waiting period has been waived.  Please refer to the Section IV: Insurance Agreement of the policy for details.<br />
+        <p class="small" style="margin-top:2px;"><b><?php echo $this->lang->line("Waiting Period"); ?></b> - <?php echo $this->lang->line("When coverage is purchased any time after your arrival in Canada"); ?>:<br />
+          a. <?php echo $this->lang->line("If you are age 86 or older, then in respect of any sickness, you will not be entitled to receive reimbursement for sickness or symptoms which manifested or were contracted or treated within 15 days following the effective date of this policy"); ?>.<br />
+          b. <?php echo $this->lang->line("If you are age 85 or under, then in respect of any sickness, you will not be entitled to receive reimbursement for sickness or symptoms which manifested or were contracted or treated within 48 hours following the effective date of this policy"); ?>.<br />
+          c. <?php echo $this->lang->line("For all ages, if the policy was purchased 30 days or more after arrival in Canada, then in respect of any sickness, you will not be entitled to receive reimbursement for sickness or symptoms which manifested or were contracted or treated within seven days following the effective date of this policy"); ?>.<br />
+          <?php echo $this->lang->line("The waiting period may be waived by the Administrator Company under certain conditions prior to purchasing this policy. You must receive written confirmation from the Administrator Company that the waiting period has been waived.  Please refer to the Section IV: Insurance Agreement of the policy for details"); ?>.<br />
           <br />
-          If you notice any errors in the above information or have any questions, please contact JF Insurance Agency Group Inc.
+          <?php echo $this->lang->line("If you notice any errors in the above information or have any questions, please contact JF Insurance Agency Group Inc."); ?>
         </p>
       </div>
     </div><br />
@@ -331,7 +329,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
     </div>
     <div class="row">
       <div class="col-sm-12 nopm special-note">
-        <p class="small">Underwritten by Old Republic Insurance Company of Canada and administered by JF Insurance Agency Group Inc.</p>
+        <p class="small"><?php echo $this->lang->line("Underwritten by Old Republic Insurance Company of Canada and administered by JF Insurance Agency Group Inc."); ?></p>
       </div>
     </div>
   </div><!-- End Container -->

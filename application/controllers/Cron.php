@@ -362,7 +362,7 @@ class Cron extends MY_Controller {
 			if (trim(strtoupper($rowData[27])) == 'Y') $data['paytype_list'] = array('Credit Card');
 			else                                       $data['paytype_list'] = array('Credit Card','Cash','Cheque');
 			*/
-			$data['paytype_list'] = array('Credit Card','Cash','Cheque');
+			$data['paytype_list'] = array('Credit Card','Cash','Cheque','Ali');
 			/*
 			$RestrictedProductCode = trim($rowData[28]);
 			if (empty($RestrictedProductCode) || ($RestrictedProductCode == NULL)) $RestrictedProductCode = '';

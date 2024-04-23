@@ -30,7 +30,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 		<div class="row">
 			<div class="col-sm-12 nopadding">
 				<p>Dear <?php echo htmlspecialchars($customer['firstname'] . " " . $customer['lastname']); ?>,</p>
-				<p>Thank you for choosing to insure with JF Insurance Agency Inc . Please review your policy declaration below and the enclosed policy wording carefully; your coverage and premium are based on the information you provided. If the policy declaration information is incorrect, you must inform us immediately at 1-877-832-5541. </p>
+				<p>Thank you for choosing to insure with JF Insurance Agency Inc . Please review your policy declaration below and the enclosed policy wording carefully; your coverage and premium are based on the information you provided. If the policy declaration information is incorrect, you must inform us immediately at 1-888-988-3268. </p>
 			</div>
 		</div>
 		<div class="row">
@@ -61,7 +61,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 		</div>
 		<div class="row">
 			<div class="col-sm-12 nopadding text-center">
-				<h4 style="margin-top:180px;"><span>Detach this card and carry it with you at all times</span></h4>
+				<h4 style="margin-top:100px;"><span>Detach this card and carry it with you at all times</span></h4>
 				<hr style="border-style: dotted;">
 				
 			</div>
@@ -99,7 +99,10 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 						<span class="small pull-left">Effective Date: &nbsp;&nbsp;</span><span class="small"><?php echo $plan['effective_date']; ?></sapn>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 						<span class="small" style="text-align: right;">Expiry Date: &nbsp;&nbsp;</span><span class="small"><?php echo $plan['expiry_date']; ?></sapn>
 					</h4>
-					
+          <h4><span class="small">Emergency Call Center: 1-888-988-3268</span></h4>
+          <h4><span class="small">In the event of an emergency, You must call Ontime Care immediately.</span></h4>
+          <h4><span class="small">From Canad and the Us call Toll Free: 1-866-209-57804</span></h4>
+          <h4><span class="small">From Anywhere call Collect: 1-905-707-9555</span></h4>
 				</div>
 				<div class="row"><div class="col-sm-12 nopadding text-center">
 					<img class="img-responsive" style="max-width:170px;" src="<?php echo base_url();?>image/logo.png" />
@@ -139,7 +142,10 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 						<span class="small pull-left">Effective Date: &nbsp;&nbsp;</span><span class="small"><?php echo $plan['effective_date']; ?></sapn>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 						<span class="small" style="text-align: right;">Expiry Date: &nbsp;&nbsp;</span><span class="small"><?php echo $plan['expiry_date']; ?></sapn>
 					</h4>
-					
+          <h4><span class="small">Emergency Call Center: 1-888-988-3268</span></h4>
+          <h4><span class="small">In the event of an emergency, You must call Ontime Care immediately.</span></h4>
+          <h4><span class="small">From Canad and the Us call Toll Free: 1-866-209-57804</span></h4>
+          <h4><span class="small">From Anywhere call Collect: 1-905-707-9555</span></h4>
 				</div>
 				<div class="row"><div class="col-sm-12 nopadding text-center">
 					<img class="img-responsive" style="max-width:170px;" src="<?php echo base_url();?>image/logo.png" />

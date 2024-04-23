@@ -41,7 +41,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 								</div>
                 <?php } ?>
 								<div class="form-group col-sm-4">
-                  <label for="year">Year:</label>
+                  <label for="year"><?php echo $this->lang->line("Year"); ?>:</label>
                   <select class="form-control" name="year" id="year">
                     <?php for ($y = "2018"; $y <= date("Y"); $y++) { ?>
                       <option value="<?php echo $y; ?>" <?php if ($year == $y) {?>selected<?php } ?>><?php echo $y; ?></option>
@@ -50,7 +50,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 								</div>
 								<!-- submit button -->
 								<div class="form-group col-sm-4">
-									<button class="btn btn-primary">Submit</button>
+									<button class="btn btn-primary"><?php echo $this->lang->line("Submit"); ?></button>
 								</div>
 								<!-- submit button -->
 							</div>
@@ -68,7 +68,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
             <div class="col-sm-12">
   						<h2>Report Data</h2>
               <?php if (!empty($record)) { ?>
-								<a href="<?php echo $export_url; ?>" class="btn btn-primary pull-right mr-6" target="_blank">Export</a>
+								<a href="<?php echo $export_url; ?>" class="btn btn-primary pull-right mr-6" target="_blank"><?php echo $this->lang->line("Export"); ?></a>
               <?php } ?>
 						</div>
 						<div class="clearfix"></div>
@@ -82,16 +82,16 @@ defined('BASEPATH') or exit('No direct script access allowed');
 								<tr>
 									<th>
                   <?php if ($beuser['user_group_id'] < 100) { ?>
-                    Month
+                    <?php echo $this->lang->line("Month"); ?>
                   <?php } ?>
                   </th>
-									<th>Premium</th>
+									<th><?php echo $this->lang->line("Premium"); ?></th>
                   <?php if ($beuser['user_group_id'] < 100) { ?>
-									<th>Premium Copy</th>
+									<th><?php echo $this->lang->line("Premium Copy"); ?></th>
                   <?php } ?>
-									<th>Commission</th>
+									<th><?php echo $this->lang->line("Commission"); ?></th>
                   <?php if ($beuser['user_group_id'] < 100) { ?>
-									<th>Commission Copy</th>
+									<th><?php echo $this->lang->line("Commission Copy"); ?></th>
                   <?php } ?>
 								</tr>
 							</thead>
@@ -122,7 +122,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                 <?php } ?>
                 <?php } ?>
 								<tr>
-									<td><b>Total</b></td>
+									<td><b><?php echo $this->lang->line("Total"); ?></b></td>
                   <?php if ($beuser['user_group_id'] < 100) { ?>
 									<td>
 										&nbsp;
@@ -151,7 +151,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                 </div>
               <?php } ?>
               <div class="col-sm-3">
-                <a href="<?php echo $export_url; ?>" class="btn btn-primary" target="_blank">Export</a>
+                <a href="<?php echo $export_url; ?>" class="btn btn-primary" target="_blank"><?php echo $this->lang->line("Export"); ?></a>
               </div>
 						</div>
 					</form>

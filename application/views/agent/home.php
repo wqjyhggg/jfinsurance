@@ -67,7 +67,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<div style="background-color:#f6f6f6; padding:15px;margin:20px auto;">
 							<div class="row">
                 <div class="col-sm-12">
-							    <h3 style="text-align: center;">Our Productions</h3>
+							    <h3 style="text-align: center;"><?php echo $this->lang->line("Our Products"); ?></h3>
                   <hr style="border-bottom:2px solid; width:50px; margin:0 auto 20px;">
                   <div class="row dfile-list">
 			<?php foreach ($file_url as $product_short => $farr) { ?>                    
@@ -92,8 +92,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
         <div class="row" style="margin:40px 0;">
           <div class="col-sm-12 col-md-12 text-center">
-            <h3>WE OFFER</h3>
-            <h4>we take care of you</h4>
+            <h3><?php echo $this->lang->line("WE OFFER"); ?></h3>
+            <h4><?php echo $this->lang->line("we take care of you"); ?></h4>
             <hr style="border-bottom:2px solid; width:50px; margin:0 auto 20px;" />
 
           </div>

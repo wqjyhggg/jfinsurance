@@ -244,7 +244,7 @@ class User_model extends CI_Model {
 	 * @return	array					user table search result
 	 */
 	public function get_school_id_list() {
-		$sql = "SELECT user_id,business FROM user WHERE user_group_id = '103'";
+		$sql = "SELECT user_id,username,business FROM user WHERE user_group_id = '103'";
 		$rt = $this->db->query($sql)->result_array();
 		$rtArr = array();
 		foreach ($rt as $rc) {

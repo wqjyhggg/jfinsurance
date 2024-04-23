@@ -101,7 +101,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
         </h4>
         <h4>Bénéficiaire: <span><?php echo htmlspecialchars($plan['beneficiary']); ?></span>
         </h4>
-        <h4>Stable Pre-existing Condition Coverage: <span><?php echo ($plan['stable_condition'] == 1) ? 'Yes' : 'No'; ?></span>
+        <h4>Couverture stable des maladies préexistantes: <span><?php echo ($plan['stable_condition'] == 1) ? 'Yes' : 'No'; ?></span>
         </h4>
       </div>
       <div class="col-sm-1 nopadding2">

@@ -196,7 +196,8 @@ class Myhome extends MY_Controller {
 		$this->data = array();
 		if ($this->input->post() && $this->verify()) {
 			$this->myhome_model->update(array_merge($this->input->post(), array('logo' => $this->logofile, 'image' => $this->imagefile, 'qr' => $this->qrfile)));
-			$this->data['success_message'] = 'Your My Home information has been saved';
+			$this->data['success_message'] = $this->lang->line('Your My Home information has been saved');
+
 		}
 		$beuser = $this->session->userdata('beuser');
 		$myhome = $this->myhome_model->get_myhome($beuser['user_id']);
@@ -261,14 +262,14 @@ class Myhome extends MY_Controller {
 		} else if ($myhome) {
 			$this->data['top_title'] = $myhome['top_title'];
 		} else {
-			$this->data['top_title'] = 'WHY BUY INSURANCE';
+			$this->data['top_title'] = $this->lang->line('WHY BUY INSURANCE');
 		}
 		if ($this->input->post('top_desc')) {
 			$this->data['top_desc'] = $this->input->post('top_desc');
 		} else if ($myhome) {
 			$this->data['top_desc'] = $myhome['top_desc'];
 		} else {
-			$this->data['top_desc'] = "We don't like to think about it, but sudden, unexpected accidents or illnesses do happen, and trying to find an pay for adequate medical attention can be difficult when you are abroad.<br>Health car costs around the world can be bery expensive. Hospital can charge thousands of dollars per day. Your health plan may or may not cover a minute protion of these cost. Without adequate insurance coverage you could be responsible from dollar one, which could create a massive impact on your personal finances. Why take the risk?";
+			$this->data['top_desc'] = $this->lang->line("We don't like to think about it, but sudden, unexpected accidents or illnesses do happen, and trying to find an pay for adequate medical attention can be difficult when you are abroad.<br>Health car costs around the world can be bery expensive. Hospital can charge thousands of dollars per day. Your health plan may or may not cover a minute protion of these cost. Without adequate insurance coverage you could be responsible from dollar one, which could create a massive impact on your personal finances. Why take the risk")."?";
 		}
 		
 		
@@ -277,21 +278,21 @@ class Myhome extends MY_Controller {
 		} else if ($myhome) {
 			$this->data['about_title'] = $myhome['about_title'];
 		} else {
-			$this->data['about_title'] = "ABOUT US";
+			$this->data['about_title'] = $this->lang->line("ABOUT US");
 		}
 		if ($this->input->post('about_short')) {
 			$this->data['about_short'] = $this->input->post('about_short');
 		} else if ($myhome) {
 			$this->data['about_short'] = $myhome['about_short'];
 		} else {
-			$this->data['about_short'] = "We take care of you";
+			$this->data['about_short'] = $this->lang->line("We take care of you");
 		}
 		if ($this->input->post('about_desc')) {
 			$this->data['about_desc'] = $this->input->post('about_desc');
 		} else if ($myhome) {
 			$this->data['about_desc'] = $myhome['about_desc'];
 		} else {
-			$this->data['about_desc'] = "JF Insurance Agency Group Inc. (JF) is a licensed brokerage firm incorporated in 1992. We are the leading private firm in providing Emergency Hospital and Medical coverage for Canadians, visitors across Canada and International students. We are recognized for our dedication to serve our clients on both an individual basis and association groups.";
+			$this->data['about_desc'] = $this->lang->line("JF Insurance Agency Group Inc. (JF) is a licensed brokerage firm incorporated in 1992. We are the leading private firm in providing Emergency Hospital and Medical coverage for Canadians, visitors across Canada and International students. We are recognized for our dedication to serve our clients on both an individual basis and association groups.");
 		}
 		
 		

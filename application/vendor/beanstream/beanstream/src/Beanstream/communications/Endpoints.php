@@ -10,7 +10,7 @@ class Endpoints {
 	/**
 	 * Endpoints: Set BASE API Endpoint URL with inline {0} platform variable
 	 */
-	CONST BASE_URL = 'https://{0}.beanstream.com/api';
+  CONST BASE_URL = 'https://{0}.beanstream.com/api';
 
 	/**
 	 * Endpoint URL holders

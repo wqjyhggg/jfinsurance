@@ -1,4 +1,11 @@
-<?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
+<?php 
+defined('BASEPATH') or exit('No direct script access allowed');
+$hideForFrench = false;
+$Agree = $this->lang->line("Agree");
+if ($Agree != "Agree") {
+  $hideForFrench = true;
+}
+?>
 <style>
   .nav-tabs>li.active>a {
     background-color: #ffffff !important;
@@ -37,18 +44,18 @@
         <h3><?php echo $plan_full_name; ?></h3>
       </div>
       <div class="col-sm-6">
-        <h2>Premium: $<span id='premium_value'><?php echo $premium; ?></span> <span id='premium_rate_table'></span></h2>
+        <h2><?php echo $this->lang->line("Premium"); ?>: $<span id='premium_value'><?php echo $premium; ?></span> <span id='premium_rate_table'></span></h2>
       </div>
     </div>
     <div class="clearfix"></div>
     <!-- Form Section -->
     <div class="row">
       <div class="col-md-12 col-sm-12 col-xs-12">
-        <div class="alert-error"><H2 style="width: 100%; text-align: center;" id="title_alert_message"><?php if (empty($plan_id) || empty($status_id)) { ?>The policy must purchase before departure<?php } ?></H2></div>
+        <div class="alert-error"><H2 style="width: 100%; text-align: center;" id="title_alert_message"><?php if (empty($plan_id) || empty($status_id)) { echo $this->lang->line("The policy must purchase before departure"); } ?></H2></div>
 
         <div class="alert-error"><?php echo empty($error_message) ? '' : $error_message . "<br>"; ?></div>
         <ul class="nav nav-tabs" id="top-nav-tabs">
-          <li id='date_members_li' class="active"><a data-toggle="tab" id="date_members_tab" href="#date_members">Date / Members</a></li>
+          <li id='date_members_li' class="active"><a data-toggle="tab" id="date_members_tab" href="#date_members"><?php echo $this->lang->line("Date"); ?> / <?php echo $this->lang->line("Members"); ?></a></li>
           <li id='packages_li'><a data-toggle="tab" id="packages_tab" href="#packages">Packages</a></li>
           <li id='questionnaire_li'><a data-toggle="tab" id="questionnaire_tab" href="#questionnaire" <?php if (empty($questionnaire)) { ?>style='display: none' <?php } ?>>Questionnaire</a></li>
           <?php if (!empty($plan_id) && !empty($status_id)) { ?>
@@ -65,11 +72,11 @@
                 </li>
               <?php } ?>
               <li style="float: right;"><a href="<?php echo $pdf_url; ?>" target="_blank"><span class="btn btn-info" style='color: #fff;'>Export PDF</span></a></li>
-              <?php if (!empty($print_receipt_url)) { ?>
-                <li style="float: right;"><a href="<?php echo $print_receipt_url; ?>" target="_blank"><span class="btn btn-info" style='color: #fff;'>Print Receipt</span></a></li>
+              <?php if (!empty($print_receipt_url) && !$hideForFrench) { ?>
+                <li style="float: right;"><a href="<?php echo $print_receipt_url; ?>" target="_blank"><span class="btn btn-info" style='color: #fff;'><?php echo $this->lang->line("Print Receipt"); ?></span></a></li>
               <?php } ?>
-              <?php if (!empty($print_card_url)) { ?>
-                <li style="float: right;"><a href="<?php echo $print_card_url; ?>" target="_blank"><span class="btn btn-info" style='color: #fff;'>Print Card</span></a></li>
+              <?php if (!empty($print_card_url) && !$hideForFrench) { ?>
+                <li style="float: right;"><a href="<?php echo $print_card_url; ?>" target="_blank"><span class="btn btn-info" style='color: #fff;'><?php echo $this->lang->line("Print Card"); ?></span></a></li>
               <?php } ?>
               <li style="float: right;"><a href="<?php echo $sendpackage_url . $plan_id; ?>"><span class="btn btn-info" style='color: #fff;'>Send Package</span></a></li>
             <?php } ?>
@@ -329,8 +336,8 @@
                               <label class="col-sm-12">Gender: </label>
                               <div class="input-group col-sm-12">
                                 <select name='gender' class="form-control" style="padding: 6px 2px;">
-                                  <option value='M' <?php echo (empty($gender) || ($gender != 'F')) ? "selected" : ""; ?>>Male</option>
-                                  <option value='F' <?php echo (!empty($gender) && ($gender == 'F')) ? "selected" : ""; ?>>Female</option>
+                                  <option value='M' <?php echo (empty($gender) || ($gender != 'F')) ? "selected" : ""; ?>><?php echo $this->lang->line("Male"); ?></option>
+                                  <option value='F' <?php echo (!empty($gender) && ($gender == 'F')) ? "selected" : ""; ?>><?php echo $this->lang->line("Female"); ?></option>
                                 </select>
                               </div>
                             </div>
@@ -383,8 +390,8 @@
                                   <label class="col-sm-12">Gender: </label>
                                   <div class="input-group col-sm-12">
                                     <select name='gender_<?php echo $i; ?>' id='gender_<?php echo $i; ?>' class="form-control" style="padding: 6px 2px;">
-                                      <option value='M' <?php echo (empty(${'gender_' . $i}) || (${'gender_' . $i} != 'F')) ? "selected" : ""; ?>>Male</option>
-                                      <option value='F' <?php echo (!empty(${'gender_' . $i}) && (${'gender_' . $i} == 'F')) ? "selected" : ""; ?>>Female</option>
+                                      <option value='M' <?php echo (empty(${'gender_' . $i}) || (${'gender_' . $i} != 'F')) ? "selected" : ""; ?>><?php echo $this->lang->line("Male"); ?></option>
+                                      <option value='F' <?php echo (!empty(${'gender_' . $i}) && (${'gender_' . $i} == 'F')) ? "selected" : ""; ?>><?php echo $this->lang->line("Female"); ?></option>
                                     </select>
                                   </div>
                                 </div>
@@ -467,6 +474,11 @@
                           <div class="input-group col-sm-12">
                             <div id='province2_div'></div>
                           </div>
+                          <?php if (!empty($error_province2)) {?>
+                          <div class="alert-error">
+                            <?php echo $error_province2; ?>
+                          </div>
+                          <?php } ?>
                         </div>
                         <div class="form-group col-sm-3">
                           <label class="col-sm-12">Country: </label>
@@ -781,15 +793,15 @@
                     <fieldset>
                       <legend>Pre-existing conditons</legend>
                       <div class="row">
-                        <label class="inline">Select pre-existing condition coverage</label>
+                        <label class="inline"><?php echo $this->lang->line("Select pre-existing condition coverage"); ?></label>
                         <div class="inline">
                           <?php if (($user_group_id > 100) && $no_change) { ?>
-                            <?php echo ($stable_condition == 1) ? 'Including' : 'Excluding'; ?> stable pre-existing condition coverage
+                            <?php echo ($stable_condition == 1) ? 'Including' : 'Excluding'; ?> <?php echo $this->lang->line("stable pre-existing condition coverage"); ?>
                           <?php } else { ?>
                             <select name='stable_condition' class="form-control check_premium" id='stable_condition_select'>
-                              <option value='0'> -- select condition -- </option>
-                              <option value='1' <?php echo ($stable_condition == 1) ? 'selected' : ''; ?>>Including stable pre-existing condition coverage</option>
-                              <option value='2' <?php echo ($stable_condition == 2) ? 'selected' : ''; ?>>Excluding stable pre-existing condition coverage</option>
+                              <option value='0'> -- <?php echo $this->lang->line("select condition"); ?> -- </option>
+                              <option value='1' <?php echo ($stable_condition == 1) ? 'selected' : ''; ?>><?php echo $this->lang->line("Including stable pre-existing condition coverage"); ?></option>
+                              <option value='2' <?php echo ($stable_condition == 2) ? 'selected' : ''; ?>><?php echo $this->lang->line("Excluding stable pre-existing condition coverage"); ?></option>
                             </select>
                           <?php } ?>
                         </div>

@@ -311,7 +311,7 @@ class User extends CI_Controller
     $user_id = $user['user_id'];
     if ($user["user_group_id"] < 100) {
       if ($this->input->post("user_id")) {
-        $user_id = $user['user_id'];
+        $user_id = $this->input->post("user_id");
       }
     }
     if ($is_update && $this->verify()) {
@@ -330,12 +330,41 @@ class User extends CI_Controller
     }
 
     // Get all text depend language
-    $this->data['user_group_list'] = $this->user_group_model->get_user_group_list($user['user_group_id']);
-    $this->data['broker_list'] = $this->user_model->get_broker_id_list($user["region_id"]);
+    $this->data['regions'] = $this->region_model->get_regions();
+    $user = $this->user_model->get_user_by_id($user_id);
+    $this->data['user'] = $user;
+    $this->data['user_group_list'] = array();
+    $this->data['broker_list'] = array();
+    if ($user["user_group_id"] < 100) {
+      $this->data['user_group_list'] = $this->user_group_model->get_user_group_list($user['user_group_id']);
+      $this->data['broker_list'] = $this->user_model->get_broker_id_list($user["region_id"]);
+    }
     $this->data['province_list'] = $this->province_model->province_list();
     $this->data['product_list'] = $this->product_model->product_list(1, $user);
-    $this->data['regions'] = $this->region_model->get_regions();
-    $this->data['user'] = $this->user_model->get_user_by_id($user_id);
+    $user_product_list = $this->user_model->get_user_product_list($user_id);
+    $pdf_product_list = array();
+
+    $product_customize = $this->product_model->get_product_customize($user_id);
+    foreach ($product_customize as $pdc) {
+      $this->data['product_customize'][$pdc['product_short']] = $pdc['name'];
+    }
+    $this->data['$product_customize'] = $product_customize;
+
+    $user_pdf_list = json_decode($user['pdf_product']);
+    foreach ($this->data['product_list'] as $k => $p) {
+			$this->data['product_list'][$k]['checked'] = '';
+      foreach($user_product_list as $up) {
+        if ($p['product_short'] == $up['product_short']) {
+          $this->data['product_list'][$k]['checked'] = 'checked';
+          break;
+        }
+      }
+      $pdf_product_list[$p["product_short"]] = "";
+      if (is_array($user_pdf_list) && in_array($p["product_short"], $user_pdf_list)) {
+        $pdf_product_list[$p["product_short"]] = "checked";
+      }
+		}
+    $this->data['pdf_product_list'] = $pdf_product_list;
 
     $this->app_model->return_ok($this->data);
   }

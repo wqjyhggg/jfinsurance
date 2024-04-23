@@ -1,6 +1,11 @@
 <?php
 defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 $usepsi = false;
+$hideForFrench = false;
+$Agree = $this->lang->line("Agree");
+if ($Agree != "Agree") {
+  $hideForFrench = true;
+}
 ?>
 
 <!-- Plan page content -->
@@ -28,20 +33,20 @@ $usepsi = false;
  	<div class="main-div" style="padding-bottom:50px;">
 		<div class="page-title">
 			<div class="title_left">
-				<h3>Policy</h3>
+				<h3><?php echo $this->lang->line("Policy"); ?></h3>
 			</div>
 		</div>
 		<div class="clearfix"></div>
 		<!-- Form Section -->
 		<?php if ($noagent && (($plan['status_id'] == 2) || ($plan['status_id'] == 3))) { ?>
-			<div class="alert alert-danger" style='font-size: 24px;'>Please contact your agent to get your policy details and the insurance package.</div>
+			<div class="alert alert-danger" style='font-size: 24px;'><?php echo $this->lang->line("Please contact your agent to get your policy details and the insurance package."); ?></div>
 		<?php } ?>
 		<div class="row">
 			<div class="col-md-12 col-sm-12 col-xs-12">
 				<div class="x_panel">
 					<div class="x_title">
 						<h2 class="col-xs-12 col-sm-12 col-md-12" style="width: auto;">
-							Review Policy Detail
+							<?php echo $this->lang->line("Review Policy Detail"); ?>
 							<span><b>[ <?php echo $status_list[$plan['status_id']]['name']; ?> ]</b></span>
 						</h2>
 					<?php if (($plan['status_id'] == 1) || ($plan['status_id'] == 2) || ($plan['status_id'] == 3)) { ?>
@@ -51,24 +56,24 @@ $usepsi = false;
 						<div class='pull-right spdf-option'><input type='checkbox' class='withlogobox' checked> With Logo <br /><input type='checkbox' class='withpricebox' checked> With Price </div>
 						<?php } ?>
 						<?php if (empty($sekey)) { ?>
- 						<a class="btn btn-info pull-right" target="_blank" href='<?php echo $pdf_url; ?>'>Export PDF</a>
+ 						<a class="btn btn-info pull-right" target="_blank" href='<?php echo $pdf_url; ?>'><?php echo $this->lang->line("Export PDF"); ?></a>
 						<?php } ?>
 					<?php } ?>
 					<?php if ($isprocessplan) { ?>
 					<?php if (($plan['status_id'] == 2) || ($plan['status_id'] == 3)) { ?>
 						<?php if (!empty($sendpackage_url)) { ?>
-						<a class="btn btn-info pull-right" target="_blank" href='<?php echo $sendpackage_url; ?>'>Send Package</a>
+						<a class="btn btn-info pull-right" target="_blank" href='<?php echo $sendpackage_url; ?>'><?php echo $this->lang->line("Send Package"); ?></a>
 						<?php } ?>
-						<?php if (!empty($print_card_url)) { ?>
-						<a class="btn btn-info pull-right" target="_blank" href='<?php echo $print_card_url; ?>'>Print Card</a>
+						<?php if (!empty($print_card_url) && !$hideForFrench) { ?>
+						<a class="btn btn-info pull-right" target="_blank" href='<?php echo $print_card_url; ?>'><?php echo $this->lang->line("Print Card"); ?></a>
 						<?php } ?>
-						<?php if (!empty($print_receipt_url)) { ?>
-						<a class="btn btn-info pull-right" target="_blank" href='<?php echo $print_receipt_url; ?>'>Print Receipt</a>
+						<?php if (!empty($print_receipt_url) && !$hideForFrench) { ?>
+						<a class="btn btn-info pull-right" target="_blank" href='<?php echo $print_receipt_url; ?>'><?php echo $this->lang->line("Print Receipt"); ?></a>
 						<?php } ?>
 					<?php } ?>
 					<?php } ?>
 					<?php if (!empty($plan_url)) { ?>
-						<a class="btn btn-info pull-right" href='<?php echo $plan_url; ?>'>Edit</a>
+						<a class="btn btn-info pull-right" href='<?php echo $plan_url; ?>'><?php echo $this->lang->line("Edit"); ?></a>
 					<?php } ?>
 						<div class="clearfix"></div>
 					</div>
@@ -85,35 +90,35 @@ $usepsi = false;
 									<label><span><?php echo $plan_full_name; ?></span></label>
 								</div>
 								<div class="col-sm-3">
-									<label><?php if ($plan['status_id'] < 2) { ?>Quote<?php } else {?>Policy<?php } ?> Number: <span><?php echo $plan['policy']; ?></span></label>
+									<label><?php if ($plan['status_id'] < 2) { ?><?php echo $this->lang->line("Quote"); ?><?php } else {?><?php echo $this->lang->line("Policy"); ?><?php } ?> <?php echo $this->lang->line("Number"); ?>: <span><?php echo $plan['policy']; ?></span></label>
 								</div>
 								<div class="col-sm-3">
-									<label style="text-transform: capitalize;">  By agent <?php echo "[ AgentID:" . $policy_user['user_id'] . " ] "; ?>: <?php echo htmlspecialchars($policy_user['firstname'] . " " . $policy_user['lastname']); ?></label>
+									<label style="text-transform: capitalize;">  <?php echo $this->lang->line("By Agent"); ?> <?php echo "[ AgentID:" . $policy_user['user_id'] . " ] "; ?>: <?php echo htmlspecialchars($policy_user['firstname'] . " " . $policy_user['lastname']); ?></label>
 								</div>
 								
 							</div>		
 							<div class="row">
 								<div class="col-sm-3">
-									<label class="inline">Apply Date:</label>
+									<label class="inline"><?php echo $this->lang->line("Apply Date"); ?>:</label>
 									<span><?php echo $apply_date; ?></span>
 								</div>
 								<div class="col-sm-3">
-									<label class="inline">Arrival Date:</label>
+									<label class="inline"><?php echo $this->lang->line("Arrival Date"); ?>:</label>
 									<span><?php echo $plan['arrival_date']; ?></span>
 								</div>
 								<div class="col-sm-3">
-									<label class="inline">Effective Date:</label>
+									<label class="inline"><?php echo $this->lang->line("Effective Date"); ?>:</label>
 									<span><?php echo $plan['effective_date']; ?></span>
 								</div>
 								<div class="col-sm-3">
-									<label class="inline">Expiry Date:</label>
+									<label class="inline"><?php echo $this->lang->line("Expiry Date"); ?>:</label>
 									<span><?php echo $plan['expiry_date']; ?></span>
 								</div>
 							</div>
 							<?php if (!empty($plan_cancel_date)) {?>
 							<div class="row">
 								<div class="col-sm-3">
-									<label class="inline">Cancel Date:</label>
+									<label class="inline"><?php echo $this->lang->line("Cancel Date"); ?>:</label>
 									<span><?php echo $plan_cancel_date; ?></span>
 								</div>
 							</div>
@@ -121,19 +126,19 @@ $usepsi = false;
 							<?php if (!empty($plan_refund_date)) {?>
 							<div class="row">
 								<div class="col-sm-3">
-									<label class="inline">Refund Porcess Date:</label>
+									<label class="inline"><?php echo $this->lang->line("Refund Porcess Date"); ?>:</label>
 									<span><?php echo substr($plan_refund_date, 0, 10); ?></span>
 								</div>
 								<div class="col-sm-3">
-									<label class="inline">Refund Date:</label>
+									<label class="inline"><?php echo $this->lang->line("Refund Date"); ?>:</label>
 									<span><?php echo $plan['refund_date']; ?></span>
 								</div>
 								<div class="col-sm-3">
-									<label class="inline">Total Days:</label>
+									<label class="inline"><?php echo $this->lang->line("Total Days"); ?>:</label>
 									<span><?php echo $plan['totaldays']; ?></span>
 								</div>
 								<div class="col-sm-3">
-									<label class="inline">Used Days:</label>
+									<label class="inline"><?php echo $this->lang->line("Used Days"); ?>:</label>
 									<span><?php echo $used_days; ?></span>
 								</div>
 							</div>
@@ -141,23 +146,23 @@ $usepsi = false;
 							<?php echo $insurable_options; ?>
 							<div class="row">
 								<div class="col-sm-12" style="background-color:#5bc0de; color:#fff;">
-									<label class="inline">Customer Information</label>
+									<label class="inline"><?php echo $this->lang->line("Customer Information"); ?></label>
 								</div>
 							
 								<div class="col-sm-3">
-									<label class="inline">Last Name:</label>
+									<label class="inline"><?php echo $this->lang->line("Last Name"); ?>:</label>
 									<span><?php echo htmlspecialchars($customer['lastname']); ?></span>
 								</div>
 								<div class="col-sm-3">
-									<label class="inline">First Name:</label>
+									<label class="inline"><?php echo $this->lang->line("First Name"); ?>:</label>
 									<span><?php echo htmlspecialchars($customer['firstname']); ?></span>
 								</div>
 								<div class="col-sm-3">
-									<label class="inline">Birth Date:</label>
+									<label class="inline"><?php echo $this->lang->line("Birth Date"); ?>:</label>
 									<span><?php echo $customer['birthday']; ?></span>
 								</div>
 								<div class="col-sm-3">
-									<label class="inline">Gender:</label>
+									<label class="inline"><?php echo $this->lang->line("Gender"); ?>:</label>
 									<span><?php echo $customer['gender']; ?></span>
 								</div>
 							</div>
@@ -165,26 +170,26 @@ $usepsi = false;
 							<?php if ($plan['isfamilyplan']) { ?>
 								<div class="row">
 									<div class="col-sm-12" style="background-color:#5bc0de; color:#fff;">
-										<label class="inline">Insured's Family Member Information</label>
+										<label class="inline"><?php echo $this->lang->line("Insured's Family Member Information"); ?></label>
 									</div>
 								
 								<?php for ($i = 0; $i < 9; $i++) { ?>
 									<?php if (empty($customers[$i]['lastname']) && empty($customers[$i]['firstname'])) continue; ?>
 									
 										<div class="col-sm-3">
-											<label class="inline">Last Name:</label>
+											<label class="inline"><?php echo $this->lang->line("Last Name"); ?>:</label>
 											<span><?php echo htmlspecialchars($customers[$i]['lastname']); ?></span>
 										</div>
 										<div class="col-sm-3">
-											<label class="inline">First Name:</label>
+											<label class="inline"><?php echo $this->lang->line("First Name"); ?>:</label>
 											<span><?php echo htmlspecialchars($customers[$i]['firstname']); ?></span>
 										</div>
 										<div class="col-sm-3">
-											<label class="inline">Birth Date:</label>
+											<label class="inline"><?php echo $this->lang->line("Birth Date"); ?>:</label>
 											<span><?php echo $customers[$i]['birthday']; ?></span>
 										</div>
 										<div class="col-sm-3">
-											<label class="inline">Gender:</label>
+											<label class="inline"><?php echo $this->lang->line("Gender"); ?>:</label>
 											<span><?php echo $customers[$i]['gender']; ?></span>
 										</div>
 									
@@ -194,87 +199,87 @@ $usepsi = false;
 							<?php } ?>	
 
 							<div class="row">
-								<div class="col-sm-12" style="background-color:#5bc0de; color:#fff;"><label>Address Information</label></div>
+								<div class="col-sm-12" style="background-color:#5bc0de; color:#fff;"><label><?php echo $this->lang->line("Address Information"); ?></label></div>
 								<div class="col-sm-3">
-									<label class="inline">Street No:</label>
+									<label class="inline"><?php echo $this->lang->line("Street No"); ?>:</label>
 									<span><?php echo htmlspecialchars($plan['street_number']); ?></span>
 								</div>
 								<div class="col-sm-3">
-									<label class="inline">Street Name:</label>
+									<label class="inline"><?php echo $this->lang->line("Street Name"); ?>:</label>
 									<span><?php echo htmlspecialchars($plan['street_name']); ?></span>
 								</div>
 								<div class="col-sm-3">
-									<label class="inline">Suite No.:</label>
+									<label class="inline"><?php echo $this->lang->line("Suite No."); ?>:</label>
 									<span><?php echo htmlspecialchars($plan['suite_number']); ?></span>
 								</div>
 								<div class="col-sm-3">
-									<label class="inline">City: </label>
+									<label class="inline"><?php echo $this->lang->line("City"); ?>: </label>
 									<span><?php echo htmlspecialchars($plan['city']); ?></span>
 								</div>	
 							
 								<div class="col-sm-3">
-									<label class="inline">Province:</label>
+									<label class="inline"><?php echo $this->lang->line("Province"); ?>:</label>
 									<span><?php echo htmlspecialchars($plan['province2']); ?></span>
 								</div>
 								<div class="col-sm-3">
-									<label class="inline">Country:</label>
+									<label class="inline"><?php echo $this->lang->line("Country"); ?>:</label>
 									<span><?php echo htmlspecialchars($plan['country2']); ?></span>
 								</div>
 								<div class="col-sm-3">
-									<label class="inline">Postcode:</label>
+									<label class="inline"><?php echo $this->lang->line("Postcode"); ?>:</label>
 									<span><?php echo htmlspecialchars($plan['postcode']); ?></span>
 								</div>
 								
 								<div class="col-sm-3">
-									<label class="inline">Phone1:</label>
+									<label class="inline"><?php echo $this->lang->line("Phone"); ?>1:</label>
 									<span><?php echo htmlspecialchars($plan['phone1']); ?></span>
 								</div>
 								<div class="col-sm-3">
-									<label class="inline">Phone2:</label>
+									<label class="inline"><?php echo $this->lang->line("Phone"); ?>2:</label>
 									<span><?php echo htmlspecialchars($plan['phone2']); ?></span>
 								</div>
 								
 							</div>
 							<div class="row">
 								<div class="col-sm-12" style="background-color:#5bc0de; color:#fff;">
-									<label class="inline">Contact Information</label>
+									<label class="inline"><?php echo $this->lang->line("Contact Information"); ?></label>
 								</div>
 								<div class="col-sm-3">
-									<label class="inline">Email:</label>
+									<label class="inline"><?php echo $this->lang->line("Email"); ?>:</label>
 									<span><?php echo htmlspecialchars($plan['contact_email']); ?></span>
 								</div>
 								<div class="col-sm-3">
-									<label class="inline">Contact Phone:</label>
+									<label class="inline"><?php echo $this->lang->line("Contact Phone"); ?>:</label>
 									<span><?php echo htmlspecialchars($plan['contact_phone']); ?></span>
 								</div>
 								<div class="col-sm-3">
-									<label class="inline">Country of Origin:</label>
+									<label class="inline"><?php echo $this->lang->line("Country of Origin"); ?>:</label>
 									<span><?php echo htmlspecialchars($plan['residence']); ?></span>
 								</div>
 							</div>
 
 							<div class="row">
 								<div class="col-sm-12" style="background-color:#5bc0de; color:#fff;">
-									<label class="inline">Special Note/Instructions</label>
+									<label class="inline"><?php echo $this->lang->line("Special Note/Instructions"); ?></label>
 								</div>
 								<div class="col-sm-3">
-									<label class="inline">Age</label>
+									<label class="inline"><?php echo $this->lang->line("Age"); ?></label>
 									<span><?php echo $plan['totalyears']; ?></span>
 								</div>
 								<div class="col-sm-3">
-									<label class="inline">Daily Rate:</label>
+									<label class="inline"><?php echo $this->lang->line("Daily Rate"); ?>:</label>
 									<span>$<?php echo number_format($plan['dailyrate'], 2, '.', ','); ?></span>
 								</div>
 								<div class="col-sm-3">
-									<label class="inline">Total Days:</label>
+									<label class="inline"><?php echo $this->lang->line("Total Days"); ?>:</label>
 									<span><?php echo $plan['totaldays']; ?></span>
 								</div>
 								<div class="col-sm-3">
-									<label class="inline">Premium:</label>
+									<label class="inline"><?php echo $this->lang->line("Premium"); ?>:</label>
 									<span>$<?php echo number_format($plan['premium'], 2, '.', ','); ?></span>
 								</div>
 								<div class="col-sm-12">
-									<label class="inline">Notes:</label>
+									<label class="inline"><?php echo $this->lang->line("Notes"); ?>:</label>
 									<span><?php echo htmlspecialchars($plan['note']); ?></span>
 								</div>
 								
@@ -285,7 +290,7 @@ $usepsi = false;
 						<div class="row">
 								<div class="col-sm-12">
 								<?php if (!empty($payment_total)) { ?>						
-									<button class="btn btn-primary pull-right" data-toggle="collapse" data-target="#payment-div">Confirm and Pay</button>		
+									<button class="btn btn-primary pull-right" data-toggle="collapse" data-target="#payment-div"><?php echo $this->lang->line("Confirm and Pay"); ?></button>		
                 <?php } else if ($plan['status_id'] == 7) { ?>
                   <form action='<?php echo $active_url; ?>' method='POST'>
                     <input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
@@ -301,7 +306,7 @@ $usepsi = false;
 									<div class='pull-right spdf-option'><input type='checkbox' class='withlogobox' checked> With Logo <br /><input type='checkbox' class='withpricebox' checked> With Price </div>
 									<?php } ?>
 									<?php if (empty($sekey)) { ?>
-									<a class="btn btn-info pull-right" target="_blank" href='<?php echo $pdf_url; ?>'>Export PDF</a>
+									<a class="btn btn-info pull-right" target="_blank" href='<?php echo $pdf_url; ?>'><?php echo $this->lang->line("Export PDF"); ?></a>
 									<?php } ?>
 								<?php } ?>
 								</div>
@@ -334,7 +339,7 @@ $usepsi = false;
 						<?php if (in_array('Credit Card', $paytype_list)) { ?>
 							<div class="col-sm-3">
 								<?php if (isset($credit_dis)) { ?>
-								<div id='credit_card_div'><a class="btn btn-info col-sm-12">Pay By Credit Card <i class="fa fa-chevron-down"></i></a></div>
+								<div id='credit_card_div'><a class="btn btn-info col-sm-12"><?php echo $this->lang->line("Pay By Credit Card"); ?> <i class="fa fa-chevron-down"></i></a></div>
 								<script type="text/javascript">
 								$(document).ready(function() {
 									$('#credit_card_div').click(function() {
@@ -376,7 +381,7 @@ $usepsi = false;
 								<?php if (empty($sekey) && empty($isvsuser) && ((((time() - strtotime($plan['last_update'])) < (48 * 3600)) && ($plan['effective_date'] > date("Y-m-d"))) || ($plan['status_id'] == Plan_model::CHANGED))) { ?>
 									<div class="row">
 										<div class="col-sm-12">
-											<label class="inline" style="margin-bottom:0;">Pay url to user by Email (Valid before <?php echo $payurltm; ?>):</label>
+											<label class="inline" style="margin-bottom:0;"><?php echo $this->lang->line("Pay url to user by Email"); ?> (<?php echo $this->lang->line("Valid before"); ?> <?php echo $payurltm; ?>):</label>
 										</div><br />
 									</div>
 									<div class="row">
@@ -387,7 +392,7 @@ $usepsi = false;
 											      <button class="btn btn-default" type="button" id="copy-button"
 											          data-toggle="tooltip"
 											          title="Copy to Clipboard">
-											        Copy
+											        <?php echo $this->lang->line("Copy"); ?>
 											      </button>
 											    </span>
 											</div>
@@ -396,7 +401,7 @@ $usepsi = false;
 								<?php } ?>
 									<div class="row">
 										<div class="col-sm-12">
-											<label  class="inline" style="margin-bottom:0;">Card Number:</label>
+											<label  class="inline" style="margin-bottom:0;"><?php echo $this->lang->line("Card Number"); ?>:</label>
 											<div class="col-sm-12 input-group">
 												<input type='text' name='<?php echo ($usepsi ? "CardNumber" : "card_number"); ?>' value='' class="form-control">
 											</div>
@@ -405,7 +410,7 @@ $usepsi = false;
 									<?php if (! $usepsi) { ?>
 									<div class="row">
 										<div class="col-sm-12">
-											<label  class="inline" style="margin-bottom:0;">Card Holder's Name:</label>
+											<label  class="inline" style="margin-bottom:0;"><?php echo $this->lang->line("Card Holder's Name"); ?>:</label>
 											<div class="col-sm-12 input-group">
 												<input type='text' name='card_name' value='' class="form-control">
 											</div>
@@ -415,7 +420,7 @@ $usepsi = false;
 									<div class="row">
 										<div class="col-sm-12">
 											<div style="width:100px;" class="inline">
-												<label class="inline">Expiry Month: </label>
+												<label class="inline"><?php echo $this->lang->line("Expiry Month"); ?>: </label>
 												<select name='<?php echo ($usepsi ? "CardExpMonth" : "expiry_month"); ?>' class="form-control" style="width:100px;text-align:center;">
 													<option value='01' <?php echo (($expiry_month == 1) ? 'selected' : ''); ?>>01</option>
 													<option value='02' <?php echo (($expiry_month == 2) ? 'selected' : ''); ?>>02</option>
@@ -432,7 +437,7 @@ $usepsi = false;
 												</select> 
 											</div>
 											<div style="width:100px;" class="inline">
-												<label class="inline">Expiry Year: </label>
+												<label class="inline"><?php echo $this->lang->line("Expiry Year"); ?>: </label>
 												<select name='<?php echo ($usepsi ? "CardExpYear" : "expiry_year"); ?>' class="form-control" style="width:100px;text-align:center;">
 													<option value='<?php echo date('y'); ?>'> <?php echo date('y'); ?> </option>
 													<option value='<?php echo date('y',strtotime('+1 years')); ?>'> <?php echo date('y',strtotime('+1 years')); ?> </option>
@@ -452,7 +457,7 @@ $usepsi = false;
 									</div>
 									<div class="row">
 										<div class="col-sm-12" style="padding:10px;">
-											<label class="inline" style="margin-bottom:0;">Card CVV:</label>
+											<label class="inline" style="margin-bottom:0;"><?php echo $this->lang->line("Card CVV"); ?>:</label>
 											<div style="display:inline-block;vertical-align:middle;" >
 												<input type='text' name='<?php echo ($usepsi ? "CardIDNumber" : "card_cvv"); ?>' value='' class="form-control" style="width:137px;">
 											</div>
@@ -461,8 +466,8 @@ $usepsi = false;
 									<?php } ?>
 									<div class="row">
 										<div class="col-sm-12  text-right">
-											<label class="inline">Amount:</label><span> <b>$<?php echo number_format($payment_total, 2, '.', ','); ?></b></span>
-											<input class="btn btn-primary paysubmit" type='submit' name='submit' value='Pay Now'>
+											<label class="inline"><?php echo $this->lang->line("Amount"); ?>:</label><span> <b>$<?php echo number_format($payment_total, 2, '.', ','); ?></b></span>
+											<input class="btn btn-primary paysubmit" type='submit' name='submit' value='<?php echo $this->lang->line("Pay Now"); ?>'>
 										</div>
 									</div>
 									
@@ -509,7 +514,7 @@ $usepsi = false;
             <?php if (in_array('Ali', $paytype_list) && ($payment_total > 0)) { ?>
 							<div class="col-sm-3">
 								<?php if (isset($ali_dis)) { ?>
-								<div id='ali_div'><a class="btn btn-info col-sm-12">Pay By Alipay <i class="fa fa-chevron-down"></i></a></div>
+								<div id='ali_div'><a class="btn btn-info col-sm-12"><?php echo $this->lang->line("Pay By Alipay"); ?> <i class="fa fa-chevron-down"></i></a></div>
 								<script type="text/javascript">
 								$(document).ready(function() {
 									$('#ali_div').click(function() {
@@ -569,7 +574,7 @@ $usepsi = false;
 								<?php if (empty($sekey) && empty($isvsuser) && ((((time() - strtotime($plan['last_update'])) < (48 * 3600)) && ($plan['effective_date'] > date("Y-m-d"))) || ($plan['status_id'] == Plan_model::CHANGED))) { ?>
 									<div class="row">
 										<div class="col-sm-12">
-											<label class="inline" style="margin-bottom:0;">Pay url to user by Email (Valid before <?php echo $payurltm; ?>):</label>
+											<label class="inline" style="margin-bottom:0;"><?php echo $this->lang->line("Pay url to user by Email"); ?> (<?php echo $this->lang->line("Valid before"); ?> <?php echo $payurltm; ?>):</label>
 										</div><br />
 									</div>
 									<div class="row">
@@ -580,7 +585,7 @@ $usepsi = false;
 											      <button class="btn btn-default" type="button" id="copy-button2"
 											          data-toggle="tooltip"
 											          title="Copy to Clipboard">
-											        Copy
+											        <?php echo $this->lang->line("Copy"); ?>
 											      </button>
 											    </span>
 											</div>
@@ -589,8 +594,8 @@ $usepsi = false;
 								<?php } ?>
 								<div id='ali' style="padding:10px; display: none;">
 									<div class="col-sm-12">
-										<label class="inline">Amount:</label><span><b> $<?php echo number_format($payment_total, 2, '.', ','); ?></b></span>
-                    <a class="btn btn-primary paysubmit" id="ali_submit" style="display:none;">Pay Now</a>
+										<label class="inline"><?php echo $this->lang->line("Amount"); ?>:</label><span><b> $<?php echo number_format($payment_total, 2, '.', ','); ?></b></span>
+                    <a class="btn btn-primary paysubmit" id="ali_submit" style="display:none;"><?php echo $this->lang->line("Pay Now"); ?></a>
 								</div>
 								
 								</form><hr />
@@ -601,7 +606,7 @@ $usepsi = false;
 						<?php if (in_array('Cheque', $paytype_list)) { ?>
 							<div class="col-sm-3">
 								<?php if (isset($cheque_dis)) { ?>
-								<div id='cheque_div'><a class="btn btn-info col-sm-12">Pay By Cheque <i class="fa fa-chevron-down"></i></a></div>
+								<div id='cheque_div'><a class="btn btn-info col-sm-12"><?php echo $this->lang->line("Pay By Cheque"); ?> <i class="fa fa-chevron-down"></i></a></div>
 								<script type="text/javascript">
 								$(document).ready(function() {
 									$('#cheque_div').click(function() {
@@ -622,7 +627,7 @@ $usepsi = false;
 								<div id='cheque' <?php if (empty($cheque_dis)) { ?> style='display: none;' <?php } ?>>
 								<div class="row">
 									<div class="col-sm-12">
-										<label  class="inline" style="margin-bottom:0;color: #92082c;padding-bottom: 10px;">below info is not the actual payment. Please make the cheque payble to “JF Insurance Agency Group Inc.” and send the original cheque to JF via mail or in person</label>
+										<label  class="inline" style="margin-bottom:0;color: #92082c;padding-bottom: 10px;"><?php echo $this->lang->line("below info is not the actual payment. Please make the cheque payble to “JF Insurance Agency Group Inc.” and send the original cheque to JF via mail or in person"); ?></label>
 									</div>
 								</div>
 								<form action='<?php echo $active_url; ?>' method='POST'>
@@ -633,7 +638,7 @@ $usepsi = false;
 									<input type='hidden' name='premium' value='<?php echo $payment_total; ?>'>
 									<div class="row">
 										<div class="col-sm-12">
-											<label  class="inline" style="margin-bottom:0;">Bank Name:</label>
+											<label  class="inline" style="margin-bottom:0;"><?php echo $this->lang->line("Bank Name"); ?>:</label>
 											<div class="col-sm-12 input-group">
 												<input type='text' name='bank_name' value='' class="form-control">
 											</div>
@@ -641,7 +646,7 @@ $usepsi = false;
 									</div>
 									<div class="row">
 										<div class="col-sm-12">
-											<label  class="inline" style="margin-bottom:0;">Payor Name:</label>
+											<label  class="inline" style="margin-bottom:0;"><?php echo $this->lang->line("Payor Name"); ?>:</label>
 											<div class="col-sm-12 input-group">
 												<input type='text' name='payor_name' value='' class="form-control">
 											</div>
@@ -649,7 +654,7 @@ $usepsi = false;
 									</div>
 									<div class="row">
 										<div class="col-sm-12">
-											<label  class="inline" style="margin-bottom:0;">Cheque No.:</label>
+											<label  class="inline" style="margin-bottom:0;"><?php echo $this->lang->line("Cheque No."); ?>:</label>
 											<div class="col-sm-12 input-group">
 												<input type='text' name='cheque_number' value='' class="form-control">
 											</div>
@@ -658,8 +663,8 @@ $usepsi = false;
 									
 									<div class="row" style="padding:10px;">
 										<div class="col-sm-12 text-right">
-											<label class="inline">Amount:</label><span><b> $<?php echo number_format($payment_total, 2, '.', ','); ?></b></span>
-											<input class="btn btn-primary paysubmit" type='submit' name='submit' value='Pay Now'>
+											<label class="inline"><?php echo $this->lang->line("Amount"); ?>:</label><span><b> $<?php echo number_format($payment_total, 2, '.', ','); ?></b></span>
+											<input class="btn btn-primary paysubmit" type='submit' name='submit' value='<?php echo $this->lang->line("Pay Now"); ?>'>
 										</div>
 									</div>
 									 
@@ -672,7 +677,7 @@ $usepsi = false;
 						<?php if (in_array('Cash', $paytype_list)) { ?>
 							<div class="col-sm-3">
 								<?php if (isset($cash_dis)) { ?>
-								<div id='cash_div'><a class="btn btn-info col-sm-12">Pay By Cash <i class="fa fa-chevron-down"></i></a></div>
+								<div id='cash_div'><a class="btn btn-info col-sm-12"><?php echo $this->lang->line("Pay By Cash"); ?> <i class="fa fa-chevron-down"></i></a></div>
 								<script type="text/javascript">
 								$(document).ready(function() {
 									$('#cash_div').click(function() {
@@ -699,8 +704,8 @@ $usepsi = false;
 								<input type='hidden' name='premium' value='<?php echo $payment_total; ?>'>
 								<div class="row" style="padding:10px;">
 									<div class="col-sm-12">
-										<label class="inline">Amount:</label><span><b> $<?php echo number_format($payment_total, 2, '.', ','); ?></b></span>
-										<input class="btn btn-primary paysubmit" type='submit' name='submit' value='Pay Now'>
+										<label class="inline"><?php echo $this->lang->line("Amount"); ?>:</label><span><b> $<?php echo number_format($payment_total, 2, '.', ','); ?></b></span>
+										<input class="btn btn-primary paysubmit" type='submit' name='submit' value='<?php echo $this->lang->line("Pay Now"); ?>'>
 									</div>
 								</div>
 								
@@ -729,7 +734,7 @@ $usepsi = false;
             <div class="row" id='payment_history'>
               <div class="col-sm-12">
                 <?php if (!empty($payment_tables) && is_array($payment_tables) && (sizeof($payment_tables) > 0)) { ?>
-                  <button type="button" id="payment_history_button" class="btn btn-info" data-toggle="collapse" data-target="#history1">Payments <span class="fa fa-chevron-down"></span></button>
+                  <button type="button" id="payment_history_button" class="btn btn-info" data-toggle="collapse" data-target="#history1"><?php echo $this->lang->line("Payments"); ?> <span class="fa fa-chevron-down"></span></button>
                   <div id="history1" class="collapse">                	
                   <?php	if (sizeof($payment_tables) > 1) { ?>
                     <button type="button" id="payment_get_history_button" class="btn">Get More</button>
@@ -741,15 +746,15 @@ $usepsi = false;
                         <thead>
                           <tr>
                             <th>&nbsp;</th>
-                            <th>Last Update</th>
-                            <th>Type</th>
-                            <th>Pay Type</th>
-                            <th>Amount</th>
-                            <th>Rate</th>
-                            <th>Pay Status</th>
+                            <th><?php echo $this->lang->line("Last Update"); ?></th>
+                            <th><?php echo $this->lang->line("Type"); ?></th>
+                            <th><?php echo $this->lang->line("Pay Type"); ?></th>
+                            <th><?php echo $this->lang->line("Amount"); ?></th>
+                            <th><?php echo $this->lang->line("Rate"); ?></th>
+                            <th><?php echo $this->lang->line("Pay Status"); ?></th>
                             <th>CK Info</th>
                             <th>Info</th>
-                            <th>Notes</th>
+                            <th><?php echo $this->lang->line("Notes"); ?></th>
                           </tr>
                         </thead>
                         <tbody id="payment_history_table_tbody">
@@ -769,7 +774,7 @@ $usepsi = false;
             <div class="row">
               <div class="col-sm-12">
                 <?php if (!empty($activelog_tables) && is_array($activelog_tables) && (sizeof($activelog_tables) > 0)) { ?>
-                  <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#history2">Changes <span class="fa fa-chevron-down"></span></button>
+                  <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#history2"><?php echo $this->lang->line("Changes"); ?> <span class="fa fa-chevron-down"></span></button>
                   <div id="history2" class="collapse">
                     <?php	if (sizeof($activelog_tables) > 1) { ?>
                       <button type="button" id="activelog_get_history_button" class="btn">Get More</button>
@@ -778,9 +783,9 @@ $usepsi = false;
                       <table class="table table-hover table-bordered" id="activelog_history_table">
                         <thead>
                           <tr>
-                            <th>Username</th>
-                            <th>Date Time</th>
-                            <th>Message</th>
+                            <th><?php echo $this->lang->line("Username"); ?></th>
+                            <th><?php echo $this->lang->line("Date Time"); ?></th>
+                            <th><?php echo $this->lang->line("Message"); ?></th>
                           </tr>
                         </thead>
                         <tbody id="activelog_history_table_tbody">

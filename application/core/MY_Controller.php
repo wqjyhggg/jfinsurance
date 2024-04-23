@@ -23,7 +23,7 @@ class MY_Controller extends CI_Controller {
 		// Set language 
 		$language = $this->session->userdata('language');
 		$segment = $this->uri->segment(1);
-		if (empty($language) || ($segment && ($segment != "lang"))) {
+		if (empty($language) || (($language != "englist") && ($language != "french"))) {
 			$language = $this->config->item('language');
 			$this->session->set_userdata('language', $language);
 		}

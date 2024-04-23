@@ -21,7 +21,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           <div class="main-div">
             <div class="page-title">
               <div class="title_left">
-                <h3>Renewal Report</h3>
+                <h3><?php echo $this->lang->line("Renewal Report"); ?></h3>
               </div>
             </div>
             <div class="clearfix"></div>
@@ -30,7 +30,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Report Filter<small></small></h2>
+                    <h2><?php echo $this->lang->line("Report Filter"); ?><small></small></h2>
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
@@ -39,10 +39,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                       <div class="row">
                       <!-- Agent input box -->
                         <div class="form-group col-sm-4">
-                          <label class="col-sm-12">Agent:</label>
+                          <label class="col-sm-12"><?php echo $this->lang->line("Agent"); ?>:</label>
                           <div class="input-group col-sm-12">
                               <select name="agent_id" class="form-control">
-                                <option value=0>Choose Agent</option>
+                                <option value=0><?php echo $this->lang->line("Choose Agent"); ?></option>
 <?php foreach ($user_list as $agent) : ?>
     <?php if ($agent_id == $agent['user_id']) : ?>
                                 <option value="<?=$agent['user_id'] ?>"  selected>
@@ -59,10 +59,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
                         <!-- Product input box -->
                         <div class="form-group col-sm-4">
-                          <label class="col-sm-12">Product:</label>
+                          <label class="col-sm-12"><?php echo $this->lang->line("Product"); ?>:</label>
                             <div class="input-group col-sm-12">
                               <select name='product_short' class="form-control">
-                                <option value="">Choose Product</option>
+                                <option value=""><?php echo $this->lang->line("Choose Product"); ?></option>
 <?php foreach ($product_list as $product) : ?>
     <?php if ($product_short == $product['product_short']) : ?>
                                 <option value="<?=$product['product_short'] ?>"  selected>
@@ -80,10 +80,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <?php if ($beuser['region_id'] == 0) { ?>
                         <!-- Product input box -->
                         <div class="form-group col-sm-4">
-                          <label class="col-sm-12">Region:</label>
+                          <label class="col-sm-12"><?php echo $this->lang->line("Region"); ?>:</label>
                             <div class="input-group col-sm-12">
                             <select name='region_id' class="form-control">
-                              <option value='0'> -- All Region -- </option>
+                              <option value='0'> -- <?php echo $this->lang->line("All Region"); ?> -- </option>
                               <?php foreach ($regions as $key => $name) { ?>
                               <option value='<?php echo $key; ?>' <?php echo ($region_id == $key) ? 'selected' : ''; ?>><?php echo $name; ?></option>
                               <?php } ?>
@@ -100,7 +100,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <!-- Application Date -->
                         <div class="form-group col-sm-3">
                           <!-- Application Date from -->
-                            <label for="application_date_from" class="col-sm-12">Application Date From</label>
+                            <label for="application_date_from" class="col-sm-12"><?php echo $this->lang->line("Application Date From"); ?></label>
                             <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
                                 <input name="application_date_from" class="form-control" size="16" type="text" value="<?=$application_date_from ?>" >
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
@@ -108,7 +108,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <input type="hidden" id="application_date_from" value="" />
                             <!-- Application Date from End-->
                             <!-- Application Date to -->
-                            <label for="application_date_to" class="col-sm-12">Application Date To</label>
+                            <label for="application_date_to" class="col-sm-12"><?php echo $this->lang->line("Application Date To"); ?></label>
                             <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
                                 <input name="application_date_to" class="form-control" size="16" type="text" value="<?=$application_date_to ?>" >
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
@@ -120,7 +120,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <!-- Create Date-->
                         <div class="form-group col-sm-3">
                             <!-- Arrival Date From-->
-                            <label for="arrival_date_from" class="col-sm-12">Arrival Date From</label>
+                            <label for="arrival_date_from" class="col-sm-12"><?php echo $this->lang->line("Arrival Date From"); ?></label>
                             <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
                                 <input name="arrival_date_from" class="form-control" size="16" type="text" value="<?=$arrival_date_from ?>" >
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
@@ -128,7 +128,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <input type="hidden" id="arrival_date_from" value="" />
                             <!-- Arrival Date From End-->
                             <!-- Create Date to -->
-                            <label for="arrival_date_to" class="col-sm-12">Arrival Date To</label>
+                            <label for="arrival_date_to" class="col-sm-12"><?php echo $this->lang->line("Arrival Date To"); ?></label>
                             <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
                                 <input name="arrival_date_to" class="form-control" size="16" type="text" value="<?=$arrival_date_to ?>" >
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
@@ -140,7 +140,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <!-- Effective Date-->
                         <div class="form-group col-sm-3">
                             <!-- Effective Date From-->
-                            <label for="effective_date_from" class="col-sm-12">Effective Date From</label>
+                            <label for="effective_date_from" class="col-sm-12"><?php echo $this->lang->line("Effective Date From"); ?></label>
                             <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
                                 <input name="effective_date_from" class="form-control" size="16" type="text" value="<?=$effective_date_from ?>" >
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
@@ -148,7 +148,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <input type="hidden" id="effective_date_from" value="" />
                             <!-- Effective Date From End-->
                             <!-- Effective Date to -->
-                            <label for="effective_date_to" class="col-sm-12">Effective Date To</label>
+                            <label for="effective_date_to" class="col-sm-12"><?php echo $this->lang->line("Effective Date To"); ?></label>
                             <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
                                 <input name="effective_date_to" class="form-control" size="16" type="text" value="<?=$effective_date_to ?>" >
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
@@ -160,15 +160,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <!-- Expiry Date-->
                         <div class="form-group col-sm-3">
                             <!-- Expiry Date From-->
-                            <label for="expiry_date_from" class="col-sm-12">Expiry Date From</label>
+                            <label for="expiry_date_from" class="col-sm-12"><?php echo $this->lang->line("Expiry Date From"); ?></label>
                             <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
                                 <input name="expiry_date_from" class="form-control" size="16" type="text" value="<?=$expiry_date_from ?>" >
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
                             <input type="hidden" id="expiry_date_from" value="" />
-                            <!-- Expiry Date From End-->
+                            <!-- <?php echo $this->lang->line("Expiry Date From"); ?> End-->
                             <!-- Expiry Date to -->
-                            <label for="expiry_date_to" class="col-sm-12">Expiry Date To</label>
+                            <label for="expiry_date_to" class="col-sm-12"><?php echo $this->lang->line("Expiry Date To"); ?></label>
                             <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
                                 <input name="expiry_date_to" class="form-control" size="16" type="text" value="<?=$expiry_date_to ?>" >
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
@@ -181,7 +181,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                       <div class="row">
                         <!-- submit button -->
                           <div class="col-sm-12">
-                            <button class="btn btn-primary pull-right">Display Sales Report</button>
+                            <button class="btn btn-primary pull-right"><?php echo $this->lang->line("Display Sales Report"); ?></button>
                           </div>
                         <!-- submit button -->
                       </div>
@@ -196,7 +196,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Search Result <span class="inline-m"><?php echo $export_form; ?> </span></h2>
+                    <h2><?php echo $this->lang->line("Search Result"); ?> <span class="inline-m"><?php echo $export_form; ?> </span></h2>
                     <div class="pull-right">
 	                  <form method="get" action="<?php echo $mail_url ?>">
 						<input type='hidden' name="agent_id" value="<?php echo $agent_id; ?>" />
@@ -209,7 +209,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<input type="hidden" name="effective_date_to" value="<?php echo $effective_date_to; ?>" />
 						<input type="hidden" name="expiry_date_from" value="<?php echo $expiry_date_from; ?>" />
 						<input type="hidden" name="expiry_date_to" value="<?php echo $expiry_date_to; ?>" />
-						<button class="btn btn-primary pull-right">	Renew Email</button>
+						<button class="btn btn-primary pull-right">	<?php echo $this->lang->line("Renew Email"); ?></button>
 	                  </form>
                     </div>
                     <div class="clearfix"></div>
@@ -223,24 +223,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         </thead>
                         <tbody>
     <?php foreach ($report_data['data'] as $agent_id => $renewal_data) :?>
-                            <tr><td>Expiry Date:</td> 
+                            <tr><td><?php echo $this->lang->line("Expiry Date"); ?>:</td> 
                                 <td><?=$report_data['period']['from'] ?></td> 
-                                <td>To </td>
+                                <td><?php echo $this->lang->line("To"); ?> </td>
                                 <td><?=$report_data['period']['to'] ?></td>
                                 <td colspan=6></td>
                                 
                             </td></tr>
                             <tr><td colspan=7>Agent: <?=$renewal_data['agency'] ?></td></tr>
                             <tr>
-                            <th>Policy Number</th>
-                            <th>Effective Date</th>
-                            <th>Expiry Date</th>
-                            <th>Customer Name</th>
-                            <th>Gender</th>
-                            <th>Birthday</th>
-                            <th>Province</th>
-                            <th>Phone Number</th>
-                            <th>Email Address</th>
+                            <th><?php echo $this->lang->line("Policy Number"); ?></th>
+                            <th><?php echo $this->lang->line("Effective Date"); ?></th>
+                            <th><?php echo $this->lang->line("Expiry Date"); ?></th>
+                            <th><?php echo $this->lang->line("Customer Name"); ?></th>
+                            <th><?php echo $this->lang->line("Gender"); ?></th>
+                            <th><?php echo $this->lang->line("Birthday"); ?></th>
+                            <th><?php echo $this->lang->line("Province"); ?></th>
+                            <th><?php echo $this->lang->line("Phone Number"); ?></th>
+                            <th><?php echo $this->lang->line("Email Address"); ?></th>
                           </tr>
         <?php foreach ($renewal_data['records'] as $record) : ?>
                             <tr>
