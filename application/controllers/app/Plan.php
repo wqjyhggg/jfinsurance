@@ -358,7 +358,7 @@ class Plan extends CI_Controller
 							'message' => $this->payment_model->logstr,
 							'systemlog' => $this->payment_model->sqlstr
 					);
-					$this->log_model->activity('payment', $para);
+					$this->log_model->activity('payment', $para, $user);
           // If in Quebec, send French version package
           if (($plan["province2"] == "QC") && in_array($plan["product_short"], $this->french_plan)) {
             $this->sendpackage(1, $user, $plan_id);
