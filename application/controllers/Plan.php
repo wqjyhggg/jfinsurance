@@ -3560,8 +3560,9 @@ class Plan extends MY_Controller {
             $files['TOP_VisaLetter.pdf'] = $top_add_file;
           }
         }
-
 				$files['policy_confirmation.pdf'] = $policy_file;
+				$files['policy_card.pdf'] = $this->card($plan_id, true);
+
 				$sendok = $this->mymail_model->send_mymail($data['emailaddr'], $title, $body, $files, $from = 'JF Insurance');
 				unlink($policy_file);
 				if ($sendfrenchemail) {
@@ -4310,7 +4311,7 @@ class Plan extends MY_Controller {
 	 * 
 	 * @param integer $plan_id
 	 */
-	public function card($plan_id)
+	public function card($plan_id, $returnfile=false)
 	{
 		$beuser = $this->func_model->verify_login(TRUE);
 		$this->load->model('plan_model');
@@ -4369,7 +4370,13 @@ class Plan extends MY_Controller {
 		$data['style'] = $this->load->view('common/pdf_style', $data, TRUE);
 		$html = $this->load->view('plan/card', $data, TRUE);
 		$mpdf->writeHTML($html);
-		$mpdf->Output("policy_card.pdf", "I");
+    if ($returnfile) {
+      $card_file = tempnam("/tmp", "Card");
+      $mpdf->Output($card_file, 'F');
+      return $card_file;
+    } else {
+  		$mpdf->Output("policy_card.pdf", "I");
+    }
 	}
 
 	/**
