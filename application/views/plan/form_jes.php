@@ -25,7 +25,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										</div>
 									</div>
 <?php } ?>
-                  <?php if ((($user_group_id < 100) && (($product_short == "JES") || ($product_short == "JFGD") || ($product_short == "JFSL") || ($product_short == "JESP"))) || ((($beuser_user_id == "1005") || ($beuser_user_id == "2198")) && ($product_short == "JES"))) { ?>
+<?php $holidyUser = array(388,1005,1932,2198,2284,2316,2318,2426,2435,2465,2467,2468,3042,3704,3848,4393); ?>
+                  <?php if ((($product_short == "JES") || ($product_short == "JFGD") || ($product_short == "JFSL") || ($product_short == "JESP")) && (($user_group_id < 100) || in_array($beuser_user_id, $holidyUser))) { ?>
 									<div class="form-group col-sm-3">
 										<label class="col-sm-12"><?php echo $this->lang->line("Holiday Rate"); ?> : </label>
 										<div class="input-group col-sm-12" style="border: 1px solid #ccc;padding: 3px;">
