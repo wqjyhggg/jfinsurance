@@ -101,7 +101,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 					</h4>
           <h4><span class="small">Emergency Call Center: 1-888-988-3268</span></h4>
           <h4><span class="small">In the event of an emergency, You must call Ontime Care immediately.</span></h4>
-          <h4><span class="small">From Canad and the Us call Toll Free: 1-866-209-57804</span></h4>
+          <h4><span class="small">From Canad and the Us call Toll Free: 1-866-209-5804</span></h4>
           <h4><span class="small">From Anywhere call Collect: 1-905-707-9555</span></h4>
 				</div>
 				<div class="row"><div class="col-sm-12 nopadding text-center">
@@ -144,7 +144,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 					</h4>
           <h4><span class="small">Emergency Call Center: 1-888-988-3268</span></h4>
           <h4><span class="small">In the event of an emergency, You must call Ontime Care immediately.</span></h4>
-          <h4><span class="small">From Canad and the Us call Toll Free: 1-866-209-57804</span></h4>
+          <h4><span class="small">From Canad and the Us call Toll Free: 1-866-209-5804</span></h4>
           <h4><span class="small">From Anywhere call Collect: 1-905-707-9555</span></h4>
 				</div>
 				<div class="row"><div class="col-sm-12 nopadding text-center">
