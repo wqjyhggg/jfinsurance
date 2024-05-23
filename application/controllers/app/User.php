@@ -79,7 +79,7 @@ class User extends CI_Controller
 				);
 				$this->upload->initialize($para);
 				if ( ! $this->upload->do_upload('logo_src')) {
-					$this->data['error_myname_logo'] = $this->lang->line ( 'error_myname_logo' );
+					$this->data['error_myname_logo'] = 'Failed to upload logo file';
 					$rt = FALSE;
 				} else {
 					$filedata = $this->upload->data();
@@ -131,7 +131,7 @@ class User extends CI_Controller
 				);
 				$this->upload->initialize($para);
 				if ( ! $this->upload->do_upload('qr_src')) {
-					$this->data['error_myname_image'] = $this->lang->line ( 'error_myname_image' );
+					$this->data['error_myname_image'] = 'Failed to upload image file';
 					$rt = FALSE;
 				} else {
 					$filedata = $this->upload->data();
@@ -167,7 +167,7 @@ class User extends CI_Controller
 				);
 				$this->upload->initialize($para);
 				if ( ! $this->upload->do_upload('qr2_src')) {
-					$this->data['error_myname_image'] = $this->lang->line ( 'error_myname_image' );
+					$this->data['error_myname_image'] = 'Failed to upload image file';
 					$rt = FALSE;
 				} else {
 					$filedata = $this->upload->data();
@@ -192,81 +192,81 @@ class User extends CI_Controller
 		
 		$group_id = (int)$this->input->post('user_group_id');
 		if ($group_id < 1) {
-			$this->data['error_user_group'] = $this->lang->line('error_user_group');
+			$this->data['error_user_group'] = "Please select a user group!";
 			$rt = FALSE;
 		}
 		// $this->input->post('parent_user_id');
 		if (empty(trim($this->input->post('username')))) {
-			$this->data['error_username'] = $this->lang->line('error_username');
+			$this->data['error_username'] = 'username is required!';
 			$rt = FALSE;
 		}
 		$password = trim($this->input->post('password'));
 		if (!empty($password) && ((strlen($password) < self::PASSWORD_MIN) || (strlen($password) > self::PASSWORD_MAX))) {
-			$this->data['error_password'] = $this->lang->line('error_password');
+			$this->data['error_password'] = 'password must between 6 to 16 charactors!';
 			$rt = FALSE;
 		}
 		// $this->data['region'] = $this->input->post('region');
 		// $this->data['business'] = $this->input->post('business');
 		// $this->data['gender'] = $this->input->post('gender');
 		if (empty(trim($this->input->post('business')))) {
-			$this->data['error_business'] = $this->lang->line('error_business');
+			$this->data['error_business'] = 'business is required!';
 			$rt = FALSE;
 		}
 		if (empty(trim($this->input->post('firstname')))) {
-			$this->data['error_firstname'] = $this->lang->line('error_firstname');
+			$this->data['error_firstname'] = 'firstname is required!';
 			$rt = FALSE;
 		}
 		if (empty(trim($this->input->post('lastname')))) {
-			$this->data['error_lastname'] = $this->lang->line('error_lastname');
+			$this->data['error_lastname'] = 'lastname is required!';
 			$rt = FALSE;
 		}
 		if (empty(trim($this->input->post('email'))) || ( ! $this->verify_model->isEmail($this->input->post('email')))) {
-			$this->data['error_email'] = $this->lang->line('error_email');
+			$this->data['error_email'] = 'email is required!';
 			$rt = FALSE;
 		}
 		if (empty(trim($this->input->post('address')))) {
-			$this->data['error_address'] = $this->lang->line('error_address');
+			$this->data['error_address'] = 'address is required!';
 			$rt = FALSE;
 		}
 		if (empty(trim($this->input->post('city')))) {
-			$this->data['error_city'] = $this->lang->line('error_city');
+			$this->data['error_city'] = 'city is required!';
 			$rt = FALSE;
 		}
 		if (empty(trim($this->input->post('province2')))) {
-			$this->data['error_province'] = $this->lang->line('error_province');
+			$this->data['error_province'] = 'province2 is required!';
 			$rt = FALSE;
 		}
 		if (empty(trim($this->input->post('postcode')))) {
-			$this->data['error_postcode'] = $this->lang->line('error_postcode');
+			$this->data['error_postcode'] = 'postcode is required!';
 			$rt = FALSE;
 		}
 		if (empty(trim($this->input->post('mail_address')))) {
-			$this->data['error_mail_address'] = $this->lang->line('error_mail_address');
+			$this->data['error_mail_address'] = 'mail_address is required!';
 			$rt = FALSE;
 		}
 		if (empty(trim($this->input->post('mail_city')))) {
-			$this->data['error_mail_city'] = $this->lang->line('error_mail_city');
+			$this->data['error_mail_city'] = 'mail_city is required!';
 			$rt = FALSE;
 		}
 		if (empty(trim($this->input->post('mail_province2')))) {
-			$this->data['error_mail_province'] = $this->lang->line('error_mail_province');
+			$this->data['error_mail_province'] = 'mail_province2 is required!';
 			$rt = FALSE;
 		}
 		if (empty(trim($this->input->post('mail_postcode')))) {
-			$this->data['error_mail_postcode'] = $this->lang->line('error_mail_postcode');
+			$this->data['error_mail_postcode'] = 'mail_postcode is required!';
 			$rt = FALSE;
 		}
 		if (empty($this->input->post('paytype_list'))) {
-			$this->data['error_paytype_list'] = $this->lang->line('error_paytype_list');
+			$this->data['error_paytype_list'] = 'paytype_list is required!';
 			$rt = FALSE;
 		}
 		// $this->data['website'] = $this->input->post('website');
 		if (empty(trim($this->input->post('licence_number')))) {
-			$this->data['error_licence_number'] = $this->lang->line('error_licence_number');
+			$this->data['error_licence_number'] = 'licence_number is required!';
 			$rt = FALSE;
 		}
 		if (empty(trim($this->input->post('licence_expire'))) ) {
-			$this->data['error_licence_expire'] = $this->lang->line('error_licence_expire');
+			$this->data['error_licence_expire'] = 'licence_expire is required!';
 			$rt = FALSE;
 		}
 		//$this->data['business_phone'] = $this->input->post('business_phone');
