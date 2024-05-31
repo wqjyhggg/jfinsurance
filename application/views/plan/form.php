@@ -343,13 +343,13 @@ if ($Agree != "Agree") {
 								<legend><?php echo $this->lang->line("Insurable Members"); ?></legend>
 								<input type='hidden' name='customer_id' value='<?php echo !empty($customer_id) ? $customer_id : 0; ?>'>
 								<div class="row">
-                <?php if (($product_short == 'JFS') || ($product_short == 'JFE') || ($product_short == 'BHS') || ($product_short == 'JES') || ($product_short == 'JFPL') || ($product_short == 'JFSL') || ($product_short == 'JFGD')) { ?>
+                <?php if (($product_short == 'JFS') || ($product_short == 'JFE') || ($product_short == 'BHS') || ($product_short == 'JES') || ($product_short == 'JFPL') || ($product_short == 'JFSL') || ($product_short == 'JFGD') || ($product_short == 'JFOS')) { ?>
 									<label class="col-sm-12"><?php echo $this->lang->line("Insured student"); ?></label>
                 <?php } else { ?>
                   <label class="col-sm-12"><?php echo $this->lang->line("Customer Information"); ?></label>
                 <?php } ?>
 									<div class="col-sm-3">
-                  <?php if (($product_short == 'JFS') || ($product_short == 'JFE') || ($product_short == 'BHS') || ($product_short == 'JES') || ($product_short == 'JFPL') || ($product_short == 'JFSL') || ($product_short == 'JFGD')) { ?>
+                  <?php if (($product_short == 'JFS') || ($product_short == 'JFE') || ($product_short == 'BHS') || ($product_short == 'JES') || ($product_short == 'JFPL') || ($product_short == 'JFSL') || ($product_short == 'JFGD') || ($product_short == 'JFOS')) { ?>
 		  							<label class="col-sm-12"><?php echo $this->lang->line("Student First Name"); ?>:</label>
                   <?php } else { ?>
 										<label class="col-sm-12"><?php echo $this->lang->line("First Name"); ?>:</label>
@@ -364,7 +364,7 @@ if ($Agree != "Agree") {
 										<?php } ?>
 									</div>
 									<div class="col-sm-3">
-                  <?php if (($product_short == 'JFS') || ($product_short == 'JFE') || ($product_short == 'BHS') || ($product_short == 'JES') || ($product_short == 'JFPL') || ($product_short == 'JFSL') || ($product_short == 'JFGD')) { ?>
+                  <?php if (($product_short == 'JFS') || ($product_short == 'JFE') || ($product_short == 'BHS') || ($product_short == 'JES') || ($product_short == 'JFPL') || ($product_short == 'JFSL') || ($product_short == 'JFGD') || ($product_short == 'JFOS')) { ?>
 		  							<label class="col-sm-12"><?php echo $this->lang->line("Student Last Name"); ?>:</label>
                   <?php } else { ?>
 										<label class="col-sm-12"><?php echo $this->lang->line("Last Name"); ?>:</label>
@@ -379,7 +379,7 @@ if ($Agree != "Agree") {
 										<?php } ?>
 									</div>
 									<div class="col-sm-3">
-                  <?php if (($product_short == 'JFS') || ($product_short == 'JFE') || ($product_short == 'BHS') || ($product_short == 'JES') || ($product_short == 'JFPL') || ($product_short == 'JFSL') || ($product_short == 'JFGD')) { ?>
+                  <?php if (($product_short == 'JFS') || ($product_short == 'JFE') || ($product_short == 'BHS') || ($product_short == 'JES') || ($product_short == 'JFPL') || ($product_short == 'JFSL') || ($product_short == 'JFGD') || ($product_short == 'JFOS')) { ?>
 		  							<label class="col-sm-12"><?php echo $this->lang->line("Student Birth Date"); ?> (YYYY-MM-DD):</label>
                   <?php } else { ?>
 										<label class="col-sm-12"><?php echo $this->lang->line("Birth Date"); ?> (YYYY-MM-DD):</label>

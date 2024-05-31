@@ -16,7 +16,7 @@ class Product_model extends CI_Model {
 	const PLANIDCHG2022_9=693264;   // FOR JFR, JESP rate change
 	const PLANIDCHG2024_1=730200;   // FOR TOP new ratio
 	public $message;
-  public $default_uncheck_product=array('BHS','JFE','JFP','JFC','JUS','NUS','JFPL','JFSL','JFGD');  //  JES, JESP, JFS, JFR
+  public $default_uncheck_product=array('BHS','JFE','JFP','JFC','JUS','NUS','JFPL','JFSL','JFGD','JFOS');  //  JES, JESP, JFS, JFR
 	
 	/**
 	 * Get product 
@@ -1931,6 +1931,32 @@ class Product_model extends CI_Model {
         $premium = 645 * $number_customer;
         }
       }
+			$premiumArr['premium'] = $premium;
+			$premiumArr['totalyears'] = $years;
+			$premiumArr['totaldays'] = $days;
+			$premiumArr['dailyrate'] = $rate;
+			$premiumArr['sum_insured'] = number_format($para['sum_insured'], 2, '.', ','); //5,000,000.00
+			$premiumArr['deductible_amount'] =  number_format($para['deductible_amount'], 2, '.', ',');
+		} else if ($para['product_short'] == 'JFOS') {
+      $beuser = $this->session->beuser;
+      $rate = 2;
+      // $val170 = array(657);
+      // if (in_array($beuser['user_id'], $val170)) {
+      //   $rate = 1.7;
+      // }
+			// if (isset($para['holiday_rate']) && ($para['holiday_rate'] == 1)) {
+      //   $rate = 1.85;
+			// }
+			if ($years <= 3) {
+				$premiumArr['message'] = "Customer age must over 4 years old";
+				return $premiumArr;
+			} else if ($years > 69) {
+				$premiumArr['message'] = "Customer age can't older than 70 years old";
+				return $premiumArr;
+			}
+      $number_customer = intval($para['number_customer']);
+      $rate *= $number_customer;
+			$premium = $rate * $days;
 			$premiumArr['premium'] = $premium;
 			$premiumArr['totalyears'] = $years;
 			$premiumArr['totaldays'] = $days;

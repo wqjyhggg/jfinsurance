@@ -5,13 +5,14 @@ class Policypdf extends CI_Controller {
   const DATE_LINE1 = "2021-08-16";
 
   public $tlist = array("p" => "Policy", "c" => "claimform");
-  public $slist = array("JES", "JESP", "JFE", "JFGD", "JFP", "JFPL", "JFS", "JFSL", "JFR", "JFVTC", "TOP");
+  public $slist = array("JES", "JESP", "JFE", "JFGD", "JFOS", "JFP", "JFPL", "JFS", "JFSL", "JFR", "JFVTC", "TOP");
   public $clist = array("JES", "JESP");
   public $plist = array(
     "JES"   => array("JES.zip",   "JES2.zip"),
     "JESP"  => array("JESP.zip",  "JESP2.zip"),
     "JFE"   => array("JFE.zip",   "JFE.zip"),
     "JFGD"  => array("JFGD.zip",  "JFGD.zip"),
+    "JFOS"  => array("JFOS.zip",  "JFOS.zip"),
     "JFP"   => array("JFP.zip",   "JFP.zip"),
     "JFPL"  => array("JFPL.zip",  "JFPL.zip"),
     "JFR"   => array("JFR.zip",   "JFR.zip"),

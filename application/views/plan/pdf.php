@@ -56,7 +56,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
         </div>
       <?php } ?>
     </div>
-    <?php if (($plan['product_short'] == 'JFPL') || ($plan['product_short'] == 'JFGD') || ($plan['product_short'] == 'JFSL')) { ?>
+    <?php if (($plan['product_short'] == 'JFPL') || ($plan['product_short'] == 'JFGD') || ($plan['product_short'] == 'JFOS') || ($plan['product_short'] == 'JFSL')) { ?>
       <div class="row">
         <div class="col-sm-12 text-left">
           <?php if ($user['user_group_id'] > 100) { ?>
@@ -318,7 +318,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
         <?php } // end if TOP 
         ?>
 
-        <?php if (($plan['product_short'] == 'JFPL') || ($plan['product_short'] == 'JFGD')) { ?>
+        <?php if (($plan['product_short'] == 'JFPL') || ($plan['product_short'] == 'JFGD') || ($plan['product_short'] == 'JFOS')) { ?>
           <h4><?php echo $this->lang->line("Stable pre-existing condition coverage"); ?>: <span><?php echo $this->lang->line("Yes"); ?></span>
           </h4>
         <?php } else if ($plan['product_short'] == 'JFSL') { ?>
@@ -429,7 +429,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
         <?php } ?>
       </div>
     </div>
-    <?php if (($plan['product_short'] == 'JFPL') || ($plan['product_short'] == 'JFGD') || ($plan['product_short'] == 'JFSL')) { ?>
+    <?php if (($plan['product_short'] == 'JFPL') || ($plan['product_short'] == 'JFGD') || ($plan['product_short'] == 'JFOS') || ($plan['product_short'] == 'JFSL')) { ?>
       <div class="row">
         <div class="col-sm-12 nopm special-note">
           <p class="small">Underwritten by Old Republic Insurance Company of Canada and administered by JF Insurance Agency Group Inc.</p>
