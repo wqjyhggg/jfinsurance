@@ -89,7 +89,7 @@ class Plan extends CI_Controller
     if ($payment_total <= 0) {
       return $this->app_model->return_error("Policy Paid already");
     }
-    $pay_url = $this->snappay_model->get_pay_url($plan, $payment_total, $this->input->post("returnurl"));
+    $pay_url = $this->snappay_model->get_pay_url($plan, $payment_total, "", $this->input->post("returnurl"));
     if (empty($pay_url)) {
       $err = "Unknown Payment URL";
       if ($this->snappay_model->last_err) {

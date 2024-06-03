@@ -52,6 +52,18 @@ class Snappay_model extends CI_Model {
     return  $output;
   }
 
+  function is_mobile() {
+    $user_agent = $_SERVER['HTTP_USER_AGENT'];
+    $mobile_browsers = array('iPhone', 'iPad', 'Android', 'BlackBerry', 'Opera Mini', 'Windows Phone');
+
+    foreach ($mobile_browsers as $browser) {
+      if (stripos($user_agent, $browser) !== false) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   public function get_pay_url($plan, $amount, $sekey="", $returnurl="") {
     $this->load->helper('url');
     $this->load->model('plan_model');
@@ -73,6 +85,9 @@ class Snappay_model extends CI_Model {
     $postArr['trans_amount'] = $amount;
     $postArr['notify_url'] = base_url('snappay/' . $plan["plan_id"]);
     $postArr['browser_type'] = "PC";
+    if ($this->is_mobile()) {
+      $postArr['browser_type'] = "WAP";
+    }
     if ($returnurl) {
       $postArr['browser_type'] = "WAP";
       $postArr['return_url'] = $returnurl;
