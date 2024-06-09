@@ -111,3 +111,4 @@ $lang['phone'] = '电话:';
 $lang['fax'] = '传真:';
 $lang['toll_free'] = '免费电话:';
 $lang['toll_free_fax'] = '免费传真:';
+$lang["Notify Me"] = "提醒我";

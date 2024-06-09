@@ -928,7 +928,15 @@ class Plan_model extends CI_Model {
 		
 		return $plan_id;
 	}
-	
+
+  public function check_plan_expire($user_id, $start_dt, $end_dt) {
+    $this->db->where( "user_id", $user_id);
+    $this->db->where( "status_id", 3);
+    $this->db->where( "expiry_date >=", $start_dt);
+    $this->db->where( "notify_type <", $end_dt);
+		return $this->db->get('plan')->result_array();
+	}
+
 	/**
 	 * Get plan's commission
 	 * 

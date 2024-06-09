@@ -856,6 +856,75 @@ class Cron extends MY_Controller {
 		}
 	}
 
+  // 0 5 1,15 * * (/usr/bin/php /var/www/html/agent.jfgroup.ca/html/index.php cron check_expire) >> /home/ubuntu/check_expire.cron 2>&1
+  public function check_expire()
+	{
+		$this->valid();
+		set_time_limit(0);
+
+		$this->load->model('user_model');
+		$this->load->model('plan_model');
+    $this->load->model('user_notify_model');
+    $this->load->model('mymail_model');
+
+    $day = date("j");
+    $start_dt1 = "";
+    $start_dt2 = "";
+    $end_dt1 = "";
+    $end_dt2 = "";
+    if ($day == 1) {
+      $day = 0;
+      // Next month
+      $start_dt1 = date("Y-m-d", strtotime(date('m', strtotime('+1 month')).'/01/'.date('Y').' 00:00:00'));
+      $end_dt1 = date("Y-m-d", strtotime(date('m', strtotime('+2 month')).'/01/'.date('Y').' 00:00:00'));
+      // 16 to month end
+      $start_dt2 = date("Y-m-16");
+      $end_dt2 = $start_dt1;
+    } else if ($day == 15) {
+      $day = 1;
+      // Next month 1-15
+      $start_dt2 = date("Y-m-d", strtotime(date('m', strtotime('+1 month')).'/01/'.date('Y').' 00:00:00'));
+      $end_dt2 = date("Y-m-d", strtotime(date('m', strtotime('+1 month')).'/16/'.date('Y').' 00:00:00'));
+      // Not use any more, for safe
+      $start_dt1 = $start_dt2;
+      $end_dt1 = $end_dt2;
+    } else {
+      die("Only Day 1 and Day 15 run this Job\n");
+    }
+    $nlist = $this->user_notify_model->get_notify_list($day);
+    foreach ($nlist as $notify) {
+      $user = $this->user_model->get_by_id($notify["user_id"]);
+      if (!$user || empty($user["email"])) {
+        echo "Unknow User_id: " . $notify["user_id"] . " or Unknown email address\n";
+        continue;
+      }
+      if (filter_var($user['email'], FILTER_VALIDATE_EMAIL)) {
+        echo "User_id: " . $notify["user_id"] . ", wrong email address: " . $user["email"] . "\n";
+        continue;
+      }
+  
+      $plan = false;
+      if ($notify["notify_type"] == 1) {
+        $mainbody = "Following Policy will be expired in ".$start_dt1." to ".$end_dt1."\r\n";
+        $plans = $this->plan_model->check_plan_expire($notify["user_id"], $start_dt1, $end_dt1);
+      } else {
+        $mainbody = "Following Policy will be expired in ".$start_dt2." to ".$end_dt2."\r\n";
+        $plans = $this->plan_model->check_plan_expire($notify["user_id"], $start_dt2, $end_dt2);
+      }
+      if ($plans) {
+        $counts = 0;
+        foreach ($plans as $plan) {
+          $counts++;
+          $mainbody .= $plan["policy"] .", Exipre Day:".$plan["expiry_date"]."\r\n";
+        }
+        $this->mymail_model->send_mymail($user["email"], "Policies will expire", $mainbody, array(), '', 'text');
+        echo "Send Notify to user_id:".$user["user_id"].", email: ".$user["email"]."(".$counts.")\n";
+			} else {
+        echo "Not expire data for user_id:".$user["user_id"].", email: ".$user["email"]."\n";
+      }
+		}
+	}
+
 	public function test() {
     //$this->load->model('plan_history_model');
     //$sql = "SELECT * FROM `plan` WHERE batch_number=3357";

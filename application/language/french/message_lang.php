@@ -357,6 +357,7 @@ $lang["No pre-existing condition coverage"] = "Aucune couverture pour les maladi
 $lang["No special character is allowed"] = "Aucun caractère spécial n'est autorisé";
 $lang["Note"] = "Note";
 $lang["Notes"] = "Remarques";
+$lang["Notify Me"] = "Prévenez-moi";
 $lang["Number"] = "Nombre";
 $lang["Number of Days"] = "Nombre de jours";
 
