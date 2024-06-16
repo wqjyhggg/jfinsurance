@@ -324,7 +324,7 @@ class User extends CI_Controller
         if (!empty($this->data['pdf_qr'])) $post['pdf_qr'] = $this->data['pdf_qr'];
         if (!empty($this->data['pdf_qr2'])) $post['pdf_qr2'] = $this->data['pdf_qr2'];
         $this->user_model->update($user_id, $post, 1, array('product_list' => 1));
-        $this->log_model->activity('user', array('message' => $this->user_model->logstr, 'systemlog' => $this->user_model->sqlstr));
+        $this->log_model->activity('user', array('message' => $this->user_model->logstr, 'systemlog' => $this->user_model->sqlstr), $user);
         $this->product_model->set_product_customize($user_id, $this->input->post('product_customize'));
         redirect(base_url('user'));
       }
@@ -423,7 +423,7 @@ class User extends CI_Controller
         $this->data['error_message'] = $this->lang->line('error_password_input');
       } else {
         $this->user_model->update($user['user_id'], array('password' => $password, 'status' => 1), 0);
-        $this->log_model->activity('user', array('message' => "Reset Password: " . $this->user_model->logstr, 'systemlog' => "Reset Password: " . $this->user_model->sqlstr));
+        $this->log_model->activity('user', array('message' => "Reset Password: " . $this->user_model->logstr, 'systemlog' => "Reset Password: " . $this->user_model->sqlstr), $user);
         redirect(base_url('product'));
       }
     }
