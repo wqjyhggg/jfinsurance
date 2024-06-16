@@ -306,6 +306,7 @@ class User extends CI_Controller
     $this->load->model('user_group_model');
     $this->load->model('region_model');
     $this->load->model('verify_model');
+    $this->load->model("log_model");
 
     //$this->data = $this->lang->language;
     $user_id = $user['user_id'];
@@ -401,6 +402,7 @@ class User extends CI_Controller
     $this->error = "";
     $this->load->model("app_model");
     $this->load->model("user_model");
+    $this->load->model("log_model");
     $user = $this->app_model->check_token($this->input->post("token"));
 
     if (empty($user)) {
