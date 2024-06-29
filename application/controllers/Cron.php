@@ -925,6 +925,43 @@ class Cron extends MY_Controller {
 		}
 	}
 
+  // 0 10 * * * (/usr/bin/php /var/www/html/agent.jfgroup.ca/html/index.php cron check_1w_3w) >> /home/ubuntu/check_1w_3w.cron 2>&1
+  public function check_1w_3w()
+	{
+		$this->valid();
+		set_time_limit(0);
+
+    $this->load->model('mymail_model');
+    $this->load->model('customer_model');
+
+    $day7 = date("Y-m-d", strtotime("+7 days"));
+    $day21 = date("Y-m-d", strtotime("+21 days"));
+
+    $sqllist = [
+      "SELECT * FROM plan WHERE (status_id=2 OR status_id=3) AND (product_short='JFR' OR product_short='JFVTC') AND effective_date='".$day7."' AND totaldays>=365 AND sum_insured>=100000",
+      "SELECT * FROM plan WHERE (status_id=2 OR status_id=3) AND (product_short='JFR' OR product_short='JFVTC') AND effective_date='".$day21."' AND totaldays>=365 AND sum_insured>=100000",
+    ];
+
+    foreach ($sqllist as $sql) {
+      if ($rt = $this->db->query($sql)->result_array()) {
+        foreach ($rt as $rc) {
+          $customer = $this->customer_model->get_customer_by_id($rc['customer_id']);
+          if (empty($customer)) {
+            continue;
+          }
+          $subject = "Your Super Visa Policy ".$rc["policy"]." Will Take Effect on ".$rc["effective_date"]." - Please DO NOT REPLY to this email";
+          $bodytext  = "Dear ".$customer["firstname"]."".$customer["lastname"].";\r\n\r\nThis is an automated message. Please DO NOT REPLY to this email.\r\n\r\n";
+          $bodytext .= "We are writing to inform you that your Super Visa Policy ".$rc["policy"]." will become effective on ".$rc["effective_date"].". If you need to postpone the effective date of your policy, please contact your agent/agency before ".$rc["effective_date"].".\r\n\r\n";
+          $bodytext .= "Thank you for your attention to this matter.\r\n\r\n";
+          $bodytext .= "JF Insurance Agency Group Inc.";
+          $this->mymail_model->send_mymail($rc["contact_email"], $subject, $bodytext, array(), '', 'text');
+          echo "Send to ".$rc["contact_email"]." ".$rc["policy"]."(".$rc["effective_date"].")\n";
+        }
+      }
+    }
+    exit();
+	}
+
 	public function test() {
     //$this->load->model('plan_history_model');
     //$sql = "SELECT * FROM `plan` WHERE batch_number=3357";
