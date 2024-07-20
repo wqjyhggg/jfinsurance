@@ -163,6 +163,12 @@ class Snappay_model extends CI_Model {
     // $c_trans_fee = $req['c_trans_fee']; //
     // $timestamp = $req['timestamp']; //
     // $discount_bmopc = $req['discount_bmopc']; //附加数据，在查询API和支付通知中原样返回，该字段主要用于商户携带订单的自定义数据
+    $this->db->where("trans_no", $trans_no);
+    $this->db->where("status", 1);
+    if ($rt = $this->db->get('snappay_postback')->row_array()) {
+      die('{"code":"1","message":"repeated"}');
+    }
+
     if (!empty($req['attach'])) {
       $attach = json_decode($req['attach'], true); //附加数据，在查询API和支付通知中原样返回，该字段主要用于商户携带订单的自定义数据
       if (!$attach) {
@@ -197,7 +203,7 @@ class Snappay_model extends CI_Model {
 
     if (($plan["status_id"] == 2) || ($plan["status_id"] == 3)) { // Paied already
       log_message('debug', "snappay: Plan paid, donothing ");
-      exit;
+      die('{"code":"1","message":"snappay: Plan paid, donothing"}');
     }
 
     $trans = [
@@ -205,9 +211,11 @@ class Snappay_model extends CI_Model {
       'amount' => $trans_amount
     ];
 
+    $this->db->set("trans_no", $trans_no);
+    $this->db->set("trans_status", $trans_status);
     $this->db->set("status", 1);
     $this->db->where("postback_id", $postback_id);
     $this->db->update("snappay_postback");
-    return $trans;
+    die('{"code":"0","message":"snappay: Record Received"}');
   }
 }
