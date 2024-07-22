@@ -216,6 +216,6 @@ class Snappay_model extends CI_Model {
     $this->db->set("status", 1);
     $this->db->where("postback_id", $postback_id);
     $this->db->update("snappay_postback");
-    die('{"code":"0","message":"snappay: Record Received"}');
+    return $trans;
   }
 }
