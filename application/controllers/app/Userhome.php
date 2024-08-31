@@ -18,6 +18,12 @@ class Userhome extends CI_Controller
       }
       return $this->app_model->return_error($this->error);
     }
+    if ($bid = $this->input->post("bid")) {
+      if ($user = $this->user_model->get_by_id($bid)) {
+        return $this->app_model->return_error("Unknown agent");
+      }
+    }
+    $beuser = $user;
 		$this->load->model('user_home_model');
     $do = $this->input->post("do");
     $paras = $this->input->post("paras");
@@ -78,6 +84,12 @@ class Userhome extends CI_Controller
       }
       return $this->app_model->return_error($this->error);
     }
+    if ($bid = $this->input->post("bid")) {
+      if ($user = $this->user_model->get_by_id($bid)) {
+        return $this->app_model->return_error("Unknown agent");
+      }
+    }
+    $beuser = $user;
 		$user_id = $beuser["user_id"];
     if (($beuser["user_group_id"] < 100) && ($this->input->post("user_id"))) {
       $user_id = $this->input->post("user_id");

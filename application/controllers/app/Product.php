@@ -23,6 +23,12 @@ class Product extends CI_Controller
       }
       return $this->app_model->return_error($this->error);
     }
+    if ($bid = $this->input->post("bid")) {
+      if ($user = $this->user_model->get_by_id($bid)) {
+        return $this->app_model->return_error("Unknown agent");
+      }
+    }
+
     $this->load->model("product_model");
     $data = array();
     $data["products"] = $this->product_model->product_list(0, $user);

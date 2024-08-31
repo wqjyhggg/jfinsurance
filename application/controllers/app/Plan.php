@@ -19,6 +19,11 @@ class Plan extends CI_Controller
       }
       return $this->app_model->return_error($this->error);
     }
+    if ($bid = $this->input->post("bid")) {
+      if ($user = $this->user_model->get_by_id($bid)) {
+        return $this->app_model->return_error("Unknown agent");
+      }
+    }
 
     $data = array();
     $post = $this->input->post();
@@ -49,6 +54,11 @@ class Plan extends CI_Controller
         $this->error = "Timeout";
       }
       return $this->app_model->return_error($this->error);
+    }
+    if ($bid = $this->input->post("bid")) {
+      if ($user = $this->user_model->get_by_id($bid)) {
+        return $this->app_model->return_error("Unknown agent");
+      }
     }
     $this->load->model('payment_model');
     $this->load->model('plan_model');
@@ -443,6 +453,11 @@ class Plan extends CI_Controller
       }
       return $this->app_model->return_error($this->error);
     }
+    if ($bid = $this->input->post("bid")) {
+      if ($user = $this->user_model->get_by_id($bid)) {
+        return $this->app_model->return_error("Unknown agent");
+      }
+    }
 
     $data = array();
     $this->load->model("plan_model");
@@ -476,6 +491,11 @@ class Plan extends CI_Controller
         $this->error = "Timeout";
       }
       return $this->app_model->return_error($this->error);
+    }
+    if ($bid = $this->input->post("bid")) {
+      if ($user = $this->user_model->get_by_id($bid)) {
+        return $this->app_model->return_error("Unknown agent");
+      }
     }
 
     if ($user["user_group_id"] > 100) {
@@ -520,6 +540,11 @@ class Plan extends CI_Controller
         $this->error = "Timeout";
       }
       return $this->app_model->return_error($this->error);
+    }
+    if ($bid = $this->input->post("bid")) {
+      if ($user = $this->user_model->get_by_id($bid)) {
+        return $this->app_model->return_error("Unknown agent");
+      }
     }
 
     $this->load->model("plan_model");
@@ -583,6 +608,11 @@ class Plan extends CI_Controller
       }
       return $this->app_model->return_error($this->error);
     }
+    if ($bid = $this->input->post("bid")) {
+      if ($user = $this->user_model->get_by_id($bid)) {
+        return $this->app_model->return_error("Unknown agent");
+      }
+    }
 
     $plan_id = $this->input->post("plan_id");
 		if (empty($plan_id)) {
@@ -590,7 +620,6 @@ class Plan extends CI_Controller
 		}
 
     $this->load->model("plan_model");
-    $beuser = $user;
 		$this->load->model('product_model');
 		$plan = $this->plan_model->get_plan_by_id($plan_id);
 		if (empty($plan)) {
@@ -660,6 +689,11 @@ class Plan extends CI_Controller
       }
       return $this->app_model->return_error($this->error);
     }
+    if ($bid = $this->input->post("bid")) {
+      if ($user = $this->user_model->get_by_id($bid)) {
+        return $this->app_model->return_error("Unknown agent");
+      }
+    }
 
     $plan_id = $this->input->post("plan_id");
 		if (empty($plan_id)) {
@@ -667,7 +701,6 @@ class Plan extends CI_Controller
 		}
 
     $this->load->model("plan_model");
-		$beuser = $user;
 		$this->load->model('product_model');
 		$plan = $this->plan_model->get_plan_by_id($plan_id);
 		if (empty($plan)) {
@@ -740,6 +773,11 @@ class Plan extends CI_Controller
         $this->error = "Timeout";
       }
       return $this->app_model->return_error($this->error);
+    }
+    if ($bid = $this->input->post("bid")) {
+      if ($user = $this->user_model->get_by_id($bid)) {
+        return $this->app_model->return_error("Unknown agent");
+      }
     }
 
     $plan_id = $this->input->post("plan_id");
@@ -922,6 +960,11 @@ class Plan extends CI_Controller
       }
       return $this->app_model->return_error($this->error);
     }
+    if ($bid = $this->input->post("bid")) {
+      if ($user = $this->user_model->get_by_id($bid)) {
+        return $this->app_model->return_error("Unknown agent");
+      }
+    }
 
     $plan_id = $this->input->post("plan_id");
     $do_cancel = $this->input->post("do_cancel");
@@ -1092,6 +1135,11 @@ class Plan extends CI_Controller
       }
       return $this->app_model->return_error($this->error);
     }
+    if ($bid = $this->input->post("bid")) {
+      if ($user = $this->user_model->get_by_id($bid)) {
+        return $this->app_model->return_error("Unknown agent");
+      }
+    }
 
     $plan_id = $this->input->post("plan_id");
 		if (empty($plan_id)) {
@@ -1256,6 +1304,11 @@ class Plan extends CI_Controller
         $this->error = "Timeout";
       }
       return $this->app_model->return_error($this->error);
+    }
+    if ($bid = $this->input->post("bid")) {
+      if ($user = $this->user_model->get_by_id($bid)) {
+        return $this->app_model->return_error("Unknown agent");
+      }
     }
 
     $plan_id = isset($post["plan_id"])?$post["plan_id"]:0;
@@ -1630,6 +1683,11 @@ class Plan extends CI_Controller
       }
       return $this->app_model->return_error($this->error);
     }
+    if ($bid = $this->input->post("bid")) {
+      if ($user = $this->user_model->get_by_id($bid)) {
+        return $this->app_model->return_error("Unknown agent");
+      }
+    }
 
     $plan_id = $this->input->post("plan_id");
 		if (empty($plan_id)) {
@@ -1723,6 +1781,11 @@ class Plan extends CI_Controller
         $this->error = "Timeout";
       }
       return $this->app_model->return_error($this->error);
+    }
+    if ($bid = $this->input->post("bid")) {
+      if ($user = $this->user_model->get_by_id($bid)) {
+        return $this->app_model->return_error("Unknown agent");
+      }
     }
 
     $plan_id = $this->input->post("plan_id");
