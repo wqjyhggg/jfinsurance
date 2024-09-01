@@ -35,7 +35,7 @@ class Userhome extends CI_Controller
       return $this->app_model->return_error("Missing parameter");
     }
     if ($do == 'save') {
-      $this->user_home_model->save($user_id, $notify_type);
+      $this->user_home_model->save($user_id, $paras);
     }
     
     $data["user_id"] = $user_id;
@@ -98,9 +98,9 @@ class Userhome extends CI_Controller
       return $this->app_model->return_error("Missing parameter");
     }
 
-		$imagefile = '';
 		if (!empty($_FILES)) {
 			$this->load->library('upload');
+			$this->load->helper('url');
 			if (!empty($_FILES['image']) && !empty($_FILES['image']['tmp_name'])) {
 				$imgfile = "u".$user_id;
 				$para = array(
