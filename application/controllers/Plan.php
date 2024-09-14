@@ -4347,37 +4347,26 @@ class Plan extends MY_Controller {
 		$data['customers'] = $this->customer_model->get_customer_by_parent_id($data['plan']['customer_id']);
 		$data['html_model'] = $this->html_model;
 		if ($data['plan']['product_short'] == 'OPL') {
-			$data['cardp'] = "opl";
 			$data['insurable_options'] = $this->load->view('plan/detail_opl', $data, TRUE);
 		} else if (($data['plan']['product_short'] == 'JFVTC') || ($data['plan']['product_short'] == 'JFR')) {
-			$data['cardp'] = "jfr";
 			$data['insurable_options'] = $this->load->view('plan/detail_opl', $data, TRUE);
 		} else if ($data['plan']['product_short'] == 'JUS') {
-			$data['cardp'] = "jus";
 			$data['insurable_options'] = $this->load->view('plan/detail_jus', $data, TRUE);
 		} else if ($data['plan']['product_short'] == 'NUS') {
-			$data['cardp'] = "nus";
 			$data['insurable_options'] = $this->load->view('plan/detail_jus', $data, TRUE);
 		} else if (($data['plan']['product_short'] == 'JFS') || ($data['plan']['product_short'] == 'JFE') || ($data['plan']['product_short'] == 'BHS')) {
-			$data['cardp'] = "jes";
 			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
 		} else if (($data['plan']['product_short'] == 'JES') || ($data['plan']['product_short'] == 'JFPL') || ($data['plan']['product_short'] == 'JFSL') || ($data['plan']['product_short'] == 'JFGD') || ($data['plan']['product_short'] == 'JFOS')) {
-			$data['cardp'] = "jes";
 			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
 		} else if ($data['plan']['product_short'] == 'JESP') {
-			$data['cardp'] = "jes";
 			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
 		} else if ($data['plan']['product_short'] == 'JFC') {
-			$data['cardp'] = "jfc";
 			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
 		} else if ($data['plan']['product_short'] == 'JFP') {
-			$data['cardp'] = "jfp";
 			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
 		} else if ($data['plan']['product_short'] == 'TOP') {
-			$data['cardp'] = "top";
 			$data['insurable_options'] = $this->load->view('plan/top/card', $data, TRUE);
 		} else {
-			$data['cardp'] = "";
 			$data['insurable_options'] = $this->load->view('plan/detail_other', $data, TRUE);
 		}
 
