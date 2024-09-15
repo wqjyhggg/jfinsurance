@@ -62,11 +62,10 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 			<div class="col-sm-12 nopadding text-center">
 				<h4 style="margin-top:100px;"><span>Detach this card and carry it with you at all times</span></h4>
 				<hr style="border-style: dotted;">
-				
 			</div>
 		</div>
 		<div class="row">
-			<div class="jfcard" style="float: left;vertical-align:top;position:absolute;bottom:5px;left:5px;width:320px;margin-top: 30px;">
+			<div class="jfcard" style="float: left;vertical-align:top;position:absolute;bottom:5px;left:5px;width:320px;margin-top: 0px;">
 				<?php if($plan['product_short'] == "JES"){ ?>
 					<h4 class="text-center" style="background: #eee;"><span>JF Elite PLus Student Insurance</span></h4>
 				<?php }elseif ($plan['product_short'] == "JFPL") { ?>
