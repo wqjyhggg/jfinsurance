@@ -97,7 +97,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 					<h4>
 						<span class="small pull-left">Effective Date: &nbsp;&nbsp;</span><span class="small"><?php echo $plan['effective_date']; ?></sapn>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 						<span class="small" style="text-align: right;">Expiry Date: &nbsp;&nbsp;</span><span class="small"><?php echo $plan['expiry_date']; ?></sapn>
-            <?php if (($plan['product_short'] != "JFVTC") && ($plan['product_short'] != "JFR")) { ?>
+            <?php if (($plan['product_short'] == "JFVTC") || ($plan['product_short'] == "JFR")) { ?>
               <?php if ($plan['stable_condition'] == 1) { ?>
                 <span class="small" style="text-align: right;">Stable Pre-Existing Condition Coverage: &nbsp;&nbsp;</span><span class="small">Yes</sapn>
               <?php } else if ($plan['stable_condition'] == 2) { ?>
@@ -148,7 +148,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 					<h4>
 						<span class="small pull-left">Effective Date: &nbsp;&nbsp;</span><span class="small"><?php echo $plan['effective_date']; ?></sapn>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 						<span class="small" style="text-align: right;">Expiry Date: &nbsp;&nbsp;</span><span class="small"><?php echo $plan['expiry_date']; ?></sapn>
-            <?php if (($plan['product_short'] != "JFVTC") && ($plan['product_short'] != "JFR")) { ?>
+            <?php if (($plan['product_short'] == "JFVTC") || ($plan['product_short'] == "JFR")) { ?>
               <?php if ($plan['stable_condition'] == 1) { ?>
                 <span class="small" style="text-align: right;">Stable Pre-Existing Condition Coverage: &nbsp;&nbsp;</span><span class="small">Yes</sapn>
               <?php } else if ($plan['stable_condition'] == 2) { ?>
