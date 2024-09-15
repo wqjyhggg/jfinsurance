@@ -97,15 +97,19 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 					<h4>
 						<span class="small pull-left">Effective Date: &nbsp;&nbsp;</span><span class="small"><?php echo $plan['effective_date']; ?></sapn>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 						<span class="small" style="text-align: right;">Expiry Date: &nbsp;&nbsp;</span><span class="small"><?php echo $plan['expiry_date']; ?></sapn>
-            <?php if (($plan['product_short'] == "JFVTC") || ($plan['product_short'] == "JFR")) { ?>
-              <?php if ($plan['stable_condition'] == 1) { ?>
-                <span class="small" style="text-align: right;">Stable Pre-Existing Condition Coverage: &nbsp;&nbsp;</span><span class="small">Yes</sapn>
-              <?php } else if ($plan['stable_condition'] == 2) { ?>
-                <span class="small" style="text-align: right;">Stable Pre-Existing Condition Coverage: &nbsp;&nbsp;</span><span class="small">No</sapn>
-              <?php } ?>
-              <span class="small" style="text-align: right;">Deductible Amount: &nbsp;&nbsp;</span><span class="small">$<?php echo number_format($plan['deductible_amount'], 2, '.', ','); ?></sapn>
+          </h4>
+          <?php if (($plan['product_short'] == "JFVTC") || ($plan['product_short'] == "JFR")) { ?>
+          <h4>
+            <?php if ($plan['stable_condition'] == 1) { ?>
+            <span class="small" style="text-align: right;">Stable Pre-Existing Condition Coverage: &nbsp;&nbsp;</span><span class="small">Yes</sapn>
+            <?php } else if ($plan['stable_condition'] == 2) { ?>
+            <span class="small" style="text-align: right;">Stable Pre-Existing Condition Coverage: &nbsp;&nbsp;</span><span class="small">No</sapn>
             <?php } ?>
-					</h4>
+          </h4>
+          <h4>
+            <span class="small" style="text-align: right;">Deductible Amount: &nbsp;&nbsp;</span><span class="small">$<?php echo number_format($plan['deductible_amount'], 2, '.', ','); ?></sapn>
+          </h4>
+          <?php } ?>
           <h4><span class="small">Emergency Call Center: 1-888-988-3268</span></h4>
           <h4><span class="small">In the event of an emergency, You must call Ontime Care immediately.</span></h4>
           <h4><span class="small">From Canada and the Us call Toll Free: 1-866-209-5804</span></h4>
