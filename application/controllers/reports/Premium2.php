@@ -155,7 +155,7 @@ class Premium2 extends MY_Controller
         } else if ($k == "sold_date") {
           $arr[] = $solddate;
         } else if ($k == "status_id") {
-          $arr[] = empty($status_list[$record["status_id"]])?(empty($record["status_id"])?"X":$recor    d["status_id"]):$status_list[$record["status_id"]];
+          $arr[] = empty($status_list[$record["status_id"]])?(empty($record["status_id"])?"X":$record["status_id"]):$status_list[$record["status_id"]];
         } else if ($k == "add_time") {
           $arr[] = substr($record[$k],0,10);
         } else if ($k == "days_used") {
