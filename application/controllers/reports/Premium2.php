@@ -155,7 +155,7 @@ class Premium2 extends MY_Controller
         } else if ($k == "sold_date") {
           $arr[] = $solddate;
         } else if ($k == "status_id") {
-          $arr[] = $status_list[$record["status_id"]];
+          $arr[] = empty($status_list[$record["status_id"]])?(empty($record["status_id"])?"X":$recor    d["status_id"]):$status_list[$record["status_id"]];
         } else if ($k == "add_time") {
           $arr[] = substr($record[$k],0,10);
         } else if ($k == "days_used") {
@@ -213,8 +213,10 @@ class Premium2 extends MY_Controller
     $data['payment_added_to'] = '2024-09-30';
     $data['earned_to'] = '2024-09-30';
     $data['product_short'] = array("JFGD","JFOS","JFPL","JFSL","JFVTC");
+    echo "Start run\n";
 
     $data['report_data'] = $this->report_model->get_premium_report2($data);
+    echo "got data\n";
 
     $status_list = array(
                 1 => "Quote",
@@ -251,7 +253,7 @@ class Premium2 extends MY_Controller
       'product_short' => 'Product',
     );
 
-    $w->openToFile(DOWNLOADDIR."Premium_Report_" . date('Ymd') . ".xlsx");
+    $w->openToFile(DOWNLOADDIR."/report/Premium_Report_" . date('Ymd') . ".xlsx");
     $w->addRow(array($data['payment_added_from']. " to " . $data['payment_added_to']));
     if (!empty($data['product_short'])) {
       $w->addRow($data['product_short']);
@@ -265,19 +267,6 @@ class Premium2 extends MY_Controller
 
     $total = $tearned = 0;  $solddate = '';
     foreach ($data['report_data'] as $record) {
-      // if ($record['status_id'] == 6) { $dte = strtotime($record['expiry_date']); $dts = strtotime($record['effective_date']); $record['totaldays'] = round(($dte-$dts)/(60 * 60 * 24)) + 1; };
-      // $premium = floatval($record['dailyrate'] * $record['totaldays']);
-      // $dispremium = abs($premium) - abs($record['premium']);
-      // if ($dispremium < 0) $dispremium = 0;
-      // if (abs($premium) > abs($record['premium'])) { $premium = floatval($record['premium']); }
-      // $earned = ($record['days_used']>0)? ($premium*floatval($record['days_used'])/floatval($record['totaldays'])) : 0;
-      // $unearned = number_format($premium - $earned, 2);
-      // $total += $premium;
-      // $tearned += $earned;
-      // if ($record['ishead']==1) { $solddate = substr($record['add_time'],0,10); }
-      // $dispremium = number_format($dispremium,2);
-      // $premium = number_format($premium,2);
-      // $earned = number_format($earned,2);
       if ($record['ishead']==1) { 
         $solddate = substr($record['add_time'],0,10);
       }
@@ -317,7 +306,7 @@ class Premium2 extends MY_Controller
         } else if ($k == "sold_date") {
           $arr[] = $solddate;
         } else if ($k == "status_id") {
-          $arr[] = $status_list[$record["status_id"]];
+          $arr[] = empty($status_list[$record["status_id"]])?(empty($record["status_id"])?"X":$record["status_id"]):$status_list[$record["status_id"]];
         } else if ($k == "add_time") {
           $arr[] = substr($record[$k],0,10);
         } else if ($k == "days_used") {
@@ -356,5 +345,6 @@ class Premium2 extends MY_Controller
     }
     $w->addRow($arr);
     $w->close();
+    echo "to file: ".DOWNLOADDIR."Premium_Report_" . date('Ymd') . ".xlsx"."\n";
   }
 }
