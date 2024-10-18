@@ -1875,4 +1875,123 @@ class Plan extends CI_Controller
     $mpdf->writeHTML($html);
     $mpdf->Output("policy_refund.pdf","I");
   }
+
+  function get_activelog_history()
+	{
+    $this->error = "";
+    $this->load->model("app_model");
+    $this->load->model("user_model");
+		$this->load->model('log_model');
+    $user = $this->app_model->check_token($this->input->post("token"));
+
+    if (empty($user)) {
+      if (empty($this->error)) {
+        $this->error = "Timeout";
+      }
+      return $this->app_model->return_error($this->error);
+    }
+    if ($user["user_group_id"] > 100) {
+      return $this->app_model->return_error("Unknown user");
+    }
+		$plan_id = $this->input->post('plan_id');
+    if (empty($plan_id)) {
+      return $this->app_model->return_error("Unknown Policy");
+    }
+
+		$tb = $this->input->post('tb');
+    if (empty($tb)) {
+      $tb = 'activity';
+    }
+		$activelog_tables = $this->log_model->history_tables;
+
+		$rt = [];
+		if (in_array($tb, $activelog_tables)) {
+			$records = $this->log_model->get_activity_by_plan_id_tb($plan_id, $tb);
+			foreach ($records as $p) {
+        $rt[] = array("username" => $p['username'], "tm" => $p['tm'], "message" => $p['message']);
+			}
+		}
+		return $this->app_model->return_ok(array("tables" => $activelog_tables, "history" => $rt));
+	}
+
+	function get_payment_history($plan_id)
+	{
+    $this->error = "";
+    $this->load->model("app_model");
+    $this->load->model("user_model");
+    $this->load->model('payment_model');
+    $user = $this->app_model->check_token($this->input->post("token"));
+
+    if (empty($user)) {
+      if (empty($this->error)) {
+        $this->error = "Timeout";
+      }
+      return $this->app_model->return_error($this->error);
+    }
+    if ($user["user_group_id"] > 100) {
+      return $this->app_model->return_error("Unknown user");
+    }
+		$plan_id = $this->input->post('plan_id');
+    if (empty($plan_id)) {
+      return $this->app_model->return_error("Unknown Policy");
+    }
+
+		$tb = $this->input->post('tb');
+    if (empty($tb)) {
+      $tb = 'payment';
+    }
+		$payment_tables = $this->payment_model->history_tables;
+		$rt = [];
+		if (in_array($tb, $payment_tables)) {
+			$payments = $this->payment_model->get_payment_by_plan_id_tb($plan_id, $tb);
+			foreach ($payments as $p) {
+				$pay_str = '';
+				if ($p['pay_type'] == 'up_commission') continue;
+				if ($p['pay_type'] == 'refund_up_commission') continue;
+				if ($p['pay_type'] == 'cancel_up_commission') continue;
+
+				$sbstr = substr($p['pay_type'], 0, 6);
+				if ($p['ispaid']) {
+					$pay_str = 'Paid';
+				} else {
+					if ($sbstr == 'refund') {
+            $pay_str = 'Refund';
+						// $pay_str = "<a href='" . base_url("payment/revert") . "/" . $p['payment_id'] . "'>Revert Refund</a>";
+					} else if ($sbstr == 'cancel') {
+            $pay_str = 'Cancel';
+						// $pay_str = "<a href='" . base_url("payment/revert") . "/" . $p['payment_id'] . "'>Revert Cancel</a>";
+					} else {
+						$pay_str = '-';
+					}
+				}
+				$pay_info = '';
+				$ck_info = $p['cheque_number'];
+				if ($p['pay_date'] > "2020-01-01") $ck_info .= ":" . $p['pay_date'];
+				if (!empty($p['invoice_num'])) $pay_info .= "[" . $p['invoice_num'] . "]";
+				if (!empty($p['bank_name'])) $pay_info .= "[" . $p['bank_name'] . "]";
+				if (!empty($p['payor_name'])) $pay_info .= "[" . $p['payor_name'] . "]";
+				if (!empty($p['cheque_number'])) $pay_info .= "[" . $p['cheque_number'] . "]";
+				if (!empty($p['pay_to'])) $pay_info .= "[" . $p['pay_to'] . "]";
+				if (!empty($p['name'])) $pay_info .= "[" . $p['name'] . "]";
+				if (!empty($p['first5'])) $pay_info .= "[" . $p['first5'] . "]";
+				if (!empty($p['last4'])) $pay_info .= "[" . $p['last4'] . "]";
+				if (!empty($p['expiry_month'])) $pay_info .= "[" . $p['expiry_month'] . "]";
+				if (!empty($p['expiry_year'])) $pay_info .= "[" . $p['expiry_year'] . "]";
+
+        $rt = [
+				// $rt .= "<td>" . (empty($p['ispaid']) ? "<input type='checkbox' name='payment[]' value='" . $p['payment_id'] . "'>" : "") . "</td>\n";
+          'last_update' => $p['last_update'],
+          'pay_type' => $p['pay_type'],
+          'pay_mothed' => $p['pay_mothed'],
+          'amount' => $p['amount'],
+          'rate' => $p['rate'],
+          'pay_info' => $pay_str,
+          'check_info' => $ck_info,
+          'pay_detail' => $pay_info,
+          'note' => $p['note'],
+        ];
+      }
+		}
+		return $this->app_model->return_ok(array("tables" => $payment_tables, "history" => $rt));
+	}
 }
