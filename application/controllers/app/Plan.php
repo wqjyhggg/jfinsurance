@@ -1914,7 +1914,7 @@ class Plan extends CI_Controller
 		return $this->app_model->return_ok(array("tables" => $activelog_tables, "history" => $rt));
 	}
 
-	function get_payment_history($plan_id)
+	function get_payment_history()
 	{
     $this->error = "";
     $this->load->model("app_model");
