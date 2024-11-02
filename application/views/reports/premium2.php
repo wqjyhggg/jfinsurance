@@ -84,18 +84,28 @@ defined('BASEPATH') or exit('No direct script access allowed');
                   <input type="hidden" id="payment_added_to" value="" /><br />
                   <!-- Earned To date -->
                 </div>
+              </div>
+
+              <div class="row">
                 <!-- export button -->
-                <div class="form-group col-sm-1 text-center">
-                  <label class="col-sm-12">&nbsp;</label>
+                <div class="form-group col-sm-6 text-center">
+                </div>
+                <!-- export button -->
+                <!-- submit button -->
+                <div class="form-group col-sm-2 text-center">
                   <input type="submit" name="export" value="Export" class="btn btn-primary" />
                 </div>
                 <!-- export button -->
                 <!-- submit button -->
-                <div class="form-group col-sm-1">
-                  <label class="col-sm-12">&nbsp;</label>
+                <div class="form-group col-sm-2 text-center">
                   <input type="submit" name="submit" value="Display" class="btn btn-primary" />
                 </div>
                 <!-- submit button -->
+                <!-- submit button -->
+                <div class="form-group col-sm-2 text-center">
+                  <input type="submit" name="request" value="Request" class="btn btn-primary" />
+                </div>
+                <!-- export button -->
               </div>
             </form>
 

@@ -33,13 +33,18 @@ class Premium2 extends MY_Controller
     $data['payment_added_to'] = empty($this->input->post('payment_added_to'))?date("Y-m-d"):$this->input->post('payment_added_to');
     $data['earned_to'] = empty($this->input->post('earned_to'))?date("Y-m-d"):$this->input->post('earned_to');
     $data['product_short'] = empty($data['product_short'])?array():array_keys($data['product_short']);
-    $data['download_url'] = base_url("tmppdf");
-    $data['download_request'] = $this->backrun_model->get_job_list(Backrun_model::ORPremium);
 
     $data['report_data'] = array();
     if ($this->input->post('export')) {
       $data['report_data'] = $this->report_model->get_premium_report2($data);
       return $this->export_list($data);
+    } else if ($this->input->post('submit')) {
+      $para_data['product_short'] = $this->input->post('product_short');
+      $para_data['payment_added_from'] = empty($this->input->post('payment_added_from'))?date("Y-m-d"):$this->input->post('payment_added_from');
+      $para_data['payment_added_to'] = empty($this->input->post('payment_added_to'))?date("Y-m-d"):$this->input->post('payment_added_to');
+      $para_data['earned_to'] = empty($this->input->post('earned_to'))?date("Y-m-d"):$this->input->post('earned_to');
+      $para_data['product_short'] = empty($data['product_short'])?array():array_keys($data['product_short']);
+      $this->backrun_model->add_run(Backrun_model::ORPremium, $para_data);
     } else if ($this->input->post('submit')) {
       $data['report_data'] = $this->report_model->get_premium_report2($data);
     }
@@ -47,6 +52,8 @@ class Premium2 extends MY_Controller
     //print_r($data); //XXXXXXXXXXXXX
     //echo "</pre>";
     //die("XXXX");
+    $data['download_url'] = base_url("tmppdf");
+    $data['download_request'] = $this->backrun_model->get_job_list(Backrun_model::ORPremium);
     $data['product_list'] = $this->product_model->get_available_product_list();
 
     $this->load->common('reports/premium2', $data);
