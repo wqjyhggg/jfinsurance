@@ -925,6 +925,26 @@ class Cron extends MY_Controller {
 		}
 	}
 
+  // 0 2 * * * (/usr/bin/php /var/www/html/agent.jfgroup.ca/html/index.php cron check_backrun) >> /home/ubuntu/check_backrun.cron 2>&1
+  public function check_backrun()
+  {
+    $this->valid();
+    set_time_limit(0);
+
+    $this->load->model('backrun_model');
+
+    if ($runjobs = $this->backrun_model->get_run()) {
+      foreach ($runjobs as $job) {
+        if ($job["run_type"] == Backrun_model::ORPremium) {
+          $this->backrun_model->ORPremium($job);
+        } else {
+          print_r($job);
+        }
+      }
+    }
+    die("Done for All\n");
+  }
+  
   // 0 10 * * * (/usr/bin/php /var/www/html/agent.jfgroup.ca/html/index.php cron check_1w_3w) >> /home/ubuntu/check_1w_3w.cron 2>&1
   public function check_1w_3w()
 	{

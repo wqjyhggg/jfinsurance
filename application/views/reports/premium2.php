@@ -103,6 +103,23 @@ defined('BASEPATH') or exit('No direct script access allowed');
         </div>
       </div>
     </div><!-- End Filter Section -->
+    <!-- Jobs List -->
+    <?php if ($download_request && (sizeof($download_request) > 0)) : ?>
+    <div class="row">
+      <div class="col-md-12 col-sm-12 col-xs-12">
+        <h2>Report Request</h2>
+      </div>
+      <?php foreach ($download_request as $req) : ?>
+      <div class="col-md-12 col-sm-12 col-xs-12">
+        <?php if ($req["is_done"]) : ?>
+          <?php echo $req["done_time"] . " : " . $download_url . $req["filepath"]; ?>
+        <?php else : ?>
+          <?php echo $req["require_time"] . " : " . $req["para_data"]; ?>
+        <?php endif; ?>
+      </div>
+      <?php endforeach; ?>
+    </div><!-- Jobs List -->
+    <?php endif; ?>
     <!-- List Section -->
     <div class="row">
       <div class="col-md-12 col-sm-12 col-xs-12">
