@@ -28,7 +28,6 @@ class Premium2 extends MY_Controller
     $data['menu'] = $this->menu_model->load_meun();
     $data['action_url'] = current_url();
 
-    $data['product_short'] = $this->input->post('product_short');
     $data['payment_added_from'] = empty($this->input->post('payment_added_from'))?date("Y-m-d"):$this->input->post('payment_added_from');
     $data['payment_added_to'] = empty($this->input->post('payment_added_to'))?date("Y-m-d"):$this->input->post('payment_added_to');
     $data['earned_to'] = empty($this->input->post('earned_to'))?date("Y-m-d"):$this->input->post('earned_to');
@@ -39,11 +38,11 @@ class Premium2 extends MY_Controller
       $data['report_data'] = $this->report_model->get_premium_report2($data);
       return $this->export_list($data);
     } else if ($this->input->post('request')) {
-      $para_data['product_short'] = $this->input->post('product_short');
-      $para_data['payment_added_from'] = empty($this->input->post('payment_added_from'))?date("Y-m-d"):$this->input->post('payment_added_from');
-      $para_data['payment_added_to'] = empty($this->input->post('payment_added_to'))?date("Y-m-d"):$this->input->post('payment_added_to');
-      $para_data['earned_to'] = empty($this->input->post('earned_to'))?date("Y-m-d"):$this->input->post('earned_to');
-      $para_data['product_short'] = empty($data['product_short'])?array():array_keys($data['product_short']);
+      $para_data = [];
+      $para_data['payment_added_from'] = $data['payment_added_from'];
+      $para_data['payment_added_to'] = $data['payment_added_to'];
+      $para_data['earned_to'] = $data['earned_to'];
+      $para_data['product_short'] = $data['product_short'];
       $this->backrun_model->add_run(Backrun_model::ORPremium, json_encode($para_data));
     } else if ($this->input->post('submit')) {
       $data['report_data'] = $this->report_model->get_premium_report2($data);
