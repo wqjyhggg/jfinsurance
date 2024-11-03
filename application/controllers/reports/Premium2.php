@@ -52,7 +52,7 @@ class Premium2 extends MY_Controller
     //print_r($data); //XXXXXXXXXXXXX
     //echo "</pre>";
     //die("XXXX");
-    $data['download_url'] = base_url("tmppdf");
+    $data['download_url'] = base_url("/");
     $data['download_request'] = $this->backrun_model->get_job_list(Backrun_model::ORPremium);
     $data['product_list'] = $this->product_model->get_available_product_list();
 

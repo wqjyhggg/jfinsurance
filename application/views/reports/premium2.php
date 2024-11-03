@@ -119,15 +119,19 @@ defined('BASEPATH') or exit('No direct script access allowed');
       <div class="col-md-12 col-sm-12 col-xs-12">
         <h2>Report Request</h2>
       </div>
-      <?php foreach ($download_request as $req) : ?>
       <div class="col-md-12 col-sm-12 col-xs-12">
-        <?php if ($req["is_done"]) : ?>
-          <?php echo $req["done_time"] . " : " . $download_url . "/" . $req["filepath"]; ?>
-        <?php else : ?>
-          <?php echo $req["require_time"] . " : " . $req["para_data"]; ?>
-        <?php endif; ?>
+        <ol>
+        <?php foreach ($download_request as $req) : ?>
+          <li>
+          <?php echo $req["require_time"] . " : "?>
+          <?php if ($req["is_done"]) : ?>
+            <a href="<?php echo $download_url . "/" . $req["filepath"]; ?>" style="color: #23527c; text-decoration: underline;">download <?php echo basename($req["filepath"]); ?></a>
+          <?php endif; ?>
+          <?php echo $req["para_data"]; ?>
+          </li>
+          <?php endforeach; ?>
+        </ol>
       </div>
-      <?php endforeach; ?>
     </div><!-- Jobs List -->
     <?php endif; ?>
     <!-- List Section -->
