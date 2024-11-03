@@ -67,7 +67,7 @@ class Backrun_model extends CI_Model {
     $this->db->update('backrun');
   }
 
-  public function ORPremium($data)
+  public function ORPremium($backrun_id, $data)
   {
 		if ((php_sapi_name() !== 'cli')) {
       show_404();
@@ -119,9 +119,9 @@ class Backrun_model extends CI_Model {
       'product_short' => 'Product',
     );
 
-    $filename = "/report/Premium_Report_" . date('Ymd') . ".xlsx";
-    if (!empty($data["backrun_id"])) {
-      $filename = "/report/Premium_Report_" . $data["backrun_id"] . ".xlsx";
+    $filename = "tmppdf/Premium_Report_" . date('Ymd') . ".xlsx";
+    if (!empty($backrun_id)) {
+      $filename = "tmppdf/Premium_Report_" . $backrun_id . ".xlsx";
     }
 
     $w->openToFile(DOWNLOADDIR.$filename);

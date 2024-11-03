@@ -219,6 +219,6 @@ class Premium2 extends MY_Controller
     $data['product_short'] = array("JFGD","JFOS","JFPL","JFSL","JFVTC");
     $data["run_type"] == Backrun_model::ORPremium;
 
-    $this->backrun_model->ORPremium($data);
+    $this->backrun_model->ORPremium(0, $data);
   }
 }

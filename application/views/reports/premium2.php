@@ -122,7 +122,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
       <?php foreach ($download_request as $req) : ?>
       <div class="col-md-12 col-sm-12 col-xs-12">
         <?php if ($req["is_done"]) : ?>
-          <?php echo $req["done_time"] . " : " . $download_url . $req["filepath"]; ?>
+          <?php echo $req["done_time"] . " : " . $download_url . "/" . $req["filepath"]; ?>
         <?php else : ?>
           <?php echo $req["require_time"] . " : " . $req["para_data"]; ?>
         <?php endif; ?>
