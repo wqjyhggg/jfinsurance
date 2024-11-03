@@ -46,7 +46,7 @@ class Backrun_model extends CI_Model {
 	public function get_job_list($run_type) {
 		$this->db->where('run_type', $run_type);
     $this->db->where("DATE(require_time) > (NOW() - INTERVAL ".SELF::KEEP_DAYS." DAY)");
-		return $this->db->get('backrun')->row_array();
+		return $this->db->get('backrun')->result_array();
 	}
 	
 	/**
@@ -56,7 +56,7 @@ class Backrun_model extends CI_Model {
 	 */
 	public function get_run() {
 		$this->db->where('is_done', 0);
-		return $this->db->get('backrun')->row_array();
+		return $this->db->get('backrun')->result_array();
 	}
 
   public function set_file_done($backrun_id, $filename) {
