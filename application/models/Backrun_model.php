@@ -62,7 +62,7 @@ class Backrun_model extends CI_Model {
   public function set_file_done($backrun_id, $filename) {
     $this->db->set('is_done', 1);
     $this->db->set('filepath', $filename);
-    $this->db->set('done_tim=current_date()');
+    $this->db->set('done_time', 'current_time()', false);
     $this->db->where('backrun_id', $backrun_id);
     $this->db->update('backrun');
   }
@@ -216,8 +216,8 @@ class Backrun_model extends CI_Model {
     }
     $w->addRow($arr);
     $w->close();
-    if (!empty($data["backrun_id"])) {
-      $this->set_file_done($data["backrun_id"], $filename);
+    if ($backrun_id) {
+      $this->set_file_done($backrun_id, $filename);
     } else {
       echo "to file: ".DOWNLOADDIR.$filename."\n";
     }
