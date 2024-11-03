@@ -44,7 +44,7 @@ class Premium2 extends MY_Controller
       $para_data['payment_added_to'] = empty($this->input->post('payment_added_to'))?date("Y-m-d"):$this->input->post('payment_added_to');
       $para_data['earned_to'] = empty($this->input->post('earned_to'))?date("Y-m-d"):$this->input->post('earned_to');
       $para_data['product_short'] = empty($data['product_short'])?array():array_keys($data['product_short']);
-      $this->backrun_model->add_run(Backrun_model::ORPremium, $para_data);
+      $this->backrun_model->add_run(Backrun_model::ORPremium, json_encode($para_data));
     } else if ($this->input->post('submit')) {
       $data['report_data'] = $this->report_model->get_premium_report2($data);
     }
