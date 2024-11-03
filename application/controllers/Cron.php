@@ -936,7 +936,7 @@ class Cron extends MY_Controller {
     if ($runjobs = $this->backrun_model->get_run()) {
       foreach ($runjobs as $job) {
         if ($job["run_type"] == Backrun_model::ORPremium) {
-          $this->backrun_model->ORPremium(json_decode($job["backrun_id"], $job["para_data"], true));
+          $this->backrun_model->ORPremium($job["backrun_id"], json_decode($job["para_data"], true));
         } else {
           print_r($job);
         }
