@@ -38,7 +38,7 @@ class Premium2 extends MY_Controller
     if ($this->input->post('export')) {
       $data['report_data'] = $this->report_model->get_premium_report2($data);
       return $this->export_list($data);
-    } else if ($this->input->post('submit')) {
+    } else if ($this->input->post('request')) {
       $para_data['product_short'] = $this->input->post('product_short');
       $para_data['payment_added_from'] = empty($this->input->post('payment_added_from'))?date("Y-m-d"):$this->input->post('payment_added_from');
       $para_data['payment_added_to'] = empty($this->input->post('payment_added_to'))?date("Y-m-d"):$this->input->post('payment_added_to');
