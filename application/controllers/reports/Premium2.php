@@ -28,10 +28,11 @@ class Premium2 extends MY_Controller
     $data['menu'] = $this->menu_model->load_meun();
     $data['action_url'] = current_url();
 
+    $product_short = $this->input->post('product_short');
     $data['payment_added_from'] = empty($this->input->post('payment_added_from'))?date("Y-m-d"):$this->input->post('payment_added_from');
     $data['payment_added_to'] = empty($this->input->post('payment_added_to'))?date("Y-m-d"):$this->input->post('payment_added_to');
     $data['earned_to'] = empty($this->input->post('earned_to'))?date("Y-m-d"):$this->input->post('earned_to');
-    $data['product_short'] = empty($data['product_short'])?array():array_keys($data['product_short']);
+    $data['product_short'] = empty($product_short)?array():array_keys($product_short);
 
     $data['report_data'] = array();
     if ($this->input->post('export')) {
