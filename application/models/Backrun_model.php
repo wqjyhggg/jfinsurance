@@ -27,7 +27,7 @@ class Backrun_model extends CI_Model {
 	 * @param string	$para_data  job parameter (json data)
 	 * @return int  record id
 	 */
-	private function add_run($run_type, $para_data) {
+	public function add_run($run_type, $para_data) {
     $data = array(
       'run_type' => $run_type, 
       'para_data' => $para_data
