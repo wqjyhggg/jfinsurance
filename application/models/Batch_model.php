@@ -34,10 +34,11 @@ class Batch_model extends CI_Model {
 	 * Add trasaction records base on plan and product data
 	 * 
 	 */
-	private function add_payment($plan_id, $changeval = 0) {
+	private function add_payment($plan_id, $changeval = 0, $user=null) {
 		$this->load->model('plan_model');
 		$this->load->model('product_model');
 		$this->load->model('payment_model');
+    $this->load->model('log_model');
 		
 		$payinfo = "Batch Upload; ";
 		
@@ -74,7 +75,7 @@ class Batch_model extends CI_Model {
 		$dt['rate'] = 100;
 		$dt['pay_type'] = 'premium';
 		$dt['premium_payment_id'] = 0;
-		$payment_id = $this->payment_model->add($dt);
+    $payment_id = $this->payment_model->add($dt, $user);
 		$para = array(
 				'plan_id' => $plan_id,
 				'customer_id' => $plan['customer_id'],
@@ -82,7 +83,7 @@ class Batch_model extends CI_Model {
 				'message' => $this->payment_model->logstr,
 				'systemlog' => $this->payment_model->sqlstr
 		);
-		$this->log_model->activity('payment', $para);
+		$this->log_model->activity('payment', $para, $user);
 		$premium = $dt['amount'];	// Adjust amount if it was paid
 		
 		// up commission
@@ -90,7 +91,7 @@ class Batch_model extends CI_Model {
 		$dt['rate'] = $up_commission_rate;
 		$dt['pay_type'] = 'up_commission';
 		$dt['premium_payment_id'] = $payment_id;
-		$up_commission_payment_id = $this->payment_model->add($dt);
+    $up_commission_payment_id = $this->payment_model->add($dt, $user);
 		$para = array(
 				'plan_id' => $plan_id,
 				'customer_id' => $plan['customer_id'],
@@ -98,7 +99,7 @@ class Batch_model extends CI_Model {
 				'message' => $this->payment_model->logstr,
 				'systemlog' => $this->payment_model->sqlstr
 		);
-		$this->log_model->activity('up_commission', $para);
+		$this->log_model->activity('up_commission', $para, $user);
 		
 		// commission
 		$dt['amount'] = $commission_amount;
@@ -108,7 +109,7 @@ class Batch_model extends CI_Model {
 		if ((($plan['product_short'] == 'OPL') || ($plan['product_short'] == 'JFVTC') || ($plan['product_short'] == 'JFR')) && ($premium > 100000)) {
 			$dt['added'] = $plan['effective_date'];
 		}
-		$commission_payment_id = $this->payment_model->add($dt);
+    $commission_payment_id = $this->payment_model->add($dt, $user);
 		$para = array(
 				'plan_id' => $plan_id,
 				'customer_id' => $plan['customer_id'],
@@ -116,10 +117,10 @@ class Batch_model extends CI_Model {
 				'message' => $this->payment_model->logstr,
 				'systemlog' => $this->payment_model->sqlstr
 		);
-		$this->log_model->activity('commission', $para);
+		$this->log_model->activity('commission', $para, $user);
 		
 		$para = array('payment_id' => $payment_id, 'payinfo' => $payinfo, 'commission_payment_id' => $commission_payment_id, 'status_id' => 2, 'policy' => $this->plan_model->get_policy_number($plan_id, 2));
-		$this->plan_model->update($plan_id, $para);
+    $this->plan_model->update($plan_id, $para, array(), $user);
 		$para = array(
 				'plan_id' => $plan_id,
 				'customer_id' => $plan['customer_id'],
@@ -127,7 +128,7 @@ class Batch_model extends CI_Model {
 				'message' => $this->plan_model->logstr,
 				'systemlog' => $this->plan_model->sqlstr
 		);
-		$this->log_model->activity('plan', $para);
+		$this->log_model->activity('plan', $para, $user);
 		return TRUE;
 	}
 
@@ -288,13 +289,13 @@ class Batch_model extends CI_Model {
 		}
 		if (empty($plan)) {
 			// Add
-			$plan_id = $this->plan_model->add($data);
+      $plan_id = $this->plan_model->add($data, $user);
 			if (!empty($data['batch_number']) && empty($data['policy'])) {
 				$policy = $this->plan_model->get_policy_number($plan_id, 2);
 				$sql  = "UPDATE plan SET policy=" . $this->db->escape($policy) . " WHERE plan_id='" . (int)$plan_id . "'";
 				$this->db->query($sql);
 			}
-			$this->add_payment($plan_id);
+      $this->add_payment($plan_id, 0, $user);
       if ($nid = $this->plan_history_model->add($plan_id, $data['status_id'])) {
         // Remove payment_id, it should be no payment
         $this->plan_history_model->update($nid, array("note"=>"plan batch added"));
@@ -314,10 +315,10 @@ class Batch_model extends CI_Model {
       $plan_id = $this->plan_model->update($para['plan_id'], $data);
       $payment_id = 0;
 			if ($data['premium'] != $plan['premium']) {
-				$payment_id = $this->add_payment($plan_id, (float)$data['premium'] - (float)$plan['premium']);
-			}
+        $payment_id = $this->add_payment($plan_id, (float)$data['premium'] - (float)$plan['premium'], $user);
+      }
 
-      $this->plan_model->update($plan_id, array("status_id"=>$para['status_id']));
+      $this->plan_model->update($plan_id, array("status_id"=>$para['status_id']), array(), $user);
       $para = array(
         'plan_id' => $plan_id, 
         'customer_id' => $plan['customer_id'], 
@@ -325,7 +326,7 @@ class Batch_model extends CI_Model {
         'message' => $this->plan_model->logstr, 
         'systemlog' => $this->plan_model->sqlstr
       );
-      $this->log_model->activity('plan', $para);
+      $this->log_model->activity('plan', $para, $user);
       if ($history_id) {
         $this->plan_history_model->add_remove($history_id);
       }
