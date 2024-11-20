@@ -1275,8 +1275,8 @@ class Plan extends CI_Controller
     $this->load->model("user_model");
     $this->load->helper('url');
 
-    if (!$isinternal) {
-      $user = $this->app_model->check_token($this->input->post("token"));
+    if ($isinternal) {
+      $user = $this->user_model->get_by_id(1);
       $post = array(
         "plan_id" => $plan_id,
         "withlogo" => 1,
@@ -1285,6 +1285,7 @@ class Plan extends CI_Controller
         "emailaddr" => "",
       );
     } else {
+      $user = $this->app_model->check_token($this->input->post("token"));
       $post = $this->input->post();
     }
 
