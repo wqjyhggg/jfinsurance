@@ -186,7 +186,7 @@ class Product_model extends CI_Model {
 				$r['message'] = 'Family Plan child(ren) no more than 19 years';
 			} else if ($para['number_customer'] > 6) {
 				$r['message'] = 'Family Plan must less than 6 people';
-			} else if (($para['age'] > 60) && ($para['number_customer'] > 1)) {
+			} else if (($para['totalyears'] > 60) && ($para['number_customer'] > 1)) {
 				$r['message'] = 'Family Plan all members must 60 or under';
 			}
 		}
