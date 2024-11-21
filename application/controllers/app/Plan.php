@@ -563,6 +563,9 @@ class Plan extends CI_Controller
 
     $this->load->model('product_model');
     if ($post['product_short'] == 'TOP') {
+      if (empty($post["province2"])) {
+        $post["province2"] = "ON";
+      }
       $post['totaldays'] = $post['total_days'];
       if ($premium = $this->product_model->get_top_quote($post)) {
         $data['premiumArr'] = $premium;
