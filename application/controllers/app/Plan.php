@@ -15,7 +15,7 @@ class Plan extends CI_Controller
 
     if (empty($user)) {
       if (empty($this->error)) {
-        $this->error = "Timeout";
+        $this->error = "Session Expired";
       }
       return $this->app_model->return_error($this->error);
     }
@@ -51,7 +51,7 @@ class Plan extends CI_Controller
 
     if (empty($user)) {
       if (empty($this->error)) {
-        $this->error = "Timeout";
+        $this->error = "Session Expired";
       }
       return $this->app_model->return_error($this->error);
     }
@@ -81,7 +81,7 @@ class Plan extends CI_Controller
 
     if (empty($user)) {
       if (empty($this->error)) {
-        $this->error = "Timeout";
+        $this->error = "Session Expired";
       }
       return $this->app_model->return_error($this->error);
     }
@@ -118,7 +118,7 @@ class Plan extends CI_Controller
 
     if (empty($user)) {
       if (empty($this->error)) {
-        $this->error = "Timeout";
+        $this->error = "Session Expired";
       }
       return $this->app_model->return_error($this->error);
     }
@@ -449,7 +449,7 @@ class Plan extends CI_Controller
 
     if (empty($user)) {
       if (empty($this->error)) {
-        $this->error = "Timeout";
+        $this->error = "Session Expired";
       }
       return $this->app_model->return_error($this->error);
     }
@@ -488,7 +488,7 @@ class Plan extends CI_Controller
 
     if (empty($user)) {
       if (empty($this->error)) {
-        $this->error = "Timeout";
+        $this->error = "Session Expired";
       }
       return $this->app_model->return_error($this->error);
     }
@@ -537,7 +537,7 @@ class Plan extends CI_Controller
 
     if (empty($user)) {
       if (empty($this->error)) {
-        $this->error = "Timeout";
+        $this->error = "Session Expired";
       }
       return $this->app_model->return_error($this->error);
     }
@@ -607,7 +607,7 @@ class Plan extends CI_Controller
 
     if (empty($user)) {
       if (empty($this->error)) {
-        $this->error = "Timeout";
+        $this->error = "Session Expired";
       }
       return $this->app_model->return_error($this->error);
     }
@@ -688,7 +688,7 @@ class Plan extends CI_Controller
 
     if (empty($user)) {
       if (empty($this->error)) {
-        $this->error = "Timeout";
+        $this->error = "Session Expired";
       }
       return $this->app_model->return_error($this->error);
     }
@@ -762,7 +762,7 @@ class Plan extends CI_Controller
 
     if (empty($user)) {
       if (empty($this->error)) {
-        $this->error = "Timeout";
+        $this->error = "Session Expired";
       }
       return $this->app_model->return_error($this->error);
     }
@@ -948,7 +948,7 @@ class Plan extends CI_Controller
 
     if (empty($user)) {
       if (empty($this->error)) {
-        $this->error = "Timeout";
+        $this->error = "Session Expired";
       }
       return $this->app_model->return_error($this->error);
     }
@@ -1123,7 +1123,7 @@ class Plan extends CI_Controller
 
     if (empty($user)) {
       if (empty($this->error)) {
-        $this->error = "Timeout";
+        $this->error = "Session Expired";
       }
       return $this->app_model->return_error($this->error);
     }
@@ -1294,7 +1294,7 @@ class Plan extends CI_Controller
 
     if (empty($user)) {
       if (empty($this->error)) {
-        $this->error = "Timeout";
+        $this->error = "Session Expired";
       }
       return $this->app_model->return_error($this->error);
     }
@@ -1672,7 +1672,7 @@ class Plan extends CI_Controller
 
     if (empty($user)) {
       if (empty($this->error)) {
-        $this->error = "Timeout";
+        $this->error = "Session Expired";
       }
       return $this->app_model->return_error($this->error);
     }
@@ -1771,7 +1771,7 @@ class Plan extends CI_Controller
 
     if (empty($user)) {
       if (empty($this->error)) {
-        $this->error = "Timeout";
+        $this->error = "Session Expired";
       }
       return $this->app_model->return_error($this->error);
     }
@@ -1890,7 +1890,7 @@ class Plan extends CI_Controller
 
     if (empty($user)) {
       if (empty($this->error)) {
-        $this->error = "Timeout";
+        $this->error = "Session Expired";
       }
       return $this->app_model->return_error($this->error);
     }
@@ -1928,7 +1928,7 @@ class Plan extends CI_Controller
 
     if (empty($user)) {
       if (empty($this->error)) {
-        $this->error = "Timeout";
+        $this->error = "Session Expired";
       }
       return $this->app_model->return_error($this->error);
     }
