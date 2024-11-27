@@ -190,7 +190,7 @@ if ($Agree != "Agree") {
 							<div class="form-group col-sm-3">
 								<label class="col-sm-12"><?php echo $this->lang->line("Effective Date"); ?> (YYYY-MM-DD): </label>
 								<div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd" id='effective_date_div'>
-			                        <input class="setpremium form-control" size="16" type="text" name='effective_date' value='<?php echo $effective_date; ?>'>
+			                        <input class="setpremium form-control" size="16" type="text" name='effective_date' id='effective_date' value='<?php echo $effective_date; ?>'>
 			                        
 			                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
 			                    </div>
@@ -1174,7 +1174,8 @@ function get_premium() {
 				birthday: birthday},
 			success: function(data, textStatus, jqXHR) {
 				if (data['status'] == 'OK') {
-	        		$('input[name="premium"]').val(data['premiumarr']['premium']);
+	        $('input[name="premium"]').val(data['premiumarr']['premium']);
+          $("#page-submit").attr("disabled", false);
 					<?php if ($user_group_id > 100) { ?>
 					$('#premiumdisplay').html(data['premiumarr']['premium']);
 					<?php } ?>
@@ -1239,6 +1240,11 @@ function get_premium() {
 </script>
 <script type="text/javascript">
 $(document).ready(function(){
+  $('#totaldays, #birthday, #effective_date, #expiry_date').on('focus', function(e) {
+    $("#page-submit").attr("disabled", true);
+  });
+	$('#plan_edit_form').on('keyup keypress', function(e) {
+
 	$('#plan_edit_form').on('keyup keypress', function(e) {
 		var keyCode = e.keyCode || e.which;
 		if (keyCode === 13) {
