@@ -385,7 +385,7 @@ if ($Agree != "Agree") {
 										<label class="col-sm-12"><?php echo $this->lang->line("Birth Date"); ?> (YYYY-MM-DD):</label>
                   <?php } ?>
 										<div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd" data-date-end-date="0d" >
-					                        <input size="16" type="text" class='setpremium form-control' name='birthday' value='<?php echo !empty($birthday) ? $birthday : ''; ?>'>
+					                        <input size="16" type="text" class='setpremium form-control' name='birthday' id='birthday' value='<?php echo !empty($birthday) ? $birthday : ''; ?>'>
 					                        
 					                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
 					                    </div>
@@ -1243,8 +1243,6 @@ $(document).ready(function(){
   $('#totaldays, #birthday, #effective_date, #expiry_date').on('focus', function(e) {
     $("#page-submit").attr("disabled", true);
   });
-	$('#plan_edit_form').on('keyup keypress', function(e) {
-
 	$('#plan_edit_form').on('keyup keypress', function(e) {
 		var keyCode = e.keyCode || e.which;
 		if (keyCode === 13) {
