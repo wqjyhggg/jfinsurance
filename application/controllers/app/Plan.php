@@ -602,6 +602,8 @@ class Plan extends CI_Controller
     $this->load->model("app_model");
     $this->load->model("user_model");
     $this->load->helper('url');
+    $this->lang->load('message');
+    $this->lang->load('message', 'english');
 
     $user = $this->app_model->check_token($this->input->post("token"));
 
@@ -683,6 +685,8 @@ class Plan extends CI_Controller
     $this->load->model("app_model");
     $this->load->model("user_model");
     $this->load->helper('url');
+    $this->lang->load('message');
+    $this->lang->load('message', 'english');
 
     $user = $this->app_model->check_token($this->input->post("token"));
 
@@ -1118,6 +1122,8 @@ class Plan extends CI_Controller
     $this->load->model("app_model");
     $this->load->model("user_model");
     $this->load->helper('url');
+    $this->lang->load('message');
+    $this->lang->load('message', 'english');
 
     $user = $this->app_model->check_token($this->input->post("token"));
 
@@ -1277,6 +1283,8 @@ class Plan extends CI_Controller
     $this->load->model("app_model");
     $this->load->model("user_model");
     $this->load->helper('url');
+    $this->lang->load('message');
+    $this->lang->load('message', 'english');
 
     if ($isinternal) {
       $user = $this->user_model->get_by_id(1);
@@ -1667,6 +1675,8 @@ class Plan extends CI_Controller
     $this->load->model("app_model");
     $this->load->model("user_model");
     $this->load->helper('url');
+    $this->lang->load('message');
+    $this->lang->load('message', 'english');
 
     $user = $this->app_model->check_token($this->input->post("token"));
 
@@ -1766,6 +1776,8 @@ class Plan extends CI_Controller
     $this->load->model("app_model");
     $this->load->model("user_model");
     $this->load->helper('url');
+    $this->lang->load('message');
+    $this->lang->load('message', 'english');
 
     $user = $this->app_model->check_token($this->input->post("token"));
 
