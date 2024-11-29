@@ -371,7 +371,7 @@ class Product_model extends CI_Model {
 	 * @param array $para	parameter array 'product_short', 'apply_date', 'effective_date', 'expiry_date', 'isfamilyplan', 'number_customer', 'sum_insured', 'deductible_amount', 'stable_condition', 'birthday'
 	 * @return array.
 	 */
-	public function get_premium_sub($para) {
+	public function get_premium_sub($para, $user=false) {
 		$premiumArr = array('premium' => 0, 'totalyears' => 0, 'totaldays' => 0, 'dailyrate' => 0, 'message' => 0, 'force_deductable' => 0, 'sum_insured' => 0, 'deductible_amount' => 0);
 		
 		$days = $para['total_days'];
@@ -1962,7 +1962,10 @@ class Product_model extends CI_Model {
 			$premiumArr['sum_insured'] = number_format($para['sum_insured'], 2, '.', ',');
 			$premiumArr['deductible_amount'] =  number_format($para['deductible_amount'], 2, '.', ',');
 		} else if ($para['product_short'] == 'JFPL') {
-            $beuser = $this->session->beuser;
+      $beuser = $user;
+      if (!$beuser) {
+        $beuser = $this->session->beuser;
+      }
             $val170 = array(657, 1116, 2202, 4942, 4968);   // assigned before 2023-02-03
             $val185 = array(2185, 4014);   // assigned before 2023-02-03
             $val180 = array(4249, 4275, 4276, 2661, 4449);   // assigned before 2023-02-03
@@ -1992,7 +1995,6 @@ class Product_model extends CI_Model {
 			$premiumArr['sum_insured'] = number_format($para['sum_insured'], 2, '.', ','); //5,000,000.00
 			$premiumArr['deductible_amount'] =  number_format($para['deductible_amount'], 2, '.', ',');
 		} else if ($para['product_short'] == 'JFSL') {
-      $beuser = $this->session->beuser;
       $rate = 1.6;
 			if ($years <= 3) {
 				$premiumArr['message'] = "Customer age must over 4 years old";
@@ -2009,7 +2011,6 @@ class Product_model extends CI_Model {
 			$premiumArr['sum_insured'] = number_format($para['sum_insured'], 2, '.', ','); //5,000,000.00
 			$premiumArr['deductible_amount'] =  number_format($para['deductible_amount'], 2, '.', ',');
 		} else if ($para['product_short'] == 'JFGD') {
-      $beuser = $this->session->beuser;
       $rate = 1.8;
 			if (isset($para['holiday_rate']) && ($para['holiday_rate'] == 1)) {
         $rate = 1.85;
@@ -2036,15 +2037,7 @@ class Product_model extends CI_Model {
 			$premiumArr['sum_insured'] = number_format($para['sum_insured'], 2, '.', ','); //5,000,000.00
 			$premiumArr['deductible_amount'] =  number_format($para['deductible_amount'], 2, '.', ',');
 		} else if ($para['product_short'] == 'JFOS') {
-      $beuser = $this->session->beuser;
       $rate = 2;
-      // $val170 = array(657);
-      // if (in_array($beuser['user_id'], $val170)) {
-      //   $rate = 1.7;
-      // }
-			// if (isset($para['holiday_rate']) && ($para['holiday_rate'] == 1)) {
-      //   $rate = 1.85;
-			// }
 			if ($years <= 3) {
 				$premiumArr['message'] = "Customer age must over 4 years old";
 				return $premiumArr;

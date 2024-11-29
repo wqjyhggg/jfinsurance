@@ -571,7 +571,7 @@ class Plan extends CI_Controller
         $data['premiumArr'] = $premium;
       }
     } else {
-      if ($premium = $this->product_model->get_premium_sub($post)) {
+      if ($premium = $this->product_model->get_premium_sub($post, $user)) {
         $data['premiumArr'] = $premium;
       }
     }
