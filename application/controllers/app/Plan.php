@@ -1996,6 +1996,7 @@ class Plan extends CI_Controller
 
         $rt = [
 				// $rt .= "<td>" . (empty($p['ispaid']) ? "<input type='checkbox' name='payment[]' value='" . $p['payment_id'] . "'>" : "") . "</td>\n";
+          'payment_id' => $p['payment_id'],
           'last_update' => $p['last_update'],
           'pay_type' => $p['pay_type'],
           'pay_mothed' => $p['pay_mothed'],
