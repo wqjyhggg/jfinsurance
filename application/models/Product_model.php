@@ -308,7 +308,7 @@ class Product_model extends CI_Model {
 	 * @param array $para	parameter array 'product_short', 'apply_date', 'effective_date', 'expiry_date', 'isfamilyplan', 'number_customer', 'sum_insured', 'deductible_amount', 'stable_condition', 'birthday'
 	 * @return array.
 	 */
-	public function get_premium($para) {
+	public function get_premium($para, $user=false) {
 		$premiumArr = array('premium' => 0, 'totalyears' => 0, 'totaldays' => 0, 'dailyrate' => 0, 'message' => 0, 'force_deductable' => 0, 'sum_insured' => 0, 'deductible_amount' => 0);
     $dt = date("Y-m-d");
     if (($dt >= "2021-07-01") && empty($para['plan_id']) && ($para['product_short'] == 'OPL')) {
@@ -362,7 +362,7 @@ class Product_model extends CI_Model {
 				return $premiumArr;
 			}
 		}
-		return $this->get_premium_sub($para);
+		return $this->get_premium_sub($para, $user);
 	}
 
 	/**
