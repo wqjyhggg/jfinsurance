@@ -134,20 +134,34 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <div class="row">
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
-                  <div class="x_title">
-<?php if ($beuser_group_id < 100) { ?>
-                    <h2 style="width:100%;">User List <span>
-                      <?php if($beuser_group_id != 2){ ?>
-                      <a class="btn btn-info" href='<?php echo $edit_url."0"; ?>'><i class="fa fa-plus"></i> Add User</a>
-                      <?php } ?>
-					  <?php if (($beuser_user_id == '1') || ($beuser_user_id == '2762')) { ?>
-                      <a class="btn btn-info" href='<?php echo $export_url; ?>'><i class="fa fa-download"></i> Export User</a>
-					  <?php } ?>
-                    </span>
-                    </h2>
-<?php } ?>
+                  <?php if (($beuser_group_id < 100) && ($beuser_group_id != 2)) { ?>
+                    <div class="row">
+                      <div class="col-md-2 col-sm-2 col-xs-4">
+                        <h2>User List</h2>
+                      </div>
+                      <div class="col-md-2 col-sm-2 col-xs-4">
+                        <a class="btn btn-info" href='<?php echo $edit_url."0"; ?>'><i class="fa fa-plus"></i> Add User</a>
+                      </div>
+          					  <?php if (($beuser_user_id == '1') || ($beuser_user_id == '2762')) { ?>
+                        <div class="col-md-2 col-sm-2 col-xs-4">
+                          <a class="btn btn-info" href='<?php echo $export_url; ?>'><i class="fa fa-download"></i> Export User</a>
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <form action='<?php echo $import_url; ?>' method='POST' class="form-horizontal">
+                            <div class="row">
+                              <div class="col-md-4 col-sm-4 col-xs-6">
+                                <input type='file' name='file' />
+                              </div>
+                              <div class="col-md-4 col-sm-4 col-xs-6">
+                                <button type='submit' class="btn btn-info"><i class="fa fa-upload"></i> Import User</button>
+                              </div>
+                            </div>
+                          </form>
+                        </div>
+          					  <?php } ?>
+                    </div>
                     <div class="clearfix"></div>
-                  </div>
+                  <?php } ?>
                   <div class="x_content">
                    
                     <div class="table-responsive">

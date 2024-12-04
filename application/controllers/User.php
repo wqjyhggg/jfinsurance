@@ -298,70 +298,171 @@ class User extends MY_Controller {
 	public function export() {
 		$beuser = $this->func_model->verify_login();
 		if (($beuser['user_id'] == '1') || ($beuser['user_id'] == '2762')) {
-			$user_list = $this->user_model->get_user_list($this->session->beuser['user_group_id'], $this->session->beuser['user_id'] );
+			$this->load->model('user_group_model');
+
+      $user_list = $this->user_model->get_user_list($this->session->beuser['user_group_id'], $this->session->beuser['user_id'] );
+      $user_group = $this->user_group_model->get_user_group_list(1);
+      $region_arr = $this->user_model->region_arr();
+      $data_arr = $this->user_model->data_arr();
+      $pay_type_arr = $this->user_model->pay_type_arr();
+      $receive_arr = $this->user_model->receive_arr();
 			
 			$w = WriterFactory::create(Type::XLSX); // for XLSX files
 			$w->openToBrowser("user_" . date('Ymd') . ".xlsx");
 			//$w->openToFile($tmpfname);
-			$w->addRow(array(
-        'User id', 
-        'username', 
-        'first name', 
-        'last name', 
-        'email', 
-        'province', 
-        'license number', 
-        'license expire', 
-        'Company Name',
-        'Business Name',
-        'City',
-        'Region',
-        'Note',
-        'Note2',
-      ));
+			$w->addRow(array_values($data_arr));
 			
 			foreach($user_list as $agent) {
-        $region = "All";
-        if ($agent['region_id'] == 1) {
-          $region = "Toronto";
-        } else if ($agent['region_id'] == 2) {
-          $region = "Vancouver";
-        } else if ($agent['region_id'] == 3) {
-          $region = "Qube";
-        } else if ($agent['region_id'] == 4) {
-          $region = "Vancouver2";
+        $row = array();
+        foreach ($data_arr as $key => $val) {
+          if ($key == "user_group_id") {
+            $row[$key] = $user_group[$agent[$key]]?$user_group[$agent[$key]]:105;
+          } else if ($key == "region_id") {
+            $row[$key] = $region_arr[$agent[$key]]?$region_arr[$agent[$key]]:0;
+          } else {
+            $row[$key] = $agent[$key];
+          }
         }
-        $company = "";
-        if ($agent['parent_user_id'] == 2) {
-          $company = "Brokerage";
-        } else if ($agent['region_id'] == 7) {
-          $company = "ABC Inc.";
-        }
-				$w->addRow(array(
-						$agent['user_id'], 
-						$agent['username'],
-						$agent['firstname'],
-						$agent['lastname'],
-						$agent['email'],
-						$agent['province2'],
-						$agent['licence_number'],
-						$agent['licence_expire'],
-            $company,
-						$agent['business'],
-						$agent['city'],
-						$region,
-						$agent['note'],
-						$agent['note2'],
-						));
+				$w->addRow($row);
 			}
 			$w->close();
 		}
 	}
-	
+
+  public function import() {
+		$beuser = $this->func_model->verify_login();
+    $error_message = "";
+		if (($beuser['user_id'] == '1') || ($beuser['user_id'] == '2762')) {
+			$this->load->model('user_group_model');
+
+      $user_list = $this->user_model->get_user_list($this->session->beuser['user_group_id'], $this->session->beuser['user_id'] );
+      $user_group = $this->user_group_model->get_user_group_list(1);
+      $region_arr = $this->user_model->region_arr();
+      $data_arr = $this->user_model->data_arr();
+      $pay_type_arr = $this->user_model->pay_type_arr();
+      $receive_arr = $this->user_model->receive_arr();
+
+      $uf = array_shift($_FILES);
+      if (empty($uf)) {
+        $this->app_model->return_error("No upload file");
+      }
+      $name = $uf['name'];
+      $type = $uf['type'];
+      $tmp_name = $uf['tmp_name'];
+      $size = $uf['size'];
+      $fileinfo = pathinfo($name);
+      if (empty($fileinfo)) {
+        $error_message = "Unknown upload file";
+      } else if (!empty($uf['error'])) {
+        $error_message = sprintf($this->lang->line('error_file_upload'), $name);
+      } else if (!in_array($fileinfo['extension'], array('xlsx')) ) {
+        $error_message = sprintf($this->lang->line('error_file_type'), $name);
+      } else {
+        set_time_limit(600); // Max run time 10 minutes
+        $reader = ReaderFactory::create(Type::XLSX); // for XLSX files
+        // $reader = ReaderFactory::create(Type::CSV); // for CSV files
+        // $reader = ReaderFactory::create(Type::ODS); // for ODS files
+        $reader->open($tmp_name);
+        $keyArr = array();
+        $agent = array();
+        foreach ($reader->getSheetIterator() as $sheet) {
+          $i = 0;
+          foreach ($sheet->getRowIterator() as $row) {
+            $i++;
+            $data = array();
+            if (empty($keyArr)) {
+              // First Line is Key Array
+              for ($j = 0; $j < sizeof($row); $j++) {
+                $find = false;
+                foreach ($data_arr as $key => $val) {
+                  if (trim($row[$j]) == $val) {
+                    $find = true;
+                    $keyArr[$j] = $key;
+                    break;
+                  }
+                }
+                if (!$find) {
+                  $error_message = "Error on row 1, column ".($j+1)."; Unknown Name: ".$row[$j];
+                  break 3;
+                }
+              }
+              $keyArr = $row;
+              continue;
+            }
+            for ($j = 0; $j < sizeof($keyArr); $j++) {
+              if ($keyArr[$j] == "user_group_id") {
+                foreach ($user_group as $key => $val) {
+                  if ($val == $row[$j]) {
+                    $data[$keyArr[$j]] = isset($row[$j]) ? trim($row[$j]) : '';
+                    break;    
+                  }
+                }
+                if (empty($data[$keyArr[$j]])) {
+                  $error_message = "Error on row ".$i.", column ".($j+1)."; Unknown User Group";
+                  break 3;
+                }
+              } else if ($key == "region_id") {
+                foreach ($region_arr as $key => $val) {
+                  if ($val == $row[$j]) {
+                    $data[$keyArr[$j]] = isset($row[$j]) ? trim($row[$j]) : '';
+                    break;    
+                  }
+                }
+                if (empty($data[$keyArr[$j]])) {
+                  $error_message = "Error on row ".$i.", column ".($j+1)."; Unknown Region";
+                  break 3;
+                }
+              } else if ($key == "pay_type") {
+                if (!empty($row[$j])) {
+                  $types = explode(',', $row[$j]);
+                  foreach ($types as $val) {
+                    if (!in_array($val, $pay_type_arr)) {
+                      $error_message = "Error on row ".$i.", column ".($j+1)."; Unknown Pay Method: ".$val;
+                      break 4;
+                    }
+                  }
+                  $data[$keyArr[$j]] = $row[$j];
+                } else {
+                  $data[$keyArr[$j]] = '';  
+                }
+              } else if ($key == "receive_type") {
+                if (!empty($row[$j])) {
+                  if (($receive_arr[0] == $row[$j]) || ($receive_arr[1] == $row[$j])) {
+                    $data[$keyArr[$j]] = $row[$j];
+                  } else {
+                    $error_message = "Error on row ".$i.", column ".($j+1)."; Unknown Receice Method: ".$row[$j];
+                    break 3;
+                  }
+                } else {
+                  $data[$keyArr[$j]] = '';  
+                }
+              } else {
+                $data[$keyArr[$j]] = isset($row[$j]) ? trim($row[$j]) : '';
+              }
+            }
+            $agent = $data;
+          }
+        }
+        $reader->close();
+        if (empty($error_message) && (sizeof($agent) > 0)) {
+          // No error, insert all agents
+          foreach ($agent as $u) {
+            if (isset($u['user_id']) {
+              $this->user_model->update($u['user_id'], $u);
+            } else {
+              $this->user_model->update(0, $u);
+            }
+          }
+        }
+      }
+		}
+    return $this->detail($error_message);
+	}
+
 	/**
 	 * User list current user list
 	 */
-	public function dtlist() {
+	public function dtlist($error_message="") {
 		if (! $this->func_model->verify_level ( 104 )) {
 			// Login user
 			$this->session->set_userdata ( "error_message", $this->lang->line ( 'error_no_permission' ) );
@@ -402,6 +503,8 @@ class User extends MY_Controller {
 		}
 		$data['beuser_user_id'] = $this->session->beuser['user_id'];
 		$data['export_url'] = base_url('user/export');
+		$data['import_url'] = base_url('user/import');
+		$data['error_message'] = $error_message;
 		
 		$searchURL = current_url();
 		$para = $this->input->get();

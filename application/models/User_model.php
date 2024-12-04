@@ -12,7 +12,59 @@ class User_model extends CI_Model {
     const AGENT = 105;
 	
     public $logstr;
-	public $sqlstr;
+    public function region_arr() {
+      return array(
+        0=>"All",
+        1=>"Toronto",
+        2=>"Vancouver",
+        3=>"Quebec",
+        4=>"Vancouver2",
+      );
+    }
+    public function data_arr() {
+      return array(
+        "user_id"=>"User ID",
+        "user_group_id"=>"User Group",
+        "parent_user_id"=>"Parent ID",
+        "username"=>"Username",
+        "pay_type"=>"Pay Method",
+        "receive_type"=>"Receice Method",
+        "status"=>"Active",
+        "region_id"=>"Region",
+        "business"=>"Business",
+        "gender"=>"Gender",
+        "firstname"=>"First Name",
+        "lastname"=>"Last Name",
+        "email"=>"eMail",
+        "address"=>"Address",
+        "city"=>"City",
+        "province2"=>"Province",
+        "country2"=>"Country",
+        "postcode"=>"Post Code",
+        "website"=>"Website",
+        "licence_number"=>"Licence Number",
+        "licence_expire"=>"Licence Expire",
+        "business_phone"=>"Business Phone",
+        "note"=>"Note",
+        "note2"=>"Note2",
+      );
+    }
+    public function pay_type_arr() {
+      return array(
+        "Cash",
+        "Credit Card",
+        "Ali",
+        "Cheque",
+      );
+    }
+    public function receive_arr() {
+      return array(
+        "Cash",
+        "Cheque",
+      );
+    }
+
+    public $sqlstr;
 	
     /**
      *  Check matched username and passwrd in user table
