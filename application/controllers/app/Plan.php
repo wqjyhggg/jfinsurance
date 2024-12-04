@@ -1994,7 +1994,7 @@ class Plan extends CI_Controller
 				if (!empty($p['expiry_month'])) $pay_info .= "[" . $p['expiry_month'] . "]";
 				if (!empty($p['expiry_year'])) $pay_info .= "[" . $p['expiry_year'] . "]";
 
-        $rt = [
+        $rt[] = [
 				// $rt .= "<td>" . (empty($p['ispaid']) ? "<input type='checkbox' name='payment[]' value='" . $p['payment_id'] . "'>" : "") . "</td>\n";
           'payment_id' => $p['payment_id'],
           'last_update' => $p['last_update'],
