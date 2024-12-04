@@ -447,7 +447,7 @@ class User extends MY_Controller {
         if (empty($error_message) && (sizeof($agent) > 0)) {
           // No error, insert all agents
           foreach ($agent as $u) {
-            if (isset($u['user_id']) {
+            if (isset($u['user_id'])) {
               $this->user_model->update($u['user_id'], $u);
             } else {
               $this->user_model->update(0, $u);
