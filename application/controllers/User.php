@@ -344,118 +344,119 @@ class User extends MY_Controller {
 
       $uf = array_shift($_FILES);
       if (empty($uf)) {
-        $this->app_model->return_error("No upload file");
-      }
-      $name = $uf['name'];
-      $type = $uf['type'];
-      $tmp_name = $uf['tmp_name'];
-      $size = $uf['size'];
-      $fileinfo = pathinfo($name);
-      if (empty($fileinfo)) {
-        $error_message = "Unknown upload file";
-      } else if (!empty($uf['error'])) {
-        $error_message = sprintf($this->lang->line('error_file_upload'), $name);
-      } else if (!in_array($fileinfo['extension'], array('xlsx')) ) {
-        $error_message = sprintf($this->lang->line('error_file_type'), $name);
+        $error_message = "No upload file";
       } else {
-        set_time_limit(600); // Max run time 10 minutes
-        $reader = ReaderFactory::create(Type::XLSX); // for XLSX files
-        // $reader = ReaderFactory::create(Type::CSV); // for CSV files
-        // $reader = ReaderFactory::create(Type::ODS); // for ODS files
-        $reader->open($tmp_name);
-        $keyArr = array();
-        $agent = array();
-        foreach ($reader->getSheetIterator() as $sheet) {
-          $i = 0;
-          foreach ($sheet->getRowIterator() as $row) {
-            $i++;
-            $data = array();
-            if (empty($keyArr)) {
-              // First Line is Key Array
-              for ($j = 0; $j < sizeof($row); $j++) {
-                $find = false;
-                foreach ($data_arr as $key => $val) {
-                  if (trim($row[$j]) == $val) {
-                    $find = true;
-                    $keyArr[$j] = $key;
-                    break;
-                  }
-                }
-                if (!$find) {
-                  $error_message = "Error on row 1, column ".($j+1)."; Unknown Name: ".$row[$j];
-                  break 3;
-                }
-              }
-              $keyArr = $row;
-              continue;
-            }
-            for ($j = 0; $j < sizeof($keyArr); $j++) {
-              if ($keyArr[$j] == "user_group_id") {
-                foreach ($user_group as $key => $val) {
-                  if ($val == $row[$j]) {
-                    $data[$keyArr[$j]] = isset($row[$j]) ? trim($row[$j]) : '';
-                    break;    
-                  }
-                }
-                if (empty($data[$keyArr[$j]])) {
-                  $error_message = "Error on row ".$i.", column ".($j+1)."; Unknown User Group";
-                  break 3;
-                }
-              } else if ($key == "region_id") {
-                foreach ($region_arr as $key => $val) {
-                  if ($val == $row[$j]) {
-                    $data[$keyArr[$j]] = isset($row[$j]) ? trim($row[$j]) : '';
-                    break;    
-                  }
-                }
-                if (empty($data[$keyArr[$j]])) {
-                  $error_message = "Error on row ".$i.", column ".($j+1)."; Unknown Region";
-                  break 3;
-                }
-              } else if ($key == "pay_type") {
-                if (!empty($row[$j])) {
-                  $types = explode(',', $row[$j]);
-                  foreach ($types as $val) {
-                    if (!in_array($val, $pay_type_arr)) {
-                      $error_message = "Error on row ".$i.", column ".($j+1)."; Unknown Pay Method: ".$val;
-                      break 4;
+        $name = $uf['name'];
+        $type = $uf['type'];
+        $tmp_name = $uf['tmp_name'];
+        $size = $uf['size'];
+        $fileinfo = pathinfo($name);
+        if (empty($fileinfo)) {
+          $error_message = "Unknown upload file";
+        } else if (!empty($uf['error'])) {
+          $error_message = sprintf($this->lang->line('error_file_upload'), $name);
+        } else if (!in_array($fileinfo['extension'], array('xlsx')) ) {
+          $error_message = sprintf($this->lang->line('error_file_type'), $name);
+        } else {
+          set_time_limit(600); // Max run time 10 minutes
+          $reader = ReaderFactory::create(Type::XLSX); // for XLSX files
+          // $reader = ReaderFactory::create(Type::CSV); // for CSV files
+          // $reader = ReaderFactory::create(Type::ODS); // for ODS files
+          $reader->open($tmp_name);
+          $keyArr = array();
+          $agent = array();
+          foreach ($reader->getSheetIterator() as $sheet) {
+            $i = 0;
+            foreach ($sheet->getRowIterator() as $row) {
+              $i++;
+              $data = array();
+              if (empty($keyArr)) {
+                // First Line is Key Array
+                for ($j = 0; $j < sizeof($row); $j++) {
+                  $find = false;
+                  foreach ($data_arr as $key => $val) {
+                    if (trim($row[$j]) == $val) {
+                      $find = true;
+                      $keyArr[$j] = $key;
+                      break;
                     }
                   }
-                  $data[$keyArr[$j]] = $row[$j];
-                } else {
-                  $data[$keyArr[$j]] = '';  
-                }
-              } else if ($key == "receive_type") {
-                if (!empty($row[$j])) {
-                  if (($receive_arr[0] == $row[$j]) || ($receive_arr[1] == $row[$j])) {
-                    $data[$keyArr[$j]] = $row[$j];
-                  } else {
-                    $error_message = "Error on row ".$i.", column ".($j+1)."; Unknown Receice Method: ".$row[$j];
+                  if (!$find) {
+                    $error_message = "Error on row 1, column ".($j+1)."; Unknown Name: ".$row[$j];
                     break 3;
                   }
-                } else {
-                  $data[$keyArr[$j]] = '';  
                 }
-              } else {
-                $data[$keyArr[$j]] = isset($row[$j]) ? trim($row[$j]) : '';
+                $keyArr = $row;
+                continue;
               }
+              for ($j = 0; $j < sizeof($keyArr); $j++) {
+                if ($keyArr[$j] == "user_group_id") {
+                  foreach ($user_group as $key => $val) {
+                    if ($val == $row[$j]) {
+                      $data[$keyArr[$j]] = isset($row[$j]) ? trim($row[$j]) : '';
+                      break;    
+                    }
+                  }
+                  if (empty($data[$keyArr[$j]])) {
+                    $error_message = "Error on row ".$i.", column ".($j+1)."; Unknown User Group";
+                    break 3;
+                  }
+                } else if ($key == "region_id") {
+                  foreach ($region_arr as $key => $val) {
+                    if ($val == $row[$j]) {
+                      $data[$keyArr[$j]] = isset($row[$j]) ? trim($row[$j]) : '';
+                      break;    
+                    }
+                  }
+                  if (empty($data[$keyArr[$j]])) {
+                    $error_message = "Error on row ".$i.", column ".($j+1)."; Unknown Region";
+                    break 3;
+                  }
+                } else if ($key == "pay_type") {
+                  if (!empty($row[$j])) {
+                    $types = explode(',', $row[$j]);
+                    foreach ($types as $val) {
+                      if (!in_array($val, $pay_type_arr)) {
+                        $error_message = "Error on row ".$i.", column ".($j+1)."; Unknown Pay Method: ".$val;
+                        break 4;
+                      }
+                    }
+                    $data[$keyArr[$j]] = $row[$j];
+                  } else {
+                    $data[$keyArr[$j]] = '';  
+                  }
+                } else if ($key == "receive_type") {
+                  if (!empty($row[$j])) {
+                    if (($receive_arr[0] == $row[$j]) || ($receive_arr[1] == $row[$j])) {
+                      $data[$keyArr[$j]] = $row[$j];
+                    } else {
+                      $error_message = "Error on row ".$i.", column ".($j+1)."; Unknown Receice Method: ".$row[$j];
+                      break 3;
+                    }
+                  } else {
+                    $data[$keyArr[$j]] = '';  
+                  }
+                } else {
+                  $data[$keyArr[$j]] = isset($row[$j]) ? trim($row[$j]) : '';
+                }
+              }
+              $agent = $data;
             }
-            $agent = $data;
           }
-        }
-        $reader->close();
-        if (empty($error_message) && (sizeof($agent) > 0)) {
-          // No error, insert all agents
-          foreach ($agent as $u) {
-            if (isset($u['user_id'])) {
-              $this->user_model->update($u['user_id'], $u);
-            } else {
-              $this->user_model->update(0, $u);
+          $reader->close();
+          if (empty($error_message) && (sizeof($agent) > 0)) {
+            // No error, insert all agents
+            foreach ($agent as $u) {
+              if (isset($u['user_id'])) {
+                $this->user_model->update($u['user_id'], $u);
+              } else {
+                $this->user_model->update(0, $u);
+              }
             }
           }
         }
       }
-		}
+    }
     return $this->detail($error_message);
 	}
 
