@@ -391,6 +391,11 @@ class User extends MY_Controller {
                 }
                 continue;
               }
+              // Test empty row
+              if (empty(trim($row[0])) && empty(trim($row[1]))) {
+                // File is ended
+                break 2;
+              }
               for ($j = 0; $j < sizeof($keyArr); $j++) {
                 if ($keyArr[$j] == "user_group_id") {
                   foreach ($user_group as $key => $val) {
@@ -457,13 +462,15 @@ class User extends MY_Controller {
             }
           }
           $reader->close();
-          if (empty($error_message) && (sizeof($agent) > 0)) {
-            // No error, insert all agents
-            foreach ($agent as $u) {
-              if (isset($u['user_id'])) {
-                $this->user_model->update($u['user_id'], $u);
-              } else {
-                $this->user_model->update(0, $u);
+          if (empty($error_message)) {
+            if (sizeof($agent) > 0) {
+              // No error, insert all agents
+              foreach ($agent as $u) {
+                if (isset($u['user_id'])) {
+                  $this->user_model->update($u['user_id'], $u);
+                } else {
+                  $this->user_model->update(0, $u);
+                }
               }
             }
             redirect ( base_url ('user') );
