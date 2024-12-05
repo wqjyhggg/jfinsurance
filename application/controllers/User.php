@@ -457,7 +457,7 @@ class User extends MY_Controller {
         }
       }
     }
-    return $this->detail($error_message);
+    return $this->dtlist($error_message);
 	}
 
 	/**
