@@ -444,6 +444,15 @@ class User extends MY_Controller {
                   $data[$keyArr[$j]] = isset($row[$j]) ? trim($row[$j]) : '';
                 }
               }
+              if (isset($data['username'])) {
+                if ($this->user_model->check_username($data['user_id']?$data['user_id']:0, $data['username'])) {
+                  $error_message = "Error on row ".$i."; Username Existed";
+                  break 2;
+                }
+              } else {
+                $error_message = "Error on row ".$i."; Unknown Username";
+                break 2;
+              }
               $agent[] = $data;
             }
           }
