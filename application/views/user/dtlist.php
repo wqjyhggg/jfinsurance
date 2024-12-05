@@ -159,7 +159,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                               </div>
                               <div class="col-md-4 col-sm-4 col-xs-6">
                                 <button type='submit' class="btn btn-info"><i class="fa fa-upload"></i> Import User</button>
-                              </div>
+                                <input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
+                                </div>
                             </div>
                           </form>
                         </div>
