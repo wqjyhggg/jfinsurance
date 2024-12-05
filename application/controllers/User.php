@@ -431,7 +431,7 @@ class User extends MY_Controller {
                   }
                 } else if ($keyArr[$j] == "receive_type") {
                   if (!empty($row[$j])) {
-                    if (($receive_arr[0] == $row[$j]) || ($receive_arr[1] == $row[$j])) {
+                    if (in_array($row[$j], $receive_arr)) {
                       $data[$keyArr[$j]] = $row[$j];
                     } else {
                       $error_message = "Error on row ".$i.", column ".($j+1)."; Unknown Receice Method: ".$row[$j];

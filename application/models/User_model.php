@@ -62,6 +62,7 @@ class User_model extends CI_Model {
       return array(
         "Cash",
         "Cheque",
+        "Deposit",
       );
     }
 
