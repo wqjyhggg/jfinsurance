@@ -445,7 +445,7 @@ class User extends MY_Controller {
                 }
               }
               if (isset($data['username'])) {
-                if ($this->user_model->check_username($data['user_id']?$data['user_id']:0, $data['username'])) {
+                if ($this->user_model->check_username(empty($data['user_id'])?0:$data['user_id'], $data['username'])) {
                   $error_message = "Error on row ".$i."; Username Existed";
                   break 2;
                 }
