@@ -457,6 +457,7 @@ class User extends MY_Controller {
                 $this->user_model->update(0, $u);
               }
             }
+            redirect ( base_url ('user') );
           }
         }
       }
