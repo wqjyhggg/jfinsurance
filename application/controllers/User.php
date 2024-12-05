@@ -3,6 +3,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 
 use Box\Spout\Common\Type;
 use Box\Spout\Writer\WriterFactory;
+use Box\Spout\Reader\ReaderFactory;
 
 class User extends MY_Controller {
 	const PASSWORD_MIN = 6;
@@ -319,6 +320,8 @@ class User extends MY_Controller {
             $row[$key] = $user_group[$agent[$key]]?$user_group[$agent[$key]]:105;
           } else if ($key == "region_id") {
             $row[$key] = $region_arr[$agent[$key]]?$region_arr[$agent[$key]]:0;
+          } else if ($key == "password") {
+            $row[$key] = '******';
           } else {
             $row[$key] = $agent[$key];
           }
@@ -386,14 +389,13 @@ class User extends MY_Controller {
                     break 3;
                   }
                 }
-                $keyArr = $row;
                 continue;
               }
               for ($j = 0; $j < sizeof($keyArr); $j++) {
                 if ($keyArr[$j] == "user_group_id") {
                   foreach ($user_group as $key => $val) {
                     if ($val == $row[$j]) {
-                      $data[$keyArr[$j]] = isset($row[$j]) ? trim($row[$j]) : '';
+                      $data[$keyArr[$j]] = $key;
                       break;    
                     }
                   }
@@ -401,18 +403,20 @@ class User extends MY_Controller {
                     $error_message = "Error on row ".$i.", column ".($j+1)."; Unknown User Group";
                     break 3;
                   }
-                } else if ($key == "region_id") {
+                } else if ($keyArr[$j] == "region_id") {
+                  $find = false;
                   foreach ($region_arr as $key => $val) {
                     if ($val == $row[$j]) {
-                      $data[$keyArr[$j]] = isset($row[$j]) ? trim($row[$j]) : '';
+                      $data[$keyArr[$j]] = $key;
+                      $find = true;
                       break;    
                     }
                   }
-                  if (empty($data[$keyArr[$j]])) {
+                  if (!$find) {
                     $error_message = "Error on row ".$i.", column ".($j+1)."; Unknown Region";
                     break 3;
                   }
-                } else if ($key == "pay_type") {
+                } else if ($keyArr[$j] == "pay_type") {
                   if (!empty($row[$j])) {
                     $types = explode(',', $row[$j]);
                     foreach ($types as $val) {
@@ -425,7 +429,7 @@ class User extends MY_Controller {
                   } else {
                     $data[$keyArr[$j]] = '';  
                   }
-                } else if ($key == "receive_type") {
+                } else if ($keyArr[$j] == "receive_type") {
                   if (!empty($row[$j])) {
                     if (($receive_arr[0] == $row[$j]) || ($receive_arr[1] == $row[$j])) {
                       $data[$keyArr[$j]] = $row[$j];
@@ -440,7 +444,7 @@ class User extends MY_Controller {
                   $data[$keyArr[$j]] = isset($row[$j]) ? trim($row[$j]) : '';
                 }
               }
-              $agent = $data;
+              $agent[] = $data;
             }
           }
           $reader->close();
