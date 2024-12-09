@@ -322,6 +322,17 @@ class User extends MY_Controller {
             $row[$key] = $region_arr[$agent[$key]]?$region_arr[$agent[$key]]:0;
           } else if ($key == "password") {
             $row[$key] = '******';
+          } else if ($key == "product_list") {
+            $rdata = "";
+            if ($prods = $this->user_model->get_user_product_list($agent['user_id'])) {
+              foreach ($prods as $prod) {
+                $rdata .= $prod["product_short"]."|".number_format($prod["commission"],2).",";
+              }
+              if ($rdata) {
+                $rdata = substr($rdata, 0, -1);
+              }
+            }
+            $row[$key] = $rdata;
           } else {
             $row[$key] = $agent[$key];
           }
@@ -373,6 +384,7 @@ class User extends MY_Controller {
             foreach ($sheet->getRowIterator() as $row) {
               $i++;
               $data = array();
+              $product_list = array();
               if (empty($keyArr)) {
                 // First Line is Key Array
                 for ($j = 0; $j < sizeof($row); $j++) {
@@ -445,6 +457,20 @@ class User extends MY_Controller {
                   } else {
                     $data[$keyArr[$j]] = '';  
                   }
+                } else if ($keyArr[$j] == "product_list") {
+                  if (!empty($row[$j])) {
+                    if (($prodArr = preg_split($row[$j], ",")) && is_array($prodArr)) {
+                      foreach($prodArr as $prod) {
+                        if (($prod2 = preg_split($prod, "|")) && is_array($prod2) && (sizeof($prod2) == 2)) {
+                          $product_list[] = $prod2[0];
+                          $data["product_commission_".$prod2[0]] = $prod2[1];
+                        }
+                      }
+                    }
+                    if ($product_list) {
+                      $data["product_list"] = $product_list;
+                    }
+                  }
                 } else {
                   $data[$keyArr[$j]] = isset($row[$j]) ? trim($row[$j]) : '';
                 }
@@ -467,9 +493,18 @@ class User extends MY_Controller {
               // No error, insert all agents
               foreach ($agent as $u) {
                 if (isset($u['user_id'])) {
-                  $this->user_model->update($u['user_id'], $u);
+                  if (empty($data["product_list"])) {
+                    $this->user_model->update($u['user_id'], $u);
+                  } else {
+                    $this->user_model->update($u['user_id'], $u, 0, array('product_list' => 1));
+
+                  }
                 } else {
-                  $this->user_model->update(0, $u);
+                  if (empty($data["product_list"])) {
+                    $this->user_model->update(0, $u);
+                  } else {
+                    $this->user_model->update(0, $u, 0, array('product_list' => 1));
+                  }
                 }
               }
             }

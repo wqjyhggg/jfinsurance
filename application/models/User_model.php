@@ -48,6 +48,8 @@ class User_model extends CI_Model {
         "business_phone"=>"Business Phone",
         "note"=>"Note",
         "note2"=>"Note2",
+
+        "product_list"=>"Products",
       );
     }
     public function pay_type_arr() {
