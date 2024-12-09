@@ -459,9 +459,9 @@ class User extends MY_Controller {
                   }
                 } else if ($keyArr[$j] == "product_list") {
                   if (!empty($row[$j])) {
-                    if (($prodArr = preg_split($row[$j], ",")) && is_array($prodArr)) {
+                    if (($prodArr = preg_split("/,/", $row[$j])) && is_array($prodArr)) {
                       foreach($prodArr as $prod) {
-                        if (($prod2 = preg_split($prod, "|")) && is_array($prod2) && (sizeof($prod2) == 2)) {
+                        if (($prod2 = preg_split("/\|/", $prod)) && is_array($prod2) && (sizeof($prod2) == 2)) {
                           $product_list[] = $prod2[0];
                           $data["product_commission_".$prod2[0]] = $prod2[1];
                         }
