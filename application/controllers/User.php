@@ -437,12 +437,12 @@ class User extends MY_Controller {
                   if (!empty($row[$j])) {
                     $types = explode(',', $row[$j]);
                     foreach ($types as $val) {
-                      if (!in_array($val, $pay_type_arr)) {
+                      if (!in_array(trim($val), $pay_type_arr)) {
                         $error_message = "Error on row ".$i.", column ".($j+1)."; Unknown Pay Method: ".$val;
                         break 4;
                       }
                     }
-                    $data[$keyArr[$j]] = $row[$j];
+                    $data[$keyArr[$j]] = trim($row[$j]);
                   } else {
                     $data[$keyArr[$j]] = '';  
                   }
