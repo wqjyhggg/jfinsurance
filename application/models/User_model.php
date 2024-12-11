@@ -697,6 +697,18 @@ class User_model extends CI_Model {
 				$this->logstr .= "pay_type[".$pay_type."],";
 				$para['ip'] = $this->input->ip_address();
 			}
+		} else if (isset($post['pay_type'])) {
+			$pay_type = $post['pay_type'];
+			if ($this_user) {
+				if ($this_user['pay_type'] != $pay_type) {
+					$this->logstr .= "pay_type[".$this_user['pay_type']."]=>[".$pay_type."],";
+					$para['pay_type'] = $pay_type;
+				}
+			} else {
+				$para['pay_type'] = $pay_type;
+				$this->logstr .= "pay_type[".$pay_type."],";
+				$para['ip'] = $this->input->ip_address();
+			}
 		}
 		$status = empty($post['status']) ? 0 : 1;
 		if ($this_user) {
