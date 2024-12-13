@@ -280,9 +280,9 @@ class Backrun_model extends CI_Model {
       $kArr['note'] = "Note";
     }
 
-    $filename = "tmppdf/Premium_Report_" . date('Ymd') . ".xlsx";
+    $filename = "tmppdf/SalesReportToAgent_" . date('Ymd') . ".xlsx";
     if (!empty($backrun_id)) {
-      $filename = "tmppdf/Premium_Report_" . $backrun_id . ".xlsx";
+      $filename = "tmppdf/SalesReportToAgent_" . $backrun_id . ".xlsx";
     }
     
     $w->openToFile(DOWNLOADDIR.$filename);
@@ -360,9 +360,9 @@ class Backrun_model extends CI_Model {
       $kArr['note'] = "Note";
     }
 
-    $filename = "tmppdf/Premium_Report_" . date('Ymd') . ".xlsx";
+    $filename = "tmppdf/SalesReportToInsurer_" . date('Ymd') . ".xlsx";
     if (!empty($backrun_id)) {
-      $filename = "tmppdf/Premium_Report_" . $backrun_id . ".xlsx";
+      $filename = "tmppdf/SalesReportToInsurer_" . $backrun_id . ".xlsx";
     }
     
     $w->openToFile(DOWNLOADDIR.$filename);
