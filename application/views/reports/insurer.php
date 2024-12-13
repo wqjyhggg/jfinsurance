@@ -118,13 +118,13 @@ defined('BASEPATH') or exit('No direct script access allowed');
                 <div class="form-group col-sm-3">
                 </div>
                 <div class="form-group col-sm-3">
-                  <div class="col-sm-12">
-                    <input type="submit" style="'margin-top: 16px;" name="submit"  class="btn btn-primary pull-right" value="<?php echo $this->lang->line("Display Sales Report"); ?>" />
+                  <div class="col-sm-12" style="'margin-top: 16px;" >
+                    <input type="submit" name="submit"  class="btn btn-primary pull-right" value="<?php echo $this->lang->line("Display Sales Report"); ?>" />
                   </div>
                 </div>
                 <div class="form-group col-sm-3">
-                  <div class="col-sm-12">
-                    <input type="submit" style="'margin-top: 16px;" name="request" class="btn btn-primary pull-right" value="<?php echo $this->lang->line("Request Sales Report"); ?>" />
+                  <div class="col-sm-12" style="'margin-top: 16px;" >
+                    <input type="submit" name="request" class="btn btn-primary pull-right" value="<?php echo $this->lang->line("Request Sales Report"); ?>" />
                   </div>
                 </div>
               </div>
