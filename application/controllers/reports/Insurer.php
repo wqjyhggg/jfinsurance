@@ -60,6 +60,8 @@ class Insurer extends MY_Controller
         $this->backrun_model->add_run(Backrun_model::SalesReportToInsurer, json_encode($para_data));
       }
       $data['report_data'] = array();
+    } else {
+      $data['report_data'] = array();
     }
     $data['download_url'] = base_url("/");
     $data['download_request'] = $this->backrun_model->get_job_list(Backrun_model::SalesReportToInsurer);
