@@ -18,6 +18,8 @@ use Box\Spout\Writer\WriterFactory;
 class Backrun_model extends CI_Model {
 	public $error;
 	const ORPremium="ORPremium";
+	const SalesReportToAgent="SalesReportToAgent";
+	const SalesReportToInsurer="SalesReportToInsurer";
 	const KEEP_DAYS=7;
 	
 	/**
@@ -66,6 +68,7 @@ class Backrun_model extends CI_Model {
     $this->db->where('backrun_id', $backrun_id);
     $this->db->update('backrun');
   }
+
 
   public function ORPremium($backrun_id, $data)
   {
@@ -215,6 +218,171 @@ class Backrun_model extends CI_Model {
       }
     }
     $w->addRow($arr);
+    $w->close();
+    if ($backrun_id) {
+      $this->set_file_done($backrun_id, $filename);
+    } else {
+      echo "to file: ".DOWNLOADDIR.$filename."\n";
+    }
+  }
+
+  public function SalesReportToAgent($backrun_id, $data)
+  {
+		if ((php_sapi_name() !== 'cli')) {
+      show_404();
+			return ;
+		}
+    $beuser = $this->user_model->get_user_by_id(1);
+    $data['beuser'] = $beuser;
+
+    $data['agent_id'] = empty($this->input->get_post('agent_id')) ? 0 : (int)$this->input->get_post('agent_id');
+
+    $data['product_short'] = $this->input->get_post('product_short');
+    $data['region_id'] = empty($this->input->get_post('region_id')) ? $beuser['region_id'] : $this->input->get_post('region_id');
+
+    $data['product_short'] = $this->input->get_post('product_short');
+    $data['payment_added_from'] = $this->input->get_post('payment_added_from');
+    $data['payment_added_to'] = $this->input->get_post('payment_added_to');
+    $data['payment_date_from'] = $this->input->get_post('payment_date_from');
+    $data['payment_date_to'] = $this->input->get_post('payment_date_to');
+    
+    $data['product_list'] = $this->product_model->get_available_product_list();
+    $data['user_list'] = $this->user_model->get_available_user_list();
+    $data['report_data'] = $this->report_model->get_sales_report_agent($data);
+    
+    //echo "<pre>";
+    //print_r($data['report_data']);die('============');
+
+    $w = WriterFactory::create(Type::XLSX); // for XLSX files
+    $kArr = array(
+            'added' => 'Payment Date',
+            'policy' => 'Policy No.',
+            'up_insuer' => 'Insurer',
+            'full_name' => 'Product',
+            'insured' => 'Insured Name',
+            'effective_date' => 'Effective Date',
+            'expiry_date' => 'Expiry Date',
+            'totaldays' => 'Number of Days',
+            'dailyrate' => 'Daily Rate',
+            'amount' => 'Policy Premium',
+            'net_premium' => 'Net Premium',
+    );
+    if (($beuser['user_id'] == 2810) || ($beuser['user_id'] == 3297)) {
+      $kArr['pay_mothed'] = 'Pay Mothed';
+      $kArr['contact_email'] = 'Contact Email';
+      $kArr['contact_phone'] = 'Contact Phone';
+    }
+
+    if (($beuser['user_id'] == 450) || ($beuser['user_id'] == 2018)) {
+      $kArr['note'] = "Note";
+    }
+
+    $filename = "tmppdf/Premium_Report_" . date('Ymd') . ".xlsx";
+    if (!empty($backrun_id)) {
+      $filename = "tmppdf/Premium_Report_" . $backrun_id . ".xlsx";
+    }
+    
+    $w->openToFile(DOWNLOADDIR.$filename);
+    //$w->openToFile($tmpfname);
+    foreach ($data['report_data'] as $data) {
+      $arr = array();
+      foreach ($kArr as $k => $v) { $arr[] = $v; } 
+        $w->addRow($arr);
+        foreach ($data['records'] as $record) {
+          $arr = array();
+          foreach ($kArr as $k => $v) {
+            if ($k == 'added') {
+              $arr[] = substr($record[$k], 0, 10);
+            } else if ($k == 'net_premium') {
+              $arr[] = $record['amount'] - $record['commission'];
+            } else {
+              $arr[] = $record[$k];
+            }
+          } 
+          $w->addRow($arr);
+        }
+        $arr = array('Total Premium: $' . $data['data']['policy_premium'], '','','Total Net Premium: $' . $data['data']['net_premium'],'','','Username:' . $data['data']['agent_username'] . ' Email: ' . $data['data']['agent_email']);
+        $w->addRow($arr);
+        $arr = array('', '','','','','','','');
+        $w->addRow($arr);
+    }
+    $w->close();
+    if ($backrun_id) {
+      $this->set_file_done($backrun_id, $filename);
+    } else {
+      echo "to file: ".DOWNLOADDIR.$filename."\n";
+    }
+  }
+
+  public function SalesReportToInsurer($backrun_id, $data)
+  {
+		if ((php_sapi_name() !== 'cli')) {
+      show_404();
+			return ;
+		}
+    $beuser = $this->user_model->get_user_by_id(1);
+    $data['beuser'] = $beuser;
+
+    $data['product_list'] = $this->product_model->get_available_product_list();
+    $data['user_list'] = $this->user_model->get_available_user_list();
+    $data['report_data'] = $this->report_model->get_sales_report_insurer($data);
+    
+    //echo "<pre>";
+    //print_r($data['report_data']);die('============');
+
+    $w = WriterFactory::create(Type::XLSX); // for XLSX files
+    $kArr = array(
+            'added' => 'Payment Date',
+            'policy' => 'Policy No.',
+            'up_insuer' => 'Insurer',
+            'full_name' => 'Product',
+            'insured' => 'Insured Name',
+            'effective_date' => 'Effective Date',
+            'expiry_date' => 'Expiry Date',
+            'totaldays' => 'Number of Days',
+            'dailyrate' => 'Daily Rate',
+            'amount' => 'Policy Premium',
+            'net_premium' => 'Net Premium',
+    );
+    if (($beuser['user_id'] == 2810) || ($beuser['user_id'] == 3297)) {
+      $kArr['pay_mothed'] = 'Pay Mothed';
+      $kArr['contact_email'] = 'Contact Email';
+      $kArr['contact_phone'] = 'Contact Phone';
+    }
+
+    if (($beuser['user_id'] == 450) || ($beuser['user_id'] == 2018)) {
+      $kArr['note'] = "Note";
+    }
+
+    $filename = "tmppdf/Premium_Report_" . date('Ymd') . ".xlsx";
+    if (!empty($backrun_id)) {
+      $filename = "tmppdf/Premium_Report_" . $backrun_id . ".xlsx";
+    }
+    
+    $w->openToFile(DOWNLOADDIR.$filename);
+    //$w->openToFile($tmpfname);
+    foreach ($data['report_data'] as $data) {
+      $arr = array();
+      foreach ($kArr as $k => $v) { $arr[] = $v; } 
+        $w->addRow($arr);
+        foreach ($data['records'] as $record) {
+          $arr = array();
+          foreach ($kArr as $k => $v) {
+            if ($k == 'added') {
+              $arr[] = substr($record[$k], 0, 10);
+            } else if ($k == 'net_premium') {
+              $arr[] = $record['amount'] - $record['commission'];
+            } else {
+              $arr[] = $record[$k];
+            }
+          } 
+          $w->addRow($arr);
+        }
+        $arr = array('Total Premium: $' . $data['data']['policy_premium'], '','','Total Net Premium: $' . $data['data']['net_premium'],'','','Username:' . $data['data']['agent_username'] . ' Email: ' . $data['data']['agent_email']);
+        $w->addRow($arr);
+        $arr = array('', '','','','','','','');
+        $w->addRow($arr);
+    }
     $w->close();
     if ($backrun_id) {
       $this->set_file_done($backrun_id, $filename);

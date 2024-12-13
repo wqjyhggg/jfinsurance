@@ -465,6 +465,7 @@ $lang["Renewal"] = "Renewal";
 $lang["Renew Email"] = "Renew Email";
 $lang["Renewal Report"] = "Renewal Report";
 $lang["Report Filter"] = "Report Filter";
+$lang["Request Sales Report"] = "Request Sales Report";
 $lang["Reset Password"] = "Reset Password";
 $lang["Review Policy Detail"] = "Review Policy Detail";
 

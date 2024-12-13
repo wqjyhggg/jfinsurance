@@ -23,7 +23,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               <div class="title_left">
                 <h3><?php echo $this->lang->line("Sales Report to Agent"); ?></h3>
               </div>
-
             </div>
             <div class="clearfix"></div>
             <!-- Filter Section -->
@@ -35,53 +34,75 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
-                  <form method="post" action="<?=$action_url ?>" class="form-horizontal">
-						<input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
+                    <form method="post" action="<?=$action_url ?>" class="form-horizontal">
+                      <input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>' />
                       <div class="row">
-                      <!-- Agent input box -->
-                        <div class="form-group col-sm-4">
+                        <div class="form-group col-sm-3">
                           <label class="col-sm-12"><?php echo $this->lang->line("Agent"); ?>:</label>
                           <div class="input-group col-sm-12">
-                              <select name="agent_id" class="form-control">
-                                <option value=0><?php echo $this->lang->line("Choose Agent"); ?></option>
-<?php foreach ($user_list as $agent) : ?>
-    <?php if ($agent_id == $agent['user_id']) : ?>
-                                <option value="<?=$agent['user_id'] ?>"  selected>
-    <?php else : ?>
-                                <option value="<?=$agent['user_id'] ?>" >
-    <?php endif; ?>
-                                    <?php echo $agent['username'] . " ( ". $agent['full_name'] . " )"; ?>
-                                </option>
-<?php endforeach; ?>
-                              </select>
+                            <select name="agent_id" class="form-control">
+                              <option value=0><?php echo $this->lang->line("Choose Agent"); ?></option>
+                              <?php foreach ($user_list as $agent) { ?>
+                              <option value="<?=$agent['user_id'] ?>"  <?php if ($agent_id == $agent['user_id']) { echo "selected"; } ?>>
+                                <?php echo $agent['username'] . " ( ". $agent['full_name'] . " )"; ?>
+                              </option>
+                              <?php } ?>
+                            </select>
                           </div>
                         </div>
-                        <!-- Agent input box end -->
-
-                        <!-- Product input box -->
-                        <div class="form-group col-sm-4">
+                        <div class="form-group col-sm-3">
+                          <label for="payment_added_from" class="col-sm-12"><?php echo $this->lang->line("Payment Added Date From"); ?></label>
+                          <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
+                            <input name="payment_added_from" class="form-control" size="16" type="text" value="<?php echo $payment_added_from ?>" >
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                          </div>
+                          <input type="hidden" id="payment_added_from" value="" />
+                        </div>
+                        <div class="form-group col-sm-3">
+                          <label for="payment_date_from" class="col-sm-12"><?php echo $this->lang->line("Payment Update Date From"); ?></label>
+                          <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
+                          <input name="payment_date_from" class="form-control" size="16" type="text" value="<?php echo $payment_date_from ?>" >
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                          </div>
+                          <input type="hidden" id="payment_date_from" value="" />
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="form-group col-sm-3">
                           <label class="col-sm-12"><?php echo $this->lang->line("Product"); ?>:</label>
-                            <div class="input-group col-sm-12">
-                              <select name='product_short' class="form-control">
-                                <option value=""><?php echo $this->lang->line("Choose Product"); ?></option>
-<?php foreach ($product_list as $product) : ?>
-    <?php if ($product_short == $product['product_short']) : ?>
-                                <option value="<?=$product['product_short'] ?>"  selected>
-    <?php else : ?>
-                                <option value="<?=$product['product_short'] ?>" >
-    <?php endif; ?>
-                                    <?=$product['full_name'] ?> (<?=$product['product_short'] ?>)
-                                </option>
-<?php endforeach; ?>
-                              </select>
+                          <div class="input-group col-sm-12">
+                            <select name='product_short' class="form-control">
+                              <option value=""><?php echo $this->lang->line("Choose Product"); ?></option>
+                              <?php foreach ($product_list as $product) : ?>
+                              <option value="<?=$product['product_short'] ?>" <?php if ($product_short == $product['product_short']) { echo "selected"; }?>>
+                                <?php echo $product['full_name']." (".$product['product_short'].")"; ?>
+                              </option>
+                              <?php endforeach; ?>
+                            </select>
                           </div>
                         </div>
-                        <!-- Region input box end -->
-<?php if ($beuser['region_id'] == 0) { ?>
-                        <!-- Product input box -->
-                        <div class="form-group col-sm-4">
+                        <div class="form-group col-sm-3">
+                          <label for="payment_added_to" class="col-sm-12"><?php echo $this->lang->line("Payment Added Date To"); ?></label>
+                          <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
+                            <input name="payment_added_to" class="form-control" size="16" type="text" value="<?php echo $payment_added_to ?>" >
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                          </div>
+                          <input type="hidden" id="payment_added_to" value="" /><br/>
+                        </div>
+                        <div class="form-group col-sm-3">
+                          <label for="payment_date_to" class="col-sm-12"><?php echo $this->lang->line("Payment Update Date To"); ?></label>
+                          <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
+                            <input name="payment_date_to" class="form-control" size="16" type="text" value="<?php echo $payment_date_to ?>" >
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                          </div>
+                          <input type="hidden" id="payment_date_to" value="" /><br/>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="form-group col-sm-3">
+                          <?php if ($beuser['region_id'] == 0) { ?>
                           <label class="col-sm-12"><?php echo $this->lang->line("Region"); ?>:</label>
-                            <div class="input-group col-sm-12">
+                          <div class="input-group col-sm-12">
                             <select name='region_id' class="form-control">
                               <option value='0'> -- <?php echo $this->lang->line("All Region"); ?> -- </option>
                               <?php foreach ($regions as $key => $name) { ?>
@@ -89,91 +110,71 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                               <?php } ?>
                             </select>
                           </div>
+                          <?php } else { ?>
+                          <input type='hidden' name='region_id' value='<?php echo $beuser['region_id']; ?>'>
+                          <?php } ?>
                         </div>
-<?php } else { ?>
-						<input type='hidden' name='region_id' value='<?php echo $beuser['region_id']; ?>'>
-<?php } ?>
-                        <!-- Region input box end -->
-                      </div>
-
-                      <div class="row">
-                        <!-- Payment Added Date-->
-                        <div class="form-group col-sm-4">
-                            <!-- Payment Added Date From-->
-                            <label for="payment_added_from" class="col-sm-12"><?php echo $this->lang->line("Payment Added Date From"); ?></label>
-                            <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
-                            <input name="payment_added_from" class="form-control" size="16" type="text" value="<?php echo $payment_added_from ?>" >
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                            </div>
-                            <input type="hidden" id="payment_added_from" value="" />
-                            <!-- Payment Added Date From End-->
-                            <!-- Payment Added Date to -->
-                            <label for="payment_added_to" class="col-sm-12"><?php echo $this->lang->line("Payment Added Date To"); ?></label>
-                            <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
-                                <input name="payment_added_to" class="form-control" size="16" type="text" value="<?php echo $payment_added_to ?>" >
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                            </div>
-                            <input type="hidden" id="payment_added_to" value="" /><br/>
-                            <!-- Payment Update Date to End -->
+                        <div class="form-group col-sm-3">
                         </div>
-                        <!-- Payment Added Date End -->
-                        <!-- Payment Update Date-->
-                        <div class="form-group col-sm-4">
-                            <!-- Payment Update Date From-->
-                            <label for="payment_date_from" class="col-sm-12"><?php echo $this->lang->line("Payment Update Date From"); ?></label>
-                            <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
-                            <input name="payment_date_from" class="form-control" size="16" type="text" value="<?php echo $payment_date_from ?>" >
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                            </div>
-                            <input type="hidden" id="payment_date_from" value="" />
-                            <!-- Payment Update Date From End-->
-                            <!-- Payment Update Date to -->
-                            <label for="payment_date_to" class="col-sm-12"><?php echo $this->lang->line("Payment Update Date To"); ?></label>
-                            <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
-                                <input name="payment_date_to" class="form-control" size="16" type="text" value="<?php echo $payment_date_to ?>" >
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                            </div>
-                            <input type="hidden" id="payment_date_to" value="" /><br/>
-                            <!-- Payment Update Date to End -->
-                        </div>
-                        <!-- Payment Update Date End -->
-                      </div>
-                      <div class="row">
-                        <!-- submit button -->
+                        <div class="form-group col-sm-3">
                           <div class="col-sm-12">
-                            <button class="btn btn-primary pull-right"><?php echo $this->lang->line("Display Sales Report"); ?></button>
+                            <input type="submit" name="submit"  class="btn btn-primary pull-right" value="<?php echo $this->lang->line("Display Sales Report"); ?>" />
                           </div>
-                        <!-- submit button -->
+                        </div>
+                        <div class="form-group col-sm-3">
+                          <div class="col-sm-12">
+                            <input type="submit" name="request" class="btn btn-primary pull-right" value="<?php echo $this->lang->line("Request Sales Report"); ?>" />
+                          </div>
+                        </div>
                       </div>
                     </form>
-
                   </div>
                 </div>
               </div>
             </div><!-- End Filter Section -->
+            <?php if ($download_request && (sizeof($download_request) > 0)) : ?>
+            <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <h2>Report Request</h2>
+              </div>
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <ol>
+                <?php foreach ($download_request as $req) : ?>
+                  <li>
+                  <?php echo $req["require_time"] . " : "?>
+                  <?php if ($req["is_done"]) : ?>
+                    <a href="<?php echo $download_url . "/" . $req["filepath"]; ?>" style="color: #23527c; text-decoration: underline;">download <?php echo basename($req["filepath"]); ?></a>
+                  <?php endif; ?>
+                  <?php echo $req["para_data"]; ?>
+                  </li>
+                  <?php endforeach; ?>
+                </ol>
+              </div>
+            </div><!-- Jobs List -->
+            <?php endif; ?>
             <!-- List Section -->
             <div class="row">
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
                     <h2>Search Result <span class="inline-m">
-	                    	<form method="get" action="<?php echo $export_list; ?>" class="form-horizontal">
-	                    		<input type='hidden' name="agent_id" value="<?php echo $agent_id; ?>">
-	                    		<input type='hidden' name="product_short" value="<?php echo $product_short; ?>">
-	                    		<input type='hidden' name="region_id" value="<?php echo $region_id; ?>">
-	                    		<input type='hidden' name="payment_added_from" value="<?php echo $payment_added_from; ?>">
-	                    		<input type='hidden' name="payment_added_to" value="<?php echo $payment_added_to; ?>">
-	                    		<input type='hidden' name="payment_date_from" value="<?php echo $payment_date_from; ?>">
-	                    		<input type='hidden' name="payment_date_to" value="<?php echo $payment_date_to; ?>">
-			                    <div class="row">
-			                        <!-- submit button -->
-			                        <div class="col-sm-12">
-			                            <button class="btn btn-primary pull-right"><?php echo $this->lang->line("Export Sales Report"); ?></button>
-			                        </div>
-			                        <!-- submit button -->
-			                    </div>
+                      <form method="get" action="<?php echo $export_list; ?>" class="form-horizontal">
+                        <input type='hidden' name="agent_id" value="<?php echo $agent_id; ?>">
+                        <input type='hidden' name="product_short" value="<?php echo $product_short; ?>">
+                        <input type='hidden' name="region_id" value="<?php echo $region_id; ?>">
+                        <input type='hidden' name="payment_added_from" value="<?php echo $payment_added_from; ?>">
+                        <input type='hidden' name="payment_added_to" value="<?php echo $payment_added_to; ?>">
+                        <input type='hidden' name="payment_date_from" value="<?php echo $payment_date_from; ?>">
+                        <input type='hidden' name="payment_date_to" value="<?php echo $payment_date_to; ?>">
+                        <div class="row">
+                          <!-- submit button -->
+                          <div class="col-sm-12">
+                              <button class="btn btn-primary pull-right"><?php echo $this->lang->line("Export Sales Report"); ?></button>
+                          </div>
+                          <!-- submit button -->
+                        </div>
 			                </form>
-					</span></h2>
+					          </span></h2>
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">

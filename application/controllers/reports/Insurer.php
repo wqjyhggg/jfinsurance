@@ -44,8 +44,22 @@ class Insurer extends MY_Controller
 
     $data['product_list'] = $this->product_model->get_available_product_list();
     $data['user_list'] = $this->user_model->get_available_user_list();
-    $data['report_data'] = empty($_POST) ? array() : $this->report_model->get_sales_report_insurer($data);
+    if ($this->input->post('submit')) {
+      $data['report_data'] = empty($_POST) ? array() : $this->report_model->get_sales_report_insurer($data);
+    } else {
+      $para_data = array();
+      $para_data['agent_id'] = empty($this->input->post('agent_id')) ? 0 : (int)$this->input->post('agent_id');
+      $para_data['region_id'] = empty($this->input->post('region_id')) ? $beuser['region_id'] : $this->input->post('region_id');
 
+      $para_data['product_short'] = $this->input->post('product_short');
+      $para_data['payment_added_from'] = $this->input->post('payment_added_from');
+      $para_data['payment_added_to'] = $this->input->post('payment_added_to');
+      $para_data['payment_date_from'] = $this->input->post('payment_date_from');
+      $para_data['payment_date_to'] = $this->input->post('payment_date_to');
+      $this->backrun_model->add_run(Backrun_model::SalesReportToInsurer, json_encode($para_data));
+      $data['report_data'] = array();
+    }
+    $data['download_request'] = $this->backrun_model->get_job_list(Backrun_model::SalesReportToInsurer);
     $data['export_list'] = base_url("reports/insurer/export_list");
     return $data;
   }
@@ -140,5 +154,27 @@ class Insurer extends MY_Controller
         readfile($tmpfname);
         */
     //unlink($tmpfname);
+  }
+
+  public function report()
+  {
+    if ((php_sapi_name() !== 'cli')) {
+      show_404();
+      return ;
+    }
+    $this->load->model('backrun_model');
+
+    $data['agent_id'] = 0;
+    $data['region_id'] = 0;
+
+    $data['product_short'] = '';
+    $data['payment_added_from'] = '2023-11-01';
+    $data['payment_added_to'] = '2024-11-30';
+    $data['payment_date_from'] = '';
+    $data['payment_date_to'] = '';
+
+    $data["run_type"] == Backrun_model::SalesReportToAgent;
+
+    $this->backrun_model->SalesReportToAgent(0, $data);
   }
 }
