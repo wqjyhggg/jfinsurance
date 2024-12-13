@@ -217,7 +217,7 @@ class Premium2 extends MY_Controller
     $data['payment_added_to'] = '2024-09-30';
     $data['earned_to'] = '2024-09-30';
     $data['product_short'] = array("JFGD","JFOS","JFPL","JFSL","JFVTC");
-    $data["run_type"] == Backrun_model::ORPremium;
+    $data["run_type"] = Backrun_model::ORPremium;
 
     $this->backrun_model->ORPremium(0, $data);
   }

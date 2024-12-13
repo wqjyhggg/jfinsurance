@@ -173,7 +173,7 @@ class Insurer extends MY_Controller
     $data['payment_date_from'] = '';
     $data['payment_date_to'] = '';
 
-    $data["run_type"] == Backrun_model::SalesReportToAgent;
+    $data["run_type"] = Backrun_model::SalesReportToAgent;
 
     $this->backrun_model->SalesReportToAgent(0, $data);
   }

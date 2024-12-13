@@ -232,6 +232,9 @@ class Backrun_model extends CI_Model {
       show_404();
 			return ;
 		}
+    $this->load->model('product_model');
+    $this->load->model('report_model');
+
     $beuser = $this->user_model->get_user_by_id(1);
     $data['beuser'] = $beuser;
 
@@ -320,6 +323,9 @@ class Backrun_model extends CI_Model {
       show_404();
 			return ;
 		}
+    $this->load->model('product_model');
+    $this->load->model('report_model');
+
     $beuser = $this->user_model->get_user_by_id(1);
     $data['beuser'] = $beuser;
 
