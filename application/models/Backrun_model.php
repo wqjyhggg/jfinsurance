@@ -249,8 +249,8 @@ class Backrun_model extends CI_Model {
     $data['payment_date_from'] = $this->input->get_post('payment_date_from');
     $data['payment_date_to'] = $this->input->get_post('payment_date_to');
     
-    $data['product_list'] = $this->product_model->get_available_product_list();
-    $data['user_list'] = $this->user_model->get_available_user_list();
+    $data['product_list'] = $this->product_model->get_available_product_list($beuser);
+    $data['user_list'] = $this->user_model->get_available_user_list($beuser);
     $data['report_data'] = $this->report_model->get_sales_report_agent($data);
     
     //echo "<pre>";
@@ -329,8 +329,8 @@ class Backrun_model extends CI_Model {
     $beuser = $this->user_model->get_user_by_id(1);
     $data['beuser'] = $beuser;
 
-    $data['product_list'] = $this->product_model->get_available_product_list();
-    $data['user_list'] = $this->user_model->get_available_user_list();
+    $data['product_list'] = $this->product_model->get_available_product_list($beuser);
+    $data['user_list'] = $this->user_model->get_available_user_list($beuser);
     $data['report_data'] = $this->report_model->get_sales_report_insurer($data);
     
     //echo "<pre>";
