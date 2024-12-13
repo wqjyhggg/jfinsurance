@@ -18,8 +18,8 @@ use Box\Spout\Writer\WriterFactory;
 class Backrun_model extends CI_Model {
 	public $error;
 	const ORPremium="ORPremium";
-	const SalesReportToAgent="SalesReportToAgent";
-	const SalesReportToInsurer="SalesReportToInsurer";
+	const SalesReportToAgent="ReportToAgent";
+	const SalesReportToInsurer="ReportToInsurer";
 	const KEEP_DAYS=7;
 	
 	/**

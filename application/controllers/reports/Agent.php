@@ -48,7 +48,7 @@ class Agent extends MY_Controller
         $data['user_list'] = $this->user_model->get_available_user_list();
         if ($this->input->post('submit')) {
           $data['report_data'] = empty($_POST) ? array() : $this->report_model->get_sales_report_agent($data);
-        } else {
+        } else if (!empty($this->input->post('request'))) {
           $para_data = array();
           $para_data['agent_id'] = empty($this->input->post('agent_id')) ? 0 : (int)$this->input->post('agent_id');
           $para_data['region_id'] = empty($this->input->post('region_id')) ? $beuser['region_id'] : $this->input->post('region_id');
@@ -58,9 +58,12 @@ class Agent extends MY_Controller
           $para_data['payment_added_to'] = $this->input->post('payment_added_to');
           $para_data['payment_date_from'] = $this->input->post('payment_date_from');
           $para_data['payment_date_to'] = $this->input->post('payment_date_to');
-          $this->backrun_model->add_run(Backrun_model::SalesReportToAgent, json_encode($para_data));
+          if ($para_data['payment_added_from'] || $para_data['payment_added_to'] || $para_data['payment_date_from'] || $para_data['payment_date_to']) {
+            $this->backrun_model->add_run(Backrun_model::SalesReportToAgent, json_encode($para_data));
+          }
           $data['report_data'] = array();
         }
+        $data['download_url'] = base_url("/");
         $data['download_request'] = $this->backrun_model->get_job_list(Backrun_model::SalesReportToAgent);
         $data['export_list'] = base_url ( "reports/agent/export_list" );
         return $data;
