@@ -88,7 +88,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                     <input name="payment_added_to" class="form-control" size="16" type="text" value="<?php echo $payment_added_to ?>" >
                     <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                   </div>
-                  <input type="hidden" id="payment_added_to" value="" /><br/>
+                  <input type="hidden" id="payment_added_to" value="" />
                 </div>
                 <div class="form-group col-sm-3">
                   <label for="payment_date_to" class="col-sm-12"><?php echo $this->lang->line("Payment Update Date To"); ?></label>
@@ -96,7 +96,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                     <input name="payment_date_to" class="form-control" size="16" type="text" value="<?php echo $payment_date_to ?>" >
                     <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                   </div>
-                  <input type="hidden" id="payment_date_to" value="" /><br/>
+                  <input type="hidden" id="payment_date_to" value="" />
                 </div>
               </div>
               <div class="row">
@@ -119,12 +119,12 @@ defined('BASEPATH') or exit('No direct script access allowed');
                 </div>
                 <div class="form-group col-sm-3">
                   <div class="col-sm-12">
-                    <input type="submit" name="submit"  class="btn btn-primary pull-right" value="<?php echo $this->lang->line("Display Sales Report"); ?>" />
+                    <input type="submit" style="'margin-top: 16px;" name="submit"  class="btn btn-primary pull-right" value="<?php echo $this->lang->line("Display Sales Report"); ?>" />
                   </div>
                 </div>
                 <div class="form-group col-sm-3">
                   <div class="col-sm-12">
-                    <input type="submit" name="request" class="btn btn-primary pull-right" value="<?php echo $this->lang->line("Request Sales Report"); ?>" />
+                    <input type="submit" style="'margin-top: 16px;" name="request" class="btn btn-primary pull-right" value="<?php echo $this->lang->line("Request Sales Report"); ?>" />
                   </div>
                 </div>
               </div>
