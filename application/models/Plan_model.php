@@ -966,9 +966,6 @@ class Plan_model extends CI_Model {
 		if (!empty($para['user_id'])) {
 			$where[] = "p.user_id=" . (int)$para['user_id'];
 		}
-		if (!empty($where)) {
-			$sql .= " WHERE " . join(" AND ", $where);
-		}
 		if (!empty($para['plan_id'])) {
 			$where[] = "p.plan_id=" . (int)$para['plan_id'];
 		}

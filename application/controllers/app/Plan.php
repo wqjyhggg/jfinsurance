@@ -498,9 +498,9 @@ class Plan extends CI_Controller
       }
     }
 
-    if ($user["user_group_id"] > 100) {
-      return $this->app_model->return_error($this->error);
-    }
+    // if ($user["user_group_id"] > 100) {
+    //   return $this->app_model->return_error($this->error);
+    // }
     $this->load->model("plan_model");
     $data = array();
     if ($id = $this->input->post("plan_id")) {
