@@ -24,6 +24,7 @@ class Insurer extends MY_Controller
     $beuser = $this->session->userdata('beuser');
     $this->load->model('product_model');
     $this->load->model('report_model');
+    $this->load->model('backrun_model');
 
     $data['csrf'] = array(
       'name' => $this->security->get_csrf_token_name(),
