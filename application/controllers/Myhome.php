@@ -383,8 +383,8 @@ class Myhome extends MY_Controller {
 		$this->data['file_url'] = $file_url;
 		
 		$this->data['action_url'] = current_url();
-		$this->data['myname_url'] = base_url('myhome/myname');
-		$this->data['myhome_url'] = base_url('agent');
+		$this->data['myname_url'] = base_url('Myhome/myname');
+		$this->data['myhome_url'] = base_url('Agent');
 		
 		$this->data ['csrf'] = array (
 				'name' => $this->security->get_csrf_token_name (),
