@@ -311,7 +311,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
           </h4>
           <?php if ($plan['sum_insured']) { ?><h4>Sum Insured: <span>$<?php echo number_format($plan['sum_insured'], 2); ?></span>
             </h4><?php } ?>
-          <?php if ($plan['deductible_amount'] || ($plan['product_short'] == 'OPL') || ($plan['product_short'] == 'JFR')) { ?><h4>Deductible: <span>$<?php echo number_format($plan['deductible_amount'], 2); ?></span>
+          <?php if (floatval($plan['deductible_amount']) > 1) { ?><h4>Deductible: <span>$<?php echo number_format($plan['deductible_amount'], 2); ?></span>
             </h4><?php } ?>
           <h4><?php echo $this->lang->line("Beneficiary"); ?>: <span><?php echo htmlspecialchars($plan['beneficiary']); ?></span>
           </h4>

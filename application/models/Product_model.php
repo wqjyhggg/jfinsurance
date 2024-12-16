@@ -867,7 +867,11 @@ class Product_model extends CI_Model {
 			$premium = $rate * $days;
 			$message = "";
 			if ($years > 85) {
-				$premiumArr['message'] = "<p style='color:#2e6da4;'>Notice: Over 85 years old will have $500 Deductible</p>";
+        if ($user) {
+          $premiumArr['message'] = "Notice: Over 85 years old will have $500 Deductible";
+        } else {
+          $premiumArr['message'] = "<p style='color:#2e6da4;'>Notice: Over 85 years old will have $500 Deductible</p>";
+        }
 			}
 			$premiumArr['premium'] = $premium;
 			$premiumArr['totalyears'] = $years;
@@ -1218,9 +1222,6 @@ class Product_model extends CI_Model {
 			}
 			$rate = $rate * $discount;
 			$premium = $rate * $days;
-			// if ($years > 85) {
-			// 	$premiumArr['message'] = "<p style='color:#2e6da4;'>Notice: Over 85 years old will have $500 Deductible</p>";
-			// }
 			$premiumArr['premium'] = $premium;
 			$premiumArr['totalyears'] = $years;
 			$premiumArr['totaldays'] = $days;
@@ -1759,7 +1760,11 @@ class Product_model extends CI_Model {
 			$rate = $rate * $discount;
 			$premium = $rate * $days;
 			if ($years > 85) {
-				$premiumArr['message'] = "<p style='color:#2e6da4;'>Notice: Over 85 years old will have $500 Deductible</p>";
+        if ($user) {
+          $premiumArr['message'] = "Notice: Over 85 years old will have $500 Deductible";
+        } else {
+  				$premiumArr['message'] = "<p style='color:#2e6da4;'>Notice: Over 85 years old will have $500 Deductible</p>";
+        }
 			}
 			$premiumArr['premium'] = $premium;
 			$premiumArr['totalyears'] = $years;
