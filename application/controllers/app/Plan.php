@@ -20,7 +20,8 @@ class Plan extends CI_Controller
       return $this->app_model->return_error($this->error);
     }
     if (($user["user_group_id"] < 100) && ($bid = $this->input->post("bid"))) {
-      if ($user = $this->user_model->get_by_id($bid)) {
+      $user = $this->user_model->get_by_id($bid);
+      if (empty($user)) {
         return $this->app_model->return_error("Unknown agent");
       }
     }
@@ -56,7 +57,8 @@ class Plan extends CI_Controller
       return $this->app_model->return_error($this->error);
     }
     if (($user["user_group_id"] < 100) && ($bid = $this->input->post("bid"))) {
-      if ($user = $this->user_model->get_by_id($bid)) {
+      $user = $this->user_model->get_by_id($bid);
+      if (empty($user)) {
         return $this->app_model->return_error("Unknown agent");
       }
     }
@@ -454,7 +456,8 @@ class Plan extends CI_Controller
       return $this->app_model->return_error($this->error);
     }
     if (($user["user_group_id"] < 100) && ($bid = $this->input->post("bid"))) {
-      if ($user = $this->user_model->get_by_id($bid)) {
+      $user = $this->user_model->get_by_id($bid);
+      if (empty($user)) {
         return $this->app_model->return_error("Unknown agent");
       }
     }
@@ -493,7 +496,8 @@ class Plan extends CI_Controller
       return $this->app_model->return_error($this->error);
     }
     if (($user["user_group_id"] < 100) && ($bid = $this->input->post("bid"))) {
-      if ($user = $this->user_model->get_by_id($bid)) {
+      $user = $this->user_model->get_by_id($bid);
+      if (empty($user)) {
         return $this->app_model->return_error("Unknown agent");
       }
     }
@@ -542,7 +546,8 @@ class Plan extends CI_Controller
       return $this->app_model->return_error($this->error);
     }
     if (($user["user_group_id"] < 100) && ($bid = $this->input->post("bid"))) {
-      if ($user = $this->user_model->get_by_id($bid)) {
+      $user = $this->user_model->get_by_id($bid);
+      if (empty($user)) {
         return $this->app_model->return_error("Unknown agent");
       }
     }
@@ -614,7 +619,8 @@ class Plan extends CI_Controller
       return $this->app_model->return_error($this->error);
     }
     if (($user["user_group_id"] < 100) && ($bid = $this->input->post("bid"))) {
-      if ($user = $this->user_model->get_by_id($bid)) {
+      $user = $this->user_model->get_by_id($bid);
+      if (empty($user)) {
         return $this->app_model->return_error("Unknown agent");
       }
     }
@@ -697,7 +703,8 @@ class Plan extends CI_Controller
       return $this->app_model->return_error($this->error);
     }
     if (($user["user_group_id"] < 100) && ($bid = $this->input->post("bid"))) {
-      if ($user = $this->user_model->get_by_id($bid)) {
+      $user = $this->user_model->get_by_id($bid);
+      if (empty($user)) {
         return $this->app_model->return_error("Unknown agent");
       }
     }
@@ -771,7 +778,8 @@ class Plan extends CI_Controller
       return $this->app_model->return_error($this->error);
     }
     if (($user["user_group_id"] < 100) && ($bid = $this->input->post("bid"))) {
-      if ($user = $this->user_model->get_by_id($bid)) {
+      $user = $this->user_model->get_by_id($bid);
+      if (empty($user)) {
         return $this->app_model->return_error("Unknown agent");
       }
     }
@@ -957,7 +965,8 @@ class Plan extends CI_Controller
       return $this->app_model->return_error($this->error);
     }
     if (($user["user_group_id"] < 100) && ($bid = $this->input->post("bid"))) {
-      if ($user = $this->user_model->get_by_id($bid)) {
+      $user = $this->user_model->get_by_id($bid);
+      if (empty($user)) {
         return $this->app_model->return_error("Unknown agent");
       }
     }
@@ -1134,7 +1143,8 @@ class Plan extends CI_Controller
       return $this->app_model->return_error($this->error);
     }
     if (($user["user_group_id"] < 100) && ($bid = $this->input->post("bid"))) {
-      if ($user = $this->user_model->get_by_id($bid)) {
+      $user = $this->user_model->get_by_id($bid);
+      if (empty($user)) {
         return $this->app_model->return_error("Unknown agent");
       }
     }
@@ -1278,7 +1288,7 @@ class Plan extends CI_Controller
   }
 
   // send package
-  public function sendpackage($isinternal=false, $user=null, $plan_id=0) {
+  public function sendpackage() {
     $this->error = "";
     $this->load->model("app_model");
     $this->load->model("user_model");
@@ -1286,19 +1296,7 @@ class Plan extends CI_Controller
     $this->lang->load('message');
     $this->lang->load('message', 'english');
 
-    if ($isinternal) {
-      $user = $this->user_model->get_by_id(1);
-      $post = array(
-        "plan_id" => $plan_id,
-        "withlogo" => 1,
-        "withprice" => 1,
-        "sendfrench" => 1,
-        "emailaddr" => "",
-      );
-    } else {
-      $user = $this->app_model->check_token($this->input->post("token"));
-      $post = $this->input->post();
-    }
+    $user = $this->app_model->check_token($this->input->post("token"));
 
     if (empty($user)) {
       if (empty($this->error)) {
@@ -1306,18 +1304,25 @@ class Plan extends CI_Controller
       }
       return $this->app_model->return_error($this->error);
     }
+    $post = $this->input->post();
     if (($user["user_group_id"] < 100) && ($bid = $this->input->post("bid"))) {
-      if ($user = $this->user_model->get_by_id($bid)) {
+      $user = $this->user_model->get_by_id($bid);
+      if (empty($user)) {
         return $this->app_model->return_error("Unknown agent");
       }
     }
 
-    $plan_id = isset($post["plan_id"])?$post["plan_id"]:0;
+    $plan_id = $this->input->post("plan_id");
 		if (empty($plan_id)) {
       return $this->app_model->return_error("Unknown plan");
 		}
 
 		$beuser = $user;
+
+    if ($user["user_group_id"] >= 100) {
+      $post["withlogo"] = 1;
+      $post["withprice"] = 1;
+    }
 
     $data = array();
 		$this->load->model('plan_model');
@@ -1687,7 +1692,8 @@ class Plan extends CI_Controller
       return $this->app_model->return_error($this->error);
     }
     if (($user["user_group_id"] < 100) && ($bid = $this->input->post("bid"))) {
-      if ($user = $this->user_model->get_by_id($bid)) {
+      $user = $this->user_model->get_by_id($bid);
+      if (empty($user)) {
         return $this->app_model->return_error("Unknown agent");
       }
     }
@@ -1788,7 +1794,8 @@ class Plan extends CI_Controller
       return $this->app_model->return_error($this->error);
     }
     if (($user["user_group_id"] < 100) && ($bid = $this->input->post("bid"))) {
-      if ($user = $this->user_model->get_by_id($bid)) {
+      $user = $this->user_model->get_by_id($bid);
+      if (empty($user)) {
         return $this->app_model->return_error("Unknown agent");
       }
     }
