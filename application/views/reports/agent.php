@@ -121,18 +121,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <input type="submit" name="submit"  class="btn btn-primary pull-right" value="<?php echo $this->lang->line("Display Sales Report"); ?>" />
                           </div>
                         </div>
+                        <?php if ($beuser["user_group_id"] == 1) { ?>
                         <div class="form-group col-sm-3">
                           <div class="col-sm-12" style="'margin-top: 16px;" >
                             <input type="submit" name="request" class="btn btn-primary pull-right" value="<?php echo $this->lang->line("Request Sales Report"); ?>" />
                           </div>
                         </div>
+                        <?php } ?>
                       </div>
                     </form>
                   </div>
                 </div>
               </div>
             </div><!-- End Filter Section -->
-            <?php if ($download_request && (sizeof($download_request) > 0)) : ?>
+            <?php if (($beuser["user_group_id"] == 1) && $download_request && (sizeof($download_request) > 0)) { ?>
             <div class="row">
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <h2>Report Request</h2>
@@ -150,8 +152,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                   <?php endforeach; ?>
                 </ol>
               </div>
-            </div><!-- Jobs List -->
-            <?php endif; ?>
+            </div>
+            <?php } ?>
             <!-- List Section -->
             <div class="row">
               <div class="col-md-12 col-sm-12 col-xs-12">

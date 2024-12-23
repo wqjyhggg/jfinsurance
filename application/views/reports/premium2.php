@@ -87,25 +87,21 @@ defined('BASEPATH') or exit('No direct script access allowed');
               </div>
 
               <div class="row">
-                <!-- export button -->
                 <div class="form-group col-sm-6 text-center">
                 </div>
                 <!-- export button -->
-                <!-- submit button -->
                 <div class="form-group col-sm-2 text-center">
                   <input type="submit" name="export" value="Export" class="btn btn-primary" />
                 </div>
-                <!-- export button -->
                 <!-- submit button -->
                 <div class="form-group col-sm-2 text-center">
                   <input type="submit" name="submit" value="Display" class="btn btn-primary" />
                 </div>
-                <!-- submit button -->
-                <!-- submit button -->
+                <?php if ($beuser["user_group_id"] == 1) { ?>
                 <div class="form-group col-sm-2 text-center">
                   <input type="submit" name="request" value="Request" class="btn btn-primary" />
                 </div>
-                <!-- export button -->
+                <?php } ?>
               </div>
             </form>
 
@@ -114,7 +110,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
       </div>
     </div><!-- End Filter Section -->
     <!-- Jobs List -->
-    <?php if ($download_request && (sizeof($download_request) > 0)) : ?>
+    <?php if (($beuser["user_group_id"] == 1) && $download_request && (sizeof($download_request) > 0)) { ?>
     <div class="row">
       <div class="col-md-12 col-sm-12 col-xs-12">
         <h2>Report Request</h2>
@@ -133,7 +129,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
         </ol>
       </div>
     </div><!-- Jobs List -->
-    <?php endif; ?>
+    <?php } ?>
     <!-- List Section -->
     <div class="row">
       <div class="col-md-12 col-sm-12 col-xs-12">
