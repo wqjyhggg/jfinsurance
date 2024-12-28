@@ -1106,6 +1106,7 @@ function get_premium() {
 		}
 	}
 	var birthday = $('input[name="birthday"]').val();	// 
+  var birthdays = [];
 	var number_customer = 0;
 	if (isfamilyplan && (product_short != 'NUS') && (product_short != 'JUS')) {
 		if (new Date(birthday) > new Date($('input[name="birthday_1"]').val())) {
@@ -1153,6 +1154,15 @@ function get_premium() {
 	}
 
 	if (effective_date && expiry_date) {
+    var birthdays = [];
+    birthdays.push($('input[name="birthday"]').val());
+    for (var i=1; i < 9; i++) {
+      if ($('input[name="birthday_'+i+'"]').val()) {
+        birthdays.push($('input[name="birthday_'+i+'"]').val());
+      } else {
+        break;
+      }
+    }
 		$.ajax({
 			url: '<?php echo $premium_url; ?>',
 			type: 'get',
@@ -1171,7 +1181,9 @@ function get_premium() {
 				holiday_rate: holiday_rate,
 				number_customer: number_customer,
 				spouse: spouse,
-				birthday: birthday},
+				birthday: birthday,
+				birthdays: birthdays
+      },
 			success: function(data, textStatus, jqXHR) {
 				if (data['status'] == 'OK') {
 	        $('input[name="premium"]').val(data['premiumarr']['premium']);

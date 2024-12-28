@@ -105,6 +105,7 @@ class Product extends MY_Controller {
 			'stable_condition' => $this->input->post_get('stable_condition'),
 			'holiday_rate' => $this->input->post_get('holiday_rate'),
 			'birthday' => $this->input->post_get('birthday'),
+			'birthdays' => $this->input->post_get('birthdays'),
 			'spouse' => $this->input->post_get('spouse'),
 			'number_customer' => $this->input->post_get('number_customer'));
 		$premiumarr = $this->product_model->get_premium($para);

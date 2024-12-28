@@ -313,11 +313,11 @@ class Product_model extends CI_Model {
     $dt = date("Y-m-d");
     if (($dt >= "2021-07-01") && empty($para['plan_id']) && ($para['product_short'] == 'OPL')) {
 			$premiumArr['message'] = "OPL not available from 2021-07-01";
-			return $premiumArr;  //TTTTTTTTTTTTTTT
+			return $premiumArr;
     }
     if (($para['effective_date'] >= "2021-12-31") && ($para['product_short'] == 'OPL')) {
 			$premiumArr['message'] = "Effective start date has to be before Dec 31, 2021";
-			return $premiumArr;  //TTTTTTTTTTTTTTT
+			return $premiumArr;
     }
 		if (empty($para['effective_date']) || empty($para['expiry_date'])) {
 			return FALSE;
@@ -362,6 +362,29 @@ class Product_model extends CI_Model {
 				return $premiumArr;
 			}
 		}
+    $plan_check_family = array('JFVTC','JFR','TOP','JES','JFGD','JFPL'); // 家长年龄限制是20-59包含59, plan的小孩年龄限制是19岁或19岁以下。
+    if (!empty($para["isfamilyplan"]) && in_array($para['product_short'], $plan_check_family)) {
+      if ($years <= 20) {
+				$premiumArr['message'] = "Parent must older than 21";
+				return $premiumArr;
+      }
+      if (empty($para["birthdays"]) || !is_array($para["birthdays"]) || (sizeof($para["birthdays"]) < 3)) {
+				$premiumArr['message'] = "Family Plan must has 3 or more";
+				return $premiumArr;
+      }
+      $adult = 0;
+      foreach ($para["birthdays"] as $bd) {
+        $ages = $this->getYears($para['apply_date'], $bd);	// 
+        if ($ages > 20) {
+          $adult++;
+        }
+      }
+      if ($adult > 2) {
+				$premiumArr['message'] = "Children must be under 20 years old";
+				return $premiumArr;
+      }
+    }
+
 		return $this->get_premium_sub($para, $user);
 	}
 
