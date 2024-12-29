@@ -79,6 +79,7 @@ class Product extends CI_Controller
         'stable_condition' => $post['stable_condition'],
         'holiday_rate' => $post['holiday_rate'],
         'birthday' => $post['birthday'],
+        'birthdays' => $post['birthday'],
         'spouse' => $post['spouse'],
         'number_customer' => $post['number_customer']);
       $premiumarr = $this->product_model->get_premium($para, $user);

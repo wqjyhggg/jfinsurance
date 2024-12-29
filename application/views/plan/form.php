@@ -1106,7 +1106,6 @@ function get_premium() {
 		}
 	}
 	var birthday = $('input[name="birthday"]').val();	// 
-  var birthdays = [];
 	var number_customer = 0;
 	if (isfamilyplan && (product_short != 'NUS') && (product_short != 'JUS')) {
 		if (new Date(birthday) > new Date($('input[name="birthday_1"]').val())) {
