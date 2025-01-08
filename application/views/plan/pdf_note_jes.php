@@ -6,7 +6,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 		<p class="small" style="margin-top:2px;"><?php echo $this->lang->line("All persons insured are subject to the terms and conditions below."); ?></p>
 
-		<p class="small" style="margin-top:2px;">T<?php echo $this->lang->line("This document does not constitute the entire insurance policy, and the insured(s) has been advised to read the full policy details of coverage and exclusions"); ?>.</p>
+		<p class="small" style="margin-top:2px;"><?php echo $this->lang->line("This document does not constitute the entire insurance policy, and the insured(s) has been advised to read the full policy details of coverage and exclusions"); ?>.</p>
 
 		<p class="small" style="margin-top:2px;"><?php echo $this->lang->line("The eligibility requirements for the plan applied for are material to the risk for which insurance is sought. If the insured(s) does not meet the eligibility requirements for the plan selected, or if there is any misrepresentation, concealment, or failure to disclose any facts or matters pertaining to the insured(s) that is the subject of the application form, then there shall be no insurance coverage provided"); ?>.</p>
 
