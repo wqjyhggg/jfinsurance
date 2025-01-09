@@ -362,7 +362,7 @@ class Product_model extends CI_Model {
 				return $premiumArr;
 			}
 		}
-    $plan_check_family = array('JFVTC','JFR','TOP','JES','JFGD','JFPL'); // 家长年龄限制是20-59包含59, plan的小孩年龄限制是19岁或19岁以下。
+    $plan_check_family = array('JFVTC','JFR','TOP'); // 家长年龄限制是20-59包含59, plan的小孩年龄限制是19岁或19岁以下。
     if (!empty($para["isfamilyplan"]) && in_array($para['product_short'], $plan_check_family)) {
       if ($years <= 20) {
 				$premiumArr['message'] = "Parent must older than 21";
