@@ -16,6 +16,7 @@ class Product_model extends CI_Model {
 	const PLANIDCHG2022_9=693264;   // FOR JFR, JESP rate change
 	const PLANIDCHG2024_1=730200;   // FOR TOP new ratio
 	const PLANIDCHG2024_2=857047;   // FOR JFVTC 2024-08-01
+	const PLANIDCHG2025_1=1000000;   // FOR TOP new ratio
 	public $message;
   public $default_uncheck_product=array('BHS','JFE','JFP','JFC','JUS','NUS','JFPL','JFSL','JFGD','JFOS');  //  JES, JESP, JFS, JFR
 	
@@ -211,9 +212,12 @@ class Product_model extends CI_Model {
 		if (!empty($para['plan_id']) && ($para['plan_id'] < SELF::PLANIDCHG2024_1)) {
 			$this->load->model('top_model');
 			return $this->top_model->get_premium($para);
-		} else {
+		} else if (!empty($para['plan_id']) && ($para['plan_id'] < SELF::PLANIDCHG2025_1)) {
 			$this->load->model('top2_model');
 			return $this->top2_model->get_premium($para);
+		} else {
+			$this->load->model('top3_model');
+			return $this->top3_model->get_premium($para);
 		}		
 	}
 	
@@ -296,9 +300,12 @@ class Product_model extends CI_Model {
 		if (!empty($para['plan_id']) && ($para['plan_id'] < SELF::PLANIDCHG2024_1)) {
 			$this->load->model('top_model');
 			return $this->top_model->get_premium($para);
-		} else {
+		} else if (!empty($para['plan_id']) && ($para['plan_id'] < SELF::PLANIDCHG2025_1)) {
 			$this->load->model('top2_model');
 			return $this->top2_model->get_premium($para);
+		} else {
+			$this->load->model('top3_model');
+			return $this->top3_model->get_premium($para);
 		}		
 	}
 	
