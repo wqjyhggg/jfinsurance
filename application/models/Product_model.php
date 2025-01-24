@@ -234,7 +234,7 @@ class Product_model extends CI_Model {
 		$package = isset($para['package']) ? $para['package'] : '';
 		
     $limitday = $this->getDays($arrival_date, $expiry_date);
-    if (($limitday > 90) && ($package != 'annual_plan')) {
+    if (($limitday > 90) && ($package != 'annual_plan') && ($package != 'all_inclusive')) {
       $r['message'] = "Expiry Date must be 90 days before the Departure date";
     }
     $r['totaldays'] = $para['totaldays'] = $this->getDays($effective_date, $expiry_date);
