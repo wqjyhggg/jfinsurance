@@ -957,7 +957,7 @@ class Plan_model extends CI_Model {
 		}
 	}
 	
-	public function plan_activities($para, $limit=0, $start=0) {
+	public function plan_activities($para, $limit=0, $start=0, $sorder='', $desc=1) {
 		
 		$sql  = "SELECT p.*, c.firstname, c.lastname, c.gender, c.birthday, u.firstname AS agent_firstname, u.lastname AS agent_lastname, u.user_id AS agent_id, u.business_phone as agent_phone FROM plan p";
 		$sql .= " INNER JOIN customer c ON (p.customer_id=c.customer_id)";
@@ -1053,7 +1053,15 @@ class Plan_model extends CI_Model {
     if (!empty($where)) {
 			$sql .= " WHERE " . join(" AND ", $where);
 		}
-		$sql .= " ORDER BY plan_id DESC";
+    if ($sorder) {
+      if ($desc == 1) {
+        $sql .= " ORDER BY ".$sorder." DESC";
+      } else {
+        $sql .= " ORDER BY ".$sorder." ASC";
+      }
+    } else {
+      $sql .= " ORDER BY plan_id DESC";
+    }
 		if ($limit) {
 			if ($start) {
 				$sql .= " LIMIT " . (int)$start . ", " . (int)$limit;

@@ -36,7 +36,12 @@ class Plan extends CI_Controller
     $start = intval($this->input->post("start"));
     if ($limit <= 0) $limit = 5;
     if ($start < 0) $start = 0;
-    if ($plans = $this->plan_model->plan_activities($post, $limit, $start)) {
+    $sorder = $this->input->post("sorder");
+    $desc = 1;
+    if ($sorder) {
+      $desc = $this->input->post("desc");
+    }
+    if ($plans = $this->plan_model->plan_activities($post, $limit, $start, $sorder, $desc)) {
       $data["plans"] = $plans;
       $data["totals"] = $this->plan_model->plan_activitie_totals($post);
       $this->app_model->return_ok($data);
