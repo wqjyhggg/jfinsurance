@@ -1644,12 +1644,12 @@ class Plan_model extends CI_Model {
 		$sql = "SELECT COUNT(*) as month_count, SUM(premium) as month_amount FROM plan WHERE user_id='".intval($user_id)."' AND status_id IN (2,3) AND apply_date>='".$month_start."'";
 		if ($rc = $this->db->query($sql)->row_array()) {
       $rt["month_count"] = $rc["month_count"];
-      $rt["month_amount"] = $rc["month_amount"];
+      $rt["month_amount"] = empty($rc["month_amount"])?0:$rc["month_amount"];
     }
 		$sql = "SELECT COUNT(*) as year_count, SUM(premium) as year_amount FROM plan WHERE user_id='".intval($user_id)."' AND status_id IN (2,3) AND apply_date>='".$year_start."'";
 		if ($rc = $this->db->query($sql)->row_array()) {
       $rt["year_count"] = $rc["year_count"];
-      $rt["year_amount"] = $rc["year_amount"];
+      $rt["year_amount"] = empty($rc["year_amount"])?0:$rc["year_amount"];
     }
 		return $rt;
 	}
