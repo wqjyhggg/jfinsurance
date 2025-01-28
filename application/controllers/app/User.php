@@ -506,11 +506,8 @@ class User extends CI_Controller
       }
       return $this->app_model->return_error($this->error);
     }
-    $data = array();
-    $data["total_customers"] = "12345";
-    $data["total_sales_year_amount"] = "234567";
-    $data["total_sales_year"] = "2345";
-    $data["last_update"] = "2023-07-01";
+    $this->load->model("plan_model");
+    $data = $this->plan_model->get_performance($user['user_id']);
     $this->app_model->return_ok($data);
   }
 }

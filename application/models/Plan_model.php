@@ -1630,4 +1630,27 @@ class Plan_model extends CI_Model {
 		}
 		return array('summary' => $rt, 'policies' => $ps);
 	}
+
+  /**
+	 * Get user performance
+	 * 
+	 * @param integer $user_id
+	 * @return float 
+	 */
+	public function get_performance($user_id) {
+    $month_start = date("Y-m-01 00:00:00");
+    $year_start = date("Y-01-01 00:00:00");
+    $rt = array("month_count" => 0, "month_amount" => 0, "year_count" => 0, "year_amount" => 0);
+		$sql = "SELECT COUNT(*) as month_count, SUM(premium) as month_amount FROM plan WHERE user_id='".intval($user_id)."' AND status IN (2,3) AND apply_date>='".$month_start."'";
+		if ($rc = $this->db->query($sql)->row_array()) {
+      $rt["month_count"] = $rc["month_count"];
+      $rt["month_amount"] = $rc["month_amount"];
+    }
+		$sql = "SELECT COUNT(*) as year_count, SUM(premium) as year_amount FROM plan WHERE user_id='".intval($user_id)."' AND status IN (2,3) AND apply_date>='".$year_start."'";
+		if ($rc = $this->db->query($sql)->row_array()) {
+      $rt["year_count"] = $rc["year_count"];
+      $rt["year_amount"] = $rc["year_amount"];
+    }
+		return $rt;
+	}
 }
