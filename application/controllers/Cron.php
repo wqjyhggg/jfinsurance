@@ -893,7 +893,7 @@ class Cron extends MY_Controller {
     }
     $nlist = $this->user_notify_model->get_notify_list($day);
     foreach ($nlist as $notify) {
-      $user = $this->user_model->get_by_id($notify["user_id"]);
+      $user = $this->user_model->get_user_by_id($notify["user_id"]);
       if (!$user || empty($user["email"])) {
         echo "Unknow User_id: " . $notify["user_id"] . " or Unknown email address\n";
         continue;
