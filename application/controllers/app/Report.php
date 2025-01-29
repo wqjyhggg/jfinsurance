@@ -19,7 +19,7 @@ class Report extends CI_Controller
       return $this->app_model->return_error($this->error);
     }
     if (($user["user_group_id"] < 100) && ($bid = $this->input->post("bid"))) {
-      $user = $this->user_model->get_by_id($bid);
+      $user = $this->user_model->get_user_by_id($bid);
       if (empty($user)) {
         return $this->app_model->return_error("Unknown agent");
       }

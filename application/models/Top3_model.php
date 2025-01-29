@@ -5303,11 +5303,6 @@ class Top3_model extends CI_Model  {
 		}
 		
 		$this->premiumArr['premium'] = $this->annual[$idx2][$idx1];
-		if ($data['province2'] == 'SK') {
-			// 6% TAX
-			$this->premiumArr['tax'] += $this->annual[$idx2][$idx1] * 0.06;
-			$this->premiumArr['premium'] += $this->annual[$idx2][$idx1] * 0.06;
-		}
 		
 		if ($this->premiumArr['premium'] > 0) {
 			$this->premiumArr['status'] = 'OK';
@@ -5352,11 +5347,6 @@ class Top3_model extends CI_Model  {
 			}
 			
 			$this->premiumArr['premium'] += $rate * $data['totaldays'];
-			if ($data['province2'] == 'SK') {
-				// 6% TAX
-				$this->premiumArr['tax'] += $rate * $data['totaldays'] * 0.06;
-				$this->premiumArr['premium'] += $rate * $data['totaldays'] * 0.06;
-			}
 		}
 			
 		if (!empty($data['flight_accident_ck'])) {
@@ -5381,11 +5371,6 @@ class Top3_model extends CI_Model  {
 			}
 			
 			$this->premiumArr['premium'] += $rate;
-			if ($data['province2'] == 'SK') {
-				// 6% TAX
-				$this->premiumArr['tax'] += $rate * 0.06;
-				$this->premiumArr['premium'] += $rate * 0.06;
-			}
 		}
 		
 		if (!empty($data['trip_cancellation_ck'])) {
@@ -5428,7 +5413,7 @@ class Top3_model extends CI_Model  {
 			$this->premiumArr['premium'] += $base;
 			
 			// Add TAX if needs
-			if (($data['province2'] == 'MB') || ($data['province2'] == 'ON')) {
+			if ($data['province2'] == 'ON') {
 				// 8% TAX
 				$this->premiumArr['tax'] += $base * 0.08;
 				$this->premiumArr['premium'] += $base * 0.08;
@@ -5436,10 +5421,10 @@ class Top3_model extends CI_Model  {
 				// 9% TAX
 				$this->premiumArr['tax'] += $base * 0.09;
 				$this->premiumArr['premium'] += $base * 0.09;
-			} else if ($data['province2'] == 'SK') {
+			} else if ($data['province2'] == 'MB') {
 				// 6% TAX
-				$this->premiumArr['tax'] += $base * 0.06;
-				$this->premiumArr['premium'] += $base * 0.06;
+				$this->premiumArr['tax'] += $base * 0.07;
+				$this->premiumArr['premium'] += $base * 0.07;
 			}
 		}
 		
@@ -5586,11 +5571,6 @@ class Top3_model extends CI_Model  {
 		}
 		
 		if ($this->premiumArr['premium'] > 0) {
-			if ($data['province2'] == 'SK') {
-				// 6% TAX
-				$this->premiumArr['tax'] += $this->premiumArr['premium'] * 0.06;
-				$this->premiumArr['premium'] += $this->premiumArr['premium'] * 0.06;
-			}
 			return $this->optional_plan($data, 0);
 		} else {
 			$this->premiumArr['message'] = "This option is not available, the policy will cover pre-existing condition automatically.  Please change coverage to 'with stable pre-existing medical condition'.";
@@ -5694,18 +5674,19 @@ class Top3_model extends CI_Model  {
 		
 			$this->premiumArr['premium_org'] = $this->premiumArr['premium'];
 			// Add TAX if needs
-			if (($data['province2'] == 'MB') || ($data['province2'] == 'ON')) {
+			// Add TAX if needs
+			if ($data['province2'] == 'ON') {
 				// 8% TAX
-				$this->premiumArr['tax'] = $this->premiumArr['premium'] * 0.08;
-				$this->premiumArr['premium'] += $this->premiumArr['tax'];
+				$this->premiumArr['tax'] += $base * 0.08;
+				$this->premiumArr['premium'] += $base * 0.08;
 			} else if ($data['province2'] == 'QC') {
 				// 9% TAX
-				$this->premiumArr['tax'] = $this->premiumArr['premium'] * 0.09;
-				$this->premiumArr['premium'] += $this->premiumArr['tax'];
-			} else if ($data['province2'] == 'SK') {
+				$this->premiumArr['tax'] += $base * 0.09;
+				$this->premiumArr['premium'] += $base * 0.09;
+			} else if ($data['province2'] == 'MB') {
 				// 6% TAX
-				$this->premiumArr['tax'] = $this->premiumArr['premium'] * 0.06;
-				$this->premiumArr['premium'] += $this->premiumArr['tax'];
+				$this->premiumArr['tax'] += $base * 0.07;
+				$this->premiumArr['premium'] += $base * 0.07;
 			}
 		} else {
 			$this->premiumArr['message'] = 'Not available. Please adjust insured amount or days';
