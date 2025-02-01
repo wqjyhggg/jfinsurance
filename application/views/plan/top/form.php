@@ -1702,7 +1702,7 @@ $('#payment_get_history_button').click(function(){
     var expiry = new Date(expirydt);
 
     var diffdays = (expiry.getTime() - effective.getTime()) / (1000 * 24 * 3600) + 1;
-    if (diffdays > 90) {
+    if (diffdays > 120) {
       var package = $('input[name="package"]:checked').val();
       if (package && (package != 'annual_plan')) {
         $('#title_alert_message').text("Policy must less than 90 days");

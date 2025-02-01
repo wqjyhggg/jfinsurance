@@ -5672,8 +5672,8 @@ class Top3_model extends CI_Model  {
 				}
 			}
 		
-			$this->premiumArr['premium_org'] = $this->premiumArr['premium'];
-			// Add TAX if needs
+			$base = $this->premiumArr['premium'];
+			$this->premiumArr['premium_org'] = $base;
 			// Add TAX if needs
 			if ($data['province2'] == 'ON') {
 				// 8% TAX
