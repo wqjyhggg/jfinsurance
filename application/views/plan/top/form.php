@@ -1705,7 +1705,7 @@ $('#payment_get_history_button').click(function(){
     if (diffdays > 120) {
       var package = $('input[name="package"]:checked').val();
       if (package && (package != 'annual_plan')) {
-        $('#title_alert_message').text("Policy must less than 90 days");
+        $('#title_alert_message').text("Policy must less than 120 days");
         return;
       } else {
         $('#title_alert_message').text("");
