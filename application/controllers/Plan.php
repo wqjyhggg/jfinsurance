@@ -3229,6 +3229,12 @@ class Plan extends MY_Controller {
 		$data['plan'] = $plan;
 		$data['pdf_enable'] = empty($beuser['pdf_product']) ? array() : json_decode($beuser['pdf_product']);
 		$data['emailaddr'] = $plan['contact_email'];
+    $data['disable_price'] = false;
+    $disablePriceArr = array(4968,4942,2151,2626,4258,798,339,3698,3799);
+    if (!in_array($beuser['user_id'], $disablePriceArr)) {
+      $data['disable_price'] = true;
+    }
+
 		if ($this->input->post() || $sendfrenchemail) {
       $emailaddr = $this->input->post('emailaddr');
 			$withbatch = 0;
@@ -3244,6 +3250,9 @@ class Plan extends MY_Controller {
 					$data['withprice'] = 0;
 				}
 			}
+      if ($data['disable_price']) {
+        $data['withprice'] = 0;
+      }
 			$data['sendfrench'] = $this->input->post('sendfrench');
 			$data['asagent'] = $this->input->post('asagent');
 			if ($sendfrenchemail) {

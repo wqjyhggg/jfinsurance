@@ -50,7 +50,13 @@ defined('BASEPATH') or exit('No direct script access allowed');
                     <div class="input-group col-sm-12">
                       &nbsp;&nbsp;&nbsp;&nbsp;
                       <input type='checkbox' class='withlogobox' name='withlogo' checked> With Logo &nbsp;&nbsp;
+                      <?php if ($disable_price) { ?>
+                        <div style='display:none;'>
+                          <input type='checkbox' class='withpricebox' name='withprice' readonly="readonly" style='display:none;'> With Price
+                        </div>
+                      <?php } else { ?>
                       <input type='checkbox' class='withpricebox' name='withprice' checked> With Price
+                      <?php } ?>
                       <?php if ($plan['batch_number'] > 0) { ?>
                       <br />
                       <input type='checkbox' class='withbatchbox' name='withbatch'> Send All whith same batch number (<?php echo $plan['batch_number']; ?>)
