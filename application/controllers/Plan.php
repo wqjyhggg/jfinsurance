@@ -3231,7 +3231,7 @@ class Plan extends MY_Controller {
 		$data['emailaddr'] = $plan['contact_email'];
     $data['disable_price'] = false;
     $disablePriceArr = array(4968,4942,2151,2626,4258,798,339,3698,3799);
-    if (!in_array($beuser['user_id'], $disablePriceArr)) {
+    if (in_array($beuser['user_id'], $disablePriceArr)) {
       $data['disable_price'] = true;
     }
 

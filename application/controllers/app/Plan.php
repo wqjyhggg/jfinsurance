@@ -1346,7 +1346,7 @@ class Plan extends CI_Controller
     $data['withlogo'] = isset($post['withlogo'])?$post['withlogo']:1;
     $data['withprice'] = isset($post['withprice'])?$post['withprice']:1;
     $disablePriceArr = array(4968,4942,2151,2626,4258,798,339,3698,3799);
-    if (!in_array($beuser['user_id'], $disablePriceArr)) {
+    if (in_array($beuser['user_id'], $disablePriceArr)) {
       $data['withprice'] = 0;
     }
 
