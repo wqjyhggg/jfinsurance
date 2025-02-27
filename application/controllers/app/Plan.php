@@ -1195,7 +1195,10 @@ class Plan extends CI_Controller
 		$data['status_list'] = $this->status_model->status_list();
 		$data['withlogo'] = 1;
     $data['withprice'] = 1;
-		if (($beuser['user_group_id'] == 103) || ($beuser['user_group_id'] == 106)) {
+		$disablePriceArr = array(4968,4942,2151,2626,4258,798,339,3698,3799);
+    if (in_array($beuser['user_id'], $disablePriceArr)) {
+      $data['withprice'] = 0;
+    } else if (($beuser['user_group_id'] == 103) || ($beuser['user_group_id'] == 106)) {
       $data['withprice'] = 0;
     }
 		$data['html_model'] = $this->html_model;
