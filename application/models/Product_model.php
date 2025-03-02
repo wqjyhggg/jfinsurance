@@ -1226,7 +1226,7 @@ class Product_model extends CI_Model {
             } else if ($para['sum_insured'] < 0)	{
               return FALSE;
             } else {
-              $premiumArr['message'] = "$25,000 deductible amount isn't available";
+              $premiumArr['message'] = "$2,500 deductible amount isn't available";
               return $premiumArr;
             }
             break;
@@ -1763,7 +1763,7 @@ class Product_model extends CI_Model {
 						} else if ($para['sum_insured'] < 0)	{
 							return FALSE;
 						} else {
-							$premiumArr['message'] = "$25,000 deductible amount isn't available";
+							$premiumArr['message'] = "$2,500 deductible amount isn't available";
 							return $premiumArr;
 						}
 						break;
