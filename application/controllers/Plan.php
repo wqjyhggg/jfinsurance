@@ -1656,8 +1656,13 @@ class Plan extends MY_Controller {
 		if ($key != $sekey) {
 			show_error("Error 2");
 		}
-		if ($plan['status_id'] != Plan_model::CHANGED) {
-			if (((time() - strtotime($plan['last_update'])) > (48 * 3600)) || ($plan['effective_date'] <= date("Y-m-d"))) {
+    $lateTm1 = strtotime($plan['last_update']) + 48 * 3600;
+    $lateTm2 = strtotime($plan['effective_date']) + 23 * 3600 + 1800; // 23:30
+    if ($lateTm1 > $lateTm2) {
+      $lateTm1 = $lateTm2;
+    }
+    if ($plan['status_id'] != Plan_model::CHANGED) {
+      if (time() > $lateTm1) {
 				show_error("This pay link is expired. Please contact your agent to Pay");
 			}
 		}
@@ -2907,8 +2912,13 @@ class Plan extends MY_Controller {
 			if ($key != $sekey) {
 				redirect('user/login');
 			}
-			if ($plan['status_id'] != Plan_model::CHANGED) {
-				if (((time() - strtotime($plan['last_update'])) > (48 * 3600)) || ($plan['effective_date'] <= date("Y-m-d"))) {
+      $lateTm1 = strtotime($plan['last_update']) + 48 * 3600;
+      $lateTm2 = strtotime($plan['effective_date']) + 23 * 3600 + 1800; // 23:30
+      if ($lateTm1 > $lateTm2) {
+        $lateTm1 = $lateTm2;
+      }
+      if ($plan['status_id'] != Plan_model::CHANGED) {
+        if (time() > $lateTm1) {
 					show_error("This pay link is expired. Please contact your agent to Pay");
 				}
 			}
@@ -3009,7 +3019,15 @@ class Plan extends MY_Controller {
 			$data['paytype_list'] = array_values($data['paytype_list']);
 		}
 		$data['payurl'] = base_url('plan/detail/' . $plan_id . '/' . $this->plan_model->get_plan_key($plan_id));
-		$data['payurltm'] = date("Y-m-d H:i", strtotime($plan['last_update']) + 48 * 3600);
+		$data['payurltm'] = "";
+    if (empty($sekey) && empty($isvsuser) && ( ( ( ( (time() - strtotime($plan['last_update']) ) < (48 * 3600) ) && ($plan['effective_date'] >= date("Y-m-d")) ) && ($plan['status_id'] == Plan_model::QUOTE) ) || ($plan['status_id'] == Plan_model::CHANGED) ) ) {
+      $lateTm1 = strtotime($plan['last_update']) + 48 * 3600;
+      $lateTm2 = strtotime($plan['effective_date']) + 23 * 3600 + 1800; // 23:30
+      if ($lateTm1 > $lateTm2) {
+        $lateTm1 = $lateTm2;
+      }
+      $data['payurltm'] = date("Y-m-d H:i", $lateTm1);
+    }
 		$data['active_url'] = current_url();
 		//$data['psi_active_url'] = 'https://stagingcheckout.psigate.com/HTMLPost/HTMLMessenger';
 		$data['psi_active_url'] = 'https://checkout.psigate.com/HTMLPost/HTMLMessenger';

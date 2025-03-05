@@ -378,7 +378,7 @@ if ($Agree != "Agree") {
 									<input type='hidden' name='premium' value='<?php echo $payment_total; ?>'>
 									<?php } ?>
 								<?php if ($payment_total >= 0) { ?>
-								<?php if (empty($sekey) && empty($isvsuser) && ((((time() - strtotime($plan['last_update'])) < (48 * 3600)) && ($plan['effective_date'] > date("Y-m-d"))) || ($plan['status_id'] == Plan_model::CHANGED))) { ?>
+								<?php if ($payurltm) { ?>
 									<div class="row">
 										<div class="col-sm-12">
 											<label class="inline" style="margin-bottom:0;"><?php echo $this->lang->line("Pay url to user by Email"); ?> (<?php echo $this->lang->line("Valid before"); ?> <?php echo $payurltm; ?>):</label>
