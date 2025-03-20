@@ -515,15 +515,15 @@ class Plan extends CI_Controller
     if ($id = $this->input->post("plan_id")) {
       if ($this->plan_model->get_plan_by_id($id)) {
         $ckArr = array(
-          "holiday_rate" => empty($para['holiday_rate']) ? 0 : 1,
-          "spouse" => empty($para['spouse']) ? 0 : 1,
-          "free_cancel" => isset($para['free_cancel']) ? 1 : 0    
+          "holiday_rate" => empty($this->input->post('holiday_rate')) ? 0 : 1,
+          "spouse" => empty($this->input->post('spouse')) ? 0 : 1,
+          "free_cancel" => empty($this->input->post('free_cancel')) ? 1 : 0    
         );
         $isfamilyplan = 0;
-        if (isset($para['isfamilyplan'])) {
-          if ((int)$para['isfamilyplan'] >= 1) {
-            $isfamilyplan = (int)$para['isfamilyplan'];
-          } else if (!empty($para['isfamilyplan'])) {
+        if (!empty($this->input->post('isfamilyplan'))) {
+          if ((int)$this->input->post('isfamilyplan') >= 1) {
+            $isfamilyplan = (int)$this->input->post('isfamilyplan');
+          } else {
             $isfamilyplan = 1;
           }
         }
