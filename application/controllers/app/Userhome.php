@@ -130,7 +130,7 @@ class Userhome extends CI_Controller
 					[image_type] => png
 					[image_size_str] => width="1409" height="974"d
 					*/	
-					$data = array("imagefile" => base_url("userhome/image/") . $filedata['file_name']);
+					$data = array("imagefile" => base_url("app/userhome/image/") . $filedata['file_name']);
           $this->app_model->return_ok($data);
 				}
 			}
