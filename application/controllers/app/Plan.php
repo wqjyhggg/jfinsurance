@@ -535,6 +535,40 @@ class Plan extends CI_Controller
       $id = $this->plan_model->add($this->input->post(), $user);
     }
     $data["plan"] = $this->plan_model->get_plan_by_id($id);
+    $data["claim_message"] = "";
+
+    if ($data["plan"]['claim_flag'] >= 2) {
+      if ($data["plan"]['claim_allow_by'] < 1) {
+        $data["claim_message"] = "The insured may have a previous claim that is affecting the policy issuance or renewal. Please contact JF staff for further assistance 905-707-1512";
+      }
+    } else {
+      $customers = $this->plan_model->get_plan_customers_by_id($id);
+      foreach ($customers as $customer) {
+        $vrecords = $this->plan_model->verify_customer($customer['firstname'], $customer['lastname'], $customer['birthday']);
+        $claim_amount = 0;
+        $case_amount = 0;
+        if ($vrecords['status'] == 'OK') {
+          foreach ($vrecords['cases'] as $case) {
+            $case_amount += (float)$case['amount'];
+          }
+          foreach ($vrecords['claims'] as $claim) {
+            $claim_amount += (float)$claim['amount'];
+          }
+        }
+        if (empty($claim_amount) && empty($case_amount)) {
+          continue;
+        } else if (($claim_amount <= 2500) && ($case_amount <= 2500)) {
+          $this->plan_model->update($id, array('claim_flag' => 1));
+          $data["plan"]['claim_flag'] = 1;
+          $data["claim_message"] = "Warning: The insured(s) have had previous claim(s). Please check the policy eligibility and any pre-existing conditions with insured(s). " . $customer['firstname'] . " " . $customer['lastname'] . "(" . $customer['birthday'] . ")";
+        } else /* if (($claim_amount > 2000) || ($case_amount > 2000)) */ {
+          $plan = $this->plan_model->update($plan_id, array('claim_flag' => 2));
+          $data["plan"]['claim_flag'] = 2;
+          $data["claim_message"] = 'The insured may have a previous claim that is affecting the policy issuance or renewal. Please contact JF staff for further assistance 905-707-1512';
+        }
+      }
+    }
+
     $this->app_model->return_ok($data);
   }
 
@@ -593,6 +627,122 @@ class Plan extends CI_Controller
 		}
 		return $this->app_model->return_ok($data);
 	}
+
+  public function quote() {
+    $this->error = "";
+    $this->load->model("app_model");
+    $this->load->model("user_model");
+    $user = $this->app_model->check_token($this->input->post("token"));
+
+    if (empty($user)) {
+      if (empty($this->error)) {
+        $this->error = "Session Expired";
+      }
+      return $this->app_model->return_error($this->error);
+    }
+    if (($user["user_group_id"] < 100) && ($bid = $this->input->post("bid"))) {
+      $user = $this->user_model->get_user_by_id($bid);
+      if (empty($user)) {
+        return $this->app_model->return_error("Unknown agent");
+      }
+    }
+
+    $this->load->model("plan_model");
+    $data = array();
+
+    $post = $this->input->post();
+    if (!isset($post["product_short"])) {
+      return $this->app_model->return_error("Missing product_short");
+    }
+    if (!isset($post["total_days"])) {
+      return $this->app_model->return_error("Missing total_days");
+    }
+    if (!isset($post["totalyears"])) {
+      return $this->app_model->return_error("Missing totalyears");
+    }
+
+    $this->load->model('product_model');
+    if ($post['product_short'] == 'TOP') {
+      if (empty($post["province2"])) {
+        $post["province2"] = "ON";
+      }
+      $post['totaldays'] = $post['total_days'];
+      if ($premium = $this->product_model->get_top_quote($post)) {
+        $data['premiumArr'] = $premium;
+      }
+    } else {
+      if ($premium = $this->product_model->get_premium_sub($post, $user)) {
+        $data['premiumArr'] = $premium;
+      }
+    }
+    if (empty($data['premiumArr'])) {
+      if (empty($this->error)) {
+			  $this->error = "Can't get premium";
+      }
+      return $this->app_model->return_error($this->error);
+		}
+		return $this->app_model->return_ok($data);
+	}
+
+  public function get_claim() {
+    $this->error = "";
+    $this->load->model("app_model");
+    $this->load->model("user_model");
+    $user = $this->app_model->check_token($this->input->post("token"));
+
+    if (empty($user)) {
+      if (empty($this->error)) {
+        $this->error = "Session Expired";
+      }
+      return $this->app_model->return_error($this->error);
+    }
+
+    $this->load->model("plan_model");
+    $data = array();
+
+    $post = $this->input->post();
+    if (!isset($post["firstname"])) {
+      return $this->app_model->return_error("Missing firstname");
+    }
+    if (!isset($post["lastname"])) {
+      return $this->app_model->return_error("Missing lastname");
+    }
+    if (!isset($post["birthday"])) {
+      return $this->app_model->return_error("Missing birthday");
+    }
+
+    $vrecords = $this->plan_model->verify_customer($post['firstname'], $post['lastname'], $post['birthday']);
+    $claim_amount = 0;
+    $case_amount = 0;
+    if ($vrecords['status'] == 'OK') {
+      foreach ($vrecords['cases'] as $case) {
+        $case_amount += (float)$case['amount'];
+      }
+      foreach ($vrecords['claims'] as $claim) {
+        $claim_amount += (float)$claim['amount'];
+      }
+    }
+    if (empty($claim_amount) && empty($case_amount)) {
+      ;
+    } else if (($claim_amount <= 2500) && ($case_amount <= 2500)) {
+      $plan = $this->plan_model->update($plan_id, array('claim_flag' => 1));
+      // $this->error['error_claim'] = "Warning: The insured(s) have had previous claim(s). Please check the policy eligibility and any pre-existing conditions with insured(s). " . $customer['firstname'] . " " . $customer['lastname'] . "(" . $customer['birthday'] . ")";
+    } else /* if (($claim_amount > 2000) || ($case_amount > 2000)) */ {
+      $plan = $this->plan_model->update($plan_id, array('claim_flag' => 2));
+      $this->error['error_claim'] = 'The insured may have a previous claim that is affecting the policy issuance or renewal. Please contact JF staff for further assistance 905-707-1512';
+      break;
+    }
+    /*
+    2. Not support yet. Can setup a new api, or add this function in some api function call, like update policy.
+      Need parameter firstname, lastname, brithday. Will return following parameters.
+      $rdata['claims'] = [claim_no, policy_no, address, amount(claimed total amout)];
+      $rdata['cases'] = [case_no, policy_no, address, amount(maybe claim total amout)];
+      $rdata['status'] = 'OK';
+      $rdata['message'] = '';
+      */
+		return $this->app_model->return_ok($data);
+	}
+
 
   public function output_heads() {
     header("Access-Control-Allow-Origin: *");
