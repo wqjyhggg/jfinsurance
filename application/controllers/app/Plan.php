@@ -559,11 +559,11 @@ class Plan extends CI_Controller
         if (empty($claim_amount) && empty($case_amount)) {
           continue;
         } else if (($claim_amount <= 2500) && ($case_amount <= 2500)) {
-          $this->plan_model->update($id, array('claim_flag' => 1));
+          $this->plan_model->update($id, array('claim_flag' => 1), array(), $user);
           $data["plan"]['claim_flag'] = 1;
           $data["claim_message"] = "Warning: The insured(s) have had previous claim(s). Please check the policy eligibility and any pre-existing conditions with insured(s). " . $customer['firstname'] . " " . $customer['lastname'] . "(" . $customer['birthday'] . ")";
         } else if (!isset($post["claim_flag"])) /* if (($claim_amount > 2000) || ($case_amount > 2000)) */ {
-          $plan = $this->plan_model->update($id, array('claim_flag' => 2));
+          $plan = $this->plan_model->update($id, array('claim_flag' => 2), array(), $user);
           $data["plan"]['claim_flag'] = 2;
           $data["claim_message"] = 'The insured may have a previous claim that is affecting the policy issuance or renewal. Please contact JF staff for further assistance 905-707-1512';
         }
