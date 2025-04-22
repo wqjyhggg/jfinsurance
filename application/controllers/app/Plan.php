@@ -537,7 +537,7 @@ class Plan extends CI_Controller
     $data["plan"] = $this->plan_model->get_plan_by_id($id);
     $data["claim_message"] = "";
 
-    $claim_flag = $this->input->post("claim_flag") ;
+    $post = $this->input->post();
     if ($data["plan"]['claim_flag'] >= 2) {
       if ($data["plan"]['claim_allow_by'] < 1) {
         $data["claim_message"] = "The insured may have a previous claim that is affecting the policy issuance or renewal. Please contact JF staff for further assistance 905-707-1512";
@@ -562,8 +562,8 @@ class Plan extends CI_Controller
           $this->plan_model->update($id, array('claim_flag' => 1));
           $data["plan"]['claim_flag'] = 1;
           $data["claim_message"] = "Warning: The insured(s) have had previous claim(s). Please check the policy eligibility and any pre-existing conditions with insured(s). " . $customer['firstname'] . " " . $customer['lastname'] . "(" . $customer['birthday'] . ")";
-        } else if (empty($claim_flag)) /* if (($claim_amount > 2000) || ($case_amount > 2000)) */ {
-          $plan = $this->plan_model->update($plan_id, array('claim_flag' => 2));
+        } else if (!isset($post["claim_flag"])) /* if (($claim_amount > 2000) || ($case_amount > 2000)) */ {
+          $plan = $this->plan_model->update($id, array('claim_flag' => 2));
           $data["plan"]['claim_flag'] = 2;
           $data["claim_message"] = 'The insured may have a previous claim that is affecting the policy issuance or renewal. Please contact JF staff for further assistance 905-707-1512';
         }
