@@ -260,6 +260,21 @@ class User_model extends CI_Model {
 					$this->db->like('business', $para['business']);
 				}
 				$this->db->order_by('u.username');
+        $limit=-1;
+        $start=0;
+				if ($para && !empty($para['limit'])) {
+          $limit = intval($limit);
+        }
+				if ($para && !empty($para['start'])) {
+          $start = intval($start);
+        }
+        if ($limit > 0) {
+          if ($start >= 0) {
+            $this->db->limit($limit, $start);
+          } else {
+            $this->db->limit($limit);
+          }
+        }
         $results = $this->db->get()->result_array();
         $records = array();
         foreach ($results as $row) {
