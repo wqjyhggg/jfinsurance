@@ -209,79 +209,133 @@ class User_model extends CI_Model {
 	}
 
 	/**
-     * Get Available user list of current user
-     *
-     * @return array available user list
-     **/
-    public function get_available_user_list($beuser=false, $para=false)
-    {
-				if (!$beuser) {
-					$beuser = $this->session->beuser;
-				}
-        if (($beuser['user_group_id'] > 100) && ($beuser['user_group_id'] != 104)) {
-            return array(
-                $beuser['user_id'] => array_merge($beuser, array('full_name' => $beuser['firstname'] . ' ' . $beuser['lastname']))
-            );
+   * Get Available user list of current user
+   *
+   * @return array available user list
+   **/
+  public function get_available_user_list($beuser=false, $para=false)
+  {
+      if (!$beuser) {
+        $beuser = $this->session->beuser;
+      }
+      if (($beuser['user_group_id'] > 100) && ($beuser['user_group_id'] != 104)) {
+          return array(
+              $beuser['user_id'] => array_merge($beuser, array('full_name' => $beuser['firstname'] . ' ' . $beuser['lastname']))
+          );
+      }
+      $this->db->distinct();
+      $this->db->select('u.*, concat(u.firstname, " ", u.lastname) as full_name');
+      if (!empty($beuser['region_id'])) {
+        $this->db->where('u.region_id', $beuser['region_id']);
+      }
+      $this->db->from('user u');
+      if ($beuser['user_group_id'] == 104){
+        $this->db->where('u.parent_user_id = ' . ((int) $beuser['user_id']));
+        $this->db->or_where('u.user_id= ' . ((int) $beuser['user_id']));
+      } else {
+        if ($beuser['user_group_id'] >= 2){
+          $this->db->where('u.user_group_id >= 2');
         }
-        $this->db->distinct();
-        $this->db->select('u.*, concat(u.firstname, " ", u.lastname) as full_name');
-        if (!empty($beuser['region_id'])) {
-        	$this->db->where('u.region_id', $beuser['region_id']);
-        }
-        if ($beuser['user_group_id'] == 104){
-            $this->db->from('user u, user u2');
-            $this->db->where('u.parent_user_id = ' . ((int) $beuser['user_id']));
-            $this->db->or_where('u.user_id= ' . ((int) $beuser['user_id']));
+      }
+      if (!empty($para['user_id'])) {
+        $this->db->where('user_id', (int)$para['user_id']);
+      }
+      if (!empty($para['user_group_id'])) {
+        $this->db->where('user_group_id', (int)$para['user_group_id']);
+      }
+      if (!empty($para['username'])) {
+        $this->db->like('username', $para['username']);
+      }
+      if (!empty($para['firstname'])) {
+        $this->db->like('firstname', $para['firstname']);
+      }
+      if (!empty($para['lastname'])) {
+        $this->db->like('lastname', $para['lastname']);
+      }
+      if (!empty($para['email'])) {
+        $this->db->like('email', $para['email']);
+      }
+      if (!empty($para['business'])) {
+        $this->db->like('business', $para['business']);
+      }
+      $asc = "asc";
+      if (!empty($para['desc']) && ($para['desc'] == 1)) {
+        $asc = "desc";
+      }
+      if ($para && !empty($para['sortby'])) {
+        $this->db->order_by('u.'.$para['sortby'], $asc);
+      } else {
+        $this->db->order_by('u.username', $asc);
+      }
+      $limit=-1;
+      $start=0;
+      if ($para && !empty($para['limit'])) {
+        $limit = intval($para['limit']);
+      }
+      if ($para && !empty($para['start'])) {
+        $start = intval($para['start']);
+      }
+      if ($limit > 0) {
+        if ($start >= 0) {
+          $this->db->limit($limit, $start);
         } else {
-            $this->db->from('user u');
-            if ($beuser['user_group_id'] >= 2){
-                $this->db->where('u.user_group_id >= 2');
-            }
+          $this->db->limit($limit);
         }
-				if ($para && !empty($para['user_id'])) {
-					$this->db->where('user_id', (int)$para['user_id']);
-				}
-				if ($para && !empty($para['user_group_id'])) {
-					$this->db->where('user_group_id', (int)$para['user_group_id']);
-				}
-				if ($para && !empty($para['username'])) {
-					$this->db->like('username', $para['username']);
-				}
-				if ($para && !empty($para['firstname'])) {
-					$this->db->like('firstname', $para['firstname']);
-				}
-				if ($para && !empty($para['lastname'])) {
-					$this->db->like('lastname', $para['lastname']);
-				}
-				if ($para && !empty($para['email'])) {
-					$this->db->like('email', $para['email']);
-				}
-				if ($para && !empty($para['business'])) {
-					$this->db->like('business', $para['business']);
-				}
-				$this->db->order_by('u.username');
-        $limit=-1;
-        $start=0;
-				if ($para && !empty($para['limit'])) {
-          $limit = intval($limit);
+      }
+      $results = $this->db->get()->result_array();
+      $records = array();
+      foreach ($results as $row) {
+          $records[$row['user_id']] = $row;
+      }
+      return $records;
+  }
+
+  public function get_available_user_list_rows($beuser=false, $para=false)
+  {
+      if (!$beuser) {
+        $beuser = $this->session->beuser;
+      }
+      if (($beuser['user_group_id'] > 100) && ($beuser['user_group_id'] != 104)) {
+          return 1;
+      }
+      $this->db->select('count(u.*) as cnt');
+      if (!empty($beuser['region_id'])) {
+        $this->db->where('u.region_id', $beuser['region_id']);
+      }
+      $this->db->from('user u');
+      if ($beuser['user_group_id'] == 104){
+        $this->db->where('u.parent_user_id = ' . ((int) $beuser['user_id']));
+        $this->db->or_where('u.user_id= ' . ((int) $beuser['user_id']));
+      } else {
+        if ($beuser['user_group_id'] >= 2){
+          $this->db->where('u.user_group_id >= 2');
         }
-				if ($para && !empty($para['start'])) {
-          $start = intval($start);
-        }
-        if ($limit > 0) {
-          if ($start >= 0) {
-            $this->db->limit($limit, $start);
-          } else {
-            $this->db->limit($limit);
-          }
-        }
-        $results = $this->db->get()->result_array();
-        $records = array();
-        foreach ($results as $row) {
-            $records[$row['user_id']] = $row;
-        }
-        return $records;
-    }
+      }
+      if (!empty($para['user_id'])) {
+        $this->db->where('user_id', (int)$para['user_id']);
+      }
+      if (!empty($para['user_group_id'])) {
+        $this->db->where('user_group_id', (int)$para['user_group_id']);
+      }
+      if (!empty($para['username'])) {
+        $this->db->like('username', $para['username']);
+      }
+      if (!empty($para['firstname'])) {
+        $this->db->like('firstname', $para['firstname']);
+      }
+      if (!empty($para['lastname'])) {
+        $this->db->like('lastname', $para['lastname']);
+      }
+      if (!empty($para['email'])) {
+        $this->db->like('email', $para['email']);
+      }
+      if (!empty($para['business'])) {
+        $this->db->like('business', $para['business']);
+      }
+      $results = $this->db->get()->row_array();
+      return $results["cnt"];
+  }
+
 
 	/**
 	 * Get user By ID

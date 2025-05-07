@@ -384,10 +384,12 @@ class User extends CI_Controller
     }
 
     $user_list = $this->user_model->get_available_user_list($user, $this->input->post());
+    $user_count = $this->user_model->get_available_user_list_rows($user, $this->input->post());
     // $paytype_list = $this->paytype_model->paytype_list();
 
     $this->app_model->return_ok([
       "agent_list" => $user_list, // For sales_agent, jf
+      "agent_total" => $user_count,
     ]);
   }
 
