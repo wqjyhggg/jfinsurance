@@ -298,7 +298,7 @@ class User_model extends CI_Model {
       if (($beuser['user_group_id'] > 100) && ($beuser['user_group_id'] != 104)) {
           return 1;
       }
-      $this->db->select('count(u.*) as cnt');
+      $this->db->select('count(*) as cnt');
       if (!empty($beuser['region_id'])) {
         $this->db->where('u.region_id', $beuser['region_id']);
       }
