@@ -149,7 +149,7 @@ class Plan_model extends CI_Model {
     if ($checking) {
       $newkey = md5($key);
       $this->db->where('plan_id', $plan_id);
-      $this->db->update('customer', array('api' => $newkey));
+      $this->db->update('plan', array('api' => $newkey));
     }
 		return $key;
 	}
