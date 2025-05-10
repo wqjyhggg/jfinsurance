@@ -28,6 +28,10 @@ class Plan extends MY_Controller {
 		$this->load->model('product_model');
 		$this->load->model('plan_model');
 
+    if ($this->session->userdata('fromsekey')) {
+			redirect('user/login');
+		}
+
 		$data = array();
 
 		$data['beuser'] = $beuser;
@@ -677,6 +681,10 @@ class Plan extends MY_Controller {
 		$this->load->model('product_model');
 		$this->load->model('plan_model');
 		$this->load->model('payment_model');
+
+    if ($this->session->userdata('fromsekey')) {
+			redirect('user/login');
+		}
 
 		$this->error = array();
 		if ($this->input->post('submit') && $this->form_valid($beuser)) {
@@ -2847,8 +2855,8 @@ class Plan extends MY_Controller {
 
 			$totalpaid = $this->payment_model->get_total_paid($plan_id, 'premium', $plan['apply_date']);
 			$premium = preg_replace("/[^0-9\.-]/", "", $this->input->post('premium'));
-			$premium = $totalpaid + (float)$premium;
-			if (empty($this->input->post('premium')) && ($plan["status_id"] == Plan_model::CHANGED) && (($premium - floatval($plan['premium'])) < 0.01)) {
+			$premium = floatval($totalpaid) + floatval($premium);
+			if (empty($this->input->post('premium')) && ($plan["status_id"] == Plan_model::CHANGED) && (abs($premium - floatval($plan['premium'])) < 0.001)) {
 				// Confirm change
 				$history_id = 0;
 				if (($history = $this->plan_history_model->get_plan_history_by_plan_id($plan_id)) && ($history["actualrate"] > 0)) {
@@ -2906,10 +2914,17 @@ class Plan extends MY_Controller {
 		}
 		if (empty($sekey)) {
 			$beuser = $this->func_model->verify_login(TRUE, TRUE);
+			$this->session->unset_userdata('fromsekey');
 		} else {
+      $checking = 1;
+			$ss_user = $this->session->userdata('beuser');
 			$beuser = $this->user_model->get_user_by_id($plan['user_id']);
-			$key = $this->plan_model->get_plan_key($plan_id);
+      if (isset($ss_user['user_id']) && isset($beuser['user_id']) && ($ss_user['user_id'] == $beuser['user_id'])) {
+        $checking = 0;
+      }
+			$key = $this->plan_model->get_plan_key($plan_id, $checking);
 			if ($key != $sekey) {
+        show_error("This pay link is expired or has been used. Please contact your agent to Pay");
 				redirect('user/login');
 			}
       $lateTm1 = strtotime($plan['last_update']) + 48 * 3600;
@@ -2924,6 +2939,7 @@ class Plan extends MY_Controller {
 			}
 
 			$this->session->set_userdata('beuser',  $beuser);
+			$this->session->set_userdata('fromsekey',  1);
 		}
 
 		if (empty($passerr)) {
@@ -3162,7 +3178,9 @@ class Plan extends MY_Controller {
 		$data['export_logo_url'] = base_url('plan/exportlogo') . "/";
 		$data['export_price_url'] = base_url('plan/exportprice') . "/";
 		$data['export_logo_price_option'] = FALSE;
-		if (($beuser['user_group_id'] < 100) || ($beuser['user_id'] == 3744)) $data['export_logo_price_option'] = TRUE;
+    if (empty($sekey)) {
+		  if (($beuser['user_group_id'] < 100) || ($beuser['user_id'] == 3744)) $data['export_logo_price_option'] = TRUE;
+    }
 		$data['isprocessplan'] = 1;
 		$this->load->model('html_model');
 		$data['html_model'] = $this->html_model;

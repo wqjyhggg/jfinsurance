@@ -139,9 +139,18 @@ class Plan_model extends CI_Model {
 	 * @param	integer	$plan_id		Parameters
 	 * @return	string					policy number
 	 */
-	public function get_plan_key($plan_id) {
+	public function get_plan_key($plan_id, $checking=0) {
 		$plan = $this->get_plan_by_id($plan_id);
-		$key = md5('jfuk0621' . $plan_id . $plan['user_id'] . $plan['customer_id']);
+    if (!empty($plan['api'])) {
+      $key = $plan['api'];
+    } else {
+      $key = md5('jfuk0621' . $plan_id . $plan['user_id'] . $plan['customer_id']);
+    }
+    if ($checking) {
+      $newkey = md5($key);
+      $this->db->where('plan_id', $plan_id);
+      $this->db->update('customer', array('api' => $newkey));
+    }
 		return $key;
 	}
 	
