@@ -875,6 +875,7 @@ class User extends MY_Controller {
 	public function login() {
 		if ($this->session->userdata ( 'user' )) {
 			// Login user
+      $this->session->unset_userdata('fromsekey');
 			redirect ( base_url () );
 		}
 
