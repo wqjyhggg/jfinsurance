@@ -139,17 +139,14 @@ class Plan_model extends CI_Model {
 	 * @param	integer	$plan_id		Parameters
 	 * @return	string					policy number
 	 */
-	public function get_plan_key($plan_id, $checking=0) {
+	public function get_plan_key($plan_id) {
 		$plan = $this->get_plan_by_id($plan_id);
     if (!empty($plan['api'])) {
       $key = $plan['api'];
     } else {
       $key = md5('jfuk0621' . $plan_id . $plan['user_id'] . $plan['customer_id']);
-    }
-    if ($checking) {
-      $newkey = md5($key);
       $this->db->where('plan_id', $plan_id);
-      $this->db->update('plan', array('api' => $newkey));
+      $this->db->update('plan', array('api' => $key));
     }
 		return $key;
 	}
@@ -644,16 +641,25 @@ class Plan_model extends CI_Model {
 				$sql .= " tax='" . $tax . "', ";
 			}
 		}
+		$status_idchanged = 0;
 		if (isset($para['status_id']) && ((int)$para['status_id'] != (int)$plan['status_id'])) {
 			$this->logstr .= " status_id " . $para['status_id'] . "(" . $plan['status_id'] . ")";
 			$sql .= " status_id='" . (int)$para['status_id'] . "', ";
+      $status_idchanged = 1;
 		} else if ($premiumchanged || $update_history) {
       if (($plan['status_id'] == self::PAID) || ($plan['status_id'] == self::SOLD)) {
 				// Forced to changed status
 				$this->logstr .= " status_id 7(" . $plan['status_id'] . ")";
 				$sql .= " status_id='" . self::CHANGED . "', ";
+        $status_idchanged = 1;
 			}
 		}
+    if ($premiumchanged || $status_idchanged) {
+      $api = md5($plan['api']);
+      $this->logstr .= " api ".$api."(" . $plan['api'] . ")";
+      $sql .= " api='" . $api . "', ";
+    }
+
 		if (isset($para['commission_amount'])) {
 			$commission_amount = round((float)$para['commission_amount'],2);
 			if ($commission_amount != (float)$plan['commission_amount']) {

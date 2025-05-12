@@ -2916,13 +2916,8 @@ class Plan extends MY_Controller {
 			$beuser = $this->func_model->verify_login(TRUE, TRUE);
 			$this->session->unset_userdata('fromsekey');
 		} else {
-      $checking = 1;
-			$ss_user = $this->session->userdata('beuser');
 			$beuser = $this->user_model->get_user_by_id($plan['user_id']);
-      if (isset($ss_user['user_id']) && isset($beuser['user_id']) && ($ss_user['user_id'] == $beuser['user_id'])) {
-        $checking = 0;
-      }
-			$key = $this->plan_model->get_plan_key($plan_id, $checking);
+			$key = $this->plan_model->get_plan_key($plan_id);
 			if ($key != $sekey) {
         show_error("This pay link is expired or has been used. Please contact your agent to Pay");
 				redirect('user/login');
