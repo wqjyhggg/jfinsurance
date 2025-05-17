@@ -22,7 +22,7 @@ class Notify extends MY_Controller {
     if (($beuser["user_group_id"] < 100) && ($this->input->post("user_id"))) {
       $user_id = $this->input->post("user_id");
     }
-		$data['notify_type'] = 0;
+		$data['notify_type'] = 1;
     if ($this->input->post("submit")) {
       $notify_type = $this->input->post("notify_type");
       $this->user_notify_model->save($user_id, $notify_type);

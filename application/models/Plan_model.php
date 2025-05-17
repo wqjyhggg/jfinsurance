@@ -230,7 +230,7 @@ class Plan_model extends CI_Model {
 	 * Create plan
 	 * 
 	 * @param	array	$para		Parameters
-	 * @return	array					user table search result
+	 * @return	int					user table search result
 	 */
 	public function add($para, $apiuser=null) {
 		$this->load->model('customer_model');
@@ -423,7 +423,7 @@ class Plan_model extends CI_Model {
 	 * 
 	 * @param	integer	$plan_id	plan_id
 	 * @param	array	$para		Parameters
-	 * @return	array					user table search result
+	 * @return	integer					user table search result
 	 */
 	public function update($plan_id, $para, $checkboxArr=array(), $apiuser=null) {
 		$this->logstr = '';
@@ -948,7 +948,7 @@ class Plan_model extends CI_Model {
     $this->db->where( "user_id", $user_id);
     $this->db->where( "status_id", 3);
     $this->db->where( "expiry_date >=", $start_dt);
-    $this->db->where( "notify_type <", $end_dt);
+    $this->db->where( "expiry_date <", $end_dt);
 		return $this->db->get('plan')->result_array();
 	}
 

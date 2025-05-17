@@ -43,8 +43,8 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
                   <div class="form-group col-sm-4">
                     <label class="col-sm-12">Set notify me time period</label>
                     <select class="form-control" name='notify_type'>
-                      <option value='0'>Not Send</option>
-      								<option value='1' <?php echo (1 == $notify_type) ? "selected" : ""; ?>>Monthly</option>
+                      <option value='1' <?php echo ((0 != $notify_type) && (2 != $notify_type)) ? "selected" : ""; ?>>Monthly</option>
+                      <option value='0' <?php echo (0 == $notify_type) ? "selected" : ""; ?>>Not Send</option>
       								<option value='2' <?php echo (2 == $notify_type) ? "selected" : ""; ?>>Every Half Month</option>
                     </select>
                   </div>

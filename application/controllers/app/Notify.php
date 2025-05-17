@@ -30,7 +30,7 @@ class Notify extends CI_Controller
     }
     
     $data["user_id"] = $user_id;
-    $data["notify_type"] = 0;
+    $data["notify_type"] = 1;
     if ($notify = $this->user_notify_model->get_by_id($user_id)) {
       $data["notify_type"] = $notify["notify_type"];
     }
