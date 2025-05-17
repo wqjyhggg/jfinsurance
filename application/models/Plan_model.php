@@ -1650,7 +1650,7 @@ class Plan_model extends CI_Model {
 	 * Get user performance
 	 * 
 	 * @param integer $user_id
-	 * @return float 
+	 * @return array 
 	 */
 	public function get_performance($user_id) {
     $month_start = date("Y-m-01 00:00:00");
