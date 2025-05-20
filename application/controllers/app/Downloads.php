@@ -25,7 +25,7 @@ class Downloads extends MY_Controller {
 
 		$downloads_url = base_url('pdf/download') . "/";
 		$file_url = array();
-		$product_list = $this->product_model->product_list(1);
+		$product_list = $this->product_model->product_list(1, $user);
 		ksort($product_list);
 		$fileName = array('_Brochure', '_ChineseBrochure', '_Benefit_Summary', '_Clinic_Map', '_Claim_Form', '_Claim_Procedure', '_Consent_Form', '_Policy', '_Medical_Questionnaire', '_Baggage_Claim_Form', '_Cancellation_Claim_Form', '_Medical_Claim_Form');
 		
