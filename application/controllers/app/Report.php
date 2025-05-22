@@ -228,7 +228,7 @@ class Report extends CI_Controller
       $is_export = 0;
     }
 
-    $agent_id = empty($this->input->post('b_id')) ? 0 : intval($this->input->post('b_id'));
+    $agent_id = empty($this->input->post('bid')) ? 0 : intval($this->input->post('bid'));
     if (empty($agent_id)) {
       $agent_id = empty($this->input->post('agent_id')) ? 0 : intval($this->input->post('agent_id'));
     }
@@ -351,7 +351,7 @@ class Report extends CI_Controller
     if ($beuser['user_group_id'] > 100) {
       $data['agent_id'] = $beuser['user_id'];
     } else {
-      $agent_id = empty($this->input->post('b_id')) ? "" : intval($this->input->post('b_id'));
+      $agent_id = empty($this->input->post('bid')) ? "" : intval($this->input->post('bid'));
       if (empty($agent_id)) {
         $agent_id = empty($this->input->post('agent_id')) ? "" : intval($this->input->post('agent_id'));
       }
@@ -794,7 +794,7 @@ class Report extends CI_Controller
     if (($beuser['user_group_id'] > 100) && empty($data['agent_id'])) {
       return $this->app_model->return_error("No Report Data");
     }
-    $agent_id = empty($this->input->post('b_id')) ? 0 : intval($this->input->post('b_id'));
+    $agent_id = empty($this->input->post('bid')) ? 0 : intval($this->input->post('bid'));
     if (empty($agent_id)) {
       $agent_id = empty($this->input->post('agent_id')) ? 0 : intval($this->input->post('agent_id'));
     }
@@ -939,7 +939,7 @@ class Report extends CI_Controller
     if ($is_export != 1) {
       $is_export = 0;
     }
-    $agent_id = empty($this->input->post('b_id')) ? 0 : intval($this->input->post('b_id'));
+    $agent_id = empty($this->input->post('bid')) ? 0 : intval($this->input->post('bid'));
     if (empty($agent_id)) {
       $agent_id = empty($this->input->post('agent_id')) ? 0 : intval($this->input->post('agent_id'));
     }
