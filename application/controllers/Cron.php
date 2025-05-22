@@ -923,6 +923,38 @@ class Cron extends MY_Controller {
         echo "Not expire data for user_id:".$user["user_id"].", email: ".$user["email"]."\n";
       }
 		}
+    $nlist = $this->user_notify_model->get_notify_list($day, "Effect");
+    foreach ($nlist as $notify) {
+      $user = $this->user_model->get_user_by_id($notify["user_id"]);
+      if (!$user || empty($user["email"])) {
+        echo "Unknow User_id: " . $notify["user_id"] . " or Unknown email address\n";
+        continue;
+      }
+      if (filter_var($user['email'], FILTER_VALIDATE_EMAIL)) {
+        echo "User_id: " . $notify["user_id"] . ", wrong email address: " . $user["email"] . "\n";
+        continue;
+      }
+  
+      $plan = false;
+      if ($notify["notify_type"] == 1) {
+        $mainbody = "Following Policy will be effective in ".$start_dt1." to ".$end_dt1."\r\n";
+        $plans = $this->plan_model->check_plan_effective($notify["user_id"], $start_dt1, $end_dt1);
+      } else {
+        $mainbody = "Following Policy will be effective in ".$start_dt2." to ".$end_dt2."\r\n";
+        $plans = $this->plan_model->check_plan_effective($notify["user_id"], $start_dt2, $end_dt2);
+      }
+      if ($plans) {
+        $counts = 0;
+        foreach ($plans as $plan) {
+          $counts++;
+          $mainbody .= $plan["policy"] .", Effective Day:".$plan["effective_date"]."\r\n";
+        }
+        $this->mymail_model->send_mymail($user["email"], "Policies will effective", $mainbody, array(), '', 'text');
+        echo "Send Notify to user_id:".$user["user_id"].", email: ".$user["email"]."(".$counts.")\n";
+			} else {
+        echo "Not expire data for user_id:".$user["user_id"].", email: ".$user["email"]."\n";
+      }
+		}
 	}
 
   // 0 2 * * * (/usr/bin/php /var/www/html/agent.jfgroup.ca/html/index.php cron check_backrun) >> /home/ubuntu/check_backrun.cron 2>&1

@@ -22,16 +22,21 @@ class Notify extends CI_Controller
     $do = $this->input->post("do");
     $user_id = intval($this->input->post("user_id"));
     $notify_type = intval($this->input->post("notify_type"));
+    $for_type = $this->input->post("for_type");
+    if ($for_type != "Effect") {
+      $for_type = "Expire";
+    }
     if (empty($user_id)) {
       return $this->app_model->return_error("Missing parameter");
     }
     if ($do == 'save') {
-      $this->user_notify_model->save($user_id, $notify_type);
+      $this->user_notify_model->save($user_id, $notify_type, $for_type);
     }
     
     $data["user_id"] = $user_id;
     $data["notify_type"] = 1;
-    if ($notify = $this->user_notify_model->get_by_id($user_id)) {
+    $data["for_type"] = $for_type;
+    if ($notify = $this->user_notify_model->get_by_id($user_id, $for_type)) {
       $data["notify_type"] = $notify["notify_type"];
     }
     $this->app_model->return_ok($data);

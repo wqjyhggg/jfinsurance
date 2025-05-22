@@ -952,6 +952,14 @@ class Plan_model extends CI_Model {
 		return $this->db->get('plan')->result_array();
 	}
 
+  public function check_plan_effective($user_id, $start_dt, $end_dt) {
+    $this->db->where( "user_id", $user_id);
+    $this->db->where( "status_id", 3);
+    $this->db->where( "effective_date >=", $start_dt);
+    $this->db->where( "effective_date <", $end_dt);
+		return $this->db->get('plan')->result_array();
+	}
+
 	/**
 	 * Get plan's commission
 	 * 

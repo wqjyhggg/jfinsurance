@@ -1,6 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
-
+use Box\Spout\Common\Type;
+use Box\Spout\Writer\WriterFactory;
 class Report extends CI_Controller
 {
   public $error;
@@ -222,8 +223,17 @@ class Report extends CI_Controller
 
     $data['title_txt'] = 'Sales Report to Agent';
 
+    $is_export = empty($this->input->post('is_export')) ? 0 : intval($this->input->post('is_export'));
+    if ($is_export != 1) {
+      $is_export = 0;
+    }
+
+    $agent_id = empty($this->input->post('b_id')) ? 0 : intval($this->input->post('b_id'));
+    if (empty($agent_id)) {
+      $agent_id = empty($this->input->post('agent_id')) ? 0 : intval($this->input->post('agent_id'));
+    }
     $data['product_short'] = $this->input->post('product_short');
-    $data['agent_id'] = empty($this->input->post('agent_id')) ? 0 : (int)$this->input->post('agent_id');
+    $data['agent_id'] = $agent_id;
     $data['region_id'] = empty($this->input->post('region_id')) ? $beuser['region_id'] : $this->input->post('region_id');
     $data['payment_added_from'] = $this->input->post('payment_added_from');
     $data['payment_added_to'] = $this->input->post('payment_added_to');
@@ -258,29 +268,57 @@ class Report extends CI_Controller
       $kArr['note'] = "Note";
     }
 
-    foreach ($report_data as $data) {
-      array_push($report, array_values($kArr));
-      foreach ($data['records'] as $record) {
+    if ($is_export) {
+      $w = WriterFactory::create(Type::XLSX); // for XLSX files
+      $w->openToBrowser("Sales_Report_to_Agent_" . date('Ymd') . ".xlsx");
+      foreach ($report_data as $data) {
         $arr = array();
-        foreach ($kArr as $k => $v) {
-          if ($k == 'added') {
-            $arr[] = substr($record[$k], 0, 10);
-          } else if ($k == 'net_premium') {
-            $arr[] = $record['amount'] - $record['commission'];
-          } else {
-            $arr[] = $record[$k];
-          }
+        foreach ($kArr as $k => $v) { $arr[] = $v; }
+        $w->addRow($arr);
+        foreach ($data['records'] as $record) {
+          $arr = array();
+          foreach ($kArr as $k => $v) {
+            if ($k == 'added') {
+              $arr[] = substr($record[$k], 0, 10);
+            } else if ($k == 'net_premium') {
+              $arr[] = $record['amount'] - $record['commission'];
+            } else {
+              $arr[] = $record[$k];
+            }
+          } 
+          $w->addRow($arr);
         }
+        $arr = array('Total Premium: $' . $data['data']['policy_premium'], '','','Total Net Premium: $' . $data['data']['net_premium'],'','','Username:' . $data['data']['agent_username'] . ' Email: ' . $data['data']['agent_email']);
+        $w->addRow($arr);
+        $arr = array('', '','','','','','','');
+        $w->addRow($arr);
+      }
+      $w->close();
+     } else {
+      foreach ($report_data as $data) {
+        array_push($report, array_values($kArr));
+        foreach ($data['records'] as $record) {
+          $arr = array();
+          foreach ($kArr as $k => $v) {
+            if ($k == 'added') {
+              $arr[] = substr($record[$k], 0, 10);
+            } else if ($k == 'net_premium') {
+              $arr[] = $record['amount'] - $record['commission'];
+            } else {
+              $arr[] = $record[$k];
+            }
+          }
+          array_push($report, $arr);
+        }
+        $arr = array('Total Premium: $' . $data['data']['policy_premium'], '', '', 'Total Net Premium: $' . $data['data']['net_premium'], '', '', 'Username:' . $data['data']['agent_username'] . ' Email: ' . $data['data']['agent_email']);
+        array_push($report, $arr);
+        $arr = array('', '', '', '', '', '', '', '');
         array_push($report, $arr);
       }
-      $arr = array('Total Premium: $' . $data['data']['policy_premium'], '', '', 'Total Net Premium: $' . $data['data']['net_premium'], '', '', 'Username:' . $data['data']['agent_username'] . ' Email: ' . $data['data']['agent_email']);
-      array_push($report, $arr);
-      $arr = array('', '', '', '', '', '', '', '');
-      array_push($report, $arr);
+      $this->app_model->return_ok([
+        "report" => $report,
+      ]);
     }
-    $this->app_model->return_ok([
-      "report" => $report,
-    ]);
   }
 
   /* Premium2.php */
@@ -306,10 +344,18 @@ class Report extends CI_Controller
 
     $data['title_txt'] = 'Annual Report';
 
+    $is_export = empty($this->input->post('is_export')) ? 0 : intval($this->input->post('is_export'));
+    if ($is_export != 1) {
+      $is_export = 0;
+    }
     if ($beuser['user_group_id'] > 100) {
       $data['agent_id'] = $beuser['user_id'];
     } else {
-      $data['agent_id'] = empty($this->input->post('agent_id')) ? "" : (int)$this->input->post('agent_id');
+      $agent_id = empty($this->input->post('b_id')) ? "" : intval($this->input->post('b_id'));
+      if (empty($agent_id)) {
+        $agent_id = empty($this->input->post('agent_id')) ? "" : intval($this->input->post('agent_id'));
+      }
+      $data['agent_id'] = $agent_id;
     }
     if (empty($data['agent_id'])) {
       return $this->app_model->return_error("Unknown Agent");
@@ -334,37 +380,59 @@ class Report extends CI_Controller
       }
     }
     $report_data = $this->report_model->get_annual($data['agent_id'], $year, $user_id);
-    if ($beuser['user_group_id'] < 100) {
-      $report_data["premium"] = array();
-      $report_data["commission"] = array();
-      for ($i = 1; $i <= 12; $i++) {
-        $rc = $this->report_model->get_month_payment($data['agent_id'], $year, $i);
-        $report_data["premium"][$i] = $rc["premium"];
-        if (!isset($report_data["premium2"][$i])) {
-          $report_data["premium2"][$i] = $report_data["premium"][$i];
-        }
-        $report_data["commission"][$i] = $rc["commission"];
-        if (!isset($report_data["commission2"][$i])) {
-          $report_data["commission2"][$i] = $report_data["commission"][$i];
+    if ($is_export) {
+      $agent_id = $data['agent_id'];
+      $data = $report_data;
+      $data['style'] = $this->load->view('common/pdf_style', array(), TRUE);
+      $mpdf = new mPDF('c');
+      //todo may need separate commission pdf view
+      $premium = $commission = 0;
+      if (isset($data['premium2'])) {
+        for ($i = 1; $i <= 12; $i++) {
+          $premium += $data['premium2'][$i];
+          $commission += $data['commission2'][$i];
         }
       }
-    }
-
-    $premium = $commission = 0;
-    if (isset($data['premium2'])) {
-      for ($i = 1; $i <= 12; $i++) {
-        $premium += $data['premium2'][$i];
-        $commission += $data['commission2'][$i];
+      $data['year'] = $year;
+      $data['premium'] = $premium;
+      $data['commission'] = $commission;
+      $data['agent'] = $agent;
+      $html = $this->load->view('reports/annual_pdf', $data, TRUE);
+      $mpdf->writeHTML($html);
+      $mpdf->Output("Annual_report.pdf", "I");
+    } else {
+      if ($beuser['user_group_id'] < 100) {
+        $report_data["premium"] = array();
+        $report_data["commission"] = array();
+        for ($i = 1; $i <= 12; $i++) {
+          $rc = $this->report_model->get_month_payment($data['agent_id'], $year, $i);
+          $report_data["premium"][$i] = $rc["premium"];
+          if (!isset($report_data["premium2"][$i])) {
+            $report_data["premium2"][$i] = $report_data["premium"][$i];
+          }
+          $report_data["commission"][$i] = $rc["commission"];
+          if (!isset($report_data["commission2"][$i])) {
+            $report_data["commission2"][$i] = $report_data["commission"][$i];
+          }
+        }
       }
-    }
 
-    $this->app_model->return_ok([
-      "year" => $year,
-      "premium" => $premium,
-      "commission" => $commission,
-      "report" => $report_data,
-      "agent" => $agent,
-    ]);
+      $premium = $commission = 0;
+      if (isset($data['premium2'])) {
+        for ($i = 1; $i <= 12; $i++) {
+          $premium += $data['premium2'][$i];
+          $commission += $data['commission2'][$i];
+        }
+      }
+
+      $this->app_model->return_ok([
+        "year" => $year,
+        "premium" => $premium,
+        "commission" => $commission,
+        "report" => $report_data,
+        "agent" => $agent,
+      ]);
+    }
   }
 
   /* Jf.php */
@@ -719,6 +787,17 @@ class Report extends CI_Controller
     $beuser = $user;
     $data = array();
     $data['beuser'] = $beuser;
+    $is_export = empty($this->input->post('is_export')) ? 0 : intval($this->input->post('is_export'));
+    if ($is_export != 1) {
+      $is_export = 0;
+    }
+    if (($beuser['user_group_id'] > 100) && empty($data['agent_id'])) {
+      return $this->app_model->return_error("No Report Data");
+    }
+    $agent_id = empty($this->input->post('b_id')) ? 0 : intval($this->input->post('b_id'));
+    if (empty($agent_id)) {
+      $agent_id = empty($this->input->post('agent_id')) ? 0 : intval($this->input->post('agent_id'));
+    }
 
     $this->load->model('product_model');
     $this->load->model('report_model');
@@ -727,7 +806,7 @@ class Report extends CI_Controller
 
     $data['product_short'] = $this->input->post('product_short');
     $data['policy_status'] = $this->input->post('policy_status');
-    $data['agent_id'] = empty($this->input->post('agent_id')) ? 0 : (int)$this->input->post('agent_id');
+    $data['agent_id'] = $agent_id;
     $data['region_id'] = empty($this->input->post('region_id')) ? $beuser['region_id'] : $this->input->post('region_id');
     $data['payment_added_from'] = $this->input->post('payment_added_from');
     $data['payment_added_to'] = $this->input->post('payment_added_to');
@@ -751,54 +830,81 @@ class Report extends CI_Controller
       'commission_amount' => 'Commission',
       'cal_comm_rate' => 'Ratio',
     );
-
-    array_push($report, array('JF Insurance Agency Group Inc.'));
-    array_push($report, array('15 Wertheim court, Suite 501, Richmond Hill, ON, L4B 3H7'));
-    array_push($report, array('Tel: 905-707-1512 Fax: 905-707-1513 Toll free: 1-877-832-5541'));
-    array_push($report, array(''));
-    array_push($report, array('Invoice Statement'));
-    array_push($report, array('For Policy of: ', 'From ' . $report_data['period']['from'], 'To ' . $report_data['period']['to']));
-    array_push($report, array('', '', '', '', '', '', '', ''));
-
-    foreach ($report_data as $datas) {
-      if (empty($datas['agency'])) {
-        continue;
-      }
-      $arr = array('Bill to: ' . $datas['agency']['agent_name'] . ', ' . $datas['agency']['address'] . ', ' . $datas['agency']['province'] . ', ' . $datas['agency']['postal_code']);
-      array_push($report, $arr);
-      $arr = array('', '', '', '', '', '', '', '');
-      array_push($report, $arr);
-
-      $arr = array('Total Premium ' . $datas['agency']['outstanding']);
-      array_push($report, $arr);
-      $arr = array('Net Payable Amount: ' . $datas['agency']['payable_to_jf']);
-      array_push($report, $arr);
-
-      $arr = array('', '', '', '', '', '', '', '');
-      array_push($report, $arr);
-
-      array_push($report, array_values($kArr));
-
-      foreach ($datas['records'] as $record) {
+    if ($is_export) {
+      $w = WriterFactory::create(Type::XLSX); // for XLSX files
+      $w->openToBrowser("Sales_Report_to_Agent_" . date('Ymd') . ".xlsx");
+      foreach ($report_data as $data) {
         $arr = array();
-        foreach ($kArr as $k => $v) {
-          if ($k == "refund_date") {
-            if ($record["status_id"] == 6) {
-              $arr[] = $record[$k];
+        foreach ($kArr as $k => $v) { $arr[] = $v; }
+        $w->addRow($arr);
+        foreach ($data['records'] as $record) {
+          $arr = array();
+          foreach ($kArr as $k => $v) {
+            if ($k == 'added') {
+              $arr[] = substr($record[$k], 0, 10);
+            } else if ($k == 'net_premium') {
+              $arr[] = $record['amount'] - $record['commission'];
             } else {
-              $arr[] = "";
+              $arr[] = $record[$k];
             }
-          } else {
-            $arr[] = $record[$k];
-          }
+          } 
+          $w->addRow($arr);
         }
-        array_push($report, $arr);
+        $arr = array('Total Premium: $' . $data['data']['policy_premium'], '','','Total Net Premium: $' . $data['data']['net_premium'],'','','Username:' . $data['data']['agent_username'] . ' Email: ' . $data['data']['agent_email']);
+        $w->addRow($arr);
+        $arr = array('', '','','','','','','');
+        $w->addRow($arr);
       }
+      $w->close();
+    } else {
+      array_push($report, array('JF Insurance Agency Group Inc.'));
+      array_push($report, array('15 Wertheim court, Suite 501, Richmond Hill, ON, L4B 3H7'));
+      array_push($report, array('Tel: 905-707-1512 Fax: 905-707-1513 Toll free: 1-877-832-5541'));
+      array_push($report, array(''));
+      array_push($report, array('Invoice Statement'));
+      array_push($report, array('For Policy of: ', 'From ' . $report_data['period']['from'], 'To ' . $report_data['period']['to']));
+      array_push($report, array('', '', '', '', '', '', '', ''));
+  
+      foreach ($report_data as $datas) {
+        if (empty($datas['agency'])) {
+          continue;
+        }
+        $arr = array('Bill to: ' . $datas['agency']['agent_name'] . ', ' . $datas['agency']['address'] . ', ' . $datas['agency']['province'] . ', ' . $datas['agency']['postal_code']);
+        array_push($report, $arr);
+        $arr = array('', '', '', '', '', '', '', '');
+        array_push($report, $arr);
+  
+        $arr = array('Total Premium ' . $datas['agency']['outstanding']);
+        array_push($report, $arr);
+        $arr = array('Net Payable Amount: ' . $datas['agency']['payable_to_jf']);
+        array_push($report, $arr);
+  
+        $arr = array('', '', '', '', '', '', '', '');
+        array_push($report, $arr);
+  
+        array_push($report, array_values($kArr));
+  
+        foreach ($datas['records'] as $record) {
+          $arr = array();
+          foreach ($kArr as $k => $v) {
+            if ($k == "refund_date") {
+              if ($record["status_id"] == 6) {
+                $arr[] = $record[$k];
+              } else {
+                $arr[] = "";
+              }
+            } else {
+              $arr[] = $record[$k];
+            }
+          }
+          array_push($report, $arr);
+        }
+      }
+  
+      $this->app_model->return_ok([
+        "report" => $report,
+      ]);
     }
-
-    $this->app_model->return_ok([
-      "report" => $report,
-    ]);
   }
 
   /* Receivable.php */
@@ -820,7 +926,7 @@ class Report extends CI_Controller
     $data = array();
     $data['beuser'] = $beuser;
 
-    if (($beuser['user_group_id'] > 100) && ($beuser['user_group_id'] != 104) && empty($data['agent_id'])) {
+    if (($beuser['user_group_id'] > 100) && empty($data['agent_id'])) {
       return $this->app_model->return_error("No Report Data");
     }
 
@@ -829,8 +935,16 @@ class Report extends CI_Controller
 
     $data['title_txt'] = 'Renewal Report';
 
+    $is_export = empty($this->input->post('is_export')) ? 0 : intval($this->input->post('is_export'));
+    if ($is_export != 1) {
+      $is_export = 0;
+    }
+    $agent_id = empty($this->input->post('b_id')) ? 0 : intval($this->input->post('b_id'));
+    if (empty($agent_id)) {
+      $agent_id = empty($this->input->post('agent_id')) ? 0 : intval($this->input->post('agent_id'));
+    }
     $data['product_short'] = $this->input->post('product_short');
-    $data['agent_id'] = empty($this->input->post('agent_id')) ? 0 : (int)$this->input->post('agent_id');
+    $data['agent_id'] = $agent_id;
     $data['region_id'] = empty($this->input->post('region_id')) ? $beuser['region_id'] : $this->input->post('region_id');
     $data['application_date_from'] = $this->input->post('application_date_from');
     $data['application_date_to'] = $this->input->post('application_date_to');
@@ -858,31 +972,58 @@ class Report extends CI_Controller
 
     $date_from = $report_data['period']['from'];
     $date_to = $report_data['period']['to'];
-    if (!empty($report_data['data'])) {
+
+    if ($is_export) {
+      $w = WriterFactory::create(Type::XLSX); // for XLSX files
+      $w->openToBrowser("Renewal_Report_" . date('Ymd') . ".xlsx");
       foreach ($report_data['data'] as $datas) {
         $arr = array('Expire Date From: ', $date_from, 'To: ', $date_to);
-        array_push($report, $arr);
+        $w->addRow($arr);
         $arr = array('Agent: ', $datas['agency']);
-        array_push($report, $arr);
-        $arr = array('', '');
-        array_push($report, $arr);
-        array_push($report, array_values($kArr));
-  
+        $w->addRow($arr);
+        $arr = array('','');
+        $w->addRow($arr);
+        $arr = array();
+        foreach ($kArr as $k => $v) { $arr[] = $v; } 
+        $w->addRow($arr);
+        
         foreach ($datas['records'] as $record) {
           $arr = array();
-          foreach ($kArr as $k => $v) {
-            $arr[] = $record[$k];
+          foreach ($kArr as $k => $v) { $arr[] = $record[$k]; } 
+          $w->addRow($arr);
+        }
+        
+        $arr = array('','');
+        $w->addRow($arr);
+      }
+      $w->close();
+    } else {
+      if (!empty($report_data['data'])) {
+        foreach ($report_data['data'] as $datas) {
+          $arr = array('Expire Date From: ', $date_from, 'To: ', $date_to);
+          array_push($report, $arr);
+          $arr = array('Agent: ', $datas['agency']);
+          array_push($report, $arr);
+          $arr = array('', '');
+          array_push($report, $arr);
+          array_push($report, array_values($kArr));
+    
+          foreach ($datas['records'] as $record) {
+            $arr = array();
+            foreach ($kArr as $k => $v) {
+              $arr[] = $record[$k];
+            }
+            array_push($report, $arr);
           }
+          $arr = array('', '');
           array_push($report, $arr);
         }
-        $arr = array('', '');
-        array_push($report, $arr);
       }
+  
+      $this->app_model->return_ok([
+        "report" => $report,
+      ]);
     }
-
-    $this->app_model->return_ok([
-      "report" => $report,
-    ]);
   }
 
   /* Refund.php */
