@@ -980,8 +980,16 @@ class Plan_model extends CI_Model {
 		}
 	}
 	
-	public function plan_activities($para, $limit=0, $start=0, $sorder='', $desc=1) {
-		
+	public function plan_activities($user, $para, $limit=0, $start=0, $sorder='', $desc=1) {
+    $users = [];
+		if ($user["user_group_id"] == 104) {
+      $sql = "SELECT user_id FROM user WHERE user_id='".intval($user['user_id'])."' OR parent_user_id='".intval($user['user_id'])."'";
+      $rows = $this->db->query($sql)->result_array();
+      foreach ($rows as $row) {
+        $users[] = $row['user_id'];
+      }
+    }
+
 		$sql  = "SELECT p.*, c.firstname, c.lastname, c.gender, c.birthday, u.firstname AS agent_firstname, u.lastname AS agent_lastname, u.user_id AS agent_id, u.business_phone as agent_phone FROM plan p";
 		$sql .= " INNER JOIN customer c ON (p.customer_id=c.customer_id)";
 		$sql .= " INNER JOIN user u ON (p.user_id=u.user_id)";
@@ -997,6 +1005,9 @@ class Plan_model extends CI_Model {
 		}
 		if (!empty($para['status_id'])) {
 			$where[] = "p.status_id='" . (int)$para['status_id'] . "'";
+		}
+    if (!empty($users)) {
+			$where[] = "p.user_id IN (" . join(",", $users) . ")";
 		}
 		if (!empty($para['policy'])) {
 			$where[] = "p.policy=" . $this->db->escape($para['policy']);
@@ -1097,7 +1108,15 @@ class Plan_model extends CI_Model {
 		return $this->db->query($sql)->result_array();
 	}
 
-	public function plan_activitie_totals($para) {
+	public function plan_activitie_totals($user, $para) {
+    $users = [];
+		if ($user["user_group_id"] == 104) {
+      $sql = "SELECT user_id FROM user WHERE user_id='".intval($user['user_id'])."' OR parent_user_id='".intval($user['user_id'])."'";
+      $rows = $this->db->query($sql)->result_array();
+      foreach ($rows as $row) {
+        $users[] = $row['user_id'];
+      }
+    }
 		
 		$sql  = "SELECT p.*, c.firstname, c.lastname, c.gender, c.birthday, u.firstname AS agent_firstname, u.lastname AS agent_lastname, u.user_id AS agent_id, u.business_phone as agent_phone FROM plan p";
 		$sql .= " INNER JOIN customer c ON (p.customer_id=c.customer_id)";
@@ -1114,6 +1133,9 @@ class Plan_model extends CI_Model {
 		}
 		if (!empty($para['product_short'])) {
 			$where[] = "p.product_short=" . $this->db->escape($para['product_short']);
+		}
+    if (!empty($users)) {
+			$where[] = "p.user_id IN (" . join(",", $users) . ")";
 		}
 		if (!empty($para['policy'])) {
 			$where[] = "p.policy=" . $this->db->escape($para['policy']);
@@ -1205,11 +1227,11 @@ class Plan_model extends CI_Model {
 	 * @return	array					user table search result
 	 */
 	public function plan_search($para, $limit=0, $start=0) {
-		$beuser = $this->session->userdata('beuser');
+    $beuser = $this->session->userdata('beuser');
 		if (empty($beuser)) {
 			return array();
 		}
-		
+
 		$plans = array();
 		$carr = array();
 		if (!empty($para['firstname'])) {
@@ -1363,7 +1385,7 @@ class Plan_model extends CI_Model {
 	}
 
 	public function plan_search_count($para) {
-		$beuser = $this->session->userdata('beuser');
+    $beuser = $this->session->userdata('beuser');
 		if (empty($beuser)) {
 			return 0;
 		}

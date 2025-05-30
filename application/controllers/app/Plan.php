@@ -28,7 +28,7 @@ class Plan extends CI_Controller
 
     $data = array();
     $post = $this->input->post();
-    if ($user["user_group_id"] > 100) {
+    if (($user["user_group_id"] > 100) && ($user["user_group_id"] != 104)) {
       $post["user_id"] = $user["user_id"];
     }
     $this->load->model("plan_model");
@@ -41,9 +41,9 @@ class Plan extends CI_Controller
     if ($sorder) {
       $desc = $this->input->post("desc");
     }
-    if ($plans = $this->plan_model->plan_activities($post, $limit, $start, $sorder, $desc)) {
+    if ($plans = $this->plan_model->plan_activities($user, $post, $limit, $start, $sorder, $desc)) {
       $data["plans"] = $plans;
-      $data["totals"] = $this->plan_model->plan_activitie_totals($post);
+      $data["totals"] = $this->plan_model->plan_activitie_totals($user, $post);
       $this->app_model->return_ok($data);
     }
     return $this->app_model->return_ok(array("plans"=>array(), "totals"=>0));
@@ -77,7 +77,11 @@ class Plan extends CI_Controller
     }
 
     $payment_total = $plan['premium'] - $this->payment_model->get_total_paid($plan['plan_id'], 'premium', $plan['apply_date']);
-    $this->app_model->return_ok(["pay_amount"=>$payment_total]);
+    $payurl = "";
+    if ($payment_total && (($plan["status_id"] == Plan_model::QUOTE) || ($plan["status_id"] == Plan_model::CHANGED))) {
+      $payurl = base_url('plan/detail/' . $plan_id . '/' . $this->plan_model->get_plan_key($plan_id));
+    }
+    $this->app_model->return_ok(["pay_amount"=>$payment_total, "payurl"=>$payurl]);
   }
 
   function get_ali_url() {
