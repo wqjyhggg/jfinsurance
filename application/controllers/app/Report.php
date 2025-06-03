@@ -269,6 +269,9 @@ class Report extends CI_Controller
     }
 
     if ($is_export) {
+      header("Access-Control-Allow-Origin: *");
+      header('Access-Control-Allow-Credentials: true');
+      header('Access-Control-Max-Age: 86400');    // cache for 1 day
       $w = WriterFactory::create(Type::XLSX); // for XLSX files
       $w->openToBrowser("Sales_Report_to_Agent_" . date('Ymd') . ".xlsx");
       foreach ($report_data as $data) {
@@ -381,6 +384,9 @@ class Report extends CI_Controller
     }
     $report_data = $this->report_model->get_annual($data['agent_id'], $year, $user_id);
     if ($is_export) {
+      header("Access-Control-Allow-Origin: *");
+      header('Access-Control-Allow-Credentials: true');
+      header('Access-Control-Max-Age: 86400');    // cache for 1 day
       $agent_id = $data['agent_id'];
       $data = $report_data;
       $data['style'] = $this->load->view('common/pdf_style', array(), TRUE);
@@ -831,6 +837,9 @@ class Report extends CI_Controller
       'cal_comm_rate' => 'Ratio',
     );
     if ($is_export) {
+      header("Access-Control-Allow-Origin: *");
+      header('Access-Control-Allow-Credentials: true');
+      header('Access-Control-Max-Age: 86400');    // cache for 1 day
       $w = WriterFactory::create(Type::XLSX); // for XLSX files
       $w->openToBrowser("Sales_Report_to_Agent_" . date('Ymd') . ".xlsx");
       foreach ($report_data as $data) {
@@ -974,6 +983,9 @@ class Report extends CI_Controller
     $date_to = $report_data['period']['to'];
 
     if ($is_export) {
+      header("Access-Control-Allow-Origin: *");
+      header('Access-Control-Allow-Credentials: true');
+      header('Access-Control-Max-Age: 86400');    // cache for 1 day
       $w = WriterFactory::create(Type::XLSX); // for XLSX files
       $w->openToBrowser("Renewal_Report_" . date('Ymd') . ".xlsx");
       foreach ($report_data['data'] as $datas) {
