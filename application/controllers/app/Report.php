@@ -271,6 +271,7 @@ class Report extends CI_Controller
     if ($is_export) {
       header("Access-Control-Allow-Origin: *");
       header('Access-Control-Allow-Credentials: true');
+      header("Access-Control-Expose-Headers: Content-Disposition");
       header('Access-Control-Max-Age: 86400');    // cache for 1 day
       $w = WriterFactory::create(Type::XLSX); // for XLSX files
       $w->openToBrowser("Sales_Report_to_Agent_" . date('Ymd') . ".xlsx");
@@ -386,6 +387,7 @@ class Report extends CI_Controller
     if ($is_export) {
       header("Access-Control-Allow-Origin: *");
       header('Access-Control-Allow-Credentials: true');
+      header("Access-Control-Expose-Headers: Content-Disposition");
       header('Access-Control-Max-Age: 86400');    // cache for 1 day
       $agent_id = $data['agent_id'];
       $data = $report_data;
@@ -839,6 +841,7 @@ class Report extends CI_Controller
     if ($is_export) {
       header("Access-Control-Allow-Origin: *");
       header('Access-Control-Allow-Credentials: true');
+      header("Access-Control-Expose-Headers: Content-Disposition");
       header('Access-Control-Max-Age: 86400');    // cache for 1 day
       $w = WriterFactory::create(Type::XLSX); // for XLSX files
       $w->openToBrowser("Sales_Report_to_Agent_" . date('Ymd') . ".xlsx");
@@ -985,6 +988,7 @@ class Report extends CI_Controller
     if ($is_export) {
       header("Access-Control-Allow-Origin: *");
       header('Access-Control-Allow-Credentials: true');
+      header("Access-Control-Expose-Headers: Content-Disposition");
       header('Access-Control-Max-Age: 86400');    // cache for 1 day
       $w = WriterFactory::create(Type::XLSX); // for XLSX files
       $w->openToBrowser("Renewal_Report_" . date('Ymd') . ".xlsx");
