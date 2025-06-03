@@ -53,6 +53,8 @@ class Plan extends CI_Controller
     $this->error = "";
     $this->load->model("app_model");
     $this->load->model("user_model");
+    $this->load->helper('url');
+
     $user = $this->app_model->check_token($this->input->post("token"));
 
     if (empty($user)) {
@@ -79,7 +81,7 @@ class Plan extends CI_Controller
     $payment_total = $plan['premium'] - $this->payment_model->get_total_paid($plan['plan_id'], 'premium', $plan['apply_date']);
     $payurl = "";
     if ($payment_total && (($plan["status_id"] == Plan_model::QUOTE) || ($plan["status_id"] == Plan_model::CHANGED))) {
-      $payurl = base_url('plan/detail/' . $plan_id . '/' . $this->plan_model->get_plan_key($plan_id));
+      $payurl = base_url().'plan/detail/' . $plan_id . '/' . $this->plan_model->get_plan_key($plan_id);
     }
     $this->app_model->return_ok(["pay_amount"=>$payment_total, "payurl"=>$payurl]);
   }
