@@ -534,8 +534,9 @@ class Plan extends CI_Controller
           }
         }
         $ckArr['isfamilyplan'] = $isfamilyplan;
-    
-        $this->plan_model->update($id, $this->input->post(), $ckArr, $user);
+        $post = $this->input->post();
+        unset($post["user_id"]);
+        $this->plan_model->update($id, $post, $ckArr, $user);
       }
     } else {
       $id = $this->plan_model->add($this->input->post(), $user);
