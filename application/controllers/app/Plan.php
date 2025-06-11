@@ -1236,8 +1236,8 @@ class Plan extends CI_Controller
 		$data['customers'] = $this->customer_model->get_customer_by_parent_id($data['plan']['customer_id']);
 		$data['paytype_list'] = $this->paytype_model->paytype_list();
 		$data['status_list'] = $this->status_model->status_list();
-		$data['withlogo'] = 1;
-    $data['withprice'] = 1;
+		$data['withlogo'] = $this->input->post("withlogo")?$this->input->post("withlogo"):1;
+    $data['withprice'] = $this->input->post("withprice")?$this->input->post("withprice"):1;
 		$disablePriceArr = array(4968,4942,2151,2626,4258,798,339,3698,3799);
     if (in_array($beuser['user_id'], $disablePriceArr)) {
       $data['withprice'] = 0;
