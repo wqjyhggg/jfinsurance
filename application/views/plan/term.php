@@ -82,10 +82,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                   <br />
 <?php } ?>
                   <p>
-                    <?php echo $this->lang->line("IN THE EVENT OF A MEDICAL EMERGENCY OR A CLAIM THAT MAY REQUIRE OR RESULT IN HOSPITALIZATION, CALL TIC IMMEDIATELY."); ?>
+                    <?php echo $this->lang->line("IN THE EVENT OF A MEDICAL EMERGENCY OR A CLAIM THAT MAY REQUIRE OR RESULT IN HOSPITALIZATION, CALL ONTIME CARE IMMEDIATELY."); ?>
                   </p>
-                  <p><?php echo $this->lang->line("Toll Free Canada/U.S.A. 1-800-869-6747"); ?></p>
-                  <p><?php echo $this->lang->line("If unable to contact us toll free, please call collect: 416-340-8809"); ?></p>
+                  <p><?php echo $this->lang->line("Toll Free Canada/U.S.A. 1-866-209-5804"); ?></p>
+                  <p><?php echo $this->lang->line("If unable to contact us toll free, please call collect: 905-707-9555"); ?></p>
                   <br />
                   <p>
                     <?php echo $this->lang->line("If you notice any errors in the above information or have any questions, please contact JF Insurance Agency Group Inc."); ?>

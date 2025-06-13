@@ -568,7 +568,7 @@ class Plan extends CI_Controller
         } else if (($claim_amount <= 2500) && ($case_amount <= 2500)) {
           $this->plan_model->update($id, array('claim_flag' => 1), array(), $user);
           $data["plan"]['claim_flag'] = 1;
-          $data["claim_message"] = "Warning: The insured(s) have had previous claim(s). Please check the policy eligibility and any pre-existing conditions with insured(s). " . $customer['firstname'] . " " . $customer['lastname'] . "(" . $customer['birthday'] . ")";
+          $data["claim_message"] = "Reminders: The insured(s) may have had previous claim(s). Please confirm the policy eligibility and any pre-existing conditions with insured(s). " . $customer['firstname'] . " " . $customer['lastname'] . "(" . $customer['birthday'] . ")";
         } else if (!isset($post["claim_flag"])) /* if (($claim_amount > 2000) || ($case_amount > 2000)) */ {
           $plan = $this->plan_model->update($id, array('claim_flag' => 2), array(), $user);
           $data["plan"]['claim_flag'] = 2;
