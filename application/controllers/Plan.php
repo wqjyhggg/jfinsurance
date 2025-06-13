@@ -1101,6 +1101,15 @@ class Plan extends MY_Controller {
 			if (!empty($data['birthday_' . $i])) {
 				$data['cur_max_member'] += 1;
 			}
+			if ($this->input->post('relationship_' . $i)) {
+				$data['relationship_' . $i] = $this->input->post('relationship_' . $i);
+			} else if (isset($customers[$i - 1]) && isset($customers[$i - 1]['relationship'])) {
+				$data['relationship_' . $i] = $customers[$i - 1]['relationship'];
+			} else if (isset($plan['relationship_' . $i])) {
+				$data['relationship_' . $i] = $plan['relationship_' . $i];
+			} else {
+				$data['relationship_' . $i] = '';
+			}
 			if ($this->input->post('gender_' . $i)) {
 				$data['gender_' . $i] = $this->input->post('gender_' . $i);
 			} else if (isset($customers[$i - 1]) && isset($customers[$i - 1]['gender'])) {
@@ -4566,6 +4575,7 @@ class Plan extends MY_Controller {
 				$plan["firstname"] = $customer["firstname"];
 				$plan["lastname"] = $customer["lastname"];
 				$plan["birthday"] = $customer["birthday"];
+				$plan["relationship"] = $customer["relationship"];
 			}
 			$customers = $this->customer_model->get_customer_by_parent_id($customer_id);
 			if ($customers) {
@@ -4576,6 +4586,7 @@ class Plan extends MY_Controller {
 					$plan["firstname_" . $idx] = $customers[$i]["firstname"];
 					$plan["lastname_" . $idx] = $customers[$i]["lastname"];
 					$plan["birthday_" . $idx] = $customers[$i]["birthday"];
+					$plan["relationship_" . $idx] = $customers[$i]["relationship"];
 				}
 			}
 		}
