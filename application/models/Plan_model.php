@@ -261,6 +261,7 @@ class Plan_model extends CI_Model {
 				'firstname' => trim($para['firstname']),
 				'lastname' => trim($para['lastname']),
 				'birthday' => $para['birthday'],
+        'relationship' => '',
 				'parent_customer_id' => 0
 		);
 		$customer_id = $this->customer_model->add($cpara);
@@ -399,6 +400,11 @@ class Plan_model extends CI_Model {
 				} else {
 					break;
 				}
+				if (!empty($para['relationship_' . $i])) {
+					$relationship = $para['relationship_' . $i];
+				} else {
+					break;
+				}
 				
 				$cpara = array(
 						'plan_id' => $plan_id,
@@ -406,6 +412,7 @@ class Plan_model extends CI_Model {
 						'firstname' => trim($firstname),
 						'lastname' => trim($lastname),
 						'birthday' => $birthday,
+            'relationship' => $relationship,
 						'parent_customer_id' => $customer_id
 				);
 				$customer_id_this = $this->customer_model->add($cpara);
@@ -507,6 +514,7 @@ class Plan_model extends CI_Model {
 						'gender' => $para['gender_' . $i],
 						'firstname' => trim($para['firstname_' . $i]),
 						'lastname' => trim($para['lastname_' . $i]),
+            'relationship' => trim($para['relationship_' . $i]),
 						'birthday' => $para['birthday_' . $i]
 				);
 				$customer_id_this = $this->customer_model->add($cpara);

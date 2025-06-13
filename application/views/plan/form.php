@@ -430,18 +430,27 @@ if ($Agree != "Agree") {
 									<label>Family Member <?php echo $i; ?> </label><span> [ <input type='button' onclick='remove_member(<?php echo $i;?>)' value='Remove' data-toggle="tooltip" title="Remove Member!" class="btn btn-warn">]</span><br /> <span class="alert-error" id='errormessage_<?php echo $i;?>'></span>
 									</div>
 									
-										<div class="col-sm-3">
+										<div class="col-sm-2">
 											<label class="col-sm-12"><?php echo $this->lang->line("First Name"); ?>: </label>
 											<div class="input-group col-sm-12">
 												<input class="form-control" type='text' name='firstname_<?php echo $i; ?>' id='firstname_<?php echo $i; ?>' value='<?php echo !empty(${'firstname_'.$i}) ? $html_model->escapeQuote(${'firstname_'.$i}) : ''; ?>'>
 											</div>
 										</div>
-										<div class="col-sm-3">
+										<div class="col-sm-2">
 											<label class="col-sm-12"><?php echo $this->lang->line("Last Name"); ?>: </label>
-
 											<div class="input-group col-sm-12">	
 												<input class="form-control" type='text' name='lastname_<?php echo $i; ?>' id='lastname_<?php echo $i; ?>' value='<?php echo !empty(${'lastname_'.$i}) ? $html_model->escapeQuote(${'lastname_'.$i}) : ''; ?>'>
 											</div>
+										</div>
+										<div class="col-sm-2">
+                      <label class="col-sm-12"><?php echo $this->lang->line("Relationship"); ?>: </label>
+                      <div class="input-group col-sm-12">
+                        <select name='relationship_<?php echo $i; ?>' id='relationship_<?php echo $i; ?>' class="form-control relation-selection" style="padding:6px 2px;" onChange="updateRelationOptions">
+                          <option value='Spouse' <?php echo (empty(${'relationship_'.$i}) && (${'relationship_'.$i} != 'Spouse')) ? "selected" : ""; ?>><?php echo $this->lang->line("Spouse"); ?></option>
+                          <option value='Parent' <?php echo (empty(${'relationship_'.$i}) && (${'relationship_'.$i} != 'Parent')) ? "selected" : ""; ?>><?php echo $this->lang->line("Parent"); ?></option>
+                          <option value='Dependent Child' <?php echo (empty(${'relationship_'.$i}) && (${'relationship_'.$i} != 'Dependent Child')) ? "selected" : ""; ?>><?php echo $this->lang->line("Dependent Child"); ?></option>
+                        </select>
+                      </div>
 										</div>
 										<div class="col-sm-3">
 											<label class="col-sm-12"><?php echo $this->lang->line("Birth Date"); ?>: </label>
@@ -1029,6 +1038,50 @@ function remove_member(i) {
 		get_premium();
 		addmoremember();
 	}
+}
+
+function updateRelationOptions() {
+  // Get all select elements
+  const allSelects = document.querySelectorAll('select.relation-selection');
+  
+  // Reset all options to enabled first
+  allSelects.forEach(select => {
+    Array.from(select.options).forEach(option => {
+      if (option.value === 'Parent' || option.value === 'Dependent Child') {
+        option.disabled = false;
+      }
+    });
+  });
+  
+  // Check if any select has "Parent" or "Dependent Child" selected
+  let hasParent = false;
+  let hasChild = false;
+  
+  allSelects.forEach(select => {
+    if (select.value === 'Parent') hasParent = true;
+    if (select.value === 'Dependent Child') hasChild = true;
+  });
+  
+  // Apply disabling logic
+  if (hasParent) {
+    allSelects.forEach(select => {
+      Array.from(select.options).forEach(option => {
+        if (option.value === 'Dependent Child' && select.value !== 'Dependent Child') {
+          option.disabled = true;
+        }
+      });
+    });
+  }
+  
+  if (hasChild) {
+    allSelects.forEach(select => {
+      Array.from(select.options).forEach(option => {
+        if (option.value === 'Parent' && select.value !== 'Parent') {
+          option.disabled = true;
+        }
+      });
+    });
+  }
 }
 
 function addmoremember() {

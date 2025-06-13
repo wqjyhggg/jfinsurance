@@ -137,6 +137,9 @@ class Customer_model extends CI_Model {
 			if (isset($para['birthday']) && ($para['birthday'] != $customer['birthday'])) {
 				$this->logstr .= " birthday " . $para['birthday'] . "(" . $customer['birthday'] . ")";
 			}
+			if (isset($para['relationship']) && ($para['relationship'] != $customer['relationship'])) {
+				$this->logstr .= " relationship " . $para['relationship'] . "(" . $customer['relationship'] . ")";
+			}
 			if ($this->logstr != "") {
 				$this->db->where('customer_id', $customer_id);
 				$this->db->update('customer', $para);
