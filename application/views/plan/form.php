@@ -445,10 +445,10 @@ if ($Agree != "Agree") {
 										<div class="col-sm-2">
                       <label class="col-sm-12"><?php echo $this->lang->line("Relationship"); ?>: </label>
                       <div class="input-group col-sm-12">
-                        <select name='relationship_<?php echo $i; ?>' id='relationship_<?php echo $i; ?>' class="form-control relation-selection" style="padding:6px 2px;" onChange="updateRelationOptions">
-                          <option value='Spouse' <?php echo (empty(${'relationship_'.$i}) && (${'relationship_'.$i} != 'Spouse')) ? "selected" : ""; ?>><?php echo $this->lang->line("Spouse"); ?></option>
-                          <option value='Parent' <?php echo (empty(${'relationship_'.$i}) && (${'relationship_'.$i} != 'Parent')) ? "selected" : ""; ?>><?php echo $this->lang->line("Parent"); ?></option>
-                          <option value='Dependent Child' <?php echo (empty(${'relationship_'.$i}) && (${'relationship_'.$i} != 'Dependent Child')) ? "selected" : ""; ?>><?php echo $this->lang->line("Dependent Child"); ?></option>
+                        <select name='relationship_<?php echo $i; ?>' value='<?php echo ${"relationship_".$i}; ?>' class="form-control relation-selection" style="padding:6px 2px;" onchange="updateRelationOptions()">
+                          <option value='Spouse' <?php echo (empty(${'relationship_'.$i}) && (${'relationship_'.$i} == 'Spouse')) ? "selected" : ""; ?>><?php echo $this->lang->line("Spouse"); ?></option>
+                          <option value='Parent' <?php echo (empty(${'relationship_'.$i}) && (${'relationship_'.$i} == 'Parent')) ? "selected" : ""; ?>><?php echo $this->lang->line("Parent"); ?></option>
+                          <option value='Dependent Child' <?php echo (empty(${'relationship_'.$i}) && (${'relationship_'.$i} == 'Dependent Child')) ? "selected" : ""; ?>><?php echo $this->lang->line("Dependent Child"); ?></option>
                         </select>
                       </div>
 										</div>
@@ -960,6 +960,7 @@ $( document ).ready(function() {
 		$('input[name="holiday_rate"]').change(get_premium);
 	}
 	addmoremember();
+  updateRelationOptions();
 
 	$( ".btn-payment-sort" ).click(sorting_payment);
 
