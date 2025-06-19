@@ -392,7 +392,11 @@ class Product_model extends CI_Model {
       }
     }
 
-		return $this->get_premium_sub($para, $user);
+		$preArr = $this->get_premium_sub($para, $user);
+    if (isset($preArr['premium'])) {
+      $preArr['premium'] = floatval(number_format($preArr['premium'], 2));
+    }
+    return $preArr;
 	}
 
 	/**
