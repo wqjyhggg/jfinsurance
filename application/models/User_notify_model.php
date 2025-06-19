@@ -24,7 +24,7 @@ class User_notify_model extends CI_Model {
 	public function save($user_id, $notify_type, $for_type="Expire") {
     $this->db->set('notify_type', $notify_type);
     $this->db->set('for_type', $for_type);
-		if ($rc = $this->get_by_id($user_id)) {
+		if ($rc = $this->get_by_id($user_id, $for_type)) {
       $this->db->where( "user_id", $user_id );
       $this->db->update('user_nofify');
     } else {

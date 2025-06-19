@@ -23,12 +23,16 @@ class Notify extends MY_Controller {
       $user_id = $this->input->post("user_id");
     }
 		$data['notify_type'] = 1;
+    $for_type = $this->input->post("for_type");
+    if ($for_type != "Effect") {
+      $for_type = "Expire";
+    }
     if ($this->input->post("submit")) {
       $notify_type = $this->input->post("notify_type");
-      $this->user_notify_model->save($user_id, $notify_type);
+      $this->user_notify_model->save($user_id, $notify_type, $for_type);
     }
     $data['user_id'] = $user_id;
-    if ($notify = $this->user_notify_model->get_by_id($user_id)) {
+    if ($notify = $this->user_notify_model->get_by_id($user_id, $for_type)) {
       $data['notify_type'] = $notify["notify_type"];
     }
 		$data['csrf'] = array (
