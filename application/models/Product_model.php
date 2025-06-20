@@ -394,7 +394,7 @@ class Product_model extends CI_Model {
 
 		$preArr = $this->get_premium_sub($para, $user);
     if (isset($preArr['premium'])) {
-      $preArr['premium'] = floatval(number_format($preArr['premium'], 2));
+      $preArr['premium'] = floatval(number_format($preArr['premium'], 2, '.', ''));
     }
     return $preArr;
 	}

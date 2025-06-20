@@ -5756,7 +5756,7 @@ class Top3_model extends CI_Model  {
 				$this->premiumArr['premium'] = 25;
 			}
 			if ($this->premiumArr['premium'] > 0) {
-        $this->premiumArr['premium'] = floatval(number_format($this->premiumArr['premium'], 2));
+        $this->premiumArr['premium'] = floatval(number_format($this->premiumArr['premium'], 2, '.', ''));
       }
 		}
 		return $this->premiumArr;
