@@ -409,7 +409,7 @@ if ($Agree != "Agree") {
 											<div class="col-sm-6">
 												<label class="col-sm-12">&nbsp;</label>
 												<div class="col-sm-12">
-													<?php if ($isprocessplan) { ?>
+													<?php if (0 &&$isprocessplan) { ?>
 													<?php if ((($status_id == 2) || ($status_id == 3) || ($status_id == 4)) && !empty($customer_id) && $user_group_id !=3 && $user_group_id != 103) {?>
 													<a class="btn btn-primary" href='<?php echo $claimurl . $customer_id; ?>'>Claim</a>
 													<?php } ?>
