@@ -254,7 +254,7 @@ class Plan_model extends CI_Model {
 		if ((($para['product_short'] == 'NUS') || ($para['product_short'] == 'JUS')) && isset($para['rate_options']) && ($para['rate_options'] == 2)) {
 			$para['deductible_amount'] = 50;
 		}
-		$isfamilyplan = empty($para['isfamilyplan']) ? 0 : (((int)$para['isfamilyplan'] > 0) ? (int)$para['isfamilyplan'] : 1);
+		$isfamilyplan = empty($para['isfamilyplan']) ? 0 : ((intval($para['isfamilyplan']) > 0) ? intval($para['isfamilyplan']) : 1);
 		$cpara = array(
 				'plan_id' => 0,
 				'gender' => trim($para['gender']),
@@ -400,10 +400,9 @@ class Plan_model extends CI_Model {
 				} else {
 					break;
 				}
+        $relationship = "";
 				if (!empty($para['relationship_' . $i])) {
 					$relationship = $para['relationship_' . $i];
-				} else {
-					break;
 				}
 				
 				$cpara = array(
@@ -514,7 +513,7 @@ class Plan_model extends CI_Model {
 						'gender' => $para['gender_' . $i],
 						'firstname' => trim($para['firstname_' . $i]),
 						'lastname' => trim($para['lastname_' . $i]),
-            'relationship' => trim($para['relationship_' . $i]),
+            'relationship' => trim($para['relationship_' . $i])?trim($para['relationship_' . $i]):"",
 						'birthday' => $para['birthday_' . $i]
 				);
 				$customer_id_this = $this->customer_model->add($cpara);
@@ -1566,6 +1565,7 @@ class Plan_model extends CI_Model {
 					$rArr[$i]['firstname_'.$m] = $cArr[$j]['firstname'];
 					$rArr[$i]['lastname_'.$m] = $cArr[$j]['lastname'];
 					$rArr[$i]['birthday_'.$m] = $cArr[$j]['birthday'];
+					$rArr[$i]['relationship_'.$m] = $cArr[$j]['relationship'];
 				}
 			}
 			if ($payment) {

@@ -344,7 +344,7 @@ if ($Agree != "Agree") {
                             <div class="col-sm-6">
                               <label class="col-sm-12">&nbsp;</label>
                               <div class="col-sm-12">
-                                <?php if ((($status_id == 2) || ($status_id == 3) || ($status_id == 4)) && !empty($customer_id) && $user_group_id != 3 && ($user_group_id < 100)) { ?>
+                                <?php if (0 && (($status_id == 2) || ($status_id == 3) || ($status_id == 4)) && !empty($customer_id) && $user_group_id != 3 && ($user_group_id < 100)) { ?>
                                   <a class="btn btn-primary" href='<?php echo $claimurl . $customer_id; ?>'>Claim</a>
                                 <?php } ?>
                               </div>
@@ -396,10 +396,14 @@ if ($Agree != "Agree") {
                                   </div>
                                 </div>
                                 <div class="col-sm-4">
-                                  <label class="col-sm-12">&nbsp;</label>
-                                  <?php if ((($status_id == 2) || ($status_id == 3) || ($status_id == 4)) && !empty(${'customer_id_' . $i}) && $user_group_id != 3 && $user_group_id != 103) { ?>
-                                    <a class="btn btn-primary" href='<?php echo $claimurl . ${'customer_id_' . $i}; ?>'>Claim</a>
-                                  <?php } ?>
+                                  <label class="col-sm-12"><?php echo $this->lang->line("Relationship"); ?>: </label>
+                                  <div class="input-group col-sm-12">
+                                    <select name='relationship_<?php echo $i; ?>' id='relationship_<?php echo $i; ?>' class="form-control relation-selection" style="padding:6px 2px;" onchange="updateRelationOptions()">
+                                      <option value='Spouse' <?php echo (isset(${'relationship_'.$i}) && (${'relationship_'.$i} == 'Spouse')) ? "selected" : ""; ?>><?php echo $this->lang->line("Spouse"); ?></option>
+                                      <option value='Parent' <?php echo (isset(${'relationship_'.$i}) && (${'relationship_'.$i} == 'Parent')) ? "selected" : ""; ?>><?php echo $this->lang->line("Parent"); ?></option>
+                                      <option value='Dependent Child' <?php echo (isset(${'relationship_'.$i}) && (${'relationship_'.$i} == 'Dependent Child')) ? "selected" : ""; ?>><?php echo $this->lang->line("Dependent Child"); ?></option>
+                                    </select>
+                                  </div>
                                 </div>
                                 <div class="col-sm-4">
                                   <label class="col-sm-12">&nbsp;</label>
@@ -1513,6 +1517,9 @@ $('#payment_get_history_button').click(function(){
         s = '#gender_' + j;
         d = '#gender_' + i;
         $(d).val($(s).val());
+        s = '#relationship_' + j;
+        d = '#relationship_' + i;
+        $(d).val($(s).val());
         i++;
       }
       $('#customer_id_' + cur_max_member).val(0);
@@ -1520,6 +1527,7 @@ $('#payment_get_history_button').click(function(){
       $('#lastname_' + cur_max_member).val('');
       $('#birthday_' + cur_max_member).val('');
       $('#gender_' + cur_max_member).val('M');
+      $('#relationship_' + cur_max_member).val('');
       $('#customer_member_' + cur_max_member).hide();
       cur_max_member--;
       get_premium();
@@ -1563,7 +1571,52 @@ $('#payment_get_history_button').click(function(){
       $('#lastname_' + cur_max_member).val('');
       $('#birthday_' + cur_max_member).val('');
       $('#gender_' + cur_max_member).val('M');
+      $('#relationship_' + cur_max_member).val('');
       $('#customer_member_' + cur_max_member).show();
+    }
+  }
+
+  function updateRelationOptions() {
+    // Get all select elements
+    const allSelects = document.querySelectorAll('select.relation-selection');
+    
+    // Reset all options to enabled first
+    allSelects.forEach(select => {
+      Array.from(select.options).forEach(option => {
+        if (option.value === 'Parent' || option.value === 'Dependent Child') {
+          option.disabled = false;
+        }
+      });
+    });
+    
+    // Check if any select has "Parent" or "Dependent Child" selected
+    let hasParent = false;
+    let hasChild = false;
+    
+    allSelects.forEach(select => {
+      if (select.value === 'Parent') hasParent = true;
+      if (select.value === 'Dependent Child') hasChild = true;
+    });
+    
+    // Apply disabling logic
+    if (hasParent) {
+      allSelects.forEach(select => {
+        Array.from(select.options).forEach(option => {
+          if (option.value === 'Dependent Child' && select.value !== 'Dependent Child') {
+            option.disabled = true;
+          }
+        });
+      });
+    }
+    
+    if (hasChild) {
+      allSelects.forEach(select => {
+        Array.from(select.options).forEach(option => {
+          if (option.value === 'Parent' && select.value !== 'Parent') {
+            option.disabled = true;
+          }
+        });
+      });
     }
   }
 

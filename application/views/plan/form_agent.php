@@ -277,7 +277,14 @@ if ($Agree != "Agree") {
                             </div>
                           </div>
                           <div class="col-sm-6">
-                            <label class="col-sm-12">&nbsp;</label>
+                            <label class="col-sm-12"><?php echo $this->lang->line("Relationship"); ?>: </label>
+                            <div class="input-group col-sm-12">
+                              <select name='relationship_<?php echo $i; ?>' id='relationship_<?php echo $i; ?>' class="form-control relation-selection" style="padding:6px 2px;" onchange="updateRelationOptions()">
+                                <option value='Spouse' <?php echo (isset(${'relationship_'.$i}) && (${'relationship_'.$i} == 'Spouse')) ? "selected" : ""; ?>><?php echo $this->lang->line("Spouse"); ?></option>
+                                <option value='Parent' <?php echo (isset(${'relationship_'.$i}) && (${'relationship_'.$i} == 'Parent')) ? "selected" : ""; ?>><?php echo $this->lang->line("Parent"); ?></option>
+                                <option value='Dependent Child' <?php echo (isset(${'relationship_'.$i}) && (${'relationship_'.$i} == 'Dependent Child')) ? "selected" : ""; ?>><?php echo $this->lang->line("Dependent Child"); ?></option>
+                              </select>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -594,7 +601,49 @@ function addmoremember() {
     $('#errormessage_' + i).html("");
   }
 }
-
+function updateRelationOptions() {
+  // Get all select elements
+  const allSelects = document.querySelectorAll('select.relation-selection');
+  
+  // Reset all options to enabled first
+  allSelects.forEach(select => {
+    Array.from(select.options).forEach(option => {
+      if (option.value === 'Parent' || option.value === 'Dependent Child') {
+        option.disabled = false;
+      }
+    });
+  });
+  
+  // Check if any select has "Parent" or "Dependent Child" selected
+  let hasParent = false;
+  let hasChild = false;
+  
+  allSelects.forEach(select => {
+    if (select.value === 'Parent') hasParent = true;
+    if (select.value === 'Dependent Child') hasChild = true;
+  });
+  
+  // Apply disabling logic
+  if (hasParent) {
+    allSelects.forEach(select => {
+      Array.from(select.options).forEach(option => {
+        if (option.value === 'Dependent Child' && select.value !== 'Dependent Child') {
+          option.disabled = true;
+        }
+      });
+    });
+  }
+  
+  if (hasChild) {
+    allSelects.forEach(select => {
+      Array.from(select.options).forEach(option => {
+        if (option.value === 'Parent' && select.value !== 'Parent') {
+          option.disabled = true;
+        }
+      });
+    });
+  }
+}
 function get_premium() {
 <?php if (empty($batch_number)) { ?>
     var status_id = '<?php echo $status_id; ?>';
