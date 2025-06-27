@@ -26,6 +26,38 @@ class Mymail_model extends CI_Model {
 	 * @param	array	$attach		attachment file
 	 * @return	boolean
 	 */
+	public function send_from_donot_replay($to, $subject, $body, $attach=array(), $mailtype='html') {
+		$email = "DoNotReply@jfgroup.ca";
+		$this->config['smtp_user'] = $email;
+		$this->config['smtp_pass'] = "Johnson2025!";
+    $this->config['mailtype'] = $mailtype;
+		
+		$this->load->library('email', $this->config);
+		$this->email->set_newline("\r\n");
+		$this->email->from($email, 'JF Insurance');
+		$this->email->to($to);
+		$this->email->subject($subject);
+		$this->email->message($body);
+		if (!empty($attach)) {
+			foreach ($attach as $name => $file) {
+				$this->email->attach($file, '', $name);
+			}
+		}
+		$r = $this->email->send(FALSE);
+		log_message('debug', "EMAIL: ".$this->email->print_debugger(array('aa')));
+		return $r;
+	}
+
+	/**
+	 * Send email
+	 * 
+	 * @param	string	$to			to email address
+	 * @param	string	$subject	email subject
+	 * @param	string	$body		email body
+	 * @param	string	$from		from email name (not email address)
+	 * @param	array	$attach		attachment file
+	 * @return	boolean
+	 */
 	public function send_mymail($to, $subject, $body, $attach=array(), $from='', $mailtype='html') {
 		shuffle($this->myemails);
 		$email = array_shift($this->myemails);
