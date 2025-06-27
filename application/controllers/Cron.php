@@ -899,7 +899,7 @@ class Cron extends MY_Controller {
         echo "Unknow User_id: " . $notify["user_id"] . " or Unknown email address\n";
         continue;
       }
-      if (filter_var($user['email'], FILTER_VALIDATE_EMAIL)) {
+      if (!filter_var($user['email'], FILTER_VALIDATE_EMAIL)) {
         echo "User_id: " . $notify["user_id"] . ", wrong email address: " . $user["email"] . "\n";
         continue;
       }
@@ -927,7 +927,7 @@ class Cron extends MY_Controller {
         echo "Unknow User_id: " . $notify["user_id"] . " or Unknown email address\n";
         continue;
       }
-      if (filter_var($user['email'], FILTER_VALIDATE_EMAIL)) {
+      if (!filter_var($user['email'], FILTER_VALIDATE_EMAIL)) {
         echo "User_id: " . $notify["user_id"] . ", wrong email address: " . $user["email"] . "\n";
         continue;
       }
