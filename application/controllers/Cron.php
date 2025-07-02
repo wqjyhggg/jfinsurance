@@ -922,6 +922,7 @@ class Cron extends MY_Controller {
 		}
     $nlist = $this->user_notify_model->get_notify_list($day, "Effect");
     foreach ($nlist as $notify) {
+      $data = array();
       $user = $this->user_model->get_user_by_id($notify["user_id"]);
       if (!$user || empty($user["email"])) {
         echo "Unknow User_id: " . $notify["user_id"] . " or Unknown email address\n";
@@ -931,6 +932,7 @@ class Cron extends MY_Controller {
         echo "User_id: " . $notify["user_id"] . ", wrong email address: " . $user["email"] . "\n";
         continue;
       }
+      $data["user"] = $user;
   
       $plan = false;
       if ($notify["notify_type"] == 1) {
@@ -939,6 +941,7 @@ class Cron extends MY_Controller {
         $plans = $this->plan_model->check_plan_effective($notify["user_id"], $start_dt2, $end_dt2);
       }
       if ($plans) {
+        $data["plans"] = $plans;
         $mainbody = $this->load->view('mail/effect',$data, TRUE);
         $this->mymail_model->send_from_donot_replay($user["email"], "Action Required - Upcoming Super Visa Policy Effective Date", $mainbody, array(), '', 'text');
         echo "Send Notify to user_id:".$user["user_id"].", email: ".$user["email"]."(".sizeof($plans).")\n";
