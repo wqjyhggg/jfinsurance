@@ -915,7 +915,7 @@ class Cron extends MY_Controller {
         $data["plans"] = $plans;
         $mainbody = $this->load->view('mail/expire',$data, TRUE);
         $this->mymail_model->send_from_donot_replay($user["email"], "Policies will expire", $mainbody, array());
-        echo "Send Notify to user_id:".$user["user_id"].", email: ".$user["email"]."(".sizeof($plans).")\n";
+        echo "Send expire Notify to user_id:".$user["user_id"].", email: ".$user["email"]."(".sizeof($plans).")\n";
 			} else {
         echo "Not expire data for user_id:".$user["user_id"].", email: ".$user["email"]."\n";
       }
@@ -944,7 +944,7 @@ class Cron extends MY_Controller {
         $data["plans"] = $plans;
         $mainbody = $this->load->view('mail/effect',$data, TRUE);
         $this->mymail_model->send_from_donot_replay($user["email"], "Action Required - Upcoming Super Visa Policy Effective Date", $mainbody, array(), '', 'text');
-        echo "Send Notify to user_id:".$user["user_id"].", email: ".$user["email"]."(".sizeof($plans).")\n";
+        echo "Send effective Notify to user_id:".$user["user_id"].", email: ".$user["email"]."(".sizeof($plans).")\n";
 			} else {
         echo "Not effective data for user_id:".$user["user_id"].", email: ".$user["email"]."\n";
       }
