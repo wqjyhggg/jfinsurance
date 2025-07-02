@@ -956,7 +956,7 @@ class Plan_model extends CI_Model {
     $this->db->from('plan');
     $this->db->join('customer', 'plan.customer_id = customer.customer_id');
     $this->db->where( "plan.user_id", $user_id);
-    $this->db->where( "plan.status_id", 3);
+    $this->db->where_in( "plan.status_id", [2,3]);
     $this->db->where( "plan.expiry_date >=", $start_dt);
     $this->db->where( "plan.expiry_date <", $end_dt);
 		return $this->db->get()->result_array();
@@ -967,7 +967,7 @@ class Plan_model extends CI_Model {
     $this->db->from('plan');
     $this->db->join('customer', 'plan.customer_id = customer.customer_id');
     $this->db->where( "plan.user_id", $user_id);
-    $this->db->where( "plan.status_id", 3);
+    $this->db->where_in( "plan.status_id", [2,3]);
     $this->db->where( "effective_date >=", $start_dt);
     $this->db->where( "effective_date <", $end_dt);
     $this->db->where_in( "plan.product_short", ["JFR", "JFVTC"]);
