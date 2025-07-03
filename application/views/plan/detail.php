@@ -278,11 +278,12 @@ if ($Agree != "Agree") {
 									<label class="inline"><?php echo $this->lang->line("Premium"); ?>:</label>
 									<span>$<?php echo number_format($plan['premium'], 2, '.', ','); ?></span>
 								</div>
+                <?php if (empty($sekey) && empty($isvsuser)) { ?>
 								<div class="col-sm-12">
 									<label class="inline"><?php echo $this->lang->line("Notes"); ?>:</label>
 									<span><?php echo htmlspecialchars($plan['note']); ?></span>
 								</div>
-								
+								<?php } ?>
 							</div>
 							
 						</div><!-- end p-detail --><br />
