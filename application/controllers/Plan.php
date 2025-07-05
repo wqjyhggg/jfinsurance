@@ -3593,9 +3593,6 @@ class Plan extends MY_Controller {
 					}
 				} else {
 					$mpdf = new mPDF('c');
-					if ($data['withlogo']) {
-						$mpdf->SetHTMLHeader('<img style="width:100%;" src="' . base_url() . 'image/pdf_header.png" />');
-					}
 					$data['hadheaderfooter'] = 1;
 					if ($data['sendfrench']) {
 						if (($data['plan']['product_short'] == 'JES') || ($data['plan']['product_short'] == 'JESP') || ($data['plan']['product_short'] == 'JFS')) {

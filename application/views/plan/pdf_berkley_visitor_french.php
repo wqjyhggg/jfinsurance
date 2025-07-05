@@ -18,10 +18,16 @@ defined('BASEPATH') or exit('No direct script access allowed');
   </header>
   <div class="container">
     <div class="row">
-      <?php if ($withlogo) { ?>
-        <div style="float:left;width:90px;">
-          <img class="img-responsive" style="width:80px;" src="<?php echo base_url('agent/img') . '/' . $user['pdf_logo']; ?>" />
-        </div>
+    <?php if ($withlogo) { ?>
+        <?php if (empty($user['pdf_logo']) || !in_array($plan['product_short'], $pdf_enable)) { ?>
+          <div style="float:left;width:90px;">
+            <img class="img-responsive" style="width:80px;" src="<?php echo base_url(); ?>image/jf_logo.jpg" />
+          </div>
+        <?php } else { ?>
+          <div style="float:left;width:90px;">
+            <img class="img-responsive" style="width:80px;" src="<?php echo base_url('agent/img') . '/' . $user['pdf_logo']; ?>" />
+          </div>
+        <?php } ?>
       <?php } ?>
       <div style="float:left;width:400px;">
         <?php if ($user['user_group_id'] > 100) { ?>
