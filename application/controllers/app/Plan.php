@@ -493,6 +493,55 @@ class Plan extends CI_Controller
     return $this->app_model->return_error("Can't find plan");
   }
 
+  public function set_status()
+  {
+    $this->error = "";
+    $this->load->model("app_model");
+    $this->load->model("user_model");
+    $user = $this->app_model->check_token($this->input->post("token"));
+
+    if (empty($user)) {
+      if (empty($this->error)) {
+        $this->error = "Session Expired";
+      }
+      return $this->app_model->return_error($this->error);
+    }
+    if (($user["user_group_id"] < 100) && ($bid = $this->input->post("bid"))) {
+      $user = $this->user_model->get_user_by_id($bid);
+      if (empty($user)) {
+        return $this->app_model->return_error("Unknown agent");
+      }
+    }
+
+    // if ($user["user_group_id"] > 100) {
+    //   return $this->app_model->return_error($this->error);
+    // }
+    $this->load->model("plan_model");
+    $this->load->model("payment_model");
+    $data = array();
+    if ($id = $this->input->post("plan_id")) {
+      if ($plan = $this->plan_model->get_plan_by_id($id)) {
+        if ($plan['status_id'] != Plan_model::CHANGED) {
+          return $this->app_model->return_error("Policy cannot use this interface.");
+        }
+        $totalpaid = $this->payment_model->get_total_paid($id, $pay_type='premium', $plan["apply_date"]);
+        $premium = round($plan["premium"], 2);
+        $totalpaid = round($totalpaid, 2);
+        if ($premium != $totalpaid) {
+          return $this->app_model->return_error("Policy not full paid");
+        }
+        $status_id = Plan_model::PAID;
+        if ($this->payment_model->get_payment($id)) {
+          $status_id = Plan_model::SOLD;
+        }
+        $this->plan_model->update($id, ["status_id" => $status_id], array(), $user);
+        $plan["status_id"] = $status_id;
+        $this->app_model->return_ok(["plan"=>$plan]);
+      }
+    }
+    return $this->app_model->return_error("Unknown Policy");
+  }
+
   public function update()
   {
     $this->error = "";
