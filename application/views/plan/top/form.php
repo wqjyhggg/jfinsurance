@@ -1785,7 +1785,7 @@ $('#payment_get_history_button').click(function(){
     return;
     } else {
       if (departure.getTime() < apply.getTime()) {
-        $('#title_alert_message').text("Confirm this is an extended policy, And input provide previous coverage to specail note area");
+        $('#title_alert_message').text("Please be advised that this is an extension policy.");
         return;
       } else {
         $('#title_alert_message').text("Confirm this is a TOP UP policy");
