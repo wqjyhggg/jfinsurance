@@ -3602,9 +3602,11 @@ class Plan extends MY_Controller {
 						} else if ($data['plan']['product_short'] == 'TOP') {
 							$html = $this->load->view('plan/pdf_berkley_visitor_french', $data, TRUE);
 						} else {
+              $data['hadheaderfooter'] = 0;
 							$html = $this->load->view('plan/pdf', $data, TRUE);
 						}
 					} else {
+            $data['hadheaderfooter'] = 0;
 						$html = $this->load->view('plan/pdf', $data, TRUE);
 					}
 				}
