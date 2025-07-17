@@ -3666,7 +3666,7 @@ class Plan extends MY_Controller {
 		$data['title_txt'] = 'Policy';
 		$data['top_menu'] = $this->menu_model->load_top_menu();
 		$data['menu'] = $this->menu_model->load_meun();
-		$data['show_french'] = ($plan["province2"] == "QC") && in_array($plan["product_short"], $this->french_plan);
+		$data['show_french'] = (($plan["province2"] == "QC") || ($plan["user_id"] == 4275)) && in_array($plan["product_short"], $this->french_plan);
 		$data['csrf'] = array(
 			'name' => $this->security->get_csrf_token_name(),
 			'value' => $this->security->get_csrf_hash()
