@@ -57,7 +57,7 @@ class Product extends CI_Controller
 
     $data = array();
     $post = $this->input->post();
-    if ($post['product_short'] == "TOP") {
+    if (($post['product_short'] == "TOP") || ($post['product_short'] == "TOPN")) {
       $premiumarr = $this->product_model->get_top_premium($post);
       if (empty($premiumarr)) {
         return $this->app_model->return_error("Unknown Error");

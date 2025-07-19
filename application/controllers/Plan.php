@@ -9,6 +9,10 @@ class Plan extends MY_Controller {
 	private $apikey = "634E4AFd7Eda4dcEaA2976207A7C92bb";
 	public $error;
 	public $page_limit = 20;
+	public $topnpackagename = array(
+		'single_medical_plan' => "Single medical plan",
+		'optional_plan' => "Optional plan",
+	);
 	public $toppackagename = array(
 		'all_inclusive' => "All Inclusive plan",
 		'single_medical_plan' => "Single medical plan",
@@ -432,7 +436,7 @@ class Plan extends MY_Controller {
 		$nowtm = strtotime(date('Y-m-d'));
 		$arrival_date = $this->input->post('arrival_date');
 		$arrivaltm = strtotime($arrival_date);
-		if (($product_short != 'TOP') && empty($arrival_date)) {	// 2015-01-01
+		if (($product_short != 'TOP') && ($product_short != 'TOPN') && empty($arrival_date)) {	// 2015-01-01
 			$this->error['error_arrival_date'] = $this->lang->line("Confirm Arrival Date");
 			/*	
 		} else if (($product_short == 'JFR') && ($arrivaltm < 1420070400)) {	// 2015-01-01
@@ -453,7 +457,7 @@ class Plan extends MY_Controller {
 				$this->error['error_institution'] = $this->lang->line("School Name is Required");
 			}
 		}
-		if (($product_short == 'JES') || ($product_short == 'JFPL') || ($product_short == 'JFSL') || ($product_short == 'JFGD') || ($product_short == 'JFOS')) {
+		if (($product_short == 'JES') || ($product_short == 'JFPL') || ($product_short == 'JFSL') || ($product_short == 'JFGD')  || ($product_short == 'TCS') || ($product_short == 'JFOS')) {
 			if (empty($this->input->post('institution'))) {
 				$this->error['error_institution'] = $this->lang->line("School Name is Required");
 			}
@@ -463,7 +467,7 @@ class Plan extends MY_Controller {
 				$this->error['error_student_id'] = $this->lang->line("Student Name is Required");
 			}
 		}
-		if (($product_short != 'TOP') && ($arrivaltm > $effectivetm)) {
+		if (($product_short != 'TOP') && ($product_short != 'TOPN') && ($arrivaltm > $effectivetm)) {
 			$this->error['error_effective_date'] = $this->lang->line("Arrival Date cannot be later than Effective Date");
 		}
 		$expiry_date = $this->input->post('expiry_date');
@@ -575,7 +579,7 @@ class Plan extends MY_Controller {
 					}
 				}
 			}
-		} else if (($product_short == 'JES') || ($product_short == 'JFPL') || ($product_short == 'JFSL') || ($product_short == 'JFGD') || ($product_short == 'JFOS') || ($product_short == 'JESP') || ($product_short == 'JFE') || ($product_short == 'JFS') || ($product_short == 'BHS') || ($product_short == 'JFC') || ($product_short == 'JFP')) {
+		} else if (($product_short == 'JES') || ($product_short == 'JFPL') || ($product_short == 'JFSL') || ($product_short == 'JFGD')  || ($product_short == 'TCS') || ($product_short == 'JFOS') || ($product_short == 'JESP') || ($product_short == 'JFE') || ($product_short == 'JFS') || ($product_short == 'BHS') || ($product_short == 'JFC') || ($product_short == 'JFP')) {
 			$apply_date = $this->input->post('apply_date');
 			$birthday = $this->input->post('birthday');
 			$years = $this->product_model->getYears($apply_date, $birthday);
@@ -606,7 +610,7 @@ class Plan extends MY_Controller {
 				}
 			}
 			$years = $this->product_model->getYears($apply_date, $this->input->post('birthday'));
-			if (($product_short == 'JES') || ($product_short == 'JFPL') || ($product_short == 'JFSL') || ($product_short == 'JFGD') || ($product_short == 'JFOS') || ($product_short == 'JESP') || ($product_short == 'JFE') || ($product_short == 'JFS') || ($product_short == 'BHS')) {
+			if (($product_short == 'JES') || ($product_short == 'JFPL') || ($product_short == 'JFSL') || ($product_short == 'JFGD') || ($product_short == 'TCS') || ($product_short == 'JFOS') || ($product_short == 'JESP') || ($product_short == 'JFE') || ($product_short == 'JFS') || ($product_short == 'BHS')) {
 				if ($years < 4) {
 					$this->error['error_message'] = $this->lang->line("Customer age must be older than 4 years old");
 				} else {
@@ -621,7 +625,7 @@ class Plan extends MY_Controller {
 					}
 				}
 			}
-		} else if ($product_short == 'TOP') {
+		} else if (($product_short == 'TOP') || ($product_short == 'TOPN')) {
 			$tdata = $this->product_model->get_top_premium($this->input->post());
 			$ipremium = (float)$this->input->post('premium');
 			$tpremium = (float)$tdata['premium'];
@@ -710,7 +714,7 @@ class Plan extends MY_Controller {
 					// This is second tab or windows, no change
 					redirect("plan/term/" . $plan_id);
 				}
-				if ($planold['product_short'] == 'TOP') {
+				if (($planold['product_short'] == 'TOP') || ($planold['product_short'] == 'TOPN')) {
 					if (!empty($planold) && ($planold['status_id'] >= 2) && ($beuser['user_group_id'] > 100)) {
 						redirect("plan/term/" . $plan_id);
 					} else {
@@ -897,7 +901,7 @@ class Plan extends MY_Controller {
 		}
 		if ($this->input->post('premium')) {
 			$data['premium'] = $this->input->post('premium');
-			if ($data['product_short'] == 'TOP') {
+			if (($data['product_short'] == 'TOP') || ($data['product_short'] == 'TOPN')) {
 				$tdata = $this->product_model->get_top_premium($this->input->post());
 				if (empty($tdata['status']) || ($tdata['status'] != 'OK')) {
 					$data['premium'] = $tdata['premium'];
@@ -1602,9 +1606,12 @@ class Plan extends MY_Controller {
 		}
 		$this->load->model('html_model');
 		$data['html_model'] = $this->html_model;
-		if ($data['product_short'] == 'TOP') {
+		if (($data['product_short'] == 'TOP') || ($data['product_short'] == 'TOPN')) {
 			$data['toppackagename'] = $this->toppackagename;
-			$data['premium_url'] = base_url("plan/gettoppremium");
+      if ($data['product_short'] == 'TOPN') {
+        $data['toppackagename'] = $this->topnpackagename;
+      }
+      $data['premium_url'] = base_url("plan/gettoppremium");
 			$data['no_change'] = 0;
 			if (!empty($plan) && !empty($plan['status_id']) && !empty($plan['plan_id']) && ($plan['status_id'] >= 2) && ($data['user_group_id'] > 100)) {
 				$data['no_change'] = 1;
@@ -1620,7 +1627,7 @@ class Plan extends MY_Controller {
 					$data['insurable_options'] = $this->load->view('plan/form_jus_agent', $data, TRUE);
 				} else if ($data['product_short'] == 'NUS') {
 					$data['insurable_options'] = $this->load->view('plan/form_jus_agent', $data, TRUE);
-				} else if (($data['product_short'] == 'JES') || ($data['product_short'] == 'JFPL') || ($data['product_short'] == 'JFSL') || ($data['product_short'] == 'JFGD') || ($data['product_short'] == 'JFOS') || ($data['product_short'] == 'JESP') || ($data['product_short'] == 'JFE') || ($data['product_short'] == 'JFS') || ($data['product_short'] == 'BHS')) {
+				} else if (($data['product_short'] == 'JES') || ($data['product_short'] == 'JFPL') || ($data['product_short'] == 'JFSL') || ($data['product_short'] == 'JFGD') || ($data['product_short'] == 'TCS') || ($data['product_short'] == 'JFOS') || ($data['product_short'] == 'JESP') || ($data['product_short'] == 'JFE') || ($data['product_short'] == 'JFS') || ($data['product_short'] == 'BHS')) {
 					$data['insurable_options'] = $this->load->view('plan/form_jes_agent', $data, TRUE);
 				} else if (($data['product_short'] == 'JFC') || ($data['product_short'] == 'JFP')) {
 					$data['insurable_options'] = $this->load->view('plan/form_jfc_agent', $data, TRUE);
@@ -1639,7 +1646,7 @@ class Plan extends MY_Controller {
 					$data['insurable_options'] = $this->load->view('plan/form_jus', $data, TRUE);
 				} else if ($data['product_short'] == 'NUS') {
 					$data['insurable_options'] = $this->load->view('plan/form_jus', $data, TRUE);
-				} else if (($data['product_short'] == 'JES') || ($data['product_short'] == 'JFPL') || ($data['product_short'] == 'JFSL') || ($data['product_short'] == 'JFGD') || ($data['product_short'] == 'JFOS') || ($data['product_short'] == 'JESP') || ($data['product_short'] == 'JFE') || ($data['product_short'] == 'JFS') || ($data['product_short'] == 'BHS')) {
+				} else if (($data['product_short'] == 'JES') || ($data['product_short'] == 'JFPL') || ($data['product_short'] == 'JFSL') || ($data['product_short'] == 'JFGD') || ($data['product_short'] == 'TCS') || ($data['product_short'] == 'JFOS') || ($data['product_short'] == 'JESP') || ($data['product_short'] == 'JFE') || ($data['product_short'] == 'JFS') || ($data['product_short'] == 'BHS')) {
 					$data['insurable_options'] = $this->load->view('plan/form_jes', $data, TRUE);
 				} else if (($data['product_short'] == 'JFC') || ($data['product_short'] == 'JFP')) {
 					$data['insurable_options'] = $this->load->view('plan/form_jfc', $data, TRUE);
@@ -3196,7 +3203,7 @@ class Plan extends MY_Controller {
 			$data['insurable_options'] = $this->load->view('plan/detail_jus', $data, TRUE);
 		} else if ($data['plan']['product_short'] == 'NUS') {
 			$data['insurable_options'] = $this->load->view('plan/detail_jus', $data, TRUE);
-		} else if (($data['plan']['product_short'] == 'JES') || ($data['plan']['product_short'] == 'JFPL') || ($data['plan']['product_short'] == 'JFSL') || ($data['plan']['product_short'] == 'JFGD') || ($data['plan']['product_short'] == 'JFOS') || ($data['plan']['product_short'] == 'JESP') || ($data['plan']['product_short'] == 'JFE') || ($data['plan']['product_short'] == 'JFS') || ($data['plan']['product_short'] == 'BHS')) {
+		} else if (($data['plan']['product_short'] == 'JES') || ($data['plan']['product_short'] == 'JFPL') || ($data['plan']['product_short'] == 'JFSL') || ($data['plan']['product_short'] == 'JFGD') || ($data['plan']['product_short'] == 'TCS') || ($data['plan']['product_short'] == 'JFOS') || ($data['plan']['product_short'] == 'JESP') || ($data['plan']['product_short'] == 'JFE') || ($data['plan']['product_short'] == 'JFS') || ($data['plan']['product_short'] == 'BHS')) {
 			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
 		} else if (($data['plan']['product_short'] == 'JFC') || ($data['plan']['product_short'] == 'JFP')) {
 			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
@@ -3444,7 +3451,6 @@ class Plan extends MY_Controller {
 							'JFPL_Claim_Form.pdf' => DOWNLOADDIR . 'JFPL_Claim_Form_French.pdf',
 							'JFPL_Clinic_Map.pdf' => DOWNLOADDIR . 'JFPL_Clinic_Map_French.pdf',
 							'JFPL_Benefit_Summary.pdf' => DOWNLOADDIR . 'JFPL_Benefit_Summary_French.pdf',
-							'JFPL_Brochure.pdf' => DOWNLOADDIR . 'JFPL_Brochure_French.pdf'
 						);
 						if ($plan['effective_date'] < '2023-01-01') {
 							$files['JFPL_Policy.pdf'] = DOWNLOADDIR . 'JFPL_Policy_French_old.pdf';
@@ -3489,6 +3495,15 @@ class Plan extends MY_Controller {
 							'JFGD_Benefit_Summary.pdf' => DOWNLOADDIR . 'JFGD_Benefit_Summary.pdf'
 						);
 					}
+				} else if ($data['plan']['product_short'] == 'TCS') {
+          $data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
+          $data['special_note'] = $this->load->view('plan/pdf_note_jes', $data, TRUE);
+          $files = array(
+            // 'TCS_Policy.pdf' => DOWNLOADDIR . 'TCS_Policy.pdf',
+            // 'JFGD_Claim_Form.pdf' => DOWNLOADDIR . 'JFGD_Claim_Form.pdf',
+            // 'JFGD_Clinic_Map.pdf' => DOWNLOADDIR . 'JFGD_Clinic_Map.pdf',
+            // 'JFGD_Benefit_Summary.pdf' => DOWNLOADDIR . 'JFGD_Benefit_Summary.pdf'
+          );
 				} else if ($data['plan']['product_short'] == 'JFOS') {
 					if ($data['sendfrench']) {
 						$files = array(
@@ -3539,6 +3554,11 @@ class Plan extends MY_Controller {
 						'JFP_Claim_Form.pdf' => DOWNLOADDIR . 'JFP_Claim_Form.pdf',
 						'JFP_Brochure.pdf' => DOWNLOADDIR . 'JFP_Brochure.pdf'
 					);
+				} else if ($data['plan']['product_short'] == 'TOPN') {
+          $data['special_note'] = $this->load->view('plan/top/pdf_note_top', $data, TRUE);
+          $files = array(
+            'TOP_Policy.pdf' => DOWNLOADDIR . 'TOP_Policy.pdf',
+					);
 				} else if ($data['plan']['product_short'] == 'TOP') {
 					if ($data['sendfrench']) {
 						$files = array(
@@ -3579,7 +3599,7 @@ class Plan extends MY_Controller {
 					} else {
 						$html = $this->load->view('plan/pdf_jfvtc', $data, TRUE);
 					}
-				} else if (($data['plan']['product_short'] == 'JFPL') || ($data['plan']['product_short'] == 'JFGD') || ($data['plan']['product_short'] == 'JFOS') || ($data['plan']['product_short'] == 'JFSL')) {
+				} else if (($data['plan']['product_short'] == 'JFPL') || ($data['plan']['product_short'] == 'JFGD') || ($data['plan']['product_short'] == 'TCS') || ($data['plan']['product_short'] == 'JFOS') || ($data['plan']['product_short'] == 'JFSL')) {
 					$mpdf = new mPDF('c', 'A4', 0, '', $mgl = 0, $mgr = 0, $mgt = 15, $mgb = 0, $mgh = 0, $mgf = 0, $orientation = 'P');
 					if ($data['withlogo']) {
 						$mpdf->SetHTMLHeader('<img style="width:100%;" src="' . base_url() . 'image/pdf_header.png" />');
@@ -3743,7 +3763,7 @@ class Plan extends MY_Controller {
 		} else if ($data['plan']['product_short'] == 'JFSL') {
 			$data['insurable_options'] = $this->load->view('plan/detail_jfpl', $data, TRUE);
 			$data['special_note'] = $this->load->view('plan/pdf_note_jfpl', $data, TRUE);
-		} else if (($data['plan']['product_short'] == 'JFGD') || ($data['plan']['product_short'] == 'JFOS')) {
+		} else if (($data['plan']['product_short'] == 'JFGD') || ($data['plan']['product_short'] == 'TCS') || ($data['plan']['product_short'] == 'JFOS')) {
 			$data['insurable_options'] = $this->load->view('plan/detail_jfpl', $data, TRUE);
 			$data['special_note'] = $this->load->view('plan/pdf_note_jfpl', $data, TRUE);
 		} else if ($data['plan']['product_short'] == 'JESP') {
@@ -3755,6 +3775,10 @@ class Plan extends MY_Controller {
 		} else if ($data['plan']['product_short'] == 'JFP') {
 			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
 			$data['special_note'] = $this->load->view('plan/pdf_note_jes', $data, TRUE);
+		} else if ($data['plan']['product_short'] == 'TOPN') {
+			$data['insurable_options'] = '';
+			$data['toppackagename'] = $this->topnpackagename;
+			$data['special_note'] = $this->load->view('plan/top/pdf_note_top', $data, TRUE);
 		} else if ($data['plan']['product_short'] == 'TOP') {
 			$data['insurable_options'] = '';
 			$data['toppackagename'] = $this->toppackagename;
@@ -3783,7 +3807,7 @@ class Plan extends MY_Controller {
 				$mpdf->SetHTMLHeader('<img style="width:100%;" src="' . base_url() . 'image/pdf_header.png" />');
 			}
 			// $mpdf->SetHTMLFooter('<img style="width:100%;" src="'.base_url().'image/pdf_footer.png" />');
-		} else if (($data['plan']['product_short'] == 'JFPL') || ($data['plan']['product_short'] == 'JFGD') || ($data['plan']['product_short'] == 'JFOS') || ($data['plan']['product_short'] == 'JFSL')) {
+		} else if (($data['plan']['product_short'] == 'JFPL') || ($data['plan']['product_short'] == 'JFGD') || ($data['plan']['product_short'] == 'TCS') || ($data['plan']['product_short'] == 'JFOS') || ($data['plan']['product_short'] == 'JFSL')) {
 			$mpdf = new mPDF('+aCJK', 'A4', 0, '', $mgl = 0, $mgr = 0, $mgt = 15, $mgb = 0, $mgh = 0, $mgf = 0, $orientation = 'P');
 			if ($plan['status_id'] < 2) {
 				$mpdf->SetWatermarkText($this->lang->line("QUOTE"), 0.1);
@@ -4006,7 +4030,10 @@ class Plan extends MY_Controller {
 		$data['total_premium'] = $plan['premium'];
 		$data['status'] = 'OK';
 		$data['refund_days'] = $this->product_model->getDays($plan['effective_date'], $this->input->get('refund_date'));
-		if ($plan['product_short'] == 'TOP') {
+		if ($plan['product_short'] == 'TOPN') {
+      $this->load->model('topn_model');
+      $data['refund_amount'] = $this->top3_model->refund_amount($plan, $data['refund_days']);
+    } else if ($plan['product_short'] == 'TOP') {
 			if ($plan_id > Product_model::PLANIDCHG2025_1) {
 				$this->load->model('top3_model');
 				$data['refund_amount'] = $this->top3_model->refund_amount($plan, $data['refund_days']);
@@ -4249,13 +4276,15 @@ class Plan extends MY_Controller {
 			$data['insurable_options'] = $this->load->view('plan/detail_jus', $data, TRUE);
 		} else if (($data['plan']['product_short'] == 'JFS') || ($data['plan']['product_short'] == 'JFE') || ($data['plan']['product_short'] == 'BHS')) {
 			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
-		} else if (($data['plan']['product_short'] == 'JES') || ($data['plan']['product_short'] == 'JFPL') || ($data['plan']['product_short'] == 'JFSL') || ($data['plan']['product_short'] == 'JFGD') || ($data['plan']['product_short'] == 'JFOS')) {
+		} else if (($data['plan']['product_short'] == 'JES') || ($data['plan']['product_short'] == 'JFPL') || ($data['plan']['product_short'] == 'JFSL') || ($data['plan']['product_short'] == 'JFGD') || ($data['plan']['product_short'] == 'TCS') || ($data['plan']['product_short'] == 'JFOS')) {
 			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
 		} else if ($data['plan']['product_short'] == 'JESP') {
 			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
 		} else if ($data['plan']['product_short'] == 'JFC') {
 			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
 		} else if ($data['plan']['product_short'] == 'JFP') {
+			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
+		} else if ($data['plan']['product_short'] == 'TOPN') {
 			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
 		} else if ($data['plan']['product_short'] == 'TOP') {
 			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
@@ -4270,7 +4299,7 @@ class Plan extends MY_Controller {
 			$data['insure_co'] = "Old Republic";
 		}
 		$data['style'] = $this->load->view('common/pdf_style', $data, TRUE);
-		if ($data['plan']['product_short'] == 'TOP') {
+		if (($data['plan']['product_short'] == 'TOP') || ($data['plan']['product_short'] == 'TOPN')) {
 			$html = $this->load->view('plan/top/cancel', $data, TRUE);
 		} else {
 			$html = $this->load->view('plan/cancel', $data, TRUE);
@@ -4333,13 +4362,15 @@ class Plan extends MY_Controller {
 			$data['insurable_options'] = $this->load->view('plan/detail_jus', $data, TRUE);
 		} else if (($data['plan']['product_short'] == 'JFS') || ($data['plan']['product_short'] == 'JFE') || ($data['plan']['product_short'] == 'BHS')) {
 			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
-		} else if (($data['plan']['product_short'] == 'JES') || ($data['plan']['product_short'] == 'JFPL') || ($data['plan']['product_short'] == 'JFSL') || ($data['plan']['product_short'] == 'JFGD') || ($data['plan']['product_short'] == 'JFOS')) {
+		} else if (($data['plan']['product_short'] == 'JES') || ($data['plan']['product_short'] == 'JFPL') || ($data['plan']['product_short'] == 'JFSL') || ($data['plan']['product_short'] == 'JFGD') || ($data['plan']['product_short'] == 'TCS') || ($data['plan']['product_short'] == 'JFOS')) {
 			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
 		} else if ($data['plan']['product_short'] == 'JESP') {
 			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
 		} else if ($data['plan']['product_short'] == 'JFC') {
 			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
 		} else if ($data['plan']['product_short'] == 'JFP') {
+			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
+		} else if ($data['plan']['product_short'] == 'TOPN') {
 			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
 		} else if ($data['plan']['product_short'] == 'TOP') {
 			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
@@ -4349,11 +4380,11 @@ class Plan extends MY_Controller {
 
 		//print_r($this->input->post());die('====');
 
-		if ($this->input->post('customer_full_name') || ($data['plan']['product_short'] == 'TOP')) {
+		if ($this->input->post('customer_full_name') || ($data['plan']['product_short'] == 'TOP') || ($data['plan']['product_short'] == 'TOPN')) {
 			$data['insure_co'] = 'Allianz Travel Insurance Coordinators Ltd';
 			if (($plan['product_short'] == 'JFR') || ($plan['product_short'] == 'JES') || ($plan['product_short'] == 'JFPL') || ($plan['product_short'] == 'JESP') || ($plan['product_short'] == 'JFS') || ($plan['product_short'] == 'JFE') || ($plan['product_short'] == 'BHS')) {
 				$data['insure_co'] = "Berkley Canada";
-			} else if (($plan['product_short'] == 'JFVTC') || ($data['plan']['product_short'] == 'JFSL') || ($data['plan']['product_short'] == 'JFGD') || ($data['plan']['product_short'] == 'JFOS')) {
+			} else if (($plan['product_short'] == 'JFVTC') || ($data['plan']['product_short'] == 'JFSL') || ($data['plan']['product_short'] == 'JFGD') || ($data['plan']['product_short'] == 'TCS') || ($data['plan']['product_short'] == 'JFOS')) {
 				$data['insure_co'] = "Old Republic";
 			}
 			$data['customer_full_name'] = $this->input->post('customer_full_name');
@@ -4362,7 +4393,7 @@ class Plan extends MY_Controller {
 			$data['province2'] = $this->input->post('province2');
 			$data['postcode'] = $this->input->post('postcode');
 			$data['style'] = $this->load->view('common/pdf_style', $data, TRUE);
-			if ($data['plan']['product_short'] == 'TOP') {
+			if (($data['plan']['product_short'] == 'TOP') || ($data['plan']['product_short'] == 'TOPN')) {
 				$html = $this->load->view('plan/top/cancel', $data, TRUE);      // Refund use same template as cancel as requested
 				// $html = $this->load->view('plan/top/refund', $data, TRUE);
 			} else {
@@ -4414,7 +4445,7 @@ class Plan extends MY_Controller {
 			$data['insurable_options'] = $this->load->view('plan/detail_jus', $data, TRUE);
 		} else if (($data['plan']['product_short'] == 'JFS') || ($data['plan']['product_short'] == 'JFE') || ($data['plan']['product_short'] == 'BHS')) {
 			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
-		} else if (($data['plan']['product_short'] == 'JES') || ($data['plan']['product_short'] == 'JFPL') || ($data['plan']['product_short'] == 'JFSL') || ($data['plan']['product_short'] == 'JFGD') || ($data['plan']['product_short'] == 'JFOS')) {
+		} else if (($data['plan']['product_short'] == 'JES') || ($data['plan']['product_short'] == 'JFPL') || ($data['plan']['product_short'] == 'JFSL') || ($data['plan']['product_short'] == 'JFGD') || ($data['plan']['product_short'] == 'TCS') || ($data['plan']['product_short'] == 'JFOS')) {
 			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
 		} else if ($data['plan']['product_short'] == 'JESP') {
 			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
@@ -4422,7 +4453,7 @@ class Plan extends MY_Controller {
 			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
 		} else if ($data['plan']['product_short'] == 'JFP') {
 			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
-		} else if ($data['plan']['product_short'] == 'TOP') {
+		} else if (($data['plan']['product_short'] == 'TOP') || ($data['plan']['product_short'] == 'TOPN')) {
 			$data['insurable_options'] = $this->load->view('plan/top/card', $data, TRUE);
 		} else {
 			$data['insurable_options'] = $this->load->view('plan/detail_other', $data, TRUE);
@@ -4484,7 +4515,7 @@ class Plan extends MY_Controller {
 			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
 		} else if ($data['plan']['product_short'] == 'JFP') {
 			$data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
-		} else if ($data['plan']['product_short'] == 'TOP') {
+		} else if (($data['plan']['product_short'] == 'TOP') || ($data['plan']['product_short'] == 'TOPN')) {
 			$data['insurable_options'] = $this->load->view('plan/top/card', $data, TRUE);
 		} else {
 			$data['insurable_options'] = $this->load->view('plan/detail_other', $data, TRUE);
@@ -4563,7 +4594,7 @@ class Plan extends MY_Controller {
 			unset($plan['ip']);
 			unset($plan['agree']);
 			$plan['apply_date'] = date('Y-m-d');
-			if ($plan["product_short"] == "TOP") {
+			if (($plan["product_short"] == "TOP") || ($plan["product_short"] == "TOPN")) {
 				$plan['arrival_date'] = "";
 				$plan['effective_date'] = "";
 				$plan['expiry_date'] = "";

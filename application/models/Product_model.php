@@ -18,7 +18,7 @@ class Product_model extends CI_Model {
 	const PLANIDCHG2024_2=857047;   // FOR JFVTC 2024-08-01
 	const PLANIDCHG2025_1=900651;   // FOR TOP new ratio
 	public $message;
-  public $default_uncheck_product=array('BHS','JFE','JFP','JFC','JUS','NUS','JFPL','JFSL','JFGD','JFOS');  //  JES, JESP, JFS, JFR
+  public $default_uncheck_product=array('BHS','JFE','JFP','JFC','JUS','NUS','JFPL','TCS','JFSL','JFGD','JFOS');  //  JES, JESP, JFS, JFR
 	
 	/**
 	 * Get product 
@@ -369,7 +369,7 @@ class Product_model extends CI_Model {
 				return $premiumArr;
 			}
 		}
-    $plan_check_family = array('JFVTC','JFR','TOP'); // 家长年龄限制是20-59包含59, plan的小孩年龄限制是19岁或19岁以下。
+    $plan_check_family = array('JFVTC','JFR','TOP','TOPN'); // 家长年龄限制是20-59包含59, plan的小孩年龄限制是19岁或19岁以下。
     if (!empty($para["isfamilyplan"]) && in_array($para['product_short'], $plan_check_family)) {
       if ($years <= 20) {
 				$premiumArr['message'] = "Parent must older than 21";
@@ -2069,6 +2069,24 @@ class Product_model extends CI_Model {
         $premium = 645 * $number_customer;
         }
       }
+			$premiumArr['premium'] = $premium;
+			$premiumArr['totalyears'] = $years;
+			$premiumArr['totaldays'] = $days;
+			$premiumArr['dailyrate'] = $rate;
+			$premiumArr['sum_insured'] = number_format($para['sum_insured'], 2, '.', ','); //5,000,000.00
+			$premiumArr['deductible_amount'] =  number_format($para['deductible_amount'], 2, '.', ',');
+		} else if ($para['product_short'] == 'TCS') {
+      $rate = 2;
+			if ($years <= 3) {
+				$premiumArr['message'] = "Customer age must over 4 years old";
+				return $premiumArr;
+			} else if ($years > 25) {
+				$premiumArr['message'] = "Customer age can't older than 25 years old";
+				return $premiumArr;
+			}
+      $number_customer = intval($para['number_customer']);
+      $rate *= $number_customer;
+			$premium = $rate * $days;
 			$premiumArr['premium'] = $premium;
 			$premiumArr['totalyears'] = $years;
 			$premiumArr['totaldays'] = $days;

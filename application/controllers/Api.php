@@ -160,7 +160,7 @@ class Api extends MY_Controller {
 			$data['errormsg'] = 'Unknown Remote Server Error';
 			$data['success'] = 'Fail';
 			$this->load->model('product_model');
-			if ($post['product_short'] == 'TOP') {
+			if (($post['product_short'] == 'TOP') || ($post['product_short'] == 'TOPN')) {
 				$post['totaldays'] = $post['total_days'];
 				if ($premium = $this->product_model->get_top_quote($post)) {
 					$data['success'] = 'OK';
