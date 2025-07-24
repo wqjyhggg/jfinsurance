@@ -779,15 +779,17 @@ class User_model extends CI_Model {
 				$para['ip'] = $this->input->ip_address();
 			}
 		}
-		$status = empty($post['status']) ? 0 : 1;
-		if ($this_user) {
-			if ($this_user['status'] != $status) {
-				$this->logstr .= "status[".$this_user['status']."]=>[".$status."],";
-				$para['status'] = $status;
-			}
-		} else {
-			$para['status'] = $status;
-		}
+    if (isset($post['status'])) {
+      $status = empty($post['status']) ? 0 : 1;
+      if ($this_user) {
+        if ($this_user['status'] != $status) {
+          $this->logstr .= "status[".$this_user['status']."]=>[".$status."],";
+          $para['status'] = $status;
+        }
+      } else {
+        $para['status'] = $status;
+      }
+    }
 		if (!empty($post['receive_type'])) {
 			if ($this_user) {
 				if ($this_user['receive_type'] != $post['receive_type']) {
