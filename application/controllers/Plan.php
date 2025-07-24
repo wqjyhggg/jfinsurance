@@ -2933,6 +2933,13 @@ class Plan extends MY_Controller {
 			$this->session->unset_userdata('fromsekey');
 		} else {
 			$beuser = $this->user_model->get_user_by_id($plan['user_id']);
+      if ($suser = $this->session->userdata('beuser')) {
+        // Has login user
+        if (($suser["user_id"] != $beuser["user_id"]) && ($suser['user_group_id'] > 100)) {
+          show_error("This pay link is expired or has been used. Please contact your agent to Pay");
+        }
+      }
+      
 			$key = $this->plan_model->get_plan_key($plan_id);
 			if ($key != $sekey) {
         show_error("This pay link is expired or has been used. Please contact your agent to Pay");

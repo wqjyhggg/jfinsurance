@@ -482,6 +482,7 @@ class User extends CI_Controller
   public function forget()
   {
     $this->error = "";
+    $this->load->model("user_model");
     $this->load->model("app_model");
     if ($this->input->post('username')) {
       $this->data['ispost'] = 1;
@@ -490,15 +491,11 @@ class User extends CI_Controller
       if ($r && filter_var($r["email"], FILTER_VALIDATE_EMAIL)) {
         $this->load->model("forgetpwd_model");
         if ($key = $this->forgetpwd_model->get_pwd($r["user_id"])) {
-          $this->load->model("mymail_model");
-          // Send link with key
-
-          $mail = $this->forgetpwd_model->email_body_app($key);
-          $this->mymail_model->send_mymail($r["email"], $mail["title"], $mail["body"], $attach = array(), $from = '', $mailtype = 'text');
+          $this->app_model->return_ok("Your temporary password: ".$key);
         }
       }
     }
-    $this->app_model->return_ok("Please check your email.");
+    $this->app_model->return_error("Unknown agent");
   }
 
   public function statics()
