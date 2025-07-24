@@ -190,96 +190,86 @@ class User extends CI_Controller
 			}
 		}
 		
-		$group_id = (int)$this->input->post('user_group_id');
-		if ($group_id < 1) {
+		$user_id = $this->input->post("user_id");
+		$post = $this->input->post();
+		if (!$user_id && isset($post['user_group_id']) && (intval($post['user_group_id']) < 1)) {
 			$this->data['error_user_group'] = "Please select a user group!";
 			$rt = FALSE;
 		}
-		// $this->input->post('parent_user_id');
-		if (empty(trim($this->input->post('username')))) {
+		if (!$user_id && isset($post['username']) && empty(trim($post['username']))) {
 			$this->data['error_username'] = 'username is required!';
 			$rt = FALSE;
 		}
-		$password = trim($this->input->post('password'));
-		if (!empty($password) && ((strlen($password) < self::PASSWORD_MIN) || (strlen($password) > self::PASSWORD_MAX))) {
-			$this->data['error_password'] = 'password must between 6 to 16 charactors!';
-			$rt = FALSE;
-		}
-		// $this->data['region'] = $this->input->post('region');
-		// $this->data['business'] = $this->input->post('business');
-		// $this->data['gender'] = $this->input->post('gender');
-		if (empty(trim($this->input->post('business')))) {
+		if (!$user_id && isset($post['password'])) {
+      $password = trim($this->input->post('password'));
+      if (!empty($password) && ((strlen($password) < self::PASSWORD_MIN) || (strlen($password) > self::PASSWORD_MAX))) {
+        $this->data['error_password'] = 'password must between 6 to 16 charactors!';
+        $rt = FALSE;
+      }
+    }
+		if (!$user_id && isset($post['business']) && empty(trim($post['business']))) {
 			$this->data['error_business'] = 'business is required!';
 			$rt = FALSE;
 		}
-		if (empty(trim($this->input->post('firstname')))) {
+		if (!$user_id && isset($post['firstname']) && empty(trim($post['firstname']))) {
 			$this->data['error_firstname'] = 'firstname is required!';
 			$rt = FALSE;
 		}
-		if (empty(trim($this->input->post('lastname')))) {
+		if (!$user_id && isset($post['lastname']) && empty(trim($post['lastname']))) {
 			$this->data['error_lastname'] = 'lastname is required!';
 			$rt = FALSE;
 		}
-		if (empty(trim($this->input->post('email'))) || ( ! $this->verify_model->isEmail($this->input->post('email')))) {
-			$this->data['error_email'] = 'email is required!';
-			$rt = FALSE;
+		if (!$user_id && isset($post['email']) && empty(trim($post['email']))) {
+      if (!$this->verify_model->isEmail($this->input->post('email'))) {
+        $this->data['error_email'] = 'email is required!';
+        $rt = FALSE;
+      }
 		}
-		if (empty(trim($this->input->post('address')))) {
+		if (!$user_id && isset($post['address']) && empty(trim($post['address']))) {
 			$this->data['error_address'] = 'address is required!';
 			$rt = FALSE;
 		}
-		if (empty(trim($this->input->post('city')))) {
+		if (!$user_id && isset($post['city']) && empty(trim($post['city']))) {
 			$this->data['error_city'] = 'city is required!';
 			$rt = FALSE;
 		}
-		if (empty(trim($this->input->post('province2')))) {
+		if (!$user_id && isset($post['province2']) && empty(trim($post['province2']))) {
 			$this->data['error_province'] = 'province2 is required!';
 			$rt = FALSE;
 		}
-		if (empty(trim($this->input->post('postcode')))) {
+		if (!$user_id && isset($post['postcode']) && empty(trim($post['postcode']))) {
 			$this->data['error_postcode'] = 'postcode is required!';
 			$rt = FALSE;
 		}
-		if (empty(trim($this->input->post('mail_address')))) {
+		if (!$user_id && isset($post['mail_address']) && empty(trim($post['mail_address']))) {
 			$this->data['error_mail_address'] = 'mail_address is required!';
 			$rt = FALSE;
 		}
-		if (empty(trim($this->input->post('mail_city')))) {
+		if (!$user_id && isset($post['mail_city']) && empty(trim($post['mail_city']))) {
 			$this->data['error_mail_city'] = 'mail_city is required!';
 			$rt = FALSE;
 		}
-		if (empty(trim($this->input->post('mail_province2')))) {
+		if (!$user_id && isset($post['mail_province2']) && empty(trim($post['mail_province2']))) {
 			$this->data['error_mail_province'] = 'mail_province2 is required!';
 			$rt = FALSE;
 		}
-		if (empty(trim($this->input->post('mail_postcode')))) {
+		if (!$user_id && isset($post['mail_postcode']) && empty(trim($post['mail_postcode']))) {
 			$this->data['error_mail_postcode'] = 'mail_postcode is required!';
 			$rt = FALSE;
 		}
-		if (empty($this->input->post('paytype_list'))) {
+		if (!$user_id && isset($post['paytype_list']) && empty(trim($post['paytype_list']))) {
 			$this->data['error_paytype_list'] = 'paytype_list is required!';
 			$rt = FALSE;
 		}
 		// $this->data['website'] = $this->input->post('website');
-		if (empty(trim($this->input->post('licence_number')))) {
+		if (!$user_id && isset($post['licence_number']) && empty(trim($post['licence_number']))) {
 			$this->data['error_licence_number'] = 'licence_number is required!';
 			$rt = FALSE;
 		}
-		if (empty(trim($this->input->post('licence_expire'))) ) {
+		if (!$user_id && isset($post['licence_expire']) && empty(trim($post['licence_expire']))) {
 			$this->data['error_licence_expire'] = 'licence_expire is required!';
 			$rt = FALSE;
 		}
-		//$this->data['business_phone'] = $this->input->post('business_phone');
-		//$this->data['mobile_phone'] = $this->input->post('mobile_phone');
-		//$this->data['fax_number'] = $this->input->post('fax_number');
-		//$this->data['toll_free'] = $this->input->post('toll_free');
-		//$this->data['product_list'] = $this->input->post('product_list');
-		//$this->data['pay_type'] = $this->input->post('pay_type');
-		//$this->data['ip'] = $this->input->post('ip');
-		//$this->data['status'] = $this->input->post('status');
-		//$this->data['date_added'] = $this->input->post('date_added');
-		//$this->data['note'] = $this->input->post('note');
-		// user porduction
 		return $rt;
 	}
 
