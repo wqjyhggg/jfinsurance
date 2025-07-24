@@ -313,7 +313,11 @@ class User extends CI_Controller
         if (!empty($this->data['pdf_logo'])) $post['pdf_logo'] = $this->data['pdf_logo'];
         if (!empty($this->data['pdf_qr'])) $post['pdf_qr'] = $this->data['pdf_qr'];
         if (!empty($this->data['pdf_qr2'])) $post['pdf_qr2'] = $this->data['pdf_qr2'];
-        $this->user_model->update($user_id, $post, 1, array('product_list' => 1));
+        if ($product_list = $this->input->post("product_list")) {
+          $this->user_model->update($user_id, $post, 1, array('product_list' => 1));
+        } else {
+          $this->user_model->update($user_id, $post, 1, array());
+        }
         $this->log_model->activity('user', array('message' => $this->user_model->logstr, 'systemlog' => $this->user_model->sqlstr), $user);
         // $this->product_model->set_product_customize($user_id, $this->input->post('product_customize'));
         // redirect(base_url('user'));
