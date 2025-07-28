@@ -258,6 +258,23 @@ if ($Agree != "Agree") {
                           <?php } ?>
                         </div>
                       </div>
+                      <?php if ($product_short == 'TOPN') { ?>
+                      <div class="row" id="stable_condition_confirm_div">
+                        <div class="col-sm-12">
+                          <div class="inline">
+													  <input type='checkbox' name='stable_condition_confirm' value='1' <?php echo ($stable_condition_confirm?"checked":""); ?>><?php echo $this->lang->line("Please confirm the following"); ?>: <br />
+                            1. <?php echo $this->lang->line("Your client is aware that they are purchasing a plan that does not cover pre-existing conditions"); ?>.<br />
+                            2. <?php echo $this->lang->line("Your client is aware that they are purchasing a plan that does not cover USA unless they are in transit in the USA for less than 48 hours"); ?>.<br />
+                          </div>
+                          <?php if (!empty($error_stable_condition_confirm)) {?>
+                            <div class="alert-error">
+                              <?php echo $error_stable_condition_confirm;?>
+                            </div>	
+                          <?php } ?>
+                        </div>
+                      </div>
+                      <?php } ?>
+
                       <?php if (!empty($error_claim)) { ?>
                         <div class="row">
                           <div class="col-sm-12">

@@ -409,6 +409,7 @@ $lang["Phone Number"] = "Phone Number";
 $lang["Phone1 is Required"] = "Phone1 is Required";
 $lang["Plan Type"] = "Plan Type";
 $lang["Please check all your input fields. Premium amount can't be 0!"] = "Please check all your input fields. Premium amount can't be 0!";
+$lang["Please confirm the following"] = "Please confirm the following";
 $lang["Please confirm with the insured that this plan does not cover ANY Pre-Existing Medical Condition(s).."] = "Please confirm with the insured that this plan does not cover ANY Pre-Existing Medical Condition(s)..";
 $lang["Please confirm you have selected the 'No pre-existing condition coverage'"] = "Please confirm you have selected the 'No pre-existing condition coverage'";
 $lang["Please contact JF staff for further assistance 905-707-1512"] = "Please contact JF staff for further assistance 905-707-1512";
@@ -588,6 +589,8 @@ $lang["You don't have license to sale in this province, Please contact us for mo
 $lang["You must confirm this condition for your selection."] = "You must confirm this condition for your selection.";
 $lang["You must confirm you known about NOT cover any Pre-Existing Medical Condition(s)."] = "You must confirm you known about NOT cover any Pre-Existing Medical Condition(s).";
 $lang["Your answered questionnaire with"] = "Your answered questionnaire with";
+$lang["Your client is aware that they are purchasing a plan that does not cover pre-existing conditions"] = "Your client is aware that they are purchasing a plan that does not cover pre-existing conditions";
+$lang["Your client is aware that they are purchasing a plan that does not cover USA unless they are in transit in the USA for less than 48 hours"] = "Your client is aware that they are purchasing a plan that does not cover USA unless they are in transit in the USA for less than 48 hours";
 $lang["Your My Home information has been saved"] = "Your My Home information has been saved";
 $lang["Your New Password"] = "Your New Password";
 

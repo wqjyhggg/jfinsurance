@@ -626,6 +626,12 @@ class Plan extends MY_Controller {
 				}
 			}
 		} else if (($product_short == 'TOP') || ($product_short == 'TOPN')) {
+			if ($product_short == 'TOPN') {
+				$stable_condition_confirm = $this->input->post('stable_condition_confirm');
+				if (empty($stable_condition_confirm)) {
+					$this->error['error_stable_condition_confirm'] = $this->lang->line("You must confirm this condition for your selection.");
+				}
+			}
 			$tdata = $this->product_model->get_top_premium($this->input->post());
 			$ipremium = (float)$this->input->post('premium');
 			$tpremium = (float)$tdata['premium'];
