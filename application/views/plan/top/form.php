@@ -722,7 +722,7 @@ if ($Agree != "Agree") {
                       </div>
                     </fieldset>
                   </div>
-                  <div class="col-sm-12 block-space " id='optional_plan_div' <?php if (($package != 'single_medical_plan') && ($package != 'optional_plan')) { ?>style="display:none;" <?php } ?>>
+                  <div class="col-sm-12 block-space " id='optional_plan_div' <?php if (($product_short != 'TOPN') && ($package != 'single_medical_plan') && ($package != 'optional_plan')) { ?>style="display:none;" <?php } ?>>
                     <fieldset>
                       <legend>Optional Plans</legend>
                       <div class="row panel-group">
