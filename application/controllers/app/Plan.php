@@ -1047,7 +1047,8 @@ class Plan extends CI_Controller
 		$data['status'] = 'OK';
 		$data['refund_days'] = $this->product_model->getDays($plan['effective_date'], date("Y-m-d"));
 		if ($plan['product_short'] == 'TOPN') {
-			$data['refund_amount'] = $this->top3_model->refund_amount($plan, $data['refund_days']);
+			$this->load->model('topn_model');
+			$data['refund_amount'] = $this->topn_model->refund_amount($plan, $data['refund_days']);
     } else if ($plan['product_short'] == 'TOP') {
 			if ($plan_id>Product_model::PLANIDCHG2025_1) {
 				$this->load->model('top3_model');

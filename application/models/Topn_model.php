@@ -1071,11 +1071,11 @@ class Topn_model extends CI_Model  {
 	}
 	
 	public function get_premium($passdata) {
+		$this->premiumArr['premium'] = 0;
 		$this->premiumArr['single_medical_plan'] = $this->single_medical_plan($passdata, 1);
 		$this->premiumArr['optional_plan'] = $this->optional_plan($passdata, 1);
 		$this->premiumArr['questionnaire'] = 0;
 		$this->premiumArr['stable_condition'] = 0;
-		$this->premiumArr['premium'] = 0;
 		$this->premiumArr['tax'] = 0;
 		$this->premiumArr['totalyears'] = $passdata['age'];
 		$this->premiumArr['totaldays'] = $passdata['totaldays'];
