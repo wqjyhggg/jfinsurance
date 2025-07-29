@@ -609,6 +609,14 @@ if ($Agree != "Agree") {
                     <fieldset>
                       <legend>Select Package</legend>
                       <div class="row">
+											<?php if ($product_short == 'TOPN') { ?>
+												<input type="hidden" name="package" value="single_medical_plan">
+												<div class="col-sm-3">
+													<a href="#" data-toggle="popover" data-trigger="hover" title="Out of Province" data-content="Explaination for Out of Province">
+														<?php echo $toppackagename['single_medical_plan']; ?> <span class="glyphicon glyphicon-question-sign"></span>
+													</a>
+												</div>
+   										<?php } else { ?>
                         <?php if (($user_group_id > 100) && $no_change) { ?>
                           <input type="hidden" name="package" value="<?php echo $package; ?>">
                           <div class="col-sm-3">
@@ -636,36 +644,32 @@ if ($Agree != "Agree") {
                             </a>
                           </div>
                         <?php } else { ?>
-                          <?php if ($product_short != 'TOPN') { ?>
                           <div class="col-sm-3">
                             <input <?php echo (($user_group_id > 100) && $no_change) ? 'disable="disable"' : ''; ?> type="radio" name="package" class='check_premium' value="all_inclusive" <?php if ($package == 'all_inclusive') { echo 'checked'; } ?>>
                             <a href="#" data-toggle="popover" data-trigger="hover" title="All Inclusive" data-content="Including: Emergency Hospital & Medical: $5,000,000; AD&D: $50,000; Flight Accident: $100,000; Trip Cancellation; Trip Interruption: Yes; Baggage: $1,000">
                               <?php echo $toppackagename['all_inclusive']; ?> <span class="glyphicon glyphicon-question-sign"></span>
                             </a>
                           </div>
-                          <?php } ?>
                           <div class="col-sm-3">
                             <input <?php echo (($user_group_id > 100) && $no_change) ? 'disable="disable"' : ''; ?> type="radio" name="package" class='check_premium' value="single_medical_plan" <?php if ($package == 'single_medical_plan') { echo 'checked'; } ?>>
                             <a href="#" data-toggle="popover" data-trigger="hover" title="Out of Province" data-content="Explaination for Out of Province">
                               <?php echo $toppackagename['single_medical_plan']; ?> <span class="glyphicon glyphicon-question-sign"></span>
                             </a>
                           </div>
-                          <?php if ($product_short != 'TOPN') { ?>
                           <div class="col-sm-3">
                             <input <?php echo (($user_group_id > 100) && $no_change) ? 'disable="disable"' : ''; ?> type="radio" name="package" class='check_premium' value="annual_plan" <?php if ($package == 'annual_plan') { echo 'checked'; } ?>>
                             <a href="#" data-toggle="popover" data-trigger="hover" title="Annual Plan" data-content="Explaination for Annual Plan">
                               <?php echo $toppackagename['annual_plan']; ?> <span class="glyphicon glyphicon-question-sign"></span>
                             </a>
                           </div>
-                          <?php } ?>
                           <div class="col-sm-3">
                             <input <?php echo (($user_group_id > 100) && $no_change) ? 'disable="disable"' : ''; ?> type="radio" name="package" class='check_premium' value="optional_plan" <?php if ($package == 'optional_plan') { echo 'checked'; } ?>>
                             <a href="#" data-toggle="popover" data-trigger="hover" title="Optional Plan" data-content="Explaination for Optional Plan">
                               <?php echo $toppackagename['optional_plan']; ?> <span class="glyphicon glyphicon-question-sign"></span>
                             </a>
                           </div>
-                        <?php } // no_change 
-                        ?>
+                        <?php } // no_change ?>
+											<?php } ?>
                       </div>
                     </fieldset>
                   </div>

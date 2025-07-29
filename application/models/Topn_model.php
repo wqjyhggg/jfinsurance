@@ -1028,7 +1028,7 @@ class Topn_model extends CI_Model  {
 		} else if ($data['age'] < 90) {
 			$arr = 'single_medical_85_89';
 		} else {
-			$this->premiumArr['message'] = 'Age must be equal or less than 84.';
+			$this->premiumArr['message'] = 'Age must be equal or less than 90.';
 			$this->premiumArr['active_tab'] = 'date_members_tab';
 			return 0;
 		}
