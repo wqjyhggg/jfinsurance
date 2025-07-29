@@ -297,7 +297,10 @@ class Product_model extends CI_Model {
 		$para['trip_cancellation'] = isset($para['trip_cancellation']) ? $para['trip_cancellation'] : '';
 		$para['agearr'] = $ageArr;
 		
-		if (!empty($para['plan_id']) && ($para['plan_id'] < SELF::PLANIDCHG2024_1)) {
+		if ($para["product_short"] == "TOPN") {
+			$this->load->model('topn_model');
+			return $this->topn_model->get_premium($para);
+		} else if (!empty($para['plan_id']) && ($para['plan_id'] < SELF::PLANIDCHG2024_1)) {
 			$this->load->model('top_model');
 			return $this->top_model->get_premium($para);
 		} else if (!empty($para['plan_id']) && ($para['plan_id'] < SELF::PLANIDCHG2025_1)) {
