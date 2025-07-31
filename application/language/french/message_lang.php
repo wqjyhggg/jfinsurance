@@ -246,6 +246,7 @@ $lang["Expiry Year"] = "Année d'expiration";
 $lang["Explain to your client"] = "Expliquez à votre client";
 $lang["Export"] = "Exporter";
 $lang["Export PDF"] = "Exporter un PDF";
+$lang["Export Report"] = "Rapport d'exportation";
 $lang["Export Sales Report"] = "Rapport de ventes à l'exportation";
 $lang["Export Xlsx"] = "Exporter un Xlsx";
 
