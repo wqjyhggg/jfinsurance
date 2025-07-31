@@ -1663,10 +1663,10 @@ class Plan extends CI_Controller
         $data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
         $data['special_note'] = $this->load->view('plan/pdf_note_jes',$data, TRUE);
         $files = array(
-        // 'JFGD_Policy.pdf' => DOWNLOADDIR . 'JFGD_Policy.pdf',
-        // 'JFGD_Claim_Form.pdf' => DOWNLOADDIR . 'JFGD_Claim_Form.pdf',
-        // 'JFGD_Clinic_Map.pdf' => DOWNLOADDIR . 'JFGD_Clinic_Map.pdf',
-        // 'JFGD_Benefit_Summary.pdf' => DOWNLOADDIR . 'JFGD_Benefit_Summary.pdf'
+        'TCS_Policy.pdf' => DOWNLOADDIR . 'TCS_Policy.pdf',
+        'TCS_Claim_Form.pdf' => DOWNLOADDIR . 'TCS_Claim_Form.pdf',
+        'TCS_Clinic_Map.pdf' => DOWNLOADDIR . 'TCS_Clinic_Map.pdf',
+        'TCS_Benefit_Summary.pdf' => DOWNLOADDIR . 'TCS_Benefit_Summary.pdf'
         );
       } else if ($data['plan']['product_short'] == 'JFOS') {
         if ($data['sendfrench']) {
@@ -1719,11 +1719,21 @@ class Plan extends CI_Controller
         'JFP_Brochure.pdf' => DOWNLOADDIR . 'JFP_Brochure.pdf'
         );
       } else if ($data['plan']['product_short'] == 'TOPN') {
-        $data['special_note'] = $this->load->view('plan/top/pdf_note_top',$data, TRUE);
-        $files = array(
-        'TOP_Policy.pdf' => DOWNLOADDIR . 'TOP_Policy.pdf',
-        );
-      } else if ($data['plan']['product_short'] == 'TOP') {
+				if ($data['sendfrench']) {
+					$files = array(
+						'TOPN_Policy.pdf' => DOWNLOADDIR . 'TOPN_Policy_French.pdf',
+						'TOPN_Claim_Form.pdf' => DOWNLOADDIR . 'TOPN_Claim_Form_French.pdf',
+						'TOPN_Brochure.pdf' => DOWNLOADDIR . 'TOPN_Brochure_French.pdf'
+					);
+				} else {
+					$data['special_note'] = $this->load->view('plan/top/pdf_note_top', $data, TRUE);
+					$files = array(
+						'TOPN_Policy.pdf' => DOWNLOADDIR . 'TOPN_Policy.pdf',
+						'TOPN_Claim_Form.pdf' => DOWNLOADDIR . 'TOPN_Claim_Form.pdf',
+						'TOPN_Brochure.pdf' => DOWNLOADDIR . 'TOPN_Brochure.pdf'
+					);
+				}
+			} else if ($data['plan']['product_short'] == 'TOP') {
         if ($data['sendfrench']) {
           $files = array(
           'TOP_Policy.pdf' => DOWNLOADDIR . 'TOP_Policy_French.pdf',
