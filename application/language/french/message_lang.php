@@ -221,6 +221,7 @@ $lang["Dependent children must under age 26"] = "Les enfants à charge doivent a
 $lang["Determine if your client qualifies for coverage. Review the Policy's Eligibility criteria with your client"] = "Déterminez si votre client est admissible à la couverture. Passez en revue les critères d’éligibilité de la police avec votre client";
 $lang["Diabetes (controlled by medication or diet)"] = "Diabète (contrôlé par des médicaments ou un régime)";
 $lang["Disagree"] = "Être en désaccord";
+$lang["Display Report"] = "Rapport d'affichage";
 $lang["Display Sales Report"] = "Afficher le rapport de ventes";
 $lang["Diverticulitis/Diverticulosis"] = "Diverticulite/Diverticulose";
 $lang["do not include aspirin, hypertension (high blood pressure) or high cholesterol medications"] = "n'incluez pas l'aspirine, les médicaments contre l'hypertension (hypertension artérielle) ou l'hypercholestérolémie";
