@@ -1792,7 +1792,7 @@ class Plan extends CI_Controller
             $html = $this->load->view('plan/pdf_berkley_student_french', $data, TRUE);
           } else if ($data['plan']['product_short'] == 'JFR') {
             $html = $this->load->view('plan/pdf_jfr_french', $data, TRUE);
-          } else if ($data['plan']['product_short'] == 'TOP') {
+          } else if (($data['plan']['product_short'] == 'TOP') || ($data['plan']['product_short'] == 'TOPN')) {
             $html = $this->load->view('plan/pdf_berkley_visitor_french', $data, TRUE);
           } else {
             $html = $this->load->view('plan/pdf', $data, TRUE);  
