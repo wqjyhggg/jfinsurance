@@ -84,7 +84,12 @@ defined('BASEPATH') or exit('No direct script access allowed');
       <div class="col-sm-6 nopadding">
         <h4><u>Détails de la couverture</u></h4>
         <h4>
-          JF Canadian Travel Out Plan:
+					<?php if ($plan['product_short'] == "TOP") { ?>
+						JF Canadian Travel Out Plan:
+  				<?php } ?>
+					<?php if ($plan['product_short'] == "TOPN") { ?>
+						Canadian Travel Out Non-USA Plan:
+					<?php } ?>
           <br />&nbsp;&nbsp;&nbsp;<span><?php echo $toppackagename[$plan['package']]; ?></span>
           <?php if ($plan['package'] == 'all_inclusive') { ?>
             <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Medical : $5,000,000</span>
