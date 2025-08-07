@@ -599,7 +599,13 @@ class Plan extends CI_Controller
         $this->plan_model->update($id, $post, $ckArr, $user);
       }
     } else {
-      $id = $this->plan_model->add($this->input->post(), $user);
+			$post = $this->input->post();
+			if ($post['product_short'] == 'TOPN') {
+				if (empty($post["sum_insured"])) {
+					$post["sum_insured"] = 1000000;
+				}
+			}
+      $id = $this->plan_model->add($post, $user);
     }
     $data["plan"] = $this->plan_model->get_plan_by_id($id);
     $data["claim_message"] = "";

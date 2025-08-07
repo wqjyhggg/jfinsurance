@@ -28,7 +28,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
             <img class="img-responsive" style="width:80px;" src="<?php echo base_url('agent/img') . '/' . $user['pdf_logo']; ?>" />
           </div>
         <?php } ?>
-        <?php if (($plan['product_short'] == 'JFR') || ($plan['product_short'] == 'TOP')) { ?>
+        <?php if (($plan['product_short'] == 'JFR') || ($plan['product_short'] == 'TOP') || ($plan['product_short'] == 'TOPN')) { ?>
           <div style="float:right;width:200px;">
             <img class="img-responsive" style="width:80px;padding-bottom:-30px;" src="<?php echo base_url(); ?>image/Berkley.png" />
           </div>
@@ -132,7 +132,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
           </h4>
           <h4><?php echo $this->lang->line("Email"); ?>: <span><?php echo htmlspecialchars($plan['contact_email']); ?></span>
           </h4>
-          <?php if ($plan['product_short'] == 'TOP') { ?>
+          <?php if (($plan['product_short'] == 'TOP') || ($plan['product_short'] == 'TOPN')) { ?>
           <h4><?php echo $this->lang->line("Beneficiary"); ?>: <span><?php echo htmlspecialchars($plan['beneficiary']); ?></span>
           </h4>
           <?php } ?>
@@ -292,7 +292,19 @@ defined('BASEPATH') or exit('No direct script access allowed');
             <?php } // questionnaire 
             ?>
           </h4>
-        <?php } else { // else TOP 
+					<?php } else if ($plan['product_short'] == 'TOPN') { ?>
+          <h4>
+						Canadian Travel Out Non-USA Plan:
+            <br />&nbsp;&nbsp;&nbsp;<span><?php echo $toppackagename[$plan['package']]; ?></span>
+            <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Sum Insured: $1,000,000</span>
+						<?php if ($plan['ad_and_d_ck']) { ?>
+							<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>AD & D : $<?php echo number_format($plan['ad_and_d_insured'], 2); ?></span>
+						<?php } ?>
+						<?php if ($plan['flight_accident_ck']) { ?>
+							<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Flight Accident : $<?php echo number_format($plan['flight_accident_insured'], 2); ?></span>
+						<?php } ?>
+          </h4>
+        <?php } else { // else TOPN
         ?>
           <?php if (in_array($plan['product_short'], $pdf_enable) && !empty($customer_product_name)) { ?>
             <h4>Insurance Plan:<br />&nbsp;&nbsp;&nbsp;<span><?php echo $customer_product_name; ?></span></h4>

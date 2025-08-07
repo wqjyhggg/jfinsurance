@@ -700,8 +700,14 @@ class Plan extends MY_Controller {
 		if ($this->input->post('submit') && $this->form_valid($beuser)) {
 			$plan_id = $this->input->post('plan_id');
 
+			$post = $this->input->post();
 			if (empty($plan_id)) {
-				$plan_id = $this->plan_model->add($this->input->post());
+				if ($post['product_short'] == 'TOPN') {
+					if (empty($post["sum_insured"])) {
+						$post["sum_insured"] = 1000000;
+					}
+				}
+				$plan_id = $this->plan_model->add($post);
 				if ($plan_id) {
 					$plan = $this->plan_model->get_plan_by_id($plan_id);
 					$para = array(
@@ -728,7 +734,7 @@ class Plan extends MY_Controller {
 					}
 				}
 				if (empty($this->error)) {
-					$plan_id = $this->plan_model->update($plan_id, $this->input->post(), array('isfamilyplan' => 1, 'holiday_rate' => 1, 'spouse' => 1));
+					$plan_id = $this->plan_model->update($plan_id, $post, array('isfamilyplan' => 1, 'holiday_rate' => 1, 'spouse' => 1));
 					if ($plan_id) {
 						$plan = $this->plan_model->get_plan_by_id($plan_id);
 						$para = array(
@@ -3255,7 +3261,7 @@ class Plan extends MY_Controller {
 		$this->load->model('html_model');
 		$data['html_model'] = $this->html_model;
 
-		if ($data['plan']['product_short'] == 'TOP') {
+		if (($data['plan']['product_short'] == 'TOP') || ($data['plan']['product_short'] == 'TOPN')) {
 			$data['toppackagename'] = $this->toppackagename;
 			$this->load->common('plan/top/detail', $data);
 		} else {

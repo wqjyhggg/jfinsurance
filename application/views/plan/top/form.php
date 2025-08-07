@@ -611,6 +611,7 @@ if ($Agree != "Agree") {
                       <div class="row">
 											<?php if ($product_short == 'TOPN') { ?>
 												<input type="hidden" name="package" value="single_medical_plan">
+												<input type="hidden" name="sum_insured" value="1000000">
 												<div class="col-sm-3">
 													<a href="#" data-toggle="popover" data-trigger="hover" title="Out of Province" data-content="Explaination for Out of Province">
 														<?php echo $toppackagename['single_medical_plan']; ?> <span class="glyphicon glyphicon-question-sign"></span>
