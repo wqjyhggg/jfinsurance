@@ -127,7 +127,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <h5>E-mail: info@jfgroup.ca</h5>
 
                               </div>
-                              <div class="col-sm-6 contact-right">
+                              <!-- <div class="col-sm-6 contact-right">
                                 <h3>Vancouver Office</h3><br />
                                 <h5>128-6061 No. 3 Road</h5>
                                 <h5>Richmond, BC</h5>
@@ -139,7 +139,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <br />
                                 
                                 <h5>E-mail: vancouver@jfuinsurance.com</h5>
-                              </div>
+                              </div> -->
                             </div>
                           </div>
                         </div>
@@ -280,7 +280,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                   
                   <h5><?php echo $myhome['email']; ?></h5>
 <?php } else { ?>
-                <div class="col-sm-6 contact-right">
+                <!-- <div class="col-sm-6 contact-right">
                   <h3>Vancouver Office</h3><br />
                   <h5>128-6061 No. 3 Road</h5>
                   <h5>Richmond, BC</h5>
@@ -292,8 +292,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                   <br />
                   
                   <h5>E-mail: vancouver@jfuinsurance.com</h5>
+                </div> -->
 <?php } ?>
-                </div>
               </div>
             </div>
           </div>

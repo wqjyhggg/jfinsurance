@@ -343,7 +343,7 @@
 						</div>
 					</div>
 
-					<div class="col-md-6" data-aos="fade-left">
+					<!-- <div class="col-md-6" data-aos="fade-left">
 						<h1 class="pb-2 mb-3 border-bottom normal-font"><?php echo $lang['vancouver_office'];?></h1>
 						<div class="address-line py-1">
 							<div class="row">
@@ -386,7 +386,7 @@
 								</div>
 							</div>
 						</div>
-					</div>
+					</div> -->
 				</div>
 			</div>
 		</section>

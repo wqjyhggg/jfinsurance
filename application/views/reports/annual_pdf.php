@@ -51,7 +51,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 		<div class="row" style="padding-top: 10em">
 			<div class="col-sm-12">
 				<p class="small">Head Office : 15 Wertheim Court, Suite 501, Richmond Hill, ON, Canada L4B 3H7 &nbsp;&nbsp;&nbsp; Phone: 905-707-1512 &nbsp;&nbsp;&nbsp; Fax: 905-707-1513</p>
-				<p class="small">BC Office : 128 - 6061 No. 3 Road, Richmond, BC, Canadian V6Y 282 &nbsp;&nbsp;&nbsp; Phone: 604-232-0896 &nbsp;&nbsp;&nbsp; Fax: 604-232-0897</p>
+				<!-- <p class="small">BC Office : 128 - 6061 No. 3 Road, Richmond, BC, Canadian V6Y 282 &nbsp;&nbsp;&nbsp; Phone: 604-232-0896 &nbsp;&nbsp;&nbsp; Fax: 604-232-0897</p> -->
 			</div>
 		</div>
 	</div>

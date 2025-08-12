@@ -155,12 +155,12 @@ defined('BASEPATH') or exit('No direct script access allowed');
           Richmond Hill, ON, Canada L4B 3H7<br />
           Phone: 905-707-1512 Or 1-877-832-5541</p>
       </div>
-      <div class="col-sm-6 nopm">
+      <!-- <div class="col-sm-6 nopm">
         <p class="small">British Columbia:<br />
           128 - 6061 No. 3 Road<br />
           Richmond, BC, Canada V6Y 282<br />
           Phone: 604-232-0896 Or 1-877-232-0896</p>
-      </div>
+      </div> -->
     </div>
     <div class="row">
       <div class="col-sm-12 nopm special-note">
@@ -314,12 +314,12 @@ defined('BASEPATH') or exit('No direct script access allowed');
           Richmond Hill, ON, Canada L4B 3H7<br />
           Phone: 905-707-1512 Or 1-877-832-5541</p>
       </div>
-      <div class="col-sm-6 nopm">
+      <!-- <div class="col-sm-6 nopm">
         <p class="small">British Columbia:<br />
           128 - 6061 No. 3 Road<br />
           Richmond, BC, Canada V6Y 282<br />
           Phone: 604-232-0896 Or 1-877-232-0896</p>
-      </div>
+      </div> -->
     </div>
     <div class="row">
       <div class="col-sm-12 nopm special-note">

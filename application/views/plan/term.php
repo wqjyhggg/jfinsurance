@@ -99,13 +99,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <p>Phone: 905-707-1512 Or 1-877-832-5541</p>
                         <p>info@jfgroup.ca</p>
                     </div>
-                    <div class="col-sm-6">
+                    <!-- <div class="col-sm-6">
                         <p>British Columbia:</p>
                         <p>128 - 6061 No. 3 Road,</p>
                         <p>Richmond, BC, Canada V6Y 2B2</p>
                         <p>Phone: 604-232-0896, Or 1-877-232-0896</p>
                         <p>vancouver@jfuinsurance.com</p>   
-                    </div>
+                    </div> -->
                   </div>
 
                   <br />

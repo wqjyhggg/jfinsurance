@@ -429,10 +429,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
             <?php echo $user['pdf_f_right6']; ?><br />
           </p>
         <?php } else { ?>
-          <p class="small">British Columbia:<br />
+          <!-- <p class="small">British Columbia:<br />
             128 - 6061 No. 3 Road<br />
             Richmond, BC, Canada V6Y 282<br />
-            Phone: 604-232-0896 Or 1-877-232-0896</p>
+            Phone: 604-232-0896 Or 1-877-232-0896</p> -->
         <?php } ?>
       </div>
       <div class="col-sm-2 nopm">
@@ -601,10 +601,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
                 <?php echo $user['pdf_f_right6']; ?><br />
               </p>
             <?php } else { ?>
-              <p class="small">British Columbia:<br />
+              <!-- <p class="small">British Columbia:<br />
                 128 - 6061 No. 3 Road<br />
                 Richmond, BC, Canada V6Y 282<br />
-                Phone: 604-232-0896 Or 1-877-232-0896</p>
+                Phone: 604-232-0896 Or 1-877-232-0896</p> -->
             <?php } ?>
           </div>
           <div class="col-sm-2 nopm">

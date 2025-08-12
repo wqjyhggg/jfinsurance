@@ -142,7 +142,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
       </div>
       <div class="col-sm-2 nopm">
       </div>
-      <div class="col-sm-4 nopm">
+      <!-- <div class="col-sm-4 nopm">
         <p class="small">British Columbia:<br />
           128 - 6061 No. 3 Road<br />
           Richmond, BC, Canada V6Y 282<br />
@@ -152,7 +152,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
         <?php if (!empty($user['pdf_qr2']) && in_array($plan['product_short'], $pdf_enable)) { ?>
           <img class="img-responsive" style="width:60px;padding-top:10px;" src="<?php echo base_url('agent/img') . '/' . $user['pdf_qr2']; ?>" />
         <?php } ?>
-      </div>
+      </div> -->
     </div>
     <div class="row">
       <div class="col-sm-12 nopm special-note">
