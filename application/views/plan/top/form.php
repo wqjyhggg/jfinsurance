@@ -1431,8 +1431,12 @@ $('#payment_get_history_button').click(function(){
     });
 
     $('#page-next').on('click', function(e) {
+			let premium = $('input[name="premium"]').val();
 			show_submit_btn = true;
       $("ul#top-nav-tabs li.active").next('li').find('a').trigger("click");
+			if (premium > 0) {
+				$('#page-submit').show();
+			}
     });
 
     $.ajax({
