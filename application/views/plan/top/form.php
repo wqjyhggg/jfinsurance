@@ -674,7 +674,8 @@ if ($Agree != "Agree") {
                       </div>
                     </fieldset>
                   </div>
-                  <div class="col-sm-12 block-space " id='all_inclusive_div' <?php if ($package != 'all_inclusive') { ?>style="display:none;" <?php } ?>>
+<?php if ($product_short != 'TOPN') { ?>
+	                <div class="col-sm-12 block-space " id='all_inclusive_div' <?php if ($package != 'all_inclusive') { ?>style="display:none;" <?php } ?>>
                     <fieldset>
                       <legend>Conditions</legend>
                       <div class="row">
@@ -723,6 +724,7 @@ if ($Agree != "Agree") {
                       </div>
                     </fieldset>
                   </div>
+<?php } ?>
                   <div class="col-sm-12 block-space " id='optional_plan_div' <?php if (($product_short != 'TOPN') && ($package != 'single_medical_plan') && ($package != 'optional_plan')) { ?>style="display:none;" <?php } ?>>
                     <fieldset>
                       <legend>Optional Plans</legend>
