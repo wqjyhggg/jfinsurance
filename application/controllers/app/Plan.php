@@ -156,7 +156,7 @@ class Plan extends CI_Controller
     $premium = $this->input->post("pay_amount");
     $pay_type = $this->input->post("pay_type"); // Cash, Cheque, Ali, Credit Card
     $payinfo = '';
-    if (($pay_type != "Cash") && ($pay_type != "Cheque") && ($pay_type != "Ali") && ($pay_type != "Credit Card")) {
+    if (($pay_type != "Cash") && ($pay_type != "Cheque") /* && ($pay_type != "Ali")*/ && ($pay_type != "Credit Card")) {
       return $this->app_model->return_error("Unknown pay type");
     }
     $plan = $this->plan_model->get_plan_by_id($plan_id);
@@ -311,6 +311,8 @@ class Plan extends CI_Controller
 		);
 		$this->log_model->activity('commission', $para, $user);
 
+		$rmessage = "OK";
+		$status = 0;
     if (($pay_type == 'Cash') || ($pay_type == 'Cheque')) {
       $history_id = 0;
       if (($history = $this->plan_history_model->get_plan_history_by_plan_id($plan_id)) && ($history["actualrate"]>0)) {
@@ -382,8 +384,9 @@ class Plan extends CI_Controller
           $this->plan_history_model->add($plan_id, Plan_model::PAID);
 					
 					$dt = array();
-					$dt['ispaid'] = 1;
 					$dt['note'] = "Success: Raw Data=> " . json_encode($result);
+					$commission_payment_id = $this->payment_model->update($commission_payment_id, $dt);
+					$dt['ispaid'] = 1;
 					$payment_id = $this->payment_model->update($payment_id, $dt);
 					$para = array(
 							'plan_id' => $plan_id,
@@ -397,6 +400,7 @@ class Plan extends CI_Controller
           if (($plan["province2"] == "QC") && in_array($plan["product_short"], $this->french_plan)) {
             $this->sendpackage(1, $user, $plan_id);
           }
+					$rmessage = "Paid Success";
         } else {
 					$payinfo = "Credit Card: " . substr($card_number, 0, 5) . "xxx" . substr($card_number, -4) . " " . $card_name .  " " . $expiry_month . "/" . $expiry_year;
 						
@@ -416,6 +420,7 @@ class Plan extends CI_Controller
 					$dt['amount'] = 0;
 					$dt['note'] = "Failur pay (" . $premium . "): Raw Data=> " . json_encode($result);
 					$payment_id = $this->payment_model->update($payment_id, $dt);
+					$commission_payment_id = $this->payment_model->update($commission_payment_id, $dt);
 					$para = array(
 							'plan_id' => $plan_id,
 							'customer_id' => $plan['customer_id'],
@@ -424,9 +429,9 @@ class Plan extends CI_Controller
 							'systemlog' => $this->payment_model->sqlstr
 					);
 					$this->log_model->activity('payment', $para, $user);
-					$commission_payment_id = $this->payment_model->update($commission_payment_id, $dt);
-					$up_commission_payment_id = $this->payment_model->update($up_commission_payment_id, $dt);
 					$this->error = 'Card payment failed. Incorrect card information or insufficient credit.';
+					$rmessage = 'Card payment failed. Incorrect card information or insufficient credit.';
+					$status = 1;
 				}
 			} catch ( \Beanstream\Exception $e ) {
 				$payinfo = "Credit Card: " . substr($card_number, 0, 5) . "xxx" . substr($card_number, -4) . " " . $card_name .  " " . $expiry_month . "/" . $expiry_year;
@@ -457,11 +462,13 @@ class Plan extends CI_Controller
 				);
 				$this->log_model->activity('payment', $para, $user);
 				$commission_payment_id = $this->payment_model->update($commission_payment_id, $dt);
-				$up_commission_payment_id = $this->payment_model->update($up_commission_payment_id, $dt);
 				$this->error = 'Payment failed. Please verify your credit card info.';
+				$rmessage = 'Payment failed. Please verify your credit card info.';
+				$status = 1;
 			}
     }
-    $this->app_model->return_ok(["status"=>"OK"]);
+		$plan = $this->plan_model->get_plan_by_id($plan_id);
+    $this->app_model->return_ok(["status"=>$status, "message"=>$rmessage, "plan" => $plan]);
   }
 
   public function detail()
@@ -989,19 +996,19 @@ class Plan extends CI_Controller
 				);
 				$this->log_model->activity('commission', $para, $user);
 	
-				$dt['pay_type'] = 'refund_up_commission';
-				$dt['rate'] = $up_commission_rate;
-				$dt['amount'] = $up_commission_amount * (-1);
-				$dt['premium_payment_id'] = $payment_id;
-				$up_commission_payment_id = $this->payment_model->add($dt, $user);
-				$para = array(
-						'plan_id' => $plan_id,
-						'customer_id' => $plan['customer_id'],
-						'payment_id' => $up_commission_payment_id,
-						'message' => $this->payment_model->logstr,
-						'systemlog' => $this->payment_model->sqlstr
-				);
-				$this->log_model->activity('up_commission', $para, $user);
+				// $dt['pay_type'] = 'refund_up_commission';
+				// $dt['rate'] = $up_commission_rate;
+				// $dt['amount'] = $up_commission_amount * (-1);
+				// $dt['premium_payment_id'] = $payment_id;
+				// $up_commission_payment_id = $this->payment_model->add($dt, $user);
+				// $para = array(
+				// 		'plan_id' => $plan_id,
+				// 		'customer_id' => $plan['customer_id'],
+				// 		'payment_id' => $up_commission_payment_id,
+				// 		'message' => $this->payment_model->logstr,
+				// 		'systemlog' => $this->payment_model->sqlstr
+				// );
+				// $this->log_model->activity('up_commission', $para, $user);
 	
         // Add history
         $history_id = 0;
@@ -1182,20 +1189,6 @@ class Plan extends CI_Controller
 				);
 				$this->log_model->activity('commission', $para, $user);
 	
-				$dt['pay_type'] = 'cancel_up_commission';
-				$dt['rate'] = $up_commission_rate;
-				$dt['amount'] = $up_commission_amount * (-1);
-				$dt['premium_payment_id'] = $payment_id;
-				$up_commission_payment_id = $this->payment_model->add($dt, $user);
-				$para = array(
-						'plan_id' => $plan_id,
-						'customer_id' => $plan['customer_id'],
-						'payment_id' => $up_commission_payment_id,
-						'message' => $this->payment_model->logstr,
-						'systemlog' => $this->payment_model->sqlstr
-				);
-				$this->log_model->activity('up_commission', $para, $user);
-
         $history_id = 0;
         if (($history = $this->plan_history_model->get_plan_history_by_plan_id($plan_id)) && ($history["actualrate"]>0)) {
           $history_id = $history["plan_history_id"];
