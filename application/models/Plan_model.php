@@ -287,6 +287,8 @@ class Plan_model extends CI_Model {
 		if (isset($para['stable_condition'])) $sql .= " stable_condition='" . (int)$para['stable_condition'] . "', ";
 		if ((($para['product_short'] == 'JFVTC') || ($para['product_short'] == 'JFR')) && ((int)$para['stable_condition'] == 2)) {
 			$sql .= " stable_condition_confirm='" . (empty($para['stable_condition_confirm']) ? "0" : "1") . "', ";
+		} else if ($para['product_short'] == 'TOPN') {
+			$sql .= " stable_condition_confirm='" . (empty($para['stable_condition_confirm']) ? "0" : "1") . "', ";
 		}
 		
 		if (isset($para['rate_options'])) $sql .= " rate_options='" . (int)$para['rate_options'] . "', ";
@@ -585,6 +587,9 @@ class Plan_model extends CI_Model {
 			$sql .= " stable_condition='" . (int)$para['stable_condition'] . "', ";
 		}
 		if (isset($para['product_short']) && (($para['product_short'] == 'JFVTC') | ($para['product_short'] == 'JFR')) && ((int)$para['stable_condition'] == 2)) {
+			$this->logstr .= " stable_condition_confirm " . $para['stable_condition_confirm'] . "(" . $plan['stable_condition_confirm'] . ")";
+			$sql .= " stable_condition_confirm='" . (empty($para['stable_condition_confirm']) ? "0" : "1") . "', ";
+		} else if ($para['product_short'] == 'TOPN') {
 			$this->logstr .= " stable_condition_confirm " . $para['stable_condition_confirm'] . "(" . $plan['stable_condition_confirm'] . ")";
 			$sql .= " stable_condition_confirm='" . (empty($para['stable_condition_confirm']) ? "0" : "1") . "', ";
 		}
