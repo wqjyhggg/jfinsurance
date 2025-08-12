@@ -3521,7 +3521,8 @@ class Plan extends MY_Controller {
             'TCS_Policy.pdf' => DOWNLOADDIR . 'TCS_Policy.pdf',
             'TCS_Claim_Form.pdf' => DOWNLOADDIR . 'TCS_Claim_Form.pdf',
             'TCS_Clinic_Map.pdf' => DOWNLOADDIR . 'TCS_Clinic_Map.pdf',
-            'TCS_Benefit_Summary.pdf' => DOWNLOADDIR . 'TCS_Benefit_Summary.pdf'
+            'TCS_Benefit_Summary.pdf' => DOWNLOADDIR . 'TCS_Benefit_Summary.pdf',
+						'TCS_Brochure.pdf' => DOWNLOADDIR . 'TCS_Brochure_French.pdf'
           );
 				} else if ($data['plan']['product_short'] == 'JFOS') {
 					if ($data['sendfrench']) {
