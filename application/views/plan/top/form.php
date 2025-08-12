@@ -1176,6 +1176,7 @@ if ($Agree != "Agree") {
 <script>
 var paytb=[];
 var logtb=[];
+var show_submit_btn = false;
 <?php	
 if (!empty($payment_tables) && is_array($payment_tables) && (sizeof($payment_tables) > 0)) {
   foreach ($payment_tables as $tb) {
@@ -1186,6 +1187,9 @@ if (!empty($activelog_tables) && is_array($activelog_tables) && (sizeof($activel
   foreach ($activelog_tables as $tb) {
     echo "logtb.push('".$tb."');\n";
   }
+}
+if ($plan_id) {
+	echo "show_submit_btn = true";	// Enable submit button
 }
 ?>
 $('#activelog_history_button').click(function(){
@@ -1427,6 +1431,7 @@ $('#payment_get_history_button').click(function(){
     });
 
     $('#page-next').on('click', function(e) {
+			show_submit_btn = true;
       $("ul#top-nav-tabs li.active").next('li').find('a').trigger("click");
     });
 
@@ -1486,13 +1491,15 @@ $('#payment_get_history_button').click(function(){
     });
 
     $('#page-submit').on('click', function(e) {
-      get_premium(); // Last confirm the changes
+      // get_premium(); // Last confirm the changes
       $('#page-submit').hide();
     });
 
     var premium = $('input[name="premium"]').val();
     if (premium > 0) {
-      $('#page-submit').show();
+			if (show_submit_btn) {
+				$('#page-submit').show();
+			}
     }
 
     check_isfamilyplan();
@@ -1724,7 +1731,9 @@ $('#payment_get_history_button').click(function(){
               if (vt > 0) {
                 $('#premium_rate_table').html('(Table' + vt + ')');
               }
-              $('#page-submit').show();
+							if (show_submit_btn) {
+              	$('#page-submit').show();
+							}
             }
 
             if (data['message']) {
