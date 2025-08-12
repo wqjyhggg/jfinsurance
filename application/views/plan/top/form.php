@@ -1189,7 +1189,7 @@ if (!empty($activelog_tables) && is_array($activelog_tables) && (sizeof($activel
   }
 }
 if ($plan_id) {
-	echo "show_submit_btn = true";	// Enable submit button
+	echo "show_submit_btn = true;\n";	// Enable submit button
 }
 ?>
 $('#activelog_history_button').click(function(){
