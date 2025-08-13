@@ -11,6 +11,8 @@ class MY_Controller extends CI_Controller {
 		parent::__construct();
 		$this->load->database();
 		$this->load->library('session');
+		$this->session->sess_expiration = 7200; // 2 hours
+		$this->session->sess_time_to_update = 300; // Update session ID every 5 minutes
 		$this->load->helper('url');
 		$this->load->model('log_model');
 		$this->load->model('user_model');
@@ -18,7 +20,7 @@ class MY_Controller extends CI_Controller {
 		$this->load->model('menu_model');
 		
     // Set db time zone
-    $this->db->query("SET time_zone = 'America/Toronto'");
+    // $this->db->query("SET time_zone = 'America/Toronto'");
     
 		// Set language 
 		$language = $this->session->userdata('language');

@@ -57,7 +57,7 @@ class App_model extends CI_Model
 
   public function check_token($token) {
     if ($r = $this->db->get_where("app", array("token" => $token))->row_array()) {
-      if (($r["timeout"] + (15*60)) > time()) {
+      if (($r["timeout"] + (2*60*60)) > time()) {
         $this->db->set("timeout", time());
         $this->db->where("user_id", $r["user_id"]);
         $this->db->update("app");
