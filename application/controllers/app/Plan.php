@@ -1412,6 +1412,232 @@ class Plan extends CI_Controller
   }
 
   // send package
+  public function sendquote() {
+    $this->error = "";
+    $this->load->model("app_model");
+    $this->load->model("product_model");
+    $this->load->model("verify_model");
+    $this->load->helper('url');
+    $this->lang->load('message');
+    $this->lang->load('message', 'english');
+
+    $user = $this->app_model->check_token($this->input->post("token"));
+
+    if (empty($user)) {
+      if (empty($this->error)) {
+        $this->error = "Session Expired";
+      }
+      return $this->app_model->return_error($this->error);
+    }
+    $data = $this->input->post();
+		if (empty($data["premium"])) {
+			return $this->app_model->return_error("Missing Premium");
+		}
+		if (empty($data["emailaddr"]) || !$this->verify_model->isEmail($data['emailaddr'])) {
+			return $this->app_model->return_error("Missing Email Address");
+		}
+		if (empty($data["product_short"])) {
+			return $this->app_model->return_error("Missing Product Short");
+		}
+
+		$body  = "Dear (Client's First Name),\r\n\r\n";
+		$body .= "Thank you for giving me the opportunity to assist you with your insurance needs.\r\n";
+		$body .= "Based on the information you've provided, your premium is: $.".$data["premium"]."\r\n";
+		$body .= "This preliminary quote is based on the information you’ve provided. Attached in this email you will find the Wordings and Brochure for your review.\r\n";
+		$body .= "Please note that this quote is time-sensitive and subject to change. Coverage is not confirmed until payment is received, and a formal policy is issued\r\n";
+		$body .= "If you have any questions, need clarification, or are ready to move forward, feel free to reach out to me directly. I’m happy to help guide you through the next steps.\r\n";
+		$body .= "Best regards,\r\n\r\n";
+		$body .= "JF Insurance Agency Group Inc.\r\n";
+		$body .= "Ontario Office\r\n";
+		$body .= "15 Wertheim Court, Suite 501,\r\n";
+		$body .= "Richmond Hill, ON, Canada L4B 3H7\r\n";
+		$body .= "Phone: 905-707-1512 Or 1-877-832-5541\r\n\r\n";
+		$body .= "Please Note the email should include the corresponding Policy wording and Brochure attachments. Thanks\r\n";
+
+		$data['emailaddr'] = $plan['contact_email'];
+    $data['sendfrench'] = isset($data['sendfrench'])?$data['sendfrench']:0;
+
+    if (!$this->verify_model->isEmail($data['emailaddr'])) {
+      $product = $this->product_model->get_product($plan['product_short']);
+      if ($data['product_short'] == 'OPL') {
+        $files = array(
+        'OPL_Policy.pdf' => DOWNLOADDIR . 'OPL_Policy.pdf',
+        'OPL_Brochure.pdf' => DOWNLOADDIR . 'OPL_Brochure.pdf'
+        );
+      } else if ($data['product_short'] == 'JFVTC') {
+        if ($data['sendfrench']) {
+          $files = array(
+          'JFVTC_Policy.pdf' => DOWNLOADDIR . 'JFVTC_Policy_French.pdf',
+          'JFVTC_Brochure.pdf' => DOWNLOADDIR . 'JFVTC_Brochure_French.pdf'
+          );
+        } else {
+          $files = array(
+          'JFVTC_Policy.pdf' => DOWNLOADDIR . 'JFVTC_Policy.pdf',
+          'JFVTC_Brochure.pdf' => DOWNLOADDIR . 'JFVTC_Brochure.pdf'
+          );
+        }
+      } else if ($data['product_short'] == 'JFR') {
+        if ($data['sendfrench']) {
+          $files = array(
+            'JFR_Policy.pdf' => DOWNLOADDIR . 'JFR_Policy_French.pdf',
+            'JFR_Brochure.pdf' => DOWNLOADDIR . 'JFR_Brochure_French.pdf'
+            );
+        } else {
+          $files = array(
+          'JFR_Policy.pdf' => DOWNLOADDIR . 'JFR_Policy.pdf',
+          'JFR_Brochure.pdf' => DOWNLOADDIR . 'JFR_Brochure.pdf'
+          );
+        }
+      } else if ($data['product_short'] == 'JUS') {
+        $files = array(
+	        'JUS_Brochure.pdf' => DOWNLOADDIR . 'JUS_Brochure.pdf'
+        );
+      } else if ($data['product_short'] == 'NUS') {
+        $files = array(
+  	      'NUS_Brochure.pdf' => DOWNLOADDIR . 'NUS_Brochure.pdf'
+        );
+      } else if ($data['product_short'] == 'JFS') {
+        if ($data['sendfrench']) {
+          $files = array(
+          'JFS_Policy.pdf' => DOWNLOADDIR . 'JFS_Policy_French.pdf',
+          'JFS_Brochure.pdf' => DOWNLOADDIR . 'JFS_Brochure_French.pdf',
+          );
+        } else {
+          $files = array(
+          'JFS_Policy.pdf' => DOWNLOADDIR . 'JFS_Policy.pdf',
+          );
+        }
+      } else if ($data['product_short'] == 'JFE') {
+        $files = array(
+        'JFE_Policy.pdf' => DOWNLOADDIR . 'JFE_Policy.pdf',
+        );
+      } else if ($data['product_short'] == 'BHS') {
+        $files = array(
+        'BHS_Policy.pdf' => DOWNLOADDIR . 'BHS_Policy.pdf',
+        );
+      } else if ($data['product_short'] == 'JES') {
+        if ($data['sendfrench']) {
+          $files = array(
+          'JES_Policy.pdf' => DOWNLOADDIR . 'JES_Policy_French.pdf',
+          'JES_Brochure.pdf' => DOWNLOADDIR . 'JES_Brochure_French.pdf'
+          );
+        } else {
+          $files = array(
+          'JES_Policy.pdf' => DOWNLOADDIR . 'JES_Policy.pdf',
+          'JES_Brochure.pdf' => DOWNLOADDIR . 'JES_Brochure.pdf'
+          );
+        }
+      } else if ($data['product_short'] == 'JFPL') {
+        if ($data['sendfrench']) {
+          $files = array(
+          'JFPL_Policy.pdf' => DOWNLOADDIR . 'JFPL_Policy_French.pdf',
+          'JFPL_Benefit_Summary.pdf' => DOWNLOADDIR . 'JFPL_Benefit_Summary_French.pdf',
+          );
+        } else {
+          $files = array(
+          'JFPL_Policy.pdf' => DOWNLOADDIR . 'JFPL_Policy.pdf',
+          'JFPL_Benefit_Summary.pdf' => DOWNLOADDIR . 'JFPL_Benefit_Summary.pdf'
+          );
+        }
+      } else if ($data['product_short'] == 'JFSL') {
+        $files = array(
+        'JFSL_Policy.pdf' => DOWNLOADDIR . 'JFSL_Policy.pdf',
+        'JFSL_Benefit_Summary.pdf' => DOWNLOADDIR . 'JFSL_Benefit_Summary.pdf'
+        );
+      } else if ($data['product_short'] == 'JFGD') {
+        if ($data['sendfrench']) {
+          $files = array(
+          'JFGD_Policy.pdf' => DOWNLOADDIR . 'JFGD_Policy_French.pdf',
+          'JFGD_Brochure.pdf' => DOWNLOADDIR . 'JFGD_Brochure_French.pdf'
+          );
+        } else {
+          $files = array(
+          'JFGD_Policy.pdf' => DOWNLOADDIR . 'JFGD_Policy.pdf',
+          'JFGD_Benefit_Summary.pdf' => DOWNLOADDIR . 'JFGD_Benefit_Summary.pdf'
+          );
+        }
+      } else if ($data['product_short'] == 'TCS') {
+        $files = array(
+        'TCS_Policy.pdf' => DOWNLOADDIR . 'TCS_Policy.pdf',
+				'TCS_Brochure.pdf' => DOWNLOADDIR . 'TCS_Brochure_French.pdf'
+        );
+      } else if ($data['product_short'] == 'JFOS') {
+        if ($data['sendfrench']) {
+          $files = array(
+          'JFOS_Policy.pdf' => DOWNLOADDIR . 'JFOS_Policy_French.pdf',
+          'JFOS_Brochure.pdf' => DOWNLOADDIR . 'JFOS_Brochure_French.pdf'
+          );
+        } else {
+          $files = array(
+          'JFOS_Policy.pdf' => DOWNLOADDIR . 'JFOS_Policy.pdf',
+          'JFOS_Benefit_Summary.pdf' => DOWNLOADDIR . 'JFOS_Benefit_Summary.pdf'
+          );
+        }
+      } else if ($data['product_short'] == 'JESP') {
+        if ($data['sendfrench']) {
+          $files = array(
+          'JESP_Policy.pdf' => DOWNLOADDIR . 'JESP_Policy_French.pdf',
+          'JESP_Brochure.pdf' => DOWNLOADDIR . 'JESP_Brochure_French.pdf'
+          );
+        } else {
+					$files = array(
+					'JESP_Policy.pdf' => DOWNLOADDIR . 'JESP_Policy.pdf',
+					'JESP_Brochure.pdf' => DOWNLOADDIR . 'JESP_Brochure.pdf'
+					);
+        }
+      } else if ($data['product_short'] == 'JFC') {
+        $files = array(
+        'JFC_Policy.pdf' => DOWNLOADDIR . 'JFC_Policy.pdf',
+        'JFC_Brochure.pdf' => DOWNLOADDIR . 'JFC_Brochure.pdf'
+        );
+      } else if ($data['product_short'] == 'JFP') {
+        $files = array(
+        'JFP_Policy.pdf' => DOWNLOADDIR . 'JFP_Policy.pdf',
+        'JFP_Brochure.pdf' => DOWNLOADDIR . 'JFP_Brochure.pdf'
+        );
+      } else if ($data['product_short'] == 'TOPN') {
+				if ($data['sendfrench']) {
+					$files = array(
+						'TOPN_Policy.pdf' => DOWNLOADDIR . 'TOPN_Policy_French.pdf',
+						'TOPN_Brochure.pdf' => DOWNLOADDIR . 'TOPN_Brochure_French.pdf'
+					);
+				} else {
+					$files = array(
+						'TOPN_Policy.pdf' => DOWNLOADDIR . 'TOPN_Policy.pdf',
+						'TOPN_Brochure.pdf' => DOWNLOADDIR . 'TOPN_Brochure.pdf'
+					);
+				}
+			} else if ($data['plan']['product_short'] == 'TOP') {
+        if ($data['sendfrench']) {
+          $files = array(
+          'TOP_Policy.pdf' => DOWNLOADDIR . 'TOP_Policy_French.pdf',
+          'TOP_Brochure.pdf' => DOWNLOADDIR . 'TOP_Brochure_French.pdf'
+          );
+        } else {
+          $files = array(
+          'TOP_Policy.pdf' => DOWNLOADDIR . 'TOP_Policy.pdf',
+          'TOP_Benefit_Summary.pdf' => DOWNLOADDIR . 'TOP_Benefit_Summary.pdf'
+          );
+        }
+      } else {
+				return $this->app_model->return_error("Unknown Policy");
+      }
+      $this->load->model('mymail_model');
+      
+      $sendok = $this->mymail_model->send_from_donot_replay($data['emailaddr'], 'Your Quick Quote from JF Insurance – Time Sensitive', $body, $files, $from='JF Insurance');
+
+      if ($sendok) {
+        return $this->app_model->return_ok(array("message" => "OK"));
+      } else {
+        return $this->app_model->return_error("Something wrong with send email");
+      }
+    } else {
+      return $this->app_model->return_error("Please input valid email address");
+    }
+		return $this->app_model->return_ok($data);
+  }
+
+  // send package
   public function sendpackage() {
     $this->error = "";
     $this->load->model("app_model");
