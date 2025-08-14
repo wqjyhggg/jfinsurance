@@ -21,9 +21,6 @@ class Forgetpwd_model extends CI_Model {
   ];
 
   public function email_body_app($key) {
-    $url = base_url("/user/setpassword")."?key=".$key;
-    $tidx = array_rand($this->mailtitle);
-    $bidx = array_rand($this->mailbody);
     $rc = array(
       "title" => "Reset Your password",
       "body" => "If you didn't forget your passwrod, just ignore this email. Or use your temporary password: ".$key." to login to reset your in 10 minutes password."
