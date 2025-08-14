@@ -56,12 +56,20 @@ class Forgetpwd_model extends CI_Model {
   public function get_key($user_id) {
     $part1 = md5($user_id.SELF::FORGETKEY);
     $part2 = md5($part1.SELF::FORGETKEY);
-		$this->db->set("forgetid", $part1.$part2);
-    $this->db->set("user_id", $user_id);
-		if ($this->db->insert("forgetpwd")) {
-      return $part1.$part2;
-    }
-		return NULL;
+		$pwd = $part1.$part2;
+		if ($this->get_by_key($pwd)) {
+			$this->db->set("user_id", $user_id);
+			$this->db->where("forgetid", $pwd);
+			$this->db->update("forgetpwd");
+			return $pwd;
+		} else {
+			$this->db->set("forgetid", $pwd);
+			$this->db->set("user_id", $user_id);
+			if ($this->db->insert("forgetpwd")) {
+				return $pwd;
+			}
+			return NULL;
+		}
 	}
 	
   public function get_pwd($user_id) {
