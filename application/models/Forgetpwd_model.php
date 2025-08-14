@@ -66,13 +66,21 @@ class Forgetpwd_model extends CI_Model {
 	
   public function get_pwd($user_id) {
     $pwd = "TP".rand(10000,99999);
-		$this->db->set("forgetid", $pwd);
-    $this->db->set("user_id", $user_id);
-    $this->db->set("is_app", 1);
-		if ($this->db->insert("forgetpwd")) {
-      return $pwd;
-    }
-		return NULL;
+		if ($this->get_by_key($pwd)) {
+			$this->db->set("user_id", $user_id);
+			$this->db->set("is_app", 1);
+			$this->db->where("forgetid", $pwd);
+			$this->db->update("forgetpwd");
+			return $pwd;
+		} else {
+			$this->db->set("forgetid", $pwd);
+			$this->db->set("user_id", $user_id);
+			$this->db->set("is_app", 1);
+			if ($this->db->insert("forgetpwd")) {
+				return $pwd;
+			}
+			return NULL;
+		}
 	}
 	
 	public function get_by_pwd($key) {
