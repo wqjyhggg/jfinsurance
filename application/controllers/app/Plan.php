@@ -369,7 +369,7 @@ class Plan extends CI_Controller
           $payinfo = "Credit Card: " . substr($card_number, 0, 5) . "xxx" . substr($card_number, -4) . " " . $card_name .  " " . $expiry_month . "/" . $expiry_year;
 						
 					$para = array('payment_id' => $payment_id, 'payinfo' => $payinfo, 'commission_payment_id' => $commission_payment_id, 'status_id' => Plan_model::PAID, 'policy' => $this->plan_model->get_policy_number($plan_id, 2));
-					$this->plan_model->update($plan_id, $para);
+					$this->plan_model->update($plan_id, $para, array(), $user);
 					$para = array(
 							'plan_id' => $plan_id,
 							'customer_id' => $plan['customer_id'],
@@ -437,7 +437,7 @@ class Plan extends CI_Controller
 				$payinfo = "Credit Card: " . substr($card_number, 0, 5) . "xxx" . substr($card_number, -4) . " " . $card_name .  " " . $expiry_month . "/" . $expiry_year;
 					
 				$para = array('payment_id' => $payment_id, 'payinfo' => $payinfo, 'commission_payment_id' => $commission_payment_id);
-				$this->plan_model->update($plan_id, $para);
+				$this->plan_model->update($plan_id, $para, array(), $user);
 				$para = array(
 						'plan_id' => $plan_id,
 						'customer_id' => $plan['customer_id'],
@@ -1440,12 +1440,12 @@ class Plan extends CI_Controller
 			return $this->app_model->return_error("Missing Product Short");
 		}
 
-		$body  = "Dear (Client's First Name),\r\n\r\n";
+		$body  = "Dear ".$data["name"].",\r\n\r\n";
 		$body .= "Thank you for giving me the opportunity to assist you with your insurance needs.\r\n";
 		$body .= "Based on the information you've provided, your premium is: $.".$data["premium"]."\r\n";
-		$body .= "This preliminary quote is based on the information you’ve provided. Attached in this email you will find the Wordings and Brochure for your review.\r\n";
+		$body .= "This preliminary quote is based on the information you've provided. Attached in this email you will find the Wordings and Brochure for your review.\r\n";
 		$body .= "Please note that this quote is time-sensitive and subject to change. Coverage is not confirmed until payment is received, and a formal policy is issued\r\n";
-		$body .= "If you have any questions, need clarification, or are ready to move forward, feel free to reach out to me directly. I’m happy to help guide you through the next steps.\r\n";
+		$body .= "If you have any questions, need clarification, or are ready to move forward, feel free to reach out to me directly. I'm happy to help guide you through the next steps.\r\n";
 		$body .= "Best regards,\r\n\r\n";
 		$body .= "JF Insurance Agency Group Inc.\r\n";
 		$body .= "Ontario Office\r\n";
@@ -1454,11 +1454,10 @@ class Plan extends CI_Controller
 		$body .= "Phone: 905-707-1512 Or 1-877-832-5541\r\n\r\n";
 		$body .= "Please Note the email should include the corresponding Policy wording and Brochure attachments. Thanks\r\n";
 
-		$data['emailaddr'] = $plan['contact_email'];
     $data['sendfrench'] = isset($data['sendfrench'])?$data['sendfrench']:0;
 
     if (!$this->verify_model->isEmail($data['emailaddr'])) {
-      $product = $this->product_model->get_product($plan['product_short']);
+      $product = $this->product_model->get_product($data['product_short']);
       if ($data['product_short'] == 'OPL') {
         $files = array(
         'OPL_Policy.pdf' => DOWNLOADDIR . 'OPL_Policy.pdf',
@@ -1607,7 +1606,7 @@ class Plan extends CI_Controller
 						'TOPN_Brochure.pdf' => DOWNLOADDIR . 'TOPN_Brochure.pdf'
 					);
 				}
-			} else if ($data['plan']['product_short'] == 'TOP') {
+			} else if ($data['product_short'] == 'TOP') {
         if ($data['sendfrench']) {
           $files = array(
           'TOP_Policy.pdf' => DOWNLOADDIR . 'TOP_Policy_French.pdf',
