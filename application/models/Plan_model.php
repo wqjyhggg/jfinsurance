@@ -589,7 +589,7 @@ class Plan_model extends CI_Model {
 		if (isset($para['product_short']) && (($para['product_short'] == 'JFVTC') | ($para['product_short'] == 'JFR')) && ((int)$para['stable_condition'] == 2)) {
 			$this->logstr .= " stable_condition_confirm " . $para['stable_condition_confirm'] . "(" . $plan['stable_condition_confirm'] . ")";
 			$sql .= " stable_condition_confirm='" . (empty($para['stable_condition_confirm']) ? "0" : "1") . "', ";
-		} else if ($para['product_short'] == 'TOPN') {
+		} else if (isset($para['product_short']) && ($para['product_short'] == 'TOPN')) {
 			$this->logstr .= " stable_condition_confirm " . $para['stable_condition_confirm'] . "(" . $plan['stable_condition_confirm'] . ")";
 			$sql .= " stable_condition_confirm='" . (empty($para['stable_condition_confirm']) ? "0" : "1") . "', ";
 		}
