@@ -1442,9 +1442,9 @@ class Plan extends CI_Controller
 
 		$body  = "Dear ".$data["name"].",\r\n\r\n";
 		$body .= "Thank you for giving me the opportunity to assist you with your insurance needs.\r\n";
-		$body .= "Based on the information you've provided, your premium is: $.".$data["premium"]."\r\n";
+		$body .= "Based on the information you've provided, your premium is: $".$data["premium"].".\r\n";
 		$body .= "This preliminary quote is based on the information you've provided. Attached in this email you will find the Wordings and Brochure for your review.\r\n";
-		$body .= "Please note that this quote is time-sensitive and subject to change. Coverage is not confirmed until payment is received, and a formal policy is issued\r\n";
+		$body .= "Please note that this quote is time-sensitive and subject to change. Coverage is not confirmed until payment is received, and a formal policy is issued.\r\n";
 		$body .= "If you have any questions, need clarification, or are ready to move forward, feel free to reach out to me directly. I'm happy to help guide you through the next steps.\r\n";
 		$body .= "Best regards,\r\n\r\n";
 		$body .= "JF Insurance Agency Group Inc.\r\n";
