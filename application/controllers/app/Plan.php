@@ -1456,7 +1456,7 @@ class Plan extends CI_Controller
 
     $data['sendfrench'] = isset($data['sendfrench'])?$data['sendfrench']:0;
 
-    if (!$this->verify_model->isEmail($data['emailaddr'])) {
+    if ($this->verify_model->isEmail($data['emailaddr'])) {
       $product = $this->product_model->get_product($data['product_short']);
       if ($data['product_short'] == 'OPL') {
         $files = array(
