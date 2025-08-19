@@ -3261,11 +3261,20 @@ class Plan extends MY_Controller {
 		$this->load->model('html_model');
 		$data['html_model'] = $this->html_model;
 
-		if (($data['plan']['product_short'] == 'TOP') || ($data['plan']['product_short'] == 'TOPN')) {
-			$data['toppackagename'] = $this->toppackagename;
-			$this->load->common('plan/top/detail', $data);
+		if (empty($sekey)) {
+			if (($data['plan']['product_short'] == 'TOP') || ($data['plan']['product_short'] == 'TOPN')) {
+				$data['toppackagename'] = $this->toppackagename;
+				$this->load->common('plan/top/detail', $data);
+			} else {
+				$this->load->common('plan/detail', $data);
+			}
 		} else {
-			$this->load->common('plan/detail', $data);
+			if (($data['plan']['product_short'] == 'TOP') || ($data['plan']['product_short'] == 'TOPN')) {
+				$data['toppackagename'] = $this->toppackagename;
+				$this->load->common('plan/top/detail2', $data);
+			} else {
+				$this->load->common('plan/detail2', $data);
+			}
 		}
 	}
 
