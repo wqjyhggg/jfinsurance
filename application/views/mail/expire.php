@@ -10,7 +10,11 @@ Dear [Agency Name/Partner],
 We hope this message finds you well.
 <br />
 <br />
-Please be advised that the following policies under your account are approaching their expiry dates. We kindly ask that you contact your clients to remind them of the upcoming expirations and assist with additional insurance policy purchase if they wish to maintain continuous coverage.
+Please be advised that the following policies under your account 
+are approaching their expiry dates. We kindly ask that you contact 
+your clients to remind them of the upcoming expirations and assist 
+with additional insurance policy purchase if they wish to maintain 
+continuous coverage.
 <br />
 <br />
 <b>Policies Expiring Soon:</b>
