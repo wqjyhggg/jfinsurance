@@ -8,7 +8,7 @@ if ($Agree != "Agree") {
 }
 $studentPlan = ['JES', 'JFPL', 'JFSL', 'JFGD', 'TCS', 'JFOS', 'JESP', 'JFE', 'JFS', 'BHS', 'JFC', 'JFP'];
 ?>
- <style>
+<style>
 .container {
     background-color: #f0f0f0; /* Light gray background */
     width: 100%;
@@ -80,9 +80,9 @@ $studentPlan = ['JES', 'JFPL', 'JFSL', 'JFGD', 'TCS', 'JFOS', 'JESP', 'JFE', 'JF
 }
 </style>
 <div class="container" style="padding:0;">
-<div class="hlogo">
-<img class="img-responsive" src="/image/logo.png" alt="JF Insurance">
-</div>
+	<div class="hlogo">
+		<img class="img-responsive" src="/image/logo.png" alt="JF Insurance">
+	</div>
 </div>
 <!-- Plan page content -->
 <div class="main">
@@ -103,7 +103,7 @@ $studentPlan = ['JES', 'JFPL', 'JFSL', 'JFGD', 'TCS', 'JFOS', 'JESP', 'JFE', 'JF
       <span class="info-text"><?php echo $plan['product_short']; ?></span>
     </div>
     <div class="info-card">
-      <span class="info-lable">Quote Number:<span>
+      <span class="info-lable"><?php if ($plan['status_id'] < 2) { echo "Quote" } else { echo "Policy"; } ?> Number:<span>
       <span class="info-text"><?php echo $plan['policy']; ?></span>
     </div>
     <div class="info-card">
@@ -203,32 +203,32 @@ $studentPlan = ['JES', 'JFPL', 'JFSL', 'JFGD', 'TCS', 'JFOS', 'JESP', 'JFE', 'JF
       <span class="info-lable">Gender:<span>
       <span class="info-text"><?php echo $customer['gender']; ?></span>
     </div>
-		<?php if ($plan['isfamilyplan']) { ?>
-			Family/Group Member Information
-			<div>Student Information</div>
-			<?php for ($i = 0; $i < 25; $i++) { ?>
-			<?php  if (empty($customers[$i]['lastname']) && empty($customers[$i]['firstname'])) break; ?>
-			<div class="info-card">
-				<span class="info-lable">First Name:<span>
-				<span class="info-text"><?php echo $customers[$i]['firstname']; ?></span>
-			</div>
-			<div class="info-card">
-				<span class="info-lable">Last Name:<span>
-				<span class="info-text"><?php echo $customers[$i]['lastname']; ?></span>
-			</div>
-			<div class="info-card">
-				<span class="info-lable">Birthday:<span>
-				<span class="info-text"><?php echo $customers[$i]['birthday']; ?></span>
-			</div>
-			<div class="info-card">
-				<span class="info-lable">Gender:<span>
-				<span class="info-text"><?php echo $customers[$i]['gender']; ?></span>
-			</div>
-			<?php } ?>
-		<?php } ?>
+    <?php if ($plan['isfamilyplan']) { ?>
+      Family/Group Member Information
+      <div>Student Information</div>
+      <?php for ($i = 0; $i < 25; $i++) { ?>
+      <?php  if (empty($customers[$i]['lastname']) && empty($customers[$i]['firstname'])) break; ?>
+      <div class="info-card">
+        <span class="info-lable">First Name:<span>
+        <span class="info-text"><?php echo $customers[$i]['firstname']; ?></span>
+      </div>
+      <div class="info-card">
+        <span class="info-lable">Last Name:<span>
+        <span class="info-text"><?php echo $customers[$i]['lastname']; ?></span>
+      </div>
+      <div class="info-card">
+        <span class="info-lable">Birthday:<span>
+        <span class="info-text"><?php echo $customers[$i]['birthday']; ?></span>
+      </div>
+      <div class="info-card">
+        <span class="info-lable">Gender:<span>
+        <span class="info-text"><?php echo $customers[$i]['gender']; ?></span>
+      </div>
+      <?php } ?>
+    <?php } ?>
   </div>
   <div class="title-left">
-		Address
+    Address
   </div>
   <div class="info">
     <div class="info-card">
@@ -289,81 +289,81 @@ $studentPlan = ['JES', 'JFPL', 'JFSL', 'JFGD', 'TCS', 'JFOS', 'JESP', 'JFE', 'JF
   <div class="info">
     <div class="pay-card">
       <form action='<?php echo ($usepsi ? $psi_active_url : $active_url); ?>' method='POST'>
-			<?php if ($usepsi) { ?>
-				<input type='hidden' name='CustomerRefNo' value='<?php echo $plan['plan_id']; ?>'>
-				<input type='hidden' name='Bname' value='<?php echo $plan['plan_id']; ?>'>
-				<input type='hidden' name='StoreKey' value='<?php echo $StoreKey; ?>'>
-				<input type='hidden' name='SubTotal' value='<?php echo $payment_total; ?>'>
-				<input type='hidden' name='ResponseFormat' value='HTML'>
-				<input type='hidden' name='ThanksURL' value='<?php echo $psi_thanks_url;?>'>
-				<input type='hidden' name='NoThanksURL' value='<?php echo $psi_nothanks_url;?>'>
-				<input type='hidden' name='CustomerIP' value='<?php echo $CustomerIP;?>'>
-				<input type='hidden' name='PaymentType' value=''>
-				<input type='hidden' name='CardAction' value='0'>
-			<?php } else { ?>
-				<input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
-				<input type='hidden' name='plan_id' value='<?php echo $plan['plan_id']; ?>'>
-				<input type='hidden' name='play_type' value='Credit Card'>
-				<input type='hidden' name='sekey' value='<?php echo $sekey; ?>'>
-				<input type='hidden' name='premium' value='<?php echo $payment_total; ?>'>
-			<?php } ?>
-			<div class="card-info">
-				<div class="card-sub" style="margin-bottom:0;"><?php echo $this->lang->line("Card Number"); ?>:</div>
-				<input class="card-fit" type='text' name='<?php echo ($usepsi ? "CardNumber" : "card_number"); ?>' value='' placeholder="Card Number">
-			</div>
-			<?php if (! $usepsi) { ?>
-			<div class="card-info">
-				<div class="card-sub" style="margin-bottom:0;"><?php echo $this->lang->line("Card Holder's Name"); ?>:</div>
-				<input class="card-fit" type='text' name='<?php echo ($usepsi ? "CardNumber" : "card_number"); ?>' value='' placeholder="Card Holder's Name">
-			</div>
-			<?php } ?>
-			<div class="card-info">
-				<div class="card-sub"><?php echo $this->lang->line("Expiry Month"); ?>:</div>
-				<select name='<?php echo ($usepsi ? "CardExpMonth" : "expiry_month"); ?>' class="card-fit">
-					<option value='01' <?php echo (($expiry_month == 1) ? 'selected' : ''); ?>>01</option>
-					<option value='02' <?php echo (($expiry_month == 2) ? 'selected' : ''); ?>>02</option>
-					<option value='03' <?php echo (($expiry_month == 3) ? 'selected' : ''); ?>>03</option>
-					<option value='04' <?php echo (($expiry_month == 4) ? 'selected' : ''); ?>>04</option>
-					<option value='05' <?php echo (($expiry_month == 5) ? 'selected' : ''); ?>>05</option>
-					<option value='06' <?php echo (($expiry_month == 6) ? 'selected' : ''); ?>>06</option>
-					<option value='07' <?php echo (($expiry_month == 7) ? 'selected' : ''); ?>>07</option>
-					<option value='08' <?php echo (($expiry_month == 8) ? 'selected' : ''); ?>>08</option>
-					<option value='09' <?php echo (($expiry_month == 9) ? 'selected' : ''); ?>>09</option>
-					<option value='10' <?php echo (($expiry_month == 10) ? 'selected' : ''); ?>>10</option>
-					<option value='11' <?php echo (($expiry_month == 11) ? 'selected' : ''); ?>>11</option>
-					<option value='12' <?php echo (($expiry_month == 12) ? 'selected' : ''); ?>>12</option>
-				</select> 
-			</div>
-			<div class="card-info">
-				<div class="card-sub"><?php echo $this->lang->line("Expiry Year"); ?>:</div>
-				<select name='<?php echo ($usepsi ? "CardExpYear" : "expiry_year"); ?>' class="cart-fit">
-					<option value='<?php echo date('y'); ?>'> <?php echo date('y'); ?> </option>
-					<option value='<?php echo date('y',strtotime('+1 years')); ?>'> <?php echo date('y',strtotime('+1 years')); ?> </option>
-					<option value='<?php echo date('y',strtotime('+2 years')); ?>'> <?php echo date('y',strtotime('+2 years')); ?> </option>
-					<option value='<?php echo date('y',strtotime('+3 years')); ?>'> <?php echo date('y',strtotime('+3 years')); ?> </option>
-					<option value='<?php echo date('y',strtotime('+4 years')); ?>'> <?php echo date('y',strtotime('+4 years')); ?> </option>
-					<option value='<?php echo date('y',strtotime('+5 years')); ?>'> <?php echo date('y',strtotime('+5 years')); ?> </option>
-					<option value='<?php echo date('y',strtotime('+6 years')); ?>'> <?php echo date('y',strtotime('+6 years')); ?> </option>
-					<option value='<?php echo date('y',strtotime('+7 years')); ?>'> <?php echo date('y',strtotime('+7 years')); ?> </option>
-					<option value='<?php echo date('y',strtotime('+8 years')); ?>'> <?php echo date('y',strtotime('+8 years')); ?> </option>
-					<option value='<?php echo date('y',strtotime('+9 years')); ?>'> <?php echo date('y',strtotime('+9 years')); ?> </option>
-					<option value='<?php echo date('y',strtotime('+10 years')); ?>'> <?php echo date('y',strtotime('+10 years')); ?> </option>
-					<option value='<?php echo date('y',strtotime('+11 years')); ?>'> <?php echo date('y',strtotime('+11 years')); ?> </option>
-				</select>
-			</div>
-			<div class="card-info">
-				<div class="card-sub"><?php echo $this->lang->line("Card CVV"); ?>:</div>
-				<input type='text' name='<?php echo ($usepsi ? "CardIDNumber" : "card_cvv"); ?>' value='' class="card-fit">
-			</div>
-			<div class="card-info" style="margin-top: 1.5rem;">
-				<div style="flex: 1 1 100%; text-align: center;"><?php echo $this->lang->line("Amount"); ?>: <b>$<?php echo number_format($payment_total, 2, '.', ','); ?></b></div>
-				<input type='submit' name='submit' value='<?php echo $this->lang->line("Pay Now"); ?>' />
-			</div>
-		</div>
-	</div>
+      <?php if ($usepsi) { ?>
+        <input type='hidden' name='CustomerRefNo' value='<?php echo $plan['plan_id']; ?>'>
+        <input type='hidden' name='Bname' value='<?php echo $plan['plan_id']; ?>'>
+        <input type='hidden' name='StoreKey' value='<?php echo $StoreKey; ?>'>
+        <input type='hidden' name='SubTotal' value='<?php echo $payment_total; ?>'>
+        <input type='hidden' name='ResponseFormat' value='HTML'>
+        <input type='hidden' name='ThanksURL' value='<?php echo $psi_thanks_url;?>'>
+        <input type='hidden' name='NoThanksURL' value='<?php echo $psi_nothanks_url;?>'>
+        <input type='hidden' name='CustomerIP' value='<?php echo $CustomerIP;?>'>
+        <input type='hidden' name='PaymentType' value=''>
+        <input type='hidden' name='CardAction' value='0'>
+      <?php } else { ?>
+        <input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
+        <input type='hidden' name='plan_id' value='<?php echo $plan['plan_id']; ?>'>
+        <input type='hidden' name='play_type' value='Credit Card'>
+        <input type='hidden' name='sekey' value='<?php echo $sekey; ?>'>
+        <input type='hidden' name='premium' value='<?php echo $payment_total; ?>'>
+      <?php } ?>
+      <div class="card-info">
+        <div class="card-sub" style="margin-bottom:0;"><?php echo $this->lang->line("Card Number"); ?>:</div>
+        <input class="card-fit" type='text' name='<?php echo ($usepsi ? "CardNumber" : "card_number"); ?>' value='' placeholder="Card Number">
+      </div>
+      <?php if (! $usepsi) { ?>
+      <div class="card-info">
+        <div class="card-sub" style="margin-bottom:0;"><?php echo $this->lang->line("Card Holder's Name"); ?>:</div>
+        <input class="card-fit" type='text' name='<?php echo ($usepsi ? "CardNumber" : "card_number"); ?>' value='' placeholder="Card Holder's Name">
+      </div>
+      <?php } ?>
+      <div class="card-info">
+        <div class="card-sub"><?php echo $this->lang->line("Expiry Month"); ?>:</div>
+        <select name='<?php echo ($usepsi ? "CardExpMonth" : "expiry_month"); ?>' class="card-fit">
+          <option value='01' <?php echo (($expiry_month == 1) ? 'selected' : ''); ?>>01</option>
+          <option value='02' <?php echo (($expiry_month == 2) ? 'selected' : ''); ?>>02</option>
+          <option value='03' <?php echo (($expiry_month == 3) ? 'selected' : ''); ?>>03</option>
+          <option value='04' <?php echo (($expiry_month == 4) ? 'selected' : ''); ?>>04</option>
+          <option value='05' <?php echo (($expiry_month == 5) ? 'selected' : ''); ?>>05</option>
+          <option value='06' <?php echo (($expiry_month == 6) ? 'selected' : ''); ?>>06</option>
+          <option value='07' <?php echo (($expiry_month == 7) ? 'selected' : ''); ?>>07</option>
+          <option value='08' <?php echo (($expiry_month == 8) ? 'selected' : ''); ?>>08</option>
+          <option value='09' <?php echo (($expiry_month == 9) ? 'selected' : ''); ?>>09</option>
+          <option value='10' <?php echo (($expiry_month == 10) ? 'selected' : ''); ?>>10</option>
+          <option value='11' <?php echo (($expiry_month == 11) ? 'selected' : ''); ?>>11</option>
+          <option value='12' <?php echo (($expiry_month == 12) ? 'selected' : ''); ?>>12</option>
+        </select> 
+      </div>
+      <div class="card-info">
+        <div class="card-sub"><?php echo $this->lang->line("Expiry Year"); ?>:</div>
+        <select name='<?php echo ($usepsi ? "CardExpYear" : "expiry_year"); ?>' class="cart-fit">
+          <option value='<?php echo date('y'); ?>'> <?php echo date('y'); ?> </option>
+          <option value='<?php echo date('y',strtotime('+1 years')); ?>'> <?php echo date('y',strtotime('+1 years')); ?> </option>
+          <option value='<?php echo date('y',strtotime('+2 years')); ?>'> <?php echo date('y',strtotime('+2 years')); ?> </option>
+          <option value='<?php echo date('y',strtotime('+3 years')); ?>'> <?php echo date('y',strtotime('+3 years')); ?> </option>
+          <option value='<?php echo date('y',strtotime('+4 years')); ?>'> <?php echo date('y',strtotime('+4 years')); ?> </option>
+          <option value='<?php echo date('y',strtotime('+5 years')); ?>'> <?php echo date('y',strtotime('+5 years')); ?> </option>
+          <option value='<?php echo date('y',strtotime('+6 years')); ?>'> <?php echo date('y',strtotime('+6 years')); ?> </option>
+          <option value='<?php echo date('y',strtotime('+7 years')); ?>'> <?php echo date('y',strtotime('+7 years')); ?> </option>
+          <option value='<?php echo date('y',strtotime('+8 years')); ?>'> <?php echo date('y',strtotime('+8 years')); ?> </option>
+          <option value='<?php echo date('y',strtotime('+9 years')); ?>'> <?php echo date('y',strtotime('+9 years')); ?> </option>
+          <option value='<?php echo date('y',strtotime('+10 years')); ?>'> <?php echo date('y',strtotime('+10 years')); ?> </option>
+          <option value='<?php echo date('y',strtotime('+11 years')); ?>'> <?php echo date('y',strtotime('+11 years')); ?> </option>
+        </select>
+      </div>
+      <div class="card-info">
+        <div class="card-sub"><?php echo $this->lang->line("Card CVV"); ?>:</div>
+        <input type='text' name='<?php echo ($usepsi ? "CardIDNumber" : "card_cvv"); ?>' value='' class="card-fit">
+      </div>
+      <div class="card-info" style="margin-top: 1.5rem;">
+        <div style="flex: 1 1 100%; text-align: center;"><?php echo $this->lang->line("Amount"); ?>: <b>$<?php echo number_format($payment_total, 2, '.', ','); ?></b></div>
+        <input type='submit' name='submit' value='<?php echo $this->lang->line("Pay Now"); ?>' />
+      </div>
+    </div>
+  </div>
   <?php } ?>
-	<div class="container">
-		© <?php echo date("Y"); ?> Made By JF Insurance
-	</div>
+  <div class="container">
+    © <?php echo date("Y"); ?> Made By JF Insurance
+  </div>
 </div>
 <!-- /page content -->
