@@ -7,22 +7,109 @@ if ($Agree != "Agree") {
   $hideForFrench = true;
 }
 ?>
+ <style>
+.container {
+    background-color: #f0f0f0; /* Light gray background */
+    width: 100%;
+    text-align: center;
+}
+.main {
+    inline-size: 100%;
+    margin-inline: auto;
+    max-inline-size: 1440px;
+}
+.title-left {
+    font-size: 1.25rem;
+    font-weight: 500;
+    letter-spacing: .0125em;
+    overflow: hidden;
+    padding: .5rem 1rem;
+    text-overflow: ellipsis;
+    text-transform: none;
+    white-space: nowrap;
+    word-break: normal;
+    word-wrap: break-word;
+    border: 1px solid #ccc; /* Light gray border */
+    border-radius: .25rem; /* Rounded corners */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    background: rgba(222, 226, 222, .8);
+}
+.info {
+    display: flex;
+    flex-wrap: wrap;
+    margin: -10px;
+}
+.info-card {
+    flex: 1 1 25%;
+    margin: 10px;
+    box-sizing: border-box;
+    padding: 20px; /* Add some padding */
+    display: flex;
+    align-items: left;
+    justify-content: left;
+    min-height: 100px;
+}
+</style>
+<div class="container" style="padding:0;">
+<div class="hlogo">
+<img class="img-responsive" src="/image/logo.png" alt="JF Insurance">
+</div>
+</div>
 <!-- Plan page content -->
-<div role="main" style="padding-left:28px">
- 	<div class="main-div" style="padding-bottom:50px;">
-		<div class="page-title">
-			<div class="title_left">
-				<h3><?php echo $this->lang->line("Policy"); ?></h3>
-			</div>
-		</div>
-		<div class="clearfix"></div>
-		<!-- Form Section -->
-		<?php if (($plan['status_id'] == 2) || ($plan['status_id'] == 3)) { ?>
-			<div class="alert alert-danger" style='font-size: 24px;'><?php echo $this->lang->line("Please contact your agent to get your policy details and the insurance package."); ?></div>
-		<?php } ?>
-		<div class="row">
-			<div class="col-md-12 col-sm-12 col-xs-12">
-				<div class="x_panel">
+<div class="main">
+  <div class="title-left">
+    <?php echo $this->lang->line("Policy Detail"); ?>
+    <?php if (($plan['status_id'] == 2) || ($plan['status_id'] == 3)) { ?>
+      <span style='color: red;'><?php echo $this->lang->line("Please contact your agent to get your policy details and the insurance package."); ?></span>
+    <?php } ?>
+  </div>
+  <div class="info">
+    <div class="info-card">
+      <span class="info-lable"><?php echo $this->lang->line("Policy"); ?>:<span>
+      <span class="info-text"><?php echo $plan['product_short']; ?></span>
+    </div>
+    <div class="info-card">
+      <span class="info-lable">Quote Number:<span>
+      <span class="info-text"><?php echo $plan['policy']; ?></span>
+    </div>
+    <div class="info-card">
+      <span class="info-lable">Status:<span>
+      <span class="info-text"><?php $status_list[$plan['status_id']]['name']; ?>]; ?></span>
+    </div>
+  </div>
+  <div class="title-left">
+    Travel Dates
+  </div>
+  <div class="info">
+    <div class="info-card">
+      <span class="info-lable">Apply Date:<span>
+      <span class="info-text"><?php echo $plan['apply_date']; ?></span>
+    </div>
+    <div class="info-card">
+      <span class="info-lable">Arrival Date:<span>
+      <span class="info-text"><?php echo $plan['arrival_date']; ?></span>
+    </div>
+    <div class="info-card">
+      <span class="info-lable">Effective Date:<span>
+      <span class="info-text"><?php echo $plan['effective_date']; ?></span>
+    </div>
+    <div class="info-card">
+      <span class="info-lable">Expiry Date:<span>
+      <span class="info-text"><?php echo $plan['expiry_date']; ?></span>
+    </div>
+  </div>
+  <div class="info">
+    <div class="info-card">
+      <span class="info-lable"><?php echo $this->lang->line("Policy"); ?>:<span>
+      <span class="info-text"><?php echo $plan['product_short']; ?></span>
+    </div>
+  </div>
+  <div class="info">
+    <div class="info-card">
+      <span class="info-lable"><?php echo $this->lang->line("Policy"); ?>:<span>
+      <span class="info-text"><?php echo $plan['product_short']; ?></span>
+    </div>
+  </div>
 					<div class="x_title">
 						<h2 class="col-xs-12 col-sm-12 col-md-12" style="width: auto;">
 							<?php echo $this->lang->line("Review Policy Detail"); ?>
