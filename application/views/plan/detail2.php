@@ -24,7 +24,9 @@ $studentPlan = ['JES', 'JFPL', 'JFSL', 'JFGD', 'TCS', 'JFOS', 'JESP', 'JFE', 'JF
     font-weight: 500;
     letter-spacing: .0125em;
     overflow: hidden;
-    padding: .5rem 1rem;
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+    padding: .5rem 2rem .5rem 2rem;
     text-overflow: ellipsis;
     text-transform: none;
     white-space: nowrap;
@@ -39,31 +41,42 @@ $studentPlan = ['JES', 'JFPL', 'JFSL', 'JFGD', 'TCS', 'JFOS', 'JESP', 'JFE', 'JF
     display: flex;
     flex-wrap: wrap;
     margin: -10px;
+    padding: 0 3rem;
 }
 .info-card {
     flex: 1 1 25%;
-    margin: 10px;
+    margin: .5rem 0 0 0;
     box-sizing: border-box;
-    padding: 20px; /* Add some padding */
+    padding: 0 .5rem;
     display: flex;
     align-items: left;
     justify-content: left;
-    min-height: 100px;
 }
-.pay-card {
+.info-text {
+    font-weight: 600;
+}
+.card-info {
     flex: 1 1 100%;
-    margin: 10px;
+    margin: .5rem 0 0 0;
     box-sizing: border-box;
-    padding: 20px; /* Add some padding */
     display: flex;
     align-items: left;
     justify-content: left;
-    min-height: 100px;
+}
+.card-sub {
+    flex: 0 1 auto;
+    min-width: 10rem;
+    text-align: right;
+    margin-right: 2rem;
+}
+.card-fit {
+    flex: 0 1 auto;
+    text-align: left;
 }
 @media (max-width: 600px) {
-	.info-card {
-			flex: 1 1 100%; /* 100% width on mobile */
-	}
+    .info-card {
+        flex: 1 1 100%; /* 100% width on mobile */
+    }
 }
 </style>
 <div class="container" style="padding:0;">
@@ -77,10 +90,14 @@ $studentPlan = ['JES', 'JFPL', 'JFSL', 'JFGD', 'TCS', 'JFOS', 'JESP', 'JFE', 'JF
     <?php echo $this->lang->line("Policy Detail"); ?>
     <?php if (($plan['status_id'] == 2) || ($plan['status_id'] == 3)) { ?>
       <span style='color: red;'><?php echo $this->lang->line("Please contact your agent to get your policy details and the insurance package."); ?></span>
-    <?php } ?>
+    <?php } ?> 
+    <?php if (!empty($error_message)) { ?><div style="color: red;""><?php echo $error_message; ?></div><?php } ?>
+    <?php if (!empty($errormsg)) { ?><div style="color: red;""><?php echo $errormsg; ?></div><?php } ?>
   </div>
   <div class="info">
-		<div><?php echo $plan_full_name; ?></div>
+    <div class="info-card" style="flex: 1 1 100%;">
+      <div class="info-text"><?php echo $plan_full_name; ?></div>
+    </div>
     <div class="info-card">
       <span class="info-lable"><?php echo $this->lang->line("Policy"); ?>:<span>
       <span class="info-text"><?php echo $plan['product_short']; ?></span>
@@ -91,8 +108,9 @@ $studentPlan = ['JES', 'JFPL', 'JFSL', 'JFGD', 'TCS', 'JFOS', 'JESP', 'JFE', 'JF
     </div>
     <div class="info-card">
       <span class="info-lable">Status:<span>
-      <span class="info-text"><?php $status_list[$plan['status_id']]['name']; ?>]; ?></span>
+      <span class="info-text"><?php echo $status_list[$plan['status_id']]['name']; ?></span>
     </div>
+    <div class="info-card">&nbsp;</div>
   </div>
   <div class="title-left">
     Travel Dates
@@ -136,7 +154,7 @@ $studentPlan = ['JES', 'JFPL', 'JFSL', 'JFGD', 'TCS', 'JFOS', 'JESP', 'JFE', 'JF
   </div>
   <div class="info">
     <div class="info-card">
-      <span class="info-lable">Beneficiary:<span>XXXXX
+      <span class="info-lable">Beneficiary:</span>
       <span class="info-text"><?php echo $plan['beneficiary']; ?></span>
     </div>
     <div class="info-card">
@@ -145,7 +163,7 @@ $studentPlan = ['JES', 'JFPL', 'JFSL', 'JFGD', 'TCS', 'JFOS', 'JESP', 'JFE', 'JF
     </div>
     <div class="info-card">&nbsp;</div>
     <div class="info-card">&nbsp;</div>
-		<?php if (in_array($data['product_short'], $studentPlan)) { ?>
+    <?php if (in_array($plan['product_short'], $studentPlan)) { ?>
     <div class="info-card">
       <span class="info-lable">Student ID:<span>
       <span class="info-text"><?php echo $plan['student_id']; ?></span>
@@ -162,13 +180,13 @@ $studentPlan = ['JES', 'JFPL', 'JFSL', 'JFGD', 'TCS', 'JFOS', 'JESP', 'JFE', 'JF
       <span class="info-lable">School Phone:<span>
       <span class="info-text"><?php echo $plan['institution_phone']; ?></span>
     </div>
-		<?php } ?>
+    <?php } ?>
   </div>
   <div class="title-left">
-		Insurable Members
+    Insurable Members
   </div>
   <div class="info">
-		<div>Student Information</div>
+    <div class="infor-card" style="flex: 1 1 100%;"><b>Student Information</b></div>
     <div class="info-card">
       <span class="info-lable">First Name:<span>
       <span class="info-text"><?php echo $customer['firstname']; ?></span>
@@ -247,7 +265,7 @@ $studentPlan = ['JES', 'JFPL', 'JFSL', 'JFGD', 'TCS', 'JFOS', 'JESP', 'JFE', 'JF
     </div>
   </div>
   <div class="title-left">
-		Contact Information
+    Contact Information
   </div>
   <div class="info">
     <div class="info-card">
@@ -264,11 +282,13 @@ $studentPlan = ['JES', 'JFPL', 'JFSL', 'JFGD', 'TCS', 'JFOS', 'JESP', 'JFE', 'JF
     </div>
     <div class="info-card">&nbsp;</div>
   </div>
-	<?php if (!empty($payment_total)) { ?>
+  <?php if (!empty($payment_total)) { ?>
+  <div class="title-left">
+    <?php echo $this->lang->line("Pay By Credit Card"); ?>
+  </div>
   <div class="info">
-		<div class="pay-card"><?php echo $this->lang->line("Pay By Credit Card"); ?></div>
-		<div class="pay-card">
-			<form action='<?php echo ($usepsi ? $psi_active_url : $active_url); ?>' method='POST'>
+    <div class="pay-card">
+      <form action='<?php echo ($usepsi ? $psi_active_url : $active_url); ?>' method='POST'>
 			<?php if ($usepsi) { ?>
 				<input type='hidden' name='CustomerRefNo' value='<?php echo $plan['plan_id']; ?>'>
 				<input type='hidden' name='Bname' value='<?php echo $plan['plan_id']; ?>'>
@@ -288,18 +308,18 @@ $studentPlan = ['JES', 'JFPL', 'JFSL', 'JFGD', 'TCS', 'JFOS', 'JESP', 'JFE', 'JF
 				<input type='hidden' name='premium' value='<?php echo $payment_total; ?>'>
 			<?php } ?>
 			<div class="card-info">
-				<label class="inline" style="margin-bottom:0;"><?php echo $this->lang->line("Card Number"); ?>:</label>
-				<input type='text' name='<?php echo ($usepsi ? "CardNumber" : "card_number"); ?>' value='' placeholder="Card Number">
+				<div class="card-sub" style="margin-bottom:0;"><?php echo $this->lang->line("Card Number"); ?>:</div>
+				<input class="card-fit" type='text' name='<?php echo ($usepsi ? "CardNumber" : "card_number"); ?>' value='' placeholder="Card Number">
 			</div>
 			<?php if (! $usepsi) { ?>
 			<div class="card-info">
-				<label class="inline" style="margin-bottom:0;"><?php echo $this->lang->line("Card Holder's Name"); ?>:</label>
-				<input type='text' name='<?php echo ($usepsi ? "CardNumber" : "card_number"); ?>' value='' placeholder="Card Holder's Name">
+				<div class="card-sub" style="margin-bottom:0;"><?php echo $this->lang->line("Card Holder's Name"); ?>:</div>
+				<input class="card-fit" type='text' name='<?php echo ($usepsi ? "CardNumber" : "card_number"); ?>' value='' placeholder="Card Holder's Name">
 			</div>
 			<?php } ?>
 			<div class="card-info">
-				<label class="inline" style="flex: 1 1 50%;"><?php echo $this->lang->line("Expiry Month"); ?>:</label>
-				<select name='<?php echo ($usepsi ? "CardExpMonth" : "expiry_month"); ?>' class="form-control" style="flex: 1 1 50%; text-align:center;">
+				<div class="card-sub"><?php echo $this->lang->line("Expiry Month"); ?>:</div>
+				<select name='<?php echo ($usepsi ? "CardExpMonth" : "expiry_month"); ?>' class="card-fit">
 					<option value='01' <?php echo (($expiry_month == 1) ? 'selected' : ''); ?>>01</option>
 					<option value='02' <?php echo (($expiry_month == 2) ? 'selected' : ''); ?>>02</option>
 					<option value='03' <?php echo (($expiry_month == 3) ? 'selected' : ''); ?>>03</option>
@@ -315,8 +335,8 @@ $studentPlan = ['JES', 'JFPL', 'JFSL', 'JFGD', 'TCS', 'JFOS', 'JESP', 'JFE', 'JF
 				</select> 
 			</div>
 			<div class="card-info">
-				<label class="inline" style="flex: 1 1 50%;"><?php echo $this->lang->line("Expiry Year"); ?>:</label>
-				<select name='<?php echo ($usepsi ? "CardExpYear" : "expiry_year"); ?>' class="form-control" style="flex: 1 1 50%;text-align:center;">
+				<div class="card-sub"><?php echo $this->lang->line("Expiry Year"); ?>:</div>
+				<select name='<?php echo ($usepsi ? "CardExpYear" : "expiry_year"); ?>' class="cart-fit">
 					<option value='<?php echo date('y'); ?>'> <?php echo date('y'); ?> </option>
 					<option value='<?php echo date('y',strtotime('+1 years')); ?>'> <?php echo date('y',strtotime('+1 years')); ?> </option>
 					<option value='<?php echo date('y',strtotime('+2 years')); ?>'> <?php echo date('y',strtotime('+2 years')); ?> </option>
@@ -332,12 +352,12 @@ $studentPlan = ['JES', 'JFPL', 'JFSL', 'JFGD', 'TCS', 'JFOS', 'JESP', 'JFE', 'JF
 				</select>
 			</div>
 			<div class="card-info">
-				<label class="inline"><?php echo $this->lang->line("Card CVV"); ?>:</label>
-				<input type='text' name='<?php echo ($usepsi ? "CardIDNumber" : "card_cvv"); ?>' value='' class="form-control" style="width:137px;">
+				<div class="card-sub"><?php echo $this->lang->line("Card CVV"); ?>:</div>
+				<input type='text' name='<?php echo ($usepsi ? "CardIDNumber" : "card_cvv"); ?>' value='' class="card-fit">
 			</div>
-			<div class="card-info">
-				<label class="inline" style="flex: 1 1 50%;"><?php echo $this->lang->line("Amount"); ?>: <b>$<?php echo number_format($payment_total, 2, '.', ','); ?></b></label>
-				<button type='submit' name='submit' value='<?php echo $this->lang->line("Pay Now"); ?>' />
+			<div class="card-info" style="margin-top: 1.5rem;">
+				<div style="flex: 1 1 100%; text-align: center;"><?php echo $this->lang->line("Amount"); ?>: <b>$<?php echo number_format($payment_total, 2, '.', ','); ?></b></div>
+				<input type='submit' name='submit' value='<?php echo $this->lang->line("Pay Now"); ?>' />
 			</div>
 		</div>
 	</div>
