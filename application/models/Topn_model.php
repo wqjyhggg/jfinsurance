@@ -1006,6 +1006,11 @@ class Topn_model extends CI_Model  {
 		$arr = 'single_medical';
 		$mindays = 1;
 		$maxdays = 90;
+		if (($data['age'] > 59) && ($data['totaldays'] > $maxdays)) {
+			$this->premiumArr['message'] = 'Travel days must be equal or less than 90 days for age over 59.';
+			$this->premiumArr['active_tab'] = 'date_members_tab';
+			return 0;
+		}
 		if ($data['age'] < 30) {
 			$arr = 'single_medical_0_29';
       $maxdays = 120;
