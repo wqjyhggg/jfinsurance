@@ -1263,6 +1263,9 @@ $('#payment_get_history_button').click(function(){
   var need_questionnaire = <?php printf("%d", $questionnaire); ?>;
   var cur_max_member = <?php printf("%d", $cur_max_member); ?>;
   var show_ajax_message = 0;
+	<?php if ($product_short == 'TOPN') { ?>
+		show_ajax_message = 1;
+	<?php } ?>
   var answer;
   $(document).ready(function() {
     <?php if (($user_group_id > 100) && $no_change) { ?>
