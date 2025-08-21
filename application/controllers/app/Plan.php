@@ -1439,7 +1439,9 @@ class Plan extends CI_Controller
 		if (empty($data["product_short"])) {
 			return $this->app_model->return_error("Missing Product Short");
 		}
+    $data['sendfrench'] = isset($data['sendfrench'])?$data['sendfrench']:0;
 
+		$title = 'Your Quick Quote from JF Insurance - Time Sensitive';
 		$body  = "Dear ".$data["name"].",\r\n\r\n";
 		$body .= "Thank you for giving me the opportunity to assist you with your insurance needs.\r\n";
 		$body .= "Based on the information you've provided, your premium is: $".$data["premium"].".\r\n";
@@ -1453,8 +1455,21 @@ class Plan extends CI_Controller
 		$body .= "Richmond Hill, ON, Canada L4B 3H7\r\n";
 		$body .= "Phone: 905-707-1512 Or 1-877-832-5541\r\n\r\n";
 		$body .= "Please Note the email should include the corresponding Policy wording and Brochure attachments. Thanks\r\n";
-
-    $data['sendfrench'] = isset($data['sendfrench'])?$data['sendfrench']:0;
+		if ($data['sendfrench']) {
+			$title = "Votre devis rapide de JF Assurances - Offre à durée limitée";
+			$body  = "Cher/Chère ".$data["name"].",\r\n\r\n";
+			$body .= "Merci de m'avoir donné l'opportunité de vous assister dans vos besoins en assurance.\r\n";
+			$body .= "Sur la base des informations que vous avez fournies, votre prime est de : $".$data["premium"].".\r\n";
+			$body .= "Ce devis préliminaire est basé sur les renseignements que vous avez communiqués. Vous trouverez en pièce jointe les Conditions générales et la Brochure pour votre examen.\r\n";
+			$body .= "Veuillez noter que ce devis est sensible au temps et peut être modifié. La couverture ne sera confirmée qu'après réception du paiement et émission d'une police formelle.\r\n";
+			$body .= "Si vous avez des questions, avez besoin de précisions, ou êtes prêt(e) à aller de l'avant, n'hésitez pas à me contacter directement. Je serai heureux(se) de vous accompagner dans les prochaines étapes.\r\n";
+			$body .= "Cordialement,\r\n\r\n";
+			$body .= "JF Insurance Agency Group Inc.\r\n";
+			$body .= "Ontario Office\r\n";
+			$body .= "15 Wertheim Court, Suite 501,\r\n";
+			$body .= "Richmond Hill, ON, Canada L4B 3H7\r\n";
+			$body .= "Phone: 905-707-1512 Or 1-877-832-5541\r\n\r\n";
+		}
 
     if ($this->verify_model->isEmail($data['emailaddr'])) {
       $product = $this->product_model->get_product($data['product_short']);
@@ -1623,7 +1638,7 @@ class Plan extends CI_Controller
       }
       $this->load->model('mymail_model');
       
-      $sendok = $this->mymail_model->send_from_donot_replay($data['emailaddr'], 'Your Quick Quote from JF Insurance – Time Sensitive', $body, $files, $from='JF Insurance');
+      $sendok = $this->mymail_model->send_from_donot_replay($data['emailaddr'], $title, $body, $files, $from='JF Insurance');
 
       if ($sendok) {
         return $this->app_model->return_ok(array("message" => "OK"));
