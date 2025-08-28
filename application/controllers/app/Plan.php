@@ -180,6 +180,9 @@ class Plan extends CI_Controller
       $expiry_year = $this->input->post('expiry_year');
       $card_cvv = $this->input->post('card_cvv');
 
+			$expiry_month = str_pad($expiry_month, 2, '0', STR_PAD_LEFT);
+      $expiry_year = substr($expiry_year, -2);
+
       $card_number = preg_replace('#[^0-9]#', '', $card_number);
 			$card_cvv = preg_replace('#[^0-9]#', '', $card_cvv);
 			$card_number_len = strlen($card_number);
