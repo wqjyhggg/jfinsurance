@@ -374,14 +374,14 @@ if ($Agree != "Agree") {
   <?php if (in_array('Ali', $paytype_list)) { ?>
     <div id="ali_div" class="pay-card">
 			<div class="card-info" style="margin-top: 1.5rem;">
-        <div style="flex: 1 1 100%; text-align: center;"><?php echo $this->lang->line("Amount"); ?>: <b>$<?php echo number_format($payment_total, 2, '.', ','); ?></b></div>
+        <div style="flex: 1 1 100%; text-align: center; line-height: 3rem; padding-right: 4rem;"><?php echo $this->lang->line("Amount"); ?>: <b>$<?php echo number_format($payment_total, 2, '.', ','); ?></b></div>
 				<a class="btn btn-primary paysubmit" id="ali_submit" style="display:none;"><?php echo $this->lang->line("Pay Now"); ?></a>
       </div>
     </div>
 	<?php } ?>
   </div>
   <?php } ?>
-  <div class="container">
+  <div class="container" style="margin-top: 2rem;">
     © <?php echo date("Y"); ?> Made By JF Insurance
   </div>
 </div>
