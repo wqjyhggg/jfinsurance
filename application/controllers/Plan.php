@@ -3271,9 +3271,9 @@ class Plan extends MY_Controller {
 		} else {
 			if (($data['plan']['product_short'] == 'TOP') || ($data['plan']['product_short'] == 'TOPN')) {
 				$data['toppackagename'] = $this->toppackagename;
-				$this->load->common('plan/top/detail2', $data);
+				$this->load->view('plan/top/detail2', $data);
 			} else {
-				$this->load->common('plan/detail2', $data);
+				$this->load->view('plan/detail2', $data);
 			}
 		}
 	}
