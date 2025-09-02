@@ -387,15 +387,15 @@ if ($Agree != "Agree") {
 </div>
 <script type="text/javascript">
 $(document).ready(function() {
-	$('$credit_div').hide();
-	$('$ali_div').hide();
+	$('#credit_div').hide();
+	$('#ali_div').hide();
   $('#credit_button').click(function() {
-		$('$credit_div').show();
-		$('$ali_div').hide();
+		$('#credit_div').show();
+		$('#ali_div').hide();
   })
   $('#ali_button').click(function() {
-		$('$credit_div').hide();
-		$('$ali_div').show();
+		$('#credit_div').hide();
+		$('#ali_div').show();
   })
 	<?php if (in_array('Ali', $paytype_list) && ($payment_total > 0)) { ?>
 	$.ajax({
