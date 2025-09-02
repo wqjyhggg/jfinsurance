@@ -343,7 +343,7 @@ $studentPlan = ['JES', 'JFPL', 'JFSL', 'JFGD', 'TCS', 'JFOS', 'JESP', 'JFE', 'JF
       <?php if (! $usepsi) { ?>
       <div class="card-info">
         <div class="card-sub" style="margin-bottom:0;"><?php echo $this->lang->line("Card Holder's Name"); ?>:</div>
-        <input class="card-fit" type='text' name='<?php echo ($usepsi ? "CardNumber" : "card_number"); ?>' value='' placeholder="Card Holder's Name">
+        <input class="card-fit" type='text' name='card_name' value='' placeholder="Card Holder's Name">
       </div>
       <?php } ?>
       <div class="card-info">
