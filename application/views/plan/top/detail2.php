@@ -7,6 +7,23 @@ if ($Agree != "Agree") {
   $hideForFrench = true;
 }
 ?>
+<html>
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>Payment Page</title>
+
+<link rel="stylesheet" href="<?php echo base_url();?>main.css">
+<!-- bootstrap style -->
+<link rel="stylesheet" href="<?php echo base_url();?>stylesheet/bootstrap/dist/css/bootstrap.css">
+<link rel="stylesheet" href="<?php echo base_url();?>stylesheet/bootstrap/dist/css/bootstrap.min.css">
+<!-- font-awesome style -->
+<link rel="stylesheet" href="<?php echo base_url();?>stylesheet/font-awesome/css/font-awesome.min.css" >
+ <!-- jQuery -->
+<script src="<?php echo base_url();?>stylesheet/jquery/dist/jquery.min.js"></script>
+<script src="<?php echo base_url();?>stylesheet/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="<?php echo base_url();?>stylesheet/datetimepicker/js/bootstrap-datetimepicker.js"></script>
 <style>
 .container {
     background-color: #f0f0f0; /* Light gray background */
@@ -78,6 +95,8 @@ if ($Agree != "Agree") {
     }
 }
 </style>
+</head>
+<body class="nav-md">
 <div class="container" style="padding:0;">
   <div class="hlogo">
     <img class="img-responsive" src="/image/logo.png" alt="JF Insurance">
@@ -269,10 +288,16 @@ if ($Agree != "Agree") {
   </div>
   <?php if (!empty($payment_total)) { ?>
   <div class="title-left">
-    <?php echo $this->lang->line("Pay By Credit Card"); ?>
+		<?php if (in_array('Credit Card', $paytype_list)) { ?>
+	  	<button id="credit_button" class="pay_button" style="margin-right: 2rem; pr-2"><?php echo $this->lang->line("Pay By Credit Card"); ?></button>
+		<?php } ?>
+		<?php if (in_array('Ali', $paytype_list)) { ?>
+	    <button id="ali_button" class="pay_button"><?php echo $this->lang->line("Pay By Alipay"); ?></button>
+		<?php } ?>
   </div>
   <div class="info">
-    <div class="pay-card">
+	<?php if (in_array('Credit Card', $paytype_list)) { ?>
+		<div id="credit_div" class="pay-card">
       <form action='<?php echo ($usepsi ? $psi_active_url : $active_url); ?>' method='POST'>
       <?php if ($usepsi) { ?>
         <input type='hidden' name='CustomerRefNo' value='<?php echo $plan['plan_id']; ?>'>
@@ -342,12 +367,47 @@ if ($Agree != "Agree") {
       </div>
       <div class="card-info" style="margin-top: 1.5rem;">
         <div style="flex: 1 1 100%; text-align: center;"><?php echo $this->lang->line("Amount"); ?>: <b>$<?php echo number_format($payment_total, 2, '.', ','); ?></b></div>
-        <input type='submit' name='submit' value='<?php echo $this->lang->line("Pay Now"); ?>' />
+        <input type='submit' name='submit' class="btn btn-primary" value='<?php echo $this->lang->line("Pay Now"); ?>' />
       </div>
     </div>
+	<?php } ?>
+  <?php if (in_array('Ali', $paytype_list)) { ?>
+    <div id="ali_div" class="pay-card">
+			<div class="card-info" style="margin-top: 1.5rem;">
+        <div style="flex: 1 1 100%; text-align: center;"><?php echo $this->lang->line("Amount"); ?>: <b>$<?php echo number_format($payment_total, 2, '.', ','); ?></b></div>
+				<a class="btn btn-primary paysubmit" id="ali_submit" style="display:none;"><?php echo $this->lang->line("Pay Now"); ?></a>
+      </div>
+    </div>
+	<?php } ?>
   </div>
   <?php } ?>
   <div class="container">
     © <?php echo date("Y"); ?> Made By JF Insurance
   </div>
 </div>
+<script type="text/javascript">
+$(document).ready(function() {
+	$('$credit_div').hide();
+	$('$ali_div').hide();
+  $('#credit_button').click(function() {
+		$('$credit_div').show();
+		$('$ali_div').hide();
+  })
+  $('#ali_button').click(function() {
+		$('$credit_div').hide();
+		$('$ali_div').show();
+  })
+	<?php if (in_array('Ali', $paytype_list) && ($payment_total > 0)) { ?>
+	$.ajax({
+    url: '<?php echo $get_ali_url; ?>' + '?sekey=' + '<?php echo $sekey; ?>',
+    type: 'GET',
+    success: function(data, textStatus, jqXHR) {
+      $('#ali_submit').attr('href', data);
+      $('#ali_submit').show();
+    },
+  });
+	<?php } ?>
+});
+</script>
+</body>
+</html>
