@@ -2157,7 +2157,6 @@ class Plan extends CI_Controller
 		}
 
     if ($this->verify_model->isEmail($data['emailaddr'])) {
-      $product = $this->product_model->get_product($data['product_short']);
       if ($data['product_short'] == 'OPL') {
         $files = array(
         'OPL_Policy.pdf' => DOWNLOADDIR . 'OPL_Policy.pdf',
