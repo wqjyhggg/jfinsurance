@@ -2123,11 +2123,11 @@ class Plan extends CI_Controller
 
 		$title = 'Your Final Insurance Quotation - Action Required';
 		$body  = "Dear ".$name.",\r\n\r\n";
-		$body .= "I'm pleased to share with you your <b>Final Insurance Quotation</b> from JF Insurance.\r\n";
-		$body .= "Attached to this email, you'll find your full quotation along with the <b>".$plan["policy"]." Wordings</b> and <b>".$product["full_name"]." Brochure</b> for your review.\r\n";
+		$body .= "I'm pleased to share with you your Final Insurance Quotation from JF Insurance.\r\n";
+		$body .= "Attached to this email, you'll find your full quotation along with the ".$plan["policy"]." Wordings and ".$product["full_name"]." Brochure for your review.\r\n";
 		$body .= "To move forward and secure your coverage, please complete your purchase using the secure payment link below:\r\n";
 		$body .= $payurl."\r\n\r\n";
-		$body .= "Please note that this quotation is <b><u>time-sensitive and may change without notice</u></b>. I recommend finalizing your purchase as soon as possible to lock in your coverage.\r\n";
+		$body .= "Please note that this quotation is time-sensitive and may change without notice. I recommend finalizing your purchase as soon as possible to lock in your coverage.\r\n";
 		$body .= "If you have any questions or need help completing the next steps, don't hesitate to reach out, I'm here to assist you.\r\n\r\n";
 		$body .= "Warm regards,\r\n\r\n";
 		$body .= "JF Insurance Agency Group Inc.\r\n";
@@ -2139,14 +2139,14 @@ class Plan extends CI_Controller
 		if ($data['sendfrench']) {
 			$title = "Votre devis final d'assurance - Action requise";
 			$body  = "Madame, Monsieur ".$name.",\r\n\r\n";
-			$body .= "J'ai l'honneur de vous transmettre votre <b>devis final d'assurance</b> émis par <b>JF Insurance</b>.\r\n";
+			$body .= "J'ai l'honneur de vous transmettre votre devis final d'assurance émis par JF Insurance.\r\n";
 			$body .= "Vous trouverez en pièce jointe les documents suivants :\r\n";
 			$body .= " - votre devis complet,\r\n";
-			$body .= " - Les <b>conditions générales</b> de la police ".$product["full_name"].",\r\n";
-			$body .= " - ainsi que la <b>brochure</b> explicative correspondante.\r\n";
+			$body .= " - Les conditions générales de la police ".$product["full_name"].",\r\n";
+			$body .= " - ainsi que la brochure explicative correspondante.\r\n";
 			$body .= "Afin de poursuivre la procédure et de garantir la mise en place de votre couverture, je vous invite à finaliser votre souscription en effectuant le paiement via le lien sécurisé ci-dessous :\r\n";
 			$body .= $payurl."\r\n\r\n";
-			$body .= "Veuillez noter que ce devis est <b>valable pour une durée limitée</b> et susceptible d'être modifié sans préavis. Il est donc recommandé de procéder à votre règlement dans les meilleurs délais afin de bénéficier des conditions indiquées.\r\n";
+			$body .= "Veuillez noter que ce devis est valable pour une durée limitée et susceptible d'être modifié sans préavis. Il est donc recommandé de procéder à votre règlement dans les meilleurs délais afin de bénéficier des conditions indiquées.\r\n";
 			$body .= "Je reste à votre entière disposition pour tout complément d'information ou pour vous assister dans la finalisation de votre dossier.\r\n";
 			$body .= "Veuillez recevoir, Madame, Monsieur, l'expression de mes salutations distinguées.\r\n\r\n";
 			$body .= "JF Insurance Agency Group Inc.\r\n";
