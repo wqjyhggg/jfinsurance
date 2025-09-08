@@ -2098,6 +2098,7 @@ class Plan extends CI_Controller
 
     $data = array();
 		$this->load->model('plan_model');
+		$this->load->model('product_model');
 		$plan = $this->plan_model->get_plan_by_id($plan_id);
 		if (empty($plan)) {
       return $this->app_model->return_error("Can't find plan");
