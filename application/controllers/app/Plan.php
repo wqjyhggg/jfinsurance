@@ -2111,6 +2111,7 @@ class Plan extends CI_Controller
 		$data['beuser'] = $beuser;
 		$data['plan'] = $plan;
 		$data['emailaddr'] = $plan['contact_email'];
+		$data['product_short'] = $plan['product_short'];
 
     $data['sendfrench'] = isset($post['sendfrench'])?$post['sendfrench']:0;
     $emailaddr = isset($post['emailaddr'])?$post['emailaddr']:"";
