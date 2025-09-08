@@ -2099,11 +2099,14 @@ class Plan extends CI_Controller
     $data = array();
 		$this->load->model('plan_model');
 		$this->load->model('product_model');
+		$this->load->model('customer_model');
 		$plan = $this->plan_model->get_plan_by_id($plan_id);
 		if (empty($plan)) {
       return $this->app_model->return_error("Can't find plan");
 		}
 		$product = $this->product_model->get_product($plan['product_short']);
+		$customer = $this->customer_model->get_customer_by_id($plan['customer_id']);
+		$name = $customer["firstname"]. " ".$customer["lastname"];
 		
 		$data['beuser'] = $beuser;
 		$data['plan'] = $plan;
@@ -2118,7 +2121,7 @@ class Plan extends CI_Controller
 		$payurl = base_url('plan/detail/' . $plan_id . '/' . $this->plan_model->get_plan_key($plan_id));
 
 		$title = 'Your Final Insurance Quotation - Action Required';
-		$body  = "Dear ".$data["name"].",\r\n\r\n";
+		$body  = "Dear ".$name.",\r\n\r\n";
 		$body .= "I'm pleased to share with you your <b>Final Insurance Quotation</b> from JF Insurance.\r\n";
 		$body .= "Attached to this email, you'll find your full quotation along with the <b>".$plan["policy"]." Wordings</b> and <b>".$product["full_name"]." Brochure</b> for your review.\r\n";
 		$body .= "To move forward and secure your coverage, please complete your purchase using the secure payment link below:\r\n";
@@ -2134,7 +2137,7 @@ class Plan extends CI_Controller
 		$body .= "Please Note the email should include the corresponding Policy wording and Brochure attachments. Thanks\r\n";
 		if ($data['sendfrench']) {
 			$title = "Votre devis final d'assurance - Action requise";
-			$body  = "Madame, Monsieur ".$data["name"].",\r\n\r\n";
+			$body  = "Madame, Monsieur ".$name.",\r\n\r\n";
 			$body .= "J'ai l'honneur de vous transmettre votre <b>devis final d'assurance</b> émis par <b>JF Insurance</b>.\r\n";
 			$body .= "Vous trouverez en pièce jointe les documents suivants :\r\n";
 			$body .= " - votre devis complet,\r\n";
