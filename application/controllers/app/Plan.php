@@ -2112,6 +2112,8 @@ class Plan extends CI_Controller
 		$data['plan'] = $plan;
 		$data['emailaddr'] = $plan['contact_email'];
 		$data['product_short'] = $plan['product_short'];
+    $data['withlogo'] = 1;
+    $data['withprice'] = 1;
 
     $data['sendfrench'] = isset($post['sendfrench'])?$post['sendfrench']:0;
     $emailaddr = isset($post['emailaddr'])?$post['emailaddr']:"";
@@ -2159,6 +2161,8 @@ class Plan extends CI_Controller
 
     if ($this->verify_model->isEmail($data['emailaddr'])) {
       if ($data['product_short'] == 'OPL') {
+        $data['insurable_options'] = $this->load->view('plan/detail_opl', $data, TRUE);
+        $data['special_note'] = $this->load->view('plan/pdf_note_opl',$data, TRUE);
         $files = array(
         'OPL_Policy.pdf' => DOWNLOADDIR . 'OPL_Policy.pdf',
         'OPL_Brochure.pdf' => DOWNLOADDIR . 'OPL_Brochure.pdf'
@@ -2188,10 +2192,14 @@ class Plan extends CI_Controller
           );
         }
       } else if ($data['product_short'] == 'JUS') {
+        $data['insurable_options'] = $this->load->view('plan/detail_jus', $data, TRUE);
+        $data['special_note'] = $this->load->view('plan/pdf_note_jus',$data, TRUE);
         $files = array(
 	        'JUS_Brochure.pdf' => DOWNLOADDIR . 'JUS_Brochure.pdf'
         );
       } else if ($data['product_short'] == 'NUS') {
+        $data['insurable_options'] = $this->load->view('plan/detail_jus', $data, TRUE);
+        $data['special_note'] = $this->load->view('plan/pdf_note_nus',$data, TRUE);
         $files = array(
   	      'NUS_Brochure.pdf' => DOWNLOADDIR . 'NUS_Brochure.pdf'
         );
@@ -2207,10 +2215,14 @@ class Plan extends CI_Controller
           );
         }
       } else if ($data['product_short'] == 'JFE') {
+        $data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
+        $data['special_note'] = $this->load->view('plan/pdf_note_jes',$data, TRUE);
         $files = array(
         'JFE_Policy.pdf' => DOWNLOADDIR . 'JFE_Policy.pdf',
         );
       } else if ($data['product_short'] == 'BHS') {
+        $data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
+        $data['special_note'] = $this->load->view('plan/pdf_note_jes',$data, TRUE);
         $files = array(
         'BHS_Policy.pdf' => DOWNLOADDIR . 'BHS_Policy.pdf',
         );
@@ -2239,6 +2251,8 @@ class Plan extends CI_Controller
           );
         }
       } else if ($data['product_short'] == 'JFSL') {
+        $data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
+        $data['special_note'] = $this->load->view('plan/pdf_note_jes',$data, TRUE);
         $files = array(
         'JFSL_Policy.pdf' => DOWNLOADDIR . 'JFSL_Policy.pdf',
         'JFSL_Benefit_Summary.pdf' => DOWNLOADDIR . 'JFSL_Benefit_Summary.pdf'
@@ -2256,6 +2270,8 @@ class Plan extends CI_Controller
           );
         }
       } else if ($data['product_short'] == 'TCS') {
+        $data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
+        $data['special_note'] = $this->load->view('plan/pdf_note_jes',$data, TRUE);
         $files = array(
         'TCS_Policy.pdf' => DOWNLOADDIR . 'TCS_Policy.pdf',
 				'TCS_Brochure.pdf' => DOWNLOADDIR . 'TCS_Brochure_French.pdf'
@@ -2285,11 +2301,15 @@ class Plan extends CI_Controller
 					);
         }
       } else if ($data['product_short'] == 'JFC') {
+        $data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
+        $data['special_note'] = $this->load->view('plan/pdf_note_jfc',$data, TRUE);
         $files = array(
         'JFC_Policy.pdf' => DOWNLOADDIR . 'JFC_Policy.pdf',
         'JFC_Brochure.pdf' => DOWNLOADDIR . 'JFC_Brochure.pdf'
         );
       } else if ($data['product_short'] == 'JFP') {
+        $data['insurable_options'] = $this->load->view('plan/detail_jes', $data, TRUE);
+        $data['special_note'] = $this->load->view('plan/pdf_note_jfc',$data, TRUE);
         $files = array(
         'JFP_Policy.pdf' => DOWNLOADDIR . 'JFP_Policy.pdf',
         'JFP_Brochure.pdf' => DOWNLOADDIR . 'JFP_Brochure.pdf'
@@ -2321,6 +2341,61 @@ class Plan extends CI_Controller
       } else {
 				return $this->app_model->return_error("Unknown Policy");
       }
+			$policy_file = tempnam("/tmp", "Policy");
+      $data['title_txt'] = 'Policy';
+      $data['style'] = $this->load->view('common/pdf_style',$data, TRUE);
+      $data['hadheaderfooter'] = 0;
+      if ($data['plan']['product_short'] == 'JFVTC') {
+        $mpdf = new mPDF('c', 'A4', 0, '', $mgl = 0, $mgr = 0, $mgt = 15, $mgb = 0, $mgh = 0, $mgf = 0, $orientation = 'P');
+        if ($data['withlogo']) {
+          $mpdf->SetHTMLHeader('<img style="width:100%;" src="'.base_url().'image/pdf_header.png" />');
+        }
+        $data['hadheaderfooter'] = 1;
+        if ($data['sendfrench']) {
+          $html = $this->load->view('plan/pdf_OR_visitor_french', $data, TRUE);
+        } else {
+          $html = $this->load->view('plan/pdf_jfvtc', $data, TRUE);
+        }
+      } else if (($data['plan']['product_short'] == 'JFPL') || ($data['plan']['product_short'] == 'JFGD')  || ($data['plan']['product_short'] == 'TCS') || ($data['plan']['product_short'] == 'JFOS') || ($data['plan']['product_short'] == 'JFSL')) {
+        $mpdf = new mPDF('c', 'A4', 0, '', $mgl = 0, $mgr = 0, $mgt = 15, $mgb = 0, $mgh = 0, $mgf = 0, $orientation = 'P');
+        if ($data['withlogo']) {
+          $mpdf->SetHTMLHeader('<img style="width:100%;" src="'.base_url().'image/pdf_header.png" />');
+        }
+        // $mpdf->SetHTMLFooter('<img style="width:100%;" src="'.base_url().'image/pdf_footer.png" />');
+        $data['hadheaderfooter'] = 1;
+        if ($data['sendfrench']) {
+          $html = $this->load->view('plan/pdf_OR_student_french', $data, TRUE);
+        } else {
+          $html = $this->load->view('plan/pdf', $data, TRUE);
+        }
+      } else {
+        $mpdf = new mPDF('c');
+        if ($data['sendfrench']) {
+          if (($data['plan']['product_short'] == 'JES') || ($data['plan']['product_short'] == 'JESP') || ($data['plan']['product_short'] == 'JFS')) {
+            $html = $this->load->view('plan/pdf_berkley_student_french', $data, TRUE);
+          } else if ($data['plan']['product_short'] == 'JFR') {
+            $html = $this->load->view('plan/pdf_jfr_french', $data, TRUE);
+          } else if (($data['plan']['product_short'] == 'TOP') || ($data['plan']['product_short'] == 'TOPN')) {
+            $html = $this->load->view('plan/pdf_berkley_visitor_french', $data, TRUE);
+          } else {
+            $html = $this->load->view('plan/pdf', $data, TRUE);  
+          }
+        } else {
+          $html = $this->load->view('plan/pdf', $data, TRUE);
+        }
+      }
+      $mpdf->writeHTML($html);
+      $mpdf->Output($policy_file, 'F');
+      $this->load->model('mymail_model');
+      if ($data['sendfrench']) {
+        $body = $this->load->view('mail/package_french',$data, TRUE);
+        $title = "Confirmation d’assurance - " . $plan['policy'] . " - " . $data['customer']['firstname'] . " " . $data['customer']['lastname'];
+      } else {
+        $body = $this->load->view('mail/package',$data, TRUE);
+        $title = "Confirmation of Insurance - " . $plan['policy'] . " - " . $data['customer']['firstname'] . " " . $data['customer']['lastname'];
+      }
+      $files['policy_confirmation.pdf'] = $policy_file;
+
       $this->load->model('mymail_model');
       
       $sendok = $this->mymail_model->send_from_donot_replay($data['emailaddr'], $title, $body, $files, $from='JF Insurance');
