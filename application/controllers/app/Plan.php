@@ -2389,10 +2389,10 @@ class Plan extends CI_Controller
       $this->load->model('mymail_model');
       if ($data['sendfrench']) {
         $body = $this->load->view('mail/package_french',$data, TRUE);
-        $title = "Confirmation d’assurance - " . $plan['policy'] . " - " . $data['customer']['firstname'] . " " . $data['customer']['lastname'];
+        $title = "Devis d’assurance - " . $plan['policy'] . " - " . $data['customer']['firstname'] . " " . $data['customer']['lastname'];
       } else {
         $body = $this->load->view('mail/package',$data, TRUE);
-        $title = "Confirmation of Insurance - " . $plan['policy'] . " - " . $data['customer']['firstname'] . " " . $data['customer']['lastname'];
+        $title = "Quote of Insurance - " . $plan['policy'] . " - " . $data['customer']['firstname'] . " " . $data['customer']['lastname'];
       }
       $files['policy_confirmation.pdf'] = $policy_file;
 
