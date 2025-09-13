@@ -2123,10 +2123,10 @@ class Plan extends CI_Controller
     $this->load->model('verify_model');
 		$payurl = base_url('plan/detail/' . $plan_id . '/' . $this->plan_model->get_plan_key($plan_id));
 
-		$title = 'Your Final Insurance Quotation - Action Required';
+		$title = "Your Final Insurance Quotation ".$plan['premium']." - Action Required";
 		$body  = "Dear ".$name.",\r\n\r\n";
 		$body .= "I'm pleased to share with you your Final Insurance Quotation from JF Insurance.\r\n";
-		$body .= "Attached to this email, you'll find your full quotation along with the ".$plan["policy"]." Wordings and ".$product["full_name"]." Brochure for your review.\r\n";
+		$body .= "Attached to this email, you’ll find your full quotation along with the ".$product["full_name"]." and Brochure for your review.\r\n";
 		$body .= "To move forward and secure your coverage, please complete your purchase using the secure payment link below:\r\n";
 		$body .= $payurl."\r\n\r\n";
 		$body .= "Please note that this quotation is time-sensitive and may change without notice. I recommend finalizing your purchase as soon as possible to lock in your coverage.\r\n";
@@ -2142,7 +2142,7 @@ class Plan extends CI_Controller
 			$title = "Votre devis final d'assurance - Action requise";
 			$body  = "Madame, Monsieur ".$name.",\r\n\r\n";
 			$body .= "J'ai l'honneur de vous transmettre votre devis final d'assurance émis par JF Insurance.\r\n";
-			$body .= "Vous trouverez en pièce jointe les documents suivants :\r\n";
+			$body .= "Vous trouverez en pièce jointe les documents suivants:\r\n";
 			$body .= " - votre devis complet,\r\n";
 			$body .= " - Les conditions générales de la police ".$product["full_name"].",\r\n";
 			$body .= " - ainsi que la brochure explicative correspondante.\r\n";
@@ -2156,7 +2156,7 @@ class Plan extends CI_Controller
 			$body .= "15 Wertheim Court, Suite 501,\r\n";
 			$body .= "Richmond Hill, ON, Canada L4B 3H7\r\n";
 			$body .= "Phone: 905-707-1512 Or 1-877-832-5541\r\n\r\n";
-			$body .= "Please Note the email should include the corresponding Policy wording and Brochure attachments. Thanks\r\n";
+			$body .= "Veuillez noter que le courriel doit comprendre le texte de la politique correspondante et les pièces jointes de la brochure. Merci.\r\n";
 		}
 
     if ($this->verify_model->isEmail($data['emailaddr'])) {
