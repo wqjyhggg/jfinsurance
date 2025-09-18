@@ -2126,7 +2126,7 @@ class Plan extends CI_Controller
 		$title = "Your Final Insurance Quotation ".$plan['premium']." - Action Required";
 		$body  = "Dear ".$name.",\r\n\r\n";
 		$body .= "I'm pleased to share with you your Final Insurance Quotation from JF Insurance.\r\n";
-		$body .= "Attached to this email, you’ll find your full quotation along with the ".$product["full_name"]." and Brochure for your review.\r\n";
+		$body .= "Attached to this email, you'll find your full quotation along with the ".$product["full_name"]." and Brochure for your review.\r\n";
 		$body .= "To move forward and secure your coverage, please complete your purchase using the secure payment link below:\r\n";
 		$body .= $payurl."\r\n\r\n";
 		$body .= "Please note that this quotation is time-sensitive and may change without notice. I recommend finalizing your purchase as soon as possible to lock in your coverage.\r\n";
