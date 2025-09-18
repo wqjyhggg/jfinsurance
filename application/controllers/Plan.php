@@ -2911,7 +2911,7 @@ class Plan extends MY_Controller {
 			$this->session->set_userdata('beuser',  $beuser);
 			$this->session->set_userdata('fromsekey',  1);
 		}
-		if (($beuser["group_id"] > 100) && ($beuser["user_id"] != $plan["user_id"])) {
+		if (($beuser["user_group_id"] > 100) && ($beuser["user_id"] != $plan["user_id"])) {
 			show_error("You can't access this policy detail");
 		}
 
