@@ -2880,6 +2880,40 @@ class Plan extends MY_Controller {
 		if (($plan['claim_flag'] > 1) && ($plan['claim_allow_by'] < 1)) {
 			redirect('plan/form');
 		}
+		if (empty($sekey)) {
+			$beuser = $this->func_model->verify_login(TRUE, TRUE);
+			$this->session->unset_userdata('fromsekey');
+		} else {
+			$beuser = $this->user_model->get_user_by_id($plan['user_id']);
+      if ($suser = $this->session->userdata('beuser')) {
+        // Has login user
+        if (($suser["user_id"] != $beuser["user_id"]) && ($suser['user_group_id'] > 100)) {
+          show_error("This pay link is expired or has been used. Please contact your agent to Pay");
+        }
+      }
+      
+			$key = $this->plan_model->get_plan_key($plan_id);
+			if ($key != $sekey) {
+        show_error("This pay link is expired or has been used. Please contact your agent to Pay");
+				redirect('user/login');
+			}
+      $lateTm1 = strtotime($plan['last_update']) + 48 * 3600;
+      $lateTm2 = strtotime($plan['effective_date']) + 23 * 3600 + 1800; // 23:30
+      if ($lateTm1 > $lateTm2) {
+        $lateTm1 = $lateTm2;
+      }
+      if ($plan['status_id'] != Plan_model::CHANGED) {
+        if (time() > $lateTm1) {
+					show_error("This pay link is expired. Please contact your agent to Pay");
+				}
+			}
+
+			$this->session->set_userdata('beuser',  $beuser);
+			$this->session->set_userdata('fromsekey',  1);
+		}
+		if (($beuser["group_id"] > 100) && ($beuser["user_id"] != $plan["user_id"])) {
+			show_error("You can't access this policy detail");
+		}
 
 		if ($play_type = $this->input->post('play_type')) {
 			if (!empty($sekey)) {
@@ -2946,37 +2980,6 @@ class Plan extends MY_Controller {
 			if (empty($this->error)) {
 				redirect(base_url('plan/detail/' . $plan_id));
 			}
-		}
-		if (empty($sekey)) {
-			$beuser = $this->func_model->verify_login(TRUE, TRUE);
-			$this->session->unset_userdata('fromsekey');
-		} else {
-			$beuser = $this->user_model->get_user_by_id($plan['user_id']);
-      if ($suser = $this->session->userdata('beuser')) {
-        // Has login user
-        if (($suser["user_id"] != $beuser["user_id"]) && ($suser['user_group_id'] > 100)) {
-          show_error("This pay link is expired or has been used. Please contact your agent to Pay");
-        }
-      }
-      
-			$key = $this->plan_model->get_plan_key($plan_id);
-			if ($key != $sekey) {
-        show_error("This pay link is expired or has been used. Please contact your agent to Pay");
-				redirect('user/login');
-			}
-      $lateTm1 = strtotime($plan['last_update']) + 48 * 3600;
-      $lateTm2 = strtotime($plan['effective_date']) + 23 * 3600 + 1800; // 23:30
-      if ($lateTm1 > $lateTm2) {
-        $lateTm1 = $lateTm2;
-      }
-      if ($plan['status_id'] != Plan_model::CHANGED) {
-        if (time() > $lateTm1) {
-					show_error("This pay link is expired. Please contact your agent to Pay");
-				}
-			}
-
-			$this->session->set_userdata('beuser',  $beuser);
-			$this->session->set_userdata('fromsekey',  1);
 		}
 
 		if (empty($passerr)) {
