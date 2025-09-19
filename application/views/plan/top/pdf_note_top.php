@@ -14,7 +14,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<P style="padding-top: 1em; padding-bottom: -1em;"><B><U>In the event of an emergency, contact Ontime Care Worldwide Inc: Toll free Canada/USA: 1-888-988-3268 or call collect 905-707-9555</U></B></P>
 			<P style="padding-bottom: -1em;">Ontime Care Worldwide Inc. must be notified prior to any surgery being performed or within 24 hours of admission to a hospital. Failure to do so, without reasonable cause, will result in the reduction of eligible benefit amounts payable.</P>
 			<P style="padding-bottom: -1em;">Underwritten by Berkley Canada</P>
-<?php if ($plan['product_short'] != 'TOPN') { ?>
+<?php if ($plan['product_short'] == 'TOPN') { ?>
 			<P style="padding-top: 1em; padding-bottom: -1em;"><B><U>Important Notice</B></P>
 			<P style="padding-bottom: -1em;">This policy does not cover pre-existing medical conditions - sickness, injury or medical conditions that existed prior to the effective date</P>
 <?php } else { ?>
