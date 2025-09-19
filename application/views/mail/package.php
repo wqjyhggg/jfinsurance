@@ -1,58 +1,54 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
-<br />
 Dear <?php echo htmlspecialchars($customer['firstname'] . " " . $customer['lastname']); ?>,
-<br />
-<br />
+\r\n
+\r\n
 This is a confirmation of your recent purchased insurance,
-please
-<span style="color:red;">
-DO NOT REPLY
-</span> to this email.
-<br />
-<br />
+please DO NOT REPLY to this email.
+\r\n
+\r\n
 Thank you for purchasing medical insurance from
 JF Insurance Agency Group Inc.
-<br />
-<br />
+\r\n
+\r\n
 Please refer to the attached documents for your policy confirmation,
 details of your coverage and claim form.
 Please refer to the claim form for procedures on how to claim.
-<br />
-<br />
+\r\n
+\r\n
 If you notice any errors in your policy confirmation
 or need to change your trip before the effective date,
 please inform the agent/school/agency you purchased
 the insurance from immediately.
-<br />
-<br />
+\r\n
+\r\n
 Should you have any trouble viewing the attached document,
 please download the latest version of Adobe Reader :
 http://get.adobe.com/reader.
-<br />
-<br />
-<br />
+\r\n
+\r\n
+\r\n
 Regards,
-<br />
-<br />
+\r\n
+\r\n
 <?php if (empty($asagent)) { ?>
 JF Insurance Agency Group Inc.
-<br />
+\r\n
 15 Wertheim Court, Suite #501
-<br />
+\r\n
 Richmond Hill, ON L4B 3H7
-<br />
+\r\n
 Tel: 905-707-1512 Fax: 905-707-1513
-<br />
+\r\n
 Email: Info@jfgroup.ca
-<br />
+\r\n
 Website: www.jfgroup.ca
 <?php } else { 
-echo $beuser["business"]."<br />\n";
-echo $beuser["address"]."<br />\n";
-echo $beuser["city"]." ".$beuser["province2"]." ".$beuser["[postcode]"]."<br />\n";
-echo "Tel: ".$beuser["business_phone"]."<br />\n";
-echo $this->lang->line("Email").": ".$beuser["email"]."<br />\n";
-echo $beuser["website"]."<br />";
+echo $beuser["business"]."\r\n\n";
+echo $beuser["address"]."\r\n\n";
+echo $beuser["city"]." ".$beuser["province2"]." ".$beuser["[postcode]"]."\r\n\n";
+echo "Tel: ".$beuser["business_phone"]."\r\n\n";
+echo $this->lang->line("Email").": ".$beuser["email"]."\r\n\n";
+echo $beuser["website"]."\r\n";
 } ?>
