@@ -3447,6 +3447,8 @@ class Plan extends MY_Controller {
 							'JFS_Policy.pdf' => DOWNLOADDIR . 'JFS_Policy.pdf',
 							'JFS_Claim_Form.pdf' => DOWNLOADDIR . 'JFS_Claim_Form.pdf',
 							'JFS_Clinic_Map.pdf' => DOWNLOADDIR . 'JFS_Clinic_Map.pdf',
+							'JFS_Benefit_Summary.pdf' => DOWNLOADDIR . 'JFS_Benefit_Summary.pdf',
+							'JFS_Brochure.pdf' => DOWNLOADDIR . 'JFS_Brochure.pdf',
 						);
 					}
 				} else if ($data['plan']['product_short'] == 'JFE') {
