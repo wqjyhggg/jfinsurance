@@ -2019,7 +2019,7 @@ class Product_model extends CI_Model {
                 $rate = 1.7;
             } else if (in_array($beuser['user_id'], $val185)) {
                 $rate = 1.85;
-            } else if (in_array($beuser['user_id'], $val180)) {
+            } else if (in_array($beuser['user_id'], $val180) || ($beuser['user_id'] < 100)) {
                 $rate = 1.8;
             } else {
 				$premiumArr['message'] = "You don't have permission to sell this production.";
