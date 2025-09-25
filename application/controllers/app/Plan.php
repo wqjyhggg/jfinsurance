@@ -2135,7 +2135,7 @@ class Plan extends CI_Controller
       
       $files['policy_confirmation.pdf'] = $policy_file;
 			$files['policy_card.pdf'] = $this->card($plan_id, true);
-      $sendok = $this->mymail_model->send_mymail($data['emailaddr'], $title, $body, $files, $from='JF Insurance');
+      $sendok = $this->mymail_model->send_mymail($data['emailaddr'], $title, $body, $files, $from='JF Insurance', 'text');
       unlink($policy_file);
 
       if ($sendok) {
