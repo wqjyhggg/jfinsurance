@@ -337,7 +337,7 @@ class Plan extends CI_Controller
 				'message' => $this->plan_model->logstr,
 				'systemlog' => $this->plan_model->sqlstr
 			);
-			$this->log_model->activity('plan', $para);
+			$this->log_model->activity('plan', $para, $user);
 
       if ($history_id) {
         $this->plan_history_model->add_remove($history_id);
@@ -575,7 +575,7 @@ class Plan extends CI_Controller
 					'message' => $this->plan_model->logstr,
 					'systemlog' => $this->plan_model->sqlstr
 				);
-				$this->log_model->activity('plan', $para);
+				$this->log_model->activity('plan', $para, $user);
         $this->app_model->return_ok(["plan"=>$plan["status_id"]]);
       }
     }
@@ -635,7 +635,7 @@ class Plan extends CI_Controller
 					'message' => $this->plan_model->logstr,
 					'systemlog' => $this->plan_model->sqlstr
 				);
-				$this->log_model->activity('plan', $para);
+				$this->log_model->activity('plan', $para, $user);
       }
     } else {
 			$post = $this->input->post();
@@ -653,7 +653,7 @@ class Plan extends CI_Controller
 				'message' => $this->plan_model->logstr,
 				'systemlog' => $this->plan_model->sqlstr
 			);
-			$this->log_model->activity('plan', $para);
+			$this->log_model->activity('plan', $para, $user);
 		}
     $data["plan"] = $this->plan_model->get_plan_by_id($id);
     $data["claim_message"] = "";
@@ -689,7 +689,7 @@ class Plan extends CI_Controller
 						'message' => $this->plan_model->logstr,
 						'systemlog' => $this->plan_model->sqlstr
 					);
-					$this->log_model->activity('plan', $para);
+					$this->log_model->activity('plan', $para, $user);
 					$data["plan"]['claim_flag'] = 1;
           $data["claim_message"] = "Reminders: The insured(s) may have had previous claim(s). Please confirm the policy eligibility and any pre-existing conditions with insured(s). " . $customer['firstname'] . " " . $customer['lastname'] . "(" . $customer['birthday'] . ")";
         } else if (!isset($post["claim_flag"])) /* if (($claim_amount > 2000) || ($case_amount > 2000)) */ {
@@ -702,7 +702,7 @@ class Plan extends CI_Controller
 						'message' => $this->plan_model->logstr,
 						'systemlog' => $this->plan_model->sqlstr
 					);
-					$this->log_model->activity('plan', $para);
+					$this->log_model->activity('plan', $para, $user);
 					$data["plan"]['claim_flag'] = 2;
           $data["claim_message"] = 'The insured may have a previous claim that is affecting the policy issuance or renewal. Please contact JF staff for further assistance 905-707-1512';
         }
