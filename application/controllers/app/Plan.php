@@ -868,7 +868,7 @@ class Plan extends CI_Controller
   }
 
   // print card,
-  public function card() {
+  public function card($plan_id) {
     $this->error = "";
     $this->load->model("app_model");
     $this->load->model("user_model");
@@ -943,8 +943,10 @@ class Plan extends CI_Controller
     $data['style'] = $this->load->view('common/pdf_style',$data, TRUE);
 		$html = $this->load->view('plan/card', $data, TRUE);
 		$mpdf->writeHTML($html);
-		$mpdf->Output("policy_card.pdf","I");
-  }
+		$card_file = tempnam("/tmp", "Card");
+		$mpdf->Output($card_file, 'F');
+		return $card_file;
+}
 
   // refound
   public function refund() {
@@ -2134,9 +2136,10 @@ class Plan extends CI_Controller
       }
       
       $files['policy_confirmation.pdf'] = $policy_file;
-			$files['policy_card.pdf'] = $this->card($plan_id, true);
+			$files['policy_card.pdf'] = $this->card($plan_id);
       $sendok = $this->mymail_model->send_mymail($data['emailaddr'], $title, $body, $files, $from='JF Insurance', 'text');
       unlink($policy_file);
+			unlink($files['policy_card.pdf']);
 
       if ($sendok) {
         return $this->app_model->return_ok(array("message" => "OK"));
