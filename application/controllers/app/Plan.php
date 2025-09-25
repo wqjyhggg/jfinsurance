@@ -329,6 +329,16 @@ class Plan extends CI_Controller
 
       $para = array('payment_id' => $payment_id, 'payinfo' => $payinfo, 'commission_payment_id' => $commission_payment_id, 'status_id' => Plan_model::SOLD, 'policy' => $this->plan_model->get_policy_number($plan_id, 2));
       $this->plan_model->update($plan_id, $para, array(), $user);
+			$plan = $this->plan_model->get_plan_by_id($plan_id);
+			$para = array(
+				'plan_id' => $plan_id,
+				'customer_id' => $plan['customer_id'],
+				'payment_id' => 0,
+				'message' => $this->plan_model->logstr,
+				'systemlog' => $this->plan_model->sqlstr
+			);
+			$this->log_model->activity('plan', $para);
+
       if ($history_id) {
         $this->plan_history_model->add_remove($history_id);
       }
@@ -539,6 +549,7 @@ class Plan extends CI_Controller
     // }
     $this->load->model("plan_model");
     $this->load->model("payment_model");
+    $this->load->model("log_model");
     $data = array();
     if ($id = $this->input->post("plan_id")) {
       if ($plan = $this->plan_model->get_plan_by_id($id)) {
@@ -556,8 +567,16 @@ class Plan extends CI_Controller
           $status_id = Plan_model::SOLD;
         }
         $this->plan_model->update($id, ["status_id" => $status_id], array(), $user);
-        $plan["status_id"] = $status_id;
-        $this->app_model->return_ok(["plan"=>$plan]);
+				$plan = $this->plan_model->get_plan_by_id($plan_id);
+				$para = array(
+					'plan_id' => $plan_id,
+					'customer_id' => $plan['customer_id'],
+					'payment_id' => 0,
+					'message' => $this->plan_model->logstr,
+					'systemlog' => $this->plan_model->sqlstr
+				);
+				$this->log_model->activity('plan', $para);
+        $this->app_model->return_ok(["plan"=>$plan["status_id"]]);
       }
     }
     return $this->app_model->return_error("Unknown Policy");
@@ -587,6 +606,7 @@ class Plan extends CI_Controller
     //   return $this->app_model->return_error($this->error);
     // }
     $this->load->model("plan_model");
+    $this->load->model("log_model");
     $data = array();
     if ($id = $this->input->post("plan_id")) {
       if ($this->plan_model->get_plan_by_id($id)) {
@@ -607,6 +627,15 @@ class Plan extends CI_Controller
         $post = $this->input->post();
         unset($post["user_id"]);
         $this->plan_model->update($id, $post, $ckArr, $user);
+				$plan = $this->plan_model->get_plan_by_id($id);
+				$para = array(
+					'plan_id' => $id,
+					'customer_id' => $plan['customer_id'],
+					'payment_id' => 0,
+					'message' => $this->plan_model->logstr,
+					'systemlog' => $this->plan_model->sqlstr
+				);
+				$this->log_model->activity('plan', $para);
       }
     } else {
 			$post = $this->input->post();
@@ -616,7 +645,16 @@ class Plan extends CI_Controller
 				}
 			}
       $id = $this->plan_model->add($post, $user);
-    }
+			$plan = $this->plan_model->get_plan_by_id($id);
+			$para = array(
+				'plan_id' => $id,
+				'customer_id' => $plan['customer_id'],
+				'payment_id' => 0,
+				'message' => $this->plan_model->logstr,
+				'systemlog' => $this->plan_model->sqlstr
+			);
+			$this->log_model->activity('plan', $para);
+		}
     $data["plan"] = $this->plan_model->get_plan_by_id($id);
     $data["claim_message"] = "";
 
@@ -643,11 +681,29 @@ class Plan extends CI_Controller
           continue;
         } else if (($claim_amount <= 2500) && ($case_amount <= 2500)) {
           $this->plan_model->update($id, array('claim_flag' => 1), array(), $user);
-          $data["plan"]['claim_flag'] = 1;
+					$plan = $this->plan_model->get_plan_by_id($id);
+					$para = array(
+						'plan_id' => $id,
+						'customer_id' => $plan['customer_id'],
+						'payment_id' => 0,
+						'message' => $this->plan_model->logstr,
+						'systemlog' => $this->plan_model->sqlstr
+					);
+					$this->log_model->activity('plan', $para);
+					$data["plan"]['claim_flag'] = 1;
           $data["claim_message"] = "Reminders: The insured(s) may have had previous claim(s). Please confirm the policy eligibility and any pre-existing conditions with insured(s). " . $customer['firstname'] . " " . $customer['lastname'] . "(" . $customer['birthday'] . ")";
         } else if (!isset($post["claim_flag"])) /* if (($claim_amount > 2000) || ($case_amount > 2000)) */ {
-          $plan = $this->plan_model->update($id, array('claim_flag' => 2), array(), $user);
-          $data["plan"]['claim_flag'] = 2;
+          $this->plan_model->update($id, array('claim_flag' => 2), array(), $user);
+					$plan = $this->plan_model->get_plan_by_id($id);
+					$para = array(
+						'plan_id' => $id,
+						'customer_id' => $plan['customer_id'],
+						'payment_id' => 0,
+						'message' => $this->plan_model->logstr,
+						'systemlog' => $this->plan_model->sqlstr
+					);
+					$this->log_model->activity('plan', $para);
+					$data["plan"]['claim_flag'] = 2;
           $data["claim_message"] = 'The insured may have a previous claim that is affecting the policy issuance or renewal. Please contact JF staff for further assistance 905-707-1512';
         }
       }
@@ -918,7 +974,6 @@ class Plan extends CI_Controller
       return $this->app_model->return_error("Unknown plan");
 		}
 
-    $this->load->model("plan_model");
     $data = array();
 		$beuser = $user;
 		$this->load->model('plan_model');
@@ -1030,10 +1085,6 @@ class Plan extends CI_Controller
         $note = "Refund at " . $dt['added'] . " amount: " . $refund_amount . " admin fee: " . $admin_fee . "; " . $plan['note'];
 				$para = array('status_id' => Plan_model::REFUND, 'payment_id' => $payment_id, 'commission_payment_id' => $commission_payment_id, 'refund_date' => $refund_date, 'note' => $note );  // Change status to refund
 				$this->plan_model->update($plan_id, $para, array(), $user);
-        if ($id = $this->plan_history_model->add($plan_id, Plan_model::REFUND)) {
-          $this->plan_history_model->update($id, array("payment_id"=>$payment_id, "premium"=>($plan["premium"] - $refund_amount),"expiry_date"=>$refund_date, "note"=>"Refunded Recode"));
-        }
-
 				$para = array(
 						'plan_id' => $plan_id,
 						'customer_id' => $plan['customer_id'],
@@ -1042,6 +1093,10 @@ class Plan extends CI_Controller
 						'systemlog' => "By APP:".$this->plan_model->sqlstr
 				);
 				$this->log_model->activity('plan', $para, $user);
+        if ($id = $this->plan_history_model->add($plan_id, Plan_model::REFUND)) {
+          $this->plan_history_model->update($id, array("payment_id"=>$payment_id, "premium"=>($plan["premium"] - $refund_amount),"expiry_date"=>$refund_date, "note"=>"Refunded Recode"));
+        }
+
         return $this->app_model->return_ok(array('plan_id' => $plan_id, 'customer_id' => $plan['customer_id'], 'payment_id' => $payment_id));
 			} else {
 				return $this->app_model->return_error('Invalid refund amount');
@@ -1425,6 +1480,7 @@ class Plan extends CI_Controller
     $this->lang->load('message', 'english');
 
     $user = $this->app_model->check_token($this->input->post("token"));
+		$beuser = $user;
 
     if (empty($user)) {
       if (empty($this->error)) {
@@ -1452,11 +1508,16 @@ class Plan extends CI_Controller
 		$body .= "Please note that this quote is time-sensitive and subject to change. Coverage is not confirmed until payment is received, and a formal policy is issued.\r\n";
 		$body .= "If you have any questions, need clarification, or are ready to move forward, feel free to reach out to me directly. I'm happy to help guide you through the next steps.\r\n";
 		$body .= "Best regards,\r\n\r\n";
-		$body .= "JF Insurance Agency Group Inc.\r\n";
-		$body .= "Ontario Office\r\n";
-		$body .= "15 Wertheim Court, Suite 501,\r\n";
-		$body .= "Richmond Hill, ON, Canada L4B 3H7\r\n";
-		$body .= "Phone: 905-707-1512 Or 1-877-832-5541\r\n\r\n";
+		$body .= $beuser["business"]."\r\n";
+		$body .= $beuser["address"]."\r\n";
+		$body .= $beuser["city"]." ".$beuser["province2"]." ".$beuser["[postcode]"]."\r\n";
+		$body .= "Tel: ".$beuser["business_phone"]."\r\n";
+		$body .= "Email: ".$beuser["email"]."\r\n";
+		// $body .= "JF Insurance Agency Group Inc.\r\n";
+		// $body .= "Ontario Office\r\n";
+		// $body .= "15 Wertheim Court, Suite 501,\r\n";
+		// $body .= "Richmond Hill, ON, Canada L4B 3H7\r\n";
+		// $body .= "Phone: 905-707-1512 Or 1-877-832-5541\r\n\r\n";
 		$body .= "Please Note the email should include the corresponding Policy wording and Brochure attachments. Thanks\r\n";
 		if ($data['sendfrench']) {
 			$title = "Votre devis rapide de JF Assurances - Offre à durée limitée";
@@ -1467,10 +1528,15 @@ class Plan extends CI_Controller
 			$body .= "Veuillez noter que ce devis est sensible au temps et peut être modifié. La couverture ne sera confirmée qu'après réception du paiement et émission d'une police formelle.\r\n";
 			$body .= "Si vous avez des questions, avez besoin de précisions, ou êtes prêt(e) à aller de l'avant, n'hésitez pas à me contacter directement. Je serai heureux(se) de vous accompagner dans les prochaines étapes.\r\n";
 			$body .= "Cordialement,\r\n\r\n";
-			$body .= "JF Insurance Agency Group Inc.\r\n";
-			$body .= "Ontario Office\r\n";
-			$body .= "15 Wertheim Court, Suite 501,\r\n";
-			$body .= "Richmond Hill, ON, Canada L4B 3H7\r\n";
+			$body .= $beuser["business"]."\r\n";
+			$body .= $beuser["address"]."\r\n";
+			$body .= $beuser["city"]." ".$beuser["province2"]." ".$beuser["[postcode]"]."\r\n";
+			$body .= "Tel: ".$beuser["business_phone"]."\r\n";
+			$body .= "Email: ".$beuser["email"]."\r\n";
+			// $body .= "JF Insurance Agency Group Inc.\r\n";
+			// $body .= "Ontario Office\r\n";
+			// $body .= "15 Wertheim Court, Suite 501,\r\n";
+			// $body .= "Richmond Hill, ON, Canada L4B 3H7\r\n";
 			$body .= "Phone: 905-707-1512 Or 1-877-832-5541\r\n\r\n";
 		}
 
@@ -2135,11 +2201,16 @@ class Plan extends CI_Controller
 		$body .= "Please note that this quotation is time-sensitive and may change without notice. I recommend finalizing your purchase as soon as possible to lock in your coverage.\r\n";
 		$body .= "If you have any questions or need help completing the next steps, don't hesitate to reach out, I'm here to assist you.\r\n\r\n";
 		$body .= "Warm regards,\r\n\r\n";
-		$body .= "JF Insurance Agency Group Inc.\r\n";
-		$body .= "Ontario Office\r\n";
-		$body .= "15 Wertheim Court, Suite 501,\r\n";
-		$body .= "Richmond Hill, ON, Canada L4B 3H7\r\n";
-		$body .= "Phone: 905-707-1512 Or 1-877-832-5541\r\n\r\n";
+		$body .= $beuser["business"]."\r\n";
+		$body .= $beuser["address"]."\r\n";
+		$body .= $beuser["city"]." ".$beuser["province2"]." ".$beuser["[postcode]"]."\r\n";
+		$body .= "Tel: ".$beuser["business_phone"]."\r\n";
+		$body .= "Email: ".$beuser["email"]."\r\n";
+		// $body .= "JF Insurance Agency Group Inc.\r\n";
+		// $body .= "Ontario Office\r\n";
+		// $body .= "15 Wertheim Court, Suite 501,\r\n";
+		// $body .= "Richmond Hill, ON, Canada L4B 3H7\r\n";
+		// $body .= "Phone: 905-707-1512 Or 1-877-832-5541\r\n\r\n";
 		$body .= "Please Note the email should include the corresponding Policy wording and Brochure attachments. Thanks\r\n";
 		if ($data['sendfrench']) {
 			$title = "Votre devis final d'assurance - Action requise";
@@ -2154,11 +2225,16 @@ class Plan extends CI_Controller
 			$body .= "Veuillez noter que ce devis est valable pour une durée limitée et susceptible d'être modifié sans préavis. Il est donc recommandé de procéder à votre règlement dans les meilleurs délais afin de bénéficier des conditions indiquées.\r\n";
 			$body .= "Je reste à votre entière disposition pour tout complément d'information ou pour vous assister dans la finalisation de votre dossier.\r\n";
 			$body .= "Veuillez recevoir, Madame, Monsieur, l'expression de mes salutations distinguées.\r\n\r\n";
-			$body .= "JF Insurance Agency Group Inc.\r\n";
-			$body .= "Ontario Office\r\n";
-			$body .= "15 Wertheim Court, Suite 501,\r\n";
-			$body .= "Richmond Hill, ON, Canada L4B 3H7\r\n";
-			$body .= "Phone: 905-707-1512 Or 1-877-832-5541\r\n\r\n";
+			$body .= $beuser["business"]."\r\n";
+			$body .= $beuser["address"]."\r\n";
+			$body .= $beuser["city"]." ".$beuser["province2"]." ".$beuser["[postcode]"]."\r\n";
+			$body .= "Tel: ".$beuser["business_phone"]."\r\n";
+			$body .= "Email: ".$beuser["email"]."\r\n";
+			// $body .= "JF Insurance Agency Group Inc.\r\n";
+			// $body .= "Ontario Office\r\n";
+			// $body .= "15 Wertheim Court, Suite 501,\r\n";
+			// $body .= "Richmond Hill, ON, Canada L4B 3H7\r\n";
+			// $body .= "Phone: 905-707-1512 Or 1-877-832-5541\r\n\r\n";
 			$body .= "Veuillez noter que le courriel doit comprendre le texte de la politique correspondante et les pièces jointes de la brochure. Merci.\r\n";
 		}
 
