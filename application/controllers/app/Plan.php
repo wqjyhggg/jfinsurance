@@ -1512,7 +1512,7 @@ class Plan extends CI_Controller
 		$body .= "Best regards,\r\n\r\n";
 		$body .= $beuser["business"]."\r\n";
 		$body .= $beuser["address"]."\r\n";
-		$body .= $beuser["city"]." ".$beuser["province2"]." ".$beuser["[postcode]"]."\r\n";
+		$body .= $beuser["city"]." ".$beuser["province2"]." ".$beuser["postcode"]."\r\n";
 		$body .= "Tel: ".$beuser["business_phone"]."\r\n";
 		$body .= "Email: ".$beuser["email"]."\r\n";
 		// $body .= "JF Insurance Agency Group Inc.\r\n";
