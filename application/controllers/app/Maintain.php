@@ -21,14 +21,14 @@ class Maintain extends CI_Controller
     $this->load->model("maintain_model");
     $rec = $this->maintain_model->get_first();
 
-    if (empty($rec) || ($rec["status"] != 3)) {
+    if (empty($rec) || ($rec["active"] != 1)) {
       return $this->maintain_model->return_error("no data");
     }
     $data = array();
 		if ($this->maintain_model->get_available()) {
-			$data["status"] = $rec["status"];
+			$data["active"] = 1;
 		} else {
-			$data["status"] = 0;
+			$data["active"] = 0;
 		}
 		$data["start_time"] = $rec["start_time"];
 		$data["end_time"] = $rec["end_time"];
@@ -54,12 +54,14 @@ class Maintain extends CI_Controller
       return $this->app_model->return_error("no premission");
     }
     $this->load->model("maintain_model");
-    $data = array();
-    if ($rc = $this->maintain_model->get_first()) {
-      $this->maintain_model->update($rc["maintain_id"], $this->input->post());
-    } else {
-      $this->maintain_model->add($this->input->post());
-    }
+		if ($this->input->post("isupdate")) {
+			$data = array();
+			if ($rc = $this->maintain_model->get_first()) {
+				$this->maintain_model->update($rc["maintain_id"], $this->input->post());
+			} else {
+				$this->maintain_model->add($this->input->post());
+			}
+		}
     $data["maintain"] = $this->maintain_model->get_first();
     $this->app_model->return_ok($data);
   }

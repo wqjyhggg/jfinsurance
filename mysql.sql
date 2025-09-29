@@ -742,7 +742,8 @@ COMMIT;
 -- 2025-09-28
 CREATE TABLE maintain (
   maintain_id int NOT NULL AUTO_INCREMENT,
-	status tinyint NOT NULL DEFAULT 0 COMMENT '0: pause, 1: send notification, 2: norified, 3: in maitain (combain with start_time and end_time)',
+	status tinyint NOT NULL DEFAULT 0 COMMENT '0: no ready, others ready to active, 1: in maitain (combain with start_time and end_time)',
+	active tinyint NOT NULL DEFAULT 0 COMMENT '0: no, 1: yes maintain event is active',
   start_time datetime NULL,
   end_time datetime NULL,
   reason text,

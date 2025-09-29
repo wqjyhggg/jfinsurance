@@ -20,12 +20,15 @@ class Maintain_model extends CI_Model {
 
 	public function get_available() {
 		$now = date("Y-m-d H:i:s");
-    return $this->db->get_where("maintain",["status"=>3,"start_time>="=>$now,"end_time<="=>$now])->row_array();
+    return $this->db->get_where("maintain",["active"=>1,"status">0,"start_time>="=>$now,"end_time<="=>$now])->row_array();
   }
 
 	public function add($para) {
 		if (isset($para['status'])) {
       $this->db->set("status", trim($para["status"]));
+    }
+		if (isset($para['active'])) {
+      $this->db->set("active", trim($para["active"]));
     }
 		if (isset($para['start_time'])) {
       $this->db->set("start_time", trim($para["start_time"]));
@@ -49,6 +52,9 @@ class Maintain_model extends CI_Model {
 	public function update($id, $para) {
 		if (isset($para['status'])) {
       $this->db->set("status", trim($para["status"]));
+    }
+		if (isset($para['active'])) {
+      $this->db->set("active", trim($para["active"]));
     }
 		if (isset($para['start_time'])) {
       $this->db->set("start_time", trim($para["start_time"]));
