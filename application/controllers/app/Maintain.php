@@ -56,7 +56,7 @@ class Maintain extends CI_Controller
     $this->load->model("maintain_model");
     $data = array();
     if ($rc = $this->maintain_model->get_first()) {
-      $this->maintain_model->update($this->input->post());
+      $this->maintain_model->update($rc["maintain_id"], $this->input->post());
     } else {
       $this->maintain_model->add($this->input->post());
     }
