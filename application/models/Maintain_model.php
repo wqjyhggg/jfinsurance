@@ -11,7 +11,7 @@ CREATE TABLE maintain (
  PRIMARY KEY (maintain_id) );
 */
 class Maintain_model extends CI_Model {
-  public function get_first($maintain_id) {
+  public function get_first() {
     return $this->db->get("maintain")->row_array();
   }
   // public function get_by_id($maintain_id) {
