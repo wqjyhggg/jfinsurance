@@ -343,15 +343,6 @@ class Plan extends CI_Controller
         $this->plan_history_model->add_remove($history_id);
       }
       $this->plan_history_model->add($plan_id, Plan_model::SOLD);
-
-      $para = array(
-          'plan_id' => $plan_id,
-          'customer_id' => $plan['customer_id'],
-          'payment_id' => $payment_id,
-          'message' => $this->plan_model->logstr,
-          'systemlog' => $this->plan_model->sqlstr
-      );
-      $this->log_model->activity('plan', $para, $user);
     } else if ($pay_type == 'Credit Card') {
 			$beanstream = new \Beanstream\Gateway ( $product['merchent_id'], $product['apikey'], 'www', 'v1' );
 			$payment_data = array (
