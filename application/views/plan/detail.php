@@ -467,9 +467,9 @@ if ($Agree != "Agree") {
 									<?php } ?>
 									<?php if (!$usepsi && isset($recurrent)) { ?>
 										<div class="row">
-											<div class="col-sm-12  text-right">
-												<label class="inline">Monthly Payment Option: First Pay: $<?php echo number_format($recurrent[0], 2, '.', ','); ?> and 10 Recurring Pay: $<?php echo number_format($recurrent[1], 2, '.', ','); ?></label>
-												<div class='pull-right spdf-option'><input type='checkbox' name="monthlypay" class='monthpay'></div>
+											<div class="col-sm-12">
+												<label class="inline">Monthly Payment Option: <div class='pull-right spdf-option'><input type='checkbox' name="monthlypay" class='monthpay'></div></label>
+												<div style="font-size: 10px;">First Pay: $<?php echo number_format($recurrent[0], 2, '.', ','); ?> and 10 Recurring Pay: $<?php echo number_format($recurrent[1], 2, '.', ','); ?></div>
 											</div>
 										</div>
 										<div class="row" class="billing_info">
@@ -883,6 +883,8 @@ if ($Agree != "Agree") {
 <?php if ($export_logo_price_option) { ?>
 <script type="text/javascript">
 $(document).ready(function() {
+	$('.billing_info').hide();
+	$('.card_full_pay').show();
 	$('.monthpay').change(function() {
 		if ($(this).is(':checked')) {
 			$('.billing_info').show();
