@@ -465,7 +465,83 @@ if ($Agree != "Agree") {
 										</div>
 									</div>
 									<?php } ?>
-									<div class="row">
+									<?php if (!$usepsi && isset($recurrent)) { ?>
+										<div class="row">
+											<div class="col-sm-12  text-right">
+												<label class="inline">Monthly Payment Option: First Pay: $<?php echo number_format($recurrent[0], 2, '.', ','); ?> and 10 Recurring Pay: $<?php echo number_format($recurrent[1], 2, '.', ','); ?></label>
+												<div class='pull-right spdf-option'><input type='checkbox' name="monthlypay" class='monthpay'></div>
+											</div>
+										</div>
+										<div class="row" class="billing_info">
+											<div class="col-sm-12">
+												<div class="row">
+													<div class="col-sm-12">
+														<label  class="inline" style="margin-bottom:0;">Billing Contact Email</label>
+														<div class="col-sm-12 input-group">
+															<input type='text' name='card_email_address' value='' class="form-control">
+															<input type='hidden' name='first_pay' value="<?php echo number_format($recurrent[0], 2, '.', ','); ?>">
+															<input type='hidden' name='month_pay' value="<?php echo number_format($recurrent[1], 2, '.', ','); ?>">
+														</div>
+													</div>
+												</div>
+												<div class="row">
+													<div class="col-sm-12">
+														<label  class="inline" style="margin-bottom:0;">Billing Contact Phone</label>
+														<div class="col-sm-12 input-group">
+															<input type='text' name='card_phone_number' value='' class="form-control">
+														</div>
+													</div>
+												</div>
+												<div class="row">
+													<div class="col-sm-12">
+														<label  class="inline" style="margin-bottom:0;">Billing Address</label>
+														<div class="col-sm-12 input-group">
+															<input type='text' name='card_address_line1' value='' class="form-control">
+														</div>
+													</div>
+												</div>
+												<div class="row">
+													<div class="col-sm-12">
+														<label  class="inline" style="margin-bottom:0;">Billing City</label>
+														<div class="col-sm-12 input-group">
+															<input type='text' name='card_city' value='' class="form-control">
+														</div>
+													</div>
+												</div>
+												<div class="row">
+													<div class="col-sm-12">
+														<label  class="inline" style="margin-bottom:0;">Billing Province</label>
+														<div class="col-sm-12 input-group">
+															<input type='text' name='card_province' value='ON' class="form-control">
+														</div>
+													</div>
+												</div>
+												<div class="row">
+													<div class="col-sm-12">
+														<label  class="inline" style="margin-bottom:0;">Billing Post Code</label>
+														<div class="col-sm-12 input-group">
+															<input type='text' name='card_postal_code' value='' class="form-control">
+														</div>
+													</div>
+												</div>
+												<div class="row">
+													<div class="col-sm-12">
+														<label  class="inline" style="margin-bottom:0;">Billing Country</label>
+														<div class="col-sm-12 input-group">
+															<input type='text' name='card_country' value='CA' class="form-control">
+														</div>
+													</div>
+												</div>
+												<div class="row">
+													<div class="col-sm-12  text-right">
+														<label class="inline"><?php echo $this->lang->line("Amount"); ?>:</label><span> <b>$<?php echo number_format($recurrent[0], 2, '.', ','); ?></b></span>
+														<input class="btn btn-primary paysubmit" type='submit' name='submit' value='Pay'>
+													</div>
+												</div>
+											</div>
+										</div>
+									<?php } ?>
+									<div class="row card_full_pay">
 										<div class="col-sm-12  text-right">
 											<label class="inline"><?php echo $this->lang->line("Amount"); ?>:</label><span> <b>$<?php echo number_format($payment_total, 2, '.', ','); ?></b></span>
 											<input class="btn btn-primary paysubmit" type='submit' name='submit' value='<?php echo $this->lang->line("Pay Now"); ?>'>
@@ -807,6 +883,15 @@ if ($Agree != "Agree") {
 <?php if ($export_logo_price_option) { ?>
 <script type="text/javascript">
 $(document).ready(function() {
+	$('.monthpay').change(function() {
+		if ($(this).is(':checked')) {
+			$('.billing_info').show();
+			$('.card_full_pay').hide();
+		} else {
+			$('.billing_info').hide();
+			$('.card_full_pay').show();
+		}
+	});
 	$('.withlogobox').change(function() {
 		var w = '0';
 		if ($(this).is(':checked')) {
@@ -840,6 +925,8 @@ $(document).ready(function() {
 	    	},
 		});
 	});
+
+	$('.billing_info').hide();
 
 	$('.paysubmit').click(function() {
 		$('.paysubmit').hide();
