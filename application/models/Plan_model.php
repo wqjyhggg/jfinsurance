@@ -300,6 +300,7 @@ class Plan_model extends CI_Model {
 		if (isset($para['totalyears'])) $sql .= " totalyears='" . (int)$para['totalyears'] . "', ";
 		if (isset($para['dailyrate']))  $sql .= " dailyrate='" . (float) $para['dailyrate'] . "', ";
 		if (isset($para['premium']))  $sql .= " premium='" . (float) $para['premium'] . "', ";
+		if (isset($para['monthlypay']))  $sql .= " monthlypay='" . int_val($para['monthlypay']) . "', ";
 		if (isset($para['tax']))  $sql .= " tax='" . (float) $para['tax'] . "', ";
 		if (isset($para['street_number'])) $sql .= " street_number=" . $this->db->escape(trim($para['street_number'])) . ", ";
 		if (isset($para['street_name'])) $sql .= " street_name=" . $this->db->escape(trim($para['street_name'])) . ", ";
@@ -643,6 +644,14 @@ class Plan_model extends CI_Model {
 			if ($premium != (float)$plan['premium']) {
 				$this->logstr .= " premium " . $premium . "(" . $plan['premium'] . ")";
 				$sql .= " premium='" . $premium . "', ";
+				$premiumchanged = 1;
+			}
+		}
+		if (isset($para['monthlypay'])) {
+			$monthlypay = int_val($para['monthlypay']);
+			if ($monthlypay != $plan['monthlypay']) {
+				$this->logstr .= " monthlypay " . $monthlypay . "(" . $plan['monthlypay'] . ")";
+				$sql .= " monthlypay='" . $monthlypay . "', ";
 				$premiumchanged = 1;
 			}
 		}

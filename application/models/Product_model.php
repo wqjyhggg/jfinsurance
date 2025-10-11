@@ -1268,6 +1268,10 @@ class Product_model extends CI_Model {
 			$premiumArr['dailyrate'] = $rate;
 			$premiumArr['sum_insured'] = number_format($para['sum_insured'], 2, '.', ',');
 			$premiumArr['deductible_amount'] =  number_format($para['deductible_amount'], 2, '.', ',');
+			if (($para['sum_insured'] > 100000) && ($days >= 365)) {
+				$month_amount = number_format($premium / 12, 2, ".", "");
+				$premiumArr['recurrent'] = [number_format($month_amount * 2 + 50, 2, ".", ""), $month_amount];
+			}
 		} else if ($para['product_short'] == 'JFR') {
 			if ($para['stable_condition'] == 1) {
 				// With stable pre-existing conditions coverage option
