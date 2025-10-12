@@ -472,11 +472,11 @@ if ($Agree != "Agree") {
 												<div style="font-size: 10px;">First Pay: $<?php echo number_format($recurrent[0], 2, '.', ','); ?> and 10 Recurring Pay: $<?php echo number_format($recurrent[1], 2, '.', ','); ?></div>
 											</div>
 										</div>
-										<div class="row" class="billing_info">
+										<div class="row billing_info">
 											<div class="col-sm-12">
 												<div class="row">
 													<div class="col-sm-12">
-														<label  class="inline" style="margin-bottom:0;">Billing Contact Email</label>
+														<label  class="inline" style="margin-bottom:0;">Card Contact Email</label>
 														<div class="col-sm-12 input-group">
 															<input type='text' name='card_email_address' value='' class="form-control">
 															<input type='hidden' name='first_pay' value="<?php echo number_format($recurrent[0], 2, '.', ','); ?>">
@@ -486,7 +486,7 @@ if ($Agree != "Agree") {
 												</div>
 												<div class="row">
 													<div class="col-sm-12">
-														<label  class="inline" style="margin-bottom:0;">Billing Contact Phone</label>
+														<label  class="inline" style="margin-bottom:0;">Card Contact Phone</label>
 														<div class="col-sm-12 input-group">
 															<input type='text' name='card_phone_number' value='' class="form-control">
 														</div>
@@ -494,7 +494,7 @@ if ($Agree != "Agree") {
 												</div>
 												<div class="row">
 													<div class="col-sm-12">
-														<label  class="inline" style="margin-bottom:0;">Billing Address</label>
+														<label  class="inline" style="margin-bottom:0;">Card Address</label>
 														<div class="col-sm-12 input-group">
 															<input type='text' name='card_address_line1' value='' class="form-control">
 														</div>
@@ -502,7 +502,7 @@ if ($Agree != "Agree") {
 												</div>
 												<div class="row">
 													<div class="col-sm-12">
-														<label  class="inline" style="margin-bottom:0;">Billing City</label>
+														<label  class="inline" style="margin-bottom:0;">Card City</label>
 														<div class="col-sm-12 input-group">
 															<input type='text' name='card_city' value='' class="form-control">
 														</div>
@@ -510,7 +510,7 @@ if ($Agree != "Agree") {
 												</div>
 												<div class="row">
 													<div class="col-sm-12">
-														<label  class="inline" style="margin-bottom:0;">Billing Province</label>
+														<label  class="inline" style="margin-bottom:0;">Card Province</label>
 														<div class="col-sm-12 input-group">
 															<input type='text' name='card_province' value='ON' class="form-control">
 														</div>
@@ -518,7 +518,7 @@ if ($Agree != "Agree") {
 												</div>
 												<div class="row">
 													<div class="col-sm-12">
-														<label  class="inline" style="margin-bottom:0;">Billing Post Code</label>
+														<label  class="inline" style="margin-bottom:0;">Card Post Code</label>
 														<div class="col-sm-12 input-group">
 															<input type='text' name='card_postal_code' value='' class="form-control">
 														</div>
@@ -526,13 +526,13 @@ if ($Agree != "Agree") {
 												</div>
 												<div class="row">
 													<div class="col-sm-12">
-														<label  class="inline" style="margin-bottom:0;">Billing Country</label>
+														<label  class="inline" style="margin-bottom:0;">Card Country</label>
 														<div class="col-sm-12 input-group">
 															<input type='text' name='card_country' value='CA' class="form-control">
 														</div>
 													</div>
 												</div>
-												<div class="row">
+												<div class="row" style="padding-top: 5px;">
 													<div class="col-sm-12  text-right">
 														<label class="inline"><?php echo $this->lang->line("Amount"); ?>:</label><span> <b>$<?php echo number_format($recurrent[0], 2, '.', ','); ?></b></span>
 														<input class="btn btn-primary paysubmit" type='submit' name='submit' value='Pay'>

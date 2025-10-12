@@ -2087,6 +2087,7 @@ class Plan extends MY_Controller {
 		$this->load->model('plan_history_model');
 		$this->load->model('product_model');
 		$this->load->model('payment_model');
+		$this->load->model('monthly_payment_model');
 
 		$plan_id = $this->input->post('plan_id');
 		// $premium = preg_replace("/[^0-9\.-]/", "", $this->input->post('premium'));
@@ -2095,7 +2096,33 @@ class Plan extends MY_Controller {
 			return $this->credit_card_negative();
 		}
 
-		if (empty($this->input->post('card_number'))) {
+    $monthlypay = $this->input->post('monthlypay');
+    if (($monthlypay == 1) && ($plan['status_id'] == Plan_model::QUOTE)) {
+      $monthlypay = 0; // For something wrong
+      $first_pay = $this->input->post('first_pay');
+      $month_pay = $this->input->post('month_pay');
+      if (!empty($first_pay) && !empty($month_pay) && ($first_pay > ($month_pay * 2))) {
+				$monthlypay = 1;
+      }
+    }
+
+		if (($monthlypay != 1) && $this->input->post('monthlypay')) {
+			$this->error = 'Monthly Pay has problem, Please contact Staff.';
+		} else if ($monthlypay && empty($this->input->post('card_email_address'))) {
+			$this->error = 'Please input Card Email Address.';
+    } else if ($monthlypay && empty($this->input->post('card_phone_number'))) {
+			$this->error = 'Please input Card Phone Number.';
+    } else if ($monthlypay && empty($this->input->post('card_address_line1'))) {
+			$this->error = 'Please input Card Address.';
+    } else if ($monthlypay && empty($this->input->post('card_city'))) {
+			$this->error = 'Please input Card City.';
+    } else if ($monthlypay && empty($this->input->post('card_province'))) {
+			$this->error = 'Please input Card Province.';
+    } else if ($monthlypay && empty($this->input->post('card_postal_code'))) {
+			$this->error = 'Please input Card Postal Code.';
+    } else if ($monthlypay && empty($this->input->post('card_country'))) {
+			$this->error = 'Please input Card Country.';
+    } else if (empty($this->input->post('card_number'))) {
 			$this->error = 'Please input Card Number.';
 		} else if (empty($this->input->post('card_name'))) {
 			$this->error = 'Please input Card Name.';
@@ -2125,6 +2152,20 @@ class Plan extends MY_Controller {
 
 				$plan = $this->plan_model->get_plan_by_id($plan_id);
 				$product = $this->product_model->get_product($plan['product_short']);
+				$monthly_payment_id = 0;
+				if (($monthlypay == 1) && ($plan['status_id'] == Plan_model::QUOTE)) {
+					$monthlypay = 0; // For something wrong
+					$first_pay = $this->input->post('first_pay');
+					$month_pay = $this->input->post('month_pay');
+					$currentDate = new DateTime();
+					if ($monthly_payment_id = $this->monthly_payment_model->add(['plan_id'=>$plan_id, 'amount' => $first_pay, 'pay_date' => $currentDate->format("Y-m-d")])) {
+						$premium = $first_pay;
+						for ($i = 0; $i < 10; $i++) {
+							$currentDate->modify('+1 month');
+							$this->monthly_payment_model->add(['plan_id'=>$plan_id, 'amount' => $month_pay, 'pay_date' => $currentDate->format("Y-m-d")]);
+						}
+					}
+				}
 				$dt = array();
 				$dt['plan_id'] = $plan_id;
 				$dt['currency'] = $product['currency'];
@@ -2239,7 +2280,48 @@ class Plan extends MY_Controller {
 					)
 				);
 				try {
-					$result = $beanstream->payments()->makeCardPayment($payment_data, TRUE); // set to FALSE for Pre-Auth
+					if ($monthlypay == 1) {
+						// Create profile,
+						$profile_data = array(
+							'billing' => array(
+									'name' => $this->input->post('card_name'),
+									'email_address' => $this->input->post('card_email_address'),
+									'phone_number' => $this->input->post('card_phone_number'),
+									'address_line1' => $this->input->post('card_address_line1'),
+									'city' => $this->input->post('card_city'),
+									'province' => $this->input->post('card_province'),
+									'postal_code' => $this->input->post('card_postal_code'),
+									'country' => $this->input->post('card_country')
+							)
+						);
+						// card data to add to a profile
+						$card_data = array(
+							'card' => array(
+								'name' => $card_name,
+								'number' => $card_number,
+								'expiry_month' => $expiry_month,
+								'expiry_year' => $expiry_year,
+								'cvd' => $card_cvv
+							)
+						);
+						$profile_payment_data = array(
+							'order_number' => $plan_id,
+							'amount' => $premium,
+						);
+
+						$profile_id = $beanstream->profiles()->createProfile($profile_data);
+						$result = $beanstream->profiles()->addCard($profile_id, $card_data);
+						$this->monthly_payment_model->set_profile_id($plan_id, $profile_id);
+						$result = $beanstream->payments()->makeProfilePayment($profile_id, $card_id, $profile_payment_data, TRUE); // set to FALSE for Pre-Auth
+						$this->monthly_payment_model->update($monthly_payment_id,[
+							'paid' => 1,
+							'pay_time' => date("Y-m-d H:i:s"),
+							'postdata' => json_encode($profile_payment_data),
+							'rawdata' => json_encode($result)
+						]);
+					} else {
+						$result = $beanstream->payments()->makeCardPayment($payment_data, TRUE); // set to FALSE for Pre-Auth
+					}
 					if (isset($result['approved'])) {
 						$history_id = 0;
 						if (($history = $this->plan_history_model->get_plan_history_by_plan_id($plan_id)) && ($history["actualrate"] > 0)) {
