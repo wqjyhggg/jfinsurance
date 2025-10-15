@@ -294,6 +294,7 @@ class User extends CI_Controller
     $this->load->model('product_model');
     $this->load->model('paytype_model');
     $this->load->model('user_group_model');
+		$this->load->model('user_province_model');
     $this->load->model('region_model');
     $this->load->model('verify_model');
     $this->load->model("log_model");
@@ -335,6 +336,14 @@ class User extends CI_Controller
       $this->data['broker_list'] = $this->user_model->get_broker_id_list($user["region_id"]);
     }
     $this->data['province_list'] = $this->province_model->province_list();
+		foreach ($this->data['province_list'] as $k => $rc) {
+      if ($myrc = $this->user_province_model->get_by_user_province($user_id, $rc["province2"])) {
+        $this->data['province_list'][$k]["checked"] = 'checked';
+      } else {
+        $this->data['province_list'][$k]["checked"] = '';
+      }
+    }
+
     $this->data['product_list'] = $this->product_model->product_list(1, $user);
     $user_product_list = $this->user_model->get_user_product_list($user_id);
     $pdf_product_list = array();
