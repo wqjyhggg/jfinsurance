@@ -2095,6 +2095,7 @@ class Plan extends MY_Controller {
 		if ($premium < 0) {
 			return $this->credit_card_negative();
 		}
+		$plan = $this->plan_model->get_plan_by_id($plan_id);
 
     $monthlypay = $this->input->post('monthlypay');
     if (($monthlypay == 1) && ($plan['status_id'] == Plan_model::QUOTE)) {
@@ -2106,7 +2107,7 @@ class Plan extends MY_Controller {
       }
     }
 
-		if (($monthlypay != 1) && $this->input->post('monthlypay')) {
+		if (((strtolower($monthlypay) == "on") || ($monthlypay == 1)) && $this->input->post('monthlypay')) {
 			$this->error = 'Monthly Pay has problem, Please contact Staff.';
 		} else if ($monthlypay && empty($this->input->post('card_email_address'))) {
 			$this->error = 'Please input Card Email Address.';
@@ -2149,16 +2150,13 @@ class Plan extends MY_Controller {
 			} else if (($card_cvv_len < 3) || ($card_cvv_len > 4)) {
 				$this->error = 'Invalid Card Number CVV';
 			} else {
-
-				$plan = $this->plan_model->get_plan_by_id($plan_id);
 				$product = $this->product_model->get_product($plan['product_short']);
 				$monthly_payment_id = 0;
 				if (($monthlypay == 1) && ($plan['status_id'] == Plan_model::QUOTE)) {
-					$monthlypay = 0; // For something wrong
 					$first_pay = $this->input->post('first_pay');
 					$month_pay = $this->input->post('month_pay');
-					$currentDate = new DateTime();
-					if ($monthly_payment_id = $this->monthly_payment_model->add(['plan_id'=>$plan_id, 'amount' => $first_pay, 'pay_date' => $currentDate->format("Y-m-d")])) {
+					$currentDate = new DateTime($plan['effective_date']);
+					if ($monthly_payment_id = $this->monthly_payment_model->add(['plan_id'=>$plan_id, 'amount' => $first_pay, 'pay_date' => date("Y-m-d")])) {
 						$premium = $first_pay;
 						for ($i = 0; $i < 10; $i++) {
 							$currentDate->modify('+1 month');
