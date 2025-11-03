@@ -2015,7 +2015,7 @@ class Product_model extends CI_Model {
       if (!$beuser) {
         $beuser = $this->session->beuser;
       }
-            $val170 = array(657, 1116, 2202, 4942, 4968);   // assigned before 2023-02-03
+            $val170 = array(657, 1116, 2202, 4942, 4968, 2762, 3383);   // assigned before 2023-02-03
             $val185 = array(2185, 4014);   // assigned before 2023-02-03
             $val180 = array(4249, 4275, 4276, 2661, 4449, 6048);   // assigned before 2023-02-03
             // Added 4449 form 2023-02-03
