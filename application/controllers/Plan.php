@@ -2098,16 +2098,15 @@ class Plan extends MY_Controller {
 		$plan = $this->plan_model->get_plan_by_id($plan_id);
 
     $monthlypay = $this->input->post('monthlypay');
-    if (($monthlypay == 1) && ($plan['status_id'] == Plan_model::QUOTE)) {
-      $monthlypay = 0; // For something wrong
-      $first_pay = $this->input->post('first_pay');
-      $month_pay = $this->input->post('month_pay');
-      if (!empty($first_pay) && !empty($month_pay) && ($first_pay > ($month_pay * 2))) {
-				$monthlypay = 1;
-      }
-    }
+		$first_pay = $this->input->post('first_pay');
+		$month_pay = $this->input->post('month_pay');
+		if ((strtolower($monthlypay) == "on") || ($monthlypay == 1)) {
+			$monthlypay = 1;
+		} else {
+			$monthlypay = 0;
+		}
 
-		if (((strtolower($monthlypay) == "on") || ($monthlypay == 1)) && $this->input->post('monthlypay')) {
+		if ($monthlypay && (($plan['status_id'] != Plan_model::QUOTE) || empty($first_pay) || empty($month_pay) || ($first_pay < ($month_pay * 2)))) {
 			$this->error = 'Monthly Pay has problem, Please contact Staff.';
 		} else if ($monthlypay && empty($this->input->post('card_email_address'))) {
 			$this->error = 'Please input Card Email Address.';
