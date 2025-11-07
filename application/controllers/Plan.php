@@ -2153,11 +2153,12 @@ class Plan extends MY_Controller {
 				$monthly_payment_id = 0;
 				if ($monthlypay == 1) {
 					$currentDate = new DateTime($plan['effective_date']);
+					$this->monthly_payment_model->clear_old($plan_id);
 					if ($monthly_payment_id = $this->monthly_payment_model->add(['plan_id'=>$plan_id, 'amount' => $first_pay, 'pay_date' => date("Y-m-d")])) {
 						$premium = $first_pay;
 						for ($i = 0; $i < 10; $i++) {
-							$currentDate->modify('+1 month');
 							$this->monthly_payment_model->add(['plan_id'=>$plan_id, 'amount' => $month_pay, 'pay_date' => $currentDate->format("Y-m-d")]);
+							$currentDate->modify('+1 month');
 						}
 					}
 				}

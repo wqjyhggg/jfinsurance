@@ -108,4 +108,8 @@ class Monthly_payment_model extends CI_Model {
 		$this->logstr = 'Update payment[' . $payment_id . ']:' . join(', ', $para);
 		return $payment_id;
 	}
+
+	public function clear_old($plan_id) {
+		$this->db->where("plan_id", $plan_id)->delete("monthly_payment");
+	}
 }
