@@ -2310,7 +2310,7 @@ class Plan extends MY_Controller {
 						$result = $beanstreamprofile->profiles()->addCard($profile_id, $card_data);
 						$this->monthly_payment_model->set_profile_id($plan_id, $profile_id);
 						$beanstream = new \Beanstream\Gateway('383613451', '96978bC167e345ca9cc8F0e054F2AFF8', 'www', 'v1');
-						$result = $beanstream->payments()->makeProfilePayment($profile_id, $card_id, $profile_payment_data, TRUE); // set to FALSE for Pre-Auth
+						$result = $beanstream->payments()->makeProfilePayment($profile_id, $card_id = 1, $profile_payment_data, TRUE); // set to FALSE for Pre-Auth
 						$this->monthly_payment_model->update($monthly_payment_id,[
 							'paid' => 1,
 							'pay_time' => date("Y-m-d H:i:s"),
