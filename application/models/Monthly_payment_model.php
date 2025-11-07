@@ -103,10 +103,14 @@ class Monthly_payment_model extends CI_Model {
 		if (isset($para['rawdata'])) {
 			$this->db->set('rawdata', $para['rawdata']);
 		}
-		$this->db->update('monthly_payment', $para);
+		$this->db->update('monthly_payment');
 		$this->sqlstr = $this->db->last_query();
 		$this->logstr = 'Update payment[' . $payment_id . ']:' . join(', ', $para);
 		return $payment_id;
+	}
+
+	public function set_profile_id($plan_id, $profile_id) {
+		$this->db->where("plan_id", $plan_id)->set('profile_id', $profile_id)->update("monthly_payment");
 	}
 
 	public function clear_old($plan_id) {
