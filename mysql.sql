@@ -749,3 +749,22 @@ CREATE TABLE maintain (
   reason text,
   notes varchar(255) NULL COMMENT 'For human read as notes',
  PRIMARY KEY (maintain_id) );
+
+-- 2025-10-11
+CREATE TABLE monthly_payment (
+  monthly_payment_id int NOT NULL AUTO_INCREMENT,
+	plan_id int NOT NULL DEFAULT 0,
+	profile_id varchar(64) NOT NULL DEFAULT '' COMMENT 'for recurrent payment profile id',
+	card_id tinyint NOT NULL DEFAULT 1 COMMENT 'for recurrent payment profile card id',
+	paid tinyint NOT NULL DEFAULT 0 COMMENT '0: no, 1: yes, -1: void',
+	retry tinyint NOT NULL DEFAULT 0 COMMENT 'tried times',
+	amount decimal(10,2) NOT NULL DEFAULT 0,
+  pay_date date NULL COMMENT 'pay date',
+  pay_time datetime NULL COMMENT 'paid real time',
+  postdata text,
+  rawdata text,
+ PRIMARY KEY (monthly_payment_id) );
+CREATE INDEX monthly_payment_plan_id ON monthly_payment (plan_id);
+CREATE INDEX monthly_payment_paid ON monthly_payment (paid);
+ALTER TABLE `plan` ADD `monthlypay` tinyint NULL DEFAULT 0 COMMENT 'the plan is monthly pay or not, 1 yes' AFTER `premium`;
+

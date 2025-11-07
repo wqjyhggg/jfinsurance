@@ -2151,9 +2151,7 @@ class Plan extends MY_Controller {
 			} else {
 				$product = $this->product_model->get_product($plan['product_short']);
 				$monthly_payment_id = 0;
-				if (($monthlypay == 1) && ($plan['status_id'] == Plan_model::QUOTE)) {
-					$first_pay = $this->input->post('first_pay');
-					$month_pay = $this->input->post('month_pay');
+				if ($monthlypay == 1) {
 					$currentDate = new DateTime($plan['effective_date']);
 					if ($monthly_payment_id = $this->monthly_payment_model->add(['plan_id'=>$plan_id, 'amount' => $first_pay, 'pay_date' => date("Y-m-d")])) {
 						$premium = $first_pay;
@@ -2310,7 +2308,7 @@ class Plan extends MY_Controller {
 						$profile_id = $beanstreamprofile->profiles()->createProfile($profile_data);
 						$result = $beanstreamprofile->profiles()->addCard($profile_id, $card_data);
 						$this->monthly_payment_model->set_profile_id($plan_id, $profile_id);
-						$beanstreamprofile = new \Beanstream\Gateway('383613451', '96978bC167e345ca9cc8F0e054F2AFF8', 'www', 'v1');
+						$beanstream = new \Beanstream\Gateway('383613451', '96978bC167e345ca9cc8F0e054F2AFF8', 'www', 'v1');
 						$result = $beanstream->payments()->makeProfilePayment($profile_id, $card_id, $profile_payment_data, TRUE); // set to FALSE for Pre-Auth
 						$this->monthly_payment_model->update($monthly_payment_id,[
 							'paid' => 1,
