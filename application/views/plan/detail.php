@@ -465,7 +465,7 @@ if ($Agree != "Agree") {
 										</div>
 									</div>
 									<?php } ?>
-									<?php if (!$usepsi && isset($recurrent)) { ?>
+									<?php if (0 && !$usepsi && isset($recurrent)) { /* disable recurrent for now */ ?>
 										<div class="row">
 											<div class="col-sm-12">
 												<label class="inline">Monthly Payment Option: <div class='pull-right spdf-option'><input type='checkbox' name="monthlypay" class='monthpay'></div></label>

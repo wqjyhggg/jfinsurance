@@ -600,7 +600,8 @@ class Plan extends CI_Controller
     $this->load->model("log_model");
     $data = array();
     if ($id = $this->input->post("plan_id")) {
-      if ($this->plan_model->get_plan_by_id($id)) {
+      $planold = $this->plan_model->get_plan_by_id($id);
+			if ($planold) {
         $ckArr = array(
           "holiday_rate" => empty($this->input->post('holiday_rate')) ? 0 : 1,
           "spouse" => empty($this->input->post('spouse')) ? 0 : 1,
@@ -626,6 +627,34 @@ class Plan extends CI_Controller
 					'message' => $this->plan_model->logstr,
 					'systemlog' => $this->plan_model->sqlstr
 				);
+				if ((($planold['product_short'] == 'OPL') || ($planold['product_short'] == 'JFVTC') || ($planold['product_short'] == 'JFR')) && ((($planold['sum_insured'] >= 100000) && ($planold['totaldays'] >= 365)) || (($plan['sum_insured'] >= 100000) && ($plan['totaldays'] >= 365)))) {
+					$this->load->model("payment_model");
+					if (($plan['sum_insured'] >= 100000) && ($plan['totaldays'] >= 365)) {
+						if (($planold['effective_date'] != $plan['effective_date']) || ($planold['totaldays'] != $plan['totaldays']) || ($planold['premium'] != $plan['premium']) || ($planold['expiry_date'] != $plan['expiry_date'])) {
+							// Super visa changed effective date
+							$this->payment_model->adjust_commission_added_date($plan_id, $plan['effective_date'], FALSE);
+							$para = array(
+								'plan_id' => $plan_id,
+								'customer_id' => $plan['customer_id'],
+								'payment_id' => $plan['commission_payment_id'],
+								'message' => $this->payment_model->logstr,
+								'systemlog' => $this->payment_model->sqlstr
+							);
+							$this->log_model->activity('plan', $para);
+						}
+					} else {
+						// No more super visa, change payment data to today
+						$this->payment_model->adjust_commission_added_date($plan_id, date('Y-m-d'), FALSE);
+						$para = array(
+							'plan_id' => $plan_id,
+							'customer_id' => $plan['customer_id'],
+							'payment_id' => $plan['commission_payment_id'],
+							'message' => $this->payment_model->logstr,
+							'systemlog' => $this->payment_model->sqlstr
+						);
+						$this->log_model->activity('plan', $para);
+					}
+				}
 				$this->log_model->activity('plan', $para, $user);
       }
     } else {
