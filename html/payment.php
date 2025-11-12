@@ -10,13 +10,12 @@ function logAccess($logFile) {
     $postData = $_POST ? json_encode($_POST) : 'No POST data';
 		$rawInput = file_get_contents('php://input') ?: 'No raw input';
 		$headers = json_encode(getallheaders());
-		$logEntry = date('Y-m-d H:i:s') .
-				" - Method: $requestMethod" .
-				" - Headers: $headers" .
-				" - GET: $getData" .
-				" - POST: $postData" .
-				" - RAW: $rawInput" .
-				PHP_EOL;
+		$logEntry = date('Y-m-d H:i:s') . PHP_EOL .
+				" - Method: $requestMethod" . PHP_EOL .
+				" - Headers: $headers" . PHP_EOL .
+				" - GET: $getData" . PHP_EOL .
+				" - POST: $postData" . PHP_EOL .
+				" - RAW: $rawInput" . PHP_EOL . PHP_EOL;
 		file_put_contents($logFile, $logEntry, FILE_APPEND);
 }
 
