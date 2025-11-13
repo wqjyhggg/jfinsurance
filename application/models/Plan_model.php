@@ -1037,7 +1037,7 @@ class Plan_model extends CI_Model {
 			$where[] = "p.status_id='" . (int)$para['status_id'] . "'";
 		}
 		if (!empty($para['status_ids'])) {
-			$where[] = "p.status_id in (" . $this->db->escape($para['status_id']) . ")";
+			$where[] = "p.status_id in (" . $this->db->escape($para['status_ids']) . ")";
 		}
     if (!empty($users)) {
 			$where[] = "p.user_id IN (" . join(",", $users) . ")";
