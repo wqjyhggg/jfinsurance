@@ -834,6 +834,7 @@ if ($Agree != "Agree") {
                         <div class="inline">
                           <?php if (($user_group_id > 100) && $no_change) { ?>
                             <?php echo ($stable_condition == 1) ? 'Including' : 'Excluding'; ?> <?php echo $this->lang->line("stable pre-existing condition coverage"); ?>
+                            <input type="hidden" name='stable_condition' value="<?php echo $stable_condition; ?>">
                           <?php } else { ?>
                             <select name='stable_condition' class="form-control check_premium" id='stable_condition_select'>
                               <option value='0'> -- <?php echo $this->lang->line("select condition"); ?> -- </option>
