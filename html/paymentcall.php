@@ -1,6 +1,6 @@
 <?php
 // Set the filename for logging
-$logFile = 'payment.txt';
+$logFile = 'paymentcall.txt';
 
 // Function to log access information
 function logAccess($logFile) {
