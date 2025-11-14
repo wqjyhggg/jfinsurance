@@ -2062,6 +2062,7 @@ class Plan extends CI_Controller
 				} else {
 					$data['special_note'] = $this->load->view('plan/top/pdf_note_top', $data, TRUE);
 					$files = array(
+						'TOPN_VisaLetter.docx' => DOWNLOADDIR . 'TOPN_VisaLetter.docx',
 						'TOPN_Policy.pdf' => DOWNLOADDIR . 'TOPN_Policy.pdf',
 						'TOPN_Claim_Form.pdf' => DOWNLOADDIR . 'TOPN_Claim_Form.pdf',
 						'TOPN_Brochure.pdf' => DOWNLOADDIR . 'TOPN_Brochure.pdf'
