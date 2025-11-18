@@ -3691,7 +3691,6 @@ class Plan extends MY_Controller {
 					} else {
 						$data['special_note'] = $this->load->view('plan/top/pdf_note_top', $data, TRUE);
 						$files = array(
-							'TOPN_VisaLetter.docx' => DOWNLOADDIR . 'TOPN_VisaLetter.docx',
 							'TOPN_Policy.pdf' => DOWNLOADDIR . 'TOPN_Policy.pdf',
 							'TOPN_Claim_Form.pdf' => DOWNLOADDIR . 'TOPN_Claim_Form.pdf',
 							'TOPN_Brochure.pdf' => DOWNLOADDIR . 'TOPN_Brochure.pdf'
@@ -3788,7 +3787,15 @@ class Plan extends MY_Controller {
             $mpdf->Output($top_add_file, 'F');
             $files['TOP_VisaLetter.pdf'] = $top_add_file;
           }
-        }
+        } else if (($data['plan']['product_short'] == 'TOPN') && empty($data['sendfrench'])) {
+					$top_add_file = tempnam("/tmp", "Additional");
+					$mpdf = new mPDF('c', 'A4', 0, '', $mgl = 0, $mgr = 0, $mgt = 15, $mgb = 0, $mgh = 0, $mgf = 0, $orientation = 'P');
+					$mpdf->SetHTMLHeader('<img style="width:100%;" src="' . base_url() . 'image/pdf_header.png" />');
+					$html = $this->load->view('plan/top/pdf_additional', $data, TRUE);
+					$mpdf->writeHTML($html);
+					$mpdf->Output($top_add_file, 'F');
+					$files['TOPN_VisaLetter.pdf'] = $top_add_file;
+				}
 				$files['policy_confirmation.pdf'] = $policy_file;
 				$files['policy_card.pdf'] = $this->card($plan_id, true);
 
