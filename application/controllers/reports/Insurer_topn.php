@@ -17,7 +17,7 @@ class Insurer_topn extends MY_Controller
     $this->load->model('region_model');
     $data['regions'] = $this->region_model->get_regions();
 		$data['product_short'] = 'TOPN';
-		$this->load->common('reports/insurer_top', $data);
+		$this->load->common('reports/insurer_topn', $data);
   }
 
   private function set_data()
@@ -47,7 +47,7 @@ class Insurer_topn extends MY_Controller
     $data['user_list'] = $this->user_model->get_available_user_list();
     $data['report_data'] = empty($_POST) ? array() : $this->report_model->get_sales_report_insurer($data);
 
-    $data['export_list'] = base_url("reports/insurer_top/export_list");
+    $data['export_list'] = base_url("reports/insurer_topn/export_list");
     return $data;
   }
 
