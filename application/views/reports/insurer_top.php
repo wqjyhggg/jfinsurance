@@ -59,7 +59,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                 <!-- Agent input box end -->
 
                 <!-- Product input box -->
-                <input type="hidden" name="product_short" value="TOP">
+                <input type="hidden" name="product_short" value="<?php echo $product_short; ?>">
                 <!-- Product input box end -->
                 <!-- Region input box end -->
                 <?php if ($beuser['region_id'] == 0) { ?>

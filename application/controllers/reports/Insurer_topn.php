@@ -4,7 +4,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 use Box\Spout\Common\Type;
 use Box\Spout\Writer\WriterFactory;
 
-class Insurer_top extends MY_Controller
+class Insurer_topn extends MY_Controller
 {
   /**
    * Index Page for this controller.
@@ -16,8 +16,8 @@ class Insurer_top extends MY_Controller
     $data['beuser'] = $beuser;
     $this->load->model('region_model');
     $data['regions'] = $this->region_model->get_regions();
-		$data['product_short'] = 'TOP';
-    $this->load->common('reports/insurer_top', $data);
+		$data['product_short'] = 'TOPN';
+		$this->load->common('reports/insurer_top', $data);
   }
 
   private function set_data()
@@ -37,7 +37,7 @@ class Insurer_top extends MY_Controller
 
     $data['agent_id'] = $this->input->post('agent_id');
     $data['region_id'] = empty($this->input->post('region_id')) ? $beuser['region_id'] : $this->input->post('region_id');
-    $data['product_short'] = 'TOP'; //$this->input->post('product_short');
+    $data['product_short'] = 'TOPN'; // $this->input->get_post('product_short');
     $data['payment_added_from'] = $this->input->post('payment_added_from');
     $data['payment_added_to'] = $this->input->post('payment_added_to');
     $data['payment_date_from'] = $this->input->post('payment_date_from');
@@ -58,7 +58,7 @@ class Insurer_top extends MY_Controller
     $this->load->model('report_model');
     $data['agent_id'] = empty($this->input->get_post('agent_id')) ? 0 : (int)$this->input->get_post('agent_id');
     $data['region_id'] = empty($this->input->get_post('region_id')) ? $beuser['region_id'] : $this->input->get_post('region_id');
-    $data['product_short'] = 'TOP'; //$this->input->get_post('product_short');
+    $data['product_short'] = 'TOPN'; // $this->input->get_post('product_short');
     $data['payment_added_from'] = $this->input->get_post('payment_added_from');
     $data['payment_added_to'] = $this->input->get_post('payment_added_to');
     $data['payment_date_from'] = $this->input->get_post('payment_date_from');

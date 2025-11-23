@@ -25,6 +25,7 @@ class Menu_model extends CI_Model {
 							"<a href='" . base_url('reports/agentperiod') . "' class='leftmeun'>" . $this->lang->line ( 'text_report_in_period' ) . "</a>",
 							"<a href='" . base_url('reports/insurer') . "' class='leftmeun'>" . $this->lang->line ( 'text_report_to_insurer' ) . "</a>",
 							"<a href='" . base_url('reports/insurer_top') . "' class='leftmeun'>TOP Sales report to insurer</a>",
+							"<a href='" . base_url('reports/insurer_topn') . "' class='leftmeun'>TOPN Sales report to insurer</a>",
 							"<a href='" . base_url('reports/receivable') . "' class='leftmeun'>" . $this->lang->line ( 'text_receivable_report' ) . "</a>",
 							"<a href='" . base_url('reports/claimreport') . "' class='leftmeun'>" . $this->lang->line ( 'text_claim_report' ) . "</a>",
 							"<a href='" . base_url('reports/renewal') . "' class='leftmeun'>" . $this->lang->line ( 'text_renewal_report' ) . "</a>",
