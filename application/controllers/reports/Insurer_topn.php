@@ -17,7 +17,7 @@ class Insurer_topn extends MY_Controller
     $this->load->model('region_model');
     $data['regions'] = $this->region_model->get_regions();
 		$data['product_short'] = 'TOPN';
-		$this->load->common('reports/insurer_topn', $data);
+		$this->load->common('reports/insurer_top', $data);
   }
 
   private function set_data()
