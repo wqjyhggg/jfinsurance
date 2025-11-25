@@ -369,7 +369,7 @@ class Report_model extends CI_Model
         $row['daily_rate'] = sprintf("%01.2f", ($row['policy_premium'] / $row['total_days']));
       }
       $row['coverage'] = '';
-      if ($row['product_short'] == 'TOP') {
+      if (($row['product_short'] == 'TOP') || ($row['product_short'] == 'TOPN')) {
         if (isset($toppackagename[$row['package']])) $row['coverage'] = $toppackagename[$row['package']] . " -";
         switch ($row['package']) {
           case 'all_inclusive':
