@@ -20,7 +20,7 @@ class Maintain_model extends CI_Model {
 
 	public function get_available() {
 		$now = date("Y-m-d H:i:s");
-    return $this->db->get_where("maintain",["active"=>1,"status">0,"start_time>="<=$now,"end_time<=">=$now])->row_array();
+    return $this->db->get_where("maintain",["active"=>1,"status>"=>0,"start_time<="=>$now,"end_time>="=>$now])->row_array();
   }
 
 	public function add($para) {
