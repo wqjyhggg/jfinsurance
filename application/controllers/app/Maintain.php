@@ -21,7 +21,7 @@ class Maintain extends CI_Controller
     $this->load->model("maintain_model");
     $rec = $this->maintain_model->get_first();
 
-    if (empty($rec) || ($rec["active"] != 1)) {
+    if (empty($rec) || ($rec["active"] != 1) || (strtotime($rec["end_time"]) < now())) {
       return $this->app_model->return_error("no data");
     }
     $data = array();
