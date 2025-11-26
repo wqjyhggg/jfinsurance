@@ -320,6 +320,13 @@ class User extends CI_Controller
           $this->user_model->update($user_id, $post, 1, array());
         }
         $this->log_model->activity('user', array('message' => $this->user_model->logstr, 'systemlog' => $this->user_model->sqlstr), $user);
+        $user_province = $this->input->post('user_province');
+        if (sizeof($user_province) > 0) {
+          $this->user_province_model->remove_by_user($user_id);
+          foreach ($user_province as $province) {
+            $this->user_province_model->add($user_id, $province);
+          }
+        }
         // $this->product_model->set_product_customize($user_id, $this->input->post('product_customize'));
         // redirect(base_url('user'));
       }
