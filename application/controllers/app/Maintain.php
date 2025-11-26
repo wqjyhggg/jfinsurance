@@ -22,7 +22,7 @@ class Maintain extends CI_Controller
     $rec = $this->maintain_model->get_first();
 
     if (empty($rec) || ($rec["active"] != 1)) {
-      return $this->maintain_model->return_error("no data");
+      return $this->app_model->return_error("no data");
     }
     $data = array();
 		if ($this->maintain_model->get_available()) {
