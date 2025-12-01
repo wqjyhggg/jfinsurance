@@ -172,6 +172,11 @@ class Report_model extends CI_Model
     $sql .= "		pr.full_name,";
     $sql .= "		pr.up_insuer,";
     $sql .= "		CONCAT(cu.firstname, ' ', cu.lastname) as insured";
+    $sql .= "		CASE";
+		$sql .= "		  WHEN (SELECT m.pay_type FROM monthly_payment m WHERE m.payment_id = pa.id) IS NULL THEN 'premium'";
+		$sql .= "		  WHEN (SELECT m.pay_type FROM monthly_payment m WHERE m.payment_id = pa.id) = 0 THEN 'Initial'";
+		$sql .= "		  ELSE 'recurring'";
+		$sql .= "		END AS payment_type";
     $sql .= " FROM __payment__ pa";
     $sql .= " JOIN plan pl ON (pa.plan_id=pl.plan_id)";
     $sql .= " JOIN product pr ON (pl.product_short=pr.product_short)";

@@ -1577,6 +1577,10 @@ class Plan extends MY_Controller {
 				$data['print_card_url'] = base_url('plan/card/' . $plan['plan_id']);
 				$data['print_receipt_url'] = base_url('plan/receipt/' . $plan['plan_id']);
 			}
+			if ($plan["monthlypay"] == 1) {
+				$this->load->model('monthly_payment_model');
+				$data['monthly_payment'] = $this->monthly_payment_model->get_by_plan_id($plan["plan_id"]);
+			}
 		}
 
 		$data['title_txt'] = 'Policy';
@@ -2154,7 +2158,7 @@ class Plan extends MY_Controller {
 				if ($monthlypay == 1) {
 					$currentDate = new DateTime($plan['effective_date']);
 					$this->monthly_payment_model->clear_old($plan_id);
-					if ($monthly_payment_id = $this->monthly_payment_model->add(['plan_id'=>$plan_id, 'amount' => $first_pay, 'pay_date' => date("Y-m-d")])) {
+					if ($monthly_payment_id = $this->monthly_payment_model->add(['plan_id'=>$plan_id, 'amount' => $first_pay, 'pay_type' => 0, 'pay_date' => date("Y-m-d")])) {
 						$premium = $first_pay;
 						for ($i = 0; $i < 10; $i++) {
 							$this->monthly_payment_model->add(['plan_id'=>$plan_id, 'amount' => $month_pay, 'pay_date' => $currentDate->format("Y-m-d")]);

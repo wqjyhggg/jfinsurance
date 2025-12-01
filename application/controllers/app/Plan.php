@@ -179,6 +179,9 @@ class Plan extends CI_Controller
       $expiry_month = $this->input->post('expiry_month');
       $expiry_year = $this->input->post('expiry_year');
       $card_cvv = $this->input->post('card_cvv');
+			if (empty($card_name)) {
+				return $this->app_model->return_error("Please input Card Holder Name.");
+			}
 
 			$expiry_month = str_pad($expiry_month, 2, '0', STR_PAD_LEFT);
       $expiry_year = substr($expiry_year, -2);
@@ -187,7 +190,42 @@ class Plan extends CI_Controller
 			$card_cvv = preg_replace('#[^0-9]#', '', $card_cvv);
 			$card_number_len = strlen($card_number);
 			$card_cvv_len = strlen($card_cvv);
-    }
+
+			$monthlypay = $this->input->post('monthlypay');
+			$first_pay = $this->input->post('first_pay');
+			$month_pay = $this->input->post('month_pay');
+
+			if ($monthlypay != 1) {
+				$monthlypay = 0;
+			}
+			if ($monthlypay) {
+				$first_pay = $this->input->post('first_pay');
+				$month_pay = $this->input->post('month_pay');
+				$card_email_address = $this->input->post('card_email_address');
+				$card_address_line1 = $this->input->post('card_address_line1');
+				$card_city = $this->input->post('card_city');
+				$card_province = $this->input->post('card_province');
+				$card_postal_code = $this->input->post('card_postal_code');
+				$card_country = $this->input->post('card_country');
+				if (($plan['status_id'] != Plan_model::QUOTE) || empty($first_pay) || empty($month_pay) || ($first_pay < ($month_pay * 2))) {
+					return $this->app_model->return_error("Monthly Pay has problem, Please contact Staff.");
+				} else if (empty($card_email_address)) {
+					return $this->app_model->return_error("Please input Card Email Address.");
+				} else if (empty($card_phone_number)) {
+					return $this->app_model->return_error("Please input Card Phone Number.");
+				} else if (empty($card_address_line1)) {
+					return $this->app_model->return_error("Please input Card Address.");
+				} else if (empty($card_city)) {
+					return $this->app_model->return_error("Please input Card City.");
+				} else if (empty($card_province)) {
+					return $this->app_model->return_error("Please input Card Province.");
+				} else if (empty($card_postal_code)) {
+					return $this->app_model->return_error("Please input Card Postal Code.");
+				} else if (empty($card_country)) {
+					return $this->app_model->return_error("Please input Card Country.");
+				}
+			}
+		}
 
 		$product = $this->product_model->get_product($plan['product_short']);
 		$dt = array();
@@ -509,6 +547,15 @@ class Plan extends CI_Controller
         if ($plan["isfamilyplan"]) {
           $data["family"] = $this->customer_model->get_customer_by_parent_id($plan["customer_id"]);
         }
+				if ($plan['status_id'] >= 2) {
+					$this->load->model('claim_model');
+					$claims = $this->plan_model->verify_policy($plan);
+					$data['claims'] = (!empty($claims) && ($claims['status'] == 'OK')) ? $claims['claims'] : '';
+				}
+				if ($plan["monthlypay"] == 1) {
+					$this->load->model('monthly_payment_model');
+					$data['monthly_payment'] = $this->monthly_payment_model->get_by_plan_id($plan["plan_id"]);
+				}
         $this->app_model->return_ok($data);
       }
     }

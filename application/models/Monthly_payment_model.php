@@ -30,11 +30,14 @@ class Monthly_payment_model extends CI_Model {
 		} else {
 			$this->db->set('plan_id', $para['plan_id']);
 		}
+		if (isset($para['payment_id'])) {
+			$this->db->set('payment_id', $para['payment_id']);
+		}
 		if (isset($para['profile_id'])) {
 			$this->db->set('profile_id', $para['profile_id']);
 		}
-		if (isset($para['card_id'])) {
-			$this->db->set('card_id', $para['card_id']);
+		if (isset($para['pay_type'])) {
+			$this->db->set('pay_type', $para['pay_type']);
 		}
 		if (isset($para['paid'])) {
 			$this->db->set('paid', $para['paid']);
@@ -76,11 +79,14 @@ class Monthly_payment_model extends CI_Model {
 		if (isset($para['plan_id'])) {
 			$this->db->set('plan_id', $para['plan_id']);
 		}
+		if (isset($para['payment_id'])) {
+			$this->db->set('payment_id', $para['payment_id']);
+		}
 		if (isset($para['profile_id'])) {
 			$this->db->set('profile_id', $para['profile_id']);
 		}
-		if (isset($para['card_id'])) {
-			$this->db->set('card_id', $para['card_id']);
+		if (isset($para['pay_type'])) {
+			$this->db->set('pay_type', $para['pay_type']);
 		}
 		if (isset($para['paid'])) {
 			$this->db->set('paid', $para['paid']);
@@ -107,6 +113,14 @@ class Monthly_payment_model extends CI_Model {
 		$this->sqlstr = $this->db->last_query();
 		$this->logstr = 'Update payment[' . $payment_id . ']:' . join(', ', $para);
 		return $payment_id;
+	}
+
+	public function get_by_plan_id($plan_id) {
+		$this->db->where("plan_id", $plan_id)->get("monthly_payment")->result_array();
+	}
+	
+	public function get_by_payment_id($payment_id) {
+		$this->db->where("payment_id", $payment_id)->get("monthly_payment")->row_array();
 	}
 
 	public function set_profile_id($plan_id, $profile_id) {
