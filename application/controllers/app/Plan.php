@@ -550,7 +550,7 @@ class Plan extends CI_Controller
 				if ($plan['status_id'] >= 2) {
 					$this->load->model('claim_model');
 					$claims = $this->plan_model->verify_policy($plan);
-					$data['claims'] = (!empty($claims) && ($claims['status'] == 'OK')) ? $claims['claims'] : '';
+					$data["plan"]['claims'] = (!empty($claims) && ($claims['status'] == 'OK')) ? $claims['claims'] : '';
 				}
 				if ($plan["monthlypay"] == 1) {
 					$this->load->model('monthly_payment_model');
