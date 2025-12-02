@@ -94,7 +94,16 @@ class Plan extends CI_Controller
     if ($payment_total && (($plan["status_id"] == Plan_model::QUOTE) || ($plan["status_id"] == Plan_model::CHANGED))) {
       $payurl = base_url().'plan/detail/' . $plan_id . '/' . $this->plan_model->get_plan_key($plan_id);
     }
-    $this->app_model->return_ok(["pay_amount"=>$payment_total, "payurl"=>$payurl]);
+		$rt = ["pay_amount"=>$payment_total, "payurl"=>$payurl];
+    if (($plan["status_id"] == Plan_model::QUOTE) && 
+				($plan["product_short"] == "JFVTC") && 
+				($plan["sum_insured"] >= 100000) &&
+				($plan["totaldays"] >= 365) ) {
+			$month_amount = number_format($payment_total / 12, 2, ".", "");
+			$rt['recurrent'] = [number_format($month_amount * 2 + 50, 2, ".", ""), $month_amount];
+		}
+
+		$this->app_model->return_ok($rt);
   }
 
   function get_ali_url() {
