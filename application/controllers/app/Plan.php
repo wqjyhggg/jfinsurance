@@ -100,7 +100,7 @@ class Plan extends CI_Controller
 				($plan["sum_insured"] >= 100000) &&
 				($plan["totaldays"] >= 365) ) {
 			$month_amount = number_format($payment_total / 12, 2, ".", "");
-			$rt['recurrent'] = [number_format($month_amount * 2 + 50, 2, ".", ""), $month_amount];
+			$rt['recurrent'] = [number_format($month_amount * 2 + 50, 2, ".", ""), $month_amount, 10];
 		}
 
 		$this->app_model->return_ok($rt);

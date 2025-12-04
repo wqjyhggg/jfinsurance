@@ -469,7 +469,7 @@ if ($Agree != "Agree") {
 										<div class="row">
 											<div class="col-sm-12">
 												<label class="inline">Monthly Payment Option: <div class='pull-right spdf-option'><input type='checkbox' name="monthlypay" class='monthpay'></div></label>
-												<div style="font-size: 10px;">First Pay: $<?php echo number_format($recurrent[0], 2, '.', ','); ?> and 10 Recurring Pay: $<?php echo number_format($recurrent[1], 2, '.', ','); ?></div>
+												<div style="font-size: 10px;">First Pay: $<?php echo number_format($recurrent[0], 2, '.', ','); ?> and <?php echo $recurrent[2]; ?> Recurring Pay: $<?php echo number_format($recurrent[1], 2, '.', ','); ?></div>
 											</div>
 										</div>
 										<div class="row billing_info">
