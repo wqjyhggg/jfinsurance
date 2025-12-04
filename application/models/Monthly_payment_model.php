@@ -116,11 +116,11 @@ class Monthly_payment_model extends CI_Model {
 	}
 
 	public function get_by_plan_id($plan_id) {
-		$this->db->where("plan_id", $plan_id)->get("monthly_payment")->result_array();
+		return $this->db->where("plan_id", $plan_id)->get("monthly_payment")->result_array();
 	}
 	
 	public function get_by_payment_id($payment_id) {
-		$this->db->where("payment_id", $payment_id)->get("monthly_payment")->row_array();
+		return $this->db->where("payment_id", $payment_id)->get("monthly_payment")->row_array();
 	}
 
 	public function set_profile_id($plan_id, $profile_id) {
