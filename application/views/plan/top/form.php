@@ -1200,7 +1200,7 @@ if (!empty($activelog_tables) && is_array($activelog_tables) && (sizeof($activel
     echo "logtb.push('".$tb."');\n";
   }
 }
-if ($plan_id) {
+if ($plan_id && ($status_id != Plan_model::REFUND) && ($status_id != Plan_model::CANCEL)) {
 	echo "show_submit_btn = true;\n";	// Enable submit button
 }
 ?>
@@ -1449,9 +1449,11 @@ $('#payment_get_history_button').click(function(){
 			let premium = $('input[name="premium"]').val();
 			show_submit_btn = true;
       $("ul#top-nav-tabs li.active").next('li').find('a').trigger("click");
+			<?php if (($status_id != Plan_model::REFUND) && ($status_id != Plan_model::CANCEL)) { ?>
 			if (premium > 0) {
 				$('#page-submit').show();
 			}
+			<?php } ?>
     });
 
     $.ajax({
