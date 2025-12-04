@@ -1580,6 +1580,15 @@ class Plan extends MY_Controller {
 			if ($plan["monthlypay"] == 1) {
 				$this->load->model('monthly_payment_model');
 				$data['monthly_payment'] = $this->monthly_payment_model->get_by_plan_id($plan["plan_id"]);
+				$data['monthly_paid'] = 0;
+				$data['monthly_unpay'] = 0;
+				foreach ($data['monthly_payment'] as $rc) {
+					if ($rc["paid"] == 1) {
+						$data['monthly_paid'] += $rc["amount"];
+					} else if ($rc["paid"] == 0) {
+						$data['monthly_unpay'] += $rc["amount"];
+					}
+				}
 			}
 		}
 
