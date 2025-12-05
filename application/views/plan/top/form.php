@@ -695,7 +695,7 @@ if ($Agree != "Agree") {
                           <?php if (($user_group_id > 100) && $no_change) { ?>
                             <input type="hidden" name="sum_insured" value="<?php echo $sum_insured; ?>">$<?php echo number_format($sum_insured, 2); ?>
                           <?php } else { ?>
-                            <input type="number" name="sum_insured" class='check_premium' min="0" max="8000" step="100" value="<?php echo $sum_insured; ?>"> ( 0 - 8,000 every 100s)
+                            <input type="number" name="sum_insured" class='check_premium' min="0" max="5000000" step="100" value="<?php echo $sum_insured; ?>"> ( 0 - 8,000 every 100s)
                           <?php } ?>
                         </div>
                         <!-- <div class="col-sm-4">
@@ -1200,7 +1200,7 @@ if (!empty($activelog_tables) && is_array($activelog_tables) && (sizeof($activel
     echo "logtb.push('".$tb."');\n";
   }
 }
-if ($plan_id && ($status_id != Plan_model::REFUND) && ($status_id != Plan_model::CANCEL)) {
+if ($plan_id && (($user_group_id <= 1) || (($status_id != Plan_model::REFUND) && ($status_id != Plan_model::CANCEL)))) {
 	echo "show_submit_btn = true;\n";	// Enable submit button
 }
 ?>
@@ -1449,7 +1449,7 @@ $('#payment_get_history_button').click(function(){
 			let premium = $('input[name="premium"]').val();
 			show_submit_btn = true;
       $("ul#top-nav-tabs li.active").next('li').find('a').trigger("click");
-			<?php if (($status_id != Plan_model::REFUND) && ($status_id != Plan_model::CANCEL)) { ?>
+			<?php if (($user_group_id <= 1) || (($status_id != Plan_model::REFUND) && ($status_id != Plan_model::CANCEL))) { ?>
 			if (premium > 0) {
 				$('#page-submit').show();
 			}

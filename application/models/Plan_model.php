@@ -1339,6 +1339,10 @@ class Plan_model extends CI_Model {
 		if (!empty($para['status_id'])) {
 			$where[] = "p.status_id='" . (int)$para['status_id'] . "'";
 		}
+		if (!empty($para['monthlypay'])) {
+			$where[] = "p.monthlypay='" . int_val($para['monthlypay']) . "'";
+		}
+
 		if (!empty($para['product_short'])) {
 			$where[] = "p.product_short=" . $this->db->escape($para['product_short']);
 		}
