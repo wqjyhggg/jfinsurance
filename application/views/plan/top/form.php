@@ -148,12 +148,10 @@ if ($Agree != "Agree") {
                       <label class="inline">Refund Date: ( <?php echo $plan_refund_date; ?> )</label>
                     </div>
                   <?php } ?>
-									<?php if ($user_group_id < 100) { ?>
-										<?php if (!empty($claims)) { ?>
-											<div class="form-group col-sm-3">
-												<span style="color: red;"><?php echo $this->lang->line("There is an existing claim or open cases."); ?></span>
-											</div>
-										<?php } ?>
+									<?php if (!empty($claims)) { ?>
+										<div class="form-group col-sm-3">
+											<span style="color: red;"><?php echo $this->lang->line("There is an existing claim or open cases."); ?></span>
+										</div>
 									<?php } ?>
                   <div class="clearfix"></div>
 
