@@ -2947,8 +2947,7 @@ class Plan extends MY_Controller {
 		return $this->detail($plan_id, $sekey);
 	}
 
-	function detail($plan_id = 0, $sekey = '', $passerr = '')
-	{
+	public function detail($plan_id = 0, $sekey = '', $passerr = '') {
 		$this->error = '';
 		$defaultpay_type = '';
 		if ($play_type = $this->input->post('play_type')) {
@@ -3324,6 +3323,7 @@ class Plan extends MY_Controller {
 			if (($plan['status_id'] == Plan_model::QUOTE) && ($plan['sum_insured'] > 100000) && ($plan['totaldays'] >= 365)) {
 				$month_amount = number_format($plan['premium'] / 12, 2, ".", "");
 				$data['recurrent'] = [number_format($month_amount * 2 + 50, 2, ".", ""), $month_amount, 10];
+				$data["monthly_pay_url"] = base_url("plan/monthly_pay/" . $plan['plan_id']);
 			}
 		} else if ($data['plan']['product_short'] == 'JFR') {
 			$data['insurable_options'] = $this->load->view('plan/detail_opl', $data, TRUE);
@@ -3385,6 +3385,153 @@ class Plan extends MY_Controller {
 				$this->load->view('plan/detail2', $data);
 			}
 		}
+	}
+
+	public function createCheckoutLink($merchantId, $hashKey, $amount, $plan_id) {
+    $conter = 1;
+    $params = [
+        'merchant_id' => $merchantId,
+        'trnAmount' => $amount,
+        'trnOrderNumber' => $plan_id."-".$conter,
+        'trnType' => "P",
+        'ref1' => "monthly",
+        'ref2' => (string)$plan_id,
+        'ref3' => (string)"1",
+    ];
+    $paraString = http_build_query($params);
+    $hashString = $paraString . $hashKey;
+    $hash = md5($hashString);
+    $checkoutUrl = "https://web.na.bambora.com/scripts/payment/payment.asp?" . $paraString . '&hashValue='.$hash;
+    return $checkoutUrl;
+ }
+
+	public function monthly_pay($plan_id = 0) {
+		$this->error = '';
+		$pay_type = 'Credit Card';
+		if (empty($play_type)) {
+			$plan_id = $this->input->post('plan_id');
+		}
+		if (empty($plan_id)) {
+			redirect(base_url('production'));
+		}
+
+		$this->load->model('customer_model');
+		$this->load->model('plan_model');
+		$this->load->model('product_model');
+		$this->load->model('paytype_model');
+		$this->load->model('status_model');
+		$this->load->model('payment_model');
+		$this->load->model('plan_history_model');
+		$this->load->model('monthly_payment_model');
+
+		$plan = $this->plan_model->get_plan_by_id($plan_id);
+		if (empty($plan) || ($plan["status_id"] > 1)) {
+			redirect('user/login');
+		}
+		if (($plan['claim_flag'] > 1) && ($plan['claim_allow_by'] < 1)) {
+			redirect('plan/form');
+		}
+		$beuser = $this->func_model->verify_login(TRUE, TRUE);
+		$this->session->unset_userdata('fromsekey');
+		if (($beuser["user_group_id"] > 100) && ($beuser["user_id"] != $plan["user_id"])) {
+			show_error("You can't access this policy detail");
+		}
+		$data['beuser'] = $beuser;
+		$data['plan'] = $plan;
+		$month_amount = number_format($plan['premium'] / 12, 2, ".", "");
+		$first_amount = number_format($month_amount * 2 + 50, 2, ".", "");
+		$pay_times = 10;
+		$monthly_payment_id = $this->monthly_payment_model->create_payment_records($plan["plan_id"], $first_amount, $month_amount, $pay_times, $plan["effective_date"]);
+		if (!is_numeric($monthly_payment_id)) {
+			// Some error happened
+			show_error($monthly_payment_id);
+		}
+		$data['month_amount'] = $month_amount;
+		$data['first_amount'] = $first_amount;
+		$data['pay_times'] = $pay_times;
+
+		$product = $this->product_model->get_product($plan['product_short']);
+		$data['product'] = $product;
+		$data['plan_full_name'] = $product ? $product['full_name'] : '';
+
+		$data['monthly_pay_url'] = createCheckoutLink($merchantId, $hashKey, $amount, $plan_id);
+		$data['payurltm'] = "";
+		$data['back_url'] = base_url('plan/detail/' . $plan_id);
+		$data['get_plan_status_url'] = base_url("plan/get_plan_status/" . $data['plan_id']);
+		$data['CustomerIP'] = $this->input->ip_address();
+
+		$data['defaultpay_type'] = $defaultpay_type;
+		$display = 1;
+
+		$data['title_txt'] = 'Policy';
+		$data['top_menu'] = '';
+		$data['menu'] = '';
+		$data['csrf'] = array(
+			'name' => $this->security->get_csrf_token_name(),
+			'value' => $this->security->get_csrf_hash()
+		);
+		$this->load->model('html_model');
+		$data['html_model'] = $this->html_model;
+
+		$this->load->view('plan/monthly', $data);
+	}
+
+	function get_plan_status($plan_id) {
+		$beuser = $this->func_model->verify_login();
+		$this->load->model('payment_model');
+
+		$tb = $this->input->get('tb');
+		$payment_tables = $this->payment_model->history_tables;
+		$rt = "";
+		if (in_array($tb, $payment_tables)) {
+			$payments = $this->payment_model->get_payment_by_plan_id_tb($plan_id, $tb);
+			foreach ($payments as $p) {
+				$pay_str = '';
+				if ($p['pay_type'] == 'up_commission') continue;
+				if ($p['pay_type'] == 'refund_up_commission') continue;
+				if ($p['pay_type'] == 'cancel_up_commission') continue;
+
+				$sbstr = substr($p['pay_type'], 0, 6);
+				if ($p['ispaid']) {
+					$pay_str = 'Paid';
+				} else {
+					if ($sbstr == 'refund') {
+						$pay_str = "<a href='" . base_url("payment/revert") . "/" . $p['payment_id'] . "'>Revert Refund</a>";
+					} else if ($sbstr == 'cancel') {
+						$pay_str = "<a href='" . base_url("payment/revert") . "/" . $p['payment_id'] . "'>Revert Cancel</a>";
+					} else {
+						$pay_str = '-';
+					}
+				}
+				$pay_info = '';
+				$ck_info = $p['cheque_number'];
+				if ($p['pay_date'] > "2020-01-01") $ck_info .= ":" . $p['pay_date'];
+				if (!empty($p['invoice_num'])) $pay_info .= "[" . $p['invoice_num'] . "]";
+				if (!empty($p['bank_name'])) $pay_info .= "[" . $p['bank_name'] . "]";
+				if (!empty($p['payor_name'])) $pay_info .= "[" . $p['payor_name'] . "]";
+				if (!empty($p['cheque_number'])) $pay_info .= "[" . $p['cheque_number'] . "]";
+				if (!empty($p['pay_to'])) $pay_info .= "[" . $p['pay_to'] . "]";
+				if (!empty($p['name'])) $pay_info .= "[" . $p['name'] . "]";
+				if (!empty($p['first5'])) $pay_info .= "[" . $p['first5'] . "]";
+				if (!empty($p['last4'])) $pay_info .= "[" . $p['last4'] . "]";
+				if (!empty($p['expiry_month'])) $pay_info .= "[" . $p['expiry_month'] . "]";
+				if (!empty($p['expiry_year'])) $pay_info .= "[" . $p['expiry_year'] . "]";
+
+				$rt .= "<tr>\n";
+				$rt .= "<td>" . (empty($p['ispaid']) ? "<input type='checkbox' name='payment[]' value='" . $p['payment_id'] . "'>" : "") . "</td>\n";
+				$rt .= "<td>" . $p['last_update'] . "</td>\n";
+				$rt .= "<td>" . $p['pay_type'] . "</td>\n";
+				$rt .= "<td>" . $p['pay_mothed'] . "</td>\n";
+				$rt .= "<td>" . $p['amount'] . "</td>\n";
+				$rt .= "<td>" . $p['rate'] . "%</td>\n";
+				$rt .= "<td>" . $pay_str . "</td>\n";
+				$rt .= "<td>" . $ck_info . "</td>\n";
+				$rt .= "<td>" . $pay_info . "</td>\n";
+				$rt .= "<td>" . ((strlen($p['note']) > 60) ? (htmlspecialchars(substr($p['note'], 0, 57)) . "...") : htmlspecialchars($p['note'])) . "</td>\n";
+				$rt .= "</tr>\n";
+			}
+		}
+		die($rt);
 	}
 
 	public function sendpackage($plan_id = 0, $sendfrenchemail = 0)

@@ -115,6 +115,34 @@ class Monthly_payment_model extends CI_Model {
 		return $payment_id;
 	}
 
+	public function create_payment_records($plan_id, $first_amount, $month_pay, $mountly_number, $effective_date) {
+		if ($this->db->where("plan_id", $plan_id)->where("paid!", 0)->get("monthly_payment")->row_array()) {
+			// Payment already edited build. Can't rebuild
+			return "Payment already edited. Can not rebuild";
+		}
+		$this->db->where("plan_id", $plan_id)->delete("monthly_payment");		// Remove if it is existed
+		$precord = [
+			"plan_id" => $plan_id,
+			"amount" => $first_amount,
+			"pay_date" => date("Y-m-d")
+		];
+		if ($record_id = $this->add($precord)) {
+			$recurrdate = new DateTime($effective_date);
+			$precord["pay_type"] = 1;
+			$precord["amount"] = $month_pay;
+			for ($i = 0; $i < $mountly_number; $i++) {
+				$recurrdate->modify('+1 month');
+				$precord["pay_date"] = $date->format('Y-m-d');
+				$this->add($precord);
+			}
+			return $record_id;
+		}
+		$error = $this->db->error(); // Returns an array with 'code' and 'message'
+    // echo "Database Error Code: " . $error['code'] . "<br>";
+    // echo "Database Error Message: " . $error['message'];
+		return "Can not create payment recodes: ".$this->db->last_query()."; ".$error['message'];
+	}
+
 	public function get_by_plan_id($plan_id) {
 		return $this->db->where("plan_id", $plan_id)->get("monthly_payment")->result_array();
 	}
