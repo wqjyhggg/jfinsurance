@@ -418,7 +418,7 @@ if ($Agree != "Agree") {
                                     </select>
                                   </div>
                                 </div>
-                                <div class="col-sm-4">
+                                <div class="col-sm-4 relationship">
                                   <label class="col-sm-12"><?php echo $this->lang->line("Relationship"); ?>: </label>
                                   <div class="input-group col-sm-12">
                                     <select name='relationship_<?php echo $i; ?>' id='relationship_<?php echo $i; ?>' class="form-control relation-selection" style="padding:6px 2px;" onchange="updateRelationOptions()">
@@ -1540,6 +1540,11 @@ $('#payment_get_history_button').click(function(){
       // family or group
       $('#family_member').show();
     }
+		if (sls == 2) {
+			$('.relationship').hide();
+		} else {
+			$('.relationship').show();
+		}
   }
 
   function sorting_payment() {
