@@ -472,10 +472,12 @@ if ($Agree != "Agree") {
 										</div>
 									</div>
 									<?php if (!$usepsi && isset($recurrent)) { /* disable recurrent for now */ ?>
+										<hr />
 										<div class="row">
 											<div class="col-sm-12">
-												<label class="inline">Monthly Payment Option <a class='btn btn-primary pull-right' href="<?php echo $monthly_pay_url; ?>"><?php echo $this->lang->line("Pay Now"); ?></a></label>
+												<label class="inline">Monthly Payment Option</label>
 												<div style="font-size: 10px;">First Pay: $<?php echo number_format($recurrent[0], 2, '.', ','); ?> and Recurring Pay: $<?php echo number_format($recurrent[1], 2, '.', ','); ?> x <?php echo $recurrent[2]; ?></div>
+												<a class='btn btn-primary pull-right' href="<?php echo $monthly_pay_url; ?>"><?php echo $this->lang->line("Pay Now"); ?></a>
 											</div>
 										</div>
 									<?php } ?>
