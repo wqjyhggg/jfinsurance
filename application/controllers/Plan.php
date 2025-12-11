@@ -3320,7 +3320,7 @@ class Plan extends MY_Controller {
 			$data['insurable_options'] = $this->load->view('plan/detail_opl', $data, TRUE);
 		} else if ($data['plan']['product_short'] == 'JFVTC') {
 			$data['insurable_options'] = $this->load->view('plan/detail_opl', $data, TRUE);
-			if (($plan['status_id'] == Plan_model::QUOTE) && ($plan['sum_insured'] > 100000) && ($plan['totaldays'] >= 365)) {
+			if (($plan['status_id'] == Plan_model::QUOTE) && ($plan['sum_insured'] >= 100000) && ($plan['totaldays'] >= 365)) {
 				$month_amount = number_format($plan['premium'] / 12, 2, ".", "");
 				$data['recurrent'] = [number_format($month_amount * 2 + 50, 2, ".", ""), $month_amount, 10];
 				$data["monthly_pay_url"] = base_url("plan/monthly_pay/" . $plan['plan_id']);

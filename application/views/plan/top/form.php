@@ -691,9 +691,9 @@ if ($Agree != "Agree") {
                         </div>
                         <div class="col-sm-4">
                           <?php if (($user_group_id > 100) && $no_change) { ?>
-                            <input type="hidden" name="sum_insured" value="<?php echo $sum_insured; ?>">$<?php echo number_format($sum_insured, 2); ?>
+                            <input type="hidden" name="trip_cancellation_insured" value="<?php echo $trip_cancellation_insured; ?>">$<?php echo number_format($trip_cancellation_insured, 2); ?>
                           <?php } else { ?>
-                            <input type="number" name="sum_insured" class='check_premium' min="0" max="5000000" step="100" value="<?php echo $sum_insured; ?>"> ( 0 - 8,000 every 100s)
+                            <input type="number" name="trip_cancellation_insured" class='check_premium' min="0" max="8000" step="100" value="<?php echo $trip_cancellation_insured; ?>"> ( 0 - 8,000 every 100s)
                           <?php } ?>
                         </div>
                         <!-- <div class="col-sm-4">
@@ -1947,16 +1947,6 @@ $('#payment_get_history_button').click(function(){
       }
       nm = parseInt(nm / 100) * 100;
       $('input[name="trip_cancellation_insured"]').val(nm);
-    });
-    $('input[name="sum_insured"]').change(function() {
-      var nm = $('input[name="sum_insured"]').val();
-      if (nm < 0) {
-        nm = 0
-      } else if (nm > 8000) {
-        nm = 8000;
-      }
-      nm = parseInt(nm / 100) * 100;
-      $('input[name="sum_insured"]').val(nm);
     });
     $('#claim_allowed').change(function() {
       if (this.checked) {
