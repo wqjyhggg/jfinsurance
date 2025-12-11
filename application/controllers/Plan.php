@@ -3476,7 +3476,7 @@ class Plan extends MY_Controller {
 		$beuser = $this->func_model->verify_login();
 		$this->load->model('plan_model');
 		if ($plan_id) {
-			if ($plan = $this->plan_model->get_by_id($plan_id)) {
+			if ($plan = $this->plan_model->get_plan_by_id($plan_id)) {
 				if ($plan["status_id"] == Plan_model::QUOTE) {
 					die("WAIT");
 				}
