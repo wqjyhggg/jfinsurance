@@ -25,7 +25,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </div>
 <script type="text/javascript">
 $(document).ready(function() {
-	get_plan_status() { 
+	function get_plan_status() { 
 		$.ajax({
 			url: "<?php echo $get_plan_status_url; ?>",
 			type: 'GET',
@@ -33,11 +33,11 @@ $(document).ready(function() {
 				if (data != "WAIT") {
 					window.location = '<?php echo $back_url; ?>'
 				} else {
-					setTimeout(get_plan_status(), 10000);
+					setTimeout(get_plan_status, 10000);
 				}
 			},
 		});
 	}
-	setTimeout(get_plan_status(), 10000);
+	setTimeout(get_plan_status, 10000);
 });
 </script>
