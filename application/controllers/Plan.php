@@ -3474,60 +3474,17 @@ class Plan extends MY_Controller {
 
 	function get_plan_status($plan_id) {
 		$beuser = $this->func_model->verify_login();
-		$this->load->model('payment_model');
-
-		$tb = $this->input->get('tb');
-		$payment_tables = $this->payment_model->history_tables;
-		$rt = "";
-		if (in_array($tb, $payment_tables)) {
-			$payments = $this->payment_model->get_payment_by_plan_id_tb($plan_id, $tb);
-			foreach ($payments as $p) {
-				$pay_str = '';
-				if ($p['pay_type'] == 'up_commission') continue;
-				if ($p['pay_type'] == 'refund_up_commission') continue;
-				if ($p['pay_type'] == 'cancel_up_commission') continue;
-
-				$sbstr = substr($p['pay_type'], 0, 6);
-				if ($p['ispaid']) {
-					$pay_str = 'Paid';
-				} else {
-					if ($sbstr == 'refund') {
-						$pay_str = "<a href='" . base_url("payment/revert") . "/" . $p['payment_id'] . "'>Revert Refund</a>";
-					} else if ($sbstr == 'cancel') {
-						$pay_str = "<a href='" . base_url("payment/revert") . "/" . $p['payment_id'] . "'>Revert Cancel</a>";
-					} else {
-						$pay_str = '-';
-					}
+		$this->load->model('plan_model');
+		if ($plan_id) {
+			if ($plan = $this->plan_model->get_by_id($plan_id)) {
+				if ($plan["status_id"] == Plan_model::QUOTE) {
+					die("WAIT");
 				}
-				$pay_info = '';
-				$ck_info = $p['cheque_number'];
-				if ($p['pay_date'] > "2020-01-01") $ck_info .= ":" . $p['pay_date'];
-				if (!empty($p['invoice_num'])) $pay_info .= "[" . $p['invoice_num'] . "]";
-				if (!empty($p['bank_name'])) $pay_info .= "[" . $p['bank_name'] . "]";
-				if (!empty($p['payor_name'])) $pay_info .= "[" . $p['payor_name'] . "]";
-				if (!empty($p['cheque_number'])) $pay_info .= "[" . $p['cheque_number'] . "]";
-				if (!empty($p['pay_to'])) $pay_info .= "[" . $p['pay_to'] . "]";
-				if (!empty($p['name'])) $pay_info .= "[" . $p['name'] . "]";
-				if (!empty($p['first5'])) $pay_info .= "[" . $p['first5'] . "]";
-				if (!empty($p['last4'])) $pay_info .= "[" . $p['last4'] . "]";
-				if (!empty($p['expiry_month'])) $pay_info .= "[" . $p['expiry_month'] . "]";
-				if (!empty($p['expiry_year'])) $pay_info .= "[" . $p['expiry_year'] . "]";
-
-				$rt .= "<tr>\n";
-				$rt .= "<td>" . (empty($p['ispaid']) ? "<input type='checkbox' name='payment[]' value='" . $p['payment_id'] . "'>" : "") . "</td>\n";
-				$rt .= "<td>" . $p['last_update'] . "</td>\n";
-				$rt .= "<td>" . $p['pay_type'] . "</td>\n";
-				$rt .= "<td>" . $p['pay_mothed'] . "</td>\n";
-				$rt .= "<td>" . $p['amount'] . "</td>\n";
-				$rt .= "<td>" . $p['rate'] . "%</td>\n";
-				$rt .= "<td>" . $pay_str . "</td>\n";
-				$rt .= "<td>" . $ck_info . "</td>\n";
-				$rt .= "<td>" . $pay_info . "</td>\n";
-				$rt .= "<td>" . ((strlen($p['note']) > 60) ? (htmlspecialchars(substr($p['note'], 0, 57)) . "...") : htmlspecialchars($p['note'])) . "</td>\n";
-				$rt .= "</tr>\n";
+				die("Plan[".$plan["status_id"]."]");
 			}
+			die("Unknown Plan data");
 		}
-		die($rt);
+		die("Unknown Plan");
 	}
 
 	public function sendpackage($plan_id = 0, $sendfrenchemail = 0)
