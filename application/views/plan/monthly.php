@@ -6,13 +6,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<div class="main" style="min-height:800px;">
 		<div class="h-topdiv">
 		<div class="row" style="margin:40px 0;">
-				<div class="col-sm-12 text-center">
-					<a class='btn btn-primary pull-right' href="<?php echo $back_url; ?>"><?php echo $this->lang->line("Back"); ?></a></label>
+				<div class="col-sm-8 text-center">
+					<a class='btn btn-primary pull-right' href="<?php echo $back_url; ?>">Back</a>
 				</div>
 			</div>
 			<div class="row" style="margin:40px 0;">
 				<div class="col-sm-12 text-center">
-					<div style="font-size: 10px;">First Pay: $<?php echo $month_amount; ?> and Recurring Pay: $<?php echo $month_amount; ?> x <?php echo $pay_times; ?></div>
+					<label>First Pay: $<?php echo $month_amount; ?> and Recurring Pay: $<?php echo $month_amount; ?> x <?php echo $pay_times; ?></label>
 				</div>
 			</div>
 			<div class="row" style="margin:40px 0;">
@@ -25,19 +25,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </div>
 <script type="text/javascript">
 $(document).ready(function() {
-	let 
-	$('#ali_div').click(function() {
-		setTimeout(function() { 
-			$.ajax({
-				url: "<?php echo $get_plan_status_url; ?>",
-				type: 'GET',
-				success: function(data, textStatus, jqXHR) {
-					if (data != "WAIT") {
-						window.location = '<?php echo $back_url; ?>'
-					}
-				},
-			});
-		}, 10000);
-	});
+	setTimeout(function() { 
+		$.ajax({
+			url: "<?php echo $get_plan_status_url; ?>",
+			type: 'GET',
+			success: function(data, textStatus, jqXHR) {
+				if (data != "WAIT") {
+					window.location = '<?php echo $back_url; ?>'
+				}
+			},
+		});
+	}, 10000);
 });
 </script>

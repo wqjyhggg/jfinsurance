@@ -3321,9 +3321,11 @@ class Plan extends MY_Controller {
 		} else if ($data['plan']['product_short'] == 'JFVTC') {
 			$data['insurable_options'] = $this->load->view('plan/detail_opl', $data, TRUE);
 			if (($plan['status_id'] == Plan_model::QUOTE) && ($plan['sum_insured'] >= 100000) && ($plan['totaldays'] >= 365)) {
+				$product = $this->product_model->get_product($plan['product_short']);
 				$month_amount = number_format($plan['premium'] / 12, 2, ".", "");
 				$data['recurrent'] = [number_format($month_amount * 2 + 50, 2, ".", ""), $month_amount, 10];
 				$data["monthly_pay_url"] = base_url("plan/monthly_pay/" . $plan['plan_id']);
+				$data['monthly_pay_url2'] = $this->createCheckoutLink($product["merchent_id"], $product["hash_key"], $first_amount, $plan_id);
 			}
 		} else if ($data['plan']['product_short'] == 'JFR') {
 			$data['insurable_options'] = $this->load->view('plan/detail_opl', $data, TRUE);
@@ -3407,12 +3409,8 @@ class Plan extends MY_Controller {
 
 	public function monthly_pay($plan_id = 0) {
 		$this->error = '';
-		$pay_type = 'Credit Card';
-		if (empty($play_type)) {
-			$plan_id = $this->input->post('plan_id');
-		}
 		if (empty($plan_id)) {
-			redirect(base_url('production'));
+			redirect('user/login');
 		}
 
 		$this->load->model('customer_model');
@@ -3454,14 +3452,11 @@ class Plan extends MY_Controller {
 		$data['product'] = $product;
 		$data['plan_full_name'] = $product ? $product['full_name'] : '';
 
-		$data['monthly_pay_url'] = createCheckoutLink($merchantId, $hashKey, $amount, $plan_id);
+		$data['monthly_pay_url'] = $this->createCheckoutLink($product["merchent_id"], $product["hash_key"], $first_amount, $plan_id);
 		$data['payurltm'] = "";
 		$data['back_url'] = base_url('plan/detail/' . $plan_id);
-		$data['get_plan_status_url'] = base_url("plan/get_plan_status/" . $data['plan_id']);
+		$data['get_plan_status_url'] = base_url("plan/get_plan_status/" . $plan_id);
 		$data['CustomerIP'] = $this->input->ip_address();
-
-		$data['defaultpay_type'] = $defaultpay_type;
-		$display = 1;
 
 		$data['title_txt'] = 'Policy';
 		$data['top_menu'] = '';
@@ -3473,7 +3468,7 @@ class Plan extends MY_Controller {
 		$this->load->model('html_model');
 		$data['html_model'] = $this->html_model;
 
-		$this->load->view('plan/monthly', $data);
+		$this->load->common('plan/monthly', $data);
 	}
 
 	function get_plan_status($plan_id) {
