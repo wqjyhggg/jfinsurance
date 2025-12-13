@@ -2,23 +2,20 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 <!-- Content without left menu -->
-<div class="container">
+<div class="container" style="margin:10px 10px 60px 10px;">
 	<div class="row">
 		<div class="col-sm-12 text-center">
 			<label>First Pay: $<?php echo $month_amount; ?> and Recurring Pay: $<?php echo $month_amount; ?> x <?php echo $pay_times; ?></label>
 			<a class='btn btn-primary pull-right' href="<?php echo $back_url; ?>">Back</a>
 		</div>
 	</div>
-	<div class="row" style="margin:40px 0;">
+	<div class="row">
 		<div class="col-sm-12 iframe-container">
 			<iframe src="<?php echo $monthly_pay_url; ?>" title="Monthly payment"></iframe>
 		</div>
 	</div>
 </div>
 <style>
-.container {
-	padding: 10px;
-}
 .iframe-container {
   position: relative;
   width: 100%;
