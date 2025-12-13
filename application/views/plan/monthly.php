@@ -16,13 +16,29 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				</div>
 			</div>
 			<div class="row" style="margin:40px 0;">
-				<div class="col-sm-12 text-center">
+				<div class="col-sm-12 iframe-container">
 					<iframe src="<?php echo $monthly_pay_url; ?>" title="Monthly payment"></iframe>
 				</div>
 			</div>
     </div>
 	</div>	
 </div>
+<style>
+.iframe-container {
+  position: relative;
+  width: 100%;
+  height: 0;
+  overflow: auto;
+}
+iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none; /* Remove border for a cleaner look */
+}
+</style>
 <script type="text/javascript">
 $(document).ready(function() {
 	function get_plan_status() { 
