@@ -2,33 +2,29 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 <!-- Content without left menu -->
-<div class="container" style="padding:0 0 40px 0;">
-	<div class="main" style="min-height:800px;">
-		<div class="h-topdiv">
-		<div class="row" style="margin:40px 0;">
-				<div class="col-sm-8 text-center">
-					<a class='btn btn-primary pull-right' href="<?php echo $back_url; ?>">Back</a>
-				</div>
-			</div>
-			<div class="row" style="margin:40px 0;">
-				<div class="col-sm-12 text-center">
-					<label>First Pay: $<?php echo $month_amount; ?> and Recurring Pay: $<?php echo $month_amount; ?> x <?php echo $pay_times; ?></label>
-				</div>
-			</div>
-			<div class="row" style="margin:40px 0;">
-				<div class="col-sm-12 iframe-container">
-					<iframe src="<?php echo $monthly_pay_url; ?>" title="Monthly payment"></iframe>
-				</div>
-			</div>
-    </div>
-	</div>	
+<div class="container">
+	<div class="row">
+		<div class="col-sm-12 text-center">
+			<label>First Pay: $<?php echo $month_amount; ?> and Recurring Pay: $<?php echo $month_amount; ?> x <?php echo $pay_times; ?></label>
+			<a class='btn btn-primary pull-right' href="<?php echo $back_url; ?>">Back</a>
+		</div>
+	</div>
+	<div class="row" style="margin:40px 0;">
+		<div class="col-sm-12 iframe-container">
+			<iframe src="<?php echo $monthly_pay_url; ?>" title="Monthly payment"></iframe>
+		</div>
+	</div>
 </div>
 <style>
+.container {
+	padding: 10px;
+}
 .iframe-container {
   position: relative;
   width: 100%;
-  height: 0;
-  overflow: auto;
+  height: 650px;
+  overflow: hidden;
+	border: 1px solid #ccc;
 }
 iframe {
   position: absolute;
@@ -36,8 +32,14 @@ iframe {
   left: 0;
   width: 100%;
   height: 100%;
-  border: none; /* Remove border for a cleaner look */
+  border: none;
 }
+.btn {
+	margin-right: 40px;
+}
+.navbar {
+	min-height: 2px;
+} 
 </style>
 <script type="text/javascript">
 $(document).ready(function() {
