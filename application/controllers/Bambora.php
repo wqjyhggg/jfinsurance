@@ -10,13 +10,13 @@ class Bambora extends CI_Controller {
 		$strArr = [];
 		foreach ($post as $key => $val) {
 			if ($key == "hashValue") break;
-			$valstr = $val;
+			$valstr = urlencode($val);
 			if (!is_numeric($val)) {
-				$valstr = str_replace(".", "%2E", strurlencde($val));
+				$valstr = str_replace(".", "%2E", $valstr);
 			}
-			$strArr[] = $key."&".$valstr;
+			$strArr[] = $key."=".$valstr;
 		}
-    $rawString = join("", $strArr);
+    $rawString = join("&", $strArr);
     $hashString = $rawString . $hashKey;
     return md5($hashString);
   }

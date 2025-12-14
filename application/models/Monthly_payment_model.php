@@ -109,10 +109,10 @@ class Monthly_payment_model extends CI_Model {
 		if (isset($para['rawdata'])) {
 			$this->db->set('rawdata', $para['rawdata']);
 		}
-		$this->db->update('monthly_payment');
-		$this->sqlstr = $this->db->last_query();
-		$this->logstr = 'Update payment[' . $payment_id . ']:' . join(', ', $para);
-		return $payment_id;
+		if ($this->db->update('monthly_payment')) {
+			return $payment_id;
+		}
+		return 0;
 	}
 
 	public function create_payment_records($plan_id, $first_amount, $month_pay, $mountly_number, $effective_date) {
