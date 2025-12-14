@@ -6,10 +6,13 @@ class Bambora extends CI_Controller {
     $this->index($param);
   }
 
-	private function get_hashValue($paraArr, $hashKey) {
-		ksort($paraArr);
-    $paraString = http_build_query($paraArr);
-    $hashString = $paraString . $hashKey;
+	private function get_hashValue($rawString, $hashKey) {
+		$keyString = "&hashValue=";
+    $position = strpos($rawString, $keyString);
+		if ($position !== false) {
+			$rawString = substr($rawString, 0, $position);
+		}
+    $hashString = $rawString . $hashKey;
     return md5($hashString);
   }
 
@@ -27,6 +30,8 @@ class Bambora extends CI_Controller {
 	 * `systemlog` text NOT NULL COMMENT 'system active usually is sql'
 	 */
 	public function index() {
+		$rawInput = file_get_contents('php://input');
+
     $this->load->database();
     $this->load->helper('url');
 		$this->load->model('log_model');
@@ -98,7 +103,6 @@ class Bambora extends CI_Controller {
 			}
 			die($errormsg);
 		}
-		$hashValue = $post["hashValue"];
 
 		if (empty($post["ref1"]) || ($post["ref1"] != "monthly")) {
 			$errormsg = "Unknown ref1";
@@ -133,7 +137,7 @@ class Bambora extends CI_Controller {
 			die($errormsg);
 		}
 		$plan_id = $post["ref2"];
-		$plan = $this->plan_model->get_by_id($plan_id);
+		$plan = $this->plan_model->get_plan_by_id($plan_id);
 		if (empty($plan)) {
 			$errormsg = "Unknown Plan";
 			if ($activity_id) {
@@ -158,7 +162,8 @@ class Bambora extends CI_Controller {
 			die($errormsg);
 		}
 
-		$myhashValue = $this->get_hashValue($post, $product["hash_key"]);
+		$hashValue = $post["hashValue"];
+		$myhashValue = $this->get_hashValue($rawInput, $product["hash_key"]);
 		if ($hashValue != $myhashValue) {
 			$errormsg = "Verify Error: ".$myhashValue;
 			if ($activity_id) {
@@ -181,10 +186,15 @@ class Bambora extends CI_Controller {
 			}
 			die($errormsg);
 		}
+		$pay_time = date("Y-m-d H:i:s");
+		if (isset($post["trnDate"])) {
+			$pay_time = date("Y-m-d H:i:s", strtotime($post["trnDate"]));
+		}
 
 		$mpArr = [
 			"trans_id" => $post["trnId"],
-			"rawdata" => json_encode($this->input->post()),
+			"pay_time" => $pay_time,
+			"rawdata" => json_encode($post),
 		];
 		if ($post["trnApproved"] == "1") {
 			$mpArr["paid"] = 1;
@@ -216,7 +226,7 @@ class Bambora extends CI_Controller {
 			$dt['ispaid'] = 1;
 			$dt['pay_type'] = 'premium';
 			$dt['premium_payment_id'] = 0;
-			$dt['note'] = "Success: Raw Data=> " . json_encode($this->input->post());
+			$dt['note'] = "Success: Raw Data=> " . json_encode($post);
 			$payment_id = $this->payment_model->add($dt);
 			$para = array(
 				'plan_id' => $plan_id,
@@ -310,7 +320,7 @@ class Bambora extends CI_Controller {
 			$dt['ispaid'] = 0;
 			$dt['pay_type'] = 'premium';
 			$dt['premium_payment_id'] = 0;
-			$dt['note'] = "Success: Raw Data=> " . json_encode($this->input->post());
+			$dt['note'] = "Success: Raw Data=> " . json_encode($post);
 			$payment_id = $this->payment_model->add($dt);
 			$para = array(
 				'plan_id' => $plan_id,
