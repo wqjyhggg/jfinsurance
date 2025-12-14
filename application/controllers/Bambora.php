@@ -81,13 +81,14 @@ class Bambora extends CI_Controller {
 				postdata text,
 				rawdata text,
 		*/
+		$user = $this->user_model->get_user_by_id(1);		// For log only
 		$para = array(
 			'plan_id' => isset($post['ref2'])?$post['ref2']:0,
 			'user_id' => isset($post['ref3'])?$post['ref3']:0,
 			'payment_id' => isset($post['ref4'])?$post['ref4']:0,
 			'message' => json_encode($post)
 		);
-		$activity_id = $this->log_model->activity("bambora", $para);
+		$activity_id = $this->log_model->activity("bambora", $para, $user);
 
 		$errormsg = "";
 		if (empty($post["hashValue"])) {
@@ -224,7 +225,7 @@ class Bambora extends CI_Controller {
 				'message' => $this->payment_model->logstr,
 				'systemlog' => $this->payment_model->sqlstr
 			);
-			$this->log_model->activity('payment', $para);
+			$this->log_model->activity('payment', $para, $user);
 
 			$dt['amount'] = $commission_amount;
 			$dt['rate'] = $commission_rate;
@@ -244,7 +245,7 @@ class Bambora extends CI_Controller {
 								'message' => 'adjust apply time to effective date : ' . $plan_id . ' [ ' . $plan['effective_date'] . ' ]',
 								'systemlog' => $this->payment_model->sqlstr
 							);
-							$this->log_model->activity('commission', $para);
+							$this->log_model->activity('commission', $para, $user);
 						}
 						$dt['added'] = $plan['effective_date'];
 					} else {
@@ -256,7 +257,7 @@ class Bambora extends CI_Controller {
 								'message' => 'adjust apply time to today : ' . $plan_id . ' [ ' . date('Y-m-d') . ' ]',
 								'systemlog' => $this->payment_model->sqlstr
 							);
-							$this->log_model->activity('commission', $para);
+							$this->log_model->activity('commission', $para, $user);
 						}
 					}
 				}
@@ -269,7 +270,7 @@ class Bambora extends CI_Controller {
 				'message' => $this->payment_model->logstr,
 				'systemlog' => $this->payment_model->sqlstr
 			);
-			$this->log_model->activity('commission', $para);
+			$this->log_model->activity('commission', $para, $user);
 
 			$planpara = array('payment_id' => $payment_id, 'commission_payment_id' => $commission_payment_id);
 			if ($monthly_payment["pay_type"] == 0) {
@@ -285,7 +286,7 @@ class Bambora extends CI_Controller {
 					'message' => $this->plan_model->logstr,
 					'systemlog' => $this->plan_model->sqlstr
 				);
-				$this->log_model->activity('plan', $para);
+				$this->log_model->activity('plan', $para, $user);
 				if ($nid = $this->plan_history_model->add($plan_id, Plan_model::PAID)) {
 					// Remove payment_id, it should be no payment
 					$this->plan_history_model->update($nid, array("note" => "plan condition change only"));
@@ -300,7 +301,7 @@ class Bambora extends CI_Controller {
 					'message' => $this->plan_model->logstr,
 					'systemlog' => $this->plan_model->sqlstr
 				);
-				$this->log_model->activity('plan', $para);
+				$this->log_model->activity('plan', $para, $user);
 			}
 		} else {
 			$dt = [];
