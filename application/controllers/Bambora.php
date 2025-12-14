@@ -94,7 +94,7 @@ class Bambora extends CI_Controller {
 		if (empty($post["hashValue"])) {
 			$errormsg = "Unknown hashValue";
 			if ($activity_id) {
-				$this->log_model->update(activity_id, ["systemlog" => $errormsg]);
+				$this->log_model->update($activity_id, ["systemlog" => $errormsg]);
 			}
 			die($errormsg);
 		}
@@ -103,7 +103,7 @@ class Bambora extends CI_Controller {
 		if (empty($post["ref1"]) || ($post["ref1"] != "monthly")) {
 			$errormsg = "Unknown ref1";
 			if ($activity_id) {
-				$this->log_model->update(activity_id, ["systemlog" => $errormsg]);
+				$this->log_model->update($activity_id, ["systemlog" => $errormsg]);
 			}
 			die($errormsg);
 		}
@@ -111,7 +111,7 @@ class Bambora extends CI_Controller {
 		if (empty($post["ref3"])) {
 			$errormsg = "Unknown ref3";
 			if ($activity_id) {
-				$this->log_model->update(activity_id, ["systemlog" => $errormsg]);
+				$this->log_model->update($activity_id, ["systemlog" => $errormsg]);
 			}
 			die($errormsg);
 		}
@@ -128,7 +128,7 @@ class Bambora extends CI_Controller {
 		if (empty($post["ref2"])) {
 			$errormsg = "Unknown ref2";
 			if ($activity_id) {
-				$this->log_model->update(activity_id, ["systemlog" => $errormsg]);
+				$this->log_model->update($activity_id, ["systemlog" => $errormsg]);
 			}
 			die($errormsg);
 		}
@@ -137,7 +137,7 @@ class Bambora extends CI_Controller {
 		if (empty($plan)) {
 			$errormsg = "Unknown Plan";
 			if ($activity_id) {
-				$this->log_model->update(activity_id, ["systemlog" => $errormsg]);
+				$this->log_model->update($activity_id, ["systemlog" => $errormsg]);
 			}
 			die($errormsg);
 		}
@@ -145,7 +145,7 @@ class Bambora extends CI_Controller {
 		if (empty($product)) {
 			$errormsg = "Unknown product";
 			if ($activity_id) {
-				$this->log_model->update(activity_id, ["systemlog" => $errormsg]);
+				$this->log_model->update($activity_id, ["systemlog" => $errormsg]);
 			}
 			die($errormsg);
 		}
@@ -153,7 +153,7 @@ class Bambora extends CI_Controller {
 		if (empty($product)) {
 			$errormsg = "Unknown product";
 			if ($activity_id) {
-				$this->log_model->update(activity_id, ["systemlog" => $errormsg]);
+				$this->log_model->update($activity_id, ["systemlog" => $errormsg]);
 			}
 			die($errormsg);
 		}
@@ -162,7 +162,7 @@ class Bambora extends CI_Controller {
 		if ($hashValue != $myhashValue) {
 			$errormsg = "Verify Error: ".$myhashValue;
 			if ($activity_id) {
-				$this->log_model->update(activity_id, ["systemlog" => $errormsg]);
+				$this->log_model->update($activity_id, ["systemlog" => $errormsg]);
 			}
 			die($errormsg);
 		}
@@ -170,14 +170,14 @@ class Bambora extends CI_Controller {
 		if (!isset($post["trnApproved"])) {
 			$errormsg = "Unknown trnApproved";
 			if ($activity_id) {
-				$this->log_model->update(activity_id, ["systemlog" => $errormsg]);
+				$this->log_model->update($activity_id, ["systemlog" => $errormsg]);
 			}
 			die($errormsg);
 		}
 		if (!isset($post["trnId"])) {
 			$errormsg = "Unknown trnId";
 			if ($activity_id) {
-				$this->log_model->update(activity_id, ["systemlog" => $errormsg]);
+				$this->log_model->update($activity_id, ["systemlog" => $errormsg]);
 			}
 			die($errormsg);
 		}
