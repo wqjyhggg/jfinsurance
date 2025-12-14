@@ -120,7 +120,7 @@ class Bambora extends CI_Controller {
 		if (empty($monthly_payment)) {
 			$errormsg = "Unknown monthly payment";
 			if ($activity_id) {
-				$this->log_model->update(activity_id, ["systemlog" => $errormsg]);
+				$this->log_model->update($activity_id, ["systemlog" => $errormsg]);
 			}
 			die($errormsg);
 		}
