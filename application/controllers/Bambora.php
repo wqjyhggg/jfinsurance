@@ -6,12 +6,17 @@ class Bambora extends CI_Controller {
     $this->index($param);
   }
 
-	private function get_hashValue($rawString, $hashKey) {
-		$keyString = "&hashValue=";
-    $position = strpos($rawString, $keyString);
-		if ($position !== false) {
-			$rawString = substr($rawString, 0, $position);
+	private function get_hashValue($post, $hashKey) {
+		$strArr = [];
+		foreach ($post as $key => $val) {
+			if ($key == "hashValue") break;
+			$valstr = $val;
+			if (!is_numeric($val)) {
+				$valstr = str_replace(".", "%2E", strurlencde($val));
+			}
+			$strArr[] = $key."&".$valstr;
 		}
+    $rawString = join("", $strArr);
     $hashString = $rawString . $hashKey;
     return md5($hashString);
   }
@@ -163,7 +168,7 @@ class Bambora extends CI_Controller {
 		}
 
 		$hashValue = $post["hashValue"];
-		$myhashValue = $this->get_hashValue($rawInput, $product["hash_key"]);
+		$myhashValue = $this->get_hashValue($post, $product["hash_key"]);
 		if ($hashValue != $myhashValue) {
 			$errormsg = "Verify Error: ".$myhashValue;
 			if ($activity_id) {
