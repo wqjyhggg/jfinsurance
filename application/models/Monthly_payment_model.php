@@ -123,6 +123,7 @@ class Monthly_payment_model extends CI_Model {
 		$this->db->where("plan_id", $plan_id)->delete("monthly_payment");		// Remove if it is existed
 		$precord = [
 			"plan_id" => $plan_id,
+			"pay_type" = 0,
 			"amount" => $first_amount,
 			"pay_date" => date("Y-m-d")
 		];

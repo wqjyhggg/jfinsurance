@@ -2164,17 +2164,17 @@ class Plan extends MY_Controller {
 			} else {
 				$product = $this->product_model->get_product($plan['product_short']);
 				$monthly_payment_id = 0;
-				if ($monthlypay == 1) {
-					$currentDate = new DateTime($plan['effective_date']);
-					$this->monthly_payment_model->clear_old($plan_id);
-					if ($monthly_payment_id = $this->monthly_payment_model->add(['plan_id'=>$plan_id, 'amount' => $first_pay, 'pay_type' => 0, 'pay_date' => date("Y-m-d")])) {
-						$premium = $first_pay;
-						for ($i = 0; $i < 10; $i++) {
-							$this->monthly_payment_model->add(['plan_id'=>$plan_id, 'amount' => $month_pay, 'pay_date' => $currentDate->format("Y-m-d")]);
-							$currentDate->modify('+1 month');
-						}
-					}
-				}
+				// if ($monthlypay == 1) {
+				// 	$currentDate = new DateTime($plan['effective_date']);
+				// 	$this->monthly_payment_model->clear_old($plan_id);
+				// 	if ($monthly_payment_id = $this->monthly_payment_model->add(['plan_id'=>$plan_id, 'amount' => $first_pay, 'pay_type' => 0, 'pay_date' => date("Y-m-d")])) {
+				// 		$premium = $first_pay;
+				// 		for ($i = 0; $i < 10; $i++) {
+				// 			$this->monthly_payment_model->add(['plan_id'=>$plan_id, 'amount' => $month_pay, 'pay_date' => $currentDate->format("Y-m-d")]);
+				// 			$currentDate->modify('+1 month');
+				// 		}
+				// 	}
+				// }
 				$dt = array();
 				$dt['plan_id'] = $plan_id;
 				$dt['currency'] = $product['currency'];
@@ -3326,7 +3326,7 @@ class Plan extends MY_Controller {
 				$first_amount = number_format($month_amount * 2 + 50, 2, ".", "");
 				$data['recurrent'] = [$first_amount, $month_amount, 10];
 				$data["monthly_pay_url"] = base_url("plan/monthly_pay/" . $plan['plan_id']);
-				$data['monthly_pay_url2'] = $this->createCheckoutLink($product["merchent_id"], $product["hash_key"], $first_amount, $plan_id);
+				// $data['monthly_pay_url2'] = $this->createCheckoutLink($product["merchent_id"], $product["hash_key"], $first_amount, $plan_id);
 			}
 		} else if ($data['plan']['product_short'] == 'JFR') {
 			$data['insurable_options'] = $this->load->view('plan/detail_opl', $data, TRUE);
@@ -3390,16 +3390,15 @@ class Plan extends MY_Controller {
 		}
 	}
 
-	public function createCheckoutLink($merchantId, $hashKey, $amount, $plan_id) {
-    $conter = 1;
+	public function createCheckoutLink($merchantId, $hashKey, $amount, $plan_id, $monthly_payment_id) {
     $params = [
         'merchant_id' => $merchantId,
         'trnAmount' => $amount,
-        'trnOrderNumber' => $plan_id."-".$conter,
+        'trnOrderNumber' => $plan_id."-".$monthly_payment_id,
         'trnType' => "P",
         'ref1' => "monthly",
         'ref2' => (string)$plan_id,
-        'ref3' => (string)"1",
+        'ref3' => (string)$monthly_payment_id,
     ];
     $paraString = http_build_query($params);
     $hashString = $paraString . $hashKey;
@@ -3453,7 +3452,7 @@ class Plan extends MY_Controller {
 		$data['product'] = $product;
 		$data['plan_full_name'] = $product ? $product['full_name'] : '';
 
-		$data['monthly_pay_url'] = $this->createCheckoutLink($product["merchent_id"], $product["hash_key"], $first_amount, $plan_id);
+		$data['monthly_pay_url'] = $this->createCheckoutLink($product["merchent_id"], $product["hash_key"], $first_amount, $plan_id, $monthly_payment_id);
 		$data['payurltm'] = "";
 		$data['back_url'] = base_url('plan/detail/' . $plan_id);
 		$data['get_plan_status_url'] = base_url("plan/get_plan_status/" . $plan_id);

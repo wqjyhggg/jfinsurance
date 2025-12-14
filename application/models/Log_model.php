@@ -64,6 +64,32 @@ class Log_model extends CI_Model {
 		return 0;
 	}
 	
+	public function update($activity_id, $para) {
+		$this->db->where('activity_id', $activity_id);
+		if (isset($para['user_id'])) {
+			$this->db->set('user_id', $para['user_id']);
+		}
+		if (isset($para['plan_id'])) {
+			$this->db->set('plan_id', $para['plan_id']);
+		}
+		if (isset($para['customer_id'])) {
+			$this->db->set('customer_id', $para['customer_id']);
+		}
+		if (isset($para['payment_id'])) {
+			$this->db->set('payment_id', $para['payment_id']);
+		}
+		if (isset($para['message'])) {
+			$this->db->set('message', $para['message']);
+		}
+		if (isset($para['systemlog'])) {
+			$this->db->set('systemlog', $para['systemlog']);
+		}
+		if ($this->db->update('activity')) {
+			return $activity_id;
+		}
+		return 0;
+	}
+
 	public function get_activity_by_plan_id($plan_id) {
 		$sql = "SELECT a.*, u.username FROM activity a LEFT JOIN user u ON (a.user_id=u.user_id) WHERE a.plan_id='" . (int)$plan_id . "' AND atype='plan' ORDER BY activity_id ASC";
 		return $this->db->query($sql)->result_array();

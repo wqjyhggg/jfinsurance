@@ -115,7 +115,7 @@ class Payment_model extends CI_Model {
 	 * @param integer $plan_id
 	 * @return array
 	 */
-	public function get_total_paid($plan_id, $pay_type='premium', $apply_date) {
+	public function get_total_paid($plan_id, $pay_type, $apply_date) {
 		$amount = 0;
 		$this->db->select_sum('amount');
 		$this->db->where('plan_id', $plan_id);

@@ -2,7 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 <!-- Content without left menu -->
-<div class="container" style="margin:10px 10px 60px 10px;">
+<div class="container" style="padding:10px 10px 60px 10px;">
 	<div class="row">
 		<div class="col-sm-12 text-center">
 			<label>First Pay: $<?php echo $month_amount; ?> and Recurring Pay: $<?php echo $month_amount; ?> x <?php echo $pay_times; ?></label>
