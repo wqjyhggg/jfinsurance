@@ -230,6 +230,7 @@ class Bambora extends CI_Controller {
 			$dt['plan_id'] = $plan_id;
 			$dt['added'] = date("Y-m-d H:i:s");
 			$dt['pay_date'] = date("Y-m-d");
+			$dt['pay_mothed'] = "Credit Card";
 			$dt['rate'] = 100;
 			$dt['ispaid'] = 1;
 			$dt['pay_type'] = 'premium';
@@ -325,6 +326,7 @@ class Bambora extends CI_Controller {
 		} else {
 			$dt = [];
 			$dt['plan_id'] = $plan_id;
+			$dt['pay_mothed'] = "Credit Card";
 			$dt['added'] = date("Y-m-d H:i:s");
 			$dt['pay_date'] = date("Y-m-d");
 			$dt['amount'] = 0;
