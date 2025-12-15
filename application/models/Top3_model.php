@@ -5626,14 +5626,14 @@ class Top3_model extends CI_Model  {
 			return 0;
 		}
 
-    if (($data['sum_insured'] < 0) || ($data['sum_insured'] > 8000)) {
+    if (($data['trip_cancellation_insured'] < 0) || ($data['trip_cancellation_insured'] > 8000)) {
 			$this->premiumArr['message'] = 'Out of insured amount. Amount must less 8,000';
 			$this->premiumArr['active_tab'] = 'packages_tab';
 			return 0;
 		}
 
     $dayidx = intval($data['totaldays'] - $mindays);	// change to index
-		$sum_idx = intval($data['sum_insured'] / 100);
+		$sum_idx = intval($data['trip_cancellation_insured'] / 100);
     if ($sum_idx > 25) {
       $sum_idx = 25 + intval(($sum_idx - 25) / 5);
     }
