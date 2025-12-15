@@ -244,6 +244,7 @@ class Bambora extends CI_Controller {
 			$dt['premium_payment_id'] = 0;
 			$dt['note'] = "CC Success: Raw Data=> " . json_encode($post);
 			$payment_id = $this->payment_model->add($dt, $user);
+			$this->monthly_payment_model->update($monthly_payment_id, ["payment_id" => $payment_id]);
 			$para = array(
 				'plan_id' => $plan_id,
 				'customer_id' => $plan['customer_id'],
@@ -343,6 +344,7 @@ class Bambora extends CI_Controller {
 			$dt['premium_payment_id'] = 0;
 			$dt['note'] = "CC Failure: Raw Data=> " . json_encode($post);
 			$payment_id = $this->payment_model->add($dt, $user);
+			$this->monthly_payment_model->update($monthly_payment_id, ["payment_id" => $payment_id]);
 			$para = array(
 				'plan_id' => $plan_id,
 				'customer_id' => $plan['customer_id'],
