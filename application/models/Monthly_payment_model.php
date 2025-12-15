@@ -116,7 +116,7 @@ class Monthly_payment_model extends CI_Model {
 	}
 
 	public function create_payment_records($plan_id, $first_amount, $month_pay, $mountly_number, $effective_date) {
-		if ($this->db->where("plan_id", $plan_id)->where("paid!=", 0)->get("monthly_payment")->row_array()) {
+		if ($this->db->where("plan_id", $plan_id)->where("paid>", 0)->get("monthly_payment")->row_array()) {
 			// Payment already edited build. Can't rebuild
 			return "Payment already edited. Can not rebuild";
 		}
