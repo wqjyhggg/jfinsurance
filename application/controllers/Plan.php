@@ -3478,12 +3478,14 @@ class Plan extends MY_Controller {
 			if ($plan = $this->plan_model->get_plan_by_id($plan_id)) {
 				if ($plan["status_id"] == Plan_model::QUOTE) {
 					die("WAIT");
+				} else if (($plan["status_id"] == Plan_model::PAID) || ($plan["status_id"] == Plan_model::SOLD)) {
+					die("OK");
 				}
-				die("Plan[".$plan["status_id"]."]");
+				die("Unknown Plan status [".$plan["status_id"]."]");
 			}
-			die("Unknown Plan data");
+			die("Unknown Plan");
 		}
-		die("Unknown Plan");
+		die("Unknown Plan ID");
 	}
 
 	public function sendpackage($plan_id = 0, $sendfrenchemail = 0)

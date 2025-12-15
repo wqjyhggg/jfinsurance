@@ -227,11 +227,14 @@ class Bambora extends CI_Controller {
 
 			$dt = [];
 			$dt['amount'] = $premium;
+			$dt['plan_id'] = $plan_id;
+			$dt['added'] = date("Y-m-d H:i:s");
+			$dt['pay_date'] = date("Y-m-d");
 			$dt['rate'] = 100;
 			$dt['ispaid'] = 1;
 			$dt['pay_type'] = 'premium';
 			$dt['premium_payment_id'] = 0;
-			$dt['note'] = "Success: Raw Data=> " . json_encode($post);
+			$dt['note'] = "CC Success: Raw Data=> " . json_encode($post);
 			$payment_id = $this->payment_model->add($dt, $user);
 			$para = array(
 				'plan_id' => $plan_id,
@@ -292,6 +295,7 @@ class Bambora extends CI_Controller {
 				// First pay
 				$planpara['payinfo'] = "First pay by Bambora";
 				$planpara['status_id'] = Plan_model::PAID;
+				$planpara['monthlypay'] = 1;
 				$planpara['policy'] = $this->plan_model->get_policy_number($plan_id, 2);
 				$this->plan_model->update($plan_id, $planpara, array(), $user);
 				$para = array(
@@ -320,12 +324,15 @@ class Bambora extends CI_Controller {
 			}
 		} else {
 			$dt = [];
+			$dt['plan_id'] = $plan_id;
+			$dt['added'] = date("Y-m-d H:i:s");
+			$dt['pay_date'] = date("Y-m-d");
 			$dt['amount'] = 0;
 			$dt['rate'] = 100;
 			$dt['ispaid'] = 0;
 			$dt['pay_type'] = 'premium';
 			$dt['premium_payment_id'] = 0;
-			$dt['note'] = "Success: Raw Data=> " . json_encode($post);
+			$dt['note'] = "CC Failure: Raw Data=> " . json_encode($post);
 			$payment_id = $this->payment_model->add($dt, $user);
 			$para = array(
 				'plan_id' => $plan_id,
