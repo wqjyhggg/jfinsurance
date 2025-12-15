@@ -42,6 +42,9 @@ class Monthly_payment_model extends CI_Model {
 		if (isset($para['paid'])) {
 			$this->db->set('paid', $para['paid']);
 		}
+		if (isset($para['trans_id'])) {
+			$this->db->set('trans_id', $para['trans_id']);
+		}
 		if (isset($para['retry'])) {
 			$this->db->set('retry', $para['retry']);
 		}
@@ -90,6 +93,9 @@ class Monthly_payment_model extends CI_Model {
 		}
 		if (isset($para['paid'])) {
 			$this->db->set('paid', $para['paid']);
+		}
+		if (isset($para['trans_id'])) {
+			$this->db->set('trans_id', $para['trans_id']);
 		}
 		if (isset($para['retry'])) {
 			$this->db->set('retry', $para['retry']);

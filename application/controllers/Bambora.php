@@ -133,6 +133,12 @@ class Bambora extends CI_Controller {
 				$this->log_model->update($activity_id, ["systemlog" => $errormsg]);
 			}
 			die($errormsg);
+		} else if ($monthly_payment["paid"]) {
+			$errormsg = "Already Processed";
+			if ($activity_id) {
+				$this->log_model->update($activity_id, ["systemlog" => $errormsg]);
+			}
+			die($errormsg);
 		}
 
 		if (empty($post["ref2"])) {
