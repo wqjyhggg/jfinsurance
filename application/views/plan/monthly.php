@@ -39,6 +39,8 @@ iframe {
 } 
 </style>
 <script type="text/javascript">
+let max_count = 18; 	// 180 seconds
+let w_count = 0;
 $(document).ready(function() {
 	function get_plan_status() { 
 		$.ajax({
@@ -46,9 +48,18 @@ $(document).ready(function() {
 			type: 'GET',
 			success: function(data, textStatus, jqXHR) {
 				if (data != "WAIT") {
+					if (data != "OK") {
+						alert(data);
+					}
 					window.location = '<?php echo $back_url; ?>'
 				} else {
-					setTimeout(get_plan_status, 10000);
+					w_count++;
+					if (w_count < max_count) {
+						setTimeout(get_plan_status, 10000);
+					} else {
+						alert("Payment timed out. Please contact system support.");
+						window.location = '<?php echo $back_url; ?>'
+					}
 				}
 			},
 		});

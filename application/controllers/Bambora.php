@@ -45,6 +45,7 @@ class Bambora extends CI_Controller {
     $this->load->model('product_model');
 		$this->load->model('payment_model');
     $this->load->model('monthly_payment_model');
+		$this->load->model('plan_history_model');
 
 		$post = $this->input->post();
 		/* $post = [

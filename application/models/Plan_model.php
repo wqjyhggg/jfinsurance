@@ -648,7 +648,7 @@ class Plan_model extends CI_Model {
 			}
 		}
 		if (isset($para['monthlypay'])) {
-			$monthlypay = int_val($para['monthlypay']);
+			$monthlypay = intval($para['monthlypay']);
 			if ($monthlypay != $plan['monthlypay']) {
 				$this->logstr .= " monthlypay " . $monthlypay . "(" . $plan['monthlypay'] . ")";
 				$sql .= " monthlypay='" . $monthlypay . "', ";
