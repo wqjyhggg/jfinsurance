@@ -110,7 +110,7 @@ class Monthly_payment_model extends CI_Model {
 			$this->db->set('rawdata', $para['rawdata']);
 		}
 		if ($this->db->update('monthly_payment')) {
-			return $payment_id;
+			return $monthly_payment_id;
 		}
 		return 0;
 	}

@@ -232,7 +232,7 @@ class Bambora extends CI_Controller {
 			$dt['pay_type'] = 'premium';
 			$dt['premium_payment_id'] = 0;
 			$dt['note'] = "Success: Raw Data=> " . json_encode($post);
-			$payment_id = $this->payment_model->add($dt);
+			$payment_id = $this->payment_model->add($dt, $user);
 			$para = array(
 				'plan_id' => $plan_id,
 				'customer_id' => $plan['customer_id'],
@@ -277,7 +277,7 @@ class Bambora extends CI_Controller {
 					}
 				}
 			}
-			$commission_payment_id = $this->payment_model->add($dt);
+			$commission_payment_id = $this->payment_model->add($dt, $user);
 			$para = array(
 				'plan_id' => $plan_id,
 				'customer_id' => $plan['customer_id'],
@@ -326,7 +326,7 @@ class Bambora extends CI_Controller {
 			$dt['pay_type'] = 'premium';
 			$dt['premium_payment_id'] = 0;
 			$dt['note'] = "Success: Raw Data=> " . json_encode($post);
-			$payment_id = $this->payment_model->add($dt);
+			$payment_id = $this->payment_model->add($dt, $user);
 			$para = array(
 				'plan_id' => $plan_id,
 				'customer_id' => $plan['customer_id'],
