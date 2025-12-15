@@ -334,7 +334,7 @@ class Bambora extends CI_Controller {
 				'message' => $this->payment_model->logstr,
 				'systemlog' => $this->payment_model->sqlstr
 			);
-			$this->log_model->activity('payment', $para);
+			$this->log_model->activity('payment', $para, $user);
 		}
 		die("processed OK");
 	}
