@@ -819,9 +819,9 @@ if ($Agree != "Agree") {
                               <div class="col-sm-2 text-right"><label>Insured Amount : </label></div>
                               <div class="col-sm-10">
                                 <?php if (($user_group_id > 100) && $no_change) { ?>
-                                  <input type="hidden" name="trip_cancellation_insured" value="<?php echo $trip_cancellation_insured; ?>">$<?php echo number_format($trip_cancellation_insured); ?>
+                                  <input type="hidden" name="trip_cancellation_insured_s" value="<?php echo $trip_cancellation_insured; ?>">$<?php echo number_format($trip_cancellation_insured); ?>
                                 <?php } else { ?>
-                                  <input type="number" name="trip_cancellation_insured" class='check_premium' min="100" max="8000" step="100" value="<?php echo ($trip_cancellation_insured < 100) ? 100 : $trip_cancellation_insured; ?>"> ( every 100s )
+                                  <input type="number" name="trip_cancellation_insured_s" class='check_premium' min="100" max="8000" step="100" value="<?php echo ($trip_cancellation_insured < 100) ? 100 : $trip_cancellation_insured; ?>"> ( every 100s )
                                 <?php } ?>
                               </div>
                             </div>
@@ -1937,6 +1937,17 @@ $('#payment_get_history_button').click(function(){
         $('#medical_eligible2_div').show();
         $('#error_page_message').hide();
       }
+    });
+    $('input[name="trip_cancellation_insured_s"]').change(function() {
+      var nm = $('input[name="trip_cancellation_insured_s"]').val();
+      if (nm < 0) {
+        nm = 0
+      } else if (nm > 8000) {
+        nm = 8000;
+      }
+      nm = parseInt(nm / 100) * 100;
+      $('input[name="trip_cancellation_insured_s"]').val(nm);
+      $('input[name="trip_cancellation_insured"]').val(nm);
     });
     $('input[name="trip_cancellation_insured"]').change(function() {
       var nm = $('input[name="trip_cancellation_insured"]').val();

@@ -3785,7 +3785,7 @@ class Plan extends MY_Controller {
 				$this->load->model('mymail_model');
 				if ($data['sendfrench']) {
 					$body = $this->load->view('mail/package_french', $data, TRUE);
-					$title = "Confirmation d’assurance - " . $plan['policy'] . " - " . $data['customer']['firstname'] . " " . $data['customer']['lastname'];
+					$title = "Confirmation d'assurance - " . $plan['policy'] . " - " . $data['customer']['firstname'] . " " . $data['customer']['lastname'];
 				} else {
 					$body = $this->load->view('mail/package', $data, TRUE);
 					$title = "Confirmation of Insurance - " . $plan['policy'] . " - " . $data['customer']['firstname'] . " " . $data['customer']['lastname'];
