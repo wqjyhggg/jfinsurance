@@ -546,8 +546,8 @@ class Plan extends CI_Controller
     $this->load->model("plan_model");
     $this->load->model("customer_model");
 
-    if ($id = $this->input->post("plan_id")) {
-      if ($plan = $this->plan_model->get_plan_by_id($id)) {
+    if ($plan_id = $this->input->post("plan_id")) {
+      if ($plan = $this->plan_model->get_plan_by_id($plan_id)) {
         if (($user["user_group_id"] > 100) && ($plan["user_id"] != $user["user_id"])) {
           return $this->app_model->return_error("Can't find plan");
         }
@@ -607,22 +607,22 @@ class Plan extends CI_Controller
     $this->load->model("payment_model");
     $this->load->model("log_model");
     $data = array();
-    if ($id = $this->input->post("plan_id")) {
-      if ($plan = $this->plan_model->get_plan_by_id($id)) {
+    if ($plan_id = $this->input->post("plan_id")) {
+      if ($plan = $this->plan_model->get_plan_by_id($plan_id)) {
         if ($plan['status_id'] != Plan_model::CHANGED) {
           return $this->app_model->return_error("Policy cannot use this interface.");
         }
-        $totalpaid = $this->payment_model->get_total_paid($id, $pay_type='premium', $plan["apply_date"]);
+        $totalpaid = $this->payment_model->get_total_paid($plan_id, $pay_type='premium', $plan["apply_date"]);
         $premium = round($plan["premium"], 2);
         $totalpaid = round($totalpaid, 2);
         if ($premium != $totalpaid) {
           return $this->app_model->return_error("Policy not full paid");
         }
         $status_id = Plan_model::PAID;
-        if ($this->payment_model->get_payment($id)) {
+        if ($this->payment_model->get_payment($plan_id)) {
           $status_id = Plan_model::SOLD;
         }
-        $this->plan_model->update($id, ["status_id" => $status_id], array(), $user);
+        $this->plan_model->update($plan_id, ["status_id" => $status_id], array(), $user);
 				$plan = $this->plan_model->get_plan_by_id($plan_id);
 				$para = array(
 					'plan_id' => $plan_id,
@@ -664,8 +664,8 @@ class Plan extends CI_Controller
     $this->load->model("plan_model");
     $this->load->model("log_model");
     $data = array();
-    if ($id = $this->input->post("plan_id")) {
-      $planold = $this->plan_model->get_plan_by_id($id);
+    if ($plan_id = $this->input->post("plan_id")) {
+      $planold = $this->plan_model->get_plan_by_id($plan_id);
 			if ($planold) {
         $ckArr = array(
           "holiday_rate" => empty($this->input->post('holiday_rate')) ? 0 : 1,
@@ -683,10 +683,10 @@ class Plan extends CI_Controller
         $ckArr['isfamilyplan'] = $isfamilyplan;
         $post = $this->input->post();
         unset($post["user_id"]);
-        $this->plan_model->update($id, $post, $ckArr, $user);
-				$plan = $this->plan_model->get_plan_by_id($id);
+        $this->plan_model->update($plan_id, $post, $ckArr, $user);
+				$plan = $this->plan_model->get_plan_by_id($plan_id);
 				$para = array(
-					'plan_id' => $id,
+					'plan_id' => $plan_id,
 					'customer_id' => $plan['customer_id'],
 					'payment_id' => 0,
 					'message' => $this->plan_model->logstr,
@@ -729,10 +729,10 @@ class Plan extends CI_Controller
 					$post["sum_insured"] = 1000000;
 				}
 			}
-      $id = $this->plan_model->add($post, $user);
-			$plan = $this->plan_model->get_plan_by_id($id);
+      $plan_id = $this->plan_model->add($post, $user);
+			$plan = $this->plan_model->get_plan_by_id($plan_id);
 			$para = array(
-				'plan_id' => $id,
+				'plan_id' => $plan_id,
 				'customer_id' => $plan['customer_id'],
 				'payment_id' => 0,
 				'message' => $this->plan_model->logstr,
@@ -740,7 +740,7 @@ class Plan extends CI_Controller
 			);
 			$this->log_model->activity('plan', $para, $user);
 		}
-    $data["plan"] = $this->plan_model->get_plan_by_id($id);
+    $data["plan"] = $this->plan_model->get_plan_by_id($plan_id);
     $data["claim_message"] = "";
 
     $post = $this->input->post();
@@ -749,7 +749,7 @@ class Plan extends CI_Controller
         $data["claim_message"] = "The insured may have a previous claim that is affecting the policy issuance or renewal. Please contact JF staff for further assistance 905-707-1512";
       }
     } else {
-      $customers = $this->plan_model->get_plan_customers_by_id($id);
+      $customers = $this->plan_model->get_plan_customers_by_id($plan_id);
       foreach ($customers as $customer) {
         $vrecords = $this->plan_model->verify_customer($customer['firstname'], $customer['lastname'], $customer['birthday']);
         $claim_amount = 0;
@@ -765,10 +765,10 @@ class Plan extends CI_Controller
         if (empty($claim_amount) && empty($case_amount)) {
           continue;
         } else if (($claim_amount <= 2500) && ($case_amount <= 2500)) {
-          $this->plan_model->update($id, array('claim_flag' => 1), array(), $user);
-					$plan = $this->plan_model->get_plan_by_id($id);
+          $this->plan_model->update($plan_id, array('claim_flag' => 1), array(), $user);
+					$plan = $this->plan_model->get_plan_by_id($plan_id);
 					$para = array(
-						'plan_id' => $id,
+						'plan_id' => $plan_id,
 						'customer_id' => $plan['customer_id'],
 						'payment_id' => 0,
 						'message' => $this->plan_model->logstr,
@@ -778,10 +778,10 @@ class Plan extends CI_Controller
 					$data["plan"]['claim_flag'] = 1;
           $data["claim_message"] = "Reminders: The insured(s) may have had previous claim(s). Please confirm the policy eligibility and any pre-existing conditions with insured(s). " . $customer['firstname'] . " " . $customer['lastname'] . "(" . $customer['birthday'] . ")";
         } else if (!isset($post["claim_flag"])) /* if (($claim_amount > 2000) || ($case_amount > 2000)) */ {
-          $this->plan_model->update($id, array('claim_flag' => 2), array(), $user);
-					$plan = $this->plan_model->get_plan_by_id($id);
+          $this->plan_model->update($plan_id, array('claim_flag' => 2), array(), $user);
+					$plan = $this->plan_model->get_plan_by_id($plan_id);
 					$para = array(
-						'plan_id' => $id,
+						'plan_id' => $plan_id,
 						'customer_id' => $plan['customer_id'],
 						'payment_id' => 0,
 						'message' => $this->plan_model->logstr,
