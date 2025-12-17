@@ -705,7 +705,7 @@ class Plan extends CI_Controller
 								'message' => $this->payment_model->logstr,
 								'systemlog' => $this->payment_model->sqlstr
 							);
-							$this->log_model->activity('plan', $para);
+							$this->log_model->activity('plan', $para, $user);
 						}
 					} else {
 						// No more super visa, change payment data to today
@@ -717,10 +717,9 @@ class Plan extends CI_Controller
 							'message' => $this->payment_model->logstr,
 							'systemlog' => $this->payment_model->sqlstr
 						);
-						$this->log_model->activity('plan', $para);
+						$this->log_model->activity('plan', $para, $user);
 					}
 				}
-				$this->log_model->activity('plan', $para, $user);
       }
     } else {
 			$post = $this->input->post();
