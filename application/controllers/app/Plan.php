@@ -1629,6 +1629,8 @@ class Plan extends CI_Controller
 
     if ($this->verify_model->isEmail($data['emailaddr'])) {
       $product = $this->product_model->get_product($data['product_short']);
+			$data['plan_full_name'] = $product ? $product['full_name'] : '';
+	
       if ($data['product_short'] == 'OPL') {
         $files = array(
         'OPL_Policy.pdf' => DOWNLOADDIR . 'OPL_Policy.pdf',
@@ -2294,6 +2296,7 @@ class Plan extends CI_Controller
 		$name = $customer["firstname"]. " ".$customer["lastname"];
 		
 		$data['beuser'] = $beuser;
+		$data['customer'] = $customer;
 		$data['plan'] = $plan;
 		$data['emailaddr'] = $plan['contact_email'];
 		$data['product_short'] = $plan['product_short'];

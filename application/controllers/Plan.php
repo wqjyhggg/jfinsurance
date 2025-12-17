@@ -332,10 +332,11 @@ class Plan extends MY_Controller {
 			if ($years > 60) {
 				$this->error['error_birthday_' . $i] = 'Member older than 61';
 			}
-			if ($years > 21) {
+			// As requirement change to 19
+			if ($years > 19) {
 				$older_than_21++;
 				if ($older_than_21 >= 2) {
-					$this->error['error_birthday_' . $i] = 'Multiple member older than 21';
+					$this->error['error_birthday_' . $i] = 'Multiple member older than 19';
 				}
 			}
 		}
