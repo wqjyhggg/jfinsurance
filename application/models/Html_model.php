@@ -25,6 +25,7 @@ class Html_model extends CI_Model {
 	 * @return string without UTF8
 	 */
 	public function escapeQuote($str) {
+		if (empty($str)) return "";
 		$str = preg_replace ("/'/", '&#039;', $str);
 		return ($str);
 	}
