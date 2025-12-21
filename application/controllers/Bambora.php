@@ -2,6 +2,12 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Bambora extends CI_Controller {
+	// public $profile_url="https://api.bambora.com/v1/profiles";
+	// public $payment_url="https://api.bambora.com/v1/payments";
+
+	public $profile_url="https://api.na.bambora.com/v1/profiles";
+	public $payment_url="https://api.na.bambora.com/v1/payments";
+
   function _remap($param) {
     $this->index($param);
   }
@@ -302,7 +308,7 @@ class Bambora extends CI_Controller {
 			$planpara = array('payment_id' => $payment_id, 'commission_payment_id' => $commission_payment_id);
 			if ($monthly_payment["pay_type"] == 0) {
 				// First pay
-				$planpara['payinfo'] = "First pay by Bambora";
+				$planpara['payinfo'] = "First pay by Bambora: ".$monthly_payment_id;
 				$planpara['status_id'] = Plan_model::PAID;
 				$planpara['monthlypay'] = 1;
 				$planpara['policy'] = $this->plan_model->get_policy_number($plan_id, 2);
@@ -319,6 +325,82 @@ class Bambora extends CI_Controller {
 					// Remove payment_id, it should be no payment
 					$this->plan_history_model->update($nid, array("note" => "plan condition change only"));
 				}
+
+				// Create Profile
+				$postdata = '{"language":"eng","comments":"First Payment","create_from_id":"'.$post["trnId"].'"}';
+		    $headers = array(
+					'Authorization: Passcode '.$product["profile_key"],
+					'Content-Type: application/json',
+					'Content-Length: ' . strlen($postdata)
+				);
+				$para = array(
+					'plan_id' => $plan_id,
+					'user_id' => $plan["user_id"],
+					'payment_id' => 0,
+					'message' => $postdata,
+					'systemlog' => json_encode($headers)
+				);
+				$this->log_model->activity("bambora-recur", $para, $user);
+		
+				$url = $this->profile_url;
+				$ch = curl_init();
+				curl_setopt($ch, CURLOPT_URL, $url);
+				curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+				curl_setopt($ch, CURLOPT_POST, true);
+				curl_setopt($ch, CURLOPT_POSTFIELDS, $postdata);
+				curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+				curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+				curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+				$response = curl_exec($ch);
+				$responseCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+				curl_close($ch);
+
+				$para = array(
+					'plan_id' => $plan_id,
+					'user_id' => $plan["user_id"],
+					'payment_id' => $responseCode,
+					'message' => $response,
+					'systemlog' => $url
+				);
+				$this->log_model->activity("bambora-profile", $para, $user);
+		
+				if ($responseCode === 200) {
+					$rt = json_decode($response, true);
+					/* 
+					{	"code": 1,
+						"message": "Operation_successful",
+						"customer_code": "B154823851c14212a2baCb1dAD1d8401",
+						"limited_use_card_token": "BABD7B9F-D31B-4203-BC1A-EECDDC5D12EB" } 
+					*/
+					if (isset($rt["code"]) && ($rt["code"] == 1) && isset($rt["customer_code"])) {
+						$this->monthly_payment_model->set_profile_id($plan_id, $rt["customer_code"]);
+						if ($activity_id) {
+							$this->log_model->update($activity_id, ["systemlog" => "OK"]);
+						}
+						die("OK");
+					} else {
+						$this->load->model('mymail_model');
+						$message = $plan["policy"] . " Monthly Payment Profile creation failed.";
+						$this->mymail_model->send_mymail("wqjyhggg@gmail.com", 'JF Profile Error', $message, 'text');
+						$message = "Profile creation unknown return";
+						if ($activity_id) {
+							$this->log_model->update($activity_id, ["systemlog" => $message]);
+						}
+						die($message);
+					}
+				} else {
+					$this->load->model('mymail_model');
+					$message  = $plan["policy"] . " Monthly Payment Profile Return Error.\r\n";
+					$message .= "monthly_payment_id: ".$monthly_payment_id.".\r\n";
+					$message .= "responseCode: ".$responseCode.".\r\n";
+					$message .= "response: ".$response.".\r\n";
+					$this->mymail_model->send_mymail("wqjyhggg@gmail.com", 'JF Profile Error', $message, 'text');
+					$message = "Profile creation return error";
+					if ($activity_id) {
+						$this->log_model->update($activity_id, ["systemlog" => $message]);
+					}
+					die($message);
+				}
 			} else {
 				$planpara['payinfo'] = "recurrent pay by Bambora: ".$monthly_payment_id;
 				$this->plan_model->update($plan_id, $planpara, array(), $user);
@@ -330,6 +412,11 @@ class Bambora extends CI_Controller {
 					'systemlog' => $this->plan_model->sqlstr
 				);
 				$this->log_model->activity('plan', $para, $user);
+				$message = "Recurrent Payment OK";
+				if ($activity_id) {
+					$this->log_model->update($activity_id, ["systemlog" => $message]);
+				}
+				die("OK");
 			}
 		} else {
 			$dt = [];
@@ -355,5 +442,298 @@ class Bambora extends CI_Controller {
 			$this->log_model->activity('payment', $para, $user);
 		}
 		die("processed OK");
+	}
+
+	public function recurren() {
+		if ((php_sapi_name() !== 'cli')) {
+			show_error("ERROR", 404);
+		}
+
+    $this->load->database();
+    $this->load->helper('url');
+		$this->load->model('log_model');
+    $this->load->model('plan_model');
+    $this->load->model('user_model');
+    $this->load->model('product_model');
+		$this->load->model('payment_model');
+    $this->load->model('monthly_payment_model');
+		$this->load->model('plan_history_model');
+
+		$user = $this->user_model->get_user_by_id(1);		// For log only
+
+		$dt = date("Y-m-d");
+		echo "Do Recurring start at ".date("Y-m-d H:i:s")."\r\n";
+		$monthly_payments = $this->monthly_payment_model->today_payments($dt);
+		if ($monthly_payments) {
+			foreach ($monthly_payments as $pay) {
+				$plan_id = $pay["plan_id"];
+				$plan = $this->plan_model->get_plan_by_id($plan_id);
+				if (empty($plan)) {
+					echo "Unknonwn plan: ".json_encode($pay)."\r\n";
+					continue;
+				}
+				$product = $this->product_model->get_product($plan["product_short"]);
+				if (empty($product)) {
+					echo "Unknonwn product: ".json_encode($product)."\r\n";
+					continue;
+				}
+
+				$postArr = [
+					"order_number" => $plan_id."-".$pay["monthly_payment_id"],
+					"amount" => $pay["amount"],
+					"payment_method" => "payment_profile",
+					"custom" => [
+						"ref1" => "recurrent",
+						"ref2" => $plan_id,
+						"ref3" => $pay["monthly_payment_id"],
+					],
+					"payment_profile" => [
+						"complete" => true,
+						"customer_code" => $pay["profile_id"],
+						"card_id" => 1
+					]
+				];
+
+				$postdata = json_encode($postArr);
+		    $headers = array(
+					'Authorization: Passcode '.$product["payment_key"],
+					'Content-Type: application/json',
+					'Content-Length: ' . strlen($postdata)
+				);
+				$para = array(
+					'plan_id' => $plan_id,
+					'user_id' => $plan["user_id"],
+					'payment_id' => 0,
+					'message' => $postdata,
+					'systemlog' => json_encode($headers)
+				);
+				$this->log_model->activity("bambora-recur", $para, $user);
+		
+				$url = $this->payment_url;
+				$ch = curl_init();
+				curl_setopt($ch, CURLOPT_URL, $url);
+				curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+				curl_setopt($ch, CURLOPT_POST, true);
+				curl_setopt($ch, CURLOPT_POSTFIELDS, $postdata);
+				curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+				curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+				curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+				$response = curl_exec($ch);
+				$responseCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+				curl_close($ch);
+
+				$para = array(
+					'plan_id' => $plan_id,
+					'user_id' => $plan["user_id"],
+					'payment_id' => $responseCode,
+					'message' => $response,
+					'systemlog' => $url
+				);
+				$this->log_model->activity("bambora-recur", $para, $user);
+		
+				if ($responseCode === 200) {
+					$rt = json_decode($response, true);
+					/* 
+						{
+							"id": "10000215",
+							"authorizing_merchant_id": 383613451,
+							"approved": "1",
+							"message_id": "1",
+							"message": "Approved",
+							"auth_code": "TEST",
+							"created": "2025-12-17T13:08:21",
+							"order_number": "101-2",
+							"type": "P",
+							"payment_method": "CC",
+							"risk_score": 0.0,
+							"amount": 50.43,
+							"custom": {
+									"ref1": "recurrent",
+									"ref2": "101",
+									"ref3": "2",
+									"ref4": "",
+									"ref5": ""
+							},
+							"card": {
+									"card_type": "VI",
+									"last_four": "1234",
+									"card_bin": "403000",
+									"address_match": 0,
+									"postal_result": 0,
+									"avs_result": "0",
+									"cvd_result": "5",
+									"avs": {
+											"id": "N",
+											"message": "Street address and Postal/ZIP do not match.",
+											"processed": true
+									}
+							},
+							"links": [
+									{
+											"rel": "void",
+											"href": "https://api.na.bambora.com/v1/payments/10000215/void",
+											"method": "POST"
+									},
+									{
+											"rel": "return",
+											"href": "https://api.na.bambora.com/v1/payments/10000215/returns",
+											"method": "POST"
+									}
+							]
+						}
+					*/
+					$mpArr = [
+						"trans_id" => $post["trnId"],
+						"pay_time" => $pay_time,
+						"rawdata" => json_encode($post),
+					];
+					if ($post["trnApproved"] == "1") {
+						$mpArr["paid"] = 1;
+					} else {
+						$mpArr["paid"] = -2;
+					}
+					$this->monthly_payment_model->update($pay["monthly_payment_id"], $mpArr);
+			
+					if (isset($rt["approved"]) && ($rt["approved"] == 1)) {
+						$premium = $monthly_payment["amount"];
+						$commission_amount = 0;
+						$commission_rate = $this->product_model->get_commission_rate($plan['product_short'], $plan['user_id']);
+						if (($plan['product_short'] == 'TOP') && ($plan['totalyears'] > 60)) {
+							if ($commission_rate > 15) {
+								$commission_rate -= 15;
+							} else {
+								$commission_rate = 0;
+							}
+						}
+						if ($plan['product_short'] == 'TOP') {
+							$commission_amount = ($premium - ($plan['tax'] * $premium / $plan['premium'])) * $commission_rate / 100.0;
+						} else {
+							$commission_amount = $premium * $commission_rate / 100.0;
+						}
+			
+						$dt = [];
+						$dt['amount'] = $premium;
+						$dt['plan_id'] = $plan_id;
+						$dt['added'] = date("Y-m-d H:i:s");
+						$dt['pay_date'] = date("Y-m-d");
+						$dt['pay_mothed'] = "Credit Card";
+						$dt['rate'] = 100;
+						$dt['ispaid'] = 1;
+						$dt['pay_type'] = 'premium';
+						$dt['premium_payment_id'] = 0;
+						$dt['note'] = "CC Success: Raw Data=> " . json_encode($post);
+						$payment_id = $this->payment_model->add($dt, $user);
+						$this->monthly_payment_model->update($monthly_payment_id, ["payment_id" => $payment_id]);
+						$para = array(
+							'plan_id' => $plan_id,
+							'customer_id' => $plan['customer_id'],
+							'payment_id' => $payment_id,
+							'message' => $this->payment_model->logstr,
+							'systemlog' => $this->payment_model->sqlstr
+						);
+						$this->log_model->activity('payment', $para, $user);
+			
+						$dt['amount'] = $commission_amount;
+						$dt['rate'] = $commission_rate;
+						$dt['ispaid'] = 0;
+						$dt['pay_type'] = 'commission';
+						$dt['premium_payment_id'] = $payment_id;
+						if (($plan['product_short'] == 'OPL') || ($plan['product_short'] == 'JFVTC') || ($plan['product_short'] == 'JFR')) {
+							$nowtm = time();
+							$efftm = strtotime($plan['effective_date']);
+							if ($nowtm <= $efftm) {
+								if (($plan['sum_insured'] >= 100000) && ($plan['totaldays'] >= 365)) {
+									if ($this->payment_model->adjust_commission_added_date($plan_id, $plan['effective_date'])) {
+										$para = array(
+											'plan_id' => $plan_id,
+											'customer_id' => $plan['customer_id'],
+											'payment_id' => 0,
+											'message' => 'adjust apply time to effective date : ' . $plan_id . ' [ ' . $plan['effective_date'] . ' ]',
+											'systemlog' => $this->payment_model->sqlstr
+										);
+										$this->log_model->activity('commission', $para, $user);
+									}
+									$dt['added'] = $plan['effective_date'];
+								} else {
+									if ($this->payment_model->adjust_commission_added_back_date($plan_id, date('Y-m-d'))) {
+										$para = array(
+											'plan_id' => $plan_id,
+											'customer_id' => $plan['customer_id'],
+											'payment_id' => 0,
+											'message' => 'adjust apply time to today : ' . $plan_id . ' [ ' . date('Y-m-d') . ' ]',
+											'systemlog' => $this->payment_model->sqlstr
+										);
+										$this->log_model->activity('commission', $para, $user);
+									}
+								}
+							}
+						}
+						$commission_payment_id = $this->payment_model->add($dt, $user);
+						$para = array(
+							'plan_id' => $plan_id,
+							'customer_id' => $plan['customer_id'],
+							'payment_id' => $commission_payment_id,
+							'message' => $this->payment_model->logstr,
+							'systemlog' => $this->payment_model->sqlstr
+						);
+						$this->log_model->activity('commission', $para, $user);
+					} else {
+						$dt = [];
+						$dt['plan_id'] = $plan_id;
+						$dt['pay_mothed'] = "Credit Card";
+						$dt['added'] = date("Y-m-d H:i:s");
+						$dt['pay_date'] = date("Y-m-d");
+						$dt['amount'] = 0;
+						$dt['rate'] = 100;
+						$dt['ispaid'] = 0;
+						$dt['pay_type'] = 'premium';
+						$dt['premium_payment_id'] = 0;
+						$dt['note'] = "CC Failure: Raw Data=> " . json_encode($post);
+						$payment_id = $this->payment_model->add($dt, $user);
+						$para = array(
+							'plan_id' => $plan_id,
+							'customer_id' => $plan['customer_id'],
+							'payment_id' => $payment_id,
+							'message' => $this->payment_model->logstr,
+							'systemlog' => $this->payment_model->sqlstr
+						);
+						$this->log_model->activity('payment', $para, $user);
+
+						$this->monthly_payment_model->update($monthly_payment_id, ["payment_id" => $payment_id]);
+
+						$planArr = [];	// Set plan to refunded
+						$planpara['payinfo'] = "Bambora recurrent charge fail. Monthly payment id: ".$pay["monthly_payment_id"];
+						$planpara['status_id'] = Plan_model::REFUND;
+						$this->plan_model->update($plan_id, $planpara, array(), $user);
+						$para = array(
+							'plan_id' => $plan_id,
+							'customer_id' => $plan['customer_id'],
+							'payment_id' => $payment_id,
+							'message' => $this->plan_model->logstr,
+							'systemlog' => $this->plan_model->sqlstr
+						);
+						$this->log_model->activity('plan', $para, $user);
+						if ($nid = $this->plan_history_model->add($plan_id, Plan_model::REFUND)) {
+							// Remove payment_id, it should be no payment
+							$this->plan_history_model->update($nid, array("note" => "recurrent charge fail."));
+						}
+
+						$this->load->model('mymail_model');
+						$message = $plan["policy"] . " Monthly Payment recurrent failed. monthly_payment_id: ".$pay["monthly_payment_id"];
+						$this->mymail_model->send_mymail("wqjyhggg@gmail.com", 'JF Recur Error', $message, 'text');
+						echo "Recurrent Fail\r\n";
+					}
+				} else {
+					$this->load->model('mymail_model');
+					$message  = $plan["policy"] . " Monthly Payment recurrent Return Error.\r\n";
+					$message .= "monthly_payment_id: ".$pay["monthly_payment_id"].".\r\n";
+					$message .= "responseCode: ".$responseCode.".\r\n";
+					$message .= "response: ".$response.".\r\n";
+					$this->mymail_model->send_mymail("wqjyhggg@gmail.com", 'JF recurrent Error', $message, 'text');
+					echo "Recurrent return error\r\n";
+				}
+			}
+		}
+		echo "Done for All at ".date("Y-m-d H:i:s")."\r\n";
 	}
 }
