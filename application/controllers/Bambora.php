@@ -8,9 +8,9 @@ class Bambora extends CI_Controller {
 	public $profile_url="https://api.na.bambora.com/v1/profiles";
 	public $payment_url="https://api.na.bambora.com/v1/payments";
 
-  function _remap($param) {
-    $this->index($param);
-  }
+  // function _remap($param) {
+  //   $this->index($param);
+  // }
 
 	private function get_hashValue($post, $hashKey) {
 		$strArr = [];
@@ -41,6 +41,19 @@ class Bambora extends CI_Controller {
 	 * `systemlog` text NOT NULL COMMENT 'system active usually is sql'
 	 */
 	public function index() {
+		$requestMethod = $_SERVER['REQUEST_METHOD'];
+    $getData = $_GET ? json_encode($_GET) : 'No GET data';
+    $postData = $_POST ? json_encode($_POST) : 'No POST data';
+		$rawInput = file_get_contents('php://input') ?: 'No raw input';
+		$headers = json_encode(getallheaders());
+		$logEntry = date('Y-m-d H:i:s') . PHP_EOL .
+				" - Method: $requestMethod" . PHP_EOL .
+				" - Headers: $headers" . PHP_EOL .
+				" - GET: $getData" . PHP_EOL .
+				" - POST: $postData" . PHP_EOL .
+				" - RAW: $rawInput" . PHP_EOL . PHP_EOL;
+		file_put_contents("paymentcall.php", $logEntry, FILE_APPEND);
+
 		$rawInput = file_get_contents('php://input');
 
     $this->load->database();
@@ -182,6 +195,7 @@ class Bambora extends CI_Controller {
 
 		$hashValue = $post["hashValue"];
 		$myhashValue = $this->get_hashValue($post, $product["hash_key"]);
+
 		if ($hashValue != $myhashValue) {
 			$errormsg = "Verify Error: ".$myhashValue;
 			if ($activity_id) {
@@ -381,7 +395,7 @@ class Bambora extends CI_Controller {
 					} else {
 						$this->load->model('mymail_model');
 						$message = $plan["policy"] . " Monthly Payment Profile creation failed.";
-						$this->mymail_model->send_mymail("wqjyhggg@gmail.com", 'JF Profile Error', $message, 'text');
+						$this->mymail_model->send_mymail("wqjyhggg@gmail.com", 'JF Profile Error', $message, $attach=array(), $from='', 'text');
 						$message = "Profile creation unknown return";
 						if ($activity_id) {
 							$this->log_model->update($activity_id, ["systemlog" => $message]);
@@ -394,7 +408,7 @@ class Bambora extends CI_Controller {
 					$message .= "monthly_payment_id: ".$monthly_payment_id.".\r\n";
 					$message .= "responseCode: ".$responseCode.".\r\n";
 					$message .= "response: ".$response.".\r\n";
-					$this->mymail_model->send_mymail("wqjyhggg@gmail.com", 'JF Profile Error', $message, 'text');
+					$this->mymail_model->send_mymail("wqjyhggg@gmail.com", 'JF Profile Error', $message, $attach=array(), $from='', 'text');
 					$message = "Profile creation return error";
 					if ($activity_id) {
 						$this->log_model->update($activity_id, ["systemlog" => $message]);
@@ -530,9 +544,12 @@ class Bambora extends CI_Controller {
 					'systemlog' => $url
 				);
 				$this->log_model->activity("bambora-recur", $para, $user);
-		
-				if ($responseCode === 200) {
+				$rt = "";
+				if (!empty($response)) {
 					$rt = json_decode($response, true);
+				}
+		
+				if (($responseCode === 200) && $rt && isset($rt["id"]) && isset($rt["approved"])) {
 					/* 
 						{
 							"id": "10000215",
@@ -582,17 +599,6 @@ class Bambora extends CI_Controller {
 							]
 						}
 					*/
-					$mpArr = [
-						"trans_id" => $post["trnId"],
-						"pay_time" => $pay_time,
-						"rawdata" => json_encode($post),
-					];
-					if ($post["trnApproved"] == "1") {
-						$mpArr["paid"] = 1;
-					} else {
-						$mpArr["paid"] = -2;
-					}
-					$this->monthly_payment_model->update($pay["monthly_payment_id"], $mpArr);
 			
 					if (isset($rt["approved"]) && ($rt["approved"] == 1)) {
 						$premium = $monthly_payment["amount"];
@@ -621,9 +627,8 @@ class Bambora extends CI_Controller {
 						$dt['ispaid'] = 1;
 						$dt['pay_type'] = 'premium';
 						$dt['premium_payment_id'] = 0;
-						$dt['note'] = "CC Success: Raw Data=> " . json_encode($post);
+						$dt['note'] = "CC Success: Raw Data=> " . $response;
 						$payment_id = $this->payment_model->add($dt, $user);
-						$this->monthly_payment_model->update($monthly_payment_id, ["payment_id" => $payment_id]);
 						$para = array(
 							'plan_id' => $plan_id,
 							'customer_id' => $plan['customer_id'],
@@ -632,7 +637,16 @@ class Bambora extends CI_Controller {
 							'systemlog' => $this->payment_model->sqlstr
 						);
 						$this->log_model->activity('payment', $para, $user);
-			
+
+						$mpArr = [
+							"trans_id" => $rt["id"],
+							"paid" => 1,
+							"pay_time" => $pay_time,
+							"payment_id" => $payment_id,
+							"rawdata" => $response,
+						];
+						$this->monthly_payment_model->update($pay["monthly_payment_id"], $mpArr);
+
 						$dt['amount'] = $commission_amount;
 						$dt['rate'] = $commission_rate;
 						$dt['ispaid'] = 0;
@@ -688,7 +702,7 @@ class Bambora extends CI_Controller {
 						$dt['ispaid'] = 0;
 						$dt['pay_type'] = 'premium';
 						$dt['premium_payment_id'] = 0;
-						$dt['note'] = "CC Failure: Raw Data=> " . json_encode($post);
+						$dt['note'] = "CC Failure: Raw Data=> " . $response;
 						$payment_id = $this->payment_model->add($dt, $user);
 						$para = array(
 							'plan_id' => $plan_id,
@@ -699,8 +713,15 @@ class Bambora extends CI_Controller {
 						);
 						$this->log_model->activity('payment', $para, $user);
 
-						$this->monthly_payment_model->update($monthly_payment_id, ["payment_id" => $payment_id]);
-
+						$mpArr = [
+							"trans_id" => $rt["id"],
+							"paid" => -2,
+							"pay_time" => $pay_time,
+							"payment_id" => $payment_id,
+							"rawdata" => $response,
+						];
+						$this->monthly_payment_model->update($pay["monthly_payment_id"], $mpArr);
+	
 						$planArr = [];	// Set plan to refunded
 						$planpara['payinfo'] = "Bambora recurrent charge fail. Monthly payment id: ".$pay["monthly_payment_id"];
 						$planpara['status_id'] = Plan_model::REFUND;
@@ -720,7 +741,7 @@ class Bambora extends CI_Controller {
 
 						$this->load->model('mymail_model');
 						$message = $plan["policy"] . " Monthly Payment recurrent failed. monthly_payment_id: ".$pay["monthly_payment_id"];
-						$this->mymail_model->send_mymail("wqjyhggg@gmail.com", 'JF Recur Error', $message, 'text');
+						$this->mymail_model->send_mymail("wqjyhggg@gmail.com", 'JF Recur Error', $message, $attach=array(), $from='', 'text');
 						echo "Recurrent Fail\r\n";
 					}
 				} else {
@@ -729,7 +750,7 @@ class Bambora extends CI_Controller {
 					$message .= "monthly_payment_id: ".$pay["monthly_payment_id"].".\r\n";
 					$message .= "responseCode: ".$responseCode.".\r\n";
 					$message .= "response: ".$response.".\r\n";
-					$this->mymail_model->send_mymail("wqjyhggg@gmail.com", 'JF recurrent Error', $message, 'text');
+					$this->mymail_model->send_mymail("wqjyhggg@gmail.com", 'JF recurrent Error', $message, $attach=array(), $from='', 'text');
 					echo "Recurrent return error\r\n";
 				}
 			}
