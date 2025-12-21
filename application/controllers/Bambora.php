@@ -601,7 +601,7 @@ class Bambora extends CI_Controller {
 					*/
 			
 					if (isset($rt["approved"]) && ($rt["approved"] == 1)) {
-						$premium = $monthly_payment["amount"];
+						$premium = $pay["amount"];
 						$commission_amount = 0;
 						$commission_rate = $this->product_model->get_commission_rate($plan['product_short'], $plan['user_id']);
 						if (($plan['product_short'] == 'TOP') && ($plan['totalyears'] > 60)) {
