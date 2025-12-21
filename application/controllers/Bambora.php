@@ -129,7 +129,7 @@ class Bambora extends CI_Controller {
 			die($errormsg);
 		}
 
-		if (empty($post["ref1"]) || ($post["ref1"] != "monthly")) {
+		if (empty($post["ref1"]) || (($post["ref1"] != "monthly") && ($post["ref1"] != "recurrent"))) {
 			$errormsg = "Unknown ref1";
 			if ($activity_id) {
 				$this->log_model->update($activity_id, ["systemlog" => $errormsg]);
@@ -600,6 +600,7 @@ class Bambora extends CI_Controller {
 						}
 					*/
 			
+					$pay_time = date("Y-m-d H:i:s");
 					if (isset($rt["approved"]) && ($rt["approved"] == 1)) {
 						$premium = $pay["amount"];
 						$commission_amount = 0;
