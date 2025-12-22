@@ -774,4 +774,4 @@ ALTER TABLE `plan` ADD `monthlypay` tinyint NULL DEFAULT 0 COMMENT 'the plan is 
 -- 2025-12-06
 ALTER TABLE `product` ADD `profile_key` varchar(64) NOT NULL DEFAULT '' COMMENT 'key for create profile' AFTER `apikey`;
 ALTER TABLE `product` ADD `hash_key` varchar(64) NOT NULL DEFAULT '' COMMENT 'hash_key for create iframe link' AFTER `apikey`;
-
+ALTER TABLE `product` ADD `payment_key` VARCHAR(64) NOT NULL DEFAULT '' AFTER `profile_key`;
