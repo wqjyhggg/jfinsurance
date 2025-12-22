@@ -279,6 +279,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <th>Premium Payment</th>
                             <th>Commission Rate</th>
                             <th>Commission Amount</th>
+                            <th>Payment Type</th>
                           </tr>
         <?php $cnt = 1; $total_premium = 0; $total_commission = 0; $unpaid_premium = 0; ?>
         <?php foreach ($data['data'] as $record) : ?>
@@ -297,6 +298,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                               <td><?php echo ($record['premiumispaid']) ? "Paid" : '-'; ?></td>
                               <td><?php echo $record['rate']; ?>%</td>
                               <td>$<?php echo number_format($record['amount'], 2); ?></td>
+                              <td><?php echo $record['payment_type']; ?></td>
                             </tr>
         <?php endforeach; ?>
         <?php if (empty($asbroker)) : ?>

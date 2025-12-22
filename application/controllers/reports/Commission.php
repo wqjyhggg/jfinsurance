@@ -116,7 +116,9 @@ class Commission extends MY_Controller
 				'premium' => 'Premium Amount',
 				'premiumispaid' => 'Premium Payment',
 				'rate' => 'Commission Rate',
-				'amount' => 'Commission Amount');
+				'amount' => 'Commission Amount',
+				'payment_type' => 'Payment Type',
+			);
 	
 		$objPHPExcel = new PHPExcel();
 		$objPHPExcel->getDefaultStyle()->getFont()->setName('Arial')->setSize(10);
