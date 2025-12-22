@@ -95,6 +95,9 @@ if ($Agree != "Agree") {
 								<div class="col-sm-3">
 									<label style="text-transform: capitalize;">  <?php echo $this->lang->line("By Agent"); ?> <?php echo "[ AgentID:" . $policy_user['user_id'] . " ] "; ?>: <?php echo htmlspecialchars($policy_user['firstname'] . " " . $policy_user['lastname']); ?></label>
 								</div>
+								<div class="col-sm-3">
+									<label><span>Payment Plan:</span></label><?php echo empty($plan['monthlypay'])?"Full":"Monthly"; ?>
+								</div>
 								
 							</div>		
 							<div class="row">
@@ -120,6 +123,18 @@ if ($Agree != "Agree") {
 								<div class="col-sm-3">
 									<label class="inline"><?php echo $this->lang->line("Cancel Date"); ?>:</label>
 									<span><?php echo $plan_cancel_date; ?></span>
+								</div>
+							</div>
+							<?php } ?>
+							<?php if (!empty($plan['monthlypay'])) {?>
+							<div class="row">
+								<div class="col-sm-3">
+									<label class="inline">Paid Premium:</label>
+									<span>$<?php echo $plan["monthly_paid"]; ?></span>
+								</div>
+								<div class="col-sm-3">
+									<label class="inline">Outstanding Premium:</label>
+									<span>$<?php echo $plan["monthly_unpay"]; ?></span>
 								</div>
 							</div>
 							<?php } ?>
@@ -475,8 +490,8 @@ if ($Agree != "Agree") {
 										<hr />
 										<div class="row">
 											<div class="col-sm-12">
-												<label class="inline">Monthly Payment Option</label>
-												<div style="font-size: 10px;">First Pay: $<?php echo number_format($recurrent[0], 2, '.', ','); ?> and Recurring Pay: $<?php echo number_format($recurrent[1], 2, '.', ','); ?> x <?php echo $recurrent[2]; ?></div>
+												<label class="inline">Pay Monthly Option</label>
+												<div style="font-size: 10px;">Pay today: <b>$<?php echo number_format($recurrent[0], 2, '.', ','); ?></b><br><?php echo $recurrent[2]; ?> Recurring Pay: <b>$<?php echo number_format($recurrent[1], 2, '.', ','); ?></b></div>
 												<a class='btn btn-primary pull-right' href="<?php echo $monthly_pay_url; ?>"><?php echo $this->lang->line("Pay Now"); ?></a>
 											</div>
 										</div>
