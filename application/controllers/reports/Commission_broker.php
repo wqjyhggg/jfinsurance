@@ -78,8 +78,8 @@ class Commission_broker extends MY_Controller
         $data['user_list'] = $this->user_model->get_available_user_list();
         $data['report_data'] = empty($_POST) ? array() : $this->report_model->get_commission_report($data);
        
-        $data['export_list'] = base_url ( "reports/commission/export_broker_list" );
-        $data['export_pdf'] = base_url ( "reports/commission/export_broker_pdf" );
+        $data['export_list'] = base_url ( "reports/commission_broker/export_list" );
+        $data['export_pdf'] = base_url ( "reports/commission_broker/export_pdf" );
         return $data;
 	}
 
@@ -253,16 +253,16 @@ class Commission_broker extends MY_Controller
 			if (empty($asbroker)) {
 				$row++;
 				$sheet->setCellValue('A'.$row, 'TOTAL');
-				$sheet->setCellValue('G'.$row, $total_premium);
-				$sheet->getStyle('G'.$row)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
+				$sheet->setCellValue('H'.$row, $total_premium);
+				$sheet->getStyle('H'.$row)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
 		
-				$sheet->setCellValue('J'.$row, $total_commission);
-				$sheet->getStyle('J'.$row)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
+				$sheet->setCellValue('K'.$row, $total_commission);
+				$sheet->getStyle('K'.$row)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
 	
-				$row++;
-				$sheet->setCellValue('A'.$row, 'Total Commission for Above');
-				$sheet->setCellValue('C'.$row, $total_commission);
-				$sheet->getStyle('C'.$row)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
+				// $row++;
+				// $sheet->setCellValue('A'.$row, 'Total Commission for Above');
+				// $sheet->setCellValue('C'.$row, $total_commission);
+				// $sheet->getStyle('C'.$row)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
 	
 				$row++;
 				$sheet->setCellValue('A'.$row, 'Unpaid Premium');
@@ -335,7 +335,7 @@ class Commission_broker extends MY_Controller
 		$mpdf = new mPDF('c');
 		$mpdf->shrink_tables_to_fit=1;
 		$mpdf->AddPage();
-		$html = $this->load->view('reports/commission_pdf', $data, TRUE);
+		$html = $this->load->view('reports/commission_broker_pdf', $data, TRUE);
 		$mpdf->writeHTML($html);
 		$mpdf->Output("Commission_report_".$data['agent_id'].".pdf","I");
 	}

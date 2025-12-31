@@ -172,14 +172,11 @@ foreach ($report_data as $user_id => $data) {
 					<td style="padding-top: 10px;">&nbsp;</td>
 					<td style="padding-top: 10px;">&nbsp;</td>
 					<td style="padding-top: 10px;">&nbsp;</td>
+					<td style="padding-top: 10px;">&nbsp;</td>
 					<td style="padding-top: 10px;">$<?php echo number_format($total_premium, 2); ?></td>
 					<td style="padding-top: 10px;">&nbsp;</td>
 					<td style="padding-top: 10px;">&nbsp;</td>
 					<td style="padding-top: 10px;">$<?php echo number_format($total_commission, 2); ?></td>
-				</tr>
-				<tr>
-					<td style="padding-top: 10px;" colspan='2'><B>Total Commission for Above</B></td>
-					<td style="padding-top: 10px;" colspan='9'>$<?php echo number_format($total_commission, 2); ?></td>
 				</tr>
 				<tr>
 					<td style="padding-top: 10px;" colspan='2'><B>Unpaid Premium</B></td>
