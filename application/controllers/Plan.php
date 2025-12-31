@@ -3458,7 +3458,7 @@ class Plan extends MY_Controller {
 				if ($plan['payment_id']) {
 					$data['payment'] = $this->payment_model->get_payment_by_id($plan['payment_id'], $plan['apply_date']);
 				}
-				$data['plan_full_name'] = $product ? $product['full_name'] : '';
+				$data['plan_full_name'] = $product ? $product['full_name'] : $plan['product_short'];
 				$data['customer'] = $this->customer_model->get_customer_by_id($data['plan']['customer_id']);
 				$data['customers'] = $this->customer_model->get_customer_by_parent_id($data['plan']['customer_id']);
 				$data['paytype_list'] = $this->paytype_model->paytype_list();
@@ -3882,7 +3882,7 @@ class Plan extends MY_Controller {
 			$data['user'] = $this->user_model->get_user_by_id($plan['user_id']);
 		}
 		$product = $this->product_model->get_product($plan['product_short']);
-		$data['plan_full_name'] = $product ? $product['full_name'] : '';
+		$data['plan_full_name'] = $product ? $product['full_name'] : $plan['product_short'];
 		$data['customer'] = $this->customer_model->get_customer_by_id($data['plan']['customer_id']);
 		$data['customers'] = $this->customer_model->get_customer_by_parent_id($data['plan']['customer_id']);
 		$data['paytype_list'] = $this->paytype_model->paytype_list();

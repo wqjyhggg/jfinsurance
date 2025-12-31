@@ -1441,7 +1441,7 @@ class Plan extends CI_Controller
 			$data['user'] = $this->user_model->get_user_by_id($plan['user_id']);
 		}
 		$product = $this->product_model->get_product($plan['product_short']);
-		$data['plan_full_name'] = $product ? $product['full_name'] : '';
+		$data['plan_full_name'] = $product ? $product['full_name'] : $plan['product_short'];
 		$data['customer'] = $this->customer_model->get_customer_by_id($data['plan']['customer_id']);
 		$data['customers'] = $this->customer_model->get_customer_by_parent_id($data['plan']['customer_id']);
 		$data['paytype_list'] = $this->paytype_model->paytype_list();
@@ -2291,6 +2291,7 @@ class Plan extends CI_Controller
       return $this->app_model->return_error("Can't find plan");
 		}
 		$product = $this->product_model->get_product($plan['product_short']);
+		$data['plan_full_name'] = $product ? $product['full_name'] : $plan['product_short'];
 		$customer = $this->customer_model->get_customer_by_id($plan['customer_id']);
 		$name = $customer["firstname"]. " ".$customer["lastname"];
 		
