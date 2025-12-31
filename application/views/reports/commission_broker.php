@@ -317,23 +317,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                               <td>&nbsp;</td>
                               <td>&nbsp;</td>
                               <td>$<?php echo number_format($total_commission, 2); ?></td>
-                            </tr>
-                            <tr style='background:#eee;'>
                               <td>&nbsp;</td>
-                              <td colspan='2'><B>Total Commission for Above</B></td>
-                              <td colspan='9'>$<?php echo number_format($total_commission, 2); ?></td>
                             </tr>
                             <tr style='background:#eee;'>
                               <td>&nbsp;</td>
                               <td colspan='2'><B>Unpaid Premium</B></td>
-                              <td colspan='9'>$<?php echo number_format($unpaid_premium, 2); ?></td>
+                              <td colspan='11'>$<?php echo number_format($unpaid_premium, 2); ?></td>
                             </tr>
                             <tr style='background:#eee;'>
                               <td>&nbsp;</td>
                               <td colspan='2'><B>Balance</B></td>
-                              <td colspan='9'>$<?php echo number_format($total_commission - $unpaid_premium, 2); ?></td>
+                              <td colspan='11'>$<?php echo number_format($total_commission - $unpaid_premium, 2); ?></td>
                             </tr>
-                            <tr><td colspan='11'></td></tr>
+                            <tr><td colspan='13'></td></tr>
                         </tbody>
                       </table>
     <?php endforeach; ?>

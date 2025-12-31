@@ -177,14 +177,15 @@ foreach ($report_data as $user_id => $data) {
 					<td style="padding-top: 10px;">&nbsp;</td>
 					<td style="padding-top: 10px;">&nbsp;</td>
 					<td style="padding-top: 10px;">$<?php echo number_format($total_commission, 2); ?></td>
+					<td style="padding-top: 10px;">&nbsp;</td>
 				</tr>
 				<tr>
 					<td style="padding-top: 10px;" colspan='2'><B>Unpaid Premium</B></td>
-					<td style="padding-top: 10px;" colspan='9'>$<?php echo number_format($unpaid_premium, 2); ?></td>
+					<td style="padding-top: 10px;" colspan='11'>$<?php echo number_format($unpaid_premium, 2); ?></td>
 				</tr>
 				<tr>
 					<td style="padding-top: 10px;" colspan='2'><B>Balance</B></td>
-					<td style="padding-top: 10px;" colspan='9'>$<?php echo number_format($total_commission - $unpaid_premium, 2); ?></td>
+					<td style="padding-top: 10px;" colspan='11'>$<?php echo number_format($total_commission - $unpaid_premium, 2); ?></td>
 				</tr>
 			</tbody>
 		</table>
@@ -195,20 +196,20 @@ if (!empty($asbroker)) {
 		<table style="font-family: serif; font-size: 10pt; border-spacing: 0;" border='1'>
 			<tbody>
 				<tr>
-					<td style="padding-top: 10px;" colspan='2'><B>Total Premium</B></td>
-					<td style="padding-top: 10px;" colspan='9'>$<?php echo number_format($total_a_premium, 2); ?></td>
+					<td style="padding-top: 10px;"><B>Total Premium</B></td>
+					<td style="padding-top: 10px;">$<?php echo number_format($total_a_premium, 2); ?></td>
 				</tr>
 				<tr>
-					<td style="padding-top: 10px;" colspan='2'><B>Total Commission</B></td>
-					<td style="padding-top: 10px;" colspan='9'>$<?php echo number_format($total_a_commission, 2); ?></td>
+					<td style="padding-top: 10px;"><B>Total Commission</B></td>
+					<td style="padding-top: 10px;">$<?php echo number_format($total_a_commission, 2); ?></td>
 				</tr>
 				<tr>
-					<td style="padding-top: 10px;" colspan='2'><B>Unpaid Premium</B></td>
-					<td style="padding-top: 10px;" colspan='9'>$<?php echo number_format($unpaid_a_premium, 2); ?></td>
+					<td style="padding-top: 10px;"><B>Unpaid Premium</B></td>
+					<td style="padding-top: 10px;">$<?php echo number_format($unpaid_a_premium, 2); ?></td>
 				</tr>
 				<tr>
-					<td style="padding-top: 10px;" colspan='2'><B>Balance</B></td>
-					<td style="padding-top: 10px;" colspan='9'>$<?php echo number_format($total_a_commission - $unpaid_a_premium, 2); ?></td>
+					<td style="padding-top: 10px;"><B>Balance</B></td>
+					<td style="padding-top: 10px;">$<?php echo number_format($total_a_commission - $unpaid_a_premium, 2); ?></td>
 				</tr>
 			</tbody>
 		</table>
