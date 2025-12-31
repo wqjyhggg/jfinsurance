@@ -131,6 +131,7 @@ foreach ($report_data as $user_id => $data) {
 			<tbody>
 				<tr>
 					<th style="border: 1px solid black;">&nbsp;</th>
+					<th>Username</th>
 					<th style="border: 1px solid black;">Payment Date</th>
 					<th>Policy Number</th>
 					<th>Customer Name</th>
@@ -149,6 +150,7 @@ foreach ($report_data as $user_id => $data) {
 				<?php     $total_premium += $record['premium']; $total_commission += $record['amount']; $unpaid_premium += ($record['premiumispaid']) ? 0 : $record['premium']; ?>
 				<tr>
 					<td style="padding-top: 6px;"><?php echo $cnt++; ?></td>
+					<td style="padding-top: 6px;"><?php echo $data['agent']['username']; ?></td>
 					<td style="padding-top: 6px;"><?php echo substr($record['added'], 0, 10); ?></td>
 					<td style="padding-top: 6px;"><?php echo $record['policy']; ?></td>
 					<td style="padding-top: 6px;"><?php echo $record['customer_name']; ?></td>
@@ -162,7 +164,6 @@ foreach ($report_data as $user_id => $data) {
 					<td style="padding-top: 6px;"><?php echo $record['payment_type']; ?></td>
 				</tr>
 				<?php endforeach; ?>
-				<?php if (empty($asbroker)) : ?>
 				<tr>
 					<td style="padding-top: 10px;"><B>TOTAL</B></td>
 					<td style="padding-top: 10px;">&nbsp;</td>
@@ -188,7 +189,6 @@ foreach ($report_data as $user_id => $data) {
 					<td style="padding-top: 10px;" colspan='2'><B>Balance</B></td>
 					<td style="padding-top: 10px;" colspan='9'>$<?php echo number_format($total_commission - $unpaid_premium, 2); ?></td>
 				</tr>
-				<?php endif; ?>
 			</tbody>
 		</table>
 <?php

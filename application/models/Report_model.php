@@ -865,6 +865,7 @@ class Report_model extends CI_Model
     $sql .= "	pa.added,";    //  Payment Date
     $sql .= "	pl.user_id,";
     $sql .= "	pl.policy,";
+    $sql .= "	pl.monthlypay,";
     $sql .= "	st.name AS status,";
     $sql .= "	pr.up_insuer,";
     $sql .= "	CONCAT(c.firstname, ' ', c.lastname) AS customer_name,";
@@ -930,6 +931,17 @@ class Report_model extends CI_Model
           $results['asbroker'] = $agent;
         }
       }
+			$row["payment_type"] = "Premium";
+			if (!empty($row["monthlypay"])) {
+				$sqlm = "SELECT pay_type FROM monthly_payment WEHER payment_id=".$row["payment_id"];
+				if ($rcm = $this->db->query($sqlm)->row_array()) {
+					if ($rcm["pay_type"] == 1) {
+						$row["payment_type"] = "Recurring Premium";
+					} else {
+						$row["payment_type"] = "Init Premium";
+					}
+				}
+			}
       $results[$row['user_id']]['data'][] = $row;
     }
     if (!empty($results) && empty($results['asbroker'])) {

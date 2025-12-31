@@ -22,7 +22,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           <div class="main-div">
             <div class="page-title">
               <div class="title_left">
-                <h3>Commission Report</h3>
+                <h3>Brokerage Commission Report</h3>
               </div>
 
             </div>
@@ -45,7 +45,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                           <label class="col-sm-12">Agent:</label>
                           <div class="input-group col-sm-12">
                               <input name="agent_id" class="form-control" value="<?php echo $agent_id; ?>">
-                              <input type='checkbox' name='asbroker' value='1' <?php echo ($asbroker ? 'checked' : ''); ?>> As brokerage
+                              <input type='hidden' name='asbroker' value='1'>
                           </div>
                         </div>
                         <!-- Agent select box end -->
@@ -157,7 +157,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		                    		<input type='hidden' name="agent_id" value="<?php echo $agent_id; ?>">
 		                    		<input type='hidden' name="product_short" value="<?php echo $product_short; ?>">
 		                    		<input type='hidden' name="region_id" value="<?php echo $region_id; ?>">
-		                    		<input type='hidden' name='asbroker' value='<?php echo ($asbroker ? '1' : '0'); ?>'>
+		                    		<input type='hidden' name='asbroker' value='1'>
 		                    		<input type='hidden' name="payment_added_from" value="<?php echo $payment_added_from; ?>">
 		                    		<input type='hidden' name="payment_added_to" value="<?php echo $payment_added_to; ?>">
 		                    		<input type='hidden' name="payment_date_from" value="<?php echo $payment_date_from; ?>">
@@ -171,7 +171,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		                    		<input type='hidden' name="agent_id" value="<?php echo $agent_id; ?>">
 		                    		<input type='hidden' name="product_short" value="<?php echo $product_short; ?>">
 		                    		<input type='hidden' name="region_id" value="<?php echo $region_id; ?>">
-		                    		<input type='hidden' name='asbroker' value='<?php echo ($asbroker ? '1' : '0'); ?>'>
+		                    		<input type='hidden' name='asbroker' value='1'>
 		                    		<input type='hidden' name="payment_added_from" value="<?php echo $payment_added_from; ?>">
 		                    		<input type='hidden' name="payment_added_to" value="<?php echo $payment_added_to; ?>">
 		                    		<input type='hidden' name="payment_date_from" value="<?php echo $payment_date_from; ?>">
@@ -269,6 +269,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                           <tr>
                             <th>&nbsp;</th>
                             <th>&nbsp;</th>
+                            <th>Username</th>
                             <th>Payment Date</th>
                             <th>Policy Number</th>
                             <th>Customer Name</th>
@@ -288,6 +289,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <tr>
                               <td><input type='checkbox' name='payment_id[]' data-id='<?php echo $record['payment_id']; ?>'></td>
                               <td><?php echo $cnt++; ?></td>
+                              <td><?php echo $data['agent']['username']; ?></td>
                               <td><?php echo substr($record['added'], 0, 10); ?></td>
                               <td><?php echo $record['policy']; ?></td>
                               <td><?php echo $record['customer_name']; ?></td>
@@ -301,7 +303,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                               <td><?php echo $record['payment_type']; ?></td>
                             </tr>
         <?php endforeach; ?>
-        <?php if (empty($asbroker)) : ?>
                             <tr>
                               <td>&nbsp;</td>
                               <td><B>TOTAL</B></td>
@@ -332,7 +333,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                               <td colspan='9'>$<?php echo number_format($total_commission - $unpaid_premium, 2); ?></td>
                             </tr>
                             <tr><td colspan='11'></td></tr>
-        <?php endif; ?>
                         </tbody>
                       </table>
     <?php endforeach; ?>
