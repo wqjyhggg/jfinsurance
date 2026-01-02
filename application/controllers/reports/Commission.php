@@ -117,7 +117,7 @@ class Commission extends MY_Controller
 				'premiumispaid' => 'Premium Payment',
 				'rate' => 'Commission Rate',
 				'amount' => 'Commission Amount',
-				'payment_type' => 'Payment Type',
+				// 'payment_type' => 'Payment Type',
 			);
 	
 		$objPHPExcel = new PHPExcel();
