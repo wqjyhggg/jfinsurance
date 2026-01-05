@@ -141,7 +141,7 @@ foreach ($report_data as $user_id => $data) {
 					<th>Premium Payment</th>
 					<th>Commission Rate</th>
 					<th>Commission Amount</th>
-					<th>Payment Type</th>
+					<!-- <th>Payment Type</th> -->
 				</tr>
 				<?php $cnt = 1; $total_premium = 0; $total_commission = 0; $unpaid_premium = 0; ?>
 				<?php foreach ($data['data'] as $record) : ?>
@@ -159,7 +159,7 @@ foreach ($report_data as $user_id => $data) {
 					<td style="padding-top: 6px;"><?php echo ($record['premiumispaid']) ? "Paid" : '-'; ?></td>
 					<td style="padding-top: 6px;"><?php echo $record['rate']; ?>%</td>
 					<td style="padding-top: 6px;">$<?php echo number_format($record['amount'], 2); ?></td>
-					<td style="padding-top: 6px;"><?php echo $record['payment_type']; ?></td>
+					<!-- <td style="padding-top: 6px;"><?php echo $record['payment_type']; ?></td> -->
 				</tr>
 				<?php endforeach; ?>
 				<?php if (empty($asbroker)) : ?>
