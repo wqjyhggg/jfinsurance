@@ -729,6 +729,7 @@ class Plan extends CI_Controller
 				}
 			}
       $plan_id = $this->plan_model->add($post, $user);
+			$plan = $this->plan_model->get_plan_by_id($plan_id);
 			$para = array(
 				'plan_id' => $plan_id,
 				'customer_id' => $plan['customer_id'],
@@ -737,7 +738,6 @@ class Plan extends CI_Controller
 				'systemlog' => $this->plan_model->sqlstr
 			);
 			$this->log_model->activity('plan', $para, $user);
-			$plan = $this->plan_model->get_plan_by_id($plan_id);
 		}
     $data["plan"] = $this->plan_model->get_plan_by_id($plan_id);
     $data["claim_message"] = "";
