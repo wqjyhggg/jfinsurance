@@ -138,9 +138,10 @@ class Monthly_payment_model extends CI_Model {
 			$precord["pay_type"] = 1;
 			$precord["amount"] = $month_pay;
 			for ($i = 0; $i < $mountly_number; $i++) {
-				$recurrdate->modify('+1 month');
 				$precord["pay_date"] = $recurrdate->format('Y-m-d');
 				$this->add($precord);
+				$recurrdate->modify('+1 month');
+				// $recurrdate->modify('+1 days');
 			}
 			return $record_id;
 		}

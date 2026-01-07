@@ -3336,9 +3336,16 @@ class Plan extends MY_Controller {
 			$data['insurable_options'] = $this->load->view('plan/detail_opl', $data, TRUE);
 			if (($plan['status_id'] == Plan_model::QUOTE) && ($plan['sum_insured'] >= 100000) && ($plan['totaldays'] >= 365)) {
 				$product = $this->product_model->get_product($plan['product_short']);
-				$month_amount = number_format($plan['premium'] / 12, 2, ".", "");
-				$first_amount = number_format($month_amount * 2 + 50, 2, ".", "");
-				$data['recurrent'] = [$first_amount, $month_amount, 10];
+				$today = date("Y-m-d");
+				if ($plan["effective_date"] == $today) {
+					$month_amount = number_format($plan['premium'] / 12, 2, ".", "");
+					$first_amount = number_format($month_amount * 3 + 50, 2, ".", "");
+					$data['recurrent'] = [$first_amount, $month_amount, 9];
+				} else {
+					$month_amount = number_format($plan['premium'] / 12, 2, ".", "");
+					$first_amount = number_format($month_amount * 2 + 50, 2, ".", "");
+					$data['recurrent'] = [$first_amount, $month_amount, 10];
+				}
 				$data["monthly_pay_url"] = base_url("plan/monthly_pay/" . $plan['plan_id']);
 				// $data['monthly_pay_url2'] = $this->createCheckoutLink($product["merchent_id"], $product["hash_key"], $first_amount, $plan_id);
 			}
@@ -3450,9 +3457,17 @@ class Plan extends MY_Controller {
 		}
 		$data['beuser'] = $beuser;
 		$data['plan'] = $plan;
-		$month_amount = number_format($plan['premium'] / 12, 2, ".", "");
-		$first_amount = number_format($month_amount * 2 + 50, 2, ".", "");
-		$pay_times = 10;
+		$today = date("Y-m-d");
+		if ($plan["effective_date"] == $today) {
+			$month_amount = number_format($plan['premium'] / 12, 2, ".", "");
+			$first_amount = number_format($month_amount * 3 + 50, 2, ".", "");
+			$pay_times = 9;
+		} else {
+			$month_amount = number_format($plan['premium'] / 12, 2, ".", "");
+			$first_amount = number_format($month_amount * 2 + 50, 2, ".", "");
+			$pay_times = 10;
+		}
+
 		$monthly_payment_id = $this->monthly_payment_model->create_payment_records($plan["plan_id"], $first_amount, $month_amount, $pay_times, $plan["effective_date"]);
 		if (!is_numeric($monthly_payment_id)) {
 			// Some error happened
@@ -4854,6 +4869,7 @@ class Plan extends MY_Controller {
 			unset($plan['customer_id']);
 			unset($plan['user_id']);
 			unset($plan['status_id']);
+			unset($plan['monthlypay']);
 			unset($plan['policy']);
 			unset($plan['agree']);
 			unset($plan['batch_number']);

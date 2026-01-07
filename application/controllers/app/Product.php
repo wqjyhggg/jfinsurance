@@ -97,6 +97,23 @@ class Product extends CI_Controller
         }
       } else {
         //$premiumarr['premium'] = number_format($premiumarr['premium'], 2, '.', ',');
+				if ($post['plan_id'] && ($plan = $this->plan_model->get_plan_by_id($post['plan_id']))) {
+					if (($plan['product_short'] == 'JFVTC') && ($plan['status_id'] == Plan_model::QUOTE) && ($plan['sum_insured'] >= 100000) && ($plan['totaldays'] >= 365)) {
+						$product = $this->product_model->get_product($plan['product_short']);
+						$today = date("Y-m-d");
+						if ($plan["effective_date"] == $today) {
+							$month_amount = number_format($plan['premium'] / 12, 2, ".", "");
+							$first_amount = number_format($month_amount * 3 + 50, 2, ".", "");
+							$pay_times = 9;
+						} else {
+							$month_amount = number_format($plan['premium'] / 12, 2, ".", "");
+							$first_amount = number_format($month_amount * 2 + 50, 2, ".", "");
+							$pay_times = 10;
+						}
+					}
+					$premiumarr["recurrent"] = [$first_amount, $month_amount, $pay_times];
+				}
+		
         $data = array('premiumarr' => $premiumarr);
       }
     }

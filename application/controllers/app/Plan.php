@@ -143,6 +143,89 @@ class Plan extends CI_Controller
     $this->app_model->return_ok(["pay_url"=>$pay_url, "pay_amount"=>$payment_total]);
   }
 
+	public function createCheckoutLink($merchantId, $hashKey, $amount, $plan_id, $monthly_payment_id) {
+    $params = [
+        'merchant_id' => $merchantId,
+        'trnAmount' => $amount,
+        'trnOrderNumber' => $plan_id."-".$monthly_payment_id,
+        'trnType' => "P",
+        'ref1' => "monthly",
+        'ref2' => (string)$plan_id,
+        'ref3' => (string)$monthly_payment_id,
+    ];
+    $paraString = http_build_query($params);
+    $hashString = $paraString . $hashKey;
+    $hash = md5($hashString);
+    $checkoutUrl = "https://web.na.bambora.com/scripts/payment/payment.asp?" . $paraString . '&hashValue='.$hash;
+    return $checkoutUrl;
+	}
+
+  function get_month_pay() {
+    $this->error = "";
+    $this->load->model("app_model");
+    $this->load->model("user_model");
+    $user = $this->app_model->check_token($this->input->post("token"));
+
+    if (empty($user)) {
+      if (empty($this->error)) {
+        $this->error = "Session Expired";
+      }
+      return $this->app_model->return_error($this->error);
+    }
+    $this->load->model('payment_model');
+    $this->load->model('plan_model');
+    $this->load->model('plan_history_model');
+		$this->load->model('product_model');
+		$this->load->model('log_model');
+
+    $plan_id = $this->input->post("plan_id");
+    $plan = $this->plan_model->get_plan_by_id($plan_id);
+    if (empty($plan)) {
+      return $this->app_model->return_error("Unknown Policy");
+    }
+    $this->app_model->return_ok(["status"=>0, "message"=>"OK", "status_id" => $plan['status_id']]);
+	}
+
+  function set_month_pay() {
+    $this->error = "";
+    $this->load->model("app_model");
+    $this->load->model("user_model");
+    $user = $this->app_model->check_token($this->input->post("token"));
+
+    if (empty($user)) {
+      if (empty($this->error)) {
+        $this->error = "Session Expired";
+      }
+      return $this->app_model->return_error($this->error);
+    }
+    $this->load->model('payment_model');
+    $this->load->model('plan_model');
+    $this->load->model('plan_history_model');
+		$this->load->model('product_model');
+		$this->load->model('log_model');
+
+    $plan_id = $this->input->post("plan_id");
+    $plan = $this->plan_model->get_plan_by_id($plan_id);
+    if (empty($plan)) {
+      return $this->app_model->return_error("Unknown Policy");
+    }
+    
+		$first_pay = floatval($this->input->post('first_pay'));
+		$month_pay = floatval($this->input->post('month_pay'));
+		$month_num = intval($this->input->post('month_num'));
+
+		if (($plan['status_id'] != Plan_model::QUOTE) || empty($first_pay) || empty($month_pay) || empty($month_num)) {
+			return $this->app_model->return_error("Monthly Pay has problem, Please contact Staff.");
+		}
+		$this->load->model('monthly_payment_model');
+		$monthly_payment_id = $this->monthly_payment_model->create_payment_records($plan["plan_id"], $first_pay, $month_pay, $month_num, $plan["effective_date"]);
+		if (!is_numeric($monthly_payment_id)) {
+			return $this->app_model->return_error("Monthly Pay can not create monthly records, Please contact Staff.");
+		}
+		$pay_url = $this->createCheckoutLink($product["merchent_id"], $product["hash_key"], $first_amount, $plan["plan_id"]);
+    $this->app_model->return_ok(["status"=>0, "message"=>"OK", "pay_url" => $pay_url]);
+  }
+
   function set_plan_pay() {
     $this->error = "";
     $this->load->model("app_model");
@@ -199,41 +282,6 @@ class Plan extends CI_Controller
 			$card_cvv = preg_replace('#[^0-9]#', '', $card_cvv);
 			$card_number_len = strlen($card_number);
 			$card_cvv_len = strlen($card_cvv);
-
-			$monthlypay = $this->input->post('monthlypay');
-			$first_pay = $this->input->post('first_pay');
-			$month_pay = $this->input->post('month_pay');
-
-			if ($monthlypay != 1) {
-				$monthlypay = 0;
-			}
-			if ($monthlypay) {
-				$first_pay = $this->input->post('first_pay');
-				$month_pay = $this->input->post('month_pay');
-				$card_email_address = $this->input->post('card_email_address');
-				$card_address_line1 = $this->input->post('card_address_line1');
-				$card_city = $this->input->post('card_city');
-				$card_province = $this->input->post('card_province');
-				$card_postal_code = $this->input->post('card_postal_code');
-				$card_country = $this->input->post('card_country');
-				if (($plan['status_id'] != Plan_model::QUOTE) || empty($first_pay) || empty($month_pay) || ($first_pay < ($month_pay * 2))) {
-					return $this->app_model->return_error("Monthly Pay has problem, Please contact Staff.");
-				} else if (empty($card_email_address)) {
-					return $this->app_model->return_error("Please input Card Email Address.");
-				} else if (empty($card_phone_number)) {
-					return $this->app_model->return_error("Please input Card Phone Number.");
-				} else if (empty($card_address_line1)) {
-					return $this->app_model->return_error("Please input Card Address.");
-				} else if (empty($card_city)) {
-					return $this->app_model->return_error("Please input Card City.");
-				} else if (empty($card_province)) {
-					return $this->app_model->return_error("Please input Card Province.");
-				} else if (empty($card_postal_code)) {
-					return $this->app_model->return_error("Please input Card Postal Code.");
-				} else if (empty($card_country)) {
-					return $this->app_model->return_error("Please input Card Country.");
-				}
-			}
 		}
 
 		$product = $this->product_model->get_product($plan['product_short']);
