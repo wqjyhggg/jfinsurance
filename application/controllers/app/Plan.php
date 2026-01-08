@@ -99,8 +99,16 @@ class Plan extends CI_Controller
 				($plan["product_short"] == "JFVTC") && 
 				($plan["sum_insured"] >= 100000) &&
 				($plan["totaldays"] >= 365) ) {
-			$month_amount = number_format($payment_total / 12, 2, ".", "");
-			$rt['recurrent'] = [number_format($month_amount * 2 + 50, 2, ".", ""), $month_amount, 10];
+			$today = date("Y-m-d");
+			if ($plan["effective_date"] == $today) {
+				$month_amount = number_format($plan['premium'] / 12, 2, ".", "");
+				$first_amount = number_format($month_amount * 3 + 50, 2, ".", "");
+				$rt['recurrent'] = [$first_amount, $month_amount, 9];
+			} else {
+				$month_amount = number_format($plan['premium'] / 12, 2, ".", "");
+				$first_amount = number_format($month_amount * 2 + 50, 2, ".", "");
+				$rt['recurrent'] = [$first_amount, $month_amount, 10];
+			}
 		}
 
 		$this->app_model->return_ok($rt);
@@ -223,7 +231,7 @@ class Plan extends CI_Controller
 		if (!is_numeric($monthly_payment_id)) {
 			return $this->app_model->return_error("Monthly Pay can not create monthly records, Please contact Staff.");
 		}
-		$pay_url = $this->createCheckoutLink($product["merchent_id"], $product["hash_key"], $first_amount, $plan["plan_id"]);
+		$pay_url = $this->createCheckoutLink($product["merchent_id"], $product["hash_key"], $first_pay, $plan["plan_id"]);
     $this->app_model->return_ok(["status"=>0, "message"=>"OK", "pay_url" => $pay_url]);
   }
 
