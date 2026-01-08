@@ -231,7 +231,7 @@ class Plan extends CI_Controller
 		if (!is_numeric($monthly_payment_id)) {
 			return $this->app_model->return_error("Monthly Pay can not create monthly records, Please contact Staff.");
 		}
-		$pay_url = $this->createCheckoutLink($product["merchent_id"], $product["hash_key"], $first_pay, $plan["plan_id"]);
+		$pay_url = $this->createCheckoutLink($product["merchent_id"], $product["hash_key"], $first_pay, $plan["plan_id"], $monthly_payment_id);
     $this->app_model->return_ok(["status"=>0, "message"=>"OK", "pay_url" => $pay_url]);
   }
 
