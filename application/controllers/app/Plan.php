@@ -217,6 +217,7 @@ class Plan extends CI_Controller
 		if (($plan['status_id'] != Plan_model::QUOTE) || empty($first_pay) || empty($month_pay) || empty($month_num)) {
 			return $this->app_model->return_error("Monthly Pay has problem, Please contact Staff.");
 		}
+		$product = $this->product_model->get_product($plan['product_short']);
 		$this->load->model('monthly_payment_model');
 		$monthly_payment_id = $this->monthly_payment_model->create_payment_records($plan["plan_id"], $first_pay, $month_pay, $month_num, $plan["effective_date"]);
 		if (!is_numeric($monthly_payment_id)) {
