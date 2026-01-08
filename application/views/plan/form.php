@@ -152,6 +152,11 @@ if ($Agree != "Agree") {
 							</select></div>
 							</div>
 							<?php } ?>
+							<?php if (!empty($plan['monthlypay'])) { ?>
+							<div class="form-group col-sm-3">
+							<label style="display:inline-block;vertical-align:middle;">Payment Plan: Monthly</label>
+							</div>
+							<?php } ?>
 					</div>
 					<?php } ?>
 	
@@ -299,6 +304,45 @@ if ($Agree != "Agree") {
 					 	</fieldset>
 					 	</div>
 					</div><br />
+
+					<?php if (!empty($plan['monthlypay'])) { ?>
+					<div class="row">
+						<div class="col-sm-12">
+							<fieldset>
+								<legend>Monthly Payment Plan</legend>
+								<div class="row">
+									<div class="form-group col-sm-3">
+										<label class="col-sm-12">Payment Plan Status:</label>
+										<div>
+											<?php if (($status_id == 2) || ($status_id == 3) || ($status_id == 7)) { ?>
+												Active
+											<?php } else { ?>
+												Inactive
+											<?php } ?>
+										</div>
+									</div>
+									<div class="form-group col-sm-3">
+										<label class="col-sm-12">Unpaid Months: </label>
+										<div class="input-group">
+											<?php echo $monthly_unpay_count; ?>
+										</div>
+									</div>
+									<div class="form-group col-sm-3">
+										<label class="col-sm-12">Paid Premium: </label>
+											<?php echo number_format($monthly_paid, 2, ".", ""); ?>
+										</div>
+									</div>
+									<div class="form-group col-sm-3">
+										<label class="col-sm-12">Outstanding Premium: </label>
+											<?php echo number_format($monthly_unpay, 2, ".", ""); ?>
+										</div>
+									</div>
+								</div>
+							</fieldset>
+					 	</div>
+					</div><br />
+					<?php } ?>
+
 					<?php echo $insurable_options; ?>
 					<?php if (!empty($error_claim)) { ?>
 					<div class="row">

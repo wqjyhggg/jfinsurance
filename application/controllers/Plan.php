@@ -1471,6 +1471,21 @@ class Plan extends MY_Controller {
 		} else {
 			$data['question5'] = '0';
 		}
+		if ($plan["monthlypay"] == 1) {
+			$this->load->model('monthly_payment_model');
+			$data['monthly_payment'] = $this->monthly_payment_model->get_by_plan_id($plan["plan_id"]);
+			$data['monthly_paid'] = 0;
+			$data['monthly_unpay'] = 0;
+			$data['monthly_unpay_count'] = 0;
+			foreach ($plan['monthly_payment'] as $rc) {
+				if ($rc["paid"] == 1) {
+					$data['monthly_paid'] += $rc["amount"];
+				} else if ($rc["paid"] == 0) {
+					$data['monthly_unpay'] += $rc["amount"];
+					$data['monthly_unpay_count']++;
+				}
+			}
+		}
 
 		$data['show_history'] = 0;
 		if (empty($data['plan_id'])) {
@@ -2289,50 +2304,7 @@ class Plan extends MY_Controller {
 					)
 				);
 				try {
-					if ($monthlypay == 1) {
-						// Create profile,
-						$beanstreamprofile = new \Beanstream\Gateway('383613451', 'D3E67407333149BF8D1DEEFEE49542EB', 'www', 'v1');
-						$profile_data = array(
-							'billing' => array(
-									'name' => $this->input->post('card_name'),
-									'email_address' => $this->input->post('card_email_address'),
-									'phone_number' => $this->input->post('card_phone_number'),
-									'address_line1' => $this->input->post('card_address_line1'),
-									'city' => $this->input->post('card_city'),
-									'province' => $this->input->post('card_province'),
-									'postal_code' => $this->input->post('card_postal_code'),
-									'country' => $this->input->post('card_country')
-							)
-						);
-						// card data to add to a profile
-						$card_data = array(
-							'card' => array(
-								'name' => $card_name,
-								'number' => $card_number,
-								'expiry_month' => $expiry_month,
-								'expiry_year' => $expiry_year,
-								'cvd' => $card_cvv
-							)
-						);
-						$profile_payment_data = array(
-							'order_number' => $plan_id,
-							'amount' => $premium,
-						);
-
-						$profile_id = $beanstreamprofile->profiles()->createProfile($profile_data);
-						$result = $beanstreamprofile->profiles()->addCard($profile_id, $card_data);
-						$this->monthly_payment_model->set_profile_id($plan_id, $profile_id);
-						$beanstream = new \Beanstream\Gateway('383613451', '96978bC167e345ca9cc8F0e054F2AFF8', 'www', 'v1');
-						$result = $beanstream->payments()->makeProfilePayment($profile_id, $card_id = 1, $profile_payment_data, TRUE); // set to FALSE for Pre-Auth
-						$this->monthly_payment_model->update($monthly_payment_id,[
-							'paid' => 1,
-							'pay_time' => date("Y-m-d H:i:s"),
-							'postdata' => json_encode($profile_payment_data),
-							'rawdata' => json_encode($result)
-						]);
-					} else {
-						$result = $beanstream->payments()->makeCardPayment($payment_data, TRUE); // set to FALSE for Pre-Auth
-					}
+					$result = $beanstream->payments()->makeCardPayment($payment_data, TRUE); // set to FALSE for Pre-Auth
 					if (isset($result['approved'])) {
 						$history_id = 0;
 						if (($history = $this->plan_history_model->get_plan_history_by_plan_id($plan_id)) && ($history["actualrate"] > 0)) {
@@ -3139,11 +3111,13 @@ class Plan extends MY_Controller {
 			$plan['monthly_payment'] = $this->monthly_payment_model->get_by_plan_id($plan["plan_id"]);
 			$plan['monthly_paid'] = 0;
 			$plan['monthly_unpay'] = 0;
+			$plan['monthly_unpay_count'] = 0;
 			foreach ($plan['monthly_payment'] as $rc) {
 				if ($rc["paid"] == 1) {
 					$plan['monthly_paid'] += $rc["amount"];
 				} else if ($rc["paid"] == 0) {
 					$plan['monthly_unpay'] += $rc["amount"];
+					$plan['monthly_unpay_count']++;
 				}
 			}
 		}

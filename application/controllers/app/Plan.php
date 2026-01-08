@@ -613,11 +613,13 @@ class Plan extends CI_Controller
 					$plan['monthly_payment'] = $this->monthly_payment_model->get_by_plan_id($plan["plan_id"]);
 					$plan['monthly_paid'] = 0;
 					$plan['monthly_unpay'] = 0;
+					$plan['monthly_unpay_count'] = 0;
 					foreach ($plan['monthly_payment'] as $rc) {
 						if ($rc["paid"] == 1) {
 							$plan['monthly_paid'] += $rc["amount"];
 						} else if ($rc["paid"] == 0) {
 							$plan['monthly_unpay'] += $rc["amount"];
+							$plan['monthly_unpay_count']++;
 						}
 					}
 				}
