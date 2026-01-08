@@ -704,7 +704,6 @@ class Plan extends MY_Controller {
 		}
 
 		$this->error = array();
-		$plan = false;
 		if ($this->input->post('submit') && $this->form_valid($beuser)) {
 			$plan_id = $this->input->post('plan_id');
 

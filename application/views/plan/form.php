@@ -312,30 +312,28 @@ if ($Agree != "Agree") {
 								<legend>Monthly Payment Plan</legend>
 								<div class="row">
 									<div class="form-group col-sm-3">
-										<label class="col-sm-12">Payment Plan Status:</label>
-										<div>
+										<label class="col-sm-12">Payment Plan Status:
 											<?php if (($status_id == 2) || ($status_id == 3) || ($status_id == 7)) { ?>
 												Active
 											<?php } else { ?>
 												Inactive
 											<?php } ?>
-										</div>
+										</label>
 									</div>
 									<div class="form-group col-sm-3">
-										<label class="col-sm-12">Unpaid Months: </label>
-										<div class="input-group">
+										<label class="col-sm-12">Unpaid Months: 
 											<?php echo $monthly_unpay_count; ?>
-										</div>
+										</label>
 									</div>
 									<div class="form-group col-sm-3">
-										<label class="col-sm-12">Paid Premium: </label>
+										<label class="col-sm-12">Paid Premium: 
 											<?php echo number_format($monthly_paid, 2, ".", ""); ?>
-										</div>
+										</label>
 									</div>
 									<div class="form-group col-sm-3">
-										<label class="col-sm-12">Outstanding Premium: </label>
+										<label class="col-sm-12">Outstanding Premium: 
 											<?php echo number_format($monthly_unpay, 2, ".", ""); ?>
-										</div>
+										</label>
 									</div>
 								</div>
 							</fieldset>
