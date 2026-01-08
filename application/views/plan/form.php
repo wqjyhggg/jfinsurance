@@ -152,7 +152,7 @@ if ($Agree != "Agree") {
 							</select></div>
 							</div>
 							<?php } ?>
-							<?php if (!empty($plan['monthlypay'])) { ?>
+							<?php if (!empty($plan) && !empty($plan['monthlypay'])) { ?>
 							<div class="form-group col-sm-3">
 							<label style="display:inline-block;vertical-align:middle;">Payment Plan: Monthly</label>
 							</div>
@@ -305,7 +305,7 @@ if ($Agree != "Agree") {
 					 	</div>
 					</div><br />
 
-					<?php if (!empty($plan['monthlypay'])) { ?>
+					<?php if (!empty($plan) && !empty($plan['monthlypay'])) { ?>
 					<div class="row">
 						<div class="col-sm-12">
 							<fieldset>

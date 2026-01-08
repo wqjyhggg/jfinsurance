@@ -704,6 +704,7 @@ class Plan extends MY_Controller {
 		}
 
 		$this->error = array();
+		$plan = false;
 		if ($this->input->post('submit') && $this->form_valid($beuser)) {
 			$plan_id = $this->input->post('plan_id');
 
@@ -1471,20 +1472,23 @@ class Plan extends MY_Controller {
 		} else {
 			$data['question5'] = '0';
 		}
-		if ($plan["monthlypay"] == 1) {
-			$this->load->model('monthly_payment_model');
-			$data['monthly_payment'] = $this->monthly_payment_model->get_by_plan_id($plan["plan_id"]);
-			$data['monthly_paid'] = 0;
-			$data['monthly_unpay'] = 0;
-			$data['monthly_unpay_count'] = 0;
-			foreach ($plan['monthly_payment'] as $rc) {
-				if ($rc["paid"] == 1) {
-					$data['monthly_paid'] += $rc["amount"];
-				} else if ($rc["paid"] == 0) {
-					$data['monthly_unpay'] += $rc["amount"];
-					$data['monthly_unpay_count']++;
+		if ($plan) {
+			if ($plan["monthlypay"] == 1) {
+				$this->load->model('monthly_payment_model');
+				$data['monthly_payment'] = $this->monthly_payment_model->get_by_plan_id($plan["plan_id"]);
+				$data['monthly_paid'] = 0;
+				$data['monthly_unpay'] = 0;
+				$data['monthly_unpay_count'] = 0;
+				foreach ($data['monthly_payment'] as $rc) {
+					if ($rc["paid"] == 1) {
+						$data['monthly_paid'] += $rc["amount"];
+					} else if ($rc["paid"] == 0) {
+						$data['monthly_unpay'] += $rc["amount"];
+						$data['monthly_unpay_count']++;
+					}
 				}
 			}
+			$data['plan'] = $plan;
 		}
 
 		$data['show_history'] = 0;
