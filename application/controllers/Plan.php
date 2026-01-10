@@ -1471,7 +1471,7 @@ class Plan extends MY_Controller {
 		} else {
 			$data['question5'] = '0';
 		}
-		if ($plan) {
+		if ($plan && isset($plan["plan_id"])) {
 			if ($plan["monthlypay"] == 1) {
 				$this->load->model('monthly_payment_model');
 				$data['monthly_payment'] = $this->monthly_payment_model->get_by_plan_id($plan["plan_id"]);
