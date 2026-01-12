@@ -486,6 +486,9 @@ class Bambora extends CI_Controller {
 					echo "Unknonwn plan: ".json_encode($pay)."\r\n";
 					continue;
 				}
+				if ($plan["status_id"] != Plan_model::PAID) {
+					echo "Plan: is not in PAID status".json_encode($plan)."\r\n";
+				}
 				$product = $this->product_model->get_product($plan["product_short"]);
 				if (empty($product)) {
 					echo "Unknonwn product: ".json_encode($product)."\r\n";
