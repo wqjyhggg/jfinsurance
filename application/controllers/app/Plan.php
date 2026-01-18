@@ -103,11 +103,11 @@ class Plan extends CI_Controller
 			if ($plan["effective_date"] == $today) {
 				$month_amount = number_format($plan['premium'] / 12, 2, ".", "");
 				$first_amount = number_format($month_amount * 3 + 50, 2, ".", "");
-				$rt['recurrent'] = [$first_amount, $month_amount, 9];
+				$rt['recurrent'] = [$first_amount, $month_amount, 9, 50];
 			} else {
 				$month_amount = number_format($plan['premium'] / 12, 2, ".", "");
 				$first_amount = number_format($month_amount * 2 + 50, 2, ".", "");
-				$rt['recurrent'] = [$first_amount, $month_amount, 10];
+				$rt['recurrent'] = [$first_amount, $month_amount, 10, 50];
 			}
 		}
 
@@ -221,13 +221,14 @@ class Plan extends CI_Controller
 		$first_pay = floatval($this->input->post('first_pay'));
 		$month_pay = floatval($this->input->post('month_pay'));
 		$month_num = intval($this->input->post('month_num'));
+		$admin_fee = floatval($this->input->post('admin_fee'));
 
 		if (($plan['status_id'] != Plan_model::QUOTE) || empty($first_pay) || empty($month_pay) || empty($month_num)) {
 			return $this->app_model->return_error("Monthly Pay has problem, Please contact Staff.");
 		}
 		$product = $this->product_model->get_product($plan['product_short']);
 		$this->load->model('monthly_payment_model');
-		$monthly_payment_id = $this->monthly_payment_model->create_payment_records($plan["plan_id"], $first_pay, $month_pay, $month_num, $plan["effective_date"]);
+		$monthly_payment_id = $this->monthly_payment_model->create_payment_records($plan["plan_id"], $first_pay, $month_pay, $month_num, $plan["effective_date"], $admin_fee);
 		if (!is_numeric($monthly_payment_id)) {
 			return $this->app_model->return_error("Monthly Pay can not create monthly records, Please contact Staff.");
 		}
@@ -741,6 +742,9 @@ class Plan extends CI_Controller
         }
         $ckArr['isfamilyplan'] = $isfamilyplan;
         $post = $this->input->post();
+				if ($error = $this->product_model->verify_change($planold, $post)) {
+					return $this->app_model->return_error($error);
+				}
         unset($post["user_id"]);
         $this->plan_model->update($id, $post, $ckArr, $user);
 				$plan = $this->plan_model->get_plan_by_id($id);

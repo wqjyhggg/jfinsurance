@@ -105,13 +105,15 @@ class Product extends CI_Controller
 							$month_amount = number_format($plan['premium'] / 12, 2, ".", "");
 							$first_amount = number_format($month_amount * 3 + 50, 2, ".", "");
 							$pay_times = 9;
+							$admin_fee = 50;
 						} else {
 							$month_amount = number_format($plan['premium'] / 12, 2, ".", "");
 							$first_amount = number_format($month_amount * 2 + 50, 2, ".", "");
 							$pay_times = 10;
+							$admin_fee = 50;
 						}
 					}
-					$premiumarr["recurrent"] = [$first_amount, $month_amount, $pay_times];
+					$premiumarr["recurrent"] = [$first_amount, $month_amount, $pay_times, $admin_fee];
 				}
 		
         $data = array('premiumarr' => $premiumarr);

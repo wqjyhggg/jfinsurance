@@ -760,7 +760,9 @@ CREATE TABLE monthly_payment (
 	pay_type tinyint NOT NULL DEFAULT 1 COMMENT '0: for first pay. 1: for recurrent',
 	paid tinyint NOT NULL DEFAULT 0 COMMENT '0: no, 1: yes, -1: void, -2: pay error',
 	retry tinyint NOT NULL DEFAULT 0 COMMENT 'tried times',
+  retry_date date NULL COMMENT 'retry date',
 	amount decimal(10,2) NOT NULL DEFAULT 0,
+	admin_fee decimal(10,2) NOT NULL DEFAULT 0,
   pay_date date NULL COMMENT 'pay date',
   pay_time datetime NULL COMMENT 'paid real time',
   postdata text,
@@ -775,3 +777,4 @@ ALTER TABLE `plan` ADD `monthlypay` tinyint NULL DEFAULT 0 COMMENT 'the plan is 
 ALTER TABLE `product` ADD `profile_key` varchar(64) NOT NULL DEFAULT '' COMMENT 'key for create profile' AFTER `apikey`;
 ALTER TABLE `product` ADD `hash_key` varchar(64) NOT NULL DEFAULT '' COMMENT 'hash_key for create iframe link' AFTER `apikey`;
 ALTER TABLE `product` ADD `payment_key` VARCHAR(64) NOT NULL DEFAULT '' AFTER `profile_key`;
+ALTER TABLE `monthly_payment` ADD `admin_fee` decimal(10,2) NOT NULL DEFAULT 0 AFTER `amount`;

@@ -23,5 +23,6 @@ function logAccess($logFile) {
 logAccess($logFile);
 
 // Respond to the web call
-header('Content-Type: application/json');
-echo json_encode(['status' => 'success', 'message' => 'Access logged successfully.']);
+// header('Content-Type: application/json');
+// echo json_encode(['status' => 'success', 'message' => 'Access logged successfully.']);
+echo "Failed";

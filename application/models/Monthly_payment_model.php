@@ -121,7 +121,7 @@ class Monthly_payment_model extends CI_Model {
 		return 0;
 	}
 
-	public function create_payment_records($plan_id, $first_amount, $month_pay, $mountly_number, $effective_date) {
+	public function create_payment_records($plan_id, $first_amount, $month_pay, $mountly_number, $effective_date, $admin_fee) {
 		if ($this->db->where("plan_id", $plan_id)->where("paid>", 0)->get("monthly_payment")->row_array()) {
 			// Payment already edited build. Can't rebuild
 			return "Payment already edited. Can not rebuild";
@@ -131,14 +131,19 @@ class Monthly_payment_model extends CI_Model {
 			"plan_id" => $plan_id,
 			"pay_type" => 0,
 			"amount" => $first_amount,
-			"pay_date" => date("Y-m-d")
+			"admin_fee" => $admin_fee,
+			"pay_date" => date("Y-m-d"),
+			"retry_date" => date("Y-m-d")
 		];
 		if ($record_id = $this->add($precord)) {
 			$recurrdate = new DateTime($effective_date);
 			$precord["pay_type"] = 1;
+			$precord["admin_fee"] = 0;
 			$precord["amount"] = $month_pay;
 			for ($i = 0; $i < $mountly_number; $i++) {
 				$precord["pay_date"] = $recurrdate->format('Y-m-d');
+				$precord["retry_date"] = $precord["pay_date"];
+				$precord["retry"] = 1;
 				$this->add($precord);
 				$recurrdate->modify('+1 month');
 				// $recurrdate->modify('+1 days');
@@ -160,7 +165,15 @@ class Monthly_payment_model extends CI_Model {
 	}
 
 	public function today_payments($dt) {
-		return $this->db->where("pay_type", 1)->where("paid", 0)->where("pay_date", $dt)->get("monthly_payment")->result_array();
+		$recurArr = $this->db->where("pay_type", 1)->where("paid", 0)->where("pay_date", $dt)->get("monthly_payment")->result_array();
+		$retryArr = $this->db->where("pay_type", 1)->where("paid", -2)->where("retry<", 3)->where("retry_date", $dt)->get("monthly_payment")->result_array();
+		if ($recurArr) {
+			if ($retryArr) {
+				return array_merge($recurArr, $retryArr);
+			}
+			return $recurArr;
+		}
+		return $retryArr;
 	}
 
 	public function set_profile_id($plan_id, $profile_id) {

@@ -2269,5 +2269,34 @@ class Product_model extends CI_Model {
 			$this->db->insert('product_customize');
     	}
     }
+	
+	public function verify_change($oldplan, $newplan) {
+		$verfy_products = ["JFVTC"];
+		if (!in_array($oldplan["product_short"], $verfy_products)) {
+			return "";
+		}
+		if ($oldplan["totaldays"] <= "365") {
+			return "";
+		}
+		if ($planold['status_id'] < 2) {
+			return "";
+		}
+		$totaldays = 0;
+		if (isset($newplan["totaldays"])) {
+			$totaldays = $newplan["totaldays"];
+		} else if (isset($newplan["effective_date"]) && isset($newplan["expiry_date"])) {
+			$totaldays = $this->getDays($newplan["effective_date"], $newplan["expiry_date"]);
+		}
+		if ($totaldays && ($totaldays < 365)) {
+			return "Can not change plan total days";
+		}
+		if (isset($newplan["sum_insured"]) && ($newplan['sum_insured'] < 100000)) {
+			return "Sum Insured Amount can not lower than 100000";
+		}
+		if (isset($newplan["premium"]) && ($planold['premium'] != $newplan['premium'])) {
+			return "Monthly plan can not change premium amount";
+		}
+		return "";
+	}
 }
 

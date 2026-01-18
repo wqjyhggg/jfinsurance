@@ -118,7 +118,7 @@ class Bambora extends CI_Controller {
 			'payment_id' => isset($post['ref4'])?$post['ref4']:0,
 			'message' => json_encode($post)
 		);
-		$activity_id = $this->log_model->activity("bambora", $para, $user);
+		$activity_id = $this->log_model->activity("bb", $para, $user);
 
 		$errormsg = "";
 		if (empty($post["hashValue"])) {
@@ -134,7 +134,7 @@ class Bambora extends CI_Controller {
 			if ($activity_id) {
 				$this->log_model->update($activity_id, ["systemlog" => $errormsg]);
 			}
-			die($errormsg);
+			// die($errormsg);
 		}
 
 		if (empty($post["ref3"])) {
@@ -152,10 +152,10 @@ class Bambora extends CI_Controller {
 				$this->log_model->update($activity_id, ["systemlog" => $errormsg]);
 			}
 			die($errormsg);
-		} else if ($monthly_payment["paid"]) {
+		} else if (($monthly_payment["paid"] == 1) || ($monthly_payment["paid"] == -2)) {
 			$errormsg = "Already Processed";
 			if ($activity_id) {
-				$this->log_model->update($activity_id, ["systemlog" => $errormsg]);
+				$this->log_model->update($activity_id, ["systemlog" => $errormsg, "payment_id"=>$monthly_payment["payment_id"]]);
 			}
 			die($errormsg);
 		}
@@ -186,7 +186,7 @@ class Bambora extends CI_Controller {
 		}
 		$user = $this->user_model->get_user_by_id($plan["user_id"]);
 		if (empty($product)) {
-			$errormsg = "Unknown product";
+			$errormsg = "Unknown user";
 			if ($activity_id) {
 				$this->log_model->update($activity_id, ["systemlog" => $errormsg]);
 			}
@@ -232,10 +232,19 @@ class Bambora extends CI_Controller {
 			$mpArr["paid"] = 1;
 		} else {
 			$mpArr["paid"] = -2;
+			$retry = $monthly_payment["retry"]++;
+			if ($retry == 1) {
+				$monthly_payment["retry_date"] = date('Y-m-d', strtotime('+2 days'));
+			} else if ($retry == 2) {
+				$monthly_payment["retry_date"] = date('Y-m-d', strtotime('+5 days'));
+			}
+			$monthly_payment["retry"] = $retry;
 		}
 		$this->monthly_payment_model->update($monthly_payment_id, $mpArr);
 
 		$premium = $monthly_payment["amount"];
+		$admin_fee = $monthly_payment["admin_fee"];
+		$premium -= $admin_fee;
 		if ($post["trnApproved"] == "1") {
 			$commission_amount = 0;
 			$commission_rate = $this->product_model->get_commission_rate($plan['product_short'], $plan['user_id']);
@@ -254,6 +263,7 @@ class Bambora extends CI_Controller {
 
 			$dt = [];
 			$dt['amount'] = $premium;
+			$dt['admin_fee'] = $admin_fee;
 			$dt['plan_id'] = $plan_id;
 			$dt['added'] = date("Y-m-d H:i:s");
 			$dt['pay_date'] = date("Y-m-d");
@@ -265,6 +275,9 @@ class Bambora extends CI_Controller {
 			$dt['note'] = "CC Success: Raw Data=> " . json_encode($post);
 			$payment_id = $this->payment_model->add($dt, $user);
 			$this->monthly_payment_model->update($monthly_payment_id, ["payment_id" => $payment_id]);
+			if ($activity_id) {
+				$this->log_model->update($activity_id, ["payment_id" => $payment_id]);
+			}
 			$para = array(
 				'plan_id' => $plan_id,
 				'customer_id' => $plan['customer_id'],
@@ -275,6 +288,7 @@ class Bambora extends CI_Controller {
 			$this->log_model->activity('payment', $para, $user);
 
 			$dt['amount'] = $commission_amount;
+			$dt['admin_fee'] = 0;
 			$dt['rate'] = $commission_rate;
 			$dt['ispaid'] = 0;
 			$dt['pay_type'] = 'commission';
@@ -354,7 +368,7 @@ class Bambora extends CI_Controller {
 					'message' => $postdata,
 					'systemlog' => json_encode($headers)
 				);
-				$this->log_model->activity("bambora-recur", $para, $user);
+				$this->log_model->activity("bb-recur", $para, $user);
 		
 				$url = $this->profile_url;
 				$ch = curl_init();
@@ -376,7 +390,7 @@ class Bambora extends CI_Controller {
 					'message' => $response,
 					'systemlog' => $url
 				);
-				$this->log_model->activity("bambora-profile", $para, $user);
+				$this->log_model->activity("bb-profile", $para, $user);
 		
 				if ($responseCode === 200) {
 					$rt = json_decode($response, true);
@@ -524,7 +538,7 @@ class Bambora extends CI_Controller {
 					'message' => $postdata,
 					'systemlog' => json_encode($headers)
 				);
-				$this->log_model->activity("bambora-recur", $para, $user);
+				$this->log_model->activity("bb-recur-c", $para, $user);
 		
 				$url = $this->payment_url;
 				$ch = curl_init();
@@ -546,7 +560,7 @@ class Bambora extends CI_Controller {
 					'message' => $response,
 					'systemlog' => $url
 				);
-				$this->log_model->activity("bambora-recur", $para, $user);
+				$activity_id = $this->log_model->activity("bb-recur-r", $para, $user);
 				$rt = "";
 				if (!empty($response)) {
 					$rt = json_decode($response, true);
@@ -605,7 +619,33 @@ class Bambora extends CI_Controller {
 			
 					$pay_time = date("Y-m-d H:i:s");
 					if (isset($rt["approved"]) && ($rt["approved"] == 1)) {
+						$pay2 = $this->monthly_payment_model->get_by_id($pay["monthly_payment_id"]);
+						if (empty($pay2)) {
+							$para = array(
+								'plan_id' => $plan_id,
+								'user_id' => $activity_id,
+								'payment_id' => 0,
+								'message' => "Can not find record !!! monthly_payment_id: ".$pay["monthly_payment_id"]. ";",
+								'systemlog' => ""
+							);
+							$this->log_model->activity("bb-recur-r-e", $para, $user);
+  					}
+						if (!empty($pay2["paid"])) {
+							// Done by bambora post back
+							$para = array(
+								'plan_id' => $plan_id,
+								'user_id' => $activity_id,
+								'payment_id' => 0,
+								'message' => "Done by bambora post back",
+								'systemlog' => ""
+							);
+							$this->log_model->activity("bb-recur-r", $para, $user);
+							continue;
+						}
+
 						$premium = $pay["amount"];
+						$admin_fee = $pay["admin_fee"];
+						$premium -= $admin_fee;
 						$commission_amount = 0;
 						$commission_rate = $this->product_model->get_commission_rate($plan['product_short'], $plan['user_id']);
 						if (($plan['product_short'] == 'TOP') && ($plan['totalyears'] > 60)) {
@@ -623,6 +663,7 @@ class Bambora extends CI_Controller {
 			
 						$dt = [];
 						$dt['amount'] = $premium;
+						$dt['admin_fee'] = $admin_fee;
 						$dt['plan_id'] = $plan_id;
 						$dt['added'] = date("Y-m-d H:i:s");
 						$dt['pay_date'] = date("Y-m-d");
@@ -633,6 +674,9 @@ class Bambora extends CI_Controller {
 						$dt['premium_payment_id'] = 0;
 						$dt['note'] = "CC Success: Raw Data=> " . $response;
 						$payment_id = $this->payment_model->add($dt, $user);
+						if ($activity_id) {
+							$this->log_model->update($activity_id, ["payment_id" => $payment_id]);
+						}
 						$para = array(
 							'plan_id' => $plan_id,
 							'customer_id' => $plan['customer_id'],
@@ -647,11 +691,13 @@ class Bambora extends CI_Controller {
 							"paid" => 1,
 							"pay_time" => $pay_time,
 							"payment_id" => $payment_id,
+							"postdata" => isset($postdata)?$postdata:"",
 							"rawdata" => $response,
 						];
 						$this->monthly_payment_model->update($pay["monthly_payment_id"], $mpArr);
 
 						$dt['amount'] = $commission_amount;
+						$dt['admin_fee'] = 0;
 						$dt['rate'] = $commission_rate;
 						$dt['ispaid'] = 0;
 						$dt['pay_type'] = 'commission';
@@ -722,14 +768,22 @@ class Bambora extends CI_Controller {
 							"paid" => -2,
 							"pay_time" => $pay_time,
 							"payment_id" => $payment_id,
+							"postdata" => isset($postdata)?$postdata:"",
 							"rawdata" => $response,
 						];
+						$retry = $pay["retry"]++;
+						if ($retry == 1) {
+							$mpArr["retry_date"] = date('Y-m-d', strtotime('+2 days'));
+						} else if ($retry == 2) {
+							$mpArr["retry_date"] = date('Y-m-d', strtotime('+5 days'));
+						}
+						$mpArr["retry"] = $retry;
 						$this->monthly_payment_model->update($pay["monthly_payment_id"], $mpArr);
 	
-						$planArr = [];	// Set plan to refunded
-						$planpara['payinfo'] = "Bambora recurrent charge fail. Monthly payment id: ".$pay["monthly_payment_id"];
-						$planpara['status_id'] = Plan_model::REFUND;
-						$this->plan_model->update($plan_id, $planpara, array(), $user);
+						// $planArr = [];	// Set plan to refunded
+						// $planpara['payinfo'] = "Bambora recurrent charge fail. Monthly payment id: ".$pay["monthly_payment_id"];
+						// $planpara['status_id'] = Plan_model::REFUND;
+						// $this->plan_model->update($plan_id, $planpara, array(), $user);
 						$para = array(
 							'plan_id' => $plan_id,
 							'customer_id' => $plan['customer_id'],
@@ -755,6 +809,27 @@ class Bambora extends CI_Controller {
 					$message .= "responseCode: ".$responseCode.".\r\n";
 					$message .= "response: ".$response.".\r\n";
 					$this->mymail_model->send_mymail("wqjyhggg@gmail.com", 'JF recurrent Error', $message, $attach=array(), $from='', 'text');
+
+					$pay2 = $this->monthly_payment_model->get_by_id($pay["monthly_payment_id"]);
+					if (empty($pay2["paid"])) {
+						// Not done by bambora post back
+						$mpArr = [
+							"trans_id" => isset($rt["id"])?$rt["id"]:0,
+							"paid" => -2,
+							"pay_time" => date("Y-m-d H:i:s"),
+							"payment_id" => $responseCode?intval($responseCode):0,
+							"postdata" => isset($postdata)?$postdata:"",
+							"rawdata" => $response,
+						];
+						$retry = $pay["retry"]++;
+						if ($retry == 1) {
+							$mpArr["retry_date"] = date('Y-m-d', strtotime('+2 days'));
+						} else if ($retry == 2) {
+							$mpArr["retry_date"] = date('Y-m-d', strtotime('+5 days'));
+						}
+						$mpArr["retry"] = $retry;
+						$this->monthly_payment_model->update($pay["monthly_payment_id"], $mpArr);
+					}
 					echo "Recurrent return error\r\n";
 				}
 			}

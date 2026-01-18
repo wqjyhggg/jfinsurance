@@ -741,6 +741,9 @@ class Plan extends MY_Controller {
 					}
 				}
 				if (empty($this->error)) {
+					$this->error = $this->product_model->verify_change($planold, $post);
+				}
+				if (empty($this->error)) {
 					$plan_id = $this->plan_model->update($plan_id, $post, array('isfamilyplan' => 1, 'holiday_rate' => 1, 'spouse' => 1));
 					if ($plan_id) {
 						$plan = $this->plan_model->get_plan_by_id($plan_id);
@@ -3317,11 +3320,11 @@ class Plan extends MY_Controller {
 				if ($plan["effective_date"] == $today) {
 					$month_amount = number_format($plan['premium'] / 12, 2, ".", "");
 					$first_amount = number_format($month_amount * 3 + 50, 2, ".", "");
-					$data['recurrent'] = [$first_amount, $month_amount, 9];
+					$data['recurrent'] = [$first_amount, $month_amount, 9, 50];
 				} else {
 					$month_amount = number_format($plan['premium'] / 12, 2, ".", "");
 					$first_amount = number_format($month_amount * 2 + 50, 2, ".", "");
-					$data['recurrent'] = [$first_amount, $month_amount, 10];
+					$data['recurrent'] = [$first_amount, $month_amount, 10, 50];
 				}
 				$data["monthly_pay_url"] = base_url("plan/monthly_pay/" . $plan['plan_id']);
 				// $data['monthly_pay_url2'] = $this->createCheckoutLink($product["merchent_id"], $product["hash_key"], $first_amount, $plan_id);
@@ -3439,13 +3442,15 @@ class Plan extends MY_Controller {
 			$month_amount = number_format($plan['premium'] / 12, 2, ".", "");
 			$first_amount = number_format($month_amount * 3 + 50, 2, ".", "");
 			$pay_times = 9;
+			$admin_fee = 50;
 		} else {
 			$month_amount = number_format($plan['premium'] / 12, 2, ".", "");
 			$first_amount = number_format($month_amount * 2 + 50, 2, ".", "");
 			$pay_times = 10;
+			$admin_fee = 50;
 		}
 
-		$monthly_payment_id = $this->monthly_payment_model->create_payment_records($plan["plan_id"], $first_amount, $month_amount, $pay_times, $plan["effective_date"]);
+		$monthly_payment_id = $this->monthly_payment_model->create_payment_records($plan["plan_id"], $first_amount, $month_amount, $pay_times, $plan["effective_date"], $admin_fee);
 		if (!is_numeric($monthly_payment_id)) {
 			// Some error happened
 			show_error($monthly_payment_id);
@@ -3453,6 +3458,7 @@ class Plan extends MY_Controller {
 		$data['month_amount'] = $month_amount;
 		$data['first_amount'] = $first_amount;
 		$data['pay_times'] = $pay_times;
+		$data['admin_fee'] = $admin_fee;
 
 		$product = $this->product_model->get_product($plan['product_short']);
 		$data['product'] = $product;
