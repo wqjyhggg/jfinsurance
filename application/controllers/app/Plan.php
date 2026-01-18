@@ -723,6 +723,7 @@ class Plan extends CI_Controller
     // }
     $this->load->model("plan_model");
     $this->load->model("log_model");
+    $this->load->model("monthly_payment_model");
     $data = array();
     if ($id = $this->input->post("plan_id")) {
       $planold = $this->plan_model->get_plan_by_id($id);
@@ -748,6 +749,9 @@ class Plan extends CI_Controller
         unset($post["user_id"]);
         $this->plan_model->update($id, $post, $ckArr, $user);
 				$plan = $this->plan_model->get_plan_by_id($id);
+				if ($plan["monthlypay"] && ($planold["effective_date"] != $plan["effective_date"])) {
+					$this->monthly_payment_model->change_effective_date($id, $plan["effective_date"]);
+				}
 				$para = array(
 					'plan_id' => $id,
 					'customer_id' => $plan['customer_id'],

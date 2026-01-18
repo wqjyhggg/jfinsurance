@@ -698,6 +698,7 @@ class Plan extends MY_Controller {
 		$this->load->model('product_model');
 		$this->load->model('plan_model');
 		$this->load->model('payment_model');
+		$this->load->model("monthly_payment_model");
 
     if ($this->session->userdata('fromsekey')) {
 			redirect('user/login');
@@ -747,6 +748,9 @@ class Plan extends MY_Controller {
 					$plan_id = $this->plan_model->update($plan_id, $post, array('isfamilyplan' => 1, 'holiday_rate' => 1, 'spouse' => 1));
 					if ($plan_id) {
 						$plan = $this->plan_model->get_plan_by_id($plan_id);
+						if ($plan["monthlypay"] && ($planold["effective_date"] != $plan["effective_date"])) {
+							$this->monthly_payment_model->change_effective_date($plan_id, $plan["effective_date"]);
+						}
 						$para = array(
 							'plan_id' => $plan_id,
 							'customer_id' => $plan['customer_id'],

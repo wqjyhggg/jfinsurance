@@ -180,6 +180,10 @@ class Monthly_payment_model extends CI_Model {
 		$this->db->where("plan_id", $plan_id)->set('profile_id', $profile_id)->update("monthly_payment");
 	}
 
+	public function change_effective_date($plan_id, $effective_date) {
+		$this->db->where("plan_id", $plan_id)->where("pay_type", 1)->where("paid", 0)->set('pay_date', $effective_date)->update("monthly_payment");
+	}
+
 	public function clear_old($plan_id) {
 		$this->db->where("plan_id", $plan_id)->delete("monthly_payment");
 	}
