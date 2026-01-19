@@ -739,6 +739,7 @@ class Plan extends CI_Controller
     // if ($user["user_group_id"] > 100) {
     //   return $this->app_model->return_error($this->error);
     // }
+    $this->load->model("product_model");
     $this->load->model("plan_model");
     $this->load->model("log_model");
     $this->load->model("monthly_payment_model");
