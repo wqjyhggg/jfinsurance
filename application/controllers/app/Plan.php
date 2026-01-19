@@ -621,15 +621,21 @@ class Plan extends CI_Controller
 				if ($plan["monthlypay"] == 1) {
 					$this->load->model('monthly_payment_model');
 					$plan['monthly_payment'] = $this->monthly_payment_model->get_by_plan_id($plan["plan_id"]);
+					$plan['monthly_status'] = "Active";
 					$plan['monthly_paid'] = 0;
 					$plan['monthly_unpay'] = 0;
 					$plan['monthly_unpay_count'] = 0;
 					foreach ($plan['monthly_payment'] as $rc) {
 						if ($rc["paid"] == 1) {
 							$plan['monthly_paid'] += $rc["amount"];
+							$plan['monthly_status'] = "Active";
 						} else if ($rc["paid"] == 0) {
 							$plan['monthly_unpay'] += $rc["amount"];
 							$plan['monthly_unpay_count']++;
+						} else if ($rc["paid"] == -2) {
+							$plan['monthly_status'] = "Payment Error";
+						} else if ($rc["paid"] == -1) {
+							$plan['monthly_status'] = "Voided";
 						}
 					}
 				}
@@ -639,6 +645,18 @@ class Plan extends CI_Controller
     }
     return $this->app_model->return_error("Can't find plan");
   }
+
+	public function retry_payment() {
+    $this->error = "";
+    $this->load->model("app_model");
+    $this->load->model("user_model");
+    $user = $this->app_model->check_token($this->input->post("token"));
+
+		$this->load->model('plan_model');
+		$monthly_payment_id = $this->input->get_post('id');
+		$resultStr = "monthly_payment_id:[".$monthly_payment_id."]";
+		die($resultStr);
+	}
 
   public function set_status()
   {

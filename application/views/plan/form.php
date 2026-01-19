@@ -313,16 +313,12 @@ if ($Agree != "Agree") {
 								<div class="row">
 									<div class="form-group col-sm-3">
 										<label class="col-sm-12">Payment Plan Status:
-											<?php if (($status_id == 2) || ($status_id == 3) || ($status_id == 7)) { ?>
-												Active
-											<?php } else { ?>
-												Inactive
-											<?php } ?>
+											<?php echo $monthly_status; ?>
 										</label>
 									</div>
 									<div class="form-group col-sm-3">
-										<label class="col-sm-12">Unpaid Months: 
-											<?php echo $monthly_unpay_count; ?>
+										<label class="col-sm-12">Paid Months: 
+											<?php echo (12 - intval($monthly_unpay_count)); ?>
 										</label>
 									</div>
 									<div class="form-group col-sm-3">

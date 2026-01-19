@@ -778,3 +778,5 @@ ALTER TABLE `product` ADD `profile_key` varchar(64) NOT NULL DEFAULT '' COMMENT 
 ALTER TABLE `product` ADD `hash_key` varchar(64) NOT NULL DEFAULT '' COMMENT 'hash_key for create iframe link' AFTER `apikey`;
 ALTER TABLE `product` ADD `payment_key` VARCHAR(64) NOT NULL DEFAULT '' AFTER `profile_key`;
 ALTER TABLE `monthly_payment` ADD `admin_fee` decimal(10,2) NOT NULL DEFAULT 0 AFTER `amount`;
+ALTER TABLE `monthly_payment` ADD `retry_date` date NULL COMMENT 'retry date' AFTER `retry`;
+

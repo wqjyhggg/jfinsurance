@@ -1479,21 +1479,6 @@ class Plan extends MY_Controller {
 			$data['question5'] = '0';
 		}
 		if ($plan && isset($plan["plan_id"])) {
-			if ($plan["monthlypay"] == 1) {
-				$this->load->model('monthly_payment_model');
-				$data['monthly_payment'] = $this->monthly_payment_model->get_by_plan_id($plan["plan_id"]);
-				$data['monthly_paid'] = 0;
-				$data['monthly_unpay'] = 0;
-				$data['monthly_unpay_count'] = 0;
-				foreach ($data['monthly_payment'] as $rc) {
-					if ($rc["paid"] == 1) {
-						$data['monthly_paid'] += $rc["amount"];
-					} else if ($rc["paid"] == 0) {
-						$data['monthly_unpay'] += $rc["amount"];
-						$data['monthly_unpay_count']++;
-					}
-				}
-			}
 			$data['plan'] = $plan;
 		}
 
@@ -1603,15 +1588,22 @@ class Plan extends MY_Controller {
 				$data['print_receipt_url'] = base_url('plan/receipt/' . $plan['plan_id']);
 			}
 			if ($plan["monthlypay"] == 1) {
-				$this->load->model('monthly_payment_model');
 				$data['monthly_payment'] = $this->monthly_payment_model->get_by_plan_id($plan["plan_id"]);
+				$data['monthly_status'] = "Active";
 				$data['monthly_paid'] = 0;
 				$data['monthly_unpay'] = 0;
+				$data['monthly_unpay_count'] = 0;
 				foreach ($data['monthly_payment'] as $rc) {
 					if ($rc["paid"] == 1) {
 						$data['monthly_paid'] += $rc["amount"];
+						$data['monthly_status'] = "Active";
 					} else if ($rc["paid"] == 0) {
 						$data['monthly_unpay'] += $rc["amount"];
+						$data['monthly_unpay_count']++;
+					} else if ($rc["paid"] == -2) {
+						$data['monthly_status'] = "Payment Error";
+					} else if ($rc["paid"] == -1) {
+						$data['monthly_status'] = "Voided";
 					}
 				}
 			}
@@ -2929,6 +2921,14 @@ class Plan extends MY_Controller {
 		return $this->detail($plan_id, $sekey);
 	}
 
+	public function retry_payment() {
+		$beuser = $this->func_model->verify_login();
+		$this->load->model('plan_model');
+		$monthly_payment_id = $this->input->get_post('id');
+		$resultStr = "monthly_payment_id:[".$monthly_payment_id."]";
+		die($resultStr);
+	}
+
 	public function detail($plan_id = 0, $sekey = '', $passerr = '') {
 		$this->error = '';
 		$defaultpay_type = '';
@@ -3117,22 +3117,28 @@ class Plan extends MY_Controller {
 			$data['apply_date'] = $plan['apply_date'];
 		}
 		if ($plan["monthlypay"] == 1) {
-			$this->load->model('monthly_payment_model');
 			$plan['monthly_payment'] = $this->monthly_payment_model->get_by_plan_id($plan["plan_id"]);
+			$plan['monthly_status'] = "Active";
 			$plan['monthly_paid'] = 0;
 			$plan['monthly_unpay'] = 0;
 			$plan['monthly_unpay_count'] = 0;
 			foreach ($plan['monthly_payment'] as $rc) {
 				if ($rc["paid"] == 1) {
 					$plan['monthly_paid'] += $rc["amount"];
+					$plan['monthly_status'] = "Active";
 				} else if ($rc["paid"] == 0) {
 					$plan['monthly_unpay'] += $rc["amount"];
 					$plan['monthly_unpay_count']++;
+				} else if ($rc["paid"] == -2) {
+					$plan['monthly_status'] = "Payment Error";
+				} else if ($rc["paid"] == -1) {
+					$plan['monthly_status'] = "Voided";
 				}
 			}
 		}
 
 		$data['plan'] = $plan;
+		$data['retry_payment_url'] = base_url("plan/retry_payment");
 		$data['plan_cancel_date'] = '';
 		$data['plan_refund_date'] = '';
 

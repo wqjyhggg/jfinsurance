@@ -129,6 +129,14 @@ if ($Agree != "Agree") {
 							<?php if (!empty($plan['monthlypay'])) {?>
 							<div class="row">
 								<div class="col-sm-3">
+									<label class="inline">Payment Plan Status:</label>
+									<span><?php echo $plan["monthly_status"]; ?></span>
+								</div>
+								<div class="col-sm-3">
+									<label class="inline">Paid Months:</label>
+									<span><?php echo (12 - intval($plan["monthly_unpay_count"])); ?></span>
+								</div>
+								<div class="col-sm-3">
 									<label class="inline">Paid Premium:</label>
 									<span>$<?php echo $plan["monthly_paid"]; ?></span>
 								</div>
@@ -333,6 +341,53 @@ if ($Agree != "Agree") {
 			</div>
 		</div>
 		<!-- End Form -->
+	<?php if (($plan["monthlypay"] == 1) && ($plan["status_id"] > 1) && !empty($plan['monthlypay'])) { ?>
+		<div class="row">
+      <div class="col-sm-12">
+        <div class="x_panel">
+          <div class="x_title">
+            <h2>Policy History</h2>
+            <div class="clearfix"></div>
+          </div>
+          <div class="x_content">
+						<div class="row">
+							<div class="col-sm-3">
+								<label class="inline">Payment Date</label>
+							</div>
+							<div class="col-sm-3">
+								<label class="inline">Amount</label>
+							</div>
+							<div class="col-sm-3">
+								<label class="inline">Payment Status</label>
+							</div>
+							<div class="col-sm-3">
+								<label class="inline">&nbsp;</label>
+							</div>
+						</div>
+						<?php $idx = 0; foreach ($plan['monthlypay'] as $mr) { $idx++; ?>
+						<div class="row">
+							<div class="col-sm-3">
+								<span><?php echo $mr["retry_date"]; ?></span>
+							</div>
+							<div class="col-sm-3">
+								<span><?php echo number_format($mr["amount"], 2, ".", ""); ?></span>
+							</div>
+							<div class="col-sm-3">
+								<span><?php echo ($mr["paid"]==1)?"Paid":(($mr["paid"]==-2)?"Pay Error":(($mr["paid"]==-1)?"Void":"-")); ?></span>
+							</div>
+							<div class="col-sm-3">
+							<?php if ($mr["paid"]==-2) { ?>
+								<button class="btn btn-primary pull-right retry-button" onclick='retry_payment(<?php echo $mr["monthly_payment_id"]; ?>)'>Retry</button>
+							<?php } ?>
+							</div>
+						</div>
+						<?php } ?>
+          </div><!--/x_content end-->
+        </div><!--x_panel-->
+			</div>
+		</div>
+
+	<?php } else { ?>
 	<?php if (!empty($payment_total) && ($beuser['user_group_id'] < 106)) { ?>
 		<!-- Payment -->
 		<div class="row" id="payment-div" style="padding-bottom:30px;">
@@ -755,6 +810,7 @@ if ($Agree != "Agree") {
 		</div>
 		<!-- End Payment -->
 	<?php } ?>
+	<?php } ?>
 	<?php if ($show_history) { ?>
     <div class="row">
       <div class="col-sm-12">
@@ -892,6 +948,16 @@ $(document).ready(function() {
 
 	$( ".btn-payment-sort" ).click(sorting_payment);
 });
+
+function retry_payment(id) {
+	console.log("retry_payment", id); //XXXXXXXXXXXXXXXXXXXXXXX
+	$.ajax({
+		url: '<?php echo $retry_payment_url; ?>?id=' + id,
+		success: function(data, textStatus, jqXHR) {
+			console.log("retry_payment R", id, data, textStatus, jqXHR); //XXXXXXXXXXXXXXXXXXXXXXX
+		},
+	});
+}
 
 function sorting_payment() {
 	var d = $(this).attr('data-type');
