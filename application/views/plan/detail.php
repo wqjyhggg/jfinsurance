@@ -311,6 +311,7 @@ if ($Agree != "Agree") {
 							
 						</div><!-- end p-detail --><br />
             <?php if ($beuser['user_group_id'] < 106) { ?>
+						<?php if (($plan['monthlypay'] != 1) && ($plan['status_id'] <= 1)) { ?>
 						<div class="row">
 								<div class="col-sm-12">
 								<?php if (!empty($payment_total)) { ?>						
@@ -335,6 +336,7 @@ if ($Agree != "Agree") {
 								<?php } ?>
 								</div>
 						</div>
+            <?php } ?>
             <?php } ?>
 					</div><!-- x_content -->
 				</div>
@@ -364,8 +366,8 @@ if ($Agree != "Agree") {
 								<label class="inline">&nbsp;</label>
 							</div>
 						</div>
-						<?php $idx = 0; foreach ($plan['monthlypay'] as $mr) { $idx++; ?>
-						<div class="row">
+						<?php $idx = 0; foreach ($plan['monthly_payment'] as $mr) { $idx++; ?>
+						<div class="row" style="line-height: 32px;">
 							<div class="col-sm-3">
 								<span><?php echo $mr["retry_date"]; ?></span>
 							</div>
