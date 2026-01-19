@@ -348,7 +348,7 @@ if ($Agree != "Agree") {
       <div class="col-sm-12">
         <div class="x_panel">
           <div class="x_title">
-            <h2>Policy History</h2>
+            <h2>Monthly Payment Detail</h2>
             <div class="clearfix"></div>
           </div>
           <div class="x_content">
@@ -379,7 +379,7 @@ if ($Agree != "Agree") {
 							</div>
 							<div class="col-sm-3">
 							<?php if ($mr["paid"]==-2) { ?>
-								<button class="btn btn-primary pull-right retry-button" onclick='retry_payment(<?php echo $mr["monthly_payment_id"]; ?>)'>Retry</button>
+								<button class="btn btn-primary retry-button" onclick='retry_payment(<?php echo $mr["monthly_payment_id"]; ?>)'>Retry</button>
 							<?php } ?>
 							</div>
 						</div>
