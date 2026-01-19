@@ -2947,6 +2947,7 @@ class Plan extends MY_Controller {
 		$this->load->model('status_model');
 		$this->load->model('payment_model');
 		$this->load->model('plan_history_model');
+		$this->load->model('monthly_payment_model');
 		$plan = $this->plan_model->get_plan_by_id($plan_id);
 		if (empty($plan)) {
 			redirect('user/login');
