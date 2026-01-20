@@ -193,7 +193,15 @@ class Monthly_payment_model extends CI_Model {
 	}
 
 	public function change_effective_date($plan_id, $effective_date) {
-		$this->db->where("plan_id", $plan_id)->where("pay_type", 1)->where("paid", 0)->set('pay_date', $effective_date)->update("monthly_payment");
+		if ($records = $this->db->where("plan_id", $plan_id)->where("pay_type", 1)->where("paid", 0)->get("monthly_payment")->result_array()) {
+			$recurrdate = new DateTime($effective_date);
+			foreach ($records as $rc) {
+				$pay_date = $recurrdate->format('Y-m-d');
+				$this->db->where("id", $rc["id"])->set('pay_date', $pay_date)->set('retry_date', $pay_date)->update("monthly_payment");
+				$recurrdate->modify('+1 month');
+				// $recurrdate->modify('+1 days');
+			}
+		}
 	}
 
 	public function clear_old($plan_id) {
