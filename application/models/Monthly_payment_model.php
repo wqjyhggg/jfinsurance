@@ -197,7 +197,7 @@ class Monthly_payment_model extends CI_Model {
 			$recurrdate = new DateTime($effective_date);
 			foreach ($records as $rc) {
 				$pay_date = $recurrdate->format('Y-m-d');
-				$this->db->where("id", $rc["id"])->set('pay_date', $pay_date)->set('retry_date', $pay_date)->update("monthly_payment");
+				$this->db->where("monthly_payment_id", $rc["monthly_payment_id"])->set('pay_date', $pay_date)->set('retry_date', $pay_date)->update("monthly_payment");
 				$recurrdate->modify('+1 month');
 				// $recurrdate->modify('+1 days');
 			}
