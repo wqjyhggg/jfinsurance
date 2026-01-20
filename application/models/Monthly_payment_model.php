@@ -155,7 +155,7 @@ class Monthly_payment_model extends CI_Model {
 			for ($i = 0; $i < $mountly_number; $i++) {
 				$precord["pay_date"] = $recurrdate->format('Y-m-d');
 				$precord["retry_date"] = $precord["pay_date"];
-				$precord["retry"] = 1;
+				$precord["retry"] = 0;
 				$this->add($precord);
 				$recurrdate->modify('+1 month');
 				// $recurrdate->modify('+1 days');
