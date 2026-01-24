@@ -582,8 +582,8 @@ if ($Agree != "Agree") {
                         <!-- Contact End-->
                     </fieldset>
                   </div>
-
-                  <div class="col-sm-12 blcok-space" <?php if ($user_group_id > 100) { ?>style="display: none;" <?php } ?>>
+									<?php if ($user_group_id < 100) { ?>
+                  <div class="col-sm-12 blcok-space" >
                     <fieldset>
                       <legend>Special Note/Instructions</legend>
                       <div class="row">
@@ -596,6 +596,7 @@ if ($Agree != "Agree") {
                       </div>
                     </fieldset>
                   </div>
+									<?php } ?>
                 </div>
               </div>
               <!-- End data members -->

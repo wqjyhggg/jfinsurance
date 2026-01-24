@@ -647,8 +647,8 @@ if ($Agree != "Agree") {
 							</fieldset>
 						</div>
 					</div><br />	
-										
-					<div class="row" <?php if ($user_group_id > 100) { ?>style='display:none; '<?php } ?>>
+					<?php if ($user_group_id < 100) { ?>
+					<div class="row">
 						<div class="col-sm-12">
 							<fieldset>
 								<legend><?php echo $this->lang->line("Special Note/Instructions"); ?></legend>
@@ -664,7 +664,7 @@ if ($Agree != "Agree") {
 							</fieldset>
 						</div>
 					</div><br />
-
+					<?php } ?>
 					<?php if ((($user_group_id>100) && ($status_id>1)) || ($user_group_id == 3) || ($user_group_id == 103) || (($user_group_id == 106) && !empty($plan_id))) { ?>
 					<div class="row" style="display:none;">
 					<?php }else{ ?>
