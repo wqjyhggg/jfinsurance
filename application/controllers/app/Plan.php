@@ -2964,6 +2964,8 @@ class Plan extends CI_Controller
     $this->load->model("app_model");
     $this->load->model("user_model");
     $this->load->model('payment_model');
+		$this->load->model('plan_model');
+		$this->load->model('monthly_payment_model');
     $user = $this->app_model->check_token($this->input->post("token"));
 
     if (empty($user)) {
@@ -2980,6 +2982,10 @@ class Plan extends CI_Controller
       return $this->app_model->return_error("Unknown Policy");
     }
 
+		$plan = $this->plan_model->get_by_plan_id($plan_id);
+		if (empty($plan)) {
+      return $this->app_model->return_error("Unknown Policy Data");
+		}
 		$tb = $this->input->post('tb');
     if (empty($tb)) {
       $tb = 'payment';
@@ -3022,11 +3028,20 @@ class Plan extends CI_Controller
 				if (!empty($p['expiry_month'])) $pay_info .= "[" . $p['expiry_month'] . "]";
 				if (!empty($p['expiry_year'])) $pay_info .= "[" . $p['expiry_year'] . "]";
 
+				$pay_type = $p['pay_type'];
+				if ($plan["monthlypay"] && ($mp = $this->monthly_payment_model->get_by_payment_id($plan_id, $p["payment_id"]))) {
+					if ($mp["pay_type"]) {
+						$pay_type = "Initial Premium";
+					} else {
+						$pay_type = "Recurring Premium";
+					}
+				}
+
         $rt[] = [
 				// $rt .= "<td>" . (empty($p['ispaid']) ? "<input type='checkbox' name='payment[]' value='" . $p['payment_id'] . "'>" : "") . "</td>\n";
           'payment_id' => $p['payment_id'],
           'last_update' => $p['last_update'],
-          'pay_type' => $p['pay_type'],
+          'pay_type' => $pay_type,
           'pay_mothed' => $p['pay_mothed'],
           'amount' => $p['amount'],
           'rate' => $p['rate'],

@@ -1772,10 +1772,17 @@ class Plan extends MY_Controller {
 	{
 		$beuser = $this->func_model->verify_login();
 		$this->load->model('payment_model');
+		$this->load->model('plan_model');
+		$this->load->model('monthly_payment_model');
 
 		$tb = $this->input->get('tb');
 		$payment_tables = $this->payment_model->history_tables;
 		$rt = "";
+		$plan = $this->plan_model->get_by_plan_id($plan_id);
+		if (empty($plan)) {
+			return $rt;
+		}
+
 		if (in_array($tb, $payment_tables)) {
 			$payments = $this->payment_model->get_payment_by_plan_id_tb($plan_id, $tb);
 			foreach ($payments as $p) {
@@ -1810,10 +1817,19 @@ class Plan extends MY_Controller {
 				if (!empty($p['expiry_month'])) $pay_info .= "[" . $p['expiry_month'] . "]";
 				if (!empty($p['expiry_year'])) $pay_info .= "[" . $p['expiry_year'] . "]";
 
+				$pay_type = $p['pay_type'];
+				if ($plan["monthlypay"] && ($mp = $this->monthly_payment_model->get_by_payment_id($plan_id, $p["payment_id"]))) {
+					if ($mp["pay_type"]) {
+						$pay_type = "Initial Premium";
+					} else {
+						$pay_type = "Recurring Premium";
+					}
+				}
+
 				$rt .= "<tr>\n";
 				$rt .= "<td>" . (empty($p['ispaid']) ? "<input type='checkbox' name='payment[]' value='" . $p['payment_id'] . "'>" : "") . "</td>\n";
 				$rt .= "<td>" . $p['last_update'] . "</td>\n";
-				$rt .= "<td>" . $p['pay_type'] . "</td>\n";
+				$rt .= "<td>" . $pay_type . "</td>\n";
 				$rt .= "<td>" . $p['pay_mothed'] . "</td>\n";
 				$rt .= "<td>" . $p['amount'] . "</td>\n";
 				$rt .= "<td>" . $p['rate'] . "%</td>\n";
