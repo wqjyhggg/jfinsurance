@@ -172,8 +172,8 @@ class Monthly_payment_model extends CI_Model {
 		return $this->db->where("plan_id", $plan_id)->get("monthly_payment")->result_array();
 	}
 	
-	public function get_by_payment_id($payment_id) {
-		return $this->db->where("payment_id", $payment_id)->get("monthly_payment")->row_array();
+	public function get_by_payment_id($plan_id, $payment_id) {
+		return $this->db->where("plan_id", $plan_id)->where("payment_id", $payment_id)->get("monthly_payment")->row_array();
 	}
 
 	public function today_payments($dt) {
