@@ -328,10 +328,12 @@ if ($Agree != "Agree") {
 							<div class="col-sm-3">
 								<label class="inline"><?php echo $this->lang->line("Premium"); ?>:</label> <span>$<?php echo number_format($plan['premium'], 2, '.', ','); ?> <?php if (!empty($plan['questionnaire'])) { echo " (Table" . $plan['questionnaire'] . ")"; } ?></span>
 							</div>
+							<?php if ($user_group_id < 100) { ?>
               <?php if (empty($sekey) && empty($isvsuser)) { ?>
 							<div class="col-sm-12">
 								<label class="inline"><?php echo $this->lang->line("Notes"); ?>:</label> <span><?php echo htmlspecialchars($plan['note']); ?></span>
 							</div>
+							<?php } ?>
               <?php } ?>
 						</div>
 					</div>
