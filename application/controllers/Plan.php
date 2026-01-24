@@ -1820,9 +1820,9 @@ class Plan extends MY_Controller {
 				$pay_type = $p['pay_type'];
 				if ($plan["monthlypay"] && ($mp = $this->monthly_payment_model->get_by_payment_id($plan_id, $p["payment_id"]))) {
 					if ($mp["pay_type"]) {
-						$pay_type = "Initial Premium";
-					} else {
 						$pay_type = "Recurring Premium";
+					} else {
+						$pay_type = "Initial Premium";
 					}
 				}
 
