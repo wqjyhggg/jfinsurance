@@ -301,7 +301,7 @@ if ($Agree != "Agree") {
 									<label class="inline"><?php echo $this->lang->line("Premium"); ?>:</label>
 									<span>$<?php echo number_format($plan['premium'], 2, '.', ','); ?></span>
 								</div>
-								<?php if ($user_group_id < 100) { ?>
+								<?php if ($beuser['user_group_id'] < 100) { ?>
                 <?php if (empty($sekey) && empty($isvsuser)) { ?>
 								<div class="col-sm-12">
 									<label class="inline"><?php echo $this->lang->line("Notes"); ?>:</label>
