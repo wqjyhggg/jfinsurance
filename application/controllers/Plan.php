@@ -1778,7 +1778,7 @@ class Plan extends MY_Controller {
 		$tb = $this->input->get('tb');
 		$payment_tables = $this->payment_model->history_tables;
 		$rt = "";
-		$plan = $this->plan_model->get_by_plan_id($plan_id);
+		$plan = $this->plan_model->get_plan_by_id($plan_id);
 		if (empty($plan)) {
 			return $rt;
 		}

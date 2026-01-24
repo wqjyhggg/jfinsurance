@@ -2982,7 +2982,7 @@ class Plan extends CI_Controller
       return $this->app_model->return_error("Unknown Policy");
     }
 
-		$plan = $this->plan_model->get_by_plan_id($plan_id);
+		$plan = $this->plan_model->get_plan_by_id($plan_id);
 		if (empty($plan)) {
       return $this->app_model->return_error("Unknown Policy Data");
 		}
