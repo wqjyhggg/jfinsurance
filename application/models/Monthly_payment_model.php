@@ -149,6 +149,11 @@ class Monthly_payment_model extends CI_Model {
 		];
 		if ($record_id = $this->add($precord)) {
 			$recurrdate = new DateTime($effective_date);
+			if ($effective_date == $precord["pay_date"]) {
+				// Init changed 3 month
+				$recurrdate->modify('+1 month');
+				// $recurrdate->modify('+1 days');
+			}
 			$precord["pay_type"] = 1;
 			$precord["admin_fee"] = 0;
 			$precord["amount"] = $month_pay;
