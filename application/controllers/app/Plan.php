@@ -1511,6 +1511,7 @@ class Plan extends CI_Controller
 		$this->load->model('status_model');
 		$this->load->model('payment_model');
 		$this->load->model('html_model');
+		$this->load->model("monthly_payment_model");
 		$plan = $this->plan_model->get_plan_by_id($plan_id);
 		if (empty($plan)) {
       return $this->app_model->return_error("Can't find plan");
@@ -1518,6 +1519,11 @@ class Plan extends CI_Controller
 		
 		$data['beuser'] = $beuser;
 		$data['plan'] = $plan;
+		if (!empty($plan["monthlypay"])) {
+			if ($mp = $this->monthly_payment_model->get_monthlypay_data($plan_id)) {
+				$data['monthly_data'] = $mp;
+			}
+		}
 		$data['pdf_enable'] = empty($beuser['pdf_product']) ? array() : json_decode($beuser['pdf_product']);
 		$data['payment'] = '';
 		if ($plan['payment_id']) {
@@ -1933,6 +1939,7 @@ class Plan extends CI_Controller
 
     $data = array();
 		$this->load->model('plan_model');
+		$this->load->model("monthly_payment_model");
 		$plan = $this->plan_model->get_plan_by_id($plan_id);
 		if (empty($plan)) {
       return $this->app_model->return_error("Can't find plan");
@@ -1940,6 +1947,11 @@ class Plan extends CI_Controller
 		
 		$data['beuser'] = $beuser;
 		$data['plan'] = $plan;
+		if (!empty($plan["monthlypay"])) {
+			if ($mp = $this->monthly_payment_model->get_monthlypay_data($plan_id)) {
+				$data['monthly_data'] = $mp;
+			}
+		}
 		$data['pdf_enable'] = empty($beuser['pdf_product']) ? array() : json_decode($beuser['pdf_product']);
 		$data['emailaddr'] = $plan['contact_email'];
     $data['withlogo'] = isset($post['withlogo'])?$post['withlogo']:1;
@@ -2371,6 +2383,7 @@ class Plan extends CI_Controller
 		$this->load->model('plan_model');
 		$this->load->model('product_model');
 		$this->load->model('customer_model');
+		$this->load->model("monthly_payment_model");
 		$plan = $this->plan_model->get_plan_by_id($plan_id);
 		if (empty($plan)) {
       return $this->app_model->return_error("Can't find plan");
@@ -2381,6 +2394,11 @@ class Plan extends CI_Controller
 		
 		$data['beuser'] = $beuser;
 		$data['plan'] = $plan;
+		if (!empty($plan["monthlypay"])) {
+			if ($mp = $this->monthly_payment_model->get_monthlypay_data($plan_id)) {
+				$data['monthly_data'] = $mp;
+			}
+		}
 		$data['emailaddr'] = $plan['contact_email'];
 		$data['product_short'] = $plan['product_short'];
     $data['withlogo'] = 1;

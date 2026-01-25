@@ -3531,6 +3531,8 @@ class Plan extends MY_Controller {
 	{
 		$beuser = $this->func_model->verify_login(TRUE);
 		$this->load->model('plan_model');
+		$this->load->model("monthly_payment_model");
+
 		if (empty($plan_id)) {
 			$plan_id = $this->input->post('plan_id');
 		}
@@ -3551,6 +3553,11 @@ class Plan extends MY_Controller {
 
 		$data['beuser'] = $beuser;
 		$data['plan'] = $plan;
+		if (!empty($plan["monthlypay"])) {
+			if ($mp = $this->monthly_payment_model->get_monthlypay_data($plan_id)) {
+				$data['monthly_data'] = $mp;
+			}
+		}
 		$data['pdf_enable'] = empty($beuser['pdf_product']) ? array() : json_decode($beuser['pdf_product']);
 		$data['emailaddr'] = $plan['contact_email'];
     $data['disable_price'] = false;
@@ -4004,6 +4011,7 @@ class Plan extends MY_Controller {
 		$this->load->model('paytype_model');
 		$this->load->model('status_model');
 		$this->load->model('payment_model');
+		$this->load->model("monthly_payment_model");
 		$plan = $this->plan_model->get_plan_by_id($plan_id);
 		if (empty($plan)) {
 			redirect('user/login');
@@ -4011,6 +4019,11 @@ class Plan extends MY_Controller {
 
 		$data['beuser'] = $beuser;
 		$data['plan'] = $plan;
+		if (!empty($plan["monthlypay"])) {
+			if ($mp = $this->monthly_payment_model->get_monthlypay_data($plan_id)) {
+				$data['monthly_data'] = $mp;
+			}
+		}
 		$data['pdf_enable'] = empty($beuser['pdf_product']) ? array() : json_decode($beuser['pdf_product']);
 		$data['payment'] = '';
 		if ($plan['payment_id']) {

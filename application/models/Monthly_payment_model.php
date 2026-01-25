@@ -168,6 +168,46 @@ class Monthly_payment_model extends CI_Model {
 		return "Can not create payment recodes: ".$this->db->last_query()."; ".$error['message'];
 	}
 
+	public function get_monthlypay_data($plan_id) {
+		// $sql = "SELECT
+		// 					SUM(amount) AS premium,
+		// 					SUM(CASE WHEN paid = 1 THEN amount ELSE 0 END) AS paid_amount,
+		// 					SUM(admin_fee) AS admit_fee,
+		// 					( SELECT amount FROM monthly_payment mp4 WHERE mp4.plan_id = mp.plan_id ORDER BY id ASC LIMIT 1 ) AS init_pay,
+		// 					( SELECT amount FROM monthly_payment mp2 WHERE mp2.plan_id = mp.plan_id ORDER BY id DESC LIMIT 1 ) AS monthly_pay,
+		// 					( SELECT pay_date FROM monthly_payment mp3 WHERE mp3.plan_id = mp.plan_id AND paid = 1 ORDER BY id DESC LIMIT 1 ) AS paid_date
+		// 				FROM monthly_payment mp WHERE plan_id = ".intval($plan_id);
+		// $rt = $this->db->query($sql)->row_array();
+		$rt = [
+			"premium" => 0,
+			"admin_fee" => 0,
+			"init_pay" => 0,
+			"monthly_pay" => 0,
+			"total_paid" => 0,
+			"recurrent_times" => 0,
+			"init_pay_date" => "N/A",
+			"last_pay_date" => "N/A",
+		];
+		if ($rts = $this->get_by_plan_id($plan_id)) {
+			foreach ($rts as $rc) {
+				$rt["premium"] += $rc["amount"];
+				$rt["admin_fee"] += $rc["admin_fee"];
+				$rt["recurrent_times"]++;
+				if ($rc["paid"]) {
+					$rt["total_paid"] += $rc["amount"];
+					$rt["last_pay_date"] = $rc["pay_date"];
+				}
+				if ($rc["pay_type"]) {
+					$rt["monthly_pay"] = $rc["amount"];
+				} else {
+					$rt["init_pay"] = $rc["amount"];
+					$rt["init_pay_date"] = $rc["pay_date"];
+				}
+			}
+		}
+		return $rt;
+	}
+
 	public function get_by_plan_id($plan_id) {
 		return $this->db->where("plan_id", $plan_id)->get("monthly_payment")->result_array();
 	}

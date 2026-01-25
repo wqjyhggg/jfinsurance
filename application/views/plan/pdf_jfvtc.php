@@ -273,16 +273,25 @@ defined('BASEPATH') or exit('No direct script access allowed');
       </div>
       <div class="col-sm-5 nopadding">
         <?php if ($withprice) { ?>
+					<?php if (!empty($plan['monthly']) && !empty($monthly_data)) { ?>
           <h4><u><?php echo $this->lang->line("Payment Details"); ?></u></h4>
           <h4><?php echo $this->lang->line("Total Premium"); ?>: <span>$<?php echo number_format($plan['premium'], 2, '.', ','); ?></span></h4>
-          <!-- <h4>Premium: <span>$<?php echo number_format((float)$plan['premium'] - (float)$plan['tax'], 2, '.', ','); ?></span>
-          </h4> -->
-          <h4><?php echo $this->lang->line("Tax"); ?>: <span>$<?php echo number_format($plan['tax'], 2, '.', ','); ?></span>
-          </h4>
-          <h4><?php echo $this->lang->line("Payment Date"); ?>: <span><?php echo (($plan['status_id'] >= 2) && isset($payment['added'])) ? date('Y-m-d', strtotime($payment['added'])) : ''; ?></span>
-          </h4>
-          <h4><?php echo $this->lang->line("Payment Method"); ?>: <span><?php echo (($plan['status_id'] >= 2) && isset($payment['pay_mothed'])) ? $payment['pay_mothed'] : ''; ?></span>
-          </h4>
+          <h4><?php echo $this->lang->line("Monthly Plan Fee"); ?>: <span>$<?php echo number_format($monthly_data['admin_fee'], 2, '.', ','); ?></span></h4>
+          <h4><?php echo $this->lang->line("Initial Premium"); ?>: <span>$<?php echo number_format($monthly_data['init_pay'], 2, '.', ','); ?></span></h4>
+          <h4><?php echo $this->lang->line("Total Charged"); ?>: <span>$<?php echo number_format($monthly_data['total_paid'], 2, '.', ','); ?></span></h4>
+          <h4><?php echo $this->lang->line("Tax"); ?>: <span>$<?php echo number_format($plan['tax'], 2, '.', ','); ?></span></h4>
+          <h4><?php echo $this->lang->line("Init Payment Date"); ?>: <span><?php echo ($plan['status_id'] >= 2) ? $monthly_data['init_pay_date'] : ''; ?></span></h4>
+          <h4><?php echo $this->lang->line("Last Payment Date"); ?>: <span><?php echo ($plan['status_id'] >= 2) ? $monthly_data['last_pay_date'] : ''; ?></span></h4>
+          <h4><?php echo $this->lang->line("Payment Method"); ?>: <span><?php echo (($plan['status_id'] >= 2) && isset($payment['pay_mothed'])) ? $payment['pay_mothed'] : ''; ?></span></h4>
+          <h4><?php echo $this->lang->line("Recurring Payment"); ?>: <span>$<?php echo number_format($monthly_data['monthly_pay'], 2, '.', ','); ?></span></h4>
+          <h4><span><?php echo $monthly_data['recurrent_times']; ?> <?php echo $this->lang->line("recurring monthly payments will begin on the Effective Date of the policy"); ?></span></h4>
+					<?php } else { ?>
+          <h4><u><?php echo $this->lang->line("Payment Details"); ?></u></h4>
+          <h4><?php echo $this->lang->line("Total Premium"); ?>: <span>$<?php echo number_format($plan['premium'], 2, '.', ','); ?></span></h4>
+          <h4><?php echo $this->lang->line("Tax"); ?>: <span>$<?php echo number_format($plan['tax'], 2, '.', ','); ?></span></h4>
+          <h4><?php echo $this->lang->line("Payment Date"); ?>: <span><?php echo (($plan['status_id'] >= 2) && isset($payment['added'])) ? date('Y-m-d', strtotime($payment['added'])) : ''; ?></span></h4>
+          <h4><?php echo $this->lang->line("Payment Method"); ?>: <span><?php echo (($plan['status_id'] >= 2) && isset($payment['pay_mothed'])) ? $payment['pay_mothed'] : ''; ?></span></h4>
+					<?php } ?>
         <?php } ?>
       </div>
     </div>
