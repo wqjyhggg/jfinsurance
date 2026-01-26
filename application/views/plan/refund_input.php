@@ -37,119 +37,123 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                   </div>
                   <?php } ?>
                     <form action='<?php echo $action_url; ?>' method='POST'  class="form-horizontal">
-              				  <input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
-              				  <input type='hidden' name='plan_id' value='<?php echo $plan_id; ?>'>
-   					  <div class="row">
-                        <div class="form-group col-sm-4 col-xs-12">
-                          <label>Policy #:</label> <?php echo $plan['policy']; ?>
-                        </div>
-                        <div class="form-group col-sm-4 col-xs-12">
-                          <label>Product:</label> <?php echo $plan['product_short']; ?>
-                        </div>
-                        <div class="form-group col-sm-4 col-xs-12">
-                          <label>Refund Date:</label>
-                          <div class="inline-date">
-                            <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
-                              <input class="form-control" size="16" type="text" name='refund_date' id='refund_date' value='<?php echo $plan['expiry_date']; ?>' min='<?php echo $plan['effective_date']; ?>' max='<?php echo $plan['expiry_date']; ?>'>
-                              <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-											<?php if (!empty($plan['monthly']) && !empty($monthly_data) && !empty($monthly_record)) { ?>
-   					  				<div class="row">
-												<div class="form-group col-sm-4 col-xs-12">
+											<input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
+											<input type='hidden' name='plan_id' value='<?php echo $plan_id; ?>'>
+											<div class="row">
+                        <div class="form-group col-sm-4">
 													<div class="row">
-														<div class="form-group col-sm-4 col-xs-4">
-															&nbsp;
+														<div class="form-group col-sm-12">
+		                          <label>Policy #:</label> <?php echo $plan['policy']; ?>
+		                        </div>
+														<div class="form-group col-sm-12">
+															<label>Effective Date:</label> <?php echo $plan['effective_date']; ?>
 														</div>
-														<div class="form-group col-sm-4 col-xs-4">
-		                          <label>Pay Date</label>
+														<div class="form-group col-sm-12">
+															<label>Total Premium:</label> <?php echo $plan['premium']; ?>
 														</div>
-														<div class="form-group col-sm-4 col-xs-4">
-		                          <label>Status</label>
+														<div class="form-group col-sm-12">
+															<?php if ($plan['product_short'] == 'TOP') { ?>
+															<label class="center-block"><?php echo htmlspecialchars($top_refund_notes); ?></label>
+															<?php } ?>
+														</div>
+														<div class="form-group col-sm-12">
+															<?php if (!empty($claims)) { ?>
+															<div class="alert-error">There is an existing claim or open cases in the system, please double check before you proceed.</div>
+															<?php } ?>
+														</div>
+													</div>
+												</div>
+                        <div class="form-group col-sm-4">
+													<div class="row">
+														<div class="form-group col-sm-12">
+			                        <label>Product:</label> <?php echo $plan['product_short']; ?>
+														</div>
+														<div class="form-group col-sm-12">
+															<label>Expiry Date:</label> <?php echo $plan['expiry_date']; ?>
+														</div>
+														<div class="form-group col-sm-12">
+															<label>Total Days:</label> <?php echo $plan['totaldays']; ?>
 														</div>
 													</div>
                         </div>
-												<?php foreach ($monthly_record as $rc) { ?>
-                        <div class="form-group col-sm-4 col-xs-12">
+                        <div class="form-group col-sm-4">
+													<?php if (!empty($plan['monthlypay']) && !empty($monthly_data) && !empty($monthly_record)) { ?>
+													<div class="row">
+														<div class="form-group col-sm-4">
+															<label>Pay Date</label>
+														</div>
+														<div class="form-group col-sm-4">
+															<label>Pay Amount</label>
+														</div>
+														<div class="form-group col-sm-4">
+															<label>Status</label>
+														</div>
+													</div>
+													<?php foreach ($monthly_record as $rc) { ?>
+													<?php   if (empty($rc['paid'])) { continue; } ?>
 													<div class="row">
 														<div class="form-group col-sm-4 col-xs-4">
-														<?php if ($rc['paid']) { ?>
 															<input type='checkbox' name='mpay_id[]' value='<?php echo $rc['monthly_payment_id']; ?>'>
-														<?php } ?>
+															<label><?php echo $rc['pay_date']; ?></label>
 														</div>
 														<div class="form-group col-sm-4 col-xs-4">
-		                          <label><?php echo $rc['pay_date']; ?></label>
+															<label>$<?php echo number_format($rc['amount'], 2, ".", ""); ?></label>
 														</div>
 														<div class="form-group col-sm-4 col-xs-4">
-		                          <label><?php echo $rc['paid']?"Paid":""; ?></label>
+															<label><?php echo $rc['paid']?"Paid":""; ?></label>
 														</div>
 													</div>
-                        </div>
-												<?php } ?>
-                      </div>
-											<?php } else { ?>
-   					  				<div class="row">
-                        <div class="form-group col-sm-4 col-xs-12">
-                          <label>Effective Date:</label> <?php echo $plan['effective_date']; ?>
-                        </div>
-                        <div class="form-group col-sm-4 col-xs-12">
-                          <label>Expiry Date:</label> <?php echo $plan['expiry_date']; ?>
-                        </div>
-                        <div class="form-group col-sm-4 col-xs-12 pull-right">
-                          <label>Used Premium:</label> <span id="used_amount"></span> <span id="used_days"></span>
-                        </div>
-                      </div>
-
-                      <div class="row">  
-                        <div class="form-group col-sm-4 col-xs-12">
-                          <label>Total Premium:</label> <?php echo $plan['premium']; ?>
-                        </div>
-                        <div class="form-group col-sm-4 col-xs-12">
-                          <label>Total Days:</label> <?php echo $plan['totaldays']; ?>
-                        </div>
-                        <div class="form-group col-sm-4 col-xs-12 pull-right">
-                          <label>Refund Premium:</label> <!--span id="refund_amount"></span-->
-                          <input type="number" step="any" name='refund_amount' id='refund_amount' value='' class="form-control" />
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="form-group col-sm-8 col-xs-12">
-	                        <?php if ($plan['product_short'] == 'TOP') { ?>
-                            <label class="center-block"><?php echo htmlspecialchars($top_refund_notes); ?></label>
-	                        <?php } ?>
-                        </div>
-                        <?php if ($refund_enable) { ?>
-                        <div class="form-group col-sm-4 col-xs-12">
-                            <label class="radio-inline"><input type="radio" name="admin_fee" value="0" checked>$0 Adminstration Fee</label>
-                            <label class="radio-inline"><input type="radio" name="admin_fee" value="<?php echo $adminfee; ?>">$<?php echo $adminfee; ?> Adminstration Fee</label>
-                        </div>
-                        <?php } ?>
-                      </div>
-											<?php } ?>
-                      <?php if ($refund_enable) { ?>
-                      <div class="row">
-                        <div class="form-group col-sm-8 col-xs-12">
-                        <?php if (!empty($claims)) { ?>
-                          <div class="alert-error">There is an existing claim or open cases in the system, please double check before you proceed.</div>
-                        <?php } ?>
-                        </div>
-                        <div class="form-group col-sm-4 col-xs-12">
-                          <label>Total Refund:</label> 
-                          <input type="number" step="any" name='total_refund' id='total_refund' value='' class="form-control" />
-                          <div class="alert-error">Manually changing "Total Refund" will result in a difference in "Un-used Premium" field of the "Refund Letter". Please pay extra attention for your changes.</div>
-                        </div>
-                      </div>
-                      <br />
-                      <div class="row">
-                        <div class="form-group col-sm-12 text-right">
-                          <label class="inline">Are you sure you want to refund this policy? </label>
-                         <input class="btn btn-primary inline" type='submit' name='send' value='YES'>
-                         <a class="btn btn-default inline" href="<?php echo $url_back_to_policy;?>">NO</a>
-                        </div>  
-                      </div>
-                      <?php } ?>
+													<?php } ?>
+													<div class="row">
+														<div class="form-group col-sm-12">
+														<label class="inline">Please select refund record. Are you sure you want to refund this policy? </label>
+														<br />
+														<input class="btn btn-primary inline" type='submit' name='send' value='YES'>
+														<a class="btn btn-default inline" href="<?php echo $url_back_to_policy;?>">NO</a>
+													</div>
+													<?php } else { ?>
+													<div class="row">
+														<div class="form-group col-sm-12">
+															<label>Refund Date:</label>
+															<div class="inline-date">
+																<div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
+																	<input class="form-control" size="16" type="text" name='refund_date' id='refund_date' value='<?php echo $plan['expiry_date']; ?>' min='<?php echo $plan['effective_date']; ?>' max='<?php echo $plan['expiry_date']; ?>'>
+																	<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+																</div>
+															</div>
+														</div>
+														<div class="form-group col-sm-12">
+															<label>Used Premium:</label> <span id="used_amount"></span> <span id="used_days"></span>
+														</div>
+														<div class="form-group col-sm-12">
+															<label>Refund Premium:</label> <!--span id="refund_amount"></span-->
+															<input type="number" step="any" name='refund_amount' id='refund_amount' value='' class="form-control" />
+														</div>
+														<?php if ($refund_enable) { ?>
+														<div class="form-group col-sm-12">
+															<label class="radio-inline"><input type="radio" name="admin_fee" value="0" checked>$0 Adminstration Fee</label>
+															<label class="radio-inline"><input type="radio" name="admin_fee" value="<?php echo $adminfee; ?>">$<?php echo $adminfee; ?> Adminstration Fee</label>
+														</div>
+														<div class="form-group col-sm-12">
+															<label>Total Refund:</label> 
+															<input type="number" step="any" name='total_refund' id='total_refund' value='' class="form-control" />
+															<div class="alert-error">Manually changing "Total Refund" will result in a difference in "Un-used Premium" field of the "Refund Letter". Please pay extra attention for your changes.</div>
+														</div>
+														<div class="form-group col-sm-12">
+															<label>Total Refund:</label> 
+															<input type="number" step="any" name='total_refund' id='total_refund' value='' class="form-control" />
+															<div class="alert-error">Manually changing "Total Refund" will result in a difference in "Un-used Premium" field of the "Refund Letter". Please pay extra attention for your changes.</div>
+														</div>
+														<div class="form-group col-sm-12">
+															<label class="inline">Are you sure you want to refund this policy? </label>
+															<input class="btn btn-primary inline" type='submit' name='send' value='YES'>
+															<a class="btn btn-default inline" href="<?php echo $url_back_to_policy;?>">NO</a>
+														</div>  
+														<?php } ?>
+													</div>
+													<?php } ?>
+                      	</div>
+											</div>
 			        			</form>
 				  				</div>
                 </div>
