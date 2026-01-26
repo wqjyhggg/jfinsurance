@@ -56,7 +56,41 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                           </div>
                         </div>
                       </div>
-   					  <div class="row">
+											<?php if (!empty($plan['monthly']) && !empty($monthly_data) && !empty($monthly_record)) { ?>
+   					  				<div class="row">
+												<div class="form-group col-sm-4 col-xs-12">
+													<div class="row">
+														<div class="form-group col-sm-4 col-xs-4">
+															&nbsp;
+														</div>
+														<div class="form-group col-sm-4 col-xs-4">
+		                          <label>Pay Date</label>
+														</div>
+														<div class="form-group col-sm-4 col-xs-4">
+		                          <label>Status</label>
+														</div>
+													</div>
+                        </div>
+												<?php foreach ($monthly_record as $rc) { ?>
+                        <div class="form-group col-sm-4 col-xs-12">
+													<div class="row">
+														<div class="form-group col-sm-4 col-xs-4">
+														<?php if ($rc['paid']) { ?>
+															<input type='checkbox' name='mpay_id[]' value='<?php echo $rc['monthly_payment_id']; ?>'>
+														<?php } ?>
+														</div>
+														<div class="form-group col-sm-4 col-xs-4">
+		                          <label><?php echo $rc['pay_date']; ?></label>
+														</div>
+														<div class="form-group col-sm-4 col-xs-4">
+		                          <label><?php echo $rc['paid']?"Paid":""; ?></label>
+														</div>
+													</div>
+                        </div>
+												<?php } ?>
+                      </div>
+											<?php } else { ?>
+   					  				<div class="row">
                         <div class="form-group col-sm-4 col-xs-12">
                           <label>Effective Date:</label> <?php echo $plan['effective_date']; ?>
                         </div>
@@ -93,6 +127,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         </div>
                         <?php } ?>
                       </div>
+											<?php } ?>
                       <?php if ($refund_enable) { ?>
                       <div class="row">
                         <div class="form-group col-sm-8 col-xs-12">
@@ -115,8 +150,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         </div>  
                       </div>
                       <?php } ?>
-			        </form>
-				  </div>
+			        			</form>
+				  				</div>
                 </div>
               </div>
             </div><!-- End Filter Section -->

@@ -4388,10 +4388,18 @@ class Plan extends MY_Controller {
 			redirect('plan/detail/' . $plan_id);
 		}
 		$this->load->model('product_model');
+		$this->load->model('monthly_payment_model');
 		$product = $this->product_model->get_product($plan['product_short']);
+
 
 		$data['beuser'] = $beuser;
 		$data['plan'] = $plan;
+		if (!empty($plan["monthlypay"])) {
+			if ($mp = $this->monthly_payment_model->get_monthlypay_data($plan_id)) {
+				$data['monthly_data'] = $mp;
+				$data['monthly_record'] = $this->monthly_payment_model->get_by_plan_id($plan_id);
+			}
+		}
 		if ($this->input->post()) {
 			$refund_amount = (float)$this->input->post('refund_amount');
 			$admin_fee = (float)$this->input->post('admin_fee');
