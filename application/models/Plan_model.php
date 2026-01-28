@@ -668,7 +668,7 @@ class Plan_model extends CI_Model {
 			$sql .= " status_id='" . (int)$para['status_id'] . "', ";
       $status_idchanged = 1;
 		} else if ($premiumchanged || $update_history) {
-      if (($plan['status_id'] == self::PAID) || ($plan['status_id'] == self::SOLD)) {
+      if ((($plan['status_id'] == self::PAID) || ($plan['status_id'] == self::SOLD)) && (($plan["monthlypay"] != 1) || $premiumchanged)) {
 				// Forced to changed status
 				$this->logstr .= " status_id 7(" . $plan['status_id'] . ")";
 				$sql .= " status_id='" . self::CHANGED . "', ";
