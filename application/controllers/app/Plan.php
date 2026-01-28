@@ -1164,12 +1164,23 @@ class Plan extends CI_Controller
 		
 		$data['beuser'] = $beuser;
 		$data['plan'] = $plan;
+		if (!empty($plan["monthlypay"])) {
+			if ($mp = $this->monthly_payment_model->get_monthlypay_data($plan_id)) {
+				$data['monthly_data'] = $mp;
+				$data['monthly_record'] = $this->monthly_payment_model->get_by_plan_id($plan_id);
+			}
+		}
 		if ($do_refund == 1) {
 			$refund_amount = (float)$this->input->post('refund_amount');
-			$admin_fee = (float)$this->input->post('admin_fee');
-			$total_amount = (float)$this->input->post('total_refund');
-			$refund_date = $this->input->post('refund_date');
-			//die($refund_amount . '==' . $admin_fee . '++' . $total_amount);
+			if (!empty($plan["monthlypay"])) {
+				$refund_amount = 0;
+				$admin_fee = 0;
+				$total_amount = 0;
+			} else {
+				$admin_fee = (float)$this->input->post('admin_fee');
+				$total_amount = (float)$this->input->post('total_refund');
+				$refund_date = $this->input->post('refund_date');
+			}
 			if ($total_amount > 0) {
 				$this->load->model('payment_model');
 				$dt = array();
@@ -1242,38 +1253,36 @@ class Plan extends CI_Controller
 				// $this->log_model->activity('up_commission', $para, $user);
 	
         // Add history
-        $history_id = 0;
-        if (($history = $this->plan_history_model->get_plan_history_by_plan_id($plan_id)) && ($history["actualrate"]>0)) {
-          $history_id = $history["plan_history_id"];
-        } else {
-          // Add missing first record
-          if ($plan['status_id'] > 1) {
-            $history_id = $this->plan_history_model->add($plan_id, $plan['status_id']);
-          }
-        }
-        if ($history_id) {
-          $this->plan_history_model->add_remove($history_id);
-        }
-
-        $note = "Refund at " . $dt['added'] . " amount: " . $refund_amount . " admin fee: " . $admin_fee . "; " . $plan['note'];
-				$para = array('status_id' => Plan_model::REFUND, 'payment_id' => $payment_id, 'commission_payment_id' => $commission_payment_id, 'refund_date' => $refund_date, 'note' => $note );  // Change status to refund
-				$this->plan_model->update($plan_id, $para, array(), $user);
-				$para = array(
-						'plan_id' => $plan_id,
-						'customer_id' => $plan['customer_id'],
-						'payment_id' => $payment_id,
-						'message' => $this->plan_model->logstr,
-						'systemlog' => "By APP:".$this->plan_model->sqlstr
-				);
-				$this->log_model->activity('plan', $para, $user);
-        if ($id = $this->plan_history_model->add($plan_id, Plan_model::REFUND)) {
-          $this->plan_history_model->update($id, array("payment_id"=>$payment_id, "premium"=>($plan["premium"] - $refund_amount),"expiry_date"=>$refund_date, "note"=>"Refunded Recode"));
-        }
-
-        return $this->app_model->return_ok(array('plan_id' => $plan_id, 'customer_id' => $plan['customer_id'], 'payment_id' => $payment_id));
-			} else {
-				return $this->app_model->return_error('Invalid refund amount');
 			}
+			$history_id = 0;
+			if (($history = $this->plan_history_model->get_plan_history_by_plan_id($plan_id)) && ($history["actualrate"]>0)) {
+				$history_id = $history["plan_history_id"];
+			} else {
+				// Add missing first record
+				if ($plan['status_id'] > 1) {
+					$history_id = $this->plan_history_model->add($plan_id, $plan['status_id']);
+				}
+			}
+			if ($history_id) {
+				$this->plan_history_model->add_remove($history_id);
+			}
+
+			$note = "Refund at " . $dt['added'] . " amount: " . $refund_amount . " admin fee: " . $admin_fee . "; " . $plan['note'];
+			$para = array('status_id' => Plan_model::REFUND, 'payment_id' => $payment_id, 'commission_payment_id' => $commission_payment_id, 'refund_date' => $refund_date, 'note' => $note );  // Change status to refund
+			$this->plan_model->update($plan_id, $para, array(), $user);
+			$para = array(
+					'plan_id' => $plan_id,
+					'customer_id' => $plan['customer_id'],
+					'payment_id' => $payment_id,
+					'message' => $this->plan_model->logstr,
+					'systemlog' => "By APP:".$this->plan_model->sqlstr
+			);
+			$this->log_model->activity('plan', $para, $user);
+			if ($id = $this->plan_history_model->add($plan_id, Plan_model::REFUND)) {
+				$this->plan_history_model->update($id, array("payment_id"=>$payment_id, "premium"=>($plan["premium"] - $refund_amount),"expiry_date"=>$refund_date, "note"=>"Refunded Recode"));
+			}
+
+			return $this->app_model->return_ok(array('plan_id' => $plan_id, 'customer_id' => $plan['customer_id'], 'payment_id' => $payment_id));
 		}
 		$claims = $this->plan_model->verify_policy($plan['policy']);
 		$data['claims'] = (!empty($claims) && ($claims['status'] == 'OK')) ? $claims['claims'] : '';
@@ -1343,6 +1352,7 @@ class Plan extends CI_Controller
 		$beuser = $user;
 		$this->load->model('plan_model');
 		$this->load->model('plan_history_model');
+		$this->load->model('monthly_payment_model');
 
 		$plan = $this->plan_model->get_plan_by_id($plan_id);
 		if (empty($plan)) {
@@ -1356,13 +1366,23 @@ class Plan extends CI_Controller
 		
 		$data['beuser'] = $beuser;
 		$data['plan'] = $plan;
-
+		if (!empty($plan["monthlypay"])) {
+			if ($mp = $this->monthly_payment_model->get_monthlypay_data($plan_id)) {
+				$data['monthly_data'] = $mp;
+				$data['monthly_record'] = $this->monthly_payment_model->get_by_plan_id($plan_id);
+			}
+		}
 
 		if ($do_cancel == 1) {
-			$refund_amount = (float)$this->input->post('refund_amount');
-			$admin_fee = (float)$this->input->post('admin_fee');
-
-			$total_amount = $refund_amount - $admin_fee;
+			if (empty($data['monthly_data'])) {
+				$refund_amount = (float)$this->input->post('refund_amount');
+				$admin_fee = (float)$this->input->post('admin_fee');
+				$total_amount = $refund_amount - $admin_fee;
+			} else {
+				$refund_amount = floatval($data['monthly_data']['total_paid']);
+				$admin_fee = floatval($data['monthly_data']['admin_fee']);
+				$total_amount = $refund_amount + $admin_fee;
+			}
 
 			if ($total_amount > 0) {
 				$this->load->model('payment_model');

@@ -4175,17 +4175,28 @@ class Plan extends MY_Controller {
 			redirect('plan/detail/' . $plan_id);
 		}
 		$this->load->model('product_model');
+		$this->load->model('monthly_payment_model');
 		$product = $this->product_model->get_product($plan['product_short']);
 
 		$data['beuser'] = $beuser;
 		$data['plan'] = $plan;
-
+		if (!empty($plan["monthlypay"])) {
+			if ($mp = $this->monthly_payment_model->get_monthlypay_data($plan_id)) {
+				$data['monthly_data'] = $mp;
+				$data['monthly_record'] = $this->monthly_payment_model->get_by_plan_id($plan_id);
+			}
+		}
 
 		if ($this->input->post()) {
-			$refund_amount = (float)$this->input->post('refund_amount');
-			$admin_fee = (float)$this->input->post('admin_fee');
-
-			$total_amount = $refund_amount - $admin_fee;
+			if (empty($data['monthly_data'])) {
+				$refund_amount = (float)$this->input->post('refund_amount');
+				$admin_fee = (float)$this->input->post('admin_fee');
+				$total_amount = $refund_amount - $admin_fee;
+			} else {
+				$refund_amount = floatval($data['monthly_data']['total_paid']);
+				$admin_fee = floatval($data['monthly_data']['admin_fee']);
+				$total_amount = $refund_amount + $admin_fee;
+			}
 
 			if ($total_amount > 0) {
 				$this->load->model('payment_model');
