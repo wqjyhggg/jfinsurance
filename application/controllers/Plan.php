@@ -4401,11 +4401,16 @@ class Plan extends MY_Controller {
 			}
 		}
 		if ($this->input->post()) {
-			$refund_amount = (float)$this->input->post('refund_amount');
-			$admin_fee = (float)$this->input->post('admin_fee');
-			$total_amount = (float)$this->input->post('total_refund');
 			$refund_date = $this->input->post('refund_date');
-			//die($refund_amount . '==' . $admin_fee . '++' . $total_amount);
+			if (!empty($plan["monthlypay"])) {
+				$refund_amount = 0;
+				$admin_fee = 0;
+				$total_amount = 0;
+			} else {
+				$refund_amount = (float)$this->input->post('refund_amount');
+				$admin_fee = (float)$this->input->post('admin_fee');
+				$total_amount = (float)$this->input->post('total_refund');
+			}
 			if ($total_amount > 0) {
 				$this->load->model('payment_model');
 				$dt = array();
@@ -4476,40 +4481,38 @@ class Plan extends MY_Controller {
 					'systemlog' => $this->payment_model->sqlstr
 				);
 				$this->log_model->activity('up_commission', $para);
-
-				// Add history
-				$history_id = 0;
-				if (($history = $this->plan_history_model->get_plan_history_by_plan_id($plan_id)) && ($history["actualrate"] > 0)) {
-					$history_id = $history["plan_history_id"];
-				} else {
-					// Add missing first record
-					if ($plan['status_id'] > 1) {
-						$history_id = $this->plan_history_model->add($plan_id, $plan['status_id']);
-					}
-				}
-				if ($history_id) {
-					$this->plan_history_model->add_remove($history_id);
-				}
-
-				$note = "Refund at " . $dt['added'] . " amount: " . $refund_amount . " admin fee: " . $admin_fee . "; " . $plan['note'];
-				$para = array('status_id' => Plan_model::REFUND, 'payment_id' => $payment_id, 'commission_payment_id' => $commission_payment_id, 'refund_date' => $refund_date, 'note' => $note);  // Change status to refund
-				$this->plan_model->update($plan_id, $para);
-				if ($id = $this->plan_history_model->add($plan_id, Plan_model::REFUND)) {
-					$this->plan_history_model->update($id, array("payment_id" => $payment_id, "premium" => ($plan["premium"] - $refund_amount), "expiry_date" => $refund_date, "note" => "Refunded Recode"));
-				}
-
-				$para = array(
-					'plan_id' => $plan_id,
-					'customer_id' => $plan['customer_id'],
-					'payment_id' => $payment_id,
-					'message' => $this->plan_model->logstr,
-					'systemlog' => $this->plan_model->sqlstr
-				);
-				$this->log_model->activity('plan', $para);
-				redirect('plan/detail/' . $plan_id);
-			} else {
-				$data['error_message'] = 'Invalid refund amount';
 			}
+
+			// Add history
+			$history_id = 0;
+			if (($history = $this->plan_history_model->get_plan_history_by_plan_id($plan_id)) && ($history["actualrate"] > 0)) {
+				$history_id = $history["plan_history_id"];
+			} else {
+				// Add missing first record
+				if ($plan['status_id'] > 1) {
+					$history_id = $this->plan_history_model->add($plan_id, $plan['status_id']);
+				}
+			}
+			if ($history_id) {
+				$this->plan_history_model->add_remove($history_id);
+			}
+
+			$note = "Refund at " . $dt['added'] . " amount: " . $refund_amount . " admin fee: " . $admin_fee . "; " . $plan['note'];
+			$para = array('status_id' => Plan_model::REFUND, 'payment_id' => $payment_id, 'commission_payment_id' => $commission_payment_id, 'refund_date' => $refund_date, 'note' => $note);  // Change status to refund
+			$this->plan_model->update($plan_id, $para);
+			if ($id = $this->plan_history_model->add($plan_id, Plan_model::REFUND)) {
+				$this->plan_history_model->update($id, array("payment_id" => $payment_id, "premium" => ($plan["premium"] - $refund_amount), "expiry_date" => $refund_date, "note" => "Refunded Recode"));
+			}
+
+			$para = array(
+				'plan_id' => $plan_id,
+				'customer_id' => $plan['customer_id'],
+				'payment_id' => $payment_id,
+				'message' => $this->plan_model->logstr,
+				'systemlog' => $this->plan_model->sqlstr
+			);
+			$this->log_model->activity('plan', $para);
+			redirect('plan/detail/' . $plan_id);
 		}
 		$data['action_url'] = base_url('plan/refund');
 		$data['refund_amount_url'] = base_url('plan/refund_amount') . "/" . $plan['plan_id'];

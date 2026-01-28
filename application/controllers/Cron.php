@@ -737,6 +737,7 @@ class Cron extends MY_Controller {
     $this->load->model('paytype_model');
     $this->load->model('status_model');
     $this->load->model('payment_model');
+    $this->load->model('monthly_payment_model');
 
     foreach ($batchArr as $batchno) {
       if ($plans = $this->plan_model->plan_search(array("batch_number"=>$batchno))) {
@@ -744,6 +745,11 @@ class Cron extends MY_Controller {
           $plan_id = $plan['plan_id'];
           $data['beuser'] = $beuser;
           $data['plan'] = $plan;
+					if (!empty($plan["monthlypay"])) {
+						if ($mp = $this->monthly_payment_model->get_monthlypay_data($plan_id)) {
+							$data['monthly_data'] = $mp;
+						}
+					}
           $data['pdf_enable'] = empty($beuser['pdf_product']) ? array() : json_decode($beuser['pdf_product']);
           $data['emailaddr'] = $plan['contact_email'];
           $data['withlogo'] = 1;
