@@ -142,6 +142,12 @@ defined('BASEPATH') or exit('No direct script access allowed');
       <div class="col-sm-12 nopm">
         <p class="small" style="margin-top:2px;"><b><?php echo $this->lang->line("Please retain this confirmation as your receipt"); ?>.</b><br />
           <?php echo $this->lang->line("Please read and understand the enclosed, which fully explains the terms, conditions, limitations and exclusions that are part of your policy"); ?>.<br /><br />
+					<?php if (!empty($plan['monthlypay']) && !empty($monthly_data)) { ?>
+					<p class="small" style="margin-top:2px;"><b>Monthly Payment Option</b><br />
+					At the time of purchase, the applicant must pay a one-time $50 fee and two months of premium. These amounts are nonrefundable without a visa rejection letter.<br />
+					Subsequent monthly premiums will be charged starting on the effective date of the policy.
+					If a recurring monthly payment is unsuccessful, a 14-day grace period will be provided, during which the system will automatically retry the payment 2 times. To maintain continuous coverage, the monthly payment must be successfully processed. If payment is not received within the grace period, your policy will be terminated as of the first failed payment date.<br /><br />
+					<?php } ?>
           <?php echo $this->lang->line("If you have a change in your health, including any change in your medication, between the date of application and the effective date of the policy, you must contact us to ensure that you remain eligible for this insurance. Ontime Care Worldwide Inc. must be notified prior to any surgery being performed or within 24 hours of admission to a hospital. Failure to do so, without reasonable cause, will result in the reduction of eligible benefit amounts payable"); ?>. <br /><br />
           <?PHP echo $this->lang->line("IN THE EVENT OF AN EMERGENCY, CONTACT ONTIME CARE WORLDWIDE INC IMMEDIATELY"); ?>: <br />
           <?PHP echo $this->lang->line("TOLL FREE CANADA/U.S.A.: 1-888-988-3268 IF UNABLE TO CONTACT US TOLL FREE, PLEASE CALL COLLECT: 905-707-9555"); ?>.
@@ -155,11 +161,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
           <?php echo $this->lang->line("If you notice any errors in the above information or have any questions, please contact JF Insurance Agency Group Inc."); ?>
         </p>
       </div>
-    </div><br />
-    <!--/div-->
-    <!-- end p-detail -->
-    <!--/div-->
-    <!-- x_content -->
+    </div>
     <div class="row">
       <div class="col-sm-6 nopm">
         <p class="small">Ontario:<br />
@@ -326,7 +328,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
           <?php echo $this->lang->line("If you notice any errors in the above information or have any questions, please contact JF Insurance Agency Group Inc."); ?>
         </p>
       </div>
-    </div><br />
+    </div>
     <!--/div-->
     <!-- end p-detail -->
     <!--/div-->
