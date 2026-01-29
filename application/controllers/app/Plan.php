@@ -1381,7 +1381,7 @@ class Plan extends CI_Controller
 			} else {
 				$refund_amount = floatval($data['monthly_data']['total_paid']);
 				$admin_fee = floatval($data['monthly_data']['admin_fee']);
-				$total_amount = $refund_amount + $admin_fee;
+				$total_amount = $refund_amount - $admin_fee;
 			}
 
 			if ($total_amount > 0) {

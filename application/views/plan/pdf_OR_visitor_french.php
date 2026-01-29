@@ -110,15 +110,23 @@ defined('BASEPATH') or exit('No direct script access allowed');
       <div class="col-sm-5 nopadding">
         <?php if ($withprice) { ?>
           <h4><u>Détails de paiement</u></h4>
+					<?php if (!empty($plan['monthlypay']) && !empty($monthly_data)) { ?>
           <h4>Prime Totale: <span>$<?php echo number_format($plan['premium'], 2, '.', ','); ?></span></h4>
-          <!-- <h4>Premium: <span>$<?php echo number_format((float)$plan['premium'] - (float)$plan['tax'], 2, '.', ','); ?></span>
-          </h4> -->
-          <h4>Impôt: <span>$<?php echo number_format($plan['tax'], 2, '.', ','); ?></span>
-          </h4>
-          <h4>Date de paiement: <span><?php echo (($plan['status_id'] >= 2) && isset($payment['added'])) ? date('Y-m-d', strtotime($payment['added'])) : ''; ?></span>
-          </h4>
-          <h4>Mode de paiement: <span><?php echo (($plan['status_id'] >= 2) && isset($payment['pay_mothed'])) ? $payment['pay_mothed'] : ''; ?></span>
-          </h4>
+          <h4>Coûts mensuels prévus: <span>$<?php echo number_format($monthly_data['admin_fee'], 2, '.', ','); ?></span></h4>
+          <h4>Prime initiale: <span>$<?php echo number_format($monthly_data['init_pay'], 2, '.', ','); ?></span></h4>
+          <h4>Total facturé: <span>$<?php echo number_format($monthly_data['total_paid'], 2, '.', ','); ?></span></h4>
+          <h4>Impôt: <span>$<?php echo number_format($plan['tax'], 2, '.', ','); ?></span></h4>
+          <h4>Date de paiement initiale: <span><?php echo ($plan['status_id'] >= 2) ? $monthly_data['init_pay_date'] : ''; ?></span></h4>
+          <h4>Date du dernier paiement: <span><?php echo ($plan['status_id'] >= 2) ? $monthly_data['last_pay_date'] : ''; ?></span></h4>
+          <h4>Mode de paiement: <span><?php echo (($plan['status_id'] >= 2) && isset($payment['pay_mothed'])) ? $payment['pay_mothed'] : ''; ?></span></h4>
+          <h4>Paiement récurrent: <span>$<?php echo number_format($monthly_data['monthly_pay'], 2, '.', ','); ?></span></h4>
+          <h4><span><?php echo $monthly_data['recurrent_times']; ?> Les paiements mensuels récurrents débuteront à la date d'entrée en vigueur de la police.</span></h4>
+					<?php } else { ?>
+          <h4>Prime Totale: <span>$<?php echo number_format($plan['premium'], 2, '.', ','); ?></span></h4>
+          <h4>Impôt: <span>$<?php echo number_format($plan['tax'], 2, '.', ','); ?></span></h4>
+          <h4>Date de paiement: <span><?php echo (($plan['status_id'] >= 2) && isset($payment['added'])) ? date('Y-m-d', strtotime($payment['added'])) : ''; ?></span></h4>
+          <h4>Mode de paiement: <span><?php echo (($plan['status_id'] >= 2) && isset($payment['pay_mothed'])) ? $payment['pay_mothed'] : ''; ?></span></h4>
+					<?php } ?>
         <?php } ?>
       </div>
     </div>

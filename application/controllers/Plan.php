@@ -750,6 +750,10 @@ class Plan extends MY_Controller {
 						$plan = $this->plan_model->get_plan_by_id($plan_id);
 						if ($plan["monthlypay"] && ($planold["effective_date"] != $plan["effective_date"])) {
 							$this->monthly_payment_model->change_effective_date($plan_id, $plan["effective_date"]);
+							if ($pay = $this->monthly_payment_model->plan_today_payments($plan_id)) {
+								$this->load->model('bambora_model');
+								$this->bambora_model->do_payment($pay["monthly_payment_id"]);
+							}
 						}
 						$para = array(
 							'plan_id' => $plan_id,
@@ -3892,9 +3896,9 @@ class Plan extends MY_Controller {
 					}
 					$data['hadheaderfooter'] = 1;
 					if ($data['sendfrench']) {
-						$html = $this->load->view('plan/pdf_OR_visitor_french', $data, TRUE);
+						$html = $this->load->view('plan/pdf_OR_visitor_french', $data, TRUE); //XXXXXXXXXXXXXXXXXXXXX
 					} else {
-						$html = $this->load->view('plan/pdf_jfvtc', $data, TRUE);
+						$html = $this->load->view('plan/pdf_jfvtc', $data, TRUE); //XXXXXXXXXXXXXXXXX
 					}
 				} else if (($data['plan']['product_short'] == 'JFPL') || ($data['plan']['product_short'] == 'JFGD') || ($data['plan']['product_short'] == 'TCS') || ($data['plan']['product_short'] == 'JFOS') || ($data['plan']['product_short'] == 'JFSL')) {
 					$mpdf = new mPDF('c', 'A4', 0, '', $mgl = 0, $mgr = 0, $mgt = 15, $mgb = 0, $mgh = 0, $mgf = 0, $orientation = 'P');
@@ -4195,7 +4199,7 @@ class Plan extends MY_Controller {
 			} else {
 				$refund_amount = floatval($data['monthly_data']['total_paid']);
 				$admin_fee = floatval($data['monthly_data']['admin_fee']);
-				$total_amount = $refund_amount + $admin_fee;
+				$total_amount = $refund_amount - $admin_fee;
 			}
 
 			if ($total_amount > 0) {

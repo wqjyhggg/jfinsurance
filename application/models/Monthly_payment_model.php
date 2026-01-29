@@ -197,18 +197,19 @@ class Monthly_payment_model extends CI_Model {
 			foreach ($rts as $rc) {
 				$rt["premium"] += $rc["amount"];
 				$rt["admin_fee"] += $rc["admin_fee"];
-				$rt["recurrent_times"]++;
 				if ($rc["paid"]) {
 					$rt["total_paid"] += $rc["amount"];
 					$rt["last_pay_date"] = $rc["pay_date"];
 				}
 				if ($rc["pay_type"]) {
+					$rt["recurrent_times"]++;
 					$rt["monthly_pay"] = $rc["amount"];
 				} else {
 					$rt["init_pay"] = $rc["amount"];
 					$rt["init_pay_date"] = $rc["pay_date"];
 				}
 			}
+			$rt["premium"] -= $rt["admin_fee"];
 		}
 		return $rt;
 	}
@@ -231,6 +232,12 @@ class Monthly_payment_model extends CI_Model {
 			return $recurArr;
 		}
 		return $retryArr;
+	}
+
+	public function plan_today_payments($plan_id) {
+		$today = date("Y-m-d");
+		$rc = $this->db->where("pay_type", 1)->where("paid", 0)->where("pay_date", $today)->get("monthly_payment")->row_array();
+		return $rc;
 	}
 
 	public function set_profile_id($plan_id, $profile_id) {
