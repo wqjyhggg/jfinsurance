@@ -291,7 +291,7 @@ CREATE TABLE `plan` (
   `user_id` int NOT NULL,
   `status_id` tinyint NOT NULL,
   `region_id` int NOT NULL,
-  `policy` varchar(32) NOT NULL,
+  `policy` varchar(32) NOT NULL DEFAULT '',
   `agree` tinyint(1) NOT NULL DEFAULT '0',
   `api` varchar(32) NOT NULL,
   `product_short` varchar(16) NOT NULL COMMENT 'product unique short name',
