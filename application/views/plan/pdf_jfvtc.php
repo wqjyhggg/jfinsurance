@@ -105,7 +105,15 @@ defined('BASEPATH') or exit('No direct script access allowed');
         </h4>
         <h4><?php echo $this->lang->line("Stable pre-existing condition coverage"); ?>: <span><?php echo ($plan['stable_condition'] == 1) ? $this->lang->line("Yes") : $this->lang->line("No"); ?></span>
         </h4>
-      </div>
+				<?php if ($withprice) { ?>
+					<?php if (!empty($plan['monthlypay']) && !empty($monthly_record)) { ?>
+					<h4><u><?php echo $this->lang->line("Payment Schedule"); ?></u></h4>
+						<?php foreach($monthly_record as $rc) { ?>
+							<h4><?php echo $rc["pay_date"]." : ".$rc["amount"]?></h4>
+						<?php } ?>
+					<?php } ?>
+				<?php } ?>
+	    </div>
       <div class="col-sm-1 nopadding2">
         &nbsp;
       </div>

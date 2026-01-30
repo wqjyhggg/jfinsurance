@@ -3560,6 +3560,7 @@ class Plan extends MY_Controller {
 		if (!empty($plan["monthlypay"])) {
 			if ($mp = $this->monthly_payment_model->get_monthlypay_data($plan_id)) {
 				$data['monthly_data'] = $mp;
+				$data['monthly_record'] = $this->monthly_payment_model->get_by_plan_id($plan_id);
 			}
 		}
 		$data['pdf_enable'] = empty($beuser['pdf_product']) ? array() : json_decode($beuser['pdf_product']);
@@ -3890,15 +3891,15 @@ class Plan extends MY_Controller {
 				$data['style'] = $this->load->view('common/pdf_style', $data, TRUE);
 				$data['hadheaderfooter'] = 0;
 				if ($data['plan']['product_short'] == 'JFVTC') {
-					$mpdf = new mPDF('c', 'A4', 0, '', $mgl = 0, $mgr = 0, $mgt = 15, $mgb = 0, $mgh = 0, $mgf = 0, $orientation = 'P');
+					$mpdf = new mPDF('c', 'A4', 0, '', $mgl = 0, $mgr = 0, $mgt = 25, $mgb = 10, $mgh = 10, $mgf = 0, $orientation = 'P');
 					if ($data['withlogo']) {
 						$mpdf->SetHTMLHeader('<img style="width:100%;" src="' . base_url() . 'image/pdf_header.png" />');
 					}
 					$data['hadheaderfooter'] = 1;
 					if ($data['sendfrench']) {
-						$html = $this->load->view('plan/pdf_OR_visitor_french', $data, TRUE); //XXXXXXXXXXXXXXXXXXXXX
+						$html = $this->load->view('plan/pdf_OR_visitor_french', $data, TRUE);
 					} else {
-						$html = $this->load->view('plan/pdf_jfvtc', $data, TRUE); //XXXXXXXXXXXXXXXXX
+						$html = $this->load->view('plan/pdf_jfvtc', $data, TRUE);
 					}
 				} else if (($data['plan']['product_short'] == 'JFPL') || ($data['plan']['product_short'] == 'JFGD') || ($data['plan']['product_short'] == 'TCS') || ($data['plan']['product_short'] == 'JFOS') || ($data['plan']['product_short'] == 'JFSL')) {
 					$mpdf = new mPDF('c', 'A4', 0, '', $mgl = 0, $mgr = 0, $mgt = 15, $mgb = 0, $mgh = 0, $mgf = 0, $orientation = 'P');
@@ -4026,6 +4027,7 @@ class Plan extends MY_Controller {
 		if (!empty($plan["monthlypay"])) {
 			if ($mp = $this->monthly_payment_model->get_monthlypay_data($plan_id)) {
 				$data['monthly_data'] = $mp;
+				$data['monthly_record'] = $this->monthly_payment_model->get_by_plan_id($plan_id);
 			}
 		}
 		$data['pdf_enable'] = empty($beuser['pdf_product']) ? array() : json_decode($beuser['pdf_product']);
@@ -4117,7 +4119,7 @@ class Plan extends MY_Controller {
 				$mpdf->showWatermarkText = true;
 			}
 			$data['hadheaderfooter'] = 1;
-			$html = $this->load->view('plan/pdf_jfvtc', $data, TRUE);
+			$html = $this->load->view('plan/pdf_jfvtc', $data, TRUE); //XXXXXXXXXXX
 			if ($data['withlogo']) {
 				$mpdf->SetHTMLHeader('<img style="width:100%;" src="' . base_url() . 'image/pdf_header.png" />');
 			}

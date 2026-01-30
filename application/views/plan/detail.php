@@ -345,7 +345,7 @@ if ($Agree != "Agree") {
 			</div>
 		</div>
 		<!-- End Form -->
-	<?php if (($plan["monthlypay"] == 1) && ($plan["status_id"] > 1) && !empty($plan['monthlypay'])) { ?>
+	<?php if (!empty($plan['monthlypay']) && ($plan["monthlypay"] == 1) && ($plan["status_id"] > 1)) { ?>
 		<div class="row">
       <div class="col-sm-12">
         <div class="x_panel">

@@ -71,7 +71,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
         <h4>Numéro de <?php if ($plan['status_id'] < 2) { ?>Quote<?php } else { ?>Policy<?php } ?>: <span><?php echo $plan['policy']; ?></span></h4>
         <h4>Date d'application: <span><?php echo $plan['apply_date']; ?></span>
         </h4>
-        <h4>Date d’entrée en vigueur: <span><?php echo $plan['effective_date']; ?></span>
+        <h4>Date d'entrée en vigueur: <span><?php echo $plan['effective_date']; ?></span>
         </h4>
         <h4>Date d'échéance: <span><?php echo $plan['expiry_date']; ?></span>
         </h4>
@@ -103,6 +103,14 @@ defined('BASEPATH') or exit('No direct script access allowed');
         </h4>
         <h4>Couverture stable des maladies préexistantes: <span><?php echo ($plan['stable_condition'] == 1) ? 'Yes' : 'No'; ?></span>
         </h4>
+        <?php if ($withprice) { ?>
+					<?php if (!empty($plan['monthlypay']) && !empty($monthly_record)) { ?>
+          <h4><u>Détails de paiement</u></h4>
+						<?php foreach($monthly_record as $rc) { ?>
+							<h4><?php echo $rc["pay_date"]." : ".$rc["amount"]?></h4>
+						<?php } ?>
+					<?php } ?>
+				<?php } ?>
       </div>
       <div class="col-sm-1 nopadding2">
         &nbsp;

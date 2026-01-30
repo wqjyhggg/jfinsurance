@@ -1542,6 +1542,7 @@ class Plan extends CI_Controller
 		if (!empty($plan["monthlypay"])) {
 			if ($mp = $this->monthly_payment_model->get_monthlypay_data($plan_id)) {
 				$data['monthly_data'] = $mp;
+				$data['monthly_record'] = $this->monthly_payment_model->get_by_plan_id($plan_id);
 			}
 		}
 		$data['pdf_enable'] = empty($beuser['pdf_product']) ? array() : json_decode($beuser['pdf_product']);
@@ -1970,6 +1971,7 @@ class Plan extends CI_Controller
 		if (!empty($plan["monthlypay"])) {
 			if ($mp = $this->monthly_payment_model->get_monthlypay_data($plan_id)) {
 				$data['monthly_data'] = $mp;
+				$data['monthly_record'] = $this->monthly_payment_model->get_by_plan_id($plan_id);
 			}
 		}
 		$data['pdf_enable'] = empty($beuser['pdf_product']) ? array() : json_decode($beuser['pdf_product']);
@@ -2271,7 +2273,7 @@ class Plan extends CI_Controller
           );
 					if (($data['plan']['package'] == 'single_medical_plan') || ($data['plan']['package'] == 'all_inclusive')) {
             $top_add_file = tempnam("/tmp", "Additional");
-            $mpdf = new mPDF('c', 'A4', 0, '', $mgl = 0, $mgr = 0, $mgt = 15, $mgb = 0, $mgh = 0, $mgf = 0, $orientation = 'P');
+            $mpdf = new mPDF('c', 'A4', 0, '', $mgl = 0, $mgr = 0, $mgt = 25, $mgb = 10, $mgh = 10, $mgf = 0, $orientation = 'P');
             $mpdf->SetHTMLHeader('<img style="width:100%;" src="' . base_url() . 'image/pdf_header.png" />');
             $html = $this->load->view('plan/top/pdf_additional', $data, TRUE);
             $mpdf->writeHTML($html);

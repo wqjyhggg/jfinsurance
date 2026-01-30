@@ -756,6 +756,50 @@ if ($Agree != "Agree") {
 					</script>
 				</div>
             <!-- Pop Section -->
+				<?php if (!empty($monthly_payment)) { ?>
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="x_panel">
+								<div class="x_title">
+									<h2>Monthly Payment Detail</h2>
+									<div class="clearfix"></div>
+								</div>
+								<div class="x_content">
+									<div class="row">
+										<div class="col-sm-3">
+											<label class="inline">Payment Date</label>
+										</div>
+										<div class="col-sm-3">
+											<label class="inline">Amount</label>
+										</div>
+										<div class="col-sm-3">
+											<label class="inline">Payment Status</label>
+										</div>
+										<div class="col-sm-3">
+											<label class="inline">&nbsp;</label>
+										</div>
+									</div>
+									<?php $idx = 0; foreach ($monthly_payment as $mr) { $idx++; ?>
+									<div class="row" style="line-height: 32px;">
+										<div class="col-sm-3">
+											<span><?php echo $mr["retry_date"]; ?></span>
+										</div>
+										<div class="col-sm-3">
+											<span><?php echo number_format($mr["amount"], 2, ".", ""); ?></span>
+										</div>
+										<div class="col-sm-3">
+											<span><?php echo ($mr["paid"]==1)?"Paid":(($mr["paid"]==-2)?"Pay Error":(($mr["paid"]==-1)?"Void":"-")); ?></span>
+										</div>
+										<div class="col-sm-3">
+											&nbsp;
+										</div>
+									</div>
+									<?php } ?>
+								</div><!--/x_content end-->
+							</div><!--x_panel-->
+						</div>
+					</div>
+					<?php } ?>
 
            <!-- New Section -->
 			<?php if ($show_history) { ?>
