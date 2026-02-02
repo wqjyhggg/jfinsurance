@@ -933,7 +933,7 @@ class Report_model extends CI_Model
       }
 			$row["payment_type"] = "Premium";
 			if (!empty($row["monthlypay"])) {
-				$sqlm = "SELECT pay_type FROM monthly_payment WEHER payment_id=".$row["payment_id"];
+				$sqlm = "SELECT pay_type FROM monthly_payment WHERE payment_id=".$row["payment_id"];
 				if ($rcm = $this->db->query($sqlm)->row_array()) {
 					if ($rcm["pay_type"] == 1) {
 						$row["payment_type"] = "Recurring Premium";
