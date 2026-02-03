@@ -18,12 +18,20 @@ function logAccess($logFile) {
 				" - RAW: $rawInput" . PHP_EOL . PHP_EOL;
 		file_put_contents($logFile, $logEntry, FILE_APPEND);
 }
-
+// {"trnApproved":"1","trnId":"10000233","messageId":"1","messageText":"Approved","authCode":"TEST","responseType":"T","trnAmount":"306.72","trnDate":"1\/8\/2026 7:27:02 AM","trnOrderNumber":"6332-297","trnLanguage":"eng","trnCustomerName":"test","trnEmailAddress":"zeyu@otcww.com","trnPhoneNumber":"3433335672","avsProcessed":"1","avsId":"N","avsResult":"0","avsAddrMatch":"0","avsPostalMatch":"0","avsMessage":"Street address and Postal\/ZIP do not match.","cvdId":"1","cardType":"VI","trnType":"P","paymentMethod":"CC","ref1":"monthly","ref2":"6332","ref3":"297","ref4":"","ref5":"","hashValue":"4a25a898337360c27cc14dddab545da6"}
 // Call the logging function
 logAccess($logFile);
 
 // Respond to the web call
 // header('Content-Type: application/json');
 // echo json_encode(['status' => 'success', 'message' => 'Access logged successfully.']);
+if (isset($_GET["ref2"])) {
+	$scheme = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+	$host   = $_SERVER['HTTP_HOST'];
+	
+	header("Location: {$scheme}://{$host}/plan/detail/".$_GET["ref2"]);
+} else {
+	header("Location: {$scheme}://{$host}/user/login");
+}
+exit;
 
-echo "Success";

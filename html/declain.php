@@ -25,4 +25,11 @@ logAccess($logFile);
 // Respond to the web call
 // header('Content-Type: application/json');
 // echo json_encode(['status' => 'success', 'message' => 'Access logged successfully.']);
-echo "Failed";
+if (isset($_GET["ref2"])) {
+	$scheme = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+	$host   = $_SERVER['HTTP_HOST'];
+	
+	header("Location: {$scheme}://{$host}/plan/detail/".$_GET["ref2"]);
+} else {
+	header("Location: {$scheme}://{$host}/user/login");
+}
