@@ -352,7 +352,7 @@ class Bambora_model extends CI_Model {
 					$mpArr = [
 						"trans_id" => isset($rt["id"])?$rt["id"]:0,
 						"paid" => -2,
-						"retry" = $retry,
+						"retry" => $retry,
 						"pay_time" => date("Y-m-d H:i:s"),
 						"payment_id" => $responseCode?intval($responseCode):0,
 						"postdata" => isset($postdata)?$postdata:"",
