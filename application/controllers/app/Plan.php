@@ -1166,6 +1166,7 @@ class Plan extends CI_Controller
 		$beuser = $user;
 		$this->load->model('plan_model');
 		$this->load->model('plan_history_model');
+		$this->load->model('monthly_payment_model');
 
 		$plan = $this->plan_model->get_plan_by_id($plan_id);
 		if (empty($plan)) {
@@ -1186,15 +1187,16 @@ class Plan extends CI_Controller
 			}
 		}
 		if ($do_refund == 1) {
-			$refund_amount = (float)$this->input->post('refund_amount');
+			$refund_date = $this->input->post('refund_date');
 			if (!empty($plan["monthlypay"])) {
 				$refund_amount = 0;
 				$admin_fee = 0;
 				$total_amount = 0;
+				$this->monthly_payment_model->void_unpaid_record($plan_id);
 			} else {
-				$admin_fee = (float)$this->input->post('admin_fee');
-				$total_amount = (float)$this->input->post('total_refund');
-				$refund_date = $this->input->post('refund_date');
+				$refund_amount = floatval($this->input->post('refund_amount'));
+				$admin_fee = floatval($this->input->post('admin_fee'));
+				$total_amount = floatval($this->input->post('total_refund'));
 			}
 			if ($total_amount > 0) {
 				$this->load->model('payment_model');
@@ -1390,17 +1392,16 @@ class Plan extends CI_Controller
 
 		if ($do_cancel == 1) {
 			if (empty($data['monthly_data'])) {
-				$refund_amount = (float)$this->input->post('refund_amount');
-				$admin_fee = (float)$this->input->post('admin_fee');
-				$total_amount = $refund_amount - $admin_fee;
+				$refund_amount = floatval($this->input->post('refund_amount'));
 			} else {
 				$refund_amount = floatval($data['monthly_data']['total_paid']);
-				$admin_fee = floatval($data['monthly_data']['admin_fee']);
-				$total_amount = $refund_amount - $admin_fee;
 			}
+			$admin_fee = floatval($this->input->post('admin_fee'));
+			$total_amount = $refund_amount - $admin_fee;
 
 			if ($total_amount > 0) {
 				$this->load->model('payment_model');
+				$this->monthly_payment_model->void_unpaid_record($plan_id);
 				$dt = array();
 				$dt['plan_id'] = $plan_id;
 				$dt['admin_fee'] = $admin_fee;

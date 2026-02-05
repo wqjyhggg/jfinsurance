@@ -244,6 +244,11 @@ class Monthly_payment_model extends CI_Model {
 		$this->db->where("plan_id", $plan_id)->set('profile_id', $profile_id)->update("monthly_payment");
 	}
 
+	public function void_unpaid_record($plan_id) {
+		$now = date("Y-m-d H:i:s");
+		return $this->db->where("plan_id", $plan_id)->where("paid", 0)->set("paid", -1)->set("pay_time", $now)->update("monthly_payment");
+	}
+
 	public function change_effective_date($plan_id, $effective_date) {
 		if ($records = $this->db->where("plan_id", $plan_id)->where("pay_type", 1)->where("paid", 0)->get("monthly_payment")->result_array()) {
 			$recurrdate = new DateTime($effective_date);

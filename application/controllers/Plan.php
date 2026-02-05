@@ -4217,7 +4217,7 @@ class Plan extends MY_Controller {
 
 		if ($this->input->post()) {
 			if (empty($data['monthly_data'])) {
-				$refund_amount = (float)$this->input->post('refund_amount');
+				$refund_amount = floatval($this->input->post('refund_amount'));
 			} else {
 				$refund_amount = floatval($data['monthly_data']['total_paid']);
 			}
@@ -4226,6 +4226,7 @@ class Plan extends MY_Controller {
 
 			if ($total_amount > 0) {
 				$this->load->model('payment_model');
+				$this->monthly_payment_model->void_unpaid_record($plan_id);
 				$dt = array();
 				$dt['plan_id'] = $plan_id;
 				$dt['admin_fee'] = $admin_fee;
@@ -4442,10 +4443,11 @@ class Plan extends MY_Controller {
 				$refund_amount = 0;
 				$admin_fee = 0;
 				$total_amount = 0;
+				$this->monthly_payment_model->void_unpaid_record($plan_id);
 			} else {
-				$refund_amount = (float)$this->input->post('refund_amount');
-				$admin_fee = (float)$this->input->post('admin_fee');
-				$total_amount = (float)$this->input->post('total_refund');
+				$refund_amount = floatval($this->input->post('refund_amount'));
+				$admin_fee = floatval($this->input->post('admin_fee'));
+				$total_amount = floatval($this->input->post('total_refund'));
 			}
 			if ($total_amount > 0) {
 				$this->load->model('payment_model');
