@@ -38,8 +38,12 @@ class Bambora_model extends CI_Model {
 				return $this->error;
 			}
 
+			$order_number = $plan_id."-".$pay["monthly_payment_id"];
+			if ($pay["retry"]) {
+				$order_number .= "-".$pay["retry"];
+			}
 			$postArr = [
-				"order_number" => $plan_id."-".$pay["monthly_payment_id"],
+				"order_number" => $order_number,
 				"amount" => $pay["amount"],
 				"payment_method" => "payment_profile",
 				"custom" => [
@@ -293,21 +297,21 @@ class Bambora_model extends CI_Model {
 					);
 					$this->log_model->activity('payment', $para, $user);
 
+					$retry = $pay["retry"]++;
 					$mpArr = [
 						"trans_id" => $rt["id"],
 						"paid" => -2,
+						"retry" => $retry,
 						"pay_time" => $pay_time,
 						"payment_id" => $payment_id,
 						"postdata" => isset($postdata)?$postdata:"",
 						"rawdata" => $response,
 					];
-					$retry = $pay["retry"]++;
 					if ($retry == 1) {
 						$mpArr["retry_date"] = date('Y-m-d', strtotime('+2 days'));
 					} else if ($retry == 2) {
 						$mpArr["retry_date"] = date('Y-m-d', strtotime('+5 days'));
 					}
-					$mpArr["retry"] = $retry;
 					$this->monthly_payment_model->update($pay["monthly_payment_id"], $mpArr);
 
 					// $planArr = [];	// Set plan to refunded
@@ -344,21 +348,21 @@ class Bambora_model extends CI_Model {
 				$pay2 = $this->monthly_payment_model->get_by_id($pay["monthly_payment_id"]);
 				if (empty($pay2["paid"])) {
 					// Not done by bambora post back
+					$retry = $pay["retry"]++;
 					$mpArr = [
 						"trans_id" => isset($rt["id"])?$rt["id"]:0,
 						"paid" => -2,
+						"retry" = $retry,
 						"pay_time" => date("Y-m-d H:i:s"),
 						"payment_id" => $responseCode?intval($responseCode):0,
 						"postdata" => isset($postdata)?$postdata:"",
 						"rawdata" => $response,
 					];
-					$retry = $pay["retry"]++;
 					if ($retry == 1) {
 						$mpArr["retry_date"] = date('Y-m-d', strtotime('+2 days'));
 					} else if ($retry == 2) {
 						$mpArr["retry_date"] = date('Y-m-d', strtotime('+5 days'));
 					}
-					$mpArr["retry"] = $retry;
 					$this->monthly_payment_model->update($pay["monthly_payment_id"], $mpArr);
 				}
 				$this->error = "Retry monthly payment Failed (".$monthly_payment_id.")(".$responseCode.")(".$response.")";

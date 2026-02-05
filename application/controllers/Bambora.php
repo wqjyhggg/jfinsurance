@@ -119,7 +119,7 @@ class Bambora extends CI_Controller {
 			'payment_id' => isset($post['ref4'])?$post['ref4']:0,
 			'message' => json_encode($post)
 		);
-		$activity_id = $this->log_model->activity("bb", $para, $user);
+		$activity_id = $this->log_model->activity("bb-p", $para, $user);
 
 		$errormsg = "";
 		if (empty($post["hashValue"])) {
@@ -153,7 +153,7 @@ class Bambora extends CI_Controller {
 				$this->log_model->update($activity_id, ["systemlog" => $errormsg]);
 			}
 			die($errormsg);
-		} else if (($monthly_payment["paid"] == 1) || ($monthly_payment["paid"] == -2)) {
+		} else if ($monthly_payment["paid"] == 1) {
 			$errormsg = "Already Processed";
 			if ($activity_id) {
 				$this->log_model->update($activity_id, ["systemlog" => $errormsg, "payment_id"=>$monthly_payment["payment_id"]]);
@@ -369,7 +369,7 @@ class Bambora extends CI_Controller {
 					'message' => $postdata,
 					'systemlog' => json_encode($headers)
 				);
-				$this->log_model->activity("bb-recur", $para, $user);
+				$this->log_model->activity("bb-rcur", $para, $user);
 		
 				$url = $this->profile_url;
 				$ch = curl_init();
