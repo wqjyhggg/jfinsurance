@@ -954,11 +954,9 @@ $(document).ready(function() {
 });
 
 function retry_payment(id) {
-	console.log("retry_payment", id); //XXXXXXXXXXXXXXXXXXXXXXX
 	$.ajax({
 		url: '<?php echo $retry_payment_url; ?>?id=' + id,
 		success: function(data, textStatus, jqXHR) {
-			console.log("retry_payment R", id, data, textStatus, jqXHR); //XXXXXXXXXXXXXXXXXXXXXXX
 			if (data.status == 0) {
 				window.location.reload();
 			} else {

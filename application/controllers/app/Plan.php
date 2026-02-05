@@ -653,15 +653,17 @@ class Plan extends CI_Controller
     $user = $this->app_model->check_token($this->input->post("token"));
 
 		$this->load->model('plan_model');
+		$this->load->model("monthly_payment_model");
 		$monthly_payment_id = $this->input->get_post('id');
 		$mp = $this->monthly_payment_model->get_by_id($monthly_payment_id);
 		if (empty($mp)) {
 			return $this->app_model->return_error("Unknown id: ".$monthly_payment_id);
 		} else if (empty($mp["plan_id"])) {
 			return $this->app_model->return_error("Can not find monthly payment Record: ".$monthly_payment_id);
-		} else if (empty($mp["pay_type"]) || empty($mp["paid"]) || empty($mp["retry"]) || empty($mp["amount"])) {
+		} else if (empty($mp["pay_type"]) || empty($mp["paid"]) || !isset($mp["retry"]) || empty($mp["amount"])) {
 			return $this->app_model->return_error("Payment Record has something wrong ".$monthly_payment_id);
 		} else {
+			$this->load->model('bambora_model');
 			if ($msg = $this->bambora_model->do_payment($monthly_payment_id)) {
 				return $this->app_model->return_error($msg);
 			} else {

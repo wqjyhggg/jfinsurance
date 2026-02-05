@@ -2955,9 +2955,10 @@ class Plan extends MY_Controller {
 		if (empty($mp)) {
 		} else if (empty($mp["plan_id"])) {
 			$data["message"] = "Can not find monthly payment Record: ".$monthly_payment_id;
-		} else if (empty($mp["pay_type"]) || empty($mp["paid"]) || empty($mp["retry"]) || empty($mp["amount"])) {
+		} else if (empty($mp["pay_type"]) || empty($mp["paid"]) || !isset($mp["retry"]) || empty($mp["amount"])) {
 			$data["message"] = "Payment Record has something wrong ".$monthly_payment_id;
 		} else {
+			$this->load->model('bambora_model');
 			if ($msg = $this->bambora_model->do_payment($monthly_payment_id)) {
 				$data["message"] = $msg;
 			} else {
