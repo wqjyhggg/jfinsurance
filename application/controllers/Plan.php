@@ -4207,6 +4207,7 @@ class Plan extends MY_Controller {
 
 		$data['beuser'] = $beuser;
 		$data['plan'] = $plan;
+		$data['admin_fee'] = 0;
 		if (!empty($plan["monthlypay"])) {
 			if ($mp = $this->monthly_payment_model->get_monthlypay_data($plan_id)) {
 				$data['monthly_data'] = $mp;
@@ -4347,7 +4348,6 @@ class Plan extends MY_Controller {
 
 		$data['action_url'] = base_url('plan/cancel');
 		$data['plan_id'] = $plan['plan_id'];
-		$data['admin_fee'] = 0;
 		$data['url_back_to_policy'] = base_url('plan/');
 		$data['title_txt'] = 'Policy';
 		$data['top_menu'] = $this->menu_model->load_top_menu();

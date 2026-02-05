@@ -60,7 +60,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                   <input readonly type="number" step="any" name='refund_amount' id='refund_amount' value='<?php echo $plan['premium']; ?>' class="form-control" />
                 </div>
                 <div class="row">
-                  <label class="col-sm-3 text-right">Reason:</label>
+                  <label class="col-sm-4 text-right">Reason:</label>
                   <div class="col-sm-3">
                     <select name='reason' id='reason' class="form-control">
                       <option value='Unable to obtain visa/work permit'>Unable to obtain visa/work permit</option>
@@ -83,13 +83,11 @@ defined('BASEPATH') or exit('No direct script access allowed');
                     <input type="text" name='reason_input' id='reason_input' placeholder='Detail reason' value='' class="form-control" />
                   </div>
                 </div><br />
-                <div class="row">
-                  <div class="form-group col-sm-5 col-xs-12" <?php if (empty($plan["monthlypay"])) { ?>style="display:none;"<?php } ?>>
-                    <label class="col-sm-12">Admin Fee:</label>
-                    <div class="input-group col-sm-12">
-                      <input type="number" name='admin_fee' value='<?php echo $admin_fee; ?>' class="form-control" />
-                    </div>
-                  </div>
+                <div class="row" <?php if (empty($plan["monthlypay"])) { ?>style="display:none;"<?php } ?>>
+                  <label class="col-sm-4 text-right">Admin Fee:</label>
+									<div class="input-group col-sm-3">
+										<input type="number" name='admin_fee' value='<?php echo $admin_fee; ?>' class="form-control" />
+									</div>
                 </div><br />
                 <div class="row">
                   <div class="form-group col-sm-12 text-center">
