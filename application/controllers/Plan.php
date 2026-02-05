@@ -4211,7 +4211,6 @@ class Plan extends MY_Controller {
 		if (!empty($plan["monthlypay"])) {
 			if ($mp = $this->monthly_payment_model->get_monthlypay_data($plan_id)) {
 				$data['monthly_data'] = $mp;
-				$data['admin_fee'] = $mp["admin_fee"];
 				$data['monthly_record'] = $this->monthly_payment_model->get_by_plan_id($plan_id);
 			}
 		}
