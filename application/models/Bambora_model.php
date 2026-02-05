@@ -270,6 +270,7 @@ class Bambora_model extends CI_Model {
 						'systemlog' => $this->payment_model->sqlstr
 					);
 					$this->log_model->activity('commission', $para, $user);
+					return null;
 				} else {
 					$dt = [];
 					$dt['plan_id'] = $plan_id;
@@ -329,6 +330,8 @@ class Bambora_model extends CI_Model {
 					$this->load->model('mymail_model');
 					$message = $plan["policy"] . " Monthly Payment recurrent failed. monthly_payment_id: ".$pay["monthly_payment_id"];
 					$this->mymail_model->send_mymail("wqjyhggg@gmail.com", 'JF Recur Error', $message, $attach=array(), $from='', 'text');
+					$this->error = "Retry monthly payment Not approved (".$monthly_payment_id.")(".$responseCode.")(".$response.")";
+					return $this->error;
 				}
 			} else {
 				$this->load->model('mymail_model');
@@ -358,8 +361,9 @@ class Bambora_model extends CI_Model {
 					$mpArr["retry"] = $retry;
 					$this->monthly_payment_model->update($pay["monthly_payment_id"], $mpArr);
 				}
+				$this->error = "Retry monthly payment Failed (".$monthly_payment_id.")(".$responseCode.")(".$response.")";
+				return $this->error;
 			}
-			return null;
 		}
 		$this->error = "Unknown monthly_payment record (".$monthly_payment_id.")";
 		return $this->error;

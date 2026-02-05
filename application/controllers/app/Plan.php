@@ -654,8 +654,21 @@ class Plan extends CI_Controller
 
 		$this->load->model('plan_model');
 		$monthly_payment_id = $this->input->get_post('id');
-		$resultStr = "monthly_payment_id:[".$monthly_payment_id."]";
-		die($resultStr);
+		$mp = $this->monthly_payment_model->get_by_id($monthly_payment_id);
+		if (empty($mp)) {
+			return $this->app_model->return_error("Unknown id: ".$monthly_payment_id);
+		} else if (empty($mp["plan_id"])) {
+			return $this->app_model->return_error("Can not find monthly payment Record: ".$monthly_payment_id);
+		} else if (empty($mp["pay_type"]) || empty($mp["paid"]) || empty($mp["retry"]) || empty($mp["amount"])) {
+			return $this->app_model->return_error("Payment Record has something wrong ".$monthly_payment_id);
+		} else {
+			if ($msg = $this->bambora_model->do_payment($monthly_payment_id)) {
+				return $this->app_model->return_error($msg);
+			} else {
+				$data = ["message" => "OK", "status" => 0];
+        return $this->app_model->return_ok($data);
+			}
+		}
 	}
 
   public function set_status()

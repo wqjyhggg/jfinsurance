@@ -2944,9 +2944,29 @@ class Plan extends MY_Controller {
 	public function retry_payment() {
 		$beuser = $this->func_model->verify_login();
 		$this->load->model('plan_model');
+		$this->load->model("monthly_payment_model");
 		$monthly_payment_id = $this->input->get_post('id');
-		$resultStr = "monthly_payment_id:[".$monthly_payment_id."]";
-		die($resultStr);
+
+		$mp = $this->monthly_payment_model->get_by_id($monthly_payment_id);
+		$data = [
+			"status" => 1,
+			"message" => "Unknown id: ".$monthly_payment_id
+		];
+		if (empty($mp)) {
+		} else if (empty($mp["plan_id"])) {
+			$data["message"] = "Can not find monthly payment Record: ".$monthly_payment_id;
+		} else if (empty($mp["pay_type"]) || empty($mp["paid"]) || empty($mp["retry"]) || empty($mp["amount"])) {
+			$data["message"] = "Payment Record has something wrong ".$monthly_payment_id;
+		} else {
+			if ($msg = $this->bambora_model->do_payment($monthly_payment_id)) {
+				$data["message"] = $msg;
+			} else {
+				$data["message"] = "OK";
+				$data["status"] = 0;
+			}
+		}
+		header('Content-Type: application/json');
+		echo json_encode($data);
 	}
 
 	public function detail($plan_id = 0, $sekey = '', $passerr = '') {
