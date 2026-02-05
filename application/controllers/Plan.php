@@ -4210,6 +4210,7 @@ class Plan extends MY_Controller {
 		if (!empty($plan["monthlypay"])) {
 			if ($mp = $this->monthly_payment_model->get_monthlypay_data($plan_id)) {
 				$data['monthly_data'] = $mp;
+				$data['admin_fee'] = $mp["admin_fee"];
 				$data['monthly_record'] = $this->monthly_payment_model->get_by_plan_id($plan_id);
 			}
 		}
@@ -4217,13 +4218,11 @@ class Plan extends MY_Controller {
 		if ($this->input->post()) {
 			if (empty($data['monthly_data'])) {
 				$refund_amount = (float)$this->input->post('refund_amount');
-				$admin_fee = (float)$this->input->post('admin_fee');
-				$total_amount = $refund_amount - $admin_fee;
 			} else {
 				$refund_amount = floatval($data['monthly_data']['total_paid']);
-				$admin_fee = floatval($data['monthly_data']['admin_fee']);
-				$total_amount = $refund_amount - $admin_fee;
 			}
+			$admin_fee = (float)$this->input->post('admin_fee');
+			$total_amount = $refund_amount - $admin_fee;
 
 			if ($total_amount > 0) {
 				$this->load->model('payment_model');

@@ -60,14 +60,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
                   <input readonly type="number" step="any" name='refund_amount' id='refund_amount' value='<?php echo $plan['premium']; ?>' class="form-control" />
                 </div>
                 <div class="row">
-                  <div class="form-group col-sm-5 col-xs-12" style="display:none;">
-                    <label class="col-sm-12">Admin Fee:</label>
-                    <div class="input-group col-sm-12">
-                      <input type="number" step="any" name='admin_fee' value='<?php echo $admin_fee; ?>' class="form-control" />
-                    </div>
-                  </div>
-                </div><br />
-                <div class="row">
                   <label class="col-sm-3 text-right">Reason:</label>
                   <div class="col-sm-3">
                     <select name='reason' id='reason' class="form-control">
@@ -90,8 +82,15 @@ defined('BASEPATH') or exit('No direct script access allowed');
                   <div class="col-sm-6 reason_input">
                     <input type="text" name='reason_input' id='reason_input' placeholder='Detail reason' value='' class="form-control" />
                   </div>
-                </div>
-		<br />
+                </div><br />
+                <div class="row">
+                  <div class="form-group col-sm-5 col-xs-12" <?php if (empty($plan["monthlypay"])) { ?>style="display:none;"<?php } ?>>
+                    <label class="col-sm-12">Admin Fee:</label>
+                    <div class="input-group col-sm-12">
+                      <input type="number" name='admin_fee' value='<?php echo $admin_fee; ?>' class="form-control" />
+                    </div>
+                  </div>
+                </div><br />
                 <div class="row">
                   <div class="form-group col-sm-12 text-center">
                     <label class="inline">Are you sure you want to cancel this policy? </label>
