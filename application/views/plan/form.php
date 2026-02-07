@@ -1420,11 +1420,9 @@ $(document).ready(function(){
 		$('#effective_date_div').datepicker({ autoclose: true, format:'yyyy-mm-dd' }).on('changeDate', function(e){
 			var effective_date = $('input[name="effective_date"]').val();
 			var today = new Date();
-			var date = new Date(effective_date);
-			if ((date.getFullYear() === today.getFullYear()) &&
-        	(date.getMonth() === today.getMonth()) &&
-        	(date.getDate() === today.getDate())) {
-				alert("Once the effective date is changed to today, clicking the submit button will charge the first monthly recurring fee.")
+			var date = '<?php echo date("Y-m-d"); ?>';
+			if (effective_date == today) {
+				alert("Once the effective date is changed to today, clicking the submit button will charge the first monthly recurring fee.");
       }
     });
 		<?php } ?>
