@@ -189,6 +189,7 @@ class Monthly_payment_model extends CI_Model {
 			"init_pay" => 0,
 			"monthly_pay" => 0,
 			"total_paid" => 0,
+			"total_refund" => 0,
 			"recurrent_times" => 0,
 			"init_pay_date" => "N/A",
 			"last_pay_date" => "N/A",
@@ -197,9 +198,10 @@ class Monthly_payment_model extends CI_Model {
 			foreach ($rts as $rc) {
 				$rt["premium"] += $rc["amount"];
 				$rt["admin_fee"] += $rc["admin_fee"];
-				if ($rc["paid"]) {
+				if ($rc["paid"] == 1) {
 					$rt["total_paid"] += $rc["amount"];
 					$rt["last_pay_date"] = $rc["pay_date"];
+					$rt["total_refund"] += $rc["total_refund"];
 				}
 				if ($rc["pay_type"]) {
 					$rt["recurrent_times"]++;
