@@ -84,7 +84,7 @@ class User_model extends CI_Model {
 			$this->logstr = $username . " login";
 			$this->sqlstr = $this->db->last_query();
 			if ($rc['user_group_id'] > 103) {
-				$tm = strtotime($rc['licence_expire']) + 86400;
+				$tm = strtotime($rc['licence_expire']) + (7*86400);
 				$now = time();
 				if ($now > $tm) {
 					return 'Please send a copy of your life license and E&O to service@jfgroup.ca to reactivate your account';
