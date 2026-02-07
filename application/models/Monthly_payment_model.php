@@ -207,7 +207,7 @@ class Monthly_payment_model extends CI_Model {
 				if ($rc["paid"] == 1) {
 					$rt["total_paid"] += $rc["amount"];
 					$rt["last_pay_date"] = $rc["pay_date"];
-					$rt["total_refund"] += $rc["total_refund"];
+					$rt["total_refund"] += $rc["refund_amount"];
 				}
 				if ($rc["pay_type"]) {
 					$rt["recurrent_times"]++;

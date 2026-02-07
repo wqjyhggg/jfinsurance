@@ -4707,7 +4707,7 @@ class Plan extends MY_Controller {
 			$data['paid_premium'] = $monthly_data["total_paid"] - $monthly_data["admin_fee"];
 			$total_amount = -$monthly_data["total_refund"];	// Total Refund amount (must be -)
 			$admin_fee = floatval($plan["premium"]) / 12 * 2;	// Init 2 month pay as admint fee
-			$used_premium = $monthly_data["total_paid"] - $monthly_data["total_refund"] - $monthly_data["admin_fee"];
+			$used_premium = $monthly_data["total_paid"] - $monthly_data["total_refund"] - $monthly_data["admin_fee"] - $admin_fee;
 			$refund_amount = 0;
 		} else {
 			$admin_fee = floatval($payment['admin_fee']);
