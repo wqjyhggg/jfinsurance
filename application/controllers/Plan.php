@@ -4226,7 +4226,7 @@ class Plan extends MY_Controller {
 
 			if ($total_amount > 0) {
 				$this->load->model('payment_model');
-				$this->monthly_payment_model->void_unpaid_record($plan_id);
+				$this->monthly_payment_model->do_cancel($plan_id, $total_amount);
 				$dt = array();
 				$dt['plan_id'] = $plan_id;
 				$dt['admin_fee'] = $admin_fee;
@@ -4440,10 +4440,9 @@ class Plan extends MY_Controller {
 		if ($this->input->post()) {
 			$refund_date = $this->input->post('refund_date');
 			if (!empty($plan["monthlypay"])) {
-				$refund_amount = 0;
 				$admin_fee = 0;
-				$total_amount = 0;
-				$this->monthly_payment_model->void_unpaid_record($plan_id);
+				$total_amount = $this->monthly_payment_model->do_refund($plan_id, $refund_date, $plan["effective_date"]);
+				$refund_amount = $total_amount;
 			} else {
 				$refund_amount = floatval($this->input->post('refund_amount'));
 				$admin_fee = floatval($this->input->post('admin_fee'));

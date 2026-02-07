@@ -254,7 +254,51 @@ class Monthly_payment_model extends CI_Model {
 
 	public function void_unpaid_record($plan_id) {
 		$now = date("Y-m-d H:i:s");
-		return $this->db->where("plan_id", $plan_id)->where("paid", 0)->set("paid", -1)->set("pay_time", $now)->update("monthly_payment");
+		return $this->db->where("plan_id", $plan_id)->where("paid<=", 0)->set("paid", -1)->set("pay_time", $now)->update("monthly_payment");
+	}
+
+	public function do_cancel($plan_id, $total_amount) {
+		$this->void_unpaid_record($plan_id);
+		$initRc = $this->db->where("plan_id", $plan_id)->where("pay_type", 0)->get("monthly_payment")->row_array();
+		if ($initRc) {
+			$this->db->where("monthly_payment_id", $initRc["monthly_payment_id"])->set("refund_amount", $total_amount)->update("monthly_payment");
+		}
+		return $refund_amount;
+	}
+
+	public function do_refund($plan_id, $refund_date, $effective_date) {
+		$this->void_unpaid_record($plan_id);
+		$refund_amount = 0;
+		$lastRc = $this->db->where("plan_id", $plan_id)->order_by("monthly_payment_id", "ASC")->limit(1)->get("monthly_payment")->row_array();
+		if (empty($lastRc)) {
+			return $refund_amount;
+		}
+		$monthly_amount = $lastRc["amount"];
+		$admin_fee = $monthly_amount * 2;
+
+		$paidRc = $this->db->where("plan_id", $plan_id)->where("paid", 1)->get("monthly_payment")->result_array();
+		if ($paidRc) {
+			foreach ($paidRc as $rc) {
+				if ($rc["pay_type"] == 0) {
+					// Init charge
+					if ($refund_date < $effective_date) {
+						// Should be cancel??? do as refund anyway
+						if (($admin_fee + 50) < $rc["amount"]) {
+							// Amount should be 3 monthly fee + 50
+							$r_amount = $rc["amount"] - ($admin_fee + 50);
+							$refund_amount += $r_amount;
+							$this->db->where("monthly_payment_id", $rc["monthly_payment_id"])->set("refund_amount", $r_amount)->update("monthly_payment");
+						}
+					}
+				} else {
+					if ($refund_date < $rc["pay_date"]) {
+						$refund_amount += $monthly_amount;
+						$this->db->where("monthly_payment_id", $rc["monthly_payment_id"])->set("refund_amount", $monthly_amount)->update("monthly_payment");
+					}
+				}
+			}
+		}
+		return $refund_amount;
 	}
 
 	public function change_effective_date($plan_id, $effective_date) {

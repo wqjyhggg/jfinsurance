@@ -1189,10 +1189,9 @@ class Plan extends CI_Controller
 		if ($do_refund == 1) {
 			$refund_date = $this->input->post('refund_date');
 			if (!empty($plan["monthlypay"])) {
-				$refund_amount = 0;
 				$admin_fee = 0;
-				$total_amount = 0;
-				$this->monthly_payment_model->void_unpaid_record($plan_id);
+				$total_amount = $this->monthly_payment_model->do_refund($plan_id, $refund_date, $plan["effective_date"]);
+				$refund_amount = $total_amount;
 			} else {
 				$refund_amount = floatval($this->input->post('refund_amount'));
 				$admin_fee = floatval($this->input->post('admin_fee'));
@@ -1401,7 +1400,7 @@ class Plan extends CI_Controller
 
 			if ($total_amount > 0) {
 				$this->load->model('payment_model');
-				$this->monthly_payment_model->void_unpaid_record($plan_id);
+				$this->monthly_payment_model->do_cancel($plan_id, $total_amount);
 				$dt = array();
 				$dt['plan_id'] = $plan_id;
 				$dt['admin_fee'] = $admin_fee;
@@ -2896,14 +2895,30 @@ class Plan extends CI_Controller
 		$data['refundprint_url'] = base_url ( "plan/refundprint" ) . "/" . $plan_id;
 		
 		$total_amount = (float)$payment['amount'] * (-1);
-		$admin_fee = (float)$payment['admin_fee'];
-		$refund_amount = $total_amount + $admin_fee;
+		if ($plan["monthlypay"]) {
+			$this->load->model('monthly_payment_model');
+			$monthly_data = $this->monthly_payment_model->get_monthlypay_data($plan_id);
+			if (empty($monthly_data)) {
+				redirect('user/login');
+			}
+			$data['paid_premium'] = $monthly_data["total_paid"] - $monthly_data["admin_fee"];
+			$total_amount = -$monthly_data["total_refund"];	// Total Refund amount (must be -)
+			$admin_fee = floatval($plan["premium"]) / 12 * 2;	// Init 2 month pay as admint fee
+			$used_premium = $monthly_data["total_paid"] - $monthly_data["total_refund"] - $monthly_data["admin_fee"] - $admin_fee;
+			$refund_amount = 0;
+		} else {
+			$admin_fee = floatval($payment['admin_fee']);
+			$refund_amount = $total_amount + $admin_fee;
+			$used_premium = $plan['premium'] - $refund_amount;
+		}
 		
 		$this->load->model('status_model');
 		$data['status_list'] = $this->status_model->status_list();
 		$data['refund_amount'] = $refund_amount;
 		$data['admin_fee'] = $admin_fee;
 		$data['total_amount'] = $total_amount;
+		$data['used_premium'] = $used_premium;
+
     $data['street_number'] = '';
     $data['street_name'] = '';
 		

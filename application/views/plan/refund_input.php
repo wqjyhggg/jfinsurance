@@ -99,11 +99,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 														</div>
 													</div>
 													<?php foreach ($monthly_record as $rc) { ?>
-													<?php   if (empty($rc['pay_type'])) { continue; } ?>
 													<?php   if (empty($rc['paid'])) { continue; } ?>
 													<div class="row">
 														<div class="form-group col-sm-4 col-xs-4">
-															<input type='checkbox' name='mpay_id[]' value='<?php echo $rc['monthly_payment_id']; ?>'>
 															<label><?php echo $rc['pay_date']; ?></label>
 														</div>
 														<div class="form-group col-sm-4 col-xs-4">
@@ -150,13 +148,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 															<div class="alert-error">Manually changing "Total Refund" will result in a difference in "Un-used Premium" field of the "Refund Letter". Please pay extra attention for your changes.</div>
 														</div>
 														<div class="form-group col-sm-12">
-															<label>Total Refund:</label> 
-															<input type="number" step="any" name='total_refund' id='total_refund' value='' class="form-control" />
-															<div class="alert-error">Manually changing "Total Refund" will result in a difference in "Un-used Premium" field of the "Refund Letter". Please pay extra attention for your changes.</div>
-														</div>
-														<div class="form-group col-sm-12">
 															<label class="inline">Are you sure you want to refund this policy? </label>
-															<input class="btn btn-primary inline" type='submit' name='send' value='YES'>
+															<input class="btn btn-primary inline" type='submit' name='send' value='YES'><br />
 															<a class="btn btn-default inline" href="<?php echo $url_back_to_policy;?>">NO</a>
 														</div>  
 														<?php } ?>
