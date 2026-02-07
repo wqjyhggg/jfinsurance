@@ -4699,18 +4699,28 @@ class Plan extends MY_Controller {
 
 		$total_amount = floatval($payment['amount'] * (-1));
 		if ($plan["monthlypay"]) {
-			$total_amount -= 50;	// Remove pre-charged admin fee
-			$admin_fee = floatval($plan["premium"]) / 12 * 2;	// add Init 2 month pay as admint fee
+			$this->load->model('monthly_payment_model');
+			$monthly_data = $this->monthly_payment_model->get_monthlypay_data($plan_id);
+			if (empty($monthly_data)) {
+				redirect('user/login');
+			}
+			$data['paid_premium'] = $monthly_data["total_paid"] - $monthly_data["admin_fee"];
+			$total_amount = -$monthly_data["total_refund"];	// Total Refund amount (must be -)
+			$admin_fee = floatval($plan["premium"]) / 12 * 2;	// Init 2 month pay as admint fee
+			$used_premium = $monthly_data["total_paid"] - $monthly_data["total_refund"] - $monthly_data["admin_fee"];
+			$refund_amount = 0;
 		} else {
 			$admin_fee = floatval($payment['admin_fee']);
+			$refund_amount = $total_amount + $admin_fee;
+			$used_premium = $plan['premium'] - $refund_amount;
 		}
-		$refund_amount = $total_amount + $admin_fee;
 
 		$this->load->model('status_model');
 		$data['status_list'] = $this->status_model->status_list();
 		$data['refund_amount'] = $refund_amount;
 		$data['admin_fee'] = $admin_fee;
 		$data['total_amount'] = $total_amount;
+		$data['used_premium'] = $used_premium;
 
 		$this->load->model('customer_model');
 		$this->load->model('html_model');

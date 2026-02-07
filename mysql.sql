@@ -761,6 +761,7 @@ CREATE TABLE monthly_payment (
 	paid tinyint NOT NULL DEFAULT 0 COMMENT '0: no, 1: yes, -1: void, -2: pay error',
 	retry tinyint NOT NULL DEFAULT 0 COMMENT 'tried times',
   retry_date date NULL COMMENT 'retry date',
+	refund_amount decimal(10,2) NOT NULL DEFAULT 0,
 	amount decimal(10,2) NOT NULL DEFAULT 0,
 	admin_fee decimal(10,2) NOT NULL DEFAULT 0,
   pay_date date NULL COMMENT 'pay date',
@@ -779,3 +780,4 @@ ALTER TABLE `product` ADD `hash_key` varchar(64) NOT NULL DEFAULT '' COMMENT 'ha
 ALTER TABLE `product` ADD `payment_key` VARCHAR(64) NOT NULL DEFAULT '' AFTER `profile_key`;
 ALTER TABLE `monthly_payment` ADD `admin_fee` decimal(10,2) NOT NULL DEFAULT 0 AFTER `amount`;
 ALTER TABLE `monthly_payment` ADD `retry_date` date NULL COMMENT 'retry date' AFTER `retry`;
+ALTER TABLE `monthly_payment` ADD `refund_amount` decimal(10,2) NOT NULL DEFAULT 0 AFTER `retry_date`;

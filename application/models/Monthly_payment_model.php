@@ -51,6 +51,9 @@ class Monthly_payment_model extends CI_Model {
 		if (isset($para['retry_date'])) {
 			$this->db->set('retry_date', $para['retry_date']);
 		}
+		if (isset($para['refund_amount'])) {
+			$this->db->set('refund_amount', $para['refund_amount']);
+		}
 		if (isset($para['admin_fee'])) {
 			$this->db->set('admin_fee', $para['admin_fee']);
 		}
@@ -108,6 +111,9 @@ class Monthly_payment_model extends CI_Model {
 		}
 		if (isset($para['retry_date'])) {
 			$this->db->set('retry_date', $para['retry_date']);
+		}
+		if (isset($para['refund_amount'])) {
+			$this->db->set('refund_amount', $para['refund_amount']);
 		}
 		if (isset($para['admin_fee'])) {
 			$this->db->set('admin_fee', $para['admin_fee']);
