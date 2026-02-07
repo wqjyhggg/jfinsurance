@@ -1416,6 +1416,18 @@ $(document).ready(function(){
         	get_premium();
         }
     });
+		<?php if (!empty($plan) && !empty($plan['monthlypay']) && (($status_id == 2) || ($status_id == 3))) { ?>
+    $('#expiry_date').change(function(){
+			var expiry_date = $('input[name="expiry_date"]').val();
+			var today = new Date();
+			var date = new Date(expiry_date);
+			if ((date.getFullYear() === today.getFullYear()) &&
+        	(date.getMonth() === today.getMonth()) &&
+        	(date.getDate() === today.getDate())) {
+				alert("Once the effective date is changed to today, clicking the submit button will charge the first monthly recurring fee.")
+      }
+    });
+		<?php } ?>
     $('#totaldays').change(function(){
         var days = $('#totaldays').val();
         var effective = $('#effective_date_div').datepicker('getDate');
