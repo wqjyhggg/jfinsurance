@@ -132,7 +132,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
           <?php } ?>
           <?php if ($plan['questionnaire'] > 0) { ?>
             <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Your rate table is Table<?php echo $plan['questionnaire']; ?></span>
-            <?php if (0) { ?>
+            <?php if (1) { ?>
               <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>With Questionnaire answers</span>
               <?php if ($plan['question1_lung'] || $plan['question1_diabets'] || $plan['question1_heart']) { ?>
                 <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Question 1 :
