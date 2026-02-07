@@ -1417,10 +1417,10 @@ $(document).ready(function(){
         }
     });
 		<?php if (!empty($plan) && !empty($plan['monthlypay']) && (($status_id == 2) || ($status_id == 3))) { ?>
-    $('#expiry_date').change(function(){
-			var expiry_date = $('input[name="expiry_date"]').val();
+		$('#effective_date_div').datepicker({ autoclose: true, format:'yyyy-mm-dd' }).on('changeDate', function(e){
+			var effective_date = $('input[name="effective_date"]').val();
 			var today = new Date();
-			var date = new Date(expiry_date);
+			var date = new Date(effective_date);
 			if ((date.getFullYear() === today.getFullYear()) &&
         	(date.getMonth() === today.getMonth()) &&
         	(date.getDate() === today.getDate())) {
