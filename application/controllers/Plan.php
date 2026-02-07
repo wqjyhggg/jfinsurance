@@ -4697,8 +4697,13 @@ class Plan extends MY_Controller {
 		$data['plan'] = $plan;
 		$data['refundprint_url'] = base_url("plan/refundprint") . "/" . $plan_id;
 
-		$total_amount = (float)$payment['amount'] * (-1);
-		$admin_fee = (float)$payment['admin_fee'];
+		$total_amount = floatval($payment['amount'] * (-1));
+		if ($plan["monthlypay"]) {
+			$total_amount -= 50;	// Remove pre-charged admin fee
+			$admin_fee = floatval($plan["premium"]) / 12 * 2;	// add Init 2 month pay as admint fee
+		} else {
+			$admin_fee = floatval($payment['admin_fee']);
+		}
 		$refund_amount = $total_amount + $admin_fee;
 
 		$this->load->model('status_model');
