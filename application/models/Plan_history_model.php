@@ -54,8 +54,8 @@ class Plan_history_model extends CI_Model
     if ($this->db->where('plan_id', $plan_id)->get('plan_history')->row_array()) {
       $ishead = 0;
     }
-    $sql  = "INSERT INTO plan_history (plan_id, ishead, customer_id, user_id, status_id, region_id, policy, agree, product_short, batch_number, apply_date, isfamilyplan, arrival_date, effective_date, expiry_date, beneficiary, stable_condition, stable_condition_confirm, rate_options, holiday_rate, spouse, sum_insured, deductible_amount, dailyrate, actualrate, totaldays, totalyears, premium, tax, commission_amount, street_number, street_name, suite_number, city, province2, country2, postcode, payment_id, note)";
-    $sql .= " SELECT plan_id, ".$ishead.", customer_id, user_id, ".intval($new_status_id).", region_id, policy, agree, product_short, batch_number, apply_date, isfamilyplan, arrival_date, effective_date, expiry_date, beneficiary, stable_condition, stable_condition_confirm, rate_options, holiday_rate, spouse, sum_insured, deductible_amount, dailyrate, premium/totaldays, totaldays, totalyears, premium, tax, commission_amount, street_number, street_name, suite_number, city, province2, country2, postcode, payment_id, note FROM plan";
+    $sql  = "INSERT INTO plan_history (plan_id, ishead, customer_id, user_id, status_id, region_id, policy, agree, product_short, batch_number, apply_date, isfamilyplan, arrival_date, effective_date, expiry_date, beneficiary, stable_condition, stable_condition_confirm, rate_options, holiday_rate, spouse, sum_insured, deductible_amount, dailyrate, actualrate, totaldays, totalyears, premium, monthlypay, tax, commission_amount, street_number, street_name, suite_number, city, province2, country2, postcode, payment_id, note)";
+    $sql .= " SELECT plan_id, ".$ishead.", customer_id, user_id, ".intval($new_status_id).", region_id, policy, agree, product_short, batch_number, apply_date, isfamilyplan, arrival_date, effective_date, expiry_date, beneficiary, stable_condition, stable_condition_confirm, rate_options, holiday_rate, spouse, sum_insured, deductible_amount, dailyrate, premium/totaldays, totaldays, totalyears, premium, monthlypay, tax, commission_amount, street_number, street_name, suite_number, city, province2, country2, postcode, payment_id, note FROM plan";
     $sql .= " WHERE plan_id=".intval($plan_id);
     $this->db->query($sql);
     $plan_history_id = $this->db->insert_id();
@@ -69,8 +69,8 @@ class Plan_history_model extends CI_Model
   public function add_remove($plan_history_id)
   {
     // Add a cancel record for old record
-    $sql  = "INSERT INTO plan_history (plan_id, customer_id, user_id, status_id, region_id, policy, agree, product_short, batch_number, apply_date, isfamilyplan, arrival_date, effective_date, expiry_date, beneficiary, stable_condition, stable_condition_confirm, rate_options, holiday_rate, spouse, sum_insured, deductible_amount, dailyrate, actualrate, totaldays, totalyears, premium, tax, commission_amount, street_number, street_name, suite_number, city, province2, country2, postcode, payment_id, note)";
-    $sql .= " SELECT plan_id, customer_id, user_id, 8, region_id, policy, agree, product_short, batch_number, apply_date, isfamilyplan, arrival_date, effective_date, expiry_date, beneficiary, stable_condition, stable_condition_confirm, rate_options, holiday_rate, spouse, sum_insured, deductible_amount, -dailyrate, -premium/totaldays, totaldays, totalyears, -premium, -tax, -commission_amount, street_number, street_name, suite_number, city, province2, country2, postcode, payment_id, note FROM plan_history";
+    $sql  = "INSERT INTO plan_history (plan_id, customer_id, user_id, status_id, region_id, policy, agree, product_short, batch_number, apply_date, isfamilyplan, arrival_date, effective_date, expiry_date, beneficiary, stable_condition, stable_condition_confirm, rate_options, holiday_rate, spouse, sum_insured, deductible_amount, dailyrate, actualrate, totaldays, totalyears, premium, monthlypay, tax, commission_amount, street_number, street_name, suite_number, city, province2, country2, postcode, payment_id, note)";
+    $sql .= " SELECT plan_id, customer_id, user_id, 8, region_id, policy, agree, product_short, batch_number, apply_date, isfamilyplan, arrival_date, effective_date, expiry_date, beneficiary, stable_condition, stable_condition_confirm, rate_options, holiday_rate, spouse, sum_insured, deductible_amount, -dailyrate, -premium/totaldays, totaldays, totalyears, -premium, monthlypay, -tax, -commission_amount, street_number, street_name, suite_number, city, province2, country2, postcode, payment_id, note FROM plan_history";
     $sql .= " WHERE plan_history_id=".intval($plan_history_id);
     $this->db->query($sql);
     $plan_history_id = $this->db->insert_id();
@@ -173,6 +173,9 @@ class Plan_history_model extends CI_Model
     }
     if (isset($para['premium'])) {
       $this->db->set("premium", $para['premium']);
+    }
+    if (isset($para['monthlypay'])) {
+      $this->db->set("monthlypay", $para['monthlypay']);
     }
     if (isset($para['tax'])) {
       $this->db->set("tax", $para['tax']);

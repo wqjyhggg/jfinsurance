@@ -313,6 +313,7 @@ CREATE TABLE `plan` (
   `totaldays` int NOT NULL,
   `totalyears` int NOT NULL,
   `premium` decimal(10,2) NOT NULL,
+	`monthlypay` tinyint NULL DEFAULT 0 COMMENT 'the plan is monthly pay or not, 1 yes',
   `tax` decimal(10,2) NOT NULL,
   `commission_amount` decimal(10,2) NOT NULL,
   `street_number` varchar(16) NOT NULL,
@@ -405,6 +406,7 @@ CREATE TABLE `plan_history` (
   `totaldays` int NOT NULL,
   `totalyears` int NOT NULL,
   `premium` decimal(10,2) NOT NULL,
+	`monthlypay` tinyint NULL DEFAULT 0 COMMENT 'the plan is monthly pay or not, 1 yes',
   `tax` decimal(10,2) NOT NULL,
   `commission_amount` decimal(10,2) NOT NULL,
   `street_number` varchar(16) NOT NULL,
@@ -751,6 +753,7 @@ CREATE TABLE maintain (
  PRIMARY KEY (maintain_id) );
 
 -- 2025-10-11
+DROP TABLE monthly_payment;
 CREATE TABLE monthly_payment (
   monthly_payment_id int NOT NULL AUTO_INCREMENT,
 	plan_id int NOT NULL DEFAULT 0,
@@ -781,3 +784,5 @@ ALTER TABLE `product` ADD `payment_key` VARCHAR(64) NOT NULL DEFAULT '' AFTER `p
 ALTER TABLE `monthly_payment` ADD `admin_fee` decimal(10,2) NOT NULL DEFAULT 0 AFTER `amount`;
 ALTER TABLE `monthly_payment` ADD `retry_date` date NULL COMMENT 'retry date' AFTER `retry`;
 ALTER TABLE `monthly_payment` ADD `refund_amount` decimal(10,2) NOT NULL DEFAULT 0 AFTER `retry_date`;
+-- 2026-02-07
+ALTER TABLE `plan_history` ADD `monthlypay` tinyint NULL DEFAULT 0 COMMENT 'the plan is monthly pay or not, 1 yes' AFTER `premium`;

@@ -19,6 +19,7 @@ class Menu_model extends CI_Model {
 					array(
 							"<a class='leftmeun'><i class='fa fa-file-excel-o'></i>" . $this->lang->line ( 'text_report' ) . "<span class='fa fa-chevron-down'></span></a>",
 							"<a href='" . base_url('reports/premium2') . "' class='leftmeun'>OR Premium Report</a>",
+							"<a href='" . base_url('reports/premium3') . "' class='leftmeun'>OR Monthly Premium Report</a>",
 							"<a href='" . base_url('reports/agent') . "' class='leftmeun'>" . $this->lang->line ( 'text_report_to_agent' ) . "</a>",
 							"<a href='" . base_url('reports/annual') . "' class='leftmeun'>" . $this->lang->line ( 'text_agent_annual' ) . "</a>",
 							"<a href='" . base_url('reports/jf') . "' class='leftmeun'>" . $this->lang->line ( 'text_report_to_jf' ) . "</a>",
@@ -49,6 +50,7 @@ class Menu_model extends CI_Model {
 					array(
 							"<a class='leftmeun'><i class='fa fa-file-excel-o'></i>" . $this->lang->line ( 'text_report' ) . "<span class='fa fa-chevron-down'></span></a>",
 							"<a href='" . base_url('reports/premium2') . "' class='leftmeun'>OR Premium Report</a>",
+							"<a href='" . base_url('reports/premium3') . "' class='leftmeun'>OR Monthly Premium Report</a>",
 							"<a href='" . base_url('reports/annual') . "' class='leftmeun'>" . $this->lang->line ( 'text_agent_annual' ) . "</a>",
 							"<a href='" . base_url('reports/agent') . "' class='leftmeun'>" . $this->lang->line ( 'text_report_to_agent' ) . "</a>",
 							"<a href='" . base_url('reports/jf') . "' class='leftmeun'>" . $this->lang->line ( 'text_report_to_jf' ) . "</a>",

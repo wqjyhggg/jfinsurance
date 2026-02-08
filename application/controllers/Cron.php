@@ -978,6 +978,8 @@ class Cron extends MY_Controller {
       foreach ($runjobs as $job) {
         if ($job["run_type"] == Backrun_model::ORPremium) {
           $this->backrun_model->ORPremium($job["backrun_id"], json_decode($job["para_data"], true));
+        } else if ($job["run_type"] == Backrun_model::ORMonthlyPremium) {
+          $this->backrun_model->ORMonthlyPremium($job["backrun_id"], json_decode($job["para_data"], true));
         } else if ($job["run_type"] == Backrun_model::SalesReportToAgent) {
           $this->backrun_model->SalesReportToAgent($job["backrun_id"], json_decode($job["para_data"], true));
         } else if ($job["run_type"] == Backrun_model::SalesReportToInsurer) {
