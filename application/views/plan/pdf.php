@@ -419,7 +419,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 					<br /><span>&nbsp;&nbsp;&nbsp;&nbsp;Lung conditions/disease (include asthma) <?php echo $plan["$question3_lung"]; ?></span>
 					<br /><span>&nbsp;&nbsp;&nbsp;&nbsp;Peptic ulcer <?php echo $plan["question3_peptic"]; ?></span>
         </div>
-        <div class="col-sm-12" style="padding-bottom:20px;">
+        <div class="col-sm-12" style="padding-bottom:12px;">
 					<span>At the time of application, do you have any medical conditions that were not listed in the previous questions for which you are currently receiving treatment?</span>
 					<br /><span>Treatment includes medication* that you take or have been ordered to take by a physician, not including a minor ailment.</span>
 					<br /><span>Minor ailment means a condition which does not require:</span>
