@@ -342,6 +342,8 @@ class Plan_model extends CI_Model {
 		}
 		if (isset($para['trip_cancellation_insured'])) $sql .= " trip_cancellation_insured=" . (int)$para['trip_cancellation_insured'] . ", ";
 		if (isset($para['questionnaire'])) $sql .= " questionnaire=" . (int)$para['questionnaire'] . ", ";
+		if (isset($para['medical_eligible1'])) $sql .= " medical_eligible1=" . $this->db->escape(trim($para['medical_eligible1'])) . ", ";
+		if (isset($para['medical_eligible2'])) $sql .= " medical_eligible2=" . $this->db->escape(trim($para['medical_eligible2'])) . ", ";
 		if (isset($para['question1'])) $sql .= " question1=" . (int)$para['question1'] . ", ";
 		if (isset($para['question1_lung'])) $sql .= " question1_lung=" . (int)$para['question1_lung'] . ", ";
 		if (isset($para['question1_diabets'])) $sql .= " question1_diabets=" . (int)$para['question1_diabets'] . ", ";
@@ -835,6 +837,14 @@ class Plan_model extends CI_Model {
 		if (isset($para['questionnaire']) && ($para['questionnaire'] != $plan['questionnaire'])) {
 			$this->logstr .= " questionnaire " . $para['questionnaire'] . "(" . $plan['questionnaire'] . ")";
 			$sql .= " questionnaire=" . $this->db->escape(trim($para['questionnaire'])) . ", ";
+		}
+		if (isset($para['medical_eligible1']) && ($para['medical_eligible1'] != $plan['medical_eligible1'])) {
+			$this->logstr .= " medical_eligible1 " . $para['medical_eligible1'] . "(" . $plan['medical_eligible1'] . ")";
+			$sql .= " medical_eligible1=" . $this->db->escape(trim($para['medical_eligible1'])) . ", ";
+		}
+		if (isset($para['medical_eligible2']) && ($para['medical_eligible2'] != $plan['medical_eligible2'])) {
+			$this->logstr .= " medical_eligible2 " . $para['medical_eligible2'] . "(" . $plan['medical_eligible2'] . ")";
+			$sql .= " medical_eligible2=" . $this->db->escape(trim($para['medical_eligible2'])) . ", ";
 		}
 		if (isset($para['question1']) && ($para['question1'] != $plan['question1'])) {
 			$this->logstr .= " question1 " . $para['question1'] . "(" . $plan['question1'] . ")";

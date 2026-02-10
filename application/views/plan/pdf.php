@@ -213,7 +213,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
               <?php if ($plan['stable_condition']) { ?>
               <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span><?php echo ($plan['stable_condition'] == 1) ? 'Including' : 'Excluding'; ?> <?php echo $this->lang->line("stable pre-existing condition coverage"); ?></span>
               <?php } ?>
-              <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Your rate table is Table<?php echo $plan['questionnaire']; ?></span>
+              <br /><br /><br /><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Your rate table is Table<?php echo $plan['questionnaire']; ?></span>
               <?php if (1) { ?>
                 <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>With Questionnaire answers</span>
                 <?php if ($plan['question1_lung'] || $plan['question1_diabets'] || $plan['question1_heart']) { ?>
@@ -360,7 +360,88 @@ defined('BASEPATH') or exit('No direct script access allowed');
         <?php } ?>
       </div>
     </div>
-
+		<?php if ((($plan['product_short'] == 'TOP') || ($plan['product_short'] == 'TOPN')) && ($plan['questionnaire'] > 0)) { ?>
+      <div class="row">
+				<div class="col-sm-12 nopm special-note">
+					<h4 style="border-bottom:1px solid #777;">Medical Questionnaire</h4>
+				</div>
+        <div class="col-sm-12" style="padding:0;">
+          <span>To be eligible for coverage under this plan, the applicant must on the Effective Date of Coverage:</span>
+					<br /><span>&nbsp;&nbsp;&nbsp;&nbsp;a. be at least 15 days old and not more than 84 years old travelling for no more than 90 days per trip; and</span>
+					<br /><span>&nbsp;&nbsp;&nbsp;&nbsp;b. be a Canadian resident covered under a government health insurance plan for the entire duration of your trip; and</span>
+					<br /><span>&nbsp;&nbsp;&nbsp;&nbsp;c. purchase coverage for the entire duration of your trip prior to the date of departure from your province, or territory of residence, or Canada; and</span>
+					<br /><span>&nbsp;&nbsp;&nbsp;&nbsp;d. be in good health at the time you purchase your policy and on the date of departure from your province, or territory of residence, or Canada and know of no reason to seek medical consultation during the coverage period.</span>
+					<br />
+          <span>Do you confirm that you are eligible to apply <B><?php echo $plan["medical_eligible1"]; ?></B></span>
+				</div>
+        <div class="col-sm-12" style="padding:0;">
+					<span>On the Effective Date of Coverage:</span>
+					<br /><span>&nbsp;&nbsp;&nbsp;&nbsp;Has your physician advised you not to travel?</span>
+					<br /><span>&nbsp;&nbsp;&nbsp;&nbsp;Have you been diagnosed with or suffer from a terminal illness?</span>
+          <br /><span>&nbsp;&nbsp;&nbsp;&nbsp;Have you been diagnosed with congestive heart failure at any point in the last 15 years?</span>
+          <br /><span>&nbsp;&nbsp;&nbsp;&nbsp;Have you had your most recent heart surgery (bypass; angioplasty; stent placement; valve; pacemaker implant) less than 6 months ago or more than 12 years ago?</span>
+          <br /><span>&nbsp;&nbsp;&nbsp;&nbsp;Have you been diagnosed with an unrepaired aneurysm of 4.5 centimetres or more?</span>
+          <br /><span>&nbsp;&nbsp;&nbsp;&nbsp;Have you suffered from kidney disease treated through dialysis?</span>
+          <br /><span>&nbsp;&nbsp;&nbsp;&nbsp;Have you been diagnosed with or treated for stage III or IV cancer or cancer that has metastasized?</span>
+          <br /><span>&nbsp;&nbsp;&nbsp;&nbsp;In the past 12 months, have you been prescribed or have you used (by personal choice or as recommended by a health care professional) home supplemental oxygen?</span>
+          <br /><span>&nbsp;&nbsp;&nbsp;&nbsp;In the past 90 days, have you been experiencing new or undiagnosed symptoms and/or know of any reason to seek medical attention, or sought medical attention?</span>
+          <br /><span>&nbsp;&nbsp;&nbsp;&nbsp;Do you require assistance with any of the Activities of Daily Living?</span>
+					<br /><span>Do you confirm that you are eligible to apply <B><?php echo $plan["medical_eligible2"]; ?></B></span>
+        </div>
+        <div class="col-sm-12" style="padding:0;">
+					<span>On the Effective Date of Coverage:</span>
+					<br /><span>&nbsp;&nbsp;&nbsp;&nbsp;An applicant is 60 years of age to 74 years of age travelling for more than 60 days; or</span>
+					<br /><span>&nbsp;&nbsp;&nbsp;&nbsp;An applicant is 75 years of age to 84 years of age travelling for any trip length.</span>
+					<br /><span>Medical conditions:</span>
+          <br /><span>&nbsp;&nbsp;&nbsp;&nbsp;Lung conditions/disease (include asthma)</span>
+          <br /><span>&nbsp;&nbsp;&nbsp;&nbsp;Diabetes</span>
+          <br /><span>&nbsp;&nbsp;&nbsp;&nbsp;Heart conditions/hypertensive disease (do not include aspirin or high cholesterol medications)</span>
+          <br /><span><B><?php 
+						if ($question1 == 3) { echo "3 or more medications"; } 
+						else if ($question1 == 2) { echo "2 medications"; } 
+						else { echo "1 medication or None"; } ?></B></span>
+        </div>
+				<?php if (!empty($question2)) { ?>
+        <div class="col-sm-12" style="padding:0;">
+					<span>Within the 24 months prior to the date of application, have you had a heart attack, stroke and/or transient ischemic attack (mini-stroke, TIA)?</span>
+					<br /><span><B><?php if ($question2 == 2) { echo 'Yes'; } else { echo 'No'; } ?></B></span>
+        </div>
+				<?php } ?>
+				<?php if (!empty($question3)) { ?>
+        <div class="col-sm-12" style="padding:0;">
+					<span>Within 6 months of the date of application, how many of the following medical conditions did you take medication for or received treatment for?</span>
+					<br /><span>Treatment includes medication* that you take or have been ordered to take by a physician.</span>
+					<br /><span>Bowel conditions/disease including bleeding and inflammation <?php echo $question3_bowel; ?></span>
+					<br /><span>&nbsp;&nbsp;&nbsp;&nbsp;Cancer <?php echo $question3_cancer; ?></span>
+					<br /><span>&nbsp;&nbsp;&nbsp;&nbsp;Diabetes (controlled by medication or diet) <?php echo $question3_diabetes; ?></span>
+					<br /><span>&nbsp;&nbsp;&nbsp;&nbsp;Diverticulitis/Diverticulosis <?php echo $question3_diverticu; ?></span>
+					<br /><span>&nbsp;&nbsp;&nbsp;&nbsp;GERD (gastro-esophageal reflux disease) <?php echo $question3_gerd; ?></span>
+					<br /><span>&nbsp;&nbsp;&nbsp;&nbsp;Heart conditions/disease (include aspirin) <?php echo $question3_heart; ?></span>
+					<br /><span>&nbsp;&nbsp;&nbsp;&nbsp;Hypertension <?php echo $question3_hyper; ?></span>
+					<br /><span>&nbsp;&nbsp;&nbsp;&nbsp;Kidney disease (not requiring dialysis) <?php echo $question3_kidney; ?></span>
+					<br /><span>&nbsp;&nbsp;&nbsp;&nbsp;Lung conditions/disease (include asthma) <?php echo $question3_lung; ?></span>
+					<br /><span>&nbsp;&nbsp;&nbsp;&nbsp;Peptic ulcer <?php echo $question3_peptic; ?></span>
+        </div>
+				<?php } ?>
+				<?php if (!empty($question4)) { ?>
+        <div class="col-sm-12" style="padding:0;">
+					<span>At the time of application, do you have any medical conditions that were not listed in the previous questions for which you are currently receiving treatment?</span>
+					<br /><span>Treatment includes medication* that you take or have been ordered to take by a physician, not including a minor ailment.</span>
+					<br /><span>Minor ailment means a condition which does not require:</span>
+					<br /><span>&nbsp;&nbsp;&nbsp;&nbsp;Treatment for a period of greater than 30 consecutive days; or,</span>
+					<br /><span>&nbsp;&nbsp;&nbsp;&nbsp;More than one follow-up visit or referral visit to a physician or other registered medical practitioner; or,</span>
+					<br /><span>&nbsp;&nbsp;&nbsp;&nbsp;Hospitalization or surgical intervention.</span>
+					<br /><span><B><?php if ($question4 == 2) { echo 'Yes'; } else { echo 'No'; } ?></B></span>
+        </div>
+				<?php } ?>
+				<?php if (!empty($question5)) { ?>
+        <div class="col-sm-12" style="padding:0;">
+					<br /><span>Have you used any tobacco products in the past 24 months?</span>
+					<br /><span><B><?php if ($question5 == 2) { echo 'Yes'; } else { echo 'No'; } ?></B></span>
+        </div>
+				<?php } ?>
+      </div>
+		<? } ?>
     <?php if ($plan['isfamilyplan']) { ?>
       <div class="row">
         <div class="col-sm-12" style="padding:0;">

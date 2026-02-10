@@ -390,6 +390,8 @@ class Plan extends MY_Controller {
 				($this->input->post('trip_cancellation_ck') != $plan['trip_cancellation_ck']) ||
 				($this->input->post('trip_cancellation_insured') != $plan['trip_cancellation_insured']) ||
 				($this->input->post('questionnaire') != $plan['questionnaire']) ||
+				($this->input->post('medical_eligible1') != $plan['medical_eligible1']) ||
+				($this->input->post('medical_eligible2') != $plan['medical_eligible2']) ||
 				((int)$this->input->post('question1') != (int)$plan['question1']) ||
 				((int)$this->input->post('question2') != (int)$plan['question2']) ||
 				((int)$this->input->post('question3') != (int)$plan['question3']) ||
@@ -1354,6 +1356,20 @@ class Plan extends MY_Controller {
 			$data['questionnaire'] = $plan['questionnaire'];
 		} else {
 			$data['questionnaire'] = '0';
+		}
+		if ($this->input->post('medical_eligible1')) {
+			$data['medical_eligible1'] = $this->input->post('medical_eligible1');
+		} else if (isset($plan['medical_eligible1'])) {
+			$data['medical_eligible1'] = $plan['medical_eligible1'];
+		} else {
+			$data['medical_eligible1'] = '';
+		}
+		if ($this->input->post('medical_eligible2')) {
+			$data['medical_eligible2'] = $this->input->post('medical_eligible2');
+		} else if (isset($plan['medical_eligible2'])) {
+			$data['medical_eligible2'] = $plan['medical_eligible2'];
+		} else {
+			$data['medical_eligible2'] = '';
 		}
 		if ($this->input->post('question1')) {
 			$data['question1'] = $this->input->post('question1');
@@ -4140,7 +4156,7 @@ class Plan extends MY_Controller {
 				$mpdf->showWatermarkText = true;
 			}
 			$data['hadheaderfooter'] = 1;
-			$html = $this->load->view('plan/pdf_jfvtc', $data, TRUE); //XXXXXXXXXXX
+			$html = $this->load->view('plan/pdf_jfvtc', $data, TRUE);
 			if ($data['withlogo']) {
 				$mpdf->SetHTMLHeader('<img style="width:100%;" src="' . base_url() . 'image/pdf_header.png" />');
 			}

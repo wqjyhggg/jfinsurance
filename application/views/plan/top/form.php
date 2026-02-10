@@ -882,9 +882,9 @@ if ($Agree != "Agree") {
                           </ol>
                           <div class="form-check form-check-inline">
                             Do you confirm that you are eligible to apply
-                            <input type='radio' name='medical_eligible1' value='Yes' class="form-check-input">
+                            <input type='radio' name='medical_eligible1' value='Y' <?php if ($medical_eligible1 == 'Y') { echo "checked"; } ?> class="form-check-input">
                             <label class="form-check-label">Yes</label>
-                            <input type='radio' name='medical_eligible1' value='No' class="form-check-input">
+                            <input type='radio' name='medical_eligible1' value='N' <?php if ($medical_eligible1 == 'N') { echo "checked"; } ?> class="form-check-input">
                             <label class="form-check-label">No</label>
                           </div>
                         </div>
@@ -910,9 +910,9 @@ if ($Agree != "Agree") {
                           </ol>
                           <div class="form-check form-check-inline">
                             Do you confirm that you are eligible to apply
-                            <input type='radio' name='medical_eligible2' value='Yes' class="form-check-input">
+                            <input type='radio' name='medical_eligible2' value='Y' <?php if ($medical_eligible2 == 'Y') { echo "checked"; } ?> class="form-check-input">
                             <label class="form-check-label">Yes</label>
-                            <input type='radio' name='medical_eligible2' value='No' class="form-check-input">
+                            <input type='radio' name='medical_eligible2' value='N' <?php if ($medical_eligible2 == 'N') { echo "checked"; } ?> class="form-check-input">
                             <label class="form-check-label">No</label>
                           </div>
                         </div>
@@ -942,14 +942,14 @@ if ($Agree != "Agree") {
                           </ul>
                         </div>
                         <?php if (($user_group_id > 100) && $no_change) { ?>
-                          <input type="hidden" name="question1" value="<?php echo $question1; ?>">
+                          <input type="hidden" name="question1" value="<?php echo $question1; ?>"> <?php echo $question1; ?>
                         <?php } else { ?>
                           <div class="col-sm-12">
-                            <input type='radio' name='question1' value='3' class="form-check-input">
+                            <input type='radio' name='question1' value='3' <?php if ($question1 == 3) { echo "checked"; } ?> class="form-check-input">
                             <label class="form-check-label">3 or more medications</label>
-                            <input type='radio' name='question1' value='2' class="form-check-input">
+                            <input type='radio' name='question1' value='2' <?php if ($question1 == 2) { echo "checked"; } ?> class="form-check-input">
                             <label class="form-check-label">2 medications</label>
-                            <input type='radio' name='question1' value='1' class="form-check-input">
+                            <input type='radio' name='question1' value='1' <?php if ($question1 == 1) { echo "checked"; } ?> class="form-check-input">
                             <label class="form-check-label">1 medication or None</label>
                           </div>
                         <?php } ?>
