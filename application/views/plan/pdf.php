@@ -365,7 +365,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 				<div class="col-sm-12 nopm special-note">
 					<h4 style="border-bottom:1px solid #777;">Medical Questionnaire</h4>
 				</div>
-        <div class="col-sm-12" style="padding-bottom:20px;">
+        <div class="col-sm-12" style="padding-bottom:12px;">
           <span>To be eligible for coverage under this plan, the applicant must on the Effective Date of Coverage:</span>
 					<br /><span>&nbsp;&nbsp;&nbsp;&nbsp;a. be at least 15 days old and not more than 84 years old travelling for no more than 90 days per trip; and</span>
 					<br /><span>&nbsp;&nbsp;&nbsp;&nbsp;b. be a Canadian resident covered under a government health insurance plan for the entire duration of your trip; and</span>
@@ -374,7 +374,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 					<br />
           <span>Do you confirm that you are eligible to apply <B><?php echo $plan["medical_eligible1"]; ?></B></span>
 				</div>
-        <div class="col-sm-12" style="padding-bottom:20px;">
+        <div class="col-sm-12" style="padding-bottom:12px;">
 					<span>On the Effective Date of Coverage:</span>
 					<br /><span>&nbsp;&nbsp;&nbsp;&nbsp;Has your physician advised you not to travel?</span>
 					<br /><span>&nbsp;&nbsp;&nbsp;&nbsp;Have you been diagnosed with or suffer from a terminal illness?</span>
@@ -388,7 +388,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
           <br /><span>&nbsp;&nbsp;&nbsp;&nbsp;Do you require assistance with any of the Activities of Daily Living?</span>
 					<br /><span>Do you confirm that you are eligible to apply <B><?php echo $plan["medical_eligible2"]; ?></B></span>
         </div>
-        <div class="col-sm-12" style="padding-bottom:20px;">
+        <div class="col-sm-12" style="padding-bottom:12px;">
 					<span>On the Effective Date of Coverage:</span>
 					<br /><span>&nbsp;&nbsp;&nbsp;&nbsp;An applicant is 60 years of age to 74 years of age travelling for more than 60 days; or</span>
 					<br /><span>&nbsp;&nbsp;&nbsp;&nbsp;An applicant is 75 years of age to 84 years of age travelling for any trip length.</span>
@@ -401,11 +401,11 @@ defined('BASEPATH') or exit('No direct script access allowed');
 						else if ($plan["question1"] == 2) { echo "2 medications"; } 
 						else { echo "1 medication or None"; } ?></B></span>
         </div>
-        <div class="col-sm-12" style="padding-bottom:20px;">
+        <div class="col-sm-12" style="padding-bottom:12px;">
 					<span>Within the 24 months prior to the date of application, have you had a heart attack, stroke and/or transient ischemic attack (mini-stroke, TIA)?</span>
 					<br /><span><B><?php if ($plan["question2"] == 2) { echo 'Yes'; } else { echo 'No'; } ?></B></span>
         </div>
-        <div class="col-sm-12" style="padding-bottom:20px;">
+        <div class="col-sm-12" style="padding-bottom:12px;">
 					<span>Within 6 months of the date of application, how many of the following medical conditions did you take medication for or received treatment for?</span>
 					<br /><span>Treatment includes medication* that you take or have been ordered to take by a physician.</span>
 					<br /><span>Bowel conditions/disease including bleeding and inflammation <?php echo $plan["question3_bowel"]; ?></span>
@@ -428,7 +428,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 					<br /><span>&nbsp;&nbsp;&nbsp;&nbsp;Hospitalization or surgical intervention.</span>
 					<br /><span><B><?php if ($plan["question4"] == 2) { echo 'Yes'; } else { echo 'No'; } ?></B></span>
         </div>
-        <div class="col-sm-12" style="padding-bottom:20px;">
+        <div class="col-sm-12" style="padding-bottom:12px;">
 					<br /><span>Have you used any tobacco products in the past 24 months?</span>
 					<br /><span><B><?php if ($plan["question5"] == 2) { echo 'Yes'; } else { echo 'No'; } ?></B></span>
         </div>
