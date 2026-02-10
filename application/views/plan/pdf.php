@@ -214,7 +214,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
               <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span><?php echo ($plan['stable_condition'] == 1) ? 'Including' : 'Excluding'; ?> <?php echo $this->lang->line("stable pre-existing condition coverage"); ?></span>
               <?php } ?>
               <br /><br /><br /><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Your rate table is Table<?php echo $plan['questionnaire']; ?></span>
-              <?php if (1) { ?>
+              <?php if (0) { ?>
                 <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>With Questionnaire answers</span>
                 <?php if ($plan['question1_lung'] || $plan['question1_diabets'] || $plan['question1_heart']) { ?>
                   <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Question 1 :
@@ -401,13 +401,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
 						else if ($question1 == 2) { echo "2 medications"; } 
 						else { echo "1 medication or None"; } ?></B></span>
         </div>
-				<?php if (!empty($question2)) { ?>
         <div class="col-sm-12" style="padding:0;">
 					<span>Within the 24 months prior to the date of application, have you had a heart attack, stroke and/or transient ischemic attack (mini-stroke, TIA)?</span>
 					<br /><span><B><?php if ($question2 == 2) { echo 'Yes'; } else { echo 'No'; } ?></B></span>
         </div>
-				<?php } ?>
-				<?php if (!empty($question3)) { ?>
         <div class="col-sm-12" style="padding:0;">
 					<span>Within 6 months of the date of application, how many of the following medical conditions did you take medication for or received treatment for?</span>
 					<br /><span>Treatment includes medication* that you take or have been ordered to take by a physician.</span>
@@ -422,8 +419,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
 					<br /><span>&nbsp;&nbsp;&nbsp;&nbsp;Lung conditions/disease (include asthma) <?php echo $question3_lung; ?></span>
 					<br /><span>&nbsp;&nbsp;&nbsp;&nbsp;Peptic ulcer <?php echo $question3_peptic; ?></span>
         </div>
-				<?php } ?>
-				<?php if (!empty($question4)) { ?>
         <div class="col-sm-12" style="padding:0;">
 					<span>At the time of application, do you have any medical conditions that were not listed in the previous questions for which you are currently receiving treatment?</span>
 					<br /><span>Treatment includes medication* that you take or have been ordered to take by a physician, not including a minor ailment.</span>
@@ -433,13 +428,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
 					<br /><span>&nbsp;&nbsp;&nbsp;&nbsp;Hospitalization or surgical intervention.</span>
 					<br /><span><B><?php if ($question4 == 2) { echo 'Yes'; } else { echo 'No'; } ?></B></span>
         </div>
-				<?php } ?>
-				<?php if (!empty($question5)) { ?>
         <div class="col-sm-12" style="padding:0;">
 					<br /><span>Have you used any tobacco products in the past 24 months?</span>
 					<br /><span><B><?php if ($question5 == 2) { echo 'Yes'; } else { echo 'No'; } ?></B></span>
         </div>
-				<?php } ?>
       </div>
 		<? } ?>
     <?php if ($plan['isfamilyplan']) { ?>
