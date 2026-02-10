@@ -397,27 +397,27 @@ defined('BASEPATH') or exit('No direct script access allowed');
           <br /><span>&nbsp;&nbsp;&nbsp;&nbsp;Diabetes</span>
           <br /><span>&nbsp;&nbsp;&nbsp;&nbsp;Heart conditions/hypertensive disease (do not include aspirin or high cholesterol medications)</span>
           <br /><span><B><?php 
-						if ($question1 == 3) { echo "3 or more medications"; } 
-						else if ($question1 == 2) { echo "2 medications"; } 
+						if ($plan["question1"] == 3) { echo "3 or more medications"; } 
+						else if ($plan["question1"] == 2) { echo "2 medications"; } 
 						else { echo "1 medication or None"; } ?></B></span>
         </div>
         <div class="col-sm-12" style="padding-bottom:20px;">
 					<span>Within the 24 months prior to the date of application, have you had a heart attack, stroke and/or transient ischemic attack (mini-stroke, TIA)?</span>
-					<br /><span><B><?php if ($question2 == 2) { echo 'Yes'; } else { echo 'No'; } ?></B></span>
+					<br /><span><B><?php if ($plan["question2"] == 2) { echo 'Yes'; } else { echo 'No'; } ?></B></span>
         </div>
         <div class="col-sm-12" style="padding-bottom:20px;">
 					<span>Within 6 months of the date of application, how many of the following medical conditions did you take medication for or received treatment for?</span>
 					<br /><span>Treatment includes medication* that you take or have been ordered to take by a physician.</span>
-					<br /><span>Bowel conditions/disease including bleeding and inflammation <?php echo $question3_bowel; ?></span>
-					<br /><span>&nbsp;&nbsp;&nbsp;&nbsp;Cancer <?php echo $question3_cancer; ?></span>
-					<br /><span>&nbsp;&nbsp;&nbsp;&nbsp;Diabetes (controlled by medication or diet) <?php echo $question3_diabetes; ?></span>
-					<br /><span>&nbsp;&nbsp;&nbsp;&nbsp;Diverticulitis/Diverticulosis <?php echo $question3_diverticu; ?></span>
-					<br /><span>&nbsp;&nbsp;&nbsp;&nbsp;GERD (gastro-esophageal reflux disease) <?php echo $question3_gerd; ?></span>
-					<br /><span>&nbsp;&nbsp;&nbsp;&nbsp;Heart conditions/disease (include aspirin) <?php echo $question3_heart; ?></span>
-					<br /><span>&nbsp;&nbsp;&nbsp;&nbsp;Hypertension <?php echo $question3_hyper; ?></span>
-					<br /><span>&nbsp;&nbsp;&nbsp;&nbsp;Kidney disease (not requiring dialysis) <?php echo $question3_kidney; ?></span>
-					<br /><span>&nbsp;&nbsp;&nbsp;&nbsp;Lung conditions/disease (include asthma) <?php echo $question3_lung; ?></span>
-					<br /><span>&nbsp;&nbsp;&nbsp;&nbsp;Peptic ulcer <?php echo $question3_peptic; ?></span>
+					<br /><span>Bowel conditions/disease including bleeding and inflammation <?php echo $plan["question3_bowel"]; ?></span>
+					<br /><span>&nbsp;&nbsp;&nbsp;&nbsp;Cancer <?php echo $plan["question3_cancer"]; ?></span>
+					<br /><span>&nbsp;&nbsp;&nbsp;&nbsp;Diabetes (controlled by medication or diet) <?php echo $plan["question3_diabetes"]; ?></span>
+					<br /><span>&nbsp;&nbsp;&nbsp;&nbsp;Diverticulitis/Diverticulosis <?php echo $plan["question3_diverticu"]; ?></span>
+					<br /><span>&nbsp;&nbsp;&nbsp;&nbsp;GERD (gastro-esophageal reflux disease) <?php echo $plan["question3_gerd"]; ?></span>
+					<br /><span>&nbsp;&nbsp;&nbsp;&nbsp;Heart conditions/disease (include aspirin) <?php echo $plan["question3_heart"]; ?></span>
+					<br /><span>&nbsp;&nbsp;&nbsp;&nbsp;Hypertension <?php echo $plan["question3_hyper"]; ?></span>
+					<br /><span>&nbsp;&nbsp;&nbsp;&nbsp;Kidney disease (not requiring dialysis) <?php echo $plan["question3_kidney"]; ?></span>
+					<br /><span>&nbsp;&nbsp;&nbsp;&nbsp;Lung conditions/disease (include asthma) <?php echo plan["$question3_lung"]; ?></span>
+					<br /><span>&nbsp;&nbsp;&nbsp;&nbsp;Peptic ulcer <?php echo $plan["question3_peptic"]; ?></span>
         </div>
         <div class="col-sm-12" style="padding-bottom:20px;">
 					<span>At the time of application, do you have any medical conditions that were not listed in the previous questions for which you are currently receiving treatment?</span>
@@ -426,11 +426,11 @@ defined('BASEPATH') or exit('No direct script access allowed');
 					<br /><span>&nbsp;&nbsp;&nbsp;&nbsp;Treatment for a period of greater than 30 consecutive days; or,</span>
 					<br /><span>&nbsp;&nbsp;&nbsp;&nbsp;More than one follow-up visit or referral visit to a physician or other registered medical practitioner; or,</span>
 					<br /><span>&nbsp;&nbsp;&nbsp;&nbsp;Hospitalization or surgical intervention.</span>
-					<br /><span><B><?php if ($question4 == 2) { echo 'Yes'; } else { echo 'No'; } ?></B></span>
+					<br /><span><B><?php if ($plan["question4"] == 2) { echo 'Yes'; } else { echo 'No'; } ?></B></span>
         </div>
         <div class="col-sm-12" style="padding-bottom:20px;">
 					<br /><span>Have you used any tobacco products in the past 24 months?</span>
-					<br /><span><B><?php if ($question5 == 2) { echo 'Yes'; } else { echo 'No'; } ?></B></span>
+					<br /><span><B><?php if ($plan["question5"] == 2) { echo 'Yes'; } else { echo 'No'; } ?></B></span>
         </div>
       </div>
 		<?php } ?>
