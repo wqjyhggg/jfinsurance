@@ -416,7 +416,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 					<br /><span>&nbsp;&nbsp;&nbsp;&nbsp;Heart conditions/disease (include aspirin) <?php echo $plan["question3_heart"]; ?></span>
 					<br /><span>&nbsp;&nbsp;&nbsp;&nbsp;Hypertension <?php echo $plan["question3_hyper"]; ?></span>
 					<br /><span>&nbsp;&nbsp;&nbsp;&nbsp;Kidney disease (not requiring dialysis) <?php echo $plan["question3_kidney"]; ?></span>
-					<br /><span>&nbsp;&nbsp;&nbsp;&nbsp;Lung conditions/disease (include asthma) <?php echo plan["$question3_lung"]; ?></span>
+					<br /><span>&nbsp;&nbsp;&nbsp;&nbsp;Lung conditions/disease (include asthma) <?php echo $plan["$question3_lung"]; ?></span>
 					<br /><span>&nbsp;&nbsp;&nbsp;&nbsp;Peptic ulcer <?php echo $plan["question3_peptic"]; ?></span>
         </div>
         <div class="col-sm-12" style="padding-bottom:20px;">
