@@ -433,7 +433,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 					<br /><span><B><?php if ($question5 == 2) { echo 'Yes'; } else { echo 'No'; } ?></B></span>
         </div>
       </div>
-		<? } ?>
+		<?php } ?>
     <?php if ($plan['isfamilyplan']) { ?>
       <div class="row">
         <div class="col-sm-12" style="padding:0;">
