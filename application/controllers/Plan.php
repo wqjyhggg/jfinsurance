@@ -1571,6 +1571,7 @@ class Plan extends MY_Controller {
 		$data['action_url'] = base_url("plan/form");
 		$data['claimurl'] = base_url("claim/add") . "/";
 		$data['sendpackage_url'] = base_url("plan/sendpackage") . "/";
+		$data['terminate_url'] = base_url("plan/terminate") . "/";
 		$data['cancel_url'] = base_url("plan/cancel") . "/";
 		$data['refund_url'] = base_url("plan/refund") . "/";
 		$data['revert_url'] = base_url("payment/revert") . "/";
@@ -4598,6 +4599,122 @@ class Plan extends MY_Controller {
 		$this->load->common('plan/refund_input', $data);
 	}
 
+	public function terminate($plan_id = 0)
+	{
+		$beuser = $this->func_model->verify_login(TRUE);
+		$this->load->model('plan_model');
+		$this->load->model('plan_history_model');
+		$this->load->model('customer_model');
+
+		if (empty($plan_id)) {
+			$plan_id = $this->input->post('plan_id');
+		}
+		if (empty($plan_id)) {
+			redirect('user/login');
+		}
+		$plan = $this->plan_model->get_plan_by_id($plan_id);
+		if (empty($plan)) {
+			redirect('user/login');
+		}
+		if (($plan['status_id'] != Plan_model::SOLD) && ($plan['status_id'] != Plan_model::PAID)) {
+			redirect('plan/detail/' . $plan_id);
+		}
+		$this->load->model('product_model');
+		$this->load->model('monthly_payment_model');
+		$product = $this->product_model->get_product($plan['product_short']);
+
+
+		$data['beuser'] = $beuser;
+		$data['plan'] = $plan;
+		if (empty($plan["monthlypay"])) {
+			redirect('plan/detail/' . $plan_id);
+		}
+		if ($mp = $this->monthly_payment_model->get_monthlypay_data($plan_id)) {
+			$data['monthly_data'] = $mp;
+			$data['monthly_record'] = $this->monthly_payment_model->get_by_plan_id($plan_id);
+		}
+		if ($this->input->post()) {
+			$refund_date = $this->input->post('refund_date');
+			$new_premium = $this->monthly_payment_model->do_terminate($plan_id, $refund_date);
+			// Add history
+			$history_id = 0;
+			if (($history = $this->plan_history_model->get_plan_history_by_plan_id($plan_id)) && ($history["actualrate"] > 0)) {
+				$history_id = $history["plan_history_id"];
+			} else {
+				// Add missing first record
+				if ($plan['status_id'] > 1) {
+					$history_id = $this->plan_history_model->add($plan_id, $plan['status_id']);
+				}
+			}
+			if ($history_id) {
+				$this->plan_history_model->add_remove($history_id);
+			}
+
+			$note = "Terminate at " . $dt['added'] . "; " . $plan['note'];
+			$para = array('status_id' => Plan_model::REFUND, 'payment_id' => 0, 'commission_payment_id' => 0, 'refund_date' => $refund_date, 'note' => $note);  // Change status to refund
+			$this->plan_model->update($plan_id, $para);
+			if ($id = $this->plan_history_model->add($plan_id, Plan_model::REFUND)) {
+				$this->plan_history_model->update($id, array("payment_id" => $payment_id, "premium" => $new_premium, "expiry_date" => $refund_date, "note" => "Terminate Recode"));
+			}
+
+			$para = array(
+				'plan_id' => $plan_id,
+				'customer_id' => $plan['customer_id'],
+				'payment_id' => $payment_id,
+				'message' => $this->plan_model->logstr,
+				'systemlog' => $this->plan_model->sqlstr
+			);
+			$this->log_model->activity('plan', $para);
+
+			if ($customer = $this->customer_model->get_customer_by_id($plan['customer_id'])) {
+				$this->load->model('mymail_model');
+				$body  = "Dear " . $customer['firstname'] . " " . $customer['lastname'] . ",\r\n\r\n";
+				$body .= "We are contacting you regarding your insurance policy " . $plan['polcy'] . " purchased on " . $plan['apply_date'] . ".";
+				$body .= "Our records indicate that payment for this policy was not received and we were not able to contact with you. As a result, your policy has been terminated as of " . $$refund_date . ".";
+				$body .= "If you believe this termination is in error or if you have any questions, please contact your agent immediately to discuss possible options.\r\n\r\n";
+				$body .= "To restore your coverage, please respond to this message or call us directly at (905)707-1512. You may also email us at info@jfgroup.ca.\r\n\r\n";
+				$body .= "Thank you for your immediate attention to this matter.\r\n\r\n";
+				$body .= "Sincerely,\r\n";
+				$body .= "JF Insurance Agency Group Inc.\r\n";
+				$body .= "15 Wertheim Court, Suite #501\r\n";
+				$body .= "Richmond Hill, ON L4B 3H7\r\n";
+				$body .= "Tel: 905-707-1512  Fax: 905-707-1513\r\n";
+				$body .= "Website: www.jfgroup.ca\r\n";
+
+				$this->mymail_model->send_mymail($plan['contact_email'], 'Your client has paid for the policy ' . $plan['policy'], $body, 'text');
+			}
+			redirect('plan/detail/' . $plan_id);
+		}
+		$data['action_url'] = base_url('plan/terminate');
+		$data['refund_amount_url'] = base_url('plan/refund_amount') . "/" . $plan['plan_id'];
+		$data['plan_id'] = $plan['plan_id'];
+		$claims = $this->plan_model->verify_policy($plan['policy']);
+		$data['claims'] = (!empty($claims) && ($claims['status'] == 'OK')) ? $claims['claims'] : '';
+		$data['adminfee'] = 50;
+		$data['refund_enable'] = 1;
+		if ($plan['product_short'] == 'TOP') {
+			$data['adminfee'] = 25;
+			$data['top_refund_notes'] = "Only Single Medical Plan can do refund.";
+			if ($plan['package'] != 'single_medical_plan') {
+				$data['top_refund_notes'] .= " This plan can't be refunded.";
+				$data['refund_enable'] = 0;
+			}
+		}
+		// if ($plan['product_short'] == 'JFC') $data['adminfee'] = 25; 
+		$data['url_back_to_policy'] = base_url('plan/');
+
+		$data['title_txt'] = 'Policy';
+		$data['top_menu'] = $this->menu_model->load_top_menu();
+		$data['menu'] = $this->menu_model->load_meun();
+		$data['csrf'] = array(
+			'name' => $this->security->get_csrf_token_name(),
+			'value' => $this->security->get_csrf_hash()
+		);
+		$this->load->model('html_model');
+		$data['html_model'] = $this->html_model;
+
+		$this->load->common('plan/terminate_input', $data);
+	}
 
 	/**
 	 * Cancel Letter

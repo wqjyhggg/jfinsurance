@@ -252,9 +252,9 @@ class Monthly_payment_model extends CI_Model {
 		$this->db->where("plan_id", $plan_id)->set('profile_id', $profile_id)->update("monthly_payment");
 	}
 
-	public function void_unpaid_record($plan_id) {
+	public function void_unpaid_record($plan_id, $paid=-1) {
 		$now = date("Y-m-d H:i:s");
-		return $this->db->where("plan_id", $plan_id)->where("paid<=", 0)->set("paid", -1)->set("pay_time", $now)->update("monthly_payment");
+		return $this->db->where("plan_id", $plan_id)->where("paid<=", 0)->set("paid", $paid)->set("pay_time", $now)->update("monthly_payment");
 	}
 
 	public function do_cancel($plan_id, $total_amount) {
@@ -264,6 +264,26 @@ class Monthly_payment_model extends CI_Model {
 			$this->db->where("monthly_payment_id", $initRc["monthly_payment_id"])->set("refund_amount", $total_amount)->update("monthly_payment");
 		}
 		return $refund_amount;
+	}
+
+	public function do_terminate($plan_id, $refund_date) {
+		$this->void_unpaid_record($plan_id, -3);
+		$refund_amount = 0;
+		$lastRc = $this->db->where("plan_id", $plan_id)->order_by("monthly_payment_id", "ASC")->limit(1)->get("monthly_payment")->row_array();
+		if (empty($lastRc)) {
+			return $refund_amount;
+		}
+		$monthly_amount = $lastRc["amount"];
+		$admin_fee = $monthly_amount * 2 + 50;
+		$paid_amount = 0;
+
+		$paidRc = $this->db->where("plan_id", $plan_id)->where("paid", 1)->get("monthly_payment")->result_array();
+		if ($paidRc) {
+			foreach ($paidRc as $rc) {
+				$paid_amount += $rc["amount"];
+			}
+		}
+		return $paid_amount - $admin_fee;
 	}
 
 	public function do_refund($plan_id, $refund_date, $effective_date) {

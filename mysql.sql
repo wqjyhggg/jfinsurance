@@ -352,6 +352,8 @@ CREATE TABLE `plan` (
   `trip_cancellation_ck` tinyint NOT NULL COMMENT 'For TOP plan',
   `trip_cancellation_insured` int NOT NULL COMMENT 'For TOP plan',
   `questionnaire` tinyint NOT NULL COMMENT 'For TOP plan',
+  `medical_eligible1` varchar(1) NOT NULL DEFAULT '',
+  `medical_eligible2` varchar(1) NOT NULL DEFAULT '',
   `question1` tinyint NOT NULL COMMENT 'For TOP plan',
   `question1_lung` tinyint NOT NULL,
   `question1_diabets` tinyint NOT NULL,
@@ -786,3 +788,12 @@ ALTER TABLE `monthly_payment` ADD `retry_date` date NULL COMMENT 'retry date' AF
 ALTER TABLE `monthly_payment` ADD `refund_amount` decimal(10,2) NOT NULL DEFAULT 0 AFTER `retry_date`;
 -- 2026-02-07
 ALTER TABLE `plan_history` ADD `monthlypay` tinyint NULL DEFAULT 0 COMMENT 'the plan is monthly pay or not, 1 yes' AFTER `premium`;
+ALTER TABLE `plan` ADD `medical_eligible2` varchar(1) NOT NULL DEFAULT '' AFTER `questionnaire`;
+ALTER TABLE `plan` ADD `medical_eligible1` varchar(1) NOT NULL DEFAULT '' AFTER `questionnaire`;
+
+
+--SELECT @@sql_mode;
+--SET SESSION sql_mode = '';
+--UPDATE `plan_history` SET effective_date='1970-01-01' WHERE effective_date='0000-00-00';
+--UPDATE `plan_history` SET expiry_date='1970-01-01' WHERE expiry_date='0000-00-00';
+--SET SESSION sql_mode = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION';

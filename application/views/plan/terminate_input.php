@@ -20,7 +20,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           <div class="main-div">
             <div class="page-title">
               <div class="title_left">
-                <h3>Refund Policy</h3>
+                <h3>Terminate Policy</h3>
               </div>
             </div>
             <div class="clearfix"></div>
@@ -114,7 +114,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 													<?php } ?>
 													<div class="row">
 														<div class="form-group col-sm-12">
-														<label class="inline">Are you sure you want to refund this policy? </label>
+														<label class="inline">Are you sure you want to terminate this policy? </label>
 														<br />
 														<input class="btn btn-primary inline" type='submit' name='send' value='YES'>
 														<a class="btn btn-default inline" href="<?php echo $url_back_to_policy;?>">NO</a>
