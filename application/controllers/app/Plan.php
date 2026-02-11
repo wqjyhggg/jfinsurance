@@ -1336,6 +1336,146 @@ class Plan extends CI_Controller
 		return $this->app_model->return_ok($data);
   }
 
+  // refound
+  public function terminal() {
+    $this->error = "";
+    $this->load->model("app_model");
+    $this->load->model("user_model");
+    $this->load->model("log_model");
+
+    $user = $this->app_model->check_token($this->input->post("token"));
+
+    if (empty($user)) {
+      if (empty($this->error)) {
+        $this->error = "Session Expired";
+      }
+      return $this->app_model->return_error($this->error);
+    }
+    if (($user["user_group_id"] < 100) && ($bid = $this->input->post("bid"))) {
+      $user = $this->user_model->get_user_by_id($bid);
+      if (empty($user)) {
+        return $this->app_model->return_error("Unknown agent");
+      }
+    }
+
+    $plan_id = $this->input->post("plan_id");
+    $do_refund = $this->input->post("do_refund");
+		if (empty($plan_id)) {
+      return $this->app_model->return_error("Unknown plan");
+		}
+
+    $data = array();
+		$beuser = $user;
+		$this->load->model('plan_model');
+		$this->load->model('plan_history_model');
+		$this->load->model('monthly_payment_model');
+		$this->load->model('customer_model');
+
+		$plan = $this->plan_model->get_plan_by_id($plan_id);
+		if (empty($plan)) {
+      return $this->app_model->return_error("Can't find plan");
+		}
+		if (($plan['status_id'] != Plan_model::SOLD) && ($plan['status_id'] != Plan_model::PAID)) {
+      return $this->app_model->return_error("Can't refund plan");
+		}
+		$this->load->model('product_model');
+		$product = $this->product_model->get_product($plan['product_short']);
+		
+		$data['beuser'] = $beuser;
+		$data['plan'] = $plan;
+		if (empty($plan["monthlypay"])) {
+			return $this->app_model->return_error("Can't terminate plan");
+		}
+		if ($mp = $this->monthly_payment_model->get_monthlypay_data($plan_id)) {
+			$data['monthly_data'] = $mp;
+			$data['monthly_record'] = $this->monthly_payment_model->get_by_plan_id($plan_id);
+		}
+		if ($do_refund == 1) {
+			$refund_date = $this->input->post('refund_date');
+			$new_premium = $this->monthly_payment_model->do_terminate($plan_id, $refund_date);
+			$history_id = 0;
+			if (($history = $this->plan_history_model->get_plan_history_by_plan_id($plan_id)) && ($history["actualrate"]>0)) {
+				$history_id = $history["plan_history_id"];
+			} else {
+				// Add missing first record
+				if ($plan['status_id'] > 1) {
+					$history_id = $this->plan_history_model->add($plan_id, $plan['status_id']);
+				}
+			}
+			if ($history_id) {
+				$this->plan_history_model->add_remove($history_id);
+			}
+
+			$note = "Terminate at " . $dt['added'] . "; " . $plan['note'];
+			$para = array('status_id' => Plan_model::REFUND, 'payment_id' => 0, 'commission_payment_id' => 0, 'refund_date' => $refund_date, 'note' => $note );  // Change status to refund
+			$this->plan_model->update($plan_id, $para, array(), $user);
+			$para = array(
+					'plan_id' => $plan_id,
+					'customer_id' => $plan['customer_id'],
+					'payment_id' => 0,
+					'message' => $this->plan_model->logstr,
+					'systemlog' => "By APP:".$this->plan_model->sqlstr
+			);
+			$this->log_model->activity('plan', $para, $user);
+			if ($id = $this->plan_history_model->add($plan_id, Plan_model::REFUND)) {
+				$this->plan_history_model->update($id, array("payment_id" => $payment_id, "premium" => $new_premium, "expiry_date" => $refund_date, "note" => "Terminate Recode"));
+			}
+			if ($customer = $this->customer_model->get_customer_by_id($plan['customer_id'])) {
+				$this->load->model('mymail_model');
+				$body  = "Dear " . $customer['firstname'] . " " . $customer['lastname'] . ",\r\n\r\n";
+				$body .= "We are contacting you regarding your insurance policy " . $plan['polcy'] . " purchased on " . $plan['apply_date'] . ".";
+				$body .= "Our records indicate that payment for this policy was not received and we were not able to contact with you. As a result, your policy has been terminated as of " . $$refund_date . ".";
+				$body .= "If you believe this termination is in error or if you have any questions, please contact your agent immediately to discuss possible options.\r\n\r\n";
+				$body .= "To restore your coverage, please respond to this message or call us directly at (905)707-1512. You may also email us at info@jfgroup.ca.\r\n\r\n";
+				$body .= "Thank you for your immediate attention to this matter.\r\n\r\n";
+				$body .= "Sincerely,\r\n";
+				$body .= "JF Insurance Agency Group Inc.\r\n";
+				$body .= "15 Wertheim Court, Suite #501\r\n";
+				$body .= "Richmond Hill, ON L4B 3H7\r\n";
+				$body .= "Tel: 905-707-1512  Fax: 905-707-1513\r\n";
+				$body .= "Website: www.jfgroup.ca\r\n";
+
+				$this->mymail_model->send_mymail($plan['contact_email'], 'Your client has paid for the policy ' . $plan['policy'], $body, 'text');
+			}
+
+			return $this->app_model->return_ok(array('plan_id' => $plan_id, 'customer_id' => $plan['customer_id'], 'payment_id' => $payment_id));
+		}
+		$claims = $this->plan_model->verify_policy($plan['policy']);
+		$data['claims'] = (!empty($claims) && ($claims['status'] == 'OK')) ? $claims['claims'] : '';
+		$data['adminfee'] = 40;
+		$data['refund_enable'] = 1;
+		if (($plan['product_short'] == 'TOP') || ($plan['product_short'] == 'TOPN')) {
+			$data['adminfee'] = 25;
+			$data['top_refund_notes'] = "Only Single Medical Plan can do refund.";
+			if ($plan['package'] != 'single_medical_plan') {
+				$data['top_refund_notes'] .= " This plan can't be refunded.";
+				$data['refund_enable'] = 0;
+			}
+		}
+    $data['total_premium'] = $plan['premium'];
+		$data['status'] = 'OK';
+		$data['refund_days'] = $this->product_model->getDays($plan['effective_date'], date("Y-m-d"));
+		if ($plan['product_short'] == 'TOPN') {
+			$this->load->model('topn_model');
+			$data['refund_amount'] = $this->topn_model->refund_amount($plan, $data['refund_days']);
+    } else if ($plan['product_short'] == 'TOP') {
+			if ($plan_id>Product_model::PLANIDCHG2025_1) {
+				$this->load->model('top3_model');
+				$data['refund_amount'] = $this->top3_model->refund_amount($plan, $data['refund_days']);
+			} else if ($plan_id>Product_model::PLANIDCHG2024_1) {
+				$this->load->model('top2_model');
+				$data['refund_amount'] = $this->top2_model->refund_amount($plan, $data['refund_days']);
+			} else {
+				$this->load->model('top_model');
+				$data['refund_amount'] = $this->top_model->refund_amount($plan, $data['refund_days']);
+			}
+		} else {
+			$data['refund_amount'] = $this->plan_model->refund_amount($plan_id, $this->input->get('refund_date'));
+		}
+		$data['used_amount'] = $plan['premium'] - $data['refund_amount']; 
+		return $this->app_model->return_ok($data);
+  }
+
   // cancel
   public function cancel() {
     $this->error = "";

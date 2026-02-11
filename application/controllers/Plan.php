@@ -4660,7 +4660,7 @@ class Plan extends MY_Controller {
 			$para = array(
 				'plan_id' => $plan_id,
 				'customer_id' => $plan['customer_id'],
-				'payment_id' => $payment_id,
+				'payment_id' => 0,
 				'message' => $this->plan_model->logstr,
 				'systemlog' => $this->plan_model->sqlstr
 			);
