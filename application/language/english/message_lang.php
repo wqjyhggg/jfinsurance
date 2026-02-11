@@ -528,6 +528,7 @@ $lang["Summary"] = "Summary";
 /* T */
 $lang["take"] = "take";
 $lang["Tax"] = "Tax";
+$lang["Terminate"] = "Terminate";
 $lang["Terms & Conditions"] = "Terms & Conditions";
 $lang["Terms and Conditions"] = "Terms and Conditions";
 $lang["the administrator company specifically waives or modifies the waiting period in writing; or"] = "the administrator company specifically waives or modifies the waiting period in writing; or";

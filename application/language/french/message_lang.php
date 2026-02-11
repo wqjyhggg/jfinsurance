@@ -519,6 +519,7 @@ $lang["Summary"] = "Résumé";
 /* T */
 $lang["take"] = "prendre";
 $lang["Tax"] = "Impôt";
+$lang["Terminate"] = "mettre fin";
 $lang["Terms & Conditions"] = "termes et conditions";
 $lang["Terms and Conditions"] = "Termes et conditions";
 $lang["the administrator company specifically waives or modifies the waiting period in writing; or"] = "la société administratrice renonce ou modifie expressément par écrit le délai de carence; ou";
