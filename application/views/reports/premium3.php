@@ -21,7 +21,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
   <div class="main-div">
     <div class="page-title">
       <div class="title_left">
-        <h3>OR Premium Report</h3>
+        <h3>OR Monthly Premium Report</h3>
       </div>
     </div>
     <div class="clearfix"></div>
@@ -37,8 +37,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
             <form method="post" action="<?= $action_url ?>" class="form-horizontal">
               <input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
+							<?php if (0) { ?>
               <div class="row">
-                <!-- Product input box -->
                 <div class="form-group col-sm-12">
                   <label class="col-sm-12">Product:</label>
                   <div class="input-group col-sm-12">
@@ -48,8 +48,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
                     <?php endforeach; ?>
                   </div>
                 </div>
-                <!-- Product input box end -->
               </div>
+							<?php } ?>
 
               <div class="row">
                 <!-- Payment Added Date-->
