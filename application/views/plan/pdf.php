@@ -360,8 +360,41 @@ defined('BASEPATH') or exit('No direct script access allowed');
         <?php } ?>
       </div>
     </div>
-		<?php if ((($plan['product_short'] == 'TOP') || ($plan['product_short'] == 'TOPN')) && ($plan['questionnaire'] > 0)) { ?>
+    <?php if ($plan['isfamilyplan']) { ?>
       <div class="row">
+        <div class="col-sm-12" style="padding:0;">
+          <p><u><?php echo ($plan['isfamilyplan'] == 1) ? 'Family' : 'Group'; ?><?php echo $this->lang->line("Members"); ?></u>
+            <?php if (($plan['product_short'] == 'JFR') || ($plan['product_short'] == 'OPL')) { ?>
+              &nbsp;&nbsp;&nbsp;&nbsp; ( <?php echo $this->lang->line("Coverage is per person per trip"); ?> )
+            <?php } ?>
+          </p>
+        </div>
+      </div>
+
+      <div class="row" style="margin-top: -35px;margin-bottom: 0">
+        <?php for ($i = 0; $i < sizeof($customers); $i++) { ?>
+          <?php if (empty($customers[$i]['lastname']) && empty($customers[$i]['firstname'])) continue; ?>
+          <div class="col-sm-4" style="padding:0;">
+            <p style="margin-bottom: 0;"><span><?php echo htmlspecialchars($customers[$i]['firstname']  . " " . $customers[$i]['lastname']); ?></span>&nbsp;&nbsp;&nbsp;&nbsp;<span><?php echo $customers[$i]['birthday']; ?></span></p>
+          </div>
+
+        <?php } ?>
+      </div>
+
+    <?php } ?>
+    <!-- End Family Member -->
+    <div class="row">
+      <div class="col-sm-12 nopm special-note">
+        <h4 style="border-bottom:1px solid #777;"><?php echo $this->lang->line("Special Note"); ?></h4>
+      </div>
+    </div>
+    <?php echo $special_note; ?>
+    <!--/div-->
+    <!-- end p-detail -->
+    <!--/div-->
+    <!-- x_content -->
+		<?php if ((($plan['product_short'] == 'TOP') || ($plan['product_short'] == 'TOPN')) && ($plan['questionnaire'] > 0)) { ?>
+      <div class="row" style="font-size: 12px;">
 				<div class="col-sm-12 nopm special-note">
 					<h4 style="border-bottom:1px solid #777;">Medical Questionnaire</h4>
 				</div>
@@ -434,39 +467,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
         </div>
       </div>
 		<?php } ?>
-    <?php if ($plan['isfamilyplan']) { ?>
-      <div class="row">
-        <div class="col-sm-12" style="padding:0;">
-          <p><u><?php echo ($plan['isfamilyplan'] == 1) ? 'Family' : 'Group'; ?><?php echo $this->lang->line("Members"); ?></u>
-            <?php if (($plan['product_short'] == 'JFR') || ($plan['product_short'] == 'OPL')) { ?>
-              &nbsp;&nbsp;&nbsp;&nbsp; ( <?php echo $this->lang->line("Coverage is per person per trip"); ?> )
-            <?php } ?>
-          </p>
-        </div>
-      </div>
-
-      <div class="row" style="margin-top: -35px;margin-bottom: 0">
-        <?php for ($i = 0; $i < sizeof($customers); $i++) { ?>
-          <?php if (empty($customers[$i]['lastname']) && empty($customers[$i]['firstname'])) continue; ?>
-          <div class="col-sm-4" style="padding:0;">
-            <p style="margin-bottom: 0;"><span><?php echo htmlspecialchars($customers[$i]['firstname']  . " " . $customers[$i]['lastname']); ?></span>&nbsp;&nbsp;&nbsp;&nbsp;<span><?php echo $customers[$i]['birthday']; ?></span></p>
-          </div>
-
-        <?php } ?>
-      </div>
-
-    <?php } ?>
-    <!-- End Family Member -->
-    <div class="row">
-      <div class="col-sm-12 nopm special-note">
-        <h4 style="border-bottom:1px solid #777;"><?php echo $this->lang->line("Special Note"); ?></h4>
-      </div>
-    </div>
-    <?php echo $special_note; ?>
-    <!--/div-->
-    <!-- end p-detail -->
-    <!--/div-->
-    <!-- x_content -->
     <div class="row">
       <div class="col-sm-12 nopm">
         <p class="small"><?php echo $this->lang->line("If you notice any errors in the above information or have any questions, please contact"); ?> <?php if (in_array($plan['product_short'], $pdf_enable) && !empty($user['business'])) {
