@@ -1422,8 +1422,7 @@ $(document).ready(function(){
 		<?php if (!empty($plan) && !empty($plan['monthlypay']) && (($status_id == 2) || ($status_id == 3))) { ?>
 		$('#effective_date_div').datepicker({ autoclose: true, format:'yyyy-mm-dd' }).on('changeDate', function(e){
 			var effective_date = $('input[name="effective_date"]').val();
-			var today = new Date();
-			var date = '<?php echo date("Y-m-d"); ?>';
+			var today = '<?php echo date("Y-m-d"); ?>';
 			if (effective_date == today) {
 				alert("Once the effective date is changed to today, clicking the submit button will charge the first monthly recurring fee.");
       }
