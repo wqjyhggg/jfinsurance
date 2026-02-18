@@ -213,7 +213,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
               <?php if ($plan['stable_condition']) { ?>
               <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span><?php echo ($plan['stable_condition'] == 1) ? 'Including' : 'Excluding'; ?> <?php echo $this->lang->line("stable pre-existing condition coverage"); ?></span>
               <?php } ?>
-              <br /><br /><br /><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Your rate table is Table<?php echo $plan['questionnaire']; ?></span>
               <?php if (0) { ?>
                 <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>With Questionnaire answers</span>
                 <?php if ($plan['question1_lung'] || $plan['question1_diabets'] || $plan['question1_heart']) { ?>
@@ -293,6 +292,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                 ?>
               <?php } // if (0) 
               ?>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Your rate category is Category <?php echo $plan['questionnaire']; ?></span>
             <?php } // questionnaire 
             ?>
           </h4>
