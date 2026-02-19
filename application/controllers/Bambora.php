@@ -409,6 +409,7 @@ class Bambora extends CI_Controller {
 						die("OK");
 					} else {
 						$this->load->model('mymail_model');
+						$this->send_charge_fail_email($plan);
 						$message = $plan["policy"] . " Monthly Payment Profile creation failed.";
 						$this->mymail_model->send_mymail("wqjyhggg@gmail.com", 'JF Profile Error', $message, $attach=array(), $from='', 'text');
 						$message = "Profile creation unknown return";
@@ -419,6 +420,7 @@ class Bambora extends CI_Controller {
 					}
 				} else {
 					$this->load->model('mymail_model');
+					$this->send_charge_fail_email($plan);
 					$message  = $plan["policy"] . " Monthly Payment Profile Return Error.\r\n";
 					$message .= "monthly_payment_id: ".$monthly_payment_id.".\r\n";
 					$message .= "responseCode: ".$responseCode.".\r\n";
@@ -471,6 +473,42 @@ class Bambora extends CI_Controller {
 			$this->log_model->activity('payment', $para, $user);
 		}
 		die("processed OK");
+	}
+
+	public function send_charge_fail_email($plan) {
+		$this->load->model('mymail_model');
+		$this->load->model('user_model');
+		$this->load->model('customer_model');
+		$this->load->model("verify_model");
+
+		if ($this->verify_model->isEmail($plan["contact_email"]) && ($customer = $this-customer_model->get_customer_by_id($plan["customer_id"]))) {
+			$subject = "Urgent Action Required: Recurring Payment Failure for Your Insurance Policy";
+			$body  = "Dear ".$customer["firstname"]." ".$customer["lastname"].",\r\n\r\n";
+			$body .= "We are reaching out regarding your recent insurance policy ".$plan["policy"]." purchased on ".$plan["apply_date"].".\r\n";
+			$body .= "Our records show that the payment for this policy was unsuccessful. Please be aware that your policy remains active; however, prompt payment is necessary to maintain coverage.\r\n";
+			$body .= "If you believe this payment failure is an error or if you have any questions, we encourage you to contact us immediately to resolve the issue.\r\n\r\n";
+			$body .= "Important Notice:\r\n";
+			$body .= "Failure to address this payment within 14 calendar days will result in suspension of your policy.\r\n";
+			$body .= "To avoid any interruption in your coverage, please respond to this message or call us directly at (905) 707-1512. You may also email us at info@jfgroup.ca.\r\n\r\n";
+			$body .= "Thank you for your prompt attention to this matter.\r\n\r\n";
+			$body .= "Sincerely,\r\n\r\n";
+			$body .= "JF Insurance";
+			$this->mymail_model->send_mymail($plan["contact_email"], $subject, $body, $attach=array(), $from='', 'text');
+		}
+		if (($agent = $this->user_model->get_user_by_id($plan["user_id"])) && $this->verify_model->isEmail($agent["email"])) {
+			$subject = "Urgent Notification: Payment Failure for Client's Insurance Policy";
+			$body  = "Dear ".$agent["firstname"]." ".$agent["lastname"].",\r\n\r\n";
+			$body .= "We are notifying you regarding a payment failure for your client's insurance policy ".$plan["policy"]." purchased on ".$plan["apply_date"].".\r\n";
+			$body .= "Our records indicate that the payment for this policy was unsuccessful. While the policy remains active currently, prompt payment from the client is essential to maintain coverage.\r\n";
+			$body .= "Please reach out to your client promptly to address this issue. If you require any assistance or have questions, do not hesitate to contact us.\r\n\r\n";
+			$body .= "Important Notice:\r\n";
+			$body .= "Failure to resolve the payment within 14 calendar days will lead to suspension of the policy.\r\n";
+			$body .= "To prevent any disruption in coverage, please encourage your client to respond to this message or contact us directly at (905) 707-1512. You may also direct them to email us at info@jfgroup.ca.\r\n\r\n";
+			$body .= "Thank you for your immediate attention to this matter.\r\n\r\n";
+			$body .= "Sincerely,\r\n\r\n";
+			$body .= "JF Insurance";
+			$this->mymail_model->send_mymail($agent["email"], $subject, $body, $attach=array(), $from='', 'text');
+		}
 	}
 
 	public function recurren() {
