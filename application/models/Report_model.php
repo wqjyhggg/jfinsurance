@@ -501,7 +501,9 @@ class Report_model extends CI_Model
   public function get_premium_report2($para)
   {
     if (1) {
-      $sql = "SELECT ph2.plan_id FROM plan_history ph2 WHERE ph2.ishead=1 ";
+			$sql  = "SELECT ph2.plan_id FROM plan_history ph2";
+			$sql .= " JOIN plan pl ON (pl.plan_id = ph2.plan_id)";
+			$sql .= " WHERE ph2.ishead=1 AND pl.monthlypay=0";
       if (!empty($para['payment_added_from'])) {
         $sql .= " AND ph2.add_time >= " . $this->db->escape($para['payment_added_from'] . " 00:00:00");
       } else {
@@ -532,15 +534,7 @@ class Report_model extends CI_Model
         $sql .= " JOIN customer c ON ph.customer_id = c.customer_id";
         $sql .= " WHERE ph.plan_id = ";
         $sql2 = " ORDER BY ph.plan_history_id ASC";
-				$plansql = "SELECT monthlypay FROM plan WHERE plan_id=";
         foreach ($rt as $rc) {
-					$plansql1 = $plansql.$rc["plan_id"];
-          $planrtt = $this->db->query($plansql1)->row_array();
-					if (!empty($planrtt["monthlypay"])) {
-						// Skip monthlypay plan
-						continue;
-          }
-
           $sql1 = $sql . $rc["plan_id"] . $sql2;
           if ($rtt1 = $this->db->query($sql1)->result_array()) {
             $rtt = array_merge($rtt, $rtt1);
@@ -582,7 +576,9 @@ class Report_model extends CI_Model
 
   public function get_premium_report3($para)
   {
-		$sql = "SELECT ph2.plan_id FROM plan_history ph2 WHERE ph2.ishead=1 ";
+		$sql  = "SELECT ph2.plan_id FROM plan_history ph2";
+		$sql .= " JOIN plan pl ON (pl.plan_id = ph2.plan_id)";
+		$sql .= " WHERE ph2.ishead=1 AND pl.monthlypay=1";
 		if (!empty($para['payment_added_from'])) {
 			$sql .= " AND ph2.add_time >= " . $this->db->escape($para['payment_added_from'] . " 00:00:00");
 		} else {
@@ -613,18 +609,34 @@ class Report_model extends CI_Model
 			$sql .= " JOIN customer c ON ph.customer_id = c.customer_id";
 			$sql .= " WHERE ph.plan_id = ";
 			$sql2 = " ORDER BY ph.plan_history_id ASC";
-			$plansql = "SELECT monthlypay FROM plan WHERE plan_id=";
+			$plansql = "SELECT * FROM monthly_payment WHERE plan_id=";
+			$plansqle = " ORDER BY monthly_payment_id ASC";
+			$mplan_id = 0;
+			$refund_amount = 0;
 			foreach ($rt as $rc) {
-				$plansql1 = $plansql.$rc["plan_id"];
-				$planrtt = $this->db->query($plansql1)->row_array();
-				if (empty($planrtt["monthlypay"])) {
-					// Skip none monthlypay plan
-					continue;
-				}
-
 				$sql1 = $sql . $rc["plan_id"] . $sql2;
 				if ($rtt1 = $this->db->query($sql1)->result_array()) {
-					$rtt = array_merge($rtt, $rtt1);
+					$plansql1 = $plansql.$rc["plan_id"].$plansqle;
+					if ($planrtt = $this->db->query($plansql1)->result_array()) {
+						$rtt = array_merge($rtt, $rtt1);
+						foreach ($rtt1 as $rctt) {
+							if ($rctt["ishead"] && ($rctt["status_id"] == 3)) {
+								foreach ($planrtt as $rct) {
+									if (empty($rct["pay_type"])) {
+										$refund_amount = $rct["refund_amount"];
+									}
+									$rtt1["premium"] = $rct["amount"];
+									$rtt1["add_time"] = $rct["pay_time"];
+									$rtt[] = $rtt1;
+								}
+							} else if ($rctt["premium"] < 0) {
+								$rtt1["premium"] = $refund_amount;
+								$rtt[] = $rtt1;
+							} else {
+								$rtt[] = $rtt1;
+							}
+						}
+					}
 				}
 			}
 			return $rtt;
