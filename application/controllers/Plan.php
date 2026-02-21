@@ -4233,12 +4233,13 @@ class Plan extends MY_Controller {
 		}
 
 		if ($this->input->post()) {
+			$admin_fee = floatval($this->input->post('admin_fee'));
 			if (empty($data['monthly_data'])) {
 				$refund_amount = floatval($this->input->post('refund_amount'));
 			} else {
 				$refund_amount = floatval($data['monthly_data']['total_paid']);
+				$admin_fee += floatval($data['monthly_data']['admin_fee']);
 			}
-			$admin_fee = (float)$this->input->post('admin_fee');
 			$total_amount = $refund_amount - $admin_fee;
 
 			if ($total_amount > 0) {
@@ -4271,6 +4272,7 @@ class Plan extends MY_Controller {
 				$up_commission_amount = $refund_amount * $up_commission_rate / 100.0;
 
 				$dt['amount'] = $total_amount * (-1);
+				$dt['admin_fee'] = $admin_fee * (-1);
 				$dt['rate'] = 100;
 				$dt['pay_type'] = 'cancel';
 				$dt['premium_payment_id'] = 0;
@@ -4287,6 +4289,7 @@ class Plan extends MY_Controller {
 				$dt['pay_type'] = 'cancel_commission';
 				$dt['rate'] = $commission_rate;
 				$dt['amount'] = $commission_amount * (-1);
+				$dt['admin_fee'] = 0;
 				$dt['premium_payment_id'] = $payment_id;
 				$commission_payment_id = $this->payment_model->add($dt);
 				$para = array(
@@ -4298,19 +4301,19 @@ class Plan extends MY_Controller {
 				);
 				$this->log_model->activity('commission', $para);
 
-				$dt['pay_type'] = 'cancel_up_commission';
-				$dt['rate'] = $up_commission_rate;
-				$dt['amount'] = $up_commission_amount * (-1);
-				$dt['premium_payment_id'] = $payment_id;
-				$up_commission_payment_id = $this->payment_model->add($dt);
-				$para = array(
-					'plan_id' => $plan_id,
-					'customer_id' => $plan['customer_id'],
-					'payment_id' => $up_commission_payment_id,
-					'message' => $this->payment_model->logstr,
-					'systemlog' => $this->payment_model->sqlstr
-				);
-				$this->log_model->activity('up_commission', $para);
+				// $dt['pay_type'] = 'cancel_up_commission';
+				// $dt['rate'] = $up_commission_rate;
+				// $dt['amount'] = $up_commission_amount * (-1);
+				// $dt['premium_payment_id'] = $payment_id;
+				// $up_commission_payment_id = $this->payment_model->add($dt);
+				// $para = array(
+				// 	'plan_id' => $plan_id,
+				// 	'customer_id' => $plan['customer_id'],
+				// 	'payment_id' => $up_commission_payment_id,
+				// 	'message' => $this->payment_model->logstr,
+				// 	'systemlog' => $this->payment_model->sqlstr
+				// );
+				// $this->log_model->activity('up_commission', $para);
 
 				$history_id = 0;
 				if (($history = $this->plan_history_model->get_plan_history_by_plan_id($plan_id)) && ($history["actualrate"] > 0)) {
@@ -4330,7 +4333,7 @@ class Plan extends MY_Controller {
 				$para = array('status_id' => 5, 'payment_id' => $payment_id, 'commission_payment_id' => $commission_payment_id, 'note' => $note);  // Change status to cancel
 				$this->plan_model->update($plan_id, $para);
 				if ($id = $this->plan_history_model->add_remove($history_id)) {
-					$this->plan_history_model->update($id, array("payment_id" => $payment_id, "note" => "Canceled Recode"));
+					$this->plan_history_model->update($id, array("payment_id" => $payment_id, "status_id" => Plan_model::CANCEL, "note" => "Canceled Recode"));
 				}
 				$para = array(
 					'plan_id' => $plan_id,

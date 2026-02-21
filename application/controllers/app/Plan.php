@@ -302,7 +302,7 @@ class Plan extends CI_Controller
 		$dt['currency'] = $product['currency'];
 		$dt['pay_mothed'] = $pay_type;
 		$dt['added'] = date('c');
-		$dt['note'] = $payinfo;
+		$dt['note'] = "Api ".$payinfo;
 		$dt['ispaid'] = 0; // (($pay_type == 'Cash') || ($pay_type == 'Cheque'))?0:1;
     if ($pay_type == 'Cheque') {
       // for Cheque
@@ -493,7 +493,7 @@ class Plan extends CI_Controller
           $this->plan_history_model->add($plan_id, Plan_model::PAID);
 					
 					$dt = array();
-					$dt['note'] = "Success: Raw Data=> " . json_encode($result);
+					$dt['note'] = "Api Success: Raw Data=> " . json_encode($result);
 					$commission_payment_id = $this->payment_model->update($commission_payment_id, $dt);
 					$dt['ispaid'] = 1;
 					$payment_id = $this->payment_model->update($payment_id, $dt);
@@ -527,7 +527,7 @@ class Plan extends CI_Controller
 					$dt = array();
 					$dt['ispaid'] = 0;
 					$dt['amount'] = 0;
-					$dt['note'] = "Failur pay (" . $premium . "): Raw Data=> " . json_encode($result);
+					$dt['note'] = "Api Failur pay (" . $premium . "): Raw Data=> " . json_encode($result);
 					$payment_id = $this->payment_model->update($payment_id, $dt);
 					$commission_payment_id = $this->payment_model->update($commission_payment_id, $dt);
 					$para = array(
@@ -560,7 +560,7 @@ class Plan extends CI_Controller
 				$dt = array();
 				$dt['ispaid'] = 0;
 				$dt['amount'] = 0;
-				$dt['note'] = "Failur pay (" . $premium . "): (libraray) Raw Data=> " . $e->getMessage() . " : " . json_encode($e);
+				$dt['note'] = "Api Failur pay (" . $premium . "): (libraray) Raw Data=> " . $e->getMessage() . " : " . json_encode($e);
 				$payment_id = $this->payment_model->update($payment_id, $dt);
 				$para = array(
 						'plan_id' => $plan_id,
@@ -1208,7 +1208,7 @@ class Plan extends CI_Controller
 				$dt['pay_mothed'] = 'Cheque';
 				$dt['added'] = date('c');
 				$dt['ispaid'] = 0;
-				$dt['note'] = "Refund at " . $dt['added'] . " amount: " . $refund_amount . " admin fee: " . $admin_fee;
+				$dt['note'] = "Api Refund at " . $dt['added'] . " amount: " . $refund_amount . " admin fee: " . $admin_fee;
 				
 				$commission_rate = $this->product_model->get_commission_rate($plan['product_short'], $plan['user_id']);
 				if (($plan['product_short'] == 'TOP') && ($plan['totalyears'] > 60)) {
@@ -1283,7 +1283,7 @@ class Plan extends CI_Controller
 				$this->plan_history_model->add_remove($history_id);
 			}
 
-			$note = "Refund at " . $dt['added'] . " amount: " . $refund_amount . " admin fee: " . $admin_fee . "; " . $plan['note'];
+			$note = "Api Refund at " . $dt['added'] . " amount: " . $refund_amount . " admin fee: " . $admin_fee . "; " . $plan['note'];
 			$para = array('status_id' => Plan_model::REFUND, 'payment_id' => $payment_id, 'commission_payment_id' => $commission_payment_id, 'refund_date' => $refund_date, 'note' => $note );  // Change status to refund
 			$this->plan_model->update($plan_id, $para, array(), $user);
 			$para = array(
@@ -1406,7 +1406,7 @@ class Plan extends CI_Controller
 				$this->plan_history_model->add_remove($history_id);
 			}
 
-			$note = "Terminate at " . $dt['added'] . "; " . $plan['note'];
+			$note = "Api Terminate at " . $dt['added'] . "; " . $plan['note'];
 			$para = array('status_id' => Plan_model::REFUND, 'payment_id' => 0, 'commission_payment_id' => 0, 'refund_date' => $refund_date, 'note' => $note );  // Change status to refund
 			$this->plan_model->update($plan_id, $para, array(), $user);
 			$para = array(
@@ -1530,12 +1530,13 @@ class Plan extends CI_Controller
 		}
 
 		if ($do_cancel == 1) {
+			$admin_fee = floatval($this->input->post('admin_fee'));
 			if (empty($data['monthly_data'])) {
 				$refund_amount = floatval($this->input->post('refund_amount'));
 			} else {
 				$refund_amount = floatval($data['monthly_data']['total_paid']);
+				$admin_fee += floatval($data['monthly_data']['admin_fee']);
 			}
-			$admin_fee = floatval($this->input->post('admin_fee'));
 			$total_amount = $refund_amount - $admin_fee;
 
 			if ($total_amount > 0) {
@@ -1548,7 +1549,7 @@ class Plan extends CI_Controller
 				$dt['pay_mothed'] = 'Cheque';
 				$dt['added'] = date('c');
 				$dt['ispaid'] = 0;
-				$dt['note'] = "Cancel at " . $dt['added'] . " amount: " . $refund_amount . " admin fee: " . $admin_fee;
+				$dt['note'] = "Api Cancel at " . $dt['added'] . " amount: " . $refund_amount . " admin fee: " . $admin_fee;
 				
 				$commission_rate = $this->product_model->get_commission_rate($plan['product_short'], $plan['user_id']);
 				if (($plan['product_short'] == 'TOP') && ($plan['totalyears'] > 60)) {
@@ -1568,6 +1569,7 @@ class Plan extends CI_Controller
 				$up_commission_amount = $refund_amount * $up_commission_rate / 100.0;
 				
 				$dt['amount'] = $total_amount * (-1);
+				$dt['admin_fee'] = $admin_fee * (-1);
 				$dt['rate'] = 100;
 				$dt['pay_type'] = 'cancel';
 				$dt['premium_payment_id'] = 0;
@@ -1584,6 +1586,7 @@ class Plan extends CI_Controller
 				$dt['pay_type'] = 'cancel_commission';
 				$dt['rate'] = $commission_rate;
 				$dt['amount'] = $commission_amount * (-1);
+				$dt['admin_fee'] = 0;
 				$dt['premium_payment_id'] = $payment_id;
 				$commission_payment_id = $this->payment_model->add($dt, $user);
 				$para = array(
@@ -1609,11 +1612,11 @@ class Plan extends CI_Controller
         if (empty($exnote)) {
           $exnote = $this->input->post('reason');
         }
-				$note = "Reason: " . $exnote . ", cancel at " . $dt['added'] . " amount: " . $refund_amount . " admin fee: " . $admin_fee . "; " . $plan['note'];
+				$note = "Api Reason: " . $exnote . ", cancel at " . $dt['added'] . " amount: " . $refund_amount . " admin fee: " . $admin_fee . "; " . $plan['note'];
 				$para = array('status_id' => 5, 'payment_id' => $payment_id, 'commission_payment_id' => $commission_payment_id, 'note' => $note );  // Change status to cancel
 				$this->plan_model->update($plan_id, $para, array(), $user);
         if ($id = $this->plan_history_model->add_remove($history_id)) {
-          $this->plan_history_model->update($id, array("payment_id"=>$payment_id, "note"=>"Canceled Recode"));
+          $this->plan_history_model->update($id, array("payment_id"=>$payment_id, "status_id" => Plan_model::CANCEL, "note"=>"Canceled Recode"));
         }
         $para = array(
 						'plan_id' => $plan_id,
