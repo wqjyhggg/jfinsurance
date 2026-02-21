@@ -176,13 +176,15 @@ defined('BASEPATH') or exit('No direct script access allowed');
                       <th>Earned</th>
                       <th>Unearned</th>
                       <th>Product</th>
+                      <th>Plan Type</th>
+                      <th>Total Premium</th>
                     </tr>
                   </thead>
                   <tbody>
                     <?php $total = $tearned = 0; $solddate = ''; ?>
                     <?php foreach ($report_data as $record) : ?>
                       <?php
-                        if ($record['ishead']==1) { 
+                        if ($record['ishead']>0) {
                           $solddate = substr($record['add_time'],0,10);
                         }
                         if ($record['status_id'] == 6) {
@@ -203,15 +205,21 @@ defined('BASEPATH') or exit('No direct script access allowed');
                           $earned = 0;
                           $unearned = $record['premium'];
                         }
+
+												if ($record['ishead']==2) {
+                          $earned = 0;
+                          $unearned = 0;
+												}
+
                         $total += $record['premium'];
                         $tearned += $earned;
                         $discount = 0;
-                        if ($record['totaldays'] >= 365) {
-                          $discount = $record['totaldays'] * $record['dailyrate'] - $record['premium'];
-                          if ($discount < 5) {
-                            $discount = 0;
-                          }
-                        }
+                        // if ($record['totaldays'] >= 365) {
+                        //   $discount = $record['totaldays'] * $record['dailyrate'] - $record['premium'];
+                        //   if ($discount < 5) {
+                        //     $discount = 0;
+                        //   }
+                        // }
                       ?>
                       <tr>
                         <td><?= $record['policy'] ?></td>
@@ -234,6 +242,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
                         <td>$<?= number_format($earned,2) ?></td>
                         <td>$<?= number_format($unearned,2) ?></td>
                         <td><?= $record['product_short'] ?></td>
+                        <td>Monthly</td>
+                        <td>$<?= number_format($record['total_premium'],2) ?></td>
                       </tr>
                     <?php endforeach; ?>
                     <tr>
@@ -256,6 +266,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
                       <td>$<?= number_format($total,2) ?></td>
                       <td>$<?= number_format($tearned,2) ?></td>
                       <td>$<?= number_format($total-$tearned,2) ?></td>
+                      <td>&nbsp;</td>
+                      <td>&nbsp;</td>
                       <td>&nbsp;</td>
                     </tr>
                   </tbody>

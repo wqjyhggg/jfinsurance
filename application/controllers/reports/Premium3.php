@@ -98,6 +98,8 @@ class Premium3 extends MY_Controller
       'earned' => 'Earned',
       'unearned' => 'Unearned',
       'product_short' => 'Product',
+      'plan_type' => 'Plan Type',
+      'total_premium' => 'Total Premium',
     );
 
     $w->openToBrowser("OR_Monthly_Premium_Report_" . date('Ymd') . ".xlsx");
@@ -127,7 +129,7 @@ class Premium3 extends MY_Controller
       // $dispremium = number_format($dispremium,2);
       // $premium = number_format($premium,2);
       // $earned = number_format($earned,2);
-      if ($record['ishead']==1) { 
+      if ($record['ishead']>0) { 
         $solddate = substr($record['add_time'],0,10);
       }
       if ($record['status_id'] == 6) {
@@ -148,15 +150,19 @@ class Premium3 extends MY_Controller
         $earned = 0;
         $unearned = $record['premium'];
       }
+			if ($record['ishead']==2) {
+				$earned = 0;
+				$unearned = 0;
+			}
       $total += $record['premium'];
       $tearned += $earned;
       $discount = 0;
-      if ($record['totaldays'] >= 365) {
-        $discount = $record['totaldays'] * $record['dailyrate'] - $record['premium'];
-        if ($discount < 5) {
-          $discount = 0;
-        }
-      }
+      // if ($record['totaldays'] >= 365) {
+      //   $discount = $record['totaldays'] * $record['dailyrate'] - $record['premium'];
+      //   if ($discount < 5) {
+      //     $discount = 0;
+      //   }
+      // }
 
       $arr = array();
 
@@ -182,6 +188,10 @@ class Premium3 extends MY_Controller
         } else if ($k == "deductible_amount") {
           $arr[] = number_format($record[$k], 2);
         } else if ($k == "dailyrate") {
+          $arr[] = number_format($record[$k], 2);
+        } else if ($k == "plan_type") {
+          $arr[] = "Monthly";
+        } else if ($k == "total_premium") {
           $arr[] = number_format($record[$k], 2);
         } else {
           $arr[] = $record[$k];

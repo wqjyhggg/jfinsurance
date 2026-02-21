@@ -277,6 +277,8 @@ class Backrun_model extends CI_Model {
       'earned' => 'Earned',
       'unearned' => 'Unearned',
       'product_short' => 'Product',
+      'plan_type' => 'Plan Type',
+      'total_premium' => 'Total Premium',
     );
 
     $filename = "tmppdf/Monthly_Premium_Report_" . date('Ymd') . ".xlsx";
@@ -298,7 +300,7 @@ class Backrun_model extends CI_Model {
 
     $total = $tearned = 0;  $solddate = '';
     foreach ($data['report_data'] as $record) {
-      if ($record['ishead']==1) { 
+      if ($record['ishead']>0) { 
         $solddate = substr($record['add_time'],0,10);
       }
       if ($record['status_id'] == 6) {
@@ -319,15 +321,19 @@ class Backrun_model extends CI_Model {
         $earned = 0;
         $unearned = $record['premium'];
       }
+			if ($record['ishead']==2) {
+				$earned = 0;
+				$unearned = 0;
+			}
       $total += $record['premium'];
       $tearned += $earned;
       $discount = 0;
-      if ($record['totaldays'] >= 365) {
-        $discount = $record['totaldays'] * $record['dailyrate'] - $record['premium'];
-        if ($discount < 5) {
-          $discount = 0;
-        }
-      }
+      // if ($record['totaldays'] >= 365) {
+      //   $discount = $record['totaldays'] * $record['dailyrate'] - $record['premium'];
+      //   if ($discount < 5) {
+      //     $discount = 0;
+      //   }
+      // }
 
       $arr = array();
 
@@ -353,6 +359,10 @@ class Backrun_model extends CI_Model {
         } else if ($k == "deductible_amount") {
           $arr[] = number_format($record[$k], 2);
         } else if ($k == "dailyrate") {
+          $arr[] = number_format($record[$k], 2);
+        } else if ($k == "plan_type") {
+          $arr[] = "Monthly";
+        } else if ($k == "total_premium") {
           $arr[] = number_format($record[$k], 2);
         } else {
           $arr[] = $record[$k];
