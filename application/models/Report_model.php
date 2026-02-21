@@ -610,7 +610,7 @@ class Report_model extends CI_Model
 			$sql .= " WHERE ph.plan_id = ";
 			$sql2 = " ORDER BY ph.plan_history_id ASC";
 			$plansql = "SELECT * FROM monthly_payment WHERE plan_id=";
-			$plansqle = " ORDER BY monthly_payment_id ASC";
+			$plansqle = " AND paid=1 ORDER BY monthly_payment_id ASC";
 			$mplan_id = 0;
 			$refund_amount = 0;
 			foreach ($rt as $rc) {
@@ -618,20 +618,19 @@ class Report_model extends CI_Model
 				if ($rtt1 = $this->db->query($sql1)->result_array()) {
 					$plansql1 = $plansql.$rc["plan_id"].$plansqle;
 					if ($planrtt = $this->db->query($plansql1)->result_array()) {
-						$rtt = array_merge($rtt, $rtt1);
 						foreach ($rtt1 as $rctt) {
 							if ($rctt["ishead"] && ($rctt["status_id"] == 3)) {
 								foreach ($planrtt as $rct) {
 									if (empty($rct["pay_type"])) {
 										$refund_amount = $rct["refund_amount"];
 									}
-									$rctt["premium"] = $rct["amount"];
+									$rctt["premium"] = $rct["amount"] + $rct["admin_fee"];
 									$rctt["add_time"] = $rct["pay_time"];
+                  $rctt["ishead"] = $rct["pay_type"] + 1;
 									$rtt[] = $rctt;
 								}
 							} else if ($rctt["premium"] < 0) {
-								$rctt["premium"] = $refund_amount;
-								$rctt["ishead"] = 2;
+								$rctt["premium"] = $refund_amount * -1;
 								$rtt[] = $rctt;
 							} else {
 								$rtt[] = $rctt;
