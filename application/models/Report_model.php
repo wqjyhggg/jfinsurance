@@ -624,8 +624,8 @@ class Report_model extends CI_Model
 								foreach ($planrtt as $rct) {
 									if (empty($rct["pay_type"])) {
 										$refund_amount = $rct["refund_amount"];
+										$rctt["total_premium"] = $rctt["premium"];
 									}
-									$rctt["total_premium"] = $rctt["premium"];
 									$rctt["premium"] = $rct["amount"] - $rct["admin_fee"];
 									$rctt["add_time"] = $rct["pay_time"];
                   $rctt["ishead"] = $rct["pay_type"] + 1;

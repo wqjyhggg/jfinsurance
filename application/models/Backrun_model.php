@@ -314,15 +314,12 @@ class Backrun_model extends CI_Model {
 			if ($record['ishead']==2) {
 				$earned = 0;
 				$unearned = 0;
-			} else if ($record['days_used'] >= $record['totaldays']) {
-        $earned = $record['premium'];
-        $unearned = 0;
       } else if ($record['days_used'] > 0) {
-        $earned = $record['premium']*$record['days_used']/$record['totaldays'];
-        $unearned = $record['premium'] - $earned;
+        $earned = $record['total_premium']*$record['days_used']/$record['totaldays'];
+        $unearned = $record['total_premium'] - $earned;
       } else {
         $earned = 0;
-        $unearned = $record['premium'];
+        $unearned = 0;
       }
       $total += $record['premium'];
       $tearned += $earned;
