@@ -632,7 +632,7 @@ class Report_model extends CI_Model
 									$rtt[] = $rctt;
 								}
 							} else if ($rctt["premium"] < 0) {
-								$rctt["total_premium"] = $rctt["premium"] * -1;
+								$rctt["total_premium"] = $rctt["premium"];
 								$rctt["premium"] = $refund_amount * -1;
 								$rtt[] = $rctt;
 							} else {

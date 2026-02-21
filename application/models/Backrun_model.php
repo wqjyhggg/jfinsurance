@@ -311,7 +311,10 @@ class Backrun_model extends CI_Model {
       if (abs($record['premium']) <= 25) {
         $record['premium'] = floatval($record['dailyrate'] * $record['totaldays']);
       }
-      if ($record['days_used'] >= $record['totaldays']) {
+			if ($record['ishead']==2) {
+				$earned = 0;
+				$unearned = 0;
+			} else if ($record['days_used'] >= $record['totaldays']) {
         $earned = $record['premium'];
         $unearned = 0;
       } else if ($record['days_used'] > 0) {
@@ -321,10 +324,6 @@ class Backrun_model extends CI_Model {
         $earned = 0;
         $unearned = $record['premium'];
       }
-			if ($record['ishead']==2) {
-				$earned = 0;
-				$unearned = 0;
-			}
       $total += $record['premium'];
       $tearned += $earned;
       $discount = 0;
