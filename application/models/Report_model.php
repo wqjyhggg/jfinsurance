@@ -625,15 +625,16 @@ class Report_model extends CI_Model
 									if (empty($rct["pay_type"])) {
 										$refund_amount = $rct["refund_amount"];
 									}
-									$rtt1["premium"] = $rct["amount"];
-									$rtt1["add_time"] = $rct["pay_time"];
-									$rtt[] = $rtt1;
+									$rctt["premium"] = $rct["amount"];
+									$rctt["add_time"] = $rct["pay_time"];
+									$rtt[] = $rctt;
 								}
 							} else if ($rctt["premium"] < 0) {
-								$rtt1["premium"] = $refund_amount;
-								$rtt[] = $rtt1;
+								$rctt["premium"] = $refund_amount;
+								$rctt["ishead"] = 2;
+								$rtt[] = $rctt;
 							} else {
-								$rtt[] = $rtt1;
+								$rtt[] = $rctt;
 							}
 						}
 					}
