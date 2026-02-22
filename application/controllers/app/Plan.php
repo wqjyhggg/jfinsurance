@@ -1190,15 +1190,13 @@ class Plan extends CI_Controller
 			$refund_date = $this->input->post('refund_date');
 			$refund_amount = floatval($this->input->post('refund_amount'));
 			$admin_fee = floatval($this->input->post('admin_fee'));
-			$monthly_admin_fee = 0;
 			$total_amount = floatval($this->input->post('total_refund'));
 			if (!empty($plan["monthlypay"])) {
 				// ["refund_amount" => $refund_amount, "charged_amount" => $charged_amount, "admin_fee" => $min_admin_fee]
 				$rRc = $this->monthly_payment_model->do_refund($plan_id, $refund_date, $plan["effective_date"]);
 				$total_amount = $rRc["charged_amount"];
 				$refund_amount = $rRc["refund_amount"];
-				$admin_fee = 0;
-				$monthly_admin_fee = $rRc["admin_fee"];
+				$admin_fee = $rRc["admin_fee"];
 			}
 			if ($total_amount > 0) {
 				$this->load->model('payment_model');
@@ -1243,8 +1241,8 @@ class Plan extends CI_Controller
 				$this->log_model->activity('payment', $para, $user);
 				if (!empty($plan["monthlypay"])) {
 					// This is monthly plan special requirement, refund all and charge again
-					$dt['amount'] = $total_amount - $monthly_admin_fee - $refund_amount;
-					$dt['admin_fee'] = floatval($monthly_admin_fee);
+					$dt['amount'] = $total_amount - $admin_fee - $refund_amount;
+					$dt['admin_fee'] = 0;
 					$dt['pay_type'] = 'premium';
 					$premium_payment_id = $this->payment_model->add($dt, $user);
 					$para = array(
@@ -1313,7 +1311,7 @@ class Plan extends CI_Controller
 			$this->log_model->activity('plan', $para, $user);
 			if ($id = $this->plan_history_model->add($plan_id, Plan_model::REFUND)) {
 				if (!empty($plan["monthlypay"])) {
-					$this->plan_history_model->update($id, array("payment_id" => $payment_id, "premium" => ($total_amount - $monthly_admin_fee - $refund_amount), "expiry_date" => $refund_date, "note" => "Api Refunded Recode"));
+					$this->plan_history_model->update($id, array("payment_id" => $payment_id, "premium" => ($total_amount - $admin_fee - $refund_amount), "expiry_date" => $refund_date, "note" => "Api Refunded Recode"));
 				} else {
 					$this->plan_history_model->update($id, array("payment_id"=>$payment_id, "premium"=>($plan["premium"] - $refund_amount),"expiry_date"=>$refund_date, "note"=>"Api Refunded Recode"));
 				}
