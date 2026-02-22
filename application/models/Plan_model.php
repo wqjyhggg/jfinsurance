@@ -218,7 +218,7 @@ class Plan_model extends CI_Model {
 			}
 			if ($status <= 1) {
 				return $product['qoute_pre'] . sprintf("%07d", $plan_id);
-			} else if (($plan['status_id'] <= 1) || (substr($plan['policy'], 0, 1) == 'Q')) {
+			} else if (($plan['status_id'] <= 1) || empty($plan['policy']) || (substr($plan['policy'], 0, 1) == 'Q')) {
 				return $product['plan_pre'] . sprintf("%07d", $plan_id);
 			}
 		}
