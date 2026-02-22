@@ -576,7 +576,7 @@ class Report_model extends CI_Model
 
   public function get_premium_report3($para)
   {
-		$sql  = "SELECT ph2.plan_id FROM plan_history ph2";
+		$sql  = "SELECT ph2.plan_id, pl.status_id as last_status_id FROM plan_history ph2";
 		$sql .= " JOIN plan pl ON (pl.plan_id = ph2.plan_id)";
 		$sql .= " WHERE ph2.ishead=1 AND pl.monthlypay=1";
 		if (!empty($para['payment_added_from'])) {
@@ -620,6 +620,7 @@ class Report_model extends CI_Model
 					if ($planrtt = $this->db->query($plansql1)->result_array()) {
 						foreach ($rtt1 as $rctt) {
 							$rctt["total_premium"] = 0;
+							$rctt["last_status_id"] = $rc["last_status_id"];
 							if ($rctt["ishead"] && ($rctt["status_id"] == 3)) {
 								foreach ($planrtt as $rct) {
 									if (empty($rct["pay_type"])) {

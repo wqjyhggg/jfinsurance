@@ -191,7 +191,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                           $dte = strtotime($record['expiry_date']);
                           $dts = strtotime($record['effective_date']);
                           $record['totaldays'] = round(($dte-$dts)/(60 * 60 * 24)) + 1; 
-												} else if ($record['status_id'] == 5) {
+												} else if ($record['last_status_id'] == 5) {
 													$record['days_used'] = 0; 
 												}
                         if (abs($record['premium']) <= 25) {
@@ -200,7 +200,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
 												if ($record['ishead']==2) {
                           $earned = 0;
                           $unearned = 0;
-                        } else if ($record['days_used'] > 0) {
+                        } else if ($record['days_used'] >= $record['totaldays']) {
+													$earned = $record['premium'];
+													$unearned = 0;
+												} else if ($record['days_used'] > 0) {
                           $earned = $record['total_premium']*$record['days_used']/$record['totaldays'];
                           $unearned = $record['total_premium'] - $earned;
                         } else {

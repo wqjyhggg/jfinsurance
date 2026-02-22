@@ -307,7 +307,7 @@ class Backrun_model extends CI_Model {
         $dte = strtotime($record['expiry_date']);
         $dts = strtotime($record['effective_date']);
         $record['totaldays'] = round(($dte-$dts)/(60 * 60 * 24)) + 1; 
-      } else if ($record['status_id'] == 5) {
+      } else if ($record['last_status_id'] == 5) {
         $record['days_used'] = 0; 
       }
       if (abs($record['premium']) <= 25) {
@@ -316,7 +316,10 @@ class Backrun_model extends CI_Model {
 			if ($record['ishead']==2) {
 				$earned = 0;
 				$unearned = 0;
-      } else if ($record['days_used'] > 0) {
+			} else if ($record['days_used'] >= $record['totaldays']) {
+				$earned = $record['premium'];
+				$unearned = 0;
+			} else if ($record['days_used'] > 0) {
         $earned = $record['total_premium']*$record['days_used']/$record['totaldays'];
         $unearned = $record['total_premium'] - $earned;
       } else {
