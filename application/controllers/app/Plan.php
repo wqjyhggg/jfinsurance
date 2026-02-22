@@ -1189,9 +1189,12 @@ class Plan extends CI_Controller
 		if ($do_refund == 1) {
 			$refund_date = $this->input->post('refund_date');
 			if (!empty($plan["monthlypay"])) {
-				$admin_fee = 0;
-				$total_amount = $this->monthly_payment_model->do_refund($plan_id, $refund_date, $plan["effective_date"]);
-				$refund_amount = $total_amount;
+				// ["refund_amount" => $refund_amount, "charged_amount" => $charged_amount, "admin_fee" => $min_admin_fee]
+				$rRc = $this->monthly_payment_model->do_refund($plan_id, $refund_date, $plan["effective_date"]);
+				$total_amount = $rRc["charged_amount"];
+				$refund_amount = $rRc["refund_amount"];
+				$admin_fee = $rRc["admin_fee"];
+				$refund_amount += $admin_fee; // Adjust Calculate refund fee to agent
 			} else {
 				$refund_amount = floatval($this->input->post('refund_amount'));
 				$admin_fee = floatval($this->input->post('admin_fee'));
@@ -1223,8 +1226,8 @@ class Plan extends CI_Controller
         } else {
           $commission_amount = $refund_amount * $commission_rate / 100.0;
         }
-				$up_commission_rate = $this->product_model->get_up_commission_rate($plan['product_short']);
-				$up_commission_amount = $refund_amount * $up_commission_rate / 100.0;
+				// $up_commission_rate = $this->product_model->get_up_commission_rate($plan['product_short']);
+				// $up_commission_amount = $refund_amount * $up_commission_rate / 100.0;
 				
 				$dt['amount'] = $total_amount * (-1);
 				$dt['rate'] = 100;
