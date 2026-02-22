@@ -619,10 +619,10 @@ class Report_model extends CI_Model
 					$plansql1 = $plansql.$rc["plan_id"].$plansqle;
 					if ($planrtt = $this->db->query($plansql1)->result_array()) {
 						foreach ($rtt1 as $rctt) {
-							$rctt["total_premium"] = 0;
 							$rctt["last_status_id"] = $rc["last_status_id"];
 							if ($rctt["ishead"] && ($rctt["status_id"] == 3)) {
 								foreach ($planrtt as $rct) {
+									$rctt["total_premium"] = 0;
 									if (empty($rct["pay_type"])) {
 										$refund_amount = $rct["refund_amount"];
 										$rctt["total_premium"] = $rctt["premium"];
