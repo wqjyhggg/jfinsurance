@@ -269,21 +269,21 @@ class Monthly_payment_model extends CI_Model {
 	public function do_terminate($plan_id, $refund_date) {
 		$this->void_unpaid_record($plan_id, -3);
 		$refund_amount = 0;
-		$lastRc = $this->db->where("plan_id", $plan_id)->order_by("monthly_payment_id", "ASC")->limit(1)->get("monthly_payment")->row_array();
+		$charged_amount = 0;
+		$lastRc = $this->db->where("plan_id", $plan_id)->order_by("monthly_payment_id", "DESC")->limit(1)->get("monthly_payment")->row_array();
 		if (empty($lastRc)) {
 			return $refund_amount;
 		}
 		$monthly_amount = $lastRc["amount"];
-		$admin_fee = $monthly_amount * 2 + 50;
-		$paid_amount = 0;
+		$min_admin_fee = $monthly_amount * 2 + 50;	// First time paid
 
 		$paidRc = $this->db->where("plan_id", $plan_id)->where("paid", 1)->get("monthly_payment")->result_array();
 		if ($paidRc) {
 			foreach ($paidRc as $rc) {
-				$paid_amount += $rc["amount"];
+				$charged_amount += $rc["amount"];
 			}
 		}
-		return $paid_amount - $admin_fee;
+		return ["refund_amount" => 0, "charged_amount" => $charged_amount, "admin_fee" => $min_admin_fee];
 	}
 
 	public function do_refund($plan_id, $refund_date, $effective_date) {

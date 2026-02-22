@@ -614,6 +614,7 @@ class Report_model extends CI_Model
 			$mplan_id = 0;
 			$refund_amount = 0;
 			$paid_amount = 0;
+			$last_monthly_paid = 0;
 			foreach ($rt as $rc) {
 				$sql1 = $sql . $rc["plan_id"] . $sql2;
 				if ($rtt1 = $this->db->query($sql1)->result_array()) {
@@ -626,6 +627,7 @@ class Report_model extends CI_Model
 								foreach ($planrtt as $rct) {
 									$paid_amount += $rct["amount"] - $rct["admin_fee"];
 									$rctt["total_premium"] = 0;
+									$last_monthly_paid = $rct["paid"];
 									if (empty($rct["pay_type"])) {
 										$refund_amount = $rct["refund_amount"];
 										$rctt["total_premium"] = $rctt["premium"];
@@ -643,6 +645,10 @@ class Report_model extends CI_Model
 								}
 								$rtt[] = $rctt;
 							} else {
+								if (($rctt["status_id"] == 6) && ($last_monthly_paid == -3)) {
+									// Refund and Termiated
+									$rctt["status_id"] += 100;
+								}
 								$rtt[] = $rctt;
 							}
 						}

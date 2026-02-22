@@ -4448,7 +4448,7 @@ class Plan extends MY_Controller {
 		$this->load->model('monthly_payment_model');
 		$product = $this->product_model->get_product($plan['product_short']);
 
-
+		$user = $beuser;
 		$data['beuser'] = $beuser;
 		$data['plan'] = $plan;
 		if (!empty($plan["monthlypay"])) {
@@ -4646,7 +4646,7 @@ class Plan extends MY_Controller {
 		$this->load->model('monthly_payment_model');
 		$product = $this->product_model->get_product($plan['product_short']);
 
-
+		$user = $beuser;
 		$data['beuser'] = $beuser;
 		$data['plan'] = $plan;
 		if (empty($plan["monthlypay"])) {
@@ -4658,7 +4658,78 @@ class Plan extends MY_Controller {
 		}
 		if ($this->input->post()) {
 			$refund_date = $this->input->post('refund_date');
-			$new_premium = $this->monthly_payment_model->do_terminate($plan_id, $refund_date);
+			$rRc = $this->monthly_payment_model->do_terminate($plan_id, $refund_date);
+			$total_amount = $rRc["charged_amount"];
+			$refund_amount = $rRc["refund_amount"];
+			$admin_fee = $rRc["admin_fee"];
+
+			$this->load->model('payment_model');
+			$dt = array();
+			$dt['plan_id'] = $plan_id;
+			$dt['amount'] = $total_amount * (-1);
+			$dt['admin_fee'] = floatval($admin_fee);
+			$dt['pay_type'] = 'refund';
+			$dt['currency'] = $product['currency'];
+			$dt['pay_mothed'] = 'Cheque';
+			$dt['added'] = date('c');
+			$dt['ispaid'] = 0;
+			$dt['note'] = "Terminated at " . $dt['added'] . " amount: " . $refund_amount . " admin fee: " . $admin_fee;
+
+			$commission_rate = $this->product_model->get_commission_rate($plan['product_short'], $plan['user_id']);
+			if (($plan['product_short'] == 'TOP') && ($plan['totalyears'] > 60)) {
+				if ($commission_rate > 15) {
+					$commission_rate -= 15;
+				} else {
+					$commission_rate = 0;
+				}
+			}
+			if ($plan['product_short'] == 'TOP') {
+				$commission_amount = ($refund_amount - ($plan['tax'] * $refund_amount / $plan['premium'])) * $commission_rate / 100.0;
+			} else {
+				$commission_amount = $refund_amount * $commission_rate / 100.0;
+			}
+
+			$dt['rate'] = 100;
+			$dt['pay_type'] = 'refund';
+			$dt['premium_payment_id'] = 0;
+			$payment_id = $this->payment_model->add($dt);
+			$para = array(
+				'plan_id' => $plan_id,
+				'customer_id' => $plan['customer_id'],
+				'payment_id' => $payment_id,
+				'message' => $this->payment_model->logstr,
+				'systemlog' => $this->payment_model->sqlstr
+			);
+			$this->log_model->activity('payment', $para);
+
+			// This is monthly plan special requirement, refund all and charge again
+			$dt['amount'] = $total_amount - $admin_fee - $refund_amount;
+			$dt['admin_fee'] = 0;
+			$dt['pay_type'] = 'premium';
+			$premium_payment_id = $this->payment_model->add($dt, $user);
+			$para = array(
+				'plan_id' => $plan_id,
+				'customer_id' => $plan['customer_id'],
+				'payment_id' => $premium_payment_id,
+				'message' => $this->payment_model->logstr,
+				'systemlog' => $this->payment_model->sqlstr
+			);
+			$this->log_model->activity('payment', $para, $user);
+
+			$dt['pay_type'] = 'refund_commission';
+			$dt['rate'] = $commission_rate;
+			$dt['amount'] = $commission_amount * (-1);
+			$dt['premium_payment_id'] = $payment_id;
+			$commission_payment_id = $this->payment_model->add($dt);
+			$para = array(
+				'plan_id' => $plan_id,
+				'customer_id' => $plan['customer_id'],
+				'payment_id' => $commission_payment_id,
+				'message' => $this->payment_model->logstr,
+				'systemlog' => $this->payment_model->sqlstr
+			);
+			$this->log_model->activity('commission', $para);
+
 			// Add history
 			$history_id = 0;
 			if (($history = $this->plan_history_model->get_plan_history_by_plan_id($plan_id)) && ($history["actualrate"] > 0)) {
@@ -4673,17 +4744,17 @@ class Plan extends MY_Controller {
 				$this->plan_history_model->add_remove($history_id);
 			}
 
-			$note = "Terminate at " . $dt['added'] . "; " . $plan['note'];
-			$para = array('status_id' => Plan_model::REFUND, 'payment_id' => 0, 'commission_payment_id' => 0, 'refund_date' => $refund_date, 'note' => $note);  // Change status to refund
+			$note = "Terminate at " . $dt['added'] . "; " . " admin fee: " . $admin_fee . "; " . $plan['note'];
+			$para = array('status_id' => Plan_model::REFUND, 'payment_id' => $payment_id, 'commission_payment_id' => $commission_payment_id, 'refund_date' => $refund_date, 'note' => $note);  // Change status to refund
 			$this->plan_model->update($plan_id, $para);
 			if ($id = $this->plan_history_model->add($plan_id, Plan_model::REFUND)) {
-				$this->plan_history_model->update($id, array("payment_id" => $payment_id, "premium" => $new_premium, "expiry_date" => $refund_date, "note" => "Terminate Recode"));
+				$this->plan_history_model->update($id, array("payment_id" => $payment_id, "premium" => ($total_amount - $admin_fee - $refund_amount), "expiry_date" => $refund_date, "note" => "Terminate Recode"));
 			}
 
 			$para = array(
 				'plan_id' => $plan_id,
 				'customer_id' => $plan['customer_id'],
-				'payment_id' => 0,
+				'payment_id' => $payment_id,
 				'message' => $this->plan_model->logstr,
 				'systemlog' => $this->plan_model->sqlstr
 			);
@@ -4704,7 +4775,7 @@ class Plan extends MY_Controller {
 				$body .= "Tel: 905-707-1512  Fax: 905-707-1513\r\n";
 				$body .= "Website: www.jfgroup.ca\r\n";
 
-				$this->mymail_model->send_mymail($plan['contact_email'], 'Your client has paid for the policy ' . $plan['policy'], $body, 'text');
+				$this->mymail_model->send_mymail($plan['contact_email'], 'Your policy ' . $plan['policy'] . ' is terminated', $body, 'text');
 			}
 			redirect('plan/detail/' . $plan_id);
 		}
