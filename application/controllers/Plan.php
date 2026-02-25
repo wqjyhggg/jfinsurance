@@ -1080,7 +1080,7 @@ class Plan extends MY_Controller {
 		} else {
 			$data['gender'] = 'M';
 		}
-		if (($data['product_short'] == 'TOP') && ($data['product_short'] == 'TOPN')) {
+		if (($data['product_short'] == 'TOP') || ($data['product_short'] == 'TOPN')) {
 			$max_member = 25;
 		} else {
 			$max_member = 9;
