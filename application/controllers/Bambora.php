@@ -481,7 +481,7 @@ class Bambora extends CI_Controller {
 		$this->load->model('customer_model');
 		$this->load->model("verify_model");
 
-		if ($this->verify_model->isEmail($plan["contact_email"]) && ($customer = $this-customer_model->get_customer_by_id($plan["customer_id"]))) {
+		if ($this->verify_model->isEmail($plan["contact_email"]) && ($customer = $this->customer_model->get_customer_by_id($plan["customer_id"]))) {
 			$subject = "Urgent Action Required: Recurring Payment Failure for Your Insurance Policy";
 			$body  = "Dear ".$customer["firstname"]." ".$customer["lastname"].",\r\n\r\n";
 			$body .= "We are reaching out regarding your recent insurance policy ".$plan["policy"]." purchased on ".$plan["apply_date"].".\r\n";
