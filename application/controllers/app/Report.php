@@ -199,6 +199,174 @@ class Report extends CI_Controller
     ]);
   }
 
+  /* Premium3.php */
+  function or_monthly_premium()
+  {
+    $this->error = "";
+    $this->load->model("app_model");
+    $this->load->model("user_model");
+    $user = $this->app_model->check_token($this->input->post("token"));
+
+    if (empty($user)) {
+      if (empty($this->error)) {
+        $this->error = "Timeout";
+      }
+      return $this->app_model->return_error($this->error);
+    }
+
+    $beuser = $user;
+    $data = array();
+    $data['beuser'] = $beuser;
+
+    $this->load->model('report_model');
+
+    $data['title_txt'] = 'OR Premium Report';
+
+    $data['product_short'] = empty($this->input->post('product_short')) ? array() : $this->input->post('product_short');
+    $data['payment_added_from'] = empty($this->input->post('payment_added_from')) ? date("Y-m-d") : $this->input->post('payment_added_from');
+    $data['payment_added_to'] = empty($this->input->post('payment_added_to')) ? date("Y-m-d") : $this->input->post('payment_added_to');
+    $data['earned_to'] = empty($this->input->post('earned_to')) ? date("Y-m-d") : $this->input->post('earned_to');
+
+    $report_data = $this->report_model->get_premium_report3($data);
+    $report = array();
+
+    $status_list = array(
+      1 => "Quote",
+      2 => "Sold",
+      3 => "Paid",
+      4 => "Claimed",
+      5 => "Cancel",
+      6 => "Refund",
+      7 => "Changed",
+      8 => "Adjust",
+    );
+
+    $kArr = array(
+      'policy' => 'Policy Number',
+      'firstname' => 'First Name',
+      'lastname' => 'Last Name',
+      'province2' => 'Province',
+      'status_id' => 'Status',
+      'sold_date' => 'Sold Date',
+      'add_time' => 'Payment Date',
+      'effective_date' => 'Effective Date',
+      'expiry_date' => 'Expire Date',
+      'totaldays' => 'Number of Days',
+      'days_used' => 'Days of Used',
+      'sum_insured' => 'Sum Insured',
+      'customer_cnt' => 'Quantity',
+      'deductible_amount' => 'Deductible Amount',
+      'dailyrate' => 'Daily Rate',
+      'discount' => 'Discounted Amount',
+      'premium' => 'Total',
+      'earned' => 'Earned',
+      'unearned' => 'Unearned',
+      'product_short' => 'Product',
+      'plan_type' => 'Plan Type',
+      'total_premium' => 'Total Premium',
+    );
+
+    $date_range = $data['payment_added_from'] . " to " . $data['payment_added_to'];
+    $product_short = empty($data['product_short']) ? "" : $data['product_short'];
+    $title = array_values($kArr);
+
+    $total = $tearned = 0;
+    $solddate = '';
+    foreach ($report_data as $record) {
+      if ($record['ishead'] > 0) {
+        $solddate = substr($record['add_time'], 0, 10);
+      }
+      if ($record['status_id'] == 6) {
+        $dte = strtotime($record['expiry_date']);
+        $dts = strtotime($record['effective_date']);
+        $record['totaldays'] = round(($dte - $dts) / (60 * 60 * 24)) + 1;
+      } else if ($record['last_status_id'] == 5) {
+        $record['days_used'] = 0; 
+      }
+      if (abs($record['premium']) <= 25) {
+        $record['premium'] = floatval($record['dailyrate'] * $record['totaldays']);
+      }
+      if ($record['ishead']==2) {
+				$earned = 0;
+				$unearned = 0;
+			} else if ($record['days_used'] >= $record['totaldays']) {
+        $earned = $record['premium'];
+        $unearned = 0;
+      } else if ($record['days_used'] > 0) {
+        $earned = $record['total_premium'] * $record['days_used'] / $record['totaldays'];
+        $unearned = $record['total_premium'] - $earned;
+      } else {
+        $earned = 0;
+        $unearned = 0;
+      }
+      $total += $record['premium'];
+      $tearned += $earned;
+      $discount = 0;
+      if ($record['totaldays'] >= 365) {
+        $discount = $record['totaldays'] * $record['dailyrate'] - $record['premium'];
+        if ($discount < 5) {
+          $discount = 0;
+        }
+      }
+
+      $arr = array();
+
+      foreach ($kArr as $k => $v) {
+        if ($k == "earned") {
+          $arr[] = $earned;
+        } else if ($k == "sold_date") {
+          $arr[] = $solddate;
+        } else if ($k == "status_id") {
+          $arr[] = $status_list[$record["status_id"]];
+        } else if ($k == "add_time") {
+          $arr[] = substr($record[$k], 0, 10);
+        } else if ($k == "days_used") {
+          $arr[] = ($record[$k] > 0) ? $record[$k] : 0;
+        } else if ($k == "discount") {
+          $arr[] = number_format($discount, 2);
+        } else if ($k == "premium") {
+          $arr[] = number_format($record['premium'], 2);
+        } else if ($k == "unearned") {
+          $arr[] = number_format($unearned, 2);
+        } else if ($k == "earned") {
+          $arr[] = number_format($earned, 2);
+        } else if ($k == "deductible_amount") {
+          $arr[] = number_format($record[$k], 2);
+        } else if ($k == "dailyrate") {
+          $arr[] = number_format($record[$k], 2);
+        } else if ($k == "plan_type") {
+          $arr[] = "Monthly";
+        } else if ($k == "total_premium") {
+          $arr[] = number_format($record[$k], 2);
+        } else {
+          $arr[] = $record[$k];
+        }
+      }
+      array_push($report, $arr);
+    }
+    $arr = array();
+    foreach ($kArr as $k => $v) {
+      if ($k == "earned") {
+        $arr[] = number_format($tearned, 2);
+      } else if ($k == "unearned") {
+        $arr[] = number_format($total - $tearned, 2);
+      } else if ($k == "premium") {
+        $arr[] = number_format($total, 2);
+      } else if ($k == "deductible_amount") {
+        $arr[] = 'Total:';
+      } else {
+        $arr[] = '';
+      }
+    }
+    $this->app_model->return_ok([
+      "date_range" => $date_range,
+      "product_short" => $product_short,
+      "title" => $title,
+      "report" => $report,
+      "summary" => $arr,
+    ]);
+  }
+
   /* Agent.php */
   function sales_agent()
   {
