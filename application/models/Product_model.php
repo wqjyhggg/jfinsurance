@@ -2275,10 +2275,7 @@ class Product_model extends CI_Model {
 		if (!in_array($oldplan["product_short"], $verfy_products)) {
 			return "";
 		}
-		if ($oldplan["totaldays"] <= "365") {
-			return "";
-		}
-		if ($planold['status_id'] < 2) {
+		if (($oldplan["totaldays"] <= "365") || ($planold['status_id'] < 2) || (empty($planold['monthlypay']))) {
 			return "";
 		}
 		$totaldays = 0;
@@ -2290,11 +2287,11 @@ class Product_model extends CI_Model {
 		if ($totaldays && ($totaldays < 365)) {
 			return "Can not change plan total days";
 		}
-		if (isset($newplan["sum_insured"]) && ($newplan['sum_insured'] < 100000)) {
-			return "Sum Insured Amount can not lower than 100000";
+		if (isset($newplan["sum_insured"]) && ($newplan['sum_insured'] != $oldplan['sum_insured'])) {
+			return "Sum Insured Amount can not be changed after paid";
 		}
 		if (isset($newplan["premium"]) && ($planold['premium'] != $newplan['premium'])) {
-			return "Monthly plan can not change premium amount";
+			return "Monthly plan can not change premium amount, you changed condition(s) can not be changed.";
 		}
 		return "";
 	}
