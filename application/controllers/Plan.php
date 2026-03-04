@@ -533,12 +533,19 @@ class Plan extends MY_Controller {
     }
 
 		if (!empty($this->input->post('isfamilyplan'))) {
+			$isfamilyplan = $this->input->post('isfamilyplan');
 			if (empty($this->input->post('birthday_1')) || empty($this->input->post('firstname_1')) || empty($this->input->post('lastname_1'))) {
 				$this->error['error_message'] = $this->lang->line("Please input family / group member information");
 			}
 			if ($product_short == 'TOP') {
 				if (empty($this->input->post('birthday_2')) || empty($this->input->post('firstname_2')) || empty($this->input->post('lastname_2'))) {
 					$this->error['error_message'] = "Minimum 3 people for family or group";
+				}
+				if ($isfamilyplan == 2) {
+					$package = $this->input->post('package');
+					if ($package != "single_medical_plan") {
+						$this->error['error_message'] = "Group plans can only select 'Single medical plan'";
+					}
 				}
 			}
 		}
