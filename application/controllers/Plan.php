@@ -712,10 +712,11 @@ class Plan extends MY_Controller {
 		}
 
 		$this->error = array();
-		if ($this->input->post('submit') && $this->form_valid($beuser)) {
+		$post = $this->input->post();
+		$this->error = $this->plan_model->verify_date($post);
+		if ($this->input->post('submit') && empty($this->error) && $this->form_valid($beuser)) {
 			$plan_id = $this->input->post('plan_id');
 
-			$post = $this->input->post();
 			if (empty($plan_id)) {
 				if ($post['product_short'] == 'TOPN') {
 					if (empty($post["sum_insured"])) {

@@ -664,6 +664,12 @@ class Plan extends CI_Controller
     $this->load->model("plan_model");
     $this->load->model("log_model");
     $data = array();
+		$post = $this->input->post();
+		$this->error = $this->plan_model->verify_date($post);
+		if ($this->error) {
+			return $this->app_model->return_error(implode("; ", $this->error));
+		}
+
     if ($plan_id = $this->input->post("plan_id")) {
       $planold = $this->plan_model->get_plan_by_id($plan_id);
 			if ($planold) {
@@ -681,7 +687,6 @@ class Plan extends CI_Controller
           }
         }
         $ckArr['isfamilyplan'] = $isfamilyplan;
-        $post = $this->input->post();
         unset($post["user_id"]);
         $this->plan_model->update($plan_id, $post, $ckArr, $user);
 				$plan = $this->plan_model->get_plan_by_id($plan_id);
@@ -722,7 +727,6 @@ class Plan extends CI_Controller
 				}
       }
     } else {
-			$post = $this->input->post();
 			if ($post['product_short'] == 'TOPN') {
 				if (empty($post["sum_insured"])) {
 					$post["sum_insured"] = 1000000;
@@ -742,7 +746,6 @@ class Plan extends CI_Controller
     $data["plan"] = $this->plan_model->get_plan_by_id($plan_id);
     $data["claim_message"] = "";
 
-    $post = $this->input->post();
     if ($data["plan"]['claim_flag'] >= 2) {
       if ($data["plan"]['claim_allow_by'] < 1) {
         $data["claim_message"] = "The insured may have a previous claim that is affecting the policy issuance or renewal. Please contact JF staff for further assistance 905-707-1512";
