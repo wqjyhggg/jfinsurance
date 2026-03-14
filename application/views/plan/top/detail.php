@@ -122,7 +122,7 @@ if ($Agree != "Agree") {
 							<div class="col-sm-3">
 								<label class="inline"><?php echo $this->lang->line("Package Name"); ?>:</label> <span><?php echo $toppackagename[$plan['package']]; ?></span>
 							</div>
-							<?php if ($plan['package'] == 'all_inclusive') { ?>
+							<?php if (0 && ($plan['package'] == 'all_inclusive')) { ?>
 							<div class="col-sm-3">
 								<label class="inline"><?php echo $this->lang->line("Sum Insured"); ?>:</label> <span><?php echo $plan['sum_insured']; ?></span>
 							</div>

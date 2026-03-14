@@ -175,10 +175,10 @@ if ($Agree != "Agree") {
       <span class="info-lable">Beneficiary:</span>
       <span class="info-text"><?php echo $plan['beneficiary']; ?></span>
     </div>
-    <div class="info-card">
+    <!-- <div class="info-card">
       <span class="info-lable">Sum Insured:<span>
       <span class="info-text">$<?php echo number_format($plan['sum_insured'], 2); ?></span>
-    </div>
+    </div> -->
     <div class="info-card" stlye="flex: 1 1 50%">
       <?php 
         if ($plan['stable_condition']) {
