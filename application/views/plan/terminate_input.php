@@ -80,7 +80,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 													<?php if (!empty($plan['monthlypay']) && !empty($monthly_data) && !empty($monthly_record)) { ?>
 													<div class="row">
 														<div class="form-group col-sm-12 mb-2">
-															<label>Refund Date:</label>
+															<label>Terminate Date:</label>
 															<div class="inline-date">
 																<div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
 																	<input class="form-control" size="16" type="text" name='refund_date' id='refund_date' value='<?php echo $plan['expiry_date']; ?>' min='<?php echo $plan['effective_date']; ?>' max='<?php echo $plan['expiry_date']; ?>'>

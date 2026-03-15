@@ -5,7 +5,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <div class="container" style="padding:10px 10px 60px 10px;">
 	<div class="row">
 		<div class="col-sm-12 text-center">
-			<label>First Pay: $<?php echo $month_amount; ?> and Recurring Pay: $<?php echo $month_amount; ?> x <?php echo $pay_times; ?></label>
+			<label>First Pay: $<?php echo $first_amount; ?> and Recurring Pay: $<?php echo $month_amount; ?> x <?php echo $pay_times; ?></label>
 			<a class='btn btn-primary pull-right' href="<?php echo $back_url; ?>">Back</a>
 		</div>
 	</div>

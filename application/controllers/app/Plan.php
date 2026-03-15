@@ -81,6 +81,7 @@ class Plan extends CI_Controller
       }
     }
     $this->load->model('payment_model');
+    $this->load->model('monthly_payment_model');
     $this->load->model('plan_model');
 
     $plan_id = $this->input->post("plan_id");
@@ -102,12 +103,12 @@ class Plan extends CI_Controller
 			$today = date("Y-m-d");
 			if ($plan["effective_date"] == $today) {
 				$month_amount = number_format($plan['premium'] / 12, 2, ".", "");
-				$first_amount = number_format($month_amount * 3 + 50, 2, ".", "");
-				$rt['recurrent'] = [$first_amount, $month_amount, 9, 50];
+				$first_amount = number_format($month_amount * 3 + Monthly_payment_model::admin_fee, 2, ".", "");
+				$rt['recurrent'] = [$first_amount, $month_amount, 9, Monthly_payment_model::admin_fee];
 			} else {
 				$month_amount = number_format($plan['premium'] / 12, 2, ".", "");
-				$first_amount = number_format($month_amount * 2 + 50, 2, ".", "");
-				$rt['recurrent'] = [$first_amount, $month_amount, 10, 50];
+				$first_amount = number_format($month_amount * 2 + Monthly_payment_model::admin_fee, 2, ".", "");
+				$rt['recurrent'] = [$first_amount, $month_amount, 10, Monthly_payment_model::admin_fee];
 			}
 		}
 
@@ -1193,7 +1194,7 @@ class Plan extends CI_Controller
 			$total_amount = floatval($this->input->post('total_refund'));
 			if (!empty($plan["monthlypay"])) {
 				// ["refund_amount" => $refund_amount, "charged_amount" => $charged_amount, "admin_fee" => $min_admin_fee]
-				$rRc = $this->monthly_payment_model->do_refund($plan_id, $refund_date, $plan["effective_date"]);
+				$rRc = $this->monthly_payment_model->do_refund($plan_id, $refund_date, $admin_fee, $plan["effective_date"]);
 				$total_amount = $rRc["charged_amount"];
 				$refund_amount = $rRc["refund_amount"];
 				$admin_fee = $rRc["admin_fee"];
@@ -1411,7 +1412,7 @@ class Plan extends CI_Controller
 		}
 		if ($do_refund == 1) {
 			$refund_date = $this->input->post('refund_date');
-			$rRc = $this->monthly_payment_model->do_terminate($plan_id, $refund_date);
+			$rRc = $this->monthly_payment_model->do_terminate($plan_id, $refund_date, $plan);
 			$total_amount = $rRc["charged_amount"];
 			$refund_amount = $rRc["refund_amount"];
 			$admin_fee = $rRc["admin_fee"];

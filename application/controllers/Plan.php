@@ -3388,12 +3388,12 @@ class Plan extends MY_Controller {
 				$today = date("Y-m-d");
 				if ($plan["effective_date"] == $today) {
 					$month_amount = number_format($plan['premium'] / 12, 2, ".", "");
-					$first_amount = number_format($month_amount * 3 + 50, 2, ".", "");
-					$data['recurrent'] = [$first_amount, $month_amount, 9, 50];
+					$first_amount = number_format($month_amount * 3 + Monthly_payment_model::admin_fee, 2, ".", "");
+					$data['recurrent'] = [$first_amount, $month_amount, 9, Monthly_payment_model::admin_fee];
 				} else {
 					$month_amount = number_format($plan['premium'] / 12, 2, ".", "");
-					$first_amount = number_format($month_amount * 2 + 50, 2, ".", "");
-					$data['recurrent'] = [$first_amount, $month_amount, 10, 50];
+					$first_amount = number_format($month_amount * 2 + Monthly_payment_model::admin_fee, 2, ".", "");
+					$data['recurrent'] = [$first_amount, $month_amount, 10, Monthly_payment_model::admin_fee];
 				}
 				$data["monthly_pay_url"] = base_url("plan/monthly_pay/" . $plan['plan_id']);
 				// $data['monthly_pay_url2'] = $this->createCheckoutLink($product["merchent_id"], $product["hash_key"], $first_amount, $plan_id);
@@ -3509,14 +3509,14 @@ class Plan extends MY_Controller {
 		$today = date("Y-m-d");
 		if ($plan["effective_date"] == $today) {
 			$month_amount = number_format($plan['premium'] / 12, 2, ".", "");
-			$first_amount = number_format($month_amount * 3 + 50, 2, ".", "");
+			$first_amount = number_format($month_amount * 3 + Monthly_payment_model::admin_fee, 2, ".", "");
 			$pay_times = 9;
-			$admin_fee = 50;
+			$admin_fee = Monthly_payment_model::admin_fee;
 		} else {
 			$month_amount = number_format($plan['premium'] / 12, 2, ".", "");
-			$first_amount = number_format($month_amount * 2 + 50, 2, ".", "");
+			$first_amount = number_format($month_amount * 2 + Monthly_payment_model::admin_fee, 2, ".", "");
 			$pay_times = 10;
-			$admin_fee = 50;
+			$admin_fee = Monthly_payment_model::admin_fee;
 		}
 
 		$monthly_payment_id = $this->monthly_payment_model->create_payment_records($plan["plan_id"], $first_amount, $month_amount, $pay_times, $plan["effective_date"], $admin_fee);
@@ -4464,7 +4464,7 @@ class Plan extends MY_Controller {
 			$total_amount = floatval($this->input->post('total_refund'));
 			if (!empty($plan["monthlypay"])) {
 				// ["refund_amount" => $refund_amount, "charged_amount" => $charged_amount, "admin_fee" => $min_admin_fee]
-				$rRc = $this->monthly_payment_model->do_refund($plan_id, $refund_date, $plan["effective_date"]);
+				$rRc = $this->monthly_payment_model->do_refund($plan_id, $refund_date, $admin_fee, $plan["effective_date"]);
 				$total_amount = $rRc["charged_amount"];
 				$refund_amount = $rRc["refund_amount"];
 				$admin_fee = $rRc["admin_fee"];
@@ -4658,10 +4658,11 @@ class Plan extends MY_Controller {
 		}
 		if ($this->input->post()) {
 			$refund_date = $this->input->post('refund_date');
-			$rRc = $this->monthly_payment_model->do_terminate($plan_id, $refund_date);
+			$rRc = $this->monthly_payment_model->do_terminate($plan_id, $refund_date, $plan);
 			$total_amount = $rRc["charged_amount"];
 			$refund_amount = $rRc["refund_amount"];
 			$admin_fee = $rRc["admin_fee"];
+			$new_expiry_date = $rRc["expiry_date"];
 
 			$this->load->model('payment_model');
 			$dt = array();
@@ -4745,10 +4746,10 @@ class Plan extends MY_Controller {
 			}
 
 			$note = "Terminate at " . $dt['added'] . "; " . " admin fee: " . $admin_fee . "; " . $plan['note'];
-			$para = array('status_id' => Plan_model::REFUND, 'payment_id' => $payment_id, 'commission_payment_id' => $commission_payment_id, 'refund_date' => $refund_date, 'note' => $note);  // Change status to refund
+			$para = array('status_id' => Plan_model::REFUND, 'payment_id' => $payment_id, 'commission_payment_id' => $commission_payment_id, 'expiry_date' => $new_expiry_date, 'refund_date' => $refund_date, 'note' => $note);  // Change status to refund
 			$this->plan_model->update($plan_id, $para);
 			if ($id = $this->plan_history_model->add($plan_id, Plan_model::REFUND)) {
-				$this->plan_history_model->update($id, array("payment_id" => $payment_id, "premium" => ($total_amount - $admin_fee - $refund_amount), "expiry_date" => $refund_date, "note" => "Terminate Recode"));
+				$this->plan_history_model->update($id, array("payment_id" => $payment_id, "premium" => ($total_amount - $admin_fee - $refund_amount), "expiry_date" => $new_expiry_date, 'refund_date' => $refund_date, "note" => "Terminate Recode"));
 			}
 
 			$para = array(
@@ -4784,7 +4785,7 @@ class Plan extends MY_Controller {
 		$data['plan_id'] = $plan['plan_id'];
 		$claims = $this->plan_model->verify_policy($plan['policy']);
 		$data['claims'] = (!empty($claims) && ($claims['status'] == 'OK')) ? $claims['claims'] : '';
-		$data['adminfee'] = 50;
+		$data['adminfee'] = Monthly_payment_model::admin_fee;
 		$data['refund_enable'] = 1;
 		if ($plan['product_short'] == 'TOP') {
 			$data['adminfee'] = 25;

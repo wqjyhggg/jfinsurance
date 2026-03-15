@@ -114,6 +114,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 													<?php } ?>
 													<div class="row">
 														<div class="form-group col-sm-12">
+															<label>Admin Fee:</label>
+															<input type="number" step="any" name='admin_fee' id='admin_fee' value='0' class="form-control" />
+														</div>
+													</div>
+													<div class="row">
+														<div class="form-group col-sm-12">
 														<label class="inline">Are you sure you want to refund this policy? </label>
 														<br />
 														<input class="btn btn-primary inline" type='submit' name='send' value='YES'>
@@ -165,6 +171,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           </div>
         </div>
       <!-- /page content -->
+<?php if (!empty($plan['monthlypay']) && !empty($monthly_data) && !empty($monthly_record)) { ?>
 <script type="text/javascript">
 <!--
 $( document ).ready(function() {
@@ -195,3 +202,4 @@ function get_refund_amount() {
 } 
 //-->
 </script>
+<?php } ?>

@@ -152,9 +152,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
           <?php echo $this->lang->line("Please read and understand the enclosed, which fully explains the terms, conditions, limitations and exclusions that are part of your policy"); ?>.<br /><br />
 					<?php if (!empty($plan['monthlypay']) && !empty($monthly_data)) { ?>
 					<p class="small" style="margin-top:2px;"><b>Monthly Payment Option</b><br />
-					At the time of purchase, the applicant must pay a one-time $50 fee and two months of premium. These amounts are nonrefundable without a visa rejection letter.<br />
-					Subsequent monthly premiums will be charged starting on the effective date of the policy.
-					If a recurring monthly payment is unsuccessful, a 14-day grace period will be provided, during which the system will automatically retry the payment 2 times. To maintain continuous coverage, the monthly payment must be successfully processed. If payment is not received within the grace period, your policy will be terminated as of the first failed payment date.<br /><br />
+					At the time of purchase, the applicant must pay a one-time $<?php echo $monthly_data["admin_fee"]; ?> fee and two months of premium. 
+					These amounts are nonrefundable without a visa rejection letter (unless it was cancelled within 10 days of purchase and provided coverage has not yet begun).<br />
+					Ten (10) recurring monthly credit card payments will be charged each month starting on the effective date of the policy. <br />
+					If a monthly payment is not received, an email notification will be sent immediately to the email provided on your application and to your agent/broker. You will have 30 days from the email notice to resolve the missed payment. If the missed payment is not collected within 30 days, the monthly payment plan option will be cancelled, and the policy will terminate on the premium paid-to-date.<br /><br />
 					<?php } ?>
           <?php echo $this->lang->line("If you have a change in your health, including any change in your medication, between the date of application and the effective date of the policy, you must contact us to ensure that you remain eligible for this insurance. Ontime Care Worldwide Inc. must be notified prior to any surgery being performed or within 24 hours of admission to a hospital. Failure to do so, without reasonable cause, will result in the reduction of eligible benefit amounts payable"); ?>. <br /><br />
           <?PHP echo $this->lang->line("IN THE EVENT OF AN EMERGENCY, CONTACT ONTIME CARE WORLDWIDE INC IMMEDIATELY"); ?>: <br />
