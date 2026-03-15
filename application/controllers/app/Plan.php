@@ -103,12 +103,12 @@ class Plan extends CI_Controller
 			$today = date("Y-m-d");
 			if ($plan["effective_date"] == $today) {
 				$month_amount = number_format($plan['premium'] / 12, 2, ".", "");
-				$first_amount = number_format($month_amount * 3 + Monthly_payment_model::admin_fee, 2, ".", "");
-				$rt['recurrent'] = [$first_amount, $month_amount, 9, Monthly_payment_model::admin_fee];
+				$first_amount = number_format($month_amount * 3 + $this->monthly_payment_model->admin_fee, 2, ".", "");
+				$rt['recurrent'] = [$first_amount, $month_amount, 9, $this->monthly_payment_model->admin_fee];
 			} else {
 				$month_amount = number_format($plan['premium'] / 12, 2, ".", "");
-				$first_amount = number_format($month_amount * 2 + Monthly_payment_model::admin_fee, 2, ".", "");
-				$rt['recurrent'] = [$first_amount, $month_amount, 10, Monthly_payment_model::admin_fee];
+				$first_amount = number_format($month_amount * 2 + $this->monthly_payment_model->admin_fee, 2, ".", "");
+				$rt['recurrent'] = [$first_amount, $month_amount, 10, $this->monthly_payment_model->admin_fee];
 			}
 		}
 

@@ -3388,12 +3388,12 @@ class Plan extends MY_Controller {
 				$today = date("Y-m-d");
 				if ($plan["effective_date"] == $today) {
 					$month_amount = number_format($plan['premium'] / 12, 2, ".", "");
-					$first_amount = number_format($month_amount * 3 + Monthly_payment_model::admin_fee, 2, ".", "");
-					$data['recurrent'] = [$first_amount, $month_amount, 9, Monthly_payment_model::admin_fee];
+					$first_amount = number_format($month_amount * 3 + $this->monthly_payment_model->admin_fee, 2, ".", "");
+					$data['recurrent'] = [$first_amount, $month_amount, 9, $this->monthly_payment_model->admin_fee];
 				} else {
 					$month_amount = number_format($plan['premium'] / 12, 2, ".", "");
-					$first_amount = number_format($month_amount * 2 + Monthly_payment_model::admin_fee, 2, ".", "");
-					$data['recurrent'] = [$first_amount, $month_amount, 10, Monthly_payment_model::admin_fee];
+					$first_amount = number_format($month_amount * 2 + $this->monthly_payment_model->admin_fee, 2, ".", "");
+					$data['recurrent'] = [$first_amount, $month_amount, 10, $this->monthly_payment_model->admin_fee];
 				}
 				$data["monthly_pay_url"] = base_url("plan/monthly_pay/" . $plan['plan_id']);
 				// $data['monthly_pay_url2'] = $this->createCheckoutLink($product["merchent_id"], $product["hash_key"], $first_amount, $plan_id);
@@ -3509,14 +3509,14 @@ class Plan extends MY_Controller {
 		$today = date("Y-m-d");
 		if ($plan["effective_date"] == $today) {
 			$month_amount = number_format($plan['premium'] / 12, 2, ".", "");
-			$first_amount = number_format($month_amount * 3 + Monthly_payment_model::admin_fee, 2, ".", "");
+			$first_amount = number_format($month_amount * 3 + $this->monthly_payment_model->admin_fee, 2, ".", "");
 			$pay_times = 9;
-			$admin_fee = Monthly_payment_model::admin_fee;
+			$admin_fee = $this->monthly_payment_model->admin_fee;
 		} else {
 			$month_amount = number_format($plan['premium'] / 12, 2, ".", "");
-			$first_amount = number_format($month_amount * 2 + Monthly_payment_model::admin_fee, 2, ".", "");
+			$first_amount = number_format($month_amount * 2 + $this->monthly_payment_model->admin_fee, 2, ".", "");
 			$pay_times = 10;
-			$admin_fee = Monthly_payment_model::admin_fee;
+			$admin_fee = $this->monthly_payment_model->admin_fee;
 		}
 
 		$monthly_payment_id = $this->monthly_payment_model->create_payment_records($plan["plan_id"], $first_amount, $month_amount, $pay_times, $plan["effective_date"], $admin_fee);
@@ -4785,7 +4785,7 @@ class Plan extends MY_Controller {
 		$data['plan_id'] = $plan['plan_id'];
 		$claims = $this->plan_model->verify_policy($plan['policy']);
 		$data['claims'] = (!empty($claims) && ($claims['status'] == 'OK')) ? $claims['claims'] : '';
-		$data['adminfee'] = Monthly_payment_model::admin_fee;
+		$data['adminfee'] = $this->monthly_payment_model->admin_fee;
 		$data['refund_enable'] = 1;
 		if ($plan['product_short'] == 'TOP') {
 			$data['adminfee'] = 25;
