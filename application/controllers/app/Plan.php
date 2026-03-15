@@ -633,6 +633,8 @@ class Plan extends CI_Controller
 						} else if ($rc["paid"] == 0) {
 							$plan['monthly_unpay'] += $rc["amount"];
 							$plan['monthly_unpay_count']++;
+						} else if ($rc["paid"] == -3) {
+							$plan['monthly_status'] = "Terminated";
 						} else if ($rc["paid"] == -2) {
 							$plan['monthly_status'] = "Payment Error";
 						} else if ($rc["paid"] == -1) {
