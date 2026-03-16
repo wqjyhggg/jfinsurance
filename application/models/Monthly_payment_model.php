@@ -161,7 +161,7 @@ class Monthly_payment_model extends CI_Model {
 		if ($limit) {
 			$this->db->limit($start, $limit);
 		}
-		return $this->db->get("monthly_payment")->result_array();
+		return $this->db->get()->result_array();
 	}
 
 	public function plan_search_count($para, $plan) {
