@@ -211,7 +211,7 @@ class Plan extends MY_Controller {
 		if (isset($sArr["policy"])) {
 			$plan = $this->plan_model->get_plan_by_policy($sArr["policy"]);
 		}
-		$data['plan_list'] = $this->monthly_payment_model->plan_search($sArr, $plan, $this->page_limit, $this->input->get('per_page'));
+		$data['plan_list'] = $this->monthly_payment_model->plan_search($sArr, $plan);
 		$data['plan_total'] = $this->monthly_payment_model->plan_search_count($sArr, $plan);
 
 		$data['base_url'] = site_url('plan/monthlystatus');
