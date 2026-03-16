@@ -107,7 +107,7 @@ $payStatusArr = [
 							<?php foreach ($plan_list as $plan) { $pid = $plan['plan_id']; $mpid = $plan['monthly_payment_id']; ?>
 								<tr>
 									<td><a style="color:#46b8da;" href='<?php echo $edit_url.$pid; ?>'><?php echo $pid; ?></a></td>
-									<td><?php echo $status_list[$plan['status_id']]; ?></td>
+									<td><?php echo $status_list[$plan['status_id']]["name"]; ?></td>
 									<td><?php echo $plan['amount']; ?></td>
 									<td><?php echo $payStatusArr[$plan['paid']]; ?></td>
 									<td><?php echo $plan['pay_date']; ?></td>
