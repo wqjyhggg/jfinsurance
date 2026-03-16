@@ -31,7 +31,7 @@ $payStatusArr = [
 		</div>
 		<div class="clearfix"></div>
 			<!-- Create Section -->
-		<div class="row collapse" id="create-div">
+		<div class="row" id="create-div">
 			<div class="col-md-12 col-sm-12 col-xs-12">
 				<div class="x_panel">
 					<!-- <div class="x_title"></div> -->
@@ -55,14 +55,14 @@ $payStatusArr = [
 									</div>
 								</div>
 								<div class="form-group col-sm-3">
-									<label for="application_date_from" class="col-sm-4">Payment Date From:</label>
+									<label for="application_date_from" class="col-sm-12">Payment Date From:</label>
 									<div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
 										<input type="text" size="16" name="date_start" placeholder="Start Date" data-toggle="tooltip" title="Payment Date Start From" class="form-control" />
 										<div class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></div>
 									</div>
 								</div>
 								<div class="form-group col-sm-3">
-									<label for="application_date_from" class="col-sm-4">Payment Date To:</label>
+									<label for="application_date_from" class="col-sm-12">Payment Date To:</label>
 									<div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
 										<input type="text" size="16" name="date_end" placeholder="End Date" data-toggle="tooltip" title="Payment Date End To" class="form-control" />
 										<div class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></div>

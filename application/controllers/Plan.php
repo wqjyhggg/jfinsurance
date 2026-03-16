@@ -193,10 +193,10 @@ class Plan extends MY_Controller {
 
 		$data['beuser'] = $beuser;
 		$data['status_list'] = $this->status_model->status_list();
-		// $data['policy'] = $this->input->get_post('policy');
-		// $data['date_start'] = $this->input->get_post('date_start');
-		// $data['date_end'] = $this->input->get_post('date_end');
-		// $data['paid'] = $this->input->get_post('paid');
+		$data['policy'] = $this->input->get_post('policy');
+		$data['date_start'] = $this->input->get_post('date_start');
+		$data['date_end'] = $this->input->get_post('date_end');
+		$data['paid'] = $this->input->get_post('paid');
 
 		if ($this->input->get_post('search')) {
 			$sArr = $this->input->post();
