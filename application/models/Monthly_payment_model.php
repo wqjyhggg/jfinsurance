@@ -140,6 +140,46 @@ class Monthly_payment_model extends CI_Model {
 		return 0;
 	}
 
+	public function plan_search($para, $plan, $limit=0, $start=0) {
+		$this->db->select('monthly_payment.*, plan.status_id, plan.policy, plan.effective_date, plan.expiry_date');
+		$this->db->from('monthly_payment');
+		$this->db->join('plan', 'monthly_payment.plan_id=plan.plan_id', 'left');
+		if ($plan) {
+			$this->db->where('plan_id', $plan['plan_id']);
+		}
+		if (isset($para['date_start'])) {
+			$this->db->where('pay_date>=', $para['date_start']);
+		}
+		if (isset($para['date_end'])) {
+			$this->db->where('pay_date<=', $para['date_end']);
+		}
+		if (!empty($para['paid'])) {
+			$this->db->where('paid', $para['paid']);
+		}
+		$this->db->order_by('plan_id', "ASC");
+		$this->db->order_by('monthly_payment_id', "ASC");
+		if ($limit) {
+			$this->db->limit($start, $limit);
+		}
+		return $this->db->get("monthly_payment")->result_array();
+	}
+
+	public function plan_search_count($para, $plan) {
+		if ($plan) {
+			$this->db->where('plan_id', $plan['plan_id']);
+		}
+		if (isset($para['date_start'])) {
+			$this->db->where('pay_date>=', $para['date_start']);
+		}
+		if (isset($para['date_end'])) {
+			$this->db->where('pay_date<=', $para['date_end']);
+		}
+		if (!empty($para['paid'])) {
+			$this->db->where('paid', $para['paid']);
+		}
+		return $this->db->get("monthly_payment")->row();
+	}
+
 	public function create_payment_records($plan_id, $first_amount, $month_pay, $mountly_number, $effective_date, $admin_fee) {
 		if ($this->db->where("plan_id", $plan_id)->where("paid>", 0)->get("monthly_payment")->row_array()) {
 			// Payment already edited build. Can't rebuild

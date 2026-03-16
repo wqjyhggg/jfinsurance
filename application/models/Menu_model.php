@@ -14,6 +14,7 @@ class Menu_model extends CI_Model {
 			0 =>array(),
 			1 => array(
 					"<a href='" . base_url('plan') . "' class='leftmeun'><i class='fa fa-file-text-o'></i>" . $this->lang->line ( 'text_policy' ) . "</a>",
+					"<a href='" . base_url('plan/monthlystatus') . "' class='leftmeun'><i class='fa fa-upload'></i>Monthly Status</a>",
 					"<a href='" . base_url('batch/import') . "' class='leftmeun'><i class='fa fa-upload'></i>" . $this->lang->line ( 'text_upload_policy' ) . "</a>",
 					"<a href='" . base_url('batch/other') . "' class='leftmeun'><i class='fa fa-upload'></i>" . $this->lang->line ( 'text_other_policy' ) . "</a>",
 					array(
@@ -45,6 +46,7 @@ class Menu_model extends CI_Model {
 			),
 			2 => array(
 					"<a href='" . base_url('plan') . "' class='leftmeun'><i class='fa fa-file-text-o'></i>" . $this->lang->line ( 'text_policy' ) . "</a>",
+					"<a href='" . base_url('plan/monthlystatus') . "' class='leftmeun'><i class='fa fa-upload'></i>Monthly Status</a>",
 					"<a href='" . base_url('batch/import') . "' class='leftmeun'><i class='fa fa-upload'></i>" . $this->lang->line ( 'text_upload_policy' ) . "</a>",
 					"<a href='" . base_url('batch/other') . "' class='leftmeun'><i class='fa fa-upload'></i>" . $this->lang->line ( 'text_other_policy' ) . "</a>",
 					array(
@@ -70,6 +72,7 @@ class Menu_model extends CI_Model {
 			),
 			3 =>array(
 					"<a href='" . base_url('plan') . "' class='leftmeun'><i class='fa fa-file-text-o'></i>" . $this->lang->line ( 'text_policy' ) . "</a>",
+					"<a href='" . base_url('plan/monthlystatus') . "' class='leftmeun'><i class='fa fa-upload'></i>Monthly Status</a>",
 					"<a href='" . base_url('batch/import') . "' class='leftmeun'><i class='fa fa-upload'></i>" . $this->lang->line ( 'text_upload_policy' ) . "</a>",
 					"<a href='" . base_url('batch/other') . "' class='leftmeun'><i class='fa fa-upload'></i>" . $this->lang->line ( 'text_other_policy' ) . "</a>",
 					array(

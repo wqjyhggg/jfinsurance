@@ -60,7 +60,68 @@ class Plan extends CI_Controller
     return $this->app_model->return_ok(array("plans"=>array(), "totals"=>0));
   }
 
-  function get_plan_pay() {
+  function monthlystatus() {
+    $this->error = "";
+    $this->load->model("app_model");
+		$this->load->model('monthly_payment_model');
+		$this->load->model('plan_model');
+
+    $user = $this->app_model->check_token($this->input->post("token"));
+
+		$policy = $this->input->post('policy');
+		$date_start = $this->input->post('date_start');
+		$date_end = $this->input->post('date_end');
+		$paid = $this->input->post('paid');
+    $limit = intval($this->input->post("limit"));
+    $start = intval($this->input->post("start"));
+
+		$sArr = [];
+		if (!empty($policy)) $sArr["policy"] = $policy;
+		if (!empty($date_start)) $sArr["date_start"] = $date_start;
+		if (!empty($date_end)) $sArr["date_end"] = $date_end;
+		if (!empty($paid)) $sArr["paid"] = $paid;
+		if (empty($sArr)) {
+			$sArr = ["paid" => -2];
+		}
+
+		if (empty($limit)) {
+			$limit = 10;
+		}
+		if ($start < 0) {
+			$start = 0;
+		}
+
+		$plan = false;
+		if (isset($sArr["policy"])) {
+			$plan = $this->plan_model->get_plan_by_policy($sArr["policy"]);
+		}
+		$data['payment_list'] = $this->monthly_payment_model->plan_search($sArr, $plan, $limit, $start);
+		$data['payment_total'] = $this->monthly_payment_model->plan_search_count($sArr, $plan);
+
+		$this->app_model->return_ok($data);
+  }
+
+	function monthlypay($monthly_payment_id) {
+	  $user = $this->app_model->check_token($this->input->post("token"));
+
+		$this->load->model('bambora_model');
+		$rt = $this->bambora_model->do_payment($monthly_payment_id);
+		if ($rt) {
+			return $this->app_model->return_error($rt);
+		}
+		return $this->app_model->return_ok(["message" => "OK", "message" => "OK"]);
+	}
+
+	function monthlypaystatus($monthly_payment_id) {
+	  $user = $this->app_model->check_token($this->input->post("token"));
+		$this->load->model('monthly_payment_model');
+		if ($mp = $this->monthly_payment_model->get_by_id($monthly_payment_id)) {
+			return $this->app_model->return_ok(["paid" => $mp["paid"]]);
+		}
+		return $this->app_model->return_error("Unknown record");
+	}
+	
+	function get_plan_pay() {
     $this->error = "";
     $this->load->model("app_model");
     $this->load->model("user_model");

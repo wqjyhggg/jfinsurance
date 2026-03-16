@@ -183,6 +183,104 @@ class Plan extends MY_Controller {
 		$this->load->common('plan/list', $data);
 	}
 
+	function monthlystatus() {
+		$beuser = $this->func_model->verify_login();
+		$this->load->model('status_model');
+		$this->load->model('monthly_payment_model');
+		$this->load->model('plan_model');
+
+		$data = array();
+
+		$data['beuser'] = $beuser;
+		$data['status_list'] = $this->status_model->status_list();
+		// $data['policy'] = $this->input->get_post('policy');
+		// $data['date_start'] = $this->input->get_post('date_start');
+		// $data['date_end'] = $this->input->get_post('date_end');
+		// $data['paid'] = $this->input->get_post('paid');
+
+		if ($this->input->get_post('search')) {
+			$sArr = $this->input->post();
+			if (empty($sArr)) {
+				$sArr = $this->input->get();
+			}
+		}
+		if (empty($sArr)) {
+			$sArr = ["paid" => -2];
+		}
+		$plan = false;
+		if (isset($sArr["policy"])) {
+			$plan = $this->plan_model->get_plan_by_policy($sArr["policy"]);
+		}
+		$data['plan_list'] = $this->monthly_payment_model->plan_search($sArr, $plan, $this->page_limit, $this->input->get('per_page'));
+		$data['plan_total'] = $this->monthly_payment_model->plan_search_count($sArr, $plan);
+
+		$data['base_url'] = site_url('plan/monthlystatus');
+		$data['edit_url'] = base_url("plan/edit") . "/";
+		$data['pay_url'] = base_url("plan/monthlypay") . "/";
+		$data['pay_status_url'] = base_url("plan/monthlypaystatus") . "/";
+
+		$this->load->library('pagination');
+		$config['base_url'] = site_url('plan/monthlystatus');
+		$config['enable_query_strings'] = TRUE;
+		$config['page_query_string'] = TRUE;
+		$config['per_page'] = $this->page_limit;
+		$config['total_rows'] = $data['plan_total'];
+		$config['first_tag_open'] = "<li class='cpagination'>";
+		$config['first_tag_close'] = "</li>";
+		$config['last_tag_open'] = "<li class='cpagination'>";
+		$config['last_tag_close'] = "</li>";
+		$config['next_tag_open'] = "<li class='cpagination'>";
+		$config['next_tag_close'] = "</li>";
+		$config['prev_tag_open'] = "<li class='cpagination'>";
+		$config['prev_tag_close'] = "</li>";
+		$config['cur_tag_open'] = "<li class='cpagination' style='background-color:#ddd'>";
+		$config['cur_tag_close'] = "</li>";
+		$config['num_tag_open'] = "<li class='cpagination'>";
+		$config['num_tag_close'] = "</li>";
+		if (count($this->input->get()) > 0) {
+			$getArr = $this->input->get();
+			if (isset($getArr['per_page'])) {
+				unset($getArr['per_page']);
+			}
+			$config['suffix'] = '&' . http_build_query($getArr, '', "&");
+		}
+
+		$this->pagination->initialize($config); // initiaze pagination config
+
+		$data['pagination'] = $this->pagination->create_links(); // create pagination links
+
+
+		$data['title_txt'] = 'Policy';
+		$data['top_menu'] = $this->menu_model->load_top_menu();
+		$data['menu'] = $this->menu_model->load_meun();
+		$this->load->model('html_model');
+		$data['html_model'] = $this->html_model;
+
+		$data['csrf'] = array(
+			'name' => $this->security->get_csrf_token_name(),
+			'value' => $this->security->get_csrf_hash()
+		);
+
+		$this->load->common('plan/monthlystatus', $data);
+	}
+
+	function monthlypay($monthly_payment_id) {
+		$beuser = $this->func_model->verify_login();
+
+		$this->load->model('bambora_model');
+		$rt = $this->bambora_model->do_payment($monthly_payment_id);
+		die($rt);
+	}
+
+	function monthlypaystatus($monthly_payment_id) {
+		$beuser = $this->func_model->verify_login();
+		$this->load->model('monthly_payment_model');
+		if ($mp = $this->monthly_payment_model->get_by_id($monthly_payment_id)) {
+			die($mp["paid"]);
+		}
+		die("-2");
+	}
+
 	function export_list()
 	{
 		$beuser = $this->func_model->verify_login();
