@@ -147,10 +147,10 @@ class Monthly_payment_model extends CI_Model {
 		if ($plan) {
 			$this->db->where('plan_id', $plan['plan_id']);
 		}
-		if (isset($para['date_start'])) {
+		if (!empty($para['date_start'])) {
 			$this->db->where('pay_date>=', $para['date_start']);
 		}
-		if (isset($para['date_end'])) {
+		if (!empty($para['date_end'])) {
 			$this->db->where('pay_date<=', $para['date_end']);
 		}
 		if (!empty($para['paid'])) {
@@ -168,10 +168,10 @@ class Monthly_payment_model extends CI_Model {
 		if ($plan) {
 			$this->db->where('plan_id', $plan['plan_id']);
 		}
-		if (isset($para['date_start'])) {
+		if (!empty($para['date_start'])) {
 			$this->db->where('pay_date>=', $para['date_start']);
 		}
-		if (isset($para['date_end'])) {
+		if (!empty($para['date_end'])) {
 			$this->db->where('pay_date<=', $para['date_end']);
 		}
 		if (!empty($para['paid'])) {
