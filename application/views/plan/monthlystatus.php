@@ -112,7 +112,7 @@ $payStatusArr = [
 									<td><?php echo $payStatusArr[$plan['paid']]; ?></td>
 									<td><?php echo $plan['pay_date']; ?></td>
 									<td><?php echo $plan['retry']?$plan['retry_date']."(".$plan['retry'].")":""; ?></td>
-									<td><?php if ($plan['status_id']=='-2') { ?><button class="btn btn-primary retry-button" onclick='retry_payment("<?php echo $mpid; ?>")'>Try To Pay</button><?php } ?></td>
+									<td><?php if ($plan['paid']==-2) { ?><button class="btn btn-primary retry-button" onclick='retry_payment("<?php echo $mpid; ?>")'>Try To Pay</button><?php } ?></td>
 								</tr>
 							<?php } ?>
 							</tbody>
