@@ -219,37 +219,6 @@ class Plan extends MY_Controller {
 		$data['pay_url'] = base_url("plan/monthlypay") . "/";
 		$data['pay_status_url'] = base_url("plan/monthlypaystatus") . "/";
 
-		$this->load->library('pagination');
-		$config['base_url'] = site_url('plan/monthlystatus');
-		$config['enable_query_strings'] = TRUE;
-		$config['page_query_string'] = TRUE;
-		$config['per_page'] = $this->page_limit;
-		$config['total_rows'] = $data['plan_total'];
-		$config['first_tag_open'] = "<li class='cpagination'>";
-		$config['first_tag_close'] = "</li>";
-		$config['last_tag_open'] = "<li class='cpagination'>";
-		$config['last_tag_close'] = "</li>";
-		$config['next_tag_open'] = "<li class='cpagination'>";
-		$config['next_tag_close'] = "</li>";
-		$config['prev_tag_open'] = "<li class='cpagination'>";
-		$config['prev_tag_close'] = "</li>";
-		$config['cur_tag_open'] = "<li class='cpagination' style='background-color:#ddd'>";
-		$config['cur_tag_close'] = "</li>";
-		$config['num_tag_open'] = "<li class='cpagination'>";
-		$config['num_tag_close'] = "</li>";
-		if (count($this->input->get()) > 0) {
-			$getArr = $this->input->get();
-			if (isset($getArr['per_page'])) {
-				unset($getArr['per_page']);
-			}
-			$config['suffix'] = '&' . http_build_query($getArr, '', "&");
-		}
-
-		$this->pagination->initialize($config); // initiaze pagination config
-
-		$data['pagination'] = $this->pagination->create_links(); // create pagination links
-
-
 		$data['title_txt'] = 'Policy';
 		$data['top_menu'] = $this->menu_model->load_top_menu();
 		$data['menu'] = $this->menu_model->load_meun();

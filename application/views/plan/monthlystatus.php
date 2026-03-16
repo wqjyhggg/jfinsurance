@@ -120,9 +120,6 @@ $payStatusArr = [
 					</div>
 					<div class="row">
 						<div class="col-md-12 col-sm-12 col-xs-12">
-							<ul style="list-style-type: none">
-							<?php echo $pagination; ?> ( <?php echo $this->lang->line("Total"); ?>: <?php echo $plan_total;?> )
-							</ul>
 						</div>
 					</div>
 				</div>
