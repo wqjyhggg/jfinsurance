@@ -45,7 +45,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
         <p class="small" style="margin-top: 15px;">
           Emergency Medical coverage is provided while traveling worldwide outside of the insured person’s Country of
           Residence, per policy provisions.
-          The maximum limit of coverage per period of insurance is $5,000,000 CAD. Coverage includes the Schengen states
+          The maximum limit of coverage per period of insurance is <?php if ($plan['product_short'] == 'TOPN') { ?>$1,000,000<?php } else { ?>$5,000,000<?php } ?> CAD. Coverage includes the Schengen states
           per the policy provisions.
         </p>
         <p class="small" style="margin-top: 15px;">
