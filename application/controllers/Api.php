@@ -276,6 +276,7 @@ class Api extends MY_Controller {
 			$this->load->model('plan_model');
 			$this->load->model('customer_model');
 			$this->load->model('payment_model');
+			$this->load->model('monthly_payment_model');
 				
 			$data = array();
 			if (!empty($this->input->post('plan_id'))) $data['plan_id'] = $this->input->post('plan_id');
@@ -400,6 +401,12 @@ class Api extends MY_Controller {
 					$p['agent_firstname'] = $plan['agent_firstname'];
 					$p['agent_lastname'] = $plan['agent_lastname'];
 					$p['agent_phone'] = $plan['agent_phone'];
+					$p['monthlypay'] = $plan['monthlypay'];
+					$p['monthly_status'] = "";
+					if ($p['monthlypay']) {
+						$p['monthly_status'] = $this->monthly_payment_model->get_monthly_status($plan);
+					}
+
 					$p['family'] = array();
 					if ($p['isfamilyplan']) {
 						$family = $this->customer_model->get_customer_by_parent_id($p['customer_id']);

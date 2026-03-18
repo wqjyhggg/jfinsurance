@@ -4,6 +4,12 @@ if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
 class Monthly_payment_model extends CI_Model {
+	const PAID = 1;
+	const WAITING = 0;
+	const VOID = -1;
+	const PAYERROR = -2;
+	const TERMINATED = -3;
+
 	public $error;
 	public $admin_fee = 80;
 
@@ -389,6 +395,27 @@ class Monthly_payment_model extends CI_Model {
 				// $recurrdate->modify('+1 days');
 			}
 		}
+	}
+
+	public function get_monthly_status($plan) {
+		$this->load->model('plan_model');
+		$lastRc = $this->db->where("plan_id", $plan["plan_id"])->order_by("monthly_payment_id", "DESC")->limit(1)->get("monthly_payment")->row_array();
+		if (empty($lastRc)) {
+			return "";
+		}
+		if ($lastRc == SELF::VOID) {
+			if ($plan["status_id"] == Plan_model::CANCEL) {
+				return "Canceled";
+			} else if ($plan["status_id"] == Plan_model::REFUND) {
+				return "Refunded";
+			}
+			return "Stopped";
+		} else if ($lastRc == SELF::TERMINATED) {
+			return "Terminated";
+		} else if ($lastRc == SELF::PAYERROR) {
+			return "Payment Error";
+		}
+		return "Active";
 	}
 
 	public function clear_old($plan_id) {

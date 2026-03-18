@@ -233,13 +233,14 @@ class Bambora extends CI_Controller {
 			$mpArr["paid"] = 1;
 		} else {
 			$mpArr["paid"] = -2;
-			$retry = $monthly_payment["retry"]++;
+			$retry = $monthly_payment["retry"] + 1;
 			if ($retry == 1) {
-				$monthly_payment["retry_date"] = date('Y-m-d', strtotime('+2 days'));
+				$this->send_charge_fail_email($plan);
+				$mpArr["retry_date"] = date('Y-m-d', strtotime('+2 days'));
 			} else if ($retry == 2) {
-				$monthly_payment["retry_date"] = date('Y-m-d', strtotime('+5 days'));
+				$mpArr["retry_date"] = date('Y-m-d', strtotime('+5 days'));
 			}
-			$monthly_payment["retry"] = $retry;
+			$mpArr["retry"] = $retry;
 		}
 		$this->monthly_payment_model->update($monthly_payment_id, $mpArr);
 
@@ -409,7 +410,6 @@ class Bambora extends CI_Controller {
 						die("OK");
 					} else {
 						$this->load->model('mymail_model');
-						$this->send_charge_fail_email($plan);
 						$message = $plan["policy"] . " Monthly Payment Profile creation failed.";
 						$this->mymail_model->send_mymail("wqjyhggg@gmail.com", 'JF Profile Error', $message, $attach=array(), $from='', 'text');
 						$message = "Profile creation unknown return";
@@ -420,7 +420,6 @@ class Bambora extends CI_Controller {
 					}
 				} else {
 					$this->load->model('mymail_model');
-					$this->send_charge_fail_email($plan);
 					$message  = $plan["policy"] . " Monthly Payment Profile Return Error.\r\n";
 					$message .= "monthly_payment_id: ".$monthly_payment_id.".\r\n";
 					$message .= "responseCode: ".$responseCode.".\r\n";
