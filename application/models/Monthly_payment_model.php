@@ -146,6 +146,63 @@ class Monthly_payment_model extends CI_Model {
 		return 0;
 	}
 
+	public function build_new_plan_list_onepass($plan_list) {
+    $new = [];
+    $currentPlanId = null;
+    $candidate = null;
+    $candidateHasNegative = false;
+
+    foreach ($plan_list as $item) {
+			if (!isset($item['plan_id']) || !isset($item['paid'])) {
+				// Skip error
+				continue;
+			}
+			$pid = $item['plan_id'];
+			$paid = $item['paid'];
+
+			if ($currentPlanId === null) {
+				$currentPlanId = $pid;
+				$candidate = $item;
+				$candidateHasNegative = ($paid < 0);
+				continue;
+			}
+
+			if ($pid !== $currentPlanId) {
+					// push the candidate for previous group
+					$new[] = $candidate;
+					// reset for new group
+					$currentPlanId = $pid;
+					$candidate = $item;
+					$candidateHasNegative = ($paid < 0);
+					continue;
+			}
+
+			// same plan_id group:
+			if ($candidateHasNegative) {
+					// we already found a negative and per rule we keep the first negative, so do nothing
+					continue;
+			}
+
+			if ($paid < 0) {
+					// first negative in this group -> choose it
+					$candidate = $item;
+					$candidateHasNegative = true;
+					continue;
+			}
+
+			// no negative yet and current item has non-negative paid
+			// rule: if all are >=0 we want last record, so update candidate to current (last seen)
+			$candidate = $item;
+    }
+
+    // push last group's candidate
+    if ($candidate !== null) {
+        $new[] = $candidate;
+    }
+
+    return $new;
+	}
+
 	public function plan_search($para, $plan, $limit=0, $start=0) {
 		$this->db->select('monthly_payment.*, plan.status_id, plan.policy, plan.effective_date, plan.expiry_date');
 		$this->db->from('monthly_payment');

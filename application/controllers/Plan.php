@@ -197,6 +197,7 @@ class Plan extends MY_Controller {
 		$data['date_start'] = $this->input->get_post('date_start');
 		$data['date_end'] = $this->input->get_post('date_end');
 		$data['paid'] = $this->input->get_post('paid');
+		$data['only_last_per_policy'] = $this->input->get_post('only_last_per_policy');
 
 		if ($this->input->get_post('search')) {
 			$sArr = $this->input->post();
@@ -211,7 +212,11 @@ class Plan extends MY_Controller {
 		if (isset($sArr["policy"])) {
 			$plan = $this->plan_model->get_plan_by_policy($sArr["policy"]);
 		}
-		$data['plan_list'] = $this->monthly_payment_model->plan_search($sArr, $plan);
+		$plan_list = $this->monthly_payment_model->plan_search($sArr, $plan);
+		if (!empty($data['only_last_per_policy'])) {
+			$plan_list = $this->monthly_payment_model->build_new_plan_list_onepass($plan_list);
+		}
+		$data['plan_list'] = $plan_list;
 		$data['plan_total'] = $this->monthly_payment_model->plan_search_count($sArr, $plan);
 
 		$data['base_url'] = site_url('plan/monthlystatus');

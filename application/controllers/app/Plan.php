@@ -74,12 +74,14 @@ class Plan extends CI_Controller
 		$paid = $this->input->post('paid');
     $limit = intval($this->input->post("limit"));
     $start = intval($this->input->post("start"));
+		$only_last_per_policy = $this->input->post('only_last_per_policy');
 
 		$sArr = [];
 		if (!empty($policy)) $sArr["policy"] = $policy;
 		if (!empty($date_start)) $sArr["date_start"] = $date_start;
 		if (!empty($date_end)) $sArr["date_end"] = $date_end;
 		if (!empty($paid)) $sArr["paid"] = $paid;
+		if (!empty($only_last_per_policy)) $sArr["only_last_per_policy"] = $only_last_per_policy;
 		if (empty($sArr)) {
 			$sArr = ["paid" => -2];
 		}
@@ -95,7 +97,12 @@ class Plan extends CI_Controller
 		if (isset($sArr["policy"])) {
 			$plan = $this->plan_model->get_plan_by_policy($sArr["policy"]);
 		}
-		$data['payment_list'] = $this->monthly_payment_model->plan_search($sArr, $plan, $limit, $start);
+		$plan_list = $this->monthly_payment_model->plan_search($sArr, $plan);
+		$data = [];
+		if (!empty($only_last_per_policy)) {
+			$plan_list = $this->monthly_payment_model->build_new_plan_list_onepass($plan_list);
+		}
+		$data['payment_list'] = $plan_list;
 		$data['payment_total'] = $this->monthly_payment_model->plan_search_count($sArr, $plan);
 
 		$this->app_model->return_ok($data);
