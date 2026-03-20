@@ -240,7 +240,7 @@ class Monthly_payment_model extends CI_Model {
 		if (!empty($para['paid'])) {
 			$this->db->where('paid', $para['paid']);
 		}
-		return $this->db->get("monthly_payment")->row();
+		return $this->db->get("monthly_payment")->num_rows();
 	}
 
 	public function create_payment_records($plan_id, $first_amount, $month_pay, $mountly_number, $effective_date, $admin_fee) {
