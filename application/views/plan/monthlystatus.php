@@ -71,7 +71,7 @@ $payStatusArr = [
 							</div>
 							<div class="row">
 								<div class="form-group col-sm-3">
-									<input type="checkbox" name="only_last_per_policy" id="only_last_per_policy" value="<?php echo $only_last_per_policy; ?>"><label for="only_last_per_policy">One Record Per Policy</label>
+									<input type="checkbox" name="only_last_per_policy" id="only_last_per_policy" value="1" <?php if ($only_last_per_policy == 1) { echo "checked"; } ?>> <label for="only_last_per_policy">One Record Per Policy</label>
 								</div>
 								<div class="form-group col-sm-6">
 								</div>
