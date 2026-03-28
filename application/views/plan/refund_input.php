@@ -115,7 +115,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 													<div class="row">
 														<div class="form-group col-sm-12">
 															<label>Admin Fee:</label>
-															<input type="number" step="any" name='admin_fee' id='admin_fee' value='0' class="form-control" />
+															<label class="radio-inline"><input type="radio" name="admin_fee" value="0" checked>$0 Adminstration Fee</label>
+															<label class="radio-inline"><input type="radio" name="admin_fee" value="40">$40 Adminstration Fee</label>
 														</div>
 													</div>
 													<div class="row">
