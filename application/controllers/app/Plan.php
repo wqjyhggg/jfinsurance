@@ -297,6 +297,10 @@ class Plan extends CI_Controller
 		}
 		$product = $this->product_model->get_product($plan['product_short']);
 		$this->load->model('monthly_payment_model');
+		if (empty($admin_fee)) {
+			// Some error happened
+			return $this->app_model->return_error("0 admint fee.");
+		}
 		$monthly_payment_id = $this->monthly_payment_model->create_payment_records($plan["plan_id"], $first_pay, $month_pay, $month_num, $plan["effective_date"], $admin_fee);
 		if (!is_numeric($monthly_payment_id)) {
 			return $this->app_model->return_error("Monthly Pay can not create monthly records, Please contact Staff.");

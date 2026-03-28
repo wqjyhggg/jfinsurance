@@ -3593,6 +3593,10 @@ class Plan extends MY_Controller {
 			$admin_fee = $this->monthly_payment_model->admin_fee;
 		}
 
+		if (empty($admin_fee)) {
+			// Some error happened
+			show_error("0 admint fee");
+		}
 		$monthly_payment_id = $this->monthly_payment_model->create_payment_records($plan["plan_id"], $first_amount, $month_amount, $pay_times, $plan["effective_date"], $admin_fee);
 		if (!is_numeric($monthly_payment_id)) {
 			// Some error happened
