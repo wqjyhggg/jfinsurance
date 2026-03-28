@@ -165,10 +165,11 @@ defined('BASEPATH') or exit('No direct script access allowed');
         <h4><u>Coverage Details</u></h4>
         <?php if (($plan['product_short'] == 'JFS') || ($plan['product_short'] == 'JFE') || ($plan['product_short'] == 'BHS')) { ?>
           <h4>Insurance Plan:<br />&nbsp;&nbsp;&nbsp;<span><?php echo $plan_full_name; ?></span></h4>
-          <h4>Sum Insured: <span>$<?php echo number_format($plan['sum_insured'], 2); ?></span>
-          </h4>
-          <h4>Plan Type: : <span>Individual</span>
-          </h4>
+          <h4>Sum Insured: <span>$<?php echo number_format($plan['sum_insured'], 2); ?></span></h4>
+          <h4>Plan Type: : <span>Individual</span></h4>
+					<?php if ($plan['product_short'] == 'JFS') { ?>
+						<h4><span>Stable pre-existing condition coverage: No</span></h4>
+					<?php } ?>
         <?php } else if ($plan['product_short'] == 'TOP') { ?>
           <h4>
             JF Canadian Travel Out Plan:
