@@ -3457,7 +3457,7 @@ class Plan extends MY_Controller {
 			$data['insurable_options'] = $this->load->view('plan/detail_opl', $data, TRUE);
 		} else if ($data['plan']['product_short'] == 'JFVTC') {
 			$data['insurable_options'] = $this->load->view('plan/detail_opl', $data, TRUE);
-			if (($plan['status_id'] == Plan_model::QUOTE) && ($plan['sum_insured'] >= 100000) && ($plan['totaldays'] >= 365)) {
+			if (($plan['status_id'] == Plan_model::QUOTE) && ($plan['sum_insured'] >= 100000) && ($plan['totaldays'] >= 365) && empty($plan['isfamilyplan'])) {
 				$product = $this->product_model->get_product($plan['product_short']);
 				$today = date("Y-m-d");
 				if ($plan["effective_date"] == $today) {
