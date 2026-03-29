@@ -246,7 +246,7 @@ class Bambora extends CI_Controller {
 
 		$premium = $monthly_payment["amount"];
 		$admin_fee = $monthly_payment["admin_fee"];
-		$premium -= $admin_fee;
+		$commission_premium = $premium - $admin_fee;
 		if ($post["trnApproved"] == "1") {
 			$commission_amount = 0;
 			$commission_rate = $this->product_model->get_commission_rate($plan['product_short'], $plan['user_id']);
@@ -258,9 +258,9 @@ class Bambora extends CI_Controller {
 				}
 			}
 			if ($plan['product_short'] == 'TOP') {
-				$commission_amount = ($premium - ($plan['tax'] * $premium / $plan['premium'])) * $commission_rate / 100.0;
+				$commission_amount = ($commission_premium - ($plan['tax'] * $commission_premium / $plan['premium'])) * $commission_rate / 100.0;
 			} else {
-				$commission_amount = $premium * $commission_rate / 100.0;
+				$commission_amount = $commission_premium * $commission_rate / 100.0;
 			}
 
 			$dt = [];

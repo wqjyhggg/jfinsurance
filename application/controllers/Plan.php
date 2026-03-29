@@ -4550,9 +4550,9 @@ class Plan extends MY_Controller {
 				// ["refund_amount" => $refund_amount, "charged_amount" => $charged_amount, "admin_fee" => $min_admin_fee]
 				$added_admin_fee = $admin_fee;
 				$rRc = $this->monthly_payment_model->do_refund($plan_id, $refund_date, $plan["effective_date"]);
-				$total_amount = $rRc["charged_amount"];
+				$total_amount = $rRc["charged_amount"] - $rRc["admin_fee"];
 				$refund_amount = $rRc["refund_amount"];
-				$admin_fee = $rRc["admin_fee"];
+				$admin_fee = 0;
 			}
 			if ($total_amount > 0) {
 				$this->load->model('payment_model');
@@ -4615,6 +4615,7 @@ class Plan extends MY_Controller {
 				$dt['pay_type'] = 'refund_commission';
 				$dt['rate'] = $commission_rate;
 				$dt['amount'] = $commission_amount * (-1);
+				$dt['admin_fee'] = 0;
 				$dt['premium_payment_id'] = $payment_id;
 				$commission_payment_id = $this->payment_model->add($dt);
 				$para = array(
