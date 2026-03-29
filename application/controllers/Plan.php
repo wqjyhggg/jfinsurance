@@ -4312,13 +4312,18 @@ class Plan extends MY_Controller {
 
 		if ($this->input->post()) {
 			$admin_fee = floatval($this->input->post('admin_fee'));
+			$added_admin_fee = 0;
 			if (empty($data['monthly_data'])) {
 				$refund_amount = floatval($this->input->post('refund_amount'));
+				$total_amount = $refund_amount - $admin_fee;
 			} else {
-				$refund_amount = floatval($data['monthly_data']['total_paid']);
-				$admin_fee += floatval($data['monthly_data']['admin_fee']);
+				$added_admin_fee = $admin_fee;
+				$total_amount = floatval($data['monthly_data']['total_paid']);
+				$admin_fee = floatval($data['monthly_data']['admin_fee']);
+				$refund_amount = $total_amount - $admin_fee;
+				$total_amount =  $total_amount - $admin_fee - $added_admin_fee;
+				$admin_fee += $added_admin_fee;
 			}
-			$total_amount = $refund_amount - $admin_fee;
 
 			if ($total_amount > 0) {
 				$this->load->model('payment_model');
@@ -4540,9 +4545,11 @@ class Plan extends MY_Controller {
 			$refund_amount = floatval($this->input->post('refund_amount'));
 			$admin_fee = floatval($this->input->post('admin_fee'));
 			$total_amount = floatval($this->input->post('total_refund'));
+			$added_admin_fee = 0;
 			if (!empty($plan["monthlypay"])) {
 				// ["refund_amount" => $refund_amount, "charged_amount" => $charged_amount, "admin_fee" => $min_admin_fee]
-				$rRc = $this->monthly_payment_model->do_refund($plan_id, $refund_date, $admin_fee, $plan["effective_date"]);
+				$added_admin_fee = $admin_fee;
+				$rRc = $this->monthly_payment_model->do_refund($plan_id, $refund_date, $plan["effective_date"]);
 				$total_amount = $rRc["charged_amount"];
 				$refund_amount = $rRc["refund_amount"];
 				$admin_fee = $rRc["admin_fee"];
@@ -4591,8 +4598,8 @@ class Plan extends MY_Controller {
 				$this->log_model->activity('payment', $para);
 				if (!empty($plan["monthlypay"])) {
 					// This is monthly plan special requirement, refund all and charge again
-					$dt['amount'] = $total_amount - $admin_fee - $refund_amount;
-					$dt['admin_fee'] = 0;
+					$dt['amount'] = $total_amount + $added_admin_fee - $refund_amount;
+					$dt['admin_fee'] = $added_admin_fee;
 					$dt['pay_type'] = 'premium';
 					$premium_payment_id = $this->payment_model->add($dt, $user);
 					$para = array(
@@ -4741,12 +4748,13 @@ class Plan extends MY_Controller {
 			$refund_amount = $rRc["refund_amount"];
 			$admin_fee = $rRc["admin_fee"];
 			$new_expiry_date = $rRc["expiry_date"];
+			$total_amount -= $admin_fee;
 
 			$this->load->model('payment_model');
 			$dt = array();
 			$dt['plan_id'] = $plan_id;
 			$dt['amount'] = $total_amount * (-1);
-			$dt['admin_fee'] = floatval($admin_fee);
+			$dt['admin_fee'] = $admin_fee;
 			$dt['pay_type'] = 'refund';
 			$dt['currency'] = $product['currency'];
 			$dt['pay_mothed'] = 'Cheque';
@@ -4782,7 +4790,7 @@ class Plan extends MY_Controller {
 			$this->log_model->activity('payment', $para);
 
 			// This is monthly plan special requirement, refund all and charge again
-			$dt['amount'] = $total_amount - $admin_fee - $refund_amount;
+			$dt['amount'] = $total_amount - $refund_amount;
 			$dt['admin_fee'] = 0;
 			$dt['pay_type'] = 'premium';
 			$premium_payment_id = $this->payment_model->add($dt, $user);
