@@ -58,7 +58,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 						<tr>
 							<td>Original Premium: </td><td><span>$<?php echo number_format($plan['premium'], 2, '.', ',');?></span></td>
 						</tr>
-						<?php if ($plan["monthlypay"]) { ?>
+						<?php if (0 && $plan["monthlypay"]) { ?>
 						<tr>
 							<td>Paid Premium: </td><td><span>$<?php echo number_format($paid_premium, 2, '.', ',');?></span></td>
 						</tr>
@@ -70,10 +70,14 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 						<tr>	
 							<td>Un-used Premium: </td><td><span>$<?php echo number_format($refund_amount, 2, '.', ','); ?></span></td>
 						</tr>
-						<?php } ?>
 						<tr>	
 							<td>Minus Cancellation Fee: </td><td><span>$<?php echo number_format($admin_fee, 2, '.', ','); ?></span></td>
 						</tr>
+						<?php } else { ?>
+						<tr>	
+							<td>Monthly Plan Admin Fee: </td><td><span>$<?php echo number_format($admin_fee, 2, '.', ','); ?></span></td>
+						</tr>
+						<?php } ?>
 						<tr>	
 							<td>Total Refund: </td><td><span>$<?php echo number_format($total_amount, 2, '.', ','); ?></span></td>
 						</tr>

@@ -303,6 +303,7 @@ class Monthly_payment_model extends CI_Model {
 			"recurrent_times" => 0,
 			"init_pay_date" => "N/A",
 			"last_pay_date" => "N/A",
+			"last_available_date" => "N/A",
 		];
 		if ($rts = $this->get_by_plan_id($plan_id)) {
 			foreach ($rts as $rc) {
@@ -322,6 +323,20 @@ class Monthly_payment_model extends CI_Model {
 				}
 			}
 			$rt["premium"] -= $rt["admin_fee"];
+			if ($rt["last_pay_date"] != "N/A") {
+				$date = new DateTime($rt["last_pay_date"]);
+				$date->modify('+3 month');
+				$date->modify('-1 day');
+				$rt["last_available_date"] = $date->format('Y-m-d');
+			} else {
+				$this->load->model('plan_model');
+				if ($plan = $this->plan_model->get_plan_by_id($plan_id)) {
+					$date = new DateTime($plan["effective_date"]);
+					$date->modify('+2 month');
+					$date->modify('-1 day');
+					$rt["last_available_date"] = $date->format('Y-m-d');
+				}
+			}
 		}
 		return $rt;
 	}
@@ -361,16 +376,13 @@ class Monthly_payment_model extends CI_Model {
 		return $this->db->where("plan_id", $plan_id)->where("paid<=", 0)->set("paid", $paid)->set("pay_time", $now)->update("monthly_payment");
 	}
 
-	public function do_cancel($plan_id, $total_amount) {
+	public function do_cancel($plan_id) {
 		$this->void_unpaid_record($plan_id);
-		$initRc = $this->db->where("plan_id", $plan_id)->where("pay_type", 0)->get("monthly_payment")->row_array();
-		if ($initRc) {
-			$this->db->where("monthly_payment_id", $initRc["monthly_payment_id"])->set("refund_amount", $total_amount)->update("monthly_payment");
-		}
-		return $refund_amount;
+		return $this->db->where("plan_id", $plan_id)->where("paid", 1)->set("refund_amount", "amount", false)->update("monthly_payment");
 	}
 
 	public function do_terminate($plan_id, $refund_date, $plan) {
+		$this->load->model('product_model');
 		$this->void_unpaid_record($plan_id, -3);
 		$refund_amount = 0;
 		$charged_amount = 0;
@@ -396,13 +408,15 @@ class Monthly_payment_model extends CI_Model {
 			}
 		}
 		$date = new DateTime($expiry_date);
-		$date->modify('+1 month');
+		$date->modify('+2 month');
 		$date->modify('-1 day');
 		$expiry_date = $date->format('Y-m-d');
-		return ["refund_amount" => $refund_amount, "expiry_date" => $expiry_date, "charged_amount" => $charged_amount, "admin_fee" => $min_admin_fee];
+		$totaldays = $this-product_model->getDays($plan["expiry_date"], $refund_date);
+		return ["refund_amount" => $refund_amount, "totaldays" => $totaldays, "charged_amount" => $charged_amount, "admin_fee" => $min_admin_fee];
 	}
 
 	public function do_refund($plan_id, $refund_date, $effective_date) {
+		$this->load->model('product_model');
 		$this->void_unpaid_record($plan_id);
 		$refund_amount = 0;
 		$charged_amount = 0;
@@ -438,7 +452,8 @@ class Monthly_payment_model extends CI_Model {
 				}
 			}
 		}
-		return ["refund_amount" => $refund_amount, "charged_amount" => $charged_amount, "admin_fee" => $min_admin_fee];
+		$totaldays = $this-product_model->getDays($effective_date, $refund_date);
+		return ["refund_amount" => $refund_amount, "charged_amount" => $charged_amount, "admin_fee" => $min_admin_fee, 'totaldays' => $totaldays];
 	}
 
 	public function change_effective_date($plan_id, $effective_date) {

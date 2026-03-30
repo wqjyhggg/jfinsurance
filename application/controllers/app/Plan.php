@@ -1267,6 +1267,7 @@ class Plan extends CI_Controller
 			$admin_fee = floatval($this->input->post('admin_fee'));
 			$total_amount = floatval($this->input->post('total_refund'));
 			$added_admin_fee = 0;
+			$totaldays = $plan["totaldays"];
 			if (!empty($plan["monthlypay"])) {
 				// ["refund_amount" => $refund_amount, "charged_amount" => $charged_amount, "admin_fee" => $min_admin_fee]
 				$added_admin_fee = $admin_fee;
@@ -1274,6 +1275,7 @@ class Plan extends CI_Controller
 				$total_amount = $rRc["charged_amount"] - $rRc["admin_fee"];
 				$refund_amount = $rRc["refund_amount"];
 				$admin_fee = 0;
+				$totaldays = $rRc["totaldays"];
 			}
 			if ($total_amount > 0) {
 				$this->load->model('payment_model');
@@ -1376,7 +1378,7 @@ class Plan extends CI_Controller
 				$this->plan_history_model->add_remove($history_id);
 			}
 
-			$note = "Api Refund at " . $dt['added'] . " amount: " . $refund_amount . " admin fee: " . $admin_fee . "; " . $plan['note'];
+			$note = "Api Refund at " . $dt['added'] . " amount: " . $refund_amount . " admin fee: " . ($admin_fee + $added_admin_fee) . "; " . $plan['note'];
 			$para = array('status_id' => Plan_model::REFUND, 'payment_id' => $payment_id, 'commission_payment_id' => $commission_payment_id, 'refund_date' => $refund_date, 'note' => $note );  // Change status to refund
 			$this->plan_model->update($plan_id, $para, array(), $user);
 			$para = array(
@@ -1389,7 +1391,7 @@ class Plan extends CI_Controller
 			$this->log_model->activity('plan', $para, $user);
 			if ($id = $this->plan_history_model->add($plan_id, Plan_model::REFUND)) {
 				if (!empty($plan["monthlypay"])) {
-					$this->plan_history_model->update($id, array("payment_id" => $payment_id, "premium" => ($total_amount - $admin_fee - $refund_amount), "expiry_date" => $refund_date, "note" => "Api Refunded Recode"));
+					$this->plan_history_model->update($id, array("payment_id" => $payment_id, "premium" => ($total_amount - $added_admin_fee - $refund_amount), "expiry_date" => $refund_date, "totaldays" => $totaldays, "note" => "Api Refunded Recode"));
 				} else {
 					$this->plan_history_model->update($id, array("payment_id"=>$payment_id, "premium"=>($plan["premium"] - $refund_amount),"expiry_date"=>$refund_date, "note"=>"Api Refunded Recode"));
 				}
@@ -1490,16 +1492,18 @@ class Plan extends CI_Controller
 		if ($do_refund == 1) {
 			$refund_date = $this->input->post('refund_date');
 			$rRc = $this->monthly_payment_model->do_terminate($plan_id, $refund_date, $plan);
-			$total_amount = $rRc["charged_amount"];
-			$refund_amount = $rRc["refund_amount"];
+			$premium = $rRc["charged_amount"];
+			$refund_amount = 0; // $rRc["refund_amount"];
 			$admin_fee = $rRc["admin_fee"];
-			$total_amount -= $admin_fee;
+			$total_amount = $premium;
+			$new_expiry_date = $rRc["expiry_date"];
+			$totaldays = $rRc["totaldays"];
 
 			$this->load->model('payment_model');
 			$dt = array();
 			$dt['plan_id'] = $plan_id;
 			$dt['amount'] = $total_amount * (-1);
-			$dt['admin_fee'] = $admin_fee;
+			$dt['admin_fee'] = $admin_fee * (-1);
 			$dt['pay_type'] = 'refund';
 			$dt['currency'] = $product['currency'];
 			$dt['pay_mothed'] = 'Cheque';
@@ -1536,7 +1540,7 @@ class Plan extends CI_Controller
 
 			// This is monthly plan special requirement, refund all and charge again
 			$dt['amount'] = $total_amount - $refund_amount;
-			$dt['admin_fee'] = 0;
+			$dt['admin_fee'] = $admin_fee;
 			$dt['pay_type'] = 'premium';
 			$premium_payment_id = $this->payment_model->add($dt, $user);
 			$para = array(
@@ -1576,19 +1580,21 @@ class Plan extends CI_Controller
 			}
 
 			$note = "Api Terminate at " . $dt['added'] . "; " . " admin fee: " . $admin_fee . "; " . $plan['note'];
-			$para = array('status_id' => Plan_model::REFUND, 'payment_id' => $payment_id, 'commission_payment_id' => $commission_payment_id, 'refund_date' => $refund_date, 'note' => $note );  // Change status to refund
+			$para = array('status_id' => Plan_model::REFUND, 'payment_id' => $payment_id, 'commission_payment_id' => $commission_payment_id, 'expiry_date' => $new_expiry_date, 'refund_date' => $refund_date, 'note' => $note );  // Change status to refund
 			$this->plan_model->update($plan_id, $para, array(), $user);
-			$para = array(
-					'plan_id' => $plan_id,
-					'customer_id' => $plan['customer_id'],
-					'payment_id' => $payment_id,
-					'message' => $this->plan_model->logstr,
-					'systemlog' => "By APP:".$this->plan_model->sqlstr
-			);
-			$this->log_model->activity('plan', $para, $user);
 			if ($id = $this->plan_history_model->add($plan_id, Plan_model::REFUND)) {
 				$this->plan_history_model->update($id, array("payment_id" => $payment_id, "premium" => ($total_amount - $admin_fee - $refund_amount), "expiry_date" => $refund_date, "note" => "Api Terminate Recode"));
 			}
+
+			$para = array(
+				'plan_id' => $plan_id,
+				'customer_id' => $plan['customer_id'],
+				'payment_id' => $payment_id,
+				'message' => $this->plan_model->logstr,
+				'systemlog' => "By APP:".$this->plan_model->sqlstr
+			);
+			$this->log_model->activity('plan', $para, $user);
+
 			if ($customer = $this->customer_model->get_customer_by_id($plan['customer_id'])) {
 				$this->load->model('mymail_model');
 				$body  = "Dear " . $customer['firstname'] . " " . $customer['lastname'] . ",\r\n\r\n";
@@ -1709,21 +1715,19 @@ class Plan extends CI_Controller
 				$total_amount = floatval($data['monthly_data']['total_paid']);
 				$admin_fee = floatval($data['monthly_data']['admin_fee']);
 				$refund_amount = $total_amount - $admin_fee;
-				$total_amount =  $total_amount - $admin_fee - $added_admin_fee;
-				$admin_fee += $added_admin_fee;
+				$total_amount = $refund_amount - $added_admin_fee;
 			}
 
 			if ($total_amount > 0) {
 				$this->load->model('payment_model');
-				$this->monthly_payment_model->do_cancel($plan_id, $total_amount);
+				$this->monthly_payment_model->do_cancel($plan_id);
 				$dt = array();
 				$dt['plan_id'] = $plan_id;
-				$dt['admin_fee'] = $admin_fee;
 				$dt['currency'] = $product['currency'];
 				$dt['pay_mothed'] = 'Cheque';
 				$dt['added'] = date('c');
 				$dt['ispaid'] = 0;
-				$dt['note'] = "Api Cancel at " . $dt['added'] . " amount: " . $refund_amount . " admin fee: " . $admin_fee;
+				$dt['note'] = "Api Cancel at " . $dt['added'] . " amount: " . $refund_amount . " admin fee: " . $admin_fee + $added_admin_fee;
 				
 				$commission_rate = $this->product_model->get_commission_rate($plan['product_short'], $plan['user_id']);
 				if (($plan['product_short'] == 'TOP') && ($plan['totalyears'] > 60)) {
@@ -1739,11 +1743,9 @@ class Plan extends CI_Controller
         } else {
           $commission_amount = $refund_amount * $commission_rate / 100.0;
         }
-				$up_commission_rate = $this->product_model->get_up_commission_rate($plan['product_short']);
-				$up_commission_amount = $refund_amount * $up_commission_rate / 100.0;
 				
 				$dt['amount'] = $total_amount * (-1);
-				$dt['admin_fee'] = $admin_fee * (-1);
+				$dt['admin_fee'] = $added_admin_fee - $admin_fee;
 				$dt['rate'] = 100;
 				$dt['pay_type'] = 'cancel';
 				$dt['premium_payment_id'] = 0;
