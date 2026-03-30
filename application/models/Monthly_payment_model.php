@@ -411,7 +411,7 @@ class Monthly_payment_model extends CI_Model {
 		$date->modify('+2 month');
 		$date->modify('-1 day');
 		$expiry_date = $date->format('Y-m-d');
-		$totaldays = $this-product_model->getDays($plan["expiry_date"], $refund_date);
+		$totaldays = $this->product_model->getDays($plan["expiry_date"], $refund_date);
 		return ["refund_amount" => $refund_amount, "totaldays" => $totaldays, "charged_amount" => $charged_amount, "admin_fee" => $min_admin_fee];
 	}
 
@@ -452,7 +452,7 @@ class Monthly_payment_model extends CI_Model {
 				}
 			}
 		}
-		$totaldays = $this-product_model->getDays($effective_date, $refund_date);
+		$totaldays = $this->product_model->getDays($effective_date, $refund_date);
 		return ["refund_amount" => $refund_amount, "charged_amount" => $charged_amount, "admin_fee" => $min_admin_fee, 'totaldays' => $totaldays];
 	}
 
