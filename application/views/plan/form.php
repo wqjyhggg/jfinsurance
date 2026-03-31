@@ -331,7 +331,7 @@ if ($Agree != "Agree") {
 						</div>
 						<div class="form-group col-sm-2">
 							 <input type='checkbox' class='setpremium' id='claim_allowed' checked> <?php echo $this->lang->line("Un-check to Disallow this policy"); ?>
-							 <input type='hidden' name='claim_allow_by' id='claim_allow_by' value=''>
+							 <input type='hidden' name='claim_allow_by' id='claim_allow_by' value='<?php echo $claim_allow_by;?>'>
 							 <input type='hidden' name='claim_allow_note' id='claim_allow_note' value='<?php echo $html_model->escapeQuote($claim_allow_note);?>'>
 						</div>
 					</div>
