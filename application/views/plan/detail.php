@@ -351,6 +351,7 @@ if ($Agree != "Agree") {
         <div class="x_panel">
           <div class="x_title">
             <h2>Monthly Payment Detail</h2>
+						<button class="btn btn-primary monthly-pay-full" onclick='monthly_pay_full()'>Pay all remaining</button>
             <div class="clearfix"></div>
           </div>
           <div class="x_content">
@@ -952,6 +953,27 @@ $(document).ready(function() {
 
 	$( ".btn-payment-sort" ).click(sorting_payment);
 });
+
+<?php if (!empty($plan['monthlypay']) && ($plan["monthlypay"] == 1) && ($plan["status_id"] > 1)) { ?>
+function monthly_pay_full() {
+	if (confirm("Are you sure to pay all remaining amount one time?") == true) {
+		$.ajax({
+			url: '<?php echo $monthly_pay_full_url; ?>',
+			success: function(data, textStatus, jqXHR) {
+				if (data.status == 0) {
+					window.location.reload();
+				} else {
+					if (data.message) {
+						alert(data.message);
+					} else {
+						alert("Something wrong. Please try it later");
+					}
+				}
+			},
+		});
+	}
+}
+<?php } ?>
 
 function retry_payment(id) {
 	$.ajax({
