@@ -22,8 +22,8 @@ class Bambora_model extends CI_Model {
 
 		$user = $this->user_model->get_user_by_id(1);
 		if ($pay = $this->monthly_payment_model->get_by_id($monthly_payment_id)) {
-			if ($pay["paid"] != -2) {
-				$this->error = "Can't make payment of this record. paid: ".$pay["paid"]."\r\n";
+			if (($pay["paid"] != 0) || ($pay["paid"] != -2)) {
+				$this->error = "Can't make payment of this record. paid value: ".$pay["paid"]."\r\n";
 				return $this->error;
 			}
 			$plan_id = $pay["plan_id"];
