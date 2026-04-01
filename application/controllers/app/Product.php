@@ -100,20 +100,19 @@ class Product extends CI_Controller
 				if ($post['plan_id'] && ($plan = $this->plan_model->get_plan_by_id($post['plan_id']))) {
 					if (($plan['product_short'] == 'JFVTC') && ($plan['status_id'] == Plan_model::QUOTE) && ($plan['sum_insured'] >= 100000) && ($plan['totaldays'] >= 365)) {
 						$product = $this->product_model->get_product($plan['product_short']);
+						$month_amount = number_format($plan['premium'] / 12, 2, ".", "");
+						$first_amount = number_format($month_amount * 2 + 50, 2, ".", "");
+						$pay_times = 10;
+						$admin_fee = 50;
 						$today = date("Y-m-d");
 						if ($plan["effective_date"] == $today) {
 							$month_amount = number_format($plan['premium'] / 12, 2, ".", "");
 							$first_amount = number_format($month_amount * 3 + 50, 2, ".", "");
 							$pay_times = 9;
 							$admin_fee = 50;
-						} else {
-							$month_amount = number_format($plan['premium'] / 12, 2, ".", "");
-							$first_amount = number_format($month_amount * 2 + 50, 2, ".", "");
-							$pay_times = 10;
-							$admin_fee = 50;
 						}
+						$premiumarr["recurrent"] = [$first_amount, $month_amount, $pay_times, $admin_fee];
 					}
-					$premiumarr["recurrent"] = [$first_amount, $month_amount, $pay_times, $admin_fee];
 				}
 		
         $data = array('premiumarr' => $premiumarr);
