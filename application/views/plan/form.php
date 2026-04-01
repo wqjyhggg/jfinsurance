@@ -308,7 +308,8 @@ if ($Agree != "Agree") {
 							</div>
 						</div>
 					</div>
-					<?php if (($do_user_id > 0) && ($user_group_id < 100)) { ?>
+					<?php if ($do_user_id > 0) { ?>
+					<?php if ($user_group_id < 100) { ?>
 					<div class="row">
 						<div class="col-sm-12">
 							<label class="col-sm-12"><?php echo $this->lang->line("By Check the checkbox, you can allow this policy to continue to pay. Please fill in your reason before cilck the checkbox."); ?></label>
@@ -316,25 +317,21 @@ if ($Agree != "Agree") {
 					</div>
 					<div class="row">
 						<div class="form-group col-sm-6">
-							 <textarea name='claim_allow_note' id='claim_allow_note' style='width: 100%'><?php echo $claim_allow_note;?></textarea>
+							 <textarea name='claim_allow_note' id='claim_allow_note' <?php if ($status_id > 1) { echo "disabled"; } ?> style='width: 100%'><?php echo $claim_allow_note;?></textarea>
 						</div>
 						<div class="form-group col-sm-2">
-							 <input type='checkbox' class='setpremium' id='claim_allowed'> <?php echo $this->lang->line("Allow this policy"); ?>
-							 <input type='hidden' name='claim_allow_by' id='claim_allow_by' value=''>
+							 <input type='checkbox' class='setpremium' id='claim_allowed' <?php if ($status_id > 1) { echo "disabled"; } ?> <?php if ($claim_allow_by > 0) { echo "checked"; } ?>> <?php echo $this->lang->line("Allow this policy"); ?>
+							 <input type='hidden' name='claim_allow_by' id='claim_allow_by' value='<?php echo $claim_allow_by;?>'>
 						</div>
 					</div>
-					<?php } ?>
-					<?php } else if (($claim_allow_by > 0) && ($status_id < 2)) { ?>
+					<?php } else if (($claim_allow_by > 0) && $claim_allow_note) { ?>
 					<div class="row">
 						<div class="form-group col-sm-6">
 							 <?php echo htmlspecialchars($claim_allow_note);?>
 						</div>
-						<div class="form-group col-sm-2">
-							 <input type='checkbox' class='setpremium' id='claim_allowed' checked> <?php echo $this->lang->line("Un-check to Disallow this policy"); ?>
-							 <input type='hidden' name='claim_allow_by' id='claim_allow_by' value='<?php echo $claim_allow_by;?>'>
-							 <input type='hidden' name='claim_allow_note' id='claim_allow_note' value='<?php echo $html_model->escapeQuote($claim_allow_note);?>'>
-						</div>
 					</div>
+					<?php } ?>
+					<?php } ?>
 					<?php } ?>
 
 					<div class="row">
@@ -1356,8 +1353,8 @@ $(document).ready(function(){
 	});
 	<?php } ?> 
     
-	<?php if (!empty($error_claim)) { ?>
-    $('#claim_allowed').change(function(){
+	<?php if (($do_user_id > 0) && ($user_group_id < 100) && ($status_id < 2)) { ?>
+		$('#claim_allowed').change(function(){
         if (this.checked) {
             if (!$('#claim_allow_note').val()) {
                 $('#claim_allowed').prop('checked', false);
@@ -1367,14 +1364,6 @@ $(document).ready(function(){
             $('#claim_allow_by').val('<?php echo $do_user_id; ?>');
         } else {
             $('#claim_allow_by').val(''); 
-        }
-    });
-	<?php } else if (($claim_allow_by > 0) && ($status_id < 2)) { ?>
-    $('#claim_allowed').change(function(){
-        if (this.checked) {
-        } else {
-            $('#claim_allow_by').val('');
-            $('#page-submit').click();
         }
     });
 	<?php } ?> 
