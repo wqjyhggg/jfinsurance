@@ -272,7 +272,7 @@ class Plan extends CI_Controller
     }
 
 		$commission_rate = $this->product_model->get_commission_rate($plan['product_short'], $plan['user_id']);
-		if (($plan['product_short'] == 'TOP') && ($plan['totalyears'] > 60)) {
+		if ((($plan['product_short'] == 'TOP') || ($plan['product_short'] == 'TOPN')) && ($plan['totalyears'] > 60)) {
 			if ($commission_rate > 15) {
 				$commission_rate -= 15;
 			} else {
@@ -1100,7 +1100,7 @@ class Plan extends CI_Controller
 				$dt['note'] = "Refund at " . $dt['added'] . " amount: " . $refund_amount . " admin fee: " . $admin_fee;
 				
 				$commission_rate = $this->product_model->get_commission_rate($plan['product_short'], $plan['user_id']);
-				if (($plan['product_short'] == 'TOP') && ($plan['totalyears'] > 60)) {
+				if ((($plan['product_short'] == 'TOP') || ($plan['product_short'] == 'TOPN')) && ($plan['totalyears'] > 60)) {
 					if ($commission_rate > 15) {
 						$commission_rate -= 15;
 					} else {
@@ -1292,7 +1292,7 @@ class Plan extends CI_Controller
 				$dt['note'] = "Cancel at " . $dt['added'] . " amount: " . $refund_amount . " admin fee: " . $admin_fee;
 				
 				$commission_rate = $this->product_model->get_commission_rate($plan['product_short'], $plan['user_id']);
-				if (($plan['product_short'] == 'TOP') && ($plan['totalyears'] > 60)) {
+				if ((($plan['product_short'] == 'TOP') || ($plan['product_short'] == 'TOPN')) && ($plan['totalyears'] > 60)) {
 					if ($commission_rate > 15) {
 						$commission_rate -= 15;
 					} else {

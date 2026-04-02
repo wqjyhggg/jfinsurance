@@ -1984,7 +1984,7 @@ class Plan extends MY_Controller {
 		$dt['expiry_year'] = '01';
 		$dt['ispaid'] = 0;
 		$commission_rate = $this->product_model->get_commission_rate($plan['product_short'], $plan['user_id']);
-		if (($plan['product_short'] == 'TOP') && ($plan['totalyears'] > 60)) {
+		if ((($plan['product_short'] == 'TOP') || ($plan['product_short'] == 'TOPN')) && ($plan['totalyears'] > 60)) {
 			if ($commission_rate > 15) {
 				$commission_rate -= 15;
 			} else {
@@ -2196,7 +2196,7 @@ class Plan extends MY_Controller {
 				$dt['expiry_year'] = $expiry_year;
 				$dt['ispaid'] = 0;
 				$commission_rate = $this->product_model->get_commission_rate($plan['product_short'], $plan['user_id']);
-				if (($plan['product_short'] == 'TOP') && ($plan['totalyears'] > 60)) {
+				if ((($plan['product_short'] == 'TOP') || ($plan['product_short'] == 'TOPN')) && ($plan['totalyears'] > 60)) {
 					if ($commission_rate > 15) {
 						$commission_rate -= 15;
 					} else {
@@ -2478,7 +2478,7 @@ class Plan extends MY_Controller {
 		$dt['ispaid'] = 0;
 
 		$commission_rate = $this->product_model->get_commission_rate($plan['product_short'], $plan['user_id']);
-		if (($plan['product_short'] == 'TOP') && ($plan['totalyears'] > 60)) {
+		if ((($plan['product_short'] == 'TOP') || ($plan['product_short'] == 'TOPN')) && ($plan['totalyears'] > 60)) {
 			if ($commission_rate > 15) {
 				$commission_rate -= 15;
 			} else {
@@ -2631,7 +2631,7 @@ class Plan extends MY_Controller {
 		$dt['ispaid'] = 0;
 
 		$commission_rate = $this->product_model->get_commission_rate($plan['product_short'], $plan['user_id']);
-		if (($plan['product_short'] == 'TOP') && ($plan['totalyears'] > 60)) {
+		if ((($plan['product_short'] == 'TOP') || ($plan['product_short'] == 'TOPN')) && ($plan['totalyears'] > 60)) {
 			if ($commission_rate > 15) {
 				$commission_rate -= 15;
 			} else {
@@ -2832,7 +2832,7 @@ class Plan extends MY_Controller {
 		$dt['expiry_year'] = $psipara['CardExpYear'];
 		$dt['ispaid'] = 1;
 		$commission_rate = $this->product_model->get_commission_rate($plan['product_short'], $plan['user_id']);
-		if (($plan['product_short'] == 'TOP') && $plan['questionnaire']) {
+		if ((($plan['product_short'] == 'TOP') || ($plan['product_short'] == 'TOPN')) && ($plan['totalyears'] > 60)) {
 			if ($commission_rate > 0.15) {
 				$commission_rate -= 0.15;
 			} else {
@@ -4055,7 +4055,7 @@ class Plan extends MY_Controller {
 				$dt['note'] = "Cancel at " . $dt['added'] . " amount: " . $refund_amount . " admin fee: " . $admin_fee;
 
 				$commission_rate = $this->product_model->get_commission_rate($plan['product_short'], $plan['user_id']);
-				if (($plan['product_short'] == 'TOP') && ($plan['totalyears'] > 60)) {
+				if ((($plan['product_short'] == 'TOP') || ($plan['product_short'] == 'TOPN')) && ($plan['totalyears'] > 60)) {
 					if ($commission_rate > 15) {
 						$commission_rate -= 15;
 					} else {
@@ -4268,7 +4268,7 @@ class Plan extends MY_Controller {
 				$dt['note'] = "Refund at " . $dt['added'] . " amount: " . $refund_amount . " admin fee: " . $admin_fee;
 
 				$commission_rate = $this->product_model->get_commission_rate($plan['product_short'], $plan['user_id']);
-				if (($plan['product_short'] == 'TOP') && ($plan['totalyears'] > 60)) {
+				if ((($plan['product_short'] == 'TOP') || ($plan['product_short'] == 'TOPN')) && ($plan['totalyears'] > 60)) {
 					if ($commission_rate > 15) {
 						$commission_rate -= 15;
 					} else {
