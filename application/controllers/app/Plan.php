@@ -1789,7 +1789,7 @@ class Plan extends CI_Controller
         if (empty($exnote)) {
           $exnote = $this->input->post('reason');
         }
-				$note = "Api Reason: " . $exnote . ", cancel at " . $dt['added'] . " amount: " . $refund_amount . " admin fee: " . $admin_fee . "; " . $plan['note'];
+				$note = "Api Reason: " . $exnote . ", cancel at " . $dt['added'] . " amount: " . $refund_amount . " admin fee: " . $admin_fee + $added_admin_fee . "; " . $plan['note'];
 				$para = array('status_id' => 5, 'payment_id' => $payment_id, 'commission_payment_id' => $commission_payment_id, 'note' => $note );  // Change status to cancel
 				$this->plan_model->update($plan_id, $para, array(), $user);
         if ($id = $this->plan_history_model->add_remove($history_id)) {
