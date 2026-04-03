@@ -167,7 +167,7 @@ class Bambora_model extends CI_Model {
 						);
 						$this->log_model->activity("bb-recur-r-e", $para, $user);
 					}
-					if (!empty($pay2["paid"])) {
+					if (!empty($pay2["paid"]) && ($pay2["paid"] != -2)) {
 						// Done by bambora post back
 						$para = array(
 							'plan_id' => $plan_id,
@@ -374,6 +374,225 @@ class Bambora_model extends CI_Model {
 			}
 		}
 		$this->error = "Unknown monthly_payment record (".$monthly_payment_id.")";
+		return $this->error;
+	}
+
+	public function do_payoff($plan_id) {
+		$this->load->model('log_model');
+    $this->load->model('plan_model');
+    $this->load->model('user_model');
+    $this->load->model('product_model');
+		$this->load->model('payment_model');
+    $this->load->model('monthly_payment_model');
+		$this->load->model('plan_history_model');
+
+		$user = $this->user_model->get_user_by_id(1);
+		if ($payments = $this->monthly_payment_model->get_by_plan_id($plan_id)) {
+			$total_pay = 0;
+			$first_pay = "";
+			foreach ($payments as $pay) {
+				if (($pay["paid"] == 0) || ($pay["paid"] == -2)) {
+					$total_pay += $pay["amount"];
+					if (empty($first_pay)) {
+						$first_pay = $pay;
+					}
+				}
+			}
+			if ($total_pay <= 0) {
+				$this->error = "This plan is paid off already (plan id: ".$plan_id.")";
+				return $this->error;
+			}
+			$product = $this->product_model->get_product($plan["product_short"]);
+			if (empty($product)) {
+				$this->error = "Unknonwn product: ".json_encode($product)."\r\n";
+				return $this->error;
+			}
+
+			$order_number = $plan_id."-payoff";
+			$postArr = [
+				"order_number" => $order_number,
+				"amount" => $total_pay,
+				"payment_method" => "payment_profile",
+				"custom" => [
+					"ref1" => "payoff",
+					"ref2" => $plan_id,
+					"ref3" => $first_pay["monthly_payment_id"],
+				],
+				"payment_profile" => [
+					"complete" => true,
+					"customer_code" => $first_pay["profile_id"],
+					"card_id" => 1
+				]
+			];
+
+			$postdata = json_encode($postArr);
+			$headers = array(
+				'Authorization: Passcode '.$product["payment_key"],
+				'Content-Type: application/json',
+				'Content-Length: ' . strlen($postdata)
+			);
+			$para = array(
+				'plan_id' => $plan_id,
+				'user_id' => $plan["user_id"],
+				'payment_id' => 0,
+				'message' => $postdata,
+				'systemlog' => json_encode($headers)
+			);
+			$this->log_model->activity("bb-payoff", $para, $user);
+		
+			$url = $this->payment_url;
+			$ch = curl_init();
+			curl_setopt($ch, CURLOPT_URL, $url);
+			curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+			curl_setopt($ch, CURLOPT_POST, true);
+			curl_setopt($ch, CURLOPT_POSTFIELDS, $postdata);
+			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+			curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+			$response = curl_exec($ch);
+			$responseCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+			curl_close($ch);
+
+			$para = array(
+				'plan_id' => $plan_id,
+				'user_id' => $plan["user_id"],
+				'payment_id' => $responseCode,
+				'message' => $response,
+				'systemlog' => $url
+			);
+			$activity_id = $this->log_model->activity("bb-payoff-r", $para, $user);
+			$rt = "";
+			if (!empty($response)) {
+				$rt = json_decode($response, true);
+			}
+		
+			if (($responseCode === 200) && $rt && isset($rt["id"]) && isset($rt["approved"])) {
+				$pay_time = date("Y-m-d H:i:s");
+				if (isset($rt["approved"]) && ($rt["approved"] == 1)) {
+					$pay2 = $this->monthly_payment_model->get_by_id($first_pay["monthly_payment_id"]);
+					if (empty($pay2)) {
+						$para = array(
+							'plan_id' => $plan_id,
+							'user_id' => $activity_id,
+							'payment_id' => 0,
+							'message' => "Can not find record !!! monthly_payment_id: ".$first_pay["monthly_payment_id"]. ";",
+							'systemlog' => ""
+						);
+						$this->log_model->activity("bb-recur-r-e", $para, $user);
+					}
+					if (!empty($pay2["paid"]) && ($pay2["paid"] != -2)) {
+						// Done by bambora post back
+						$para = array(
+							'plan_id' => $plan_id,
+							'user_id' => $activity_id,
+							'payment_id' => 0,
+							'message' => "Done by bambora post back",
+							'systemlog' => ""
+						);
+						$this->log_model->activity("bb-recur-r", $para, $user);
+						return null;
+					}
+
+					$premium = $total_pay;
+					$admin_fee = 0;
+					$commission_amount = 0;
+					$commission_rate = $this->product_model->get_commission_rate($plan['product_short'], $plan['user_id']);
+					if ((($plan['product_short'] == 'TOP') || ($plan['product_short'] == 'TOP')) && ($plan['totalyears'] > 60)) {
+						if ($commission_rate > 15) {
+							$commission_rate -= 15;
+						} else {
+							$commission_rate = 0;
+						}
+					}
+					if ($plan['product_short'] == 'TOP') {
+						$commission_amount = ($premium - ($plan['tax'] * $premium / $plan['premium'])) * $commission_rate / 100.0;
+					} else {
+						$commission_amount = $premium * $commission_rate / 100.0;
+					}
+		
+					$dt = [];
+					$dt['amount'] = $premium;
+					$dt['admin_fee'] = $admin_fee;
+					$dt['plan_id'] = $plan_id;
+					$dt['added'] = date("Y-m-d H:i:s");
+					$dt['pay_date'] = date("Y-m-d");
+					$dt['pay_mothed'] = "Credit Card";
+					$dt['rate'] = 100;
+					$dt['ispaid'] = 1;
+					$dt['pay_type'] = 'premium';
+					$dt['premium_payment_id'] = 0;
+					$dt['note'] = "CC Success: Raw Data=> " . $response;
+					$payment_id = $this->payment_model->add($dt, $user);
+					if ($activity_id) {
+						$this->log_model->update($activity_id, ["payment_id" => $payment_id]);
+					}
+					$para = array(
+						'plan_id' => $plan_id,
+						'customer_id' => $plan['customer_id'],
+						'payment_id' => $payment_id,
+						'message' => $this->payment_model->logstr,
+						'systemlog' => $this->payment_model->sqlstr
+					);
+					$this->log_model->activity('payment', $para, $user);
+
+					$mpArr = [
+						"trans_id" => $rt["id"],
+						"paid" => 1,
+						"amount" => $total_pay,
+						"pay_time" => $pay_time,
+						"payment_id" => $payment_id,
+						"postdata" => isset($postdata)?$postdata:"",
+						"rawdata" => $response,
+					];
+					$this->monthly_payment_model->update($pay2["monthly_payment_id"], $mpArr);
+					$this->monthly_payment_model->void_unpaid_record($plan_id);
+
+					$dt['amount'] = $commission_amount;
+					$dt['admin_fee'] = 0;
+					$dt['rate'] = $commission_rate;
+					$dt['ispaid'] = 0;
+					$dt['pay_type'] = 'commission';
+					$dt['premium_payment_id'] = $payment_id;
+					$commission_payment_id = $this->payment_model->add($dt, $user);
+					$para = array(
+						'plan_id' => $plan_id,
+						'customer_id' => $plan['customer_id'],
+						'payment_id' => $commission_payment_id,
+						'message' => $this->payment_model->logstr,
+						'systemlog' => $this->payment_model->sqlstr
+					);
+					$this->log_model->activity('commission', $para, $user);
+					return null;
+				} else {
+					$dt = [];
+					$dt['plan_id'] = $plan_id;
+					$dt['pay_mothed'] = "Credit Card";
+					$dt['added'] = date("Y-m-d H:i:s");
+					$dt['pay_date'] = date("Y-m-d");
+					$dt['amount'] = 0;
+					$dt['rate'] = 100;
+					$dt['ispaid'] = 0;
+					$dt['pay_type'] = 'premium';
+					$dt['premium_payment_id'] = 0;
+					$dt['note'] = "CC Failure: Raw Data=> " . $response;
+					$payment_id = $this->payment_model->add($dt, $user);
+					$para = array(
+						'plan_id' => $plan_id,
+						'customer_id' => $plan['customer_id'],
+						'payment_id' => $payment_id,
+						'message' => $this->payment_model->logstr,
+						'systemlog' => $this->payment_model->sqlstr
+					);
+					$this->log_model->activity('payment', $para, $user);
+					$this->error = "Try monthly full payment Not approved (".$monthly_payment_id.")(".$responseCode.")(".$response.")";
+					return $this->error;
+				}
+			} else {
+				$this->error = "Try monthly full payment Failed (".$responseCode.")(".$response.")";
+				return $this->error;
+			}
+		}
+		$this->error = "Unknown monthly_payment records (plan id: ".$plan_id.")";
 		return $this->error;
 	}
 }

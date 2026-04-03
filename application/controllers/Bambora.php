@@ -115,8 +115,7 @@ class Bambora extends CI_Controller {
 		$user = $this->user_model->get_user_by_id(1);		// For log only
 		$para = array(
 			'plan_id' => isset($post['ref2'])?$post['ref2']:0,
-			'user_id' => isset($post['ref3'])?$post['ref3']:0,
-			'payment_id' => isset($post['ref4'])?$post['ref4']:0,
+			'payment_id' => isset($post['ref3'])?$post['ref3']:0,
 			'message' => json_encode($post)
 		);
 		$activity_id = $this->log_model->activity("bb-p", $para, $user);
@@ -130,7 +129,7 @@ class Bambora extends CI_Controller {
 			die($errormsg);
 		}
 
-		if (empty($post["ref1"]) || (($post["ref1"] != "monthly") && ($post["ref1"] != "recurrent"))) {
+		if (empty($post["ref1"]) || (($post["ref1"] != "monthly") && ($post["ref1"] != "recurrent") && ($post["ref1"] != "payoff"))) {
 			$errormsg = "Unknown ref1";
 			if ($activity_id) {
 				$this->log_model->update($activity_id, ["systemlog" => $errormsg]);
@@ -231,6 +230,10 @@ class Bambora extends CI_Controller {
 		];
 		if ($post["trnApproved"] == "1") {
 			$mpArr["paid"] = 1;
+			if ($post["ref1"] != "payoff") {
+				$mpArr["amount"] = $post["trnAmount"];
+				$monthly_payment["amount"] = $mpArr["amount"];
+			}
 		} else {
 			$mpArr["paid"] = -2;
 			$retry = $monthly_payment["retry"] + 1;
@@ -250,7 +253,7 @@ class Bambora extends CI_Controller {
 		if ($post["trnApproved"] == "1") {
 			$commission_amount = 0;
 			$commission_rate = $this->product_model->get_commission_rate($plan['product_short'], $plan['user_id']);
-			if (($plan['product_short'] == 'TOP') && ($plan['totalyears'] > 60)) {
+			if ((($plan['product_short'] == 'TOP') || ($plan['product_short'] == 'TOPN')) && ($plan['totalyears'] > 60)) {
 				if ($commission_rate > 15) {
 					$commission_rate -= 15;
 				} else {
@@ -262,7 +265,6 @@ class Bambora extends CI_Controller {
 			} else {
 				$commission_amount = $commission_premium * $commission_rate / 100.0;
 			}
-
 			$dt = [];
 			$dt['amount'] = $premium;
 			$dt['admin_fee'] = $admin_fee;
@@ -277,6 +279,9 @@ class Bambora extends CI_Controller {
 			$dt['note'] = "CC Success: Raw Data=> " . json_encode($post);
 			$payment_id = $this->payment_model->add($dt, $user);
 			$this->monthly_payment_model->update($monthly_payment_id, ["payment_id" => $payment_id]);
+			if ($post["ref1"] != "payoff") {
+				$this->monthly_payment_model->void_unpaid_record($plan_id);
+			}
 			if ($activity_id) {
 				$this->log_model->update($activity_id, ["payment_id" => $payment_id]);
 			}

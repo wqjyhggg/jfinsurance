@@ -3059,6 +3059,31 @@ class Plan extends MY_Controller {
 		echo json_encode($data);
 	}
 
+	public function monthly_payoff($plan_id) {
+		$this->load->model('plan_model');
+		$this->load->model('monthly_payment_model');
+		$this->load->model('bambora_model');
+
+		$plan = $this->plan_model->get_plan_by_id($plan_id);
+		$suser = $this->session->userdata('beuser');	// Check session
+		if (empty($plan) || empty($suser) || ($plan["status_id"] != Plan_model::PAID)) {
+			show_error("Can not do payoff");
+		}
+
+		$monthly_rc = $this->monthly_payment_model->get_by_plan_id($plan_id);
+		if (empty($monthly_rc)) {
+			show_error("Can not find monthly payment record");
+		}
+
+		$this->load->model('bambora_model');
+		if ($msg = $this->bambora_model->do_payoff($plan_id)) {	// do_payment
+			$data["message"] = $msg;
+			show_error($msg);
+		} else {
+			redirect('plan/detail/'.$plan_id);
+		}
+	}
+
 	public function detail($plan_id = 0, $sekey = '', $passerr = '') {
 		$this->error = '';
 		$defaultpay_type = '';
@@ -3267,6 +3292,9 @@ class Plan extends MY_Controller {
 				} else if ($rc["paid"] == -1) {
 					$plan['monthly_status'] = "Voided";
 				}
+			}
+			if (($plan['monthly_unpay'] > 0) && ($plan['monthly_unpay_count'] > 0)) {
+				$data["monthly_pay_full_url"] = base_url("plan/monthly_payoff") . "/" . $plan_id;
 			}
 		}
 

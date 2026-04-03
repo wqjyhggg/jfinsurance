@@ -954,7 +954,7 @@ $(document).ready(function() {
 	$( ".btn-payment-sort" ).click(sorting_payment);
 });
 
-<?php if (!empty($plan['monthlypay']) && ($plan["monthlypay"] == 1) && ($plan["status_id"] > 1)) { ?>
+<?php if (!empty($plan['monthlypay']) && ($plan["monthlypay"] == 1) && ($plan["status_id"] > 1) && isset($monthly_pay_full_url)) { ?>
 function monthly_pay_full() {
 	if (confirm("Are you sure to pay all remaining amount one time?") == true) {
 		$.ajax({
