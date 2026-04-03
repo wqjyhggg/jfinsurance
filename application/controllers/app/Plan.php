@@ -3114,6 +3114,14 @@ class Plan extends CI_Controller
 		$admin_fee = (float)$payment['admin_fee'];
 		$refund_amount = $total_amount + $admin_fee;
 
+		if (!empty($plan["monthlypay"])) {
+			if ($mp = $this->monthly_payment_model->get_monthlypay_data($plan_id)) {
+				$data['monthly_data'] = $mp;
+				$data['monthly_record'] = $this->monthly_payment_model->get_by_plan_id($plan_id);
+				$admin_fee += $mp["admin_fee"];
+			}
+		}
+
 		$this->load->model('status_model');
 		$data['status_list'] = $this->status_model->status_list();
 		$data['refund_amount'] = $refund_amount;
