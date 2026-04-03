@@ -56,7 +56,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 						<tr>
 							<td>Original Premium: </td><td><span>$<?php echo number_format($plan['premium'], 2, '.', ',');?></span></td>
 						</tr>
-						<?php if (empty($plan["monthly_data"])) { ?>
+						<?php if (empty($monthly_data)) { ?>
 						<tr>
 							<td>Used Premium: </td><td><span>$<?php echo number_format(((float)$plan['premium'] - (float)$refund_amount), 2, '.', ','); ?></span></td>
 						</tr>
