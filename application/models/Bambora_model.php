@@ -387,7 +387,7 @@ class Bambora_model extends CI_Model {
 		$this->load->model('plan_history_model');
 
 		$user = $this->user_model->get_user_by_id(1);
-		$plan = $this->plan_model->get_by_id(1);
+		$plan = $this->plan_model->get_plan_by_id(1);
 		if (empty($plan)) {
 			$this->error = "No avaleable plan existed (plan id: ".$plan_id.")";
 			return $this->error;

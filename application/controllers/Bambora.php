@@ -230,7 +230,7 @@ class Bambora extends CI_Controller {
 		];
 		if ($post["trnApproved"] == "1") {
 			$mpArr["paid"] = 1;
-			if ($post["ref1"] != "payoff") {
+			if ($post["ref1"] == "payoff") {
 				$mpArr["amount"] = $post["trnAmount"];
 				$monthly_payment["amount"] = $mpArr["amount"];
 			}
@@ -279,7 +279,7 @@ class Bambora extends CI_Controller {
 			$dt['note'] = "CC Success: Raw Data=> " . json_encode($post);
 			$payment_id = $this->payment_model->add($dt, $user);
 			$this->monthly_payment_model->update($monthly_payment_id, ["payment_id" => $payment_id]);
-			if ($post["ref1"] != "payoff") {
+			if ($post["ref1"] == "payoff") {
 				$this->monthly_payment_model->void_unpaid_record($plan_id);
 			}
 			if ($activity_id) {
