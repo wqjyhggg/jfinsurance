@@ -387,11 +387,11 @@ class Bambora_model extends CI_Model {
 		$this->load->model('plan_history_model');
 
 		$user = $this->user_model->get_user_by_id(1);
-		$plan = $this->plan_model->get_plan_by_id(1);
+		$plan = $this->plan_model->get_plan_by_id($plan_id);
 		if (empty($plan)) {
 			$this->error = "No avaleable plan existed (plan id: ".$plan_id.")";
 			return $this->error;
-	}
+		}
 		if ($payments = $this->monthly_payment_model->get_by_plan_id($plan_id)) {
 			$total_pay = 0;
 			$first_pay = "";
@@ -413,7 +413,7 @@ class Bambora_model extends CI_Model {
 				return $this->error;
 			}
 
-			$order_number = $plan_id."-payoff";
+			$order_number = $plan_id."-1-1-1";
 			$postArr = [
 				"order_number" => $order_number,
 				"amount" => $total_pay,
