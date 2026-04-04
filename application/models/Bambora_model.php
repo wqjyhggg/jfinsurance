@@ -413,7 +413,7 @@ class Bambora_model extends CI_Model {
 				return $this->error;
 			}
 
-			$order_number = $plan_id."-1-1-1";
+			$order_number = $plan_id."-1-1-10";
 			$postArr = [
 				"order_number" => $order_number,
 				"amount" => $total_pay,

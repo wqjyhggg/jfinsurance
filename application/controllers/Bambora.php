@@ -232,6 +232,7 @@ class Bambora extends CI_Controller {
 			$mpArr["paid"] = 1;
 			if ($post["ref1"] == "payoff") {
 				$mpArr["amount"] = $post["trnAmount"];
+				$mpArr["pay_date"] = date('Y-m-d');
 				$monthly_payment["amount"] = $mpArr["amount"];
 			}
 		} else {
@@ -437,7 +438,7 @@ class Bambora extends CI_Controller {
 					die($message);
 				}
 			} else {
-				$planpara['payinfo'] = "recurrent pay by Bambora: ".$monthly_payment_id;
+				$planpara['payinfo'] = $post["ref1"]. " pay by Bambora: ".$monthly_payment_id;
 				$this->plan_model->update($plan_id, $planpara, array(), $user);
 				$para = array(
 					'plan_id' => $plan_id,
@@ -447,7 +448,7 @@ class Bambora extends CI_Controller {
 					'systemlog' => $this->plan_model->sqlstr
 				);
 				$this->log_model->activity('plan', $para, $user);
-				$message = "Recurrent Payment OK";
+				$message = $post["ref1"]. " Payment OK";
 				if ($activity_id) {
 					$this->log_model->update($activity_id, ["systemlog" => $message]);
 				}

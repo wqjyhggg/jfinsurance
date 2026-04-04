@@ -966,7 +966,7 @@ function monthly_pay_full() {
 					if (data.message) {
 						alert(data.message);
 					} else {
-						alert("Something wrong. Please try it later");
+						window.location.reload();
 					}
 				}
 			},
