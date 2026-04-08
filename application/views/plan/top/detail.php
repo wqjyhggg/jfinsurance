@@ -174,7 +174,7 @@ if ($Agree != "Agree") {
 								<?php } ?>
 								<?php } ?>
 								<?php if ($plan['question2']) { ?>
-								<br /><?php echo $this->lang->line("Question"); ?> 2 : <?php echo ($plan['question2'] == 2) ? '<?php echo $this->lang->line("Yes"); ?>' : '<?php echo $this->lang->line("No"); ?>'; ?>
+								<br /><?php echo $this->lang->line("Question"); ?> 2 : <?php echo ($plan['question2'] == 2) ? $this->lang->line("Yes") : $this->lang->line("No"); ?>
 								<?php if ($plan['question3']) { ?>
 								<br /><?php echo $this->lang->line("Question"); ?> 3 : 
 								<?php if ($plan['question3_bowel'] == 'Y') { ?>
