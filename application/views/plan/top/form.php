@@ -292,7 +292,8 @@ if ($Agree != "Agree") {
                             </div>
                           </div>
                         </div>
-                        <?php if (($do_user_id > 0) && ($user_group_id < 100)) { ?>
+                        <?php if ($do_user_id > 0) { ?>
+                        <?php if ($user_group_id < 100) { ?>
                           <div class="row">
                             <div class="col-sm-12">
                               <label class="col-sm-12">By Check the checkbox, you can allow this policy to continue to pay. Please fill in your reason before cilck the checkbox.</label>
@@ -300,24 +301,21 @@ if ($Agree != "Agree") {
                           </div>
                           <div class="row">
                             <div class="form-group col-sm-6">
-                              <textarea name='claim_allow_note' id='claim_allow_note' style='width: 100%'><?php echo $claim_allow_note; ?></textarea>
+                              <textarea name='claim_allow_note' id='claim_allow_note' <?php if ($status_id > 1) { echo "disabled"; } ?> style='width: 100%'><?php echo $claim_allow_note; ?></textarea>
                             </div>
                             <div class="form-group col-sm-2">
-                              <input type='checkbox' class='setpremium' id='claim_allowed'> Allow this policy
-                              <input type='hidden' name='claim_allow_by' id='claim_allow_by' value=''>
+                              <input type='checkbox' class='setpremium' id='claim_allowed' <?php if ($status_id > 1) { echo "disabled"; } ?> <?php if ($claim_allow_by > 0) { echo "checked"; } ?>> Allow this policy
+                              <input type='hidden' name='claim_allow_by' id='claim_allow_by' value='<?php echo $claim_allow_by;?>'>
                             </div>
                           </div>
-                        <?php } ?>
-                      <?php } else if (($claim_allow_by > 0) && ($status_id < 2)) { ?>
-                        <div class="row">
-                          <div class="form-group col-sm-6">
-                            <textarea name='claim_allow_note' id='claim_allow_note' style='width: 100%'><?php echo $claim_allow_note; ?></textarea>
-                          </div>
-                          <div class="form-group col-sm-6">
-                            <input type='checkbox' class='setpremium' id='claim_allowed' checked> Un-check to Disallow this policy
-                            <input type='hidden' name='claim_allow_by' id='claim_allow_by' value=''>
-                          </div>
-                        </div>
+	                      <?php } else if (($claim_allow_by > 0) && $claim_allow_note) { ?>
+													<div class="row">
+														<div class="form-group col-sm-6">
+															<textarea name='claim_allow_note' id='claim_allow_note' style='width: 100%'><?php echo $claim_allow_note; ?></textarea>
+														</div>
+													</div>
+												<?php } ?>
+												<?php } ?>
                       <?php } ?>
                     </fieldset>
                   </div>
@@ -568,7 +566,7 @@ if ($Agree != "Agree") {
                           </div>
                         </div>
                         <div class="col-sm-3">
-                          <label class="col-sm-12">Country of Origin: </label>
+                          <label class="col-sm-12">Country of Resident: </label>
                           <div class="input-group col-sm-12">
                             <input class="form-control" type='text' name='residence' value='<?php echo $html_model->escapeQuote($residence); ?>'>
                           </div>
@@ -586,7 +584,7 @@ if ($Agree != "Agree") {
                     </fieldset>
                   </div>
 									<?php if ($user_group_id < 100) { ?>
-                  <div class="col-sm-12 blcok-space">
+                  <div class="col-sm-12 blcok-space" >
                     <fieldset>
                       <legend>Special Note/Instructions</legend>
                       <div class="row">
@@ -823,9 +821,9 @@ if ($Agree != "Agree") {
                               <div class="col-sm-2 text-right"><label>Insured Amount : </label></div>
                               <div class="col-sm-10">
                                 <?php if (($user_group_id > 100) && $no_change) { ?>
-                                  <input type="hidden" name="trip_cancellation_insured" value="<?php echo $trip_cancellation_insured; ?>">$<?php echo number_format($trip_cancellation_insured); ?>
+                                  <input type="hidden" name="trip_cancellation_insured_s" value="<?php echo $trip_cancellation_insured; ?>">$<?php echo number_format($trip_cancellation_insured); ?>
                                 <?php } else { ?>
-                                  <input type="number" name="trip_cancellation_insured" class='check_premium' min="100" max="8000" step="100" value="<?php echo ($trip_cancellation_insured < 100) ? 100 : $trip_cancellation_insured; ?>"> ( every 100s )
+                                  <input type="number" name="trip_cancellation_insured_s" class='check_premium' min="100" max="8000" step="100" value="<?php echo ($trip_cancellation_insured < 100) ? 100 : $trip_cancellation_insured; ?>"> ( every 100s )
                                 <?php } ?>
                               </div>
                             </div>
@@ -1942,6 +1940,17 @@ $('#payment_get_history_button').click(function(){
         $('#error_page_message').hide();
       }
     });
+    $('input[name="trip_cancellation_insured_s"]').change(function() {
+      var nm = $('input[name="trip_cancellation_insured_s"]').val();
+      if (nm < 0) {
+        nm = 0
+      } else if (nm > 8000) {
+        nm = 8000;
+      }
+      nm = parseInt(nm / 100) * 100;
+      $('input[name="trip_cancellation_insured_s"]').val(nm);
+      $('input[name="trip_cancellation_insured"]').val(nm);
+    });
     $('input[name="trip_cancellation_insured"]').change(function() {
       var nm = $('input[name="trip_cancellation_insured"]').val();
       if (nm < 0) {
@@ -1952,6 +1961,7 @@ $('#payment_get_history_button').click(function(){
       nm = parseInt(nm / 100) * 100;
       $('input[name="trip_cancellation_insured"]').val(nm);
     });
+		<?php if (($do_user_id > 0) && ($user_group_id < 100) && ($status_id < 2)) { ?>
     $('#claim_allowed').change(function() {
       if (this.checked) {
         if (!$('#claim_allow_note').val()) {
@@ -1964,11 +1974,6 @@ $('#payment_get_history_button').click(function(){
         $('#claim_allow_by').val('');
       }
     });
-    $('#claim_allowed').change(function() {
-      if (this.checked) {} else {
-        $('#claim_allow_by').val('');
-        $('#page-submit').click();
-      }
-    });
+		<?php } ?>
   });
 </script>

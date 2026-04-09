@@ -217,13 +217,12 @@ class Plan_model extends CI_Model {
 				$status = $plan['status_id'];
 			}
 			if ($status <= 1) {
-				return $product['qoute_pre'] . sprintf("%06d", $plan_id);
-			} else {
-				return $product['plan_pre'] . sprintf("%06d", $plan_id);
+				return $product['qoute_pre'] . sprintf("%07d", $plan_id);
+			} else if (($plan['status_id'] <= 1) || empty($plan['policy']) || (substr($plan['policy'], 0, 1) == 'Q')) {
+				return $product['plan_pre'] . sprintf("%07d", $plan_id);
 			}
-		} else {
-			return $plan['policy'];
 		}
+		return $plan['policy'];
 	}
 	
 	/**
@@ -1724,6 +1723,82 @@ class Plan_model extends CI_Model {
 			}
 		}
 		return array('summary' => $rt, 'policies' => $ps);
+	}
+
+	private function formatDateTime($input, $isdate=false) {
+    try {
+			$dt = new DateTime($input);
+			$errors = DateTime::getLastErrors();
+			if ($errors['warning_count'] > 0 || $errors['error_count'] > 0) {
+					return false;
+			}
+			if ($isdate) {
+				return $dt->format('Y-m-d');
+			} else {
+				return $dt->format('Y-m-d H:i:s');
+			}
+    } catch (Exception $e) {
+			return false;
+    }
+	}
+
+	public function verify_date(&$para) {
+		$error = [];
+		$isfamilyplan = empty($para['isfamilyplan']) ? 0 : ((intval($para['isfamilyplan']) > 0) ? intval($para['isfamilyplan']) : 1);
+		if (!empty($para['birthday'])) {
+			if ($dt = $this->formatDateTime($para['birthday'], true)) {
+				$para['birthday'] = $dt;
+			} else {
+				$error[] = "birthday format error";
+			}
+		}
+		if ($isfamilyplan) {
+			$max_member = 9;
+			if ($iisfamilyplan > 1) {
+				$max_member = 25;
+			}
+			for ($i = 1; $i < $max_member; $i++) {
+				if (!empty($para['firstname_' . $i]) || !empty($para['lastname_' . $i]) || !empty($para['birthday_' . $i]) || !empty($para['gender_' . $i]) ) {
+					if ($dt = $this->formatDateTime($para['birthday_' . $i], true)) {
+						$para['birthday_' . $i] = $dt;
+					} else {
+						$error[] = "birthday_".$i." format error";
+					}
+				} else {
+					break;
+				}
+			}
+	
+		}
+		if (!empty($para['apply_date'])) {
+			if ($dt = $this->formatDateTime($para['apply_date'], true)) {
+				$para['apply_date'] = $dt;
+			} else {
+				$error[] = "apply date format error";
+			}
+		}
+		if (!empty($para['arrival_date'])) {
+			if ($dt = $this->formatDateTime($para['arrival_date'], true)) {
+				$para['arrival_date'] = $dt;
+			} else {
+				$error[] = "arrival date format error";
+			}
+		}
+		if (!empty($para['effective_date'])) {
+			if ($dt = $this->formatDateTime($para['effective_date'], true)) {
+				$para['effective_date'] = $dt;
+			} else {
+				$error[] = "effective date format error";
+			}
+		}
+		if (!empty($para['expiry_date'])) {
+			if ($dt = $this->formatDateTime($para['expiry_date'], true)) {
+				$para['expiry_date'] = $dt;
+			} else {
+				$error[] = "expiry date format error";
+			}
+		}
+		return $error;
 	}
 
   /**

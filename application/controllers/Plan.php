@@ -404,10 +404,11 @@ class Plan extends MY_Controller {
 			if ($years > 60) {
 				$this->error['error_birthday_' . $i] = 'Member older than 61';
 			}
-			if ($years > 21) {
+			// As requirement change to 19
+			if ($years > 19) {
 				$older_than_21++;
 				if ($older_than_21 >= 2) {
-					$this->error['error_birthday_' . $i] = 'Multiple member older than 21';
+					$this->error['error_birthday_' . $i] = 'Multiple member older than 19';
 				}
 			}
 		}
@@ -606,12 +607,19 @@ class Plan extends MY_Controller {
     }
 
 		if (!empty($this->input->post('isfamilyplan'))) {
+			$isfamilyplan = $this->input->post('isfamilyplan');
 			if (empty($this->input->post('birthday_1')) || empty($this->input->post('firstname_1')) || empty($this->input->post('lastname_1'))) {
 				$this->error['error_message'] = $this->lang->line("Please input family / group member information");
 			}
 			if ($product_short == 'TOP') {
 				if (empty($this->input->post('birthday_2')) || empty($this->input->post('firstname_2')) || empty($this->input->post('lastname_2'))) {
 					$this->error['error_message'] = "Minimum 3 people for family or group";
+				}
+				if ($isfamilyplan == 2) {
+					$package = $this->input->post('package');
+					if ($package != "single_medical_plan") {
+						$this->error['error_message'] = "Group plans can only select 'Single medical plan'";
+					}
 				}
 			}
 		}
@@ -779,10 +787,11 @@ class Plan extends MY_Controller {
 		}
 
 		$this->error = array();
-		if ($this->input->post('submit') && $this->form_valid($beuser)) {
+		$post = $this->input->post();
+		$this->error = $this->plan_model->verify_date($post);
+		if ($this->input->post('submit') && empty($this->error) && $this->form_valid($beuser)) {
 			$plan_id = $this->input->post('plan_id');
 
-			$post = $this->input->post();
 			if (empty($plan_id)) {
 				if ($post['product_short'] == 'TOPN') {
 					if (empty($post["sum_insured"])) {
@@ -1164,7 +1173,7 @@ class Plan extends MY_Controller {
 		} else {
 			$data['gender'] = 'M';
 		}
-		if ($data['product_short'] == 'TOP') {
+		if (($data['product_short'] == 'TOP') || ($data['product_short'] == 'TOPN')) {
 			$max_member = 25;
 		} else {
 			$max_member = 9;
@@ -2101,7 +2110,7 @@ class Plan extends MY_Controller {
 		$dt['expiry_year'] = '01';
 		$dt['ispaid'] = 0;
 		$commission_rate = $this->product_model->get_commission_rate($plan['product_short'], $plan['user_id']);
-		if (($plan['product_short'] == 'TOP') && ($plan['totalyears'] > 60)) {
+		if ((($plan['product_short'] == 'TOP') || ($plan['product_short'] == 'TOPN')) && ($plan['totalyears'] > 60)) {
 			if ($commission_rate > 15) {
 				$commission_rate -= 15;
 			} else {
@@ -2313,7 +2322,7 @@ class Plan extends MY_Controller {
 				$dt['expiry_year'] = $expiry_year;
 				$dt['ispaid'] = 0;
 				$commission_rate = $this->product_model->get_commission_rate($plan['product_short'], $plan['user_id']);
-				if (($plan['product_short'] == 'TOP') && ($plan['totalyears'] > 60)) {
+				if ((($plan['product_short'] == 'TOP') || ($plan['product_short'] == 'TOPN')) && ($plan['totalyears'] > 60)) {
 					if ($commission_rate > 15) {
 						$commission_rate -= 15;
 					} else {
@@ -2552,7 +2561,7 @@ class Plan extends MY_Controller {
 		$dt['ispaid'] = 0;
 
 		$commission_rate = $this->product_model->get_commission_rate($plan['product_short'], $plan['user_id']);
-		if (($plan['product_short'] == 'TOP') && ($plan['totalyears'] > 60)) {
+		if ((($plan['product_short'] == 'TOP') || ($plan['product_short'] == 'TOPN')) && ($plan['totalyears'] > 60)) {
 			if ($commission_rate > 15) {
 				$commission_rate -= 15;
 			} else {
@@ -2705,7 +2714,7 @@ class Plan extends MY_Controller {
 		$dt['ispaid'] = 0;
 
 		$commission_rate = $this->product_model->get_commission_rate($plan['product_short'], $plan['user_id']);
-		if (($plan['product_short'] == 'TOP') && ($plan['totalyears'] > 60)) {
+		if ((($plan['product_short'] == 'TOP') || ($plan['product_short'] == 'TOPN')) && ($plan['totalyears'] > 60)) {
 			if ($commission_rate > 15) {
 				$commission_rate -= 15;
 			} else {
@@ -2906,7 +2915,7 @@ class Plan extends MY_Controller {
 		$dt['expiry_year'] = $psipara['CardExpYear'];
 		$dt['ispaid'] = 1;
 		$commission_rate = $this->product_model->get_commission_rate($plan['product_short'], $plan['user_id']);
-		if (($plan['product_short'] == 'TOP') && $plan['questionnaire']) {
+		if ((($plan['product_short'] == 'TOP') || ($plan['product_short'] == 'TOPN')) && ($plan['totalyears'] > 60)) {
 			if ($commission_rate > 0.15) {
 				$commission_rate -= 0.15;
 			} else {
@@ -3533,7 +3542,7 @@ class Plan extends MY_Controller {
 		$data['makepay_url'] = base_url("payment/makepay");
 		$data['revert_url'] = base_url("payment/revert") . "/";
 		if ($plan['claim_flag'] == 1) {
-			$data['error_message'] = '<strong>Warning: The insured(s) have had previous claim(s). Please confirm the policy eligibility and any pre-existing conditions with insured(s).</strong>';
+			$data['error_message'] = '<strong>The insured(s) have had previous claim(s). Please confirm the policy eligibility and any pre-existing conditions with insured(s).</strong>';
 		}
 
 		$this->session->set_userdata('withlogo', 1);
@@ -3753,7 +3762,7 @@ class Plan extends MY_Controller {
 				if ($plan['payment_id']) {
 					$data['payment'] = $this->payment_model->get_payment_by_id($plan['payment_id'], $plan['apply_date']);
 				}
-				$data['plan_full_name'] = $product ? $product['full_name'] : '';
+				$data['plan_full_name'] = $product ? $product['full_name'] : $plan['product_short'];
 				$data['customer'] = $this->customer_model->get_customer_by_id($data['plan']['customer_id']);
 				$data['customers'] = $this->customer_model->get_customer_by_parent_id($data['plan']['customer_id']);
 				$data['paytype_list'] = $this->paytype_model->paytype_list();
@@ -4081,7 +4090,7 @@ class Plan extends MY_Controller {
 				$this->load->model('mymail_model');
 				if ($data['sendfrench']) {
 					$body = $this->load->view('mail/package_french', $data, TRUE);
-					$title = "Confirmation d’assurance - " . $plan['policy'] . " - " . $data['customer']['firstname'] . " " . $data['customer']['lastname'];
+					$title = "Confirmation d'assurance - " . $plan['policy'] . " - " . $data['customer']['firstname'] . " " . $data['customer']['lastname'];
 				} else {
 					$body = $this->load->view('mail/package', $data, TRUE);
 					$title = "Confirmation of Insurance - " . $plan['policy'] . " - " . $data['customer']['firstname'] . " " . $data['customer']['lastname'];
@@ -4184,7 +4193,7 @@ class Plan extends MY_Controller {
 			$data['user'] = $this->user_model->get_user_by_id($plan['user_id']);
 		}
 		$product = $this->product_model->get_product($plan['product_short']);
-		$data['plan_full_name'] = $product ? $product['full_name'] : '';
+		$data['plan_full_name'] = $product ? $product['full_name'] : $plan['product_short'];
 		$data['customer'] = $this->customer_model->get_customer_by_id($data['plan']['customer_id']);
 		$data['customers'] = $this->customer_model->get_customer_by_parent_id($data['plan']['customer_id']);
 		$data['paytype_list'] = $this->paytype_model->paytype_list();
@@ -4365,7 +4374,7 @@ class Plan extends MY_Controller {
 				$dt['note'] = "Cancel at " . $dt['added'] . " amount: " . $refund_amount . " admin fee: " . $admin_fee + $added_admin_fee;
 
 				$commission_rate = $this->product_model->get_commission_rate($plan['product_short'], $plan['user_id']);
-				if (($plan['product_short'] == 'TOP') && ($plan['totalyears'] > 60)) {
+				if ((($plan['product_short'] == 'TOP') || ($plan['product_short'] == 'TOPN')) && ($plan['totalyears'] > 60)) {
 					if ($commission_rate > 15) {
 						$commission_rate -= 15;
 					} else {
@@ -4595,7 +4604,7 @@ class Plan extends MY_Controller {
 				$dt['note'] = "Refund at " . $dt['added'] . " amount: " . $refund_amount . " admin fee: " . $admin_fee;
 
 				$commission_rate = $this->product_model->get_commission_rate($plan['product_short'], $plan['user_id']);
-				if (($plan['product_short'] == 'TOP') && ($plan['totalyears'] > 60)) {
+				if ((($plan['product_short'] == 'TOP') || ($plan['product_short'] == 'TOPN')) && ($plan['totalyears'] > 60)) {
 					if ($commission_rate > 15) {
 						$commission_rate -= 15;
 					} else {

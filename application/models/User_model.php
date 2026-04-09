@@ -37,6 +37,7 @@ class User_model extends CI_Model {
         "firstname"=>"First Name",
         "lastname"=>"Last Name",
         "email"=>"eMail",
+				"date_added"=>"Create Date",
         "address"=>"Address",
         "city"=>"City",
         "province2"=>"Province",

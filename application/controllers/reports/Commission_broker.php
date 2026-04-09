@@ -2,7 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 use Box\Spout\Common\Type;
 use Box\Spout\Writer\WriterFactory;
-class Commission extends MY_Controller
+class Commission_broker extends MY_Controller
 {
 	/**
 	 * Index Page for this controller.
@@ -37,7 +37,7 @@ class Commission extends MY_Controller
         $data['beuser'] = $beuser;
         $this->load->model('region_model');
         $data['regions'] = $this->region_model->get_regions();
-        $this->load->common('reports/commission', $data);
+        $this->load->common('reports/commission_broker', $data);
 /*
         //todo when we need pdf, when we send out email? the logic is not clear yet
         $data['style'] = $this->load->view('common/pdf_style',$data, TRUE);
@@ -78,8 +78,8 @@ class Commission extends MY_Controller
         $data['user_list'] = $this->user_model->get_available_user_list();
         $data['report_data'] = empty($_POST) ? array() : $this->report_model->get_commission_report($data);
        
-        $data['export_list'] = base_url ( "reports/commission/export_list" );
-        $data['export_pdf'] = base_url ( "reports/commission/export_pdf" );
+        $data['export_list'] = base_url ( "reports/commission_broker/export_list" );
+        $data['export_pdf'] = base_url ( "reports/commission_broker/export_pdf" );
         return $data;
 	}
 
@@ -107,20 +107,19 @@ class Commission extends MY_Controller
 	
 		$w = WriterFactory::create(Type::XLSX); // for XLSX files
 		$kArr = array(
-				'added' => 'Date',
-				'policy' => 'Policy Number',
-				'customer_name' => 'Customer Name',
-				'effective_date' => 'Effective Date',
-				'expiry_date' => 'Expiry Date',
-				'total_days' => 'Trip Length',
-				'premium' => 'Premium Amount',
-				'premiumispaid' => 'Premium Payment',
-				'rate' => 'Commission Rate',
-				'amount' => 'Commission Amount',
-				// 'payment_type' => 'Payment Type',
-			,
-				'payment_type' => 'Payment Type',
-			);
+			'username' => 'Username',
+			'added' => 'Date',
+			'policy' => 'Policy Number',
+			'customer_name' => 'Customer Name',
+			'effective_date' => 'Effective Date',
+			'expiry_date' => 'Expiry Date',
+			'total_days' => 'Trip Length',
+			'premium' => 'Premium Amount',
+			'premiumispaid' => 'Premium Payment',
+			'rate' => 'Commission Rate',
+			'amount' => 'Commission Amount',
+			'payment_type' => 'Payment Type',
+		);
 	
 		$objPHPExcel = new PHPExcel();
 		$objPHPExcel->getDefaultStyle()->getFont()->setName('Arial')->setSize(10);
@@ -219,7 +218,9 @@ class Commission extends MY_Controller
 				$total_a_premium += $record['premium']; $total_a_commission += $record['amount']; $unpaid_a_premium += ($record['premiumispaid']) ? 0 : $record['premium'];
 				$total_premium += $record['premium']; $total_commission += $record['amount']; $unpaid_premium += ($record['premiumispaid']) ? 0 : $record['premium'];
 				$row++; $col = 'A';
-	
+
+				$sheet->setCellValue($col.$row, $datas['agent']['username']); $col++;
+
 				$sheet->setCellValue($col.$row, PHPExcel_Shared_Date::PHPToExcel(strtotime($record['added'] . ' EST')));
 				$sheet->getStyle($col.$row)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_DATE_YYYYMMDD2);
 				$col++;
@@ -252,16 +253,16 @@ class Commission extends MY_Controller
 			if (empty($asbroker)) {
 				$row++;
 				$sheet->setCellValue('A'.$row, 'TOTAL');
-				$sheet->setCellValue('G'.$row, $total_premium);
-				$sheet->getStyle('G'.$row)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
+				$sheet->setCellValue('H'.$row, $total_premium);
+				$sheet->getStyle('H'.$row)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
 		
-				$sheet->setCellValue('J'.$row, $total_commission);
-				$sheet->getStyle('J'.$row)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
+				$sheet->setCellValue('K'.$row, $total_commission);
+				$sheet->getStyle('K'.$row)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
 	
-				$row++;
-				$sheet->setCellValue('A'.$row, 'Total Commission for Above');
-				$sheet->setCellValue('C'.$row, $total_commission);
-				$sheet->getStyle('C'.$row)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
+				// $row++;
+				// $sheet->setCellValue('A'.$row, 'Total Commission for Above');
+				// $sheet->setCellValue('C'.$row, $total_commission);
+				// $sheet->getStyle('C'.$row)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
 	
 				$row++;
 				$sheet->setCellValue('A'.$row, 'Unpaid Premium');
@@ -310,32 +311,32 @@ class Commission extends MY_Controller
 		}
 	}
 	
-    function export_pdf() {
-        $beuser = $this->func_model->verify_login(); 
-        $this->load->model('product_model');
-        $this->load->model('report_model');
-        $data['agent_id'] = empty($this->input->get_post('agent_id')) ? 0 : (int)$this->input->get_post('agent_id');
-        $data['region_id'] = empty($this->input->get_post('region_id')) ? $beuser['region_id'] : $this->input->get_post('region_id');
-        $data['product_short'] = $this->input->get_post('product_short');
-        $data['payment_added_from'] = $this->input->get_post('payment_added_from');
-        $data['payment_added_to'] = $this->input->get_post('payment_added_to');
-        $data['payment_date_from'] = $this->input->get_post('payment_date_from');
-        $data['payment_date_to'] = $this->input->get_post('payment_date_to');
-        $data['asbroker'] = $this->input->get_post('asbroker');
-        $data['ispaid'] = $this->input->get_post('ispaid');
-        
-        $data['product_list'] = $this->product_model->get_available_product_list();
-        $data['user_list'] = $this->user_model->get_available_user_list();
-        $data['report_data'] = $this->report_model->get_commission_report($data);
-        
-        if (empty($data['report_data'])) {
-        	die("No data");
-        }
+	function export_pdf() {
+		$beuser = $this->func_model->verify_login(); 
+		$this->load->model('product_model');
+		$this->load->model('report_model');
+		$data['agent_id'] = empty($this->input->get_post('agent_id')) ? 0 : (int)$this->input->get_post('agent_id');
+		$data['region_id'] = empty($this->input->get_post('region_id')) ? $beuser['region_id'] : $this->input->get_post('region_id');
+		$data['product_short'] = $this->input->get_post('product_short');
+		$data['payment_added_from'] = $this->input->get_post('payment_added_from');
+		$data['payment_added_to'] = $this->input->get_post('payment_added_to');
+		$data['payment_date_from'] = $this->input->get_post('payment_date_from');
+		$data['payment_date_to'] = $this->input->get_post('payment_date_to');
+		$data['asbroker'] = $this->input->get_post('asbroker');
+		$data['ispaid'] = $this->input->get_post('ispaid');
+		
+		$data['product_list'] = $this->product_model->get_available_product_list();
+		$data['user_list'] = $this->user_model->get_available_user_list();
+		$data['report_data'] = $this->report_model->get_commission_report($data);
+		
+		if (empty($data['report_data'])) {
+			die("No data");
+		}
 		$mpdf = new mPDF('c');
 		$mpdf->shrink_tables_to_fit=1;
 		$mpdf->AddPage();
-		$html = $this->load->view('reports/commission_pdf', $data, TRUE);
+		$html = $this->load->view('reports/commission_broker_pdf', $data, TRUE);
 		$mpdf->writeHTML($html);
 		$mpdf->Output("Commission_report_".$data['agent_id'].".pdf","I");
-    }
+	}
 }

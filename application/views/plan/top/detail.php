@@ -122,7 +122,7 @@ if ($Agree != "Agree") {
 							<div class="col-sm-3">
 								<label class="inline"><?php echo $this->lang->line("Package Name"); ?>:</label> <span><?php echo $toppackagename[$plan['package']]; ?></span>
 							</div>
-							<?php if ($plan['package'] == 'all_inclusive') { ?>
+							<?php if (0 && ($plan['package'] == 'all_inclusive')) { ?>
 							<div class="col-sm-3">
 								<label class="inline"><?php echo $this->lang->line("Sum Insured"); ?>:</label> <span><?php echo $plan['sum_insured']; ?></span>
 							</div>
@@ -174,7 +174,7 @@ if ($Agree != "Agree") {
 								<?php } ?>
 								<?php } ?>
 								<?php if ($plan['question2']) { ?>
-								<br /><?php echo $this->lang->line("Question"); ?> 2 : <?php echo ($plan['question2'] == 2) ? '<?php echo $this->lang->line("Yes"); ?>' : '<?php echo $this->lang->line("No"); ?>'; ?>
+								<br /><?php echo $this->lang->line("Question"); ?> 2 : <?php echo ($plan['question2'] == 2) ? $this->lang->line("Yes") : $this->lang->line("No"); ?>
 								<?php if ($plan['question3']) { ?>
 								<br /><?php echo $this->lang->line("Question"); ?> 3 : 
 								<?php if ($plan['question3_bowel'] == 'Y') { ?>
@@ -335,6 +335,7 @@ if ($Agree != "Agree") {
 							</div>
 							<?php } ?>
               <?php } ?>
+							<?php } ?>
 						</div>
 					</div>
 					<!-- end p-detail -->

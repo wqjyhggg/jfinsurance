@@ -403,7 +403,7 @@ class Plan extends CI_Controller
     }
 
 		$commission_rate = $this->product_model->get_commission_rate($plan['product_short'], $plan['user_id']);
-		if (($plan['product_short'] == 'TOP') && ($plan['totalyears'] > 60)) {
+		if ((($plan['product_short'] == 'TOP') || ($plan['product_short'] == 'TOPN')) && ($plan['totalyears'] > 60)) {
 			if ($commission_rate > 15) {
 				$commission_rate -= 15;
 			} else {
@@ -677,8 +677,8 @@ class Plan extends CI_Controller
     $this->load->model("plan_model");
     $this->load->model("customer_model");
 
-    if ($id = $this->input->post("plan_id")) {
-      if ($plan = $this->plan_model->get_plan_by_id($id)) {
+    if ($plan_id = $this->input->post("plan_id")) {
+      if ($plan = $this->plan_model->get_plan_by_id($plan_id)) {
         if (($user["user_group_id"] > 100) && ($plan["user_id"] != $user["user_id"])) {
           return $this->app_model->return_error("Can't find plan");
         }
@@ -775,22 +775,22 @@ class Plan extends CI_Controller
     $this->load->model("payment_model");
     $this->load->model("log_model");
     $data = array();
-    if ($id = $this->input->post("plan_id")) {
-      if ($plan = $this->plan_model->get_plan_by_id($id)) {
+    if ($plan_id = $this->input->post("plan_id")) {
+      if ($plan = $this->plan_model->get_plan_by_id($plan_id)) {
         if ($plan['status_id'] != Plan_model::CHANGED) {
           return $this->app_model->return_error("Policy cannot use this interface.");
         }
-        $totalpaid = $this->payment_model->get_total_paid($id, $pay_type='premium', $plan["apply_date"]);
+        $totalpaid = $this->payment_model->get_total_paid($plan_id, $pay_type='premium', $plan["apply_date"]);
         $premium = round($plan["premium"], 2);
         $totalpaid = round($totalpaid, 2);
         if ($premium != $totalpaid) {
           return $this->app_model->return_error("Policy not full paid");
         }
         $status_id = Plan_model::PAID;
-        if ($this->payment_model->get_payment($id)) {
+        if ($this->payment_model->get_payment($plan_id)) {
           $status_id = Plan_model::SOLD;
         }
-        $this->plan_model->update($id, ["status_id" => $status_id], array(), $user);
+        $this->plan_model->update($plan_id, ["status_id" => $status_id], array(), $user);
 				$plan = $this->plan_model->get_plan_by_id($plan_id);
 				$para = array(
 					'plan_id' => $plan_id,
@@ -834,8 +834,14 @@ class Plan extends CI_Controller
     $this->load->model("log_model");
     $this->load->model("monthly_payment_model");
     $data = array();
-    if ($id = $this->input->post("plan_id")) {
-      $planold = $this->plan_model->get_plan_by_id($id);
+		$post = $this->input->post();
+		$this->error = $this->plan_model->verify_date($post);
+		if ($this->error) {
+			return $this->app_model->return_error(implode("; ", $this->error));
+		}
+
+    if ($plan_id = $this->input->post("plan_id")) {
+      $planold = $this->plan_model->get_plan_by_id($plan_id);
 			if ($planold) {
         $ckArr = array(
           "holiday_rate" => empty($this->input->post('holiday_rate')) ? 0 : 1,
@@ -856,13 +862,13 @@ class Plan extends CI_Controller
 					return $this->app_model->return_error($error);
 				}
         unset($post["user_id"]);
-        $this->plan_model->update($id, $post, $ckArr, $user);
-				$plan = $this->plan_model->get_plan_by_id($id);
+        $this->plan_model->update($plan_id, $post, $ckArr, $user);
+				$plan = $this->plan_model->get_plan_by_id($plan_id);
 				if ($plan["monthlypay"] && ($planold["effective_date"] != $plan["effective_date"])) {
 					$this->monthly_payment_model->change_effective_date($id, $plan["effective_date"]);
 				}
 				$para = array(
-					'plan_id' => $id,
+					'plan_id' => $plan_id,
 					'customer_id' => $plan['customer_id'],
 					'payment_id' => 0,
 					'message' => $this->plan_model->logstr,
@@ -899,16 +905,15 @@ class Plan extends CI_Controller
 				}
       }
     } else {
-			$post = $this->input->post();
 			if ($post['product_short'] == 'TOPN') {
 				if (empty($post["sum_insured"])) {
 					$post["sum_insured"] = 1000000;
 				}
 			}
-      $id = $this->plan_model->add($post, $user);
-			$plan = $this->plan_model->get_plan_by_id($id);
+      $plan_id = $this->plan_model->add($post, $user);
+			$plan = $this->plan_model->get_plan_by_id($plan_id);
 			$para = array(
-				'plan_id' => $id,
+				'plan_id' => $plan_id,
 				'customer_id' => $plan['customer_id'],
 				'payment_id' => 0,
 				'message' => $this->plan_model->logstr,
@@ -916,16 +921,15 @@ class Plan extends CI_Controller
 			);
 			$this->log_model->activity('plan', $para, $user);
 		}
-    $data["plan"] = $this->plan_model->get_plan_by_id($id);
+    $data["plan"] = $this->plan_model->get_plan_by_id($plan_id);
     $data["claim_message"] = "";
 
-    $post = $this->input->post();
     if ($data["plan"]['claim_flag'] >= 2) {
       if ($data["plan"]['claim_allow_by'] < 1) {
         $data["claim_message"] = "The insured may have a previous claim that is affecting the policy issuance or renewal. Please contact JF staff for further assistance 905-707-1512";
       }
     } else {
-      $customers = $this->plan_model->get_plan_customers_by_id($id);
+      $customers = $this->plan_model->get_plan_customers_by_id($plan_id);
       foreach ($customers as $customer) {
         $vrecords = $this->plan_model->verify_customer($customer['firstname'], $customer['lastname'], $customer['birthday']);
         $claim_amount = 0;
@@ -941,10 +945,10 @@ class Plan extends CI_Controller
         if (empty($claim_amount) && empty($case_amount)) {
           continue;
         } else if (($claim_amount <= 2500) && ($case_amount <= 2500)) {
-          $this->plan_model->update($id, array('claim_flag' => 1), array(), $user);
-					$plan = $this->plan_model->get_plan_by_id($id);
+          $this->plan_model->update($plan_id, array('claim_flag' => 1), array(), $user);
+					$plan = $this->plan_model->get_plan_by_id($plan_id);
 					$para = array(
-						'plan_id' => $id,
+						'plan_id' => $plan_id,
 						'customer_id' => $plan['customer_id'],
 						'payment_id' => 0,
 						'message' => $this->plan_model->logstr,
@@ -954,10 +958,10 @@ class Plan extends CI_Controller
 					$data["plan"]['claim_flag'] = 1;
           $data["claim_message"] = "Reminders: The insured(s) may have had previous claim(s). Please confirm the policy eligibility and any pre-existing conditions with insured(s). " . $customer['firstname'] . " " . $customer['lastname'] . "(" . $customer['birthday'] . ")";
         } else if (!isset($post["claim_flag"])) /* if (($claim_amount > 2000) || ($case_amount > 2000)) */ {
-          $this->plan_model->update($id, array('claim_flag' => 2), array(), $user);
-					$plan = $this->plan_model->get_plan_by_id($id);
+          $this->plan_model->update($plan_id, array('claim_flag' => 2), array(), $user);
+					$plan = $this->plan_model->get_plan_by_id($plan_id);
 					$para = array(
-						'plan_id' => $id,
+						'plan_id' => $plan_id,
 						'customer_id' => $plan['customer_id'],
 						'payment_id' => 0,
 						'message' => $this->plan_model->logstr,
@@ -1291,7 +1295,7 @@ class Plan extends CI_Controller
 				$dt['note'] = "Api Refund at " . $dt['added'] . " amount: " . $refund_amount . " admin fee: " . $admin_fee;
 				
 				$commission_rate = $this->product_model->get_commission_rate($plan['product_short'], $plan['user_id']);
-				if (($plan['product_short'] == 'TOP') && ($plan['totalyears'] > 60)) {
+				if ((($plan['product_short'] == 'TOP') || ($plan['product_short'] == 'TOPN')) && ($plan['totalyears'] > 60)) {
 					if ($commission_rate > 15) {
 						$commission_rate -= 15;
 					} else {
@@ -1731,7 +1735,7 @@ class Plan extends CI_Controller
 				$dt['note'] = "Api Cancel at " . $dt['added'] . " amount: " . $refund_amount . " admin fee: " . $admin_fee + $added_admin_fee;
 				
 				$commission_rate = $this->product_model->get_commission_rate($plan['product_short'], $plan['user_id']);
-				if (($plan['product_short'] == 'TOP') && ($plan['totalyears'] > 60)) {
+				if ((($plan['product_short'] == 'TOP') || ($plan['product_short'] == 'TOPN')) && ($plan['totalyears'] > 60)) {
 					if ($commission_rate > 15) {
 						$commission_rate -= 15;
 					} else {
@@ -1890,7 +1894,7 @@ class Plan extends CI_Controller
 			$data['user'] = $this->user_model->get_user_by_id($plan['user_id']);
 		}
 		$product = $this->product_model->get_product($plan['product_short']);
-		$data['plan_full_name'] = $product ? $product['full_name'] : '';
+		$data['plan_full_name'] = $product ? $product['full_name'] : $plan['product_short'];
 		$data['customer'] = $this->customer_model->get_customer_by_id($data['plan']['customer_id']);
 		$data['customers'] = $this->customer_model->get_customer_by_parent_id($data['plan']['customer_id']);
 		$data['paytype_list'] = $this->paytype_model->paytype_list();
@@ -2077,6 +2081,8 @@ class Plan extends CI_Controller
 
     if ($this->verify_model->isEmail($data['emailaddr'])) {
       $product = $this->product_model->get_product($data['product_short']);
+			$data['plan_full_name'] = $product ? $product['full_name'] : '';
+	
       if ($data['product_short'] == 'OPL') {
         $files = array(
         'OPL_Policy.pdf' => DOWNLOADDIR . 'OPL_Policy.pdf',
@@ -2746,10 +2752,12 @@ class Plan extends CI_Controller
       return $this->app_model->return_error("Can't find plan");
 		}
 		$product = $this->product_model->get_product($plan['product_short']);
+		$data['plan_full_name'] = $product ? $product['full_name'] : $plan['product_short'];
 		$customer = $this->customer_model->get_customer_by_id($plan['customer_id']);
 		$name = $customer["firstname"]. " ".$customer["lastname"];
 		
 		$data['beuser'] = $beuser;
+		$data['customer'] = $customer;
 		$data['plan'] = $plan;
 		if (!empty($plan["monthlypay"])) {
 			if ($mp = $this->monthly_payment_model->get_monthlypay_data($plan_id)) {
