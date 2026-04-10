@@ -182,6 +182,7 @@ if ($Agree != "Agree") {
 									<br />&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $this->lang->line("Heart conditions/disease"); ?> (<?php echo $this->lang->line("do not include aspirin, hypertension (high blood pressure) or high cholesterol medications"); ?>) : <?php echo $this->lang->line("take"); ?> <?php echo $plan['question1_heart']; ?> <?php echo $this->lang->line("medication(s)"); ?>
 								<?php } ?>
 								<?php } ?>
+								<?php } ?>
 								<?php if ($plan['question2']) { ?>
 								<br /><?php echo $this->lang->line("Question"); ?> 2 : <?php echo ($plan['question2'] == 2) ? $this->lang->line("Yes") : $this->lang->line("No"); ?>
 								<?php if ($plan['question3']) { ?>
