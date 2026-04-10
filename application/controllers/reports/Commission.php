@@ -118,8 +118,6 @@ class Commission extends MY_Controller
 				'rate' => 'Commission Rate',
 				'amount' => 'Commission Amount',
 				// 'payment_type' => 'Payment Type',
-			,
-				'payment_type' => 'Payment Type',
 			);
 	
 		$objPHPExcel = new PHPExcel();
