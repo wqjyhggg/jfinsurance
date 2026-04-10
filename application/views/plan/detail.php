@@ -351,7 +351,9 @@ if ($Agree != "Agree") {
         <div class="x_panel">
           <div class="x_title">
             <h2>Monthly Payment Detail</h2>
+						<?php if (($plan["status_id"] == Plan_model::PAID)) { ?>
 						<button class="btn btn-primary monthly-pay-full" onclick='monthly_pay_full()'>Pay all remaining</button>
+						<?php } ?>
             <div class="clearfix"></div>
           </div>
           <div class="x_content">
