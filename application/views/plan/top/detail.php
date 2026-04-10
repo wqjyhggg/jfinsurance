@@ -161,6 +161,15 @@ if ($Agree != "Agree") {
 							<div class="col-sm-6">
 								<label class="inline"><?php echo $this->lang->line("Your answered questionnaire with"); ?> :</label>
 								<span>
+								<?php if ($plan['question1'] && ($plan['question1'] > 0)) { ?>
+									<?php if ($plan['question1'] == 1) { ?>
+										<br />&nbsp;&nbsp;&nbsp;&nbsp;1 or none
+									<?php } else if ($plan['question1'] == 2) { ?>
+										<br />&nbsp;&nbsp;&nbsp;&nbsp;2
+									<?php } else { ?>
+										<br />&nbsp;&nbsp;&nbsp;&nbsp;3 or more
+									<?php } ?>
+								<?php } else { ?>
 								<?php if ($plan['question1_lung'] || $plan['question1_diabets'] || $plan['question1_heart']) { ?>
 								<br /><?php echo $this->lang->line("Question"); ?> 1 : 
 								<?php if ($plan['question1_lung']) { ?>
@@ -335,7 +344,6 @@ if ($Agree != "Agree") {
 							</div>
 							<?php } ?>
               <?php } ?>
-							<?php } ?>
 						</div>
 					</div>
 					<!-- end p-detail -->
