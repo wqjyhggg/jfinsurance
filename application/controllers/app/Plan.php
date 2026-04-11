@@ -1719,7 +1719,7 @@ class Plan extends CI_Controller
 				$total_amount = floatval($data['monthly_data']['total_paid']);
 				$admin_fee = floatval($data['monthly_data']['admin_fee']);
 				$refund_amount = $total_amount - $admin_fee;
-				$total_amount = $refund_amount - $added_admin_fee;
+				$total_amount = $total_amount - $added_admin_fee;
 				$admin_fee = 0;
 			}
 
