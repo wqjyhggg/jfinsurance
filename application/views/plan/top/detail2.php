@@ -139,7 +139,7 @@ if ($Agree != "Agree") {
       <span class="info-text"><?php echo $plan['apply_date']; ?></span>
     </div>
     <div class="info-card">
-      <span class="info-lable">Arrival Date:<span>
+      <span class="info-lable">Departure Date:<span>
       <span class="info-text"><?php echo $plan['arrival_date']; ?></span>
     </div>
     <div class="info-card">
