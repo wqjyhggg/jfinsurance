@@ -52,7 +52,7 @@ class Bambora extends CI_Controller {
 				" - GET: $getData" . PHP_EOL .
 				" - POST: $postData" . PHP_EOL .
 				" - RAW: $rawInput" . PHP_EOL . PHP_EOL;
-		file_put_contents("paymentcall.php", $logEntry, FILE_APPEND);
+		file_put_contents("paymentcall.txt", $logEntry, FILE_APPEND);
 
 		$rawInput = file_get_contents('php://input');
 
