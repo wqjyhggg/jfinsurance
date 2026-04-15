@@ -1732,6 +1732,7 @@ class Plan_model extends CI_Model {
     }
 	}
 
+
 	public function verify_date(&$para) {
 		$error = [];
 		$isfamilyplan = empty($para['isfamilyplan']) ? 0 : ((intval($para['isfamilyplan']) > 0) ? intval($para['isfamilyplan']) : 1);
@@ -1787,6 +1788,11 @@ class Plan_model extends CI_Model {
 			} else {
 				$error[] = "expiry date format error";
 			}
+		}
+		$this->load->model('product_model');
+		$days = $this->product_model->getDays($para['effective_date'], $para['expiry_date']);
+		if ($para["totaldays"] != $days) {
+			$error[] = "total days calculation error";
 		}
 		return $error;
 	}
