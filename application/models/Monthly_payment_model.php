@@ -222,7 +222,7 @@ class Monthly_payment_model extends CI_Model {
 		$this->db->order_by('plan_id', "ASC");
 		$this->db->order_by('monthly_payment_id', "ASC");
 		if ($limit) {
-			$this->db->limit($start, $limit);
+			$this->db->limit($limit, $start);
 		}
 		return $this->db->get()->result_array();
 	}
