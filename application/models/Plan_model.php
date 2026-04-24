@@ -1798,6 +1798,13 @@ class Plan_model extends CI_Model {
 				$error[] = "expiry date format error";
 			}
 		}
+		if (empty($error) && !empty($para["totaldays"])) {
+			$this->load->model('product_model');
+			$days = $this->product_model->getDays($para['effective_date'], $para['expiry_date']);
+			if ($days != $para["totaldays"]) {
+				$para["totaldays"] = $days;
+			}
+		}
 		return $error;
 	}
 

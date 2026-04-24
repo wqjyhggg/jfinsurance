@@ -493,7 +493,7 @@ class Bambora extends CI_Controller {
 			$body .= "Our records show that the payment for this policy was unsuccessful. Please be aware that your policy remains active; however, prompt payment is necessary to maintain coverage.\r\n";
 			$body .= "If you believe this payment failure is an error or if you have any questions, we encourage you to contact us immediately to resolve the issue.\r\n\r\n";
 			$body .= "Important Notice:\r\n";
-			$body .= "Failure to address this payment within 14 calendar days will result in suspension of your policy.\r\n";
+			$body .= "Failure to address this payment within 30 calendar days will result in suspension of your policy.\r\n";
 			$body .= "To avoid any interruption in your coverage, please respond to this message or call us directly at (905) 707-1512. You may also email us at info@jfgroup.ca.\r\n\r\n";
 			$body .= "Thank you for your prompt attention to this matter.\r\n\r\n";
 			$body .= "Sincerely,\r\n\r\n";
@@ -507,7 +507,7 @@ class Bambora extends CI_Controller {
 			$body .= "Our records indicate that the payment for this policy was unsuccessful. While the policy remains active currently, prompt payment from the client is essential to maintain coverage.\r\n";
 			$body .= "Please reach out to your client promptly to address this issue. If you require any assistance or have questions, do not hesitate to contact us.\r\n\r\n";
 			$body .= "Important Notice:\r\n";
-			$body .= "Failure to resolve the payment within 14 calendar days will lead to suspension of the policy.\r\n";
+			$body .= "Failure to resolve the payment within 30 calendar days will lead to suspension of the policy.\r\n";
 			$body .= "To prevent any disruption in coverage, please encourage your client to respond to this message or contact us directly at (905) 707-1512. You may also direct them to email us at info@jfgroup.ca.\r\n\r\n";
 			$body .= "Thank you for your immediate attention to this matter.\r\n\r\n";
 			$body .= "Sincerely,\r\n\r\n";
