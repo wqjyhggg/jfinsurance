@@ -3283,6 +3283,7 @@ class Plan extends MY_Controller {
 		}
 		if ($plan["monthlypay"] == 1) {
 			$plan['monthly_payment'] = $this->monthly_payment_model->get_by_plan_id($plan["plan_id"]);
+			$data['monthly_data'] = $this->monthly_payment_model->get_monthlypay_data($plan["plan_id"]);
 			$plan['monthly_status'] = "Active";
 			$plan['monthly_paid'] = 0;
 			$plan['monthly_unpay'] = 0;
