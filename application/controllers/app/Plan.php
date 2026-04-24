@@ -97,7 +97,7 @@ class Plan extends CI_Controller
 		if (isset($sArr["policy"])) {
 			$plan = $this->plan_model->get_plan_by_policy($sArr["policy"]);
 		}
-		$plan_list = $this->monthly_payment_model->plan_search($sArr, $plan);
+		$plan_list = $this->monthly_payment_model->plan_search($sArr, $plan, $limit, $start);
 		$data = [];
 		if (!empty($only_last_per_policy)) {
 			$plan_list = $this->monthly_payment_model->build_new_plan_list_onepass($plan_list);
