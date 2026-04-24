@@ -77,6 +77,9 @@ class Plan extends CI_Controller
 		$only_last_per_policy = $this->input->post('only_last_per_policy');
 
 		$sArr = [];
+		if ($user["user_group_id"] > 100) {
+			$sArr["user_id"] = $user["id"];
+		}
 		if (!empty($policy)) $sArr["policy"] = $policy;
 		if (!empty($date_start)) $sArr["date_start"] = $date_start;
 		if (!empty($date_end)) $sArr["date_end"] = $date_end;

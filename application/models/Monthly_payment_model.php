@@ -210,6 +210,9 @@ class Monthly_payment_model extends CI_Model {
 		if ($plan) {
 			$this->db->where('plan_id', $plan['plan_id']);
 		}
+		if (!empty($para['user_id'])) {
+			$this->db->where('plan.user_id=', $para['user_id']);
+		}
 		if (!empty($para['date_start'])) {
 			$this->db->where('pay_date>=', $para['date_start']);
 		}
