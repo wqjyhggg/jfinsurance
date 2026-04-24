@@ -503,7 +503,7 @@ class Bambora extends CI_Controller {
 		if (($agent = $this->user_model->get_user_by_id($plan["user_id"])) && $this->verify_model->isEmail($agent["email"])) {
 			$subject = "Urgent Notification: Payment Failure for Client's Insurance Policy";
 			$body  = "Dear ".$agent["firstname"]." ".$agent["lastname"].",\r\n\r\n";
-			$body .= "We are notifying you regarding a payment failure for your client's insurance policy ".$plan["policy"]." purchased on ".$plan["apply_date"].".\r\n";
+			$body .= "We are notifying you regarding a payment failure for your client's insurance policy (Policy Name: ".$plan["policy"]." purchased on ".$plan["apply_date"].".\r\n";
 			$body .= "Our records indicate that the payment for this policy was unsuccessful. While the policy remains active currently, prompt payment from the client is essential to maintain coverage.\r\n";
 			$body .= "Please reach out to your client promptly to address this issue. If you require any assistance or have questions, do not hesitate to contact us.\r\n\r\n";
 			$body .= "Important Notice:\r\n";
