@@ -299,6 +299,7 @@ class Monthly_payment_model extends CI_Model {
 			"init_pay" => 0,
 			"monthly_pay" => 0,
 			"total_paid" => 0,
+			"paid_premium" => 0,
 			"total_refund" => 0,
 			"recurrent_times" => 0,
 			"init_pay_date" => "N/A",
@@ -322,6 +323,7 @@ class Monthly_payment_model extends CI_Model {
 					$rt["init_pay_date"] = $rc["pay_date"];
 				}
 			}
+			$rt["paid_premium"] = $rt["total_paid"] - $rt["admin_fee"];
 			$rt["premium"] -= $rt["admin_fee"];
 			if ($rt["last_pay_date"] != "N/A") {
 				$date = new DateTime($rt["last_pay_date"]);
