@@ -4360,7 +4360,6 @@ class Plan extends MY_Controller {
 				$admin_fee = floatval($data['monthly_data']['admin_fee']);
 				$refund_amount = $total_amount - $admin_fee;
 				$total_amount = $total_amount - $added_admin_fee;
-				$admin_fee = 0;
 			}
 
 			if ($total_amount > 0) {

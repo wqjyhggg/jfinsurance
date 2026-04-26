@@ -321,12 +321,12 @@ if ($Agree != "Agree") {
 									</div>
 									<div class="form-group col-sm-3">
 										<label class="col-sm-12">Paid Months: 
-											<?php echo (12 - intval($monthly_unpay_count)); ?>
+											<?php if ($status_id == Plan_model::CANCEL) { echo 0; } else { echo (12 - intval($monthly_unpay_count)); } ?>
 										</label>
 									</div>
 									<div class="form-group col-sm-3">
 										<label class="col-sm-12">Paid Premium: 
-											<?php echo number_format($monthly_paid, 2, ".", ""); ?>
+											<?php if ($status_id == Plan_model::CANCEL) { echo 0; } else { echo number_format($monthly_paid, 2, ".", ""); } ?>
 										</label>
 									</div>
 									<div class="form-group col-sm-3">

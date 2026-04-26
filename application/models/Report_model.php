@@ -614,6 +614,7 @@ class Report_model extends CI_Model
 			$mplan_id = 0;
 			$refund_amount = 0;
 			$paid_amount = 0;
+			$admin_fee = 0;
 			$last_monthly_paid = 0;
 			foreach ($rt as $rc) {
 				$sql1 = $sql . $rc["plan_id"] . $sql2;
@@ -630,6 +631,7 @@ class Report_model extends CI_Model
 									$last_monthly_paid = $rct["paid"];
 									if (empty($rct["pay_type"])) {
 										$refund_amount = $rct["refund_amount"];
+										$admin_fee = $rct["admin_fee"];
 										$rctt["total_premium"] = $rctt["premium"];
 									}
 									$rctt["premium"] = $rct["amount"] - $rct["admin_fee"];
@@ -639,7 +641,7 @@ class Report_model extends CI_Model
 								}
 							} else if ($rctt["premium"] < 0) {
 								if ($rc["last_status_id"] == 5) { // Cancel
-									$rctt["premium"] = $refund_amount * -1;
+									$rctt["premium"] = ($refund_amount - $admin_fee) * -1;
 								} else {  // refund
 									$rctt["premium"] = $paid_amount * -1;
 								}
