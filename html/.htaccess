@@ -10,6 +10,16 @@
 #Satisfy any
 
 RewriteEngine on
+RewriteRule \.txt$ - [F,L]
+
+RewriteCond %{REQUEST_URI} ^/approve\.php$ [NC]
+RewriteCond %{REQUEST_URI} ^/declain\.php$ [NC]
+RewriteCond %{REQUEST_URI} ^/member\.php$ [NC]
+RewriteCond %{REQUEST_URI} ^/paymentcall\.php$ [NC]
+RewriteCond %{REQUEST_URI} ^/recurrent\.php$ [NC]
+RewriteCond %{REQUEST_URI} ^/secure\.php$ [NC]
+RewriteRule ^ - [L]
+
 #RewriteCond %{SERVER_PORT} 80
 #RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
 
