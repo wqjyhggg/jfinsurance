@@ -1742,6 +1742,7 @@ class Plan_model extends CI_Model {
     }
 	}
 
+
 	public function verify_date(&$para) {
 		$error = [];
 		$isfamilyplan = empty($para['isfamilyplan']) ? 0 : ((intval($para['isfamilyplan']) > 0) ? intval($para['isfamilyplan']) : 1);
