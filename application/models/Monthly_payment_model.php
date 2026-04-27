@@ -479,16 +479,16 @@ class Monthly_payment_model extends CI_Model {
 		if (empty($lastRc)) {
 			return "";
 		}
-		if ($lastRc == SELF::VOID) {
+		if ($lastRc["paid"] == SELF::VOID) {
 			if ($plan["status_id"] == Plan_model::CANCEL) {
 				return "Canceled";
 			} else if ($plan["status_id"] == Plan_model::REFUND) {
 				return "Refunded";
 			}
 			return "Stopped";
-		} else if ($lastRc == SELF::TERMINATED) {
+		} else if ($lastRc["paid"] == SELF::TERMINATED) {
 			return "Terminated";
-		} else if ($lastRc == SELF::PAYERROR) {
+		} else if ($lastRc["paid"] == SELF::PAYERROR) {
 			return "Payment Error";
 		}
 		return "Active";
