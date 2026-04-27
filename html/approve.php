@@ -60,6 +60,6 @@ if (isset($_GET["ref2"])) {
 </style>
 </head>
 <body>
-<div class="success-text">Success</div>
+<div class="success-text">Payment successful. You may now close this page.</div>
 </body>
 </html>

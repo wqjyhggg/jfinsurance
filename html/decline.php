@@ -1,6 +1,6 @@
 <?php
 // Set the filename for logging
-$logFile = 'declain.txt';
+$logFile = 'decline.txt';
 
 // Function to log access information
 function logAccess($logFile) {
