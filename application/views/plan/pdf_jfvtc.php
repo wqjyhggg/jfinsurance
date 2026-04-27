@@ -123,8 +123,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
 					<h4><u><?php echo $this->lang->line("Payment Details"); ?></u></h4>
           <h4><?php echo $this->lang->line("Total Premium"); ?>: <span>$<?php echo number_format($plan['premium'], 2, '.', ','); ?></span></h4>
           <h4><?php echo $this->lang->line("Monthly Plan Fee"); ?>: <span>$<?php echo number_format($monthly_data['admin_fee'], 2, '.', ','); ?></span></h4>
-          <h4><?php echo $this->lang->line("Initial Premium"); ?>: <span>$<?php echo number_format($monthly_data['init_pay'], 2, '.', ','); ?></span></h4>
+          <h4><?php echo $this->lang->line("Paid Premium"); ?>: <span>$<?php echo number_format($monthly_data['paid_premium'], 2, '.', ','); ?></span></h4>
           <h4><?php echo $this->lang->line("Total Charged"); ?>: <span>$<?php echo number_format($monthly_data['total_paid'], 2, '.', ','); ?></span></h4>
+          <h4><?php echo $this->lang->line("Outstanding Premium"); ?>: <span>$<?php echo number_format($monthly_data['premium'] - $monthly_data['paid_premium'], 2, '.', ','); ?></span></h4>
           <h4><?php echo $this->lang->line("Tax"); ?>: <span>$<?php echo number_format($plan['tax'], 2, '.', ','); ?></span></h4>
           <h4><?php echo $this->lang->line("Init Payment Date"); ?>: <span><?php echo ($plan['status_id'] >= 2) ? $monthly_data['init_pay_date'] : ''; ?></span></h4>
           <h4><?php echo $this->lang->line("Last Payment Date"); ?>: <span><?php echo ($plan['status_id'] >= 2) ? $monthly_data['last_pay_date'] : ''; ?></span></h4>
@@ -141,6 +142,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
         <?php } ?>
       </div>
     </div>
+		<pagebreak />
     <div class="row">
       <div class="col-sm-12 nopm special-note">
         <h4 style="border-bottom:1px solid #777;"><?php echo $this->lang->line("Special Note"); ?></h4>
@@ -297,8 +299,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
           <h4><u><?php echo $this->lang->line("Payment Details"); ?></u></h4>
           <h4><?php echo $this->lang->line("Total Premium"); ?>: <span>$<?php echo number_format($plan['premium'], 2, '.', ','); ?></span></h4>
           <h4><?php echo $this->lang->line("Monthly Plan Fee"); ?>: <span>$<?php echo number_format($monthly_data['admin_fee'], 2, '.', ','); ?></span></h4>
-          <h4><?php echo $this->lang->line("Initial Premium"); ?>: <span>$<?php echo number_format($monthly_data['init_pay'], 2, '.', ','); ?></span></h4>
+          <h4><?php echo $this->lang->line("Paid Premium"); ?>: <span>$<?php echo number_format($monthly_data['paid_premium'], 2, '.', ','); ?></span></h4>
           <h4><?php echo $this->lang->line("Total Charged"); ?>: <span>$<?php echo number_format($monthly_data['total_paid'], 2, '.', ','); ?></span></h4>
+          <h4><?php echo $this->lang->line("Outstanding Premium"); ?>: <span>$<?php echo number_format($monthly_data['premium'] - $monthly_data['paid_premium'], 2, '.', ','); ?></span></h4>
           <h4><?php echo $this->lang->line("Tax"); ?>: <span>$<?php echo number_format($plan['tax'], 2, '.', ','); ?></span></h4>
           <h4><?php echo $this->lang->line("Init Payment Date"); ?>: <span><?php echo ($plan['status_id'] >= 2) ? $monthly_data['init_pay_date'] : ''; ?></span></h4>
           <h4><?php echo $this->lang->line("Last Payment Date"); ?>: <span><?php echo ($plan['status_id'] >= 2) ? $monthly_data['last_pay_date'] : ''; ?></span></h4>

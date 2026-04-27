@@ -312,7 +312,6 @@ class Monthly_payment_model extends CI_Model {
 		if ($rts = $this->get_by_plan_id($plan_id)) {
 			foreach ($rts as $rc) {
 				$rt["premium"] += $rc["amount"];
-				$rt["admin_fee"] += $rc["admin_fee"];
 				if ($rc["paid"] == 1) {
 					$rt["total_paid"] += $rc["amount"];
 					$rt["last_pay_date"] = $rc["pay_date"];
@@ -322,6 +321,7 @@ class Monthly_payment_model extends CI_Model {
 					$rt["recurrent_times"]++;
 					$rt["monthly_pay"] = $rc["amount"];
 				} else {
+					$rt["admin_fee"] += $rc["admin_fee"];
 					$rt["init_pay"] = $rc["amount"];
 					$rt["init_pay_date"] = $rc["pay_date"];
 				}

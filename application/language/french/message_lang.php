@@ -370,6 +370,7 @@ $lang["Number of Days"] = "Nombre de jours";
 
 /* O */
 $lang["of Insurance"] = "d'assurance";
+$lang["Outstanding Premium"] = "Premium exceptionnel";
 $lang["Our Plans"] = "Nos plans";
 $lang["Our Product"] = "Notre produit";
 $lang["Our Products"] = "Nos produits";
@@ -377,6 +378,7 @@ $lang["Our Products"] = "Nos produits";
 /* P */
 $lang["Package"] = "Emballer";
 $lang["Package Name"] = "Nom du paquet";
+$lang["Paid Premium"] = "Prime payée";
 $lang["Password"] = "Mot de passe";
 $lang["Password must between 6 to 16 charactors"] = "Le mot de passe doit contenir entre 6 et 16 caractères";
 $lang["Parent"] = "Parente";
@@ -396,6 +398,7 @@ $lang["Payment Added Date To"] = "Date d'ajout du paiement à";
 $lang["Payment Date"] = "Date de paiement";
 $lang["Payment Details"] = "Détails de paiement";
 $lang["Payment Method"] = "Payment Method";
+$lang["Payment Schedule"] = "Calendrier de paiement";
 $lang["Payment Update Date From"] = "Date de mise à jour du paiement à partir de";
 $lang["Payment Update Date To"] = "Date de mise à jour du paiement jusqu'au";
 $lang["Payments"] = "Paiements";

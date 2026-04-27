@@ -67,11 +67,11 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 							<td>Minus Cancellation Fee: </td><td><span>$<?php echo number_format($admin_fee, 2, '.', ','); ?></span></td>
 						</tr>
 						<?php } else { ?>
-						<tr>	
+						<!-- <tr>	
 							<td>Paid Amount: </td><td><span>$<?php echo number_format($monthly_data["total_paid"], 2, '.', ','); ?></span></td>
-						</tr>
+						</tr> -->
 						<tr>	
-							<td>Admin Fee: </td><td><span>$<?php echo number_format($admin_fee, 2, '.', ','); ?></span></td>
+							<td>Monthly Plan Admin Fee: </td><td><span>$<?php echo number_format($admin_fee, 2, '.', ','); ?></span></td>
 						</tr>
 						<?php } ?>
 						<tr>	

@@ -11,6 +11,7 @@
 
 RewriteEngine on
 RewriteRule \.txt$ - [F,L]
+RewriteRule ^agent/(.*)$ /Agent/$1 [R=301,L]
 
 RewriteCond %{REQUEST_URI} ^/approve\.php$ [NC]
 RewriteCond %{REQUEST_URI} ^/declain\.php$ [NC]

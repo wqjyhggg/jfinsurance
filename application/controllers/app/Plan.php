@@ -868,9 +868,24 @@ class Plan extends CI_Controller
         unset($post["user_id"]);
         $this->plan_model->update($plan_id, $post, $ckArr, $user);
 				$plan = $this->plan_model->get_plan_by_id($plan_id);
-				if ($plan["monthlypay"] && ($planold["effective_date"] != $plan["effective_date"])) {
-					$this->monthly_payment_model->change_effective_date($id, $plan["effective_date"]);
+				if ($plan["monthlypay"]) {
+					if ($planold["effective_date"] != $plan["effective_date"]) {
+						$this->monthly_payment_model->change_effective_date($plan_id, $plan["effective_date"]);
+						if ($pay = $this->monthly_payment_model->plan_today_payments($plan_id)) {
+							$this->load->model('bambora_model');
+							$this->bambora_model->do_payment($pay["monthly_payment_id"]);
+						}
+					}
+					$newpremium = round(floatval($plan['premium']),2);
+					$oldpremium = round(floatval($planold['premium']),2);
+					if (($newpremium == $oldpremium) && ($plan['status_id'] == Plan_model::CHANGED)) {
+						$this->load->model("plan_history_model");
+						$this->plan_history_model->add($plan_id, Plan_model::CHANGED);
+						$this->plan_model->update($plan_id, ['status_id' => Plan_model::PAID], [], $user);
+						$plan["status_id"] = Plan_model::PAID;
+					}
 				}
+
 				$para = array(
 					'plan_id' => $plan_id,
 					'customer_id' => $plan['customer_id'],

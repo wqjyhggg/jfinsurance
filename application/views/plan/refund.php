@@ -41,7 +41,15 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 		<div class="row">
 			<div class="col-sm-12 nopadding">
 				<p  class="nopm">Dear <?php echo htmlspecialchars($customer['firstname'] . " " . $customer['lastname']); ?>,</p>
-				<p  class="nopm">We have processed your request to refund the policy of <span><b><?php echo $plan['policy']; ?></b></span>, <b><?php echo htmlspecialchars($customer['firstname'] . " " . $customer['lastname']); ?></b>. We are pleased to provide you a refund for the policy.</p>
+				<?php if (empty($plan["monthlypay"])) { ?>
+					<p  class="nopm">We have processed your request to refund the policy of <span><b><?php echo $plan['policy']; ?></b></span>, <b><?php echo htmlspecialchars($customer['firstname'] . " " . $customer['lastname']); ?></b>. We are pleased to provide you a refund for the policy.</p>
+				<?php } else { ?>
+					<p  class="nopm">
+						We have processed your request to refund the policy of <span><b><?php echo $plan['policy']; ?></b></span>, 
+						<b><?php echo htmlspecialchars($customer['firstname'] . " " . $customer['lastname']); ?></b>. 
+						We are pleased to provide you a refund for the policy. Please note that the $80 monthly plan fee and 2 months of premium are nonefundable on a Monthly Payment Plan.
+					</p>
+				<?php } ?>
 			</div>
 		</div>
 
@@ -74,7 +82,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 							<td>Minus Cancellation Fee: </td><td><span>$<?php echo number_format($admin_fee, 2, '.', ','); ?></span></td>
 						</tr>
 						<?php } else { ?>
-						<tr>	
+						<tr>
 							<td>Monthly Plan Admin Fee: </td><td><span>$<?php echo number_format($admin_fee, 2, '.', ','); ?></span></td>
 						</tr>
 						<?php } ?>

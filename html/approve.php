@@ -29,9 +29,37 @@ if (isset($_GET["ref2"])) {
 	$scheme = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
 	$host   = $_SERVER['HTTP_HOST'];
 	
-	header("Location: {$scheme}://{$host}/plan/detail/".$_GET["ref2"]);
+	if (isset($_GET["ref4"]) && ($_GET["ref4"] == "web")) {
+		header("Location: {$scheme}://{$host}/plan/detail/".$_GET["ref2"]);
+	}
 } else {
 	header("Location: {$scheme}://{$host}/user/login");
 }
-exit;
-
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Success</title>
+<style>
+    body {
+        margin: 0;
+        height: 100vh;
+        position: relative;
+        font-family: Arial, sans-serif;
+				background: #EDEDED;
+    }
+    .success-text {
+        position: absolute;
+        left: 50%;
+        top: 30%; /* slightly above 1/3 (33%) */
+        transform: translate(-50%, -50%);
+        font-size: 48px;
+        font-weight: bold;
+    }
+</style>
+</head>
+<body>
+<div class="success-text">Success</div>
+</body>
+</html>

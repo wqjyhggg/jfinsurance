@@ -831,11 +831,21 @@ class Plan extends MY_Controller {
 					$plan_id = $this->plan_model->update($plan_id, $post, array('isfamilyplan' => 1, 'holiday_rate' => 1, 'spouse' => 1));
 					if ($plan_id) {
 						$plan = $this->plan_model->get_plan_by_id($plan_id);
-						if ($plan["monthlypay"] && ($planold["effective_date"] != $plan["effective_date"])) {
-							$this->monthly_payment_model->change_effective_date($plan_id, $plan["effective_date"]);
-							if ($pay = $this->monthly_payment_model->plan_today_payments($plan_id)) {
-								$this->load->model('bambora_model');
-								$this->bambora_model->do_payment($pay["monthly_payment_id"]);
+						if ($plan["monthlypay"]) {
+							if ($planold["effective_date"] != $plan["effective_date"]) {
+								$this->monthly_payment_model->change_effective_date($plan_id, $plan["effective_date"]);
+								if ($pay = $this->monthly_payment_model->plan_today_payments($plan_id)) {
+									$this->load->model('bambora_model');
+									$this->bambora_model->do_payment($pay["monthly_payment_id"]);
+								}
+							}
+							$newpremium = round(floatval($plan['premium']),2);
+							$oldpremium = round(floatval($planold['premium']),2);
+							if (($newpremium == $oldpremium) && ($plan['status_id'] == Plan_model::CHANGED)) {
+								$this->load->model("plan_history_model");
+								$this->plan_history_model->add($plan_id, Plan_model::CHANGED);
+								$this->plan_model->update($plan_id, ['status_id' => Plan_model::PAID]);
+								$plan["status_id"] = Plan_model::PAID;
 							}
 						}
 						$para = array(
@@ -3581,6 +3591,7 @@ class Plan extends MY_Controller {
         'ref1' => "monthly",
         'ref2' => (string)$plan_id,
         'ref3' => (string)$monthly_payment_id,
+        'ref4' => "web",
     ];
     $paraString = http_build_query($params);
     $hashString = $paraString . $hashKey;
