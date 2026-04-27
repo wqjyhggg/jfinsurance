@@ -698,24 +698,11 @@ class Plan extends CI_Controller
 					$this->load->model('monthly_payment_model');
 					$plan['monthly_payment'] = $this->monthly_payment_model->get_by_plan_id($plan["plan_id"]);
 					$data['monthly_data'] = $this->monthly_payment_model->get_monthlypay_data($plan["plan_id"]);
-					$plan['monthly_status'] = "Active";
-					$plan['monthly_paid'] = 0;
-					$plan['monthly_unpay'] = 0;
-					$plan['monthly_unpay_count'] = 0;
-					foreach ($plan['monthly_payment'] as $rc) {
-						if ($rc["paid"] == 1) {
-							$plan['monthly_paid'] += $rc["amount"];
-							$plan['monthly_status'] = "Active";
-						} else if ($rc["paid"] == 0) {
-							$plan['monthly_unpay'] += $rc["amount"];
-							$plan['monthly_unpay_count']++;
-						} else if ($rc["paid"] == -3) {
-							$plan['monthly_status'] = "Terminated";
-						} else if ($rc["paid"] == -2) {
-							$plan['monthly_status'] = "Payment Error";
-						} else if ($rc["paid"] == -1) {
-							$plan['monthly_status'] = "Voided";
-						}
+					$data['monthly_status'] = $this->monthly_payment_model->get_monthly_status($plan);
+					if ($data['monthly_data']) {
+						$data['monthly_paid'] = $data['monthly_data']["paid_premium"];
+						$data['monthly_unpay'] = $data['monthly_data']["premium"] - $data['monthly_data']["paid_premium"];
+						$data['monthly_unpay_count'] = round($data['monthly_unpay'] / $data['monthly_data']["monthly_pay"]);
 					}
 				}
         $data["plan"] = $plan;
