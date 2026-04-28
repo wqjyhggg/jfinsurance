@@ -308,6 +308,7 @@ class Monthly_payment_model extends CI_Model {
 			"init_pay_date" => "N/A",
 			"last_pay_date" => "N/A",
 			"last_available_date" => "N/A",
+			"refund_record" => "",
 		];
 		if ($rts = $this->get_by_plan_id($plan_id)) {
 			foreach ($rts as $rc) {
@@ -324,6 +325,9 @@ class Monthly_payment_model extends CI_Model {
 					$rt["admin_fee"] += $rc["admin_fee"];
 					$rt["init_pay"] = $rc["amount"];
 					$rt["init_pay_date"] = $rc["pay_date"];
+					if (!empty($rt["postdata"]) && ($rt["postdata"] != "NULL")) {
+						$rt["refund_record"] = @json_decode($rt["postdata"], ture);
+					}
 				}
 			}
 			$rt["paid_premium"] = $rt["total_paid"] - $rt["admin_fee"];
@@ -420,45 +424,56 @@ class Monthly_payment_model extends CI_Model {
 		return ["refund_amount" => $refund_amount, "totaldays" => $totaldays, "charged_amount" => $charged_amount, "admin_fee" => $min_admin_fee];
 	}
 
-	public function do_refund($plan_id, $refund_date, $effective_date) {
+	private function getMonthCount($start, $end) {
+    $startDate = new DateTime($start);
+    $endDate   = new DateTime($end);
+
+    // if end date is before start date → return 0
+    if ($endDate < $startDate) {
+        return 0;
+    }
+
+    $diff = $startDate->diff($endDate);
+
+    // total months difference
+    $months = ($diff->y * 12) + $diff->m;
+
+    // include the starting month
+    return $months + 1;
+	}
+
+	public function do_refund($plan_id, $refund_date, $effective_date, $extra_admin_fee) {
 		$this->load->model('product_model');
 		$this->void_unpaid_record($plan_id);
-		$refund_amount = 0;
-		$charged_amount = 0;
-		$lastRc = $this->db->where("plan_id", $plan_id)->order_by("monthly_payment_id", "DESC")->limit(1)->get("monthly_payment")->row_array();
-		if (empty($lastRc)) {
-			return ["refund_amount" => $refund_amount, "charged_amount" => $charged_amount, "admin_fee" => 0];
+		$md = $this->get_monthlypay_data($plan_id);
+		$rc = $this->db->where("plan_id", $plan_id)->order_by("monthly_payment_id", "ASC")->get("monthly_payment")->result_array();
+		if (empty($md["monthly_pay"]) || empty($rc)) {
+			return ["refund_amount" => 0, "charged_amount" => 0, "admin_fee" => 0, "paid_month" => 0, "used_month" => 0];
 		}
-		$monthly_amount = $lastRc["amount"];
-		$min_admin_fee = $this->admin_fee;	// First time paid
-
-		$paidRc = $this->db->where("plan_id", $plan_id)->where("paid", 1)->order_by("monthly_payment_id", "ASC")->get("monthly_payment")->result_array();
-		if ($paidRc) {
-			foreach ($paidRc as $rc) {
-				$charged_amount += $rc["amount"];
-				if ($rc["pay_type"] == 0) {
-					// Init charge
-					if ($refund_date < $effective_date) {
-						// Should be cancel??? do as refund anyway
-						if ($min_admin_fee < $rc["amount"]) {
-							// Amount should be 3 monthly fee + $this->admin_fee
-							$r_amount = $rc["amount"] - $min_admin_fee;
-							$refund_amount += $r_amount;
-							$this->db->where("monthly_payment_id", $rc["monthly_payment_id"])->set("refund_amount", $r_amount)->update("monthly_payment");
-						} else {
-							$this->db->where("monthly_payment_id", $rc["monthly_payment_id"])->set("refund_amount", $rc["amount"])->set("postdata", "refund admin fee error:".$min_admin_fee)->update("monthly_payment");
-						}
-					}
-				} else {
-					if ($refund_date < $rc["pay_date"]) {
-						$refund_amount += $rc["amount"];
-						$this->db->where("monthly_payment_id", $rc["monthly_payment_id"])->set("refund_amount", $rc["amount"])->update("monthly_payment");
-					}
-				}
-			}
+		$used_month = $this->getMonthCount($effective_date, $refund_date);
+		if ($used_month < 2) {
+			$used_month = 2;
+		}
+		$refund_amount = 0;
+		$paid_month = round($md["paid_premium"] / $md["monthly_pay"]);
+		if ($paid_month > $used_month) {
+			$refund_amount = round(($paid_month - $used_month) * $md["monthly_pay"]);
+		}
+		if ($refund_amount < 0) {
+			$refund_amount = 0;
 		}
 		$totaldays = $this->product_model->getDays($effective_date, $refund_date);
-		return ["refund_amount" => $refund_amount, "charged_amount" => $charged_amount, "admin_fee" => $min_admin_fee, 'totaldays' => $totaldays];
+		$refundRc = [
+			"refund_amount" => $refund_amount, 
+			"charged_amount" => $md["paid_premium"], 
+			"admin_fee" => $md["admin_fee"], 
+			"extra_admin_fee" => $md["extra_admin_fee"], 
+			"paid_month" => $paid_month, 
+			"used_month" => $used_month, 
+			'totaldays' => $totaldays, 
+			"refund_date" => $refund_date];
+		$this->db->where("monthly_payment_id", $rc["monthly_payment_id"])->set("refund_amount", $refund_amount)->set("postdata", json_encode($refundRc))->update("monthly_payment");
+		return $refundRc;
 	}
 
 	public function change_effective_date($plan_id, $effective_date) {

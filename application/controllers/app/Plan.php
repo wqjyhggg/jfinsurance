@@ -1281,7 +1281,7 @@ class Plan extends CI_Controller
 			if (!empty($plan["monthlypay"])) {
 				// ["refund_amount" => $refund_amount, "charged_amount" => $charged_amount, "admin_fee" => $min_admin_fee]
 				$added_admin_fee = $admin_fee;
-				$rRc = $this->monthly_payment_model->do_refund($plan_id, $refund_date, $admin_fee, $plan["effective_date"]);
+				$rRc = $this->monthly_payment_model->do_refund($plan_id, $refund_date, $admin_fee, $plan["effective_date"], $added_admin_fee);
 				$total_amount = $rRc["charged_amount"] - $rRc["admin_fee"];
 				$refund_amount = $rRc["refund_amount"];
 				$admin_fee = 0;
@@ -3244,6 +3244,7 @@ class Plan extends CI_Controller
 			if (empty($monthly_data)) {
 				redirect('user/login');
 			}
+			$data['monthly_data'] = $monthly_data;
 			$data['paid_premium'] = $monthly_data["total_paid"] - $monthly_data["admin_fee"];
 			$total_amount = -$monthly_data["total_refund"];	// Total Refund amount (must be -)
 			$admin_fee = floatval($plan["premium"]) / 12 * 2;	// Init 2 month pay as admint fee
