@@ -863,14 +863,16 @@ class Plan extends CI_Controller
 							$this->bambora_model->do_payment($pay["monthly_payment_id"]);
 						}
 					}
-					$newpremium = round(floatval($plan['premium']),2);
-					$oldpremium = round(floatval($planold['premium']),2);
-					if (($newpremium == $oldpremium) && ($plan['status_id'] == Plan_model::CHANGED)) {
-						$this->load->model("plan_history_model");
-						$this->plan_history_model->add($plan_id, Plan_model::CHANGED);
-						$this->plan_model->update($plan_id, ['status_id' => Plan_model::PAID], [], $user);
-						$plan["status_id"] = Plan_model::PAID;
-						$this->plan_history_model->add($plan_id, Plan_model::PAID);
+					if ($this->plan_model->logstr) {
+						$newpremium = round(floatval($plan['premium']),2);
+						$oldpremium = round(floatval($planold['premium']),2);
+						if (($newpremium == $oldpremium) && ($plan['status_id'] == Plan_model::CHANGED)) {
+							$this->load->model("plan_history_model");
+							$this->plan_history_model->add($plan_id, Plan_model::CHANGED);
+							$this->plan_model->update($plan_id, ['status_id' => Plan_model::PAID], [], $user);
+							$plan["status_id"] = Plan_model::PAID;
+							$this->plan_history_model->add($plan_id, Plan_model::PAID);
+						}
 					}
 				}
 
