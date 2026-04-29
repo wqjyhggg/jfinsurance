@@ -870,6 +870,7 @@ class Plan extends CI_Controller
 						$this->plan_history_model->add($plan_id, Plan_model::CHANGED);
 						$this->plan_model->update($plan_id, ['status_id' => Plan_model::PAID], [], $user);
 						$plan["status_id"] = Plan_model::PAID;
+						$this->plan_history_model->add($plan_id, Plan_model::PAID);
 					}
 				}
 
