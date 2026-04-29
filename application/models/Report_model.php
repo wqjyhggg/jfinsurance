@@ -624,7 +624,7 @@ class Report_model extends CI_Model
 						foreach ($rtt1 as $rctt) {
 							$rctt["last_status_id"] = $rc["last_status_id"];
 							$rctt["total_premium"] = $rctt["premium"];
-							if ($rctt["ishead"] && ($rctt["status_id"] == 3)) {
+							if (($rctt["status_id"] == 3) || ($rctt["status_id"] == 7)) {
 								foreach ($planrtt as $rct) {
 									$paid_amount += $rct["amount"] - $rct["admin_fee"];
 									$rctt["total_premium"] = 0;
@@ -634,7 +634,11 @@ class Report_model extends CI_Model
 										$admin_fee = $rct["admin_fee"];
 										$rctt["total_premium"] = $rctt["premium"];
 									}
-									$rctt["premium"] = $rct["amount"] - $rct["admin_fee"];
+									if ($rctt["status_id"] == 7) {
+										$rctt["premium"] = $rct["admin_fee"] - $rct["amount"];
+									} else {
+										$rctt["premium"] = $rct["amount"] - $rct["admin_fee"];
+									}
 									$rctt["add_time"] = $rct["pay_time"];
                   $rctt["ishead"] = $rct["pay_type"] + 1;
 									$rtt[] = $rctt;
