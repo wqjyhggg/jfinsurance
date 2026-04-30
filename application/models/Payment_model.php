@@ -88,7 +88,7 @@ class Payment_model extends CI_Model {
 		if ($sort == 'type') {
 			$this->db->order_by('pay_type', 'asc');
 		} else {
-			$this->db->order_by('last_update', 'desc');
+			$this->db->order_by('payment_id', 'desc');
 		}
 		return $this->db->get($tb)->result_array();
 	}
