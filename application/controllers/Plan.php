@@ -4366,11 +4366,11 @@ class Plan extends MY_Controller {
 				$admin_fee = floatval($data['monthly_data']['admin_fee']);
 				$refund_amount = $total_amount - $admin_fee;
 				$total_amount = $total_amount - $added_admin_fee;
+				$this->monthly_payment_model->do_cancel($plan_id, $added_admin_fee);
 			}
 
 			if ($total_amount > 0) {
 				$this->load->model('payment_model');
-				$this->monthly_payment_model->do_cancel($plan_id);
 				$dt = array();
 				$dt['plan_id'] = $plan_id;
 				$dt['currency'] = $product['currency'];

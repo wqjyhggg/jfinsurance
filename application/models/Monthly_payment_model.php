@@ -385,9 +385,11 @@ class Monthly_payment_model extends CI_Model {
 		return $this->db->where("plan_id", $plan_id)->where("paid<=", 0)->set("paid", $paid)->set("pay_time", $now)->update("monthly_payment");
 	}
 
-	public function do_cancel($plan_id) {
+	public function do_cancel($plan_id, $extra_admin_fee) {
 		$this->void_unpaid_record($plan_id);
-		return $this->db->where("plan_id", $plan_id)->where("paid", 1)->set("refund_amount", "amount", false)->update("monthly_payment");
+		$this->db->where("plan_id", $plan_id)->where("paid", 1)->set("refund_amount", "amount", false)->update("monthly_payment");
+		$cancelRc = ["extra_admin_fee" => $extra_admin_fee];
+		$this->db->where("plan_id", $plan_id)->where("paid", 1)->where("pay_type", 0)->set("postdata", json_encode($cancelRc))->update("monthly_payment");
 	}
 
 	public function do_terminate($plan_id, $refund_date, $plan) {

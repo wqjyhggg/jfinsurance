@@ -705,6 +705,11 @@ class Plan extends CI_Controller
 						$data['monthly_unpay_count'] = round($data['monthly_unpay'] / $data['monthly_data']["monthly_pay"]);
 					}
 				}
+        if ($agent = $this->user_model->get_user_by_id($plan["user_id"])) {
+					$plan["agent"] = ["user_id" => $agent["user_id"], "username" => $agent["username"], "firstname" => $agent["firstname"], "lastname" => $agent["lastname"]];
+				} else {
+					$plan["agent"] = ["user_id" => $user["user_id"], "username" => $user["username"], "firstname" => $user["firstname"], "lastname" => $user["lastname"]];
+				}
         $data["plan"] = $plan;
         $this->app_model->return_ok($data);
       }
@@ -1729,12 +1734,11 @@ class Plan extends CI_Controller
 				$admin_fee = floatval($data['monthly_data']['admin_fee']);
 				$refund_amount = $total_amount - $admin_fee;
 				$total_amount = $total_amount - $added_admin_fee;
-				$admin_fee = 0;
+				$this->monthly_payment_model->do_cancel($plan_id, $added_admin_fee);
 			}
 
 			if ($total_amount > 0) {
 				$this->load->model('payment_model');
-				$this->monthly_payment_model->do_cancel($plan_id);
 				$dt = array();
 				$dt['plan_id'] = $plan_id;
 				$dt['currency'] = $product['currency'];
