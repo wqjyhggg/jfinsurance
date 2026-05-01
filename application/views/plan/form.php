@@ -331,7 +331,7 @@ if ($Agree != "Agree") {
 									</div>
 									<div class="form-group col-sm-3">
 										<label class="col-sm-12">Outstanding Premium: 
-											<?php echo number_format($monthly_unpay, 2, ".", ""); ?>
+											<?php if (($status_id != Plan_model::PAID) && ($status_id != Plan_model::SOLD)) { echo 0; } else { echo number_format($monthly_unpay, 2, ".", ""); } ?>
 										</label>
 									</div>
 								</div>
