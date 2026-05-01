@@ -325,8 +325,8 @@ class Monthly_payment_model extends CI_Model {
 					$rt["admin_fee"] += $rc["admin_fee"];
 					$rt["init_pay"] = $rc["amount"];
 					$rt["init_pay_date"] = $rc["pay_date"];
-					if (!empty($rt["postdata"]) && ($rt["postdata"] != "NULL")) {
-						$rt["refund_record"] = @json_decode($rt["postdata"], ture);
+					if (!empty($rc["postdata"]) && ($rc["postdata"] != "NULL")) {
+						$rt["refund_record"] = @json_decode($rc["postdata"], true);
 					}
 				}
 			}
@@ -446,7 +446,7 @@ class Monthly_payment_model extends CI_Model {
 		$this->load->model('product_model');
 		$this->void_unpaid_record($plan_id);
 		$md = $this->get_monthlypay_data($plan_id);
-		$rc = $this->db->where("plan_id", $plan_id)->order_by("monthly_payment_id", "ASC")->get("monthly_payment")->result_array();
+		$rc = $this->db->where("plan_id", $plan_id)->order_by("monthly_payment_id", "ASC")->get("monthly_payment")->row_array();
 		if (empty($md["monthly_pay"]) || empty($rc)) {
 			return ["refund_amount" => 0, "charged_amount" => 0, "admin_fee" => 0, "paid_month" => 0, "used_month" => 0];
 		}
@@ -457,7 +457,7 @@ class Monthly_payment_model extends CI_Model {
 		$refund_amount = 0;
 		$paid_month = round($md["paid_premium"] / $md["monthly_pay"]);
 		if ($paid_month > $used_month) {
-			$refund_amount = round(($paid_month - $used_month) * $md["monthly_pay"]);
+			$refund_amount = round(($paid_month - $used_month) * $md["monthly_pay"], 2);
 		}
 		if ($refund_amount < 0) {
 			$refund_amount = 0;
@@ -467,7 +467,7 @@ class Monthly_payment_model extends CI_Model {
 			"refund_amount" => $refund_amount, 
 			"charged_amount" => $md["paid_premium"], 
 			"admin_fee" => $md["admin_fee"], 
-			"extra_admin_fee" => $md["extra_admin_fee"], 
+			"extra_admin_fee" => $extra_admin_fee, 
 			"paid_month" => $paid_month, 
 			"used_month" => $used_month, 
 			'totaldays' => $totaldays, 

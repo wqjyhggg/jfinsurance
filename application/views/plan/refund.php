@@ -57,22 +57,22 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 			<div class="col-sm-12 nopadding">
 				<p  class="nopm">Please find summary details below for this refund:</p>
 				<table class="bordered">
-					<thead>
-						<tr>
-							<th colspan="2">Policy Refund to the Insured:</th>
-						</tr>
-					</thead>
-					<?php if (empty($plan["monthlypay"])) { ?>
+				<?php if (!empty($plan["monthlypay"])) { ?>
+						<thead>
+							<tr>
+								<th colspan="3">Policy Refund to the Insured:</th>
+							</tr>
+						</thead>
 						<?php if (empty($monthly_data) || empty($monthly_data["refund_record"]) ) { ?>
 							<tbody>
 								<tr>
-									<td>Missing Refund Record</td>
+									<td colspan="3">Missing Refund Record</td>
 								</tr>
 							<tbody>
 						<?php } else { ?>
 							<tbody>
 								<tr>
-									<td>Original Premium: </td><td></td><td></td><span>$<?php echo number_format($monthly_data['premium'], 2, '.', ',');?></span></td>
+									<td>Original Premium: </td><td></td><td><span>$<?php echo number_format($monthly_data['premium'], 2, '.', ',');?></span></td>
 								</tr>
 								<tr>	
 									<td>Paid Premium: </td><td><?php echo $monthly_data["refund_record"]["paid_month"]; ?></td><td><span>$<?php echo number_format($monthly_data["refund_record"]["charged_amount"], 2, '.', ','); ?></span></td>
@@ -87,17 +87,22 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 									<td>Monthly Plan Fee (non-refundable): </td><td></td><td><span>-$<?php echo number_format($monthly_data["refund_record"]["admin_fee"], 2, '.', ','); ?></span></td>
 								</tr>
 								<tr>	
-									<td>Used Premium: </td><td><?php echo $monthly_data["refund_record"]["used_month"]; ?></td><td><span>-$<?php echo number_format($monthly_data["refund_record"]["paid_month"]*$monthly_data["monthly_pay"], 2, '.', ','); ?></span></td>
+									<td>Used Premium: </td><td><?php echo $monthly_data["refund_record"]["used_month"]; ?></td><td><span>-$<?php echo number_format($monthly_data["refund_record"]["used_month"]*$monthly_data["monthly_pay"], 2, '.', ','); ?></span></td>
 								</tr>
 								<tr>	
 									<td>Refund Admin Fee: </td><td></td><td><span>-$<?php echo number_format($monthly_data["refund_record"]["extra_admin_fee"], 2, '.', ','); ?></span></td>
 								</tr>
 								<tr>	
-									<td>Total Refund: </td><td><?php echo ($monthly_data["refund_record"]["paid_month"] - $monthly_data["refund_record"]["used_month"]); ?></td><td><span>$<?php echo number_format($monthly_data["refund_record"]["refund_amount"], 2, '.', ','); ?></span></td>
+									<td>Total Refund: </td><td><?php echo ($monthly_data["refund_record"]["paid_month"] - $monthly_data["refund_record"]["used_month"]); ?></td><td><span>$<?php echo number_format($monthly_data["refund_record"]["refund_amount"] - $monthly_data["refund_record"]["extra_admin_fee"], 2, '.', ','); ?></span></td>
 								</tr>
 							</tbody>
 						<?php } ?>
 					<?php } else { ?>
+					<thead>
+						<tr>
+							<th colspan="2">Policy Refund to the Insured:</th>
+						</tr>
+					</thead>
 					<tbody>
 						<tr>
 							<td>Original Premium: </td><td><span>$<?php echo number_format($plan['premium'], 2, '.', ',');?></span></td>
