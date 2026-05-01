@@ -78,7 +78,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 					</thead>
 					<tbody>
 						<tr>
-							<td>Original Premium: </td><td></td><td><span>$<?php echo number_format($plan['premium'], 2, '.', ',');?></span></td>
+							<td>Original Premium: </td><td></td><td><span>$<?php echo number_format($monthly_data['premium'], 2, '.', ',');?></span></td>
 						</tr>
 						<tr>	
 							<td>Paid Premium: </td><td><?php echo round($monthly_data["paid_premium"]/$monthly_data["monthly_pay"]); ?></td><td><span>$<?php echo number_format($monthly_data["paid_premium"], 2, '.', ','); ?></span></td>
@@ -93,7 +93,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 							<td>Refund Admin Fee: </td><td></td><td><span>-$<?php echo number_format($monthly_data["refund_record"]["extra_admin_fee"], 2, '.', ','); ?></span></td>
 						</tr>
 						<tr>
-							<td>Total Refund: </td><td></td><?php echo round($monthly_data["paid_premium"]/$monthly_data["monthly_pay"]); ?><td><span>$<?php echo number_format($monthly_data["premium"]-$monthly_data["refund_record"]["extra_admin_fee"], 2, '.', ','); ?></span></td>
+							<td>Total Refund: </td><td><?php echo round($monthly_data["paid_premium"]/$monthly_data["monthly_pay"]); ?></td><td><span>$<?php echo number_format($monthly_data["total_paid"]-$monthly_data["refund_record"]["extra_admin_fee"], 2, '.', ','); ?></span></td>
 						</tr>
 					</tbody>
 					<?php } ?>
