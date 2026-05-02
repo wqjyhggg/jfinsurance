@@ -142,8 +142,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
         <?php } ?>
       </div>
     </div>
-		<pagebreak />
-    <div class="row">
+		<pagebreak>
+    <div class="row" style="padding-top: 60px;">
       <div class="col-sm-12 nopm special-note">
         <h4 style="border-bottom:1px solid #777;"><?php echo $this->lang->line("Special Note"); ?></h4>
       </div>
