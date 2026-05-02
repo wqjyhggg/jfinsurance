@@ -846,6 +846,7 @@ if ($Agree != "Agree") {
                             <th><?php echo $this->lang->line("Type"); ?></th>
                             <th><?php echo $this->lang->line("Pay Type"); ?></th>
                             <th><?php echo $this->lang->line("Amount"); ?></th>
+                            <th>Admin</th>
                             <th><?php echo $this->lang->line("Rate"); ?></th>
                             <th><?php echo $this->lang->line("Pay Status"); ?></th>
                             <th>CK Info</th>
