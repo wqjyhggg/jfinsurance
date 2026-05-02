@@ -54,8 +54,7 @@ if (isset($_GET["ref2"])) {
         left: 50%;
         top: 30%; /* slightly above 1/3 (33%) */
         transform: translate(-50%, -50%);
-        font-size: 48px;
-        font-weight: bold;
+        font-size: 24px;
     }
 </style>
 </head>

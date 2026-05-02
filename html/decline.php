@@ -45,7 +45,7 @@ if (isset($_GET["ref2"])) {
 <?php if (!empty($redirecturl)) { ?>
 <meta http-equiv="refresh" content="3;url=<?php echo $redirecturl ?>">
 <?php } ?>
-<title>Success</title>
+<title>Declined</title>
 <style>
     body {
         margin: 0;
@@ -59,8 +59,7 @@ if (isset($_GET["ref2"])) {
         left: 50%;
         top: 30%; /* slightly above 1/3 (33%) */
         transform: translate(-50%, -50%);
-        font-size: 48px;
-        font-weight: bold;
+        font-size: 24px;
     }
 </style>
 </head>

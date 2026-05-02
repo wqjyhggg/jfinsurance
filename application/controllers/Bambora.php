@@ -539,6 +539,14 @@ class Bambora extends CI_Controller {
 		$monthly_payments = $this->monthly_payment_model->today_payments($dt);
 		if ($monthly_payments) {
 			foreach ($monthly_payments as $pay) {
+				if ($plan = $this->plan_model->get_by_id($pay["plan_id"])) {
+					if ($plan["status_id"] != Plan_model::PAID) {
+						continue;
+					}
+				} else {
+					echo "Unknown plan_id:".$pay["plan_id"]."\r\n";
+					continue;
+				}
 				if ($message = $this->bambora_model->do_payment($pay["monthly_payment_id"])) {
 					echo $message;
 				}
