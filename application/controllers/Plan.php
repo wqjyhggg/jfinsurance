@@ -4586,7 +4586,7 @@ class Plan extends MY_Controller {
 			$admin_fee = floatval($this->input->post('admin_fee'));
 			$total_amount = floatval($this->input->post('total_refund'));
 			$added_admin_fee = 0;
-			$error_message = "";
+			$data["error_message"] = "";
 			$totaldays = $plan["totaldays"];
 			if (!empty($plan["monthlypay"])) {
 				// ["refund_amount" => $refund_amount, "charged_amount" => $md["paid_premium"], "admin_fee" => $md["admin_fee"], "paid_month" => $paid_month, "used_month" => $used_month, 'totaldays' => $totaldays];
@@ -4599,10 +4599,10 @@ class Plan extends MY_Controller {
 					$admin_fee = 0;
 					$totaldays = $rRc["totaldays"];
 				} else {
-					$error_message = $rRc;
+					$data["error_message"] = $rRc;
 				}
 			}
-			if (empty($error_message)) {
+			if (empty($data["error_message"])) {
 				if ($total_amount > 0) {
 					$this->load->model('payment_model');
 					$dt = array();

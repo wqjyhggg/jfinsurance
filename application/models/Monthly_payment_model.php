@@ -448,7 +448,7 @@ class Monthly_payment_model extends CI_Model {
 		$this->load->model('product_model');
 		$used_month = $this->getMonthCount($effective_date, $refund_date);
 		if ($used_month > $paid_months) {
-			return "Please refund date is to far. (".$refund_date.")";
+			return "Please check Refund Date. The Refund Date is too far. (".$refund_date.")";
 		}
 
 		$this->void_unpaid_record($plan_id);
