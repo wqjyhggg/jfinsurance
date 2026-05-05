@@ -501,6 +501,7 @@ class Bambora extends CI_Controller {
 			$this->mymail_model->send_mymail($plan["contact_email"], $subject, $body, $attach=array(), $from='', 'text');
 		}
 		if (($agent = $this->user_model->get_user_by_id($plan["user_id"])) && $this->verify_model->isEmail($agent["email"])) {
+			sleep(10);
 			$subject = "Urgent Notification: Payment Failure for Client's Insurance Policy";
 			$body  = "Dear ".$agent["firstname"]." ".$agent["lastname"].",\r\n\r\n";
 			$body .= "We are notifying you regarding a payment failure for your client's insurance policy (Policy Name: ".$plan["policy"]." purchased on ".$plan["apply_date"].".\r\n";
