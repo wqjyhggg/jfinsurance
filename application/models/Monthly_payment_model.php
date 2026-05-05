@@ -444,15 +444,19 @@ class Monthly_payment_model extends CI_Model {
     return $months + 1;
 	}
 
-	public function do_refund($plan_id, $refund_date, $effective_date, $extra_admin_fee) {
+	public function do_refund($plan_id, $refund_date, $effective_date, $extra_admin_fee, $paid_months) {
 		$this->load->model('product_model');
+		$used_month = $this->getMonthCount($effective_date, $refund_date);
+		if ($used_month > $paid_months) {
+			return "Please refund date is to far. (".$refund_date.")";
+		}
+
 		$this->void_unpaid_record($plan_id);
 		$md = $this->get_monthlypay_data($plan_id);
 		$rc = $this->db->where("plan_id", $plan_id)->order_by("monthly_payment_id", "ASC")->get("monthly_payment")->row_array();
 		if (empty($md["monthly_pay"]) || empty($rc)) {
 			return ["refund_amount" => 0, "charged_amount" => 0, "admin_fee" => 0, "paid_month" => 0, "used_month" => 0];
 		}
-		$used_month = $this->getMonthCount($effective_date, $refund_date);
 		if ($used_month < 2) {
 			$used_month = 2;
 		}

@@ -1289,6 +1289,10 @@ class Plan extends CI_Controller
 			if (!empty($plan["monthlypay"])) {
 				// ["refund_amount" => $refund_amount, "charged_amount" => $charged_amount, "admin_fee" => $min_admin_fee]
 				$added_admin_fee = $admin_fee;
+				$paid_months = round($data['monthly_data']['paid_premium'] / $data['monthly_data']['monthly_pay']);
+				if (!is_array($rRc)) {
+					return $this->app_model->return_error($rRc);
+				}
 				$rRc = $this->monthly_payment_model->do_refund($plan_id, $refund_date, $admin_fee, $plan["effective_date"], $added_admin_fee);
 				$total_amount = $rRc["charged_amount"] - $rRc["admin_fee"];
 				$refund_amount = $rRc["refund_amount"];

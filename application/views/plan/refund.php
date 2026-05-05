@@ -95,6 +95,9 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 								<tr>	
 									<td>Total Refund: </td><td><?php echo ($monthly_data["refund_record"]["paid_month"] - $monthly_data["refund_record"]["used_month"]); ?></td><td><span>$<?php echo number_format($monthly_data["refund_record"]["refund_amount"] - $monthly_data["refund_record"]["extra_admin_fee"], 2, '.', ','); ?></span></td>
 								</tr>
+								<tr>	
+									<td colspan="3"><?php echo "From: ".$plan['effective_date']." to ".$plan['refund_date']." (count as ".$monthly_data["refund_record"]["used_month"]." months)"; ?></td>
+								</tr>
 							</tbody>
 						<?php } ?>
 					<?php } else { ?>
