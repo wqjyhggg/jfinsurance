@@ -540,7 +540,7 @@ class Bambora extends CI_Controller {
 		$monthly_payments = $this->monthly_payment_model->today_payments($dt);
 		if ($monthly_payments) {
 			foreach ($monthly_payments as $pay) {
-				if ($plan = $this->plan_model->get_by_id($pay["plan_id"])) {
+				if ($plan = $this->plan_model->get_plan_by_id($pay["plan_id"])) {
 					if ($plan["status_id"] != Plan_model::PAID) {
 						continue;
 					}
