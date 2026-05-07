@@ -317,6 +317,17 @@ $studentPlan = ['JES', 'JFPL', 'JFSL', 'JFGD', 'TCS', 'JFOS', 'JESP', 'JFE', 'JF
   <div class="info">
 	<?php if (in_array('Credit Card', $paytype_list)) { ?>
 		<div id="credit_div" class="pay-card">
+			<?php if ($ismonthly && isset($recurrent)) { ?>
+				<div class="card-info">
+					<div class="row">
+						<div class="col-sm-12">
+							<label class="inline">Pay Monthly Option</label>
+							<div style="font-size: 10px;">Pay today: <b>$<?php echo number_format($recurrent[0], 2, '.', ','); ?></b><br><?php echo $recurrent[2]; ?> Recurring Pay: <b>$<?php echo number_format($recurrent[1], 2, '.', ','); ?></b></div>
+							<a class='btn btn-primary pull-right' href="<?php echo $monthly_pay_url; ?>"><?php echo $this->lang->line("Pay Now"); ?></a>
+						</div>
+					</div>
+				</div>
+			<?php } else { ?>
   	  <form action='<?php echo ($usepsi ? $psi_active_url : $active_url); ?>' method='POST'>
       <?php if ($usepsi) { ?>
         <input type='hidden' name='CustomerRefNo' value='<?php echo $plan['plan_id']; ?>'>
@@ -389,8 +400,9 @@ $studentPlan = ['JES', 'JFPL', 'JFSL', 'JFGD', 'TCS', 'JFOS', 'JESP', 'JFE', 'JF
         <input type='submit' name='submit' class="btn btn-primary" value='<?php echo $this->lang->line("Pay Now"); ?>' />
       </div>
     </div>
+		<?php } ?>
 	<?php } ?>
-  <?php if (in_array('Ali', $paytype_list)) { ?>
+  <?php if (empty($ismonthly) && in_array('Ali', $paytype_list)) { ?>
     <div id="ali_div" class="pay-card">
 			<div class="card-info" style="margin-top: 1.5rem;">
         <div style="flex: 1 1 100%; text-align: center; line-height: 3rem; padding-right: 4rem;"><?php echo $this->lang->line("Amount"); ?>: <b>$<?php echo number_format($payment_total, 2, '.', ','); ?></b></div>

@@ -380,7 +380,7 @@ if ($Agree != "Agree") {
 								<span><?php echo number_format($mr["amount"], 2, ".", ""); ?></span>
 							</div>
 							<div class="col-sm-3">
-								<span><?php echo ($mr["paid"]==1)?"Paid":(($mr["paid"]==-2)?"Pay Error":(($mr["paid"]==-1)?"Void":"-")); ?></span>
+								<span><?php echo ($mr["paid"]==1)?"Paid":(($mr["paid"]==-2)?"Error":(($mr["paid"]==-1)?"Void":"-")); ?></span>
 							</div>
 							<div class="col-sm-3">
 							<?php if ($mr["paid"]==-2) { ?>
@@ -550,6 +550,27 @@ if ($Agree != "Agree") {
 									</div>
 									<?php if (!$usepsi && isset($recurrent)) { /* disable recurrent for now */ ?>
 										<hr />
+										<?php if ($payurltm) { ?>
+											<div class="row">
+												<div class="col-sm-12">
+													<label class="inline" style="margin-bottom:0;"><?php echo $this->lang->line("Pay url to user by Email"); ?> (<?php echo $this->lang->line("Valid before"); ?> <?php echo $payurltm; ?>):</label>
+												</div><br />
+											</div>
+											<div class="row">
+												<div class="col-sm-12">
+													<div class="input-group">
+															<input  id="copy-input3" class="form-control" type='text' name='payurl' value='<?php echo $paymonthlyurl; ?>' readonly>
+															<span class="input-group-btn">
+																<button class="btn btn-default" type="button" id="copy-button3"
+																		data-toggle="tooltip"
+																		title="Copy to Clipboard">
+																	<?php echo $this->lang->line("Copy"); ?>
+																</button>
+															</span>
+													</div>
+												</div>
+											</div>
+										<?php } ?>
 										<div class="row">
 											<div class="col-sm-12">
 												<label class="inline">Pay Monthly Option</label>
@@ -571,27 +592,27 @@ if ($Agree != "Agree") {
 								 	<script>
 								 		$(document).ready(function() {
 										  // Initialize the tooltip.
-										  $('#copy-button').tooltip();
+										  $('#copy-button, #copy-button3').tooltip();
 
 										  // When the copy button is clicked, select the value of the text box, attempt
 										  // to execute the copy command, and trigger event to update tooltip message
 										  // to indicate whether the text was successfully copied.
-										  $('#copy-button').bind('click', function() {
+										  $('#copy-button, #copy-button3').bind('click', function() {
 										    $('#copy-input').select();
 										    try {
 										      var success = document.execCommand('copy');
 										      if (success) {
-										        $('#copy-button').trigger('copied', ['Copied!']);
+										        $('#copy-button, #copy-button3').trigger('copied', ['Copied!']);
 										      } else {
-										        $('#copy-button').trigger('copied', ['Copy with Ctrl-c']);
+										        $('#copy-button, #copy-button3').trigger('copied', ['Copy with Ctrl-c']);
 										      }
 										    } catch (err) {
-										      $('#copy-button').trigger('copied', ['Copy with Ctrl-c']);
+										      $('#copy-button, #copy-button3').trigger('copied', ['Copy with Ctrl-c']);
 										    }
 										  });
 
 										  // Handler for updating the tooltip message.
-										  $('#copy-button').bind('copied', function(event, message) {
+										  $('#copy-button, #copy-button3').bind('copied', function(event, message) {
 										    $(this).attr('title', message)
 										        .tooltip('fixTitle')
 										        .tooltip('show')

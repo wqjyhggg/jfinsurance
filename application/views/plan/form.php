@@ -788,7 +788,7 @@ if ($Agree != "Agree") {
 											<span><?php echo number_format($mr["amount"], 2, ".", ""); ?></span>
 										</div>
 										<div class="col-sm-3">
-											<span><?php echo ($mr["paid"]==1)?"Paid":(($mr["paid"]==-2)?"Pay Error":(($mr["paid"]==-1)?"Void":"-")); ?></span>
+											<span><?php echo ($mr["paid"]==1)?"Paid":(($mr["paid"]==-2)?"Error":(($mr["paid"]==-1)?"Void":"-")); ?></span>
 										</div>
 										<div class="col-sm-3">
 											&nbsp;

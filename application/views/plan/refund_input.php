@@ -108,7 +108,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 															<label>$<?php echo number_format($rc['amount'], 2, ".", ""); ?></label>
 														</div>
 														<div class="form-group col-sm-4 col-xs-4">
-															<label><?php echo ($rc['paid']>0)?"Paid":"Error"; ?></label>
+															<label><?php echo ($rc['paid']>0)?"Paid":(($rc['paid']>-2)?"Void":"Error"); ?></label>
 														</div>
 													</div>
 													<?php } ?>

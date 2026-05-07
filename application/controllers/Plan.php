@@ -3118,6 +3118,7 @@ class Plan extends MY_Controller {
 		$this->load->model('plan_history_model');
 		$this->load->model('monthly_payment_model');
 		$plan = $this->plan_model->get_plan_by_id($plan_id);
+		$ismonthly = 0;
 		if (empty($plan)) {
 			redirect('user/login');
 		}
@@ -3135,6 +3136,13 @@ class Plan extends MY_Controller {
           show_error("This pay link is expired or has been used. Please contact your agent to Pay");
         }
       }
+			if (strlen($sekey) > 32) {
+				$monthlysekey = substr($sekey, 0, 7);
+				if ("Monthly" == $monthlysekey) {
+					$ismonthly = 1;
+					$sekey = substr($sekey, 7);
+				}
+			}
       
 			$key = $this->plan_model->get_plan_key($plan_id);
 			if ($key != $sekey) {
@@ -3347,6 +3355,7 @@ class Plan extends MY_Controller {
 			$data['paytype_list'] = array_values($data['paytype_list']);
 		}
 		$data['payurl'] = base_url('plan/detail/' . $plan_id . '/' . $this->plan_model->get_plan_key($plan_id));
+		$data['paymonthlyurl'] = "";
 		$data['payurltm'] = "";
     if (empty($sekey) && empty($isvsuser) && ( ( ( ( (time() - strtotime($plan['last_update']) ) < (48 * 3600) ) && ($plan['effective_date'] >= date("Y-m-d")) ) && ($plan['status_id'] == Plan_model::QUOTE) ) || ($plan['status_id'] == Plan_model::CHANGED) ) ) {
       $lateTm1 = strtotime($plan['last_update']) + 48 * 3600;
@@ -3512,6 +3521,7 @@ class Plan extends MY_Controller {
 					$first_amount = number_format($month_amount * 2 + $this->monthly_payment_model->admin_fee, 2, ".", "");
 					$data['recurrent'] = [$first_amount, $month_amount, 10, $this->monthly_payment_model->admin_fee];
 				}
+				$data['paymonthlyurl'] = base_url('plan/detail/' . $plan_id . '/Monthly' . $this->plan_model->get_plan_key($plan_id));
 				$data["monthly_pay_url"] = base_url("plan/monthly_pay/" . $plan['plan_id']);
 				// $data['monthly_pay_url2'] = $this->createCheckoutLink($product["merchent_id"], $product["hash_key"], $first_amount, $plan_id);
 			}
@@ -3572,6 +3582,7 @@ class Plan extends MY_Controller {
 				$data['toppackagename'] = $this->toppackagename;
 				$this->load->view('plan/top/detail2', $data);
 			} else {
+				$data["ismonthly"] = $ismonthly;
 				$this->load->view('plan/detail2', $data);
 			}
 		}

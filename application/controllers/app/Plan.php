@@ -181,6 +181,7 @@ class Plan extends CI_Controller
 				$first_amount = number_format($month_amount * 2 + $this->monthly_payment_model->admin_fee, 2, ".", "");
 				$rt['recurrent'] = [$first_amount, $month_amount, 10, $this->monthly_payment_model->admin_fee];
 			}
+			$rt["paymonthlyurl"] = base_url().'plan/detail/' . $plan_id . '/Monthly' . $this->plan_model->get_plan_key($plan_id);
 		}
 
 		$this->app_model->return_ok($rt);
