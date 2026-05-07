@@ -319,7 +319,7 @@ $studentPlan = ['JES', 'JFPL', 'JFSL', 'JFGD', 'TCS', 'JFOS', 'JESP', 'JFE', 'JF
   <div class="info">
 	<?php if (in_array('Credit Card', $paytype_list)) { ?>
 		<?php if ($ismonthly && isset($recurrent)) { ?>
-			<div class="card-info">
+			<div class="container" style="margin-top: 30px; line-height: 48px;">
 				<div class="row">
 					<div class="col-sm-3">
 						<label class="inline">Pay Monthly</label>
@@ -331,7 +331,7 @@ $studentPlan = ['JES', 'JFPL', 'JFSL', 'JFGD', 'TCS', 'JFOS', 'JESP', 'JFE', 'JF
 						<div style="font-size: 10px;"><?php echo $recurrent[2]; ?> Recurring Pay: <b>$<?php echo number_format($recurrent[1], 2, '.', ','); ?></b></div>
 					</div>
 					<div class="col-sm-3">
-						<a class='btn btn-primary pull-right' href="<?php echo $monthly_pay_url; ?>"><?php echo $this->lang->line("Pay Now"); ?></a>
+						<a class='btn btn-primary pull-left' href="<?php echo $monthly_pay_url; ?>"><?php echo $this->lang->line("Pay Now"); ?></a>
 					</div>
 				</div>
 			</div>
