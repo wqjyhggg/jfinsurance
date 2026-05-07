@@ -306,6 +306,7 @@ $studentPlan = ['JES', 'JFPL', 'JFSL', 'JFGD', 'TCS', 'JFOS', 'JESP', 'JFE', 'JF
     <div class="info-card">&nbsp;</div>
   </div>
   <?php if (!empty($payment_total)) { ?>
+	<?php if (empty($ismonthly)) { ?>
   <div class="title-left">
 		<?php if (in_array('Credit Card', $paytype_list)) { ?>
 	  	<button id="credit_button" class="pay_button" style="margin-right: 2rem; pr-2"><?php echo $this->lang->line("Pay By Credit Card"); ?></button>
@@ -314,20 +315,28 @@ $studentPlan = ['JES', 'JFPL', 'JFSL', 'JFGD', 'TCS', 'JFOS', 'JESP', 'JFE', 'JF
 	    <button id="ali_button" class="pay_button"><?php echo $this->lang->line("Pay By Alipay"); ?></button>
 		<?php } ?>
   </div>
+	<?php } ?>
   <div class="info">
 	<?php if (in_array('Credit Card', $paytype_list)) { ?>
-		<div id="credit_div" class="pay-card">
-			<?php if ($ismonthly && isset($recurrent)) { ?>
-				<div class="card-info">
-					<div class="row">
-						<div class="col-sm-12">
-							<label class="inline">Pay Monthly Option</label>
-							<div style="font-size: 10px;">Pay today: <b>$<?php echo number_format($recurrent[0], 2, '.', ','); ?></b><br><?php echo $recurrent[2]; ?> Recurring Pay: <b>$<?php echo number_format($recurrent[1], 2, '.', ','); ?></b></div>
-							<a class='btn btn-primary pull-right' href="<?php echo $monthly_pay_url; ?>"><?php echo $this->lang->line("Pay Now"); ?></a>
-						</div>
+		<?php if ($ismonthly && isset($recurrent)) { ?>
+			<div class="card-info">
+				<div class="row">
+					<div class="col-sm-3">
+						<label class="inline">Pay Monthly</label>
+					</div>
+					<div class="col-sm-3">
+						<div>Pay today: <b>$<?php echo number_format($recurrent[0], 2, '.', ','); ?></b></div>
+					</div>
+					<div class="col-sm-3">
+						<div style="font-size: 10px;"><?php echo $recurrent[2]; ?> Recurring Pay: <b>$<?php echo number_format($recurrent[1], 2, '.', ','); ?></b></div>
+					</div>
+					<div class="col-sm-3">
+						<a class='btn btn-primary pull-right' href="<?php echo $monthly_pay_url; ?>"><?php echo $this->lang->line("Pay Now"); ?></a>
 					</div>
 				</div>
-			<?php } else { ?>
+			</div>
+		<?php } else { ?>
+		<div id="credit_div" class="pay-card">
   	  <form action='<?php echo ($usepsi ? $psi_active_url : $active_url); ?>' method='POST'>
       <?php if ($usepsi) { ?>
         <input type='hidden' name='CustomerRefNo' value='<?php echo $plan['plan_id']; ?>'>
@@ -416,6 +425,7 @@ $studentPlan = ['JES', 'JFPL', 'JFSL', 'JFGD', 'TCS', 'JFOS', 'JESP', 'JFE', 'JF
     © <?php echo date("Y"); ?> Made By JF Insurance
   </div>
 </div>
+<?php if (empty($ismonthly)) { ?>
 <script type="text/javascript">
 $(document).ready(function() {
 	$('#credit_div').hide();
@@ -440,6 +450,7 @@ $(document).ready(function() {
 	<?php } ?>
 });
 </script>
+<?php } ?>
 <!-- /page content -->
 </body>
 </html>
