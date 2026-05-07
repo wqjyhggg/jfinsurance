@@ -322,7 +322,7 @@ $studentPlan = ['JES', 'JFPL', 'JFSL', 'JFGD', 'TCS', 'JFOS', 'JESP', 'JFE', 'JF
 			<div class="container" style="margin-top: 30px; line-height: 48px;">
 				<div class="row">
 					<div class="col-sm-3">
-						<label class="inline">Pay Monthly</label>
+						<label class="inline">Pay Monthly By Credit Card</label>
 					</div>
 					<div class="col-sm-3">
 						<div>Pay today: <b>$<?php echo number_format($recurrent[0], 2, '.', ','); ?></b></div>
@@ -331,7 +331,7 @@ $studentPlan = ['JES', 'JFPL', 'JFSL', 'JFGD', 'TCS', 'JFOS', 'JESP', 'JFE', 'JF
 						<div style="font-size: 10px;"><?php echo $recurrent[2]; ?> Recurring Pay: <b>$<?php echo number_format($recurrent[1], 2, '.', ','); ?></b></div>
 					</div>
 					<div class="col-sm-3">
-						<a class='btn btn-primary pull-left' href="<?php echo $monthly_pay_url; ?>"><?php echo $this->lang->line("Pay Now"); ?></a>
+						<a class='btn btn-primary pull-left' style="margin-top: 8px;" href="<?php echo $monthly_pay_url; ?>"><?php echo $this->lang->line("Pay Now"); ?></a>
 					</div>
 				</div>
 			</div>
