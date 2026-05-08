@@ -597,17 +597,31 @@ if ($Agree != "Agree") {
 										  // When the copy button is clicked, select the value of the text box, attempt
 										  // to execute the copy command, and trigger event to update tooltip message
 										  // to indicate whether the text was successfully copied.
-										  $('#copy-button, #copy-button3').bind('click', function() {
+										  $('#copy-button').bind('click', function() {
 										    $('#copy-input').select();
 										    try {
 										      var success = document.execCommand('copy');
 										      if (success) {
-										        $('#copy-button, #copy-button3').trigger('copied', ['Copied!']);
+										        $('#copy-button').trigger('copied', ['Copied!']);
 										      } else {
-										        $('#copy-button, #copy-button3').trigger('copied', ['Copy with Ctrl-c']);
+										        $('#copy-button').trigger('copied', ['Copy with Ctrl-c']);
 										      }
 										    } catch (err) {
-										      $('#copy-button, #copy-button3').trigger('copied', ['Copy with Ctrl-c']);
+										      $('#copy-button').trigger('copied', ['Copy with Ctrl-c']);
+										    }
+										  });
+
+											$('#copy-button3').bind('click', function() {
+										    $('#copy-input3').select();
+										    try {
+										      var success = document.execCommand('copy');
+										      if (success) {
+										        $('#copy-button3').trigger('copied', ['Copied!']);
+										      } else {
+										        $('#copy-button3').trigger('copied', ['Copy with Ctrl-c']);
+										      }
+										    } catch (err) {
+										      $('#copy-button3').trigger('copied', ['Copy with Ctrl-c']);
 										    }
 										  });
 
