@@ -59,6 +59,7 @@ class Plan extends MY_Controller {
 		$data['product_short'] = $this->input->get_post('product_short');
 		$data['province2'] = $this->input->get_post('province2');
 		$data['country2'] = $this->input->get_post('country2');
+		$data['monthlypay'] = $this->input->get_post('monthlypay');
 		$data['morefilter'] = (empty($data['firstname'])
 			&& empty($data['lastname'])
 			&& empty($data['birthday'])
@@ -76,6 +77,7 @@ class Plan extends MY_Controller {
 			&& empty($data['status_id'])
 			&& empty($data['product_short'])
 			&& empty($data['country2'])
+			&& empty($data['monthlypay'])
 			&& empty($data['batch_number'])) ? 1 : 0;
 
 		$data['product_list'] = $this->product_model->product_list();

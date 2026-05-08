@@ -1095,6 +1095,9 @@ class Plan_model extends CI_Model {
 		if (!empty($para['country2'])) {
 			$where[] = "p.country2=" . $this->db->escape($para['country2']);
 		}
+		if (!empty($para['monthlypay'])) {
+			$where[] = "p.monthlypay=" . $this->db->escape($para['monthlypay']);
+		}
 		if (!empty($para['apply_date'])) {
 			if (!empty($para['apply_date2'])) {
 				$where[] = "p.apply_date >= " . $this->db->escape($para['apply_date']);
@@ -1223,6 +1226,9 @@ class Plan_model extends CI_Model {
 		}
 		if (!empty($para['country2'])) {
 			$where[] = "p.country2=" . $this->db->escape($para['country2']);
+		}
+		if (!empty($para['monthlypay'])) {
+			$where[] = "p.monthlypay=" . $this->db->escape($para['monthlypay']);
 		}
 		if (!empty($para['apply_date'])) {
 			if (!empty($para['apply_date2'])) {
@@ -1369,6 +1375,9 @@ class Plan_model extends CI_Model {
 		}
 		if (!empty($para['country2'])) {
 			$where[] = "p.country2=" . $this->db->escape($para['country2']);
+		}
+		if (!empty($para['monthlypay'])) {
+			$where[] = "p.monthlypay=" . $this->db->escape($para['monthlypay']);
 		}
 		if (!empty($para['apply_date'])) {
 			if (!empty($para['apply_date2'])) {
@@ -1530,6 +1539,9 @@ class Plan_model extends CI_Model {
 		}
 		if (!empty($para['country2'])) {
 			$where[] = "p.country2=" . $this->db->escape($para['country2']);
+		}
+		if (!empty($para['monthlypay'])) {
+			$where[] = "p.monthlypay=" . $this->db->escape($para['monthlypay']);
 		}
 		if (!empty($para['apply_date'])) {
 			if (!empty($para['apply_date2'])) {
