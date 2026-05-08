@@ -300,7 +300,7 @@ class Backrun_model extends CI_Model {
 
     $total = $tearned = 0;  $solddate = '';
     foreach ($data['report_data'] as $record) {
-      if ($record['ishead']>0) { 
+      if ($record['ishead'] == 1) { 
         $solddate = substr($record['add_time'],0,10);
       }
       if ($record['status_id'] == 6) {

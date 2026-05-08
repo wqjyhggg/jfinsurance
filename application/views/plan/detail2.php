@@ -319,18 +319,38 @@ $studentPlan = ['JES', 'JFPL', 'JFSL', 'JFGD', 'TCS', 'JFOS', 'JESP', 'JFE', 'JF
   <div class="info">
 	<?php if (in_array('Credit Card', $paytype_list)) { ?>
 		<?php if ($ismonthly && isset($recurrent)) { ?>
-			<div class="container" style="margin-top: 30px; line-height: 48px;">
+			<div class="container" style="margin-top: 30px; text-align: left;">
 				<div class="row">
-					<div class="col-sm-3">
+					<div class="col">
 						<label class="inline">Pay Monthly By Credit Card</label>
 					</div>
-					<div class="col-sm-3">
-						<div>Pay today: <b>$<?php echo number_format($recurrent[0], 2, '.', ','); ?></b></div>
+				</div>
+				<div class="row">
+					<div class="col">
+						<div>Due today: <b>$<?php echo number_format($recurrent[0], 2, '.', ','); ?></b></div>
+						<div><b><?php echo $recurrent[2]; ?></b> x Recurring Payments: <b>$<?php echo number_format($recurrent[1], 2, '.', ','); ?></b></div>
 					</div>
-					<div class="col-sm-3">
-						<div><?php echo $recurrent[2]; ?> Recurring Pay: <b>$<?php echo number_format($recurrent[1], 2, '.', ','); ?></b></div>
+				</div>
+				<div class="row">
+					<div class="col">
+						<div>Please note the monthly payment option has been selected. </div>
+						<div>
+							<p>With monthly payment option, applicant must pay at time of application:</p>
+							<ul>
+								<li>One-time $80 fee</li>
+								<li>First two months of premium</li>
+								<li>The $80 fee and two months of premium are not refundable once the policy becomes effective.</li>
+							</ul>
+							<p>Subsequent monthly premiums will be charged starting on the effective date of the policy.</p>
+							<p>If you prefer to pay for the policy in full, please contact your agent.</p>
+						</div>
 					</div>
-					<div class="col-sm-3">
+				</div>
+				<div class="row">
+					<div class="col-sm-6">
+						&nbsp;
+					</div>
+					<div class="col-sm-6">
 						<a class='btn btn-primary pull-left' style="margin-top: 8px;" href="<?php echo $monthly_pay_url; ?>"><?php echo $this->lang->line("Pay Now"); ?></a>
 					</div>
 				</div>

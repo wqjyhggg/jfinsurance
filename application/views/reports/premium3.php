@@ -185,7 +185,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                     <?php $total = $tearned = 0; $solddate = ''; ?>
                     <?php foreach ($report_data as $record) : ?>
                       <?php
-                        if ($record['ishead']>0) {
+                        if ($record['ishead'] == 1) {
                           $solddate = substr($record['add_time'],0,10);
                         }
                         if ($record['status_id'] == 6) {

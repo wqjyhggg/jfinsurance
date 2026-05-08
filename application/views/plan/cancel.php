@@ -80,20 +80,23 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 						<tr>
 							<td>Original Premium: </td><td></td><td><span>$<?php echo number_format($monthly_data['premium'], 2, '.', ',');?></span></td>
 						</tr>
+						<tr>
+							<td>&nbsp;</td><td></td><td><span>&nbsp;</span></td>
+						</tr>
 						<tr>	
-							<td>Paid Premium: </td><td><?php echo round($monthly_data["paid_premium"]/$monthly_data["monthly_pay"]); ?></td><td><span>$<?php echo number_format($monthly_data["paid_premium"], 2, '.', ','); ?></span></td>
+							<td>Paid Premium: </td><td><?php echo round($monthly_data["paid_premium"]/$monthly_data["monthly_pay"]); ?> months</td><td><span>$<?php echo number_format($monthly_data["paid_premium"], 2, '.', ','); ?></span></td>
 						</tr>
 						<tr>
 							<td>Paid Monthly Plan Fee: </td><td></td><td><span>+$<?php echo number_format($monthly_data["admin_fee"], 2, '.', ','); ?></span></td>
 						</tr>
 						<tr>
-							<td>Total Charged: </td><td></td><td><span>$<?php echo number_format($monthly_data["total_paid"], 2, '.', ','); ?></span></td>
+							<td>Total Charged: </td><td></td><td><span>$<b><?php echo number_format($monthly_data["total_paid"], 2, '.', ','); ?></b></span></td>
 						</tr>
-						<tr>	
+						<!-- <tr>	
 							<td>Refund Admin Fee: </td><td></td><td><span>-$<?php echo number_format($monthly_data["refund_record"]["extra_admin_fee"], 2, '.', ','); ?></span></td>
-						</tr>
+						</tr> -->
 						<tr>
-							<td>Total Refund: </td><td><?php echo round($monthly_data["paid_premium"]/$monthly_data["monthly_pay"]); ?></td><td><span>$<?php echo number_format($monthly_data["total_paid"]-$monthly_data["refund_record"]["extra_admin_fee"], 2, '.', ','); ?></span></td>
+							<td>Total Refund: </td><td><?php echo round($monthly_data["paid_premium"]/$monthly_data["monthly_pay"]); ?> months</td><td><span>$<b><?php echo number_format($monthly_data["total_paid"]-$monthly_data["refund_record"]["extra_admin_fee"], 2, '.', ','); ?></b></span></td>
 						</tr>
 					</tbody>
 					<?php } ?>

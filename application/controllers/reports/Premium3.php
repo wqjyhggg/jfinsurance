@@ -129,7 +129,7 @@ class Premium3 extends MY_Controller
       // $dispremium = number_format($dispremium,2);
       // $premium = number_format($premium,2);
       // $earned = number_format($earned,2);
-      if ($record['ishead']>0) { 
+      if ($record['ishead'] == 1) { 
         $solddate = substr($record['add_time'],0,10);
       }
       if ($record['status_id'] == 6) {
