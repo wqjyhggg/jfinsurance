@@ -75,28 +75,31 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 									<td>Original Premium: </td><td></td><td><span>$<?php echo number_format($monthly_data['premium'], 2, '.', ',');?></span></td>
 								</tr>
 								<tr>	
-									<td>Paid Premium: </td><td><?php echo $monthly_data["refund_record"]["paid_month"]; ?></td><td><span>$<?php echo number_format($monthly_data["refund_record"]["charged_amount"], 2, '.', ','); ?></span></td>
+									<td>&nbsp;</td><td>&nbsp;</td><td><span>&nbsp;</span></td>
+								</tr>
+								<tr>	
+									<td>Paid Premium: </td><td><?php echo $monthly_data["refund_record"]["paid_month"]; ?> months</td><td><span>$<?php echo number_format($monthly_data["refund_record"]["charged_amount"], 2, '.', ','); ?></span></td>
 								</tr>
 								<tr>	
 									<td>Paid Monthly Plan Fee: </td><td></td><td><span>+$<?php echo number_format($monthly_data["refund_record"]["admin_fee"], 2, '.', ','); ?></span></td>
 								</tr>
 								<tr>	
-									<td>Total Charged: </td><td></td><td><span>$<?php echo number_format($monthly_data["refund_record"]["charged_amount"]+$monthly_data["refund_record"]["admin_fee"], 2, '.', ','); ?></span></td>
+									<td>Total Charged: </td><td></td><td><span>$<B><?php echo number_format($monthly_data["refund_record"]["charged_amount"]+$monthly_data["refund_record"]["admin_fee"], 2, '.', ','); ?></B></span></td>
 								</tr>
 								<tr>	
 									<td>Monthly Plan Fee (non-refundable): </td><td></td><td><span>-$<?php echo number_format($monthly_data["refund_record"]["admin_fee"], 2, '.', ','); ?></span></td>
 								</tr>
 								<tr>	
-									<td>Used Premium: </td><td><?php echo $monthly_data["refund_record"]["used_month"]; ?></td><td><span>-$<?php echo number_format($monthly_data["refund_record"]["used_month"]*$monthly_data["monthly_pay"], 2, '.', ','); ?></span></td>
+									<td>Used Premium: </td><td><?php echo $monthly_data["refund_record"]["used_month"]; ?> months</td><td><span>-$<?php echo number_format($monthly_data["refund_record"]["used_month"]*$monthly_data["monthly_pay"], 2, '.', ','); ?></span></td>
 								</tr>
 								<tr>	
 									<td>Refund Admin Fee: </td><td></td><td><span>-$<?php echo number_format($monthly_data["refund_record"]["extra_admin_fee"], 2, '.', ','); ?></span></td>
 								</tr>
 								<tr>	
-									<td>Total Refund: </td><td><?php echo ($monthly_data["refund_record"]["paid_month"] - $monthly_data["refund_record"]["used_month"]); ?></td><td><span>$<?php echo number_format($monthly_data["refund_record"]["refund_amount"] - $monthly_data["refund_record"]["extra_admin_fee"], 2, '.', ','); ?></span></td>
+									<td>Total Refund: </td><td><?php echo ($monthly_data["refund_record"]["paid_month"] - $monthly_data["refund_record"]["used_month"]); ?> month(s)</td><td><span>$<B><?php echo number_format($monthly_data["refund_record"]["refund_amount"] - $monthly_data["refund_record"]["extra_admin_fee"], 2, '.', ','); ?></B></span></td>
 								</tr>
 								<tr>	
-									<td colspan="3"><?php echo "From: ".$plan['effective_date']." to ".$plan['refund_date']." (count as ".$monthly_data["refund_record"]["used_month"]." months)"; ?></td>
+									<td colspan="3"><?php echo "From: ".$plan['effective_date']." to ".$plan['refund_date']." counts as ".$monthly_data["refund_record"]["used_month"]." months"; ?></td>
 								</tr>
 							</tbody>
 						<?php } ?>

@@ -844,7 +844,7 @@ class Plan extends MY_Controller {
 								$oldpremium = round(floatval($planold['premium']),2);
 								if (($newpremium == $oldpremium) && ($plan['status_id'] == Plan_model::CHANGED)) {
 									$this->load->model("plan_history_model");
-									$this->plan_history_model->add($plan_id, Plan_model::CHANGED);
+									$this->plan_history_model->add($plan_id, Plan_model::ADJUST);
 									$this->plan_model->update($plan_id, ['status_id' => Plan_model::PAID]);
 									$plan["status_id"] = Plan_model::PAID;
 									$this->plan_history_model->add($plan_id, Plan_model::PAID);
