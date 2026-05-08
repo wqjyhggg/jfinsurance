@@ -175,6 +175,37 @@ if ($Agree != "Agree") {
              </fieldset>
              </div>
           </div><br />
+					<?php if (!empty($plan) && !empty($plan['monthlypay'])) { ?>
+					<div class="row">
+						<div class="col-sm-12">
+							<fieldset>
+								<legend>Monthly Payment Plan</legend>
+								<div class="row">
+									<div class="form-group col-sm-3">
+										<label class="col-sm-12">Payment Plan Status:
+											<?php echo $monthly_status; ?>
+										</label>
+									</div>
+									<div class="form-group col-sm-3">
+										<label class="col-sm-12">Paid Months: 
+											<?php if ($status_id == Plan_model::CANCEL) { echo 0; } else { echo (12 - intval($monthly_unpay_count)); } ?>
+										</label>
+									</div>
+									<div class="form-group col-sm-3">
+										<label class="col-sm-12">Paid Premium: 
+											<?php if ($status_id == Plan_model::CANCEL) { echo 0; } else { echo number_format($monthly_paid, 2, ".", ""); } ?>
+										</label>
+									</div>
+									<div class="form-group col-sm-3">
+										<label class="col-sm-12">Outstanding Premium: 
+											<?php if (($status_id != Plan_model::PAID) && ($status_id != Plan_model::SOLD)) { echo 0; } else { echo number_format($monthly_unpay, 2, ".", ""); } ?>
+										</label>
+									</div>
+								</div>
+							</fieldset>
+					 	</div>
+					</div><br />
+					<?php } ?>
           <?php echo $insurable_options; ?>
           <?php if (!empty($error_claim)) { ?>
             <div class="row">
@@ -455,6 +486,50 @@ if ($Agree != "Agree") {
               </fieldset>
             </div>
           </div><br />
+					<?php if (!empty($monthly_payment)) { ?>
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="x_panel">
+									<div class="x_title">
+										<h2>Monthly Payment Detail</h2>
+										<div class="clearfix"></div>
+									</div>
+									<div class="x_content">
+										<div class="row">
+											<div class="col-sm-3">
+												<label class="inline">Payment Date</label>
+											</div>
+											<div class="col-sm-3">
+												<label class="inline">Amount</label>
+											</div>
+											<div class="col-sm-3">
+												<label class="inline">Payment Status</label>
+											</div>
+											<div class="col-sm-3">
+												<label class="inline">&nbsp;</label>
+											</div>
+										</div>
+										<?php $idx = 0; foreach ($monthly_payment as $mr) { $idx++; ?>
+										<div class="row" style="line-height: 32px;">
+											<div class="col-sm-3">
+												<span><?php echo $mr["retry_date"]; ?></span>
+											</div>
+											<div class="col-sm-3">
+												<span><?php echo number_format($mr["amount"], 2, ".", ""); ?></span>
+											</div>
+											<div class="col-sm-3">
+												<span><?php echo ($mr["paid"]==1)?"Paid":(($mr["paid"]==-2)?"Error":(($mr["paid"]==-1)?"Void":"-")); ?></span>
+											</div>
+											<div class="col-sm-3">
+												&nbsp;
+											</div>
+										</div>
+										<?php } ?>
+									</div><!--/x_content end-->
+								</div><!--x_panel-->
+							</div>
+						</div>
+  				<?php } ?>
           <?php if ($user_group_id != 106) { ?>
             <div class="row">
               <div class="col-sm-12" id='goto_next_page'>

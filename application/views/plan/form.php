@@ -799,7 +799,7 @@ if ($Agree != "Agree") {
 							</div><!--x_panel-->
 						</div>
 					</div>
-					<?php } ?>
+				<?php } ?>
 
            <!-- New Section -->
 			<?php if ($show_history) { ?>
