@@ -134,15 +134,12 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 		</div>
 		<div class="row">
 			<div class="col-sm-12 nopadding">
-			<p>
 				Please find enclosed a cheque with the amount stated for "Total Refund".<br />
 				By accepting this refund, <b>JF Insurance Agency Group Inc.</b> will no longer be liable for any claims on this policy.
-			</p>
 		</div>
-		<br />
 		<div class="row">
 			<div class="col-sm-12 nopadding">
-				<p>Sincerely,</p>
+				Sincerely,
 			</div>
 		</div>	
 		<br />
@@ -154,9 +151,8 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 		<div class="row">
 			<div class="col-sm-12 nopadding text-center">
 				<hr class="nopm"/>
-				<p class="text-center;">Head Office: 15 Wertheim Court, Suite 501, Richmond Hill, Ontario L4B 3H7</p>
-				<p class="text-center;">Phone: <u>905-707-1512</u> Fax:<u>905-707-1513</u> Toll free:<u>1-877-832-5541</u></p>
-			
+				<div class="text-center;">Head Office: 15 Wertheim Court, Suite 501, Richmond Hill, Ontario L4B 3H7</div>
+				<div class="text-center;">Phone: <u>905-707-1512</u> Fax:<u>905-707-1513</u> Toll free:<u>1-877-832-5541</u></div>
 			</div>
 		</div>
 	</div><!-- End Container -->
