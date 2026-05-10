@@ -299,7 +299,7 @@ class Plan_model extends CI_Model {
 		if (isset($para['totalyears'])) $sql .= " totalyears='" . (int)$para['totalyears'] . "', ";
 		if (isset($para['dailyrate']))  $sql .= " dailyrate='" . (float) $para['dailyrate'] . "', ";
 		if (isset($para['premium']))  $sql .= " premium='" . (float) $para['premium'] . "', ";
-		if (isset($para['monthlypay']))  $sql .= " monthlypay='" . int_val($para['monthlypay']) . "', ";
+		if (isset($para['monthlypay']))  $sql .= " monthlypay='" . intval($para['monthlypay']) . "', ";
 		if (isset($para['tax']))  $sql .= " tax='" . (float) $para['tax'] . "', ";
 		if (isset($para['street_number'])) $sql .= " street_number=" . $this->db->escape(trim($para['street_number'])) . ", ";
 		if (isset($para['street_name'])) $sql .= " street_name=" . $this->db->escape(trim($para['street_name'])) . ", ";
@@ -1359,7 +1359,7 @@ class Plan_model extends CI_Model {
 			$where[] = "p.product_short=" . $this->db->escape($para['product_short']);
 		}
 		if (!empty($para['monthlypay'])) {
-			$where[] = "p.monthlypay='" . int_val($para['monthlypay']) . "'";
+			$where[] = "p.monthlypay='" . intval($para['monthlypay']) . "'";
 		}
 		if ($beuser['region_id']) {
 			$where[] = "p.region_id = " . (int)$beuser['region_id'];
@@ -1523,7 +1523,7 @@ class Plan_model extends CI_Model {
 			$where[] = "p.product_short=" . $this->db->escape($para['product_short']);
 		}
 		if (!empty($para['monthlypay'])) {
-			$where[] = "p.monthlypay='" . int_val($para['monthlypay']) . "'";
+			$where[] = "p.monthlypay='" . intval($para['monthlypay']) . "'";
 		}
 		if ($beuser['region_id']) {
 			$where[] = "p.region_id = " . (int)$beuser['region_id'];
