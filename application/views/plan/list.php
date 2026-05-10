@@ -302,6 +302,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			                              <div id='country2_div'></div>
 			                          </div>
 			                        </div>			                        
+			                        <div class="form-group col-sm-3">
+			                          <!--label class="col-sm-12">Country:</label-->
+			                          <div class="input-group col-sm-12">
+			                              <div id='monthly_div'>
+																			<select class="form-control" name="monthlypay" id="monthlypay">
+																				<option value="none"> -- select monthly --</option>
+																				<option value="1">Monthly Only</option>
+																			</select>
+																		</div>
+			                          </div>
+			                        </div>			                        
 			                    </div>			                      
 			                </div>
 			            </form>
