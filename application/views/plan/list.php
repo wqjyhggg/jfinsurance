@@ -307,7 +307,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			                          <div class="input-group col-sm-12">
 			                              <div id='monthly_div'>
 																			<select class="form-control" name="monthlypay" id="monthlypay">
-																				<option value="none"> -- select monthly --</option>
+																				<option value=""> -- select monthly --</option>
 																				<option value="1">Monthly Only</option>
 																			</select>
 																		</div>
