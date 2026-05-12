@@ -3688,7 +3688,7 @@ class Plan extends MY_Controller {
 	}
 
 	function get_plan_status($plan_id) {
-		$beuser = $this->func_model->verify_login();
+		// $beuser = $this->func_model->verify_login();
 		$this->load->model('plan_model');
 		if ($plan_id) {
 			if ($plan = $this->plan_model->get_plan_by_id($plan_id)) {
@@ -3697,7 +3697,7 @@ class Plan extends MY_Controller {
 				} else if (($plan["status_id"] == Plan_model::PAID) || ($plan["status_id"] == Plan_model::SOLD)) {
 					die("OK");
 				}
-				die("Unknown Plan status [".$plan["status_id"]."]");
+				die("Unknown Plan status");
 			}
 			die("Unknown Plan");
 		}
