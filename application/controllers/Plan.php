@@ -3257,7 +3257,7 @@ class Plan extends MY_Controller {
 				$body .= "Richmond Hill, ON L4B 3H7\r\n";
 				$body .= "Tel: 905-707-1512  Fax: 905-707-1513\r\n";
 				$body .= "Website: www.jfgroup.ca\r\n";
-				$this->mymail_model->send_mymail($beuser['email'], 'Your client has paid for the policy ' . $plan['policy'], $body, 'text');
+				$this->mymail_model->send_mymail($beuser['email'], 'Your client has paid for the policy ' . $plan['policy'], $body, array(), 'JF Insurance', 'text');
 			}
 		}
 
@@ -4935,7 +4935,8 @@ class Plan extends MY_Controller {
 				$body .= "Tel: 905-707-1512  Fax: 905-707-1513\r\n";
 				$body .= "Website: www.jfgroup.ca\r\n";
 
-				$this->mymail_model->send_mymail($plan['contact_email'], 'Your policy ' . $plan['policy'] . ' is terminated', $body, 'text');
+				$this->mymail_model->send_mymail($plan['contact_email'], 'Your policy ' . $plan['policy'] . ' is terminated', $body, array(), 'JF Insurance', 'text');
+
 			}
 			redirect('plan/detail/' . $plan_id);
 		}
