@@ -423,7 +423,9 @@ class Monthly_payment_model extends CI_Model {
 		$date->modify('-1 day');
 		$expiry_date = $date->format('Y-m-d');
 		$totaldays = $this->product_model->getDays($plan["expiry_date"], $refund_date);
-		return ["refund_amount" => $refund_amount, "totaldays" => $totaldays, "charged_amount" => $charged_amount, "admin_fee" => $min_admin_fee];
+		$terminateRc = ["refund_amount" => $refund_amount, "totaldays" => $totaldays, "charged_amount" => $charged_amount, "admin_fee" => $min_admin_fee, "do_action" => "terminate"];
+		$this->db->where("plan_id", $plan_id)->where("paid", 1)->where("pay_type", 0)->set("postdata", json_encode($terminateRc))->update("monthly_payment");
+		return $terminateRc;
 	}
 
 	private function getMonthCount($start, $end) {

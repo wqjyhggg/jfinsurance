@@ -475,6 +475,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 						a. If you are <U>age 86 or older</U>, then in respect of any sickness, you will not be entitled to receive reimbursement for sickness or symptoms which manifested or were contracted or treated within 15 days following the effective date of this policy.<br />
 						b. If <U>age 85 or under</U> and coverage takes effect <U>within 30 days after arrival in Canada</U>, then in respect of any sickness, you will not be entitled to receive reimbursement for sickness or symptoms which manifested or were contracted or treated within 48 hours of the effective date of this policy.<br />
 						c. If <U>age 85 or under</U> and coverage takes effect <U>more than 30 days after your arrival in Canada</U>, then in respect of any sickness, you will not be entitled to receive reimbursement for sickness or symptoms which manifested or were contracted or treated within <U>7 days</U> of the effective date of this policy.<br />
+						<br />
 						<U>The waiting period may be waived by the Administrator Company under certain conditions prior to purchasing this policy</U>. You must receive written confirmation from the Administrator Company that the waiting period has been waived. Please refer to the Section IV: Insurance Agreement of the policy for details.<br />
 						<br />
 						<?php echo $this->lang->line("If you notice any errors in the above information or have any questions, please contact JF Insurance Agency Group Inc."); ?>
