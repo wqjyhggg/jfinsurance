@@ -74,7 +74,7 @@ if ($Agree != "Agree") {
 							<?php } ?>
 						<?php 	} ?>
 						<?php if ((($status_id == Plan_model::PAID) || ($status_id == Plan_model::SOLD) || ($status_id == Plan_model::CHANGED)) && $user_group_id <= 100 ) { ?>
-							<?php if (!empty($plan) && !empty($plan['monthlypay'])) { ?>
+							<?php if (!empty($plan) && !empty($plan['monthlypay']) && !empty($monthly_status) && ($monthly_status == "Payment Error")) { ?>
 							<a href='<?php echo $terminate_url . $plan_id; ?>'><span class="btn btn-info" style='color:#fff;'><?php echo $this->lang->line("Terminate"); ?></span></a>
 							<?php } ?>
 							<a href='<?php echo $cancel_url . $plan_id; ?>'><span class="btn btn-info" style='color:#fff;'><?php echo $this->lang->line("Cancel"); ?></span></a>
