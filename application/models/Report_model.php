@@ -611,17 +611,16 @@ class Report_model extends CI_Model
 			$sql2 = " ORDER BY ph.plan_history_id ASC";
 			$plansql = "SELECT * FROM monthly_payment WHERE plan_id=";
 			$plansqle = " AND paid=1 ORDER BY monthly_payment_id ASC";
-			$mplan_id = 0;
-			$refund_amount = 0;
-			$paid_amount = 0;
-			$admin_fee = 0;
-			$last_monthly_paid = 0;
 			foreach ($rt as $rc) {
 				$sql1 = $sql . $rc["plan_id"] . $sql2;
 				if ($rtt1 = $this->db->query($sql1)->result_array()) {
 					$plansql1 = $plansql.$rc["plan_id"].$plansqle;
 					if ($planrtt = $this->db->query($plansql1)->result_array()) {
-						foreach ($rtt1 as $rctt) {
+							$refund_amount = 0;
+							$paid_amount = 0;
+							$admin_fee = 0;
+							$last_monthly_paid = 0;
+							foreach ($rtt1 as $rctt) {
 							$rctt["last_status_id"] = $rc["last_status_id"];
 							$rctt["total_premium"] = $rctt["premium"];
 							if (($rctt["status_id"] == 3) || ($rctt["status_id"] == 7)) {
