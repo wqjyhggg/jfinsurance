@@ -1706,8 +1706,8 @@ class Plan extends MY_Controller {
 			}
 			if ($plan["monthlypay"] == 1) {
 				$data['monthly_payment'] = $this->monthly_payment_model->get_by_plan_id($plan["plan_id"]);
-				$data['monthly_status'] = $this->monthly_payment_model->get_monthly_status($plan);
 				if ($monthlypay_data = $this->monthly_payment_model->get_monthlypay_data($plan["plan_id"])) {
+					$data['monthly_status'] = $this->monthly_payment_model->get_monthly_status($plan, $monthlypay_data);
 					$data['monthly_paid'] = $monthlypay_data["paid_premium"];
 					$data['monthly_unpay'] = $monthlypay_data["premium"] - $monthlypay_data["paid_premium"];
 					$data['monthly_unpay_count'] = round($data['monthly_unpay'] / $monthlypay_data["monthly_pay"]);

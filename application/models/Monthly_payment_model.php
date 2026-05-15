@@ -312,7 +312,9 @@ class Monthly_payment_model extends CI_Model {
 		];
 		if ($rts = $this->get_by_plan_id($plan_id)) {
 			foreach ($rts as $rc) {
-				$rt["premium"] += $rc["amount"];
+				if ($rc["paid"] <= 1) {
+					$rt["premium"] += $rc["amount"];
+				}
 				if ($rc["paid"] == 1) {
 					$rt["total_paid"] += $rc["amount"];
 					$rt["last_pay_date"] = $rc["pay_date"];
@@ -380,8 +382,11 @@ class Monthly_payment_model extends CI_Model {
 		$this->db->where("plan_id", $plan_id)->set('profile_id', $profile_id)->update("monthly_payment");
 	}
 
-	public function void_unpaid_record($plan_id, $paid=-1) {
+	public function void_unpaid_record($plan_id, $paid=-1, $ispayoff=false) {
 		$now = date("Y-m-d H:i:s");
+		if ($ispayoff) {
+			return $this->db->where("plan_id", $plan_id)->where("paid<=", 0)->set("paid", $paid)->set("pay_time", $now)->set("pay_type", 2)->update("monthly_payment");	
+		}
 		return $this->db->where("plan_id", $plan_id)->where("paid<=", 0)->set("paid", $paid)->set("pay_time", $now)->update("monthly_payment");
 	}
 
@@ -496,7 +501,7 @@ class Monthly_payment_model extends CI_Model {
 		}
 	}
 
-	public function get_monthly_status($plan) {
+	public function get_monthly_status($plan, $monthlypay_data) {
 		$this->load->model('plan_model');
 		$lastRc = $this->db->where("plan_id", $plan["plan_id"])->order_by("monthly_payment_id", "DESC")->limit(1)->get("monthly_payment")->row_array();
 		if (empty($lastRc)) {
@@ -507,6 +512,9 @@ class Monthly_payment_model extends CI_Model {
 				return "Canceled";
 			} else if ($plan["status_id"] == Plan_model::REFUND) {
 				return "Refunded";
+			}
+			if (round($monthlypay_data["paid_premium"] - $rt["premium"]) == 0) {
+				return "Paid Full";	
 			}
 			return "Stopped";
 		} else if ($lastRc["paid"] == SELF::TERMINATED) {

@@ -699,7 +699,7 @@ class Plan extends CI_Controller
 					$this->load->model('monthly_payment_model');
 					$plan['monthly_payment'] = $this->monthly_payment_model->get_by_plan_id($plan["plan_id"]);
 					$data['monthly_data'] = $this->monthly_payment_model->get_monthlypay_data($plan["plan_id"]);
-					$data['monthly_status'] = $this->monthly_payment_model->get_monthly_status($plan);
+					$data['monthly_status'] = $this->monthly_payment_model->get_monthly_status($plan, $data['monthly_data']);
 					if ($data['monthly_data']) {
 						$data['monthly_paid'] = $data['monthly_data']["paid_premium"];
 						$data['monthly_unpay'] = $data['monthly_data']["premium"] - $data['monthly_data']["paid_premium"];

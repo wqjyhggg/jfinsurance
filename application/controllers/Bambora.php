@@ -281,7 +281,7 @@ class Bambora extends CI_Controller {
 			$payment_id = $this->payment_model->add($dt, $user);
 			$this->monthly_payment_model->update($monthly_payment_id, ["payment_id" => $payment_id]);
 			if ($post["ref1"] == "payoff") {
-				$this->monthly_payment_model->void_unpaid_record($plan_id);
+				$this->monthly_payment_model->void_unpaid_record($plan_id, $paid=-1, $ispayoff=true);
 			}
 			if ($activity_id) {
 				$this->log_model->update($activity_id, ["payment_id" => $payment_id]);
