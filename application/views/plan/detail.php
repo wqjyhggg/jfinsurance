@@ -380,7 +380,7 @@ if ($Agree != "Agree") {
 								<span><?php echo number_format($mr["amount"], 2, ".", ""); ?></span>
 							</div>
 							<div class="col-sm-3">
-								<span><?php echo ($mr["paid"]==1)?"Paid":(($mr["paid"]==-2)?"Error":(($mr["paid"]==-1)?"Void":"-")); ?></span>
+								<span><?php echo ($mr["paid"]==1)?"Paid":(($mr["paid"]==-2)?"Failed":(($mr["paid"]==-1)?"Void":"-")); ?></span>
 							</div>
 							<div class="col-sm-3">
 							<?php if (($mr["paid"]==-2) && ($plan["status_id"] == Plan_model::PAID) && ($beuser['user_group_id'] < 100)) { ?>

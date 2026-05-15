@@ -520,11 +520,11 @@ class Monthly_payment_model extends CI_Model {
 		} else if ($lastRc["paid"] == SELF::TERMINATED) {
 			return "Terminated";
 		} else if ($lastRc["paid"] == SELF::PAYERROR) {
-			return "Payment Error";
+			return "Failed";
 		} else if ($lastRc["paid"] == SELF::WAITING) {
 			$lastpaidRc = $this->db->where("plan_id", $plan["plan_id"])->where("paid", -2)->order_by("monthly_payment_id", "ASC")->limit(1)->get("monthly_payment")->row_array();
 			if ($lastpaidRc) {
-				return "Payment Error";
+				return "Failed";
 			}
 		}
 		return "Active";

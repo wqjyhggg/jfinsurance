@@ -43,6 +43,9 @@ if ($Agree != "Agree") {
                       <?php if (!empty($claims)) { ?>
                         <span style="color: red;"><?php echo $this->lang->line("There is an existing claim or open cases."); ?></span>
                       <?php } ?>
+											<?php if (!empty($plan) && !empty($plan['monthlypay']) && ($monthly_status == "Failed")) { ?>
+												<span style="color: red;"><?php echo $this->lang->line("There is an existing claim or open cases."); ?></span>
+											<?php } ?>
                     <?php } ?>
 					<?php if (!empty($plan_id) && !empty($status_id)) { ?>
 						<div class="pull-right text-right">
@@ -788,7 +791,7 @@ if ($Agree != "Agree") {
 											<span><?php echo number_format($mr["amount"], 2, ".", ""); ?></span>
 										</div>
 										<div class="col-sm-3">
-											<span><?php echo ($mr["paid"]==1)?"Paid":(($mr["paid"]==-2)?"Error":(($mr["paid"]==-1)?"Void":"-")); ?></span>
+											<span><?php echo ($mr["paid"]==1)?"Paid":(($mr["paid"]==-2)?"Failed":(($mr["paid"]==-1)?"Void":"-")); ?></span>
 										</div>
 										<div class="col-sm-3">
 											&nbsp;
