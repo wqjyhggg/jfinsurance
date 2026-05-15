@@ -383,7 +383,7 @@ if ($Agree != "Agree") {
 								<span><?php echo ($mr["paid"]==1)?"Paid":(($mr["paid"]==-2)?"Error":(($mr["paid"]==-1)?"Void":"-")); ?></span>
 							</div>
 							<div class="col-sm-3">
-							<?php if ($mr["paid"]==-2) { ?>
+							<?php if (($mr["paid"]==-2) && ($plan["status_id"] == Plan_model::PAID) && ($beuser['user_group_id'] < 100)) { ?>
 								<button class="btn btn-primary retry-button" onclick='retry_payment(<?php echo $mr["monthly_payment_id"]; ?>)'>Retry</button>
 							<?php } ?>
 							</div>
