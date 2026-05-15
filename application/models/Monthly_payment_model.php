@@ -312,7 +312,7 @@ class Monthly_payment_model extends CI_Model {
 		];
 		if ($rts = $this->get_by_plan_id($plan_id)) {
 			foreach ($rts as $rc) {
-				if ($rc["paid"] <= 1) {
+				if ($rc["pay_type"] <= 1) {
 					$rt["premium"] += $rc["amount"];
 				}
 				if ($rc["paid"] == 1) {
