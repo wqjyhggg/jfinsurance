@@ -513,7 +513,7 @@ class Monthly_payment_model extends CI_Model {
 			} else if ($plan["status_id"] == Plan_model::REFUND) {
 				return "Refunded";
 			}
-			if (round($monthlypay_data["paid_premium"] - $rt["premium"]) == 0) {
+			if (round($monthlypay_data["paid_premium"] - $monthlypay_data["premium"]) == 0) {
 				return "Paid Full";	
 			}
 			return "Stopped";
