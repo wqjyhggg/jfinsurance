@@ -836,10 +836,12 @@ class Plan extends MY_Controller {
 						if ($plan["monthlypay"]) {
 							if ($planold["effective_date"] != $plan["effective_date"]) {
 								$this->monthly_payment_model->change_effective_date($plan_id, $plan["effective_date"]);
-								if ($pay = $this->monthly_payment_model->plan_today_payments($plan_id)) {
-									$this->load->model('bambora_model');
-									if ($errmsg = $this->bambora_model->do_payment($pay["monthly_payment_id"])) {
-										$this->error[] = $errmsg;
+								if ($plan["effective_date"] == date("Y-m-d")) {
+									if ($pay = $this->monthly_payment_model->plan_today_payments($plan_id)) {
+										$this->load->model('bambora_model');
+										if ($errmsg = $this->bambora_model->do_payment($pay["monthly_payment_id"])) {
+											$this->error[] = $errmsg;
+										}
 									}
 								}
 							}
