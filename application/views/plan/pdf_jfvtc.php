@@ -109,7 +109,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
 					<?php if (!empty($plan['monthlypay']) && !empty($monthly_record)) { ?>
 					<h4><u><?php echo $this->lang->line("Payment Schedule"); ?></u></h4>
 						<?php foreach($monthly_record as $rc) { ?>
-							<h4><?php echo $rc["pay_date"]." : ".$rc["amount"]?></h4>
+							<?php if (($rc["paid"]>=0) && (($plan["status_id"] == 2)||($plan["status_id"] == 3))) { ?>
+								<h4><?php echo $rc["pay_date"]." : ".$rc["amount"]?></h4>
+							<?php } ?>
 						<?php } ?>
 					<?php } ?>
 				<?php } ?>
