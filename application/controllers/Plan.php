@@ -839,7 +839,7 @@ class Plan extends MY_Controller {
 								if ($pay = $this->monthly_payment_model->plan_today_payments($plan_id)) {
 									$this->load->model('bambora_model');
 									if ($errmsg = $this->bambora_model->do_payment($pay["monthly_payment_id"])) {
-										alert($errmsg);
+										$this->error[] = $errmsg;
 									}
 								}
 							}
