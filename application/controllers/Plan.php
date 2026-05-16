@@ -3312,7 +3312,7 @@ class Plan extends MY_Controller {
 				$data['monthly_unpay_count'] = round($data['monthly_unpay'] / $monthlypay_data["monthly_pay"]);
 				$data['monthly_data'] = $monthlypay_data;
 			}
-			if (($plan['monthly_unpay'] > 0) && ($plan['monthly_unpay_count'] > 0)) {
+			if (($data['monthly_unpay'] > 0) && ($data['monthly_unpay_count'] > 0)) {
 				$data["monthly_pay_full_url"] = base_url("plan/monthly_payoff") . "/" . $plan_id;
 			}
 		}

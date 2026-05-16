@@ -130,19 +130,19 @@ if ($Agree != "Agree") {
 							<div class="row">
 								<div class="col-sm-3">
 									<label class="inline">Payment Plan Status:</label>
-									<span><?php echo $plan["monthly_status"]; ?></span>
+									<span><?php echo $monthly_status; ?></span>
 								</div>
 								<div class="col-sm-3">
 									<label class="inline">Paid Months:</label>
-									<span><?php if ($status_id == Plan_model::CANCEL) { echo 0; } else { echo (12 - intval($monthly_unpay_count)); }; ?></span>
+									<span><?php if ($plan["status_id"] == Plan_model::CANCEL) { echo 0; } else { echo (12 - intval($monthly_unpay_count)); }; ?></span>
 								</div>
 								<div class="col-sm-3">
 									<label class="inline">Paid Premium:</label>
-									<span>$<?php if ($status_id == Plan_model::CANCEL) { echo 0; } else { echo number_format($monthly_paid, 2, ".", ""); } ?></span>
+									<span>$<?php if ($plan["status_id"] == Plan_model::CANCEL) { echo 0; } else { echo number_format($monthly_paid, 2, ".", ""); } ?></span>
 								</div>
 								<div class="col-sm-3">
 									<label class="inline">Outstanding Premium:</label>
-									<span>$<?php if (($status_id != Plan_model::PAID) && ($status_id != Plan_model::SOLD)) { echo 0; } else { echo number_format($plan["monthly_unpay"], 2, ".", ""); } ?></span>
+									<span>$<?php if (($plan["status_id"] != Plan_model::PAID) && ($plan["status_id"] != Plan_model::SOLD)) { echo 0; } else { echo number_format($plan["monthly_unpay"], 2, ".", ""); } ?></span>
 								</div>
 							</div>
 							<?php } ?>
