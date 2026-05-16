@@ -628,8 +628,8 @@ class Report_model extends CI_Model
 									$paid_amount += $rct["amount"] - $rct["admin_fee"];
 									$rctt["total_premium"] = 0;
 									$last_monthly_paid = $rct["paid"];
+									$refund_amount += $rct["refund_amount"];
 									if (empty($rct["pay_type"])) {
-										$refund_amount = $rct["refund_amount"];
 										$admin_fee = $rct["admin_fee"];
 										$rctt["total_premium"] = $rctt["premium"];
 									}
