@@ -142,7 +142,7 @@ if ($Agree != "Agree") {
 								</div>
 								<div class="col-sm-3">
 									<label class="inline">Outstanding Premium:</label>
-									<span>$<?php if (($plan["status_id"] != Plan_model::PAID) && ($plan["status_id"] != Plan_model::SOLD)) { echo 0; } else { echo number_format($plan["monthly_unpay"], 2, ".", ""); } ?></span>
+									<span>$<?php if (($plan["status_id"] != Plan_model::PAID) && ($plan["status_id"] != Plan_model::SOLD)) { echo 0; } else { echo number_format($monthly_unpay, 2, ".", ""); } ?></span>
 								</div>
 							</div>
 							<?php } ?>
