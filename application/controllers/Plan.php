@@ -840,7 +840,7 @@ class Plan extends MY_Controller {
 									if ($pay = $this->monthly_payment_model->plan_today_payments($plan_id)) {
 										$this->load->model('bambora_model');
 										if ($errmsg = $this->bambora_model->do_payment($pay["monthly_payment_id"])) {
-											$this->error[] = $errmsg;
+											$this->error["error_message"] = $errmsg;
 										}
 									}
 								}
@@ -930,6 +930,9 @@ class Plan extends MY_Controller {
 			}
 		}
 		$data = $this->error;
+		if (!empty($this->error["error_message"])) {
+			$data["error_message"] = $this->error["error_message"];
+		}
 		if ($this->input->post('plan_id')) {
 			$data['plan_id'] = $this->input->post('plan_id');
 		} else if (isset($plan['plan_id'])) {
