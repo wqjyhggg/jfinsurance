@@ -350,25 +350,24 @@ class Bambora_model extends CI_Model {
 				$this->mymail_model->send_mymail("wqjyhggg@gmail.com", 'JF recurrent Error', $message, $attach=array(), $from='', 'text');
 
 				$pay2 = $this->monthly_payment_model->get_by_id($pay["monthly_payment_id"]);
-				if (empty($pay2["paid"])) {
-					// Not done by bambora post back
-					$retry = $pay["retry"]++;
-					$mpArr = [
-						"trans_id" => isset($rt["id"])?$rt["id"]:0,
-						"paid" => -2,
-						"retry" => $retry,
-						"pay_time" => date("Y-m-d H:i:s"),
-						"payment_id" => $responseCode?intval($responseCode):0,
-						"postdata" => isset($postdata)?$postdata:"",
-						"rawdata" => $response,
-					];
-					if ($retry == 1) {
-						$mpArr["retry_date"] = date('Y-m-d', strtotime('+2 days'));
-					} else if ($retry == 2) {
-						$mpArr["retry_date"] = date('Y-m-d', strtotime('+5 days'));
-					}
-					$this->monthly_payment_model->update($pay["monthly_payment_id"], $mpArr);
+
+				// Not done by bambora post back
+				$retry = $pay["retry"]++;
+				$mpArr = [
+					"trans_id" => isset($rt["id"])?$rt["id"]:0,
+					"paid" => -2,
+					"retry" => $retry,
+					"pay_time" => date("Y-m-d H:i:s"),
+					"payment_id" => $responseCode?intval($responseCode):0,
+					"postdata" => isset($postdata)?$postdata:"",
+					"rawdata" => $response,
+				];
+				if ($retry == 1) {
+					$mpArr["retry_date"] = date('Y-m-d', strtotime('+2 days'));
+				} else if ($retry == 2) {
+					$mpArr["retry_date"] = date('Y-m-d', strtotime('+5 days'));
 				}
+				$this->monthly_payment_model->update($pay["monthly_payment_id"], $mpArr);
 				$this->error = "Retry monthly payment Failed (".$monthly_payment_id.")(".$responseCode.")(".$response.")";
 				return $this->error;
 			}
