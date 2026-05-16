@@ -404,7 +404,8 @@ class Api extends MY_Controller {
 					$p['monthlypay'] = $plan['monthlypay'];
 					$p['monthly_status'] = "";
 					if ($p['monthlypay']) {
-						$p['monthly_status'] = $this->monthly_payment_model->get_monthly_status($plan);
+						$monthlypay_data = $this->monthly_payment_model->get_monthlypay_data($plan["plan_id"]);
+						$p['monthly_status'] = $this->monthly_payment_model->get_monthly_status($plan, $monthlypay_data);
 					}
 
 					$p['family'] = array();
