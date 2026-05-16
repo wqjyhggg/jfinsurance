@@ -374,7 +374,7 @@ class Monthly_payment_model extends CI_Model {
 
 	public function plan_today_payments($plan_id) {
 		$today = date("Y-m-d");
-		$rc = $this->db->where("pay_type", 1)->where("paid", 0)->where("pay_date", $today)->get("monthly_payment")->row_array();
+		$rc = $this->db->where("plan_id", $plan_id)->where("pay_type", 1)->where("paid", 0)->where("pay_date", $today)->get("monthly_payment")->row_array();
 		return $rc;
 	}
 
