@@ -578,7 +578,7 @@ class Report_model extends CI_Model
   {
 		$sql  = "SELECT ph2.plan_id, pl.status_id as last_status_id FROM plan_history ph2";
 		$sql .= " JOIN plan pl ON (pl.plan_id = ph2.plan_id)";
-		$sql .= " WHERE ph2.ishead=1 AND pl.monthlypay=1";
+		$sql .= " WHERE ph2.ishead=1 AND pl.monthlypay=1 AND pl.status_id>1";
 		if (!empty($para['payment_added_from'])) {
 			$sql .= " AND ph2.add_time >= " . $this->db->escape($para['payment_added_from'] . " 00:00:00");
 		} else {

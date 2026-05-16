@@ -3320,7 +3320,7 @@ class Plan extends MY_Controller {
 				} else if ($rc["paid"] == -3) {
 					$plan['monthly_status'] = "Terminated";
 				} else if ($rc["paid"] == -2) {
-					$plan['monthly_status'] = "Payment Error";
+					$plan['monthly_status'] = "Failed";
 				} else if ($rc["paid"] == -1) {
 					$plan['monthly_status'] = "Voided";
 				}
