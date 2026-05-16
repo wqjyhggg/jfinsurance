@@ -597,7 +597,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
             <h4>Numéro de <?php if ($plan['status_id'] < 2) { ?>Citation<?php } else { ?>Policy<?php } ?>: <span><?php echo $plan['policy']; ?></span></h4>
             <h4>Date d'application: <span><?php echo $plan['apply_date']; ?></span>
             </h4>
-            <h4>Date d’entrée en vigueur: <span><?php echo $plan['effective_date']; ?></span>
+            <h4>Date d'entrée en vigueur: <span><?php echo $plan['effective_date']; ?></span>
             </h4>
             <h4>Date d'échéance: <span><?php echo $plan['expiry_date']; ?></span>
             </h4>

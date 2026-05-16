@@ -134,15 +134,15 @@ if ($Agree != "Agree") {
 								</div>
 								<div class="col-sm-3">
 									<label class="inline">Paid Months:</label>
-									<span><?php echo (12 - intval($plan["monthly_unpay_count"])); ?></span>
+									<span><?php if ($status_id == Plan_model::CANCEL) { echo 0; } else { echo (12 - intval($plan["monthly_unpay_count"])); }; ?></span>
 								</div>
 								<div class="col-sm-3">
 									<label class="inline">Paid Premium:</label>
-									<span>$<?php echo $plan["monthly_paid"]; ?></span>
+									<span>$<?php if ($status_id == Plan_model::CANCEL) { echo 0; } else { echo number_format($plan["monthly_paid"], 2, ".", ""); } ?></span>
 								</div>
 								<div class="col-sm-3">
 									<label class="inline">Outstanding Premium:</label>
-									<span>$<?php echo $plan["monthly_unpay"]; ?></span>
+									<span>$<?php if (($status_id != Plan_model::PAID) && ($status_id != Plan_model::SOLD)) { echo 0; } else { echo number_format($plan["monthly_unpay"], 2, ".", ""); } ?></span>
 								</div>
 							</div>
 							<?php } ?>
