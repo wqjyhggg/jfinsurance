@@ -1718,6 +1718,7 @@ class Plan extends MY_Controller {
 					$data['monthly_paid'] = $monthlypay_data["paid_premium"];
 					$data['monthly_unpay'] = $monthlypay_data["premium"] - $monthlypay_data["paid_premium"];
 					$data['monthly_unpay_count'] = round($data['monthly_unpay'] / $monthlypay_data["monthly_pay"]);
+					$data['monthly_data'] = $monthlypay_data;
 				}
 			}
 		}
@@ -4128,7 +4129,11 @@ class Plan extends MY_Controller {
 					$mpdf->Output($top_add_file, 'F');
 					$files['TOPN_VisaLetter.pdf'] = $top_add_file;
 				}
-				$files['policy_confirmation.pdf'] = $policy_file;
+				if ($plan["status_id"] > 1) {
+					$files['policy_confirmation.pdf'] = $policy_file;
+				} else {
+					$files['policy_quotation.pdf'] = $policy_file;
+				}
 				$files['policy_card.pdf'] = $this->card($plan_id, true);
 
 				$sendok = $this->mymail_model->send_mymail($data['emailaddr'], $title, $body, $files, $from = 'JF Insurance', 'text');

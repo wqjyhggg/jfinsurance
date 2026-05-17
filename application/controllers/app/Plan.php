@@ -2717,7 +2717,11 @@ class Plan extends CI_Controller
 				$mpdf->Output($top_add_file, 'F');
 				$files['TOPN_VisaLetter.pdf'] = $top_add_file;
 			}
-			$files['policy_confirmation.pdf'] = $policy_file;
+			if ($plan["status_id"] > 1) {
+				$files['policy_confirmation.pdf'] = $policy_file;
+			} else {
+				$files['policy_quotation.pdf'] = $policy_file;
+			}
 			$files['policy_card.pdf'] = $this->card($plan_id);
       $sendok = $this->mymail_model->send_mymail($data['emailaddr'], $title, $body, $files, $from='JF Insurance', 'text');
       unlink($policy_file);
@@ -3076,7 +3080,11 @@ class Plan extends CI_Controller
         $body = $this->load->view('mail/package',$data, TRUE);
         $title = "Quote of Insurance - " . $plan['policy'] . " - " . $data['customer']['firstname'] . " " . $data['customer']['lastname'];
       }
-      $files['policy_confirmation.pdf'] = $policy_file;
+			if ($plan["status_id"] > 1) {
+				$files['policy_confirmation.pdf'] = $policy_file;
+			} else {
+				$files['policy_quotation.pdf'] = $policy_file;
+			}
 
       $this->load->model('mymail_model');
       
