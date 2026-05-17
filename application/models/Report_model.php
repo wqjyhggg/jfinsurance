@@ -597,8 +597,8 @@ class Report_model extends CI_Model
 			}
 		}
 		$sql .= " GROUP BY ph2.plan_id ORDER BY ph2.plan_id ASC";
-		if ($rt = $this->db->query($sql)->result_array()) {
-			$rtt = array();
+		if ($plan_list = $this->db->query($sql)->result_array()) {
+			$report_list = array();
 			$sql  = "SELECT ph.*,";
 			$sql .= "	c.firstname,";
 			$sql .= "	c.lastname, ";
@@ -609,58 +609,61 @@ class Report_model extends CI_Model
 			$sql .= " JOIN customer c ON ph.customer_id = c.customer_id";
 			$sql .= " WHERE ph.plan_id = ";
 			$sql2 = " ORDER BY ph.plan_history_id ASC";
-			$plansql = "SELECT * FROM monthly_payment WHERE plan_id=";
-			$plansqle = " AND paid=1 ORDER BY monthly_payment_id ASC";
-			foreach ($rt as $rc) {
-				$sql1 = $sql . $rc["plan_id"] . $sql2;
-				if ($rtt1 = $this->db->query($sql1)->result_array()) {
-					$plansql1 = $plansql.$rc["plan_id"].$plansqle;
-					if ($planrtt = $this->db->query($plansql1)->result_array()) {
-							$refund_amount = 0;
-							$paid_amount = 0;
-							$admin_fee = 0;
-							$last_monthly_paid = 0;
-							foreach ($rtt1 as $rctt) {
-							$rctt["last_status_id"] = $rc["last_status_id"];
-							$rctt["total_premium"] = $rctt["premium"];
-							if (($rctt["status_id"] == 3) || ($rctt["status_id"] == 7)) {
-								foreach ($planrtt as $rct) {
-									$paid_amount += $rct["amount"] - $rct["admin_fee"];
-									$rctt["total_premium"] = 0;
-									$last_monthly_paid = $rct["paid"];
-									$refund_amount += $rct["refund_amount"];
-									if (empty($rct["pay_type"])) {
-										$admin_fee = $rct["admin_fee"];
-										$rctt["total_premium"] = $rctt["premium"];
+			$mplansql = "SELECT * FROM monthly_payment WHERE plan_id=";
+			$mplansqle = " AND paid=1 ORDER BY monthly_payment_id ASC";
+			foreach ($plan_list as $plan) {
+				$sql1 = $sql . $plan["plan_id"] . $sql2;
+				if ($plan_history_list = $this->db->query($sql1)->result_array()) {
+					$mplansql1 = $mplansql.$plan_list["plan_id"].$mplansqle;
+					if ($plan_monthly_list = $this->db->query($mplansql1)->result_array()) {
+						$refund_amount = 0;
+						$paid_amount = 0;
+						$admin_fee = 0;
+						$last_monthly_paid = 0;
+						foreach ($plan_history_list as $plan_history) {
+							$plan_history["last_status_id"] = $rc["last_status_id"];
+							$plan_history["total_premium"] = $plan_history["premium"];
+							if (($plan_history["status_id"] == 3) && ($paid_amount == 0)) { // 3 must be first, if there is still has 3 ignore it.
+								foreach ($plan_monthly_list as $monthly) {
+									$paid_amount += $monthly["amount"] - $monthly["admin_fee"];
+									$plan_history["total_premium"] = 0;
+									$last_monthly_paid = $monthly["paid"];
+									$refund_amount += $monthly["refund_amount"];
+									if (empty($monthly["pay_type"])) {
+										$admin_fee = $monthly["admin_fee"];
+										$plan_history["total_premium"] = $plan_history["premium"];
 									}
-									if ($rctt["status_id"] == 7) {
-										$rctt["premium"] = $rct["admin_fee"] - $rct["amount"];
+									if ($plan_history["status_id"] == 7) {
+										$plan_history["premium"] = $monthly["admin_fee"] - $monthly["amount"];
 									} else {
-										$rctt["premium"] = $rct["amount"] - $rct["admin_fee"];
+										$plan_history["premium"] = $monthly["amount"] - $monthly["admin_fee"];
 									}
-									$rctt["add_time"] = $rct["pay_time"];
-                  $rctt["ishead"] = $rct["pay_type"] + 1;
-									$rtt[] = $rctt;
+									$plan_history["add_time"] = $monthly["pay_time"];
+                  $plan_history["ishead"] = $monthly["pay_type"] + 1;
+									$report_list[] = $plan_history;
 								}
-							} else if ($rctt["premium"] < 0) {
+							} else if ($plan["status_id"] == 5) {	// Canceled Plan, just need monthly payment records and cancel record
 								if ($rc["last_status_id"] == 5) { // Cancel
-									$rctt["premium"] = ($refund_amount - $admin_fee) * -1;
-								} else {  // refund
-									$rctt["premium"] = $paid_amount * -1;
+									$plan_history["premium"] = ($refund_amount - $admin_fee) * -1;
 								}
-								$rtt[] = $rctt;
-							} else {
-								if (($rctt["status_id"] == 6) && ($last_monthly_paid == -3)) {
+								$report_list[] = $plan_history;
+							} else if ($plan["status_id"] == 6) {	// Refund Plan, just need monthly payment records and last adjust(8) and refund record
+								if (($plan_history["status_id"] == 6) && ($last_monthly_paid == -3)) { // Terminated
 									// Refund and Termiated
-									$rctt["status_id"] += 100;
+									$plan_history["status_id"] += 100;
 								}
-								$rtt[] = $rctt;
+								if ($plan_history["premium"] < 0) {
+									$plan_history["premium"] = $paid_amount * -1;
+								}
+								$report_list[] = $plan_history;
+							} else {	// Continue plans
+								$report_list[] = $plan_history;
 							}
 						}
 					}
 				}
 			}
-			return $rtt;
+			return $report_list;
     }
     return array();
   }
