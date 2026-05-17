@@ -133,17 +133,16 @@ if ($Agree != "Agree") {
 									<span><?php echo $monthly_status; ?></span>
 								</div>
 								<?php if (($plan["status_id"] == Plan_model::REFUND) && !empty($monthly_data) && !empty($monthly_data["refund_record"])) { ?>
-									<td>Total Charged: </td><td></td><td><span>$<B><?php echo number_format($monthly_data["refund_record"]["charged_amount"]+$monthly_data["refund_record"]["admin_fee"], 2, '.', ','); ?></B></span></td>
-									<div class="form-group col-sm-3">
-										<label class="col-sm-12">Paid Months: 
-											<?php echo $monthly_data["refund_record"]["used_month"]; ?>
-										</label>
-									</div>
-									<div class="form-group col-sm-3">
-										<label class="col-sm-12">Paid Premium: 
-											<?php echo number_format($monthly_data["refund_record"]["used_month"]*$monthly_data["monthly_pay"], 2, '.', ','); ?>
-										</label>
-									</div>
+								<div class="form-group col-sm-3">
+									<label class="col-sm-12">Paid Months: 
+										<?php echo $monthly_data["refund_record"]["used_month"]; ?>
+									</label>
+								</div>
+								<div class="form-group col-sm-3">
+									<label class="col-sm-12">Paid Premium: 
+										<?php echo number_format($monthly_data["refund_record"]["used_month"]*$monthly_data["monthly_pay"], 2, '.', ','); ?>
+									</label>
+								</div>
 								<?php } else { ?>
 								<div class="col-sm-3">
 									<label class="inline">Paid Months:</label>
