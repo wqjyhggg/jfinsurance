@@ -5096,11 +5096,14 @@ class Plan extends MY_Controller {
 		if ($plan["monthlypay"]) {
 			$this->load->model('monthly_payment_model');
 			$monthly_data = $this->monthly_payment_model->get_monthlypay_data($plan_id);
-			if (empty($monthly_data)) {
+			if (empty($monthly_data) || empty($monthly_data["refund_record"])) {
 				redirect('user/login');
 			}
 			$data['monthly_data'] = $monthly_data;
-			$total_amount = -$monthly_data["total_refund"];	// Total Refund amount (must be -)
+			$total_amount = -$monthly_data["refund_record"]["refund_amount"];	// Total Refund amount (must be -)
+			$admin_fee = $monthly_data["admin_fee"];
+			$refund_amount = $monthly_data["refund_record"]["refund_amount"];
+			$used_premium = $monthly_data["premium"] - $monthly_data["refund_record"]["refund_amount"];
 		} else {
 			$admin_fee = floatval($payment['admin_fee']);
 			$refund_amount = $total_amount + $admin_fee;
@@ -5178,7 +5181,11 @@ class Plan extends MY_Controller {
 			$data['province2'] = $plan['province2'];
 			$data['postcode'] = $plan['postcode'];
 
-			$html = $this->load->view('plan/refund_addr', $data, TRUE);
+			if ($plan["monthlypay"] && !empty($data['monthly_data']["refund_record"]) && !empty($data['monthly_data']["refund_record"]["action"])) { // only terminated plan has action
+				$html = $this->load->view('plan/terminate_pdf', $data, TRUE);
+			} else {
+				$html = $this->load->view('plan/refund_addr', $data, TRUE);
+			}
 		}
 		$mpdf = new mPDF('c');
 		$mpdf->writeHTML($html);
