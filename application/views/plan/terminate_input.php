@@ -82,10 +82,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 														<div class="form-group col-sm-12 mb-2">
 															<label>Terminate Date:</label>
 															<div class="inline-date">
-																<div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
+																<input class="form-control" size="16" type="text" name='refund_date' id='refund_date' value='<?php echo $monthly_data['last_available_date']; ?>' readonly />
+																<!-- <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
 																	<input class="form-control" size="16" type="text" name='refund_date' id='refund_date' value='<?php echo $monthly_data['last_available_date']; ?>' min='<?php echo $plan['effective_date']; ?>' max='<?php echo $plan['expiry_date']; ?>'>
 																	<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-																</div>
+																</div> -->
 															</div>
 														</div>
 														<div class="form-group col-sm-4">

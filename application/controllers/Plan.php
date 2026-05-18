@@ -4814,10 +4814,10 @@ class Plan extends MY_Controller {
 		}
 		if ($this->input->post()) {
 			$refund_date = $this->input->post('refund_date');
-			$rRc = $this->monthly_payment_model->do_terminate($plan_id, $refund_date, $plan);
+			$rRc = $this->monthly_payment_model->do_terminate($plan_id, $refund_date, $plan["effective_date"], $plan["expiry_date"]);
 			$premium = $rRc["charged_amount"];
-			$refund_amount = 0; // $rRc["refund_amount"];
-			$admin_fee = $rRc["admin_fee"];
+			$refund_amount = $rRc["refund_amount"];
+			$admin_fee = 0;
 			$total_amount = $premium;
 			$new_expiry_date = $rRc["expiry_date"];
 			$totaldays = $rRc["totaldays"];
@@ -4826,7 +4826,7 @@ class Plan extends MY_Controller {
 			$dt = array();
 			$dt['plan_id'] = $plan_id;
 			$dt['amount'] = $total_amount * (-1);
-			$dt['admin_fee'] = $admin_fee * (-1);
+			$dt['admin_fee'] = 0;
 			$dt['pay_type'] = 'refund';
 			$dt['currency'] = $product['currency'];
 			$dt['pay_mothed'] = 'Cheque';
@@ -4862,8 +4862,8 @@ class Plan extends MY_Controller {
 			$this->log_model->activity('payment', $para);
 
 			// This is monthly plan special requirement, refund all and charge again
-			$dt['amount'] = $total_amount - $refund_amount;
-			$dt['admin_fee'] = $admin_fee;
+			$dt['amount'] = $total_amount;
+			$dt['admin_fee'] = 0;
 			$dt['pay_type'] = 'premium';
 			$premium_payment_id = $this->payment_model->add($dt, $user);
 			$para = array(
@@ -5100,11 +5100,7 @@ class Plan extends MY_Controller {
 				redirect('user/login');
 			}
 			$data['monthly_data'] = $monthly_data;
-			$data['paid_premium'] = $monthly_data["total_paid"] - $monthly_data["admin_fee"];
 			$total_amount = -$monthly_data["total_refund"];	// Total Refund amount (must be -)
-			$admin_fee = floatval($plan["premium"]) / 12 * 2;	// Init 2 month pay as admint fee
-			$used_premium = $monthly_data["total_paid"] - $monthly_data["total_refund"] - $monthly_data["admin_fee"] - $admin_fee;
-			$refund_amount = 0;
 		} else {
 			$admin_fee = floatval($payment['admin_fee']);
 			$refund_amount = $total_amount + $admin_fee;
@@ -5168,7 +5164,11 @@ class Plan extends MY_Controller {
 				$html = $this->load->view('plan/top/cancel', $data, TRUE);      // Refund use same template as cancel as requested
 				// $html = $this->load->view('plan/top/refund', $data, TRUE);
 			} else {
-				$html = $this->load->view('plan/refund', $data, TRUE);
+				if ($plan["monthlypay"] && !empty($data['monthly_data']["refund_record"]) && !empty($data['monthly_data']["refund_record"]["action"])) { // only terminated plan has action
+					$html = $this->load->view('plan/terminate_pdf', $data, TRUE);
+				} else {
+					$html = $this->load->view('plan/refund', $data, TRUE);
+				}
 			}
 		} else {
 			$data['customer_full_name'] = $data['customer']['firstname'] . " " . $data['customer']['lastname'];

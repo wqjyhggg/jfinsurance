@@ -308,6 +308,7 @@ class Monthly_payment_model extends CI_Model {
 			"init_pay_date" => "N/A",
 			"last_pay_date" => "N/A",
 			"last_available_date" => "N/A",
+			"first_pay_fail_date" => "",
 			"refund_record" => "",
 		];
 		if ($rts = $this->get_by_plan_id($plan_id)) {
@@ -319,6 +320,9 @@ class Monthly_payment_model extends CI_Model {
 					$rt["total_paid"] += $rc["amount"];
 					$rt["last_pay_date"] = $rc["pay_date"];
 					$rt["total_refund"] += $rc["refund_amount"];
+				}
+				if (($rc["paid"] == -2) && empty($rt["first_pay_fail_date"])) {
+					$rt["first_pay_fail_date"] = $rc["pay_date"];
 				}
 				if ($rc["pay_type"]) {
 					$rt["recurrent_times"]++;
@@ -402,38 +406,29 @@ class Monthly_payment_model extends CI_Model {
 		}
 	}
 
-	public function do_terminate($plan_id, $refund_date, $plan) {
+	public function do_terminate($plan_id, $refund_date, $effective_date, $expiry_date) {
 		$this->load->model('product_model');
+		$md = $this->get_monthlypay_data($plan_id);
 		$this->void_unpaid_record($plan_id, -3);
-		$refund_amount = 0;
-		$charged_amount = 0;
-		$lastRc = $this->db->where("plan_id", $plan_id)->order_by("monthly_payment_id", "DESC")->limit(1)->get("monthly_payment")->row_array();
-		if (empty($lastRc)) {
-			return $refund_amount;
+		$lastPayRc = $this->db->where("plan_id", $plan_id)->where("paid", 1)->order_by("monthly_payment_id", "DESC")->limit(1)->get("monthly_payment")->row_array();
+		if (empty($md["monthly_pay"]) || empty($lastPayRc)) {
+			return "There is an error on monthly database record. Please contact admin";
 		}
-		$monthly_amount = $lastRc["amount"];
-		$min_admin_fee = $this->admin_fee;	// First time paid
-
-		$paidRc = $this->db->where("plan_id", $plan_id)->where("paid", 1)->order_by("monthly_payment_id", "ASC")->get("monthly_payment")->result_array();
-		$expiry_date = $plan["effective_date"];
-		$refund_tm = strtotime($refund_date);
-		if ($paidRc) {
-			foreach ($paidRc as $rc) {
-				$charged_amount += $rc["amount"];
-				$pay_tm = strtotime($rc["pay_date"]);
-				if ($pay_tm <= $refund_tm) {
-					$expiry_date = $rc["pay_date"];
-				} else {
-					$refund_amount += $rc["amount"];
-				}
-			}
-		}
-		$date = new DateTime($expiry_date);
-		$date->modify('+2 month');
-		$date->modify('-1 day');
-		$expiry_date = $date->format('Y-m-d');
-		$totaldays = $this->product_model->getDays($plan["expiry_date"], $refund_date);
-		$terminateRc = ["refund_amount" => $refund_amount, "totaldays" => $totaldays, "charged_amount" => $charged_amount, "admin_fee" => $min_admin_fee, "do_action" => "terminate"];
+		$paid_months = round($md['paid_premium'] / $md['monthly_pay']);
+		$totaldays = $this->product_model->getDays($effective_date, $md["last_available_date"]);
+		$terminateRc = [
+			"action" => "terminate", 
+			"refund_amount" => 0, 
+			"charged_amount" => $md["paid_premium"], 
+			"admin_fee" => $md["admin_fee"], 
+			"extra_admin_fee" => 0, 
+			"paid_month" => $paid_month, 
+			"used_month" => $paid_month, 
+			"unpaid_month" => round($md["premium"] / $md["monthly_pay"]) - $paid_month, 
+			"expiry_date" => $md["last_available_date"], 
+			"origi_expiry_date" => $expiry_date, 
+			'totaldays' => $totaldays, 
+			"refund_date" => $refund_date];
 		$this->db->where("plan_id", $plan_id)->where("paid", 1)->where("pay_type", 0)->set("postdata", json_encode($terminateRc))->update("monthly_payment");
 		return $terminateRc;
 	}
@@ -467,7 +462,7 @@ class Monthly_payment_model extends CI_Model {
 		$md = $this->get_monthlypay_data($plan_id);
 		$rc = $this->db->where("plan_id", $plan_id)->order_by("monthly_payment_id", "ASC")->get("monthly_payment")->row_array();
 		if (empty($md["monthly_pay"]) || empty($rc)) {
-			return ["refund_amount" => 0, "charged_amount" => 0, "admin_fee" => 0, "paid_month" => 0, "used_month" => 0];
+			return "There is an error on monthly database record. Please contact admin";
 		}
 		if ($used_month < 2) {
 			$used_month = 2;

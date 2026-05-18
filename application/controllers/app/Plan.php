@@ -1514,10 +1514,10 @@ class Plan extends CI_Controller
 		}
 		if ($do_refund == 1) {
 			$refund_date = $this->input->post('refund_date');
-			$rRc = $this->monthly_payment_model->do_terminate($plan_id, $refund_date, $plan);
+			$rRc = $this->monthly_payment_model->do_terminate($plan_id, $refund_date, $plan["effective_date"], $plan["expiry_date"]);
 			$premium = $rRc["charged_amount"];
-			$refund_amount = 0; // $rRc["refund_amount"];
-			$admin_fee = $rRc["admin_fee"];
+			$refund_amount = $rRc["refund_amount"];
+			$admin_fee = 0;
 			$total_amount = $premium;
 			$new_expiry_date = $rRc["expiry_date"];
 			$totaldays = $rRc["totaldays"];
@@ -1526,7 +1526,7 @@ class Plan extends CI_Controller
 			$dt = array();
 			$dt['plan_id'] = $plan_id;
 			$dt['amount'] = $total_amount * (-1);
-			$dt['admin_fee'] = $admin_fee * (-1);
+			$dt['admin_fee'] = 0;
 			$dt['pay_type'] = 'refund';
 			$dt['currency'] = $product['currency'];
 			$dt['pay_mothed'] = 'Cheque';
@@ -1562,8 +1562,8 @@ class Plan extends CI_Controller
 			$this->log_model->activity('payment', $para, $user);
 
 			// This is monthly plan special requirement, refund all and charge again
-			$dt['amount'] = $total_amount - $refund_amount;
-			$dt['admin_fee'] = $admin_fee;
+			$dt['amount'] = $total_amount;
+			$dt['admin_fee'] = 0;
 			$dt['pay_type'] = 'premium';
 			$premium_payment_id = $this->payment_model->add($dt, $user);
 			$para = array(
