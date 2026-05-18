@@ -614,14 +614,14 @@ class Report_model extends CI_Model
 			foreach ($plan_list as $plan) {
 				$sql1 = $sql . $plan["plan_id"] . $sql2;
 				if ($plan_history_list = $this->db->query($sql1)->result_array()) {
-					$mplansql1 = $mplansql.$plan_list["plan_id"].$mplansqle;
+					$mplansql1 = $mplansql.$plan["plan_id"].$mplansqle;
 					if ($plan_monthly_list = $this->db->query($mplansql1)->result_array()) {
 						$refund_amount = 0;
 						$paid_amount = 0;
 						$admin_fee = 0;
 						$last_monthly_paid = 0;
 						foreach ($plan_history_list as $plan_history) {
-							$plan_history["last_status_id"] = $rc["last_status_id"];
+							$plan_history["last_status_id"] = $plan["last_status_id"];
 							$plan_history["total_premium"] = $plan_history["premium"];
 							if (($plan_history["status_id"] == 3) && ($paid_amount == 0)) { // 3 must be first, if there is still has 3 ignore it.
 								foreach ($plan_monthly_list as $monthly) {
@@ -642,12 +642,12 @@ class Report_model extends CI_Model
                   $plan_history["ishead"] = $monthly["pay_type"] + 1;
 									$report_list[] = $plan_history;
 								}
-							} else if ($plan["status_id"] == 5) {	// Canceled Plan, just need monthly payment records and cancel record
-								if ($rc["last_status_id"] == 5) { // Cancel
+							} else if ($plan["last_status_id"] == 5) {	// Canceled Plan, just need monthly payment records and cancel record
+								if ($plan_history["last_status_id"] == 5) { // Cancel
 									$plan_history["premium"] = ($refund_amount - $admin_fee) * -1;
+									$report_list[] = $plan_history;
 								}
-								$report_list[] = $plan_history;
-							} else if ($plan["status_id"] == 6) {	// Refund Plan, just need monthly payment records and last adjust(8) and refund record
+							} else if ($plan["last_status_id"] == 6) {	// Refund Plan, just need monthly payment records and last adjust(8) and refund record
 								if (($plan_history["status_id"] == 6) && ($last_monthly_paid == -3)) { // Terminated
 									// Refund and Termiated
 									$plan_history["status_id"] += 100;
