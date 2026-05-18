@@ -93,10 +93,10 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 								<td>&nbsp;</td><td>&nbsp;</td><td><span>&nbsp;</span></td>
 							</tr>
 							<tr>	
-								<td>Original Expiry Date: </td><td>&nbsp;</td><td><span>-$<?php echo $monthly_data["refund_record"]["origi_expiry_date"]; ?></span></td>
+								<td>Original Expiry Date: </td><td>&nbsp;</td><td><span><?php echo $monthly_data["refund_record"]["origi_expiry_date"]; ?></span></td>
 							</tr>
 							<tr>	
-								<td>New Expiry Date: </td><td>&nbsp;</td><td><span>-$<?php echo $monthly_data["refund_record"]["expiry_date"]; ?></span></td>
+								<td>New Expiry Date: </td><td>&nbsp;</td><td><span><?php echo $monthly_data["refund_record"]["expiry_date"]; ?></span></td>
 							</tr>
 						</tbody>
 					<?php } ?>
