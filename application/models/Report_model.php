@@ -970,6 +970,7 @@ class Report_model extends CI_Model
     $sql .= "	pl.totaldays AS total_days,";
     $sql .= "	(pa2.amount - pa2.admin_fee) AS premium,";
     $sql .= "	pa2.ispaid AS premiumispaid,";
+    $sql .= "	pa.premium_payment_id as ppremium_payment_id,";
     $sql .= "	pa.rate,";
     $sql .= "	pa.amount,";
     $sql .= "	pa.ispaid ";
@@ -1021,7 +1022,7 @@ class Report_model extends CI_Model
     $results = array();
     foreach ($query as $row) {
       if (empty($results[$row['user_id']])) {
-        $agent = $this->db->query("SELECT * FROM user WHERE user_id='" . (int)$row['user_id'] . "'")->row_array();
+        $agent = $this->db->query("SELECT * FROM user WHERE user_id='" . intval($row['user_id']) . "'")->row_array();
         $results[$row['user_id']] = array('agent' => $agent, 'data' => array());
         if (!empty($para['asbroker']) && ($row['user_id'] == $para['agent_id'])) {
           $results['asbroker'] = $agent;
@@ -1035,6 +1036,11 @@ class Report_model extends CI_Model
 						$row["payment_type"] = "Recurring Premium";
 					} else {
 						$row["payment_type"] = "Init Premium";
+					}
+				}
+				if ($row["ppremium_payment_id"]) {
+					if ($pm = $this->db->query("SELECT amount FROM payment WHERE payment_id='" . intval($row['ppremium_payment_id']) . "'")->row_array()) {
+						$row["premium"] += $pm["amount"];
 					}
 				}
 			}

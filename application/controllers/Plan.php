@@ -4671,6 +4671,8 @@ class Plan extends MY_Controller {
 							'systemlog' => $this->payment_model->sqlstr
 						);
 						$this->log_model->activity('payment', $para, $user);
+						$pdt = ['premium_payment_id' => $premium_payment_id];
+						$this->payment_model->update($payment_id, $pdt);
 					}
 
 					$dt['pay_type'] = 'refund_commission';
