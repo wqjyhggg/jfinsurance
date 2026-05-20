@@ -78,7 +78,7 @@ class Plan extends CI_Controller
 
 		$sArr = [];
 		if ($user["user_group_id"] > 100) {
-			$sArr["user_id"] = $user["id"];
+			$sArr["user_id"] = $user["user_id"];
 		}
 		if (!empty($policy)) $sArr["policy"] = $policy;
 		if (!empty($date_start)) $sArr["date_start"] = $date_start;
