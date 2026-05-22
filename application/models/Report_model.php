@@ -620,18 +620,20 @@ class Report_model extends CI_Model
 						$paid_amount = 0;
 						$admin_fee = 0;
 						$last_monthly_paid = 0;
+						$total_premium = 0;
 						foreach ($plan_history_list as $plan_history) {
 							$plan_history["last_status_id"] = $plan["last_status_id"];
 							$plan_history["total_premium"] = $plan_history["premium"];
 							if (($plan_history["status_id"] == 3) && ($paid_amount == 0)) { // 3 must be first, if there is still has 3 ignore it.
 								foreach ($plan_monthly_list as $monthly) {
 									$paid_amount += $monthly["amount"] - $monthly["admin_fee"];
-									$plan_history["total_premium"] = 0;
 									$last_monthly_paid = $monthly["paid"];
 									$refund_amount += $monthly["refund_amount"];
 									if (empty($monthly["pay_type"])) {
 										$admin_fee = $monthly["admin_fee"];
-										$plan_history["total_premium"] = $plan_history["premium"];
+										$total_premium = $monthly["amount"];
+									} else {
+										$total_premium += $monthly["amount"];
 									}
 									if ($plan_history["status_id"] == 7) {
 										$plan_history["premium"] = $monthly["admin_fee"] - $monthly["amount"];
@@ -640,6 +642,17 @@ class Report_model extends CI_Model
 									}
 									$plan_history["add_time"] = $monthly["pay_time"];
                   $plan_history["ishead"] = $monthly["pay_type"] + 1;
+                  $plan_history["total_premium"] = $total_premium;
+									$report_list[] = $plan_history;
+								}
+							} else if ($plan["last_status_id"] == 3) {	// Continue Plan
+								if ($plan_history["status_id"] == 3) {
+									$plan_history["premium"] = $paid_amount;
+                  $plan_history["total_premium"] = $total_premium;
+									$report_list[] = $plan_history;
+								} else if ($plan_history["status_id"] == 8) {
+									$plan_history["premium"] = $paid_amount * -1;
+                  $plan_history["total_premium"] = $total_premium * -1;
 									$report_list[] = $plan_history;
 								}
 							} else if ($plan["last_status_id"] == 5) {	// Canceled Plan, just need monthly payment records and cancel record
