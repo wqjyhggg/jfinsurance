@@ -642,17 +642,17 @@ class Report_model extends CI_Model
 									}
 									$plan_history["add_time"] = $monthly["pay_time"];
                   $plan_history["ishead"] = $monthly["pay_type"] + 1;
-                  $plan_history["total_premium"] = $total_premium;
+                  // $plan_history["total_premium"] = $total_premium;
 									$report_list[] = $plan_history;
 								}
 							} else if ($plan["last_status_id"] == 3) {	// Continue Plan
 								if ($plan_history["status_id"] == 3) {
 									$plan_history["premium"] = $paid_amount;
-                  $plan_history["total_premium"] = $premium;
+                  // $plan_history["total_premium"] = $total_premium;
 									$report_list[] = $plan_history;
 								} else if ($plan_history["status_id"] == 8) {
 									$plan_history["premium"] = $paid_amount * -1;
-                  $plan_history["total_premium"] = $premium * -1;
+                  $plan_history["total_premium"] *= -1;
 									$report_list[] = $plan_history;
 								}
 							} else if ($plan["last_status_id"] == 5) {	// Canceled Plan, just need monthly payment records and cancel record

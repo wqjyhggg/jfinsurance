@@ -145,6 +145,7 @@ class Premium3 extends MY_Controller
 			if ($record['ishead']==2) {
 				$earned = 0;
 				$unearned = 0;
+				$record['total_premium'] = 0;
 			} else if ($record['days_used'] >= $record['totaldays']) {
 				$earned = $record['premium'];
 				$unearned = 0;
