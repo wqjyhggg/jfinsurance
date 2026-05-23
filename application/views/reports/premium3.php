@@ -193,7 +193,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                           $dts = strtotime($record['effective_date']);
                           $record['totaldays'] = round(($dte-$dts)/(60 * 60 * 24)) + 1; 
 												} else if ($record['last_status_id'] == 5) {
-													$record['days_used'] = 0; 
+													// $record['days_used'] = 0; 
 												}
                         if (abs($record['premium']) <= 25) {
                           $record['premium'] = floatval($record['dailyrate'] * $record['totaldays']);
