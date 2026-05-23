@@ -1622,20 +1622,21 @@ class Plan extends CI_Controller
 
 			if ($customer = $this->customer_model->get_customer_by_id($plan['customer_id'])) {
 				$this->load->model('mymail_model');
-				$body  = "Dear " . $customer['firstname'] . " " . $customer['lastname'] . ",\r\n\r\n";
-				$body .= "We are contacting you regarding your insurance policy " . $plan['polcy'] . " purchased on " . $plan['apply_date'] . ".";
-				$body .= "Our records indicate that payment for this policy was not received and we were not able to contact with you. As a result, your policy has been terminated as of " . $$refund_date . ".";
-				$body .= "If you believe this termination is in error or if you have any questions, please contact your agent immediately to discuss possible options.\r\n\r\n";
-				$body .= "To restore your coverage, please respond to this message or call us directly at (905)707-1512. You may also email us at info@jfgroup.ca.\r\n\r\n";
-				$body .= "Thank you for your immediate attention to this matter.\r\n\r\n";
-				$body .= "Sincerely,\r\n";
-				$body .= "JF Insurance Agency Group Inc.\r\n";
-				$body .= "15 Wertheim Court, Suite #501\r\n";
-				$body .= "Richmond Hill, ON L4B 3H7\r\n";
-				$body .= "Tel: 905-707-1512  Fax: 905-707-1513\r\n";
-				$body .= "Website: www.jfgroup.ca\r\n";
-
-				$this->mymail_model->send_mymail($plan['contact_email'], 'Your policy ' . $plan['policy'] . ' is terminated', $body, 'text');
+				if (filter_var($plan["contact_email"], FILTER_VALIDATE_EMAIL)) {
+					$edata = array(
+						"plan" => $plan,
+						"customer" => $customer,
+					);
+					$body = $this->load->view('mail/terminate_customer',$edata, TRUE);
+					$this->mymail_model->send_mymail($plan['contact_email'], 'Urgent Notice: Termination of Your Insurance Policy Due to Nonpayment​', $body, array(), 'JF Insurance', 'text');
+					if ($agent = $this->customer_model->get_customer_by_id($plan['user_id'])) {
+						if (filter_var($agent["email"], FILTER_VALIDATE_EMAIL)) {
+							$edata["agent"] = $agent;
+							$body = $this->load->view('mail/terminate_agent',$edata, TRUE);
+							$this->mymail_model->send_mymail($plan['contact_email'], 'Urgent Notice: Termination of Client’s Insurance Policy Due to Nonpayment', $body, array(), 'JF Insurance', 'text');
+						}
+					}
+				}
 			}
 
 			return $this->app_model->return_ok(array('plan_id' => $plan_id, 'customer_id' => $plan['customer_id'], 'payment_id' => $payment_id));
