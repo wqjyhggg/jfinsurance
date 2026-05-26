@@ -23,7 +23,13 @@ class Monthly_payment_model extends CI_Model {
 		$this->db->where('monthly_payment_id', $monthly_payment_id);
 		return $this->db->get('monthly_payment')->row_array();
 	}
-	
+
+	public function get_first_payment($plan_id) {
+		$this->db->where('plan_id', $plan_id);
+		$this->db->where('pay_type', 0);
+		return $this->db->get('monthly_payment')->row_array();
+	}
+
 	/**
 	 * Add payment data
 	 * 
@@ -204,9 +210,10 @@ class Monthly_payment_model extends CI_Model {
 	}
 
 	public function plan_search($para, $plan, $limit=0, $start=0) {
-		$this->db->select('monthly_payment.*, plan.status_id, plan.policy, plan.effective_date, plan.expiry_date');
+		$this->db->select('monthly_payment.*, plan.status_id, plan.policy, plan.product_short, plan.effective_date, plan.expiry_date, customer.firstname, customer.lastname');
 		$this->db->from('monthly_payment');
 		$this->db->join('plan', 'monthly_payment.plan_id=plan.plan_id', 'left');
+		$this->db->join('customer', 'plan.customer_id=customer.customer_id', 'left');
 		if ($plan) {
 			$this->db->where('plan_id', $plan['plan_id']);
 		}

@@ -3688,6 +3688,14 @@ class Plan extends MY_Controller {
 		if ($plan_id) {
 			if ($plan = $this->plan_model->get_plan_by_id($plan_id)) {
 				if ($plan["status_id"] == Plan_model::QUOTE) {
+					if ($plan["monthlypay"] == 1) {
+						$this->load->model('monthly_payment_model');
+						if ($monthlypay_rc = $this->monthly_payment_model->get_first_payment($plan_id)) {
+							if ($monthlypay_rc["paid"] != 0) {
+								die("Payment Failed");
+							}
+						}
+					}		
 					die("WAIT");
 				} else if (($plan["status_id"] == Plan_model::PAID) || ($plan["status_id"] == Plan_model::SOLD)) {
 					die("OK");
