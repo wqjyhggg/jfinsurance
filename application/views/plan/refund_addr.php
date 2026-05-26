@@ -14,7 +14,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 						</div>
 						<div class="col-sm-12">
 							<br>
-							<span style="width:110px;">Address : </span><input type='text' name='full_address' value="<?php echo !empty($suite_number)? "Suite " . $html_model->escapeQuote2($suite_number .' '. $street_number .' , '. $street_name) : $html_model->escapeQuote2($street_number .' , '. $street_name); ?>"><br />
+							<span style="width:110px;">Address : </span><input type='text' name='full_address' value="<?php echo !empty($suite_number)? "Suite " . $html_model->escapeQuote2($suite_number .' '. $street_number .' '. $street_name) : $html_model->escapeQuote2($street_number .' '. $street_name); ?>"><br />
 						</div>
 						<div class="col-sm-12">
 							<br>

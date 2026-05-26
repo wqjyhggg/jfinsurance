@@ -321,7 +321,7 @@ class Monthly_payment_model extends CI_Model {
 					$rt["last_pay_date"] = $rc["pay_date"];
 					$rt["total_refund"] += $rc["refund_amount"];
 				}
-				if (($rc["paid"] == -2) && empty($rt["first_pay_fail_date"])) {
+				if (($rc["paid"] <= -2) && empty($rt["first_pay_fail_date"])) {
 					$rt["first_pay_fail_date"] = $rc["pay_date"];
 				}
 				if ($rc["pay_type"]) {

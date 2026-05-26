@@ -621,10 +621,14 @@ class Report_model extends CI_Model
 						$admin_fee = 0;
 						$last_monthly_paid = 0;
 						$total_premium = 0;
+						$last_effective_date = "";
+						$last_expiry_date = "";
 						foreach ($plan_history_list as $plan_history) {
 							$plan_history["last_status_id"] = $plan["last_status_id"];
 							$plan_history["total_premium"] = $plan_history["premium"];
 							if (($plan_history["status_id"] == 3) && ($paid_amount == 0)) { // 3 must be first, if there is still has 3 ignore it.
+								$last_effective_date = $plan_history["effective_date"];
+								$last_expiry_date = $plan_history["expiry_date"];
 								foreach ($plan_monthly_list as $monthly) {
 									$paid_amount += $monthly["amount"] - $monthly["admin_fee"];
 									$last_monthly_paid = $monthly["paid"];
@@ -650,9 +654,14 @@ class Report_model extends CI_Model
 									$plan_history["premium"] = $paid_amount;
                   // $plan_history["total_premium"] = $total_premium;
 									$report_list[] = $plan_history;
+									$last_effective_date = $plan_history["effective_date"];
+									$last_expiry_date = $plan_history["expiry_date"];
 								} else if ($plan_history["status_id"] == 8) {
 									$plan_history["premium"] = $paid_amount * -1;
                   $plan_history["total_premium"] *= -1;
+									$plan_history["dailyrate"] *= -1;
+									$plan_history["effective_date"] = $last_effective_date;
+									$plan_history["expiry_date"] = $last_expiry_date;
 									$report_list[] = $plan_history;
 								}
 							} else if ($plan["last_status_id"] == 5) {	// Canceled Plan, just need monthly payment records and cancel record
