@@ -214,20 +214,21 @@ class Monthly_payment_model extends CI_Model {
 		$this->db->from('monthly_payment');
 		$this->db->join('plan', 'monthly_payment.plan_id=plan.plan_id', 'left');
 		$this->db->join('customer', 'plan.customer_id=customer.customer_id', 'left');
+		$this->db->where('plan.status_id>', 1);
 		if ($plan) {
-			$this->db->where('plan_id', $plan['plan_id']);
+			$this->db->where('monthly_payment.plan_id', $plan['plan_id']);
 		}
 		if (!empty($para['user_id'])) {
 			$this->db->where('plan.user_id=', $para['user_id']);
 		}
 		if (!empty($para['date_start'])) {
-			$this->db->where('pay_date>=', $para['date_start']);
+			$this->db->where('monthly_payment.pay_date>=', $para['date_start']);
 		}
 		if (!empty($para['date_end'])) {
-			$this->db->where('pay_date<=', $para['date_end']);
+			$this->db->where('monthly_payment.pay_date<=', $para['date_end']);
 		}
 		if (!empty($para['paid'])) {
-			$this->db->where('paid', $para['paid']);
+			$this->db->where('monthly_payment.paid', $para['paid']);
 		}
 		$this->db->order_by('plan_id', "ASC");
 		$this->db->order_by('monthly_payment_id', "ASC");
@@ -238,19 +239,23 @@ class Monthly_payment_model extends CI_Model {
 	}
 
 	public function plan_search_count($para, $plan) {
+		$this->db->select('monthly_payment.*, plan.status_id, plan.policy, plan.product_short, plan.effective_date, plan.expiry_date, customer.firstname, customer.lastname');
+		$this->db->from('monthly_payment');
+		$this->db->join('plan', 'monthly_payment.plan_id=plan.plan_id', 'left');
+		$this->db->where('plan.status_id>', 1);
 		if ($plan) {
-			$this->db->where('plan_id', $plan['plan_id']);
+			$this->db->where('monthly_payment.plan_id', $plan['plan_id']);
 		}
 		if (!empty($para['date_start'])) {
-			$this->db->where('pay_date>=', $para['date_start']);
+			$this->db->where('monthly_payment.pay_date>=', $para['date_start']);
 		}
 		if (!empty($para['date_end'])) {
-			$this->db->where('pay_date<=', $para['date_end']);
+			$this->db->where('monthly_payment.pay_date<=', $para['date_end']);
 		}
 		if (!empty($para['paid'])) {
-			$this->db->where('paid', $para['paid']);
+			$this->db->where('monthly_payment.paid', $para['paid']);
 		}
-		return $this->db->get("monthly_payment")->num_rows();
+		return $this->db->get()->num_rows();
 	}
 
 	public function create_payment_records($plan_id, $first_amount, $month_pay, $mountly_number, $effective_date, $admin_fee) {

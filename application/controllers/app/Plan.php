@@ -100,13 +100,13 @@ class Plan extends CI_Controller
 		if (isset($sArr["policy"])) {
 			$plan = $this->plan_model->get_plan_by_policy($sArr["policy"]);
 		}
-		$plan_list = $this->monthly_payment_model->plan_search($sArr, $plan, $limit, $start);
+		$plan_list = $this->monthly_payment_model->plan_search($sArr, $plan);
 		$data = [];
 		if (!empty($only_last_per_policy)) {
 			$plan_list = $this->monthly_payment_model->build_new_plan_list_onepass($plan_list);
 		}
-		$data['payment_list'] = $plan_list;
-		$data['payment_total'] = $this->monthly_payment_model->plan_search_count($sArr, $plan);
+		$data['payment_total'] = sizeof($plan_list);
+		$data['payment_list'] = array_slice($plan_list, $start, $limit);
 
 		$this->app_model->return_ok($data);
   }

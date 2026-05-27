@@ -219,7 +219,7 @@ class Plan extends MY_Controller {
 			$plan_list = $this->monthly_payment_model->build_new_plan_list_onepass($plan_list);
 		}
 		$data['plan_list'] = $plan_list;
-		$data['plan_total'] = $this->monthly_payment_model->plan_search_count($sArr, $plan);
+		$data['plan_total'] = sizeof($plan_list);
 
 		$data['base_url'] = site_url('plan/monthlystatus');
 		$data['edit_url'] = base_url("plan/edit") . "/";

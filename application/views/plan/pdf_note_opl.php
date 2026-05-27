@@ -8,6 +8,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<?php } else if ($plan['stable_condition'] == 2 ) { ?>
 			<p class="small" style="margin-top:2px;"><b>No Pre-existing Medical Condition Coverage.</b></p>
 			<?php } ?>
+			<?php if (0) { ?>
 			<p class="small" style="margin-top:2px;"><b>Waiting Period</b> - When coverage is purchased any time after your arrival in Canada:<br />
 			a. If you are age 86 or older, then in respect of any sickness, you will not be entitled to receive reimbursement for sickness or symptoms which manifested or were contracted or treated within 15 days following the effective date of this policy. 
 			<br />b. If you are age 85 or under, then in respect of any sickness, you will not be entitled to receive reimbursement for sickness or symptoms which manifested or were contracted or treated within 48 hours following the effective date of this policy. 
@@ -16,6 +17,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<br />i. is purchased on or prior to the expiry date of an existing policy already issued by the administrator company to take effect on the day following such expiry date, provide no increase in the aggregate policy limit (Sum insured Option) or rate schedule change is applied for;
 			<br />ii. the administrator company specifically waives or modifies the waiting period in writing; or
 			<br />iii. if you have coverage with another insurer during the first part of your trip in Canada, and you are purchasing this insurance after your arrival in Canada and there will be no gap in your coverage, you may request to have the Waiting Period waived. You must provide proof satisfactory to the administrator company that your have other coverage in force prior to purchasing this policy and receive written approval from the administrator company.</p>
+			<?php } ?>
 
 			<p class="small" style="margin-top:2px;"><b>Please retain this confirmation as your receipt.</b></p>
 
