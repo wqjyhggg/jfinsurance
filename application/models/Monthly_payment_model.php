@@ -350,16 +350,11 @@ class Monthly_payment_model extends CI_Model {
 			}
 			$rt["paid_premium"] = $rt["total_paid"] - $rt["admin_fee"];
 			$rt["premium"] -= $rt["admin_fee"];
-			if ($rt["last_pay_date"] != "N/A") {
-				$date = new DateTime($rt["last_pay_date"]);
-				$date->modify('+3 month');
-				$date->modify('-1 day');
-				$rt["last_available_date"] = $date->format('Y-m-d');
-			} else {
+			if ($paied_month = round($rt["paid_premium"] / $rt["monthly_pay"])) {
 				$this->load->model('plan_model');
 				if ($plan = $this->plan_model->get_plan_by_id($plan_id)) {
 					$date = new DateTime($plan["effective_date"]);
-					$date->modify('+2 month');
+					$date->modify('+'.$paied_month.' month');
 					$date->modify('-1 day');
 					$rt["last_available_date"] = $date->format('Y-m-d');
 				}

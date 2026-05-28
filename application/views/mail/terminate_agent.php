@@ -1,15 +1,16 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
-Dear <?php echo htmlspecialchars($customer['firstname'] . " " . $customer['lastname']); ?>,
+Dear <?php echo htmlspecialchars($agent['firstname'] . " " . $agent['lastname']); ?>,
 
-We are contacting you regarding your insurance policy <?php echo $plan['polcy']; ?>, purchased on <?php echo $plan['apply_date']; ?>.
+We are reaching out regarding the insurance policy held by your client <?php echo htmlspecialchars($customer['firstname'] . " " . $customer['lastname']); ?>, 
+policy number <?php echo $plan['polcy']; ?>, purchased on <?php echo $plan['apply_date']; ?>.
 
-Our records indicate that payment for this policy was not received and we were not able to contact with you. As a result, your policy has been terminated as of <?php echo $plan['expiry_date']; ?>.
+Our records show that payment for this policy has not been received, resulting in the termination of the client's policy as of <?php echo $plan['expiry_date']; ?>.
 
-If you believe this termination is in error or if you have any questions, please contact your agent immediately to discuss possible options.
+If you believe this termination is incorrect or if you have any questions, please contact us immediately to discuss possible options.
 
-To restore your coverage, please respond to this message or call us directly at <b>(905) 707-1512</b>. You may also email us at info@jfgroup.ca.
+To assist your client, please respond to this message or contact us directly at (905) 707-1512. You can also reach us via email at info@jfgroup.ca.
 
 Thank you for your immediate attention to this matter.
 

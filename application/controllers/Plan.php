@@ -4949,7 +4949,7 @@ class Plan extends MY_Controller {
 			}
 			redirect('plan/detail/' . $plan_id);
 		}
-		$data['action_url'] = base_url('plan/terminate');
+		$data['action_url'] = base_url('plan/terminate') . "/" . $plan['plan_id'];
 		$data['refund_amount_url'] = base_url('plan/refund_amount') . "/" . $plan['plan_id'];
 		$data['plan_id'] = $plan['plan_id'];
 		$claims = $this->plan_model->verify_policy($plan['policy']);
@@ -4965,7 +4965,7 @@ class Plan extends MY_Controller {
 			}
 		}
 		// if ($plan['product_short'] == 'JFC') $data['adminfee'] = 25; 
-		$data['url_back_to_policy'] = base_url('plan/');
+		$data['url_back_to_policy'] = base_url('plan/edit') . "/" . $plan['plan_id'];
 
 		$data['title_txt'] = 'Policy';
 		$data['top_menu'] = $this->menu_model->load_top_menu();
