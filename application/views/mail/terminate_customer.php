@@ -3,7 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 Dear <?php echo htmlspecialchars($customer['firstname'] . " " . $customer['lastname']); ?>,
 
-We are contacting you regarding your insurance policy <?php echo $plan['polcy']; ?>, purchased on <?php echo $plan['apply_date']; ?>.
+We are contacting you regarding your insurance policy <?php echo $plan['policy']; ?>, purchased on <?php echo $plan['apply_date']; ?>.
 
 Our records indicate that payment for this policy was not received and we were not able to contact with you. As a result, your policy has been terminated as of <?php echo $plan['expiry_date']; ?>.
 
