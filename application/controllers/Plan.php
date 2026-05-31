@@ -4938,7 +4938,7 @@ class Plan extends MY_Controller {
 					);
 					$body = $this->load->view('mail/terminate_customer',$edata, TRUE);
 					$this->mymail_model->send_mymail($plan['contact_email'], 'Urgent Notice: Termination of Your Insurance Policy Due to Nonpayment​', $body, array(), 'JF Insurance', 'text');
-					if ($agent = $this->customer_model->get_customer_by_id($plan['user_id'])) {
+					if ($agent = $this->user_model->get_user_by_id($plan['user_id'])) {
 						if (filter_var($agent["email"], FILTER_VALIDATE_EMAIL)) {
 							$edata["agent"] = $agent;
 							$body = $this->load->view('mail/terminate_agent',$edata, TRUE);

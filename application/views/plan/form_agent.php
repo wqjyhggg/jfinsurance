@@ -525,13 +525,13 @@ if ($Agree != "Agree") {
 										<?php $idx = 0; foreach ($monthly_payment as $mr) { $idx++; ?>
 										<div class="row" style="line-height: 32px;">
 											<div class="col-sm-3">
-												<span><?php echo $mr["retry_date"]; ?></span>
+												<span><?php echo $mr["pay_date"]; ?></span>
 											</div>
 											<div class="col-sm-3">
 												<span><?php echo number_format($mr["amount"], 2, ".", ""); ?></span>
 											</div>
 											<div class="col-sm-3">
-												<span><?php echo ($mr["paid"]==1)?"Paid":(($mr["paid"]==-2)?"Failed":(($mr["paid"]==-1)?"Void":"-")); ?></span>
+												<span><?php echo ($mr["paid"]==1)?"Paid":(($mr["paid"]==-2)?"Failed (Retry at " . $mr["retry_date"] . ")":(($mr["paid"]==-1)?"Void":"-")); ?></span>
 											</div>
 											<div class="col-sm-3">
 												&nbsp;

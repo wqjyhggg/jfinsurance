@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 Dear <?php echo htmlspecialchars($agent['firstname'] . " " . $agent['lastname']); ?>,
 
 We are reaching out regarding the insurance policy held by your client <?php echo htmlspecialchars($customer['firstname'] . " " . $customer['lastname']); ?>, 
-policy number <?php echo $plan['polcy']; ?>, purchased on <?php echo $plan['apply_date']; ?>.
+policy number <?php echo $plan['policy']; ?>, purchased on <?php echo $plan['apply_date']; ?>.
 
 Our records show that payment for this policy has not been received, resulting in the termination of the client's policy as of <?php echo $plan['expiry_date']; ?>.
 
