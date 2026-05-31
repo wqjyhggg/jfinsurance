@@ -4667,7 +4667,7 @@ class Plan extends MY_Controller {
 					$this->log_model->activity('payment', $para);
 					if (!empty($plan["monthlypay"])) {
 						// This is monthly plan special requirement, refund all and charge again
-						$dt['amount'] = $total_amount + $added_admin_fee - $refund_amount;
+						$dt['amount'] = $total_amount - $refund_amount;
 						$dt['admin_fee'] = $added_admin_fee;
 						$dt['pay_type'] = 'premium';
 						$premium_payment_id = $this->payment_model->add($dt, $user);

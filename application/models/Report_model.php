@@ -670,10 +670,15 @@ class Report_model extends CI_Model
 									$report_list[] = $plan_history;
 								}
 							} else if ($plan["last_status_id"] == 6) {	// Refund Plan, just need monthly payment records and last adjust(8) and refund record
-								if (($plan_history["status_id"] == 6) && ($last_monthly_paid == -3)) { // Terminated
-									// Refund and Termiated
-									$plan_history["status_id"] += 100;
+								if ($plan_history["status_id"] == 6) { 
+									if ($last_monthly_paid == -3) { // Terminated
+										// Refund and Termiated
+										$plan_history["status_id"] += 100; // For show 106 => "Termination/Refund",
+									}
+									$plan_history["premium"] = round($plan_history["totaldays"] * $plan_history["dailyrate"], 2);
+									$plan_history["total_premium"] = $plan_history["premium"];
 								}
+								// premium is total
 								if ($plan_history["premium"] < 0) {
 									$plan_history["premium"] = $paid_amount * -1;
 								}
