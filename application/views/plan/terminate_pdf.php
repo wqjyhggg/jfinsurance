@@ -50,9 +50,9 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 					We are writing in regard to your insurance policy <span><b><?php echo $plan['policy']; ?></b> which was purchased on <b><?php echo $plan['apply_date']; ?></b></span>.
 					<?php if (!empty($monthly_data) && !empty($monthly_data["refund_record"]) ) { ?>
 					Our records indicate that payment for this policy was not received on <b><?php echo $monthly_data['first_pay_fail_date']; ?></b>, and 
-					we were unable to reach you to resolve it within 30 days. As a result, your policy was terminated and will now expiry on <b><?php echo $monthly_data['last_available_date']; ?></b>
+					we were unable to reach you to resolve it within 30 days. As a result, your policy was terminated and will now expire on <b><?php echo $monthly_data['last_available_date']; ?></b>
 					<?php } else { ?>
-					We were unable to reach you to resolve it within 30 days. As a result, your policy was terminated and will now expiry on <b><?php echo $plan['expiry_date']; ?></b>
+					We were unable to reach you to resolve it within 30 days. As a result, your policy was terminated and will now expire on <b><?php echo $plan['expiry_date']; ?></b>
 					<?php } ?>
 				</p>
 			</div>
