@@ -151,7 +151,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                 6 => "Refund",
                 7 => "Changed",
                 8 => "Adjust",
-                106 => "Termination/Refund",
+                106 => "Terminated",
               );
               ?>
                 <table class="table table-hover table-bordered">
