@@ -1620,6 +1620,7 @@ class Plan extends CI_Controller
 			);
 			$this->log_model->activity('plan', $para, $user);
 
+			$plan = $this->plan_model->get_plan_by_id($plan_id);
 			if ($customer = $this->customer_model->get_customer_by_id($plan['customer_id'])) {
 				$this->load->model('mymail_model');
 				if (filter_var($plan["contact_email"], FILTER_VALIDATE_EMAIL)) {
