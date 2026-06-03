@@ -610,7 +610,7 @@ class Report_model extends CI_Model
 			$sql .= " WHERE ph.plan_id = ";
 			$sql2 = " ORDER BY ph.plan_history_id ASC";
 			$mplansql = "SELECT * FROM monthly_payment WHERE plan_id=";
-			$mplansqle = " AND paid=1 ORDER BY monthly_payment_id ASC";
+			$mplansqle = " ORDER BY monthly_payment_id ASC";
 			foreach ($plan_list as $plan) {
 				$sql1 = $sql . $plan["plan_id"] . $sql2;
 				if ($plan_history_list = $this->db->query($sql1)->result_array()) {
@@ -630,8 +630,11 @@ class Report_model extends CI_Model
 								$last_effective_date = $plan_history["effective_date"];
 								$last_expiry_date = $plan_history["expiry_date"];
 								foreach ($plan_monthly_list as $monthly) {
-									$paid_amount += $monthly["amount"] - $monthly["admin_fee"];
 									$last_monthly_paid = $monthly["paid"];
+									if ($monthly["paid"] != 1) {
+										continue;
+									}	
+									$paid_amount += $monthly["amount"] - $monthly["admin_fee"];
 									$refund_amount += $monthly["refund_amount"];
 									if (empty($monthly["pay_type"])) {
 										$admin_fee = $monthly["admin_fee"];
