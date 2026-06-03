@@ -4914,7 +4914,7 @@ class Plan extends MY_Controller {
 			}
 
 			$note = "Terminate at " . $dt['added'] . "; " . " admin fee: " . $admin_fee . "; " . $plan['note'];
-			$para = array('status_id' => Plan_model::REFUND, 'payment_id' => $payment_id, 'commission_payment_id' => $commission_payment_id, 'expiry_date' => $new_expiry_date, 'refund_date' => $refund_date, 'note' => $note);  // Change status to refund
+			$para = array('status_id' => Plan_model::REFUND, 'payment_id' => $payment_id, 'commission_payment_id' => $commission_payment_id, 'totaldays' => $totaldays, 'expiry_date' => $new_expiry_date, 'refund_date' => $refund_date, 'note' => $note);  // Change status to refund
 			$this->plan_model->update($plan_id, $para);
 			if ($id = $this->plan_history_model->add($plan_id, Plan_model::REFUND)) {
 				$this->plan_history_model->update($id, array("payment_id" => $payment_id, "premium" => ($total_amount - $admin_fee - $refund_amount), "expiry_date" => $new_expiry_date, 'refund_date' => $refund_date, "note" => "Terminate Recode"));
