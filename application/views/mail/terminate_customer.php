@@ -9,7 +9,7 @@ Our records indicate that payment for this policy was not received and we were n
 
 If you believe this termination is in error or if you have any questions, please contact your agent immediately to discuss possible options.
 
-To restore your coverage, please respond to this message or call us directly at (905) 707-1512. You may also email us at info@jfgroup.ca.
+Please contact us at (905) 707-1512 or by email at info@jfgroup.ca
 
 Thank you for your immediate attention to this matter.
 
