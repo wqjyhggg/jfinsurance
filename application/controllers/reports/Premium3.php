@@ -74,6 +74,7 @@ class Premium3 extends MY_Controller
                 6 => "Refund",
                 7 => "Changed",
                 8 => "Adjust",
+								106 => "Terminated",
               );
 
     $w = WriterFactory::create(Type::XLSX); // for XLSX files
