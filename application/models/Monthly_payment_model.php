@@ -227,6 +227,12 @@ class Monthly_payment_model extends CI_Model {
 		if (!empty($para['date_end'])) {
 			$this->db->where('monthly_payment.pay_date<=', $para['date_end']);
 		}
+		if (!empty($para['firstname'])) {
+			$this->db->where('customer.firstname LIKE', '%' . $para['firstname'] . '%');
+		}
+		if (!empty($para['lastname'])) {
+			$this->db->where('customer.lastname LIKE', '%' . $para['lastname'] . '%');
+		}
 		if (!empty($para['paid'])) {
 			$this->db->where('monthly_payment.paid', $para['paid']);
 		}
@@ -242,6 +248,7 @@ class Monthly_payment_model extends CI_Model {
 		$this->db->select('monthly_payment.*, plan.status_id, plan.policy, plan.product_short, plan.effective_date, plan.expiry_date, customer.firstname, customer.lastname');
 		$this->db->from('monthly_payment');
 		$this->db->join('plan', 'monthly_payment.plan_id=plan.plan_id', 'left');
+		$this->db->join('customer', 'plan.customer_id=customer.customer_id', 'left');
 		$this->db->where('plan.status_id>', 1);
 		if ($plan) {
 			$this->db->where('monthly_payment.plan_id', $plan['plan_id']);
@@ -251,6 +258,12 @@ class Monthly_payment_model extends CI_Model {
 		}
 		if (!empty($para['date_end'])) {
 			$this->db->where('monthly_payment.pay_date<=', $para['date_end']);
+		}
+		if (!empty($para['firstname'])) {
+			$this->db->where('customer.firstname LIKE', '%' . $para['firstname'] . '%');
+		}
+		if (!empty($para['lastname'])) {
+			$this->db->where('customer.lastname LIKE', '%' . $para['lastname'] . '%');
 		}
 		if (!empty($para['paid'])) {
 			$this->db->where('monthly_payment.paid', $para['paid']);

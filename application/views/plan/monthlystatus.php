@@ -71,9 +71,20 @@ $payStatusArr = [
 							</div>
 							<div class="row">
 								<div class="form-group col-sm-3">
-									<input type="checkbox" name="only_last_per_policy" id="only_last_per_policy" value="1" <?php if ($only_last_per_policy == 1) { echo "checked"; } ?>> <label for="only_last_per_policy">One Record Per Policy</label>
+									<label class="col-sm-12">First Name:</label>
+									<div class="input-group col-sm-12">
+										<input type="text" name='firstname' value='<?php echo $html_model->escapeQuote($firstname); ?>' class="form-control" />
+									</div>
 								</div>
-								<div class="form-group col-sm-6">
+								<div class="form-group col-sm-3">
+									<label class="col-sm-12">Last Name:</label>
+									<div class="input-group col-sm-12">
+										<input type="text" name='lastname' value='<?php echo $html_model->escapeQuote($lastname); ?>' class="form-control" />
+									</div>
+								</div>
+								<div class="form-group col-sm-3">
+									<label class="col-sm-12">&nbsp;</label>
+									<input type="checkbox" name="only_last_per_policy" id="only_last_per_policy" value="1" <?php if ($only_last_per_policy == 1) { echo "checked"; } ?>> <label for="only_last_per_policy">One Record Per Policy</label>
 								</div>
 								<div class="form-group col-sm-3">
 									<label class="col-sm-12">&nbsp;</label>
@@ -102,6 +113,7 @@ $payStatusArr = [
 									<th><?php echo $this->lang->line("Amount"); ?></th>
 									<th><?php echo $this->lang->line("Pay Status"); ?></th>
 									<th><?php echo $this->lang->line("Payment Date"); ?></th>
+									<th>Insured Name</th>
 									<th>Retry Date</th>
 									<th><?php echo $this->lang->line("Action"); ?></th>
 								</tr>
@@ -114,6 +126,7 @@ $payStatusArr = [
 									<td><?php echo $plan['amount']; ?></td>
 									<td><?php echo $payStatusArr[$plan['paid']]; ?></td>
 									<td><?php echo $plan['pay_date']; ?></td>
+									<td><?php echo $plan['firstname'].' '.$plan['lastname']; ?></td>
 									<td><?php echo $plan['retry']?$plan['retry_date']."(".$plan['retry'].")":""; ?></td>
 									<td><?php if ($plan['paid']==-2) { ?><button class="btn btn-primary retry-button" onclick='retry_payment("<?php echo $mpid; ?>")'>Try To Pay</button><?php } ?></td>
 								</tr>

@@ -198,6 +198,8 @@ class Plan extends MY_Controller {
 		$data['policy'] = $this->input->get_post('policy');
 		$data['date_start'] = $this->input->get_post('date_start');
 		$data['date_end'] = $this->input->get_post('date_end');
+		$data['firstname'] = $this->input->get_post('firstname');
+		$data['lastname'] = $this->input->get_post('lastname');
 		$data['paid'] = $this->input->get_post('paid');
 		$data['only_last_per_policy'] = $this->input->get_post('only_last_per_policy');
 

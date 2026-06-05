@@ -71,6 +71,8 @@ class Plan extends CI_Controller
 		$policy = $this->input->post('policy');
 		$date_start = $this->input->post('date_start');
 		$date_end = $this->input->post('date_end');
+		$firstname = $this->input->post('firstname');
+		$lastname = $this->input->post('lastname');
 		$paid = $this->input->post('paid');
     $limit = intval($this->input->post("limit"));
     $start = intval($this->input->post("start"));
@@ -83,6 +85,8 @@ class Plan extends CI_Controller
 		if (!empty($policy)) $sArr["policy"] = $policy;
 		if (!empty($date_start)) $sArr["date_start"] = $date_start;
 		if (!empty($date_end)) $sArr["date_end"] = $date_end;
+		if (!empty($firstname)) $sArr["firstname"] = $firstname;
+		if (!empty($lastname)) $sArr["lastname"] = $lastname;
 		if (!empty($paid)) $sArr["paid"] = $paid;
 		if (!empty($only_last_per_policy)) $sArr["only_last_per_policy"] = $only_last_per_policy;
 		if (empty($sArr)) {
