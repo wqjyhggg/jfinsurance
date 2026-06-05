@@ -206,7 +206,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 													$earned = $record['premium'];
 													$unearned = 0;
 												} else if ($record['days_used'] > 0) {
-                          $earned = $record['total_premium']*$record['days_used']/$record['totaldays'];
+                          $earned = round($record['dailyrate']*$record['days_used'], 2);
                           $unearned = $record['total_premium'] - $earned;
                         } else {
                           $earned = 0;
