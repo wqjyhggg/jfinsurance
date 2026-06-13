@@ -312,9 +312,9 @@ class Bambora_model extends CI_Model {
 						"rawdata" => $response,
 					];
 					if ($retry == 1) {
-						$mpArr["retry_date"] = date('Y-m-d', strtotime('+2 days'));
+						$mpArr["retry_date"] = date('Y-m-d', strtotime('+3 days'));
 					} else if ($retry == 2) {
-						$mpArr["retry_date"] = date('Y-m-d', strtotime('+5 days'));
+						$mpArr["retry_date"] = date('Y-m-d', strtotime('+4 days'));
 					}
 					$this->monthly_payment_model->update($pay["monthly_payment_id"], $mpArr);
 
@@ -363,9 +363,9 @@ class Bambora_model extends CI_Model {
 					"rawdata" => $response,
 				];
 				if ($retry == 1) {
-					$mpArr["retry_date"] = date('Y-m-d', strtotime('+2 days'));
+					$mpArr["retry_date"] = date('Y-m-d', strtotime('+3 days'));
 				} else if ($retry == 2) {
-					$mpArr["retry_date"] = date('Y-m-d', strtotime('+5 days'));
+					$mpArr["retry_date"] = date('Y-m-d', strtotime('+4 days'));
 				}
 				$this->monthly_payment_model->update($pay["monthly_payment_id"], $mpArr);
 				$this->error = "Retry monthly payment Failed (".$monthly_payment_id.")(".$responseCode.")(".$response.")";

@@ -240,9 +240,9 @@ class Bambora extends CI_Controller {
 			$retry = $monthly_payment["retry"] + 1;
 			if ($retry == 1) {
 				$this->send_charge_fail_email($plan);
-				$mpArr["retry_date"] = date('Y-m-d', strtotime('+2 days'));
+				$mpArr["retry_date"] = date('Y-m-d', strtotime('+3 days'));
 			} else if ($retry == 2) {
-				$mpArr["retry_date"] = date('Y-m-d', strtotime('+5 days'));
+				$mpArr["retry_date"] = date('Y-m-d', strtotime('+4 days'));
 			}
 			$mpArr["retry"] = $retry;
 		}
