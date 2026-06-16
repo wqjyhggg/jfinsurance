@@ -152,7 +152,7 @@ if ($Agree != "Agree") {
 								<label class="inline"><?php echo $this->lang->line("Selected days"); ?> :</label> <span><?php echo $plan['annual_plan_days']; ?></span>
 							</div>
 							<?php } ?>
-							<?php if ($plan['stable_condition']) { ?>
+							<?php if (0 && $plan['stable_condition']) { ?>
 							<div class="col-sm-3">
 								<?php echo ($plan['stable_condition'] == 1) ? 'Including' : 'Excluding'; ?> <?php echo $this->lang->line("stable pre-existing condition coverage"); ?></span>
 							</div>
