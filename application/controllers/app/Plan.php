@@ -1030,9 +1030,7 @@ class Plan extends CI_Controller
     $data['style'] = $this->load->view('common/pdf_style',$data, TRUE);
 		$html = $this->load->view('plan/card', $data, TRUE);
 		$mpdf->writeHTML($html);
-		$card_file = tempnam("/tmp", "Card");
-		$mpdf->Output($card_file, 'F');
-		return $card_file;
+		$mpdf->Output("Card.pdf", 'I');
 }
 
   // refound
