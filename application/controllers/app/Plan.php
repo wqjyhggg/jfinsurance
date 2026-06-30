@@ -955,7 +955,7 @@ class Plan extends CI_Controller
   }
 
   // print card,
-  public function card($plan_id) {
+  public function card() {
     $this->error = "";
     $this->load->model("app_model");
     $this->load->model("user_model");
