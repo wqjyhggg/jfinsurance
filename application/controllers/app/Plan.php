@@ -2603,6 +2603,7 @@ class Plan extends CI_Controller
         'JFP_Brochure.pdf' => DOWNLOADDIR . 'JFP_Brochure.pdf'
         );
       } else if ($data['plan']['product_short'] == 'TOPN') {
+				$data['toppackagename'] = $this->topnpackagename;
 				if ($data['sendfrench']) {
 					$files = array(
 						'TOPN_Policy.pdf' => DOWNLOADDIR . 'TOPN_Policy_French.pdf',
@@ -2618,6 +2619,7 @@ class Plan extends CI_Controller
 					);
 				}
 			} else if ($data['plan']['product_short'] == 'TOP') {
+				$data['toppackagename'] = $this->toppackagename;
         if ($data['sendfrench']) {
           $files = array(
           'TOP_Policy.pdf' => DOWNLOADDIR . 'TOP_Policy_French.pdf',
@@ -3007,6 +3009,7 @@ class Plan extends CI_Controller
         'JFP_Brochure.pdf' => DOWNLOADDIR . 'JFP_Brochure.pdf'
         );
       } else if ($data['product_short'] == 'TOPN') {
+				$data['toppackagename'] = $this->topnpackagename;
 				if ($data['sendfrench']) {
 					$files = array(
 						'TOPN_Policy.pdf' => DOWNLOADDIR . 'TOPN_Policy_French.pdf',
@@ -3019,6 +3022,7 @@ class Plan extends CI_Controller
 					);
 				}
 			} else if ($data['product_short'] == 'TOP') {
+				$data['toppackagename'] = $this->toppackagename;
         if ($data['sendfrench']) {
           $files = array(
           'TOP_Policy.pdf' => DOWNLOADDIR . 'TOP_Policy_French.pdf',

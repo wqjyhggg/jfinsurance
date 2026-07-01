@@ -96,7 +96,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
             <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Baggage : $1,000</span>
             <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>AD&D : $50,000</span>
             <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Flight Accident : $100,000</span>
-						<?php if ($plan['trip_cancellation_ck']) { ?>
+						<?php if (1 || $plan['trip_cancellation_ck']) { ?>
 						<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Trip Cancellation : $<?php echo number_format($plan['trip_cancellation_insured'], 2); ?></span>
 						<?php } else { ?>
             <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Trip Cancellation : N / A</span>
@@ -222,7 +222,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
         <?php if ($withprice) { ?>
           <h4><u>Détails de paiement</u></h4>
           <h4>Prime Totale: <span>$<?php echo number_format($plan['premium'], 2, '.', ','); ?></span></h4>
-          <h4>Prime: <span>$<?php echo number_format((float)$plan['premium'] - (float)$plan['tax'], 2, '.', ','); ?></span></h4>
+          <!-- <h4>Prime: <span>$<?php echo number_format((float)$plan['premium'] - (float)$plan['tax'], 2, '.', ','); ?></span></h4> -->
           <h4>Impôt: <span>$<?php echo number_format($plan['tax'], 2, '.', ','); ?></span></h4>
           <h4>Date de paiement: <span><?php echo (($plan['status_id'] >= 2) && isset($payment['added'])) ? date('Y-m-d', strtotime($payment['added'])) : ''; ?></span></h4>
           <h4>Mode de paiement: <span><?php echo (($plan['status_id'] >= 2) && isset($payment['pay_mothed'])) ? $payment['pay_mothed'] : ''; ?></span></h4>
