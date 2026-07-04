@@ -41,6 +41,20 @@ class Plan_model extends CI_Model {
 	/**
 	 * Get Plan current policy number
 	 * 
+	 * @param	integer	$user_id		Parameters
+	 * @return	int		policy count	
+	 */
+	public function get_today_plan_counts($user_id) {
+		$sql = "SELECT count(*) as count FROM customer WHERE user_id='" . intval($user_id) . "' AND apply_date >= CURDATE()";
+		if ($result = $this->db->query($sql)->row_array()) {
+			return $result['count'];
+		}
+		return 0;
+	}
+
+	/**
+	 * Get Plan current policy number
+	 * 
 	 * @param	integer	$plan_id		Parameters
 	 * @return	string					policy number
 	 */

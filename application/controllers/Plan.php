@@ -710,6 +710,11 @@ class Plan extends MY_Controller {
     if ($this->session->userdata('fromsekey')) {
 			redirect('user/login');
 		}
+		$max_plan_count = $this->plan_model->get_today_plan_counts($beuser['user_id']);
+		if ($max_plan_count >= 60) {
+			$this->error['error_message'] = "You have reached the maximum number of plans for today. Please contact JF staff for further assistance 905-707-1512";
+			redirect('user/login');
+		}
 
 		$this->error = array();
 		$post = $this->input->post();
