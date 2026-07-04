@@ -23,7 +23,7 @@ class Func_model extends CI_Model {
 	}
 	
 	public function verify_login($isbeuser=FALSE, $isvsuser=FALSE) {
-		$this->load_>model('user_model');
+		$this->load->model('user_model');
 		if ($isbeuser) {
 			if ($this->session->userdata ( 'beuser' )) {
 				$user = $this->session->userdata ( 'beuser' );
