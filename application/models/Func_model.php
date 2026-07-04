@@ -27,26 +27,26 @@ class Func_model extends CI_Model {
 		if ($isbeuser) {
 			if ($this->session->userdata ( 'beuser' )) {
 				$user = $this->session->userdata ( 'beuser' );
-				if ($this_user = $this->user_model->get_user_by_id ( $user ['id'] )) {
-					if ($this_user ['status'] == 1) {
-						return $user;
+				if ($theuser = $this->user_model->get_user_by_id ( $user ['id'] )) {
+					if ($theuser ['status'] == 1) {
+						return $theuser;
 					}
 				}
 			}
 			if ($isvsuser && $this->session->userdata ( 'vsuser' )) {
 				$user = $this->session->userdata ( 'vsuser' );
-				if ($this_user = $this->user_model->get_user_by_id ( $user ['id'] )) {
-					if ($this_user ['status'] == 1) {
-						return $user;
+				if ($theuser = $this->user_model->get_user_by_id ( $user ['id'] )) {
+					if ($theuser ['status'] == 1) {
+						return $theuser;
 					}
 				}
 			}
 		} else {
 			if ($this->session->userdata ( 'user' ) && $this->session->userdata ( 'beuser' )) {
-				$user = $this->session->userdata ( 'user' );
-				if ($this_user = $this->user_model->get_user_by_id ( $user ['id'] )) {
-					if ($this_user ['status'] == 1) {
-						return $user;
+				$user = $this->session->userdata ( 'beuser' );
+				if ($theuser = $this->user_model->get_user_by_id ( $user ['id'] )) {
+					if ($theuser ['status'] == 1) {
+						return $theuser;
 					}
 				}
 			}
