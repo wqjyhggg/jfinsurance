@@ -717,7 +717,9 @@ class Plan extends MY_Controller {
 
 		$this->error = array();
 		$post = $this->input->post();
-		$this->error = $this->plan_model->verify_date($post);
+		if (!empty($post)) {
+			$this->error = $this->plan_model->verify_date($post);
+		}
 		if ($this->input->post('submit') && empty($this->error) && $this->form_valid($beuser)) {
 			$plan_id = $this->input->post('plan_id');
 
