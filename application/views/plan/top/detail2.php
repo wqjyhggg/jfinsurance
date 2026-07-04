@@ -365,7 +365,7 @@ if ($Agree != "Agree") {
         <div class="card-sub"><?php echo $this->lang->line("Card CVV"); ?>:</div>
         <input type='text' name='<?php echo ($usepsi ? "CardIDNumber" : "card_cvv"); ?>' value='' class="card-fit">
       </div>
-      <div class="card-info" style="margin-top: 1rem; justify-content: flex-end;">
+      <div class="card-info" style="margin-top: 1rem; margin-bottom: 1rem; justify-content: flex-end;">
         <div style="flex: 1 1 100%; text-align: right; margin-right: 10px;">Security check: <span style="margin-left: 6px;"><?php echo htmlspecialchars($payment_captcha_question); ?> =</span></div>
         <input type="number" name="payment_captcha_answer" value="" class="card-fit" style="width: 80px; margin-right: 10px;" autocomplete="off" required>
       </div>
