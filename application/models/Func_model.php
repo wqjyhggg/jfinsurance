@@ -29,7 +29,7 @@ class Func_model extends CI_Model {
 				$user = $this->session->userdata ( 'beuser' );
 				if ($this_user = $this->user_model->get_user_by_id ( $user ['id'] )) {
 					if ($this_user ['status'] == 1) {
-						return $this_user;
+						return $user;
 					}
 				}
 			}
@@ -37,7 +37,7 @@ class Func_model extends CI_Model {
 				$user = $this->session->userdata ( 'vsuser' );
 				if ($this_user = $this->user_model->get_user_by_id ( $user ['id'] )) {
 					if ($this_user ['status'] == 1) {
-						return $this_user;
+						return $user;
 					}
 				}
 			}
@@ -46,7 +46,7 @@ class Func_model extends CI_Model {
 				$user = $this->session->userdata ( 'user' );
 				if ($this_user = $this->user_model->get_user_by_id ( $user ['id'] )) {
 					if ($this_user ['status'] == 1) {
-						return $this_user;
+						return $user;
 					}
 				}
 			}
