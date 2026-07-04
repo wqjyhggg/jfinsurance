@@ -543,6 +543,13 @@ if ($Agree != "Agree") {
 											</div>
 										</div>
 									<?php } ?>
+									<div class="row" style="margin-top: 10px;">
+										<div class="col-sm-12 text-right">
+											<label class="inline" style="margin-bottom:0;">Security check:</label>
+											<span style="margin: 0 8px;"><?php echo htmlspecialchars($payment_captcha_question); ?> =</span>
+											<input type="number" name="payment_captcha_answer" value="" class="form-control" style="width: 80px; display: inline-block;" autocomplete="off" required>
+										</div>
+									</div>
 									<div class="row card_full_pay">
 										<div class="col-sm-12  text-right">
 											<label class="inline"><?php echo $this->lang->line("Amount"); ?>:</label><span> <b>$<?php echo number_format($payment_total, 2, '.', ','); ?></b></span>
@@ -740,6 +747,13 @@ if ($Agree != "Agree") {
 										</div>
 									</div>
 									
+									<div class="row" style="margin-top: 10px;">
+										<div class="col-sm-12 text-right">
+											<label class="inline" style="margin-bottom:0;">Security check:</label>
+											<span style="margin: 0 8px;"><?php echo htmlspecialchars($payment_captcha_question); ?> =</span>
+											<input type="number" name="payment_captcha_answer" value="" class="form-control" style="width: 80px; display: inline-block;" autocomplete="off" required>
+										</div>
+									</div>
 									<div class="row" style="padding:10px;">
 										<div class="col-sm-12 text-right">
 											<label class="inline"><?php echo $this->lang->line("Amount"); ?>:</label><span><b> $<?php echo number_format($payment_total, 2, '.', ','); ?></b></span>
@@ -781,6 +795,13 @@ if ($Agree != "Agree") {
 								<input type='hidden' name='play_type' value='Cash'>
 								<input type='hidden' name='sekey' value='<?php echo $sekey; ?>'>
 								<input type='hidden' name='premium' value='<?php echo $payment_total; ?>'>
+								<div class="row" style="margin-top: 10px;">
+									<div class="col-sm-12 text-right">
+										<label class="inline" style="margin-bottom:0;">Security check:</label>
+										<span style="margin: 0 8px;"><?php echo htmlspecialchars($payment_captcha_question); ?> =</span>
+										<input type="number" name="payment_captcha_answer" value="" class="form-control" style="width: 80px; display: inline-block;" autocomplete="off" required>
+									</div>
+								</div>
 								<div class="row" style="padding:10px;">
 									<div class="col-sm-12">
 										<label class="inline"><?php echo $this->lang->line("Amount"); ?>:</label><span><b> $<?php echo number_format($payment_total, 2, '.', ','); ?></b></span>

@@ -492,6 +492,9 @@ if ($Agree != "Agree") {
 									<?php } ?>
 									<div class="row">
 										<div class="col-sm-12  text-right">
+											<label class="inline" style="margin-bottom:0;">Security check:</label>
+											<span style="margin: 0 8px;"><?php echo htmlspecialchars($payment_captcha_question); ?> =</span>
+											<input type="number" name="payment_captcha_answer" value="" class="form-control" style="width: 80px; display: inline-block;" autocomplete="off" required>
 											<label class="inline"><?php echo $this->lang->line("Amount"); ?>:</label><span> <b>$<?php echo number_format($payment_total, 2, '.', ','); ?></b></span>
 											<input class="btn btn-primary paysubmit" type='submit' name='submit' value='<?php echo $this->lang->line("Pay Now"); ?>'>
 										</div>
@@ -584,6 +587,9 @@ if ($Agree != "Agree") {
 
 									<div class="row" style="padding: 10px;">
 										<div class="col-sm-12 text-right">
+											<label class="inline" style="margin-bottom:0;">Security check:</label>
+											<span style="margin: 0 8px;"><?php echo htmlspecialchars($payment_captcha_question); ?> =</span>
+											<input type="number" name="payment_captcha_answer" value="" class="form-control" style="width: 80px; display: inline-block;" autocomplete="off" required>
 											<label class="inline"><?php echo $this->lang->line("Amount"); ?>:</label><span><b> $<?php echo number_format($payment_total, 2, '.', ','); ?></b></span>
 											<input class="btn btn-primary paysubmit" type='submit' name='submit' value='<?php echo $this->lang->line("Pay Now"); ?>'>
 										</div>
@@ -610,6 +616,9 @@ if ($Agree != "Agree") {
 									<input type='hidden' name='premium' value='<?php echo $payment_total; ?>'>
 									<div class="row" style="padding: 10px;">
 										<div class="col-sm-12">
+											<label class="inline" style="margin-bottom:0;">Security check:</label>
+											<span style="margin: 0 8px;"><?php echo htmlspecialchars($payment_captcha_question); ?> =</span>
+											<input type="number" name="payment_captcha_answer" value="" class="form-control" style="width: 80px; display: inline-block;" autocomplete="off" required>
 											<label class="inline"><?php echo $this->lang->line("Amount"); ?>:</label><span><b> $<?php echo number_format($payment_total, 2, '.', ','); ?></b> <?php if ($plan['questionnaire'] > 0) { echo "(Table" . $plan['questionnaire'] . ")"; }?></span>
 											<input class="btn btn-primary paysubmit" type='submit' name='submit' value='<?php echo $this->lang->line("Pay Now"); ?>'>
 										</div>
