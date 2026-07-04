@@ -23,19 +23,34 @@ class Func_model extends CI_Model {
 	}
 	
 	public function verify_login($isbeuser=FALSE, $isvsuser=FALSE) {
+		$this->load_>model('user_model');
 		if ($isbeuser) {
 			if ($this->session->userdata ( 'beuser' )) {
-				return $this->session->userdata ( 'beuser' );
+				$user = $this->session->userdata ( 'beuser' );
+				if ($this_user = $this->user_model->get_user_by_id ( $user ['id'] )) {
+					if ($this_user ['status'] == 1) {
+						return $this_user;
+					}
+				}
 			}
 			if ($isvsuser && $this->session->userdata ( 'vsuser' )) {
-				return $this->session->userdata ( 'vsuser' );
+				$user = $this->session->userdata ( 'vsuser' );
+				if ($this_user = $this->user_model->get_user_by_id ( $user ['id'] )) {
+					if ($this_user ['status'] == 1) {
+						return $this_user;
+					}
+				}
 			}
-			redirect ( base_url ('user/login') );
 		} else {
 			if ($this->session->userdata ( 'user' ) && $this->session->userdata ( 'beuser' )) {
-				return $this->session->userdata ( 'beuser' );
+				$user = $this->session->userdata ( 'user' );
+				if ($this_user = $this->user_model->get_user_by_id ( $user ['id'] )) {
+					if ($this_user ['status'] == 1) {
+						return $this_user;
+					}
+				}
 			}
-			redirect ( base_url ('user/login') );
 		}
+		redirect ( base_url ('user/login') );
 	}
 }

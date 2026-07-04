@@ -31,7 +31,7 @@ class Agent extends MY_Controller {
 		} else {
 			$user = $this->user_model->get_user_by_id($myhome['user_id']);
 		}
-		if ($user) {
+		if ($user && ($user['status'] == 1)) {
 			$this->session->set_userdata ( 'vsuser', $user );
 		} else {
 			redirect("/");
