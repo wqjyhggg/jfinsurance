@@ -50,6 +50,7 @@ class Bambora_model extends CI_Model {
 				"order_number" => $order_number,
 				"amount" => $pay["amount"],
 				"payment_method" => "payment_profile",
+				"customer_ip" => $this->input->ip_address(),
 				"custom" => [
 					"ref1" => "recurrent",
 					"ref2" => $plan_id,
@@ -417,6 +418,7 @@ class Bambora_model extends CI_Model {
 				"order_number" => $order_number,
 				"amount" => $total_pay,
 				"payment_method" => "payment_profile",
+				"customer_ip" => $this->input->ip_address(),
 				"custom" => [
 					"ref1" => "payoff",
 					"ref2" => $plan_id,

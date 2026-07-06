@@ -535,6 +535,7 @@ class Plan extends CI_Controller
 					'order_number' => $plan_id,
 					'amount' => $premium,
 					'payment_method' => 'card',
+					'customer_ip' => $this->input->ip_address(),
 					'card' => array (
 							'name' => $card_name,
 							'number' => $card_number,
