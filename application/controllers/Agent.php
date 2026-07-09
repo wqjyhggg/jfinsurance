@@ -24,10 +24,12 @@ class Agent extends MY_Controller {
 		$this->load->model('myhome_model');
 		// echo $this->uri->segment(1); echo $this->uri->segment(2);
 		$data['title_txt'] = 'Welcome';
+		if (substr($name, 0, strlen($this->myhome_model->salthead)) == $this->myhome_model->salthead) {
+			redirect("/");
+		}
 		$myhome = $this->myhome_model->get_myhome_by_name($name);
 		if (empty($myhome)) {
-			$user = $this->myhome_model->get_user_by_name($name);
-			$myhome = array();
+			redirect("/");
 		} else {
 			$user = $this->user_model->get_user_by_id($myhome['user_id']);
 		}
