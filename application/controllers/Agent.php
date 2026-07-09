@@ -32,7 +32,7 @@ class Agent extends MY_Controller {
 			redirect("/");
 		} else {
 			$dname = $this->myhome_model->jfdecrypt($name);
-			if ($dname != $myhome['myname']) {
+			if ($dname != $myhome['user_id']) {
 				redirect("/");
 			}
 			$user = $this->user_model->get_user_by_id($myhome['user_id']);
