@@ -201,32 +201,10 @@ class Myhome extends MY_Controller {
 		}
 		$beuser = $this->session->userdata('beuser');
 		$myhome = $this->myhome_model->get_myhome($beuser['user_id']);
-		$mynameArr = array();
 		
-		if ($myhome) {
-			$this->data['myname'] = $myhome['myname'];
-			$mynameArr = preg_split('/_/', $myhome['myname']);
-		} else {
-			$this->data['myname'] = $beuser['user_id'];
-		}
+		$this->data['myname'] = $this->myhome_model->jfencrypt($beuser['user_id']);
 		
 		$this->data['user_id'] = $beuser['user_id'];
-		/*
-		if ($this->input->post('firstname')) {
-			$this->data['firstname'] = $this->input->post('firstname');
-		} else if ($myhome) {
-			$this->data['firstname'] = $mynameArr[0];
-		} else {
-			$this->data['firstname'] = $beuser['firstname'];
-		}
-		if ($this->input->post('lastname')) {
-			$this->data['lastname'] = $this->input->post('lastname');
-		} else if ($myhome) {
-			$this->data['lastname'] = $mynameArr[1];
-		} else {
-			$this->data['lastname'] = $beuser['lastname'];
-		}
-		*/
 		
 		if ($this->input->post('logo_src')) {
 			$this->data['logo_src'] = $this->input->post('logo_src');
@@ -400,7 +378,7 @@ class Myhome extends MY_Controller {
 	 * User information edit / add page
 	 */
 	public function myname() {
-		if ($this->func_model->verify_login()) {
+		if (0 && $this->func_model->verify_login()) {
 		
 			$this->load->model('myhome_model');
 			$beuser = $this->session->userdata('beuser');
