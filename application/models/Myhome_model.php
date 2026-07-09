@@ -278,6 +278,19 @@ class Myhome_model extends CI_Model {
 		return $last_id;
 	}
 
+	private function toUrlSafeB64($raw) {
+    return rtrim(strtr(base64_encode($raw), '+/', '-_'), '=');
+  }
+
+  private function fromUrlSafeB64($b64) {
+		$b64 = strtr($b64, '-_', '+/');
+		$pad = strlen($b64) % 4;
+		if ($pad) {
+				$b64 .= str_repeat('=', 4 - $pad);
+		}
+		return base64_decode($b64);
+	}
+
 	public function jfencrypt($text) {
     $textBytes = $text;
     $out = '';
@@ -285,7 +298,7 @@ class Myhome_model extends CI_Model {
         $out .= chr(ord($textBytes[$i]) ^ (($this->salt + $i) & 0xFF));
     }
 
-    return $this->salthead.strrev(base64_encode($out));
+    return $this->salthead.strrev($this->toUrlSafeB64($out));
 	}
 
 	public function jfdecrypt($b64) {
@@ -293,7 +306,7 @@ class Myhome_model extends CI_Model {
 			return $b64;
 		}
 		$b64 = substr($b64, strlen($this->salthead));
-    $cipherBytes = base64_decode(strrev($b64));
+    $cipherBytes = $this->fromUrlSafeB64(strrev($b64));
     $out = '';
     for ($i = 0; $i < strlen($cipherBytes); $i++) {
         $out .= chr(ord($cipherBytes[$i]) ^ (($this->salt + $i) & 0xFF));
