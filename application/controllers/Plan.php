@@ -789,10 +789,16 @@ class Plan extends MY_Controller {
     if ($this->session->userdata('fromsekey')) {
 			redirect('user/login');
 		}
+		$max_plan_count = $this->plan_model->get_today_plan_counts($beuser['user_id']);
+		if ($max_plan_count >= 60) {
+			show_error("You have reached the maximum number of plans for today. Please contact JF staff for further assistance 905-707-1512");
+		}
 
 		$this->error = array();
 		$post = $this->input->post();
-		$this->error = $this->plan_model->verify_date($post);
+		if (!empty($post)) {
+			$this->error = $this->plan_model->verify_date($post);
+		}
 		if ($this->input->post('submit') && empty($this->error) && $this->form_valid($beuser)) {
 			$plan_id = $this->input->post('plan_id');
 
@@ -2433,6 +2439,7 @@ class Plan extends MY_Controller {
 					'amount' => $premium,
 					'payment_method' => 'card',
 					'customer_ip' => $this->input->ip_address(),
+					'customer_ip' => $this->input->ip_address(),
 					'card' => array(
 						'name' => $card_name,
 						'number' => $card_number,
@@ -3111,6 +3118,29 @@ class Plan extends MY_Controller {
 		}
 	}
 
+	private function generate_payment_captcha()
+	{
+		$first = rand(2, 9);
+		$second = rand(2, 9);
+		$this->session->set_userdata('payment_captcha_answer', $first + $second);
+		return array(
+			'question' => $first . ' + ' . $second
+		);
+	}
+
+	private function validate_payment_captcha()
+	{
+		$expected = $this->session->userdata('payment_captcha_answer');
+		$submitted = trim($this->input->post('payment_captcha_answer'));
+		$this->session->unset_userdata('payment_captcha_answer');
+
+		if (empty($expected)) {
+			return FALSE;
+		}
+
+		return ($submitted !== '') && ((int)$submitted === (int)$expected);
+	}
+
 	public function detail($plan_id = 0, $sekey = '', $passerr = '') {
 		$this->error = '';
 		$defaultpay_type = '';
@@ -3181,69 +3211,74 @@ class Plan extends MY_Controller {
 		}
 
 		if ($play_type = $this->input->post('play_type')) {
-			if (!empty($sekey)) {
-				if (empty($this->session->userdata('beuser')) && empty($this->session->userdata('vsuser'))) {
-					redirect('user/login');
-				}
-			}
-
-			$totalpaid = $this->payment_model->get_total_paid($plan_id, 'premium', $plan['apply_date']);
-			$premium = preg_replace("/[^0-9\.-]/", "", $this->input->post('premium'));
-			$premium = floatval($totalpaid) + floatval($premium);
-			if (empty($this->input->post('premium')) && ($plan["status_id"] == Plan_model::CHANGED) && (abs($premium - floatval($plan['premium'])) < 0.001)) {
-				// Confirm change
-				$history_id = 0;
-				if (($history = $this->plan_history_model->get_plan_history_by_plan_id($plan_id)) && ($history["actualrate"] > 0)) {
-					$history_id = $history["plan_history_id"];
-				} else {
-					// Add missing first record.
-					if ($plan['status_id'] > 1) {
-						$history_id = $this->plan_history_model->add($plan_id, $plan['status_id']);
-					}
-				}
-
-				$update_status_id = Plan_model::PAID;
-				if ($last_pay = $this->payment_model->get_last_payment($plan_id, $plan['apply_date'])) {
-					if (($last_pay["pay_mothed"] == 'Cash') && empty($last_pay["ispaid"])) {
-						$update_status_id = Plan_model::SOLD;
-					}
-				}
-
-				$this->plan_model->update($plan_id, array("status_id" => $update_status_id));
-				$para = array(
-					'plan_id' => $plan_id,
-					'customer_id' => $plan['customer_id'],
-					'payment_id' => 0,
-					'message' => $this->plan_model->logstr,
-					'systemlog' => $this->plan_model->sqlstr
-				);
-				$this->log_model->activity('plan', $para);
-				if ($history_id) {
-					$this->plan_history_model->add_remove($history_id);
-				}
-				if ($nid = $this->plan_history_model->add($plan_id, $update_status_id)) {
-					// Remove payment_id, it should be no payment
-					$this->plan_history_model->update($nid, array("note" => "plan condition change only"));
-				}
-			} else if (($premium - (float)$plan['premium']) > 0.001) {
-				$this->error = "Pay amount has problem plase try again.";
-			} else if ($play_type == 'Credit Card') {
-				$this->credit_card();
-				$defaultpay_type = 'Credit Card';
-			} else if ($play_type == 'Cash') {
-				$this->cash();
-				$defaultpay_type = 'Cash';
-				// } else if ($play_type == 'Ali') {
-				//   // If in Quebec, send French version package
-				//   if (($plan["province2"] == "QC") && in_array($plan["product_short"], $this->french_plan)) {
-				//     $this->sendpackage($plan_id, 1);
-				//   }
-			} else if ($play_type == 'Cheque') {
-				$this->cheque();
-				$defaultpay_type = 'Cheque';
+			if (($play_type != 'Confirm') && !$this->validate_payment_captcha()) {
+				$this->error = "Please solve the security check correctly before paying.";
 			}
 			if (empty($this->error)) {
-				redirect(base_url('plan/detail/' . $plan_id));
+				if (!empty($sekey)) {
+					if (empty($this->session->userdata('beuser')) && empty($this->session->userdata('vsuser'))) {
+						redirect('user/login');
+					}
+				}
+
+				$totalpaid = $this->payment_model->get_total_paid($plan_id, 'premium', $plan['apply_date']);
+				$premium = preg_replace("/[^0-9\.-]/", "", $this->input->post('premium'));
+				$premium = floatval($totalpaid) + floatval($premium);
+				if (empty($this->input->post('premium')) && ($plan["status_id"] == Plan_model::CHANGED) && (abs($premium - floatval($plan['premium'])) < 0.001)) {
+					// Confirm change
+					$history_id = 0;
+					if (($history = $this->plan_history_model->get_plan_history_by_plan_id($plan_id)) && ($history["actualrate"] > 0)) {
+						$history_id = $history["plan_history_id"];
+					} else {
+						// Add missing first record.
+						if ($plan['status_id'] > 1) {
+							$history_id = $this->plan_history_model->add($plan_id, $plan['status_id']);
+						}
+					}
+
+					$update_status_id = Plan_model::PAID;
+					if ($last_pay = $this->payment_model->get_last_payment($plan_id, $plan['apply_date'])) {
+						if (($last_pay["pay_mothed"] == 'Cash') && empty($last_pay["ispaid"])) {
+							$update_status_id = Plan_model::SOLD;
+						}
+					}
+
+					$this->plan_model->update($plan_id, array("status_id" => $update_status_id));
+					$para = array(
+						'plan_id' => $plan_id,
+						'customer_id' => $plan['customer_id'],
+						'payment_id' => 0,
+						'message' => $this->plan_model->logstr,
+						'systemlog' => $this->plan_model->sqlstr
+					);
+					$this->log_model->activity('plan', $para);
+					if ($history_id) {
+						$this->plan_history_model->add_remove($history_id);
+					}
+					if ($nid = $this->plan_history_model->add($plan_id, $update_status_id)) {
+						// Remove payment_id, it should be no payment
+						$this->plan_history_model->update($nid, array("note" => "plan condition change only"));
+					}
+				} else if (($premium - (float)$plan['premium']) > 0.001) {
+					$this->error = "Pay amount has problem plase try again.";
+				} else if ($play_type == 'Credit Card') {
+					$this->credit_card();
+					$defaultpay_type = 'Credit Card';
+				} else if ($play_type == 'Cash') {
+					$this->cash();
+					$defaultpay_type = 'Cash';
+					// } else if ($play_type == 'Ali') {
+					//   // If in Quebec, send French version package
+					//   if (($plan["province2"] == "QC") && in_array($plan["product_short"], $this->french_plan)) {
+					//     $this->sendpackage($plan_id, 1);
+					//   }
+				} else if ($play_type == 'Cheque') {
+					$this->cheque();
+					$defaultpay_type = 'Cheque';
+				}
+				if (empty($this->error)) {
+					redirect(base_url('plan/detail/' . $plan_id));
+				}
 			}
 		}
 
@@ -3387,6 +3422,8 @@ class Plan extends MY_Controller {
 			$data['error_message'] = "You have to pay before Effective date.";
 			$data['payment_total'] = '';
 		}
+		$captcha = $this->generate_payment_captcha();
+		$data['payment_captcha_question'] = $captcha['question'];
 		$data['defaultpay_type'] = $defaultpay_type;
 		$display = 1;
 		if (!empty($sekey)) {

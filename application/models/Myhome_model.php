@@ -12,6 +12,8 @@ class Myhome_model extends CI_Model {
 	public $pdf_logo_width = 80;
 	public $pdf_qr_width = 60;
 	public $pdf_qr2_width = 60;
+	public $salt = 78;
+	public $salthead = "NJFE";
 	
 	/**
 	 * Get myhome record by user_id
@@ -177,7 +179,7 @@ class Myhome_model extends CI_Model {
 	public function update($para) {
 		$this->logstr = '';
 		$where = '';
-		if (empty($para['user_id']) || empty($para['myname'])) {
+		if (empty($para['user_id'])) {
 			return 0;
 		}
 		$my = $this->get_myhome($para['user_id']);
@@ -188,9 +190,12 @@ class Myhome_model extends CI_Model {
 			$sql = "INSERT INTO myhome SET last_update=NOW(), user_id=" . (int)$para['user_id'];
 		}
 		
-		if (isset($para['myname']) && (empty($my) || ($my['myname'] != $para['myname']))) {
-			$sql .= ", myname=" . $this->db->escape($para['myname']);
-			$this->logstr .= 'agentname=>'.$para['myname']."; ";
+		if (isset($para['myname'])) {
+			$myname = $this->myhome_model->jfencrypt((string)$para['user_id']);
+			if (empty($my) || ($my['myname'] != $myname)) {
+				$sql .= ", myname=" . $this->db->escape($myname);
+				$this->logstr .= 'agentname=>'.$myname."; ";
+			}
 		}
 		if (isset($para['logo']) && (empty($my) || ($my['logo'] != $para['logo']))) {
 			$sql .= ", logo=" . $this->db->escape($para['logo']);
@@ -272,4 +277,41 @@ class Myhome_model extends CI_Model {
 		$this->logstr .= "; (" . $last_id . ")";
 		return $last_id;
 	}
+
+	private function toUrlSafeB64($raw) {
+    return rtrim(strtr(base64_encode($raw), '+/', '-_'), '=');
+  }
+
+  private function fromUrlSafeB64($b64) {
+		$b64 = strtr($b64, '-_', '+/');
+		$pad = strlen($b64) % 4;
+		if ($pad) {
+				$b64 .= str_repeat('=', 4 - $pad);
+		}
+		return base64_decode($b64);
+	}
+
+	public function jfencrypt($text) {
+    $textBytes = $text;
+    $out = '';
+    for ($i = 0; $i < strlen($textBytes); $i++) {
+        $out .= chr(ord($textBytes[$i]) ^ (($this->salt + $i) & 0xFF));
+    }
+
+    return $this->salthead.strrev($this->toUrlSafeB64($out));
+	}
+
+	public function jfdecrypt($b64) {
+		if (substr($b64, 0, strlen($this->salthead)) != $this->salthead) {
+			return $b64;
+		}
+		$b64 = substr($b64, strlen($this->salthead));
+    $cipherBytes = $this->fromUrlSafeB64(strrev($b64));
+    $out = '';
+    for ($i = 0; $i < strlen($cipherBytes); $i++) {
+        $out .= chr(ord($cipherBytes[$i]) ^ (($this->salt + $i) & 0xFF));
+    }
+
+    return $out;
+  }
 }

@@ -424,6 +424,10 @@ $studentPlan = ['JES', 'JFPL', 'JFSL', 'JFGD', 'TCS', 'JFOS', 'JESP', 'JFE', 'JF
         <div class="card-sub"><?php echo $this->lang->line("Card CVV"); ?>:</div>
         <input type='text' name='<?php echo ($usepsi ? "CardIDNumber" : "card_cvv"); ?>' value='' class="card-fit">
       </div>
+      <div class="card-info" style="margin-top: 1rem; margin-bottom: 1rem; justify-content: flex-end;">
+        <div style="flex: 1 1 100%; text-align: right; margin-right: 10px;">Security check: <span style="margin-left: 6px;"><?php echo htmlspecialchars($payment_captcha_question); ?> =</span></div>
+        <input type="number" name="payment_captcha_answer" value="" class="card-fit" style="width: 60px; margin-right: 10px;" autocomplete="off" required>
+      </div>
       <div class="card-info" style="margin-top: 1.5rem;">
         <div style="flex: 1 1 100%; text-align: center;"><?php echo $this->lang->line("Amount"); ?>: <b>$<?php echo number_format($payment_total, 2, '.', ','); ?></b></div>
         <input type='submit' name='submit' class="btn btn-primary" value='<?php echo $this->lang->line("Pay Now"); ?>' />

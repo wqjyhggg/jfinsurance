@@ -837,7 +837,9 @@ class Plan extends CI_Controller
     $this->load->model("monthly_payment_model");
     $data = array();
 		$post = $this->input->post();
-		$this->error = $this->plan_model->verify_date($post);
+		if (!empty($post)) {
+			$this->error = $this->plan_model->verify_date($post);
+		}
 		if ($this->error) {
 			return $this->app_model->return_error(implode("; ", $this->error));
 		}

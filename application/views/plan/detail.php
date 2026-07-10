@@ -555,6 +555,89 @@ if ($Agree != "Agree") {
 										</div>
 									</div>
 									<?php } ?>
+									<?php if (0 && !$usepsi && isset($recurrent)) { /* disable recurrent for now */ ?>
+										<div class="row">
+											<div class="col-sm-12">
+												<label class="inline">Monthly Payment Option: <div class='pull-right spdf-option'><input type='checkbox' name="monthlypay" class='monthpay'></div></label>
+												<div style="font-size: 10px;">First Pay: $<?php echo number_format($recurrent[0], 2, '.', ','); ?> and <?php echo $recurrent[2]; ?> Recurring Pay: $<?php echo number_format($recurrent[1], 2, '.', ','); ?></div>
+											</div>
+										</div>
+										<div class="row billing_info">
+											<div class="col-sm-12">
+												<div class="row">
+													<div class="col-sm-12">
+														<label  class="inline" style="margin-bottom:0;">Card Contact Email</label>
+														<div class="col-sm-12 input-group">
+															<input type='text' name='card_email_address' value='' class="form-control">
+															<input type='hidden' name='first_pay' value="<?php echo number_format($recurrent[0], 2, '.', ','); ?>">
+															<input type='hidden' name='month_pay' value="<?php echo number_format($recurrent[1], 2, '.', ','); ?>">
+														</div>
+													</div>
+												</div>
+												<div class="row">
+													<div class="col-sm-12">
+														<label  class="inline" style="margin-bottom:0;">Card Contact Phone</label>
+														<div class="col-sm-12 input-group">
+															<input type='text' name='card_phone_number' value='' class="form-control">
+														</div>
+													</div>
+												</div>
+												<div class="row">
+													<div class="col-sm-12">
+														<label  class="inline" style="margin-bottom:0;">Card Address</label>
+														<div class="col-sm-12 input-group">
+															<input type='text' name='card_address_line1' value='' class="form-control">
+														</div>
+													</div>
+												</div>
+												<div class="row">
+													<div class="col-sm-12">
+														<label  class="inline" style="margin-bottom:0;">Card City</label>
+														<div class="col-sm-12 input-group">
+															<input type='text' name='card_city' value='' class="form-control">
+														</div>
+													</div>
+												</div>
+												<div class="row">
+													<div class="col-sm-12">
+														<label  class="inline" style="margin-bottom:0;">Card Province</label>
+														<div class="col-sm-12 input-group">
+															<input type='text' name='card_province' value='ON' class="form-control">
+														</div>
+													</div>
+												</div>
+												<div class="row">
+													<div class="col-sm-12">
+														<label  class="inline" style="margin-bottom:0;">Card Post Code</label>
+														<div class="col-sm-12 input-group">
+															<input type='text' name='card_postal_code' value='' class="form-control">
+														</div>
+													</div>
+												</div>
+												<div class="row">
+													<div class="col-sm-12">
+														<label  class="inline" style="margin-bottom:0;">Card Country</label>
+														<div class="col-sm-12 input-group">
+															<input type='text' name='card_country' value='CA' class="form-control">
+														</div>
+													</div>
+												</div>
+												<div class="row" style="padding-top: 5px;">
+													<div class="col-sm-12  text-right">
+														<label class="inline"><?php echo $this->lang->line("Amount"); ?>:</label><span> <b>$<?php echo number_format($recurrent[0], 2, '.', ','); ?></b></span>
+														<input class="btn btn-primary paysubmit" type='submit' name='submit' value='Pay'>
+													</div>
+												</div>
+											</div>
+										</div>
+									<?php } ?>
+									<div class="row" style="margin-top: 10px; margin-bottom: 10px;">
+										<div class="col-sm-12">
+											<label class="inline" style="margin-bottom:0;">Security check:</label>
+											<span style="margin: 0 8px;"><?php echo htmlspecialchars($payment_captcha_question); ?> =</span>
+											<input type="number" name="payment_captcha_answer" value="" class="form-control" style="width: 60px; display: inline-block;" autocomplete="off" required>
+										</div>
+									</div>
 									<div class="row card_full_pay">
 										<div class="col-sm-12  text-right">
 											<label class="inline"><?php echo $this->lang->line("Amount"); ?>:</label><span> <b>$<?php echo number_format($payment_total, 2, '.', ','); ?></b></span>
@@ -804,6 +887,13 @@ if ($Agree != "Agree") {
 										</div>
 									</div>
 									
+									<div class="row" style="margin-top: 10px; margin-bottom: 10px;">
+										<div class="col-sm-12">
+											<label class="inline" style="margin-bottom:0;">Security check:</label>
+											<span style="margin: 0 8px;"><?php echo htmlspecialchars($payment_captcha_question); ?> =</span>
+											<input type="number" name="payment_captcha_answer" value="" class="form-control" style="width: 60px; display: inline-block;" autocomplete="off" required>
+										</div>
+									</div>
 									<div class="row" style="padding:10px;">
 										<div class="col-sm-12 text-right">
 											<label class="inline"><?php echo $this->lang->line("Amount"); ?>:</label><span><b> $<?php echo number_format($payment_total, 2, '.', ','); ?></b></span>
@@ -845,6 +935,13 @@ if ($Agree != "Agree") {
 								<input type='hidden' name='play_type' value='Cash'>
 								<input type='hidden' name='sekey' value='<?php echo $sekey; ?>'>
 								<input type='hidden' name='premium' value='<?php echo $payment_total; ?>'>
+								<div class="row" style="margin-top: 10px; margin-bottom: 10px;">
+									<div class="col-sm-12">
+										<label class="inline" style="margin-bottom:0;">Security check:</label>
+										<span style="margin: 0 8px;"><?php echo htmlspecialchars($payment_captcha_question); ?> =</span>
+										<input type="number" name="payment_captcha_answer" value="" class="form-control" style="width: 60px; display: inline-block;" autocomplete="off" required>
+									</div>
+								</div>
 								<div class="row" style="padding:10px;">
 									<div class="col-sm-12">
 										<label class="inline"><?php echo $this->lang->line("Amount"); ?>:</label><span><b> $<?php echo number_format($payment_total, 2, '.', ','); ?></b></span>
