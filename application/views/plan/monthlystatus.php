@@ -40,7 +40,7 @@ $payStatusArr = [
 						<form action='<?php echo $base_url; ?>' method='POST' class="form-horizontal">
 							<div class="row">
 								<div class="form-group col-sm-3">
-									<label class="col-sm-12">Status</label>
+									<label class="col-sm-12">Pay Status</label>
 									<select name='paid' class="form-control">
 										<option value=''></option>
 										<option value='-2'>Failed Payment</option>
