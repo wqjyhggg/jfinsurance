@@ -498,6 +498,19 @@ class Bambora extends CI_Controller {
 			$body .= "Thank you for your prompt attention to this matter.\r\n\r\n";
 			$body .= "Sincerely,\r\n\r\n";
 			$body .= "JF Insurance";
+      if ($plan["province2"] == "QC") {
+        $subject = "Urgente requise : échec du paiement récurrent de votre police d'assurance";
+        $body  = "Cher ".$customer["firstname"]." ".$customer["lastname"].",\r\n\r\n";
+        $body .= "Nous vous contactons au sujet de votre récente police d'assurance ".$plan["policy"]." souscrite le ".$plan["apply_date"].".\r\n";
+        $body .= "Nos dossiers indiquent que le paiement de cette police a échoué. Veuillez noter que votre police demeure active ; toutefois, un paiement rapide est nécessaire pour maintenir votre couverture.\r\n";
+        $body .= "Si vous pensez que cet échec de paiement est dû à une erreur ou si vous avez des questions, nous vous invitons à nous contacter immédiatement pour résoudre le problème.\r\n\r\n";
+        $body .= "Avis important:\r\n";
+        $body .= "FL'absence de règlement dans un délai de 30 jours civils entraînera la suspension de votre police.\r\n";
+        $body .= "Afin d'éviter toute interruption de votre couverture, veuillez répondre à ce message ou nous appeler directement au (905) 707-1512. Vous pouvez également nous envoyer un courriel à l'adresse info@jfgroup.ca.\r\n\r\n";
+        $body .= "Nous vous remercions de l'attention rapide que vous porterez à cette question.\r\n\r\n";
+        $body .= "Cordialement,\r\n\r\n";
+        $body .= "JF Insurance";
+      }
 			$this->mymail_model->send_mymail($plan["contact_email"], $subject, $body, $attach=array(), $from='', 'text');
 		}
 		if (($agent = $this->user_model->get_user_by_id($plan["user_id"])) && $this->verify_model->isEmail($agent["email"])) {
