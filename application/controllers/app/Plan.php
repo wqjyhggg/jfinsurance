@@ -2600,7 +2600,7 @@ class Plan extends CI_Controller
         $body = $this->load->view('mail/package',$data, TRUE);
         $title = "Quote of Insurance - " . $plan['policy'] . " - " . $data['customer']['firstname'] . " " . $data['customer']['lastname'];
       }
-      $files['policy_confirmation.pdf'] = $policy_file;
+      $files['policy_quotation.pdf'] = $policy_file;
 
       $this->load->model('mymail_model');
       
