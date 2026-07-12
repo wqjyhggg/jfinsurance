@@ -19,7 +19,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
   <div class="container" <?php if ($hadheaderfooter) { ?> style="padding: 0 40px;" <?php } ?>>
     <div class="row" <?php if ($hadheaderfooter) { ?> style="padding-top:60px" <?php } ?>>
       <?php if (!$hadheaderfooter && $withlogo) { ?>
-        <?php if (empty($user['pdf_logo']) || !in_array($plan['product_short'], $pdf_enable)) { ?>
+        <?php if (1 || empty($user['pdf_logo']) || !in_array($plan['product_short'], $pdf_enable)) { ?>
           <div style="float:left;width:90px;">
             <img class="img-responsive" style="width:80px;" src="<?php echo base_url(); ?>image/jf_logo.jpg" />
           </div>
