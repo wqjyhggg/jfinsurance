@@ -3,23 +3,27 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 Dear <?php echo htmlspecialchars($customer['firstname'] . " " . $customer['lastname']); ?>,
 
-This is a confirmation of your recent purchased insurance,
-please DO NOT REPLY to this email.
+This is a confirmation of your recent insurance quotation.
+Please DO NOT REPLY to this email.
 
-Thank you for purchasing medical insurance from
-JF Insurance Agency Group Inc.
+Thank you for requesting a medical insurance quotation
+ from JF Insurance Agency Group Inc.
 
-Please refer to the attached documents for your policy confirmation,
-details of your coverage and claim form.
-Please refer to the claim form for procedures on how to claim.
+Please refer to the attached quotation for the details 
+of your requested coverage and premium.
 
-If you notice any errors in your policy confirmation
-or need to change your trip before the effective date,
-please inform the agent/school/agency you purchased
-the insurance from immediately.
+This quotation is for reference only and does not provide 
+insurance coverage. No insurance coverage is in effect 
+until the application has been approved, payment has been 
+received, and a policy has been issued.
 
-Should you have any trouble viewing the attached document,
-please download the latest version of Adobe Reader :
+
+If you notice any errors in your quotation or need to 
+make any changes, please contact the agent/school/agency 
+through whom you requested the quotation immediately.
+
+Should you have any trouble viewing the attached document, 
+please download the latest version of Adobe Reader:
 http://get.adobe.com/reader.
 
 
