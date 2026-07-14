@@ -1155,7 +1155,7 @@ class Plan extends CI_Controller
   }
 
   // print card,
-  public function card() {
+  public function card($plan_id=0, $user=null) {
     $this->error = "";
     $this->load->model("app_model");
     $this->load->model("user_model");
@@ -1163,7 +1163,12 @@ class Plan extends CI_Controller
     $this->lang->load('message');
     $this->lang->load('message', 'english');
 
-    $user = $this->app_model->check_token($this->input->post("token"));
+    $return_pdf = 0;
+    if ($plan_id) {
+      $return_pdf = 1;
+    } else {
+      $user = $this->app_model->check_token($this->input->post("token"));
+    }
 
     if (empty($user)) {
       if (empty($this->error)) {
@@ -1178,7 +1183,9 @@ class Plan extends CI_Controller
       }
     }
 
-    $plan_id = $this->input->post("plan_id");
+    if ($return_pdf == 0) {
+      $plan_id = $this->input->post("plan_id");
+    }
 		if (empty($plan_id)) {
       return $this->app_model->return_error("Unknown plan");
 		}
@@ -1230,6 +1237,11 @@ class Plan extends CI_Controller
     $data['style'] = $this->load->view('common/pdf_style',$data, TRUE);
 		$html = $this->load->view('plan/card', $data, TRUE);
 		$mpdf->writeHTML($html);
+    if ($return_pdf == 0) {
+      $card_file = tempnam("/tmp", "Additional");
+      $mpdf->Output($card_file, 'F');
+      return $card_file;
+    }
 		$mpdf->Output("Card.pdf", 'I');
 }
 
@@ -2733,7 +2745,7 @@ class Plan extends CI_Controller
 			} else {
 				$files['policy_quotation.pdf'] = $policy_file;
 			}
-			$files['policy_card.pdf'] = $this->card($plan_id);
+			$files['policy_card.pdf'] = $this->card($plan_id, $user);
       $sendok = $this->mymail_model->send_mymail($data['emailaddr'], $title, $body, $files, $from='JF Insurance', 'text');
       unlink($policy_file);
 			unlink($files['policy_card.pdf']);
