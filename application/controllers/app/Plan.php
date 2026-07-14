@@ -2303,6 +2303,7 @@ class Plan extends CI_Controller
 		
 		$data['beuser'] = $beuser;
 		$data['customer'] = $customer;
+    $data['pdf_enable'] = empty($beuser['pdf_product']) ? array() : json_decode($beuser['pdf_product']);
 		$data['plan'] = $plan;
 		$data['emailaddr'] = $plan['contact_email'];
 		$data['product_short'] = $plan['product_short'];
