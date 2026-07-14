@@ -115,11 +115,13 @@ $payStatusArr = [
 									<th><?php echo $this->lang->line("Payment Date"); ?></th>
 									<th>Insured Name</th>
 									<th>Retry Date</th>
-									<th><?php echo $this->lang->line("Action"); ?></th>
+									<th>Fail Days</th>
 								</tr>
 							</thead>
 							<tbody>
+							<?php $today = new DateTimeImmutable('today'); ?>
 							<?php foreach ($plan_list as $plan) { $pid = $plan['plan_id']; $mpid = $plan['monthly_payment_id']; ?>
+							<?php $start = new DateTimeImmutable($plan['pay_date']); ?>
 								<tr>
 									<td><a style="color:#46b8da;" href='<?php echo $edit_url.$pid; ?>'><?php echo $pid; ?></a></td>
 									<td><?php echo $status_list[$plan['status_id']]["name"]; ?></td>
@@ -128,7 +130,7 @@ $payStatusArr = [
 									<td><?php echo $plan['pay_date']; ?></td>
 									<td><?php echo $plan['firstname'].' '.$plan['lastname']; ?></td>
 									<td><?php echo $plan['retry']?$plan['retry_date']."(".$plan['retry'].")":""; ?></td>
-									<td><?php if ($plan['paid']==-2) { ?><button class="btn btn-primary retry-button" onclick='retry_payment("<?php echo $mpid; ?>")'>Try To Pay</button><?php } ?></td>
+									<td><?php if ($plan['paid']==-2) { echo $start->diff($today)->days; } ?></td>
 								</tr>
 							<?php } ?>
 							</tbody>
