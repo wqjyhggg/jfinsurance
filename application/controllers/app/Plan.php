@@ -1237,7 +1237,7 @@ class Plan extends CI_Controller
     $data['style'] = $this->load->view('common/pdf_style',$data, TRUE);
 		$html = $this->load->view('plan/card', $data, TRUE);
 		$mpdf->writeHTML($html);
-    if ($return_pdf == 0) {
+    if ($return_pdf == 1) {
       $card_file = tempnam("/tmp", "Additional");
       $mpdf->Output($card_file, 'F');
       return $card_file;
