@@ -2791,6 +2791,7 @@ class Plan extends CI_Controller
 		
 		$data['beuser'] = $beuser;
 		$data['customer'] = $customer;
+    $data['pdf_enable'] = empty($beuser['pdf_product']) ? array() : json_decode($beuser['pdf_product']);
 		$data['plan'] = $plan;
 		if (!empty($plan["monthlypay"])) {
 			if ($mp = $this->monthly_payment_model->get_monthlypay_data($plan_id)) {
