@@ -488,6 +488,7 @@ class Bambora extends CI_Controller {
 
 		if ($this->verify_model->isEmail($plan["contact_email"]) && ($customer = $this->customer_model->get_customer_by_id($plan["customer_id"]))) {
 			$subject = "Urgent Action Required: Recurring Payment Failure for Your Insurance Policy";
+      $subject .= " / Action urgente requise : échec du paiement récurrent de votre police d'assurance";
 			$body  = "Dear ".$customer["firstname"]." ".$customer["lastname"].",\r\n\r\n";
 			$body .= "We are reaching out regarding your recent insurance policy ".$plan["policy"]." purchased on ".$plan["apply_date"].".\r\n";
 			$body .= "Our records show that the payment for this policy was unsuccessful. Please be aware that your policy remains active; however, prompt payment is necessary to maintain coverage.\r\n";
@@ -498,9 +499,10 @@ class Bambora extends CI_Controller {
 			$body .= "Thank you for your prompt attention to this matter.\r\n\r\n";
 			$body .= "Sincerely,\r\n\r\n";
 			$body .= "JF Insurance";
-      if ($plan["province2"] == "QC") {
-        $subject = "Urgente requise : échec du paiement récurrent de votre police d'assurance";
-        $body  = "Cher ".$customer["firstname"]." ".$customer["lastname"].",\r\n\r\n";
+      // if ($plan["province2"] == "QC") {
+        // $subject = "Urgente requise : échec du paiement récurrent de votre police d'assurance";
+        $body .= "\r\n\r\n\r\n\r\n";
+        $body .= "Cher ".$customer["firstname"]." ".$customer["lastname"].",\r\n\r\n";
         $body .= "Nous vous contactons au sujet de votre récente police d'assurance ".$plan["policy"]." souscrite le ".$plan["apply_date"].".\r\n";
         $body .= "Nos dossiers indiquent que le paiement de cette police a échoué. Veuillez noter que votre police demeure active ; toutefois, un paiement rapide est nécessaire pour maintenir votre couverture.\r\n";
         $body .= "Si vous pensez que cet échec de paiement est dû à une erreur ou si vous avez des questions, nous vous invitons à nous contacter immédiatement pour résoudre le problème.\r\n\r\n";
@@ -510,7 +512,7 @@ class Bambora extends CI_Controller {
         $body .= "Nous vous remercions de l'attention rapide que vous porterez à cette question.\r\n\r\n";
         $body .= "Cordialement,\r\n\r\n";
         $body .= "JF Insurance";
-      }
+      // }
 			$this->mymail_model->send_mymail($plan["contact_email"], $subject, $body, $attach=array(), $from='', 'text');
 		}
 		if (($agent = $this->user_model->get_user_by_id($plan["user_id"])) && $this->verify_model->isEmail($agent["email"])) {
