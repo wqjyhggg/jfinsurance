@@ -178,7 +178,7 @@ class Report_model extends CI_Model
 		$sql .= "		  ELSE 'recurring'";
 		$sql .= "		END AS payment_type";
     $sql .= " FROM __payment__ pa";
-    $sql .= " JOIN plan pl ON (pa.plan_id=pl.plan_id)";
+    $sql .= " JOIN plan pl ON (pa.plan_id=pl.plan_id AND pl.monthlypay!=1)";
     $sql .= " JOIN product pr ON (pl.product_short=pr.product_short)";
     $sql .= " JOIN customer cu ON (pl.customer_id=cu.customer_id)";
     $sql .= " LEFT JOIN __payment__ pa2 ON (pa.plan_id=pa2.plan_id AND pa.payment_id=pa2.premium_payment_id AND pa2.pay_type IN ('commission','cancel_commission','refund_commission'))";
@@ -255,7 +255,7 @@ class Report_model extends CI_Model
     }
     $sql = $sqlu;
 
-    $sql2  = "SELECT distinct user_id FROM plan WHERE plan_id IN (" . $sql . ")";
+    $sql2  = "SELECT distinct user_id FROM plan WHERE plan_id IN (" . $sql . ") AND monthlypay!=1";
 
     $sql3  = "SELECT user_id, username, email, firstname, lastname, receive_type, pay_type FROM user WHERE user_id IN (" . $sql2 . ") ORDER BY user_id ASC";
     return $this->db->query($sql3)->result_array();
@@ -306,7 +306,7 @@ class Report_model extends CI_Model
     $sql .= "	pa.added, ";
     $sql .= "	'5' AS claims_handling_fee_per";
     $sql .= " FROM __payment__ pa";
-    $sql .= " JOIN plan pl ON pa.plan_id = pl.plan_id";
+    $sql .= " JOIN plan pl ON (pa.plan_id = pl.plan_id AND pl.monthlypay!=1";
     $sql .= " JOIN customer c ON pl.customer_id = c.customer_id";
     $sql .= " JOIN product pr ON pl.product_short = pr.product_short";
     $sql .= " JOIN user u ON pl.user_id = u.user_id ";
