@@ -306,7 +306,7 @@ class Report_model extends CI_Model
     $sql .= "	pa.added, ";
     $sql .= "	'5' AS claims_handling_fee_per";
     $sql .= " FROM __payment__ pa";
-    $sql .= " JOIN plan pl ON (pa.plan_id = pl.plan_id AND pl.monthlypay!=1";
+    $sql .= " JOIN plan pl ON (pa.plan_id = pl.plan_id AND pl.monthlypay!=1)";
     $sql .= " JOIN customer c ON pl.customer_id = c.customer_id";
     $sql .= " JOIN product pr ON pl.product_short = pr.product_short";
     $sql .= " JOIN user u ON pl.user_id = u.user_id ";
