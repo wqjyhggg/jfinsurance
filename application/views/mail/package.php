@@ -34,7 +34,7 @@ Website: www.jfgroup.ca
 <?php } else { 
 echo $beuser["business"];
 echo $beuser["address"];
-echo $beuser["city"]." ".$beuser["province2"]." ".$beuser["[postcode]"];
+echo $beuser["city"]." ".$beuser["province2"]." ".$beuser["postcode"];
 echo "Tel: ".$beuser["business_phone"];
 echo $this->lang->line("Email").": ".$beuser["email"];
 echo $beuser["website"];

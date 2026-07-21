@@ -1632,7 +1632,7 @@ class Plan extends CI_Controller
 			$body .= "Cordialement,\r\n\r\n";
 			$body .= $beuser["business"]."\r\n";
 			$body .= $beuser["address"]."\r\n";
-			$body .= $beuser["city"]." ".$beuser["province2"]." ".$beuser["[postcode]"]."\r\n";
+			$body .= $beuser["city"]." ".$beuser["province2"]." ".$beuser["postcode"]."\r\n";
 			$body .= "Tel: ".$beuser["business_phone"]."\r\n";
 			$body .= "Email: ".$beuser["email"]."\r\n";
 			// $body .= "JF Insurance Agency Group Inc.\r\n";
@@ -2341,7 +2341,7 @@ class Plan extends CI_Controller
 		$body .= "Warm regards,\r\n\r\n";
 		$body .= $beuser["business"]."\r\n";
 		$body .= $beuser["address"]."\r\n";
-		$body .= $beuser["city"]." ".$beuser["province2"]." ".$beuser["[postcode]"]."\r\n";
+		$body .= $beuser["city"]." ".$beuser["province2"]." ".$beuser["postcode"]."\r\n";
 		$body .= "Tel: ".$beuser["business_phone"]."\r\n";
 		$body .= "Email: ".$beuser["email"]."\r\n";
 		// $body .= "JF Insurance Agency Group Inc.\r\n";
@@ -2365,7 +2365,7 @@ class Plan extends CI_Controller
 			$body .= "Veuillez recevoir, Madame, Monsieur, l'expression de mes salutations distinguées.\r\n\r\n";
 			$body .= $beuser["business"]."\r\n";
 			$body .= $beuser["address"]."\r\n";
-			$body .= $beuser["city"]." ".$beuser["province2"]." ".$beuser["[postcode]"]."\r\n";
+			$body .= $beuser["city"]." ".$beuser["province2"]." ".$beuser["postcode"]."\r\n";
 			$body .= "Tel: ".$beuser["business_phone"]."\r\n";
 			$body .= "Email: ".$beuser["email"]."\r\n";
 			// $body .= "JF Insurance Agency Group Inc.\r\n";
@@ -2608,7 +2608,7 @@ class Plan extends CI_Controller
       $this->load->model('mymail_model');
       if ($data['sendfrench']) {
         $body = $this->load->view('mail/quote_french',$data, TRUE);
-        $title = "Devis d’assurance - " . $plan['policy'] . " - " . $data['customer']['firstname'] . " " . $data['customer']['lastname'];
+        $title = "Devis d'assurance - " . $plan['policy'] . " - " . $data['customer']['firstname'] . " " . $data['customer']['lastname'];
       } else {
         $body = $this->load->view('mail/quote',$data, TRUE);
         $title = "Quote of Insurance - " . $plan['policy'] . " - " . $data['customer']['firstname'] . " " . $data['customer']['lastname'];

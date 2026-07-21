@@ -52,7 +52,7 @@ Site Internet: www.jfgroup.ca
 <?php } else { 
 echo $beuser["business"]."\r\n";
 echo $beuser["address"]."\r\n";
-echo $beuser["city"]." ".$beuser["province2"]." ".$beuser["[postcode]"]."\r\n";
+echo $beuser["city"]." ".$beuser["province2"]." ".$beuser["postcode"]."\r\n";
 echo "Tel: ".$beuser["business_phone"]."\r\n";
 echo $this->lang->line("Email").": ".$beuser["email"]."\r\n";
 echo $beuser["website"]."\r\n";
