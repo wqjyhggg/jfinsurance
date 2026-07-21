@@ -3100,10 +3100,10 @@ class Plan extends CI_Controller
       $mpdf->Output($policy_file, 'F');
       $this->load->model('mymail_model');
       if ($data['sendfrench']) {
-        $body = $this->load->view('mail/package_french',$data, TRUE);
-        $title = "Devis d’assurance - " . $plan['policy'] . " - " . $data['customer']['firstname'] . " " . $data['customer']['lastname'];
+        $body = $this->load->view('mail/quote_french',$data, TRUE);
+        $title = "Devis d'assurance - " . $plan['policy'] . " - " . $data['customer']['firstname'] . " " . $data['customer']['lastname'];
       } else {
-        $body = $this->load->view('mail/package',$data, TRUE);
+        $body = $this->load->view('mail/quote',$data, TRUE);
         $title = "Quote of Insurance - " . $plan['policy'] . " - " . $data['customer']['firstname'] . " " . $data['customer']['lastname'];
       }
 			if ($plan["status_id"] > 1) {
