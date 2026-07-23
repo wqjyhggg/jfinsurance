@@ -1,44 +1,40 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
-Madame, Monsieur <?php echo htmlspecialchars($customer['firstname'] . " " . $customer['lastname']); ?>,
+Cher/Chère <?php echo htmlspecialchars($customer['firstname'] . " " . $customer['lastname']); ?>,
 
 
-Ceci est une confirmation de l'assurance que vous avez récemment
-souscrite. NE RÉPONDEZ PAS à ce courriel.
+La présente confirme l'émission de votre récente soumission 
+d'assurance. Veuillez ne pas répondre à ce courriel.
 
 
-Nous vous remercions d'avoir souscrit une assurance médicale
-auprès de JF Insurance Agence Group Inc.
+Nous vous remercions d'avoir choisi JF Insurance Agency Group 
+Inc. pour votre demande de soumission d'assurance médicale.
 
+Vous trouverez ci-joint votre soumission, qui présente les détails 
+de la couverture demandée ainsi que la prime applicable.
 
-Veuillez-vous référer aux documents ci-joints pour la
-confirmation de votre police, les détails de votre 
-couverture et le formulaire
-de demande de remboursement.
-Veuillez-vous référer au formulaire de demande de 
-remboursement
-pour connaître les procédures à suivre. 
+Veuillez noter que cette soumission est fournie à titre informatif 
+seulement et ne constitue en aucun cas une couverture d'assurance. 
+Aucune protection d'assurance n'entre en vigueur tant que votre 
+demande n'a pas été approuvée, que le paiement de la prime n'a 
+pas été reçu et qu'une police d'assurance n'a pas été émise.
 
+Nous vous invitons à examiner attentivement les renseignements 
+figurant dans votre soumission. Si vous constatez une erreur ou 
+souhaitez apporter des modifications, veuillez communiquer sans 
+délai avec l'agent, l'établissement d'enseignement ou l'organisme 
+par l'intermédiaire duquel vous avez effectué votre demande.
 
-Si vous constatez des erreurs dans votre confirmation 
-de police ou
-si vous voulez modifier votre voyage avant la date 
-d'entrée
-en vigueur, 
-veuillez informer immédiatement l'agent, 
-l'école ou l'agence
-auprès de laquelle vous avez souscrit l'assurance. 
-
-
-Si vous rencontrez des difficultés à visualiser le 
-document ci-joint,
-veuillez télécharger la dernière version d'Adobe Reader
+Si vous éprouvez des difficultés à ouvrir le document ci-joint, 
+nous vous invitons à télécharger la plus récente version d'Adobe 
+Reader à l'adresse suivante :
 http://get.adobe.com/reader. 
 
+Nous vous remercions de votre confiance.
 
-
-Cordialement,
+Veuillez agréer, Cher/Chère <?php echo htmlspecialchars($customer['firstname'] . " " . $customer['lastname']); ?>, 
+l'expression de nos salutations distinguées.
 
 
 
@@ -46,9 +42,10 @@ Cordialement,
 JF Insurance Agency Group Inc.
 15 Wertheim Court, Suite #501
 Richmond Hill, ON L4B 3H7
-Tél: 905-707-1512 Fax: 905-707-1513
+Téléphone: 905-707-1512
+Télécopieur: 905-707-1513
 Courriel: Info@jfgroup.ca
-Site Internet: www.jfgroup.ca
+Site Web: www.jfgroup.ca
 <?php } else { 
 echo $beuser["business"]."\r\n";
 echo $beuser["address"]."\r\n";
