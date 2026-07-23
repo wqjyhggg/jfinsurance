@@ -215,6 +215,7 @@ class Monthly_payment_model extends CI_Model {
 		$this->db->join('plan', 'monthly_payment.plan_id=plan.plan_id', 'left');
 		$this->db->join('customer', 'plan.customer_id=customer.customer_id', 'left');
 		$this->db->where('plan.status_id>', 1);
+		$this->db->where('plan.monthlypay', 1);
 		if ($plan) {
 			$this->db->where('monthly_payment.plan_id', $plan['plan_id']);
 		}
