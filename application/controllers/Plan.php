@@ -3855,7 +3855,9 @@ class Plan extends MY_Controller {
               'JFVTC_Claim_Form.pdf' => DOWNLOADDIR . 'JFVTC_Claim_Form_French.pdf',
               'JFVTC_Brochure.pdf' => DOWNLOADDIR . 'JFVTC_Brochure_French.pdf'
             );
-            if ($plan['effective_date'] < '2023-05-01') {
+            if (!empty($plan["monthlypay"])) {
+              $files['JFVTC_Policy.pdf'] = DOWNLOADDIR . 'JFVTC_Policy_Monthly_French.pdf';
+            } else if ($plan['effective_date'] < '2023-05-01') {
               $files['JFVTC_Policy.pdf'] = DOWNLOADDIR . 'JFVTC_Policy_French_old.pdf';
             }
           } else {
@@ -3865,7 +3867,9 @@ class Plan extends MY_Controller {
               'JFVTC_Claim_Form.pdf' => DOWNLOADDIR . 'JFVTC_Claim_Form.pdf',
               'JFVTC_Brochure.pdf' => DOWNLOADDIR . 'JFVTC_Brochure.pdf'
             );
-            if ($plan['effective_date'] < '2023-05-01') {
+            if (!empty($plan["monthlypay"])) {
+              $files['JFVTC_Policy.pdf'] = DOWNLOADDIR . 'JFVTC_Policy_Monthly.pdf';
+            } else if ($plan['effective_date'] < '2023-05-01') {
               $files['JFVTC_Policy.pdf'] = DOWNLOADDIR . 'JFVTC_Policy_old.pdf';
             }
           }
