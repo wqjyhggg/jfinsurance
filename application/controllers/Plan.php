@@ -5229,6 +5229,9 @@ class Plan extends MY_Controller {
           $html = $this->load->view('plan/refund', $data, TRUE);
         }
       }
+      $mpdf = new mPDF('c');
+      $mpdf->writeHTML($html);
+      $mpdf->Output("policy_refund.pdf", "I");
     } else {
       $data['customer_full_name'] = $data['customer']['firstname'] . " " . $data['customer']['lastname'];
       $data['full_address'] = empty($plan['suite_number']) ? '' : "Suite " . $plan['suite_number'] . " ";
@@ -5236,20 +5239,8 @@ class Plan extends MY_Controller {
       $data['city'] = $plan['city'];
       $data['province2'] = $plan['province2'];
       $data['postcode'] = $plan['postcode'];
-
-      if ($plan["monthlypay"] && !empty($data['monthly_data']["refund_record"]) && !empty($data['monthly_data']["refund_record"]["action"])) { // only terminated plan has action
-        if (($plan["province2"] == "QC") && in_array($plan["product_short"], $this->french_plan)) {
-          $html = $this->load->view('plan/terminate_pdf_french', $data, TRUE);
-        } else {
-          $html = $this->load->view('plan/terminate_pdf', $data, TRUE);
-        }
-      } else {
-        $html = $this->load->view('plan/refund_addr', $data, TRUE);
-      }
+      $this->load->view('plan/refund_addr', $data);
     }
-    $mpdf = new mPDF('c');
-    $mpdf->writeHTML($html);
-    $mpdf->Output("policy_refund.pdf", "I");
   }
 
   /**

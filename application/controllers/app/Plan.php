@@ -3365,24 +3365,21 @@ class Plan extends CI_Controller
       if (($data['plan']['product_short'] == 'TOP') || ($data['plan']['product_short'] == 'TOPN')) {
         $html = $this->load->view('plan/top/cancel', $data, TRUE);
       } else {
-        $html = $this->load->view('plan/refund', $data, TRUE);
+        if ($plan["monthlypay"] && !empty($data['monthly_data']["refund_record"]) && !empty($data['monthly_data']["refund_record"]["action"])) { // only terminated plan has action
+          $html = $this->load->view('plan/terminate_pdf', $data, TRUE);
+        } else {
+          $html = $this->load->view('plan/refund', $data, TRUE);
+        }
       }
+      $mpdf = new mPDF('c');
+      $this->output_heads();
+      $mpdf->autoLangToFont=true;
+      $mpdf->autoScriptToLang=true;
+      $mpdf->writeHTML($html);
+      $mpdf->Output("policy_refund.pdf","I");
 		} else {
-			$data['customer_full_name'] = $data['customer']['firstname'] . " " . $data['customer']['lastname'];
-			$data['full_address'] = empty($plan['suite_number']) ? '' : "Suite " . $plan['suite_number'] . " ";
-			$data['full_address'] .= $plan['street_number'] . ' ' . $plan['street_name'];
-			$data['city'] = $plan['city'];
-			$data['province2'] = $plan['province2'];
-			$data['postcode'] = $plan['postcode'];
-
-			$html = $this->load->view('plan/refund_addr', $data, TRUE);
+      return $this->app_model->return_error("Missing address parameter");
 		}
-    $mpdf = new mPDF('c');
-    $this->output_heads();
-    $mpdf->autoLangToFont=true;
-    $mpdf->autoScriptToLang=true;
-    $mpdf->writeHTML($html);
-    $mpdf->Output("policy_refund.pdf","I");
   }
 
   function get_activelog_history()
