@@ -131,8 +131,8 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 			</div>
 		</div>
 	</div><!-- End Container -->
-  <pagebreak />
   <?php if ($plan["monthlypay"]) { ?>
+  <pagebreak />
 	<div class="container">	
 		<div class="row">
 			<div style="width:390px; margin:0 auto;">

@@ -128,6 +128,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 			</div>
 		</div>
 	</div><!-- End Container -->
+  <?php if ($plan["monthlypay"]) { ?>
   <pagebreak />
   <div class="container">
     <div class="row">
@@ -262,5 +263,6 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
       </div>
       </div>
   </div><!-- End Container -->
+  <?php } ?>
 </body>
 </html>
