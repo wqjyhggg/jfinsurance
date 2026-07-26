@@ -1109,7 +1109,7 @@ class Plan_model extends CI_Model {
 		if (!empty($para['country2'])) {
 			$where[] = "p.country2=" . $this->db->escape($para['country2']);
 		}
-		if (!empty($para['monthlypay'])) {
+		if (isset($para['monthlypay'])) {
 			$where[] = "p.monthlypay=" . $this->db->escape($para['monthlypay']);
 		}
 		if (!empty($para['apply_date'])) {
@@ -1241,7 +1241,7 @@ class Plan_model extends CI_Model {
 		if (!empty($para['country2'])) {
 			$where[] = "p.country2=" . $this->db->escape($para['country2']);
 		}
-		if (!empty($para['monthlypay'])) {
+		if (isset($para['monthlypay'])) {
 			$where[] = "p.monthlypay=" . $this->db->escape($para['monthlypay']);
 		}
 		if (!empty($para['apply_date'])) {
@@ -1372,9 +1372,6 @@ class Plan_model extends CI_Model {
 		if (!empty($para['product_short'])) {
 			$where[] = "p.product_short=" . $this->db->escape($para['product_short']);
 		}
-		if (!empty($para['monthlypay'])) {
-			$where[] = "p.monthlypay='" . intval($para['monthlypay']) . "'";
-		}
 		if ($beuser['region_id']) {
 			$where[] = "p.region_id = " . (int)$beuser['region_id'];
 		}
@@ -1390,7 +1387,7 @@ class Plan_model extends CI_Model {
 		if (!empty($para['country2'])) {
 			$where[] = "p.country2=" . $this->db->escape($para['country2']);
 		}
-		if (!empty($para['monthlypay'])) {
+		if (isset($para['monthlypay'])) {
 			$where[] = "p.monthlypay=" . $this->db->escape($para['monthlypay']);
 		}
 		if (!empty($para['apply_date'])) {
@@ -1536,9 +1533,6 @@ class Plan_model extends CI_Model {
 		if (!empty($para['product_short'])) {
 			$where[] = "p.product_short=" . $this->db->escape($para['product_short']);
 		}
-		if (!empty($para['monthlypay'])) {
-			$where[] = "p.monthlypay='" . intval($para['monthlypay']) . "'";
-		}
 		if ($beuser['region_id']) {
 			$where[] = "p.region_id = " . (int)$beuser['region_id'];
 		}
@@ -1554,7 +1548,7 @@ class Plan_model extends CI_Model {
 		if (!empty($para['country2'])) {
 			$where[] = "p.country2=" . $this->db->escape($para['country2']);
 		}
-		if (!empty($para['monthlypay'])) {
+		if (isset($para['monthlypay'])) {
 			$where[] = "p.monthlypay=" . $this->db->escape($para['monthlypay']);
 		}
 		if (!empty($para['apply_date'])) {
