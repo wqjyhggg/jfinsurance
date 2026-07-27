@@ -2665,11 +2665,12 @@ class Product_model extends CI_Model {
 	
 	public function verify_change($oldplan, $newplan) {
 		$verfy_products = ["JFVTC"];
+    $error = [];
 		if (!in_array($oldplan["product_short"], $verfy_products)) {
-			return "";
+			return $error;
 		}
 		if (($oldplan["totaldays"] <= "365") || ($oldplan['status_id'] < 2) || (empty($oldplan['monthlypay']))) {
-			return "";
+			return $error;
 		}
 		$totaldays = 0;
 		if (isset($newplan["totaldays"])) {
@@ -2678,15 +2679,17 @@ class Product_model extends CI_Model {
 			$totaldays = $this->getDays($newplan["effective_date"], $newplan["expiry_date"]);
 		}
 		if ($totaldays && ($totaldays < 365)) {
-			return "Can not change plan total days";
+			$error[] = "Can not change plan total days";
+			return $error;
 		}
 		if (isset($newplan["sum_insured"]) && ($newplan['sum_insured'] != $oldplan['sum_insured'])) {
-			return "Sum Insured Amount can not be changed after paid";
+			$error[] = "Sum Insured Amount can not be changed after paid";
+			return $error;
 		}
 		if (isset($newplan["premium"]) && ($oldplan['premium'] != $newplan['premium'])) {
-			return "Monthly plan can not change premium amount, you changed condition(s) can not be changed.";
+			$error[] = "Monthly plan can not change premium amount, you changed condition(s) can not be changed.";
 		}
-		return "";
+		return $error;
 	}
 }
 
