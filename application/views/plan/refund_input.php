@@ -172,7 +172,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           </div>
         </div>
       <!-- /page content -->
-<?php if (!empty($plan['monthlypay']) && !empty($monthly_data) && !empty($monthly_record)) { ?>
+<?php if (empty($plan['monthlypay']) && empty($monthly_data) && empty($monthly_record)) { ?>
 <script type="text/javascript">
 <!--
 $( document ).ready(function() {
