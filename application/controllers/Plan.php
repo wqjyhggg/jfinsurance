@@ -5162,8 +5162,14 @@ class Plan extends MY_Controller {
       $used_premium = $monthly_data["premium"] - $monthly_data["refund_record"]["refund_amount"];
     } else {
       $admin_fee = floatval($payment['admin_fee']);
+      if ($total_amount > 0) {
+        $total_amount *= -1;
+      }
+      if ($admin_fee > 0) {
+        $admin_fee *= -1;
+      }
       $refund_amount = $total_amount + $admin_fee;
-      $used_premium = $plan['premium'] - $refund_amount;
+      $used_premium = $plan['premium'] + $refund_amount;
     }
 
     $this->load->model('status_model');
