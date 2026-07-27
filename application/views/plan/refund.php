@@ -122,7 +122,10 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 							<td>Used Premium: </td><td><span>$<?php echo number_format($used_premium, 2, '.', ','); ?></span></td>
 						</tr>
 						<tr>
-							<td>Monthly Plan Admin Fee: </td><td><span>$<?php echo number_format($admin_fee, 2, '.', ','); ?></span></td>
+							<td>Un-used Premium: </td><td><span>$<?php echo number_format($refund_amount, 2, '.', ','); ?></span></td>
+						</tr>
+						<tr>
+							<td>Minus Cancellation Fee: </td><td><span>$<?php echo number_format($admin_fee, 2, '.', ','); ?></span></td>
 						</tr>
 						<tr>	
 							<td>Total Refund: </td><td><span>$<?php echo number_format($total_amount, 2, '.', ','); ?></span></td>
