@@ -5,11 +5,11 @@ if (!defined('BASEPATH'))
 
 class Bambora_model extends CI_Model {
 	public $error;
-	// public $profile_url="https://api.bambora.com/v1/profiles";
-	// public $payment_url="https://api.bambora.com/v1/payments";
+	public $profile_url="https://api.bambora.com/v1/profiles";
+	public $payment_url="https://api.bambora.com/v1/payments";
 
-	public $profile_url="https://api.na.bambora.com/v1/profiles";
-	public $payment_url="https://api.na.bambora.com/v1/payments";
+	// public $profile_url="https://api.na.bambora.com/v1/profiles";
+	// public $payment_url="https://api.na.bambora.com/v1/payments";
 
 	public function do_payment($monthly_payment_id) {
 		$this->load->model('log_model');

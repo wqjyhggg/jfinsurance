@@ -2,11 +2,11 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Bambora extends CI_Controller {
-	// public $profile_url="https://api.bambora.com/v1/profiles";
-	// public $payment_url="https://api.bambora.com/v1/payments";
+	public $profile_url="https://api.bambora.com/v1/profiles";
+	public $payment_url="https://api.bambora.com/v1/payments";
 
-	public $profile_url="https://api.na.bambora.com/v1/profiles";
-	public $payment_url="https://api.na.bambora.com/v1/payments";
+	// public $profile_url="https://api.na.bambora.com/v1/profiles";
+	// public $payment_url="https://api.na.bambora.com/v1/payments";
 
   // function _remap($param) {
   //   $this->index($param);
