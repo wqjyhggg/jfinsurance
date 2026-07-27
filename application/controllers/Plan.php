@@ -3640,8 +3640,7 @@ class Plan extends MY_Controller {
     $paraString = http_build_query($params);
     $hashString = $paraString . $hashKey;
     $hash = md5($hashString);
-    // $checkoutUrl = "https://web.na.bambora.com/scripts/payment/payment.asp?" . $paraString . '&hashValue='.$hash;
-    $checkoutUrl = "https://web.bambora.com/scripts/payment/payment.asp?" . $paraString . '&hashValue='.$hash;
+    $checkoutUrl = "https://web.na.bambora.com/scripts/payment/payment.asp?" . $paraString . '&hashValue='.$hash;
     return $checkoutUrl;
   }
 
