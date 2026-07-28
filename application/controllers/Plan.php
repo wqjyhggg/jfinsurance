@@ -1958,7 +1958,7 @@ class Plan extends MY_Controller {
         $rt .= "<td>" . $p['last_update'] . "</td>\n";
         $rt .= "<td>" . $pay_type . "</td>\n";
         $rt .= "<td>" . $p['pay_mothed'] . "</td>\n";
-				$rt .= "<td>" . number_format($p['amount']-$p['admin_fee'], 2) . "</td>\n";
+				$rt .= "<td>" . number_format($p['amount'], 2) . "</td>\n";
         if (($plan["policy"] != "TOP") && ($plan["policy"] != "TOPN")) {
           $rt .= "<td>" . number_format($p['admin_fee'], 2) . "</td>\n";
         }
