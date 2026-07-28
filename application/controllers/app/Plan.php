@@ -52,6 +52,11 @@ class Plan extends CI_Controller
     if ($sorder) {
       $desc = $this->input->post("desc");
     }
+    if (isset($post["monthlypay"])) {
+      if ($post["monthlypay"] != 1) {
+        unset($sArr["post"]);
+      }
+    }
     if ($plans = $this->plan_model->plan_activities($user, $post, $limit, $start, $sorder, $desc)) {
       $data["plans"] = $plans;
       $data["totals"] = $this->plan_model->plan_activitie_totals($user, $post);

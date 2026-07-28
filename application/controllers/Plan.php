@@ -96,6 +96,11 @@ class Plan extends MY_Controller {
       if (empty($sArr)) {
         $sArr = $this->input->get();
       }
+      if (isset($sArr["monthlypay"])) {
+        if ($sArr["monthlypay"] != 1) {
+          unset($sArr["monthlypay"]);
+        }
+      }
       $data['plan_list'] = $this->plan_model->plan_search($sArr, $this->page_limit, $this->input->get('per_page'));
       $data['plan_total'] = $this->plan_model->plan_search_count($sArr);
       $this->session->set_userdata('policy_search', json_encode($sArr));
