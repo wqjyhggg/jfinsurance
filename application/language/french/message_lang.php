@@ -410,6 +410,7 @@ $lang["Phone1 is Required"] = "Le téléphone 1 est requis";
 $lang["Plan Type"] = "Type de régime";
 $lang["Please check all your input fields. Premium amount can't be 0!"] = "Veuillez vérifier tous vos champs de saisie. Le montant de la prime ne peut pas être nul!";
 $lang["Please confirm the following"] = "Veuillez confirmer ce qui suit";
+$lang["Please confirm with the insured(s) that this option does not cover ANY Pre-Existing Medical Condition(s)"] = "Veuillez confirmer auprès de l'assuré que cette option ne couvre AUCUNE condition médicale préexistante";
 $lang["Please confirm with the insured that this plan does not cover ANY Pre-Existing Medical Condition(s).."] = "Veuillez confirmer auprès de l'assuré que ce plan ne couvre AUCUNE condition médicale préexistante.";
 $lang["Please confirm you have selected the 'No pre-existing condition coverage'"] = "Veuillez confirmer que vous avez sélectionné la couverture «Aucune condition préexistante»";
 $lang["Please contact JF staff for further assistance 905-707-1512"] = "Veuillez contacter le personnel de JF pour obtenir de l'aide supplémentaire au 905-707-1512.";

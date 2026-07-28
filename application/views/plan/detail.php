@@ -326,7 +326,7 @@ if ($Agree != "Agree") {
 							
 						</div><!-- end p-detail --><br />
             <?php if ($beuser['user_group_id'] < 106) { ?>
-						<?php if (($plan['monthlypay'] != 1) && ($plan['status_id'] <= 1)) { ?>
+						<?php if ($plan['monthlypay'] != 1) { ?>
 						<div class="row">
 								<div class="col-sm-12">
 								<?php if (!empty($payment_total)) { ?>						
