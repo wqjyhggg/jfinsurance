@@ -54,7 +54,7 @@ class Plan extends CI_Controller
     }
     if (isset($post["monthlypay"])) {
       if ($post["monthlypay"] != 1) {
-        unset($sArr["post"]);
+        unset($post["monthlypay"]);
       }
     }
     if ($plans = $this->plan_model->plan_activities($user, $post, $limit, $start, $sorder, $desc)) {
