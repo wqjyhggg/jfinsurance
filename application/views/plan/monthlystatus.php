@@ -38,6 +38,7 @@ $payStatusArr = [
 					<div class="x_content">
 						<?php if (!empty($error_message)) { echo $error_message . "<br>"; } ?>
 						<form action='<?php echo $base_url; ?>' method='POST' class="form-horizontal">
+              <input type='hidden' name='<?php echo $csrf['name']; ?>' value='<?php echo $csrf['value']; ?>'>
 							<div class="row">
 								<div class="form-group col-sm-3">
 									<label class="col-sm-12">Pay Status</label>
