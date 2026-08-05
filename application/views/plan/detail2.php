@@ -184,7 +184,11 @@ $studentPlan = ['JES', 'JFPL', 'JFSL', 'JFGD', 'TCS', 'JFOS', 'JESP', 'JFE', 'JF
     <div class="info-card">&nbsp;</div>
     <?php if (in_array($plan['product_short'], $studentPlan)) { ?>
     <div class="info-card">
+      <?php if ($plan['product_short'] == "JESP") { ?>
+      <span class="info-lable">Student Name:<span>
+      <?php } else { ?>
       <span class="info-lable">Student ID:<span>
+      <?php } ?>
       <span class="info-text"><?php echo $plan['student_id']; ?></span>
     </div>
     <div class="info-card">
@@ -202,7 +206,11 @@ $studentPlan = ['JES', 'JFPL', 'JFSL', 'JFGD', 'TCS', 'JFOS', 'JESP', 'JFE', 'JF
     <?php } ?>
   </div>
   <div class="title-left">
+    <?php if ($plan['product_short'] == "JESP") { ?>
+    Student Information
+    <?php } else { ?>
     Insurable Members
+    <?php } ?>
   </div>
   <div class="info">
     <?php if (in_array($plan['product_short'], $studentPlan)) { ?>
