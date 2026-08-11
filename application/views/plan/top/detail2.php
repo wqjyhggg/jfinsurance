@@ -209,7 +209,6 @@ if ($Agree != "Agree") {
     </div>
     <?php if ($plan['isfamilyplan']) { ?>
       Family/Group Member Information
-      <div>Student Information</div>
       <?php for ($i = 0; $i < 25; $i++) { ?>
       <?php  if (empty($customers[$i]['lastname']) && empty($customers[$i]['firstname'])) break; ?>
       <div class="info-card">

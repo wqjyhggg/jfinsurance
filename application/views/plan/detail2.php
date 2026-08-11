@@ -209,9 +209,7 @@ $studentPlan = ['JES', 'JFPL', 'JFSL', 'JFGD', 'TCS', 'JFOS', 'JESP', 'JFE', 'JF
     Insurable Members
   </div>
   <div class="info">
-    <?php if (in_array($plan['product_short'], $studentPlan)) { ?>
-    <div class="infor-card" style="flex: 1 1 100%;"><b>Student Information</b></div>
-    <?php } else { ?>
+    <?php if (!in_array($plan['product_short'], $studentPlan)) { ?>
     <div class="infor-card" style="flex: 1 1 100%;"><b>Customer Information</b></div>
     <?php } ?>
     <div class="info-card">
@@ -232,7 +230,6 @@ $studentPlan = ['JES', 'JFPL', 'JFSL', 'JFGD', 'TCS', 'JFOS', 'JESP', 'JFE', 'JF
     </div>
     <?php if ($plan['isfamilyplan']) { ?>
       Family/Group Member Information
-      <div>Student Information</div>
       <?php for ($i = 0; $i < 25; $i++) { ?>
       <?php  if (empty($customers[$i]['lastname']) && empty($customers[$i]['firstname'])) break; ?>
       <div class="info-card">
