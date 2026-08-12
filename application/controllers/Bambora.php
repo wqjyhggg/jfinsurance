@@ -27,6 +27,11 @@ class Bambora extends CI_Controller {
     return md5($hashString);
   }
 
+	private function get_hashValue2($rawPost, $hashKey) {
+    $hashData = preg_replace('/(?:^|&)hashValue=[^&]*/', '', $rawPost);
+    return md5($hashData . $hashKey);
+  }
+
 	/**
 	 * Index Page for this controller.
 	 * ALTER TABLE `activity` ADD PRIMARY KEY (`activity_id`), ADD KEY `plan_id` (`plan_id`), ADD KEY `atype` (`activity_id`);
@@ -54,7 +59,7 @@ class Bambora extends CI_Controller {
 				" - RAW: $rawInput" . PHP_EOL . PHP_EOL;
 		file_put_contents("paymentcall.txt", $logEntry, FILE_APPEND);
 
-		$rawInput = file_get_contents('php://input');
+		// $rawInput = file_get_contents('php://input');
 
     $this->load->database();
     $this->load->helper('url');
@@ -197,11 +202,14 @@ class Bambora extends CI_Controller {
 		$myhashValue = $this->get_hashValue($post, $product["hash_key"]);
 
 		if ($hashValue != $myhashValue) {
-			$errormsg = "Verify Error: ".$myhashValue;
-			if ($activity_id) {
-				$this->log_model->update($activity_id, ["systemlog" => $errormsg]);
-			}
-			die($errormsg);
+      $myhashValue = $this->get_hashValue2($rawInput, $product["hash_key"]);
+      if (!hash_equals(strtolower($hashValue), strtolower($myhashValue))) {
+        $errormsg = "Verify Error: ".$myhashValue;
+        if ($activity_id) {
+          $this->log_model->update($activity_id, ["systemlog" => $errormsg]);
+        }
+        die($errormsg);
+      }
 		}
 
 		if (!isset($post["trnApproved"])) {
