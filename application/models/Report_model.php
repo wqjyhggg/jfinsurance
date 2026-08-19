@@ -680,8 +680,8 @@ class Report_model extends CI_Model
 										$plan_history["premium"] = $paid_amount;
 									} else {
 										// Just Refund
-										// $plan_history["premium"] = round($plan_history["totaldays"] * $plan_history["dailyrate"], 2);
-										$plan_history["premium"] = $refund_amount;
+										$plan_history["premium"] = round($plan_history["totaldays"] * $plan_history["dailyrate"], 2);
+										// $plan_history["premium"] = $refund_amount;
 									}
 									$plan_history["total_premium"] = $plan_history["premium"];
 								}
