@@ -646,6 +646,7 @@ if ($Agree != "Agree") {
 									</div>
 									<?php if (!$usepsi && isset($recurrent)) { /* disable recurrent for now */ ?>
 										<hr />
+                    <?php if ($plan["totaldays"] == 365) { ?>
 										<?php if ($payurltm) { ?>
 											<div class="row">
 												<div class="col-sm-12">
@@ -666,7 +667,15 @@ if ($Agree != "Agree") {
 													</div>
 												</div>
 											</div>
+                    <?php } ?>
 										<?php } ?>
+                    <?php if ($plan["totaldays"] > 365) { ?>
+                    <div class="row">
+                      <div class="col-sm-12">
+                        Monthly Payment only available to policy with 365 days
+                      </div>
+                    </div>
+                    <?php } else { ?>
 										<div class="row">
 											<div class="col-sm-12">
 												<label class="inline">Pay Monthly Option</label>
@@ -674,13 +683,7 @@ if ($Agree != "Agree") {
 												<a class='btn btn-primary pull-right' href="<?php echo $monthly_pay_url; ?>"><?php echo $this->lang->line("Pay Now"); ?></a>
 											</div>
 										</div>
-										<!-- <div class="row">
-											<div class="col-sm-12">
-												<label class="inline">Monthly Payment Option (without Iframe)</label>
-												<div style="font-size: 10px;">First Pay: $<?php echo number_format($recurrent[0], 2, '.', ','); ?> and Recurring Pay: $<?php echo number_format($recurrent[1], 2, '.', ','); ?> x <?php echo $recurrent[2]; ?></div>
-												<a class='btn btn-primary pull-right' href="<?php echo $monthly_pay_url2; ?>"><?php echo $this->lang->line("Pay Now"); ?></a>
-											</div>
-										</div> -->
+                    <?php } ?>
 									<?php } ?>
 									
 									

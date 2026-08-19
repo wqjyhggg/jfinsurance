@@ -321,6 +321,13 @@ $studentPlan = ['JES', 'JFPL', 'JFSL', 'JFGD', 'TCS', 'JFOS', 'JESP', 'JFE', 'JF
 	<?php if (in_array('Credit Card', $paytype_list)) { ?>
 		<?php if ($ismonthly && isset($recurrent)) { ?>
 			<div class="container" style="margin-top: 30px; text-align: left;">
+        <?php if ($plan["totaldays"] > 365) { ?>
+				<div class="row">
+					<div class="col">
+						Monthly Payment only available to policy with 365 days
+					</div>
+				</div>
+        <?php } else { ?>
 				<div class="row">
 					<div class="col">
 						<label class="inline">Pay Monthly By Credit Card</label>
@@ -355,6 +362,7 @@ $studentPlan = ['JES', 'JFPL', 'JFSL', 'JFGD', 'TCS', 'JFOS', 'JESP', 'JFE', 'JF
 						<a class='btn btn-primary pull-left' style="margin-top: 8px;" href="<?php echo $monthly_pay_url; ?>"><?php echo $this->lang->line("Pay Now"); ?></a>
 					</div>
 				</div>
+        <?php } ?>
 			</div>
 		<?php } else { ?>
 		<div id="credit_div" class="pay-card">
