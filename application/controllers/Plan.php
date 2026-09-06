@@ -754,7 +754,7 @@ class Plan extends MY_Controller {
 
     $customers = $this->plan_model->get_plan_customers_by_id($plan_id);
     foreach ($customers as $customer) {
-      $vrecords = $this->plan_model->verify_customer($customer['firstname'], $customer['lastname'], $customer['birthday']);
+      $vrecords = $this->plan_model->verify_customer_block($customer['firstname'], $customer['lastname'], $customer['birthday']);
       if (($vrecords['status'] == 'OK') && ($vrecords['isblocked'] == 1))  {
         $plan = $this->plan_model->update($plan_id, array('claim_flag' => 2));
         $this->error['error_claim'] = 'The insured ('.$customer['firstname'].' '.$customer['lastname'].'; dob:'.$customer['birthday'].') is blocked the policy issuance or renewal. Please contact JF staff for further assistance 905-707-1512';
