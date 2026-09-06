@@ -292,7 +292,7 @@ if ($Agree != "Agree") {
                             </div>
                           </div>
                         </div>
-                        <?php if ($do_user_id > 0) { ?>
+                        <?php if (0 && ($do_user_id > 0)) { ?>
                         <?php if ($user_group_id < 100) { ?>
                           <div class="row">
                             <div class="col-sm-12">
@@ -1961,7 +1961,7 @@ $('#payment_get_history_button').click(function(){
       nm = parseInt(nm / 100) * 100;
       $('input[name="trip_cancellation_insured"]').val(nm);
     });
-		<?php if (($do_user_id > 0) && ($user_group_id < 100) && ($status_id < 2)) { ?>
+		<?php if (0 && ($do_user_id > 0) && ($user_group_id < 100) && ($status_id < 2)) { ?>
     $('#claim_allowed').change(function() {
       if (this.checked) {
         if (!$('#claim_allow_note').val()) {

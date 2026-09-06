@@ -73,6 +73,26 @@ defined('BASEPATH') or exit('No direct script access allowed');
                   <input type="hidden" id="payment_added_to" value="" /><br />
                   <!-- Payment Update Date to End -->
                 </div>
+                <div class="form-group col-sm-3">
+                  <!-- Payment Added Date From-->
+                  <label for="payment_date_from" class="col-sm-12">Payment Date From</label>
+                  <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
+                    <input name="payment_date_from" class="form-control" size="16" type="text" value="<?php echo $payment_date_from ?>">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                  </div>
+                  <input type="hidden" id="payment_added_from" value="" />
+                  <!-- Payment Added Date From End-->
+                </div>
+                <div class="form-group col-sm-3">
+                  <!-- Payment Added Date to -->
+                  <label for="payment_date_to" class="col-sm-12">Payment Date To</label>
+                  <div class="input-group date" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
+                    <input name="payment_date_to" class="form-control" size="16" type="text" value="<?php echo $payment_date_to ?>">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                  </div>
+                  <input type="hidden" id="payment_added_to" value="" /><br />
+                  <!-- Payment Update Date to End -->
+                </div>
                 <!-- Payment Added Date End -->
                 <div class="form-group col-sm-3">
                   <!-- Earned To date -->

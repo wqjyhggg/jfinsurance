@@ -105,7 +105,44 @@ class Plan_model extends CI_Model {
 		$rt = json_decode ( $result, TRUE );
 		return $rt;
 	}
-	
+
+ 	public function verify_customer_block($firstname, $lastname, $dob) {
+		// prepare post data
+		$data ['key'] = self::CLAIM_KEY;
+		$data ['firstname'] = $firstname;
+		$data ['lastname'] = $lastname;
+		$data ['birth'] = $dob;
+		$post_data = http_build_query ( $data );
+		
+		// get list of policy status here
+		$url = self::CLAIM_URL."block_check";
+		$curl = curl_init ();
+		
+		// Post Data
+		curl_setopt ( $curl, CURLOPT_POST, 1 );
+		curl_setopt ( $curl, CURLOPT_POSTFIELDS, $post_data );
+		
+		// Optional Authentication:
+		//if (API_USER and API_PASSWORD) {
+		//	curl_setopt ( $curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC );
+		//	curl_setopt ( $curl, CURLOPT_USERPWD, API_USER . ":" . API_PASSWORD );
+		//}
+		
+		curl_setopt ( $curl, CURLOPT_URL, $url );
+		curl_setopt ( $curl, CURLOPT_RETURNTRANSFER, 1 );
+		curl_setopt ( $curl, CURLOPT_DNS_USE_GLOBAL_CACHE, false );
+		curl_setopt ( $curl, CURLOPT_DNS_CACHE_TIMEOUT, 2 );
+		curl_setopt ( $curl, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4 );
+		curl_setopt ( $curl, CURLOPT_SSL_VERIFYPEER, false);
+		curl_setopt ( $curl, CURLOPT_SSL_VERIFYHOST, false);
+		
+		$result = curl_exec ( $curl );
+		
+		curl_close ( $curl );
+		$rt = json_decode ( $result, TRUE );
+		return $rt;
+	}
+
 	/**
 	 * Get Customer Claim status
 	 * 

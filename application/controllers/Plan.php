@@ -755,25 +755,9 @@ class Plan extends MY_Controller {
     $customers = $this->plan_model->get_plan_customers_by_id($plan_id);
     foreach ($customers as $customer) {
       $vrecords = $this->plan_model->verify_customer($customer['firstname'], $customer['lastname'], $customer['birthday']);
-      $claim_amount = 0;
-      $case_amount = 0;
-      if ($vrecords['status'] == 'OK') {
-        foreach ($vrecords['cases'] as $case) {
-          $case_amount += (float)$case['amount'];
-        }
-        foreach ($vrecords['claims'] as $claim) {
-          $claim_amount += (float)$claim['amount'];
-        }
-      }
-      if (empty($claim_amount) && empty($case_amount)) {
-        // continue check next customer
-        continue;
-      } else if (($claim_amount <= 2500) && ($case_amount <= 2500)) {
-        $plan = $this->plan_model->update($plan_id, array('claim_flag' => 1));
-        // $this->error['error_claim'] = "Warning: The insured(s) have had previous claim(s). Please check the policy eligibility and any pre-existing conditions with insured(s). " . $customer['firstname'] . " " . $customer['lastname'] . "(" . $customer['birthday'] . ")";
-      } else /* if (($claim_amount > 2000) || ($case_amount > 2000)) */ {
+      if (($vrecords['status'] == 'OK') && ($vrecords['isblocked'] == 1))  {
         $plan = $this->plan_model->update($plan_id, array('claim_flag' => 2));
-        $this->error['error_claim'] = 'The insured may have a previous claim that is affecting the policy issuance or renewal. Please contact JF staff for further assistance 905-707-1512';
+        $this->error['error_claim'] = 'The insured ('.$customer['firstname'].' '.$customer['lastname'].'; dob:'.$customer['birthday'].') is blocked the policy issuance or renewal. Please contact JF staff for further assistance 905-707-1512';
         break;
       }
     }

@@ -958,33 +958,8 @@ class Plan extends CI_Controller
     } else {
       $customers = $this->plan_model->get_plan_customers_by_id($plan_id);
       foreach ($customers as $customer) {
-        $vrecords = $this->plan_model->verify_customer($customer['firstname'], $customer['lastname'], $customer['birthday']);
-        $claim_amount = 0;
-        $case_amount = 0;
-        if ($vrecords['status'] == 'OK') {
-          foreach ($vrecords['cases'] as $case) {
-            $case_amount += (float)$case['amount'];
-          }
-          foreach ($vrecords['claims'] as $claim) {
-            $claim_amount += (float)$claim['amount'];
-          }
-        }
-        if (empty($claim_amount) && empty($case_amount)) {
-          continue;
-        } else if (($claim_amount <= 2500) && ($case_amount <= 2500)) {
-          $this->plan_model->update($plan_id, array('claim_flag' => 1), array(), $user);
-					$plan = $this->plan_model->get_plan_by_id($plan_id);
-					$para = array(
-						'plan_id' => $plan_id,
-						'customer_id' => $plan['customer_id'],
-						'payment_id' => 0,
-						'message' => $this->plan_model->logstr,
-						'systemlog' => $this->plan_model->sqlstr
-					);
-					$this->log_model->activity('plan', $para, $user);
-					$data["plan"]['claim_flag'] = 1;
-          $data["claim_message"] = "Reminders: The insured(s) may have had previous claim(s). Please confirm the policy eligibility and any pre-existing conditions with insured(s). " . $customer['firstname'] . " " . $customer['lastname'] . "(" . $customer['birthday'] . ")";
-        } else if (!isset($post["claim_flag"])) /* if (($claim_amount > 2000) || ($case_amount > 2000)) */ {
+        $vrecords = $this->plan_model->verify_customer_block($customer['firstname'], $customer['lastname'], $customer['birthday']);
+        if (($vrecords['status'] == 'OK') && ($vrecords['isblocked'] == 1))  {
           $this->plan_model->update($plan_id, array('claim_flag' => 2), array(), $user);
 					$plan = $this->plan_model->get_plan_by_id($plan_id);
 					$para = array(
@@ -996,7 +971,8 @@ class Plan extends CI_Controller
 					);
 					$this->log_model->activity('plan', $para, $user);
 					$data["plan"]['claim_flag'] = 2;
-          $data["claim_message"] = 'The insured may have a previous claim that is affecting the policy issuance or renewal. Please contact JF staff for further assistance 905-707-1512';
+          $data["claim_message"] = 'The insured ('.$customer['firstname'].' '.$customer['lastname'].'; dob:'.$customer['birthday'].') is blocked the policy issuance or renewal. Please contact JF staff for further assistance 905-707-1512';
+          break;
         }
       }
     }

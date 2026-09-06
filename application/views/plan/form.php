@@ -365,7 +365,7 @@ if ($Agree != "Agree") {
 							</div>
 						</div>
 					</div>
-					<?php if ($do_user_id > 0) { ?>
+					<?php if (0 && ($do_user_id > 0)) { ?>
 					<?php if ($user_group_id < 100) { ?>
 					<div class="row">
 						<div class="col-sm-12">
@@ -1464,7 +1464,7 @@ $(document).ready(function(){
 	});
 	<?php } ?> 
     
-	<?php if (($do_user_id > 0) && ($user_group_id < 100) && ($status_id < 2)) { ?>
+	<?php if (0 && ($do_user_id > 0) && ($user_group_id < 100) && ($status_id < 2)) { ?>
 		$('#claim_allowed').change(function(){
         if (this.checked) {
             if (!$('#claim_allow_note').val()) {
