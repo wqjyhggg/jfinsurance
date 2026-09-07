@@ -34,7 +34,7 @@ class Bambora_model extends CI_Model {
 			}
 			if ($plan["status_id"] != Plan_model::PAID) {
 				$this->error = "Plan: is not in PAID status".json_encode($plan)."\r\n";
-				// return $this->error;
+				return $this->error;
 			}
 			$product = $this->product_model->get_product($plan["product_short"]);
 			if (empty($product)) {
@@ -338,7 +338,10 @@ class Bambora_model extends CI_Model {
 
 					$this->load->model('mymail_model');
 					$message = $plan["policy"] . " Monthly Payment recurrent failed. monthly_payment_id: ".$pay["monthly_payment_id"];
-					$this->mymail_model->send_mymail("wqjyhggg@gmail.com", 'JF Recur Error', $message, $attach=array(), $from='', 'text');
+          if ($retry == 1) {
+  					$this->mymail_model->send_mymail("info@jfgroup.ca", 'JF Recur Error', $message, $attach=array(), $from='', 'text');
+          }
+					// $this->mymail_model->send_mymail("wqjyhggg@gmail.com", 'JF Recur Error '.$retry, $message, $attach=array(), $from='', 'text');
 					$this->error = "Retry monthly payment Not approved (".$monthly_payment_id.")(".$responseCode.")(".$response.")";
 					return $this->error;
 				}
@@ -590,7 +593,7 @@ class Bambora_model extends CI_Model {
 						'systemlog' => $this->payment_model->sqlstr
 					);
 					$this->log_model->activity('payment', $para, $user);
-					$this->error = "Try monthly full payment Not approved (".$monthly_payment_id.")(".$responseCode.")(".$response.")";
+					$this->error = "Try monthly full payment Not approved (".$plan_id.")(".$responseCode.")(".$response.")";
 					return $this->error;
 				}
 			} else {
