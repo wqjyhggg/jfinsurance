@@ -579,7 +579,21 @@ class Report_model extends CI_Model
 		$sql  = "SELECT ph2.plan_id, pl.status_id as last_status_id FROM plan_history ph2";
 		$sql .= " JOIN plan pl ON (pl.plan_id = ph2.plan_id)";
 		if (!empty($para['payment_date_from']) || !empty($para['payment_date_to'])) {
-  		$sql .= " JOIN payment pa ON (pa.plan_id = ph2.plan_id AND pa.pay_type='premium' AND pa.amount>'0.01')";
+  		$sql .= " JOIN (
+                    SELECT p1.plan_id, p1.added
+                    FROM payment p1
+                    LEFT JOIN payment p2
+                        ON p2.plan_id = p1.plan_id
+                        AND p2.pay_type = 'premium'
+                        AND p2.amount > 0.01
+                        AND (
+                            p2.added < p1.added
+                            OR (p2.added = p1.added AND p2.payment_id < p1.payment_id)
+                        )
+                    WHERE p1.pay_type = 'premium'
+                      AND p1.amount > 0.01
+                      AND p2.payment_id IS NULL
+                ) pa ON pa.plan_id = ph2.plan_id";
 		}
 		$sql .= " WHERE ph2.ishead=1 AND pl.monthlypay=1 AND pl.status_id>1";
 		if (!empty($para['payment_added_from'])) {
