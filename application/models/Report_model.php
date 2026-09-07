@@ -578,6 +578,9 @@ class Report_model extends CI_Model
   {
 		$sql  = "SELECT ph2.plan_id, pl.status_id as last_status_id FROM plan_history ph2";
 		$sql .= " JOIN plan pl ON (pl.plan_id = ph2.plan_id)";
+		if (!empty($para['payment_date_from']) || !empty($para['payment_date_to'])) {
+  		$sql .= " JOIN payment pa ON (pa.plan_id = ph2.plan_id AND pa.pay_type='premium' AND pa.amount>'0.01')";
+		}
 		$sql .= " WHERE ph2.ishead=1 AND pl.monthlypay=1 AND pl.status_id>1";
 		if (!empty($para['payment_added_from'])) {
 			$sql .= " AND ph2.add_time >= " . $this->db->escape($para['payment_added_from'] . " 00:00:00");
@@ -588,6 +591,12 @@ class Report_model extends CI_Model
 			$sql .= " AND ph2.add_time <= " . $this->db->escape($para['payment_added_to'] . " 23:59:59");
 		} else {
 			$sql .= " AND ph2.add_time <= " . $this->db->escape(date("Y-m-d")." 23:59:59");
+		}
+		if (!empty($para['payment_date_from'])) {
+			$sql .= " AND pa.effective_date >= " . $this->db->escape($para['payment_date_from'] . " 00:00:00");
+		}
+		if (!empty($para['payment_date_to'])) {
+			$sql .= " AND pa.effective_date <= " . $this->db->escape($para['payment_date_to'] . " 23:59:59");
 		}
 		if (!empty($para['product_short'])) {
 			if (is_array($para['product_short'])) {

@@ -31,6 +31,8 @@ class Premium3 extends MY_Controller
     $product_short = $this->input->post('product_short');
     $data['payment_added_from'] = empty($this->input->post('payment_added_from'))?date("Y-m-d"):$this->input->post('payment_added_from');
     $data['payment_added_to'] = empty($this->input->post('payment_added_to'))?date("Y-m-d"):$this->input->post('payment_added_to');
+    $data['payment_date_from'] = empty($this->input->post('payment_date_from'))?"":$this->input->post('payment_date_from');
+    $data['payment_date_to'] = empty($this->input->post('payment_date_to'))?"":$this->input->post('payment_date_to');
     $data['earned_to'] = empty($this->input->post('earned_to'))?date("Y-m-d"):$this->input->post('earned_to');
     $data['product_short'] = empty($product_short)?array():array_keys($product_short);
 
