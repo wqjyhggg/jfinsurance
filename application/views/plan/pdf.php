@@ -435,10 +435,12 @@ defined('BASEPATH') or exit('No direct script access allowed');
 						else if ($plan["question1"] == 2) { echo "2 medications"; } 
 						else { echo "1 medication or None"; } ?></B></span>
         </div>
+        <?php if ($plan["question1"] == 1) { ?>
         <div class="col-sm-12" style="padding-bottom:12px;">
 					<span>Within the 24 months prior to the date of application, have you had a heart attack, stroke and/or transient ischemic attack (mini-stroke, TIA)?</span>
 					<br /><span><B><?php if ($plan["question2"] == 2) { echo 'Yes'; } else { echo 'No'; } ?></B></span>
         </div>
+        <?php if ($plan["question2"] != 2) { ?>
         <div class="col-sm-12" style="padding-bottom:12px;">
 					<span>Within 6 months of the date of application, how many of the following medical conditions did you take medication for or received treatment for?</span>
 					<br /><span>Treatment includes medication* that you take or have been ordered to take by a physician.</span>
@@ -462,10 +464,14 @@ defined('BASEPATH') or exit('No direct script access allowed');
 					<br /><span>&nbsp;&nbsp;&nbsp;&nbsp;Hospitalization or surgical intervention.</span>
 					<br /><span><B><?php if ($plan["question4"] == 2) { echo 'Yes'; } else { echo 'No'; } ?></B></span>
         </div>
+        <?php if ($plan["question4"] != 2) { ?>
         <div class="col-sm-12" style="padding-bottom:12px;">
 					<br /><span>Have you used any tobacco products in the past 24 months?</span>
 					<br /><span><B><?php if ($plan["question5"] == 2) { echo 'Yes'; } else { echo 'No'; } ?></B></span>
         </div>
+        <?php } /* $plan["question4"] != 2 */ ?>
+        <?php } /* $plan["question2"] != 2 */ ?>
+        <?php } /* $plan["question1"] == 1 */ ?>
       </div>
 		<?php } ?>
 		<?php if ($plan['product_short'] == 'JFR') { ?>
