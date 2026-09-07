@@ -593,10 +593,10 @@ class Report_model extends CI_Model
 			$sql .= " AND ph2.add_time <= " . $this->db->escape(date("Y-m-d")." 23:59:59");
 		}
 		if (!empty($para['payment_date_from'])) {
-			$sql .= " AND pa.add_time >= " . $this->db->escape($para['payment_date_from'] . " 00:00:00");
+			$sql .= " AND pa.added >= " . $this->db->escape($para['payment_date_from'] . " 00:00:00");
 		}
 		if (!empty($para['payment_date_to'])) {
-			$sql .= " AND pa.add_time <= " . $this->db->escape($para['payment_date_to'] . " 23:59:59");
+			$sql .= " AND pa.added <= " . $this->db->escape($para['payment_date_to'] . " 23:59:59");
 		}
 		if (!empty($para['product_short'])) {
 			if (is_array($para['product_short'])) {
