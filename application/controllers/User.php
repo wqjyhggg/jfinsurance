@@ -622,7 +622,7 @@ class User extends MY_Controller {
 				if (!empty($this->data['pdf_logo'])) $post['pdf_logo'] = $this->data['pdf_logo'];
 				if (!empty($this->data['pdf_qr'])) $post['pdf_qr'] = $this->data['pdf_qr'];
 				if (!empty($this->data['pdf_qr2'])) $post['pdf_qr2'] = $this->data['pdf_qr2'];
-				$this->user_model->update ( $user_id, $post, 1, array('product_list' => 1));
+				$user_id = $this->user_model->update ( $user_id, $post, 1, array('product_list' => 1));
 				$this->log_model->activity('user', array('message' => $this->user_model->logstr, 'systemlog' => $this->user_model->sqlstr));
 				$this->product_model->set_product_customize($user_id, $this->input->post('product_customize'));
         $user_province = $this->input->post('user_province');
