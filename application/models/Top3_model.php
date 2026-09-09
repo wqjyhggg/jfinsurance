@@ -5252,6 +5252,20 @@ class Top3_model extends CI_Model  {
 	);
 	
 	private function annual_plan($data, $ischeck) {
+    if ($data['age'] > 59) {
+			if ($data['totaldays'] > 90) {
+        $this->premiumArr['message'] = "Total trip days cannot exceed 90 days.";
+        $this->premiumArr['active_tab'] = 'date_members_tab';
+				return 1;
+      }
+    } else {
+			if ($data['totaldays'] > 120) {
+        $this->premiumArr['message'] = "Total trip days cannot exceed 120 days.";
+        $this->premiumArr['active_tab'] = 'date_members_tab';
+				return 1;
+      }
+    }
+
 		if ($data['age'] < 30) {
 			$idx1 = 0;
 		} else if ($data['age'] < 55) {
@@ -5311,6 +5325,19 @@ class Top3_model extends CI_Model  {
 	}
 	
 	private function optional_plan($data, $ischeck) {
+    if ($data['age'] > 59) {
+			if ($data['totaldays'] > 90) {
+        $this->premiumArr['message'] = "Total trip days cannot exceed 90 days.";
+        $this->premiumArr['active_tab'] = 'date_members_tab';
+				return 1;
+      }
+    } else {
+			if ($data['totaldays'] > 120) {
+        $this->premiumArr['message'] = "Total trip days cannot exceed 120 days.";
+        $this->premiumArr['active_tab'] = 'date_members_tab';
+				return 1;
+      }
+    }
 		$this->premiumArr['trip_cancellation'] = 1;
 		if ($ischeck) {
 			if ($data['age'] >= 85) {
@@ -5439,6 +5466,20 @@ class Top3_model extends CI_Model  {
 		$arr = 'single_medical';
 		$mindays = 1;
 		$maxdays = 90;
+    if ($data['age'] > 59) {
+			if ($data['totaldays'] > 90) {
+        $this->premiumArr['message'] = "Total trip days cannot exceed 90 days.";
+        $this->premiumArr['active_tab'] = 'date_members_tab';
+				return 1;
+      }
+    } else {
+			if ($data['totaldays'] > 120) {
+        $this->premiumArr['message'] = "Total trip days cannot exceed 120 days.";
+        $this->premiumArr['active_tab'] = 'date_members_tab';
+				return 1;
+      }
+    }
+
 		if ($data['age'] < 30) {
 			$arr = 'single_medical_0_29';
       $maxdays = 120;
