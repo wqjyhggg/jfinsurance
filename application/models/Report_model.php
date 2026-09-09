@@ -1025,7 +1025,7 @@ class Report_model extends CI_Model
     $sql .= "	pl.effective_date,";
     $sql .= "	pl.expiry_date,";
     $sql .= "	pl.totaldays AS total_days,";
-    $sql .= "	IF(pa.admin_fee < 0, pa.amount + pa.admin_fee, pa.amount - pa.admin_fee) AS premium,";  // 2026-09-07 change it back
+    $sql .= " IF(pl.monthlypay=1 AND pa2.admin_fee>0, pa2.amount - pa2.admin_fee, pa2.amount + pa2.admin_fee) AS premium,";
     $sql .= "	pa2.ispaid AS premiumispaid,";
     $sql .= "	pa2.premium_payment_id as ppremium_payment_id,";
     $sql .= "	pa.rate,";
