@@ -958,7 +958,7 @@ class Plan extends CI_Controller
     } else {
       $customers = $this->plan_model->get_plan_customers_by_id($plan_id);
       foreach ($customers as $customer) {
-        $vrecords = $this->plan_model->verify_customer_block($customer['firstname'], $customer['lastname'], $customer['birthday']);
+        $vrecords = $this->plan_model->verify_customer($customer['firstname'], $customer['lastname'], $customer['birthday']);
         if (($vrecords['status'] == 'OK') && ($vrecords['isblocked'] == 1))  {
           $this->plan_model->update($plan_id, array('claim_flag' => 2), array(), $user);
 					$plan = $this->plan_model->get_plan_by_id($plan_id);
