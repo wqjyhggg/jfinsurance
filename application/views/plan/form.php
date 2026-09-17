@@ -366,7 +366,7 @@ if ($Agree != "Agree") {
 						</div>
 					</div>
 					<?php if ($do_user_id > 0) { ?>
-					<?php if ($user_group_id < 100) { ?>
+					<?php if (0 && ($user_group_id < 100)) { ?>
 					<div class="row">
 						<div class="col-sm-12">
 							<label class="col-sm-12"><?php echo $this->lang->line("By Check the checkbox, you can allow this policy to continue to pay. Please fill in your reason before cilck the checkbox."); ?></label>

@@ -941,6 +941,12 @@ class Plan extends MY_Controller {
     if (empty($plan) && $data['plan_id']) {
       $plan = $this->plan_model->get_plan_by_id($data['plan_id']);
     }
+    if ($plan && isset($plan['status_id']) && ($plan['status_id'] == 1)) {
+      $this->verify_claims($data['plan_id']);
+      if ($this->error['error_claim']) {
+        $data["error_claim"] = $this->error["error_claim"];
+      }
+    }
 
     if ($plan && isset($plan['status_id']) && ($plan['status_id'] > 1) && ($plan['claim_flag'] < 1) && $this->session->userdata('vsuser')) {
       // user can't change anything after sold
@@ -3156,7 +3162,7 @@ class Plan extends MY_Controller {
       redirect('user/login');
     }
     if (($plan['claim_flag'] > 1) && ($plan['claim_allow_by'] < 1)) {
-      redirect('plan/form');
+      redirect('plan/edit/'.$plan_id);
     }
     if (empty($sekey)) {
       $beuser = $this->func_model->verify_login(TRUE, TRUE);
