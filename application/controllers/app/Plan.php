@@ -951,11 +951,11 @@ class Plan extends CI_Controller
     $data["plan"] = $this->plan_model->get_plan_by_id($plan_id);
     $data["claim_message"] = "";
 
-    if ($data["plan"]['claim_flag'] >= 2) {
-      if ($data["plan"]['claim_allow_by'] < 1) {
-        $data["claim_message"] = "The insured may have a previous claim that is affecting the policy issuance or renewal. Please contact JF staff for further assistance 905-707-1512";
-      }
-    } else {
+    // if ($data["plan"]['claim_flag'] >= 2) {
+    //   if ($data["plan"]['claim_allow_by'] < 1) {
+    //     $data["claim_message"] = "The insured may have a previous claim that is affecting the policy issuance or renewal. Please contact JF staff for further assistance 905-707-1512";
+    //   }
+    // } else {
       $customers = $this->plan_model->get_plan_customers_by_id($plan_id);
       foreach ($customers as $customer) {
         $vrecords = $this->plan_model->verify_customer($customer['firstname'], $customer['lastname'], $customer['birthday']);
@@ -974,7 +974,7 @@ class Plan extends CI_Controller
           $data["claim_message"] = 'The insured ('.$customer['firstname'].' '.$customer['lastname'].'; dob:'.$customer['birthday'].') is blocked the policy issuance or renewal. Please contact JF staff for further assistance 905-707-1512';
         }
       }
-    }
+    // }
 
     $this->app_model->return_ok($data);
   }

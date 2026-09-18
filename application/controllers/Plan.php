@@ -745,12 +745,12 @@ class Plan extends MY_Controller {
   {
     $plan = $this->plan_model->get_plan_by_id($plan_id);
 
-    if ($plan['claim_flag'] >= 2) {
-      if ($plan['claim_allow_by'] < 1) {
-        $this->error['error_claim'] = 'The insured may have a previous claim that is affecting the policy issuance or renewal. Please contact JF staff for further assistance 905-707-1512';
-      }
-      return;
-    }
+    // if ($plan['claim_flag'] >= 2) {
+    //   if ($plan['claim_allow_by'] < 1) {
+    //     $this->error['error_claim'] = 'The insured may have a previous claim that is affecting the policy issuance or renewal. Please contact JF staff for further assistance 905-707-1512';
+    //   }
+    //   return;
+    // }
 
     $customers = $this->plan_model->get_plan_customers_by_id($plan_id);
     foreach ($customers as $customer) {
@@ -3590,9 +3590,9 @@ class Plan extends MY_Controller {
     $data['payhistory_url'] = base_url("plan/payhistory/" . $plan['plan_id']);
     $data['makepay_url'] = base_url("payment/makepay");
     $data['revert_url'] = base_url("payment/revert") . "/";
-    if ($plan['claim_flag'] == 1) {
-      $data['error_message'] = '<strong>The insured(s) have had previous claim(s). Please confirm the policy eligibility and any pre-existing conditions with insured(s).</strong>';
-    }
+    // if ($plan['claim_flag'] == 1) {
+    //   $data['error_message'] = '<strong>The insured(s) have had previous claim(s). Please confirm the policy eligibility and any pre-existing conditions with insured(s).</strong>';
+    // }
 
     $this->session->set_userdata('withlogo', 1);
     if (($beuser['user_group_id'] != 103) && ($beuser['user_group_id'] != 106)) {
@@ -3658,9 +3658,9 @@ class Plan extends MY_Controller {
     if (empty($plan) || ($plan["status_id"] > 1)) {
       redirect('user/login');
     }
-    if (($plan['claim_flag'] > 1) && ($plan['claim_allow_by'] < 1)) {
-      redirect('plan/form');
-    }
+    // if (($plan['claim_flag'] > 1) && ($plan['claim_allow_by'] < 1)) {
+    //   redirect('plan/form');
+    // }
     $beuser = $this->func_model->verify_login(TRUE, TRUE);
     $this->session->unset_userdata('fromsekey');
     if (($beuser["user_group_id"] > 100) && ($beuser["user_id"] != $plan["user_id"])) {
