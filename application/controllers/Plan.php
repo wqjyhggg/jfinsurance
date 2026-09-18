@@ -943,7 +943,7 @@ class Plan extends MY_Controller {
     }
     if ($plan && isset($plan['status_id']) && ($plan['status_id'] == 1)) {
       $this->verify_claims($data['plan_id']);
-      if ($this->error['error_claim']) {
+      if (!empty($this->error['error_claim'])) {
         $data["error_claim"] = $this->error["error_claim"];
       }
     }
