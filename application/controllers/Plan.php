@@ -745,21 +745,22 @@ class Plan extends MY_Controller {
   {
     $plan = $this->plan_model->get_plan_by_id($plan_id);
 
-    // if ($plan['claim_flag'] >= 2) {
-    //   if ($plan['claim_allow_by'] < 1) {
-    //     $this->error['error_claim'] = 'The insured may have a previous claim that is affecting the policy issuance or renewal. Please contact JF staff for further assistance 905-707-1512';
-    //   }
-    //   return;
-    // }
+    $old_claim_flag = $plan['claim_flag'];
+    $new_claim_flag = 0;
 
     $customers = $this->plan_model->get_plan_customers_by_id($plan_id);
     foreach ($customers as $customer) {
       $vrecords = $this->plan_model->verify_customer_block($customer['firstname'], $customer['lastname'], $customer['birthday']);
       if (($vrecords['status'] == 'OK') && ($vrecords['isblocked'] == 1))  {
-        $plan = $this->plan_model->update($plan_id, array('claim_flag' => 2));
+        $this->plan_model->update($plan_id, array('claim_flag' => 2));
+        $new_claim_flag = 2;
         $this->error['error_claim'] = 'The insured ('.$customer['firstname'].' '.$customer['lastname'].'; dob:'.$customer['birthday'].') is blocked the policy issuance or renewal. Please contact JF staff for further assistance 905-707-1512';
         break;
       }
+    }
+    if (($old_claim_flag == 2) && ($new_claim_flag == 0)) {
+      // Unblocked
+      $this->plan_model->update($plan_id, array('claim_flag' => 0));
     }
     return;
   }
@@ -943,6 +944,7 @@ class Plan extends MY_Controller {
     }
     if ($plan && isset($plan['status_id']) && ($plan['status_id'] == 1)) {
       $this->verify_claims($data['plan_id']);
+      $plan = $this->plan_model->get_plan_by_id($data['plan_id']);
       if (!empty($this->error['error_claim'])) {
         $data["error_claim"] = $this->error["error_claim"];
       }
