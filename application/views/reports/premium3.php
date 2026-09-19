@@ -80,7 +80,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                     <input name="payment_date_from" class="form-control" size="16" type="text" value="<?php echo $payment_date_from ?>">
                     <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                   </div>
-                  <input type="hidden" id="payment_added_from" value="" />
+                  <input type="hidden" id="payment_date_from" value="" />
                   <!-- Payment Added Date From End-->
                 </div>
                 <div class="form-group col-sm-3">
@@ -90,7 +90,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                     <input name="payment_date_to" class="form-control" size="16" type="text" value="<?php echo $payment_date_to ?>">
                     <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                   </div>
-                  <input type="hidden" id="payment_added_to" value="" /><br />
+                  <input type="hidden" id="payment_date_to" value="" /><br />
                   <!-- Payment Update Date to End -->
                 </div>
                 <!-- Payment Added Date End -->
@@ -101,7 +101,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                     <input name="earned_to" class="form-control" size="16" type="text" value="<?php echo $earned_to ?>">
                     <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                   </div>
-                  <input type="hidden" id="payment_added_to" value="" /><br />
+                  <input type="hidden" id="earned_to" value="" /><br />
                   <!-- Earned To date -->
                 </div>
               </div>
