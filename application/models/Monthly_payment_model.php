@@ -281,6 +281,7 @@ class Monthly_payment_model extends CI_Model {
     $this->db->where('plan_id', $plan_id);
     $this->db->order_by('monthly_payment_id', 'ASC');
     $existedrc = $this->db->get('monthly_payment')->result_array();
+    $first_id = 0;
     
     // Build all records that should exist
     $new_records = [];
@@ -321,6 +322,7 @@ class Monthly_payment_model extends CI_Model {
 	  $replace_count = min($existing_count, $new_count);
 
     if ($replace_count) {
+      $first_id = $existedrc[0]['monthly_payment_id'];
       for ($i = 0; $i < $replace_count; $i++) {
         $this->db->where('monthly_payment_id', $existedrc[$i]['monthly_payment_id'])->update('monthly_payment', $new_records[$i]);
       }
@@ -340,14 +342,14 @@ class Monthly_payment_model extends CI_Model {
       for ($i = $existing_count; $i < $new_count; $i++) {
         $this->db->insert('monthly_payment', $new_records[$i]);
       }
+      if (empty($first_id)) {
+        $first_id = $this->db->insert_id();
+      }
     }
   
     // Return the first record ID
-    if ($new_count > 0) {
-      if ($existing_count > 0) {
-        return $existedrc[0]['monthly_payment_id'];
-      }
-      return $this->db->insert_id();
+    if (!empty($first_id)) {
+      return $first_id;
     }
     $error = $this->db->error();
     return "Can not create payment records: ".$this->db->last_query()."; ".$error['message'];
