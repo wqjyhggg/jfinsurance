@@ -341,9 +341,9 @@ class Monthly_payment_model extends CI_Model {
     if ($new_count > $existing_count) {
       for ($i = $existing_count; $i < $new_count; $i++) {
         $this->db->insert('monthly_payment', $new_records[$i]);
-      }
-      if (empty($first_id)) {
-        $first_id = $this->db->insert_id();
+        if (empty($first_id)) {
+          $first_id = $this->db->insert_id();
+        }
       }
     }
   
