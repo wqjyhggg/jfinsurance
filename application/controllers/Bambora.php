@@ -133,7 +133,7 @@ class Bambora extends CI_Controller {
 				$this->log_model->update($activity_id, ["systemlog" => $errormsg]);
 			}
       $message = "Bambora post back no hashValue parameter. data as following: " . json_encode($post);
-      $this->mymail_model->send_mymail("info@jfgroup.ca", 'Bambora post back Error', $message, $attach=array(), $from='', 'text');
+      $this->mymail_model->send_mymail("it@jfgroup.ca", 'Bambora post back Error', $message, $attach=array(), $from='', 'text');
 			die($errormsg);
 		}
 
@@ -160,7 +160,7 @@ class Bambora extends CI_Controller {
 				$this->log_model->update($activity_id, ["systemlog" => $errormsg]);
 			}
       $message = "Bambora post back unknown monthly payment record. Plan id : " . $post["ref2"] . "; Log id : ".$activity_id . "; Please refund and check plan status.";
-      $this->mymail_model->send_mymail("info@jfgroup.ca", 'Bambora post back Error', $message, $attach=array(), $from='', 'text');
+      $this->mymail_model->send_mymail("it@jfgroup.ca", 'Bambora post back Error', $message, $attach=array(), $from='', 'text');
 			die($errormsg);
 		} else if ($monthly_payment["paid"] == 1) {
 			$errormsg = "Already Processed";
@@ -168,7 +168,7 @@ class Bambora extends CI_Controller {
 				$this->log_model->update($activity_id, ["systemlog" => $errormsg, "payment_id"=>$monthly_payment["payment_id"]]);
 			}
       $message = "Bambora post back duplicated payment record. Plan id : " . $post["ref2"] . "; Log id : ".$activity_id . "; Please refund and check plan status.";
-      $this->mymail_model->send_mymail("info@jfgroup.ca", 'Bambora post back Error', $message, $attach=array(), $from='', 'text');
+      $this->mymail_model->send_mymail("it@jfgroup.ca", 'Bambora post back Error', $message, $attach=array(), $from='', 'text');
 			die($errormsg);
 		}
 
@@ -178,7 +178,7 @@ class Bambora extends CI_Controller {
 				$this->log_model->update($activity_id, ["systemlog" => $errormsg]);
 			}
       $message = "Bambora post back Unknown plan id. data as following: " . json_encode($post);
-      $this->mymail_model->send_mymail("info@jfgroup.ca", 'Bambora post back Error', $message, $attach=array(), $from='', 'text');
+      $this->mymail_model->send_mymail("it@jfgroup.ca", 'Bambora post back Error', $message, $attach=array(), $from='', 'text');
 			die($errormsg);
 		}
 		$plan_id = $post["ref2"];
@@ -189,7 +189,7 @@ class Bambora extends CI_Controller {
 				$this->log_model->update($activity_id, ["systemlog" => $errormsg]);
 			}
       $message = "Bambora post back can not find plan record. data as following: " . json_encode($post);
-      $this->mymail_model->send_mymail("info@jfgroup.ca", 'Bambora post back Error', $message, $attach=array(), $from='', 'text');
+      $this->mymail_model->send_mymail("it@jfgroup.ca", 'Bambora post back Error', $message, $attach=array(), $from='', 'text');
 			die($errormsg);
 		}
 		$product = $this->product_model->get_product($plan["product_short"]);
@@ -199,7 +199,7 @@ class Bambora extends CI_Controller {
 				$this->log_model->update($activity_id, ["systemlog" => $errormsg]);
 			}
       $message = "Bambora post back can not find product. data as following: " . json_encode($post);
-      $this->mymail_model->send_mymail("info@jfgroup.ca", 'Bambora post back Error', $message, $attach=array(), $from='', 'text');
+      $this->mymail_model->send_mymail("it@jfgroup.ca", 'Bambora post back Error', $message, $attach=array(), $from='', 'text');
 			die($errormsg);
 		}
 		$user = $this->user_model->get_user_by_id($plan["user_id"]);
@@ -209,7 +209,7 @@ class Bambora extends CI_Controller {
 				$this->log_model->update($activity_id, ["systemlog" => $errormsg]);
 			}
       $message = "Bambora post back can not customer. data as following: " . json_encode($post);
-      $this->mymail_model->send_mymail("info@jfgroup.ca", 'Bambora post back Error', $message, $attach=array(), $from='', 'text');
+      $this->mymail_model->send_mymail("it@jfgroup.ca", 'Bambora post back Error', $message, $attach=array(), $from='', 'text');
 			die($errormsg);
 		}
 
@@ -224,7 +224,7 @@ class Bambora extends CI_Controller {
           $this->log_model->update($activity_id, ["systemlog" => $errormsg]);
         }
         $message = "Bambora post back hashValue verify error. data as following: " . json_encode($post);
-        $this->mymail_model->send_mymail("info@jfgroup.ca", 'Bambora post back Error', $message, $attach=array(), $from='', 'text');
+        $this->mymail_model->send_mymail("it@jfgroup.ca", 'Bambora post back Error', $message, $attach=array(), $from='', 'text');
         die($errormsg);
       }
 		}
@@ -235,7 +235,7 @@ class Bambora extends CI_Controller {
 				$this->log_model->update($activity_id, ["systemlog" => $errormsg]);
 			}
       $message = "Bambora post back Unknown trnApproved. data as following: " . json_encode($post);
-      $this->mymail_model->send_mymail("info@jfgroup.ca", 'Bambora post back Error', $message, $attach=array(), $from='', 'text');
+      $this->mymail_model->send_mymail("it@jfgroup.ca", 'Bambora post back Error', $message, $attach=array(), $from='', 'text');
 			die($errormsg);
 		}
 		if (!isset($post["trnId"])) {
@@ -244,7 +244,7 @@ class Bambora extends CI_Controller {
 				$this->log_model->update($activity_id, ["systemlog" => $errormsg]);
 			}
       $message = "Bambora post back Unknown trnId. data as following: " . json_encode($post);
-      $this->mymail_model->send_mymail("info@jfgroup.ca", 'Bambora post back Error', $message, $attach=array(), $from='', 'text');
+      $this->mymail_model->send_mymail("it@jfgroup.ca", 'Bambora post back Error', $message, $attach=array(), $from='', 'text');
 			die($errormsg);
 		}
 		$pay_time = date("Y-m-d H:i:s");

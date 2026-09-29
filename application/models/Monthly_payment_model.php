@@ -273,43 +273,84 @@ class Monthly_payment_model extends CI_Model {
 	}
 
 	public function create_payment_records($plan_id, $first_amount, $month_pay, $mountly_number, $effective_date, $admin_fee) {
-		if ($this->db->where("plan_id", $plan_id)->where("paid>", 0)->get("monthly_payment")->row_array()) {
-			// Payment already edited build. Can't rebuild
-			return "Payment already edited. Can not rebuild";
-		}
-		$this->db->where("plan_id", $plan_id)->delete("monthly_payment");		// Remove if it is existed
-		$precord = [
-			"plan_id" => $plan_id,
-			"pay_type" => 0,
-			"amount" => $first_amount,
-			"admin_fee" => $admin_fee,
-			"pay_date" => date("Y-m-d"),
-			"retry_date" => date("Y-m-d")
-		];
-		if ($record_id = $this->add($precord)) {
-			$recurrdate = new DateTime($effective_date);
-			if ($effective_date == $precord["pay_date"]) {
-				// Init changed 3 month
-				$recurrdate->modify('+1 month');
-				// $recurrdate->modify('+1 days');
-			}
-			$precord["pay_type"] = 1;
-			$precord["admin_fee"] = 0;
-			$precord["amount"] = $month_pay;
-			for ($i = 0; $i < $mountly_number; $i++) {
-				$precord["pay_date"] = $recurrdate->format('Y-m-d');
-				$precord["retry_date"] = $precord["pay_date"];
-				$precord["retry"] = 0;
-				$this->add($precord);
-				$recurrdate->modify('+1 month');
-				// $recurrdate->modify('+1 days');
-			}
-			return $record_id;
-		}
-		$error = $this->db->error(); // Returns an array with 'code' and 'message'
-    // echo "Database Error Code: " . $error['code'] . "<br>";
-    // echo "Database Error Message: " . $error['message'];
-		return "Can not create payment recodes: ".$this->db->last_query()."; ".$error['message'];
+    if ($this->db->where("plan_id", $plan_id)->where("paid>", 0)->get("monthly_payment")->row_array()) {
+      // Payment already edited build. Can't rebuild
+      return "Payment already edited. Can not rebuild";
+    }
+    // $this->db->where("plan_id", $plan_id)->delete("monthly_payment");		// Remove if it is existed
+    $this->db->where('plan_id', $plan_id);
+    $this->db->order_by('monthly_payment_id', 'ASC');
+    $existedrc = $this->db->get('monthly_payment')->result_array();
+    
+    // Build all records that should exist
+    $new_records = [];
+  
+    // First payment record
+    $precord = [
+      "plan_id" => $plan_id,
+      "pay_type" => 0,
+      "amount" => $first_amount,
+      "admin_fee" => $admin_fee,
+      "pay_date" => date("Y-m-d"),
+      "retry_date" => date("Y-m-d")
+    ];
+  
+    $recurrdate = new DateTime($effective_date);
+    $new_records[] = $precord;
+    if ($effective_date == $precord["pay_date"]) {
+      // Init changed 3 month
+      $recurrdate->modify('+1 month');
+    }
+  
+    // Monthly payment records
+    $precord["pay_type"] = 1;
+    $precord["admin_fee"] = 0;
+    $precord["amount"] = $month_pay;
+  
+    for ($i = 0; $i < $mountly_number; $i++) {
+      $precord["pay_date"] = $recurrdate->format('Y-m-d');
+      $precord["retry_date"] = $precord["pay_date"];
+      $precord["retry"] = 0;
+      $new_records[] = $precord;
+      $recurrdate->modify('+1 month');
+    }
+  
+    // Replace existing records one by one
+    $existing_count = empty($existedrc)? 0 : count($existedrc);
+    $new_count = count($new_records);
+	  $replace_count = min($existing_count, $new_count);
+
+    if ($replace_count) {
+      for ($i = 0; $i < $replace_count; $i++) {
+        $this->db->where('monthly_payment_id', $existedrc[$i]['monthly_payment_id'])->update('monthly_payment', $new_records[$i]);
+      }
+    }
+  
+    // If new records are fewer than existing records,
+    // delete the remaining old records.
+    if ($new_count < $existing_count) {
+      for ($i = $new_count; $i < $existing_count; $i++) {
+        $this->db->where('monthly_payment_id', $existedrc[$i]['monthly_payment_id'])->delete('monthly_payment');
+      }
+    }
+  
+    // If new records are more than existing records,
+    // insert the additional records.
+    if ($new_count > $existing_count) {
+      for ($i = $existing_count; $i < $new_count; $i++) {
+        $this->db->insert('monthly_payment', $new_records[$i]);
+      }
+    }
+  
+    // Return the first record ID
+    if ($new_count > 0) {
+      if ($existing_count > 0) {
+        return $existedrc[0]['monthly_payment_id'];
+      }
+      return $this->db->insert_id();
+    }
+    $error = $this->db->error();
+    return "Can not create payment records: ".$this->db->last_query()."; ".$error['message'];
 	}
 
 	public function get_monthlypay_data($plan_id) {
