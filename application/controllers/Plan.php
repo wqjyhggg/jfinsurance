@@ -3691,6 +3691,8 @@ class Plan extends MY_Controller {
     if (!is_numeric($monthly_payment_id)) {
       // Some error happened
       show_error($monthly_payment_id);
+    } else {
+      $this->plan_model->update($plan_id, ['monthlypay' => 1]);
     }
     $data['month_amount'] = $month_amount;
     $data['first_amount'] = $first_amount;
