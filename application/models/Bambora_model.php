@@ -554,7 +554,7 @@ class Bambora_model extends CI_Model {
 						"rawdata" => $response,
 					];
 					$this->monthly_payment_model->update($pay2["monthly_payment_id"], $mpArr);
-					$this->monthly_payment_model->void_unpaid_record($plan_id);
+					// $this->monthly_payment_model->void_unpaid_record($plan_id); // this is done by postback
 
 					$dt['amount'] = $commission_amount;
 					$dt['admin_fee'] = 0;

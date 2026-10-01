@@ -65,6 +65,33 @@ class Plan extends CI_Controller
     return $this->app_model->return_ok(array("plans"=>array(), "totals"=>0));
   }
 
+  public function monthly_payoff()
+  {
+    $this->error = "";
+    $this->load->model("app_model");
+		$this->load->model('monthly_payment_model');
+		$this->load->model('plan_model');
+    $this->load->model('bambora_model');
+
+    $user = $this->app_model->check_token($this->input->post("token"));
+		$plan_id = $this->input->post('plan_id');
+    $plan = $this->plan_model->get_plan_by_id($plan_id);
+    if (empty($plan) || empty($beuser) || ($plan["status_id"] != Plan_model::PAID)) {
+      return $this->app_model->return_error("Can not do payoff");
+    }
+
+    $monthly_rc = $this->monthly_payment_model->get_by_plan_id($plan_id);
+    if (empty($monthly_rc)) {
+      return $this->app_model->return_error("Can not find monthly payment record");
+    }
+
+    $this->load->model('bambora_model');
+		if ($msg = $this->bambora_model->do_payoff($plan_id)) {	// do_payment
+      return $this->app_model->return_error($msg);
+    }
+    return $this->app_model->return_ok(["msg"=>"OK"]);
+  }
+
   function monthlystatus() {
     $this->error = "";
     $this->load->model("app_model");
