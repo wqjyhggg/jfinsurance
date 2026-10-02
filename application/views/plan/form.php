@@ -43,7 +43,7 @@ if ($Agree != "Agree") {
                       <?php if (!empty($claims)) { ?>
                         <span style="color: red;"><?php echo $this->lang->line("There is an existing claim or open cases."); ?></span>
                       <?php } ?>
-											<?php if (!empty($plan) && !empty($plan['monthlypay']) && ($monthly_status == "Failed")) { ?>
+											<?php if (!empty($plan) && !empty($plan['monthlypay']) && !empty($monthly_status) && ($monthly_status == "Failed")) { ?>
 												<span style="color: red;">There is a monthly payment error</span>
 											<?php } ?>
                     <?php } ?>
