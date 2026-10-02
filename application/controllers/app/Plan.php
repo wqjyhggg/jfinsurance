@@ -76,7 +76,7 @@ class Plan extends CI_Controller
     $user = $this->app_model->check_token($this->input->post("token"));
 		$plan_id = $this->input->post('plan_id');
     $plan = $this->plan_model->get_plan_by_id($plan_id);
-    if (empty($plan) || empty($beuser) || ($plan["status_id"] != Plan_model::PAID)) {
+    if (empty($plan) || empty($user) || ($plan["status_id"] != Plan_model::PAID)) {
       return $this->app_model->return_error("Can not do payoff");
     }
 
