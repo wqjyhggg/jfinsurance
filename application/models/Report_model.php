@@ -255,7 +255,7 @@ class Report_model extends CI_Model
     }
     $sql = $sqlu;
 
-    $sql2  = "SELECT distinct user_id FROM plan WHERE plan_id IN (" . $sql . ") AND monthlypay!=1";
+    $sql2  = "SELECT distinct user_id FROM plan WHERE plan_id IN (" . $sql . ")";
 
     $sql3  = "SELECT user_id, username, email, firstname, lastname, receive_type, pay_type FROM user WHERE user_id IN (" . $sql2 . ") ORDER BY user_id ASC";
     return $this->db->query($sql3)->result_array();
