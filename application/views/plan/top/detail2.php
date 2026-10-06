@@ -280,7 +280,7 @@ if ($Agree != "Agree") {
       <span class="info-text"><?php echo $plan['contact_phone']; ?></span>
     </div>
     <div class="info-card">
-      <span class="info-lable">Country of Origin:<span>
+      <span class="info-lable">Country of Resident:<span>
       <span class="info-text"><?php echo $plan['residence']; ?></span>
     </div>
     <div class="info-card">&nbsp;</div>

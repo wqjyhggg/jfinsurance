@@ -317,7 +317,7 @@ if ($Agree != "Agree") {
 								<label class="inline"><?php echo $this->lang->line("Contact Phone"); ?>:</label> <span><?php echo htmlspecialchars($plan['contact_phone']); ?></span>
 							</div>
 							<div class="col-sm-3">
-								<label class="inline"><?php echo $this->lang->line("Country of Origin"); ?>:</label> <span><?php echo htmlspecialchars($plan['residence']); ?></span>
+								<label class="inline">Country of Resident:</label> <span><?php echo htmlspecialchars($plan['residence']); ?></span>
 							</div>
 						</div>
 
