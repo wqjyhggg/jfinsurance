@@ -407,8 +407,8 @@ class Monthly_payment_model extends CI_Model {
 			}
       if ($rt["total_paid"] > 0) {
         $rt["paid_premium"] = $rt["total_paid"] - $rt["admin_fee"];
-        $rt["premium"] -= $rt["admin_fee"];
       }
+      $rt["premium"] -= $rt["admin_fee"];
 			if ($paied_month = round($rt["paid_premium"] / $rt["monthly_pay"])) {
 				$this->load->model('plan_model');
 				if ($plan = $this->plan_model->get_plan_by_id($plan_id)) {
