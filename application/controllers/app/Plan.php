@@ -2656,26 +2656,83 @@ class Plan extends CI_Controller
 					);
 				}
 			} else if ($data['plan']['product_short'] == 'TOP') {
+        // package: all_inclusive, single_medical_plan, annual_plan, optional_plan
+        $files = array();
 				$data['toppackagename'] = $this->toppackagename;
         if ($data['sendfrench']) {
-          $files = array(
-          'TOP_Policy.pdf' => DOWNLOADDIR . 'TOP_Policy_French.pdf',
-          'TOP_Baggage_Claim_Form.pdf' => DOWNLOADDIR . 'TOP_Baggage_Claim_Form_French.pdf',
-          'TOP_Cancellation_Claim_Form.pdf' => DOWNLOADDIR . 'TOP_Cancellation_Claim_Form_French.pdf',
-          'TOP_Medical_Claim_Form.pdf' => DOWNLOADDIR . 'TOP_Medical_Claim_Form_French.pdf',
-          'TOP_Benefit_Summary.pdf' => DOWNLOADDIR . 'TOP_Benefit_Summary_French.pdf',
-          'TOP_Brochure.pdf' => DOWNLOADDIR . 'TOP_Brochure_French.pdf'
-          );
+          if ($data['plan']['package'] == 'all_inclusive') {
+            $files = array(
+              'TOP_Policy.pdf' => DOWNLOADDIR . 'TOP_Policy_French.pdf',
+              'TOP_Baggage_Claim_Form.pdf' => DOWNLOADDIR . 'TOP_Baggage_Claim_Form_French.pdf',
+              'TOP_Cancellation_Claim_Form.pdf' => DOWNLOADDIR . 'TOP_Cancellation_Claim_Form_French.pdf',
+              'TOP_Medical_Claim_Form.pdf' => DOWNLOADDIR . 'TOP_Medical_Claim_Form_French.pdf',
+              'TOP_Benefit_Summary.pdf' => DOWNLOADDIR . 'TOP_Benefit_Summary_French.pdf',
+              'TOP_Brochure.pdf' => DOWNLOADDIR . 'TOP_Brochure_French.pdf'
+            );
+          } else if ($data['plan']['package'] == 'single_medical_plan') {
+            $files = array(
+              'TOP_Policy.pdf' => DOWNLOADDIR . 'TOP_Policy_French.pdf',
+              'TOP_Medical_Claim_Form.pdf' => DOWNLOADDIR . 'TOP_Medical_Claim_Form_French.pdf',
+              'TOP_Benefit_Summary.pdf' => DOWNLOADDIR . 'TOP_Benefit_Summary_French.pdf',
+              'TOP_Brochure.pdf' => DOWNLOADDIR . 'TOP_Brochure_French.pdf'
+            );
+            if (!empty($data['plan']['free_cancel'])) {
+              $files['TOP_Cancellation_Claim_Form.pdf'] = DOWNLOADDIR . 'TOP_Cancellation_Claim_Form_French.pdf';
+            }
+          } else if ($data['plan']['package'] == 'annual_plan') {
+            $files = array(
+              'TOP_Policy.pdf' => DOWNLOADDIR . 'TOP_Policy_French.pdf',
+              'TOP_Benefit_Summary.pdf' => DOWNLOADDIR . 'TOP_Benefit_Summary_French.pdf',
+              'TOP_Brochure.pdf' => DOWNLOADDIR . 'TOP_Brochure_French.pdf'
+            );
+          } else /* if ($data['plan']['package'] == 'optional_plan') */ {
+            $files = array(
+              'TOP_Policy.pdf' => DOWNLOADDIR . 'TOP_Policy_French.pdf',
+              'TOP_Benefit_Summary.pdf' => DOWNLOADDIR . 'TOP_Benefit_Summary_French.pdf',
+              'TOP_Brochure.pdf' => DOWNLOADDIR . 'TOP_Brochure_French.pdf'
+            );
+            if (!empty($data['plan']['free_cancel'])) {
+              $files['TOP_Cancellation_Claim_Form.pdf'] = DOWNLOADDIR . 'TOP_Cancellation_Claim_Form_French.pdf';
+            }
+          }
         } else {
           $data['special_note'] = $this->load->view('plan/top/pdf_note_top',$data, TRUE);
-          $files = array(
-          'TOP_Policy.pdf' => DOWNLOADDIR . 'TOP_Policy.pdf',
-          'TOP_Baggage_Claim_Form.pdf' => DOWNLOADDIR . 'TOP_Baggage_Claim_Form.pdf',
-          'TOP_Cancellation_Claim_Form.pdf' => DOWNLOADDIR . 'TOP_Cancellation_Claim_Form.pdf',
-          'TOP_Medical_Claim_Form.pdf' => DOWNLOADDIR . 'TOP_Medical_Claim_Form.pdf',
-          'TOP_Benefit_Summary.pdf' => DOWNLOADDIR . 'TOP_Benefit_Summary.pdf'
-          );
-					if (($data['plan']['package'] == 'single_medical_plan') || ($data['plan']['package'] == 'all_inclusive')) {
+          if ($data['plan']['package'] == 'all_inclusive') {
+            $files = array(
+              'TOP_Policy.pdf' => DOWNLOADDIR . 'TOP_Policy.pdf',
+              'TOP_Baggage_Claim_Form.pdf' => DOWNLOADDIR . 'TOP_Baggage_Claim_Form.pdf',
+              'TOP_Cancellation_Claim_Form.pdf' => DOWNLOADDIR . 'TOP_Cancellation_Claim_Form.pdf',
+              'TOP_Medical_Claim_Form.pdf' => DOWNLOADDIR . 'TOP_Medical_Claim_Form.pdf',
+              'TOP_Benefit_Summary.pdf' => DOWNLOADDIR . 'TOP_Benefit_Summary.pdf',
+              'TOP_Brochure.pdf' => DOWNLOADDIR . 'TOP_Brochure.pdf'
+            );
+          } else if ($data['plan']['package'] == 'single_medical_plan') {
+            $files = array(
+              'TOP_Policy.pdf' => DOWNLOADDIR . 'TOP_Policy.pdf',
+              'TOP_Medical_Claim_Form.pdf' => DOWNLOADDIR . 'TOP_Medical_Claim_Form.pdf',
+              'TOP_Benefit_Summary.pdf' => DOWNLOADDIR . 'TOP_Benefit_Summary.pdf',
+              'TOP_Brochure.pdf' => DOWNLOADDIR . 'TOP_Brochure.pdf'
+            );
+            if (!empty($data['plan']['free_cancel'])) {
+              $files['TOP_Cancellation_Claim_Form.pdf'] = DOWNLOADDIR . 'TOP_Cancellation_Claim_Form.pdf';
+            }
+          } else if ($data['plan']['package'] == 'annual_plan') {
+            $files = array(
+              'TOP_Policy.pdf' => DOWNLOADDIR . 'TOP_Policy.pdf',
+              'TOP_Benefit_Summary.pdf' => DOWNLOADDIR . 'TOP_Benefit_Summary.pdf',
+              'TOP_Brochure.pdf' => DOWNLOADDIR . 'TOP_Brochure.pdf'
+            );
+          } else /* if ($data['plan']['package'] == 'optional_plan') */ {
+            $files = array(
+              'TOP_Policy.pdf' => DOWNLOADDIR . 'TOP_Policy.pdf',
+              'TOP_Benefit_Summary.pdf' => DOWNLOADDIR . 'TOP_Benefit_Summary.pdf',
+              'TOP_Brochure.pdf' => DOWNLOADDIR . 'TOP_Brochure.pdf'
+            );
+            if (!empty($data['plan']['free_cancel'])) {
+              $files['TOP_Cancellation_Claim_Form.pdf'] = DOWNLOADDIR . 'TOP_Cancellation_Claim_Form.pdf';
+            }
+          }
+					if (($data['plan']['package'] == 'single_medical_plan') || ($data['plan']['package'] == 'all_inclusive') || ($data['plan']['package'] == 'annual_plan')) {
             $top_add_file = tempnam("/tmp", "Additional");
             $mpdf = new mPDF('c', 'A4', 0, '', $mgl = 0, $mgr = 0, $mgt = 25, $mgb = 10, $mgh = 10, $mgf = 0, $orientation = 'P');
             $mpdf->SetHTMLHeader('<img style="width:100%;" src="' . base_url() . 'image/pdf_header.png" />');
