@@ -2676,12 +2676,13 @@ class Plan extends CI_Controller
               'TOP_Benefit_Summary.pdf' => DOWNLOADDIR . 'TOP_Benefit_Summary_French.pdf',
               'TOP_Brochure.pdf' => DOWNLOADDIR . 'TOP_Brochure_French.pdf'
             );
-            if (!empty($data['plan']['free_cancel'])) {
+            if (!empty($data['plan']['trip_cancellation_ck'])) {
               $files['TOP_Cancellation_Claim_Form.pdf'] = DOWNLOADDIR . 'TOP_Cancellation_Claim_Form_French.pdf';
             }
           } else if ($data['plan']['package'] == 'annual_plan') {
             $files = array(
               'TOP_Policy.pdf' => DOWNLOADDIR . 'TOP_Policy_French.pdf',
+              'TOP_Medical_Claim_Form.pdf' => DOWNLOADDIR . 'TOP_Medical_Claim_Form_French.pdf',
               'TOP_Benefit_Summary.pdf' => DOWNLOADDIR . 'TOP_Benefit_Summary_French.pdf',
               'TOP_Brochure.pdf' => DOWNLOADDIR . 'TOP_Brochure_French.pdf'
             );
@@ -2691,7 +2692,7 @@ class Plan extends CI_Controller
               'TOP_Benefit_Summary.pdf' => DOWNLOADDIR . 'TOP_Benefit_Summary_French.pdf',
               'TOP_Brochure.pdf' => DOWNLOADDIR . 'TOP_Brochure_French.pdf'
             );
-            if (!empty($data['plan']['free_cancel'])) {
+            if (!empty($data['plan']['trip_cancellation_ck'])) {
               $files['TOP_Cancellation_Claim_Form.pdf'] = DOWNLOADDIR . 'TOP_Cancellation_Claim_Form_French.pdf';
             }
           }
@@ -2713,12 +2714,13 @@ class Plan extends CI_Controller
               'TOP_Benefit_Summary.pdf' => DOWNLOADDIR . 'TOP_Benefit_Summary.pdf',
               'TOP_Brochure.pdf' => DOWNLOADDIR . 'TOP_Brochure.pdf'
             );
-            if (!empty($data['plan']['free_cancel'])) {
+            if (!empty($data['plan']['trip_cancellation_ck'])) {
               $files['TOP_Cancellation_Claim_Form.pdf'] = DOWNLOADDIR . 'TOP_Cancellation_Claim_Form.pdf';
             }
           } else if ($data['plan']['package'] == 'annual_plan') {
             $files = array(
               'TOP_Policy.pdf' => DOWNLOADDIR . 'TOP_Policy.pdf',
+              'TOP_Medical_Claim_Form.pdf' => DOWNLOADDIR . 'TOP_Medical_Claim_Form.pdf',
               'TOP_Benefit_Summary.pdf' => DOWNLOADDIR . 'TOP_Benefit_Summary.pdf',
               'TOP_Brochure.pdf' => DOWNLOADDIR . 'TOP_Brochure.pdf'
             );
@@ -2728,7 +2730,7 @@ class Plan extends CI_Controller
               'TOP_Benefit_Summary.pdf' => DOWNLOADDIR . 'TOP_Benefit_Summary.pdf',
               'TOP_Brochure.pdf' => DOWNLOADDIR . 'TOP_Brochure.pdf'
             );
-            if (!empty($data['plan']['free_cancel'])) {
+            if (!empty($data['plan']['trip_cancellation_ck'])) {
               $files['TOP_Cancellation_Claim_Form.pdf'] = DOWNLOADDIR . 'TOP_Cancellation_Claim_Form.pdf';
             }
           }
