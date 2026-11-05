@@ -3610,7 +3610,11 @@ class Plan extends MY_Controller {
         $data['toppackagename'] = $this->toppackagename;
         $this->load->common('plan/top/detail', $data);
       } else {
-        $data['firstname'] = empty($customer['firstname'])?'':$customer['firstname'];
+        $this->load->model('customer_model');
+        $data['firstname'] = '';
+        if ($customer = $this->customer_model->get_customer_by_id($plan['customer_id'])) {
+          $data['firstname'] = empty($customer['firstname'])?'':$customer['firstname'];
+        }
         $data['suite_number'] = $plan['suite_number'];
         $data['street_name'] = $plan['street_name'];
         $data['street_number'] = $plan['street_number'];
