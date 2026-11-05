@@ -974,7 +974,7 @@ if ($Agree != "Agree") {
             <h2>Policy History</h2>
 						<?php if ($plan["status_id"] == Plan_model::REFUND) { ?>
             <div>
-							<a id="popRefund"><span class="btn btn-info" style='color:#fff;'><?php echo $this->lang->line("Refund Letter"); ?></span></a>
+							&nbsp;&nbsp;&nbsp;&nbsp;<a id="popRefund"><span class="btn btn-info" style='color:#fff;'><?php echo $this->lang->line("Refund Letter"); ?></span></a>
             </div>
 						<?php } ?>
             <div class="clearfix"></div>
