@@ -3610,6 +3610,7 @@ class Plan extends MY_Controller {
         $data['toppackagename'] = $this->toppackagename;
         $this->load->common('plan/top/detail', $data);
       } else {
+        $data['popRefund'] = $this->load->view('plan/refund_addr', $data, TRUE);
         $this->load->common('plan/detail', $data);
       }
     } else {

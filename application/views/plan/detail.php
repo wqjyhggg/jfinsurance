@@ -972,6 +972,11 @@ if ($Agree != "Agree") {
         <div class="x_panel">
           <div class="x_title">
             <h2>Policy History</h2>
+						<?php if ($plan["status_id"] == Plan_model::REFUND) { ?>
+            <div>
+							<a id="popRefund"><span class="btn btn-info" style='color:#fff;'><?php echo $this->lang->line("Refund Letter"); ?></span></a>
+            </div>
+						<?php } ?>
             <div class="clearfix"></div>
           </div>
           <div class="x_content">
@@ -1043,6 +1048,26 @@ if ($Agree != "Agree") {
             </div>
           </div><!--/x_content end-->
         </div><!--x_panel-->
+        <!-- Pop Section -->
+       	<div class="row">
+					<div class="popRefund" id="popRdiv" style="display:none;">
+						<span class="pop-close"><i class="fa fa-times"></i></span>
+						<?php if (!empty($refund_letter_url)) echo $popRefund; ?>
+					</div>
+
+					<script>
+						$('#popRefund').click(function(){
+							$('.popRefund').removeAttr("class");
+							$('#popRdiv').attr('style','display:block;');
+							$('#popRdiv').attr('class','show-pop');
+										
+						});
+						$('.pop-close').click(function(){
+							$('#popRdiv').attr('style','display:none;');
+						});
+					</script>
+				</div>
+        <!-- Pop Section -->
 			</div>
 		</div>
 	<?php } ?>
