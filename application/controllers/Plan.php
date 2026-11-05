@@ -3610,6 +3610,13 @@ class Plan extends MY_Controller {
         $data['toppackagename'] = $this->toppackagename;
         $this->load->common('plan/top/detail', $data);
       } else {
+        $data['firstname'] = empty($customer['firstname'])?'':$customer['firstname'];
+        $data['suite_number'] = $plan['suite_number'];
+        $data['street_name'] = $plan['street_name'];
+        $data['street_number'] = $plan['street_number'];
+        $data['city'] = $plan['city'];
+        $data['province2'] = $plan['province2'];
+        $data['postcode'] = $plan['postcode'];
         $data['popRefund'] = $this->load->view('plan/refund_addr', $data, TRUE);
         $this->load->common('plan/detail', $data);
       }
