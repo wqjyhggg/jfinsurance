@@ -1876,10 +1876,10 @@ $('#payment_get_history_button').click(function(){
       if (this.checked) {
         var effective = $('#effective_date_div').datepicker('getDate');
         var myDate1 = new Date(effective);
-        myDate1.setDate(myDate1.getDate() + 365);
-        var myDate3 = myDate1.getTime() - 86400000;
-        var myDate = new Date(myDate3);
-        $('#expiry_date_div').datepicker('setDate', myDate);
+        var myDate3 = new Date(myDate1);
+        myDate3.setFullYear(myDate1.getFullYear() + 1);
+        myDate3.setDate(myDate3.getDate() - 1);
+        $('#expiry_date_div').datepicker('setDate', myDate3);
       }
       $('input[name="expiry_date"]').trigger("change");
     });

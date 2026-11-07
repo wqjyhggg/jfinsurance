@@ -249,6 +249,12 @@ class Product_model extends CI_Model {
       $r['message'] = "Expiry Date must be 120 days before the Departure date";
     }
     $r['totaldays'] = $para['totaldays'] = $this->getDays($effective_date, $expiry_date);
+		$yearday = $this->getYearDays($effective_date, $expiry_date);
+    // From 2022-04-21 all plan can't more then one year.
+    if ($r['totaldays'] > $yearday) {
+      $r['message'] = "Period longer than a year, too long";
+      return $r;
+    }
 		
 		$oldyears = $this->getYears($effective_date, $birthday);
 		$ageArr = array($oldyears);
