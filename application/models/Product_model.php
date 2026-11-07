@@ -344,7 +344,7 @@ class Product_model extends CI_Model {
 			return FALSE;
 		}
 		$days = $this->getDays($para['effective_date'], $para['expiry_date']);	// $dt1 = date_create('1900-01-01 00:00:00'); $dt2 = date_create('1970-01-01 12:12:12'); echo $dt2->diff($dt1)->days;
-		$yearday = $this->getYearDays($para['effective_date']);
+		$yearday = $this->getYearDays($para['effective_date'], $para['expiry_date']);
     // From 2022-04-21 all plan can't more then one year.
     if ($days > $yearday) {
       $premiumArr['totaldays'] = $days;

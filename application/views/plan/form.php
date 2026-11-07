@@ -1428,7 +1428,7 @@ $(document).ready(function(){
         	var myDate1 = new Date(effective);
         	var myDate3 = new Date(myDate1);
           myDate3.setFullYear(myDate1.getFullYear() + 1);
-          myDate3.setFullYear(myDate3.getDate() - 1);
+          myDate3.setDate(myDate3.getDate() - 1);
         	$('#expiry_date_div').datepicker('setDate', myDate3);
         	get_premium();
         }
