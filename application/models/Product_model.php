@@ -170,11 +170,18 @@ class Product_model extends CI_Model {
 		return $a->diff($b)->y;
 	}
 	
-	public function getYearDays($dt) {
-		$a = new DateTime($dt);
-		$b = new DateTime($dt);
-		$a->add(new DateInterval('P1Y'));
-		return $a->diff($b)->days;
+	public function getYearDays($startDate, $endDate) {
+    $start = new DateTime($startDate);
+    $end = new DateTime($endDate);
+    for ($year = (int)$start->format('Y'); $year <= (int)$end->format('Y'); $year++) {
+      if (date('L', strtotime("$year-01-01")) == 1) {
+        $feb29 = new DateTime("$year-02-29");
+        if ($feb29 >= $start && $feb29 <= $end) {
+          return 366;
+        }
+      }
+    }
+    return 365;
 	}
 	
 	public function get_top_quote($para) {

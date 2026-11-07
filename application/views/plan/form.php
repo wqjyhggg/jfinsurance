@@ -279,7 +279,7 @@ if ($Agree != "Agree") {
 									</div>
 									<div class="col-sm-2">
 										<div class="input-group col-sm-12" style="padding-top: 28px;">
-											 <input type='checkbox' class='setpremium' id='checkboxdays'> 365 Days
+											 <input type='checkbox' class='setpremium' id='checkboxdays'> 1 year
 										</div>
 									</div>
 									<div class="col-sm-3">
@@ -1426,10 +1426,10 @@ $(document).ready(function(){
         if (this.checked) {
         	var effective = $('#effective_date_div').datepicker('getDate');
         	var myDate1 = new Date(effective);
-        	myDate1.setDate(myDate1.getDate() + 365);
-        	var myDate3 = myDate1.getTime() - 86400000;
-        	var myDate = new Date(myDate3);
-        	$('#expiry_date_div').datepicker('setDate', myDate);
+        	var myDate3 = new Date(myDate1);
+          myDate3.setFullYear(myDate1.getFullYear() + 1);
+          myDate3.setFullYear(myDate3.getDate() - 1);
+        	$('#expiry_date_div').datepicker('setDate', myDate3);
         	get_premium();
         }
     });
