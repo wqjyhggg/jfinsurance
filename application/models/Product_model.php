@@ -2556,6 +2556,7 @@ class Product_model extends CI_Model {
 			}
 			$premium = $rate * $days;
 			if ($days >= 365) {
+  			$premium = $rate * 365;
         if (($dt >= "2021-08-16") && (empty($para['plan_id']) || ($para['plan_id'] > SELF::PLANIDCHG2021_8))) {
           $premium -= 10.25;  // 1.85 * 365 = 675.25 - 665 / year = 10.25
         } else {
