@@ -1314,15 +1314,14 @@ $('#payment_get_history_button').click(function(){
         if (q >= 3) {
           $('#questionnaire_q2').css('display', 'none');
           $('input[name=questionnaire]').val(6);
-          get_premium();
         } else if (q >= 2) {
           $('#questionnaire_q2').css('display', 'none');
           $('input[name=questionnaire]').val(5);
-          get_premium();
         } else {
           $('#questionnaire_q2').css('display', 'block');
           $('#page-submit').hide();
         }
+        get_premium();
       });
 
       $('input[name=question2]').on('change', function(e) {
@@ -1335,11 +1334,11 @@ $('#payment_get_history_button').click(function(){
         if (q == 2) {
           $('#questionnaire_q3').css('display', 'none');
           $('input[name=questionnaire]').val(5);
-          get_premium();
         } else if (q == 1) {
           $('#questionnaire_q3').css('display', 'block');
           $('#page-submit').hide();
         }
+        get_premium();
       });
 
       $('#question3_next').on('click', function(e) {
@@ -1371,6 +1370,7 @@ $('#payment_get_history_button').click(function(){
           $('#questionnaire_q4').css('display', 'block');
           $('#page-submit').hide();
         }
+        get_premium();
       });
 
       $('input[name=question4]').on('change', function(e) {
@@ -1379,11 +1379,11 @@ $('#payment_get_history_button').click(function(){
         if (q == 2) {
           $('#questionnaire_q5').css('display', 'none');
           $('input[name=questionnaire]').val(2);
-          get_premium();
         } else if (q == 1) {
           $('#questionnaire_q5').css('display', 'block');
           $('#page-submit').hide();
         }
+        get_premium();
       });
 
       $('input[name=question5]').on('change', function(e) {
@@ -1927,6 +1927,7 @@ $('#payment_get_history_button').click(function(){
         $('#question_step1').show();
         $('#error_page_message').hide();
       }
+      get_premium();
     });
     $('input[name="medical_eligible1"]').change(function() {
       var eli1 = $('input[name="medical_eligible1"]:checked').val();
@@ -1939,6 +1940,7 @@ $('#payment_get_history_button').click(function(){
         $('#medical_eligible2_div').show();
         $('#error_page_message').hide();
       }
+      get_premium();
     });
     $('input[name="trip_cancellation_insured_s"]').change(function() {
       var nm = $('input[name="trip_cancellation_insured_s"]').val();
