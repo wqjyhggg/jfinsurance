@@ -481,7 +481,7 @@ if ($Agree != "Agree") {
               </fieldset>
             </div>
           </div><br />	
-                    
+          <?php if ($user_group_id < 100) { ?>
           <div class="row">
             <div class="col-sm-12">
               <fieldset>
@@ -498,7 +498,9 @@ if ($Agree != "Agree") {
                 
               </fieldset>
             </div>
-          </div><br />
+          </div>
+          <?php } ?>
+          <br />
 					<?php if (!empty($monthly_payment)) { ?>
 						<div class="row">
 							<div class="col-sm-12">
