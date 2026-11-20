@@ -2460,7 +2460,7 @@ class Plan extends MY_Controller {
 
             $payinfo = "Credit Card: " . substr($card_number, 0, 5) . "xxx" . substr($card_number, -4) . " " . $card_name .  " " . $expiry_month . "/" . $expiry_year;
 
-            $para = array('payment_id' => $payment_id, 'payinfo' => $payinfo, 'commission_payment_id' => $commission_payment_id, 'status_id' => Plan_model::PAID, 'policy' => $this->plan_model->get_policy_number($plan_id, 2));
+            $para = array('payment_id' => $payment_id, 'payinfo' => $payinfo, 'commission_payment_id' => $commission_payment_id, 'status_id' => Plan_model::PAID, 'policy' => $this->plan_model->get_policy_number($plan_id, 2), "monthlypay" => $monthlypay);
             $this->plan_model->update($plan_id, $para);
             $para = array(
               'plan_id' => $plan_id,
@@ -3241,7 +3241,7 @@ class Plan extends MY_Controller {
             }
           }
 
-          $this->plan_model->update($plan_id, array("status_id" => $update_status_id, "monthlypay" => 0));
+          $this->plan_model->update($plan_id, array("status_id" => $update_status_id));
           $para = array(
             'plan_id' => $plan_id,
             'customer_id' => $plan['customer_id'],
