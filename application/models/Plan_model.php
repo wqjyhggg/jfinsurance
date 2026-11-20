@@ -704,7 +704,6 @@ class Plan_model extends CI_Model {
 			if ($monthlypay != $plan['monthlypay']) {
 				$this->logstr .= " monthlypay " . $monthlypay . "(" . $plan['monthlypay'] . ")";
 				$sql .= " monthlypay='" . $monthlypay . "', ";
-				$premiumchanged = 1;
 			}
 		}
 		if (isset($para['tax'])) {

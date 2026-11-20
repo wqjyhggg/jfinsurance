@@ -3241,7 +3241,7 @@ class Plan extends MY_Controller {
             }
           }
 
-          $this->plan_model->update($plan_id, array("status_id" => $update_status_id));
+          $this->plan_model->update($plan_id, array("status_id" => $update_status_id, "monthlypay" => 0));
           $para = array(
             'plan_id' => $plan_id,
             'customer_id' => $plan['customer_id'],
